@@ -66,29 +66,29 @@ export type CreateSwapRequestFromChain = string | number;
 export type CreateSwapRequestToChain = string | number;
 export interface CreateSwapRequest {
   /** Business account that makes the swap, prefixed `biz_`. Provide this or `user_id`. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Source token amount. Required for crypto swaps. For fiat pairs: the amount of from_token to convert at the mid-market rate; omit (along with to_amount) to repay the full negative to_token balance instead. */
-  amount?: string | null;
+  amount?: string | null | undefined;
   /** Source chain name or chain ID. Defaults to the source token's chain when omitted. */
-  from_chain?: CreateSwapRequestFromChain | null;
+  from_chain?: CreateSwapRequestFromChain | null | undefined;
   /** Source token contract address or ticker symbol, such as "USDT". */
   from_token: string;
   /** Maximum slippage tolerance in basis points. */
-  slippage_bps?: number | null;
+  slippage_bps?: number | null | undefined;
   /** Fiat pairs only: sizes a partial repayment of the negative to_token balance, denominated in to_token. Must not exceed the debt. Mutually exclusive with amount. */
-  to_amount?: string | null;
+  to_amount?: string | null | undefined;
   /** Destination chain name or chain ID. Defaults to the destination token's chain when omitted. */
-  to_chain?: CreateSwapRequestToChain | null;
+  to_chain?: CreateSwapRequestToChain | null | undefined;
   /** Destination token contract address or ticker symbol, such as "XAUT". */
   to_token: string;
   /** The caller's own user ID, prefixed `user_`, to swap in their personal account. Provide this or `account_id`. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** Fiat pairs only: the source currency. */
 export interface CreateSwapResponseFromToken {
-  symbol?: string;
+  symbol?: string | undefined;
 }
 export type CreateSwapResponseObject = "swap";
 /** Swap status. Crypto swaps start `queued`; fiat conversions return `complete`, or `working` while a stablecoin repayment settles. */
@@ -99,26 +99,26 @@ export interface CreateSwapResponse {
   /** Account that owns the swap: a business ID prefixed `biz_`, or the user ID for a personal account. */
   account_id: string;
   /** Fiat pairs only: amount of the source currency converted. Null while a stablecoin repayment is processing. */
-  amount_in?: number | null;
+  amount_in?: number | null | undefined;
   /** Fiat pairs only: amount credited in the destination currency. Null while a stablecoin repayment is processing. */
-  amount_out?: number | null;
+  amount_out?: number | null | undefined;
   /** Expected destination token amount. */
-  amount_out_expected?: string;
+  amount_out_expected?: string | undefined;
   /** Minimum destination amount after slippage. */
-  amount_out_min?: string;
+  amount_out_min?: string | undefined;
   /** Fiat pairs only: the source currency. */
-  from_token?: CreateSwapResponseFromToken | null;
+  from_token?: CreateSwapResponseFromToken | null | undefined;
   /** Swap ID. Poll `GET /swaps/:id` for status. */
-  id?: string;
+  id?: string | undefined;
   object: CreateSwapResponseObject;
   /** Quoted exchange rate used to create the swap. */
-  rate?: string;
+  rate?: string | undefined;
   /** Swap status. Crypto swaps start `queued`; fiat conversions return `complete`, or `working` while a stablecoin repayment settles. */
   status: CreateSwapResponseStatus;
   /** Destination chain for the swap. */
-  to_chain?: string;
+  to_chain?: string | undefined;
   /** Fiat pairs only: the destination currency. */
-  to_token?: CreateSwapResponseFromToken | null;
+  to_token?: CreateSwapResponseFromToken | null | undefined;
   /** User whose personal account owns the swap, prefixed `user_`. Null for a business account. */
   user_id: string | null;
 }
@@ -132,23 +132,23 @@ export interface CreateSwapQuoteRequest {
   /** Source token amount. */
   amount: string;
   /** Source wallet address used for the quote. */
-  from_address?: string | null;
+  from_address?: string | null | undefined;
   /** Source chain name or chain ID. Defaults to the source token's chain when omitted. */
-  from_chain?: CreateSwapQuoteRequestFromChain | null;
+  from_chain?: CreateSwapQuoteRequestFromChain | null | undefined;
   /** Source token contract address or ticker symbol, such as "USDT". */
   from_token: string;
   /** Metadata to include with the quote response. */
-  metadata?: CreateSwapQuoteRequestMetadataMap;
+  metadata?: CreateSwapQuoteRequestMetadataMap | undefined;
   /** Maximum slippage tolerance in basis points. */
-  slippage_bps?: number | null;
+  slippage_bps?: number | null | undefined;
   /** Destination wallet address used for the quote. */
-  to_address?: string | null;
+  to_address?: string | null | undefined;
   /** Destination chain name or chain ID. Defaults to the destination token's chain when omitted. */
-  to_chain?: CreateSwapQuoteRequestToChain | null;
+  to_chain?: CreateSwapQuoteRequestToChain | null | undefined;
   /** Destination token contract address or ticker symbol, such as "XAUT". */
   to_token: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** Resolved source token details. */
 export type CreateSwapQuoteResponseFromTokenMap = { [key: string]: unknown | undefined };
@@ -163,15 +163,15 @@ export interface CreateSwapQuoteResponse {
   /** Estimated destination token amount. */
   amount_out: string;
   /** Minimum destination amount after slippage. */
-  amount_out_min?: string;
+  amount_out_min?: string | undefined;
   /** Estimated bridge fee for cross-chain swaps. */
-  bridge_fee?: string | null;
+  bridge_fee?: string | null | undefined;
   /** Estimated time for the swap to complete. */
-  estimated_duration_seconds?: number | null;
+  estimated_duration_seconds?: number | null | undefined;
   /** Whop fee in basis points. */
   fee_bps: number;
   /** Source wallet address used for the quote. */
-  from_address?: string | null;
+  from_address?: string | null | undefined;
   /** Resolved source token details. */
   from_token: CreateSwapQuoteResponseFromTokenMap;
   /** Metadata from the request. */
@@ -180,9 +180,9 @@ export interface CreateSwapQuoteResponse {
   /** Quoted exchange rate. */
   rate: string;
   /** Whether the source token needs approval before swapping. */
-  requires_token_approval?: boolean | null;
+  requires_token_approval?: boolean | null | undefined;
   /** Destination wallet address used for the quote. */
-  to_address?: string | null;
+  to_address?: string | null | undefined;
   /** Resolved destination token details. */
   to_token: CreateSwapQuoteResponseToTokenMap;
 }
@@ -199,7 +199,7 @@ export interface GetSwapResponse {
   /** Account that owns the swap: a business ID prefixed `biz_`, or the user ID for a personal account. */
   account_id: string;
   /** Latest error returned for a failed swap. */
-  error?: string | null;
+  error?: string | null | undefined;
   /** Swap ID. */
   id: string;
   object: GetSwapResponseObject;
@@ -212,9 +212,9 @@ export interface GetSwapResponse {
 }
 export interface ListSwapsRequest {
   /** Business account whose swaps to list, prefixed `biz_`. Provide this or `user_id`. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The caller's own user ID, prefixed `user_`, to list swaps in their personal account. Provide this or `account_id`. */
-  user_id?: string;
+  user_id?: string | undefined;
 }
 export type ListSwapsResponseDataItemObject = "swap";
 /** Current swap status. `complete` and `failed` are terminal. */
@@ -225,7 +225,7 @@ export interface ListSwapsResponseDataItem {
   /** Account that owns the swap: a business ID prefixed `biz_`, or the user ID for a personal account. */
   account_id: string;
   /** Latest error returned for a failed swap. */
-  error?: string | null;
+  error?: string | null | undefined;
   /** Swap ID. */
   id: string;
   object: ListSwapsResponseDataItemObject;

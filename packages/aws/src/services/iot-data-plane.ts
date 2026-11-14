@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -145,13 +146,13 @@ export class GatewayTimeoutException
     "GatewayTimeoutException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(504),
-  ).pipe(C.withTimeoutError) {}
+  ).pipe(C.withTimeoutError, C.withRetryableError) {}
 export class InternalFailureException
   extends /*@__PURE__*/ S.TaggedError<InternalFailureException>()(
     "InternalFailureException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InvalidRequestException
   extends /*@__PURE__*/ S.TaggedError<InvalidRequestException>()(
     "InvalidRequestException",
@@ -181,13 +182,13 @@ export class ServiceUnavailableException
     "ServiceUnavailableException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(503),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class UnauthorizedException
   extends /*@__PURE__*/ S.TaggedError<UnauthorizedException>()(
     "UnauthorizedException",
@@ -205,15 +206,15 @@ export type CleanSession = boolean;
 export type PreventWillMessage = boolean;
 export interface DeleteConnectionRequest {
   clientId: string;
-  cleanSession?: boolean;
-  preventWillMessage?: boolean;
+  cleanSession?: boolean | undefined;
+  preventWillMessage?: boolean | undefined;
 }
 export interface DeleteConnectionResponse {}
 export type ThingName = string;
 export type ShadowName = string;
 export interface DeleteThingShadowRequest {
   thingName: string;
-  shadowName?: string;
+  shadowName?: string | undefined;
 }
 export interface DeleteThingShadowResponse {
   payload: T.StreamingOutputBody;
@@ -221,7 +222,7 @@ export interface DeleteThingShadowResponse {
 export type IncludeSocketInformation = boolean;
 export interface GetConnectionRequest {
   clientId: string;
-  includeSocketInformation?: boolean;
+  includeSocketInformation?: boolean | undefined;
 }
 export type Connected = boolean;
 export type SourceIp = string;
@@ -233,20 +234,20 @@ export type DisconnectReason = string;
 export type SessionExpiry = number;
 export type VpcEndpointId = string;
 export interface GetConnectionResponse {
-  connected?: boolean;
-  thingName?: string;
-  cleanSession?: boolean;
-  sourceIp?: string;
-  sourcePort?: number;
-  targetIp?: string;
-  targetPort?: number;
-  keepAliveDuration?: number;
-  connectedSince?: number;
-  disconnectedSince?: number;
-  disconnectReason?: string;
-  sessionExpiry?: number;
-  clientId?: string;
-  vpcEndpointId?: string;
+  connected?: boolean | undefined;
+  thingName?: string | undefined;
+  cleanSession?: boolean | undefined;
+  sourceIp?: string | undefined;
+  sourcePort?: number | undefined;
+  targetIp?: string | undefined;
+  targetPort?: number | undefined;
+  keepAliveDuration?: number | undefined;
+  connectedSince?: number | undefined;
+  disconnectedSince?: number | undefined;
+  disconnectReason?: string | undefined;
+  sessionExpiry?: number | undefined;
+  clientId?: string | undefined;
+  vpcEndpointId?: string | undefined;
 }
 export type Topic = string;
 export interface GetRetainedMessageRequest {
@@ -256,53 +257,53 @@ export type Payload = Uint8Array;
 export type Qos = number;
 export type UserPropertiesBlob = Uint8Array;
 export interface GetRetainedMessageResponse {
-  topic?: string;
-  payload?: Uint8Array;
-  qos?: number;
-  lastModifiedTime?: number;
-  userProperties?: Uint8Array;
+  topic?: string | undefined;
+  payload?: Uint8Array | undefined;
+  qos?: number | undefined;
+  lastModifiedTime?: number | undefined;
+  userProperties?: Uint8Array | undefined;
 }
 export interface GetThingShadowRequest {
   thingName: string;
-  shadowName?: string;
+  shadowName?: string | undefined;
 }
 export interface GetThingShadowResponse {
-  payload?: T.StreamingOutputBody;
+  payload?: T.StreamingOutputBody | undefined;
 }
 export type NextToken = string;
 export type PageSize = number;
 export interface ListNamedShadowsForThingRequest {
   thingName: string;
-  nextToken?: string;
-  pageSize?: number;
+  nextToken?: string | undefined;
+  pageSize?: number | undefined;
 }
 export type NamedShadowList = string[];
 export interface ListNamedShadowsForThingResponse {
-  results?: string[];
-  nextToken?: string;
-  timestamp?: number;
+  results?: string[] | undefined;
+  nextToken?: string | undefined;
+  timestamp?: number | undefined;
 }
 export type MaxResults = number;
 export interface ListRetainedMessagesRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type PayloadSize = number;
 export interface RetainedMessageSummary {
-  topic?: string;
-  payloadSize?: number;
-  qos?: number;
-  lastModifiedTime?: number;
+  topic?: string | undefined;
+  payloadSize?: number | undefined;
+  qos?: number | undefined;
+  lastModifiedTime?: number | undefined;
 }
 export type RetainedMessageList = RetainedMessageSummary[];
 export interface ListRetainedMessagesResponse {
-  retainedTopics?: RetainedMessageSummary[];
-  nextToken?: string;
+  retainedTopics?: RetainedMessageSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListSubscriptionsRequest {
   clientId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type TopicFilter = string;
 export interface SubscriptionSummary {
@@ -311,8 +312,8 @@ export interface SubscriptionSummary {
 }
 export type SubscriptionList = SubscriptionSummary[];
 export interface ListSubscriptionsResponse {
-  subscriptions?: SubscriptionSummary[];
-  nextToken?: string;
+  subscriptions?: SubscriptionSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type Retain = boolean;
 export type SynthesizedJsonUserProperties = string;
@@ -323,15 +324,15 @@ export type CorrelationData = string;
 export type MessageExpiry = number;
 export interface PublishRequest {
   topic: string;
-  qos?: number;
-  retain?: boolean;
-  payload?: T.StreamingInputBody;
-  userProperties?: string;
-  payloadFormatIndicator?: PayloadFormatIndicator;
-  contentType?: string;
-  responseTopic?: string;
-  correlationData?: string;
-  messageExpiry?: number;
+  qos?: number | undefined;
+  retain?: boolean | undefined;
+  payload?: T.StreamingInputBody | undefined;
+  userProperties?: string | undefined;
+  payloadFormatIndicator?: PayloadFormatIndicator | undefined;
+  contentType?: string | undefined;
+  responseTopic?: string | undefined;
+  correlationData?: string | undefined;
+  messageExpiry?: number | undefined;
 }
 export interface PublishResponse {}
 export type Confirmation = boolean;
@@ -339,28 +340,28 @@ export type TimeoutInSeconds = number;
 export interface SendDirectMessageRequest {
   clientId: string;
   topic: string;
-  contentType?: string;
-  responseTopic?: string;
-  confirmation?: boolean;
-  timeout?: number;
-  payload?: T.StreamingInputBody;
-  userProperties?: string;
-  payloadFormatIndicator?: PayloadFormatIndicator;
-  correlationData?: string;
+  contentType?: string | undefined;
+  responseTopic?: string | undefined;
+  confirmation?: boolean | undefined;
+  timeout?: number | undefined;
+  payload?: T.StreamingInputBody | undefined;
+  userProperties?: string | undefined;
+  payloadFormatIndicator?: PayloadFormatIndicator | undefined;
+  correlationData?: string | undefined;
 }
 export type ResponseMessage = string;
 export type TraceId = string;
 export interface SendDirectMessageResponse {
-  message?: string;
-  traceId?: string;
+  message?: string | undefined;
+  traceId?: string | undefined;
 }
 export interface UpdateThingShadowRequest {
   thingName: string;
-  shadowName?: string;
+  shadowName?: string | undefined;
   payload: T.StreamingInputBody;
 }
 export interface UpdateThingShadowResponse {
-  payload?: T.StreamingOutputBody;
+  payload?: T.StreamingOutputBody | undefined;
 }
 export type ErrorMessage = string;
 export type DeleteConnectionError =
@@ -376,7 +377,7 @@ export type DeleteConnectionError =
  * Requires permission to access the DeleteConnection action.
  */
 export const deleteConnection: API.OperationMethod<
-  DeleteConnectionRequest,
+  DeleteConnectionRequest & RegionInput,
   DeleteConnectionResponse,
   DeleteConnectionError,
   Credentials | HttpClient.HttpClient
@@ -416,7 +417,7 @@ export type DeleteThingShadowError =
  * For more information, see DeleteThingShadow in the IoT Developer Guide.
  */
 export const deleteThingShadow: API.OperationMethod<
-  DeleteThingShadowRequest,
+  DeleteThingShadowRequest & RegionInput,
   DeleteThingShadowResponse,
   DeleteThingShadowError,
   Credentials | HttpClient.HttpClient
@@ -454,7 +455,7 @@ export type GetConnectionError =
  * Requires permission to access the GetConnection action.
  */
 export const getConnection: API.OperationMethod<
-  GetConnectionRequest,
+  GetConnectionRequest & RegionInput,
   GetConnectionResponse,
   GetConnectionError,
   Credentials | HttpClient.HttpClient
@@ -498,7 +499,7 @@ export type GetRetainedMessageError =
  * pricing - Messaging.
  */
 export const getRetainedMessage: API.OperationMethod<
-  GetRetainedMessageRequest,
+  GetRetainedMessageRequest & RegionInput,
   GetRetainedMessageResponse,
   GetRetainedMessageError,
   Credentials | HttpClient.HttpClient
@@ -542,7 +543,7 @@ export type GetThingShadowError =
  * IoT Developer Guide.
  */
 export const getThingShadow: API.OperationMethod<
-  GetThingShadowRequest,
+  GetThingShadowRequest & RegionInput,
   GetThingShadowResponse,
   GetThingShadowError,
   Credentials | HttpClient.HttpClient
@@ -583,7 +584,7 @@ export type ListNamedShadowsForThingError =
  * Requires permission to access the ListNamedShadowsForThing action.
  */
 export const listNamedShadowsForThing: API.OperationMethod<
-  ListNamedShadowsForThingRequest,
+  ListNamedShadowsForThingRequest & RegionInput,
   ListNamedShadowsForThingResponse,
   ListNamedShadowsForThingError,
   Credentials | HttpClient.HttpClient
@@ -633,7 +634,7 @@ export type ListRetainedMessagesError =
  * pricing - Messaging.
  */
 export const listRetainedMessages: API.PaginatedOperationMethod<
-  ListRetainedMessagesRequest,
+  ListRetainedMessagesRequest & RegionInput,
   ListRetainedMessagesResponse,
   ListRetainedMessagesError,
   Credentials | HttpClient.HttpClient,
@@ -676,7 +677,7 @@ export type ListSubscriptionsError =
  * Requires permission to access the ListSubscriptions action.
  */
 export const listSubscriptions: API.PaginatedOperationMethod<
-  ListSubscriptionsRequest,
+  ListSubscriptionsRequest & RegionInput,
   ListSubscriptionsResponse,
   ListSubscriptionsError,
   Credentials | HttpClient.HttpClient,
@@ -725,7 +726,7 @@ export type PublishError =
  * pricing - Messaging.
  */
 export const publish: API.OperationMethod<
-  PublishRequest,
+  PublishRequest & RegionInput,
   PublishResponse,
   PublishError,
   Credentials | HttpClient.HttpClient
@@ -769,7 +770,7 @@ export type SendDirectMessageError =
  * pricing.
  */
 export const sendDirectMessage: API.OperationMethod<
-  SendDirectMessageRequest,
+  SendDirectMessageRequest & RegionInput,
   SendDirectMessageResponse,
   SendDirectMessageError,
   Credentials | HttpClient.HttpClient
@@ -814,7 +815,7 @@ export type UpdateThingShadowError =
  * IoT Developer Guide.
  */
 export const updateThingShadow: API.OperationMethod<
-  UpdateThingShadowRequest,
+  UpdateThingShadowRequest & RegionInput,
   UpdateThingShadowResponse,
   UpdateThingShadowError,
   Credentials | HttpClient.HttpClient

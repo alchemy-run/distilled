@@ -15,9 +15,9 @@ export interface ContactEventData {
   /** Unique identifier for the contact. */
   id: string;
   /** Unique identifier for the audience this contact belongs to. */
-  audience_id?: string;
+  audience_id?: string | undefined;
   /** Array of segment IDs the contact belongs to. */
-  segment_ids?: ContactEventDataSegmentIdsList;
+  segment_ids?: ContactEventDataSegmentIdsList | undefined;
   /** Timestamp when the contact was created. */
   created_at: string;
   /** Timestamp when the contact was last updated. */
@@ -25,9 +25,9 @@ export interface ContactEventData {
   /** Contact's email address. */
   email: string;
   /** Contact's first name. */
-  first_name?: string | null;
+  first_name?: string | null | undefined;
   /** Contact's last name. */
-  last_name?: string | null;
+  last_name?: string | null | undefined;
   /** Whether the contact has unsubscribed from all emails sent from your team. */
   unsubscribed: boolean;
 }
@@ -123,7 +123,7 @@ export interface WebhookDomainRecord {
   /** Verification status of this specific record. */
   status: WebhookDomainRecordStatus;
   /** Priority value (only applicable for MX records). */
-  priority?: number;
+  priority?: number | undefined;
 }
 /** DNS records required for domain verification. */
 export type DomainEventDataRecordsList = Array<WebhookDomainRecord>;
@@ -213,13 +213,13 @@ export interface EmailBouncedEventData {
   /** Email subject line. */
   subject: string;
   /** Unique identifier for the broadcast campaign, if applicable. */
-  broadcast_id?: string;
+  broadcast_id?: string | undefined;
   /** Unique identifier for the template used, if applicable. */
-  template_id?: string;
+  template_id?: string | undefined;
   /** Tag key-value pairs associated with the email. */
-  tags?: EmailBouncedEventDataTagsMap;
+  tags?: EmailBouncedEventDataTagsMap | undefined;
   /** Custom headers included with the email (omitted when no custom headers are set). */
-  headers?: EmailBouncedEventDataHeadersList;
+  headers?: EmailBouncedEventDataHeadersList | undefined;
   bounce: WebhookEventBounce;
 }
 export interface EmailBouncedEvent {
@@ -260,13 +260,13 @@ export interface EmailClickedEventData {
   /** Email subject line. */
   subject: string;
   /** Unique identifier for the broadcast campaign, if applicable. */
-  broadcast_id?: string;
+  broadcast_id?: string | undefined;
   /** Unique identifier for the template used, if applicable. */
-  template_id?: string;
+  template_id?: string | undefined;
   /** Tag key-value pairs associated with the email. */
-  tags?: EmailClickedEventDataTagsMap;
+  tags?: EmailClickedEventDataTagsMap | undefined;
   /** Custom headers included with the email (omitted when no custom headers are set). */
-  headers?: EmailClickedEventDataHeadersList;
+  headers?: EmailClickedEventDataHeadersList | undefined;
   click: WebhookEventClick;
 }
 export interface EmailClickedEvent {
@@ -297,13 +297,13 @@ export interface OutboundEmailEventData {
   /** Email subject line. */
   subject: string;
   /** Unique identifier for the broadcast campaign, if applicable. */
-  broadcast_id?: string;
+  broadcast_id?: string | undefined;
   /** Unique identifier for the template used, if applicable. */
-  template_id?: string;
+  template_id?: string | undefined;
   /** Tag key-value pairs associated with the email. */
-  tags?: OutboundEmailEventDataTagsMap;
+  tags?: OutboundEmailEventDataTagsMap | undefined;
   /** Custom headers included with the email (omitted when no custom headers are set). */
-  headers?: OutboundEmailEventDataHeadersList;
+  headers?: OutboundEmailEventDataHeadersList | undefined;
 }
 export interface EmailComplainedEvent {
   /** The event type. */
@@ -355,13 +355,13 @@ export interface EmailFailedEventData {
   /** Email subject line. */
   subject: string;
   /** Unique identifier for the broadcast campaign, if applicable. */
-  broadcast_id?: string;
+  broadcast_id?: string | undefined;
   /** Unique identifier for the template used, if applicable. */
-  template_id?: string;
+  template_id?: string | undefined;
   /** Tag key-value pairs associated with the email. */
-  tags?: EmailFailedEventDataTagsMap;
+  tags?: EmailFailedEventDataTagsMap | undefined;
   /** Custom headers included with the email (omitted when no custom headers are set). */
-  headers?: EmailFailedEventDataHeadersList;
+  headers?: EmailFailedEventDataHeadersList | undefined;
   failed: WebhookEventFailed;
 }
 export interface EmailFailedEvent {
@@ -394,13 +394,13 @@ export interface WebhookEventAttachment {
   /** Unique identifier for the attachment. */
   id: string;
   /** The filename of the attachment. */
-  filename?: string;
+  filename?: string | undefined;
   /** The MIME type of the attachment. */
-  content_type?: string;
+  content_type?: string | undefined;
   /** The content disposition (e.g., `inline` or `attachment`). */
-  content_disposition?: string;
+  content_disposition?: string | undefined;
   /** Content-ID header used for referencing inline images. */
-  content_id?: string;
+  content_id?: string | undefined;
 }
 /** Array of attachment metadata. */
 export type EmailReceivedEventDataAttachmentsList = Array<WebhookEventAttachment>;
@@ -422,7 +422,7 @@ export interface EmailReceivedEventData {
   /** CC recipients. */
   cc: EmailReceivedEventDataCcList;
   /** The recipient addresses the email was forwarded for, taken from the `for` clause of the message's `Received` headers. */
-  received_for?: EmailReceivedEventDataReceivedForList;
+  received_for?: EmailReceivedEventDataReceivedForList | undefined;
   /** Array of attachment metadata. */
   attachments: EmailReceivedEventDataAttachmentsList;
 }
@@ -488,13 +488,13 @@ export interface EmailSuppressedEventData {
   /** Email subject line. */
   subject: string;
   /** Unique identifier for the broadcast campaign, if applicable. */
-  broadcast_id?: string;
+  broadcast_id?: string | undefined;
   /** Unique identifier for the template used, if applicable. */
-  template_id?: string;
+  template_id?: string | undefined;
   /** Tag key-value pairs associated with the email. */
-  tags?: EmailSuppressedEventDataTagsMap;
+  tags?: EmailSuppressedEventDataTagsMap | undefined;
   /** Custom headers included with the email (omitted when no custom headers are set). */
-  headers?: EmailSuppressedEventDataHeadersList;
+  headers?: EmailSuppressedEventDataHeadersList | undefined;
   suppressed: WebhookEventSuppressed;
 }
 export interface EmailSuppressedEvent {
@@ -540,7 +540,7 @@ export interface InboxEventData {
   /** The ID of the inbox. */
   inbox_id: string;
   /** The inbox as it is when the webhook is sent. Absent when the inbox no longer exists. */
-  inbox?: Inbox;
+  inbox?: Inbox | undefined;
 }
 export interface InboxCreatedEvent {
   /** The event type. */
@@ -649,13 +649,13 @@ export interface InboxDraftEventData {
   /** The ID of the inbox. */
   inbox_id: string;
   /** The ID of the thread. Only on reply drafts. */
-  thread_id?: string;
+  thread_id?: string | undefined;
   /** The ID of the draft. */
   draft_id: string;
   /** The thread as it is when the webhook is sent. Absent when the thread no longer exists. Only on reply drafts. */
-  thread?: InboxThreadSummary;
+  thread?: InboxThreadSummary | undefined;
   /** The draft as it is when the webhook is sent, without `html` or `text`. Fetch the body with Retrieve Draft. Absent when the draft no longer exists. */
-  draft?: InboxEventDraft;
+  draft?: InboxEventDraft | undefined;
 }
 export interface InboxDraftCreatedEvent {
   /** The event type. */
@@ -735,11 +735,11 @@ export interface InboxDraftSentEventData {
   /** The ID of the draft. */
   draft_id: string;
   /** The thread as it is when the webhook is sent. Absent when the thread no longer exists. */
-  thread?: InboxThreadSummary;
+  thread?: InboxThreadSummary | undefined;
   /** The email as it is when the webhook is sent, without `html` or `text`. Fetch the body with Retrieve Thread Email. Only when the email is already on the thread when the webhook is sent. */
-  email?: InboxEventEmail;
+  email?: InboxEventEmail | undefined;
   /** The draft as it is when the webhook is sent, without `html` or `text`. Fetch the body with Retrieve Draft. Absent when the draft no longer exists. */
-  draft?: InboxEventDraft;
+  draft?: InboxEventDraft | undefined;
 }
 export interface InboxDraftSentEvent {
   /** The event type. */
@@ -769,9 +769,9 @@ export interface InboxThreadEmailEventData {
   /** The ID of the email. */
   email_id: string;
   /** The thread as it is when the webhook is sent. Absent when the thread no longer exists. */
-  thread?: InboxThreadSummary;
+  thread?: InboxThreadSummary | undefined;
   /** The email as it is when the webhook is sent, without `html` or `text`. Fetch the body with Retrieve Thread Email. Absent when the email no longer exists. */
-  email?: InboxEventEmail;
+  email?: InboxEventEmail | undefined;
 }
 export interface InboxEmailReceivedEvent {
   /** The event type. */
@@ -805,7 +805,7 @@ export interface InboxThreadAssignedEventData {
   /** The ID of the thread. */
   thread_id: string;
   /** The thread as it is when the webhook is sent. Absent when the thread no longer exists. */
-  thread?: InboxThreadSummary;
+  thread?: InboxThreadSummary | undefined;
 }
 export interface InboxThreadAssignedEvent {
   /** The event type. */
@@ -841,7 +841,7 @@ export interface InboxThreadFolderUpdatedEventData {
   /** The ID of the thread. */
   thread_id: string;
   /** The thread as it is when the webhook is sent. Absent when the thread no longer exists. */
-  thread?: InboxThreadSummary;
+  thread?: InboxThreadSummary | undefined;
 }
 export interface InboxThreadFolderUpdatedEvent {
   /** The event type. */
@@ -868,7 +868,7 @@ export interface InboxThreadLabelsUpdatedEventData {
   /** The ID of the thread. */
   thread_id: string;
   /** The thread as it is when the webhook is sent. Absent when the thread no longer exists. */
-  thread?: InboxThreadSummary;
+  thread?: InboxThreadSummary | undefined;
 }
 export interface InboxThreadLabelsUpdatedEvent {
   /** The event type. */
@@ -889,7 +889,7 @@ export interface InboxThreadUnassignedEventData {
   /** The ID of the thread. */
   thread_id: string;
   /** The thread as it is when the webhook is sent. Absent when the thread no longer exists. */
-  thread?: InboxThreadSummary;
+  thread?: InboxThreadSummary | undefined;
 }
 export interface InboxThreadUnassignedEvent {
   /** The event type. */

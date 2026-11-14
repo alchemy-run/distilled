@@ -65,27 +65,27 @@ export type SiteSummaryResponseAbusiveStatusEnum = "UNKNOWN" | "PASSING" | "FAIL
 export type SiteSummaryResponseFilterStatusEnum = "UNKNOWN" | "ON" | "OFF" | "PAUSED" | "PENDING";
 /** Response message for GetSiteSummary. */
 export interface SiteSummaryResponse {
-  /** A link to the full Abusive Experience Report for the site. Not set in ViolatingSitesResponse. Note that you must complete the [Search Console verification process](https://support.google.com/webmasters/answer/9008080) for the site before you can access the full report. */
-  reportUrl?: string;
-  /** The time at which [enforcement](https://support.google.com/webtools/answer/7538608) against the site began or will begin. Not set when the filter_status is OFF. */
-  enforcementTime?: string;
-  /** The time at which the site's status last changed. */
-  lastChangeTime?: string;
-  /** The site's Abusive Experience Report status. */
-  abusiveStatus?: SiteSummaryResponseAbusiveStatusEnum;
-  /** The name of the reviewed site, e.g. `google.com`. */
-  reviewedSite?: string;
-  /** The site's [enforcement status](https://support.google.com/webtools/answer/7538608). */
-  filterStatus?: SiteSummaryResponseFilterStatusEnum;
   /** Whether the site is currently under review. */
-  underReview?: boolean;
+  underReview?: boolean | undefined;
+  /** The time at which the site's status last changed. */
+  lastChangeTime?: string | undefined;
+  /** The time at which [enforcement](https://support.google.com/webtools/answer/7538608) against the site began or will begin. Not set when the filter_status is OFF. */
+  enforcementTime?: string | undefined;
+  /** A link to the full Abusive Experience Report for the site. Not set in ViolatingSitesResponse. Note that you must complete the [Search Console verification process](https://support.google.com/webmasters/answer/9008080) for the site before you can access the full report. */
+  reportUrl?: string | undefined;
+  /** The site's Abusive Experience Report status. */
+  abusiveStatus?: SiteSummaryResponseAbusiveStatusEnum | undefined;
+  /** The site's [enforcement status](https://support.google.com/webtools/answer/7538608). */
+  filterStatus?: SiteSummaryResponseFilterStatusEnum | undefined;
+  /** The name of the reviewed site, e.g. `google.com`. */
+  reviewedSite?: string | undefined;
 }
 export interface ListViolatingSitesRequest {}
 export type SiteSummaryResponseList = Array<SiteSummaryResponse>;
 /** Response message for ListViolatingSites. */
 export interface ViolatingSitesResponse {
   /** The list of violating sites. */
-  violatingSites?: SiteSummaryResponseList;
+  violatingSites?: SiteSummaryResponseList | undefined;
 }
 export type GetSitesError = NotFound | Forbidden | GcpOpError;
 /** Gets a site's Abusive Experience Report summary. */
@@ -143,13 +143,13 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          reportUrl: S.optional(S.String),
-          enforcementTime: S.optional(S.String),
-          lastChangeTime: S.optional(S.String),
-          abusiveStatus: S.optional(S.String),
-          reviewedSite: S.optional(S.String),
-          filterStatus: S.optional(S.String),
           underReview: S.optional(S.Boolean),
+          lastChangeTime: S.optional(S.String),
+          enforcementTime: S.optional(S.String),
+          reportUrl: S.optional(S.String),
+          abusiveStatus: S.optional(S.String),
+          filterStatus: S.optional(S.String),
+          reviewedSite: S.optional(S.String),
         }),
       ).annotate({ identifier: "SiteSummaryResponse" });
   }

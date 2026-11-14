@@ -671,9 +671,9 @@ export type BatchDeleteSuppressionsRequestEmailsList = Array<string>;
 export type BatchDeleteSuppressionsRequestIdsList = Array<string>;
 export interface BatchDeleteSuppressionsRequest {
   /** Email addresses to remove from the suppression list. */
-  emails?: BatchDeleteSuppressionsRequestEmailsList;
+  emails?: BatchDeleteSuppressionsRequestEmailsList | undefined;
   /** Suppression IDs to remove from the suppression list. */
-  ids?: BatchDeleteSuppressionsRequestIdsList;
+  ids?: BatchDeleteSuppressionsRequestIdsList | undefined;
 }
 export interface BatchRemoveSuppressionsResponseSuccessDataItem {
   /** Type of the object. */
@@ -716,9 +716,9 @@ export interface CreateApiKeyRequest {
   /** The API key name. */
   name: string;
   /** The API key can have full access to Resend's API or be only restricted to send emails. * full_access - Can create, delete, get, and update any resource. * sending_access - Can only send emails. */
-  permission?: CreateApiKeyRequestPermission | (string & {});
+  permission?: CreateApiKeyRequestPermission | (string & {}) | undefined;
   /** Restrict an API key to send emails only from a specific domain. Only used when the permission is sending_access. */
-  domain_id?: string;
+  domain_id?: string | undefined;
 }
 export interface CreateApiKeyResponse {
   /** The ID of the API key. */
@@ -726,7 +726,7 @@ export interface CreateApiKeyResponse {
   /** The token of the API key. */
   token: string | Redacted.Redacted<string>;
   /** The object type, `api_key`. */
-  object?: string;
+  object?: string | undefined;
 }
 /** The initial status of the automation. Defaults to `disabled`. */
 export type CreateAutomationRequestStatus = "enabled" | "disabled";
@@ -798,18 +798,18 @@ export interface AutomationSendEmailStepTemplate {
   /** The ID of the template to send. */
   id: string;
   /** Values for the template's variables. */
-  variables?: AutomationTemplateVariablesMap;
+  variables?: AutomationTemplateVariablesMap | undefined;
 }
 /** The config of a `send_email` step. */
 export interface AutomationSendEmailStepConfig {
   /** The template to send. */
   template: AutomationSendEmailStepTemplate;
   /** The email's subject. */
-  subject?: string;
+  subject?: string | undefined;
   /** The sender address. */
-  from?: string;
+  from?: string | undefined;
   /** The reply-to address. */
-  reply_to?: string;
+  reply_to?: string | undefined;
 }
 /** A `send_email` step: sends a template to the contact. */
 export interface AutomationSendEmailStep {
@@ -846,7 +846,7 @@ export interface AutomationFieldRule {
   /** How the rule compares the field. */
   operator: AutomationRuleOperator | (string & {});
   /** The value to compare with. Omitted for `exists` and `is_empty`. */
-  value?: AutomationScalarValue | null;
+  value?: AutomationScalarValue | null | undefined;
 }
 /** A rule that matches when every rule in `rules` matches. */
 export type AutomationAndRuleType = "and";
@@ -875,9 +875,9 @@ export interface AutomationWaitForEventStepConfig {
   /** The name of the custom event to wait for. */
   event_name: string;
   /** How long to wait before following the `timeout` connection, as a human-readable duration such as `1 hour`. */
-  timeout?: string;
+  timeout?: string | undefined;
   /** A rule the event must match. */
-  filter_rule?: AutomationConditionRule;
+  filter_rule?: AutomationConditionRule | undefined;
 }
 /** A `wait_for_event` step: waits for a custom event, or until a timeout. */
 export interface AutomationWaitForEventStep {
@@ -918,13 +918,13 @@ export type AutomationContactPropertiesMap = {
 /** The config of a `contact_update` step. */
 export interface AutomationContactUpdateStepConfig {
   /** The contact's first name, a variable reference, or `null`. */
-  first_name?: AutomationContactTextValue | null;
+  first_name?: AutomationContactTextValue | null | undefined;
   /** The contact's last name, a variable reference, or `null`. */
-  last_name?: AutomationContactTextValue | null;
+  last_name?: AutomationContactTextValue | null | undefined;
   /** Whether the contact is unsubscribed. */
-  unsubscribed?: AutomationContactBooleanValue;
+  unsubscribed?: AutomationContactBooleanValue | undefined;
   /** Contact property values to set. */
-  properties?: AutomationContactPropertiesMap;
+  properties?: AutomationContactPropertiesMap | undefined;
 }
 /** A `contact_update` step: updates the contact. */
 export interface AutomationContactUpdateStep {
@@ -990,7 +990,7 @@ export interface AutomationConnection {
   /** The `key` of the target step. */
   to: string;
   /** The type of connection. Defaults to `default`. */
-  type?: AutomationConnectionType | (string & {});
+  type?: AutomationConnectionType | (string & {}) | undefined;
 }
 /** The connections between steps in the automation graph. */
 export type CreateAutomationRequestConnectionsList = Array<AutomationConnection>;
@@ -998,7 +998,7 @@ export interface CreateAutomationRequest {
   /** The name of the automation. */
   name: string;
   /** The initial status of the automation. Defaults to `disabled`. */
-  status?: CreateAutomationRequestStatus | (string & {});
+  status?: CreateAutomationRequestStatus | (string & {}) | undefined;
   /** The steps that compose the automation workflow. Must include at least one `trigger` step. */
   steps: CreateAutomationRequestStepsList;
   /** The connections between steps in the automation graph. */
@@ -1014,7 +1014,7 @@ export interface CreateAutomationResponse {
 export type CreateBroadcastRequestReplyToList = Array<string>;
 export interface CreateBroadcastRequest {
   /** Name of the broadcast. */
-  name?: string;
+  name?: string | undefined;
   /** Unique identifier of the segment this broadcast will be sent to. */
   segment_id: string;
   /** The email address of the sender. */
@@ -1022,31 +1022,31 @@ export interface CreateBroadcastRequest {
   /** The subject line of the email. */
   subject: string;
   /** The email addresses to which replies should be sent. */
-  reply_to?: CreateBroadcastRequestReplyToList;
+  reply_to?: CreateBroadcastRequestReplyToList | undefined;
   /** The preview text of the email. */
-  preview_text?: string;
+  preview_text?: string | undefined;
   /** The HTML version of the message. */
-  html?: string;
+  html?: string | undefined;
   /** The plain text version of the message. */
-  text?: string;
+  text?: string | undefined;
   /** The topic ID that the broadcast will be scoped to. */
-  topic_id?: string;
+  topic_id?: string | undefined;
   /** Whether to send the broadcast immediately or keep it as a draft. */
-  send?: boolean;
+  send?: boolean | undefined;
   /** Schedule time to send the broadcast. Can only be used if `send` is true. */
-  scheduled_at?: string;
+  scheduled_at?: string | undefined;
 }
 export interface CreateBroadcastResponseSuccess {
   /** The ID of the broadcast. */
   id: string;
   /** The object type of the response. */
-  object?: string;
+  object?: string | undefined;
 }
 /** A map of custom property keys and values to create. */
 export type CreateContactRequestPropertiesMap = { [key: string]: unknown | null | undefined };
 export interface CreateContactRequestSegmentsItem {
   /** The segment ID */
-  id?: string;
+  id?: string | undefined;
 }
 /** Array of segment IDs to add the contact to. */
 export type CreateContactRequestSegmentsList = Array<CreateContactRequestSegmentsItem>;
@@ -1054,9 +1054,9 @@ export type CreateContactRequestSegmentsList = Array<CreateContactRequestSegment
 export type CreateContactRequestTopicsItemSubscription = "opt_in" | "opt_out";
 export interface CreateContactRequestTopicsItem {
   /** The topic ID. */
-  id?: string;
+  id?: string | undefined;
   /** The subscription status for this topic. */
-  subscription?: CreateContactRequestTopicsItemSubscription | (string & {});
+  subscription?: CreateContactRequestTopicsItemSubscription | (string & {}) | undefined;
 }
 /** Array of topic subscriptions for the contact. */
 export type CreateContactRequestTopicsList = Array<CreateContactRequestTopicsItem>;
@@ -1064,17 +1064,17 @@ export interface CreateContactRequest {
   /** Email address of the contact. */
   email: string;
   /** First name of the contact. */
-  first_name?: string;
+  first_name?: string | undefined;
   /** Last name of the contact. */
-  last_name?: string;
+  last_name?: string | undefined;
   /** The Contact's global subscription status. If set to true, the contact will be unsubscribed from all Broadcasts. */
-  unsubscribed?: boolean;
+  unsubscribed?: boolean | undefined;
   /** A map of custom property keys and values to create. */
-  properties?: CreateContactRequestPropertiesMap;
+  properties?: CreateContactRequestPropertiesMap | undefined;
   /** Array of segment IDs to add the contact to. */
-  segments?: CreateContactRequestSegmentsList;
+  segments?: CreateContactRequestSegmentsList | undefined;
   /** Array of topic subscriptions for the contact. */
-  topics?: CreateContactRequestTopicsList;
+  topics?: CreateContactRequestTopicsList | undefined;
 }
 export interface CreateContactResponseSuccess {
   /** Type of the response object. */
@@ -1088,13 +1088,13 @@ export interface CreateContactImportRequest {
   /** CSV file to import. Maximum size is 50MB. */
   file: string;
   /** JSON-encoded object mapping contact fields and custom property keys to CSV column names. Supports `email`, `first_name`, `last_name`, `unsubscribed`, and `properties`. Custom property mappings can include `type` as `string`, `number`, or `boolean`; defaults to `string`. */
-  column_map?: string;
+  column_map?: string | undefined;
   /** Strategy to use when an imported contact already exists. */
-  on_conflict?: CreateContactImportRequestOnConflict | (string & {});
+  on_conflict?: CreateContactImportRequestOnConflict | (string & {}) | undefined;
   /** JSON-encoded array of segments to add imported contacts to. */
-  segments?: string;
+  segments?: string | undefined;
   /** JSON-encoded array of topic subscriptions to apply to imported contacts. Each `subscription` must be `opt_in` or `opt_out`. */
-  topics?: string;
+  topics?: string | undefined;
 }
 export interface CreateContactImportResponseSuccess {
   /** Type of the response object. */
@@ -1112,7 +1112,7 @@ export interface CreateContactPropertyRequest {
   /** The property type. */
   type: CreateContactPropertyRequestType | (string & {});
   /** The default value to use when the property is not set for a contact. Must match the type specified in the type field. */
-  fallback_value?: CreateContactPropertyRequestFallbackValue;
+  fallback_value?: CreateContactPropertyRequestFallbackValue | undefined;
 }
 export interface CreateContactPropertyResponseSuccess {
   /** The ID of the contact property. */
@@ -1131,26 +1131,26 @@ export type DomainCapabilitiesReceiving = "enabled" | "disabled";
 /** Configure the domain capabilities for sending and receiving emails. At least one capability must be enabled. */
 export interface DomainCapabilities {
   /** Enable or disable sending emails from this domain. */
-  sending?: DomainCapabilitiesSending | (string & {});
+  sending?: DomainCapabilitiesSending | (string & {}) | undefined;
   /** Enable or disable receiving emails to this domain. */
-  receiving?: DomainCapabilitiesReceiving | (string & {});
+  receiving?: DomainCapabilitiesReceiving | (string & {}) | undefined;
 }
 export interface CreateDomainRequest {
   /** The name of the domain you want to create. */
   name: string;
   /** The region where emails will be sent from. Possible values are us-east-1 | eu-west-1 | sa-east-1 | ap-northeast-1 */
-  region?: CreateDomainRequestRegion | (string & {});
+  region?: CreateDomainRequestRegion | (string & {}) | undefined;
   /** For advanced use cases, choose a subdomain for the Return-Path address. Defaults to 'send' (i.e., send.yourdomain.tld). */
-  custom_return_path?: string;
+  custom_return_path?: string | undefined;
   /** Track the open rate of each email. */
-  open_tracking?: boolean;
+  open_tracking?: boolean | undefined;
   /** Track clicks within the body of each HTML email. */
-  click_tracking?: boolean;
+  click_tracking?: boolean | undefined;
   /** TLS mode. Opportunistic attempts secure connection but falls back to unencrypted. Enforced requires TLS or email won't be sent. */
-  tls?: CreateDomainRequestTls | (string & {});
-  capabilities?: DomainCapabilities;
+  tls?: CreateDomainRequestTls | (string & {}) | undefined;
+  capabilities?: DomainCapabilities | undefined;
   /** The subdomain to use for click and open tracking. */
-  tracking_subdomain?: string;
+  tracking_subdomain?: string | undefined;
 }
 /** The status of the domain. */
 export type CreateDomainResponseStatus =
@@ -1185,7 +1185,7 @@ export interface DomainRecord {
   /** The value of the record. */
   value: string;
   /** The priority of the record (only applicable for MX records). */
-  priority?: number;
+  priority?: number | undefined;
 }
 export type CreateDomainResponseRecordsList = Array<DomainRecord>;
 export interface CreateDomainResponse {
@@ -1202,11 +1202,11 @@ export interface CreateDomainResponse {
   /** The region where the domain is hosted. */
   region: string;
   /** Whether open tracking is enabled for this domain. */
-  open_tracking?: boolean;
+  open_tracking?: boolean | undefined;
   /** Whether click tracking is enabled for this domain. */
-  click_tracking?: boolean;
+  click_tracking?: boolean | undefined;
   /** The subdomain used for click and open tracking. */
-  tracking_subdomain?: string;
+  tracking_subdomain?: string | undefined;
   /** The object type, `domain`. */
   object: string;
 }
@@ -1220,15 +1220,15 @@ export interface CreateDomainClaimRequest {
   /** The name of the domain you want to claim. */
   name: string;
   /** The region where emails will be sent from. Possible values are us-east-1 | eu-west-1 | sa-east-1 | ap-northeast-1 */
-  region?: CreateDomainClaimRequestRegion | (string & {});
+  region?: CreateDomainClaimRequestRegion | (string & {}) | undefined;
   /** For advanced use cases, choose a subdomain for the Return-Path address. Defaults to 'send' (i.e., send.yourdomain.tld). */
-  custom_return_path?: string;
+  custom_return_path?: string | undefined;
   /** Track the open rate of each email. */
-  open_tracking?: boolean;
+  open_tracking?: boolean | undefined;
   /** Track clicks within the body of each HTML email. */
-  click_tracking?: boolean;
+  click_tracking?: boolean | undefined;
   /** The subdomain to use for click and open tracking. */
-  tracking_subdomain?: string;
+  tracking_subdomain?: string | undefined;
 }
 /** The status of the claim. */
 export type DomainClaimStatus =
@@ -1262,7 +1262,7 @@ export type DomainClaimBlockedReason =
   | "pending_scheduled_emails";
 export interface DomainClaim {
   /** The type of object. */
-  object?: string;
+  object?: string | undefined;
   /** The ID of the claim. */
   id: string;
   /** The name of the domain being claimed. */
@@ -1304,33 +1304,33 @@ export interface CreateEmailRequestTemplate {
   /** The id of the published email template. */
   id: string;
   /** Template variables object with key/value pairs. */
-  variables?: CreateEmailRequestTemplateVariablesMap;
+  variables?: CreateEmailRequestTemplateVariablesMap | undefined;
 }
 /** Custom headers to add to the email, from header name to value. */
 export type EmailHeadersMap = { [key: string]: string | undefined };
 export interface Attachment {
   /** Content of an attached file. */
-  content?: string;
+  content?: string | undefined;
   /** Name of attached file. */
-  filename?: string;
+  filename?: string | undefined;
   /** Path where the attachment file is hosted */
-  path?: string;
+  path?: string | undefined;
   /** Optional content type for the attachment, if not set it will be derived from the filename property */
-  content_type?: string;
+  content_type?: string | undefined;
   /** Content ID for embedding inline images using cid references (e.g., cid:image001). */
-  content_id?: string;
+  content_id?: string | undefined;
 }
 export type CreateEmailRequestAttachmentsList = Array<Attachment>;
 export interface Tag {
   /** The name of the email tag. It can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-). It can contain no more than 256 characters. */
-  name?: string;
+  name?: string | undefined;
   /** The value of the email tag.It can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-). It can contain no more than 256 characters. */
-  value?: string;
+  value?: string | undefined;
 }
 export type CreateEmailRequestTagsList = Array<Tag>;
 export interface CreateEmailRequest {
   /** A unique identifier for the request to ensure emails are only sent once. [Learn more](https://resend.com/docs/dashboard/emails/idempotency-keys) */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** Sender email address. To include a friendly name, use the format "Your Name <sender@domain.com>". */
   from: string;
   /** Recipient email address. For multiple addresses, send as an array of strings. Max 50. */
@@ -1338,24 +1338,24 @@ export interface CreateEmailRequest {
   /** Email subject. */
   subject: string;
   /** Bcc recipient email address. For multiple addresses, send as an array of strings. */
-  bcc?: CreateEmailRequestBcc;
+  bcc?: CreateEmailRequestBcc | undefined;
   /** Cc recipient email address. For multiple addresses, send as an array of strings. */
-  cc?: CreateEmailRequestCc;
+  cc?: CreateEmailRequestCc | undefined;
   /** Reply-to email address. For multiple addresses, send as an array of strings. */
-  reply_to?: CreateEmailRequestReplyTo;
+  reply_to?: CreateEmailRequestReplyTo | undefined;
   /** The HTML version of the message. */
-  html?: string;
+  html?: string | undefined;
   /** The plain text version of the message. */
-  text?: string;
-  template?: CreateEmailRequestTemplate;
+  text?: string | undefined;
+  template?: CreateEmailRequestTemplate | undefined;
   /** Custom headers to add to the email. */
-  headers?: EmailHeadersMap;
+  headers?: EmailHeadersMap | undefined;
   /** Schedule email to be sent later. The date should be in ISO 8601 format. */
-  scheduled_at?: string;
-  attachments?: CreateEmailRequestAttachmentsList;
-  tags?: CreateEmailRequestTagsList;
+  scheduled_at?: string | undefined;
+  attachments?: CreateEmailRequestAttachmentsList | undefined;
+  tags?: CreateEmailRequestTagsList | undefined;
   /** The topic ID to scope the email to. If the recipient is a contact and opted-in to the topic, the email is sent. If opted-out, the email is not sent. If the recipient is not a contact, the email is sent if the topic's default subscription is opt_in. */
-  topic_id?: string;
+  topic_id?: string | undefined;
 }
 export interface SendEmailResponse {
   /** The ID of the sent email. */
@@ -1382,7 +1382,7 @@ export interface SendEmailRequestTemplate {
   /** The id of the published email template. */
   id: string;
   /** Template variables object with key/value pairs. */
-  variables?: SendEmailRequestTemplateVariablesMap;
+  variables?: SendEmailRequestTemplateVariablesMap | undefined;
 }
 export type SendEmailRequestAttachmentsList = Array<Attachment>;
 export type SendEmailRequestTagsList = Array<Tag>;
@@ -1394,33 +1394,33 @@ export interface SendEmailRequest {
   /** Email subject. */
   subject: string;
   /** Bcc recipient email address. For multiple addresses, send as an array of strings. */
-  bcc?: SendEmailRequestBcc;
+  bcc?: SendEmailRequestBcc | undefined;
   /** Cc recipient email address. For multiple addresses, send as an array of strings. */
-  cc?: SendEmailRequestCc;
+  cc?: SendEmailRequestCc | undefined;
   /** Reply-to email address. For multiple addresses, send as an array of strings. */
-  reply_to?: SendEmailRequestReplyTo;
+  reply_to?: SendEmailRequestReplyTo | undefined;
   /** The HTML version of the message. */
-  html?: string;
+  html?: string | undefined;
   /** The plain text version of the message. */
-  text?: string;
-  template?: SendEmailRequestTemplate;
+  text?: string | undefined;
+  template?: SendEmailRequestTemplate | undefined;
   /** Custom headers to add to the email. */
-  headers?: EmailHeadersMap;
+  headers?: EmailHeadersMap | undefined;
   /** Schedule email to be sent later. The date should be in ISO 8601 format. */
-  scheduled_at?: string;
-  attachments?: SendEmailRequestAttachmentsList;
-  tags?: SendEmailRequestTagsList;
+  scheduled_at?: string | undefined;
+  attachments?: SendEmailRequestAttachmentsList | undefined;
+  tags?: SendEmailRequestTagsList | undefined;
   /** The topic ID to scope the email to. If the recipient is a contact and opted-in to the topic, the email is sent. If opted-out, the email is not sent. If the recipient is not a contact, the email is sent if the topic's default subscription is opt_in. */
-  topic_id?: string;
+  topic_id?: string | undefined;
 }
 export type CreateEmailBatchRequestBodyList = Array<SendEmailRequest>;
 export type BatchValidation = "strict" | "permissive";
 export interface CreateEmailBatchRequest {
   /** A unique identifier for the request to ensure emails are only sent once. [Learn more](https://resend.com/docs/dashboard/emails/idempotency-keys) */
-  idempotencyKey?: string;
-  body?: CreateEmailBatchRequestBodyList;
+  idempotencyKey?: string | undefined;
+  body?: CreateEmailBatchRequestBodyList | undefined;
   /** `strict` (the default) rejects the whole batch when any email is invalid; `permissive` sends the valid ones and lists the rest in `errors`. */
-  batchValidation?: BatchValidation | (string & {});
+  batchValidation?: BatchValidation | (string & {}) | undefined;
 }
 export interface CreateBatchEmailsResponseDataItem {
   /** The ID of the sent email. */
@@ -1437,7 +1437,7 @@ export type CreateBatchEmailsResponseErrorsList = Array<CreateBatchEmailsRespons
 export interface CreateBatchEmailsResponse {
   data: CreateBatchEmailsResponseDataList;
   /** The emails a permissive batch rejected. Only present with `batchValidation: "permissive"`. */
-  errors?: CreateBatchEmailsResponseErrorsList;
+  errors?: CreateBatchEmailsResponseErrorsList | undefined;
 }
 /** The type of a key in a custom event's payload. */
 export type EventSchemaType = "string" | "number" | "boolean" | "date";
@@ -1447,7 +1447,7 @@ export interface CreateEventRequest {
   /** The name of the event. Cannot start with the reserved `resend:` prefix. */
   name: string;
   /** An optional flat key/type map defining the event payload schema. Supported types are `string`, `number`, `boolean`, and `date`. */
-  schema?: EventSchemaMap | null;
+  schema?: EventSchemaMap | null | undefined;
 }
 export interface CreateEventResponse {
   /** Type of the response object. */
@@ -1459,11 +1459,11 @@ export interface CreateInboxRequest {
   /** The inbox email address on one of your domains. The API trims and lowercases it. The part before the `@` is at most 64 characters and contains only letters, numbers, and `. _ % -`. A `+` returns a 422. It cannot start or end with a dot or contain two dots in a row. */
   email_address: string;
   /** Internal name for the inbox. Recipients do not see it. Max 64 characters. Defaults to `email_address`. */
-  name?: string;
+  name?: string | undefined;
   /** The name recipients see when mail is sent from this inbox. A plain name, not a `Name <email>` address. Max 78 characters. It cannot contain a colon, `<`, `>`, line breaks, or other control characters. An email address inside the name must be on a domain the team has verified for sending. An empty string leaves it unset. */
-  from_name?: string;
+  from_name?: string | undefined;
   /** When `true`, Resend provisions a receiving address so you can receive mail without adding an MX record. The address is returned in `receiving_address`. */
-  forwarding?: boolean;
+  forwarding?: boolean | undefined;
 }
 export interface CreateInboxResponseSuccess {
   /** Type of the response object. */
@@ -1483,13 +1483,13 @@ export type CreateInboxDraftRequestBcc = string | CreateInboxDraftRequestBccCase
 /** A file to store on a draft. Send either `content` or a `path` URL. Unlike `POST /emails` attachments, a `path` file is downloaded when the request is made, not when the draft is sent, and a draft attachment cannot use `content_id`. When both `content` and `path` are sent, `path` is ignored. */
 export interface InboxDraftAttachmentInput {
   /** The content of the file, encoded in base64. It cannot be empty. Required without `path`. */
-  content?: string;
+  content?: string | undefined;
   /** A URL to download the file from, starting with `http` or `https`. Required without `content`. A file that cannot be downloaded returns a 422, and so does a request whose downloads take more than 20 seconds together. */
-  path?: string;
+  path?: string | undefined;
   /** The filename of the attachment. A blocked file type returns a 422. */
   filename: string;
   /** The MIME type of the attachment. It must be a valid MIME type, such as `application/pdf`, or the request returns a 422. Required with `content`. With `path`, it defaults to the content type of the downloaded file. */
-  content_type?: string;
+  content_type?: string | undefined;
 }
 /** Files to store on the draft. Each one needs a `filename` and either `content` or a `path` URL. A `path` file is downloaded when the request is made and stored on the draft. When both are sent, `path` is ignored. A `content_id` returns a 422. The files on a draft, downloaded ones included, can total at most 25 MB. A `path` that does not start with `http` or `https`, or that cannot be downloaded, returns a 422, and so does a request whose downloads take more than 20 seconds together. An empty file or a blocked file type returns a 422. */
 export type CreateInboxDraftRequestAttachmentsList = Array<InboxDraftAttachmentInput>;
@@ -1497,25 +1497,25 @@ export interface CreateInboxDraftRequest {
   /** The Inbox ID or the inbox email address, such as `support@acme.com`. A value that contains `@` must be a valid email address, and any other value must be a UUID, or the request returns a 422. The address match is case-insensitive and never falls back to the inbox `name`. An address that matches no inbox returns a 404. */
   inbox_id: string;
   /** A unique key for the request, so the draft is created only once. A retry with the same key within 24 hours returns the first successful (2xx) response, with the `idempotent-replayed: true` header. A failed request is not stored, so it can be retried with the same key. Reusing the key with a different body, or while the first request is still running, returns a 409. An empty key, or one longer than 256 characters, returns a 400 `invalid_idempotency_key`. [Learn more](https://resend.com/docs/dashboard/emails/idempotency-keys) */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** The recipients. For multiple addresses, send an array of strings. Each value can include a friendly name, for example `Ada Lovelace <ada@example.org>`. Each address is `email@example.com` or `Name <email@example.com>`. An address that is not valid returns a 422. */
-  to?: CreateInboxDraftRequestTo | null;
+  to?: CreateInboxDraftRequestTo | null | undefined;
   /** The CC recipients. For multiple addresses, send an array of strings. Each address is `email@example.com` or `Name <email@example.com>`. An address that is not valid returns a 422. */
-  cc?: CreateInboxDraftRequestCc | null;
+  cc?: CreateInboxDraftRequestCc | null | undefined;
   /** The BCC recipients. For multiple addresses, send an array of strings. Each address is `email@example.com` or `Name <email@example.com>`. An address that is not valid returns a 422. */
-  bcc?: CreateInboxDraftRequestBcc | null;
+  bcc?: CreateInboxDraftRequestBcc | null | undefined;
   /** The subject. Max 2000 characters. A string that is only whitespace, or that contains a line break, is rejected. */
-  subject?: string | null;
+  subject?: string | null | undefined;
   /** The HTML body. */
-  html?: string | null;
+  html?: string | null | undefined;
   /** The plain text body. */
-  text?: string | null;
+  text?: string | null | undefined;
   /** Files to store on the draft. Each one needs a `filename` and either `content` or a `path` URL. A `path` file is downloaded when the request is made and stored on the draft. When both are sent, `path` is ignored. A `content_id` returns a 422. The files on a draft, downloaded ones included, can total at most 25 MB. A `path` that does not start with `http` or `https`, or that cannot be downloaded, returns a 422, and so does a request whose downloads take more than 20 seconds together. An empty file or a blocked file type returns a 422. */
-  attachments?: CreateInboxDraftRequestAttachmentsList | null;
+  attachments?: CreateInboxDraftRequestAttachmentsList | null | undefined;
   /** The Thread ID to reply in. Must be sent with `reply_to_email_id`. */
-  thread_id?: string;
+  thread_id?: string | undefined;
   /** The Email ID to reply to, as returned in `data[].id` by the list thread emails endpoint. Must be sent with `thread_id`. */
-  reply_to_email_id?: string;
+  reply_to_email_id?: string | undefined;
 }
 export interface CreateInboxDraftResponseSuccess {
   /** Type of the response object. */
@@ -1529,7 +1529,7 @@ export interface CreateInboxLabelRequest {
   /** The name of the label. Max 64 characters. Leading and trailing whitespace is trimmed. Must not match another label on the inbox, compared without case. */
   name: string;
   /** The color of the label, as a `#RRGGBB` hex color. It is stored in uppercase. When omitted, a random color from the dashboard palette is used. */
-  color?: string;
+  color?: string | undefined;
 }
 export interface CreateInboxLabelResponseSuccess {
   /** Type of the response object. */
@@ -1541,7 +1541,7 @@ export interface CreateSegmentRequest {
   /** The name of the segment. */
   name: string;
   /** Filter conditions for the segment. */
-  filter?: unknown;
+  filter?: unknown | undefined;
 }
 export interface CreateSegmentResponseSuccess {
   /** The ID of the segment. */
@@ -1569,25 +1569,25 @@ export interface TemplateVariableInput {
   /** The type of the variable. */
   type: TemplateVariableInputType | (string & {});
   /** The fallback value of the variable. */
-  fallback_value?: TemplateVariableInputFallbackValue;
+  fallback_value?: TemplateVariableInputFallbackValue | undefined;
 }
 export type CreateTemplateRequestVariablesList = Array<TemplateVariableInput>;
 export interface CreateTemplateRequest {
   /** The name of the template. */
   name: string;
   /** The alias of the template. */
-  alias?: string;
+  alias?: string | undefined;
   /** Sender email address. To include a friendly name, use the format "Your Name <sender@domain.com>". */
-  from?: string;
+  from?: string | undefined;
   /** Email subject. */
-  subject?: string;
+  subject?: string | undefined;
   /** Reply-to email addresses. */
-  reply_to?: CreateTemplateRequestReplyToList;
+  reply_to?: CreateTemplateRequestReplyToList | undefined;
   /** The HTML version of the template. */
   html: string;
   /** The plain text version of the template. */
-  text?: string;
-  variables?: CreateTemplateRequestVariablesList;
+  text?: string | undefined;
+  variables?: CreateTemplateRequestVariablesList | undefined;
 }
 export interface CreateTemplateResponseSuccess {
   /** The ID of the template. */
@@ -1605,15 +1605,15 @@ export interface CreateTopicRequest {
   /** The default subscription status for the topic. Cannot be changed after creation. */
   default_subscription: CreateTopicRequestDefaultSubscription | (string & {});
   /** A description of the topic. Max 200 characters. */
-  description?: string;
+  description?: string | undefined;
   /** The visibility of the topic. Public topics are visible to all contacts on the unsubscribe page. Private topics are only visible to opted-in contacts. */
-  visibility?: CreateTopicRequestVisibility | (string & {});
+  visibility?: CreateTopicRequestVisibility | (string & {}) | undefined;
 }
 export interface CreateTopicResponseSuccess {
   /** The ID of the topic. */
   id: string;
   /** The object type of the response. */
-  object?: string;
+  object?: string | undefined;
 }
 /** Array of event types to subscribe to. */
 export type CreateWebhookRequestEventsList = Array<string>;
@@ -1699,7 +1699,7 @@ export interface DeleteContactSegmentRequest {
 }
 export interface RemoveContactFromSegmentResponseSuccess {
   /** The object type. */
-  object?: string;
+  object?: string | undefined;
   /** Indicates whether the contact was successfully removed from the segment. */
   deleted: boolean;
   /** The ID of the contact. */
@@ -1904,23 +1904,23 @@ export interface ForwardInboxThreadEmailRequest {
   /** The Email ID of the message to forward, as returned in `data[].id` by the list thread emails endpoint. */
   email_id: string;
   /** A unique key for the request, so the forward is sent only once. A retry with the same key within 24 hours returns the first successful (2xx) response, with the `idempotent-replayed: true` header. A failed request is not stored, so it can be retried with the same key. Reusing the key with a different body, or while the first request is still running, returns a 409. An empty key, or one longer than 256 characters, returns a 400 `invalid_idempotency_key`. [Learn more](https://resend.com/docs/dashboard/emails/idempotency-keys) */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** Recipient email address. For multiple addresses, send as an array of strings. Must name at least one address. `to`, `cc` and `bcc` combined cannot exceed 50 recipients. Each address is `email@example.com` or `Name <email@example.com>`. An address that is not valid returns a 422. */
   to: ForwardInboxThreadEmailRequestTo;
   /** CC recipient email address. For multiple addresses, send as an array of strings. Counts toward the 50-recipient limit. Each address is `email@example.com` or `Name <email@example.com>`. An address that is not valid returns a 422. */
-  cc?: ForwardInboxThreadEmailRequestCc | null;
+  cc?: ForwardInboxThreadEmailRequestCc | null | undefined;
   /** BCC recipient email address. For multiple addresses, send as an array of strings. Counts toward the 50-recipient limit. Each address is `email@example.com` or `Name <email@example.com>`. An address that is not valid returns a 422. */
-  bcc?: ForwardInboxThreadEmailRequestBcc | null;
+  bcc?: ForwardInboxThreadEmailRequestBcc | null | undefined;
   /** An HTML note sent above the quoted original. */
-  html?: string;
+  html?: string | undefined;
   /** A plain-text note sent above the quoted original. */
-  text?: string;
+  text?: string | undefined;
   /** The subject of the forward. Cannot be only whitespace or contain a line break. When omitted, the thread subject is used, prefixed with `Fwd:` if it does not already start with it. */
-  subject?: string;
+  subject?: string | undefined;
   /** Files to attach, as on `POST /emails`. Each one needs `content` or `path`. They share one limit with the attachments of the original message, which the forward also sends. Together they can have at most 25 MB of `content`. A `path` file does not count toward the 25 MB, because it is fetched when the email is sent. An empty file, a blocked file type, a `path` that does not start with `http` or that starts with `http://localhost:`, or a `content_type` that is not a valid MIME type returns a 422. Other `path` problems fail the email when it is sent, not the request. */
-  attachments?: ForwardInboxThreadEmailRequestAttachmentsList | null;
+  attachments?: ForwardInboxThreadEmailRequestAttachmentsList | null | undefined;
   /** Custom headers to add to the email. The `In-Reply-To`, `References` and `Reply-To` headers are set by Resend and cannot be set here. Sending one of them, in any letter case, returns a 422. Header names cannot be empty, and names and values cannot contain line breaks or null characters, or the request returns a 422. `null` means no custom headers. */
-  headers?: ForwardInboxThreadEmailRequestHeadersMap | null;
+  headers?: ForwardInboxThreadEmailRequestHeadersMap | null | undefined;
 }
 export interface ForwardInboxThreadEmailResponseSuccess {
   /** The ID of the sent email. Use it with the emails endpoints. */
@@ -2064,7 +2064,7 @@ export interface GetBroadcastResponseSuccess {
   /** The HTML version of the broadcast content. */
   html: string | null;
   /** The topic ID that the broadcast is scoped to. */
-  topic_id?: string | null;
+  topic_id?: string | null | undefined;
   /** The object type, `broadcast`. */
   object: string;
 }
@@ -2170,11 +2170,11 @@ export interface Domain {
   /** The region where the domain is hosted. */
   region: string;
   /** Whether open tracking is enabled for this domain. */
-  open_tracking?: boolean;
+  open_tracking?: boolean | undefined;
   /** Whether click tracking is enabled for this domain. */
-  click_tracking?: boolean;
+  click_tracking?: boolean | undefined;
   /** The subdomain used for click and open tracking. */
-  tracking_subdomain?: string;
+  tracking_subdomain?: string | undefined;
   capabilities: DomainCapabilities;
   records: DomainRecordsList;
 }
@@ -2216,7 +2216,7 @@ export interface EmailTag {
 export type EmailTagsList = Array<EmailTag>;
 export interface Email {
   /** The type of object. */
-  object?: string;
+  object?: string | undefined;
   /** The ID of the email. */
   id: string;
   /** The Message-ID header value of the email. */
@@ -2229,9 +2229,9 @@ export interface Email {
   /** The subject line of the email. */
   subject: string;
   /** The HTML body of the email. */
-  html?: string | null;
+  html?: string | null | undefined;
   /** The plain text body of the email. */
-  text?: string | null;
+  text?: string | null | undefined;
   /** The email addresses of the blind carbon copy recipients. */
   bcc: EmailBccList | null;
   /** The email addresses of the carbon copy recipients. */
@@ -2243,9 +2243,9 @@ export interface Email {
   /** When the email is scheduled to be sent, or null when it was sent immediately. */
   scheduled_at: string | null;
   /** The topic the email was sent under, if any. */
-  topic_id?: string | null;
+  topic_id?: string | null | undefined;
   /** Tags attached when the email was sent. Returned by getEmail, not by listEmails. */
-  tags?: EmailTagsList;
+  tags?: EmailTagsList | undefined;
 }
 export interface GetEmailAttachmentRequest {
   /** The ID of the email. */
@@ -2261,11 +2261,11 @@ export interface RetrievedAttachment {
   /** The ID of the attachment. */
   id: string;
   /** The filename of the attachment. */
-  filename?: string | null;
+  filename?: string | null | undefined;
   /** The MIME type of the attachment. */
   content_type: string;
   /** The content ID for inline attachments. */
-  content_id?: string;
+  content_id?: string | undefined;
   /** How the attachment should be displayed. */
   content_disposition: RetrievedAttachmentContentDisposition | null;
   /** Signed URL to download the attachment content. */
@@ -2311,23 +2311,23 @@ export type GetEmailMetricsRequestEmailIdList = Array<string>;
 export type GetEmailMetricsRequestBroadcastIdList = Array<string>;
 export interface GetEmailMetricsRequest {
   /** The start of the date range, as an ISO 8601 date or datetime. Must be on or before `end_date`. Defaults to 6 days before `end_date`. */
-  start_date?: string;
+  start_date?: string | undefined;
   /** The end of the date range, as an ISO 8601 date or datetime. Values in the future are clamped to the current time. Defaults to now. */
-  end_date?: string;
+  end_date?: string | undefined;
   /** The IANA timezone (e.g. `America/New_York`) used to bucket periods when `period` is in `dimensions`. */
-  timezone?: string;
+  timezone?: string | undefined;
   /** The bucket size used when `period` is in `dimensions`. The date range can't produce more than 10,000 periods at the chosen granularity. */
-  granularity?: GetEmailMetricsRequestGranularity | (string & {});
+  granularity?: GetEmailMetricsRequestGranularity | (string & {}) | undefined;
   /** List of metrics to include in the response. Defaults to all metrics. Accepts a comma-separated value, the parameter repeated, or a mix of both. */
-  metrics?: GetEmailMetricsRequestMetricsList;
+  metrics?: GetEmailMetricsRequestMetricsList | undefined;
   /** List of dimensions to break the response down by. `email` cannot be combined with `broadcast`. Defaults to `[]`, returning a single `totals` row for the whole range, with no `data`. Accepts a comma-separated value, the parameter repeated, or a mix of both. */
-  dimensions?: GetEmailMetricsRequestDimensionsList;
+  dimensions?: GetEmailMetricsRequestDimensionsList | undefined;
   /** List of sending domain IDs to restrict the response to, up to 100. Accepts a comma-separated value, the parameter repeated, or a mix of both. */
-  domain_id?: GetEmailMetricsRequestDomainIdList;
+  domain_id?: GetEmailMetricsRequestDomainIdList | undefined;
   /** List of email IDs to restrict the response to, up to 100. Cannot be combined with the `broadcast` dimension or `broadcast_id`. Accepts a comma-separated value, the parameter repeated, or a mix of both. */
-  email_id?: GetEmailMetricsRequestEmailIdList;
+  email_id?: GetEmailMetricsRequestEmailIdList | undefined;
   /** List of broadcast IDs to restrict the response to, up to 100. Cannot be combined with the `email` dimension or `email_id`. Accepts a comma-separated value, the parameter repeated, or a mix of both. */
-  broadcast_id?: GetEmailMetricsRequestBroadcastIdList;
+  broadcast_id?: GetEmailMetricsRequestBroadcastIdList | undefined;
 }
 /** The metrics included in the response. */
 export type GetEmailsMetricsResponseMetricsList = Array<string>;
@@ -2341,61 +2341,61 @@ export type GetEmailsMetricsResponseTotalsMap = { [key: string]: number | undefi
 /** A single breakdown row. Which dimension fields are present depends on the requested `dimensions`; which metric fields are present depends on the requested `metrics`. */
 export interface EmailMetricsDataRow {
   /** Present when `period` is in `dimensions`. */
-  period?: string;
+  period?: string | undefined;
   /** Present when `domain` is in `dimensions`. */
-  domain_id?: string;
+  domain_id?: string | undefined;
   /** Present when `domain` is in `dimensions`. */
-  domain_name?: string;
+  domain_name?: string | undefined;
   /** Present when `email` is in `dimensions`. */
-  email_id?: string;
+  email_id?: string | undefined;
   /** Present when `broadcast` is in `dimensions`. */
-  broadcast_id?: string;
+  broadcast_id?: string | undefined;
   /** Present when `broadcast` is in `dimensions`. */
-  broadcast_name?: string;
+  broadcast_name?: string | undefined;
   /** The `received` metric for this row. Present when it is among the requested metrics. */
-  received?: number;
+  received?: number | undefined;
   /** The `delivered` metric for this row. Present when it is among the requested metrics. */
-  delivered?: number;
+  delivered?: number | undefined;
   /** The `complained` metric for this row. Present when it is among the requested metrics. */
-  complained?: number;
+  complained?: number | undefined;
   /** The `suppressed` metric for this row. Present when it is among the requested metrics. */
-  suppressed?: number;
+  suppressed?: number | undefined;
   /** The `bounced` metric for this row. Present when it is among the requested metrics. */
-  bounced?: number;
+  bounced?: number | undefined;
   /** The `bounced_transient` metric for this row. Present when it is among the requested metrics. */
-  bounced_transient?: number;
+  bounced_transient?: number | undefined;
   /** The `bounced_permanent` metric for this row. Present when it is among the requested metrics. */
-  bounced_permanent?: number;
+  bounced_permanent?: number | undefined;
   /** The `bounced_undetermined` metric for this row. Present when it is among the requested metrics. */
-  bounced_undetermined?: number;
+  bounced_undetermined?: number | undefined;
   /** The `opened` metric for this row. Present when it is among the requested metrics. */
-  opened?: number;
+  opened?: number | undefined;
   /** The `clicked` metric for this row. Present when it is among the requested metrics. */
-  clicked?: number;
+  clicked?: number | undefined;
   /** The `unsubscribed` metric for this row. Present when it is among the requested metrics. */
-  unsubscribed?: number;
+  unsubscribed?: number | undefined;
   /** The `delivery_delayed` metric for this row. Present when it is among the requested metrics. */
-  delivery_delayed?: number;
+  delivery_delayed?: number | undefined;
   /** The `failed` metric for this row. Present when it is among the requested metrics. */
-  failed?: number;
+  failed?: number | undefined;
   /** The `sent` metric for this row. Present when it is among the requested metrics. */
-  sent?: number;
+  sent?: number | undefined;
   /** The `unique_opened` metric for this row. Present when it is among the requested metrics. */
-  unique_opened?: number;
+  unique_opened?: number | undefined;
   /** The `unique_clicked` metric for this row. Present when it is among the requested metrics. */
-  unique_clicked?: number;
+  unique_clicked?: number | undefined;
   /** The `delivery_rate` metric for this row. Present when it is among the requested metrics. */
-  delivery_rate?: number;
+  delivery_rate?: number | undefined;
   /** The `open_rate` metric for this row. Present when it is among the requested metrics. */
-  open_rate?: number;
+  open_rate?: number | undefined;
   /** The `click_rate` metric for this row. Present when it is among the requested metrics. */
-  click_rate?: number;
+  click_rate?: number | undefined;
   /** The `bounce_rate` metric for this row. Present when it is among the requested metrics. */
-  bounce_rate?: number;
+  bounce_rate?: number | undefined;
   /** The `complaint_rate` metric for this row. Present when it is among the requested metrics. */
-  complaint_rate?: number;
+  complaint_rate?: number | undefined;
   /** The `unsubscribe_rate` metric for this row. Present when it is among the requested metrics. */
-  unsubscribe_rate?: number;
+  unsubscribe_rate?: number | undefined;
   [key: string]: unknown;
 }
 /** One row per unique combination of the requested `dimensions`. Omitted when `dimensions` is empty. */
@@ -2416,7 +2416,7 @@ export interface GetEmailsMetricsResponse {
   /** The requested metrics, totaled over the whole date range. */
   totals: GetEmailsMetricsResponseTotalsMap;
   /** One row per unique combination of the requested `dimensions`. Omitted when `dimensions` is empty. */
-  data?: GetEmailsMetricsResponseDataList;
+  data?: GetEmailsMetricsResponseDataList | undefined;
 }
 export interface GetEmailReceivingRequest {
   /** The ID of the received email. */
@@ -2501,11 +2501,11 @@ export interface GetReceivedEmailResponse {
   /** Array of attachments. */
   attachments: GetReceivedEmailResponseAttachmentsList;
   /** How inline images appear in `html`. */
-  html_format?: ReceivedEmailHtmlFormat;
+  html_format?: ReceivedEmailHtmlFormat | undefined;
   /** The SPF, DKIM and DMARC results. */
-  authentication?: ReceivedEmailAuthentication | null;
+  authentication?: ReceivedEmailAuthentication | null | undefined;
   /** Where to download the raw message. */
-  raw?: ReceivedEmailRaw | null;
+  raw?: ReceivedEmailRaw | null | undefined;
 }
 export interface GetEmailReceivingAttachmentRequest {
   /** The ID of the received email. */
@@ -2771,9 +2771,9 @@ export interface GetSegmentResponseSuccess {
   /** The name of the segment. */
   name: string;
   /** The ID of the audience this segment belongs to. */
-  audience_id?: string;
+  audience_id?: string | undefined;
   /** Filter conditions for the segment. */
-  filter?: unknown;
+  filter?: unknown | undefined;
   /** Timestamp indicating when the segment was created. */
   created_at: string;
 }
@@ -2815,7 +2815,7 @@ export type TemplateVariableFallbackValue =
   | TemplateVariableFallbackValueCase4List;
 export interface TemplateVariable {
   /** The ID of the template variable. */
-  id?: string;
+  id?: string | undefined;
   /** The key of the variable. */
   key: string;
   /** The type of the variable. */
@@ -2875,15 +2875,15 @@ export interface GetTopicResponseSuccess {
   /** The ID of the topic. */
   id: string;
   /** The object type. */
-  object?: string;
+  object?: string | undefined;
   /** The name of the topic. */
   name: string;
   /** A description of the topic. */
-  description?: string;
+  description?: string | undefined;
   /** The default subscription status for the topic. */
   default_subscription: GetTopicResponseSuccessDefaultSubscription;
   /** The visibility of the topic. */
-  visibility?: GetTopicResponseSuccessVisibility;
+  visibility?: GetTopicResponseSuccessVisibility | undefined;
   /** Timestamp indicating when the topic was created. */
   created_at: string;
 }
@@ -3024,11 +3024,11 @@ export interface GetWebhookEventResponse {
 }
 export interface ListApiKeysRequest {
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
   /** Return items before this cursor. */
-  before?: string;
+  before?: string | undefined;
 }
 export interface ApiKey {
   /** The ID of the API key. */
@@ -3052,13 +3052,13 @@ export interface ListAutomationRunsRequest {
   /** The ID of the automation. */
   automation_id: string;
   /** Filter runs by status. Comma-separated list of: running, completed, failed, cancelled. */
-  status?: string;
+  status?: string | undefined;
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
   /** Return items before this cursor. */
-  before?: string;
+  before?: string | undefined;
 }
 /** The current status of the automation run. */
 export type AutomationRunListItemStatus = "running" | "completed" | "failed" | "cancelled";
@@ -3087,13 +3087,13 @@ export interface ListAutomationRunsResponse {
 export type ListAutomationsRequestStatus = "enabled" | "disabled";
 export interface ListAutomationsRequest {
   /** Filter automations by status. */
-  status?: ListAutomationsRequestStatus | (string & {});
+  status?: ListAutomationsRequestStatus | (string & {}) | undefined;
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
   /** Return items before this cursor. */
-  before?: string;
+  before?: string | undefined;
 }
 /** The current status of the automation. */
 export type AutomationListItemStatus = "enabled" | "disabled";
@@ -3123,11 +3123,11 @@ export interface ListBroadcastClickedLinksRequest {
   /** The Broadcast ID. */
   id: string;
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
   /** Return items before this cursor. */
-  before?: string;
+  before?: string | undefined;
 }
 export interface ListBroadcastClickedLinksResponseSuccessDataItem {
   /** An opaque cursor for this row, used only for pagination. It does not identify any entity in Resend. */
@@ -3166,15 +3166,15 @@ export interface ListBroadcastRecipientsRequest {
   /** The recipient event type to filter by. */
   type: ListBroadcastRecipientsRequestType | (string & {});
   /** Filter recipients whose email address contains this value. */
-  email?: string;
+  email?: string | undefined;
   /** Filter bounced recipients by bounce type. Only valid when `type` is `bounced`. */
-  bounce_type?: ListBroadcastRecipientsRequestBounceType | (string & {});
+  bounce_type?: ListBroadcastRecipientsRequestBounceType | (string & {}) | undefined;
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
   /** Return items before this cursor. */
-  before?: string;
+  before?: string | undefined;
 }
 /** The type of bounce. Only present when `type` is `bounced`. */
 export type ListBroadcastRecipientsResponseSuccessDataItemBounceType =
@@ -3198,11 +3198,11 @@ export interface ListBroadcastRecipientsResponseSuccessDataItem {
   /** The recipient's email address. */
   email: string;
   /** The number of times this recipient triggered the event. Only present when `type` is `opened` or `clicked`. */
-  count?: number;
+  count?: number | undefined;
   /** The type of bounce. Only present when `type` is `bounced`. */
-  bounce_type?: ListBroadcastRecipientsResponseSuccessDataItemBounceType;
+  bounce_type?: ListBroadcastRecipientsResponseSuccessDataItemBounceType | undefined;
   /** The links this recipient clicked. Only present when `type` is `clicked`. */
-  clicked_links?: ListBroadcastRecipientsResponseSuccessDataItemClickedLinksList;
+  clicked_links?: ListBroadcastRecipientsResponseSuccessDataItemClickedLinksList | undefined;
 }
 /** Array containing broadcast recipients. */
 export type ListBroadcastRecipientsResponseSuccessDataList =
@@ -3217,11 +3217,11 @@ export interface ListBroadcastRecipientsResponseSuccess {
 }
 export interface ListBroadcastsRequest {
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
   /** Return items before this cursor. */
-  before?: string;
+  before?: string | undefined;
 }
 export interface ListBroadcastsResponseSuccessDataItem {
   /** Unique identifier for the broadcast. */
@@ -3241,7 +3241,7 @@ export interface ListBroadcastsResponseSuccessDataItem {
   /** Timestamp indicating when the broadcast was sent. */
   sent_at: string | null;
   /** The topic ID that the broadcast is scoped to. */
-  topic_id?: string;
+  topic_id?: string | undefined;
 }
 /** Array containing broadcast information. */
 export type ListBroadcastsResponseSuccessDataList = Array<ListBroadcastsResponseSuccessDataItem>;
@@ -3256,13 +3256,13 @@ export interface ListBroadcastsResponseSuccess {
 export type ListContactImportsRequestStatus = "queued" | "in_progress" | "completed" | "failed";
 export interface ListContactImportsRequest {
   /** Filter contact imports by status. */
-  status?: ListContactImportsRequestStatus | (string & {});
+  status?: ListContactImportsRequestStatus | (string & {}) | undefined;
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
   /** Return items before this cursor. */
-  before?: string;
+  before?: string | undefined;
 }
 /** Current status of the contact import. */
 export type ContactImportStatus = "queued" | "in_progress" | "completed" | "failed";
@@ -3291,25 +3291,25 @@ export interface ListContactImportsResponseSuccess {
 }
 export interface ListContactPropertiesRequest {
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
   /** Return items before this cursor. */
-  before?: string;
+  before?: string | undefined;
 }
 /** The default value when the property is not set for a contact. */
 export type ListContactPropertiesResponseSuccessDataItemFallbackValue = string | number | boolean;
 export interface ListContactPropertiesResponseSuccessDataItem {
   /** Unique identifier for the contact property. */
-  id?: string;
+  id?: string | undefined;
   /** The property key. */
-  key?: string;
+  key?: string | undefined;
   /** The property type. */
-  type?: string;
+  type?: string | undefined;
   /** The default value when the property is not set for a contact. */
-  fallback_value?: ListContactPropertiesResponseSuccessDataItemFallbackValue;
+  fallback_value?: ListContactPropertiesResponseSuccessDataItemFallbackValue | undefined;
   /** Timestamp indicating when the contact property was created. */
-  created_at?: string;
+  created_at?: string | undefined;
 }
 /** Array containing contact property information. */
 export type ListContactPropertiesResponseSuccessDataList =
@@ -3324,11 +3324,11 @@ export interface ListContactPropertiesResponseSuccess {
 }
 export interface ListContactsRequest {
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
   /** Return items before this cursor. */
-  before?: string;
+  before?: string | undefined;
 }
 export interface ListContactsResponseSuccessDataItem {
   /** Unique identifier for the contact. */
@@ -3358,11 +3358,11 @@ export interface ListContactSegmentsRequest {
   /** The Contact ID or email address. */
   contact_id: string;
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
   /** Return items before this cursor. */
-  before?: string;
+  before?: string | undefined;
 }
 export interface ListContactSegmentsResponseSuccessDataItem {
   /** Unique identifier for the segment. */
@@ -3387,11 +3387,11 @@ export interface ListContactTopicsRequest {
   /** The Contact ID or email address. */
   contact_id: string;
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
   /** Return items before this cursor. */
-  before?: string;
+  before?: string | undefined;
 }
 /** The subscription status for this topic. */
 export type GetContactTopicsResponseSuccessDataItemSubscription = "opt_in" | "opt_out";
@@ -3405,7 +3405,7 @@ export interface GetContactTopicsResponseSuccessDataItem {
   /** The subscription status for this topic. */
   subscription: GetContactTopicsResponseSuccessDataItemSubscription;
   /** When the topic was created. */
-  created_at?: string;
+  created_at?: string | undefined;
 }
 /** Array containing topic subscriptions for this contact. */
 export type GetContactTopicsResponseSuccessDataList =
@@ -3420,11 +3420,11 @@ export interface GetContactTopicsResponseSuccess {
 }
 export interface ListDomainsRequest {
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
   /** Return items before this cursor. */
-  before?: string;
+  before?: string | undefined;
 }
 /** The status of the domain. */
 export type ListDomainsItemStatus =
@@ -3446,9 +3446,9 @@ export interface ListDomainsItem {
   /** The region where the domain is hosted. */
   region: string;
   /** Whether open tracking is enabled for this domain. */
-  open_tracking?: boolean;
+  open_tracking?: boolean | undefined;
   /** Whether click tracking is enabled for this domain. */
-  click_tracking?: boolean;
+  click_tracking?: boolean | undefined;
   capabilities: DomainCapabilities;
 }
 export type ListDomainsResponseDataList = Array<ListDomainsItem>;
@@ -3463,11 +3463,11 @@ export interface ListEmailAttachmentsRequest {
   /** The ID of the email. */
   email_id: string;
   /** Maximum number of attachments to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Pagination cursor to fetch results after this attachment ID. Cannot be used with 'before'. */
-  after?: string;
+  after?: string | undefined;
   /** Pagination cursor to fetch results before this attachment ID. Cannot be used with 'after'. */
-  before?: string;
+  before?: string | undefined;
 }
 /** How the attachment should be displayed. */
 export type ListAttachmentsResponseDataItemContentDisposition = "inline" | "attachment";
@@ -3475,11 +3475,11 @@ export interface ListAttachmentsResponseDataItem {
   /** The ID of the attachment. */
   id: string;
   /** The filename of the attachment. */
-  filename?: string | null;
+  filename?: string | null | undefined;
   /** The MIME type of the attachment. */
   content_type: string;
   /** The content ID for inline attachments. */
-  content_id?: string;
+  content_id?: string | undefined;
   /** How the attachment should be displayed. */
   content_disposition: ListAttachmentsResponseDataItemContentDisposition | null;
   /** Signed URL to download the attachment content. */
@@ -3501,11 +3501,11 @@ export interface ListAttachmentsResponse {
 }
 export interface ListEmailReceivingRequest {
   /** Maximum number of received emails to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Pagination cursor to fetch results after this email ID. Cannot be used with 'before'. */
-  after?: string;
+  after?: string | undefined;
   /** Pagination cursor to fetch results before this email ID. Cannot be used with 'after'. */
-  before?: string;
+  before?: string | undefined;
 }
 /** The recipient email addresses. */
 export type ListReceivedEmailsResponseDataItemToList = Array<string>;
@@ -3572,19 +3572,19 @@ export interface ListEmailReceivingAttachmentsRequest {
   /** The ID of the received email. */
   email_id: string;
   /** Maximum number of attachments to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Pagination cursor to fetch results after this attachment ID. Cannot be used with 'before'. */
-  after?: string;
+  after?: string | undefined;
   /** Pagination cursor to fetch results before this attachment ID. Cannot be used with 'after'. */
-  before?: string;
+  before?: string | undefined;
 }
 export interface ListEmailsRequest {
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
   /** Return items before this cursor. */
-  before?: string;
+  before?: string | undefined;
 }
 /** Array containing email information. */
 export type ListEmailsResponseDataList = Array<Email>;
@@ -3598,11 +3598,11 @@ export interface ListEmailsResponse {
 }
 export interface ListEventsRequest {
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
   /** Return items before this cursor. */
-  before?: string;
+  before?: string | undefined;
 }
 export interface EventSummary {
   /** The event ID. */
@@ -3630,11 +3630,11 @@ export interface ListInboxDraftsRequest {
   /** The Inbox ID or the inbox email address, such as `support@acme.com`. A value that contains `@` must be a valid email address, and any other value must be a UUID, or the request returns a 422. The address match is case-insensitive and never falls back to the inbox `name`. An address that matches no inbox returns a 404. */
   inbox_id: string;
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
   /** Return items before this cursor. */
-  before?: string;
+  before?: string | undefined;
 }
 /** `reply` when the draft replies to an email in an existing thread. `standalone` when the draft starts a new thread. */
 export type InboxDraftListItemType = "standalone" | "reply";
@@ -3682,11 +3682,11 @@ export interface ListInboxDraftsResponseSuccess {
 }
 export interface ListInboxesRequest {
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
   /** Return items before this cursor. */
-  before?: string;
+  before?: string | undefined;
 }
 export interface ListInboxesResponseSuccessDataItem {
   /** The ID of the inbox. */
@@ -3744,11 +3744,11 @@ export interface ListInboxThreadEmailsRequest {
   /** The Thread ID. */
   thread_id: string;
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
   /** Return items before this cursor. */
-  before?: string;
+  before?: string | undefined;
 }
 /** The messages of the thread on this page, oldest first. */
 export type ListInboxThreadEmailsResponseSuccessDataList = Array<InboxThreadEmail>;
@@ -3769,17 +3769,17 @@ export interface ListInboxThreadsRequest {
   /** The Inbox ID or the inbox email address, such as `support@acme.com`. A value that contains `@` must be a valid email address, and any other value must be a UUID, or the request returns a 422. The address match is case-insensitive and never falls back to the inbox `name`. An address that matches no inbox returns a 404. */
   inbox_id: string;
   /** Comma-separated folders to list, for example `inbox,sent`. Repeating the parameter returns a 422 validation_error. A thread is returned when any of its emails is in one of the folders, so a thread in `inbox` with an email you sent matches both `inbox` and `sent`. Defaults to `inbox`, or to `inbox,archive,sent` when `labels` is set. `spam` and `trash` are only included when you name them. */
-  folders?: ListInboxThreadsRequestFoldersList;
+  folders?: ListInboxThreadsRequestFoldersList | undefined;
   /** Comma-separated label IDs. Returns threads with any of these labels. Up to 50 IDs. An ID that does not exist in the inbox returns a 404. Repeating the parameter returns a 422 validation_error. */
-  labels?: ListInboxThreadsRequestLabelsList;
+  labels?: ListInboxThreadsRequestLabelsList | undefined;
   /** `true` returns threads where every email is read. `false` returns threads with at least one unread email. Only the literal values `true` and `false` are accepted. */
-  read?: boolean;
+  read?: boolean | undefined;
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
   /** Return items before this cursor. */
-  before?: string;
+  before?: string | undefined;
 }
 /** The recipients of the most recent email. For a received email, these are the addresses it was delivered to, not the full `To` header. */
 export type InboxThreadToList = Array<string>;
@@ -3832,11 +3832,11 @@ export interface ListInboxThreadsResponseSuccess {
 }
 export interface ListLogsRequest {
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
   /** Return items before this cursor. */
-  before?: string;
+  before?: string | undefined;
 }
 /** The HTTP method used. */
 export type LogSummaryMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "OPTIONS";
@@ -3866,11 +3866,11 @@ export interface ListLogsResponse {
 }
 export interface ListOauthGrantsRequest {
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
   /** Return items before this cursor. */
-  before?: string;
+  before?: string | undefined;
 }
 /** The scopes granted to the OAuth client. */
 export type OAuthGrantScopesList = Array<string>;
@@ -3909,19 +3909,19 @@ export interface ListSegmentContactsRequest {
   /** The Segment ID. */
   id: string;
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
   /** Return items before this cursor. */
-  before?: string;
+  before?: string | undefined;
 }
 export interface ListSegmentsRequest {
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
   /** Return items before this cursor. */
-  before?: string;
+  before?: string | undefined;
 }
 export interface ListSegmentsResponseSuccessDataItem {
   /** Unique identifier for the segment. */
@@ -3929,7 +3929,7 @@ export interface ListSegmentsResponseSuccessDataItem {
   /** Name of the segment. */
   name: string;
   /** The ID of the audience this segment belongs to. */
-  audience_id?: string;
+  audience_id?: string | undefined;
   /** Timestamp indicating when the segment was created. */
   created_at: string;
 }
@@ -3946,13 +3946,13 @@ export interface ListSegmentsResponseSuccess {
 export type ListSuppressionsRequestOrigin = "bounce" | "complaint" | "manual";
 export interface ListSuppressionsRequest {
   /** Filter suppressions by origin. */
-  origin?: ListSuppressionsRequestOrigin | (string & {});
+  origin?: ListSuppressionsRequestOrigin | (string & {}) | undefined;
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
   /** Return items before this cursor. */
-  before?: string;
+  before?: string | undefined;
 }
 /** Origin of the suppression. */
 export type ListSuppressionsResponseSuccessDataItemOrigin = "bounce" | "complaint" | "manual";
@@ -3981,11 +3981,11 @@ export interface ListSuppressionsResponseSuccess {
 }
 export interface ListTemplatesRequest {
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
   /** Return items before this cursor. */
-  before?: string;
+  before?: string | undefined;
 }
 /** The publication status of the template. */
 export type TemplateListItemStatus = "draft" | "published";
@@ -4017,11 +4017,11 @@ export interface ListTemplatesResponseSuccess {
 }
 export interface ListTopicsRequest {
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
   /** Return items before this cursor. */
-  before?: string;
+  before?: string | undefined;
 }
 /** The default subscription status for the topic. */
 export type ListTopicsResponseSuccessDataItemDefaultSubscription = "opt_in" | "opt_out";
@@ -4033,11 +4033,11 @@ export interface ListTopicsResponseSuccessDataItem {
   /** Name of the topic. */
   name: string;
   /** A description of the topic. */
-  description?: string;
+  description?: string | undefined;
   /** The default subscription status for the topic. */
   default_subscription: ListTopicsResponseSuccessDataItemDefaultSubscription;
   /** The visibility of the topic. */
-  visibility?: ListTopicsResponseSuccessDataItemVisibility;
+  visibility?: ListTopicsResponseSuccessDataItemVisibility | undefined;
   /** Timestamp indicating when the topic was created. */
   created_at: string;
 }
@@ -4045,9 +4045,9 @@ export interface ListTopicsResponseSuccessDataItem {
 export type ListTopicsResponseSuccessDataList = Array<ListTopicsResponseSuccessDataItem>;
 export interface ListTopicsResponseSuccess {
   /** Type of the response object. */
-  object?: string;
+  object?: string | undefined;
   /** Indicates if there are more results available. */
-  has_more?: boolean;
+  has_more?: boolean | undefined;
   /** Array containing topic information. */
   data: ListTopicsResponseSuccessDataList;
 }
@@ -4057,9 +4057,9 @@ export interface ListWebhookEventAttemptsRequest {
   /** The Webhook Event ID. */
   event_id: string;
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
 }
 export interface ListWebhookEventAttemptsResponseDataItem {
   /** The ID of the webhook event attempt. */
@@ -4086,9 +4086,9 @@ export interface ListWebhookEventsRequest {
   /** The Webhook ID. */
   webhook_id: string;
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
 }
 /** The delivery status of the event for this webhook. */
 export type ListWebhookEventsResponseDataItemStatus =
@@ -4118,11 +4118,11 @@ export interface ListWebhookEventsResponse {
 }
 export interface ListWebhooksRequest {
   /** Maximum number of webhooks to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Pagination cursor to fetch results after this webhook ID. Cannot be used with 'before'. */
-  after?: string;
+  after?: string | undefined;
   /** Pagination cursor to fetch results before this webhook ID. Cannot be used with 'after'. */
-  before?: string;
+  before?: string | undefined;
 }
 /** Array of event types subscribed to. */
 export type ListWebhooksResponseDataItemEventsList = Array<string>;
@@ -4188,23 +4188,23 @@ export interface ReplyInboxThreadEmailRequest {
   /** The Email ID of the message to reply to, as returned in `data[].id` by the list thread emails endpoint. */
   email_id: string;
   /** A unique key for the request, so the reply is sent only once. A retry with the same key within 24 hours returns the first successful (2xx) response, with the `idempotent-replayed: true` header. A failed request is not stored, so it can be retried with the same key. Reusing the key with a different body, or while the first request is still running, returns a 409. An empty key, or one longer than 256 characters, returns a 400 `invalid_idempotency_key`. [Learn more](https://resend.com/docs/dashboard/emails/idempotency-keys) */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** CC recipient email address. For multiple addresses, send as an array of strings. Without `reply_all`, the reply copies only these addresses. With `reply_all`, these addresses are merged with the copied recipients, without duplicates. `cc` and `bcc` combined must be fewer than 50 addresses. After the `to` recipients are added, the reply cannot exceed 50 recipients. Each address is `email@example.com` or `Name <email@example.com>`. An address that is not valid returns a 422. */
-  cc?: ReplyInboxThreadEmailRequestCc | null;
+  cc?: ReplyInboxThreadEmailRequestCc | null | undefined;
   /** BCC recipient email address. For multiple addresses, send as an array of strings. BCC recipients of the original message are never copied. Each address is `email@example.com` or `Name <email@example.com>`. An address that is not valid returns a 422. */
-  bcc?: ReplyInboxThreadEmailRequestBcc | null;
+  bcc?: ReplyInboxThreadEmailRequestBcc | null | undefined;
   /** The HTML body of the reply. */
-  html?: string;
+  html?: string | undefined;
   /** The plain-text body of the reply. */
-  text?: string;
+  text?: string | undefined;
   /** The subject of the reply. Cannot be only whitespace or contain a line break. When omitted, the thread subject is used, prefixed with `Re:` if it does not already start with it. */
-  subject?: string;
+  subject?: string | undefined;
   /** Reply to everyone on the original message. For a message the inbox received, the reply goes to its `Reply-To` addresses, or to its sender when it has none, and copies the other addresses of its `To` header and its `cc` recipients in `cc`. For a message the inbox sent, the reply goes to that message's `Reply-To` addresses when they are not the inbox address, otherwise to its `to` recipients, and copies its `cc` recipients. The inbox address is always excluded, and duplicates are removed. */
-  reply_all?: boolean;
+  reply_all?: boolean | undefined;
   /** Files to attach, as on `POST /emails`. Each one needs `content` or `path`. The `content` of all files can total at most 25 MB. A `path` file does not count toward the 25 MB, because it is fetched when the email is sent. An empty file, a blocked file type, a `path` that does not start with `http` or that starts with `http://localhost:`, or a `content_type` that is not a valid MIME type returns a 422. Other `path` problems fail the email when it is sent, not the request. */
-  attachments?: ReplyInboxThreadEmailRequestAttachmentsList | null;
+  attachments?: ReplyInboxThreadEmailRequestAttachmentsList | null | undefined;
   /** Custom headers to add to the email. The `In-Reply-To`, `References` and `Reply-To` headers are set by Resend and cannot be set here. Sending one of them, in any letter case, returns a 422. Header names cannot be empty, and names and values cannot contain line breaks or null characters, or the request returns a 422. `null` means no custom headers. */
-  headers?: ReplyInboxThreadEmailRequestHeadersMap | null;
+  headers?: ReplyInboxThreadEmailRequestHeadersMap | null | undefined;
 }
 export interface ReplyInboxThreadEmailResponseSuccess {
   /** The ID of the sent email. Use it with the emails endpoints. */
@@ -4249,33 +4249,33 @@ export interface SearchInboxThreadsRequest {
   /** The Inbox ID or the inbox email address, such as `support@acme.com`. A value that contains `@` must be a valid email address, and any other value must be a UUID, or the request returns a 422. The address match is case-insensitive and never falls back to the inbox `name`. An address that matches no inbox returns a 404. */
   inbox_id: string;
   /** Free text to search for in the subject, body, sender, recipients, and attachment names. Every word must match. Wrap words in double quotes to match an exact phrase. Start a word or quoted phrase with `-` to exclude it. Max 256 characters and 32 words. */
-  query?: string;
+  query?: string | undefined;
   /** Comma-separated senders. Each value matches part of the sender's address or name, without case. Returns threads that match any of them. Up to 20 values. Repeating the parameter returns a 422 validation_error. */
-  from?: SearchInboxThreadsRequestFromList;
+  from?: SearchInboxThreadsRequestFromList | undefined;
   /** Comma-separated recipients, matched the same way as `from`. Up to 20 values. Repeating the parameter returns a 422 validation_error. */
-  to?: SearchInboxThreadsRequestToList;
+  to?: SearchInboxThreadsRequestToList | undefined;
   /** Comma-separated CC recipients, matched the same way as `from`. Up to 20 values. Repeating the parameter returns a 422 validation_error. */
-  cc?: SearchInboxThreadsRequestCcList;
+  cc?: SearchInboxThreadsRequestCcList | undefined;
   /** Comma-separated BCC recipients, matched the same way as `from`. Up to 20 values. Repeating the parameter returns a 422 validation_error. */
-  bcc?: SearchInboxThreadsRequestBccList;
+  bcc?: SearchInboxThreadsRequestBccList | undefined;
   /** `true` matches emails with an attachment. `false` matches emails without one. Only the literal values `true` and `false` are accepted. */
-  has_attachment?: boolean;
+  has_attachment?: boolean | undefined;
   /** Matches emails sent on or after this date. Accepts a date like `2026-09-01` or an ISO 8601 timestamp, in UTC unless the timestamp has an offset. An empty value returns a 422. */
-  start_date?: string;
+  start_date?: string | undefined;
   /** Matches emails sent on or before this date. Same formats as `start_date`. A date covers that whole day, so `start_date=2026-09-01&end_date=2026-09-30` covers all of September. A timestamp is used as given. An `end_date` before `start_date` returns a 422 validation_error. An empty value returns a 422. */
-  end_date?: string;
+  end_date?: string | undefined;
   /** Comma-separated folders to search, for example `inbox,sent`. Repeating the parameter returns a 422 validation_error. A thread is returned when any of its emails is in one of the folders. Defaults to `inbox`, or to `inbox,archive,sent` when `labels` is set. `spam` and `trash` are only included when you name them. */
-  folders?: SearchInboxThreadsRequestFoldersList;
+  folders?: SearchInboxThreadsRequestFoldersList | undefined;
   /** Comma-separated label IDs. Returns threads with any of these labels. Up to 50 IDs. An ID that does not exist in the inbox returns a 404. Repeating the parameter returns a 422 validation_error. */
-  labels?: SearchInboxThreadsRequestLabelsList;
+  labels?: SearchInboxThreadsRequestLabelsList | undefined;
   /** `true` returns threads where every email is read. `false` returns threads with at least one unread email. Only the literal values `true` and `false` are accepted. */
-  read?: boolean;
+  read?: boolean | undefined;
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
   /** Return items before this cursor. */
-  before?: string;
+  before?: string | undefined;
 }
 /** The recipients of the most recent email. For a received email, these are the addresses it was delivered to, not the full `To` header. */
 export type InboxThreadSearchResultToList = Array<string>;
@@ -4331,7 +4331,7 @@ export interface SendBroadcastRequest {
   /** The Broadcast ID. */
   id: string;
   /** Schedule email to be sent later. The date should be in ISO 8601 format. */
-  scheduled_at?: string;
+  scheduled_at?: string | undefined;
 }
 export interface SendBroadcastResponseSuccess {
   /** The ID of the broadcast. */
@@ -4345,11 +4345,11 @@ export interface SendEventRequest {
   /** The name of the event to send. */
   event: string;
   /** The ID of the contact to associate with this event. Exactly one of `contact_id` or `email` must be provided. */
-  contact_id?: string;
+  contact_id?: string | undefined;
   /** The email address to associate with this event. Exactly one of `contact_id` or `email` must be provided. */
-  email?: string;
+  email?: string | undefined;
   /** An optional payload of key/value pairs to include with the event. */
-  payload?: SendEventRequestPayloadMap;
+  payload?: SendEventRequestPayloadMap | undefined;
 }
 export interface SendEventResponse {
   /** Type of the response object. */
@@ -4365,9 +4365,9 @@ export interface SendInboxDraftRequest {
   /** The Draft ID. */
   draft_id: string;
   /** A unique key for the request, so the draft is sent only once. A retry with the same key within 24 hours returns the first successful (2xx) response, with the `idempotent-replayed: true` header. A failed request is not stored, so it can be retried with the same key. Reusing the key with a different body, or while the first request is still running, returns a 409. An empty key, or one longer than 256 characters, returns a 400 `invalid_idempotency_key`. [Learn more](https://resend.com/docs/dashboard/emails/idempotency-keys) */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** Custom headers to add to the email. The `In-Reply-To`, `References` and `Reply-To` headers are set by Resend and cannot be set here. Sending one of them, in any letter case, returns a 422. Header names cannot be empty, and names and values cannot contain line breaks or null characters, or the request returns a 422. `null` means no custom headers. */
-  headers?: SendInboxDraftRequestHeadersMap | null;
+  headers?: SendInboxDraftRequestHeadersMap | null | undefined;
 }
 export interface SendInboxDraftResponseSuccess {
   /** The ID of the sent email. Use it with the emails endpoints. */
@@ -4387,7 +4387,7 @@ export interface ShareEmailRequest {
   /** The ID of the email. */
   email_id: string;
   /** How long the link stays valid for, as a duration like `10m`, `2 hours`, or `1 day`. Defaults to `48h` and cannot exceed 48 hours. */
-  expires_in?: string;
+  expires_in?: string | undefined;
 }
 export interface ShareEmailResponse {
   /** The type of object. */
@@ -4431,13 +4431,13 @@ export interface UpdateAutomationRequest {
   /** The ID of the automation. */
   automation_id: string;
   /** The name of the automation. */
-  name?: string;
+  name?: string | undefined;
   /** The status of the automation. */
-  status?: UpdateAutomationRequestStatus | (string & {});
+  status?: UpdateAutomationRequestStatus | (string & {}) | undefined;
   /** The steps that compose the automation workflow. Must be provided together with `connections`. */
-  steps?: UpdateAutomationRequestStepsList;
+  steps?: UpdateAutomationRequestStepsList | undefined;
   /** The connections between steps in the automation graph. Must be provided together with `steps`. */
-  connections?: UpdateAutomationRequestConnectionsList;
+  connections?: UpdateAutomationRequestConnectionsList | undefined;
 }
 export interface PatchAutomationResponse {
   /** Type of the response object. */
@@ -4451,29 +4451,29 @@ export interface UpdateBroadcastRequest {
   /** The Broadcast ID. */
   id: string;
   /** Name of the broadcast. */
-  name?: string;
+  name?: string | undefined;
   /** Unique identifier of the segment this broadcast will be sent to. */
-  segment_id?: string;
+  segment_id?: string | undefined;
   /** The email address of the sender. */
-  from?: string;
+  from?: string | undefined;
   /** The subject line of the email. */
-  subject?: string;
+  subject?: string | undefined;
   /** The email addresses to which replies should be sent. */
-  reply_to?: UpdateBroadcastRequestReplyToList;
+  reply_to?: UpdateBroadcastRequestReplyToList | undefined;
   /** The preview text of the email. */
-  preview_text?: string;
+  preview_text?: string | undefined;
   /** The HTML version of the message. */
-  html?: string;
+  html?: string | undefined;
   /** The plain text version of the message. */
-  text?: string;
+  text?: string | undefined;
   /** The topic ID that the broadcast will be scoped to. */
-  topic_id?: string;
+  topic_id?: string | undefined;
 }
 export interface UpdateBroadcastResponseSuccess {
   /** The ID of the broadcast. */
   id: string;
   /** The object type of the response. */
-  object?: string;
+  object?: string | undefined;
 }
 /** A map of custom property keys and values to update. */
 export type UpdateContactRequestPropertiesMap = { [key: string]: unknown | null | undefined };
@@ -4481,15 +4481,15 @@ export interface UpdateContactRequest {
   /** The Contact ID or email address. */
   id: string;
   /** Email address of the contact. */
-  email?: string;
+  email?: string | undefined;
   /** First name of the contact. */
-  first_name?: string;
+  first_name?: string | undefined;
   /** Last name of the contact. */
-  last_name?: string;
+  last_name?: string | undefined;
   /** The Contact's global subscription status. If set to true, the contact will be unsubscribed from all Broadcasts. */
-  unsubscribed?: boolean;
+  unsubscribed?: boolean | undefined;
   /** A map of custom property keys and values to update. */
-  properties?: UpdateContactRequestPropertiesMap;
+  properties?: UpdateContactRequestPropertiesMap | undefined;
 }
 export interface UpdateContactResponseSuccess {
   /** Type of the response object. */
@@ -4503,7 +4503,7 @@ export interface UpdateContactPropertyRequest {
   /** The Contact Property ID. */
   id: string;
   /** The default value to use when the property is not set for a contact. Must match the type of the property. */
-  fallback_value?: UpdateContactPropertyRequestFallbackValue;
+  fallback_value?: UpdateContactPropertyRequestFallbackValue | undefined;
 }
 export interface UpdateContactPropertyResponseSuccess {
   /** The ID of the contact property. */
@@ -4519,19 +4519,19 @@ export interface UpdateContactSegmentRequest {
 }
 export interface AddContactToSegmentResponseSuccess {
   /** The object type. */
-  object?: string;
+  object?: string | undefined;
   /** The ID of the contact. */
   id: string;
   /** The ID of the segment (still named for audiences on the wire). */
-  audienceId?: string;
+  audienceId?: string | undefined;
 }
 /** The subscription status (opt_in or opt_out). */
 export type UpdateContactTopicsRequestTopicsItemSubscription = "opt_in" | "opt_out";
 export interface UpdateContactTopicsRequestTopicsItem {
   /** The ID of the topic. */
-  id?: string;
+  id?: string | undefined;
   /** The subscription status (opt_in or opt_out). */
-  subscription?: UpdateContactTopicsRequestTopicsItemSubscription | (string & {});
+  subscription?: UpdateContactTopicsRequestTopicsItemSubscription | (string & {}) | undefined;
 }
 export type UpdateContactTopicsRequestTopicsList = Array<UpdateContactTopicsRequestTopicsItem>;
 export interface UpdateContactTopicsRequest {
@@ -4551,14 +4551,14 @@ export interface UpdateDomainRequest {
   /** The ID of the domain. */
   domain_id: string;
   /** Track the open rate of each email. */
-  open_tracking?: boolean;
+  open_tracking?: boolean | undefined;
   /** Track clicks within the body of each HTML email. */
-  click_tracking?: boolean;
+  click_tracking?: boolean | undefined;
   /** enforced | opportunistic. */
-  tls?: UpdateDomainRequestTls | (string & {});
-  capabilities?: DomainCapabilities;
+  tls?: UpdateDomainRequestTls | (string & {}) | undefined;
+  capabilities?: DomainCapabilities | undefined;
   /** The subdomain to use for click and open tracking. */
-  tracking_subdomain?: string;
+  tracking_subdomain?: string | undefined;
 }
 export interface UpdateDomainResponseSuccess {
   /** The ID of the updated domain. */
@@ -4588,9 +4588,9 @@ export interface UpdateInboxRequest {
   /** The Inbox ID or the inbox email address, such as `support@acme.com`. A value that contains `@` must be a valid email address, and any other value must be a UUID, or the request returns a 422. The address match is case-insensitive and never falls back to the inbox `name`. An address that matches no inbox returns a 404. */
   inbox_id: string;
   /** New internal name for the inbox. Recipients do not see it. Between 1 and 64 characters after trimming. */
-  name?: string;
+  name?: string | undefined;
   /** The name recipients see when mail is sent from this inbox. A plain name, not a `Name <email>` address. Max 78 characters. It cannot contain a colon, `<`, `>`, line breaks, or other control characters. An email address inside the name must be on a domain the team has verified for sending. An empty string removes it. */
-  from_name?: string;
+  from_name?: string | undefined;
 }
 export interface UpdateInboxResponseSuccess {
   /** The object type. */
@@ -4620,11 +4620,11 @@ export interface UpdateInboxAgentRequest {
   /** The Inbox ID or the inbox email address, such as `support@acme.com`. A value that contains `@` must be a valid email address, and any other value must be a UUID, or the request returns a 422. The address match is case-insensitive and never falls back to the inbox `name`. An address that matches no inbox returns a 404. */
   inbox_id: string;
   /** Instructions the agent follows when it handles the threads of the inbox. Max 4000 characters. Leading and trailing whitespace is trimmed, and the trimmed value must not be empty. Send null to clear the instructions. */
-  instructions?: string | null;
+  instructions?: string | null | undefined;
   /** The tone the agent writes in. Send null to clear the tone. */
-  tone?: UpdateInboxAgentRequestTone | (string & {}) | null;
+  tone?: UpdateInboxAgentRequestTone | (string & {}) | null | undefined;
   /** The actions the agent can take. Replaces the whole set. Duplicates are removed. Send an empty array to disable all actions. The old names `archive_thread` and `delete_thread` return a 422. Use `archive` and `move_to_trash`. */
-  actions?: UpdateInboxAgentRequestActionsList;
+  actions?: UpdateInboxAgentRequestActionsList | undefined;
 }
 export interface UpdateInboxAgentResponseSuccess {
   /** The object type. Always `inbox_agent`. */
@@ -4649,19 +4649,19 @@ export interface UpdateInboxDraftRequest {
   /** The Draft ID. */
   draft_id: string;
   /** The recipients. For multiple addresses, send an array of strings. Each value can include a friendly name. Pass `null` to clear. Each address is `email@example.com` or `Name <email@example.com>`. An address that is not valid returns a 422. */
-  to?: UpdateInboxDraftRequestTo | null;
+  to?: UpdateInboxDraftRequestTo | null | undefined;
   /** The CC recipients. Pass `null` or `[]` to clear. Each address is `email@example.com` or `Name <email@example.com>`. An address that is not valid returns a 422. */
-  cc?: UpdateInboxDraftRequestCc | null;
+  cc?: UpdateInboxDraftRequestCc | null | undefined;
   /** The BCC recipients. Pass `null` or `[]` to clear. Each address is `email@example.com` or `Name <email@example.com>`. An address that is not valid returns a 422. */
-  bcc?: UpdateInboxDraftRequestBcc | null;
+  bcc?: UpdateInboxDraftRequestBcc | null | undefined;
   /** The subject. Max 2000 characters. Cannot be only whitespace or contain a line break. Pass `null` to clear. */
-  subject?: string | null;
+  subject?: string | null | undefined;
   /** The HTML body. Pass `null` to clear. */
-  html?: string | null;
+  html?: string | null | undefined;
   /** The plain text body. Pass `null` to clear. */
-  text?: string | null;
+  text?: string | null | undefined;
   /** Files to store on the draft. Each one needs a `filename` and either `content` or a `path` URL. A `path` file is downloaded when the request is made and stored on the draft. When both are sent, `path` is ignored. A `content_id` returns a 422. The files on a draft, downloaded ones included, can total at most 25 MB. A `path` that does not start with `http` or `https`, or that cannot be downloaded, returns a 422, and so does a request whose downloads take more than 20 seconds together. An empty file or a blocked file type returns a 422. Sending the field replaces every attachment on the draft. Send `[]` to remove them all. `null` also removes them all. */
-  attachments?: UpdateInboxDraftRequestAttachmentsList | null;
+  attachments?: UpdateInboxDraftRequestAttachmentsList | null | undefined;
 }
 export interface UpdateInboxDraftResponseSuccess {
   /** The object type. Always `inbox_draft`. */
@@ -4675,9 +4675,9 @@ export interface UpdateInboxLabelRequest {
   /** The Label ID. */
   label_id: string;
   /** A new name for the label. Max 64 characters. Leading and trailing whitespace is trimmed. Must not match another label on the inbox, compared without case. */
-  name?: string;
+  name?: string | undefined;
   /** A new color for the label, as a `#RRGGBB` hex color. It is stored in uppercase. */
-  color?: string;
+  color?: string | undefined;
 }
 export interface UpdateInboxLabelResponseSuccess {
   /** Type of the response object. */
@@ -4693,9 +4693,9 @@ export interface UpdateInboxThreadRequest {
   /** The Thread ID. */
   thread_id: string;
   /** Marks every email in the thread read or unread. */
-  read?: boolean;
+  read?: boolean | undefined;
   /** Moves the thread to this folder. `sent` is assigned automatically and cannot be set. */
-  folder?: UpdateInboxThreadRequestFolder | (string & {});
+  folder?: UpdateInboxThreadRequestFolder | (string & {}) | undefined;
 }
 export interface UpdateSegmentRequest {
   /** The Segment ID. */
@@ -4716,20 +4716,20 @@ export interface UpdateTemplateRequest {
   /** The Template ID or alias. */
   id: string;
   /** The name of the template. */
-  name?: string;
+  name?: string | undefined;
   /** The alias of the template. */
-  alias?: string;
+  alias?: string | undefined;
   /** Sender email address. To include a friendly name, use the format "Your Name <sender@domain.com>". */
-  from?: string;
+  from?: string | undefined;
   /** Email subject. */
-  subject?: string;
+  subject?: string | undefined;
   /** Reply-to email addresses. */
-  reply_to?: UpdateTemplateRequestReplyToList;
+  reply_to?: UpdateTemplateRequestReplyToList | undefined;
   /** The HTML version of the template. */
-  html?: string;
+  html?: string | undefined;
   /** The plain text version of the template. */
-  text?: string;
-  variables?: UpdateTemplateRequestVariablesList;
+  text?: string | undefined;
+  variables?: UpdateTemplateRequestVariablesList | undefined;
 }
 export interface UpdateTemplateResponseSuccess {
   /** The ID of the template. */
@@ -4743,17 +4743,17 @@ export interface UpdateTopicRequest {
   /** The Topic ID. */
   id: string;
   /** The name of the topic. Max 50 characters. */
-  name?: string;
+  name?: string | undefined;
   /** A description of the topic. Max 200 characters. */
-  description?: string;
+  description?: string | undefined;
   /** The visibility of the topic. */
-  visibility?: UpdateTopicRequestVisibility | (string & {});
+  visibility?: UpdateTopicRequestVisibility | (string & {}) | undefined;
 }
 export interface UpdateTopicResponseSuccess {
   /** The ID of the topic. */
   id: string;
   /** The object type. */
-  object?: string;
+  object?: string | undefined;
 }
 /** Array of event types to subscribe to. */
 export type UpdateWebhookRequestEventsList = Array<string>;
@@ -4763,11 +4763,11 @@ export interface UpdateWebhookRequest {
   /** The Webhook ID. */
   webhook_id: string;
   /** The URL where webhook events will be sent. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** Array of event types to subscribe to. */
-  events?: UpdateWebhookRequestEventsList;
+  events?: UpdateWebhookRequestEventsList | undefined;
   /** The status of the webhook. */
-  status?: UpdateWebhookRequestStatus | (string & {});
+  status?: UpdateWebhookRequestStatus | (string & {}) | undefined;
 }
 export interface UpdateWebhookResponse {
   /** The type of object. */

@@ -1,0 +1,7 @@
+{
+  "description": "The mirrored introspection lists UserCoupon among Node's possible types but carries no UserCoupon type, so the reference cannot resolve. The test op pins the index; it fails if the list moves.",
+  "patches": [
+    { "op": "test", "path": "/types/Node/possibleTypes/31", "value": "UserCoupon" },
+    { "op": "remove", "path": "/types/Node/possibleTypes/31" }
+  ]
+}

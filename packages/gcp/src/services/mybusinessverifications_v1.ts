@@ -86,13 +86,11 @@ export class NotFound
 /** Request message for Verifications.CompleteVerificationAction. */
 export interface CompleteVerificationRequest {
   /** Required. PIN code received by the merchant to complete the verification. */
-  pin?: string;
+  pin?: string | undefined;
 }
-export interface CompleteLocationsVerificationsRequest {
+export interface CompleteLocationsVerificationsRequest extends CompleteVerificationRequest {
   /** Required. Resource name of the verification to complete. */
   name: string;
-  /** Request body */
-  body?: CompleteVerificationRequest;
 }
 export type VerificationMethodEnum =
   | "VERIFICATION_METHOD_UNSPECIFIED"
@@ -106,64 +104,62 @@ export type VerificationStateEnum = "STATE_UNSPECIFIED" | "PENDING" | "COMPLETED
 /** A verification represents a verification attempt on a location. */
 export interface Verification {
   /** The method of the verification. */
-  method?: VerificationMethodEnum;
-  /** Resource name of the verification. */
-  name?: string;
+  method?: VerificationMethodEnum | undefined;
   /** The timestamp when the verification is requested. */
-  createTime?: string;
-  /** Optional. Response announcement set only if the method is VETTED_PARTNER. */
-  announcement?: string;
+  createTime?: string | undefined;
+  /** Resource name of the verification. */
+  name?: string | undefined;
   /** The state of the verification. */
-  state?: VerificationStateEnum;
+  state?: VerificationStateEnum | undefined;
+  /** Optional. Response announcement set only if the method is VETTED_PARTNER. */
+  announcement?: string | undefined;
 }
 /** Response message for Verifications.CompleteVerificationAction. */
 export interface CompleteVerificationResponse {
   /** The completed verification. */
-  verification?: Verification;
+  verification?: Verification | undefined;
 }
 export type StringList = Array<string>;
 /** Represents a postal address, such as for postal delivery or payments addresses. With a postal address, a postal service can deliver items to a premise, P.O. box, or similar. A postal address is not intended to model geographical locations like roads, towns, or mountains. In typical usage, an address would be created by user input or from importing existing data, depending on the type of process. Advice on address input or editing: - Use an internationalization-ready address widget such as https://github.com/google/libaddressinput. - Users should not be presented with UI elements for input or editing of fields outside countries where that field is used. For more guidance on how to use this schema, see: https://support.google.com/business/answer/6397478. */
 export interface PostalAddress {
   /** Optional. Postal code of the address. Not all countries use or require postal codes to be present, but where they are used, they may trigger additional validation with other parts of the address (for example, state or zip code validation in the United States). */
-  postalCode?: string;
-  /** The schema revision of the `PostalAddress`. This must be set to 0, which is the latest revision. All new revisions **must** be backward compatible with old revisions. */
-  revision?: number;
-  /** Optional. The name of the organization at the address. */
-  organization?: string;
-  /** Optional. Highest administrative subdivision which is used for postal addresses of a country or region. For example, this can be a state, a province, an oblast, or a prefecture. For Spain, this is the province and not the autonomous community (for example, "Barcelona" and not "Catalonia"). Many countries don't use an administrative area in postal addresses. For example, in Switzerland, this should be left unpopulated. */
-  administrativeArea?: string;
-  /** Optional. Additional, country-specific, sorting code. This is not used in most regions. Where it is used, the value is either a string like "CEDEX", optionally followed by a number (for example, "CEDEX 7"), or just a number alone, representing the "sector code" (Jamaica), "delivery area indicator" (Malawi) or "post office indicator" (Côte d'Ivoire). */
-  sortingCode?: string;
-  /** Optional. The recipient at the address. This field may, under certain circumstances, contain multiline information. For example, it might contain "care of" information. */
-  recipients?: StringList;
-  /** Optional. BCP-47 language code of the contents of this address (if known). This is often the UI language of the input form or is expected to match one of the languages used in the address' country/region, or their transliterated equivalents. This can affect formatting in certain countries, but is not critical to the correctness of the data and will never affect any validation or other non-formatting related operations. If this value is not known, it should be omitted (rather than specifying a possibly incorrect default). Examples: "zh-Hant", "ja", "ja-Latn", "en". */
-  languageCode?: string;
-  /** Unstructured address lines describing the lower levels of an address. Because values in `address_lines` do not have type information and may sometimes contain multiple values in a single field (for example, "Austin, TX"), it is important that the line order is clear. The order of address lines should be "envelope order" for the country or region of the address. In places where this can vary (for example, Japan), `address_language` is used to make it explicit (for example, "ja" for large-to-small ordering and "ja-Latn" or "en" for small-to-large). In this way, the most specific line of an address can be selected based on the language. The minimum permitted structural representation of an address consists of a `region_code` with all remaining information placed in the `address_lines`. It would be possible to format such an address very approximately without geocoding, but no semantic reasoning could be made about any of the address components until it was at least partially resolved. Creating an address only containing a `region_code` and `address_lines` and then geocoding is the recommended way to handle completely unstructured addresses (as opposed to guessing which parts of the address should be localities or administrative areas). */
-  addressLines?: StringList;
+  postalCode?: string | undefined;
   /** Optional. Generally refers to the city or town portion of the address. Examples: US city, IT comune, UK post town. In regions of the world where localities are not well defined or do not fit into this structure well, leave `locality` empty and use `address_lines`. */
-  locality?: string;
+  locality?: string | undefined;
+  /** Optional. The recipient at the address. This field may, under certain circumstances, contain multiline information. For example, it might contain "care of" information. */
+  recipients?: StringList | undefined;
+  /** Optional. Additional, country-specific, sorting code. This is not used in most regions. Where it is used, the value is either a string like "CEDEX", optionally followed by a number (for example, "CEDEX 7"), or just a number alone, representing the "sector code" (Jamaica), "delivery area indicator" (Malawi) or "post office indicator" (Côte d'Ivoire). */
+  sortingCode?: string | undefined;
+  /** The schema revision of the `PostalAddress`. This must be set to 0, which is the latest revision. All new revisions **must** be backward compatible with old revisions. */
+  revision?: number | undefined;
   /** Optional. Sublocality of the address. For example, this can be a neighborhood, borough, or district. */
-  sublocality?: string;
+  sublocality?: string | undefined;
+  /** Unstructured address lines describing the lower levels of an address. Because values in `address_lines` do not have type information and may sometimes contain multiple values in a single field (for example, "Austin, TX"), it is important that the line order is clear. The order of address lines should be "envelope order" for the country or region of the address. In places where this can vary (for example, Japan), `address_language` is used to make it explicit (for example, "ja" for large-to-small ordering and "ja-Latn" or "en" for small-to-large). In this way, the most specific line of an address can be selected based on the language. The minimum permitted structural representation of an address consists of a `region_code` with all remaining information placed in the `address_lines`. It would be possible to format such an address very approximately without geocoding, but no semantic reasoning could be made about any of the address components until it was at least partially resolved. Creating an address only containing a `region_code` and `address_lines` and then geocoding is the recommended way to handle completely unstructured addresses (as opposed to guessing which parts of the address should be localities or administrative areas). */
+  addressLines?: StringList | undefined;
   /** Required. CLDR region code of the country/region of the address. This is never inferred and it is up to the user to ensure the value is correct. See https://cldr.unicode.org/ and https://www.unicode.org/cldr/charts/30/supplemental/territory_information.html for details. Example: "CH" for Switzerland. */
-  regionCode?: string;
+  regionCode?: string | undefined;
+  /** Optional. BCP-47 language code of the contents of this address (if known). This is often the UI language of the input form or is expected to match one of the languages used in the address' country/region, or their transliterated equivalents. This can affect formatting in certain countries, but is not critical to the correctness of the data and will never affect any validation or other non-formatting related operations. If this value is not known, it should be omitted (rather than specifying a possibly incorrect default). Examples: "zh-Hant", "ja", "ja-Latn", "en". */
+  languageCode?: string | undefined;
+  /** Optional. The name of the organization at the address. */
+  organization?: string | undefined;
+  /** Optional. Highest administrative subdivision which is used for postal addresses of a country or region. For example, this can be a state, a province, an oblast, or a prefecture. For Spain, this is the province and not the autonomous community (for example, "Barcelona" and not "Catalonia"). Many countries don't use an administrative area in postal addresses. For example, in Switzerland, this should be left unpopulated. */
+  administrativeArea?: string | undefined;
 }
 /** Additional data for service business verification. */
 export interface ServiceBusinessContext {
   /** The verification address of the location. It is used to either enable more verification options or send a postcard. */
-  address?: PostalAddress;
+  address?: PostalAddress | undefined;
 }
 /** Request message for Verifications.FetchVerificationOptions. */
 export interface FetchVerificationOptionsRequest {
   /** Required. The BCP 47 language code representing the language that is to be used for the verification process. Available options vary by language. */
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** Optional. Extra context information for the verification of service businesses. Can only be applied to the locations whose business type is CUSTOMER_LOCATION_ONLY. Specifying an accurate address could enable more options. INVALID_ARGUMENT will be thrown if it is set for other business types of locations. */
-  context?: ServiceBusinessContext;
+  context?: ServiceBusinessContext | undefined;
 }
-export interface FetchVerificationOptionsLocationsRequest {
+export interface FetchVerificationOptionsLocationsRequest extends FetchVerificationOptionsRequest {
   /** Required. The location to verify. */
   location: string;
-  /** Request body */
-  body?: FetchVerificationOptionsRequest;
 }
 export type VerificationOptionVerificationMethodEnum =
   | "VERIFICATION_METHOD_UNSPECIFIED"
@@ -175,69 +171,62 @@ export type VerificationOptionVerificationMethodEnum =
   | "TRUSTED_PARTNER";
 /** Display data for verifications through postcard. */
 export interface AddressVerificationData {
-  /** Address that a postcard can be sent to. */
-  address?: PostalAddress;
-  /** Expected number of days it takes to deliver a postcard to the address's region. */
-  expectedDeliveryDaysRegion?: number;
   /** Merchant's business name. */
-  business?: string;
+  business?: string | undefined;
+  /** Expected number of days it takes to deliver a postcard to the address's region. */
+  expectedDeliveryDaysRegion?: number | undefined;
+  /** Address that a postcard can be sent to. */
+  address?: PostalAddress | undefined;
 }
 /** Display data for verifications through email. */
 export interface EmailVerificationData {
   /** Whether client is allowed to provide a different user name. */
-  isUserNameEditable?: boolean;
-  /** Domain name in the email address. e.g. "gmail.com" in foo@gmail.com */
-  domain?: string;
+  isUserNameEditable?: boolean | undefined;
   /** User name in the email address. e.g. "foo" in foo@gmail.com */
-  user?: string;
+  user?: string | undefined;
+  /** Domain name in the email address. e.g. "gmail.com" in foo@gmail.com */
+  domain?: string | undefined;
 }
 /** The verification option represents how to verify the location (indicated by verification method) and where the verification will be sent to (indicated by display data). */
 export interface VerificationOption {
-  /** Set only if the method is VETTED_PARTNER. */
-  announcement?: string;
   /** Method to verify the location. */
-  verificationMethod?: VerificationOptionVerificationMethodEnum;
+  verificationMethod?: VerificationOptionVerificationMethodEnum | undefined;
   /** Set only if the method is PHONE_CALL or SMS. Phone number that the PIN will be sent to. */
-  phoneNumber?: string;
+  phoneNumber?: string | undefined;
   /** Set only if the method is MAIL. */
-  addressData?: AddressVerificationData;
+  addressData?: AddressVerificationData | undefined;
   /** Set only if the method is EMAIL. */
-  emailData?: EmailVerificationData;
+  emailData?: EmailVerificationData | undefined;
+  /** Set only if the method is VETTED_PARTNER. */
+  announcement?: string | undefined;
 }
 export type VerificationOptionList = Array<VerificationOption>;
 /** Response message for Verifications.FetchVerificationOptions. */
 export interface FetchVerificationOptionsResponse {
   /** The available verification options. */
-  options?: VerificationOptionList;
+  options?: VerificationOptionList | undefined;
 }
 /** Request message for Verifications.GenerateInstantVerificationToken. */
 export interface GenerateInstantVerificationTokenRequest {
-  /** The location identifier associated with an unverified listing. This is the location id generated at the time that the listing was originally created. It is the final portion of a location resource name as generated by the Google My Business API. Note: the caller must be an owner or manager of this listing in order to generate a verification token. See the [location resource](/my-business/reference/rest/v4/accounts.locations) documentation for more information. */
-  locationId?: string;
+  /** The location identifier associated with an unverified listing. This is the location id generated at the time that the listing was originally created. It is the final portion of a location resource name as generated by the Business Information API. Note: the caller must be an owner or manager of this listing in order to generate a verification token. See the [location resource](https://developers.google.com/my-business/reference/businessinformation/rest/v1/accounts.locations) documentation for more information. */
+  locationId?: string | undefined;
 }
-export interface GenerateVerificationTokensRequest {
-  /** Request body */
-  body?: GenerateInstantVerificationTokenRequest;
-}
+export interface GenerateVerificationTokensRequest extends GenerateInstantVerificationTokenRequest {}
 export type GenerateInstantVerificationTokenResponseResultEnum =
   | "RESULT_UNSPECIFIED"
   | "SUCCEEDED"
   | "FAILED";
 /** Response message for Verifications.GenerateInstantVerificationToken. */
 export interface GenerateInstantVerificationTokenResponse {
-  /** Output only. The result of the instant verification token generation. */
-  result?: GenerateInstantVerificationTokenResponseResultEnum;
   /** The generated instant verification token. */
-  instantVerificationToken?: string;
+  instantVerificationToken?: string | undefined;
+  /** Output only. The result of the instant verification token generation. */
+  result?: GenerateInstantVerificationTokenResponseResultEnum | undefined;
 }
 export interface GetVoiceOfMerchantStateLocationsRequest {
   /** Required. Resource name of the location. */
   name: string;
 }
-/** Indicates that the location duplicates another location that is in good standing. */
-export interface ResolveOwnershipConflict {}
-/** Indicates that the location will gain voice of merchant after passing review. */
-export type WaitForVoiceOfMerchant = ResolveOwnershipConflict;
 export type ComplyWithGuidelinesRecommendationReasonEnum =
   | "RECOMMENDATION_REASON_UNSPECIFIED"
   | "BUSINESS_LOCATION_SUSPENDED"
@@ -245,48 +234,47 @@ export type ComplyWithGuidelinesRecommendationReasonEnum =
 /** Indicates that the location fails to comply with our [guidelines](https://support.google.com/business/answer/3038177). */
 export interface ComplyWithGuidelines {
   /** The reason why the location is being recommended to comply with guidelines. */
-  recommendationReason?: ComplyWithGuidelinesRecommendationReasonEnum;
+  recommendationReason?: ComplyWithGuidelinesRecommendationReasonEnum | undefined;
 }
+/** Indicates that the location duplicates another location that is in good standing. */
+export interface ResolveOwnershipConflict {}
 /** Indicates that the location requires verification. Contains information about the current verification actions performed on the location. */
 export interface Verify {
   /** Indicates whether a verification process has already started, and can be completed by the location. */
-  hasPendingVerification?: boolean;
+  hasPendingVerification?: boolean | undefined;
 }
+/** Indicates that the location will gain voice of merchant after passing review. */
+export type WaitForVoiceOfMerchant = ResolveOwnershipConflict;
 /** Response message for VoiceOfMerchant.GetVoiceOfMerchantState. */
 export interface VoiceOfMerchantState {
-  /** This location duplicates another location that is in good standing. If you have access to the location in good standing, use that location's id to perform operations. Otherwise, request access from the current owner. */
-  resolveOwnershipConflict?: ResolveOwnershipConflict;
   /** Indicates whether the location has the authority (ownership) over the business on Google. If true, another location cannot take over and become the dominant listing on Maps. However, edits will not become live unless Voice of Merchant is gained (i.e. has_voice_of_merchant is true). */
-  hasBusinessAuthority?: boolean;
-  /** Indicates whether the location is in good standing and has control over the business on Google. Any edits made to the location will propagate to Maps after passing the review phase. */
-  hasVoiceOfMerchant?: boolean;
-  /** Wait to gain Voice of Merchant. The location is under review for quality purposes. */
-  waitForVoiceOfMerchant?: ResolveOwnershipConflict;
+  hasBusinessAuthority?: boolean | undefined;
   /** The location fails to comply with our [guidelines](https://support.google.com/business/answer/3038177) and requires additional steps for reinstatement. To fix this issue, consult the [Help Center Article](https://support.google.com/business/answer/4569145). */
-  complyWithGuidelines?: ComplyWithGuidelines;
+  complyWithGuidelines?: ComplyWithGuidelines | undefined;
+  /** This location duplicates another location that is in good standing. If you have access to the location in good standing, use that location's id to perform operations. Otherwise, request access from the current owner. */
+  resolveOwnershipConflict?: ResolveOwnershipConflict | undefined;
+  /** Indicates whether the location is in good standing and has control over the business on Google. Any edits made to the location will propagate to Maps after passing the review phase. */
+  hasVoiceOfMerchant?: boolean | undefined;
   /** Start or continue the verification process. */
-  verify?: Verify;
+  verify?: Verify | undefined;
+  /** Wait to gain Voice of Merchant. The location is under review for quality purposes. */
+  waitForVoiceOfMerchant?: ResolveOwnershipConflict | undefined;
 }
 export interface ListLocationsVerificationsRequest {
   /** If specified, returns the next page of verifications. */
-  pageToken?: string;
-  /** How many verification to include per page. Minimum is 1, and the default and maximum page size is 100. */
-  pageSize?: number;
+  pageToken?: string | undefined;
   /** Required. Resource name of the location that verification requests belong to. */
   parent: string;
+  /** How many verification to include per page. Minimum is 1, and the default and maximum page size is 100. */
+  pageSize?: number | undefined;
 }
 export type VerificationList = Array<Verification>;
 /** Response message for Verifications.ListVerifications. */
 export interface ListVerificationsResponse {
   /** List of the verifications. */
-  verifications?: VerificationList;
+  verifications?: VerificationList | undefined;
   /** If the number of verifications exceeded the requested page size, this field will be populated with a token to fetch the next page of verification on a subsequent call. If there are no more attributes, this field will not be present in the response. */
-  nextPageToken?: string;
-}
-/** Token generated by a vetted [partner](https://support.google.com/business/answer/7674102). */
-export interface VerificationToken {
-  /** The token string. */
-  tokenString?: string;
+  nextPageToken?: string | undefined;
 }
 export type VerifyLocationRequestMethodEnum =
   | "VERIFICATION_METHOD_UNSPECIFIED"
@@ -296,35 +284,38 @@ export type VerifyLocationRequestMethodEnum =
   | "SMS"
   | "AUTO"
   | "TRUSTED_PARTNER";
+/** Token generated by a vetted [partner](https://support.google.com/business/answer/7674102). */
+export interface VerificationToken {
+  /** The token string. */
+  tokenString?: string | undefined;
+}
 /** Request message for Verifications.VerifyLocation. */
 export interface VerifyLocationRequest {
   /** Optional. The BCP 47 language code representing the language that is to be used for the verification process. */
-  languageCode?: string;
-  /** Optional. The input for VETTED_PARTNER method available to select [partners.](https://support.google.com/business/answer/7674102) The input is not needed for a vetted account. Token that is associated to the location. Token that is associated to the location. */
-  token?: VerificationToken;
-  /** Optional. The input for PHONE_CALL/SMS method The phone number that should be called or be sent SMS to. It must be one of the phone numbers in the eligible options. */
-  phoneNumber?: string;
+  languageCode?: string | undefined;
   /** Optional. Extra context information for the verification of service businesses. It is only required for the locations whose business type is CUSTOMER_LOCATION_ONLY. For ADDRESS verification, the address will be used to send out postcard. For other methods, it should be the same as the one that is passed to GetVerificationOptions. INVALID_ARGUMENT will be thrown if it is set for other types of business locations. */
-  context?: ServiceBusinessContext;
+  context?: ServiceBusinessContext | undefined;
+  /** Optional. The input for PHONE_CALL/SMS method The phone number that should be called or be sent SMS to. It must be one of the phone numbers in the eligible options. */
+  phoneNumber?: string | undefined;
   /** The input for TRUSTED_PARTNER method The verification token that is associated to the location. */
-  trustedPartnerToken?: string;
+  trustedPartnerToken?: string | undefined;
   /** Optional. The input for ADDRESS method. Contact name the mail should be sent to. */
-  mailerContact?: string;
+  mailerContact?: string | undefined;
   /** Required. Verification method. */
-  method?: VerifyLocationRequestMethodEnum | (string & {});
+  method?: VerifyLocationRequestMethodEnum | (string & {}) | undefined;
+  /** Optional. The input for VETTED_PARTNER method available to select [partners.](https://support.google.com/business/answer/7674102) The input is not needed for a vetted account. Token that is associated to the location. Token that is associated to the location. */
+  token?: VerificationToken | undefined;
   /** Optional. The input for EMAIL method. Email address where the PIN should be sent to. An email address is accepted only if it is one of the addresses provided by FetchVerificationOptions. If the EmailVerificationData has is_user_name_editable set to true, the client may specify a different user name (local-part) but must match the domain name. */
-  emailAddress?: string;
+  emailAddress?: string | undefined;
 }
-export interface VerifyLocationsRequest {
+export interface VerifyLocationsRequest extends VerifyLocationRequest {
   /** Required. Resource name of the location to verify. */
   name: string;
-  /** Request body */
-  body?: VerifyLocationRequest;
 }
 /** Response message for Verifications.VerifyLocation. */
 export interface VerifyLocationResponse {
   /** The created verification request. */
-  verification?: Verification;
+  verification?: Verification | undefined;
 }
 export type CompleteLocationsVerificationsError =
   | NotFound
@@ -456,10 +447,12 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CompleteVerificationRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(0, __c0, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(0, __c0, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:complete",
@@ -475,10 +468,10 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           method: S.optional(S.String),
-          name: S.optional(S.String),
           createTime: S.optional(S.String),
-          announcement: S.optional(S.String),
+          name: S.optional(S.String),
           state: S.optional(S.String),
+          announcement: S.optional(S.String),
         }),
       ).annotate({ identifier: "Verification" });
   }
@@ -504,10 +497,12 @@ function __c3(j: number): any {
       ).annotate({ identifier: "FetchVerificationOptionsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          location: S.String.pipe(T.Label()),
-          body: S.optional(__S(24, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(24, __c3, 0),
+          S.Struct({
+            location: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+location}:fetchVerificationOptions",
@@ -518,27 +513,27 @@ function __c3(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          address: S.optional(__S(33, __c4, 1)),
-          expectedDeliveryDaysRegion: S.optional(S.Number),
           business: S.optional(S.String),
+          expectedDeliveryDaysRegion: S.optional(S.Number),
+          address: S.optional(__S(33, __c4, 1)),
         }),
       ).annotate({ identifier: "AddressVerificationData" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           isUserNameEditable: S.optional(S.Boolean),
-          domain: S.optional(S.String),
           user: S.optional(S.String),
+          domain: S.optional(S.String),
         }),
       ).annotate({ identifier: "EmailVerificationData" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          announcement: S.optional(S.String),
           verificationMethod: S.optional(S.String),
           phoneNumber: S.optional(S.String),
           addressData: S.optional(__S(26, __c3, 2)),
           emailData: S.optional(__S(27, __c3, 3)),
+          announcement: S.optional(S.String),
         }),
       ).annotate({ identifier: "VerificationOption" });
     case 5:
@@ -559,16 +554,16 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           postalCode: S.optional(S.String),
+          locality: S.optional(S.String),
+          recipients: S.optional(__S(32, __c4, 0)),
+          sortingCode: S.optional(S.String),
           revision: S.optional(S.Number),
+          sublocality: S.optional(S.String),
+          addressLines: S.optional(__S(32, __c4, 0)),
+          regionCode: S.optional(S.String),
+          languageCode: S.optional(S.String),
           organization: S.optional(S.String),
           administrativeArea: S.optional(S.String),
-          sortingCode: S.optional(S.String),
-          recipients: S.optional(__S(32, __c4, 0)),
-          languageCode: S.optional(S.String),
-          addressLines: S.optional(__S(32, __c4, 0)),
-          locality: S.optional(S.String),
-          sublocality: S.optional(S.String),
-          regionCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "PostalAddress" });
     case 2:
@@ -589,9 +584,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GenerateInstantVerificationTokenRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(40, __c5, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(40, __c5, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/verificationTokens:generate",
@@ -602,8 +595,8 @@ function __c5(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(S.String),
           instantVerificationToken: S.optional(S.String),
+          result: S.optional(S.String),
         }),
       ).annotate({ identifier: "GenerateInstantVerificationTokenResponse" });
   }
@@ -623,13 +616,13 @@ function __c6(j: number): any {
         ),
       ).annotate({ identifier: "GetVoiceOfMerchantStateLocationsRequest" });
     case 1:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "ResolveOwnershipConflict" });
-    case 2:
       return S.suspend(() =>
         S.Struct({
           recommendationReason: S.optional(S.String),
         }),
       ).annotate({ identifier: "ComplyWithGuidelines" });
+    case 2:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "ResolveOwnershipConflict" });
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -639,12 +632,12 @@ function __c6(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          resolveOwnershipConflict: S.optional(__S(49, __c6, 1)),
           hasBusinessAuthority: S.optional(S.Boolean),
+          complyWithGuidelines: S.optional(__S(49, __c6, 1)),
+          resolveOwnershipConflict: S.optional(__S(50, __c6, 2)),
           hasVoiceOfMerchant: S.optional(S.Boolean),
-          waitForVoiceOfMerchant: S.optional(__S(49, __c6, 1)),
-          complyWithGuidelines: S.optional(__S(50, __c6, 2)),
           verify: S.optional(__S(51, __c6, 3)),
+          waitForVoiceOfMerchant: S.optional(__S(50, __c6, 2)),
         }),
       ).annotate({ identifier: "VoiceOfMerchantState" });
   }
@@ -655,8 +648,8 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -688,21 +681,23 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           languageCode: S.optional(S.String),
-          token: S.optional(__S(64, __c8, 0)),
-          phoneNumber: S.optional(S.String),
           context: S.optional(__S(34, __c4, 2)),
+          phoneNumber: S.optional(S.String),
           trustedPartnerToken: S.optional(S.String),
           mailerContact: S.optional(S.String),
           method: S.optional(S.String),
+          token: S.optional(__S(64, __c8, 0)),
           emailAddress: S.optional(S.String),
         }),
       ).annotate({ identifier: "VerifyLocationRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(65, __c8, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(65, __c8, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:verify",

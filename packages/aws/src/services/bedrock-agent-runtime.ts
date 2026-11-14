@@ -9,6 +9,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -110,7 +111,7 @@ export class BadGatewayException
       resourceName: /*@__PURE__*/ S.optional(S.String),
     },
     /*@__PURE__*/ T.HttpError(502),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
@@ -134,7 +135,7 @@ export class InternalServerException
       reason: /*@__PURE__*/ S.optional(S.String),
     },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ModelNotReadyException
   extends /*@__PURE__*/ S.TaggedError<ModelNotReadyException>()(
     "ModelNotReadyException",
@@ -158,7 +159,7 @@ export class ThrottlingException
     "ThrottlingException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
@@ -166,7 +167,7 @@ export class ValidationException
     /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export interface AgenticRetrieveMessageContent {
-  text?: string;
+  text?: string | undefined;
 }
 export type ConversationRole = "user" | "assistant" | (string & {});
 export interface AgenticRetrieveMessage {
@@ -185,210 +186,210 @@ export type RetrievalFilterList = RetrievalFilter[];
 export type RetrievalFilter =
   | {
       equals: FilterAttribute;
-      notEquals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      in?: never;
-      notIn?: never;
-      startsWith?: never;
-      listContains?: never;
-      stringContains?: never;
-      andAll?: never;
-      orAll?: never;
+      notEquals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      startsWith?: undefined;
+      listContains?: undefined;
+      stringContains?: undefined;
+      andAll?: undefined;
+      orAll?: undefined;
     }
   | {
-      equals?: never;
+      equals?: undefined;
       notEquals: FilterAttribute;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      in?: never;
-      notIn?: never;
-      startsWith?: never;
-      listContains?: never;
-      stringContains?: never;
-      andAll?: never;
-      orAll?: never;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      startsWith?: undefined;
+      listContains?: undefined;
+      stringContains?: undefined;
+      andAll?: undefined;
+      orAll?: undefined;
     }
   | {
-      equals?: never;
-      notEquals?: never;
+      equals?: undefined;
+      notEquals?: undefined;
       greaterThan: FilterAttribute;
-      greaterThanOrEquals?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      in?: never;
-      notIn?: never;
-      startsWith?: never;
-      listContains?: never;
-      stringContains?: never;
-      andAll?: never;
-      orAll?: never;
+      greaterThanOrEquals?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      startsWith?: undefined;
+      listContains?: undefined;
+      stringContains?: undefined;
+      andAll?: undefined;
+      orAll?: undefined;
     }
   | {
-      equals?: never;
-      notEquals?: never;
-      greaterThan?: never;
+      equals?: undefined;
+      notEquals?: undefined;
+      greaterThan?: undefined;
       greaterThanOrEquals: FilterAttribute;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      in?: never;
-      notIn?: never;
-      startsWith?: never;
-      listContains?: never;
-      stringContains?: never;
-      andAll?: never;
-      orAll?: never;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      startsWith?: undefined;
+      listContains?: undefined;
+      stringContains?: undefined;
+      andAll?: undefined;
+      orAll?: undefined;
     }
   | {
-      equals?: never;
-      notEquals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
+      equals?: undefined;
+      notEquals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
       lessThan: FilterAttribute;
-      lessThanOrEquals?: never;
-      in?: never;
-      notIn?: never;
-      startsWith?: never;
-      listContains?: never;
-      stringContains?: never;
-      andAll?: never;
-      orAll?: never;
+      lessThanOrEquals?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      startsWith?: undefined;
+      listContains?: undefined;
+      stringContains?: undefined;
+      andAll?: undefined;
+      orAll?: undefined;
     }
   | {
-      equals?: never;
-      notEquals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      lessThan?: never;
+      equals?: undefined;
+      notEquals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      lessThan?: undefined;
       lessThanOrEquals: FilterAttribute;
-      in?: never;
-      notIn?: never;
-      startsWith?: never;
-      listContains?: never;
-      stringContains?: never;
-      andAll?: never;
-      orAll?: never;
+      in?: undefined;
+      notIn?: undefined;
+      startsWith?: undefined;
+      listContains?: undefined;
+      stringContains?: undefined;
+      andAll?: undefined;
+      orAll?: undefined;
     }
   | {
-      equals?: never;
-      notEquals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
+      equals?: undefined;
+      notEquals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
       in: FilterAttribute;
-      notIn?: never;
-      startsWith?: never;
-      listContains?: never;
-      stringContains?: never;
-      andAll?: never;
-      orAll?: never;
+      notIn?: undefined;
+      startsWith?: undefined;
+      listContains?: undefined;
+      stringContains?: undefined;
+      andAll?: undefined;
+      orAll?: undefined;
     }
   | {
-      equals?: never;
-      notEquals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      in?: never;
+      equals?: undefined;
+      notEquals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      in?: undefined;
       notIn: FilterAttribute;
-      startsWith?: never;
-      listContains?: never;
-      stringContains?: never;
-      andAll?: never;
-      orAll?: never;
+      startsWith?: undefined;
+      listContains?: undefined;
+      stringContains?: undefined;
+      andAll?: undefined;
+      orAll?: undefined;
     }
   | {
-      equals?: never;
-      notEquals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      in?: never;
-      notIn?: never;
+      equals?: undefined;
+      notEquals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      in?: undefined;
+      notIn?: undefined;
       startsWith: FilterAttribute;
-      listContains?: never;
-      stringContains?: never;
-      andAll?: never;
-      orAll?: never;
+      listContains?: undefined;
+      stringContains?: undefined;
+      andAll?: undefined;
+      orAll?: undefined;
     }
   | {
-      equals?: never;
-      notEquals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      in?: never;
-      notIn?: never;
-      startsWith?: never;
+      equals?: undefined;
+      notEquals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      startsWith?: undefined;
       listContains: FilterAttribute;
-      stringContains?: never;
-      andAll?: never;
-      orAll?: never;
+      stringContains?: undefined;
+      andAll?: undefined;
+      orAll?: undefined;
     }
   | {
-      equals?: never;
-      notEquals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      in?: never;
-      notIn?: never;
-      startsWith?: never;
-      listContains?: never;
+      equals?: undefined;
+      notEquals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      startsWith?: undefined;
+      listContains?: undefined;
       stringContains: FilterAttribute;
-      andAll?: never;
-      orAll?: never;
+      andAll?: undefined;
+      orAll?: undefined;
     }
   | {
-      equals?: never;
-      notEquals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      in?: never;
-      notIn?: never;
-      startsWith?: never;
-      listContains?: never;
-      stringContains?: never;
+      equals?: undefined;
+      notEquals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      startsWith?: undefined;
+      listContains?: undefined;
+      stringContains?: undefined;
       andAll: RetrievalFilter[];
-      orAll?: never;
+      orAll?: undefined;
     }
   | {
-      equals?: never;
-      notEquals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      in?: never;
-      notIn?: never;
-      startsWith?: never;
-      listContains?: never;
-      stringContains?: never;
-      andAll?: never;
+      equals?: undefined;
+      notEquals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      startsWith?: undefined;
+      listContains?: undefined;
+      stringContains?: undefined;
+      andAll?: undefined;
       orAll: RetrievalFilter[];
     };
 export interface RetrievalOverrides {
-  filter?: RetrievalFilter;
-  maxNumberOfResults?: number;
+  filter?: RetrievalFilter | undefined;
+  maxNumberOfResults?: number | undefined;
 }
 export interface KnowledgeBaseRetrieverConfiguration {
   knowledgeBaseId: string;
-  retrievalOverrides?: RetrievalOverrides;
+  retrievalOverrides?: RetrievalOverrides | undefined;
 }
 export type RetrieverConfiguration = { knowledgeBase: KnowledgeBaseRetrieverConfiguration };
 export interface AgenticRetriever {
-  description?: string;
+  description?: string | undefined;
   configuration: RetrieverConfiguration;
 }
 export type AgenticRetrievers = AgenticRetriever[];
@@ -407,15 +408,15 @@ export interface BedrockFoundationModelConfiguration {
 export type MantleProjectId = string;
 export interface MantleFoundationModelModelConfiguration {
   modelArn: string;
-  projectId?: string;
+  projectId?: string | undefined;
 }
 export interface MantleFoundationModelConfiguration {
   modelConfiguration: MantleFoundationModelModelConfiguration;
 }
 export interface FoundationModelConfiguration {
   type: FoundationModelConfigurationType;
-  bedrockFoundationModelConfiguration?: BedrockFoundationModelConfiguration;
-  mantleFoundationModelConfiguration?: MantleFoundationModelConfiguration;
+  bedrockFoundationModelConfiguration?: BedrockFoundationModelConfiguration | undefined;
+  mantleFoundationModelConfiguration?: MantleFoundationModelConfiguration | undefined;
 }
 export type AgenticRetrieveRerankingModelType = "CUSTOM" | "MANAGED" | "NONE" | (string & {});
 export type AgenticRetrieveRerankingConfigurationType = "BEDROCK_RERANKING_MODEL" | (string & {});
@@ -427,21 +428,21 @@ export interface AgenticRetrieveBedrockRerankingConfiguration {
 }
 export interface AgenticRetrieveRerankingConfiguration {
   type: AgenticRetrieveRerankingConfigurationType;
-  bedrockRerankingConfiguration?: AgenticRetrieveBedrockRerankingConfiguration;
+  bedrockRerankingConfiguration?: AgenticRetrieveBedrockRerankingConfiguration | undefined;
 }
 export interface AgenticRetrieveConfiguration {
-  foundationModelType?: FoundationModelType;
-  foundationModelConfiguration?: FoundationModelConfiguration;
-  rerankingModelType?: AgenticRetrieveRerankingModelType;
-  rerankingConfiguration?: AgenticRetrieveRerankingConfiguration;
-  maxAgentIteration?: number;
+  foundationModelType?: FoundationModelType | undefined;
+  foundationModelConfiguration?: FoundationModelConfiguration | undefined;
+  rerankingModelType?: AgenticRetrieveRerankingModelType | undefined;
+  rerankingConfiguration?: AgenticRetrieveRerankingConfiguration | undefined;
+  maxAgentIteration?: number | undefined;
 }
 export interface AgenticRetrieveBedrockGuardrailConfiguration {
   guardrailId: string;
   guardrailVersion: string;
 }
 export interface AgenticRetrievePolicyConfiguration {
-  bedrockGuardrailConfiguration?: AgenticRetrieveBedrockGuardrailConfiguration;
+  bedrockGuardrailConfiguration?: AgenticRetrieveBedrockGuardrailConfiguration | undefined;
 }
 export type NextToken = string;
 export interface UserContext {
@@ -474,47 +475,74 @@ export type AgenticRetrieveMemoryMetadataStringValue = string;
 export type AgenticRetrieveMemoryMetadataStringListItem = string;
 export type AgenticRetrieveMemoryMetadataStringList = string[];
 export type AgenticRetrieveMemoryMetadataValue =
-  | { stringValue: string; numberValue?: never; stringListValue?: never; dateTimeValue?: never }
-  | { stringValue?: never; numberValue: number; stringListValue?: never; dateTimeValue?: never }
-  | { stringValue?: never; numberValue?: never; stringListValue: string[]; dateTimeValue?: never }
-  | { stringValue?: never; numberValue?: never; stringListValue?: never; dateTimeValue: Date };
+  | {
+      stringValue: string;
+      numberValue?: undefined;
+      stringListValue?: undefined;
+      dateTimeValue?: undefined;
+    }
+  | {
+      stringValue?: undefined;
+      numberValue: number;
+      stringListValue?: undefined;
+      dateTimeValue?: undefined;
+    }
+  | {
+      stringValue?: undefined;
+      numberValue?: undefined;
+      stringListValue: string[];
+      dateTimeValue?: undefined;
+    }
+  | {
+      stringValue?: undefined;
+      numberValue?: undefined;
+      stringListValue?: undefined;
+      dateTimeValue: Date;
+    };
 export type AgenticRetrieveMemoryMetadataFilterRight = {
   metadataValue: AgenticRetrieveMemoryMetadataValue;
 };
 export interface AgenticRetrieveMemoryMetadataFilter {
   left: AgenticRetrieveMemoryMetadataFilterLeft;
   operator: AgenticRetrieveMemoryMetadataFilterOperator;
-  right?: AgenticRetrieveMemoryMetadataFilterRight;
+  right?: AgenticRetrieveMemoryMetadataFilterRight | undefined;
 }
 export type AgenticRetrieveMemoryMetadataFilterList = AgenticRetrieveMemoryMetadataFilter[];
 export interface AgenticRetrieveMemoryRetrievalConfig {
-  namespace?: string;
-  namespacePath?: string;
-  strategyId?: string;
-  metadataFilters?: AgenticRetrieveMemoryMetadataFilter[];
+  namespace?: string | undefined;
+  namespacePath?: string | undefined;
+  strategyId?: string | undefined;
+  metadataFilters?: AgenticRetrieveMemoryMetadataFilter[] | undefined;
 }
 export type AgenticRetrieveMemoryRetrievalConfigList = AgenticRetrieveMemoryRetrievalConfig[];
 export type AgenticRetrieveMemoryPersistenceMode = "DEFAULT" | "NONE" | (string & {});
 export interface AgenticRetrieveMemoryConfiguration {
   memoryId: string;
-  sessionBinding?: AgenticRetrieveMemorySessionBinding;
-  retrievalConfigs?: AgenticRetrieveMemoryRetrievalConfig[];
-  persistenceMode?: AgenticRetrieveMemoryPersistenceMode;
+  sessionBinding?: AgenticRetrieveMemorySessionBinding | undefined;
+  retrievalConfigs?: AgenticRetrieveMemoryRetrievalConfig[] | undefined;
+  persistenceMode?: AgenticRetrieveMemoryPersistenceMode | undefined;
+}
+export type RetrievalInstructionId = string;
+export type RetrievalInstructionVersion = string;
+export interface AgenticRetrieveInstructionConfiguration {
+  retrievalInstructionId: string;
+  version?: string | undefined;
 }
 export interface AgenticRetrieveStreamRequest {
   messages: AgenticRetrieveMessage[];
   retrievers: AgenticRetriever[];
   agenticRetrieveConfiguration: AgenticRetrieveConfiguration;
-  policyConfiguration?: AgenticRetrievePolicyConfiguration;
-  nextToken?: string;
-  userContext?: UserContext;
-  memoryConfiguration?: AgenticRetrieveMemoryConfiguration;
-  generateResponse?: boolean;
+  policyConfiguration?: AgenticRetrievePolicyConfiguration | undefined;
+  nextToken?: string | undefined;
+  userContext?: UserContext | undefined;
+  memoryConfiguration?: AgenticRetrieveMemoryConfiguration | undefined;
+  retrievalInstructionConfiguration?: AgenticRetrieveInstructionConfiguration | undefined;
+  generateResponse?: boolean | undefined;
 }
 export type MimeType = string;
 export interface RetrievalContent {
-  byteContent?: Uint8Array;
-  text?: string;
+  byteContent?: Uint8Array | undefined;
+  text?: string | undefined;
   mimeType: string;
 }
 export type AgenticRetrieveMetadata = { [key: string]: any | undefined };
@@ -523,7 +551,7 @@ export interface AgenticRetrieveSourceRetriever {
 }
 export interface AgenticRetrieveResultItem {
   content: RetrievalContent;
-  metadata?: { [key: string]: any | undefined };
+  metadata?: { [key: string]: any | undefined } | undefined;
   sourceRetriever: AgenticRetrieveSourceRetriever;
 }
 export type AgenticRetrieveResults = AgenticRetrieveResultItem[];
@@ -539,12 +567,12 @@ export interface AgenticRetrieveCitation {
 export type AgenticRetrieveCitationList = AgenticRetrieveCitation[];
 export interface AgenticRetrieveGeneratedResponse {
   answer: string;
-  citations?: AgenticRetrieveCitation[];
+  citations?: AgenticRetrieveCitation[] | undefined;
 }
 export interface AgenticRetrieveResultEvent {
   results: AgenticRetrieveResultItem[];
-  generatedResponse?: AgenticRetrieveGeneratedResponse;
-  nextToken?: string;
+  generatedResponse?: AgenticRetrieveGeneratedResponse | undefined;
+  nextToken?: string | undefined;
 }
 export type AgenticRetrieveStep =
   | "Planning"
@@ -552,6 +580,7 @@ export type AgenticRetrieveStep =
   | "SpeculativeRetrieval"
   | "FullDocumentExpansion"
   | "SessionHistoryLoad"
+  | "CodeExecution"
   | (string & {});
 export type AgenticRetrieveStatus = "IN_PROGRESS" | "SUCCEEDED" | "FAILED" | (string & {});
 export type AgenticRetrieveSourceRetrieverList = AgenticRetrieveSourceRetriever[];
@@ -560,20 +589,29 @@ export interface AgenticRetrieveActionDetails {
   sourceRetrievers: AgenticRetrieveSourceRetriever[];
 }
 export interface AgenticRetrieveFullDocExpansionDetails {
-  documentId?: string;
-  sourceRetriever?: AgenticRetrieveSourceRetriever;
+  documentId?: string | undefined;
+  sourceRetriever?: AgenticRetrieveSourceRetriever | undefined;
 }
 export interface AgenticRetrieveMemoryRetrieveDetails {
   inputQuery: AgenticRetrieveMessageContent;
   memoryId: string;
-  namespace?: string;
-  namespacePath?: string;
-  strategyId?: string;
+  namespace?: string | undefined;
+  namespacePath?: string | undefined;
+  strategyId?: string | undefined;
+}
+export interface AgenticRetrieveCodeExecutionDocument {
+  documentId?: string | undefined;
+  sourceRetriever?: AgenticRetrieveSourceRetriever | undefined;
+}
+export type AgenticRetrieveCodeExecutionDocumentList = AgenticRetrieveCodeExecutionDocument[];
+export interface AgenticRetrieveCodeExecutionDetails {
+  documents?: AgenticRetrieveCodeExecutionDocument[] | undefined;
 }
 export interface AgenticRetrieveAction {
-  retrieve?: AgenticRetrieveActionDetails;
-  fullDocumentExpansion?: AgenticRetrieveFullDocExpansionDetails;
-  memoryRetrieve?: AgenticRetrieveMemoryRetrieveDetails;
+  retrieve?: AgenticRetrieveActionDetails | undefined;
+  fullDocumentExpansion?: AgenticRetrieveFullDocExpansionDetails | undefined;
+  memoryRetrieve?: AgenticRetrieveMemoryRetrieveDetails | undefined;
+  codeExecution?: AgenticRetrieveCodeExecutionDetails | undefined;
 }
 export type AgenticRetrieveActions = AgenticRetrieveAction[];
 export interface AgenticRetrieveWarningMessage {
@@ -584,11 +622,11 @@ export interface AgenticRetrieveGuardrailWarning {
   id: string;
   version: string;
   action: GuardrailAction;
-  message?: string;
+  message?: string | undefined;
 }
 export type AgenticRetrieveWarning =
-  | { message: AgenticRetrieveWarningMessage; guardrail?: never }
-  | { message?: never; guardrail: AgenticRetrieveGuardrailWarning };
+  | { message: AgenticRetrieveWarningMessage; guardrail?: undefined }
+  | { message?: undefined; guardrail: AgenticRetrieveGuardrailWarning };
 export type AgenticRetrieveWarnings = AgenticRetrieveWarning[];
 export interface AgenticRetrieveFailure {
   message: string;
@@ -596,25 +634,30 @@ export interface AgenticRetrieveFailure {
 export type AgenticRetrieveFailures = AgenticRetrieveFailure[];
 export type AgenticRetrieveType = "BedrockKnowledgeBase" | "BedrockAgentCoreMemory" | (string & {});
 export interface AgenticRetrieveSourceMetadata {
-  identifier?: string;
-  retrievalType?: AgenticRetrieveType;
+  identifier?: string | undefined;
+  retrievalType?: AgenticRetrieveType | undefined;
 }
 export type AgenticRetrieveSourceMetadataList = AgenticRetrieveSourceMetadata[];
 export interface AgenticRetrieveTraceResultItem {
-  content?: RetrievalContent;
-  metadata?: { [key: string]: any | undefined };
-  sourceRetriever?: AgenticRetrieveSourceRetriever;
+  content?: RetrievalContent | undefined;
+  metadata?: { [key: string]: any | undefined } | undefined;
+  sourceRetriever?: AgenticRetrieveSourceRetriever | undefined;
 }
 export type AgenticRetrieveTraceResults = AgenticRetrieveTraceResultItem[];
+export interface AgenticRetrieveAppliedInstruction {
+  id: string;
+  version?: string | undefined;
+}
 export interface AgenticRetrieveTraceEventAttributes {
   step: AgenticRetrieveStep;
   status: AgenticRetrieveStatus;
   message: string;
-  actions?: AgenticRetrieveAction[];
-  warnings?: AgenticRetrieveWarning[];
-  failures?: AgenticRetrieveFailure[];
-  retrievalMetadata?: AgenticRetrieveSourceMetadata[];
-  retrievalResponse?: AgenticRetrieveTraceResultItem[];
+  actions?: AgenticRetrieveAction[] | undefined;
+  warnings?: AgenticRetrieveWarning[] | undefined;
+  failures?: AgenticRetrieveFailure[] | undefined;
+  retrievalMetadata?: AgenticRetrieveSourceMetadata[] | undefined;
+  retrievalResponse?: AgenticRetrieveTraceResultItem[] | undefined;
+  appliedInstruction?: AgenticRetrieveAppliedInstruction | undefined;
 }
 export interface AgenticRetrieveTraceEvent {
   id: string;
@@ -628,170 +671,170 @@ export type NonBlankString = string;
 export type AgenticRetrieveStreamResponseOutput =
   | {
       result: AgenticRetrieveResultEvent;
-      traceEvent?: never;
-      responseEvent?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
+      traceEvent?: undefined;
+      responseEvent?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
     }
   | {
-      result?: never;
+      result?: undefined;
       traceEvent: AgenticRetrieveTraceEvent;
-      responseEvent?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
+      responseEvent?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
     }
   | {
-      result?: never;
-      traceEvent?: never;
+      result?: undefined;
+      traceEvent?: undefined;
       responseEvent: AgenticRetrieveResponseEvent;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
     }
   | {
-      result?: never;
-      traceEvent?: never;
-      responseEvent?: never;
+      result?: undefined;
+      traceEvent?: undefined;
+      responseEvent?: undefined;
       internalServerException: InternalServerException;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
     }
   | {
-      result?: never;
-      traceEvent?: never;
-      responseEvent?: never;
-      internalServerException?: never;
+      result?: undefined;
+      traceEvent?: undefined;
+      responseEvent?: undefined;
+      internalServerException?: undefined;
       validationException: ValidationException;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
     }
   | {
-      result?: never;
-      traceEvent?: never;
-      responseEvent?: never;
-      internalServerException?: never;
-      validationException?: never;
+      result?: undefined;
+      traceEvent?: undefined;
+      responseEvent?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
       resourceNotFoundException: ResourceNotFoundException;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
     }
   | {
-      result?: never;
-      traceEvent?: never;
-      responseEvent?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
+      result?: undefined;
+      traceEvent?: undefined;
+      responseEvent?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
       serviceQuotaExceededException: ServiceQuotaExceededException;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
     }
   | {
-      result?: never;
-      traceEvent?: never;
-      responseEvent?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
+      result?: undefined;
+      traceEvent?: undefined;
+      responseEvent?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
       throttlingException: ThrottlingException;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
     }
   | {
-      result?: never;
-      traceEvent?: never;
-      responseEvent?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
+      result?: undefined;
+      traceEvent?: undefined;
+      responseEvent?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
       accessDeniedException: AccessDeniedException;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
     }
   | {
-      result?: never;
-      traceEvent?: never;
-      responseEvent?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
+      result?: undefined;
+      traceEvent?: undefined;
+      responseEvent?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
       conflictException: ConflictException;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
     }
   | {
-      result?: never;
-      traceEvent?: never;
-      responseEvent?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
+      result?: undefined;
+      traceEvent?: undefined;
+      responseEvent?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
       dependencyFailedException: DependencyFailedException;
-      badGatewayException?: never;
+      badGatewayException?: undefined;
     }
   | {
-      result?: never;
-      traceEvent?: never;
-      responseEvent?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
+      result?: undefined;
+      traceEvent?: undefined;
+      responseEvent?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
       badGatewayException: BadGatewayException;
     };
 export interface AgenticRetrieveStreamResponse {
@@ -813,8 +856,8 @@ export type Uuid = string;
 export type InvocationDescription = string;
 export type SessionIdentifier = string;
 export interface CreateInvocationRequest {
-  invocationId?: string;
-  description?: string;
+  invocationId?: string | undefined;
+  description?: string | undefined;
   sessionIdentifier: string;
 }
 export interface CreateInvocationResponse {
@@ -830,9 +873,9 @@ export type TagKey = string;
 export type TagValue = string;
 export type TagsMap = { [key: string]: string | undefined };
 export interface CreateSessionRequest {
-  sessionMetadata?: { [key: string]: string | undefined };
-  encryptionKeyArn?: string;
-  tags?: { [key: string]: string | undefined };
+  sessionMetadata?: { [key: string]: string | undefined } | undefined;
+  encryptionKeyArn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type SessionArn = string;
 export type SessionStatus = "ACTIVE" | "EXPIRED" | "ENDED" | (string & {});
@@ -849,8 +892,8 @@ export type SessionId = string;
 export interface DeleteAgentMemoryRequest {
   agentId: string;
   agentAliasId: string;
-  memoryId?: string;
-  sessionId?: string;
+  memoryId?: string | undefined;
+  sessionId?: string | undefined;
 }
 export interface DeleteAgentMemoryResponse {}
 export interface DeleteSessionRequest {
@@ -878,11 +921,11 @@ export interface TextToSqlKnowledgeBaseConfiguration {
 }
 export interface TextToSqlConfiguration {
   type: TextToSqlConfigurationType;
-  knowledgeBaseConfiguration?: TextToSqlKnowledgeBaseConfiguration;
+  knowledgeBaseConfiguration?: TextToSqlKnowledgeBaseConfiguration | undefined;
 }
 export interface TransformationConfiguration {
   mode: QueryTransformationMode;
-  textToSqlConfiguration?: TextToSqlConfiguration;
+  textToSqlConfiguration?: TextToSqlConfiguration | undefined;
 }
 export interface GenerateQueryRequest {
   queryGenerationInput: QueryGenerationInput;
@@ -890,18 +933,18 @@ export interface GenerateQueryRequest {
 }
 export type GeneratedQueryType = "REDSHIFT_SQL" | (string & {});
 export interface GeneratedQuery {
-  type?: GeneratedQueryType;
-  sql?: string;
+  type?: GeneratedQueryType | undefined;
+  sql?: string | undefined;
 }
 export type GeneratedQueries = GeneratedQuery[];
 export interface GenerateQueryResponse {
-  queries?: GeneratedQuery[];
+  queries?: GeneratedQuery[] | undefined;
 }
 export type MaxResults = number;
 export type MemoryType = "SESSION_SUMMARY" | (string & {});
 export interface GetAgentMemoryRequest {
-  nextToken?: string;
-  maxItems?: number;
+  nextToken?: string | undefined;
+  maxItems?: number | undefined;
   agentId: string;
   agentAliasId: string;
   memoryType: MemoryType;
@@ -909,31 +952,33 @@ export interface GetAgentMemoryRequest {
 }
 export type SummaryText = string;
 export interface MemorySessionSummary {
-  memoryId?: string;
-  sessionId?: string;
-  sessionStartTime?: Date;
-  sessionExpiryTime?: Date;
-  summaryText?: string;
+  memoryId?: string | undefined;
+  sessionId?: string | undefined;
+  sessionStartTime?: Date | undefined;
+  sessionExpiryTime?: Date | undefined;
+  summaryText?: string | undefined;
 }
 export type Memory = { sessionSummary: MemorySessionSummary };
 export type Memories = Memory[];
 export interface GetAgentMemoryResponse {
-  nextToken?: string;
-  memoryContents?: Memory[];
+  nextToken?: string | undefined;
+  memoryContents?: Memory[] | undefined;
 }
+export type MediaId = string;
 export type DocumentOutputFormat = "RAW" | "EXTRACTED" | (string & {});
 export interface GetDocumentContentRequest {
   knowledgeBaseId: string;
   dataSourceId: string;
   documentId: string;
-  outputFormat?: DocumentOutputFormat;
-  userContext?: UserContext;
+  mediaId?: string | undefined;
+  outputFormat?: DocumentOutputFormat | undefined;
+  userContext?: UserContext | undefined;
 }
 export type PresignedUrl = string | redacted.Redacted<string>;
 export interface GetDocumentContentResponse {
   mimeType: string;
   presignedUrl: string | redacted.Redacted<string>;
-  documentContentLength?: number;
+  documentContentLength?: number | undefined;
 }
 export type FlowIdentifier = string;
 export type FlowAliasIdentifier = string;
@@ -951,7 +996,7 @@ export interface GetExecutionFlowSnapshotResponse {
   flowVersion: string;
   executionRoleArn: string;
   definition: string;
-  customerEncryptionKeyArn?: string;
+  customerEncryptionKeyArn?: string | undefined;
 }
 export interface GetFlowExecutionRequest {
   flowIdentifier: string;
@@ -968,17 +1013,17 @@ export type FlowExecutionStatus =
 export type NodeName = string;
 export type FlowExecutionErrorType = "ExecutionTimedOut" | (string & {});
 export interface FlowExecutionError {
-  nodeName?: string;
-  error?: FlowExecutionErrorType;
-  message?: string;
+  nodeName?: string | undefined;
+  error?: FlowExecutionErrorType | undefined;
+  message?: string | undefined;
 }
 export type FlowExecutionErrors = FlowExecutionError[];
 export interface GetFlowExecutionResponse {
   executionArn: string;
   status: FlowExecutionStatus;
   startedAt: Date;
-  endedAt?: Date;
-  errors?: FlowExecutionError[];
+  endedAt?: Date | undefined;
+  errors?: FlowExecutionError[] | undefined;
   flowAliasIdentifier: string;
   flowIdentifier: string;
   flowVersion: string;
@@ -1001,18 +1046,18 @@ export interface DocumentAclGroup {
 }
 export type DocumentAclGroupList = DocumentAclGroup[];
 export interface DocumentAclCondition {
-  conditionOperator?: DocumentAclMemberRelation;
-  users?: DocumentAclUser[];
-  groups?: DocumentAclGroup[];
+  conditionOperator?: DocumentAclMemberRelation | undefined;
+  users?: DocumentAclUser[] | undefined;
+  groups?: DocumentAclGroup[] | undefined;
 }
 export type DocumentAclConditionList = DocumentAclCondition[];
 export interface DocumentAclMembership {
-  memberRelation?: DocumentAclMemberRelation;
-  conditions?: DocumentAclCondition[];
+  memberRelation?: DocumentAclMemberRelation | undefined;
+  conditions?: DocumentAclCondition[] | undefined;
 }
 export interface DocumentAcl {
-  allowList?: DocumentAclMembership;
-  denyList?: DocumentAclMembership;
+  allowList?: DocumentAclMembership | undefined;
+  denyList?: DocumentAclMembership | undefined;
 }
 export interface GetIngestedDocumentAclResponse {
   documentAcl: DocumentAcl;
@@ -1029,15 +1074,15 @@ export interface S3Location {
   uri: string;
 }
 export type ImageSource =
-  | { bytes: Uint8Array; s3Location?: never }
-  | { bytes?: never; s3Location: S3Location };
+  | { bytes: Uint8Array; s3Location?: undefined }
+  | { bytes?: undefined; s3Location: S3Location };
 export interface ImageBlock {
   format: ImageFormat;
   source: ImageSource;
 }
 export type BedrockSessionContentBlock =
-  | { text: string; image?: never }
-  | { text?: never; image: ImageBlock };
+  | { text: string; image?: undefined }
+  | { text?: undefined; image: ImageBlock };
 export type BedrockSessionContentBlocks = BedrockSessionContentBlock[];
 export type InvocationStepPayload = { contentBlocks: BedrockSessionContentBlock[] };
 export interface InvocationStep {
@@ -1059,8 +1104,8 @@ export interface GetSessionResponse {
   sessionStatus: SessionStatus;
   createdAt: Date;
   lastUpdatedAt: Date;
-  sessionMetadata?: { [key: string]: string | undefined };
-  encryptionKeyArn?: string;
+  sessionMetadata?: { [key: string]: string | undefined } | undefined;
+  encryptionKeyArn?: string | undefined;
 }
 export type SessionAttributesMap = { [key: string]: string | undefined };
 export type PromptSessionAttributesMap = { [key: string]: string | undefined };
@@ -1075,31 +1120,31 @@ export interface ImageInput {
 }
 export type ImageInputs = ImageInput[];
 export interface ContentBody {
-  body?: string;
-  images?: ImageInput[];
+  body?: string | undefined;
+  images?: ImageInput[] | undefined;
 }
 export type ResponseBody = { [key: string]: ContentBody | undefined };
 export interface ApiResult {
   actionGroup: string;
-  httpMethod?: string;
-  apiPath?: string | redacted.Redacted<string>;
-  confirmationState?: ConfirmationState;
-  responseState?: ResponseState;
-  httpStatusCode?: number;
-  responseBody?: { [key: string]: ContentBody | undefined };
-  agentId?: string;
+  httpMethod?: string | undefined;
+  apiPath?: string | redacted.Redacted<string> | undefined;
+  confirmationState?: ConfirmationState | undefined;
+  responseState?: ResponseState | undefined;
+  httpStatusCode?: number | undefined;
+  responseBody?: { [key: string]: ContentBody | undefined } | undefined;
+  agentId?: string | undefined;
 }
 export interface FunctionResult {
   actionGroup: string;
-  confirmationState?: ConfirmationState;
-  function?: string;
-  responseBody?: { [key: string]: ContentBody | undefined };
-  responseState?: ResponseState;
-  agentId?: string;
+  confirmationState?: ConfirmationState | undefined;
+  function?: string | undefined;
+  responseBody?: { [key: string]: ContentBody | undefined } | undefined;
+  responseState?: ResponseState | undefined;
+  agentId?: string | undefined;
 }
 export type InvocationResultMember =
-  | { apiResult: ApiResult; functionResult?: never }
-  | { apiResult?: never; functionResult: FunctionResult };
+  | { apiResult: ApiResult; functionResult?: undefined }
+  | { apiResult?: undefined; functionResult: FunctionResult };
 export type ReturnControlInvocationResults = InvocationResultMember[];
 export type FileSourceType = "S3" | "BYTE_CONTENT" | (string & {});
 export interface S3ObjectFile {
@@ -1112,8 +1157,8 @@ export interface ByteContentFile {
 }
 export interface FileSource {
   sourceType: FileSourceType;
-  s3Location?: S3ObjectFile;
-  byteContent?: ByteContentFile;
+  s3Location?: S3ObjectFile | undefined;
+  byteContent?: ByteContentFile | undefined;
 }
 export type FileUseCase = "CODE_INTERPRETER" | "CHAT" | (string & {});
 export interface InputFile {
@@ -1130,7 +1175,7 @@ export type AdditionalModelRequestFieldsValue = unknown;
 export type AdditionalModelRequestFields = { [key: string]: any | undefined };
 export interface VectorSearchBedrockRerankingModelConfiguration {
   modelArn: string;
-  additionalModelRequestFields?: { [key: string]: any | undefined };
+  additionalModelRequestFields?: { [key: string]: any | undefined } | undefined;
 }
 export type RerankingMetadataSelectionMode = "SELECTIVE" | "ALL" | (string & {});
 export interface FieldForReranking {
@@ -1138,20 +1183,20 @@ export interface FieldForReranking {
 }
 export type FieldsForReranking = FieldForReranking[];
 export type RerankingMetadataSelectiveModeConfiguration =
-  | { fieldsToInclude: FieldForReranking[]; fieldsToExclude?: never }
-  | { fieldsToInclude?: never; fieldsToExclude: FieldForReranking[] };
+  | { fieldsToInclude: FieldForReranking[]; fieldsToExclude?: undefined }
+  | { fieldsToInclude?: undefined; fieldsToExclude: FieldForReranking[] };
 export interface MetadataConfigurationForReranking {
   selectionMode: RerankingMetadataSelectionMode;
-  selectiveModeConfiguration?: RerankingMetadataSelectiveModeConfiguration;
+  selectiveModeConfiguration?: RerankingMetadataSelectiveModeConfiguration | undefined;
 }
 export interface VectorSearchBedrockRerankingConfiguration {
   modelConfiguration: VectorSearchBedrockRerankingModelConfiguration;
-  numberOfRerankedResults?: number;
-  metadataConfiguration?: MetadataConfigurationForReranking;
+  numberOfRerankedResults?: number | undefined;
+  metadataConfiguration?: MetadataConfigurationForReranking | undefined;
 }
 export interface VectorSearchRerankingConfiguration {
   type: VectorSearchRerankingConfigurationType;
-  bedrockRerankingConfiguration?: VectorSearchBedrockRerankingConfiguration;
+  bedrockRerankingConfiguration?: VectorSearchBedrockRerankingConfiguration | undefined;
 }
 export type AttributeType = "STRING" | "NUMBER" | "BOOLEAN" | "STRING_LIST" | (string & {});
 export interface MetadataAttributeSchema {
@@ -1165,36 +1210,36 @@ export interface ImplicitFilterConfiguration {
   modelArn: string;
 }
 export interface KnowledgeBaseVectorSearchConfiguration {
-  numberOfResults?: number;
-  overrideSearchType?: SearchType;
-  filter?: RetrievalFilter;
-  rerankingConfiguration?: VectorSearchRerankingConfiguration;
-  implicitFilterConfiguration?: ImplicitFilterConfiguration;
+  numberOfResults?: number | undefined;
+  overrideSearchType?: SearchType | undefined;
+  filter?: RetrievalFilter | undefined;
+  rerankingConfiguration?: VectorSearchRerankingConfiguration | undefined;
+  implicitFilterConfiguration?: ImplicitFilterConfiguration | undefined;
 }
 export type RerankingModelType = "CUSTOM" | "MANAGED" | "NONE" | (string & {});
 export type ManagedSearchRerankingConfigurationType = "BEDROCK_RERANKING_MODEL" | (string & {});
 export interface ManagedSearchBedrockRerankingModelConfiguration {
   modelArn: string;
-  additionalModelRequestFields?: { [key: string]: any | undefined };
+  additionalModelRequestFields?: { [key: string]: any | undefined } | undefined;
 }
 export interface ManagedSearchBedrockRerankingConfiguration {
   modelConfiguration: ManagedSearchBedrockRerankingModelConfiguration;
-  numberOfRerankedResults?: number;
-  metadataConfiguration?: MetadataConfigurationForReranking;
+  numberOfRerankedResults?: number | undefined;
+  metadataConfiguration?: MetadataConfigurationForReranking | undefined;
 }
 export interface ManagedSearchRerankingConfiguration {
   type: ManagedSearchRerankingConfigurationType;
-  bedrockRerankingConfiguration?: ManagedSearchBedrockRerankingConfiguration;
+  bedrockRerankingConfiguration?: ManagedSearchBedrockRerankingConfiguration | undefined;
 }
 export interface ManagedSearchConfiguration {
-  numberOfResults?: number;
-  filter?: RetrievalFilter;
-  rerankingModelType?: RerankingModelType;
-  rerankingConfiguration?: ManagedSearchRerankingConfiguration;
+  numberOfResults?: number | undefined;
+  filter?: RetrievalFilter | undefined;
+  rerankingModelType?: RerankingModelType | undefined;
+  rerankingConfiguration?: ManagedSearchRerankingConfiguration | undefined;
 }
 export interface KnowledgeBaseRetrievalConfiguration {
-  vectorSearchConfiguration?: KnowledgeBaseVectorSearchConfiguration;
-  managedSearchConfiguration?: ManagedSearchConfiguration;
+  vectorSearchConfiguration?: KnowledgeBaseVectorSearchConfiguration | undefined;
+  managedSearchConfiguration?: ManagedSearchConfiguration | undefined;
 }
 export interface KnowledgeBaseConfiguration {
   knowledgeBaseId: string;
@@ -1209,59 +1254,59 @@ export interface Message {
 }
 export type Messages = Message[];
 export interface ConversationHistory {
-  messages?: Message[];
+  messages?: Message[] | undefined;
 }
 export interface SessionState {
-  sessionAttributes?: { [key: string]: string | undefined };
-  promptSessionAttributes?: { [key: string]: string | undefined };
-  returnControlInvocationResults?: InvocationResultMember[];
-  invocationId?: string;
-  files?: InputFile[];
-  knowledgeBaseConfigurations?: KnowledgeBaseConfiguration[];
-  conversationHistory?: ConversationHistory;
+  sessionAttributes?: { [key: string]: string | undefined } | undefined;
+  promptSessionAttributes?: { [key: string]: string | undefined } | undefined;
+  returnControlInvocationResults?: InvocationResultMember[] | undefined;
+  invocationId?: string | undefined;
+  files?: InputFile[] | undefined;
+  knowledgeBaseConfigurations?: KnowledgeBaseConfiguration[] | undefined;
+  conversationHistory?: ConversationHistory | undefined;
 }
 export type InputText = string | redacted.Redacted<string>;
 export type PerformanceConfigLatency = "standard" | "optimized" | (string & {});
 export interface PerformanceConfiguration {
-  latency?: PerformanceConfigLatency;
+  latency?: PerformanceConfigLatency | undefined;
 }
 export interface BedrockModelConfigurations {
-  performanceConfig?: PerformanceConfiguration;
+  performanceConfig?: PerformanceConfiguration | undefined;
 }
 export interface StreamingConfigurations {
-  streamFinalResponse?: boolean;
-  applyGuardrailInterval?: number;
+  streamFinalResponse?: boolean | undefined;
+  applyGuardrailInterval?: number | undefined;
 }
 export interface PromptCreationConfigurations {
-  previousConversationTurnsToInclude?: number;
-  excludePreviousThinkingSteps?: boolean;
+  previousConversationTurnsToInclude?: number | undefined;
+  excludePreviousThinkingSteps?: boolean | undefined;
 }
 export type AWSResourceARN = string;
 export interface InvokeAgentRequest {
-  sessionState?: SessionState;
+  sessionState?: SessionState | undefined;
   agentId: string;
   agentAliasId: string;
   sessionId: string;
-  endSession?: boolean;
-  enableTrace?: boolean;
-  inputText?: string | redacted.Redacted<string>;
-  memoryId?: string;
-  bedrockModelConfigurations?: BedrockModelConfigurations;
-  streamingConfigurations?: StreamingConfigurations;
-  promptCreationConfigurations?: PromptCreationConfigurations;
-  sourceArn?: string;
+  endSession?: boolean | undefined;
+  enableTrace?: boolean | undefined;
+  inputText?: string | redacted.Redacted<string> | undefined;
+  memoryId?: string | undefined;
+  bedrockModelConfigurations?: BedrockModelConfigurations | undefined;
+  streamingConfigurations?: StreamingConfigurations | undefined;
+  promptCreationConfigurations?: PromptCreationConfigurations | undefined;
+  sourceArn?: string | undefined;
 }
 export type PartBody = Uint8Array | redacted.Redacted<Uint8Array>;
 export interface Span {
-  start?: number;
-  end?: number;
+  start?: number | undefined;
+  end?: number | undefined;
 }
 export interface TextResponsePart {
-  text?: string;
-  span?: Span;
+  text?: string | undefined;
+  span?: Span | undefined;
 }
 export interface GeneratedResponsePart {
-  textResponsePart?: TextResponsePart;
+  textResponsePart?: TextResponsePart | undefined;
 }
 export type RetrievalResultContentType =
   | "TEXT"
@@ -1272,11 +1317,11 @@ export type RetrievalResultContentType =
   | (string & {});
 export interface VideoSegment {
   s3Uri: string;
-  summary?: string;
+  summary?: string | undefined;
 }
 export interface AudioSegment {
   s3Uri: string;
-  transcription?: string;
+  transcription?: string | undefined;
 }
 export type RetrievalResultContentColumnType =
   | "BLOB"
@@ -1287,18 +1332,18 @@ export type RetrievalResultContentColumnType =
   | "STRING"
   | (string & {});
 export interface RetrievalResultContentColumn {
-  columnName?: string;
-  columnValue?: string;
-  type?: RetrievalResultContentColumnType;
+  columnName?: string | undefined;
+  columnValue?: string | undefined;
+  type?: RetrievalResultContentColumnType | undefined;
 }
 export type RetrievalResultContentRow = RetrievalResultContentColumn[];
 export interface RetrievalResultContent {
-  type?: RetrievalResultContentType;
-  text?: string;
-  byteContent?: string;
-  video?: VideoSegment;
-  audio?: AudioSegment;
-  row?: RetrievalResultContentColumn[];
+  type?: RetrievalResultContentType | undefined;
+  text?: string | undefined;
+  byteContent?: string | undefined;
+  video?: VideoSegment | undefined;
+  audio?: AudioSegment | undefined;
+  row?: RetrievalResultContentColumn[] | undefined;
 }
 export type RetrievalResultLocationType =
   | "S3"
@@ -1313,80 +1358,80 @@ export type RetrievalResultLocationType =
   | "GOOGLEDRIVE"
   | (string & {});
 export interface RetrievalResultS3Location {
-  uri?: string;
+  uri?: string | undefined;
 }
 export interface RetrievalResultWebLocation {
-  url?: string;
+  url?: string | undefined;
 }
 export interface RetrievalResultConfluenceLocation {
-  url?: string;
+  url?: string | undefined;
 }
 export interface RetrievalResultSalesforceLocation {
-  url?: string;
+  url?: string | undefined;
 }
 export interface RetrievalResultSharePointLocation {
-  url?: string;
+  url?: string | undefined;
 }
 export interface RetrievalResultCustomDocumentLocation {
-  id?: string;
+  id?: string | undefined;
 }
 export interface RetrievalResultKendraDocumentLocation {
-  uri?: string;
+  uri?: string | undefined;
 }
 export interface RetrievalResultSqlLocation {
-  query?: string;
+  query?: string | undefined;
 }
 export interface RetrievalResultOneDriveLocation {
-  url?: string;
+  url?: string | undefined;
 }
 export interface RetrievalResultGoogleDriveLocation {
-  url?: string;
+  url?: string | undefined;
 }
 export interface RetrievalResultLocation {
   type: RetrievalResultLocationType;
-  s3Location?: RetrievalResultS3Location;
-  webLocation?: RetrievalResultWebLocation;
-  confluenceLocation?: RetrievalResultConfluenceLocation;
-  salesforceLocation?: RetrievalResultSalesforceLocation;
-  sharePointLocation?: RetrievalResultSharePointLocation;
-  customDocumentLocation?: RetrievalResultCustomDocumentLocation;
-  kendraDocumentLocation?: RetrievalResultKendraDocumentLocation;
-  sqlLocation?: RetrievalResultSqlLocation;
-  oneDriveLocation?: RetrievalResultOneDriveLocation;
-  googleDriveLocation?: RetrievalResultGoogleDriveLocation;
+  s3Location?: RetrievalResultS3Location | undefined;
+  webLocation?: RetrievalResultWebLocation | undefined;
+  confluenceLocation?: RetrievalResultConfluenceLocation | undefined;
+  salesforceLocation?: RetrievalResultSalesforceLocation | undefined;
+  sharePointLocation?: RetrievalResultSharePointLocation | undefined;
+  customDocumentLocation?: RetrievalResultCustomDocumentLocation | undefined;
+  kendraDocumentLocation?: RetrievalResultKendraDocumentLocation | undefined;
+  sqlLocation?: RetrievalResultSqlLocation | undefined;
+  oneDriveLocation?: RetrievalResultOneDriveLocation | undefined;
+  googleDriveLocation?: RetrievalResultGoogleDriveLocation | undefined;
 }
 export type RetrievalResultMetadataKey = string;
 export type RetrievalResultMetadataValue = unknown;
 export type RetrievalResultMetadata = { [key: string]: any | undefined };
 export interface RetrievedReference {
-  content?: RetrievalResultContent;
-  location?: RetrievalResultLocation;
-  metadata?: { [key: string]: any | undefined };
+  content?: RetrievalResultContent | undefined;
+  location?: RetrievalResultLocation | undefined;
+  metadata?: { [key: string]: any | undefined } | undefined;
 }
 export type RetrievedReferences = RetrievedReference[];
 export interface Citation {
-  generatedResponsePart?: GeneratedResponsePart;
-  retrievedReferences?: RetrievedReference[];
+  generatedResponsePart?: GeneratedResponsePart | undefined;
+  retrievedReferences?: RetrievedReference[] | undefined;
 }
 export type Citations = Citation[];
 export interface Attribution {
-  citations?: Citation[];
+  citations?: Citation[] | undefined;
 }
 export interface PayloadPart {
-  bytes?: Uint8Array | redacted.Redacted<Uint8Array>;
-  attribution?: Attribution;
+  bytes?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
+  attribution?: Attribution | undefined;
 }
 export type TraceId = string;
 export type GuardrailTopicType = "DENY" | (string & {});
 export type GuardrailTopicPolicyAction = "BLOCKED" | (string & {});
 export interface GuardrailTopic {
-  name?: string;
-  type?: GuardrailTopicType;
-  action?: GuardrailTopicPolicyAction;
+  name?: string | undefined;
+  type?: GuardrailTopicType | undefined;
+  action?: GuardrailTopicPolicyAction | undefined;
 }
 export type GuardrailTopicList = GuardrailTopic[];
 export interface GuardrailTopicPolicyAssessment {
-  topics?: GuardrailTopic[];
+  topics?: GuardrailTopic[] | undefined;
 }
 export type GuardrailContentFilterType =
   | "INSULTS"
@@ -1399,30 +1444,30 @@ export type GuardrailContentFilterType =
 export type GuardrailContentFilterConfidence = "NONE" | "LOW" | "MEDIUM" | "HIGH" | (string & {});
 export type GuardrailContentPolicyAction = "BLOCKED" | (string & {});
 export interface GuardrailContentFilter {
-  type?: GuardrailContentFilterType;
-  confidence?: GuardrailContentFilterConfidence;
-  action?: GuardrailContentPolicyAction;
+  type?: GuardrailContentFilterType | undefined;
+  confidence?: GuardrailContentFilterConfidence | undefined;
+  action?: GuardrailContentPolicyAction | undefined;
 }
 export type GuardrailContentFilterList = GuardrailContentFilter[];
 export interface GuardrailContentPolicyAssessment {
-  filters?: GuardrailContentFilter[];
+  filters?: GuardrailContentFilter[] | undefined;
 }
 export type GuardrailWordPolicyAction = "BLOCKED" | (string & {});
 export interface GuardrailCustomWord {
-  match?: string;
-  action?: GuardrailWordPolicyAction;
+  match?: string | undefined;
+  action?: GuardrailWordPolicyAction | undefined;
 }
 export type GuardrailCustomWordList = GuardrailCustomWord[];
 export type GuardrailManagedWordType = "PROFANITY" | (string & {});
 export interface GuardrailManagedWord {
-  match?: string;
-  type?: GuardrailManagedWordType;
-  action?: GuardrailWordPolicyAction;
+  match?: string | undefined;
+  type?: GuardrailManagedWordType | undefined;
+  action?: GuardrailWordPolicyAction | undefined;
 }
 export type GuardrailManagedWordList = GuardrailManagedWord[];
 export interface GuardrailWordPolicyAssessment {
-  customWords?: GuardrailCustomWord[];
-  managedWordLists?: GuardrailManagedWord[];
+  customWords?: GuardrailCustomWord[] | undefined;
+  managedWordLists?: GuardrailManagedWord[] | undefined;
 }
 export type GuardrailPiiEntityType =
   | "ADDRESS"
@@ -1459,47 +1504,47 @@ export type GuardrailPiiEntityType =
   | (string & {});
 export type GuardrailSensitiveInformationPolicyAction = "BLOCKED" | "ANONYMIZED" | (string & {});
 export interface GuardrailPiiEntityFilter {
-  type?: GuardrailPiiEntityType;
-  match?: string;
-  action?: GuardrailSensitiveInformationPolicyAction;
+  type?: GuardrailPiiEntityType | undefined;
+  match?: string | undefined;
+  action?: GuardrailSensitiveInformationPolicyAction | undefined;
 }
 export type GuardrailPiiEntityFilterList = GuardrailPiiEntityFilter[];
 export interface GuardrailRegexFilter {
-  name?: string;
-  regex?: string;
-  match?: string;
-  action?: GuardrailSensitiveInformationPolicyAction;
+  name?: string | undefined;
+  regex?: string | undefined;
+  match?: string | undefined;
+  action?: GuardrailSensitiveInformationPolicyAction | undefined;
 }
 export type GuardrailRegexFilterList = GuardrailRegexFilter[];
 export interface GuardrailSensitiveInformationPolicyAssessment {
-  piiEntities?: GuardrailPiiEntityFilter[];
-  regexes?: GuardrailRegexFilter[];
+  piiEntities?: GuardrailPiiEntityFilter[] | undefined;
+  regexes?: GuardrailRegexFilter[] | undefined;
 }
 export interface GuardrailAssessment {
-  topicPolicy?: GuardrailTopicPolicyAssessment;
-  contentPolicy?: GuardrailContentPolicyAssessment;
-  wordPolicy?: GuardrailWordPolicyAssessment;
-  sensitiveInformationPolicy?: GuardrailSensitiveInformationPolicyAssessment;
+  topicPolicy?: GuardrailTopicPolicyAssessment | undefined;
+  contentPolicy?: GuardrailContentPolicyAssessment | undefined;
+  wordPolicy?: GuardrailWordPolicyAssessment | undefined;
+  sensitiveInformationPolicy?: GuardrailSensitiveInformationPolicyAssessment | undefined;
 }
 export type GuardrailAssessmentList = GuardrailAssessment[];
 export interface Usage {
-  inputTokens?: number;
-  outputTokens?: number;
+  inputTokens?: number | undefined;
+  outputTokens?: number | undefined;
 }
 export interface Metadata {
-  startTime?: Date;
-  endTime?: Date;
-  totalTimeMs?: number;
-  operationTotalTimeMs?: number;
-  clientRequestId?: string;
-  usage?: Usage;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  totalTimeMs?: number | undefined;
+  operationTotalTimeMs?: number | undefined;
+  clientRequestId?: string | undefined;
+  usage?: Usage | undefined;
 }
 export interface GuardrailTrace {
-  action?: GuardrailAction;
-  traceId?: string;
-  inputAssessments?: GuardrailAssessment[];
-  outputAssessments?: GuardrailAssessment[];
-  metadata?: Metadata;
+  action?: GuardrailAction | undefined;
+  traceId?: string | undefined;
+  inputAssessments?: GuardrailAssessment[] | undefined;
+  outputAssessments?: GuardrailAssessment[] | undefined;
+  metadata?: Metadata | undefined;
 }
 export type PromptText = string | redacted.Redacted<string>;
 export type PromptType =
@@ -1517,51 +1562,51 @@ export type TopK = number;
 export type MaximumLength = number;
 export type StopSequences = string[];
 export interface InferenceConfiguration {
-  temperature?: number;
-  topP?: number;
-  topK?: number;
-  maximumLength?: number;
-  stopSequences?: string[];
+  temperature?: number | undefined;
+  topP?: number | undefined;
+  topK?: number | undefined;
+  maximumLength?: number | undefined;
+  stopSequences?: string[] | undefined;
 }
 export type ModelIdentifier = string;
 export interface ModelInvocationInput {
-  traceId?: string;
-  text?: string | redacted.Redacted<string>;
-  type?: PromptType;
-  overrideLambda?: string;
-  promptCreationMode?: CreationMode;
-  inferenceConfiguration?: InferenceConfiguration;
-  parserMode?: CreationMode;
-  foundationModel?: string;
+  traceId?: string | undefined;
+  text?: string | redacted.Redacted<string> | undefined;
+  type?: PromptType | undefined;
+  overrideLambda?: string | undefined;
+  promptCreationMode?: CreationMode | undefined;
+  inferenceConfiguration?: InferenceConfiguration | undefined;
+  parserMode?: CreationMode | undefined;
+  foundationModel?: string | undefined;
 }
 export type RationaleString = string | redacted.Redacted<string>;
 export interface PreProcessingParsedResponse {
-  rationale?: string | redacted.Redacted<string>;
-  isValid?: boolean;
+  rationale?: string | redacted.Redacted<string> | undefined;
+  isValid?: boolean | undefined;
 }
 export interface RawResponse {
-  content?: string;
+  content?: string | undefined;
 }
 export interface ReasoningTextBlock {
   text: string;
-  signature?: string;
+  signature?: string | undefined;
 }
 export type ReasoningContentBlock =
-  | { reasoningText: ReasoningTextBlock; redactedContent?: never }
-  | { reasoningText?: never; redactedContent: Uint8Array };
+  | { reasoningText: ReasoningTextBlock; redactedContent?: undefined }
+  | { reasoningText?: undefined; redactedContent: Uint8Array };
 export interface PreProcessingModelInvocationOutput {
-  traceId?: string;
-  parsedResponse?: PreProcessingParsedResponse;
-  rawResponse?: RawResponse;
-  metadata?: Metadata;
-  reasoningContent?: ReasoningContentBlock;
+  traceId?: string | undefined;
+  parsedResponse?: PreProcessingParsedResponse | undefined;
+  rawResponse?: RawResponse | undefined;
+  metadata?: Metadata | undefined;
+  reasoningContent?: ReasoningContentBlock | undefined;
 }
 export type PreProcessingTrace =
-  | { modelInvocationInput: ModelInvocationInput; modelInvocationOutput?: never }
-  | { modelInvocationInput?: never; modelInvocationOutput: PreProcessingModelInvocationOutput };
+  | { modelInvocationInput: ModelInvocationInput; modelInvocationOutput?: undefined }
+  | { modelInvocationInput?: undefined; modelInvocationOutput: PreProcessingModelInvocationOutput };
 export interface Rationale {
-  traceId?: string;
-  text?: string | redacted.Redacted<string>;
+  traceId?: string | undefined;
+  text?: string | redacted.Redacted<string> | undefined;
 }
 export type InvocationType =
   | "ACTION_GROUP"
@@ -1573,61 +1618,61 @@ export type InvocationType =
 export type ActionGroupName = string | redacted.Redacted<string>;
 export type Verb = string | redacted.Redacted<string>;
 export interface Parameter {
-  name?: string;
-  type?: string;
-  value?: string;
+  name?: string | undefined;
+  type?: string | undefined;
+  value?: string | undefined;
 }
 export type Parameters = Parameter[];
 export type ContentMap = { [key: string]: Parameter[] | undefined };
 export interface RequestBody {
-  content?: { [key: string]: Parameter[] | undefined };
+  content?: { [key: string]: Parameter[] | undefined } | undefined;
 }
 export type ExecutionType = "LAMBDA" | "RETURN_CONTROL" | (string & {});
 export interface ActionGroupInvocationInput {
-  actionGroupName?: string | redacted.Redacted<string>;
-  verb?: string | redacted.Redacted<string>;
-  apiPath?: string | redacted.Redacted<string>;
-  parameters?: Parameter[];
-  requestBody?: RequestBody;
-  function?: string | redacted.Redacted<string>;
-  executionType?: ExecutionType;
-  invocationId?: string;
+  actionGroupName?: string | redacted.Redacted<string> | undefined;
+  verb?: string | redacted.Redacted<string> | undefined;
+  apiPath?: string | redacted.Redacted<string> | undefined;
+  parameters?: Parameter[] | undefined;
+  requestBody?: RequestBody | undefined;
+  function?: string | redacted.Redacted<string> | undefined;
+  executionType?: ExecutionType | undefined;
+  invocationId?: string | undefined;
 }
 export type KnowledgeBaseLookupInputString = string | redacted.Redacted<string>;
 export type TraceKnowledgeBaseId = string | redacted.Redacted<string>;
 export interface KnowledgeBaseLookupInput {
-  text?: string | redacted.Redacted<string>;
-  knowledgeBaseId?: string | redacted.Redacted<string>;
+  text?: string | redacted.Redacted<string> | undefined;
+  knowledgeBaseId?: string | redacted.Redacted<string> | undefined;
 }
 export type Files = string[];
 export interface CodeInterpreterInvocationInput {
-  code?: string;
-  files?: string[];
+  code?: string | undefined;
+  files?: string[] | undefined;
 }
 export type AgentAliasArn = string;
 export type PayloadType = "TEXT" | "RETURN_CONTROL" | (string & {});
 export type AgentCollaboratorPayloadString = string | redacted.Redacted<string>;
 export interface ReturnControlResults {
-  invocationId?: string;
-  returnControlInvocationResults?: InvocationResultMember[];
+  invocationId?: string | undefined;
+  returnControlInvocationResults?: InvocationResultMember[] | undefined;
 }
 export interface AgentCollaboratorInputPayload {
-  type?: PayloadType;
-  text?: string | redacted.Redacted<string>;
-  returnControlResults?: ReturnControlResults;
+  type?: PayloadType | undefined;
+  text?: string | redacted.Redacted<string> | undefined;
+  returnControlResults?: ReturnControlResults | undefined;
 }
 export interface AgentCollaboratorInvocationInput {
-  agentCollaboratorName?: string;
-  agentCollaboratorAliasArn?: string;
-  input?: AgentCollaboratorInputPayload;
+  agentCollaboratorName?: string | undefined;
+  agentCollaboratorAliasArn?: string | undefined;
+  input?: AgentCollaboratorInputPayload | undefined;
 }
 export interface InvocationInput {
-  traceId?: string;
-  invocationType?: InvocationType;
-  actionGroupInvocationInput?: ActionGroupInvocationInput;
-  knowledgeBaseLookupInput?: KnowledgeBaseLookupInput;
-  codeInterpreterInvocationInput?: CodeInterpreterInvocationInput;
-  agentCollaboratorInvocationInput?: AgentCollaboratorInvocationInput;
+  traceId?: string | undefined;
+  invocationType?: InvocationType | undefined;
+  actionGroupInvocationInput?: ActionGroupInvocationInput | undefined;
+  knowledgeBaseLookupInput?: KnowledgeBaseLookupInput | undefined;
+  codeInterpreterInvocationInput?: CodeInterpreterInvocationInput | undefined;
+  agentCollaboratorInvocationInput?: AgentCollaboratorInvocationInput | undefined;
 }
 export type Type =
   | "ACTION_GROUP"
@@ -1639,22 +1684,22 @@ export type Type =
   | (string & {});
 export type ActionGroupOutputString = string | redacted.Redacted<string>;
 export interface ActionGroupInvocationOutput {
-  text?: string | redacted.Redacted<string>;
-  metadata?: Metadata;
+  text?: string | redacted.Redacted<string> | undefined;
+  metadata?: Metadata | undefined;
 }
 export interface ApiParameter {
-  name?: string;
-  type?: string;
-  value?: string;
+  name?: string | undefined;
+  type?: string | undefined;
+  value?: string | undefined;
 }
 export type ApiParameters = ApiParameter[];
 export type ParameterList = Parameter[];
 export interface PropertyParameters {
-  properties?: Parameter[];
+  properties?: Parameter[] | undefined;
 }
 export type ApiContentMap = { [key: string]: PropertyParameters | undefined };
 export interface ApiRequestBody {
-  content?: { [key: string]: PropertyParameters | undefined };
+  content?: { [key: string]: PropertyParameters | undefined } | undefined;
 }
 export type ActionInvocationType =
   | "RESULT"
@@ -1664,517 +1709,520 @@ export type ActionInvocationType =
 export type Name = string | redacted.Redacted<string>;
 export interface ApiInvocationInput {
   actionGroup: string;
-  httpMethod?: string;
-  apiPath?: string | redacted.Redacted<string>;
-  parameters?: ApiParameter[];
-  requestBody?: ApiRequestBody;
-  actionInvocationType?: ActionInvocationType;
-  agentId?: string;
-  collaboratorName?: string | redacted.Redacted<string>;
+  httpMethod?: string | undefined;
+  apiPath?: string | redacted.Redacted<string> | undefined;
+  parameters?: ApiParameter[] | undefined;
+  requestBody?: ApiRequestBody | undefined;
+  actionInvocationType?: ActionInvocationType | undefined;
+  agentId?: string | undefined;
+  collaboratorName?: string | redacted.Redacted<string> | undefined;
 }
 export interface FunctionParameter {
-  name?: string;
-  type?: string;
-  value?: string;
+  name?: string | undefined;
+  type?: string | undefined;
+  value?: string | undefined;
 }
 export type FunctionParameters = FunctionParameter[];
 export interface FunctionInvocationInput {
   actionGroup: string;
-  parameters?: FunctionParameter[];
-  function?: string;
-  actionInvocationType?: ActionInvocationType;
-  agentId?: string;
-  collaboratorName?: string | redacted.Redacted<string>;
+  parameters?: FunctionParameter[] | undefined;
+  function?: string | undefined;
+  actionInvocationType?: ActionInvocationType | undefined;
+  agentId?: string | undefined;
+  collaboratorName?: string | redacted.Redacted<string> | undefined;
 }
 export type InvocationInputMember =
-  | { apiInvocationInput: ApiInvocationInput; functionInvocationInput?: never }
-  | { apiInvocationInput?: never; functionInvocationInput: FunctionInvocationInput };
+  | { apiInvocationInput: ApiInvocationInput; functionInvocationInput?: undefined }
+  | { apiInvocationInput?: undefined; functionInvocationInput: FunctionInvocationInput };
 export type InvocationInputs = InvocationInputMember[];
 export interface ReturnControlPayload {
-  invocationInputs?: InvocationInputMember[];
-  invocationId?: string;
+  invocationInputs?: InvocationInputMember[] | undefined;
+  invocationId?: string | undefined;
 }
 export interface AgentCollaboratorOutputPayload {
-  type?: PayloadType;
-  text?: string | redacted.Redacted<string>;
-  returnControlPayload?: ReturnControlPayload;
+  type?: PayloadType | undefined;
+  text?: string | redacted.Redacted<string> | undefined;
+  returnControlPayload?: ReturnControlPayload | undefined;
 }
 export interface AgentCollaboratorInvocationOutput {
-  agentCollaboratorName?: string;
-  agentCollaboratorAliasArn?: string;
-  output?: AgentCollaboratorOutputPayload;
-  metadata?: Metadata;
+  agentCollaboratorName?: string | undefined;
+  agentCollaboratorAliasArn?: string | undefined;
+  output?: AgentCollaboratorOutputPayload | undefined;
+  metadata?: Metadata | undefined;
 }
 export interface KnowledgeBaseLookupOutput {
-  retrievedReferences?: RetrievedReference[];
-  metadata?: Metadata;
+  retrievedReferences?: RetrievedReference[] | undefined;
+  metadata?: Metadata | undefined;
 }
 export type FinalResponseString = string | redacted.Redacted<string>;
 export interface FinalResponse {
-  text?: string | redacted.Redacted<string>;
-  metadata?: Metadata;
+  text?: string | redacted.Redacted<string> | undefined;
+  metadata?: Metadata | undefined;
 }
 export type Source = "ACTION_GROUP" | "KNOWLEDGE_BASE" | "PARSER" | (string & {});
 export interface RepromptResponse {
-  text?: string;
-  source?: Source;
+  text?: string | undefined;
+  source?: Source | undefined;
 }
 export interface CodeInterpreterInvocationOutput {
-  executionOutput?: string;
-  executionError?: string;
-  files?: string[];
-  executionTimeout?: boolean;
-  metadata?: Metadata;
+  executionOutput?: string | undefined;
+  executionError?: string | undefined;
+  files?: string[] | undefined;
+  executionTimeout?: boolean | undefined;
+  metadata?: Metadata | undefined;
 }
 export interface Observation {
-  traceId?: string;
-  type?: Type;
-  actionGroupInvocationOutput?: ActionGroupInvocationOutput;
-  agentCollaboratorInvocationOutput?: AgentCollaboratorInvocationOutput;
-  knowledgeBaseLookupOutput?: KnowledgeBaseLookupOutput;
-  finalResponse?: FinalResponse;
-  repromptResponse?: RepromptResponse;
-  codeInterpreterInvocationOutput?: CodeInterpreterInvocationOutput;
+  traceId?: string | undefined;
+  type?: Type | undefined;
+  actionGroupInvocationOutput?: ActionGroupInvocationOutput | undefined;
+  agentCollaboratorInvocationOutput?: AgentCollaboratorInvocationOutput | undefined;
+  knowledgeBaseLookupOutput?: KnowledgeBaseLookupOutput | undefined;
+  finalResponse?: FinalResponse | undefined;
+  repromptResponse?: RepromptResponse | undefined;
+  codeInterpreterInvocationOutput?: CodeInterpreterInvocationOutput | undefined;
 }
 export interface OrchestrationModelInvocationOutput {
-  traceId?: string;
-  rawResponse?: RawResponse;
-  metadata?: Metadata;
-  reasoningContent?: ReasoningContentBlock;
+  traceId?: string | undefined;
+  rawResponse?: RawResponse | undefined;
+  metadata?: Metadata | undefined;
+  reasoningContent?: ReasoningContentBlock | undefined;
 }
 export type OrchestrationTrace =
   | {
       rationale: Rationale;
-      invocationInput?: never;
-      observation?: never;
-      modelInvocationInput?: never;
-      modelInvocationOutput?: never;
+      invocationInput?: undefined;
+      observation?: undefined;
+      modelInvocationInput?: undefined;
+      modelInvocationOutput?: undefined;
     }
   | {
-      rationale?: never;
+      rationale?: undefined;
       invocationInput: InvocationInput;
-      observation?: never;
-      modelInvocationInput?: never;
-      modelInvocationOutput?: never;
+      observation?: undefined;
+      modelInvocationInput?: undefined;
+      modelInvocationOutput?: undefined;
     }
   | {
-      rationale?: never;
-      invocationInput?: never;
+      rationale?: undefined;
+      invocationInput?: undefined;
       observation: Observation;
-      modelInvocationInput?: never;
-      modelInvocationOutput?: never;
+      modelInvocationInput?: undefined;
+      modelInvocationOutput?: undefined;
     }
   | {
-      rationale?: never;
-      invocationInput?: never;
-      observation?: never;
+      rationale?: undefined;
+      invocationInput?: undefined;
+      observation?: undefined;
       modelInvocationInput: ModelInvocationInput;
-      modelInvocationOutput?: never;
+      modelInvocationOutput?: undefined;
     }
   | {
-      rationale?: never;
-      invocationInput?: never;
-      observation?: never;
-      modelInvocationInput?: never;
+      rationale?: undefined;
+      invocationInput?: undefined;
+      observation?: undefined;
+      modelInvocationInput?: undefined;
       modelInvocationOutput: OrchestrationModelInvocationOutput;
     };
 export type OutputString = string | redacted.Redacted<string>;
 export interface PostProcessingParsedResponse {
-  text?: string | redacted.Redacted<string>;
+  text?: string | redacted.Redacted<string> | undefined;
 }
 export interface PostProcessingModelInvocationOutput {
-  traceId?: string;
-  parsedResponse?: PostProcessingParsedResponse;
-  rawResponse?: RawResponse;
-  metadata?: Metadata;
-  reasoningContent?: ReasoningContentBlock;
+  traceId?: string | undefined;
+  parsedResponse?: PostProcessingParsedResponse | undefined;
+  rawResponse?: RawResponse | undefined;
+  metadata?: Metadata | undefined;
+  reasoningContent?: ReasoningContentBlock | undefined;
 }
 export type PostProcessingTrace =
-  | { modelInvocationInput: ModelInvocationInput; modelInvocationOutput?: never }
-  | { modelInvocationInput?: never; modelInvocationOutput: PostProcessingModelInvocationOutput };
+  | { modelInvocationInput: ModelInvocationInput; modelInvocationOutput?: undefined }
+  | {
+      modelInvocationInput?: undefined;
+      modelInvocationOutput: PostProcessingModelInvocationOutput;
+    };
 export interface RoutingClassifierModelInvocationOutput {
-  traceId?: string;
-  rawResponse?: RawResponse;
-  metadata?: Metadata;
+  traceId?: string | undefined;
+  rawResponse?: RawResponse | undefined;
+  metadata?: Metadata | undefined;
 }
 export type RoutingClassifierTrace =
   | {
       invocationInput: InvocationInput;
-      observation?: never;
-      modelInvocationInput?: never;
-      modelInvocationOutput?: never;
+      observation?: undefined;
+      modelInvocationInput?: undefined;
+      modelInvocationOutput?: undefined;
     }
   | {
-      invocationInput?: never;
+      invocationInput?: undefined;
       observation: Observation;
-      modelInvocationInput?: never;
-      modelInvocationOutput?: never;
+      modelInvocationInput?: undefined;
+      modelInvocationOutput?: undefined;
     }
   | {
-      invocationInput?: never;
-      observation?: never;
+      invocationInput?: undefined;
+      observation?: undefined;
       modelInvocationInput: ModelInvocationInput;
-      modelInvocationOutput?: never;
+      modelInvocationOutput?: undefined;
     }
   | {
-      invocationInput?: never;
-      observation?: never;
-      modelInvocationInput?: never;
+      invocationInput?: undefined;
+      observation?: undefined;
+      modelInvocationInput?: undefined;
       modelInvocationOutput: RoutingClassifierModelInvocationOutput;
     };
 export type FailureReasonString = string | redacted.Redacted<string>;
 export interface FailureTrace {
-  traceId?: string;
-  failureReason?: string | redacted.Redacted<string>;
-  failureCode?: number;
-  metadata?: Metadata;
+  traceId?: string | undefined;
+  failureReason?: string | redacted.Redacted<string> | undefined;
+  failureCode?: number | undefined;
+  metadata?: Metadata | undefined;
 }
 export interface CustomOrchestrationTraceEvent {
-  text?: string;
+  text?: string | undefined;
 }
 export interface CustomOrchestrationTrace {
-  traceId?: string;
-  event?: CustomOrchestrationTraceEvent;
+  traceId?: string | undefined;
+  event?: CustomOrchestrationTraceEvent | undefined;
 }
 export type Trace =
   | {
       guardrailTrace: GuardrailTrace;
-      preProcessingTrace?: never;
-      orchestrationTrace?: never;
-      postProcessingTrace?: never;
-      routingClassifierTrace?: never;
-      failureTrace?: never;
-      customOrchestrationTrace?: never;
+      preProcessingTrace?: undefined;
+      orchestrationTrace?: undefined;
+      postProcessingTrace?: undefined;
+      routingClassifierTrace?: undefined;
+      failureTrace?: undefined;
+      customOrchestrationTrace?: undefined;
     }
   | {
-      guardrailTrace?: never;
+      guardrailTrace?: undefined;
       preProcessingTrace: PreProcessingTrace;
-      orchestrationTrace?: never;
-      postProcessingTrace?: never;
-      routingClassifierTrace?: never;
-      failureTrace?: never;
-      customOrchestrationTrace?: never;
+      orchestrationTrace?: undefined;
+      postProcessingTrace?: undefined;
+      routingClassifierTrace?: undefined;
+      failureTrace?: undefined;
+      customOrchestrationTrace?: undefined;
     }
   | {
-      guardrailTrace?: never;
-      preProcessingTrace?: never;
+      guardrailTrace?: undefined;
+      preProcessingTrace?: undefined;
       orchestrationTrace: OrchestrationTrace;
-      postProcessingTrace?: never;
-      routingClassifierTrace?: never;
-      failureTrace?: never;
-      customOrchestrationTrace?: never;
+      postProcessingTrace?: undefined;
+      routingClassifierTrace?: undefined;
+      failureTrace?: undefined;
+      customOrchestrationTrace?: undefined;
     }
   | {
-      guardrailTrace?: never;
-      preProcessingTrace?: never;
-      orchestrationTrace?: never;
+      guardrailTrace?: undefined;
+      preProcessingTrace?: undefined;
+      orchestrationTrace?: undefined;
       postProcessingTrace: PostProcessingTrace;
-      routingClassifierTrace?: never;
-      failureTrace?: never;
-      customOrchestrationTrace?: never;
+      routingClassifierTrace?: undefined;
+      failureTrace?: undefined;
+      customOrchestrationTrace?: undefined;
     }
   | {
-      guardrailTrace?: never;
-      preProcessingTrace?: never;
-      orchestrationTrace?: never;
-      postProcessingTrace?: never;
+      guardrailTrace?: undefined;
+      preProcessingTrace?: undefined;
+      orchestrationTrace?: undefined;
+      postProcessingTrace?: undefined;
       routingClassifierTrace: RoutingClassifierTrace;
-      failureTrace?: never;
-      customOrchestrationTrace?: never;
+      failureTrace?: undefined;
+      customOrchestrationTrace?: undefined;
     }
   | {
-      guardrailTrace?: never;
-      preProcessingTrace?: never;
-      orchestrationTrace?: never;
-      postProcessingTrace?: never;
-      routingClassifierTrace?: never;
+      guardrailTrace?: undefined;
+      preProcessingTrace?: undefined;
+      orchestrationTrace?: undefined;
+      postProcessingTrace?: undefined;
+      routingClassifierTrace?: undefined;
       failureTrace: FailureTrace;
-      customOrchestrationTrace?: never;
+      customOrchestrationTrace?: undefined;
     }
   | {
-      guardrailTrace?: never;
-      preProcessingTrace?: never;
-      orchestrationTrace?: never;
-      postProcessingTrace?: never;
-      routingClassifierTrace?: never;
-      failureTrace?: never;
+      guardrailTrace?: undefined;
+      preProcessingTrace?: undefined;
+      orchestrationTrace?: undefined;
+      postProcessingTrace?: undefined;
+      routingClassifierTrace?: undefined;
+      failureTrace?: undefined;
       customOrchestrationTrace: CustomOrchestrationTrace;
     };
 export type Caller = { agentAliasArn: string };
 export type CallerChain = Caller[];
 export type AgentVersion = string;
 export interface TracePart {
-  sessionId?: string;
-  trace?: Trace;
-  callerChain?: Caller[];
-  eventTime?: Date;
-  collaboratorName?: string | redacted.Redacted<string>;
-  agentId?: string;
-  agentAliasId?: string;
-  agentVersion?: string;
+  sessionId?: string | undefined;
+  trace?: Trace | undefined;
+  callerChain?: Caller[] | undefined;
+  eventTime?: Date | undefined;
+  collaboratorName?: string | redacted.Redacted<string> | undefined;
+  agentId?: string | undefined;
+  agentAliasId?: string | undefined;
+  agentVersion?: string | undefined;
 }
 export type FileBody = Uint8Array | redacted.Redacted<Uint8Array>;
 export interface OutputFile {
-  name?: string;
-  type?: string;
-  bytes?: Uint8Array | redacted.Redacted<Uint8Array>;
+  name?: string | undefined;
+  type?: string | undefined;
+  bytes?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
 }
 export type OutputFiles = OutputFile[];
 export interface FilePart {
-  files?: OutputFile[];
+  files?: OutputFile[] | undefined;
 }
 export type ResponseStream =
   | {
       chunk: PayloadPart;
-      trace?: never;
-      returnControl?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
-      modelNotReadyException?: never;
-      files?: never;
+      trace?: undefined;
+      returnControl?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
+      modelNotReadyException?: undefined;
+      files?: undefined;
     }
   | {
-      chunk?: never;
+      chunk?: undefined;
       trace: TracePart;
-      returnControl?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
-      modelNotReadyException?: never;
-      files?: never;
+      returnControl?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
+      modelNotReadyException?: undefined;
+      files?: undefined;
     }
   | {
-      chunk?: never;
-      trace?: never;
+      chunk?: undefined;
+      trace?: undefined;
       returnControl: ReturnControlPayload;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
-      modelNotReadyException?: never;
-      files?: never;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
+      modelNotReadyException?: undefined;
+      files?: undefined;
     }
   | {
-      chunk?: never;
-      trace?: never;
-      returnControl?: never;
+      chunk?: undefined;
+      trace?: undefined;
+      returnControl?: undefined;
       internalServerException: InternalServerException;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
-      modelNotReadyException?: never;
-      files?: never;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
+      modelNotReadyException?: undefined;
+      files?: undefined;
     }
   | {
-      chunk?: never;
-      trace?: never;
-      returnControl?: never;
-      internalServerException?: never;
+      chunk?: undefined;
+      trace?: undefined;
+      returnControl?: undefined;
+      internalServerException?: undefined;
       validationException: ValidationException;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
-      modelNotReadyException?: never;
-      files?: never;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
+      modelNotReadyException?: undefined;
+      files?: undefined;
     }
   | {
-      chunk?: never;
-      trace?: never;
-      returnControl?: never;
-      internalServerException?: never;
-      validationException?: never;
+      chunk?: undefined;
+      trace?: undefined;
+      returnControl?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
       resourceNotFoundException: ResourceNotFoundException;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
-      modelNotReadyException?: never;
-      files?: never;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
+      modelNotReadyException?: undefined;
+      files?: undefined;
     }
   | {
-      chunk?: never;
-      trace?: never;
-      returnControl?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
+      chunk?: undefined;
+      trace?: undefined;
+      returnControl?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
       serviceQuotaExceededException: ServiceQuotaExceededException;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
-      modelNotReadyException?: never;
-      files?: never;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
+      modelNotReadyException?: undefined;
+      files?: undefined;
     }
   | {
-      chunk?: never;
-      trace?: never;
-      returnControl?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
+      chunk?: undefined;
+      trace?: undefined;
+      returnControl?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
       throttlingException: ThrottlingException;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
-      modelNotReadyException?: never;
-      files?: never;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
+      modelNotReadyException?: undefined;
+      files?: undefined;
     }
   | {
-      chunk?: never;
-      trace?: never;
-      returnControl?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
+      chunk?: undefined;
+      trace?: undefined;
+      returnControl?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
       accessDeniedException: AccessDeniedException;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
-      modelNotReadyException?: never;
-      files?: never;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
+      modelNotReadyException?: undefined;
+      files?: undefined;
     }
   | {
-      chunk?: never;
-      trace?: never;
-      returnControl?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
+      chunk?: undefined;
+      trace?: undefined;
+      returnControl?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
       conflictException: ConflictException;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
-      modelNotReadyException?: never;
-      files?: never;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
+      modelNotReadyException?: undefined;
+      files?: undefined;
     }
   | {
-      chunk?: never;
-      trace?: never;
-      returnControl?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
+      chunk?: undefined;
+      trace?: undefined;
+      returnControl?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
       dependencyFailedException: DependencyFailedException;
-      badGatewayException?: never;
-      modelNotReadyException?: never;
-      files?: never;
+      badGatewayException?: undefined;
+      modelNotReadyException?: undefined;
+      files?: undefined;
     }
   | {
-      chunk?: never;
-      trace?: never;
-      returnControl?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
+      chunk?: undefined;
+      trace?: undefined;
+      returnControl?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
       badGatewayException: BadGatewayException;
-      modelNotReadyException?: never;
-      files?: never;
+      modelNotReadyException?: undefined;
+      files?: undefined;
     }
   | {
-      chunk?: never;
-      trace?: never;
-      returnControl?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
+      chunk?: undefined;
+      trace?: undefined;
+      returnControl?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
       modelNotReadyException: ModelNotReadyException;
-      files?: never;
+      files?: undefined;
     }
   | {
-      chunk?: never;
-      trace?: never;
-      returnControl?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
-      modelNotReadyException?: never;
+      chunk?: undefined;
+      trace?: undefined;
+      returnControl?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
+      modelNotReadyException?: undefined;
       files: FilePart;
     };
 export interface InvokeAgentResponse {
   completion: stream.Stream<ResponseStream, Error, never>;
   contentType: string;
   sessionId: string;
-  memoryId?: string;
+  memoryId?: string | undefined;
 }
 export type NodeOutputName = string;
 export type FlowInputContent = { document: any };
 export type NodeInputName = string;
 export interface FlowInput {
   nodeName: string;
-  nodeOutputName?: string;
+  nodeOutputName?: string | undefined;
   content: FlowInputContent;
-  nodeInputName?: string;
+  nodeInputName?: string | undefined;
 }
 export type FlowInputs = FlowInput[];
 export interface ModelPerformanceConfiguration {
-  performanceConfig?: PerformanceConfiguration;
+  performanceConfig?: PerformanceConfiguration | undefined;
 }
 export type FlowExecutionId = string;
 export interface InvokeFlowRequest {
   flowIdentifier: string;
   flowAliasIdentifier: string;
   inputs: FlowInput[];
-  enableTrace?: boolean;
-  modelPerformanceConfiguration?: ModelPerformanceConfiguration;
-  executionId?: string;
+  enableTrace?: boolean | undefined;
+  modelPerformanceConfiguration?: ModelPerformanceConfiguration | undefined;
+  executionId?: string | undefined;
 }
 export type NodeType =
   | "FlowInputNode"
@@ -2218,17 +2266,17 @@ export type FlowNodeInputCategory =
 export type FlowControlNodeType = "Iterator" | "Loop" | (string & {});
 export interface FlowTraceNodeInputExecutionChainItem {
   nodeName: string;
-  index?: number;
+  index?: number | undefined;
   type: FlowControlNodeType;
 }
 export type FlowTraceNodeInputExecutionChain = FlowTraceNodeInputExecutionChainItem[];
 export interface FlowTraceNodeInputField {
   nodeInputName: string;
   content: FlowTraceNodeInputContent;
-  source?: FlowTraceNodeInputSource;
-  type?: FlowNodeIODataType;
-  category?: FlowNodeInputCategory;
-  executionChain?: FlowTraceNodeInputExecutionChainItem[];
+  source?: FlowTraceNodeInputSource | undefined;
+  type?: FlowNodeIODataType | undefined;
+  category?: FlowNodeInputCategory | undefined;
+  executionChain?: FlowTraceNodeInputExecutionChainItem[] | undefined;
 }
 export type FlowTraceNodeInputFields = FlowTraceNodeInputField[];
 export interface FlowTraceNodeInputEvent {
@@ -2246,8 +2294,8 @@ export type FlowTraceNodeOutputNextList = FlowTraceNodeOutputNext[];
 export interface FlowTraceNodeOutputField {
   nodeOutputName: string;
   content: FlowTraceNodeOutputContent;
-  next?: FlowTraceNodeOutputNext[];
-  type?: FlowNodeIODataType;
+  next?: FlowTraceNodeOutputNext[] | undefined;
+  type?: FlowNodeIODataType | undefined;
 }
 export type FlowTraceNodeOutputFields = FlowTraceNodeOutputField[];
 export interface FlowTraceNodeOutputEvent {
@@ -2270,8 +2318,8 @@ export interface FlowTraceNodeActionEvent {
   requestId: string;
   serviceName: string;
   operationName: string;
-  operationRequest?: any;
-  operationResponse?: any;
+  operationRequest?: any | undefined;
+  operationResponse?: any | undefined;
 }
 export type AgentTraces = TracePart[];
 export type TraceElements = { agentTraces: TracePart[] };
@@ -2283,37 +2331,37 @@ export interface FlowTraceDependencyEvent {
 export type FlowTrace =
   | {
       nodeInputTrace: FlowTraceNodeInputEvent;
-      nodeOutputTrace?: never;
-      conditionNodeResultTrace?: never;
-      nodeActionTrace?: never;
-      nodeDependencyTrace?: never;
+      nodeOutputTrace?: undefined;
+      conditionNodeResultTrace?: undefined;
+      nodeActionTrace?: undefined;
+      nodeDependencyTrace?: undefined;
     }
   | {
-      nodeInputTrace?: never;
+      nodeInputTrace?: undefined;
       nodeOutputTrace: FlowTraceNodeOutputEvent;
-      conditionNodeResultTrace?: never;
-      nodeActionTrace?: never;
-      nodeDependencyTrace?: never;
+      conditionNodeResultTrace?: undefined;
+      nodeActionTrace?: undefined;
+      nodeDependencyTrace?: undefined;
     }
   | {
-      nodeInputTrace?: never;
-      nodeOutputTrace?: never;
+      nodeInputTrace?: undefined;
+      nodeOutputTrace?: undefined;
       conditionNodeResultTrace: FlowTraceConditionNodeResultEvent;
-      nodeActionTrace?: never;
-      nodeDependencyTrace?: never;
+      nodeActionTrace?: undefined;
+      nodeDependencyTrace?: undefined;
     }
   | {
-      nodeInputTrace?: never;
-      nodeOutputTrace?: never;
-      conditionNodeResultTrace?: never;
+      nodeInputTrace?: undefined;
+      nodeOutputTrace?: undefined;
+      conditionNodeResultTrace?: undefined;
       nodeActionTrace: FlowTraceNodeActionEvent;
-      nodeDependencyTrace?: never;
+      nodeDependencyTrace?: undefined;
     }
   | {
-      nodeInputTrace?: never;
-      nodeOutputTrace?: never;
-      conditionNodeResultTrace?: never;
-      nodeActionTrace?: never;
+      nodeInputTrace?: undefined;
+      nodeOutputTrace?: undefined;
+      conditionNodeResultTrace?: undefined;
+      nodeActionTrace?: undefined;
       nodeDependencyTrace: FlowTraceDependencyEvent;
     };
 export interface FlowTraceEvent {
@@ -2328,202 +2376,202 @@ export interface FlowMultiTurnInputRequestEvent {
 export type FlowResponseStream =
   | {
       flowOutputEvent: FlowOutputEvent;
-      flowCompletionEvent?: never;
-      flowTraceEvent?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
-      flowMultiTurnInputRequestEvent?: never;
+      flowCompletionEvent?: undefined;
+      flowTraceEvent?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
+      flowMultiTurnInputRequestEvent?: undefined;
     }
   | {
-      flowOutputEvent?: never;
+      flowOutputEvent?: undefined;
       flowCompletionEvent: FlowCompletionEvent;
-      flowTraceEvent?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
-      flowMultiTurnInputRequestEvent?: never;
+      flowTraceEvent?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
+      flowMultiTurnInputRequestEvent?: undefined;
     }
   | {
-      flowOutputEvent?: never;
-      flowCompletionEvent?: never;
+      flowOutputEvent?: undefined;
+      flowCompletionEvent?: undefined;
       flowTraceEvent: FlowTraceEvent;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
-      flowMultiTurnInputRequestEvent?: never;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
+      flowMultiTurnInputRequestEvent?: undefined;
     }
   | {
-      flowOutputEvent?: never;
-      flowCompletionEvent?: never;
-      flowTraceEvent?: never;
+      flowOutputEvent?: undefined;
+      flowCompletionEvent?: undefined;
+      flowTraceEvent?: undefined;
       internalServerException: InternalServerException;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
-      flowMultiTurnInputRequestEvent?: never;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
+      flowMultiTurnInputRequestEvent?: undefined;
     }
   | {
-      flowOutputEvent?: never;
-      flowCompletionEvent?: never;
-      flowTraceEvent?: never;
-      internalServerException?: never;
+      flowOutputEvent?: undefined;
+      flowCompletionEvent?: undefined;
+      flowTraceEvent?: undefined;
+      internalServerException?: undefined;
       validationException: ValidationException;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
-      flowMultiTurnInputRequestEvent?: never;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
+      flowMultiTurnInputRequestEvent?: undefined;
     }
   | {
-      flowOutputEvent?: never;
-      flowCompletionEvent?: never;
-      flowTraceEvent?: never;
-      internalServerException?: never;
-      validationException?: never;
+      flowOutputEvent?: undefined;
+      flowCompletionEvent?: undefined;
+      flowTraceEvent?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
       resourceNotFoundException: ResourceNotFoundException;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
-      flowMultiTurnInputRequestEvent?: never;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
+      flowMultiTurnInputRequestEvent?: undefined;
     }
   | {
-      flowOutputEvent?: never;
-      flowCompletionEvent?: never;
-      flowTraceEvent?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
+      flowOutputEvent?: undefined;
+      flowCompletionEvent?: undefined;
+      flowTraceEvent?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
       serviceQuotaExceededException: ServiceQuotaExceededException;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
-      flowMultiTurnInputRequestEvent?: never;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
+      flowMultiTurnInputRequestEvent?: undefined;
     }
   | {
-      flowOutputEvent?: never;
-      flowCompletionEvent?: never;
-      flowTraceEvent?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
+      flowOutputEvent?: undefined;
+      flowCompletionEvent?: undefined;
+      flowTraceEvent?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
       throttlingException: ThrottlingException;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
-      flowMultiTurnInputRequestEvent?: never;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
+      flowMultiTurnInputRequestEvent?: undefined;
     }
   | {
-      flowOutputEvent?: never;
-      flowCompletionEvent?: never;
-      flowTraceEvent?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
+      flowOutputEvent?: undefined;
+      flowCompletionEvent?: undefined;
+      flowTraceEvent?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
       accessDeniedException: AccessDeniedException;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
-      flowMultiTurnInputRequestEvent?: never;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
+      flowMultiTurnInputRequestEvent?: undefined;
     }
   | {
-      flowOutputEvent?: never;
-      flowCompletionEvent?: never;
-      flowTraceEvent?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
+      flowOutputEvent?: undefined;
+      flowCompletionEvent?: undefined;
+      flowTraceEvent?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
       conflictException: ConflictException;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
-      flowMultiTurnInputRequestEvent?: never;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
+      flowMultiTurnInputRequestEvent?: undefined;
     }
   | {
-      flowOutputEvent?: never;
-      flowCompletionEvent?: never;
-      flowTraceEvent?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
+      flowOutputEvent?: undefined;
+      flowCompletionEvent?: undefined;
+      flowTraceEvent?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
       dependencyFailedException: DependencyFailedException;
-      badGatewayException?: never;
-      flowMultiTurnInputRequestEvent?: never;
+      badGatewayException?: undefined;
+      flowMultiTurnInputRequestEvent?: undefined;
     }
   | {
-      flowOutputEvent?: never;
-      flowCompletionEvent?: never;
-      flowTraceEvent?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
+      flowOutputEvent?: undefined;
+      flowCompletionEvent?: undefined;
+      flowTraceEvent?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
       badGatewayException: BadGatewayException;
-      flowMultiTurnInputRequestEvent?: never;
+      flowMultiTurnInputRequestEvent?: undefined;
     }
   | {
-      flowOutputEvent?: never;
-      flowCompletionEvent?: never;
-      flowTraceEvent?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
+      flowOutputEvent?: undefined;
+      flowCompletionEvent?: undefined;
+      flowTraceEvent?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
       flowMultiTurnInputRequestEvent: FlowMultiTurnInputRequestEvent;
     };
 export interface InvokeFlowResponse {
   responseStream: stream.Stream<FlowResponseStream, Error, never>;
-  executionId?: string;
+  executionId?: string | undefined;
 }
 export type Instruction = string | redacted.Redacted<string>;
 export type SessionTTL = number;
@@ -2539,52 +2587,52 @@ export type ActionGroupSignature =
 export type LambdaResourceArn = string;
 export type CustomControlMethod = "RETURN_CONTROL" | (string & {});
 export type ActionGroupExecutor =
-  | { lambda: string; customControl?: never }
-  | { lambda?: never; customControl: CustomControlMethod };
+  | { lambda: string; customControl?: undefined }
+  | { lambda?: undefined; customControl: CustomControlMethod };
 export type S3BucketName = string;
 export type S3ObjectKey = string;
 export interface S3Identifier {
-  s3BucketName?: string;
-  s3ObjectKey?: string;
+  s3BucketName?: string | undefined;
+  s3ObjectKey?: string | undefined;
 }
 export type Payload = string | redacted.Redacted<string>;
 export type APISchema =
-  | { s3: S3Identifier; payload?: never }
-  | { s3?: never; payload: string | redacted.Redacted<string> };
+  | { s3: S3Identifier; payload?: undefined }
+  | { s3?: undefined; payload: string | redacted.Redacted<string> };
 export type FunctionDescription = string;
 export type ParameterName = string;
 export type ParameterDescription = string;
 export type ParameterType = "string" | "number" | "integer" | "boolean" | "array" | (string & {});
 export interface ParameterDetail {
-  description?: string;
+  description?: string | undefined;
   type: ParameterType;
-  required?: boolean;
+  required?: boolean | undefined;
 }
 export type ParameterMap = { [key: string]: ParameterDetail | undefined };
 export type RequireConfirmation = "ENABLED" | "DISABLED" | (string & {});
 export interface FunctionDefinition {
   name: string | redacted.Redacted<string>;
-  description?: string;
-  parameters?: { [key: string]: ParameterDetail | undefined };
-  requireConfirmation?: RequireConfirmation;
+  description?: string | undefined;
+  parameters?: { [key: string]: ParameterDetail | undefined } | undefined;
+  requireConfirmation?: RequireConfirmation | undefined;
 }
 export type Functions = FunctionDefinition[];
 export type FunctionSchema = { functions: FunctionDefinition[] };
 export type ActionGroupSignatureParams = { [key: string]: string | undefined };
 export interface AgentActionGroup {
   actionGroupName: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  parentActionGroupSignature?: ActionGroupSignature;
-  actionGroupExecutor?: ActionGroupExecutor;
-  apiSchema?: APISchema;
-  functionSchema?: FunctionSchema;
-  parentActionGroupSignatureParams?: { [key: string]: string | undefined };
+  description?: string | redacted.Redacted<string> | undefined;
+  parentActionGroupSignature?: ActionGroupSignature | undefined;
+  actionGroupExecutor?: ActionGroupExecutor | undefined;
+  apiSchema?: APISchema | undefined;
+  functionSchema?: FunctionSchema | undefined;
+  parentActionGroupSignatureParams?: { [key: string]: string | undefined } | undefined;
 }
 export type AgentActionGroups = AgentActionGroup[];
 export interface KnowledgeBase {
   knowledgeBaseId: string;
   description: string | redacted.Redacted<string>;
-  retrievalConfiguration?: KnowledgeBaseRetrievalConfiguration;
+  retrievalConfiguration?: KnowledgeBaseRetrievalConfiguration | undefined;
 }
 export type KnowledgeBases = KnowledgeBase[];
 export type GuardrailIdentifierWithArn = string;
@@ -2596,19 +2644,19 @@ export interface GuardrailConfigurationWithArn {
 export type PromptState = "ENABLED" | "DISABLED" | (string & {});
 export type BasePromptTemplate = string | redacted.Redacted<string>;
 export interface PromptConfiguration {
-  promptType?: PromptType;
-  promptCreationMode?: CreationMode;
-  promptState?: PromptState;
-  basePromptTemplate?: string | redacted.Redacted<string>;
-  inferenceConfiguration?: InferenceConfiguration;
-  parserMode?: CreationMode;
-  foundationModel?: string;
-  additionalModelRequestFields?: any;
+  promptType?: PromptType | undefined;
+  promptCreationMode?: CreationMode | undefined;
+  promptState?: PromptState | undefined;
+  basePromptTemplate?: string | redacted.Redacted<string> | undefined;
+  inferenceConfiguration?: InferenceConfiguration | undefined;
+  parserMode?: CreationMode | undefined;
+  foundationModel?: string | undefined;
+  additionalModelRequestFields?: any | undefined;
 }
 export type PromptConfigurations = PromptConfiguration[];
 export interface PromptOverrideConfiguration {
   promptConfigurations: PromptConfiguration[];
-  overrideLambda?: string;
+  overrideLambda?: string | undefined;
 }
 export type AgentCollaboration = "SUPERVISOR" | "SUPERVISOR_ROUTER" | "DISABLED" | (string & {});
 export type CollaborationInstruction = string | redacted.Redacted<string>;
@@ -2616,276 +2664,276 @@ export type RelayConversationHistory = "TO_COLLABORATOR" | "DISABLED" | (string 
 export interface CollaboratorConfiguration {
   collaboratorName: string | redacted.Redacted<string>;
   collaboratorInstruction: string | redacted.Redacted<string>;
-  agentAliasArn?: string;
-  relayConversationHistory?: RelayConversationHistory;
+  agentAliasArn?: string | undefined;
+  relayConversationHistory?: RelayConversationHistory | undefined;
 }
 export type CollaboratorConfigurations = CollaboratorConfiguration[];
 export interface InlineSessionState {
-  sessionAttributes?: { [key: string]: string | undefined };
-  promptSessionAttributes?: { [key: string]: string | undefined };
-  returnControlInvocationResults?: InvocationResultMember[];
-  invocationId?: string;
-  files?: InputFile[];
-  conversationHistory?: ConversationHistory;
+  sessionAttributes?: { [key: string]: string | undefined } | undefined;
+  promptSessionAttributes?: { [key: string]: string | undefined } | undefined;
+  returnControlInvocationResults?: InvocationResultMember[] | undefined;
+  invocationId?: string | undefined;
+  files?: InputFile[] | undefined;
+  conversationHistory?: ConversationHistory | undefined;
 }
 export interface Collaborator {
-  customerEncryptionKeyArn?: string;
+  customerEncryptionKeyArn?: string | undefined;
   foundationModel: string;
   instruction: string | redacted.Redacted<string>;
-  idleSessionTTLInSeconds?: number;
-  actionGroups?: AgentActionGroup[];
-  knowledgeBases?: KnowledgeBase[];
-  guardrailConfiguration?: GuardrailConfigurationWithArn;
-  promptOverrideConfiguration?: PromptOverrideConfiguration;
-  agentCollaboration?: AgentCollaboration;
-  collaboratorConfigurations?: CollaboratorConfiguration[];
-  agentName?: string | redacted.Redacted<string>;
+  idleSessionTTLInSeconds?: number | undefined;
+  actionGroups?: AgentActionGroup[] | undefined;
+  knowledgeBases?: KnowledgeBase[] | undefined;
+  guardrailConfiguration?: GuardrailConfigurationWithArn | undefined;
+  promptOverrideConfiguration?: PromptOverrideConfiguration | undefined;
+  agentCollaboration?: AgentCollaboration | undefined;
+  collaboratorConfigurations?: CollaboratorConfiguration[] | undefined;
+  agentName?: string | redacted.Redacted<string> | undefined;
 }
 export type Collaborators = Collaborator[];
 export interface InlineBedrockModelConfigurations {
-  performanceConfig?: PerformanceConfiguration;
+  performanceConfig?: PerformanceConfiguration | undefined;
 }
 export type OrchestrationType = "DEFAULT" | "CUSTOM_ORCHESTRATION" | (string & {});
 export type OrchestrationExecutor = { lambda: string };
 export interface CustomOrchestration {
-  executor?: OrchestrationExecutor;
+  executor?: OrchestrationExecutor | undefined;
 }
 export interface InvokeInlineAgentRequest {
-  customerEncryptionKeyArn?: string;
+  customerEncryptionKeyArn?: string | undefined;
   foundationModel: string;
   instruction: string | redacted.Redacted<string>;
-  idleSessionTTLInSeconds?: number;
-  actionGroups?: AgentActionGroup[];
-  knowledgeBases?: KnowledgeBase[];
-  guardrailConfiguration?: GuardrailConfigurationWithArn;
-  promptOverrideConfiguration?: PromptOverrideConfiguration;
-  agentCollaboration?: AgentCollaboration;
-  collaboratorConfigurations?: CollaboratorConfiguration[];
-  agentName?: string | redacted.Redacted<string>;
+  idleSessionTTLInSeconds?: number | undefined;
+  actionGroups?: AgentActionGroup[] | undefined;
+  knowledgeBases?: KnowledgeBase[] | undefined;
+  guardrailConfiguration?: GuardrailConfigurationWithArn | undefined;
+  promptOverrideConfiguration?: PromptOverrideConfiguration | undefined;
+  agentCollaboration?: AgentCollaboration | undefined;
+  collaboratorConfigurations?: CollaboratorConfiguration[] | undefined;
+  agentName?: string | redacted.Redacted<string> | undefined;
   sessionId: string;
-  endSession?: boolean;
-  enableTrace?: boolean;
-  inputText?: string | redacted.Redacted<string>;
-  streamingConfigurations?: StreamingConfigurations;
-  promptCreationConfigurations?: PromptCreationConfigurations;
-  inlineSessionState?: InlineSessionState;
-  collaborators?: Collaborator[];
-  bedrockModelConfigurations?: InlineBedrockModelConfigurations;
-  orchestrationType?: OrchestrationType;
-  customOrchestration?: CustomOrchestration;
+  endSession?: boolean | undefined;
+  enableTrace?: boolean | undefined;
+  inputText?: string | redacted.Redacted<string> | undefined;
+  streamingConfigurations?: StreamingConfigurations | undefined;
+  promptCreationConfigurations?: PromptCreationConfigurations | undefined;
+  inlineSessionState?: InlineSessionState | undefined;
+  collaborators?: Collaborator[] | undefined;
+  bedrockModelConfigurations?: InlineBedrockModelConfigurations | undefined;
+  orchestrationType?: OrchestrationType | undefined;
+  customOrchestration?: CustomOrchestration | undefined;
 }
 export interface InlineAgentPayloadPart {
-  bytes?: Uint8Array | redacted.Redacted<Uint8Array>;
-  attribution?: Attribution;
+  bytes?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
+  attribution?: Attribution | undefined;
 }
 export interface InlineAgentTracePart {
-  sessionId?: string;
-  trace?: Trace;
-  callerChain?: Caller[];
-  eventTime?: Date;
-  collaboratorName?: string | redacted.Redacted<string>;
+  sessionId?: string | undefined;
+  trace?: Trace | undefined;
+  callerChain?: Caller[] | undefined;
+  eventTime?: Date | undefined;
+  collaboratorName?: string | redacted.Redacted<string> | undefined;
 }
 export interface InlineAgentReturnControlPayload {
-  invocationInputs?: InvocationInputMember[];
-  invocationId?: string;
+  invocationInputs?: InvocationInputMember[] | undefined;
+  invocationId?: string | undefined;
 }
 export interface InlineAgentFilePart {
-  files?: OutputFile[];
+  files?: OutputFile[] | undefined;
 }
 export type InlineAgentResponseStream =
   | {
       chunk: InlineAgentPayloadPart;
-      trace?: never;
-      returnControl?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
-      files?: never;
+      trace?: undefined;
+      returnControl?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
+      files?: undefined;
     }
   | {
-      chunk?: never;
+      chunk?: undefined;
       trace: InlineAgentTracePart;
-      returnControl?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
-      files?: never;
+      returnControl?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
+      files?: undefined;
     }
   | {
-      chunk?: never;
-      trace?: never;
+      chunk?: undefined;
+      trace?: undefined;
       returnControl: InlineAgentReturnControlPayload;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
-      files?: never;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
+      files?: undefined;
     }
   | {
-      chunk?: never;
-      trace?: never;
-      returnControl?: never;
+      chunk?: undefined;
+      trace?: undefined;
+      returnControl?: undefined;
       internalServerException: InternalServerException;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
-      files?: never;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
+      files?: undefined;
     }
   | {
-      chunk?: never;
-      trace?: never;
-      returnControl?: never;
-      internalServerException?: never;
+      chunk?: undefined;
+      trace?: undefined;
+      returnControl?: undefined;
+      internalServerException?: undefined;
       validationException: ValidationException;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
-      files?: never;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
+      files?: undefined;
     }
   | {
-      chunk?: never;
-      trace?: never;
-      returnControl?: never;
-      internalServerException?: never;
-      validationException?: never;
+      chunk?: undefined;
+      trace?: undefined;
+      returnControl?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
       resourceNotFoundException: ResourceNotFoundException;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
-      files?: never;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
+      files?: undefined;
     }
   | {
-      chunk?: never;
-      trace?: never;
-      returnControl?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
+      chunk?: undefined;
+      trace?: undefined;
+      returnControl?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
       serviceQuotaExceededException: ServiceQuotaExceededException;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
-      files?: never;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
+      files?: undefined;
     }
   | {
-      chunk?: never;
-      trace?: never;
-      returnControl?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
+      chunk?: undefined;
+      trace?: undefined;
+      returnControl?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
       throttlingException: ThrottlingException;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
-      files?: never;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
+      files?: undefined;
     }
   | {
-      chunk?: never;
-      trace?: never;
-      returnControl?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
+      chunk?: undefined;
+      trace?: undefined;
+      returnControl?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
       accessDeniedException: AccessDeniedException;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
-      files?: never;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
+      files?: undefined;
     }
   | {
-      chunk?: never;
-      trace?: never;
-      returnControl?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
+      chunk?: undefined;
+      trace?: undefined;
+      returnControl?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
       conflictException: ConflictException;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
-      files?: never;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
+      files?: undefined;
     }
   | {
-      chunk?: never;
-      trace?: never;
-      returnControl?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
+      chunk?: undefined;
+      trace?: undefined;
+      returnControl?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
       dependencyFailedException: DependencyFailedException;
-      badGatewayException?: never;
-      files?: never;
+      badGatewayException?: undefined;
+      files?: undefined;
     }
   | {
-      chunk?: never;
-      trace?: never;
-      returnControl?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
+      chunk?: undefined;
+      trace?: undefined;
+      returnControl?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
       badGatewayException: BadGatewayException;
-      files?: never;
+      files?: undefined;
     }
   | {
-      chunk?: never;
-      trace?: never;
-      returnControl?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
+      chunk?: undefined;
+      trace?: undefined;
+      returnControl?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
       files: InlineAgentFilePart;
     };
 export interface InvokeInlineAgentResponse {
@@ -2898,8 +2946,8 @@ export interface ListFlowExecutionEventsRequest {
   flowIdentifier: string;
   flowAliasIdentifier: string;
   executionIdentifier: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   eventType: FlowExecutionEventType;
 }
 export type FlowExecutionContent = { document: any };
@@ -2931,17 +2979,17 @@ export interface NodeInputSource {
 }
 export interface NodeInputExecutionChainItem {
   nodeName: string;
-  index?: number;
+  index?: number | undefined;
   type: FlowControlNodeType;
 }
 export type NodeInputExecutionChain = NodeInputExecutionChainItem[];
 export interface NodeInputField {
   name: string;
   content: NodeExecutionContent;
-  source?: NodeInputSource;
-  type?: FlowNodeIODataType;
-  category?: FlowNodeInputCategory;
-  executionChain?: NodeInputExecutionChainItem[];
+  source?: NodeInputSource | undefined;
+  type?: FlowNodeIODataType | undefined;
+  category?: FlowNodeInputCategory | undefined;
+  executionChain?: NodeInputExecutionChainItem[] | undefined;
 }
 export type NodeInputFields = NodeInputField[];
 export interface NodeInputEvent {
@@ -2957,8 +3005,8 @@ export type NodeOutputNextList = NodeOutputNext[];
 export interface NodeOutputField {
   name: string;
   content: NodeExecutionContent;
-  next?: NodeOutputNext[];
-  type?: FlowNodeIODataType;
+  next?: NodeOutputNext[] | undefined;
+  type?: FlowNodeIODataType | undefined;
 }
 export type NodeOutputFields = NodeOutputField[];
 export interface NodeOutputEvent {
@@ -3003,8 +3051,8 @@ export interface NodeActionEvent {
   requestId: string;
   serviceName: string;
   operationName: string;
-  operationRequest?: any;
-  operationResponse?: any;
+  operationRequest?: any | undefined;
+  operationResponse?: any | undefined;
 }
 export type NodeTraceElements = { agentTraces: TracePart[] };
 export interface NodeDependencyEvent {
@@ -3015,113 +3063,113 @@ export interface NodeDependencyEvent {
 export type FlowExecutionEvent =
   | {
       flowInputEvent: FlowExecutionInputEvent;
-      flowOutputEvent?: never;
-      nodeInputEvent?: never;
-      nodeOutputEvent?: never;
-      conditionResultEvent?: never;
-      nodeFailureEvent?: never;
-      flowFailureEvent?: never;
-      nodeActionEvent?: never;
-      nodeDependencyEvent?: never;
+      flowOutputEvent?: undefined;
+      nodeInputEvent?: undefined;
+      nodeOutputEvent?: undefined;
+      conditionResultEvent?: undefined;
+      nodeFailureEvent?: undefined;
+      flowFailureEvent?: undefined;
+      nodeActionEvent?: undefined;
+      nodeDependencyEvent?: undefined;
     }
   | {
-      flowInputEvent?: never;
+      flowInputEvent?: undefined;
       flowOutputEvent: FlowExecutionOutputEvent;
-      nodeInputEvent?: never;
-      nodeOutputEvent?: never;
-      conditionResultEvent?: never;
-      nodeFailureEvent?: never;
-      flowFailureEvent?: never;
-      nodeActionEvent?: never;
-      nodeDependencyEvent?: never;
+      nodeInputEvent?: undefined;
+      nodeOutputEvent?: undefined;
+      conditionResultEvent?: undefined;
+      nodeFailureEvent?: undefined;
+      flowFailureEvent?: undefined;
+      nodeActionEvent?: undefined;
+      nodeDependencyEvent?: undefined;
     }
   | {
-      flowInputEvent?: never;
-      flowOutputEvent?: never;
+      flowInputEvent?: undefined;
+      flowOutputEvent?: undefined;
       nodeInputEvent: NodeInputEvent;
-      nodeOutputEvent?: never;
-      conditionResultEvent?: never;
-      nodeFailureEvent?: never;
-      flowFailureEvent?: never;
-      nodeActionEvent?: never;
-      nodeDependencyEvent?: never;
+      nodeOutputEvent?: undefined;
+      conditionResultEvent?: undefined;
+      nodeFailureEvent?: undefined;
+      flowFailureEvent?: undefined;
+      nodeActionEvent?: undefined;
+      nodeDependencyEvent?: undefined;
     }
   | {
-      flowInputEvent?: never;
-      flowOutputEvent?: never;
-      nodeInputEvent?: never;
+      flowInputEvent?: undefined;
+      flowOutputEvent?: undefined;
+      nodeInputEvent?: undefined;
       nodeOutputEvent: NodeOutputEvent;
-      conditionResultEvent?: never;
-      nodeFailureEvent?: never;
-      flowFailureEvent?: never;
-      nodeActionEvent?: never;
-      nodeDependencyEvent?: never;
+      conditionResultEvent?: undefined;
+      nodeFailureEvent?: undefined;
+      flowFailureEvent?: undefined;
+      nodeActionEvent?: undefined;
+      nodeDependencyEvent?: undefined;
     }
   | {
-      flowInputEvent?: never;
-      flowOutputEvent?: never;
-      nodeInputEvent?: never;
-      nodeOutputEvent?: never;
+      flowInputEvent?: undefined;
+      flowOutputEvent?: undefined;
+      nodeInputEvent?: undefined;
+      nodeOutputEvent?: undefined;
       conditionResultEvent: ConditionResultEvent;
-      nodeFailureEvent?: never;
-      flowFailureEvent?: never;
-      nodeActionEvent?: never;
-      nodeDependencyEvent?: never;
+      nodeFailureEvent?: undefined;
+      flowFailureEvent?: undefined;
+      nodeActionEvent?: undefined;
+      nodeDependencyEvent?: undefined;
     }
   | {
-      flowInputEvent?: never;
-      flowOutputEvent?: never;
-      nodeInputEvent?: never;
-      nodeOutputEvent?: never;
-      conditionResultEvent?: never;
+      flowInputEvent?: undefined;
+      flowOutputEvent?: undefined;
+      nodeInputEvent?: undefined;
+      nodeOutputEvent?: undefined;
+      conditionResultEvent?: undefined;
       nodeFailureEvent: NodeFailureEvent;
-      flowFailureEvent?: never;
-      nodeActionEvent?: never;
-      nodeDependencyEvent?: never;
+      flowFailureEvent?: undefined;
+      nodeActionEvent?: undefined;
+      nodeDependencyEvent?: undefined;
     }
   | {
-      flowInputEvent?: never;
-      flowOutputEvent?: never;
-      nodeInputEvent?: never;
-      nodeOutputEvent?: never;
-      conditionResultEvent?: never;
-      nodeFailureEvent?: never;
+      flowInputEvent?: undefined;
+      flowOutputEvent?: undefined;
+      nodeInputEvent?: undefined;
+      nodeOutputEvent?: undefined;
+      conditionResultEvent?: undefined;
+      nodeFailureEvent?: undefined;
       flowFailureEvent: FlowFailureEvent;
-      nodeActionEvent?: never;
-      nodeDependencyEvent?: never;
+      nodeActionEvent?: undefined;
+      nodeDependencyEvent?: undefined;
     }
   | {
-      flowInputEvent?: never;
-      flowOutputEvent?: never;
-      nodeInputEvent?: never;
-      nodeOutputEvent?: never;
-      conditionResultEvent?: never;
-      nodeFailureEvent?: never;
-      flowFailureEvent?: never;
+      flowInputEvent?: undefined;
+      flowOutputEvent?: undefined;
+      nodeInputEvent?: undefined;
+      nodeOutputEvent?: undefined;
+      conditionResultEvent?: undefined;
+      nodeFailureEvent?: undefined;
+      flowFailureEvent?: undefined;
       nodeActionEvent: NodeActionEvent;
-      nodeDependencyEvent?: never;
+      nodeDependencyEvent?: undefined;
     }
   | {
-      flowInputEvent?: never;
-      flowOutputEvent?: never;
-      nodeInputEvent?: never;
-      nodeOutputEvent?: never;
-      conditionResultEvent?: never;
-      nodeFailureEvent?: never;
-      flowFailureEvent?: never;
-      nodeActionEvent?: never;
+      flowInputEvent?: undefined;
+      flowOutputEvent?: undefined;
+      nodeInputEvent?: undefined;
+      nodeOutputEvent?: undefined;
+      conditionResultEvent?: undefined;
+      nodeFailureEvent?: undefined;
+      flowFailureEvent?: undefined;
+      nodeActionEvent?: undefined;
       nodeDependencyEvent: NodeDependencyEvent;
     };
 export type FlowExecutionEvents = FlowExecutionEvent[];
 export interface ListFlowExecutionEventsResponse {
   flowExecutionEvents: FlowExecutionEvent[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListFlowExecutionsRequest {
   flowIdentifier: string;
-  flowAliasIdentifier?: string;
-  maxResults?: number;
-  nextToken?: string;
+  flowAliasIdentifier?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface FlowExecutionSummary {
   executionArn: string;
@@ -3130,16 +3178,16 @@ export interface FlowExecutionSummary {
   flowVersion: string;
   status: FlowExecutionStatus;
   createdAt: Date;
-  endedAt?: Date;
+  endedAt?: Date | undefined;
 }
 export type FlowExecutionSummaries = FlowExecutionSummary[];
 export interface ListFlowExecutionsResponse {
   flowExecutionSummaries: FlowExecutionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListInvocationsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   sessionIdentifier: string;
 }
 export interface InvocationSummary {
@@ -3150,12 +3198,12 @@ export interface InvocationSummary {
 export type InvocationSummaries = InvocationSummary[];
 export interface ListInvocationsResponse {
   invocationSummaries: InvocationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListInvocationStepsRequest {
-  invocationIdentifier?: string;
-  nextToken?: string;
-  maxResults?: number;
+  invocationIdentifier?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   sessionIdentifier: string;
 }
 export interface InvocationStepSummary {
@@ -3167,11 +3215,11 @@ export interface InvocationStepSummary {
 export type InvocationStepSummaries = InvocationStepSummary[];
 export interface ListInvocationStepsResponse {
   invocationStepSummaries: InvocationStepSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListSessionsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface SessionSummary {
   sessionId: string;
@@ -3183,14 +3231,14 @@ export interface SessionSummary {
 export type SessionSummaries = SessionSummary[];
 export interface ListSessionsResponse {
   sessionSummaries: SessionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type TaggableResourcesArn = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TextPrompt {
   text: string;
@@ -3202,90 +3250,90 @@ export interface OptimizePromptRequest {
 }
 export type OptimizedPrompt = { textPrompt: TextPrompt };
 export interface OptimizedPromptEvent {
-  optimizedPrompt?: OptimizedPrompt;
+  optimizedPrompt?: OptimizedPrompt | undefined;
 }
 export interface AnalyzePromptEvent {
-  message?: string;
+  message?: string | undefined;
 }
 export type OptimizedPromptStream =
   | {
       optimizedPromptEvent: OptimizedPromptEvent;
-      analyzePromptEvent?: never;
-      internalServerException?: never;
-      throttlingException?: never;
-      validationException?: never;
-      dependencyFailedException?: never;
-      accessDeniedException?: never;
-      badGatewayException?: never;
+      analyzePromptEvent?: undefined;
+      internalServerException?: undefined;
+      throttlingException?: undefined;
+      validationException?: undefined;
+      dependencyFailedException?: undefined;
+      accessDeniedException?: undefined;
+      badGatewayException?: undefined;
     }
   | {
-      optimizedPromptEvent?: never;
+      optimizedPromptEvent?: undefined;
       analyzePromptEvent: AnalyzePromptEvent;
-      internalServerException?: never;
-      throttlingException?: never;
-      validationException?: never;
-      dependencyFailedException?: never;
-      accessDeniedException?: never;
-      badGatewayException?: never;
+      internalServerException?: undefined;
+      throttlingException?: undefined;
+      validationException?: undefined;
+      dependencyFailedException?: undefined;
+      accessDeniedException?: undefined;
+      badGatewayException?: undefined;
     }
   | {
-      optimizedPromptEvent?: never;
-      analyzePromptEvent?: never;
+      optimizedPromptEvent?: undefined;
+      analyzePromptEvent?: undefined;
       internalServerException: InternalServerException;
-      throttlingException?: never;
-      validationException?: never;
-      dependencyFailedException?: never;
-      accessDeniedException?: never;
-      badGatewayException?: never;
+      throttlingException?: undefined;
+      validationException?: undefined;
+      dependencyFailedException?: undefined;
+      accessDeniedException?: undefined;
+      badGatewayException?: undefined;
     }
   | {
-      optimizedPromptEvent?: never;
-      analyzePromptEvent?: never;
-      internalServerException?: never;
+      optimizedPromptEvent?: undefined;
+      analyzePromptEvent?: undefined;
+      internalServerException?: undefined;
       throttlingException: ThrottlingException;
-      validationException?: never;
-      dependencyFailedException?: never;
-      accessDeniedException?: never;
-      badGatewayException?: never;
+      validationException?: undefined;
+      dependencyFailedException?: undefined;
+      accessDeniedException?: undefined;
+      badGatewayException?: undefined;
     }
   | {
-      optimizedPromptEvent?: never;
-      analyzePromptEvent?: never;
-      internalServerException?: never;
-      throttlingException?: never;
+      optimizedPromptEvent?: undefined;
+      analyzePromptEvent?: undefined;
+      internalServerException?: undefined;
+      throttlingException?: undefined;
       validationException: ValidationException;
-      dependencyFailedException?: never;
-      accessDeniedException?: never;
-      badGatewayException?: never;
+      dependencyFailedException?: undefined;
+      accessDeniedException?: undefined;
+      badGatewayException?: undefined;
     }
   | {
-      optimizedPromptEvent?: never;
-      analyzePromptEvent?: never;
-      internalServerException?: never;
-      throttlingException?: never;
-      validationException?: never;
+      optimizedPromptEvent?: undefined;
+      analyzePromptEvent?: undefined;
+      internalServerException?: undefined;
+      throttlingException?: undefined;
+      validationException?: undefined;
       dependencyFailedException: DependencyFailedException;
-      accessDeniedException?: never;
-      badGatewayException?: never;
+      accessDeniedException?: undefined;
+      badGatewayException?: undefined;
     }
   | {
-      optimizedPromptEvent?: never;
-      analyzePromptEvent?: never;
-      internalServerException?: never;
-      throttlingException?: never;
-      validationException?: never;
-      dependencyFailedException?: never;
+      optimizedPromptEvent?: undefined;
+      analyzePromptEvent?: undefined;
+      internalServerException?: undefined;
+      throttlingException?: undefined;
+      validationException?: undefined;
+      dependencyFailedException?: undefined;
       accessDeniedException: AccessDeniedException;
-      badGatewayException?: never;
+      badGatewayException?: undefined;
     }
   | {
-      optimizedPromptEvent?: never;
-      analyzePromptEvent?: never;
-      internalServerException?: never;
-      throttlingException?: never;
-      validationException?: never;
-      dependencyFailedException?: never;
-      accessDeniedException?: never;
+      optimizedPromptEvent?: undefined;
+      analyzePromptEvent?: undefined;
+      internalServerException?: undefined;
+      throttlingException?: undefined;
+      validationException?: undefined;
+      dependencyFailedException?: undefined;
+      accessDeniedException?: undefined;
       badGatewayException: BadGatewayException;
     };
 export interface OptimizePromptResponse {
@@ -3296,14 +3344,14 @@ export interface PutInvocationStepRequest {
   invocationIdentifier: string;
   invocationStepTime: Date;
   payload: InvocationStepPayload;
-  invocationStepId?: string;
+  invocationStepId?: string | undefined;
 }
 export interface PutInvocationStepResponse {
   invocationStepId: string;
 }
 export type RerankQueryContentType = "TEXT" | (string & {});
 export interface RerankTextDocument {
-  text?: string;
+  text?: string | undefined;
 }
 export interface RerankQuery {
   type: RerankQueryContentType;
@@ -3314,8 +3362,8 @@ export type RerankSourceType = "INLINE" | (string & {});
 export type RerankDocumentType = "TEXT" | "JSON" | (string & {});
 export interface RerankDocument {
   type: RerankDocumentType;
-  textDocument?: RerankTextDocument;
-  jsonDocument?: any;
+  textDocument?: RerankTextDocument | undefined;
+  jsonDocument?: any | undefined;
 }
 export interface RerankSource {
   type: RerankSourceType;
@@ -3325,10 +3373,10 @@ export type RerankSourcesList = RerankSource[];
 export type RerankingConfigurationType = "BEDROCK_RERANKING_MODEL" | (string & {});
 export interface BedrockRerankingModelConfiguration {
   modelArn: string;
-  additionalModelRequestFields?: { [key: string]: any | undefined };
+  additionalModelRequestFields?: { [key: string]: any | undefined } | undefined;
 }
 export interface BedrockRerankingConfiguration {
-  numberOfResults?: number;
+  numberOfResults?: number | undefined;
   modelConfiguration: BedrockRerankingModelConfiguration;
 }
 export interface RerankingConfiguration {
@@ -3339,17 +3387,17 @@ export interface RerankRequest {
   queries: RerankQuery[];
   sources: RerankSource[];
   rerankingConfiguration: RerankingConfiguration;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface RerankResult {
   index: number;
   relevanceScore: number;
-  document?: RerankDocument;
+  document?: RerankDocument | undefined;
 }
 export type RerankResultsList = RerankResult[];
 export interface RerankResponse {
   results: RerankResult[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type KnowledgeBaseQueryType = "TEXT" | "IMAGE" | (string & {});
 export type InputImageFormat = "png" | "jpeg" | "gif" | "webp" | (string & {});
@@ -3358,9 +3406,9 @@ export interface InputImage {
   inlineContent: Uint8Array | redacted.Redacted<Uint8Array>;
 }
 export interface KnowledgeBaseQuery {
-  type?: KnowledgeBaseQueryType;
-  text?: string;
-  image?: InputImage;
+  type?: KnowledgeBaseQueryType | undefined;
+  text?: string | undefined;
+  image?: InputImage | undefined;
 }
 export interface GuardrailConfiguration {
   guardrailId: string;
@@ -3369,24 +3417,24 @@ export interface GuardrailConfiguration {
 export interface RetrieveRequest {
   knowledgeBaseId: string;
   retrievalQuery: KnowledgeBaseQuery;
-  retrievalConfiguration?: KnowledgeBaseRetrievalConfiguration;
-  guardrailConfiguration?: GuardrailConfiguration;
-  nextToken?: string;
-  userContext?: UserContext;
+  retrievalConfiguration?: KnowledgeBaseRetrievalConfiguration | undefined;
+  guardrailConfiguration?: GuardrailConfiguration | undefined;
+  nextToken?: string | undefined;
+  userContext?: UserContext | undefined;
 }
 export interface KnowledgeBaseRetrievalResult {
   content: RetrievalResultContent;
-  location?: RetrievalResultLocation;
-  score?: number;
-  metadata?: { [key: string]: any | undefined };
-  documentId?: string;
+  location?: RetrievalResultLocation | undefined;
+  score?: number | undefined;
+  metadata?: { [key: string]: any | undefined } | undefined;
+  documentId?: string | undefined;
 }
 export type KnowledgeBaseRetrievalResults = KnowledgeBaseRetrievalResult[];
 export type GuadrailAction = "INTERVENED" | "NONE" | (string & {});
 export interface RetrieveResponse {
   retrievalResults: KnowledgeBaseRetrievalResult[];
-  guardrailAction?: GuadrailAction;
-  nextToken?: string;
+  guardrailAction?: GuadrailAction | undefined;
+  nextToken?: string | undefined;
 }
 export interface RetrieveAndGenerateInput {
   text: string;
@@ -3394,43 +3442,43 @@ export interface RetrieveAndGenerateInput {
 export type RetrieveAndGenerateType = "KNOWLEDGE_BASE" | "EXTERNAL_SOURCES" | (string & {});
 export type TextPromptTemplate = string | redacted.Redacted<string>;
 export interface PromptTemplate {
-  textPromptTemplate?: string | redacted.Redacted<string>;
+  textPromptTemplate?: string | redacted.Redacted<string> | undefined;
 }
 export type MaxTokens = number;
 export type RAGStopSequences = string[];
 export interface TextInferenceConfig {
-  temperature?: number;
-  topP?: number;
-  maxTokens?: number;
-  stopSequences?: string[];
+  temperature?: number | undefined;
+  topP?: number | undefined;
+  maxTokens?: number | undefined;
+  stopSequences?: string[] | undefined;
 }
 export interface InferenceConfig {
-  textInferenceConfig?: TextInferenceConfig;
+  textInferenceConfig?: TextInferenceConfig | undefined;
 }
 export interface GenerationConfiguration {
-  promptTemplate?: PromptTemplate;
-  guardrailConfiguration?: GuardrailConfiguration;
-  inferenceConfig?: InferenceConfig;
-  additionalModelRequestFields?: { [key: string]: any | undefined };
-  performanceConfig?: PerformanceConfiguration;
+  promptTemplate?: PromptTemplate | undefined;
+  guardrailConfiguration?: GuardrailConfiguration | undefined;
+  inferenceConfig?: InferenceConfig | undefined;
+  additionalModelRequestFields?: { [key: string]: any | undefined } | undefined;
+  performanceConfig?: PerformanceConfiguration | undefined;
 }
 export type QueryTransformationType = "QUERY_DECOMPOSITION" | (string & {});
 export interface QueryTransformationConfiguration {
   type: QueryTransformationType;
 }
 export interface OrchestrationConfiguration {
-  promptTemplate?: PromptTemplate;
-  inferenceConfig?: InferenceConfig;
-  additionalModelRequestFields?: { [key: string]: any | undefined };
-  queryTransformationConfiguration?: QueryTransformationConfiguration;
-  performanceConfig?: PerformanceConfiguration;
+  promptTemplate?: PromptTemplate | undefined;
+  inferenceConfig?: InferenceConfig | undefined;
+  additionalModelRequestFields?: { [key: string]: any | undefined } | undefined;
+  queryTransformationConfiguration?: QueryTransformationConfiguration | undefined;
+  performanceConfig?: PerformanceConfiguration | undefined;
 }
 export interface KnowledgeBaseRetrieveAndGenerateConfiguration {
   knowledgeBaseId: string;
   modelArn: string;
-  retrievalConfiguration?: KnowledgeBaseRetrievalConfiguration;
-  generationConfiguration?: GenerationConfiguration;
-  orchestrationConfiguration?: OrchestrationConfiguration;
+  retrievalConfiguration?: KnowledgeBaseRetrievalConfiguration | undefined;
+  generationConfiguration?: GenerationConfiguration | undefined;
+  orchestrationConfiguration?: OrchestrationConfiguration | undefined;
 }
 export type ExternalSourceType = "S3" | "BYTE_CONTENT" | (string & {});
 export interface S3ObjectDoc {
@@ -3445,36 +3493,36 @@ export interface ByteContentDoc {
 }
 export interface ExternalSource {
   sourceType: ExternalSourceType;
-  s3Location?: S3ObjectDoc;
-  byteContent?: ByteContentDoc;
+  s3Location?: S3ObjectDoc | undefined;
+  byteContent?: ByteContentDoc | undefined;
 }
 export type ExternalSources = ExternalSource[];
 export interface ExternalSourcesGenerationConfiguration {
-  promptTemplate?: PromptTemplate;
-  guardrailConfiguration?: GuardrailConfiguration;
-  inferenceConfig?: InferenceConfig;
-  additionalModelRequestFields?: { [key: string]: any | undefined };
-  performanceConfig?: PerformanceConfiguration;
+  promptTemplate?: PromptTemplate | undefined;
+  guardrailConfiguration?: GuardrailConfiguration | undefined;
+  inferenceConfig?: InferenceConfig | undefined;
+  additionalModelRequestFields?: { [key: string]: any | undefined } | undefined;
+  performanceConfig?: PerformanceConfiguration | undefined;
 }
 export interface ExternalSourcesRetrieveAndGenerateConfiguration {
   modelArn: string;
   sources: ExternalSource[];
-  generationConfiguration?: ExternalSourcesGenerationConfiguration;
+  generationConfiguration?: ExternalSourcesGenerationConfiguration | undefined;
 }
 export interface RetrieveAndGenerateConfiguration {
   type: RetrieveAndGenerateType;
-  knowledgeBaseConfiguration?: KnowledgeBaseRetrieveAndGenerateConfiguration;
-  externalSourcesConfiguration?: ExternalSourcesRetrieveAndGenerateConfiguration;
+  knowledgeBaseConfiguration?: KnowledgeBaseRetrieveAndGenerateConfiguration | undefined;
+  externalSourcesConfiguration?: ExternalSourcesRetrieveAndGenerateConfiguration | undefined;
 }
 export interface RetrieveAndGenerateSessionConfiguration {
   kmsKeyArn: string;
 }
 export interface RetrieveAndGenerateRequest {
-  sessionId?: string;
+  sessionId?: string | undefined;
   input: RetrieveAndGenerateInput;
-  retrieveAndGenerateConfiguration?: RetrieveAndGenerateConfiguration;
-  sessionConfiguration?: RetrieveAndGenerateSessionConfiguration;
-  userContext?: UserContext;
+  retrieveAndGenerateConfiguration?: RetrieveAndGenerateConfiguration | undefined;
+  sessionConfiguration?: RetrieveAndGenerateSessionConfiguration | undefined;
+  userContext?: UserContext | undefined;
 }
 export interface RetrieveAndGenerateOutput {
   text: string;
@@ -3482,194 +3530,194 @@ export interface RetrieveAndGenerateOutput {
 export interface RetrieveAndGenerateResponse {
   sessionId: string;
   output: RetrieveAndGenerateOutput;
-  citations?: Citation[];
-  guardrailAction?: GuadrailAction;
+  citations?: Citation[] | undefined;
+  guardrailAction?: GuadrailAction | undefined;
 }
 export interface RetrieveAndGenerateStreamRequest {
-  sessionId?: string;
+  sessionId?: string | undefined;
   input: RetrieveAndGenerateInput;
-  retrieveAndGenerateConfiguration?: RetrieveAndGenerateConfiguration;
-  sessionConfiguration?: RetrieveAndGenerateSessionConfiguration;
-  userContext?: UserContext;
+  retrieveAndGenerateConfiguration?: RetrieveAndGenerateConfiguration | undefined;
+  sessionConfiguration?: RetrieveAndGenerateSessionConfiguration | undefined;
+  userContext?: UserContext | undefined;
 }
 export interface RetrieveAndGenerateOutputEvent {
   text: string;
 }
 export interface CitationEvent {
-  citation?: Citation;
-  generatedResponsePart?: GeneratedResponsePart;
-  retrievedReferences?: RetrievedReference[];
+  citation?: Citation | undefined;
+  generatedResponsePart?: GeneratedResponsePart | undefined;
+  retrievedReferences?: RetrievedReference[] | undefined;
 }
 export interface GuardrailEvent {
-  action?: GuadrailAction;
+  action?: GuadrailAction | undefined;
 }
 export type RetrieveAndGenerateStreamResponseOutput =
   | {
       output: RetrieveAndGenerateOutputEvent;
-      citation?: never;
-      guardrail?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
+      citation?: undefined;
+      guardrail?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
     }
   | {
-      output?: never;
+      output?: undefined;
       citation: CitationEvent;
-      guardrail?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
+      guardrail?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
     }
   | {
-      output?: never;
-      citation?: never;
+      output?: undefined;
+      citation?: undefined;
       guardrail: GuardrailEvent;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
     }
   | {
-      output?: never;
-      citation?: never;
-      guardrail?: never;
+      output?: undefined;
+      citation?: undefined;
+      guardrail?: undefined;
       internalServerException: InternalServerException;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
     }
   | {
-      output?: never;
-      citation?: never;
-      guardrail?: never;
-      internalServerException?: never;
+      output?: undefined;
+      citation?: undefined;
+      guardrail?: undefined;
+      internalServerException?: undefined;
       validationException: ValidationException;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
     }
   | {
-      output?: never;
-      citation?: never;
-      guardrail?: never;
-      internalServerException?: never;
-      validationException?: never;
+      output?: undefined;
+      citation?: undefined;
+      guardrail?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
       resourceNotFoundException: ResourceNotFoundException;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
     }
   | {
-      output?: never;
-      citation?: never;
-      guardrail?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
+      output?: undefined;
+      citation?: undefined;
+      guardrail?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
       serviceQuotaExceededException: ServiceQuotaExceededException;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
     }
   | {
-      output?: never;
-      citation?: never;
-      guardrail?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
+      output?: undefined;
+      citation?: undefined;
+      guardrail?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
       throttlingException: ThrottlingException;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
     }
   | {
-      output?: never;
-      citation?: never;
-      guardrail?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
+      output?: undefined;
+      citation?: undefined;
+      guardrail?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
       accessDeniedException: AccessDeniedException;
-      conflictException?: never;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
     }
   | {
-      output?: never;
-      citation?: never;
-      guardrail?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
+      output?: undefined;
+      citation?: undefined;
+      guardrail?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
       conflictException: ConflictException;
-      dependencyFailedException?: never;
-      badGatewayException?: never;
+      dependencyFailedException?: undefined;
+      badGatewayException?: undefined;
     }
   | {
-      output?: never;
-      citation?: never;
-      guardrail?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
+      output?: undefined;
+      citation?: undefined;
+      guardrail?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
       dependencyFailedException: DependencyFailedException;
-      badGatewayException?: never;
+      badGatewayException?: undefined;
     }
   | {
-      output?: never;
-      citation?: never;
-      guardrail?: never;
-      internalServerException?: never;
-      validationException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      dependencyFailedException?: never;
+      output?: undefined;
+      citation?: undefined;
+      guardrail?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      dependencyFailedException?: undefined;
       badGatewayException: BadGatewayException;
     };
 export interface RetrieveAndGenerateStreamResponse {
@@ -3680,12 +3728,12 @@ export type FlowExecutionName = string;
 export interface StartFlowExecutionRequest {
   flowIdentifier: string;
   flowAliasIdentifier: string;
-  flowExecutionName?: string;
+  flowExecutionName?: string | undefined;
   inputs: FlowInput[];
-  modelPerformanceConfiguration?: ModelPerformanceConfiguration;
+  modelPerformanceConfiguration?: ModelPerformanceConfiguration | undefined;
 }
 export interface StartFlowExecutionResponse {
-  executionArn?: string;
+  executionArn?: string | undefined;
 }
 export interface StopFlowExecutionRequest {
   flowIdentifier: string;
@@ -3693,7 +3741,7 @@ export interface StopFlowExecutionRequest {
   executionIdentifier: string;
 }
 export interface StopFlowExecutionResponse {
-  executionArn?: string;
+  executionArn?: string | undefined;
   status: FlowExecutionStatus;
 }
 export interface TagResourceRequest {
@@ -3708,7 +3756,7 @@ export interface UntagResourceRequest {
 }
 export interface UntagResourceResponse {}
 export interface UpdateSessionRequest {
-  sessionMetadata?: { [key: string]: string | undefined };
+  sessionMetadata?: { [key: string]: string | undefined } | undefined;
   sessionIdentifier: string;
 }
 export interface UpdateSessionResponse {
@@ -3735,13 +3783,13 @@ export type AgenticRetrieveStreamError =
  * The operation returns results through a stream that includes retrieval results, trace events for visibility into the process, and a generated response synthesized from the results by default, which can be turned off.
  */
 export const agenticRetrieveStream: API.OperationMethod<
-  AgenticRetrieveStreamRequest,
+  AgenticRetrieveStreamRequest & RegionInput,
   AgenticRetrieveStreamResponse,
   AgenticRetrieveStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c0, 24) as any as S.Schema<AgenticRetrieveStreamRequest>,
-  output: __S(53, __c1, 21) as any as S.Schema<AgenticRetrieveStreamResponse>,
+  input: __S(25, __c0, 25) as any as S.Schema<AgenticRetrieveStreamRequest>,
+  output: __S(57, __c1, 25) as any as S.Schema<AgenticRetrieveStreamResponse>,
   errors: [
     AccessDeniedException,
     BadGatewayException,
@@ -3771,7 +3819,7 @@ export type CheckIngestedDocumentAclError =
  * Checks whether a user has access to a specific document by verifying against the ingested access control list (ACL) in a knowledge base. Use this operation to validate that document-level access control is working as expected after ingestion. To use this operation, you must have the `bedrock:CheckIngestedDocumentAcl` permission.
  */
 export const checkIngestedDocumentAcl: API.OperationMethod<
-  CheckIngestedDocumentAclRequest,
+  CheckIngestedDocumentAclRequest & RegionInput,
   CheckIngestedDocumentAclResponse,
   CheckIngestedDocumentAclError,
   Credentials | HttpClient.HttpClient
@@ -3813,7 +3861,7 @@ export type CreateInvocationError =
  * - GetSession
  */
 export const createInvocation: API.OperationMethod<
-  CreateInvocationRequest,
+  CreateInvocationRequest & RegionInput,
   CreateInvocationResponse,
   CreateInvocationError,
   Credentials | HttpClient.HttpClient
@@ -3862,7 +3910,7 @@ export type CreateSessionError =
  * - DeleteSession
  */
 export const createSession: API.OperationMethod<
-  CreateSessionRequest,
+  CreateSessionRequest & RegionInput,
   CreateSessionResponse,
   CreateSessionError,
   Credentials | HttpClient.HttpClient
@@ -3899,7 +3947,7 @@ export type DeleteAgentMemoryError =
  * Deletes memory from the specified memory identifier.
  */
 export const deleteAgentMemory: API.OperationMethod<
-  DeleteAgentMemoryRequest,
+  DeleteAgentMemoryRequest & RegionInput,
   DeleteAgentMemoryResponse,
   DeleteAgentMemoryError,
   Credentials | HttpClient.HttpClient
@@ -3936,7 +3984,7 @@ export type DeleteSessionError =
  * Deletes a session that you ended. You can't delete a session with an `ACTIVE` status. To delete an active session, you must first end it with the EndSession API operation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
  */
 export const deleteSession: API.OperationMethod<
-  DeleteSessionRequest,
+  DeleteSessionRequest & RegionInput,
   DeleteSessionResponse,
   DeleteSessionError,
   Credentials | HttpClient.HttpClient
@@ -3970,7 +4018,7 @@ export type EndSessionError =
  * Ends the session. After you end a session, you can still access its content but you can't add to it. To delete the session and it's content, you use the DeleteSession API operation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
  */
 export const endSession: API.OperationMethod<
-  EndSessionRequest,
+  EndSessionRequest & RegionInput,
   EndSessionResponse,
   EndSessionError,
   Credentials | HttpClient.HttpClient
@@ -4007,7 +4055,7 @@ export type GenerateQueryError =
  * Generates an SQL query from a natural language query. For more information, see Generate a query for structured data in the Amazon Bedrock User Guide.
  */
 export const generateQuery: API.OperationMethod<
-  GenerateQueryRequest,
+  GenerateQueryRequest & RegionInput,
   GenerateQueryResponse,
   GenerateQueryError,
   Credentials | HttpClient.HttpClient
@@ -4047,7 +4095,7 @@ export type GetAgentMemoryError =
  * Gets the sessions stored in the memory of the agent.
  */
 export const getAgentMemory: API.PaginatedOperationMethod<
-  GetAgentMemoryRequest,
+  GetAgentMemoryRequest & RegionInput,
   GetAgentMemoryResponse,
   GetAgentMemoryError,
   Credentials | HttpClient.HttpClient,
@@ -4087,10 +4135,10 @@ export type GetDocumentContentError =
   | ValidationException
   | CommonErrors;
 /**
- * Retrieves the content of an ingested document from a knowledge base. Returns a pre-signed URL for secure document access.
+ * Retrieves the content of an ingested document from a knowledge base, or of an image embedded in the document. Returns a pre-signed URL for downloading the content. Use this operation to display the source of a `Retrieve` result.
  */
 export const getDocumentContent: API.OperationMethod<
-  GetDocumentContentRequest,
+  GetDocumentContentRequest & RegionInput,
   GetDocumentContentResponse,
   GetDocumentContentError,
   Credentials | HttpClient.HttpClient
@@ -4124,7 +4172,7 @@ export type GetExecutionFlowSnapshotError =
  * Flow executions is in preview release for Amazon Bedrock and is subject to change.
  */
 export const getExecutionFlowSnapshot: API.OperationMethod<
-  GetExecutionFlowSnapshotRequest,
+  GetExecutionFlowSnapshotRequest & RegionInput,
   GetExecutionFlowSnapshotResponse,
   GetExecutionFlowSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -4156,7 +4204,7 @@ export type GetFlowExecutionError =
  * Retrieves details about a specific flow execution, including its status, start and end times, and any errors that occurred during execution.
  */
 export const getFlowExecution: API.OperationMethod<
-  GetFlowExecutionRequest,
+  GetFlowExecutionRequest & RegionInput,
   GetFlowExecutionResponse,
   GetFlowExecutionError,
   Credentials | HttpClient.HttpClient
@@ -4188,7 +4236,7 @@ export type GetIngestedDocumentAclError =
  * Retrieves the ingested access control list (ACL) for a specific document in a knowledge base. Use this operation to inspect the allow and deny lists that were ingested for a document to troubleshoot access control issues. To use this operation, you must have the `bedrock:GetIngestedDocumentAcl` permission.
  */
 export const getIngestedDocumentAcl: API.OperationMethod<
-  GetIngestedDocumentAclRequest,
+  GetIngestedDocumentAclRequest & RegionInput,
   GetIngestedDocumentAclResponse,
   GetIngestedDocumentAclError,
   Credentials | HttpClient.HttpClient
@@ -4220,7 +4268,7 @@ export type GetInvocationStepError =
  * Retrieves the details of a specific invocation step within an invocation in a session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
  */
 export const getInvocationStep: API.OperationMethod<
-  GetInvocationStepRequest,
+  GetInvocationStepRequest & RegionInput,
   GetInvocationStepResponse,
   GetInvocationStepError,
   Credentials | HttpClient.HttpClient
@@ -4252,7 +4300,7 @@ export type GetSessionError =
  * Retrieves details about a specific session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
  */
 export const getSession: API.OperationMethod<
-  GetSessionRequest,
+  GetSessionRequest & RegionInput,
   GetSessionResponse,
   GetSessionError,
   Credentials | HttpClient.HttpClient
@@ -4311,7 +4359,7 @@ export type InvokeAgentError =
  * - Errors are also surfaced in the response.
  */
 export const invokeAgent: API.OperationMethod<
-  InvokeAgentRequest,
+  InvokeAgentRequest & RegionInput,
   InvokeAgentResponse,
   InvokeAgentError,
   Credentials | HttpClient.HttpClient
@@ -4354,7 +4402,7 @@ export type InvokeFlowError =
  * The CLI doesn't support streaming operations in Amazon Bedrock, including `InvokeFlow`.
  */
 export const invokeFlow: API.OperationMethod<
-  InvokeFlowRequest,
+  InvokeFlowRequest & RegionInput,
   InvokeFlowResponse,
   InvokeFlowError,
   Credentials | HttpClient.HttpClient
@@ -4404,7 +4452,7 @@ export type InvokeInlineAgentError =
  * - The agent instructions will not be honored if your agent has only one knowledge base, uses default prompts, has no action group, and user input is disabled.
  */
 export const invokeInlineAgent: API.OperationMethod<
-  InvokeInlineAgentRequest,
+  InvokeInlineAgentRequest & RegionInput,
   InvokeInlineAgentResponse,
   InvokeInlineAgentError,
   Credentials | HttpClient.HttpClient
@@ -4442,7 +4490,7 @@ export type ListFlowExecutionEventsError =
  * Flow executions is in preview release for Amazon Bedrock and is subject to change.
  */
 export const listFlowExecutionEvents: API.PaginatedOperationMethod<
-  ListFlowExecutionEventsRequest,
+  ListFlowExecutionEventsRequest & RegionInput,
   ListFlowExecutionEventsResponse,
   ListFlowExecutionEventsError,
   Credentials | HttpClient.HttpClient,
@@ -4483,7 +4531,7 @@ export type ListFlowExecutionsError =
  * Flow executions is in preview release for Amazon Bedrock and is subject to change.
  */
 export const listFlowExecutions: API.PaginatedOperationMethod<
-  ListFlowExecutionsRequest,
+  ListFlowExecutionsRequest & RegionInput,
   ListFlowExecutionsResponse,
   ListFlowExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -4522,7 +4570,7 @@ export type ListInvocationsError =
  * Lists all invocations associated with a specific session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
  */
 export const listInvocations: API.PaginatedOperationMethod<
-  ListInvocationsRequest,
+  ListInvocationsRequest & RegionInput,
   ListInvocationsResponse,
   ListInvocationsError,
   Credentials | HttpClient.HttpClient,
@@ -4561,7 +4609,7 @@ export type ListInvocationStepsError =
  * Lists all invocation steps associated with a session and optionally, an invocation within the session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
  */
 export const listInvocationSteps: API.PaginatedOperationMethod<
-  ListInvocationStepsRequest,
+  ListInvocationStepsRequest & RegionInput,
   ListInvocationStepsResponse,
   ListInvocationStepsError,
   Credentials | HttpClient.HttpClient,
@@ -4599,7 +4647,7 @@ export type ListSessionsError =
  * Lists all sessions in your Amazon Web Services account. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
  */
 export const listSessions: API.PaginatedOperationMethod<
-  ListSessionsRequest,
+  ListSessionsRequest & RegionInput,
   ListSessionsResponse,
   ListSessionsError,
   Credentials | HttpClient.HttpClient,
@@ -4637,7 +4685,7 @@ export type ListTagsForResourceError =
  * List all the tags for the resource you specify.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -4670,7 +4718,7 @@ export type OptimizePromptError =
  * Optimizes a prompt for the task that you specify. For more information, see Optimize a prompt in the Amazon Bedrock User Guide.
  */
 export const optimizePrompt: API.OperationMethod<
-  OptimizePromptRequest,
+  OptimizePromptRequest & RegionInput,
   OptimizePromptResponse,
   OptimizePromptError,
   Credentials | HttpClient.HttpClient
@@ -4715,7 +4763,7 @@ export type PutInvocationStepError =
  * - ListSessions
  */
 export const putInvocationStep: API.OperationMethod<
-  PutInvocationStepRequest,
+  PutInvocationStepRequest & RegionInput,
   PutInvocationStepResponse,
   PutInvocationStepError,
   Credentials | HttpClient.HttpClient
@@ -4753,7 +4801,7 @@ export type RerankError =
  * Reranks the relevance of sources based on queries. For more information, see Improve the relevance of query responses with a reranker model.
  */
 export const rerank: API.PaginatedOperationMethod<
-  RerankRequest,
+  RerankRequest & RegionInput,
   RerankResponse,
   RerankError,
   Credentials | HttpClient.HttpClient,
@@ -4795,7 +4843,7 @@ export type RetrieveError =
  * Queries a knowledge base and retrieves information from it.
  */
 export const retrieve: API.PaginatedOperationMethod<
-  RetrieveRequest,
+  RetrieveRequest & RegionInput,
   RetrieveResponse,
   RetrieveError,
   Credentials | HttpClient.HttpClient,
@@ -4843,7 +4891,7 @@ export type RetrieveAndGenerateError =
  * This API cannot be used with managed knowledge bases. Use AgenticRetrieveStream or Retrieve with managed knowledge bases.
  */
 export const retrieveAndGenerate: API.OperationMethod<
-  RetrieveAndGenerateRequest,
+  RetrieveAndGenerateRequest & RegionInput,
   RetrieveAndGenerateResponse,
   RetrieveAndGenerateError,
   Credentials | HttpClient.HttpClient
@@ -4889,7 +4937,7 @@ export type RetrieveAndGenerateStreamError =
  * This operation requires permission for the ` bedrock:RetrieveAndGenerate` action.
  */
 export const retrieveAndGenerateStream: API.OperationMethod<
-  RetrieveAndGenerateStreamRequest,
+  RetrieveAndGenerateStreamRequest & RegionInput,
   RetrieveAndGenerateStreamResponse,
   RetrieveAndGenerateStreamError,
   Credentials | HttpClient.HttpClient
@@ -4933,7 +4981,7 @@ export type StartFlowExecutionError =
  * Flow executions is in preview release for Amazon Bedrock and is subject to change.
  */
 export const startFlowExecution: API.OperationMethod<
-  StartFlowExecutionRequest,
+  StartFlowExecutionRequest & RegionInput,
   StartFlowExecutionResponse,
   StartFlowExecutionError,
   Credentials | HttpClient.HttpClient
@@ -4972,7 +5020,7 @@ export type StopFlowExecutionError =
  * Stops an Amazon Bedrock flow's execution. This operation prevents further processing of the flow and changes the execution status to `Aborted`.
  */
 export const stopFlowExecution: API.OperationMethod<
-  StopFlowExecutionRequest,
+  StopFlowExecutionRequest & RegionInput,
   StopFlowExecutionResponse,
   StopFlowExecutionError,
   Credentials | HttpClient.HttpClient
@@ -5008,7 +5056,7 @@ export type TagResourceError =
  * Associate tags with a resource. For more information, see Tagging resources in the Amazon Bedrock User Guide.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5041,7 +5089,7 @@ export type UntagResourceError =
  * Remove tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5074,7 +5122,7 @@ export type UpdateSessionError =
  * Updates the metadata or encryption settings of a session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
  */
 export const updateSession: API.OperationMethod<
-  UpdateSessionRequest,
+  UpdateSessionRequest & RegionInput,
   UpdateSessionResponse,
   UpdateSessionError,
   Credentials | HttpClient.HttpClient
@@ -5217,6 +5265,10 @@ function __c0(j: number): any {
       ).annotate({ identifier: "AgenticRetrieveMemoryConfiguration" });
     case 24:
       return S.suspend(() =>
+        S.Struct({ retrievalInstructionId: S.String, version: S.optional(S.String) }),
+      ).annotate({ identifier: "AgenticRetrieveInstructionConfiguration" });
+    case 25:
+      return S.suspend(() =>
         S.Struct({
           messages: __S(1, __c0, 1),
           retrievers: __S(6, __c0, 6),
@@ -5225,6 +5277,7 @@ function __c0(j: number): any {
           nextToken: S.optional(S.String),
           userContext: S.optional(__S(64, __c2, 0)),
           memoryConfiguration: S.optional(__S(23, __c0, 23)),
+          retrievalInstructionConfiguration: S.optional(__S(24, __c0, 24)),
           generateResponse: S.optional(S.Boolean),
         }).pipe(
           T.all(
@@ -5237,7 +5290,7 @@ function __c0(j: number): any {
           ),
         ),
       ).annotate({ identifier: "AgenticRetrieveStreamRequest" });
-    case 25:
+    case 26:
       return S.suspend(() =>
         S.Struct({
           byteContent: S.optional(T.Blob),
@@ -5245,62 +5298,62 @@ function __c0(j: number): any {
           mimeType: S.String,
         }),
       ).annotate({ identifier: "RetrievalContent" });
-    case 26:
+    case 27:
       return S.suspend(() => S.Struct({ identifier: S.String })).annotate({
         identifier: "AgenticRetrieveSourceRetriever",
       });
-    case 27:
+    case 28:
       return S.suspend(() =>
         S.Struct({
-          content: __S(25, __c0, 25),
+          content: __S(26, __c0, 26),
           metadata: S.optional(__S(128, __c4, 0)),
-          sourceRetriever: __S(26, __c0, 26),
+          sourceRetriever: __S(27, __c0, 27),
         }),
       ).annotate({ identifier: "AgenticRetrieveResultItem" });
-    case 28:
-      return S.Array(__S(27, __c0, 27));
     case 29:
+      return S.Array(__S(28, __c0, 28));
+    case 30:
       return S.suspend(() => S.Struct({ resultIndex: S.Number })).annotate({
         identifier: "AgenticRetrieveCitationReference",
       });
-    case 30:
-      return S.Array(__S(29, __c0, 29));
     case 31:
-      return S.suspend(() =>
-        S.Struct({ startIndex: S.Number, endIndex: S.Number, references: __S(30, __c0, 30) }),
-      ).annotate({ identifier: "AgenticRetrieveCitation" });
+      return S.Array(__S(30, __c0, 30));
   }
 }
 function __c1(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(31, __c0, 31));
-    case 1:
       return S.suspend(() =>
-        S.Struct({ answer: S.String, citations: S.optional(__S(32, __c1, 0)) }),
-      ).annotate({ identifier: "AgenticRetrieveGeneratedResponse" });
+        S.Struct({ startIndex: S.Number, endIndex: S.Number, references: __S(31, __c0, 31) }),
+      ).annotate({ identifier: "AgenticRetrieveCitation" });
+    case 1:
+      return S.Array(__S(32, __c1, 0));
     case 2:
       return S.suspend(() =>
+        S.Struct({ answer: S.String, citations: S.optional(__S(33, __c1, 1)) }),
+      ).annotate({ identifier: "AgenticRetrieveGeneratedResponse" });
+    case 3:
+      return S.suspend(() =>
         S.Struct({
-          results: __S(28, __c0, 28),
-          generatedResponse: S.optional(__S(33, __c1, 1)),
+          results: __S(29, __c0, 29),
+          generatedResponse: S.optional(__S(34, __c1, 2)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "AgenticRetrieveResultEvent" });
-    case 3:
-      return S.Array(__S(26, __c0, 26));
     case 4:
-      return S.suspend(() =>
-        S.Struct({ inputQuery: __S(96, __c3, 0), sourceRetrievers: __S(35, __c1, 3) }),
-      ).annotate({ identifier: "AgenticRetrieveActionDetails" });
+      return S.Array(__S(27, __c0, 27));
     case 5:
+      return S.suspend(() =>
+        S.Struct({ inputQuery: __S(96, __c3, 0), sourceRetrievers: __S(36, __c1, 4) }),
+      ).annotate({ identifier: "AgenticRetrieveActionDetails" });
+    case 6:
       return S.suspend(() =>
         S.Struct({
           documentId: S.optional(S.String),
-          sourceRetriever: S.optional(__S(26, __c0, 26)),
+          sourceRetriever: S.optional(__S(27, __c0, 27)),
         }),
       ).annotate({ identifier: "AgenticRetrieveFullDocExpansionDetails" });
-    case 6:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           inputQuery: __S(96, __c3, 0),
@@ -5310,21 +5363,28 @@ function __c1(j: number): any {
           strategyId: S.optional(S.String),
         }),
       ).annotate({ identifier: "AgenticRetrieveMemoryRetrieveDetails" });
-    case 7:
+    case 8:
+      return S.Array(__S(38, __c1, 6));
+    case 9:
+      return S.suspend(() => S.Struct({ documents: S.optional(__S(40, __c1, 8)) })).annotate({
+        identifier: "AgenticRetrieveCodeExecutionDetails",
+      });
+    case 10:
       return S.suspend(() =>
         S.Struct({
-          retrieve: S.optional(__S(36, __c1, 4)),
-          fullDocumentExpansion: S.optional(__S(37, __c1, 5)),
-          memoryRetrieve: S.optional(__S(38, __c1, 6)),
+          retrieve: S.optional(__S(37, __c1, 5)),
+          fullDocumentExpansion: S.optional(__S(38, __c1, 6)),
+          memoryRetrieve: S.optional(__S(39, __c1, 7)),
+          codeExecution: S.optional(__S(41, __c1, 9)),
         }),
       ).annotate({ identifier: "AgenticRetrieveAction" });
-    case 8:
-      return S.Array(__S(39, __c1, 7));
-    case 9:
+    case 11:
+      return S.Array(__S(42, __c1, 10));
+    case 12:
       return S.suspend(() => S.Struct({ message: S.String })).annotate({
         identifier: "AgenticRetrieveWarningMessage",
       });
-    case 10:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -5333,53 +5393,58 @@ function __c1(j: number): any {
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "AgenticRetrieveGuardrailWarning" });
-    case 11:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ message: __S(41, __c1, 9) }),
-        /*@__PURE__*/ S.Struct({ guardrail: __S(42, __c1, 10) }),
-      ]);
-    case 12:
-      return S.Array(__S(43, __c1, 11));
-    case 13:
-      return S.Array(__S(41, __c1, 9));
     case 14:
-      return S.suspend(() =>
-        S.Struct({ identifier: S.optional(S.String), retrievalType: S.optional(S.String) }),
-      ).annotate({ identifier: "AgenticRetrieveSourceMetadata" });
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ message: __S(44, __c1, 12) }),
+        /*@__PURE__*/ S.Struct({ guardrail: __S(45, __c1, 13) }),
+      ]);
     case 15:
       return S.Array(__S(46, __c1, 14));
     case 16:
+      return S.Array(__S(44, __c1, 12));
+    case 17:
+      return S.suspend(() =>
+        S.Struct({ identifier: S.optional(S.String), retrievalType: S.optional(S.String) }),
+      ).annotate({ identifier: "AgenticRetrieveSourceMetadata" });
+    case 18:
+      return S.Array(__S(49, __c1, 17));
+    case 19:
       return S.suspend(() =>
         S.Struct({
-          content: S.optional(__S(25, __c0, 25)),
+          content: S.optional(__S(26, __c0, 26)),
           metadata: S.optional(__S(128, __c4, 0)),
-          sourceRetriever: S.optional(__S(26, __c0, 26)),
+          sourceRetriever: S.optional(__S(27, __c0, 27)),
         }),
       ).annotate({ identifier: "AgenticRetrieveTraceResultItem" });
-    case 17:
-      return S.Array(__S(48, __c1, 16));
-    case 18:
+    case 20:
+      return S.Array(__S(51, __c1, 19));
+    case 21:
+      return S.suspend(() => S.Struct({ id: S.String, version: S.optional(S.String) })).annotate({
+        identifier: "AgenticRetrieveAppliedInstruction",
+      });
+    case 22:
       return S.suspend(() =>
         S.Struct({
           step: S.String,
           status: S.String,
           message: S.String,
-          actions: S.optional(__S(40, __c1, 8)),
-          warnings: S.optional(__S(44, __c1, 12)),
-          failures: S.optional(__S(45, __c1, 13)),
-          retrievalMetadata: S.optional(__S(47, __c1, 15)),
-          retrievalResponse: S.optional(__S(49, __c1, 17)),
+          actions: S.optional(__S(43, __c1, 11)),
+          warnings: S.optional(__S(47, __c1, 15)),
+          failures: S.optional(__S(48, __c1, 16)),
+          retrievalMetadata: S.optional(__S(50, __c1, 18)),
+          retrievalResponse: S.optional(__S(52, __c1, 20)),
+          appliedInstruction: S.optional(__S(53, __c1, 21)),
         }),
       ).annotate({ identifier: "AgenticRetrieveTraceEventAttributes" });
-    case 19:
+    case 23:
       return S.suspend(() =>
-        S.Struct({ id: S.String, timestamp: S.Number, attributes: __S(50, __c1, 18) }),
+        S.Struct({ id: S.String, timestamp: S.Number, attributes: __S(54, __c1, 22) }),
       ).annotate({ identifier: "AgenticRetrieveTraceEvent" });
-    case 20:
+    case 24:
       return T.EventStream(
         /*@__PURE__*/ S.Union([
-          /*@__PURE__*/ S.Struct({ result: __S(34, __c1, 2) }),
-          /*@__PURE__*/ S.Struct({ traceEvent: __S(51, __c1, 19) }),
+          /*@__PURE__*/ S.Struct({ result: __S(35, __c1, 3) }),
+          /*@__PURE__*/ S.Struct({ traceEvent: __S(55, __c1, 23) }),
           /*@__PURE__*/ S.Struct({ responseEvent: __S(224, __c7, 0) }),
           /*@__PURE__*/ S.Struct({
             internalServerException: /*@__PURE__*/ S.suspend(
@@ -5428,9 +5493,9 @@ function __c1(j: number): any {
           }),
         ]),
       );
-    case 21:
+    case 25:
       return S.suspend(() =>
-        S.Struct({ stream: __S(52, __c1, 20).pipe(T.HttpPayload()) }),
+        S.Struct({ stream: __S(56, __c1, 24).pipe(T.HttpPayload()) }),
       ).annotate({ identifier: "AgenticRetrieveStreamResponse" });
   }
 }
@@ -5769,6 +5834,7 @@ function __c20(j: number): any {
           knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
           dataSourceId: S.String.pipe(T.HttpLabel("dataSourceId")),
           documentId: S.String.pipe(T.HttpLabel("documentId")),
+          mediaId: S.optional(S.String),
           outputFormat: S.optional(S.String),
           userContext: S.optional(__S(64, __c2, 0)),
         }).pipe(

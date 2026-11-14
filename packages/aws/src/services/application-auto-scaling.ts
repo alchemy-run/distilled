@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -105,7 +106,7 @@ export class ConcurrentUpdateException
       /*@__PURE__*/ T.AwsQueryError({ code: "ConcurrentUpdateException", httpResponseCode: 500 }),
       /*@__PURE__*/ T.HttpError(500),
     ),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class FailedResourceAccessException
   extends /*@__PURE__*/ S.TaggedError<FailedResourceAccessException>()(
     "FailedResourceAccessException",
@@ -126,7 +127,7 @@ export class InternalServiceException
       /*@__PURE__*/ T.AwsQueryError({ code: "InternalServiceException", httpResponseCode: 500 }),
       /*@__PURE__*/ T.HttpError(500),
     ),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InvalidNextTokenException
   extends /*@__PURE__*/ S.TaggedError<InvalidNextTokenException>()(
     "InvalidNextTokenException",
@@ -144,7 +145,7 @@ export class LimitExceededException
       /*@__PURE__*/ T.AwsQueryError({ code: "LimitExceededException", httpResponseCode: 400 }),
       /*@__PURE__*/ T.HttpError(400),
     ),
-  ).pipe(C.withBadRequestError) {}
+  ).pipe(C.withBadRequestError, C.withThrottlingError, C.withRetryableError) {}
 export class ObjectNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ObjectNotFoundException>()(
     "ObjectNotFoundException",
@@ -259,17 +260,17 @@ export type MaxResults = number;
 export type XmlString = string;
 export interface DescribeScalableTargetsRequest {
   ServiceNamespace: ServiceNamespace;
-  ResourceIds?: string[];
-  ScalableDimension?: ScalableDimension;
-  MaxResults?: number;
-  NextToken?: string;
+  ResourceIds?: string[] | undefined;
+  ScalableDimension?: ScalableDimension | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ResourceCapacity = number;
 export type ScalingSuspended = boolean;
 export interface SuspendedState {
-  DynamicScalingInSuspended?: boolean;
-  DynamicScalingOutSuspended?: boolean;
-  ScheduledScalingSuspended?: boolean;
+  DynamicScalingInSuspended?: boolean | undefined;
+  DynamicScalingOutSuspended?: boolean | undefined;
+  ScheduledScalingSuspended?: boolean | undefined;
 }
 export interface ScalableTarget {
   ServiceNamespace: ServiceNamespace;
@@ -277,25 +278,25 @@ export interface ScalableTarget {
   ScalableDimension: ScalableDimension;
   MinCapacity: number;
   MaxCapacity: number;
-  PredictedCapacity?: number;
+  PredictedCapacity?: number | undefined;
   RoleARN: string;
   CreationTime: Date;
-  SuspendedState?: SuspendedState;
-  ScalableTargetARN?: string;
+  SuspendedState?: SuspendedState | undefined;
+  ScalableTargetARN?: string | undefined;
 }
 export type ScalableTargets = ScalableTarget[];
 export interface DescribeScalableTargetsResponse {
-  ScalableTargets?: ScalableTarget[];
-  NextToken?: string;
+  ScalableTargets?: ScalableTarget[] | undefined;
+  NextToken?: string | undefined;
 }
 export type IncludeNotScaledActivities = boolean;
 export interface DescribeScalingActivitiesRequest {
   ServiceNamespace: ServiceNamespace;
-  ResourceId?: string;
-  ScalableDimension?: ScalableDimension;
-  MaxResults?: number;
-  NextToken?: string;
-  IncludeNotScaledActivities?: boolean;
+  ResourceId?: string | undefined;
+  ScalableDimension?: ScalableDimension | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  IncludeNotScaledActivities?: boolean | undefined;
 }
 export type ResourceId = string;
 export type ScalingActivityStatusCode =
@@ -308,9 +309,9 @@ export type ScalingActivityStatusCode =
   | (string & {});
 export interface NotScaledReason {
   Code: string;
-  MaxCapacity?: number;
-  MinCapacity?: number;
-  CurrentCapacity?: number;
+  MaxCapacity?: number | undefined;
+  MinCapacity?: number | undefined;
+  CurrentCapacity?: number | undefined;
 }
 export type NotScaledReasons = NotScaledReason[];
 export interface ScalingActivity {
@@ -321,24 +322,24 @@ export interface ScalingActivity {
   Description: string;
   Cause: string;
   StartTime: Date;
-  EndTime?: Date;
+  EndTime?: Date | undefined;
   StatusCode: ScalingActivityStatusCode;
-  StatusMessage?: string;
-  Details?: string;
-  NotScaledReasons?: NotScaledReason[];
+  StatusMessage?: string | undefined;
+  Details?: string | undefined;
+  NotScaledReasons?: NotScaledReason[] | undefined;
 }
 export type ScalingActivities = ScalingActivity[];
 export interface DescribeScalingActivitiesResponse {
-  ScalingActivities?: ScalingActivity[];
-  NextToken?: string;
+  ScalingActivities?: ScalingActivity[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeScalingPoliciesRequest {
-  PolicyNames?: string[];
+  PolicyNames?: string[] | undefined;
   ServiceNamespace: ServiceNamespace;
-  ResourceId?: string;
-  ScalableDimension?: ScalableDimension;
-  MaxResults?: number;
-  NextToken?: string;
+  ResourceId?: string | undefined;
+  ScalableDimension?: ScalableDimension | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type PolicyName = string;
 export type PolicyType =
@@ -354,8 +355,8 @@ export type AdjustmentType =
 export type MetricScale = number;
 export type ScalingAdjustment = number;
 export interface StepAdjustment {
-  MetricIntervalLowerBound?: number;
-  MetricIntervalUpperBound?: number;
+  MetricIntervalLowerBound?: number | undefined;
+  MetricIntervalUpperBound?: number | undefined;
   ScalingAdjustment: number;
 }
 export type StepAdjustments = StepAdjustment[];
@@ -363,11 +364,11 @@ export type MinAdjustmentMagnitude = number;
 export type Cooldown = number;
 export type MetricAggregationType = "Average" | "Minimum" | "Maximum" | (string & {});
 export interface StepScalingPolicyConfiguration {
-  AdjustmentType?: AdjustmentType;
-  StepAdjustments?: StepAdjustment[];
-  MinAdjustmentMagnitude?: number;
-  Cooldown?: number;
-  MetricAggregationType?: MetricAggregationType;
+  AdjustmentType?: AdjustmentType | undefined;
+  StepAdjustments?: StepAdjustment[] | undefined;
+  MinAdjustmentMagnitude?: number | undefined;
+  Cooldown?: number | undefined;
+  MetricAggregationType?: MetricAggregationType | undefined;
 }
 export type MetricType =
   | "DynamoDBReadCapacityUtilization"
@@ -405,7 +406,7 @@ export type MetricType =
 export type ResourceLabel = string;
 export interface PredefinedMetricSpecification {
   PredefinedMetricType: MetricType;
-  ResourceLabel?: string;
+  ResourceLabel?: string | undefined;
 }
 export type MetricName = string;
 export type MetricNamespace = string;
@@ -436,54 +437,54 @@ export type TargetTrackingMetricDimensions = TargetTrackingMetricDimension[];
 export type TargetTrackingMetricName = string;
 export type TargetTrackingMetricNamespace = string;
 export interface TargetTrackingMetric {
-  Dimensions?: TargetTrackingMetricDimension[];
-  MetricName?: string;
-  Namespace?: string;
+  Dimensions?: TargetTrackingMetricDimension[] | undefined;
+  MetricName?: string | undefined;
+  Namespace?: string | undefined;
 }
 export type TargetTrackingMetricUnit = string;
 export interface TargetTrackingMetricStat {
   Metric: TargetTrackingMetric;
   Stat: string;
-  Unit?: string;
+  Unit?: string | undefined;
 }
 export type ReturnData = boolean;
 export interface TargetTrackingMetricDataQuery {
-  Expression?: string;
+  Expression?: string | undefined;
   Id: string;
-  Label?: string;
-  MetricStat?: TargetTrackingMetricStat;
-  ReturnData?: boolean;
+  Label?: string | undefined;
+  MetricStat?: TargetTrackingMetricStat | undefined;
+  ReturnData?: boolean | undefined;
 }
 export type TargetTrackingMetricDataQueries = TargetTrackingMetricDataQuery[];
 export interface CustomizedMetricSpecification {
-  MetricName?: string;
-  Namespace?: string;
-  Dimensions?: MetricDimension[];
-  Statistic?: MetricStatistic;
-  Unit?: string;
-  Metrics?: TargetTrackingMetricDataQuery[];
+  MetricName?: string | undefined;
+  Namespace?: string | undefined;
+  Dimensions?: MetricDimension[] | undefined;
+  Statistic?: MetricStatistic | undefined;
+  Unit?: string | undefined;
+  Metrics?: TargetTrackingMetricDataQuery[] | undefined;
 }
 export type DisableScaleIn = boolean;
 export interface TargetTrackingScalingPolicyConfiguration {
   TargetValue: number;
-  PredefinedMetricSpecification?: PredefinedMetricSpecification;
-  CustomizedMetricSpecification?: CustomizedMetricSpecification;
-  ScaleOutCooldown?: number;
-  ScaleInCooldown?: number;
-  DisableScaleIn?: boolean;
+  PredefinedMetricSpecification?: PredefinedMetricSpecification | undefined;
+  CustomizedMetricSpecification?: CustomizedMetricSpecification | undefined;
+  ScaleOutCooldown?: number | undefined;
+  ScaleInCooldown?: number | undefined;
+  DisableScaleIn?: boolean | undefined;
 }
 export type PredictiveScalingMetricType = string;
 export interface PredictiveScalingPredefinedMetricPairSpecification {
   PredefinedMetricType: string;
-  ResourceLabel?: string;
+  ResourceLabel?: string | undefined;
 }
 export interface PredictiveScalingPredefinedScalingMetricSpecification {
   PredefinedMetricType: string;
-  ResourceLabel?: string;
+  ResourceLabel?: string | undefined;
 }
 export interface PredictiveScalingPredefinedLoadMetricSpecification {
   PredefinedMetricType: string;
-  ResourceLabel?: string;
+  ResourceLabel?: string | undefined;
 }
 export type PredictiveScalingMetricDimensionName = string;
 export type PredictiveScalingMetricDimensionValue = string;
@@ -495,22 +496,22 @@ export type PredictiveScalingMetricDimensions = PredictiveScalingMetricDimension
 export type PredictiveScalingMetricName = string;
 export type PredictiveScalingMetricNamespace = string;
 export interface PredictiveScalingMetric {
-  Dimensions?: PredictiveScalingMetricDimension[];
-  MetricName?: string;
-  Namespace?: string;
+  Dimensions?: PredictiveScalingMetricDimension[] | undefined;
+  MetricName?: string | undefined;
+  Namespace?: string | undefined;
 }
 export type PredictiveScalingMetricUnit = string;
 export interface PredictiveScalingMetricStat {
   Metric: PredictiveScalingMetric;
   Stat: string;
-  Unit?: string;
+  Unit?: string | undefined;
 }
 export interface PredictiveScalingMetricDataQuery {
   Id: string;
-  Expression?: string;
-  MetricStat?: PredictiveScalingMetricStat;
-  Label?: string;
-  ReturnData?: boolean;
+  Expression?: string | undefined;
+  MetricStat?: PredictiveScalingMetricStat | undefined;
+  Label?: string | undefined;
+  ReturnData?: boolean | undefined;
 }
 export type PredictiveScalingMetricDataQueries = PredictiveScalingMetricDataQuery[];
 export interface PredictiveScalingCustomizedMetricSpecification {
@@ -518,12 +519,20 @@ export interface PredictiveScalingCustomizedMetricSpecification {
 }
 export interface PredictiveScalingMetricSpecification {
   TargetValue: number;
-  PredefinedMetricPairSpecification?: PredictiveScalingPredefinedMetricPairSpecification;
-  PredefinedScalingMetricSpecification?: PredictiveScalingPredefinedScalingMetricSpecification;
-  PredefinedLoadMetricSpecification?: PredictiveScalingPredefinedLoadMetricSpecification;
-  CustomizedScalingMetricSpecification?: PredictiveScalingCustomizedMetricSpecification;
-  CustomizedLoadMetricSpecification?: PredictiveScalingCustomizedMetricSpecification;
-  CustomizedCapacityMetricSpecification?: PredictiveScalingCustomizedMetricSpecification;
+  PredefinedMetricPairSpecification?:
+    | PredictiveScalingPredefinedMetricPairSpecification
+    | undefined;
+  PredefinedScalingMetricSpecification?:
+    | PredictiveScalingPredefinedScalingMetricSpecification
+    | undefined;
+  PredefinedLoadMetricSpecification?:
+    | PredictiveScalingPredefinedLoadMetricSpecification
+    | undefined;
+  CustomizedScalingMetricSpecification?: PredictiveScalingCustomizedMetricSpecification | undefined;
+  CustomizedLoadMetricSpecification?: PredictiveScalingCustomizedMetricSpecification | undefined;
+  CustomizedCapacityMetricSpecification?:
+    | PredictiveScalingCustomizedMetricSpecification
+    | undefined;
 }
 export type PredictiveScalingMetricSpecifications = PredictiveScalingMetricSpecification[];
 export type PredictiveScalingMode = "ForecastOnly" | "ForecastAndScale" | (string & {});
@@ -535,10 +544,10 @@ export type PredictiveScalingMaxCapacityBreachBehavior =
 export type PredictiveScalingMaxCapacityBuffer = number;
 export interface PredictiveScalingPolicyConfiguration {
   MetricSpecifications: PredictiveScalingMetricSpecification[];
-  Mode?: PredictiveScalingMode;
-  SchedulingBufferTime?: number;
-  MaxCapacityBreachBehavior?: PredictiveScalingMaxCapacityBreachBehavior;
-  MaxCapacityBuffer?: number;
+  Mode?: PredictiveScalingMode | undefined;
+  SchedulingBufferTime?: number | undefined;
+  MaxCapacityBreachBehavior?: PredictiveScalingMaxCapacityBreachBehavior | undefined;
+  MaxCapacityBuffer?: number | undefined;
 }
 export interface Alarm {
   AlarmName: string;
@@ -552,47 +561,47 @@ export interface ScalingPolicy {
   ResourceId: string;
   ScalableDimension: ScalableDimension;
   PolicyType: PolicyType;
-  StepScalingPolicyConfiguration?: StepScalingPolicyConfiguration;
-  TargetTrackingScalingPolicyConfiguration?: TargetTrackingScalingPolicyConfiguration;
-  PredictiveScalingPolicyConfiguration?: PredictiveScalingPolicyConfiguration;
-  Alarms?: Alarm[];
+  StepScalingPolicyConfiguration?: StepScalingPolicyConfiguration | undefined;
+  TargetTrackingScalingPolicyConfiguration?: TargetTrackingScalingPolicyConfiguration | undefined;
+  PredictiveScalingPolicyConfiguration?: PredictiveScalingPolicyConfiguration | undefined;
+  Alarms?: Alarm[] | undefined;
   CreationTime: Date;
 }
 export type ScalingPolicies = ScalingPolicy[];
 export interface DescribeScalingPoliciesResponse {
-  ScalingPolicies?: ScalingPolicy[];
-  NextToken?: string;
+  ScalingPolicies?: ScalingPolicy[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeScheduledActionsRequest {
-  ScheduledActionNames?: string[];
+  ScheduledActionNames?: string[] | undefined;
   ServiceNamespace: ServiceNamespace;
-  ResourceId?: string;
-  ScalableDimension?: ScalableDimension;
-  MaxResults?: number;
-  NextToken?: string;
+  ResourceId?: string | undefined;
+  ScalableDimension?: ScalableDimension | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ScheduledActionName = string;
 export interface ScalableTargetAction {
-  MinCapacity?: number;
-  MaxCapacity?: number;
+  MinCapacity?: number | undefined;
+  MaxCapacity?: number | undefined;
 }
 export interface ScheduledAction {
   ScheduledActionName: string;
   ScheduledActionARN: string;
   ServiceNamespace: ServiceNamespace;
   Schedule: string;
-  Timezone?: string;
+  Timezone?: string | undefined;
   ResourceId: string;
   ScalableDimension: ScalableDimension;
-  StartTime?: Date;
-  EndTime?: Date;
-  ScalableTargetAction?: ScalableTargetAction;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  ScalableTargetAction?: ScalableTargetAction | undefined;
   CreationTime: Date;
 }
 export type ScheduledActions = ScheduledAction[];
 export interface DescribeScheduledActionsResponse {
-  ScheduledActions?: ScheduledAction[];
-  NextToken?: string;
+  ScheduledActions?: ScheduledAction[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetPredictiveScalingForecastRequest {
   ServiceNamespace: ServiceNamespace;
@@ -615,9 +624,9 @@ export interface CapacityForecast {
   Values: number[];
 }
 export interface GetPredictiveScalingForecastResponse {
-  LoadForecast?: LoadForecast[];
-  CapacityForecast?: CapacityForecast;
-  UpdateTime?: Date;
+  LoadForecast?: LoadForecast[] | undefined;
+  CapacityForecast?: CapacityForecast | undefined;
+  UpdateTime?: Date | undefined;
 }
 export type AmazonResourceName = string;
 export interface ListTagsForResourceRequest {
@@ -627,46 +636,46 @@ export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutScalingPolicyRequest {
   PolicyName: string;
   ServiceNamespace: ServiceNamespace;
   ResourceId: string;
   ScalableDimension: ScalableDimension;
-  PolicyType?: PolicyType;
-  StepScalingPolicyConfiguration?: StepScalingPolicyConfiguration;
-  TargetTrackingScalingPolicyConfiguration?: TargetTrackingScalingPolicyConfiguration;
-  PredictiveScalingPolicyConfiguration?: PredictiveScalingPolicyConfiguration;
+  PolicyType?: PolicyType | undefined;
+  StepScalingPolicyConfiguration?: StepScalingPolicyConfiguration | undefined;
+  TargetTrackingScalingPolicyConfiguration?: TargetTrackingScalingPolicyConfiguration | undefined;
+  PredictiveScalingPolicyConfiguration?: PredictiveScalingPolicyConfiguration | undefined;
 }
 export interface PutScalingPolicyResponse {
   PolicyARN: string;
-  Alarms?: Alarm[];
+  Alarms?: Alarm[] | undefined;
 }
 export interface PutScheduledActionRequest {
   ServiceNamespace: ServiceNamespace;
-  Schedule?: string;
-  Timezone?: string;
+  Schedule?: string | undefined;
+  Timezone?: string | undefined;
   ScheduledActionName: string;
   ResourceId: string;
   ScalableDimension: ScalableDimension;
-  StartTime?: Date;
-  EndTime?: Date;
-  ScalableTargetAction?: ScalableTargetAction;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  ScalableTargetAction?: ScalableTargetAction | undefined;
 }
 export interface PutScheduledActionResponse {}
 export interface RegisterScalableTargetRequest {
   ServiceNamespace: ServiceNamespace;
   ResourceId: string;
   ScalableDimension: ScalableDimension;
-  MinCapacity?: number;
-  MaxCapacity?: number;
-  RoleARN?: string;
-  SuspendedState?: SuspendedState;
-  Tags?: { [key: string]: string | undefined };
+  MinCapacity?: number | undefined;
+  MaxCapacity?: number | undefined;
+  RoleARN?: string | undefined;
+  SuspendedState?: SuspendedState | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface RegisterScalableTargetResponse {
-  ScalableTargetARN?: string;
+  ScalableTargetARN?: string | undefined;
 }
 export interface TagResourceRequest {
   ResourceARN: string;
@@ -698,7 +707,7 @@ export type DeleteScalingPolicyError =
  * *Application Auto Scaling User Guide*.
  */
 export const deleteScalingPolicy: API.OperationMethod<
-  DeleteScalingPolicyRequest,
+  DeleteScalingPolicyRequest & RegionInput,
   DeleteScalingPolicyResponse,
   DeleteScalingPolicyError,
   Credentials | HttpClient.HttpClient
@@ -730,7 +739,7 @@ export type DeleteScheduledActionError =
  * For more information, see Delete a scheduled action in the *Application Auto Scaling User Guide*.
  */
 export const deleteScheduledAction: API.OperationMethod<
-  DeleteScheduledActionRequest,
+  DeleteScheduledActionRequest & RegionInput,
   DeleteScheduledActionResponse,
   DeleteScheduledActionError,
   Credentials | HttpClient.HttpClient
@@ -764,7 +773,7 @@ export type DeregisterScalableTargetError =
  * actions that are associated with it.
  */
 export const deregisterScalableTarget: API.OperationMethod<
-  DeregisterScalableTargetRequest,
+  DeregisterScalableTargetRequest & RegionInput,
   DeregisterScalableTargetResponse,
   DeregisterScalableTargetError,
   Credentials | HttpClient.HttpClient
@@ -797,7 +806,7 @@ export type DescribeScalableTargetsError =
  * `ScalableDimension`.
  */
 export const describeScalableTargets: API.PaginatedOperationMethod<
-  DescribeScalableTargetsRequest,
+  DescribeScalableTargetsRequest & RegionInput,
   DescribeScalableTargetsResponse,
   DescribeScalableTargetsError,
   Credentials | HttpClient.HttpClient,
@@ -840,7 +849,7 @@ export type DescribeScalingActivitiesError =
  * For information about viewing scaling activities using the Amazon Web Services CLI, see Scaling activities for Application Auto Scaling.
  */
 export const describeScalingActivities: API.PaginatedOperationMethod<
-  DescribeScalingActivitiesRequest,
+  DescribeScalingActivitiesRequest & RegionInput,
   DescribeScalingActivitiesResponse,
   DescribeScalingActivitiesError,
   Credentials | HttpClient.HttpClient,
@@ -883,7 +892,7 @@ export type DescribeScalingPoliciesError =
  * For more information, see Target tracking scaling policies and Step scaling policies in the *Application Auto Scaling User Guide*.
  */
 export const describeScalingPolicies: API.PaginatedOperationMethod<
-  DescribeScalingPoliciesRequest,
+  DescribeScalingPoliciesRequest & RegionInput,
   DescribeScalingPoliciesResponse,
   DescribeScalingPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -926,7 +935,7 @@ export type DescribeScheduledActionsError =
  * For more information, see Scheduled scaling in the *Application Auto Scaling User Guide*.
  */
 export const describeScheduledActions: API.PaginatedOperationMethod<
-  DescribeScheduledActionsRequest,
+  DescribeScheduledActionsRequest & RegionInput,
   DescribeScheduledActionsResponse,
   DescribeScheduledActionsError,
   Credentials | HttpClient.HttpClient,
@@ -970,7 +979,7 @@ export type GetPredictiveScalingForecastError =
  * having a full 14 days of historical data results in more accurate forecasts.
  */
 export const getPredictiveScalingForecast: API.OperationMethod<
-  GetPredictiveScalingForecastRequest,
+  GetPredictiveScalingForecastRequest & RegionInput,
   GetPredictiveScalingForecastResponse,
   GetPredictiveScalingForecastError,
   Credentials | HttpClient.HttpClient
@@ -993,7 +1002,7 @@ export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
  * resources in the *Amazon Web Services General Reference*.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1048,7 +1057,7 @@ export type PutScalingPolicyError =
  * are deleted.
  */
 export const putScalingPolicy: API.OperationMethod<
-  PutScalingPolicyRequest,
+  PutScalingPolicyRequest & RegionInput,
   PutScalingPolicyResponse,
   PutScalingPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1098,7 +1107,7 @@ export type PutScheduledActionError =
  * are deleted.
  */
 export const putScheduledAction: API.OperationMethod<
-  PutScheduledActionRequest,
+  PutScheduledActionRequest & RegionInput,
   PutScheduledActionResponse,
   PutScheduledActionError,
   Credentials | HttpClient.HttpClient
@@ -1165,7 +1174,7 @@ export type RegisterScalableTargetError =
  * parameters.
  */
 export const registerScalableTarget: API.OperationMethod<
-  RegisterScalableTargetRequest,
+  RegisterScalableTargetRequest & RegionInput,
   RegisterScalableTargetResponse,
   RegisterScalableTargetError,
   Credentials | HttpClient.HttpClient
@@ -1210,7 +1219,7 @@ export type TagResourceError =
  * for Application Auto Scaling in the *Application Auto Scaling User Guide*.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1231,7 +1240,7 @@ export type UntagResourceError = ResourceNotFoundException | ValidationException
  * the Application Auto Scaling scalable target.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient

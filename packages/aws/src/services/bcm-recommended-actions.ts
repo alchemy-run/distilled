@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -117,7 +118,7 @@ export class InternalServerException
       }),
       /*@__PURE__*/ T.HttpError(500),
     ),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",
@@ -163,14 +164,14 @@ export interface ActionFilter {
 }
 export type ActionFilterList = ActionFilter[];
 export interface RequestFilter {
-  actions?: ActionFilter[];
+  actions?: ActionFilter[] | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListRecommendedActionsRequest {
-  filter?: RequestFilter;
-  maxResults?: number;
-  nextToken?: string;
+  filter?: RequestFilter | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ActionType =
   | "ADD_ALTERNATE_BILLING_CONTACT"
@@ -212,19 +213,19 @@ export type Context = { [key: string]: string | undefined };
 export type NextStep = string;
 export type NextSteps = string[];
 export interface RecommendedAction {
-  id?: string;
-  type?: ActionType;
-  accountId?: string;
-  severity?: Severity;
-  feature?: Feature;
-  context?: { [key: string]: string | undefined };
-  nextSteps?: string[];
-  lastUpdatedTimeStamp?: string;
+  id?: string | undefined;
+  type?: ActionType | undefined;
+  accountId?: string | undefined;
+  severity?: Severity | undefined;
+  feature?: Feature | undefined;
+  context?: { [key: string]: string | undefined } | undefined;
+  nextSteps?: string[] | undefined;
+  lastUpdatedTimeStamp?: string | undefined;
 }
 export type RecommendedActions = RecommendedAction[];
 export interface ListRecommendedActionsResponse {
   recommendedActions: RecommendedAction[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ValidationExceptionReason =
   | "unknownOperation"
@@ -247,7 +248,7 @@ export type ListRecommendedActionsError =
  * Returns a list of recommended actions that match the filter criteria.
  */
 export const listRecommendedActions: API.PaginatedOperationMethod<
-  ListRecommendedActionsRequest,
+  ListRecommendedActionsRequest & RegionInput,
   ListRecommendedActionsResponse,
   ListRecommendedActionsError,
   Credentials | HttpClient.HttpClient,

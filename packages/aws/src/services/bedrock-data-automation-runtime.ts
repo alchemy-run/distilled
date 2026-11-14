@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -105,7 +106,7 @@ export class InternalServerException
     "InternalServerException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
@@ -123,13 +124,13 @@ export class ServiceUnavailableException
     "ServiceUnavailableException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(503),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
@@ -152,31 +153,31 @@ export interface OutputConfiguration {
   s3Uri: string;
 }
 export interface GetDataAutomationStatusResponse {
-  status?: AutomationJobStatus;
-  errorType?: string;
-  errorMessage?: string;
-  outputConfiguration?: OutputConfiguration;
-  jobSubmissionTime?: Date;
-  jobCompletionTime?: Date;
-  jobDurationInSeconds?: number;
+  status?: AutomationJobStatus | undefined;
+  errorType?: string | undefined;
+  errorMessage?: string | undefined;
+  outputConfiguration?: OutputConfiguration | undefined;
+  jobSubmissionTime?: Date | undefined;
+  jobCompletionTime?: Date | undefined;
+  jobDurationInSeconds?: number | undefined;
 }
 export interface SyncInputConfiguration {
-  bytes?: Uint8Array;
-  s3Uri?: string;
+  bytes?: Uint8Array | undefined;
+  s3Uri?: string | undefined;
 }
 export type DataAutomationArn = string;
 export type DataAutomationStage = "LIVE" | "DEVELOPMENT" | (string & {});
 export interface DataAutomationConfiguration {
   dataAutomationProjectArn: string;
-  stage?: DataAutomationStage;
+  stage?: DataAutomationStage | undefined;
 }
 export type BlueprintArn = string;
 export type BlueprintVersion = string;
 export type BlueprintStage = "DEVELOPMENT" | "LIVE" | (string & {});
 export interface Blueprint {
   blueprintArn: string;
-  version?: string;
-  stage?: BlueprintStage;
+  version?: string | undefined;
+  stage?: BlueprintStage | undefined;
 }
 export type BlueprintList = Blueprint[];
 export type DataAutomationProfileArn = string;
@@ -186,28 +187,28 @@ export type EncryptionContextValue = string;
 export type EncryptionContextMap = { [key: string]: string | undefined };
 export interface EncryptionConfiguration {
   kmsKeyId: string;
-  kmsEncryptionContext?: { [key: string]: string | undefined };
+  kmsEncryptionContext?: { [key: string]: string | undefined } | undefined;
 }
 export interface InvokeDataAutomationRequest {
   inputConfiguration: SyncInputConfiguration;
-  dataAutomationConfiguration?: DataAutomationConfiguration;
-  blueprints?: Blueprint[];
+  dataAutomationConfiguration?: DataAutomationConfiguration | undefined;
+  blueprints?: Blueprint[] | undefined;
   dataAutomationProfileArn: string;
-  encryptionConfiguration?: EncryptionConfiguration;
-  outputConfiguration?: OutputConfiguration;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  outputConfiguration?: OutputConfiguration | undefined;
 }
 export type SemanticModality = "DOCUMENT" | "IMAGE" | "AUDIO" | "VIDEO" | (string & {});
 export type CustomOutputStatus = "MATCH" | "NO_MATCH" | (string & {});
 export interface OutputSegment {
-  customOutputStatus?: CustomOutputStatus;
-  customOutput?: string;
-  standardOutput?: string;
+  customOutputStatus?: CustomOutputStatus | undefined;
+  customOutput?: string | undefined;
+  standardOutput?: string | undefined;
 }
 export type OutputSegmentList = OutputSegment[];
 export interface InvokeDataAutomationResponse {
-  outputConfiguration?: OutputConfiguration;
+  outputConfiguration?: OutputConfiguration | undefined;
   semanticModality: SemanticModality;
-  outputSegments?: OutputSegment[];
+  outputSegments?: OutputSegment[] | undefined;
 }
 export type IdempotencyToken = string;
 export interface TimestampSegment {
@@ -216,14 +217,14 @@ export interface TimestampSegment {
 }
 export type VideoSegmentConfiguration = { timestampSegment: TimestampSegment };
 export interface VideoAssetProcessingConfiguration {
-  segmentConfiguration?: VideoSegmentConfiguration;
+  segmentConfiguration?: VideoSegmentConfiguration | undefined;
 }
 export interface AssetProcessingConfiguration {
-  video?: VideoAssetProcessingConfiguration;
+  video?: VideoAssetProcessingConfiguration | undefined;
 }
 export interface InputConfiguration {
   s3Uri: string;
-  assetProcessingConfiguration?: AssetProcessingConfiguration;
+  assetProcessingConfiguration?: AssetProcessingConfiguration | undefined;
 }
 export interface EventBridgeConfiguration {
   eventBridgeEnabled: boolean;
@@ -239,15 +240,15 @@ export interface Tag {
 }
 export type TagList = Tag[];
 export interface InvokeDataAutomationAsyncRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   inputConfiguration: InputConfiguration;
   outputConfiguration: OutputConfiguration;
-  dataAutomationConfiguration?: DataAutomationConfiguration;
-  encryptionConfiguration?: EncryptionConfiguration;
-  notificationConfiguration?: NotificationConfiguration;
-  blueprints?: Blueprint[];
+  dataAutomationConfiguration?: DataAutomationConfiguration | undefined;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  notificationConfiguration?: NotificationConfiguration | undefined;
+  blueprints?: Blueprint[] | undefined;
   dataAutomationProfileArn: string;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface InvokeDataAutomationAsyncResponse {
   invocationArn: string;
@@ -257,7 +258,7 @@ export interface ListTagsForResourceRequest {
   resourceARN: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface TagResourceRequest {
   resourceARN: string;
@@ -282,7 +283,7 @@ export type GetDataAutomationStatusError =
  * API used to get data automation status.
  */
 export const getDataAutomationStatus: API.OperationMethod<
-  GetDataAutomationStatusRequest,
+  GetDataAutomationStatusRequest & RegionInput,
   GetDataAutomationStatusResponse,
   GetDataAutomationStatusError,
   Credentials | HttpClient.HttpClient
@@ -314,7 +315,7 @@ export type InvokeDataAutomationError =
  * Sync API: Invoke data automation.
  */
 export const invokeDataAutomation: API.OperationMethod<
-  InvokeDataAutomationRequest,
+  InvokeDataAutomationRequest & RegionInput,
   InvokeDataAutomationResponse,
   InvokeDataAutomationError,
   Credentials | HttpClient.HttpClient
@@ -346,7 +347,7 @@ export type InvokeDataAutomationAsyncError =
  * Async API: Invoke data automation.
  */
 export const invokeDataAutomationAsync: API.OperationMethod<
-  InvokeDataAutomationAsyncRequest,
+  InvokeDataAutomationAsyncRequest & RegionInput,
   InvokeDataAutomationAsyncResponse,
   InvokeDataAutomationAsyncError,
   Credentials | HttpClient.HttpClient
@@ -378,7 +379,7 @@ export type ListTagsForResourceError =
  * List tags for an Amazon Bedrock Data Automation resource
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -411,7 +412,7 @@ export type TagResourceError =
  * Tag an Amazon Bedrock Data Automation resource
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -444,7 +445,7 @@ export type UntagResourceError =
  * Untag an Amazon Bedrock Data Automation resource
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient

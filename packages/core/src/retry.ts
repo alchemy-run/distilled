@@ -10,12 +10,12 @@
 import * as Context from "effect/Context";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
-import { pipe } from "effect/Function";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Ref from "effect/Ref";
 import * as Schedule from "effect/Schedule";
 import { isThrottling, isTransientError } from "./category.ts";
+import { successesOf } from "./retry-state.ts";
 
 // ============================================================================
 // Retry Policy Types
@@ -29,10 +29,22 @@ import { isThrottling, isTransientError } from "./category.ts";
  * instead of an Effect `Schedule`, so bundles do not carry the Schedule
  * machinery unless a caller supplies a schedule of their own.
  *
- * Delay before retry `n` (0-based): `min(baseMs * factor^n, capMs)`; a
- * server `retryAfter` hint replaces it when `serverHint` is set (capped by
- * {@link ServerRetryHintCapMs}); otherwise throttling errors wait at least
- * `minThrottleMs`. Then up to `jitterMs` of random jitter is added.
+ * Delay before retry `n` (0-based), `t`:
+ *
+ * - with `fullJitter`: `random(0, 1) × min(capMs, base × factor^n)`, where
+ *   `base` is `throttlingBaseMs` for throttling errors and `baseMs` otherwise;
+ * - without it: `min(baseMs × factor^n, capMs)`, at least `minThrottleMs` for
+ *   throttling errors, plus up to `jitterMs` of random jitter.
+ *
+ * With `serverHint`, the server can lengthen `t`:
+ *
+ * - a bounded hint (`x-amz-retry-after` or `x-distilled-retry-after`, in
+ *   milliseconds) is clamped to `[t, t + 5s]` and used as is;
+ * - otherwise `error.retryAfter` (`Retry-After` / `RateLimit`) is a minimum,
+ *   as RFC 9110 defines it; a hint over the cap ({@link ServerRetryHintCapMs})
+ *   stops retrying, because retrying earlier than the server asked fails again.
+ *
+ * With a `budget`, each retry withdraws from it and stops when it is empty.
  */
 export interface Backoff {
   readonly baseMs: number;
@@ -43,7 +55,108 @@ export interface Backoff {
   readonly jitterMs?: number;
   readonly minThrottleMs?: number;
   readonly serverHint?: boolean;
+  /** Base delay for throttling errors under `fullJitter`; `baseMs` when absent. */
+  readonly throttlingBaseMs?: number;
+  readonly fullJitter?: boolean;
+  readonly budget?: Budget;
+  /**
+   * When the budget cannot pay for a retry, wait the delay before failing
+   * anyway, so a polling loop around the call cannot spin (AWS Retry
+   * Behavior 2.1 for long-polling operations such as SQS `ReceiveMessage`).
+   */
+  readonly longPoll?: boolean;
 }
+
+/** How far a bounded server hint may lengthen the computed delay. */
+export const BOUNDED_HINT_MAX_EXTRA_MS = 5_000;
+
+// ============================================================================
+// Retry Budget
+// ============================================================================
+
+/**
+ * A retry budget: one token bucket per key (the request's host). A retry
+ * withdraws its cost; a successful response from that host adds one token,
+ * up to `max`; a retry that succeeds gets its cost back. When a bucket
+ * cannot pay, the call fails instead of retrying, so a failing dependency
+ * sees about `1 / cost` extra load instead of `maxRetries` times its load.
+ *
+ * The bucket lives as long as the budget value. A policy defined at module
+ * scope shares one budget across calls (and across Lambda invocations); a
+ * policy built per call starts a fresh one each time.
+ */
+export interface Budget {
+  /** Withdraw a retry's cost from `key`'s bucket; the cost, or `undefined` when it cannot pay. */
+  readonly withdraw: (key: string, throttling: boolean) => number | undefined;
+  /** Give back what a retry that succeeded withdrew. */
+  readonly refund: (key: string, cost: number) => void;
+  /** Tokens left in `key`'s bucket. */
+  readonly tokens: (key: string) => number;
+  /** Return every bucket to its initial tokens. */
+  readonly reset: () => void;
+}
+
+export interface BudgetOptions {
+  /** Tokens a new bucket starts with. Default 100: 7 transient or 20 throttling retries. */
+  readonly initial?: number;
+  /** Most tokens a bucket holds. Default 500. */
+  readonly max?: number;
+  /** Cost of retrying a non-throttling error. Default 14. */
+  readonly transientCost?: number;
+  /** Cost of retrying a throttling error. Default 5. */
+  readonly throttlingCost?: number;
+}
+
+/**
+ * The AWS SDKs' retry quota (Retry Behavior 2.1: 500 tokens, a transient
+ * retry costs 14, a throttling retry 5, a success adds 1), except that a
+ * bucket starts with 100 tokens instead of full: many short-lived clients,
+ * each starting full, would together retry a failing service at nearly
+ * `maxRetries` times its load.
+ */
+export const makeBudget = (options: BudgetOptions = {}): Budget => {
+  const initial = options.initial ?? 100;
+  const max = options.max ?? 500;
+  const transientCost = options.transientCost ?? 14;
+  const throttlingCost = options.throttlingCost ?? 5;
+  const buckets = new Map<string, { tokens: number; seen: number }>();
+  const bucket = (key: string) => {
+    const seen = successesOf(key);
+    let b = buckets.get(key);
+    if (b === undefined) {
+      b = { tokens: initial, seen };
+      buckets.set(key, b);
+    } else if (seen !== b.seen) {
+      // Successes since the last look, one token each.
+      b.tokens = Math.min(max, b.tokens + (seen - b.seen));
+      b.seen = seen;
+    }
+    return b;
+  };
+  return {
+    withdraw: (key, throttling) => {
+      const b = bucket(key);
+      const cost = throttling ? throttlingCost : transientCost;
+      if (b.tokens < cost) return undefined;
+      b.tokens -= cost;
+      return cost;
+    },
+    refund: (key, cost) => {
+      const b = bucket(key);
+      // The success itself already added a token.
+      b.tokens = Math.min(max, b.tokens + cost - 1);
+    },
+    tokens: (key) => bucket(key).tokens,
+    reset: () => buckets.clear(),
+  };
+};
+
+/**
+ * The budget of the default policy, shared by every SDK in this process.
+ * Its buckets are keyed by host, so one failing service does not use up the
+ * retries of another.
+ */
+export const defaultBudget: Budget = /*@__PURE__*/ makeBudget();
 
 export interface Options {
   /**
@@ -208,65 +321,80 @@ export const serverHintMillis = (error: unknown, capMs: number): number | undefi
   return Math.min(Duration.toMillis(hint), capMs);
 };
 
-/**
- * Schedule modifier that honors `error.retryAfter` (set by the SDK's
- * `matchError` from `Retry-After` / `RateLimit` headers) with precedence
- * over the input delay. Falls back to the original delay when no hint is
- * present.
- */
-const honorServerHint = (
-  lastError: Ref.Ref<unknown>,
-  baseline?: (duration: Duration.Duration, error: unknown) => Duration.Duration,
-) =>
-  Schedule.modifyDelay(
-    Effect.fnUntraced(function* ({ duration }) {
-      const capMs = yield* resolveServerRetryHintCapMs();
-      const error = yield* Ref.get(lastError);
-      const hint = serverHintMillis(error, capMs);
-      if (hint !== undefined) return hint;
-      const adjusted = baseline ? baseline(duration, error) : duration;
-      return Duration.toMillis(adjusted);
-    }),
-  );
-
 // ============================================================================
 // Default Retry Policies
 // ============================================================================
 
 /**
- * Creates the default retry policy.
+ * The policy used when the context provides none, tuned for calls at
+ * runtime (a request handler, a Lambda) after AWS's Retry Behavior 2.1:
  *
- * This policy:
- * - Retries transient errors (throttling, server, network, locked errors)
- * - Honors `error.retryAfter` (server-provided hint) with precedence, capped
- *   by {@link DEFAULT_SERVER_RETRY_HINT_CAP_MS} by default; override with
- *   `DISTILLED_SERVER_RETRY_HINT_CAP_MS` or {@link ServerRetryHintCapMs}
- * - Otherwise uses exponential backoff starting at 250ms with a factor of 2,
- *   capped at 5s per delay
- * - Ensures at least 500ms delay for throttling errors
- * - Limits to 8 retry attempts
- * - Applies jitter to avoid thundering herd
+ * - retries only errors marked retryable (see `isTransientError`);
+ * - at most 2 retries (3 attempts);
+ * - full jitter: `random(0, 1) × min(20s, base × 2^n)`, base 50ms, or 1s
+ *   for throttling errors;
+ * - honors server hints (see {@link Backoff});
+ * - draws from {@link defaultBudget}.
  *
- * The 250ms/5s-cap/8-attempt shape (~20s of total patience) comes from
- * alchemy's Cloudflare provider suite, where transient auth blips under
- * high request concurrency routinely outlast a short 5-attempt/3s policy
- * while a genuinely broken credential still fails within seconds.
+ * Deploy tools that should wait out longer outages install their own
+ * policy, for example {@link transientFactory}.
  */
-/** The policy used when the context provides none. */
 export const defaultOptions: Options = {
   while: (error) => isTransientError(error),
   backoff: {
-    baseMs: 250,
+    baseMs: 50,
+    throttlingBaseMs: 1000,
     factor: 2,
-    capMs: 5000,
-    maxRetries: 8,
-    jitterMs: 50,
-    minThrottleMs: 500,
+    capMs: 20_000,
+    maxRetries: 2,
+    fullJitter: true,
     serverHint: true,
+    budget: defaultBudget,
   },
 };
 
 export const makeDefault: Factory = () => defaultOptions;
+
+/**
+ * A model's `distilled.retry#policy` trait: numbers that replace the default
+ * policy's for a service or an operation. What retries still comes from the
+ * error's marks.
+ */
+export interface RetryOverride {
+  /** Attempts in total, the first included. */
+  readonly maxAttempts?: number;
+  readonly baseMs?: number;
+  readonly throttlingBaseMs?: number;
+  readonly capMs?: number;
+  /** Multiplier between delays (2 by default). */
+  readonly factor?: number;
+  readonly longPoll?: boolean;
+}
+
+const overridden = new WeakMap<RetryOverride, Options>();
+
+/** {@link defaultOptions} with `override`'s numbers, memoized per override object. */
+export const defaultWith = (override: RetryOverride): Options => {
+  const cached = overridden.get(override);
+  if (cached !== undefined) return cached;
+  const backoff = defaultOptions.backoff!;
+  const result: Options = {
+    ...defaultOptions,
+    backoff: {
+      ...backoff,
+      ...(override.maxAttempts !== undefined ? { maxRetries: override.maxAttempts - 1 } : {}),
+      ...(override.baseMs !== undefined ? { baseMs: override.baseMs } : {}),
+      ...(override.throttlingBaseMs !== undefined
+        ? { throttlingBaseMs: override.throttlingBaseMs }
+        : {}),
+      ...(override.capMs !== undefined ? { capMs: override.capMs } : {}),
+      ...(override.factor !== undefined ? { factor: override.factor } : {}),
+      ...(override.longPoll !== undefined ? { longPoll: override.longPoll } : {}),
+    },
+  };
+  overridden.set(override, result);
+  return result;
+};
 
 const slowBackoff: Backoff = {
   baseMs: 1000,

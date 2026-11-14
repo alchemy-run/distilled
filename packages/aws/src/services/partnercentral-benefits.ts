@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -102,7 +103,7 @@ export class InternalServerException
     "InternalServerException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
@@ -125,7 +126,7 @@ export class ThrottlingException
     "ThrottlingException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
@@ -166,15 +167,15 @@ export interface AssociateBenefitApplicationResourceInput {
 }
 export type BenefitApplicationId = string;
 export interface AssociateBenefitApplicationResourceOutput {
-  Id?: string;
-  Arn?: string;
-  Revision?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Revision?: string | undefined;
 }
 export interface CancelBenefitApplicationInput {
   Catalog: string;
   ClientToken: string;
   Identifier: string;
-  Reason?: string;
+  Reason?: string | undefined;
 }
 export interface CancelBenefitApplicationOutput {}
 export type BenefitApplicationName = string;
@@ -194,36 +195,36 @@ export type ContactFirstName = string | redacted.Redacted<string>;
 export type ContactLastName = string | redacted.Redacted<string>;
 export type ContactPhone = string | redacted.Redacted<string>;
 export interface Contact {
-  Email?: string | redacted.Redacted<string>;
-  FirstName?: string | redacted.Redacted<string>;
-  LastName?: string | redacted.Redacted<string>;
-  BusinessTitle?: string;
-  Phone?: string | redacted.Redacted<string>;
+  Email?: string | redacted.Redacted<string> | undefined;
+  FirstName?: string | redacted.Redacted<string> | undefined;
+  LastName?: string | redacted.Redacted<string> | undefined;
+  BusinessTitle?: string | undefined;
+  Phone?: string | redacted.Redacted<string> | undefined;
 }
 export type Contacts = Contact[];
 export type FileURI = string;
 export interface FileInput {
   FileURI: string;
-  BusinessUseCase?: string;
+  BusinessUseCase?: string | undefined;
 }
 export type FileInputDetails = FileInput[];
 export interface CreateBenefitApplicationInput {
   Catalog: string;
   ClientToken: string;
-  Name?: string;
-  Description?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
   BenefitIdentifier: string;
-  FulfillmentTypes?: FulfillmentType[];
-  BenefitApplicationDetails?: any;
-  Tags?: Tag[];
-  AssociatedResources?: string[];
-  PartnerContacts?: Contact[];
-  FileDetails?: FileInput[];
+  FulfillmentTypes?: FulfillmentType[] | undefined;
+  BenefitApplicationDetails?: any | undefined;
+  Tags?: Tag[] | undefined;
+  AssociatedResources?: string[] | undefined;
+  PartnerContacts?: Contact[] | undefined;
+  FileDetails?: FileInput[] | undefined;
 }
 export interface CreateBenefitApplicationOutput {
-  Id?: string;
-  Arn?: string;
-  Revision?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Revision?: string | undefined;
 }
 export interface DisassociateBenefitApplicationResourceInput {
   Catalog: string;
@@ -231,9 +232,9 @@ export interface DisassociateBenefitApplicationResourceInput {
   ResourceArn: string;
 }
 export interface DisassociateBenefitApplicationResourceOutput {
-  Id?: string;
-  Arn?: string;
-  Revision?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Revision?: string | undefined;
 }
 export interface GetBenefitInput {
   Catalog: string;
@@ -243,15 +244,15 @@ export type Program = string;
 export type Programs = string[];
 export type BenefitStatus = "ACTIVE" | "INACTIVE" | (string & {});
 export interface GetBenefitOutput {
-  Id?: string;
-  Catalog?: string;
-  Arn?: string;
-  Name?: string;
-  Description?: string;
-  Programs?: string[];
-  FulfillmentTypes?: FulfillmentType[];
-  BenefitRequestSchema?: any;
-  Status?: BenefitStatus;
+  Id?: string | undefined;
+  Catalog?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Programs?: string[] | undefined;
+  FulfillmentTypes?: FulfillmentType[] | undefined;
+  BenefitRequestSchema?: any | undefined;
+  Status?: BenefitStatus | undefined;
 }
 export type BenefitAllocationIdentifier = string;
 export interface GetBenefitAllocationInput {
@@ -365,19 +366,19 @@ export interface MonetaryValue {
   CurrencyCode: CurrencyCode;
 }
 export interface IssuanceDetail {
-  IssuanceId?: string;
-  IssuanceAmount?: MonetaryValue;
-  IssuedAt?: Date;
+  IssuanceId?: string | undefined;
+  IssuanceAmount?: MonetaryValue | undefined;
+  IssuedAt?: Date | undefined;
 }
 export interface DisbursementDetails {
-  DisbursedAmount?: MonetaryValue;
-  IssuanceDetails?: IssuanceDetail;
+  DisbursedAmount?: MonetaryValue | undefined;
+  IssuanceDetails?: IssuanceDetail | undefined;
 }
 export interface ConsumableDetails {
-  AllocatedAmount?: MonetaryValue;
-  RemainingAmount?: MonetaryValue;
-  UtilizedAmount?: MonetaryValue;
-  IssuanceDetails?: IssuanceDetail;
+  AllocatedAmount?: MonetaryValue | undefined;
+  RemainingAmount?: MonetaryValue | undefined;
+  UtilizedAmount?: MonetaryValue | undefined;
+  IssuanceDetails?: IssuanceDetail | undefined;
 }
 export interface CreditCode {
   AwsAccountId: string;
@@ -394,50 +395,50 @@ export interface CreditDetails {
   Codes: CreditCode[];
 }
 export interface AccessDetails {
-  Description?: string;
+  Description?: string | undefined;
 }
 export type FulfillmentDetails =
   | {
       DisbursementDetails: DisbursementDetails;
-      ConsumableDetails?: never;
-      CreditDetails?: never;
-      AccessDetails?: never;
+      ConsumableDetails?: undefined;
+      CreditDetails?: undefined;
+      AccessDetails?: undefined;
     }
   | {
-      DisbursementDetails?: never;
+      DisbursementDetails?: undefined;
       ConsumableDetails: ConsumableDetails;
-      CreditDetails?: never;
-      AccessDetails?: never;
+      CreditDetails?: undefined;
+      AccessDetails?: undefined;
     }
   | {
-      DisbursementDetails?: never;
-      ConsumableDetails?: never;
+      DisbursementDetails?: undefined;
+      ConsumableDetails?: undefined;
       CreditDetails: CreditDetails;
-      AccessDetails?: never;
+      AccessDetails?: undefined;
     }
   | {
-      DisbursementDetails?: never;
-      ConsumableDetails?: never;
-      CreditDetails?: never;
+      DisbursementDetails?: undefined;
+      ConsumableDetails?: undefined;
+      CreditDetails?: undefined;
       AccessDetails: AccessDetails;
     };
 export interface GetBenefitAllocationOutput {
-  Id?: string;
-  Catalog?: string;
-  Arn?: string;
-  Name?: string;
-  Description?: string;
-  Status?: BenefitAllocationStatus;
-  StatusReason?: string;
-  BenefitApplicationId?: string;
-  BenefitId?: string;
-  FulfillmentType?: FulfillmentType;
-  ApplicableBenefitIds?: string[];
-  FulfillmentDetail?: FulfillmentDetails;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  StartsAt?: Date;
-  ExpiresAt?: Date;
+  Id?: string | undefined;
+  Catalog?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Status?: BenefitAllocationStatus | undefined;
+  StatusReason?: string | undefined;
+  BenefitApplicationId?: string | undefined;
+  BenefitId?: string | undefined;
+  FulfillmentType?: FulfillmentType | undefined;
+  ApplicableBenefitIds?: string[] | undefined;
+  FulfillmentDetail?: FulfillmentDetails | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  StartsAt?: Date | undefined;
+  ExpiresAt?: Date | undefined;
 }
 export interface GetBenefitApplicationInput {
   Catalog: string;
@@ -467,145 +468,145 @@ export type FileType =
   | (string & {});
 export interface FileDetail {
   FileURI: string;
-  BusinessUseCase?: string;
-  FileName?: string;
-  FileStatus?: string;
-  FileStatusReason?: string;
-  FileType?: FileType;
-  CreatedBy?: string;
-  CreatedAt?: Date;
+  BusinessUseCase?: string | undefined;
+  FileName?: string | undefined;
+  FileStatus?: string | undefined;
+  FileStatusReason?: string | undefined;
+  FileType?: FileType | undefined;
+  CreatedBy?: string | undefined;
+  CreatedAt?: Date | undefined;
 }
 export type FileDetails = FileDetail[];
 export interface GetBenefitApplicationOutput {
-  Id?: string;
-  Arn?: string;
-  Catalog?: string;
-  BenefitId?: string;
-  Name?: string;
-  Description?: string;
-  FulfillmentTypes?: FulfillmentType[];
-  BenefitApplicationDetails?: any;
-  Programs?: string[];
-  Status?: BenefitApplicationStatus;
-  Stage?: string;
-  StatusReason?: string;
-  StatusReasonCode?: string;
-  StatusReasonCodes?: string[];
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  Revision?: string;
-  AssociatedResources?: string[];
-  PartnerContacts?: Contact[];
-  FileDetails?: FileDetail[];
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Catalog?: string | undefined;
+  BenefitId?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  FulfillmentTypes?: FulfillmentType[] | undefined;
+  BenefitApplicationDetails?: any | undefined;
+  Programs?: string[] | undefined;
+  Status?: BenefitApplicationStatus | undefined;
+  Stage?: string | undefined;
+  StatusReason?: string | undefined;
+  StatusReasonCode?: string | undefined;
+  StatusReasonCodes?: string[] | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  Revision?: string | undefined;
+  AssociatedResources?: string[] | undefined;
+  PartnerContacts?: Contact[] | undefined;
+  FileDetails?: FileDetail[] | undefined;
 }
 export type BenefitApplicationIdentifierList = string[];
 export type BenefitAllocationStatusList = BenefitAllocationStatus[];
 export interface ListBenefitAllocationsInput {
   Catalog: string;
-  FulfillmentTypes?: FulfillmentType[];
-  BenefitIdentifiers?: string[];
-  BenefitApplicationIdentifiers?: string[];
-  Status?: BenefitAllocationStatus[];
-  MaxResults?: number;
-  NextToken?: string;
+  FulfillmentTypes?: FulfillmentType[] | undefined;
+  BenefitIdentifiers?: string[] | undefined;
+  BenefitApplicationIdentifiers?: string[] | undefined;
+  Status?: BenefitAllocationStatus[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type BenefitAllocationName = string;
 export type BenefitIds = string[];
 export interface BenefitAllocationSummary {
-  Id?: string;
-  Catalog?: string;
-  Arn?: string;
-  Status?: BenefitAllocationStatus;
-  StatusReason?: string;
-  Name?: string;
-  BenefitId?: string;
-  BenefitApplicationId?: string;
-  FulfillmentTypes?: FulfillmentType[];
-  CreatedAt?: Date;
-  ExpiresAt?: Date;
-  ApplicableBenefitIds?: string[];
+  Id?: string | undefined;
+  Catalog?: string | undefined;
+  Arn?: string | undefined;
+  Status?: BenefitAllocationStatus | undefined;
+  StatusReason?: string | undefined;
+  Name?: string | undefined;
+  BenefitId?: string | undefined;
+  BenefitApplicationId?: string | undefined;
+  FulfillmentTypes?: FulfillmentType[] | undefined;
+  CreatedAt?: Date | undefined;
+  ExpiresAt?: Date | undefined;
+  ApplicableBenefitIds?: string[] | undefined;
 }
 export type BenefitAllocationSummaries = BenefitAllocationSummary[];
 export interface ListBenefitAllocationsOutput {
-  BenefitAllocationSummaries?: BenefitAllocationSummary[];
-  NextToken?: string;
+  BenefitAllocationSummaries?: BenefitAllocationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type Statuses = BenefitApplicationStatus[];
 export type Stages = string[];
 export type ResourceType = "OPPORTUNITY" | "BENEFIT_ALLOCATION" | (string & {});
 export interface AssociatedResource {
-  ResourceType?: ResourceType;
-  ResourceIdentifier?: string;
-  ResourceArn?: string;
+  ResourceType?: ResourceType | undefined;
+  ResourceIdentifier?: string | undefined;
+  ResourceArn?: string | undefined;
 }
 export type AssociatedResources = AssociatedResource[];
 export interface ListBenefitApplicationsInput {
   Catalog: string;
-  Programs?: string[];
-  FulfillmentTypes?: FulfillmentType[];
-  BenefitIdentifiers?: string[];
-  Status?: BenefitApplicationStatus[];
-  Stages?: string[];
-  AssociatedResources?: AssociatedResource[];
-  AssociatedResourceArns?: string[];
-  MaxResults?: number;
-  NextToken?: string;
+  Programs?: string[] | undefined;
+  FulfillmentTypes?: FulfillmentType[] | undefined;
+  BenefitIdentifiers?: string[] | undefined;
+  Status?: BenefitApplicationStatus[] | undefined;
+  Stages?: string[] | undefined;
+  AssociatedResources?: AssociatedResource[] | undefined;
+  AssociatedResourceArns?: string[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type Attributes = { [key: string]: string | undefined };
 export interface BenefitApplicationSummary {
-  Catalog?: string;
-  Name?: string;
-  Id?: string;
-  Arn?: string;
-  BenefitId?: string;
-  Programs?: string[];
-  FulfillmentTypes?: FulfillmentType[];
-  Status?: BenefitApplicationStatus;
-  Stage?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  BenefitApplicationDetails?: { [key: string]: string | undefined };
-  AssociatedResources?: string[];
+  Catalog?: string | undefined;
+  Name?: string | undefined;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  BenefitId?: string | undefined;
+  Programs?: string[] | undefined;
+  FulfillmentTypes?: FulfillmentType[] | undefined;
+  Status?: BenefitApplicationStatus | undefined;
+  Stage?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  BenefitApplicationDetails?: { [key: string]: string | undefined } | undefined;
+  AssociatedResources?: string[] | undefined;
 }
 export type BenefitApplicationSummaries = BenefitApplicationSummary[];
 export interface ListBenefitApplicationsOutput {
-  BenefitApplicationSummaries?: BenefitApplicationSummary[];
-  NextToken?: string;
+  BenefitApplicationSummaries?: BenefitApplicationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type BenefitStatuses = BenefitStatus[];
 export interface ListBenefitsInput {
   Catalog: string;
-  Programs?: string[];
-  FulfillmentTypes?: FulfillmentType[];
-  Status?: BenefitStatus[];
-  MaxResults?: number;
-  NextToken?: string;
+  Programs?: string[] | undefined;
+  FulfillmentTypes?: FulfillmentType[] | undefined;
+  Status?: BenefitStatus[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface BenefitSummary {
-  Id?: string;
-  Catalog?: string;
-  Arn?: string;
-  Name?: string;
-  Description?: string;
-  Programs?: string[];
-  FulfillmentTypes?: FulfillmentType[];
-  Status?: BenefitStatus;
+  Id?: string | undefined;
+  Catalog?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Programs?: string[] | undefined;
+  FulfillmentTypes?: FulfillmentType[] | undefined;
+  Status?: BenefitStatus | undefined;
 }
 export type BenefitSummaries = BenefitSummary[];
 export interface ListBenefitsOutput {
-  BenefitSummaries?: BenefitSummary[];
-  NextToken?: string;
+  BenefitSummaries?: BenefitSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type TaggableResourceArn = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface RecallBenefitApplicationInput {
   Catalog: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   Identifier: string;
   Reason: string;
 }
@@ -629,18 +630,18 @@ export interface UntagResourceResponse {}
 export interface UpdateBenefitApplicationInput {
   Catalog: string;
   ClientToken: string;
-  Name?: string;
-  Description?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
   Identifier: string;
   Revision: string;
-  BenefitApplicationDetails?: any;
-  PartnerContacts?: Contact[];
-  FileDetails?: FileInput[];
+  BenefitApplicationDetails?: any | undefined;
+  PartnerContacts?: Contact[] | undefined;
+  FileDetails?: FileInput[] | undefined;
 }
 export interface UpdateBenefitApplicationOutput {
-  Id?: string;
-  Arn?: string;
-  Revision?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Revision?: string | undefined;
 }
 export type ValidationExceptionReason =
   | "unknownOperation"
@@ -664,7 +665,7 @@ export type ValidationExceptionErrorCode =
 export interface ValidationExceptionField {
   Name: string;
   Message: string;
-  Code?: ValidationExceptionErrorCode;
+  Code?: ValidationExceptionErrorCode | undefined;
 }
 export type ValidationExceptionFieldList = ValidationExceptionField[];
 export type AmendBenefitApplicationError =
@@ -679,7 +680,7 @@ export type AmendBenefitApplicationError =
  * Modifies an existing benefit application by applying amendments to specific fields while maintaining revision control.
  */
 export const amendBenefitApplication: API.OperationMethod<
-  AmendBenefitApplicationInput,
+  AmendBenefitApplicationInput & RegionInput,
   AmendBenefitApplicationOutput,
   AmendBenefitApplicationError,
   Credentials | HttpClient.HttpClient
@@ -713,7 +714,7 @@ export type AssociateBenefitApplicationResourceError =
  * Links an AWS resource to an existing benefit application for tracking and management purposes.
  */
 export const associateBenefitApplicationResource: API.OperationMethod<
-  AssociateBenefitApplicationResourceInput,
+  AssociateBenefitApplicationResourceInput & RegionInput,
   AssociateBenefitApplicationResourceOutput,
   AssociateBenefitApplicationResourceError,
   Credentials | HttpClient.HttpClient
@@ -747,7 +748,7 @@ export type CancelBenefitApplicationError =
  * Cancels a benefit application that is currently in progress, preventing further processing.
  */
 export const cancelBenefitApplication: API.OperationMethod<
-  CancelBenefitApplicationInput,
+  CancelBenefitApplicationInput & RegionInput,
   CancelBenefitApplicationOutput,
   CancelBenefitApplicationError,
   Credentials | HttpClient.HttpClient
@@ -781,7 +782,7 @@ export type CreateBenefitApplicationError =
  * Creates a new benefit application for a partner to request access to AWS benefits and programs.
  */
 export const createBenefitApplication: API.OperationMethod<
-  CreateBenefitApplicationInput,
+  CreateBenefitApplicationInput & RegionInput,
   CreateBenefitApplicationOutput,
   CreateBenefitApplicationError,
   Credentials | HttpClient.HttpClient
@@ -815,7 +816,7 @@ export type DisassociateBenefitApplicationResourceError =
  * Removes the association between an AWS resource and a benefit application.
  */
 export const disassociateBenefitApplicationResource: API.OperationMethod<
-  DisassociateBenefitApplicationResourceInput,
+  DisassociateBenefitApplicationResourceInput & RegionInput,
   DisassociateBenefitApplicationResourceOutput,
   DisassociateBenefitApplicationResourceError,
   Credentials | HttpClient.HttpClient
@@ -848,7 +849,7 @@ export type GetBenefitError =
  * Retrieves detailed information about a specific benefit available in the partner catalog.
  */
 export const getBenefit: API.OperationMethod<
-  GetBenefitInput,
+  GetBenefitInput & RegionInput,
   GetBenefitOutput,
   GetBenefitError,
   Credentials | HttpClient.HttpClient
@@ -880,7 +881,7 @@ export type GetBenefitAllocationError =
  * Retrieves detailed information about a specific benefit allocation that has been granted to a partner.
  */
 export const getBenefitAllocation: API.OperationMethod<
-  GetBenefitAllocationInput,
+  GetBenefitAllocationInput & RegionInput,
   GetBenefitAllocationOutput,
   GetBenefitAllocationError,
   Credentials | HttpClient.HttpClient
@@ -913,7 +914,7 @@ export type GetBenefitApplicationError =
  * Retrieves detailed information about a specific benefit application.
  */
 export const getBenefitApplication: API.OperationMethod<
-  GetBenefitApplicationInput,
+  GetBenefitApplicationInput & RegionInput,
   GetBenefitApplicationOutput,
   GetBenefitApplicationError,
   Credentials | HttpClient.HttpClient
@@ -946,7 +947,7 @@ export type ListBenefitAllocationsError =
  * Retrieves a paginated list of benefit allocations based on specified filter criteria.
  */
 export const listBenefitAllocations: API.PaginatedOperationMethod<
-  ListBenefitAllocationsInput,
+  ListBenefitAllocationsInput & RegionInput,
   ListBenefitAllocationsOutput,
   ListBenefitAllocationsError,
   Credentials | HttpClient.HttpClient,
@@ -985,7 +986,7 @@ export type ListBenefitApplicationsError =
  * Retrieves a paginated list of benefit applications based on specified filter criteria.
  */
 export const listBenefitApplications: API.PaginatedOperationMethod<
-  ListBenefitApplicationsInput,
+  ListBenefitApplicationsInput & RegionInput,
   ListBenefitApplicationsOutput,
   ListBenefitApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -1024,7 +1025,7 @@ export type ListBenefitsError =
  * Retrieves a paginated list of available benefits based on specified filter criteria.
  */
 export const listBenefits: API.PaginatedOperationMethod<
-  ListBenefitsInput,
+  ListBenefitsInput & RegionInput,
   ListBenefitsOutput,
   ListBenefitsError,
   Credentials | HttpClient.HttpClient,
@@ -1063,7 +1064,7 @@ export type ListTagsForResourceError =
  * Retrieves all tags associated with a specific resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1096,7 +1097,7 @@ export type RecallBenefitApplicationError =
  * Recalls a submitted benefit application, returning it to draft status for further modifications.
  */
 export const recallBenefitApplication: API.OperationMethod<
-  RecallBenefitApplicationInput,
+  RecallBenefitApplicationInput & RegionInput,
   RecallBenefitApplicationOutput,
   RecallBenefitApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1130,7 +1131,7 @@ export type SubmitBenefitApplicationError =
  * Submits a benefit application for review and processing by AWS.
  */
 export const submitBenefitApplication: API.OperationMethod<
-  SubmitBenefitApplicationInput,
+  SubmitBenefitApplicationInput & RegionInput,
   SubmitBenefitApplicationOutput,
   SubmitBenefitApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1165,7 +1166,7 @@ export type TagResourceError =
  * Adds or updates tags for a specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1201,7 +1202,7 @@ export type UntagResourceError =
  * Removes specified tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1236,7 +1237,7 @@ export type UpdateBenefitApplicationError =
  * Updates an existing benefit application with new information while maintaining revision control.
  */
 export const updateBenefitApplication: API.OperationMethod<
-  UpdateBenefitApplicationInput,
+  UpdateBenefitApplicationInput & RegionInput,
   UpdateBenefitApplicationOutput,
   UpdateBenefitApplicationError,
   Credentials | HttpClient.HttpClient

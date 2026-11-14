@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -738,7 +739,7 @@ export class TestFunctionFailed
     "TestFunctionFailed",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class TooLongCSPInResponseHeadersPolicy
   extends /*@__PURE__*/ S.TaggedError<TooLongCSPInResponseHeadersPolicy>()(
     "TooLongCSPInResponseHeadersPolicy",
@@ -1077,59 +1078,59 @@ export interface AssociateAliasResponse {}
 export interface AssociateDistributionTenantWebACLRequest {
   Id: string;
   WebACLArn: string;
-  IfMatch?: string;
+  IfMatch?: string | undefined;
 }
 export interface AssociateDistributionTenantWebACLResult {
-  Id?: string;
-  WebACLArn?: string;
-  ETag?: string;
+  Id?: string | undefined;
+  WebACLArn?: string | undefined;
+  ETag?: string | undefined;
 }
 export interface AssociateDistributionWebACLRequest {
   Id: string;
   WebACLArn: string;
-  IfMatch?: string;
+  IfMatch?: string | undefined;
 }
 export interface AssociateDistributionWebACLResult {
-  Id?: string;
-  WebACLArn?: string;
-  ETag?: string;
+  Id?: string | undefined;
+  WebACLArn?: string | undefined;
+  ETag?: string | undefined;
 }
 export interface CopyDistributionRequest {
   PrimaryDistributionId: string;
-  Staging?: boolean;
-  IfMatch?: string;
+  Staging?: boolean | undefined;
+  IfMatch?: string | undefined;
   CallerReference: string;
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
 export type KeyPairIdList = string[];
 export interface KeyPairIds {
   Quantity: number;
-  Items?: string[];
+  Items?: string[] | undefined;
 }
 export interface Signer {
-  AwsAccountNumber?: string;
-  KeyPairIds?: KeyPairIds;
+  AwsAccountNumber?: string | undefined;
+  KeyPairIds?: KeyPairIds | undefined;
 }
 export type SignerList = Signer[];
 export interface ActiveTrustedSigners {
   Enabled: boolean;
   Quantity: number;
-  Items?: Signer[];
+  Items?: Signer[] | undefined;
 }
 export interface KGKeyPairIds {
-  KeyGroupId?: string;
-  KeyPairIds?: KeyPairIds;
+  KeyGroupId?: string | undefined;
+  KeyPairIds?: KeyPairIds | undefined;
 }
 export type KGKeyPairIdsList = KGKeyPairIds[];
 export interface ActiveTrustedKeyGroups {
   Enabled: boolean;
   Quantity: number;
-  Items?: KGKeyPairIds[];
+  Items?: KGKeyPairIds[] | undefined;
 }
 export type AliasList = string[];
 export interface Aliases {
   Quantity: number;
-  Items?: string[];
+  Items?: string[] | undefined;
 }
 export type SensitiveStringType = string | redacted.Redacted<string>;
 export interface OriginCustomHeader {
@@ -1139,11 +1140,11 @@ export interface OriginCustomHeader {
 export type OriginCustomHeadersList = OriginCustomHeader[];
 export interface CustomHeaders {
   Quantity: number;
-  Items?: OriginCustomHeader[];
+  Items?: OriginCustomHeader[] | undefined;
 }
 export interface S3OriginConfig {
-  OriginAccessIdentity?: string;
-  OriginReadTimeout?: number;
+  OriginAccessIdentity?: string | undefined;
+  OriginReadTimeout?: number | undefined;
 }
 export type OriginProtocolPolicy = "http-only" | "match-viewer" | "https-only" | (string & {});
 export type SslProtocol = "SSLv3" | "TLSv1" | "TLSv1.1" | "TLSv1.2" | (string & {});
@@ -1160,36 +1161,36 @@ export interface CustomOriginConfig {
   HTTPPort: number;
   HTTPSPort: number;
   OriginProtocolPolicy: OriginProtocolPolicy;
-  OriginSslProtocols?: OriginSslProtocols;
-  OriginReadTimeout?: number;
-  OriginKeepaliveTimeout?: number;
-  IpAddressType?: IpAddressType;
-  OriginMtlsConfig?: OriginMtlsConfig;
+  OriginSslProtocols?: OriginSslProtocols | undefined;
+  OriginReadTimeout?: number | undefined;
+  OriginKeepaliveTimeout?: number | undefined;
+  IpAddressType?: IpAddressType | undefined;
+  OriginMtlsConfig?: OriginMtlsConfig | undefined;
 }
 export interface VpcOriginConfig {
   VpcOriginId: string;
-  OwnerAccountId?: string;
-  OriginReadTimeout?: number;
-  OriginKeepaliveTimeout?: number;
+  OwnerAccountId?: string | undefined;
+  OriginReadTimeout?: number | undefined;
+  OriginKeepaliveTimeout?: number | undefined;
 }
 export type OriginShieldRegion = string;
 export interface OriginShield {
   Enabled: boolean;
-  OriginShieldRegion?: string;
+  OriginShieldRegion?: string | undefined;
 }
 export interface Origin {
   Id: string;
   DomainName: string;
-  OriginPath?: string;
-  CustomHeaders?: CustomHeaders;
-  S3OriginConfig?: S3OriginConfig;
-  CustomOriginConfig?: CustomOriginConfig;
-  VpcOriginConfig?: VpcOriginConfig;
-  ConnectionAttempts?: number;
-  ConnectionTimeout?: number;
-  ResponseCompletionTimeout?: number;
-  OriginShield?: OriginShield;
-  OriginAccessControlId?: string;
+  OriginPath?: string | undefined;
+  CustomHeaders?: CustomHeaders | undefined;
+  S3OriginConfig?: S3OriginConfig | undefined;
+  CustomOriginConfig?: CustomOriginConfig | undefined;
+  VpcOriginConfig?: VpcOriginConfig | undefined;
+  ConnectionAttempts?: number | undefined;
+  ConnectionTimeout?: number | undefined;
+  ResponseCompletionTimeout?: number | undefined;
+  OriginShield?: OriginShield | undefined;
+  OriginAccessControlId?: string | undefined;
 }
 export type OriginList = Origin[];
 export interface Origins {
@@ -1217,24 +1218,24 @@ export interface OriginGroup {
   Id: string;
   FailoverCriteria: OriginGroupFailoverCriteria;
   Members: OriginGroupMembers;
-  SelectionCriteria?: OriginGroupSelectionCriteria;
+  SelectionCriteria?: OriginGroupSelectionCriteria | undefined;
 }
 export type OriginGroupList = OriginGroup[];
 export interface OriginGroups {
   Quantity: number;
-  Items?: OriginGroup[];
+  Items?: OriginGroup[] | undefined;
 }
 export type AwsAccountNumberList = string[];
 export interface TrustedSigners {
   Enabled: boolean;
   Quantity: number;
-  Items?: string[];
+  Items?: string[] | undefined;
 }
 export type TrustedKeyGroupIdList = string[];
 export interface TrustedKeyGroups {
   Enabled: boolean;
   Quantity: number;
-  Items?: string[];
+  Items?: string[] | undefined;
 }
 export type ViewerProtocolPolicy = "allow-all" | "https-only" | "redirect-to-https" | (string & {});
 export type Method =
@@ -1254,7 +1255,7 @@ export interface CachedMethods {
 export interface AllowedMethods {
   Quantity: number;
   Items: Method[];
-  CachedMethods?: CachedMethods;
+  CachedMethods?: CachedMethods | undefined;
 }
 export type LambdaFunctionARN = string;
 export type EventType =
@@ -1266,12 +1267,12 @@ export type EventType =
 export interface LambdaFunctionAssociation {
   LambdaFunctionARN: string;
   EventType: EventType;
-  IncludeBody?: boolean;
+  IncludeBody?: boolean | undefined;
 }
 export type LambdaFunctionAssociationList = LambdaFunctionAssociation[];
 export interface LambdaFunctionAssociations {
   Quantity: number;
-  Items?: LambdaFunctionAssociation[];
+  Items?: LambdaFunctionAssociation[] | undefined;
 }
 export type FunctionARN = string;
 export interface FunctionAssociation {
@@ -1281,7 +1282,7 @@ export interface FunctionAssociation {
 export type FunctionAssociationList = FunctionAssociation[];
 export interface FunctionAssociations {
   Quantity: number;
-  Items?: FunctionAssociation[];
+  Items?: FunctionAssociation[] | undefined;
 }
 export interface GrpcConfig {
   Enabled: boolean;
@@ -1290,93 +1291,93 @@ export type ItemSelection = "none" | "whitelist" | "all" | (string & {});
 export type CookieNameList = string[];
 export interface CookieNames {
   Quantity: number;
-  Items?: string[];
+  Items?: string[] | undefined;
 }
 export interface CookiePreference {
   Forward: ItemSelection;
-  WhitelistedNames?: CookieNames;
+  WhitelistedNames?: CookieNames | undefined;
 }
 export type HeaderList = string[];
 export interface Headers {
   Quantity: number;
-  Items?: string[];
+  Items?: string[] | undefined;
 }
 export type QueryStringCacheKeysList = string[];
 export interface QueryStringCacheKeys {
   Quantity: number;
-  Items?: string[];
+  Items?: string[] | undefined;
 }
 export interface ForwardedValues {
   QueryString: boolean;
   Cookies: CookiePreference;
-  Headers?: Headers;
-  QueryStringCacheKeys?: QueryStringCacheKeys;
+  Headers?: Headers | undefined;
+  QueryStringCacheKeys?: QueryStringCacheKeys | undefined;
 }
 export interface DefaultCacheBehavior {
   TargetOriginId: string;
-  TrustedSigners?: TrustedSigners;
-  TrustedKeyGroups?: TrustedKeyGroups;
+  TrustedSigners?: TrustedSigners | undefined;
+  TrustedKeyGroups?: TrustedKeyGroups | undefined;
   ViewerProtocolPolicy: ViewerProtocolPolicy;
-  AllowedMethods?: AllowedMethods;
-  SmoothStreaming?: boolean;
-  Compress?: boolean;
-  LambdaFunctionAssociations?: LambdaFunctionAssociations;
-  FunctionAssociations?: FunctionAssociations;
-  FieldLevelEncryptionId?: string;
-  RealtimeLogConfigArn?: string;
-  CachePolicyId?: string;
-  OriginRequestPolicyId?: string;
-  ResponseHeadersPolicyId?: string;
-  GrpcConfig?: GrpcConfig;
-  ForwardedValues?: ForwardedValues;
-  MinTTL?: number;
-  DefaultTTL?: number;
-  MaxTTL?: number;
+  AllowedMethods?: AllowedMethods | undefined;
+  SmoothStreaming?: boolean | undefined;
+  Compress?: boolean | undefined;
+  LambdaFunctionAssociations?: LambdaFunctionAssociations | undefined;
+  FunctionAssociations?: FunctionAssociations | undefined;
+  FieldLevelEncryptionId?: string | undefined;
+  RealtimeLogConfigArn?: string | undefined;
+  CachePolicyId?: string | undefined;
+  OriginRequestPolicyId?: string | undefined;
+  ResponseHeadersPolicyId?: string | undefined;
+  GrpcConfig?: GrpcConfig | undefined;
+  ForwardedValues?: ForwardedValues | undefined;
+  MinTTL?: number | undefined;
+  DefaultTTL?: number | undefined;
+  MaxTTL?: number | undefined;
 }
 export interface CacheBehavior {
   PathPattern: string;
   TargetOriginId: string;
-  TrustedSigners?: TrustedSigners;
-  TrustedKeyGroups?: TrustedKeyGroups;
+  TrustedSigners?: TrustedSigners | undefined;
+  TrustedKeyGroups?: TrustedKeyGroups | undefined;
   ViewerProtocolPolicy: ViewerProtocolPolicy;
-  AllowedMethods?: AllowedMethods;
-  SmoothStreaming?: boolean;
-  Compress?: boolean;
-  LambdaFunctionAssociations?: LambdaFunctionAssociations;
-  FunctionAssociations?: FunctionAssociations;
-  FieldLevelEncryptionId?: string;
-  RealtimeLogConfigArn?: string;
-  CachePolicyId?: string;
-  OriginRequestPolicyId?: string;
-  ResponseHeadersPolicyId?: string;
-  GrpcConfig?: GrpcConfig;
-  ForwardedValues?: ForwardedValues;
-  MinTTL?: number;
-  DefaultTTL?: number;
-  MaxTTL?: number;
+  AllowedMethods?: AllowedMethods | undefined;
+  SmoothStreaming?: boolean | undefined;
+  Compress?: boolean | undefined;
+  LambdaFunctionAssociations?: LambdaFunctionAssociations | undefined;
+  FunctionAssociations?: FunctionAssociations | undefined;
+  FieldLevelEncryptionId?: string | undefined;
+  RealtimeLogConfigArn?: string | undefined;
+  CachePolicyId?: string | undefined;
+  OriginRequestPolicyId?: string | undefined;
+  ResponseHeadersPolicyId?: string | undefined;
+  GrpcConfig?: GrpcConfig | undefined;
+  ForwardedValues?: ForwardedValues | undefined;
+  MinTTL?: number | undefined;
+  DefaultTTL?: number | undefined;
+  MaxTTL?: number | undefined;
 }
 export type CacheBehaviorList = CacheBehavior[];
 export interface CacheBehaviors {
   Quantity: number;
-  Items?: CacheBehavior[];
+  Items?: CacheBehavior[] | undefined;
 }
 export interface CustomErrorResponse {
   ErrorCode: number;
-  ResponsePagePath?: string;
-  ResponseCode?: string;
-  ErrorCachingMinTTL?: number;
+  ResponsePagePath?: string | undefined;
+  ResponseCode?: string | undefined;
+  ErrorCachingMinTTL?: number | undefined;
 }
 export type CustomErrorResponseList = CustomErrorResponse[];
 export interface CustomErrorResponses {
   Quantity: number;
-  Items?: CustomErrorResponse[];
+  Items?: CustomErrorResponse[] | undefined;
 }
 export type CommentType = string | redacted.Redacted<string>;
 export interface LoggingConfig {
-  Enabled?: boolean;
-  IncludeCookies?: boolean;
-  Bucket?: string;
-  Prefix?: string;
+  Enabled?: boolean | undefined;
+  IncludeCookies?: boolean | undefined;
+  Bucket?: string | undefined;
+  Prefix?: string | undefined;
 }
 export type PriceClass =
   | "PriceClass_100"
@@ -1399,20 +1400,20 @@ export type MinimumProtocolVersion =
   | (string & {});
 export type CertificateSource = "cloudfront" | "iam" | "acm" | (string & {});
 export interface ViewerCertificate {
-  CloudFrontDefaultCertificate?: boolean;
-  IAMCertificateId?: string;
-  ACMCertificateArn?: string;
-  SSLSupportMethod?: SSLSupportMethod;
-  MinimumProtocolVersion?: MinimumProtocolVersion;
-  Certificate?: string;
-  CertificateSource?: CertificateSource;
+  CloudFrontDefaultCertificate?: boolean | undefined;
+  IAMCertificateId?: string | undefined;
+  ACMCertificateArn?: string | undefined;
+  SSLSupportMethod?: SSLSupportMethod | undefined;
+  MinimumProtocolVersion?: MinimumProtocolVersion | undefined;
+  Certificate?: string | undefined;
+  CertificateSource?: CertificateSource | undefined;
 }
 export type GeoRestrictionType = "blacklist" | "whitelist" | "none" | (string & {});
 export type LocationList = string[];
 export interface GeoRestriction {
   RestrictionType: GeoRestrictionType;
   Quantity: number;
-  Items?: string[];
+  Items?: string[] | undefined;
 }
 export interface Restrictions {
   GeoRestriction: GeoRestriction;
@@ -1430,12 +1431,12 @@ export type HttpVersion =
 export type ParameterName = string;
 export type ParameterValue = string;
 export interface StringSchemaConfig {
-  Comment?: string | redacted.Redacted<string>;
-  DefaultValue?: string;
+  Comment?: string | redacted.Redacted<string> | undefined;
+  DefaultValue?: string | undefined;
   Required: boolean;
 }
 export interface ParameterDefinitionSchema {
-  StringSchema?: StringSchemaConfig;
+  StringSchema?: StringSchemaConfig | undefined;
 }
 export interface ParameterDefinition {
   Name: string;
@@ -1443,18 +1444,18 @@ export interface ParameterDefinition {
 }
 export type ParameterDefinitions = ParameterDefinition[];
 export interface TenantConfig {
-  ParameterDefinitions?: ParameterDefinition[];
+  ParameterDefinitions?: ParameterDefinition[] | undefined;
 }
 export type ConnectionMode = "direct" | "tenant-only" | (string & {});
 export type ViewerMtlsMode = "required" | "optional" | "passthrough" | (string & {});
 export interface TrustStoreConfig {
   TrustStoreId: string;
-  AdvertiseTrustStoreCaNames?: boolean;
-  IgnoreCertificateExpiry?: boolean;
+  AdvertiseTrustStoreCaNames?: boolean | undefined;
+  IgnoreCertificateExpiry?: boolean | undefined;
 }
 export interface ViewerMtlsConfig {
-  Mode?: ViewerMtlsMode;
-  TrustStoreConfig?: TrustStoreConfig;
+  Mode?: ViewerMtlsMode | undefined;
+  TrustStoreConfig?: TrustStoreConfig | undefined;
 }
 export type ResourceId = string;
 export interface ConnectionFunctionAssociation {
@@ -1465,35 +1466,35 @@ export interface CacheTagConfig {
 }
 export interface DistributionConfig {
   CallerReference: string;
-  Aliases?: Aliases;
-  DefaultRootObject?: string;
+  Aliases?: Aliases | undefined;
+  DefaultRootObject?: string | undefined;
   Origins: Origins;
-  OriginGroups?: OriginGroups;
+  OriginGroups?: OriginGroups | undefined;
   DefaultCacheBehavior: DefaultCacheBehavior;
-  CacheBehaviors?: CacheBehaviors;
-  CustomErrorResponses?: CustomErrorResponses;
+  CacheBehaviors?: CacheBehaviors | undefined;
+  CustomErrorResponses?: CustomErrorResponses | undefined;
   Comment: string | redacted.Redacted<string>;
-  Logging?: LoggingConfig;
-  PriceClass?: PriceClass;
+  Logging?: LoggingConfig | undefined;
+  PriceClass?: PriceClass | undefined;
   Enabled: boolean;
-  ViewerCertificate?: ViewerCertificate;
-  Restrictions?: Restrictions;
-  WebACLId?: string;
-  HttpVersion?: HttpVersion;
-  IsIPV6Enabled?: boolean;
-  ContinuousDeploymentPolicyId?: string;
-  Staging?: boolean;
-  AnycastIpListId?: string;
-  TenantConfig?: TenantConfig;
-  ConnectionMode?: ConnectionMode;
-  ViewerMtlsConfig?: ViewerMtlsConfig;
-  ConnectionFunctionAssociation?: ConnectionFunctionAssociation;
-  CacheTagConfig?: CacheTagConfig;
+  ViewerCertificate?: ViewerCertificate | undefined;
+  Restrictions?: Restrictions | undefined;
+  WebACLId?: string | undefined;
+  HttpVersion?: HttpVersion | undefined;
+  IsIPV6Enabled?: boolean | undefined;
+  ContinuousDeploymentPolicyId?: string | undefined;
+  Staging?: boolean | undefined;
+  AnycastIpListId?: string | undefined;
+  TenantConfig?: TenantConfig | undefined;
+  ConnectionMode?: ConnectionMode | undefined;
+  ViewerMtlsConfig?: ViewerMtlsConfig | undefined;
+  ConnectionFunctionAssociation?: ConnectionFunctionAssociation | undefined;
+  CacheTagConfig?: CacheTagConfig | undefined;
 }
 export type ICPRecordalStatus = "APPROVED" | "SUSPENDED" | "PENDING" | (string & {});
 export interface AliasICPRecordal {
-  CNAME?: string;
-  ICPRecordalStatus?: ICPRecordalStatus;
+  CNAME?: string | undefined;
+  ICPRecordalStatus?: ICPRecordalStatus | undefined;
 }
 export type AliasICPRecordals = AliasICPRecordal[];
 export interface Distribution {
@@ -1503,26 +1504,26 @@ export interface Distribution {
   LastModifiedTime: Date;
   InProgressInvalidationBatches: number;
   DomainName: string;
-  ActiveTrustedSigners?: ActiveTrustedSigners;
-  ActiveTrustedKeyGroups?: ActiveTrustedKeyGroups;
+  ActiveTrustedSigners?: ActiveTrustedSigners | undefined;
+  ActiveTrustedKeyGroups?: ActiveTrustedKeyGroups | undefined;
   DistributionConfig: DistributionConfig;
-  AliasICPRecordals?: AliasICPRecordal[];
+  AliasICPRecordals?: AliasICPRecordal[] | undefined;
 }
 export interface CopyDistributionResult {
-  Distribution?: Distribution;
-  Location?: string;
-  ETag?: string;
+  Distribution?: Distribution | undefined;
+  Location?: string | undefined;
+  ETag?: string | undefined;
 }
 export type AnycastIpListName = string;
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
   Key: string;
-  Value?: string;
+  Value?: string | undefined;
 }
 export type TagList = Tag[];
 export interface Tags {
-  Items?: Tag[];
+  Items?: Tag[] | undefined;
 }
 export type IpamCidrStatus =
   | "provisioned"
@@ -1541,16 +1542,16 @@ export type IpamCidrStatus =
 export interface IpamCidrConfig {
   Cidr: string;
   IpamPoolArn: string;
-  AnycastIp?: string;
-  Status?: IpamCidrStatus;
+  AnycastIp?: string | undefined;
+  Status?: IpamCidrStatus | undefined;
 }
 export type IpamCidrConfigList = IpamCidrConfig[];
 export interface CreateAnycastIpListRequest {
   Name: string;
   IpCount: number;
-  Tags?: Tags;
-  IpAddressType?: IpAddressType;
-  IpamCidrConfigs?: IpamCidrConfig[];
+  Tags?: Tags | undefined;
+  IpAddressType?: IpAddressType | undefined;
+  IpamCidrConfigs?: IpamCidrConfig[] | undefined;
 }
 export interface IpamConfig {
   Quantity: number;
@@ -1562,25 +1563,25 @@ export interface AnycastIpList {
   Name: string;
   Status: string;
   Arn: string;
-  IpAddressType?: IpAddressType;
-  IpamConfig?: IpamConfig;
+  IpAddressType?: IpAddressType | undefined;
+  IpamConfig?: IpamConfig | undefined;
   AnycastIps: string[];
   IpCount: number;
   LastModifiedTime: Date;
 }
 export interface CreateAnycastIpListResult {
-  AnycastIpList?: AnycastIpList;
-  ETag?: string;
+  AnycastIpList?: AnycastIpList | undefined;
+  ETag?: string | undefined;
 }
 export type CachePolicyHeaderBehavior = "none" | "whitelist" | (string & {});
 export interface CachePolicyHeadersConfig {
   HeaderBehavior: CachePolicyHeaderBehavior;
-  Headers?: Headers;
+  Headers?: Headers | undefined;
 }
 export type CachePolicyCookieBehavior = "none" | "whitelist" | "allExcept" | "all" | (string & {});
 export interface CachePolicyCookiesConfig {
   CookieBehavior: CachePolicyCookieBehavior;
-  Cookies?: CookieNames;
+  Cookies?: CookieNames | undefined;
 }
 export type CachePolicyQueryStringBehavior =
   | "none"
@@ -1591,26 +1592,26 @@ export type CachePolicyQueryStringBehavior =
 export type QueryStringNamesList = string[];
 export interface QueryStringNames {
   Quantity: number;
-  Items?: string[];
+  Items?: string[] | undefined;
 }
 export interface CachePolicyQueryStringsConfig {
   QueryStringBehavior: CachePolicyQueryStringBehavior;
-  QueryStrings?: QueryStringNames;
+  QueryStrings?: QueryStringNames | undefined;
 }
 export interface ParametersInCacheKeyAndForwardedToOrigin {
   EnableAcceptEncodingGzip: boolean;
-  EnableAcceptEncodingBrotli?: boolean;
+  EnableAcceptEncodingBrotli?: boolean | undefined;
   HeadersConfig: CachePolicyHeadersConfig;
   CookiesConfig: CachePolicyCookiesConfig;
   QueryStringsConfig: CachePolicyQueryStringsConfig;
 }
 export interface CachePolicyConfig {
-  Comment?: string;
+  Comment?: string | undefined;
   Name: string;
-  DefaultTTL?: number;
-  MaxTTL?: number;
+  DefaultTTL?: number | undefined;
+  MaxTTL?: number | undefined;
   MinTTL: number;
-  ParametersInCacheKeyAndForwardedToOrigin?: ParametersInCacheKeyAndForwardedToOrigin;
+  ParametersInCacheKeyAndForwardedToOrigin?: ParametersInCacheKeyAndForwardedToOrigin | undefined;
 }
 export interface CreateCachePolicyRequest {
   CachePolicyConfig: CachePolicyConfig;
@@ -1621,9 +1622,9 @@ export interface CachePolicy {
   CachePolicyConfig: CachePolicyConfig;
 }
 export interface CreateCachePolicyResult {
-  CachePolicy?: CachePolicy;
-  Location?: string;
-  ETag?: string;
+  CachePolicy?: CachePolicy | undefined;
+  Location?: string | undefined;
+  ETag?: string | undefined;
 }
 export interface CloudFrontOriginAccessIdentityConfig {
   CallerReference: string;
@@ -1635,12 +1636,12 @@ export interface CreateCloudFrontOriginAccessIdentityRequest {
 export interface CloudFrontOriginAccessIdentity {
   Id: string;
   S3CanonicalUserId: string;
-  CloudFrontOriginAccessIdentityConfig?: CloudFrontOriginAccessIdentityConfig;
+  CloudFrontOriginAccessIdentityConfig?: CloudFrontOriginAccessIdentityConfig | undefined;
 }
 export interface CreateCloudFrontOriginAccessIdentityResult {
-  CloudFrontOriginAccessIdentity?: CloudFrontOriginAccessIdentity;
-  Location?: string;
-  ETag?: string;
+  CloudFrontOriginAccessIdentity?: CloudFrontOriginAccessIdentity | undefined;
+  Location?: string | undefined;
+  ETag?: string | undefined;
 }
 export type FunctionName = string;
 export type FunctionRuntime = "cloudfront-js-1.0" | "cloudfront-js-2.0" | (string & {});
@@ -1651,19 +1652,19 @@ export interface KeyValueStoreAssociation {
 export type KeyValueStoreAssociationList = KeyValueStoreAssociation[];
 export interface KeyValueStoreAssociations {
   Quantity: number;
-  Items?: KeyValueStoreAssociation[];
+  Items?: KeyValueStoreAssociation[] | undefined;
 }
 export interface FunctionConfig {
-  Comment?: string;
+  Comment?: string | undefined;
   Runtime: FunctionRuntime;
-  KeyValueStoreAssociations?: KeyValueStoreAssociations;
+  KeyValueStoreAssociations?: KeyValueStoreAssociations | undefined;
 }
 export type FunctionBlob = Uint8Array | redacted.Redacted<Uint8Array>;
 export interface CreateConnectionFunctionRequest {
   Name: string;
   ConnectionFunctionConfig: FunctionConfig;
   ConnectionFunctionCode: Uint8Array | redacted.Redacted<Uint8Array>;
-  Tags?: Tags;
+  Tags?: Tags | undefined;
 }
 export type FunctionStage = "DEVELOPMENT" | "LIVE" | (string & {});
 export interface ConnectionFunctionSummary {
@@ -1677,39 +1678,39 @@ export interface ConnectionFunctionSummary {
   LastModifiedTime: Date;
 }
 export interface CreateConnectionFunctionResult {
-  ConnectionFunctionSummary?: ConnectionFunctionSummary;
-  Location?: string;
-  ETag?: string;
+  ConnectionFunctionSummary?: ConnectionFunctionSummary | undefined;
+  Location?: string | undefined;
+  ETag?: string | undefined;
 }
 export interface CreateConnectionGroupRequest {
   Name: string;
-  Ipv6Enabled?: boolean;
-  Tags?: Tags;
-  AnycastIpListId?: string;
-  Enabled?: boolean;
+  Ipv6Enabled?: boolean | undefined;
+  Tags?: Tags | undefined;
+  AnycastIpListId?: string | undefined;
+  Enabled?: boolean | undefined;
 }
 export interface ConnectionGroup {
-  Id?: string;
-  Name?: string;
-  Arn?: string;
-  CreatedTime?: Date;
-  LastModifiedTime?: Date;
-  Tags?: Tags;
-  Ipv6Enabled?: boolean;
-  RoutingEndpoint?: string;
-  AnycastIpListId?: string;
-  Status?: string;
-  Enabled?: boolean;
-  IsDefault?: boolean;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Arn?: string | undefined;
+  CreatedTime?: Date | undefined;
+  LastModifiedTime?: Date | undefined;
+  Tags?: Tags | undefined;
+  Ipv6Enabled?: boolean | undefined;
+  RoutingEndpoint?: string | undefined;
+  AnycastIpListId?: string | undefined;
+  Status?: string | undefined;
+  Enabled?: boolean | undefined;
+  IsDefault?: boolean | undefined;
 }
 export interface CreateConnectionGroupResult {
-  ConnectionGroup?: ConnectionGroup;
-  ETag?: string;
+  ConnectionGroup?: ConnectionGroup | undefined;
+  ETag?: string | undefined;
 }
 export type StagingDistributionDnsNameList = string[];
 export interface StagingDistributionDnsNames {
   Quantity: number;
-  Items?: string[];
+  Items?: string[] | undefined;
 }
 export interface SessionStickinessConfig {
   IdleTTL: number;
@@ -1717,7 +1718,7 @@ export interface SessionStickinessConfig {
 }
 export interface ContinuousDeploymentSingleWeightConfig {
   Weight: number;
-  SessionStickinessConfig?: SessionStickinessConfig;
+  SessionStickinessConfig?: SessionStickinessConfig | undefined;
 }
 export interface ContinuousDeploymentSingleHeaderConfig {
   Header: string;
@@ -1725,14 +1726,14 @@ export interface ContinuousDeploymentSingleHeaderConfig {
 }
 export type ContinuousDeploymentPolicyType = "SingleWeight" | "SingleHeader" | (string & {});
 export interface TrafficConfig {
-  SingleWeightConfig?: ContinuousDeploymentSingleWeightConfig;
-  SingleHeaderConfig?: ContinuousDeploymentSingleHeaderConfig;
+  SingleWeightConfig?: ContinuousDeploymentSingleWeightConfig | undefined;
+  SingleHeaderConfig?: ContinuousDeploymentSingleHeaderConfig | undefined;
   Type: ContinuousDeploymentPolicyType;
 }
 export interface ContinuousDeploymentPolicyConfig {
   StagingDistributionDnsNames: StagingDistributionDnsNames;
   Enabled: boolean;
-  TrafficConfig?: TrafficConfig;
+  TrafficConfig?: TrafficConfig | undefined;
 }
 export interface CreateContinuousDeploymentPolicyRequest {
   ContinuousDeploymentPolicyConfig: ContinuousDeploymentPolicyConfig;
@@ -1743,17 +1744,17 @@ export interface ContinuousDeploymentPolicy {
   ContinuousDeploymentPolicyConfig: ContinuousDeploymentPolicyConfig;
 }
 export interface CreateContinuousDeploymentPolicyResult {
-  ContinuousDeploymentPolicy?: ContinuousDeploymentPolicy;
-  Location?: string;
-  ETag?: string;
+  ContinuousDeploymentPolicy?: ContinuousDeploymentPolicy | undefined;
+  Location?: string | undefined;
+  ETag?: string | undefined;
 }
 export interface CreateDistributionRequest {
   DistributionConfig: DistributionConfig;
 }
 export interface CreateDistributionResult {
-  Distribution?: Distribution;
-  Location?: string;
-  ETag?: string;
+  Distribution?: Distribution | undefined;
+  Location?: string | undefined;
+  ETag?: string | undefined;
 }
 export interface DomainItem {
   Domain: string;
@@ -1762,19 +1763,19 @@ export type DomainList = DomainItem[];
 export type CustomizationActionType = "override" | "disable" | (string & {});
 export interface WebAclCustomization {
   Action: CustomizationActionType;
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export interface Certificate {
   Arn: string;
 }
 export interface GeoRestrictionCustomization {
   RestrictionType: GeoRestrictionType;
-  Locations?: string[];
+  Locations?: string[] | undefined;
 }
 export interface Customizations {
-  WebAcl?: WebAclCustomization;
-  Certificate?: Certificate;
-  GeoRestrictions?: GeoRestrictionCustomization;
+  WebAcl?: WebAclCustomization | undefined;
+  Certificate?: Certificate | undefined;
+  GeoRestrictions?: GeoRestrictionCustomization | undefined;
 }
 export interface Parameter {
   Name: string;
@@ -1785,44 +1786,44 @@ export type ValidationTokenHost = "cloudfront" | "self-hosted" | (string & {});
 export type CertificateTransparencyLoggingPreference = "enabled" | "disabled" | (string & {});
 export interface ManagedCertificateRequest {
   ValidationTokenHost: ValidationTokenHost;
-  PrimaryDomainName?: string;
-  CertificateTransparencyLoggingPreference?: CertificateTransparencyLoggingPreference;
+  PrimaryDomainName?: string | undefined;
+  CertificateTransparencyLoggingPreference?: CertificateTransparencyLoggingPreference | undefined;
 }
 export interface CreateDistributionTenantRequest {
   DistributionId: string;
   Name: string;
   Domains: DomainItem[];
-  Tags?: Tags;
-  Customizations?: Customizations;
-  Parameters?: Parameter[];
-  ConnectionGroupId?: string;
-  ManagedCertificateRequest?: ManagedCertificateRequest;
-  Enabled?: boolean;
+  Tags?: Tags | undefined;
+  Customizations?: Customizations | undefined;
+  Parameters?: Parameter[] | undefined;
+  ConnectionGroupId?: string | undefined;
+  ManagedCertificateRequest?: ManagedCertificateRequest | undefined;
+  Enabled?: boolean | undefined;
 }
 export type DomainStatus = "active" | "inactive" | (string & {});
 export interface DomainResult {
   Domain: string;
-  Status?: DomainStatus;
+  Status?: DomainStatus | undefined;
 }
 export type DomainResultList = DomainResult[];
 export interface DistributionTenant {
-  Id?: string;
-  DistributionId?: string;
-  Name?: string;
-  Arn?: string;
-  Domains?: DomainResult[];
-  Tags?: Tags;
-  Customizations?: Customizations;
-  Parameters?: Parameter[];
-  ConnectionGroupId?: string;
-  CreatedTime?: Date;
-  LastModifiedTime?: Date;
-  Enabled?: boolean;
-  Status?: string;
+  Id?: string | undefined;
+  DistributionId?: string | undefined;
+  Name?: string | undefined;
+  Arn?: string | undefined;
+  Domains?: DomainResult[] | undefined;
+  Tags?: Tags | undefined;
+  Customizations?: Customizations | undefined;
+  Parameters?: Parameter[] | undefined;
+  ConnectionGroupId?: string | undefined;
+  CreatedTime?: Date | undefined;
+  LastModifiedTime?: Date | undefined;
+  Enabled?: boolean | undefined;
+  Status?: string | undefined;
 }
 export interface CreateDistributionTenantResult {
-  DistributionTenant?: DistributionTenant;
-  ETag?: string;
+  DistributionTenant?: DistributionTenant | undefined;
+  ETag?: string | undefined;
 }
 export interface DistributionConfigWithTags {
   DistributionConfig: DistributionConfig;
@@ -1832,9 +1833,9 @@ export interface CreateDistributionWithTagsRequest {
   DistributionConfigWithTags: DistributionConfigWithTags;
 }
 export interface CreateDistributionWithTagsResult {
-  Distribution?: Distribution;
-  Location?: string;
-  ETag?: string;
+  Distribution?: Distribution | undefined;
+  Location?: string | undefined;
+  ETag?: string | undefined;
 }
 export interface QueryArgProfile {
   QueryArg: string;
@@ -1843,32 +1844,32 @@ export interface QueryArgProfile {
 export type QueryArgProfileList = QueryArgProfile[];
 export interface QueryArgProfiles {
   Quantity: number;
-  Items?: QueryArgProfile[];
+  Items?: QueryArgProfile[] | undefined;
 }
 export interface QueryArgProfileConfig {
   ForwardWhenQueryArgProfileIsUnknown: boolean;
-  QueryArgProfiles?: QueryArgProfiles;
+  QueryArgProfiles?: QueryArgProfiles | undefined;
 }
 export type Format = "URLEncoded" | (string & {});
 export interface ContentTypeProfile {
   Format: Format;
-  ProfileId?: string;
+  ProfileId?: string | undefined;
   ContentType: string;
 }
 export type ContentTypeProfileList = ContentTypeProfile[];
 export interface ContentTypeProfiles {
   Quantity: number;
-  Items?: ContentTypeProfile[];
+  Items?: ContentTypeProfile[] | undefined;
 }
 export interface ContentTypeProfileConfig {
   ForwardWhenContentTypeIsUnknown: boolean;
-  ContentTypeProfiles?: ContentTypeProfiles;
+  ContentTypeProfiles?: ContentTypeProfiles | undefined;
 }
 export interface FieldLevelEncryptionConfig {
   CallerReference: string;
-  Comment?: string;
-  QueryArgProfileConfig?: QueryArgProfileConfig;
-  ContentTypeProfileConfig?: ContentTypeProfileConfig;
+  Comment?: string | undefined;
+  QueryArgProfileConfig?: QueryArgProfileConfig | undefined;
+  ContentTypeProfileConfig?: ContentTypeProfileConfig | undefined;
 }
 export interface CreateFieldLevelEncryptionConfigRequest {
   FieldLevelEncryptionConfig: FieldLevelEncryptionConfig;
@@ -1879,14 +1880,14 @@ export interface FieldLevelEncryption {
   FieldLevelEncryptionConfig: FieldLevelEncryptionConfig;
 }
 export interface CreateFieldLevelEncryptionConfigResult {
-  FieldLevelEncryption?: FieldLevelEncryption;
-  Location?: string;
-  ETag?: string;
+  FieldLevelEncryption?: FieldLevelEncryption | undefined;
+  Location?: string | undefined;
+  ETag?: string | undefined;
 }
 export type FieldPatternList = string[];
 export interface FieldPatterns {
   Quantity: number;
-  Items?: string[];
+  Items?: string[] | undefined;
 }
 export interface EncryptionEntity {
   PublicKeyId: string;
@@ -1896,12 +1897,12 @@ export interface EncryptionEntity {
 export type EncryptionEntityList = EncryptionEntity[];
 export interface EncryptionEntities {
   Quantity: number;
-  Items?: EncryptionEntity[];
+  Items?: EncryptionEntity[] | undefined;
 }
 export interface FieldLevelEncryptionProfileConfig {
   Name: string;
   CallerReference: string;
-  Comment?: string;
+  Comment?: string | undefined;
   EncryptionEntities: EncryptionEntities;
 }
 export interface CreateFieldLevelEncryptionProfileRequest {
@@ -1913,37 +1914,37 @@ export interface FieldLevelEncryptionProfile {
   FieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig;
 }
 export interface CreateFieldLevelEncryptionProfileResult {
-  FieldLevelEncryptionProfile?: FieldLevelEncryptionProfile;
-  Location?: string;
-  ETag?: string;
+  FieldLevelEncryptionProfile?: FieldLevelEncryptionProfile | undefined;
+  Location?: string | undefined;
+  ETag?: string | undefined;
 }
 export interface CreateFunctionRequest {
   Name: string;
   FunctionConfig: FunctionConfig;
   FunctionCode: Uint8Array | redacted.Redacted<Uint8Array>;
-  Tags?: Tags;
+  Tags?: Tags | undefined;
 }
 export interface FunctionMetadata {
   FunctionARN: string;
-  Stage?: FunctionStage;
-  CreatedTime?: Date;
+  Stage?: FunctionStage | undefined;
+  CreatedTime?: Date | undefined;
   LastModifiedTime: Date;
 }
 export interface FunctionSummary {
   Name: string;
-  Status?: string;
+  Status?: string | undefined;
   FunctionConfig: FunctionConfig;
   FunctionMetadata: FunctionMetadata;
 }
 export interface CreateFunctionResult {
-  FunctionSummary?: FunctionSummary;
-  Location?: string;
-  ETag?: string;
+  FunctionSummary?: FunctionSummary | undefined;
+  Location?: string | undefined;
+  ETag?: string | undefined;
 }
 export type PathList = string[];
 export interface Paths {
   Quantity: number;
-  Items?: string[];
+  Items?: string[] | undefined;
 }
 export interface InvalidationBatch {
   Paths: Paths;
@@ -1960,22 +1961,22 @@ export interface Invalidation {
   InvalidationBatch: InvalidationBatch;
 }
 export interface CreateInvalidationResult {
-  Location?: string;
-  Invalidation?: Invalidation;
+  Location?: string | undefined;
+  Invalidation?: Invalidation | undefined;
 }
 export interface CreateInvalidationForDistributionTenantRequest {
   Id: string;
   InvalidationBatch: InvalidationBatch;
 }
 export interface CreateInvalidationForDistributionTenantResult {
-  Location?: string;
-  Invalidation?: Invalidation;
+  Location?: string | undefined;
+  Invalidation?: Invalidation | undefined;
 }
 export type PublicKeyIdList = string[];
 export interface KeyGroupConfig {
   Name: string;
   Items: string[];
-  Comment?: string;
+  Comment?: string | undefined;
 }
 export interface CreateKeyGroupRequest {
   KeyGroupConfig: KeyGroupConfig;
@@ -1986,9 +1987,9 @@ export interface KeyGroup {
   KeyGroupConfig: KeyGroupConfig;
 }
 export interface CreateKeyGroupResult {
-  KeyGroup?: KeyGroup;
-  Location?: string;
-  ETag?: string;
+  KeyGroup?: KeyGroup | undefined;
+  Location?: string | undefined;
+  ETag?: string | undefined;
 }
 export type KeyValueStoreName = string;
 export type KeyValueStoreComment = string;
@@ -1999,36 +2000,36 @@ export interface ImportSource {
 }
 export interface CreateKeyValueStoreRequest {
   Name: string;
-  Comment?: string;
-  ImportSource?: ImportSource;
-  Tags?: Tags;
+  Comment?: string | undefined;
+  ImportSource?: ImportSource | undefined;
+  Tags?: Tags | undefined;
 }
 export interface KeyValueStore {
   Name: string;
   Id: string;
-  Comment?: string;
+  Comment?: string | undefined;
   ARN: string;
-  Status?: string;
+  Status?: string | undefined;
   LastModifiedTime: Date;
 }
 export interface CreateKeyValueStoreResult {
-  KeyValueStore?: KeyValueStore;
-  ETag?: string;
-  Location?: string;
+  KeyValueStore?: KeyValueStore | undefined;
+  ETag?: string | undefined;
+  Location?: string | undefined;
 }
 export type RealtimeMetricsSubscriptionStatus = "Enabled" | "Disabled" | (string & {});
 export interface RealtimeMetricsSubscriptionConfig {
   RealtimeMetricsSubscriptionStatus: RealtimeMetricsSubscriptionStatus;
 }
 export interface MonitoringSubscription {
-  RealtimeMetricsSubscriptionConfig?: RealtimeMetricsSubscriptionConfig;
+  RealtimeMetricsSubscriptionConfig?: RealtimeMetricsSubscriptionConfig | undefined;
 }
 export interface CreateMonitoringSubscriptionRequest {
   DistributionId: string;
   MonitoringSubscription: MonitoringSubscription;
 }
 export interface CreateMonitoringSubscriptionResult {
-  MonitoringSubscription?: MonitoringSubscription;
+  MonitoringSubscription?: MonitoringSubscription | undefined;
 }
 export type OriginAccessControlSigningProtocols = "sigv4" | "sigv4a" | (string & {});
 export type OriginAccessControlSigningBehaviors =
@@ -2045,7 +2046,7 @@ export type OriginAccessControlOriginTypes =
   | (string & {});
 export interface OriginAccessControlConfig {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   SigningProtocol: OriginAccessControlSigningProtocols;
   SigningBehavior: OriginAccessControlSigningBehaviors;
   OriginAccessControlOriginType: OriginAccessControlOriginTypes;
@@ -2055,12 +2056,12 @@ export interface CreateOriginAccessControlRequest {
 }
 export interface OriginAccessControl {
   Id: string;
-  OriginAccessControlConfig?: OriginAccessControlConfig;
+  OriginAccessControlConfig?: OriginAccessControlConfig | undefined;
 }
 export interface CreateOriginAccessControlResult {
-  OriginAccessControl?: OriginAccessControl;
-  Location?: string;
-  ETag?: string;
+  OriginAccessControl?: OriginAccessControl | undefined;
+  Location?: string | undefined;
+  ETag?: string | undefined;
 }
 export type OriginRequestPolicyHeaderBehavior =
   | "none"
@@ -2071,7 +2072,7 @@ export type OriginRequestPolicyHeaderBehavior =
   | (string & {});
 export interface OriginRequestPolicyHeadersConfig {
   HeaderBehavior: OriginRequestPolicyHeaderBehavior;
-  Headers?: Headers;
+  Headers?: Headers | undefined;
 }
 export type OriginRequestPolicyCookieBehavior =
   | "none"
@@ -2081,7 +2082,7 @@ export type OriginRequestPolicyCookieBehavior =
   | (string & {});
 export interface OriginRequestPolicyCookiesConfig {
   CookieBehavior: OriginRequestPolicyCookieBehavior;
-  Cookies?: CookieNames;
+  Cookies?: CookieNames | undefined;
 }
 export type OriginRequestPolicyQueryStringBehavior =
   | "none"
@@ -2091,10 +2092,10 @@ export type OriginRequestPolicyQueryStringBehavior =
   | (string & {});
 export interface OriginRequestPolicyQueryStringsConfig {
   QueryStringBehavior: OriginRequestPolicyQueryStringBehavior;
-  QueryStrings?: QueryStringNames;
+  QueryStrings?: QueryStringNames | undefined;
 }
 export interface OriginRequestPolicyConfig {
-  Comment?: string;
+  Comment?: string | undefined;
   Name: string;
   HeadersConfig: OriginRequestPolicyHeadersConfig;
   CookiesConfig: OriginRequestPolicyCookiesConfig;
@@ -2109,15 +2110,15 @@ export interface OriginRequestPolicy {
   OriginRequestPolicyConfig: OriginRequestPolicyConfig;
 }
 export interface CreateOriginRequestPolicyResult {
-  OriginRequestPolicy?: OriginRequestPolicy;
-  Location?: string;
-  ETag?: string;
+  OriginRequestPolicy?: OriginRequestPolicy | undefined;
+  Location?: string | undefined;
+  ETag?: string | undefined;
 }
 export interface PublicKeyConfig {
   CallerReference: string;
   Name: string;
   EncodedKey: string;
-  Comment?: string;
+  Comment?: string | undefined;
 }
 export interface CreatePublicKeyRequest {
   PublicKeyConfig: PublicKeyConfig;
@@ -2128,9 +2129,9 @@ export interface PublicKey {
   PublicKeyConfig: PublicKeyConfig;
 }
 export interface CreatePublicKeyResult {
-  PublicKey?: PublicKey;
-  Location?: string;
-  ETag?: string;
+  PublicKey?: PublicKey | undefined;
+  Location?: string | undefined;
+  ETag?: string | undefined;
 }
 export interface KinesisStreamConfig {
   RoleARN: string;
@@ -2138,7 +2139,7 @@ export interface KinesisStreamConfig {
 }
 export interface EndPoint {
   StreamType: string;
-  KinesisStreamConfig?: KinesisStreamConfig;
+  KinesisStreamConfig?: KinesisStreamConfig | undefined;
 }
 export type EndPointList = EndPoint[];
 export type FieldList = string[];
@@ -2156,7 +2157,7 @@ export interface RealtimeLogConfig {
   Fields: string[];
 }
 export interface CreateRealtimeLogConfigResult {
-  RealtimeLogConfig?: RealtimeLogConfig;
+  RealtimeLogConfig?: RealtimeLogConfig | undefined;
 }
 export type AccessControlAllowOriginsList = string[];
 export interface ResponseHeadersPolicyAccessControlAllowOrigins {
@@ -2186,22 +2187,22 @@ export interface ResponseHeadersPolicyAccessControlAllowMethods {
 export type AccessControlExposeHeadersList = string[];
 export interface ResponseHeadersPolicyAccessControlExposeHeaders {
   Quantity: number;
-  Items?: string[];
+  Items?: string[] | undefined;
 }
 export interface ResponseHeadersPolicyCorsConfig {
   AccessControlAllowOrigins: ResponseHeadersPolicyAccessControlAllowOrigins;
   AccessControlAllowHeaders: ResponseHeadersPolicyAccessControlAllowHeaders;
   AccessControlAllowMethods: ResponseHeadersPolicyAccessControlAllowMethods;
   AccessControlAllowCredentials: boolean;
-  AccessControlExposeHeaders?: ResponseHeadersPolicyAccessControlExposeHeaders;
-  AccessControlMaxAgeSec?: number;
+  AccessControlExposeHeaders?: ResponseHeadersPolicyAccessControlExposeHeaders | undefined;
+  AccessControlMaxAgeSec?: number | undefined;
   OriginOverride: boolean;
 }
 export interface ResponseHeadersPolicyXSSProtection {
   Override: boolean;
   Protection: boolean;
-  ModeBlock?: boolean;
-  ReportUri?: string;
+  ModeBlock?: boolean | undefined;
+  ReportUri?: string | undefined;
 }
 export type FrameOptionsList = "DENY" | "SAMEORIGIN" | (string & {});
 export interface ResponseHeadersPolicyFrameOptions {
@@ -2231,22 +2232,22 @@ export interface ResponseHeadersPolicyContentTypeOptions {
 }
 export interface ResponseHeadersPolicyStrictTransportSecurity {
   Override: boolean;
-  IncludeSubdomains?: boolean;
-  Preload?: boolean;
+  IncludeSubdomains?: boolean | undefined;
+  Preload?: boolean | undefined;
   AccessControlMaxAgeSec: number;
 }
 export interface ResponseHeadersPolicySecurityHeadersConfig {
-  XSSProtection?: ResponseHeadersPolicyXSSProtection;
-  FrameOptions?: ResponseHeadersPolicyFrameOptions;
-  ReferrerPolicy?: ResponseHeadersPolicyReferrerPolicy;
-  ContentSecurityPolicy?: ResponseHeadersPolicyContentSecurityPolicy;
-  ContentTypeOptions?: ResponseHeadersPolicyContentTypeOptions;
-  StrictTransportSecurity?: ResponseHeadersPolicyStrictTransportSecurity;
+  XSSProtection?: ResponseHeadersPolicyXSSProtection | undefined;
+  FrameOptions?: ResponseHeadersPolicyFrameOptions | undefined;
+  ReferrerPolicy?: ResponseHeadersPolicyReferrerPolicy | undefined;
+  ContentSecurityPolicy?: ResponseHeadersPolicyContentSecurityPolicy | undefined;
+  ContentTypeOptions?: ResponseHeadersPolicyContentTypeOptions | undefined;
+  StrictTransportSecurity?: ResponseHeadersPolicyStrictTransportSecurity | undefined;
 }
 export type SamplingRate = number;
 export interface ResponseHeadersPolicyServerTimingHeadersConfig {
   Enabled: boolean;
-  SamplingRate?: number;
+  SamplingRate?: number | undefined;
 }
 export interface ResponseHeadersPolicyCustomHeader {
   Header: string;
@@ -2256,7 +2257,7 @@ export interface ResponseHeadersPolicyCustomHeader {
 export type ResponseHeadersPolicyCustomHeaderList = ResponseHeadersPolicyCustomHeader[];
 export interface ResponseHeadersPolicyCustomHeadersConfig {
   Quantity: number;
-  Items?: ResponseHeadersPolicyCustomHeader[];
+  Items?: ResponseHeadersPolicyCustomHeader[] | undefined;
 }
 export interface ResponseHeadersPolicyRemoveHeader {
   Header: string;
@@ -2264,16 +2265,16 @@ export interface ResponseHeadersPolicyRemoveHeader {
 export type ResponseHeadersPolicyRemoveHeaderList = ResponseHeadersPolicyRemoveHeader[];
 export interface ResponseHeadersPolicyRemoveHeadersConfig {
   Quantity: number;
-  Items?: ResponseHeadersPolicyRemoveHeader[];
+  Items?: ResponseHeadersPolicyRemoveHeader[] | undefined;
 }
 export interface ResponseHeadersPolicyConfig {
-  Comment?: string;
+  Comment?: string | undefined;
   Name: string;
-  CorsConfig?: ResponseHeadersPolicyCorsConfig;
-  SecurityHeadersConfig?: ResponseHeadersPolicySecurityHeadersConfig;
-  ServerTimingHeadersConfig?: ResponseHeadersPolicyServerTimingHeadersConfig;
-  CustomHeadersConfig?: ResponseHeadersPolicyCustomHeadersConfig;
-  RemoveHeadersConfig?: ResponseHeadersPolicyRemoveHeadersConfig;
+  CorsConfig?: ResponseHeadersPolicyCorsConfig | undefined;
+  SecurityHeadersConfig?: ResponseHeadersPolicySecurityHeadersConfig | undefined;
+  ServerTimingHeadersConfig?: ResponseHeadersPolicyServerTimingHeadersConfig | undefined;
+  CustomHeadersConfig?: ResponseHeadersPolicyCustomHeadersConfig | undefined;
+  RemoveHeadersConfig?: ResponseHeadersPolicyRemoveHeadersConfig | undefined;
 }
 export interface CreateResponseHeadersPolicyRequest {
   ResponseHeadersPolicyConfig: ResponseHeadersPolicyConfig;
@@ -2284,9 +2285,9 @@ export interface ResponseHeadersPolicy {
   ResponseHeadersPolicyConfig: ResponseHeadersPolicyConfig;
 }
 export interface CreateResponseHeadersPolicyResult {
-  ResponseHeadersPolicy?: ResponseHeadersPolicy;
-  Location?: string;
-  ETag?: string;
+  ResponseHeadersPolicy?: ResponseHeadersPolicy | undefined;
+  Location?: string | undefined;
+  ETag?: string | undefined;
 }
 export interface S3Origin {
   DomainName: string;
@@ -2300,11 +2301,11 @@ export interface StreamingLoggingConfig {
 export interface StreamingDistributionConfig {
   CallerReference: string;
   S3Origin: S3Origin;
-  Aliases?: Aliases;
+  Aliases?: Aliases | undefined;
   Comment: string;
-  Logging?: StreamingLoggingConfig;
+  Logging?: StreamingLoggingConfig | undefined;
   TrustedSigners: TrustedSigners;
-  PriceClass?: PriceClass;
+  PriceClass?: PriceClass | undefined;
   Enabled: boolean;
 }
 export interface CreateStreamingDistributionRequest {
@@ -2314,15 +2315,15 @@ export interface StreamingDistribution {
   Id: string;
   ARN: string;
   Status: string;
-  LastModifiedTime?: Date;
+  LastModifiedTime?: Date | undefined;
   DomainName: string;
   ActiveTrustedSigners: ActiveTrustedSigners;
   StreamingDistributionConfig: StreamingDistributionConfig;
 }
 export interface CreateStreamingDistributionResult {
-  StreamingDistribution?: StreamingDistribution;
-  Location?: string;
-  ETag?: string;
+  StreamingDistribution?: StreamingDistribution | undefined;
+  Location?: string | undefined;
+  ETag?: string | undefined;
 }
 export interface StreamingDistributionConfigWithTags {
   StreamingDistributionConfig: StreamingDistributionConfig;
@@ -2332,15 +2333,15 @@ export interface CreateStreamingDistributionWithTagsRequest {
   StreamingDistributionConfigWithTags: StreamingDistributionConfigWithTags;
 }
 export interface CreateStreamingDistributionWithTagsResult {
-  StreamingDistribution?: StreamingDistribution;
-  Location?: string;
-  ETag?: string;
+  StreamingDistribution?: StreamingDistribution | undefined;
+  Location?: string | undefined;
+  ETag?: string | undefined;
 }
 export interface CaCertificatesBundleS3Location {
   Bucket: string;
   Key: string;
   Region: string;
-  Version?: string;
+  Version?: string | undefined;
 }
 export type CaCertificatesBundleSource = {
   CaCertificatesBundleS3Location: CaCertificatesBundleS3Location;
@@ -2348,49 +2349,51 @@ export type CaCertificatesBundleSource = {
 export interface CreateTrustStoreRequest {
   Name: string;
   CaCertificatesBundleSource: CaCertificatesBundleSource;
-  UseClientCertificateOCSPEndpoint?: boolean;
-  Tags?: Tags;
+  UseClientCertificateOCSPEndpoint?: boolean | undefined;
+  Tags?: Tags | undefined;
 }
 export type TrustStoreStatus = "pending" | "active" | "failed" | (string & {});
 export interface TrustStore {
-  Id?: string;
-  Arn?: string;
-  Name?: string;
-  Status?: TrustStoreStatus;
-  NumberOfCaCertificates?: number;
-  LastModifiedTime?: Date;
-  Reason?: string;
-  UseClientCertificateOCSPEndpoint?: boolean;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  Status?: TrustStoreStatus | undefined;
+  NumberOfCaCertificates?: number | undefined;
+  LastModifiedTime?: Date | undefined;
+  Reason?: string | undefined;
+  UseClientCertificateOCSPEndpoint?: boolean | undefined;
 }
 export interface CreateTrustStoreResult {
-  TrustStore?: TrustStore;
-  ETag?: string;
+  TrustStore?: TrustStore | undefined;
+  ETag?: string | undefined;
 }
+export type VpcIpAddressType = "ipv4" | "dualstack" | (string & {});
 export interface VpcOriginEndpointConfig {
   Name: string;
   Arn: string;
   HTTPPort: number;
   HTTPSPort: number;
   OriginProtocolPolicy: OriginProtocolPolicy;
-  OriginSslProtocols?: OriginSslProtocols;
+  OriginSslProtocols?: OriginSslProtocols | undefined;
+  IpAddressType?: VpcIpAddressType | undefined;
 }
 export interface CreateVpcOriginRequest {
   VpcOriginEndpointConfig: VpcOriginEndpointConfig;
-  Tags?: Tags;
+  Tags?: Tags | undefined;
 }
 export interface VpcOrigin {
   Id: string;
   Arn: string;
-  AccountId?: string;
+  AccountId?: string | undefined;
   Status: string;
   CreatedTime: Date;
   LastModifiedTime: Date;
   VpcOriginEndpointConfig: VpcOriginEndpointConfig;
 }
 export interface CreateVpcOriginResult {
-  VpcOrigin?: VpcOrigin;
-  Location?: string;
-  ETag?: string;
+  VpcOrigin?: VpcOrigin | undefined;
+  Location?: string | undefined;
+  ETag?: string | undefined;
 }
 export interface DeleteAnycastIpListRequest {
   Id: string;
@@ -2399,12 +2402,12 @@ export interface DeleteAnycastIpListRequest {
 export interface DeleteAnycastIpListResponse {}
 export interface DeleteCachePolicyRequest {
   Id: string;
-  IfMatch?: string;
+  IfMatch?: string | undefined;
 }
 export interface DeleteCachePolicyResponse {}
 export interface DeleteCloudFrontOriginAccessIdentityRequest {
   Id: string;
-  IfMatch?: string;
+  IfMatch?: string | undefined;
 }
 export interface DeleteCloudFrontOriginAccessIdentityResponse {}
 export interface DeleteConnectionFunctionRequest {
@@ -2419,12 +2422,12 @@ export interface DeleteConnectionGroupRequest {
 export interface DeleteConnectionGroupResponse {}
 export interface DeleteContinuousDeploymentPolicyRequest {
   Id: string;
-  IfMatch?: string;
+  IfMatch?: string | undefined;
 }
 export interface DeleteContinuousDeploymentPolicyResponse {}
 export interface DeleteDistributionRequest {
   Id: string;
-  IfMatch?: string;
+  IfMatch?: string | undefined;
 }
 export interface DeleteDistributionResponse {}
 export interface DeleteDistributionTenantRequest {
@@ -2434,12 +2437,12 @@ export interface DeleteDistributionTenantRequest {
 export interface DeleteDistributionTenantResponse {}
 export interface DeleteFieldLevelEncryptionConfigRequest {
   Id: string;
-  IfMatch?: string;
+  IfMatch?: string | undefined;
 }
 export interface DeleteFieldLevelEncryptionConfigResponse {}
 export interface DeleteFieldLevelEncryptionProfileRequest {
   Id: string;
-  IfMatch?: string;
+  IfMatch?: string | undefined;
 }
 export interface DeleteFieldLevelEncryptionProfileResponse {}
 export interface DeleteFunctionRequest {
@@ -2449,7 +2452,7 @@ export interface DeleteFunctionRequest {
 export interface DeleteFunctionResponse {}
 export interface DeleteKeyGroupRequest {
   Id: string;
-  IfMatch?: string;
+  IfMatch?: string | undefined;
 }
 export interface DeleteKeyGroupResponse {}
 export interface DeleteKeyValueStoreRequest {
@@ -2463,22 +2466,22 @@ export interface DeleteMonitoringSubscriptionRequest {
 export interface DeleteMonitoringSubscriptionResult {}
 export interface DeleteOriginAccessControlRequest {
   Id: string;
-  IfMatch?: string;
+  IfMatch?: string | undefined;
 }
 export interface DeleteOriginAccessControlResponse {}
 export interface DeleteOriginRequestPolicyRequest {
   Id: string;
-  IfMatch?: string;
+  IfMatch?: string | undefined;
 }
 export interface DeleteOriginRequestPolicyResponse {}
 export interface DeletePublicKeyRequest {
   Id: string;
-  IfMatch?: string;
+  IfMatch?: string | undefined;
 }
 export interface DeletePublicKeyResponse {}
 export interface DeleteRealtimeLogConfigRequest {
-  Name?: string;
-  ARN?: string;
+  Name?: string | undefined;
+  ARN?: string | undefined;
 }
 export interface DeleteRealtimeLogConfigResponse {}
 export interface DeleteResourcePolicyRequest {
@@ -2487,12 +2490,12 @@ export interface DeleteResourcePolicyRequest {
 export interface DeleteResourcePolicyResponse {}
 export interface DeleteResponseHeadersPolicyRequest {
   Id: string;
-  IfMatch?: string;
+  IfMatch?: string | undefined;
 }
 export interface DeleteResponseHeadersPolicyResponse {}
 export interface DeleteStreamingDistributionRequest {
   Id: string;
-  IfMatch?: string;
+  IfMatch?: string | undefined;
 }
 export interface DeleteStreamingDistributionResponse {}
 export interface DeleteTrustStoreRequest {
@@ -2505,212 +2508,212 @@ export interface DeleteVpcOriginRequest {
   IfMatch: string;
 }
 export interface DeleteVpcOriginResult {
-  VpcOrigin?: VpcOrigin;
-  ETag?: string;
+  VpcOrigin?: VpcOrigin | undefined;
+  ETag?: string | undefined;
 }
 export interface DescribeConnectionFunctionRequest {
   Identifier: string;
-  Stage?: FunctionStage;
+  Stage?: FunctionStage | undefined;
 }
 export interface DescribeConnectionFunctionResult {
-  ConnectionFunctionSummary?: ConnectionFunctionSummary;
-  ETag?: string;
+  ConnectionFunctionSummary?: ConnectionFunctionSummary | undefined;
+  ETag?: string | undefined;
 }
 export interface DescribeFunctionRequest {
   Name: string;
-  Stage?: FunctionStage;
+  Stage?: FunctionStage | undefined;
 }
 export interface DescribeFunctionResult {
-  FunctionSummary?: FunctionSummary;
-  ETag?: string;
+  FunctionSummary?: FunctionSummary | undefined;
+  ETag?: string | undefined;
 }
 export interface DescribeKeyValueStoreRequest {
   Name: string;
 }
 export interface DescribeKeyValueStoreResult {
-  KeyValueStore?: KeyValueStore;
-  ETag?: string;
+  KeyValueStore?: KeyValueStore | undefined;
+  ETag?: string | undefined;
 }
 export interface DisassociateDistributionTenantWebACLRequest {
   Id: string;
-  IfMatch?: string;
+  IfMatch?: string | undefined;
 }
 export interface DisassociateDistributionTenantWebACLResult {
-  Id?: string;
-  ETag?: string;
+  Id?: string | undefined;
+  ETag?: string | undefined;
 }
 export interface DisassociateDistributionWebACLRequest {
   Id: string;
-  IfMatch?: string;
+  IfMatch?: string | undefined;
 }
 export interface DisassociateDistributionWebACLResult {
-  Id?: string;
-  ETag?: string;
+  Id?: string | undefined;
+  ETag?: string | undefined;
 }
 export interface GetAnycastIpListRequest {
   Id: string;
 }
 export interface GetAnycastIpListResult {
-  AnycastIpList?: AnycastIpList;
-  ETag?: string;
+  AnycastIpList?: AnycastIpList | undefined;
+  ETag?: string | undefined;
 }
 export interface GetCachePolicyRequest {
   Id: string;
 }
 export interface GetCachePolicyResult {
-  CachePolicy?: CachePolicy;
-  ETag?: string;
+  CachePolicy?: CachePolicy | undefined;
+  ETag?: string | undefined;
 }
 export interface GetCachePolicyConfigRequest {
   Id: string;
 }
 export interface GetCachePolicyConfigResult {
-  CachePolicyConfig?: CachePolicyConfig;
-  ETag?: string;
+  CachePolicyConfig?: CachePolicyConfig | undefined;
+  ETag?: string | undefined;
 }
 export interface GetCloudFrontOriginAccessIdentityRequest {
   Id: string;
 }
 export interface GetCloudFrontOriginAccessIdentityResult {
-  CloudFrontOriginAccessIdentity?: CloudFrontOriginAccessIdentity;
-  ETag?: string;
+  CloudFrontOriginAccessIdentity?: CloudFrontOriginAccessIdentity | undefined;
+  ETag?: string | undefined;
 }
 export interface GetCloudFrontOriginAccessIdentityConfigRequest {
   Id: string;
 }
 export interface GetCloudFrontOriginAccessIdentityConfigResult {
-  CloudFrontOriginAccessIdentityConfig?: CloudFrontOriginAccessIdentityConfig;
-  ETag?: string;
+  CloudFrontOriginAccessIdentityConfig?: CloudFrontOriginAccessIdentityConfig | undefined;
+  ETag?: string | undefined;
 }
 export interface GetConnectionFunctionRequest {
   Identifier: string;
-  Stage?: FunctionStage;
+  Stage?: FunctionStage | undefined;
 }
 export interface GetConnectionFunctionResult {
-  ConnectionFunctionCode?: T.StreamingOutputBody;
-  ETag?: string;
-  ContentType?: string;
+  ConnectionFunctionCode?: T.StreamingOutputBody | undefined;
+  ETag?: string | undefined;
+  ContentType?: string | undefined;
 }
 export interface GetConnectionGroupRequest {
   Identifier: string;
 }
 export interface GetConnectionGroupResult {
-  ConnectionGroup?: ConnectionGroup;
-  ETag?: string;
+  ConnectionGroup?: ConnectionGroup | undefined;
+  ETag?: string | undefined;
 }
 export interface GetConnectionGroupByRoutingEndpointRequest {
   RoutingEndpoint: string;
 }
 export interface GetConnectionGroupByRoutingEndpointResult {
-  ConnectionGroup?: ConnectionGroup;
-  ETag?: string;
+  ConnectionGroup?: ConnectionGroup | undefined;
+  ETag?: string | undefined;
 }
 export interface GetContinuousDeploymentPolicyRequest {
   Id: string;
 }
 export interface GetContinuousDeploymentPolicyResult {
-  ContinuousDeploymentPolicy?: ContinuousDeploymentPolicy;
-  ETag?: string;
+  ContinuousDeploymentPolicy?: ContinuousDeploymentPolicy | undefined;
+  ETag?: string | undefined;
 }
 export interface GetContinuousDeploymentPolicyConfigRequest {
   Id: string;
 }
 export interface GetContinuousDeploymentPolicyConfigResult {
-  ContinuousDeploymentPolicyConfig?: ContinuousDeploymentPolicyConfig;
-  ETag?: string;
+  ContinuousDeploymentPolicyConfig?: ContinuousDeploymentPolicyConfig | undefined;
+  ETag?: string | undefined;
 }
 export interface GetDistributionRequest {
   Id: string;
 }
 export interface GetDistributionResult {
-  Distribution?: Distribution;
-  ETag?: string;
+  Distribution?: Distribution | undefined;
+  ETag?: string | undefined;
 }
 export interface GetDistributionConfigRequest {
   Id: string;
 }
 export interface GetDistributionConfigResult {
-  DistributionConfig?: DistributionConfig;
-  ETag?: string;
+  DistributionConfig?: DistributionConfig | undefined;
+  ETag?: string | undefined;
 }
 export interface GetDistributionTenantRequest {
   Identifier: string;
 }
 export interface GetDistributionTenantResult {
-  DistributionTenant?: DistributionTenant;
-  ETag?: string;
+  DistributionTenant?: DistributionTenant | undefined;
+  ETag?: string | undefined;
 }
 export interface GetDistributionTenantByDomainRequest {
   Domain: string;
 }
 export interface GetDistributionTenantByDomainResult {
-  DistributionTenant?: DistributionTenant;
-  ETag?: string;
+  DistributionTenant?: DistributionTenant | undefined;
+  ETag?: string | undefined;
 }
 export interface GetFieldLevelEncryptionRequest {
   Id: string;
 }
 export interface GetFieldLevelEncryptionResult {
-  FieldLevelEncryption?: FieldLevelEncryption;
-  ETag?: string;
+  FieldLevelEncryption?: FieldLevelEncryption | undefined;
+  ETag?: string | undefined;
 }
 export interface GetFieldLevelEncryptionConfigRequest {
   Id: string;
 }
 export interface GetFieldLevelEncryptionConfigResult {
-  FieldLevelEncryptionConfig?: FieldLevelEncryptionConfig;
-  ETag?: string;
+  FieldLevelEncryptionConfig?: FieldLevelEncryptionConfig | undefined;
+  ETag?: string | undefined;
 }
 export interface GetFieldLevelEncryptionProfileRequest {
   Id: string;
 }
 export interface GetFieldLevelEncryptionProfileResult {
-  FieldLevelEncryptionProfile?: FieldLevelEncryptionProfile;
-  ETag?: string;
+  FieldLevelEncryptionProfile?: FieldLevelEncryptionProfile | undefined;
+  ETag?: string | undefined;
 }
 export interface GetFieldLevelEncryptionProfileConfigRequest {
   Id: string;
 }
 export interface GetFieldLevelEncryptionProfileConfigResult {
-  FieldLevelEncryptionProfileConfig?: FieldLevelEncryptionProfileConfig;
-  ETag?: string;
+  FieldLevelEncryptionProfileConfig?: FieldLevelEncryptionProfileConfig | undefined;
+  ETag?: string | undefined;
 }
 export interface GetFunctionRequest {
   Name: string;
-  Stage?: FunctionStage;
+  Stage?: FunctionStage | undefined;
 }
 export interface GetFunctionResult {
-  FunctionCode?: T.StreamingOutputBody;
-  ETag?: string;
-  ContentType?: string;
+  FunctionCode?: T.StreamingOutputBody | undefined;
+  ETag?: string | undefined;
+  ContentType?: string | undefined;
 }
 export interface GetInvalidationRequest {
   DistributionId: string;
   Id: string;
 }
 export interface GetInvalidationResult {
-  Invalidation?: Invalidation;
+  Invalidation?: Invalidation | undefined;
 }
 export interface GetInvalidationForDistributionTenantRequest {
   DistributionTenantId: string;
   Id: string;
 }
 export interface GetInvalidationForDistributionTenantResult {
-  Invalidation?: Invalidation;
+  Invalidation?: Invalidation | undefined;
 }
 export interface GetKeyGroupRequest {
   Id: string;
 }
 export interface GetKeyGroupResult {
-  KeyGroup?: KeyGroup;
-  ETag?: string;
+  KeyGroup?: KeyGroup | undefined;
+  ETag?: string | undefined;
 }
 export interface GetKeyGroupConfigRequest {
   Id: string;
 }
 export interface GetKeyGroupConfigResult {
-  KeyGroupConfig?: KeyGroupConfig;
-  ETag?: string;
+  KeyGroupConfig?: KeyGroupConfig | undefined;
+  ETag?: string | undefined;
 }
 export interface GetManagedCertificateDetailsRequest {
   Identifier: string;
@@ -2726,126 +2729,126 @@ export type ManagedCertificateStatus =
   | (string & {});
 export interface ValidationTokenDetail {
   Domain: string;
-  RedirectTo?: string;
-  RedirectFrom?: string;
+  RedirectTo?: string | undefined;
+  RedirectFrom?: string | undefined;
 }
 export type ValidationTokenDetailList = ValidationTokenDetail[];
 export interface ManagedCertificateDetails {
-  CertificateArn?: string;
-  CertificateStatus?: ManagedCertificateStatus;
-  ValidationTokenHost?: ValidationTokenHost;
-  ValidationTokenDetails?: ValidationTokenDetail[];
+  CertificateArn?: string | undefined;
+  CertificateStatus?: ManagedCertificateStatus | undefined;
+  ValidationTokenHost?: ValidationTokenHost | undefined;
+  ValidationTokenDetails?: ValidationTokenDetail[] | undefined;
 }
 export interface GetManagedCertificateDetailsResult {
-  ManagedCertificateDetails?: ManagedCertificateDetails;
+  ManagedCertificateDetails?: ManagedCertificateDetails | undefined;
 }
 export interface GetMonitoringSubscriptionRequest {
   DistributionId: string;
 }
 export interface GetMonitoringSubscriptionResult {
-  MonitoringSubscription?: MonitoringSubscription;
+  MonitoringSubscription?: MonitoringSubscription | undefined;
 }
 export interface GetOriginAccessControlRequest {
   Id: string;
 }
 export interface GetOriginAccessControlResult {
-  OriginAccessControl?: OriginAccessControl;
-  ETag?: string;
+  OriginAccessControl?: OriginAccessControl | undefined;
+  ETag?: string | undefined;
 }
 export interface GetOriginAccessControlConfigRequest {
   Id: string;
 }
 export interface GetOriginAccessControlConfigResult {
-  OriginAccessControlConfig?: OriginAccessControlConfig;
-  ETag?: string;
+  OriginAccessControlConfig?: OriginAccessControlConfig | undefined;
+  ETag?: string | undefined;
 }
 export interface GetOriginRequestPolicyRequest {
   Id: string;
 }
 export interface GetOriginRequestPolicyResult {
-  OriginRequestPolicy?: OriginRequestPolicy;
-  ETag?: string;
+  OriginRequestPolicy?: OriginRequestPolicy | undefined;
+  ETag?: string | undefined;
 }
 export interface GetOriginRequestPolicyConfigRequest {
   Id: string;
 }
 export interface GetOriginRequestPolicyConfigResult {
-  OriginRequestPolicyConfig?: OriginRequestPolicyConfig;
-  ETag?: string;
+  OriginRequestPolicyConfig?: OriginRequestPolicyConfig | undefined;
+  ETag?: string | undefined;
 }
 export interface GetPublicKeyRequest {
   Id: string;
 }
 export interface GetPublicKeyResult {
-  PublicKey?: PublicKey;
-  ETag?: string;
+  PublicKey?: PublicKey | undefined;
+  ETag?: string | undefined;
 }
 export interface GetPublicKeyConfigRequest {
   Id: string;
 }
 export interface GetPublicKeyConfigResult {
-  PublicKeyConfig?: PublicKeyConfig;
-  ETag?: string;
+  PublicKeyConfig?: PublicKeyConfig | undefined;
+  ETag?: string | undefined;
 }
 export interface GetRealtimeLogConfigRequest {
-  Name?: string;
-  ARN?: string;
+  Name?: string | undefined;
+  ARN?: string | undefined;
 }
 export interface GetRealtimeLogConfigResult {
-  RealtimeLogConfig?: RealtimeLogConfig;
+  RealtimeLogConfig?: RealtimeLogConfig | undefined;
 }
 export interface GetResourcePolicyRequest {
   ResourceArn: string;
 }
 export interface GetResourcePolicyResult {
-  ResourceArn?: string;
-  PolicyDocument?: string;
+  ResourceArn?: string | undefined;
+  PolicyDocument?: string | undefined;
 }
 export interface GetResponseHeadersPolicyRequest {
   Id: string;
 }
 export interface GetResponseHeadersPolicyResult {
-  ResponseHeadersPolicy?: ResponseHeadersPolicy;
-  ETag?: string;
+  ResponseHeadersPolicy?: ResponseHeadersPolicy | undefined;
+  ETag?: string | undefined;
 }
 export interface GetResponseHeadersPolicyConfigRequest {
   Id: string;
 }
 export interface GetResponseHeadersPolicyConfigResult {
-  ResponseHeadersPolicyConfig?: ResponseHeadersPolicyConfig;
-  ETag?: string;
+  ResponseHeadersPolicyConfig?: ResponseHeadersPolicyConfig | undefined;
+  ETag?: string | undefined;
 }
 export interface GetStreamingDistributionRequest {
   Id: string;
 }
 export interface GetStreamingDistributionResult {
-  StreamingDistribution?: StreamingDistribution;
-  ETag?: string;
+  StreamingDistribution?: StreamingDistribution | undefined;
+  ETag?: string | undefined;
 }
 export interface GetStreamingDistributionConfigRequest {
   Id: string;
 }
 export interface GetStreamingDistributionConfigResult {
-  StreamingDistributionConfig?: StreamingDistributionConfig;
-  ETag?: string;
+  StreamingDistributionConfig?: StreamingDistributionConfig | undefined;
+  ETag?: string | undefined;
 }
 export interface GetTrustStoreRequest {
   Identifier: string;
 }
 export interface GetTrustStoreResult {
-  TrustStore?: TrustStore;
-  ETag?: string;
+  TrustStore?: TrustStore | undefined;
+  ETag?: string | undefined;
 }
 export interface GetVpcOriginRequest {
   Id: string;
 }
 export interface GetVpcOriginResult {
-  VpcOrigin?: VpcOrigin;
-  ETag?: string;
+  VpcOrigin?: VpcOrigin | undefined;
+  ETag?: string | undefined;
 }
 export interface ListAnycastIpListsRequest {
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface AnycastIpListSummary {
   Id: string;
@@ -2854,27 +2857,27 @@ export interface AnycastIpListSummary {
   Arn: string;
   IpCount: number;
   LastModifiedTime: Date;
-  IpAddressType?: IpAddressType;
-  ETag?: string;
-  IpamConfig?: IpamConfig;
+  IpAddressType?: IpAddressType | undefined;
+  ETag?: string | undefined;
+  IpamConfig?: IpamConfig | undefined;
 }
 export type AnycastIpListSummaries = AnycastIpListSummary[];
 export interface AnycastIpListCollection {
-  Items?: AnycastIpListSummary[];
-  Marker?: string;
-  NextMarker?: string;
+  Items?: AnycastIpListSummary[] | undefined;
+  Marker?: string | undefined;
+  NextMarker?: string | undefined;
   MaxItems: number;
   IsTruncated: boolean;
   Quantity: number;
 }
 export interface ListAnycastIpListsResult {
-  AnycastIpLists?: AnycastIpListCollection;
+  AnycastIpLists?: AnycastIpListCollection | undefined;
 }
 export type CachePolicyType = "managed" | "custom" | (string & {});
 export interface ListCachePoliciesRequest {
-  Type?: CachePolicyType;
-  Marker?: string;
-  MaxItems?: number;
+  Type?: CachePolicyType | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface CachePolicySummary {
   Type: CachePolicyType;
@@ -2882,17 +2885,17 @@ export interface CachePolicySummary {
 }
 export type CachePolicySummaryList = CachePolicySummary[];
 export interface CachePolicyList {
-  NextMarker?: string;
+  NextMarker?: string | undefined;
   MaxItems: number;
   Quantity: number;
-  Items?: CachePolicySummary[];
+  Items?: CachePolicySummary[] | undefined;
 }
 export interface ListCachePoliciesResult {
-  CachePolicyList?: CachePolicyList;
+  CachePolicyList?: CachePolicyList | undefined;
 }
 export interface ListCloudFrontOriginAccessIdentitiesRequest {
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface CloudFrontOriginAccessIdentitySummary {
   Id: string;
@@ -2901,15 +2904,15 @@ export interface CloudFrontOriginAccessIdentitySummary {
 }
 export type CloudFrontOriginAccessIdentitySummaryList = CloudFrontOriginAccessIdentitySummary[];
 export interface CloudFrontOriginAccessIdentityList {
-  Marker?: string;
-  NextMarker?: string;
+  Marker?: string | undefined;
+  NextMarker?: string | undefined;
   MaxItems: number;
   IsTruncated: boolean;
   Quantity: number;
-  Items?: CloudFrontOriginAccessIdentitySummary[];
+  Items?: CloudFrontOriginAccessIdentitySummary[] | undefined;
 }
 export interface ListCloudFrontOriginAccessIdentitiesResult {
-  CloudFrontOriginAccessIdentityList?: CloudFrontOriginAccessIdentityList;
+  CloudFrontOriginAccessIdentityList?: CloudFrontOriginAccessIdentityList | undefined;
 }
 export type DistributionIdString = string;
 export type AliasString = string;
@@ -2917,41 +2920,41 @@ export type ListConflictingAliasesMaxItemsInteger = number;
 export interface ListConflictingAliasesRequest {
   DistributionId: string;
   Alias: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ConflictingAlias {
-  Alias?: string;
-  DistributionId?: string;
-  AccountId?: string;
+  Alias?: string | undefined;
+  DistributionId?: string | undefined;
+  AccountId?: string | undefined;
 }
 export type ConflictingAliases = ConflictingAlias[];
 export interface ConflictingAliasesList {
-  NextMarker?: string;
-  MaxItems?: number;
-  Quantity?: number;
-  Items?: ConflictingAlias[];
+  NextMarker?: string | undefined;
+  MaxItems?: number | undefined;
+  Quantity?: number | undefined;
+  Items?: ConflictingAlias[] | undefined;
 }
 export interface ListConflictingAliasesResult {
-  ConflictingAliasesList?: ConflictingAliasesList;
+  ConflictingAliasesList?: ConflictingAliasesList | undefined;
 }
 export interface ListConnectionFunctionsRequest {
-  Marker?: string;
-  MaxItems?: number;
-  Stage?: FunctionStage;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
+  Stage?: FunctionStage | undefined;
 }
 export type ConnectionFunctionSummaryList = ConnectionFunctionSummary[];
 export interface ListConnectionFunctionsResult {
-  NextMarker?: string;
-  ConnectionFunctions?: ConnectionFunctionSummary[];
+  NextMarker?: string | undefined;
+  ConnectionFunctions?: ConnectionFunctionSummary[] | undefined;
 }
 export interface ConnectionGroupAssociationFilter {
-  AnycastIpListId?: string;
+  AnycastIpListId?: string | undefined;
 }
 export interface ListConnectionGroupsRequest {
-  AssociationFilter?: ConnectionGroupAssociationFilter;
-  Marker?: string;
-  MaxItems?: number;
+  AssociationFilter?: ConnectionGroupAssociationFilter | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ConnectionGroupSummary {
   Id: string;
@@ -2961,47 +2964,47 @@ export interface ConnectionGroupSummary {
   CreatedTime: Date;
   LastModifiedTime: Date;
   ETag: string;
-  AnycastIpListId?: string;
-  Enabled?: boolean;
-  Status?: string;
-  IsDefault?: boolean;
+  AnycastIpListId?: string | undefined;
+  Enabled?: boolean | undefined;
+  Status?: string | undefined;
+  IsDefault?: boolean | undefined;
 }
 export type ConnectionGroupSummaryList = ConnectionGroupSummary[];
 export interface ListConnectionGroupsResult {
-  NextMarker?: string;
-  ConnectionGroups?: ConnectionGroupSummary[];
+  NextMarker?: string | undefined;
+  ConnectionGroups?: ConnectionGroupSummary[] | undefined;
 }
 export interface ListContinuousDeploymentPoliciesRequest {
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ContinuousDeploymentPolicySummary {
   ContinuousDeploymentPolicy: ContinuousDeploymentPolicy;
 }
 export type ContinuousDeploymentPolicySummaryList = ContinuousDeploymentPolicySummary[];
 export interface ContinuousDeploymentPolicyList {
-  NextMarker?: string;
+  NextMarker?: string | undefined;
   MaxItems: number;
   Quantity: number;
-  Items?: ContinuousDeploymentPolicySummary[];
+  Items?: ContinuousDeploymentPolicySummary[] | undefined;
 }
 export interface ListContinuousDeploymentPoliciesResult {
-  ContinuousDeploymentPolicyList?: ContinuousDeploymentPolicyList;
+  ContinuousDeploymentPolicyList?: ContinuousDeploymentPolicyList | undefined;
 }
 export interface ListDistributionsRequest {
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface DistributionSummary {
   Id: string;
   ARN: string;
-  ETag?: string;
+  ETag?: string | undefined;
   Status: string;
   LastModifiedTime: Date;
   DomainName: string;
   Aliases: Aliases;
   Origins: Origins;
-  OriginGroups?: OriginGroups;
+  OriginGroups?: OriginGroups | undefined;
   DefaultCacheBehavior: DefaultCacheBehavior;
   CacheBehaviors: CacheBehaviors;
   CustomErrorResponses: CustomErrorResponses;
@@ -3010,89 +3013,89 @@ export interface DistributionSummary {
   Enabled: boolean;
   ViewerCertificate: ViewerCertificate;
   Restrictions: Restrictions;
-  WebACLId?: string;
+  WebACLId?: string | undefined;
   HttpVersion: HttpVersion;
   IsIPV6Enabled: boolean;
-  AliasICPRecordals?: AliasICPRecordal[];
+  AliasICPRecordals?: AliasICPRecordal[] | undefined;
   Staging: boolean;
-  ConnectionMode?: ConnectionMode;
-  AnycastIpListId?: string;
-  ViewerMtlsConfig?: ViewerMtlsConfig;
-  ConnectionFunctionAssociation?: ConnectionFunctionAssociation;
+  ConnectionMode?: ConnectionMode | undefined;
+  AnycastIpListId?: string | undefined;
+  ViewerMtlsConfig?: ViewerMtlsConfig | undefined;
+  ConnectionFunctionAssociation?: ConnectionFunctionAssociation | undefined;
 }
 export type DistributionSummaryList = DistributionSummary[];
 export interface DistributionList {
-  Marker?: string;
-  NextMarker?: string;
+  Marker?: string | undefined;
+  NextMarker?: string | undefined;
   MaxItems: number;
   IsTruncated: boolean;
   Quantity: number;
-  Items?: DistributionSummary[];
+  Items?: DistributionSummary[] | undefined;
 }
 export interface ListDistributionsResult {
-  DistributionList?: DistributionList;
+  DistributionList?: DistributionList | undefined;
 }
 export interface ListDistributionsByAnycastIpListIdRequest {
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
   AnycastIpListId: string;
 }
 export interface ListDistributionsByAnycastIpListIdResult {
-  DistributionList?: DistributionList;
+  DistributionList?: DistributionList | undefined;
 }
 export interface ListDistributionsByCachePolicyIdRequest {
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
   CachePolicyId: string;
 }
 export type DistributionIdListSummary = string[];
 export interface DistributionIdList {
-  Marker?: string;
-  NextMarker?: string;
+  Marker?: string | undefined;
+  NextMarker?: string | undefined;
   MaxItems: number;
   IsTruncated: boolean;
   Quantity: number;
-  Items?: string[];
+  Items?: string[] | undefined;
 }
 export interface ListDistributionsByCachePolicyIdResult {
-  DistributionIdList?: DistributionIdList;
+  DistributionIdList?: DistributionIdList | undefined;
 }
 export interface ListDistributionsByConnectionFunctionRequest {
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
   ConnectionFunctionIdentifier: string;
 }
 export interface ListDistributionsByConnectionFunctionResult {
-  DistributionList?: DistributionList;
+  DistributionList?: DistributionList | undefined;
 }
 export interface ListDistributionsByConnectionModeRequest {
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
   ConnectionMode: ConnectionMode;
 }
 export interface ListDistributionsByConnectionModeResult {
-  DistributionList?: DistributionList;
+  DistributionList?: DistributionList | undefined;
 }
 export interface ListDistributionsByKeyGroupRequest {
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
   KeyGroupId: string;
 }
 export interface ListDistributionsByKeyGroupResult {
-  DistributionIdList?: DistributionIdList;
+  DistributionIdList?: DistributionIdList | undefined;
 }
 export interface ListDistributionsByOriginRequestPolicyIdRequest {
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
   OriginRequestPolicyId: string;
 }
 export interface ListDistributionsByOriginRequestPolicyIdResult {
-  DistributionIdList?: DistributionIdList;
+  DistributionIdList?: DistributionIdList | undefined;
 }
 export interface ListDistributionsByOwnedResourceRequest {
   ResourceArn: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface DistributionIdOwner {
   DistributionId: string;
@@ -3100,65 +3103,65 @@ export interface DistributionIdOwner {
 }
 export type DistributionIdOwnerItemList = DistributionIdOwner[];
 export interface DistributionIdOwnerList {
-  Marker?: string;
-  NextMarker?: string;
+  Marker?: string | undefined;
+  NextMarker?: string | undefined;
   MaxItems: number;
   IsTruncated: boolean;
   Quantity: number;
-  Items?: DistributionIdOwner[];
+  Items?: DistributionIdOwner[] | undefined;
 }
 export interface ListDistributionsByOwnedResourceResult {
-  DistributionList?: DistributionIdOwnerList;
+  DistributionList?: DistributionIdOwnerList | undefined;
 }
 export interface ListDistributionsByRealtimeLogConfigRequest {
-  Marker?: string;
-  MaxItems?: number;
-  RealtimeLogConfigName?: string;
-  RealtimeLogConfigArn?: string;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
+  RealtimeLogConfigName?: string | undefined;
+  RealtimeLogConfigArn?: string | undefined;
 }
 export interface ListDistributionsByRealtimeLogConfigResult {
-  DistributionList?: DistributionList;
+  DistributionList?: DistributionList | undefined;
 }
 export interface ListDistributionsByResponseHeadersPolicyIdRequest {
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
   ResponseHeadersPolicyId: string;
 }
 export interface ListDistributionsByResponseHeadersPolicyIdResult {
-  DistributionIdList?: DistributionIdList;
+  DistributionIdList?: DistributionIdList | undefined;
 }
 export interface ListDistributionsByTrustStoreRequest {
   TrustStoreIdentifier: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListDistributionsByTrustStoreResult {
-  DistributionList?: DistributionList;
+  DistributionList?: DistributionList | undefined;
 }
 export interface ListDistributionsByVpcOriginIdRequest {
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
   VpcOriginId: string;
 }
 export interface ListDistributionsByVpcOriginIdResult {
-  DistributionIdList?: DistributionIdList;
+  DistributionIdList?: DistributionIdList | undefined;
 }
 export interface ListDistributionsByWebACLIdRequest {
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
   WebACLId: string;
 }
 export interface ListDistributionsByWebACLIdResult {
-  DistributionList?: DistributionList;
+  DistributionList?: DistributionList | undefined;
 }
 export interface DistributionTenantAssociationFilter {
-  DistributionId?: string;
-  ConnectionGroupId?: string;
+  DistributionId?: string | undefined;
+  ConnectionGroupId?: string | undefined;
 }
 export interface ListDistributionTenantsRequest {
-  AssociationFilter?: DistributionTenantAssociationFilter;
-  Marker?: string;
-  MaxItems?: number;
+  AssociationFilter?: DistributionTenantAssociationFilter | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface DistributionTenantSummary {
   Id: string;
@@ -3166,38 +3169,38 @@ export interface DistributionTenantSummary {
   Name: string;
   Arn: string;
   Domains: DomainResult[];
-  ConnectionGroupId?: string;
-  Customizations?: Customizations;
+  ConnectionGroupId?: string | undefined;
+  Customizations?: Customizations | undefined;
   CreatedTime: Date;
   LastModifiedTime: Date;
   ETag: string;
-  Enabled?: boolean;
-  Status?: string;
+  Enabled?: boolean | undefined;
+  Status?: string | undefined;
 }
 export type DistributionTenantList = DistributionTenantSummary[];
 export interface ListDistributionTenantsResult {
-  NextMarker?: string;
-  DistributionTenantList?: DistributionTenantSummary[];
+  NextMarker?: string | undefined;
+  DistributionTenantList?: DistributionTenantSummary[] | undefined;
 }
 export interface ListDistributionTenantsByCustomizationRequest {
-  WebACLArn?: string;
-  CertificateArn?: string;
-  Marker?: string;
-  MaxItems?: number;
+  WebACLArn?: string | undefined;
+  CertificateArn?: string | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListDistributionTenantsByCustomizationResult {
-  NextMarker?: string;
-  DistributionTenantList?: DistributionTenantSummary[];
+  NextMarker?: string | undefined;
+  DistributionTenantList?: DistributionTenantSummary[] | undefined;
 }
 export interface DistributionResourceId {
-  DistributionId?: string;
-  DistributionTenantId?: string;
+  DistributionId?: string | undefined;
+  DistributionTenantId?: string | undefined;
 }
 export interface ListDomainConflictsRequest {
   Domain: string;
   DomainControlValidationResource: DistributionResourceId;
-  MaxItems?: number;
-  Marker?: string;
+  MaxItems?: number | undefined;
+  Marker?: string | undefined;
 }
 export type DistributionResourceType = "distribution" | "distribution-tenant" | (string & {});
 export interface DomainConflict {
@@ -3208,70 +3211,70 @@ export interface DomainConflict {
 }
 export type DomainConflictsList = DomainConflict[];
 export interface ListDomainConflictsResult {
-  DomainConflicts?: DomainConflict[];
-  NextMarker?: string;
+  DomainConflicts?: DomainConflict[] | undefined;
+  NextMarker?: string | undefined;
 }
 export interface ListFieldLevelEncryptionConfigsRequest {
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface FieldLevelEncryptionSummary {
   Id: string;
   LastModifiedTime: Date;
-  Comment?: string;
-  QueryArgProfileConfig?: QueryArgProfileConfig;
-  ContentTypeProfileConfig?: ContentTypeProfileConfig;
+  Comment?: string | undefined;
+  QueryArgProfileConfig?: QueryArgProfileConfig | undefined;
+  ContentTypeProfileConfig?: ContentTypeProfileConfig | undefined;
 }
 export type FieldLevelEncryptionSummaryList = FieldLevelEncryptionSummary[];
 export interface FieldLevelEncryptionList {
-  NextMarker?: string;
+  NextMarker?: string | undefined;
   MaxItems: number;
   Quantity: number;
-  Items?: FieldLevelEncryptionSummary[];
+  Items?: FieldLevelEncryptionSummary[] | undefined;
 }
 export interface ListFieldLevelEncryptionConfigsResult {
-  FieldLevelEncryptionList?: FieldLevelEncryptionList;
+  FieldLevelEncryptionList?: FieldLevelEncryptionList | undefined;
 }
 export interface ListFieldLevelEncryptionProfilesRequest {
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface FieldLevelEncryptionProfileSummary {
   Id: string;
   LastModifiedTime: Date;
   Name: string;
   EncryptionEntities: EncryptionEntities;
-  Comment?: string;
+  Comment?: string | undefined;
 }
 export type FieldLevelEncryptionProfileSummaryList = FieldLevelEncryptionProfileSummary[];
 export interface FieldLevelEncryptionProfileList {
-  NextMarker?: string;
+  NextMarker?: string | undefined;
   MaxItems: number;
   Quantity: number;
-  Items?: FieldLevelEncryptionProfileSummary[];
+  Items?: FieldLevelEncryptionProfileSummary[] | undefined;
 }
 export interface ListFieldLevelEncryptionProfilesResult {
-  FieldLevelEncryptionProfileList?: FieldLevelEncryptionProfileList;
+  FieldLevelEncryptionProfileList?: FieldLevelEncryptionProfileList | undefined;
 }
 export interface ListFunctionsRequest {
-  Marker?: string;
-  MaxItems?: number;
-  Stage?: FunctionStage;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
+  Stage?: FunctionStage | undefined;
 }
 export type FunctionSummaryList = FunctionSummary[];
 export interface FunctionList {
-  NextMarker?: string;
+  NextMarker?: string | undefined;
   MaxItems: number;
   Quantity: number;
-  Items?: FunctionSummary[];
+  Items?: FunctionSummary[] | undefined;
 }
 export interface ListFunctionsResult {
-  FunctionList?: FunctionList;
+  FunctionList?: FunctionList | undefined;
 }
 export interface ListInvalidationsRequest {
   DistributionId: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface InvalidationSummary {
   Id: string;
@@ -3280,63 +3283,63 @@ export interface InvalidationSummary {
 }
 export type InvalidationSummaryList = InvalidationSummary[];
 export interface InvalidationList {
-  Marker?: string;
-  NextMarker?: string;
+  Marker?: string | undefined;
+  NextMarker?: string | undefined;
   MaxItems: number;
   IsTruncated: boolean;
   Quantity: number;
-  Items?: InvalidationSummary[];
+  Items?: InvalidationSummary[] | undefined;
 }
 export interface ListInvalidationsResult {
-  InvalidationList?: InvalidationList;
+  InvalidationList?: InvalidationList | undefined;
 }
 export interface ListInvalidationsForDistributionTenantRequest {
   Id: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListInvalidationsForDistributionTenantResult {
-  InvalidationList?: InvalidationList;
+  InvalidationList?: InvalidationList | undefined;
 }
 export interface ListKeyGroupsRequest {
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface KeyGroupSummary {
   KeyGroup: KeyGroup;
 }
 export type KeyGroupSummaryList = KeyGroupSummary[];
 export interface KeyGroupList {
-  NextMarker?: string;
+  NextMarker?: string | undefined;
   MaxItems: number;
   Quantity: number;
-  Items?: KeyGroupSummary[];
+  Items?: KeyGroupSummary[] | undefined;
 }
 export interface ListKeyGroupsResult {
-  KeyGroupList?: KeyGroupList;
+  KeyGroupList?: KeyGroupList | undefined;
 }
 export interface ListKeyValueStoresRequest {
-  Marker?: string;
-  MaxItems?: number;
-  Status?: string;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
+  Status?: string | undefined;
 }
 export type KeyValueStoreSummaryList = KeyValueStore[];
 export interface KeyValueStoreList {
-  NextMarker?: string;
+  NextMarker?: string | undefined;
   MaxItems: number;
   Quantity: number;
-  Items?: KeyValueStore[];
+  Items?: KeyValueStore[] | undefined;
 }
 export interface ListKeyValueStoresResult {
-  KeyValueStoreList?: KeyValueStoreList;
+  KeyValueStoreList?: KeyValueStoreList | undefined;
 }
 export interface ListOriginAccessControlsRequest {
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface OriginAccessControlSummary {
   Id: string;
-  Description?: string;
+  Description?: string | undefined;
   Name: string;
   SigningProtocol: OriginAccessControlSigningProtocols;
   SigningBehavior: OriginAccessControlSigningBehaviors;
@@ -3344,21 +3347,21 @@ export interface OriginAccessControlSummary {
 }
 export type OriginAccessControlSummaryList = OriginAccessControlSummary[];
 export interface OriginAccessControlList {
-  Marker?: string;
-  NextMarker?: string;
+  Marker?: string | undefined;
+  NextMarker?: string | undefined;
   MaxItems: number;
   IsTruncated: boolean;
   Quantity: number;
-  Items?: OriginAccessControlSummary[];
+  Items?: OriginAccessControlSummary[] | undefined;
 }
 export interface ListOriginAccessControlsResult {
-  OriginAccessControlList?: OriginAccessControlList;
+  OriginAccessControlList?: OriginAccessControlList | undefined;
 }
 export type OriginRequestPolicyType = "managed" | "custom" | (string & {});
 export interface ListOriginRequestPoliciesRequest {
-  Type?: OriginRequestPolicyType;
-  Marker?: string;
-  MaxItems?: number;
+  Type?: OriginRequestPolicyType | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface OriginRequestPolicySummary {
   Type: OriginRequestPolicyType;
@@ -3366,55 +3369,55 @@ export interface OriginRequestPolicySummary {
 }
 export type OriginRequestPolicySummaryList = OriginRequestPolicySummary[];
 export interface OriginRequestPolicyList {
-  NextMarker?: string;
+  NextMarker?: string | undefined;
   MaxItems: number;
   Quantity: number;
-  Items?: OriginRequestPolicySummary[];
+  Items?: OriginRequestPolicySummary[] | undefined;
 }
 export interface ListOriginRequestPoliciesResult {
-  OriginRequestPolicyList?: OriginRequestPolicyList;
+  OriginRequestPolicyList?: OriginRequestPolicyList | undefined;
 }
 export interface ListPublicKeysRequest {
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface PublicKeySummary {
   Id: string;
   Name: string;
   CreatedTime: Date;
   EncodedKey: string;
-  Comment?: string;
+  Comment?: string | undefined;
 }
 export type PublicKeySummaryList = PublicKeySummary[];
 export interface PublicKeyList {
-  NextMarker?: string;
+  NextMarker?: string | undefined;
   MaxItems: number;
   Quantity: number;
-  Items?: PublicKeySummary[];
+  Items?: PublicKeySummary[] | undefined;
 }
 export interface ListPublicKeysResult {
-  PublicKeyList?: PublicKeyList;
+  PublicKeyList?: PublicKeyList | undefined;
 }
 export interface ListRealtimeLogConfigsRequest {
-  MaxItems?: number;
-  Marker?: string;
+  MaxItems?: number | undefined;
+  Marker?: string | undefined;
 }
 export type RealtimeLogConfigList = RealtimeLogConfig[];
 export interface RealtimeLogConfigs {
   MaxItems: number;
-  Items?: RealtimeLogConfig[];
+  Items?: RealtimeLogConfig[] | undefined;
   IsTruncated: boolean;
-  Marker?: string;
-  NextMarker?: string;
+  Marker?: string | undefined;
+  NextMarker?: string | undefined;
 }
 export interface ListRealtimeLogConfigsResult {
-  RealtimeLogConfigs?: RealtimeLogConfigs;
+  RealtimeLogConfigs?: RealtimeLogConfigs | undefined;
 }
 export type ResponseHeadersPolicyType = "managed" | "custom" | (string & {});
 export interface ListResponseHeadersPoliciesRequest {
-  Type?: ResponseHeadersPolicyType;
-  Marker?: string;
-  MaxItems?: number;
+  Type?: ResponseHeadersPolicyType | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ResponseHeadersPolicySummary {
   Type: ResponseHeadersPolicyType;
@@ -3422,17 +3425,17 @@ export interface ResponseHeadersPolicySummary {
 }
 export type ResponseHeadersPolicySummaryList = ResponseHeadersPolicySummary[];
 export interface ResponseHeadersPolicyList {
-  NextMarker?: string;
+  NextMarker?: string | undefined;
   MaxItems: number;
   Quantity: number;
-  Items?: ResponseHeadersPolicySummary[];
+  Items?: ResponseHeadersPolicySummary[] | undefined;
 }
 export interface ListResponseHeadersPoliciesResult {
-  ResponseHeadersPolicyList?: ResponseHeadersPolicyList;
+  ResponseHeadersPolicyList?: ResponseHeadersPolicyList | undefined;
 }
 export interface ListStreamingDistributionsRequest {
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface StreamingDistributionSummary {
   Id: string;
@@ -3449,15 +3452,15 @@ export interface StreamingDistributionSummary {
 }
 export type StreamingDistributionSummaryList = StreamingDistributionSummary[];
 export interface StreamingDistributionList {
-  Marker?: string;
-  NextMarker?: string;
+  Marker?: string | undefined;
+  NextMarker?: string | undefined;
   MaxItems: number;
   IsTruncated: boolean;
   Quantity: number;
-  Items?: StreamingDistributionSummary[];
+  Items?: StreamingDistributionSummary[] | undefined;
 }
 export interface ListStreamingDistributionsResult {
-  StreamingDistributionList?: StreamingDistributionList;
+  StreamingDistributionList?: StreamingDistributionList | undefined;
 }
 export type ResourceARN = string;
 export interface ListTagsForResourceRequest {
@@ -3467,8 +3470,8 @@ export interface ListTagsForResourceResult {
   Tags: Tags;
 }
 export interface ListTrustStoresRequest {
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface TrustStoreSummary {
   Id: string;
@@ -3477,17 +3480,17 @@ export interface TrustStoreSummary {
   Status: TrustStoreStatus;
   NumberOfCaCertificates: number;
   LastModifiedTime: Date;
-  Reason?: string;
+  Reason?: string | undefined;
   ETag: string;
 }
 export type TrustStoreList = TrustStoreSummary[];
 export interface ListTrustStoresResult {
-  NextMarker?: string;
-  TrustStoreList?: TrustStoreSummary[];
+  NextMarker?: string | undefined;
+  TrustStoreList?: TrustStoreSummary[] | undefined;
 }
 export interface ListVpcOriginsRequest {
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface VpcOriginSummary {
   Id: string;
@@ -3496,41 +3499,42 @@ export interface VpcOriginSummary {
   CreatedTime: Date;
   LastModifiedTime: Date;
   Arn: string;
-  AccountId?: string;
+  AccountId?: string | undefined;
   OriginEndpointArn: string;
+  IpAddressType?: VpcIpAddressType | undefined;
 }
 export type VpcOriginSummaryList = VpcOriginSummary[];
 export interface VpcOriginList {
-  Marker?: string;
-  NextMarker?: string;
-  MaxItems?: number;
-  IsTruncated?: boolean;
-  Quantity?: number;
-  Items?: VpcOriginSummary[];
+  Marker?: string | undefined;
+  NextMarker?: string | undefined;
+  MaxItems?: number | undefined;
+  IsTruncated?: boolean | undefined;
+  Quantity?: number | undefined;
+  Items?: VpcOriginSummary[] | undefined;
 }
 export interface ListVpcOriginsResult {
-  VpcOriginList?: VpcOriginList;
+  VpcOriginList?: VpcOriginList | undefined;
 }
 export interface PublishConnectionFunctionRequest {
   Id: string;
   IfMatch: string;
 }
 export interface PublishConnectionFunctionResult {
-  ConnectionFunctionSummary?: ConnectionFunctionSummary;
+  ConnectionFunctionSummary?: ConnectionFunctionSummary | undefined;
 }
 export interface PublishFunctionRequest {
   Name: string;
   IfMatch: string;
 }
 export interface PublishFunctionResult {
-  FunctionSummary?: FunctionSummary;
+  FunctionSummary?: FunctionSummary | undefined;
 }
 export interface PutResourcePolicyRequest {
   ResourceArn: string;
   PolicyDocument: string;
 }
 export interface PutResourcePolicyResult {
-  ResourceArn?: string;
+  ResourceArn?: string | undefined;
 }
 export interface TagResourceRequest {
   Resource: string;
@@ -3541,39 +3545,39 @@ export type FunctionEventObject = Uint8Array | redacted.Redacted<Uint8Array>;
 export interface TestConnectionFunctionRequest {
   Id: string;
   IfMatch: string;
-  Stage?: FunctionStage;
+  Stage?: FunctionStage | undefined;
   ConnectionObject: Uint8Array | redacted.Redacted<Uint8Array>;
 }
 export type FunctionExecutionLogList = string[];
 export interface ConnectionFunctionTestResult {
-  ConnectionFunctionSummary?: ConnectionFunctionSummary;
-  ComputeUtilization?: string;
-  ConnectionFunctionExecutionLogs?: string[];
-  ConnectionFunctionErrorMessage?: string | redacted.Redacted<string>;
-  ConnectionFunctionOutput?: string | redacted.Redacted<string>;
+  ConnectionFunctionSummary?: ConnectionFunctionSummary | undefined;
+  ComputeUtilization?: string | undefined;
+  ConnectionFunctionExecutionLogs?: string[] | undefined;
+  ConnectionFunctionErrorMessage?: string | redacted.Redacted<string> | undefined;
+  ConnectionFunctionOutput?: string | redacted.Redacted<string> | undefined;
 }
 export interface TestConnectionFunctionResult {
-  ConnectionFunctionTestResult?: ConnectionFunctionTestResult;
+  ConnectionFunctionTestResult?: ConnectionFunctionTestResult | undefined;
 }
 export interface TestFunctionRequest {
   Name: string;
   IfMatch: string;
-  Stage?: FunctionStage;
+  Stage?: FunctionStage | undefined;
   EventObject: Uint8Array | redacted.Redacted<Uint8Array>;
 }
 export interface TestResult {
-  FunctionSummary?: FunctionSummary;
-  ComputeUtilization?: string;
-  FunctionExecutionLogs?: string[];
-  FunctionErrorMessage?: string | redacted.Redacted<string>;
-  FunctionOutput?: string | redacted.Redacted<string>;
+  FunctionSummary?: FunctionSummary | undefined;
+  ComputeUtilization?: string | undefined;
+  FunctionExecutionLogs?: string[] | undefined;
+  FunctionErrorMessage?: string | redacted.Redacted<string> | undefined;
+  FunctionOutput?: string | redacted.Redacted<string> | undefined;
 }
 export interface TestFunctionResult {
-  TestResult?: TestResult;
+  TestResult?: TestResult | undefined;
 }
 export type TagKeyList = string[];
 export interface TagKeys {
-  Items?: string[];
+  Items?: string[] | undefined;
 }
 export interface UntagResourceRequest {
   Resource: string;
@@ -3582,31 +3586,31 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateAnycastIpListRequest {
   Id: string;
-  IpAddressType?: IpAddressType;
-  IpamCidrConfigs?: IpamCidrConfig[];
+  IpAddressType?: IpAddressType | undefined;
+  IpamCidrConfigs?: IpamCidrConfig[] | undefined;
   IfMatch: string;
 }
 export interface UpdateAnycastIpListResult {
-  AnycastIpList?: AnycastIpList;
-  ETag?: string;
+  AnycastIpList?: AnycastIpList | undefined;
+  ETag?: string | undefined;
 }
 export interface UpdateCachePolicyRequest {
   CachePolicyConfig: CachePolicyConfig;
   Id: string;
-  IfMatch?: string;
+  IfMatch?: string | undefined;
 }
 export interface UpdateCachePolicyResult {
-  CachePolicy?: CachePolicy;
-  ETag?: string;
+  CachePolicy?: CachePolicy | undefined;
+  ETag?: string | undefined;
 }
 export interface UpdateCloudFrontOriginAccessIdentityRequest {
   CloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig;
   Id: string;
-  IfMatch?: string;
+  IfMatch?: string | undefined;
 }
 export interface UpdateCloudFrontOriginAccessIdentityResult {
-  CloudFrontOriginAccessIdentity?: CloudFrontOriginAccessIdentity;
-  ETag?: string;
+  CloudFrontOriginAccessIdentity?: CloudFrontOriginAccessIdentity | undefined;
+  ETag?: string | undefined;
 }
 export interface UpdateConnectionFunctionRequest {
   Id: string;
@@ -3615,89 +3619,89 @@ export interface UpdateConnectionFunctionRequest {
   ConnectionFunctionCode: Uint8Array | redacted.Redacted<Uint8Array>;
 }
 export interface UpdateConnectionFunctionResult {
-  ConnectionFunctionSummary?: ConnectionFunctionSummary;
-  ETag?: string;
+  ConnectionFunctionSummary?: ConnectionFunctionSummary | undefined;
+  ETag?: string | undefined;
 }
 export interface UpdateConnectionGroupRequest {
   Id: string;
-  Ipv6Enabled?: boolean;
+  Ipv6Enabled?: boolean | undefined;
   IfMatch: string;
-  AnycastIpListId?: string;
-  Enabled?: boolean;
+  AnycastIpListId?: string | undefined;
+  Enabled?: boolean | undefined;
 }
 export interface UpdateConnectionGroupResult {
-  ConnectionGroup?: ConnectionGroup;
-  ETag?: string;
+  ConnectionGroup?: ConnectionGroup | undefined;
+  ETag?: string | undefined;
 }
 export interface UpdateContinuousDeploymentPolicyRequest {
   ContinuousDeploymentPolicyConfig: ContinuousDeploymentPolicyConfig;
   Id: string;
-  IfMatch?: string;
+  IfMatch?: string | undefined;
 }
 export interface UpdateContinuousDeploymentPolicyResult {
-  ContinuousDeploymentPolicy?: ContinuousDeploymentPolicy;
-  ETag?: string;
+  ContinuousDeploymentPolicy?: ContinuousDeploymentPolicy | undefined;
+  ETag?: string | undefined;
 }
 export interface UpdateDistributionRequest {
   DistributionConfig: DistributionConfig;
   Id: string;
-  IfMatch?: string;
+  IfMatch?: string | undefined;
 }
 export interface UpdateDistributionResult {
-  Distribution?: Distribution;
-  ETag?: string;
+  Distribution?: Distribution | undefined;
+  ETag?: string | undefined;
 }
 export interface UpdateDistributionTenantRequest {
   Id: string;
-  DistributionId?: string;
-  Domains?: DomainItem[];
-  Customizations?: Customizations;
-  Parameters?: Parameter[];
-  ConnectionGroupId?: string;
+  DistributionId?: string | undefined;
+  Domains?: DomainItem[] | undefined;
+  Customizations?: Customizations | undefined;
+  Parameters?: Parameter[] | undefined;
+  ConnectionGroupId?: string | undefined;
   IfMatch: string;
-  ManagedCertificateRequest?: ManagedCertificateRequest;
-  Enabled?: boolean;
+  ManagedCertificateRequest?: ManagedCertificateRequest | undefined;
+  Enabled?: boolean | undefined;
 }
 export interface UpdateDistributionTenantResult {
-  DistributionTenant?: DistributionTenant;
-  ETag?: string;
+  DistributionTenant?: DistributionTenant | undefined;
+  ETag?: string | undefined;
 }
 export interface UpdateDistributionWithStagingConfigRequest {
   Id: string;
-  StagingDistributionId?: string;
-  IfMatch?: string;
+  StagingDistributionId?: string | undefined;
+  IfMatch?: string | undefined;
 }
 export interface UpdateDistributionWithStagingConfigResult {
-  Distribution?: Distribution;
-  ETag?: string;
+  Distribution?: Distribution | undefined;
+  ETag?: string | undefined;
 }
 export interface UpdateDomainAssociationRequest {
   Domain: string;
   TargetResource: DistributionResourceId;
-  IfMatch?: string;
+  IfMatch?: string | undefined;
 }
 export interface UpdateDomainAssociationResult {
-  Domain?: string;
-  ResourceId?: string;
-  ETag?: string;
+  Domain?: string | undefined;
+  ResourceId?: string | undefined;
+  ETag?: string | undefined;
 }
 export interface UpdateFieldLevelEncryptionConfigRequest {
   FieldLevelEncryptionConfig: FieldLevelEncryptionConfig;
   Id: string;
-  IfMatch?: string;
+  IfMatch?: string | undefined;
 }
 export interface UpdateFieldLevelEncryptionConfigResult {
-  FieldLevelEncryption?: FieldLevelEncryption;
-  ETag?: string;
+  FieldLevelEncryption?: FieldLevelEncryption | undefined;
+  ETag?: string | undefined;
 }
 export interface UpdateFieldLevelEncryptionProfileRequest {
   FieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig;
   Id: string;
-  IfMatch?: string;
+  IfMatch?: string | undefined;
 }
 export interface UpdateFieldLevelEncryptionProfileResult {
-  FieldLevelEncryptionProfile?: FieldLevelEncryptionProfile;
-  ETag?: string;
+  FieldLevelEncryptionProfile?: FieldLevelEncryptionProfile | undefined;
+  ETag?: string | undefined;
 }
 export interface UpdateFunctionRequest {
   Name: string;
@@ -3706,17 +3710,17 @@ export interface UpdateFunctionRequest {
   FunctionCode: Uint8Array | redacted.Redacted<Uint8Array>;
 }
 export interface UpdateFunctionResult {
-  FunctionSummary?: FunctionSummary;
-  ETag?: string;
+  FunctionSummary?: FunctionSummary | undefined;
+  ETag?: string | undefined;
 }
 export interface UpdateKeyGroupRequest {
   KeyGroupConfig: KeyGroupConfig;
   Id: string;
-  IfMatch?: string;
+  IfMatch?: string | undefined;
 }
 export interface UpdateKeyGroupResult {
-  KeyGroup?: KeyGroup;
-  ETag?: string;
+  KeyGroup?: KeyGroup | undefined;
+  ETag?: string | undefined;
 }
 export interface UpdateKeyValueStoreRequest {
   Name: string;
@@ -3724,73 +3728,73 @@ export interface UpdateKeyValueStoreRequest {
   IfMatch: string;
 }
 export interface UpdateKeyValueStoreResult {
-  KeyValueStore?: KeyValueStore;
-  ETag?: string;
+  KeyValueStore?: KeyValueStore | undefined;
+  ETag?: string | undefined;
 }
 export interface UpdateOriginAccessControlRequest {
   OriginAccessControlConfig: OriginAccessControlConfig;
   Id: string;
-  IfMatch?: string;
+  IfMatch?: string | undefined;
 }
 export interface UpdateOriginAccessControlResult {
-  OriginAccessControl?: OriginAccessControl;
-  ETag?: string;
+  OriginAccessControl?: OriginAccessControl | undefined;
+  ETag?: string | undefined;
 }
 export interface UpdateOriginRequestPolicyRequest {
   OriginRequestPolicyConfig: OriginRequestPolicyConfig;
   Id: string;
-  IfMatch?: string;
+  IfMatch?: string | undefined;
 }
 export interface UpdateOriginRequestPolicyResult {
-  OriginRequestPolicy?: OriginRequestPolicy;
-  ETag?: string;
+  OriginRequestPolicy?: OriginRequestPolicy | undefined;
+  ETag?: string | undefined;
 }
 export interface UpdatePublicKeyRequest {
   PublicKeyConfig: PublicKeyConfig;
   Id: string;
-  IfMatch?: string;
+  IfMatch?: string | undefined;
 }
 export interface UpdatePublicKeyResult {
-  PublicKey?: PublicKey;
-  ETag?: string;
+  PublicKey?: PublicKey | undefined;
+  ETag?: string | undefined;
 }
 export interface UpdateRealtimeLogConfigRequest {
-  EndPoints?: EndPoint[];
-  Fields?: string[];
-  Name?: string;
-  ARN?: string;
-  SamplingRate?: number;
+  EndPoints?: EndPoint[] | undefined;
+  Fields?: string[] | undefined;
+  Name?: string | undefined;
+  ARN?: string | undefined;
+  SamplingRate?: number | undefined;
 }
 export interface UpdateRealtimeLogConfigResult {
-  RealtimeLogConfig?: RealtimeLogConfig;
+  RealtimeLogConfig?: RealtimeLogConfig | undefined;
 }
 export interface UpdateResponseHeadersPolicyRequest {
   ResponseHeadersPolicyConfig: ResponseHeadersPolicyConfig;
   Id: string;
-  IfMatch?: string;
+  IfMatch?: string | undefined;
 }
 export interface UpdateResponseHeadersPolicyResult {
-  ResponseHeadersPolicy?: ResponseHeadersPolicy;
-  ETag?: string;
+  ResponseHeadersPolicy?: ResponseHeadersPolicy | undefined;
+  ETag?: string | undefined;
 }
 export interface UpdateStreamingDistributionRequest {
   StreamingDistributionConfig: StreamingDistributionConfig;
   Id: string;
-  IfMatch?: string;
+  IfMatch?: string | undefined;
 }
 export interface UpdateStreamingDistributionResult {
-  StreamingDistribution?: StreamingDistribution;
-  ETag?: string;
+  StreamingDistribution?: StreamingDistribution | undefined;
+  ETag?: string | undefined;
 }
 export interface UpdateTrustStoreRequest {
   Id: string;
-  CaCertificatesBundleSource?: CaCertificatesBundleSource;
-  UseClientCertificateOCSPEndpoint?: boolean;
+  CaCertificatesBundleSource?: CaCertificatesBundleSource | undefined;
+  UseClientCertificateOCSPEndpoint?: boolean | undefined;
   IfMatch: string;
 }
 export interface UpdateTrustStoreResult {
-  TrustStore?: TrustStore;
-  ETag?: string;
+  TrustStore?: TrustStore | undefined;
+  ETag?: string | undefined;
 }
 export interface UpdateVpcOriginRequest {
   VpcOriginEndpointConfig: VpcOriginEndpointConfig;
@@ -3798,11 +3802,11 @@ export interface UpdateVpcOriginRequest {
   IfMatch: string;
 }
 export interface UpdateVpcOriginResult {
-  VpcOrigin?: VpcOrigin;
-  ETag?: string;
+  VpcOrigin?: VpcOrigin | undefined;
+  ETag?: string | undefined;
 }
 export interface VerifyDnsConfigurationRequest {
-  Domain?: string;
+  Domain?: string | undefined;
   Identifier: string;
 }
 export type DnsConfigurationStatus =
@@ -3813,11 +3817,11 @@ export type DnsConfigurationStatus =
 export interface DnsConfiguration {
   Domain: string;
   Status: DnsConfigurationStatus;
-  Reason?: string;
+  Reason?: string | undefined;
 }
 export type DnsConfigurationList = DnsConfiguration[];
 export interface VerifyDnsConfigurationResult {
-  DnsConfigurationList?: DnsConfiguration[];
+  DnsConfigurationList?: DnsConfiguration[] | undefined;
 }
 export type AssociateAliasError =
   | AccessDenied
@@ -3838,7 +3842,7 @@ export type AssociateAliasError =
  * For more information, including how to set up the target standard distribution, prerequisites that you must complete, and other restrictions, see Moving an alternate domain name to a different standard distribution or distribution tenant in the *Amazon CloudFront Developer Guide*.
  */
 export const associateAlias: API.OperationMethod<
-  AssociateAliasRequest,
+  AssociateAliasRequest & RegionInput,
   AssociateAliasResponse,
   AssociateAliasError,
   Credentials | HttpClient.HttpClient
@@ -3871,7 +3875,7 @@ export type AssociateDistributionTenantWebACLError =
  * Associates the WAF web ACL with a distribution tenant.
  */
 export const associateDistributionTenantWebACL: API.OperationMethod<
-  AssociateDistributionTenantWebACLRequest,
+  AssociateDistributionTenantWebACLRequest & RegionInput,
   AssociateDistributionTenantWebACLResult,
   AssociateDistributionTenantWebACLError,
   Credentials | HttpClient.HttpClient
@@ -3905,7 +3909,7 @@ export type AssociateDistributionWebACLError =
  * Associates the WAF web ACL with a distribution.
  */
 export const associateDistributionWebACL: API.OperationMethod<
-  AssociateDistributionWebACLRequest,
+  AssociateDistributionWebACLRequest & RegionInput,
   AssociateDistributionWebACLResult,
   AssociateDistributionWebACLError,
   Credentials | HttpClient.HttpClient
@@ -4007,7 +4011,7 @@ export type CopyDistributionError =
  * - CopyDistribution
  */
 export const copyDistribution: API.OperationMethod<
-  CopyDistributionRequest,
+  CopyDistributionRequest & RegionInput,
   CopyDistributionResult,
   CopyDistributionError,
   Credentials | HttpClient.HttpClient
@@ -4099,7 +4103,7 @@ export type CreateAnycastIpListError =
  * Creates an Anycast static IP list.
  */
 export const createAnycastIpList: API.OperationMethod<
-  CreateAnycastIpListRequest,
+  CreateAnycastIpListRequest & RegionInput,
   CreateAnycastIpListResult,
   CreateAnycastIpListError,
   Credentials | HttpClient.HttpClient
@@ -4147,7 +4151,7 @@ export type CreateCachePolicyError =
  * For more information about cache policies, see Controlling the cache key in the *Amazon CloudFront Developer Guide*.
  */
 export const createCachePolicy: API.OperationMethod<
-  CreateCachePolicyRequest,
+  CreateCachePolicyRequest & RegionInput,
   CreateCachePolicyResult,
   CreateCachePolicyError,
   Credentials | HttpClient.HttpClient
@@ -4182,7 +4186,7 @@ export type CreateCloudFrontOriginAccessIdentityError =
  * Creates a new origin access identity. If you're using Amazon S3 for your origin, you can use an origin access identity to require users to access your content using a CloudFront URL instead of the Amazon S3 URL. For more information about how to use origin access identities, see Serving Private Content through CloudFront in the *Amazon CloudFront Developer Guide*.
  */
 export const createCloudFrontOriginAccessIdentity: API.OperationMethod<
-  CreateCloudFrontOriginAccessIdentityRequest,
+  CreateCloudFrontOriginAccessIdentityRequest & RegionInput,
   CreateCloudFrontOriginAccessIdentityResult,
   CreateCloudFrontOriginAccessIdentityError,
   Credentials | HttpClient.HttpClient
@@ -4216,7 +4220,7 @@ export type CreateConnectionFunctionError =
  * Creates a connection function.
  */
 export const createConnectionFunction: API.OperationMethod<
-  CreateConnectionFunctionRequest,
+  CreateConnectionFunctionRequest & RegionInput,
   CreateConnectionFunctionResult,
   CreateConnectionFunctionError,
   Credentials | HttpClient.HttpClient
@@ -4251,7 +4255,7 @@ export type CreateConnectionGroupError =
  * Creates a connection group.
  */
 export const createConnectionGroup: API.OperationMethod<
-  CreateConnectionGroupRequest,
+  CreateConnectionGroupRequest & RegionInput,
   CreateConnectionGroupResult,
   CreateConnectionGroupError,
   Credentials | HttpClient.HttpClient
@@ -4289,7 +4293,7 @@ export type CreateContinuousDeploymentPolicyError =
  * After you create and update a staging distribution, you can use a continuous deployment policy to incrementally move traffic to the staging distribution. This workflow enables you to test changes to a distribution's configuration before moving all of your domain's production traffic to the new configuration.
  */
 export const createContinuousDeploymentPolicy: API.OperationMethod<
-  CreateContinuousDeploymentPolicyRequest,
+  CreateContinuousDeploymentPolicyRequest & RegionInput,
   CreateContinuousDeploymentPolicyResult,
   CreateContinuousDeploymentPolicyError,
   Credentials | HttpClient.HttpClient
@@ -4384,7 +4388,7 @@ export type CreateDistributionError =
  * Creates a CloudFront distribution.
  */
 export const createDistribution: API.OperationMethod<
-  CreateDistributionRequest,
+  CreateDistributionRequest & RegionInput,
   CreateDistributionResult,
   CreateDistributionError,
   Credentials | HttpClient.HttpClient
@@ -4481,7 +4485,7 @@ export type CreateDistributionTenantError =
  * Creates a distribution tenant.
  */
 export const createDistributionTenant: API.OperationMethod<
-  CreateDistributionTenantRequest,
+  CreateDistributionTenantRequest & RegionInput,
   CreateDistributionTenantResult,
   CreateDistributionTenantError,
   Credentials | HttpClient.HttpClient
@@ -4582,7 +4586,7 @@ export type CreateDistributionWithTagsError =
  * - TagResource
  */
 export const createDistributionWithTags: API.OperationMethod<
-  CreateDistributionWithTagsRequest,
+  CreateDistributionWithTagsRequest & RegionInput,
   CreateDistributionWithTagsResult,
   CreateDistributionWithTagsError,
   Credentials | HttpClient.HttpClient
@@ -4679,7 +4683,7 @@ export type CreateFieldLevelEncryptionConfigError =
  * Create a new field-level encryption configuration.
  */
 export const createFieldLevelEncryptionConfig: API.OperationMethod<
-  CreateFieldLevelEncryptionConfigRequest,
+  CreateFieldLevelEncryptionConfigRequest & RegionInput,
   CreateFieldLevelEncryptionConfigResult,
   CreateFieldLevelEncryptionConfigError,
   Credentials | HttpClient.HttpClient
@@ -4717,7 +4721,7 @@ export type CreateFieldLevelEncryptionProfileError =
  * Create a field-level encryption profile.
  */
 export const createFieldLevelEncryptionProfile: API.OperationMethod<
-  CreateFieldLevelEncryptionProfileRequest,
+  CreateFieldLevelEncryptionProfileRequest & RegionInput,
   CreateFieldLevelEncryptionProfileResult,
   CreateFieldLevelEncryptionProfileError,
   Credentials | HttpClient.HttpClient
@@ -4758,7 +4762,7 @@ export type CreateFunctionError =
  * When you're ready to use your function with a CloudFront distribution, use `PublishFunction` to copy the function from the `DEVELOPMENT` stage to `LIVE`. When it's live, you can attach the function to a distribution's cache behavior, using the function's ARN.
  */
 export const createFunction: API.OperationMethod<
-  CreateFunctionRequest,
+  CreateFunctionRequest & RegionInput,
   CreateFunctionResult,
   CreateFunctionError,
   Credentials | HttpClient.HttpClient
@@ -4792,7 +4796,7 @@ export type CreateInvalidationError =
  * Create a new invalidation. For more information, see Invalidating files in the *Amazon CloudFront Developer Guide*.
  */
 export const createInvalidation: API.OperationMethod<
-  CreateInvalidationRequest,
+  CreateInvalidationRequest & RegionInput,
   CreateInvalidationResult,
   CreateInvalidationError,
   Credentials | HttpClient.HttpClient
@@ -4828,7 +4832,7 @@ export type CreateInvalidationForDistributionTenantError =
  * Creates an invalidation for a distribution tenant. For more information, see Invalidating files in the *Amazon CloudFront Developer Guide*.
  */
 export const createInvalidationForDistributionTenant: API.OperationMethod<
-  CreateInvalidationForDistributionTenantRequest,
+  CreateInvalidationForDistributionTenantRequest & RegionInput,
   CreateInvalidationForDistributionTenantResult,
   CreateInvalidationForDistributionTenantError,
   Credentials | HttpClient.HttpClient
@@ -4863,7 +4867,7 @@ export type CreateKeyGroupError =
  * To create a key group, you must specify at least one public key for the key group. After you create a key group, you can reference it from one or more cache behaviors. When you reference a key group in a cache behavior, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with a private key whose corresponding public key is in the key group. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see Serving private content in the *Amazon CloudFront Developer Guide*.
  */
 export const createKeyGroup: API.OperationMethod<
-  CreateKeyGroupRequest,
+  CreateKeyGroupRequest & RegionInput,
   CreateKeyGroupResult,
   CreateKeyGroupError,
   Credentials | HttpClient.HttpClient
@@ -4890,7 +4894,7 @@ export type CreateKeyValueStoreError =
  * Specifies the key value store resource to add to your account. In your account, the key value store names must be unique. You can also import key value store data in JSON format from an S3 bucket by providing a valid `ImportSource` that you own.
  */
 export const createKeyValueStore: API.OperationMethod<
-  CreateKeyValueStoreRequest,
+  CreateKeyValueStoreRequest & RegionInput,
   CreateKeyValueStoreResult,
   CreateKeyValueStoreError,
   Credentials | HttpClient.HttpClient
@@ -4924,7 +4928,7 @@ export type CreateMonitoringSubscriptionError =
  * For more information, see Viewing additional CloudFront distribution metrics in the *Amazon CloudFront Developer Guide*.
  */
 export const createMonitoringSubscription: API.OperationMethod<
-  CreateMonitoringSubscriptionRequest,
+  CreateMonitoringSubscriptionRequest & RegionInput,
   CreateMonitoringSubscriptionResult,
   CreateMonitoringSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -4957,7 +4961,7 @@ export type CreateOriginAccessControlError =
  * For more information about using a CloudFront origin access control, see Restricting access to an Amazon Web Services origin in the *Amazon CloudFront Developer Guide*.
  */
 export const createOriginAccessControl: API.OperationMethod<
-  CreateOriginAccessControlRequest,
+  CreateOriginAccessControlRequest & RegionInput,
   CreateOriginAccessControlResult,
   CreateOriginAccessControlError,
   Credentials | HttpClient.HttpClient
@@ -4998,7 +5002,7 @@ export type CreateOriginRequestPolicyError =
  * For more information about origin request policies, see Controlling origin requests in the *Amazon CloudFront Developer Guide*.
  */
 export const createOriginRequestPolicy: API.OperationMethod<
-  CreateOriginRequestPolicyRequest,
+  CreateOriginRequestPolicyRequest & RegionInput,
   CreateOriginRequestPolicyResult,
   CreateOriginRequestPolicyError,
   Credentials | HttpClient.HttpClient
@@ -5031,7 +5035,7 @@ export type CreatePublicKeyError =
  * Uploads a public key to CloudFront that you can use with signed URLs and signed cookies, or with field-level encryption.
  */
 export const createPublicKey: API.OperationMethod<
-  CreatePublicKeyRequest,
+  CreatePublicKeyRequest & RegionInput,
   CreatePublicKeyResult,
   CreatePublicKeyError,
   Credentials | HttpClient.HttpClient
@@ -5060,7 +5064,7 @@ export type CreateRealtimeLogConfigError =
  * For more information about real-time log configurations, see Real-time logs in the *Amazon CloudFront Developer Guide*.
  */
 export const createRealtimeLogConfig: API.OperationMethod<
-  CreateRealtimeLogConfigRequest,
+  CreateRealtimeLogConfigRequest & RegionInput,
   CreateRealtimeLogConfigResult,
   CreateRealtimeLogConfigError,
   Credentials | HttpClient.HttpClient
@@ -5100,7 +5104,7 @@ export type CreateResponseHeadersPolicyError =
  * For more information, see Adding or removing HTTP headers in CloudFront responses in the *Amazon CloudFront Developer Guide*.
  */
 export const createResponseHeadersPolicy: API.OperationMethod<
-  CreateResponseHeadersPolicyRequest,
+  CreateResponseHeadersPolicyRequest & RegionInput,
   CreateResponseHeadersPolicyResult,
   CreateResponseHeadersPolicyError,
   Credentials | HttpClient.HttpClient
@@ -5143,7 +5147,7 @@ export type CreateStreamingDistributionError =
  * This API is deprecated. Amazon CloudFront is deprecating real-time messaging protocol (RTMP) distributions on December 31, 2020. For more information, read the announcement on the Amazon CloudFront discussion forum.
  */
 export const createStreamingDistribution: API.OperationMethod<
-  CreateStreamingDistributionRequest,
+  CreateStreamingDistributionRequest & RegionInput,
   CreateStreamingDistributionResult,
   CreateStreamingDistributionError,
   Credentials | HttpClient.HttpClient
@@ -5192,7 +5196,7 @@ export type CreateStreamingDistributionWithTagsError =
  * This API is deprecated. Amazon CloudFront is deprecating real-time messaging protocol (RTMP) distributions on December 31, 2020. For more information, read the announcement on the Amazon CloudFront discussion forum.
  */
 export const createStreamingDistributionWithTags: API.OperationMethod<
-  CreateStreamingDistributionWithTagsRequest,
+  CreateStreamingDistributionWithTagsRequest & RegionInput,
   CreateStreamingDistributionWithTagsResult,
   CreateStreamingDistributionWithTagsError,
   Credentials | HttpClient.HttpClient
@@ -5234,7 +5238,7 @@ export type CreateTrustStoreError =
  * Creates a trust store.
  */
 export const createTrustStore: API.OperationMethod<
-  CreateTrustStoreRequest,
+  CreateTrustStoreRequest & RegionInput,
   CreateTrustStoreResult,
   CreateTrustStoreError,
   Credentials | HttpClient.HttpClient
@@ -5269,7 +5273,7 @@ export type CreateVpcOriginError =
  * Create an Amazon CloudFront VPC origin.
  */
 export const createVpcOrigin: API.OperationMethod<
-  CreateVpcOriginRequest,
+  CreateVpcOriginRequest & RegionInput,
   CreateVpcOriginResult,
   CreateVpcOriginError,
   Credentials | HttpClient.HttpClient
@@ -5306,7 +5310,7 @@ export type DeleteAnycastIpListError =
  * Deletes an Anycast static IP list.
  */
 export const deleteAnycastIpList: API.OperationMethod<
-  DeleteAnycastIpListRequest,
+  DeleteAnycastIpListRequest & RegionInput,
   DeleteAnycastIpListResponse,
   DeleteAnycastIpListError,
   Credentials | HttpClient.HttpClient
@@ -5346,7 +5350,7 @@ export type DeleteCachePolicyError =
  * To delete a cache policy, you must provide the policy's identifier and version. To get these values, you can use `ListCachePolicies` or `GetCachePolicy`.
  */
 export const deleteCachePolicy: API.OperationMethod<
-  DeleteCachePolicyRequest,
+  DeleteCachePolicyRequest & RegionInput,
   DeleteCachePolicyResponse,
   DeleteCachePolicyError,
   Credentials | HttpClient.HttpClient
@@ -5379,7 +5383,7 @@ export type DeleteCloudFrontOriginAccessIdentityError =
  * Delete an origin access identity.
  */
 export const deleteCloudFrontOriginAccessIdentity: API.OperationMethod<
-  DeleteCloudFrontOriginAccessIdentityRequest,
+  DeleteCloudFrontOriginAccessIdentityRequest & RegionInput,
   DeleteCloudFrontOriginAccessIdentityResponse,
   DeleteCloudFrontOriginAccessIdentityError,
   Credentials | HttpClient.HttpClient
@@ -5413,7 +5417,7 @@ export type DeleteConnectionFunctionError =
  * Deletes a connection function.
  */
 export const deleteConnectionFunction: API.OperationMethod<
-  DeleteConnectionFunctionRequest,
+  DeleteConnectionFunctionRequest & RegionInput,
   DeleteConnectionFunctionResponse,
   DeleteConnectionFunctionError,
   Credentials | HttpClient.HttpClient
@@ -5448,7 +5452,7 @@ export type DeleteConnectionGroupError =
  * Deletes a connection group.
  */
 export const deleteConnectionGroup: API.OperationMethod<
-  DeleteConnectionGroupRequest,
+  DeleteConnectionGroupRequest & RegionInput,
   DeleteConnectionGroupResponse,
   DeleteConnectionGroupError,
   Credentials | HttpClient.HttpClient
@@ -5484,7 +5488,7 @@ export type DeleteContinuousDeploymentPolicyError =
  * You cannot delete a continuous deployment policy that's attached to a primary distribution. First update your distribution to remove the continuous deployment policy, then you can delete the policy.
  */
 export const deleteContinuousDeploymentPolicy: API.OperationMethod<
-  DeleteContinuousDeploymentPolicyRequest,
+  DeleteContinuousDeploymentPolicyRequest & RegionInput,
   DeleteContinuousDeploymentPolicyResponse,
   DeleteContinuousDeploymentPolicyError,
   Credentials | HttpClient.HttpClient
@@ -5520,7 +5524,7 @@ export type DeleteDistributionError =
  * Before you can delete a distribution, you must disable it, which requires permission to update the distribution. Once deleted, a distribution cannot be recovered.
  */
 export const deleteDistribution: API.OperationMethod<
-  DeleteDistributionRequest,
+  DeleteDistributionRequest & RegionInput,
   DeleteDistributionResponse,
   DeleteDistributionError,
   Credentials | HttpClient.HttpClient
@@ -5555,7 +5559,7 @@ export type DeleteDistributionTenantError =
  * To delete a distribution tenant, you must first disable the distribution tenant by using the `UpdateDistributionTenant` API operation.
  */
 export const deleteDistributionTenant: API.OperationMethod<
-  DeleteDistributionTenantRequest,
+  DeleteDistributionTenantRequest & RegionInput,
   DeleteDistributionTenantResponse,
   DeleteDistributionTenantError,
   Credentials | HttpClient.HttpClient
@@ -5587,7 +5591,7 @@ export type DeleteFieldLevelEncryptionConfigError =
  * Remove a field-level encryption configuration.
  */
 export const deleteFieldLevelEncryptionConfig: API.OperationMethod<
-  DeleteFieldLevelEncryptionConfigRequest,
+  DeleteFieldLevelEncryptionConfigRequest & RegionInput,
   DeleteFieldLevelEncryptionConfigResponse,
   DeleteFieldLevelEncryptionConfigError,
   Credentials | HttpClient.HttpClient
@@ -5619,7 +5623,7 @@ export type DeleteFieldLevelEncryptionProfileError =
  * Remove a field-level encryption profile.
  */
 export const deleteFieldLevelEncryptionProfile: API.OperationMethod<
-  DeleteFieldLevelEncryptionProfileRequest,
+  DeleteFieldLevelEncryptionProfileRequest & RegionInput,
   DeleteFieldLevelEncryptionProfileResponse,
   DeleteFieldLevelEncryptionProfileError,
   Credentials | HttpClient.HttpClient
@@ -5655,7 +5659,7 @@ export type DeleteFunctionError =
  * To delete a function, you must provide the function's name and version (`ETag` value). To get these values, you can use `ListFunctions` and `DescribeFunction`.
  */
 export const deleteFunction: API.OperationMethod<
-  DeleteFunctionRequest,
+  DeleteFunctionRequest & RegionInput,
   DeleteFunctionResponse,
   DeleteFunctionError,
   Credentials | HttpClient.HttpClient
@@ -5690,7 +5694,7 @@ export type DeleteKeyGroupError =
  * To delete a key group, you must provide the key group's identifier and version. To get these values, use `ListKeyGroups` followed by `GetKeyGroup` or `GetKeyGroupConfig`.
  */
 export const deleteKeyGroup: API.OperationMethod<
-  DeleteKeyGroupRequest,
+  DeleteKeyGroupRequest & RegionInput,
   DeleteKeyGroupResponse,
   DeleteKeyGroupError,
   Credentials | HttpClient.HttpClient
@@ -5717,7 +5721,7 @@ export type DeleteKeyValueStoreError =
  * Specifies the key value store to delete.
  */
 export const deleteKeyValueStore: API.OperationMethod<
-  DeleteKeyValueStoreRequest,
+  DeleteKeyValueStoreRequest & RegionInput,
   DeleteKeyValueStoreResponse,
   DeleteKeyValueStoreError,
   Credentials | HttpClient.HttpClient
@@ -5749,7 +5753,7 @@ export type DeleteMonitoringSubscriptionError =
  * Disables additional CloudWatch metrics for the specified CloudFront distribution.
  */
 export const deleteMonitoringSubscription: API.OperationMethod<
-  DeleteMonitoringSubscriptionRequest,
+  DeleteMonitoringSubscriptionRequest & RegionInput,
   DeleteMonitoringSubscriptionResult,
   DeleteMonitoringSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -5777,7 +5781,7 @@ export type DeleteOriginAccessControlError =
  * You cannot delete an origin access control if it's in use. First, update all distributions to remove the origin access control from all origins, then delete the origin access control.
  */
 export const deleteOriginAccessControl: API.OperationMethod<
-  DeleteOriginAccessControlRequest,
+  DeleteOriginAccessControlRequest & RegionInput,
   DeleteOriginAccessControlResponse,
   DeleteOriginAccessControlError,
   Credentials | HttpClient.HttpClient
@@ -5814,7 +5818,7 @@ export type DeleteOriginRequestPolicyError =
  * To delete an origin request policy, you must provide the policy's identifier and version. To get the identifier, you can use `ListOriginRequestPolicies` or `GetOriginRequestPolicy`.
  */
 export const deleteOriginRequestPolicy: API.OperationMethod<
-  DeleteOriginRequestPolicyRequest,
+  DeleteOriginRequestPolicyRequest & RegionInput,
   DeleteOriginRequestPolicyResponse,
   DeleteOriginRequestPolicyError,
   Credentials | HttpClient.HttpClient
@@ -5847,7 +5851,7 @@ export type DeletePublicKeyError =
  * Remove a public key you previously added to CloudFront.
  */
 export const deletePublicKey: API.OperationMethod<
-  DeletePublicKeyRequest,
+  DeletePublicKeyRequest & RegionInput,
   DeletePublicKeyResponse,
   DeletePublicKeyError,
   Credentials | HttpClient.HttpClient
@@ -5882,7 +5886,7 @@ export type DeleteRealtimeLogConfigError =
  * To delete a real-time log configuration, you can provide the configuration's name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to delete.
  */
 export const deleteRealtimeLogConfig: API.OperationMethod<
-  DeleteRealtimeLogConfigRequest,
+  DeleteRealtimeLogConfigRequest & RegionInput,
   DeleteRealtimeLogConfigResponse,
   DeleteRealtimeLogConfigError,
   Credentials | HttpClient.HttpClient
@@ -5909,7 +5913,7 @@ export type DeleteResourcePolicyError =
  * Deletes the resource policy attached to the CloudFront resource.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -5947,7 +5951,7 @@ export type DeleteResponseHeadersPolicyError =
  * To delete a response headers policy, you must provide the policy's identifier and version. To get these values, you can use `ListResponseHeadersPolicies` or `GetResponseHeadersPolicy`.
  */
 export const deleteResponseHeadersPolicy: API.OperationMethod<
-  DeleteResponseHeadersPolicyRequest,
+  DeleteResponseHeadersPolicyRequest & RegionInput,
   DeleteResponseHeadersPolicyResponse,
   DeleteResponseHeadersPolicyError,
   Credentials | HttpClient.HttpClient
@@ -6000,7 +6004,7 @@ export type DeleteStreamingDistributionError =
  * For information about deleting a distribution using the CloudFront console, see Deleting a Distribution in the *Amazon CloudFront Developer Guide*.
  */
 export const deleteStreamingDistribution: API.OperationMethod<
-  DeleteStreamingDistributionRequest,
+  DeleteStreamingDistributionRequest & RegionInput,
   DeleteStreamingDistributionResponse,
   DeleteStreamingDistributionError,
   Credentials | HttpClient.HttpClient
@@ -6033,7 +6037,7 @@ export type DeleteTrustStoreError =
  * Deletes a trust store.
  */
 export const deleteTrustStore: API.OperationMethod<
-  DeleteTrustStoreRequest,
+  DeleteTrustStoreRequest & RegionInput,
   DeleteTrustStoreResponse,
   DeleteTrustStoreError,
   Credentials | HttpClient.HttpClient
@@ -6069,7 +6073,7 @@ export type DeleteVpcOriginError =
  * Delete an Amazon CloudFront VPC origin.
  */
 export const deleteVpcOrigin: API.OperationMethod<
-  DeleteVpcOriginRequest,
+  DeleteVpcOriginRequest & RegionInput,
   DeleteVpcOriginResult,
   DeleteVpcOriginError,
   Credentials | HttpClient.HttpClient
@@ -6103,7 +6107,7 @@ export type DescribeConnectionFunctionError =
  * Describes a connection function.
  */
 export const describeConnectionFunction: API.OperationMethod<
-  DescribeConnectionFunctionRequest,
+  DescribeConnectionFunctionRequest & RegionInput,
   DescribeConnectionFunctionResult,
   DescribeConnectionFunctionError,
   Credentials | HttpClient.HttpClient
@@ -6125,7 +6129,7 @@ export type DescribeFunctionError = NoSuchFunctionExists | UnsupportedOperation 
  * To get configuration information and metadata about a function, you must provide the function's name and stage. To get these values, you can use `ListFunctions`.
  */
 export const describeFunction: API.OperationMethod<
-  DescribeFunctionRequest,
+  DescribeFunctionRequest & RegionInput,
   DescribeFunctionResult,
   DescribeFunctionError,
   Credentials | HttpClient.HttpClient
@@ -6150,7 +6154,7 @@ export type DescribeKeyValueStoreError =
  * Specifies the key value store and its configuration.
  */
 export const describeKeyValueStore: API.OperationMethod<
-  DescribeKeyValueStoreRequest,
+  DescribeKeyValueStoreRequest & RegionInput,
   DescribeKeyValueStoreResult,
   DescribeKeyValueStoreError,
   Credentials | HttpClient.HttpClient
@@ -6176,7 +6180,7 @@ export type DisassociateDistributionTenantWebACLError =
  * Disassociates a distribution tenant from the WAF web ACL.
  */
 export const disassociateDistributionTenantWebACL: API.OperationMethod<
-  DisassociateDistributionTenantWebACLRequest,
+  DisassociateDistributionTenantWebACLRequest & RegionInput,
   DisassociateDistributionTenantWebACLResult,
   DisassociateDistributionTenantWebACLError,
   Credentials | HttpClient.HttpClient
@@ -6208,7 +6212,7 @@ export type DisassociateDistributionWebACLError =
  * Disassociates a distribution from the WAF web ACL.
  */
 export const disassociateDistributionWebACL: API.OperationMethod<
-  DisassociateDistributionWebACLRequest,
+  DisassociateDistributionWebACLRequest & RegionInput,
   DisassociateDistributionWebACLResult,
   DisassociateDistributionWebACLError,
   Credentials | HttpClient.HttpClient
@@ -6239,7 +6243,7 @@ export type GetAnycastIpListError =
  * Gets an Anycast static IP list.
  */
 export const getAnycastIpList: API.OperationMethod<
-  GetAnycastIpListRequest,
+  GetAnycastIpListRequest & RegionInput,
   GetAnycastIpListResult,
   GetAnycastIpListError,
   Credentials | HttpClient.HttpClient
@@ -6265,7 +6269,7 @@ export type GetCachePolicyError = AccessDenied | NoSuchCachePolicy | CommonError
  * To get a cache policy, you must provide the policy's identifier. If the cache policy is attached to a distribution's cache behavior, you can get the policy's identifier using `ListDistributions` or `GetDistribution`. If the cache policy is not attached to a cache behavior, you can get the identifier using `ListCachePolicies`.
  */
 export const getCachePolicy: API.OperationMethod<
-  GetCachePolicyRequest,
+  GetCachePolicyRequest & RegionInput,
   GetCachePolicyResult,
   GetCachePolicyError,
   Credentials | HttpClient.HttpClient
@@ -6287,7 +6291,7 @@ export type GetCachePolicyConfigError = AccessDenied | NoSuchCachePolicy | Commo
  * To get a cache policy configuration, you must provide the policy's identifier. If the cache policy is attached to a distribution's cache behavior, you can get the policy's identifier using `ListDistributions` or `GetDistribution`. If the cache policy is not attached to a cache behavior, you can get the identifier using `ListCachePolicies`.
  */
 export const getCachePolicyConfig: API.OperationMethod<
-  GetCachePolicyConfigRequest,
+  GetCachePolicyConfigRequest & RegionInput,
   GetCachePolicyConfigResult,
   GetCachePolicyConfigError,
   Credentials | HttpClient.HttpClient
@@ -6310,7 +6314,7 @@ export type GetCloudFrontOriginAccessIdentityError =
  * Get the information about an origin access identity.
  */
 export const getCloudFrontOriginAccessIdentity: API.OperationMethod<
-  GetCloudFrontOriginAccessIdentityRequest,
+  GetCloudFrontOriginAccessIdentityRequest & RegionInput,
   GetCloudFrontOriginAccessIdentityResult,
   GetCloudFrontOriginAccessIdentityError,
   Credentials | HttpClient.HttpClient
@@ -6333,7 +6337,7 @@ export type GetCloudFrontOriginAccessIdentityConfigError =
  * Get the configuration information about an origin access identity.
  */
 export const getCloudFrontOriginAccessIdentityConfig: API.OperationMethod<
-  GetCloudFrontOriginAccessIdentityConfigRequest,
+  GetCloudFrontOriginAccessIdentityConfigRequest & RegionInput,
   GetCloudFrontOriginAccessIdentityConfigResult,
   GetCloudFrontOriginAccessIdentityConfigError,
   Credentials | HttpClient.HttpClient
@@ -6357,7 +6361,7 @@ export type GetConnectionFunctionError =
  * Gets a connection function.
  */
 export const getConnectionFunction: API.OperationMethod<
-  GetConnectionFunctionRequest,
+  GetConnectionFunctionRequest & RegionInput,
   GetConnectionFunctionResult,
   GetConnectionFunctionError,
   Credentials | HttpClient.HttpClient
@@ -6377,7 +6381,7 @@ export type GetConnectionGroupError = AccessDenied | EntityNotFound | CommonErro
  * Gets information about a connection group.
  */
 export const getConnectionGroup: API.OperationMethod<
-  GetConnectionGroupRequest,
+  GetConnectionGroupRequest & RegionInput,
   GetConnectionGroupResult,
   GetConnectionGroupError,
   Credentials | HttpClient.HttpClient
@@ -6397,7 +6401,7 @@ export type GetConnectionGroupByRoutingEndpointError = AccessDenied | EntityNotF
  * Gets information about a connection group by using the endpoint that you specify.
  */
 export const getConnectionGroupByRoutingEndpoint: API.OperationMethod<
-  GetConnectionGroupByRoutingEndpointRequest,
+  GetConnectionGroupByRoutingEndpointRequest & RegionInput,
   GetConnectionGroupByRoutingEndpointResult,
   GetConnectionGroupByRoutingEndpointError,
   Credentials | HttpClient.HttpClient
@@ -6420,7 +6424,7 @@ export type GetContinuousDeploymentPolicyError =
  * Gets a continuous deployment policy, including metadata (the policy's identifier and the date and time when the policy was last modified).
  */
 export const getContinuousDeploymentPolicy: API.OperationMethod<
-  GetContinuousDeploymentPolicyRequest,
+  GetContinuousDeploymentPolicyRequest & RegionInput,
   GetContinuousDeploymentPolicyResult,
   GetContinuousDeploymentPolicyError,
   Credentials | HttpClient.HttpClient
@@ -6443,7 +6447,7 @@ export type GetContinuousDeploymentPolicyConfigError =
  * Gets configuration information about a continuous deployment policy.
  */
 export const getContinuousDeploymentPolicyConfig: API.OperationMethod<
-  GetContinuousDeploymentPolicyConfigRequest,
+  GetContinuousDeploymentPolicyConfigRequest & RegionInput,
   GetContinuousDeploymentPolicyConfigResult,
   GetContinuousDeploymentPolicyConfigError,
   Credentials | HttpClient.HttpClient
@@ -6463,7 +6467,7 @@ export type GetDistributionError = AccessDenied | NoSuchDistribution | CommonErr
  * Get the information about a distribution.
  */
 export const getDistribution: API.OperationMethod<
-  GetDistributionRequest,
+  GetDistributionRequest & RegionInput,
   GetDistributionResult,
   GetDistributionError,
   Credentials | HttpClient.HttpClient
@@ -6483,7 +6487,7 @@ export type GetDistributionConfigError = AccessDenied | NoSuchDistribution | Com
  * Get the configuration information about a distribution.
  */
 export const getDistributionConfig: API.OperationMethod<
-  GetDistributionConfigRequest,
+  GetDistributionConfigRequest & RegionInput,
   GetDistributionConfigResult,
   GetDistributionConfigError,
   Credentials | HttpClient.HttpClient
@@ -6503,7 +6507,7 @@ export type GetDistributionTenantError = AccessDenied | EntityNotFound | CommonE
  * Gets information about a distribution tenant.
  */
 export const getDistributionTenant: API.OperationMethod<
-  GetDistributionTenantRequest,
+  GetDistributionTenantRequest & RegionInput,
   GetDistributionTenantResult,
   GetDistributionTenantError,
   Credentials | HttpClient.HttpClient
@@ -6523,7 +6527,7 @@ export type GetDistributionTenantByDomainError = AccessDenied | EntityNotFound |
  * Gets information about a distribution tenant by the associated domain.
  */
 export const getDistributionTenantByDomain: API.OperationMethod<
-  GetDistributionTenantByDomainRequest,
+  GetDistributionTenantByDomainRequest & RegionInput,
   GetDistributionTenantByDomainResult,
   GetDistributionTenantByDomainError,
   Credentials | HttpClient.HttpClient
@@ -6546,7 +6550,7 @@ export type GetFieldLevelEncryptionError =
  * Get the field-level encryption configuration information.
  */
 export const getFieldLevelEncryption: API.OperationMethod<
-  GetFieldLevelEncryptionRequest,
+  GetFieldLevelEncryptionRequest & RegionInput,
   GetFieldLevelEncryptionResult,
   GetFieldLevelEncryptionError,
   Credentials | HttpClient.HttpClient
@@ -6569,7 +6573,7 @@ export type GetFieldLevelEncryptionConfigError =
  * Get the field-level encryption configuration information.
  */
 export const getFieldLevelEncryptionConfig: API.OperationMethod<
-  GetFieldLevelEncryptionConfigRequest,
+  GetFieldLevelEncryptionConfigRequest & RegionInput,
   GetFieldLevelEncryptionConfigResult,
   GetFieldLevelEncryptionConfigError,
   Credentials | HttpClient.HttpClient
@@ -6592,7 +6596,7 @@ export type GetFieldLevelEncryptionProfileError =
  * Get the field-level encryption profile information.
  */
 export const getFieldLevelEncryptionProfile: API.OperationMethod<
-  GetFieldLevelEncryptionProfileRequest,
+  GetFieldLevelEncryptionProfileRequest & RegionInput,
   GetFieldLevelEncryptionProfileResult,
   GetFieldLevelEncryptionProfileError,
   Credentials | HttpClient.HttpClient
@@ -6615,7 +6619,7 @@ export type GetFieldLevelEncryptionProfileConfigError =
  * Get the field-level encryption profile configuration information.
  */
 export const getFieldLevelEncryptionProfileConfig: API.OperationMethod<
-  GetFieldLevelEncryptionProfileConfigRequest,
+  GetFieldLevelEncryptionProfileConfigRequest & RegionInput,
   GetFieldLevelEncryptionProfileConfigResult,
   GetFieldLevelEncryptionProfileConfigError,
   Credentials | HttpClient.HttpClient
@@ -6637,7 +6641,7 @@ export type GetFunctionError = NoSuchFunctionExists | UnsupportedOperation | Com
  * To get a function's code, you must provide the function's name and stage. To get these values, you can use `ListFunctions`.
  */
 export const getFunction: API.OperationMethod<
-  GetFunctionRequest,
+  GetFunctionRequest & RegionInput,
   GetFunctionResult,
   GetFunctionError,
   Credentials | HttpClient.HttpClient
@@ -6661,7 +6665,7 @@ export type GetInvalidationError =
  * Get the information about an invalidation.
  */
 export const getInvalidation: API.OperationMethod<
-  GetInvalidationRequest,
+  GetInvalidationRequest & RegionInput,
   GetInvalidationResult,
   GetInvalidationError,
   Credentials | HttpClient.HttpClient
@@ -6685,7 +6689,7 @@ export type GetInvalidationForDistributionTenantError =
  * Gets information about a specific invalidation for a distribution tenant.
  */
 export const getInvalidationForDistributionTenant: API.OperationMethod<
-  GetInvalidationForDistributionTenantRequest,
+  GetInvalidationForDistributionTenantRequest & RegionInput,
   GetInvalidationForDistributionTenantResult,
   GetInvalidationForDistributionTenantError,
   Credentials | HttpClient.HttpClient
@@ -6707,7 +6711,7 @@ export type GetKeyGroupError = NoSuchResource | CommonErrors;
  * To get a key group, you must provide the key group's identifier. If the key group is referenced in a distribution's cache behavior, you can get the key group's identifier using `ListDistributions` or `GetDistribution`. If the key group is not referenced in a cache behavior, you can get the identifier using `ListKeyGroups`.
  */
 export const getKeyGroup: API.OperationMethod<
-  GetKeyGroupRequest,
+  GetKeyGroupRequest & RegionInput,
   GetKeyGroupResult,
   GetKeyGroupError,
   Credentials | HttpClient.HttpClient
@@ -6729,7 +6733,7 @@ export type GetKeyGroupConfigError = NoSuchResource | CommonErrors;
  * To get a key group configuration, you must provide the key group's identifier. If the key group is referenced in a distribution's cache behavior, you can get the key group's identifier using `ListDistributions` or `GetDistribution`. If the key group is not referenced in a cache behavior, you can get the identifier using `ListKeyGroups`.
  */
 export const getKeyGroupConfig: API.OperationMethod<
-  GetKeyGroupConfigRequest,
+  GetKeyGroupConfigRequest & RegionInput,
   GetKeyGroupConfigResult,
   GetKeyGroupConfigError,
   Credentials | HttpClient.HttpClient
@@ -6749,7 +6753,7 @@ export type GetManagedCertificateDetailsError = AccessDenied | EntityNotFound | 
  * Gets details about the CloudFront managed ACM certificate.
  */
 export const getManagedCertificateDetails: API.OperationMethod<
-  GetManagedCertificateDetailsRequest,
+  GetManagedCertificateDetailsRequest & RegionInput,
   GetManagedCertificateDetailsResult,
   GetManagedCertificateDetailsError,
   Credentials | HttpClient.HttpClient
@@ -6774,7 +6778,7 @@ export type GetMonitoringSubscriptionError =
  * Gets information about whether additional CloudWatch metrics are enabled for the specified CloudFront distribution.
  */
 export const getMonitoringSubscription: API.OperationMethod<
-  GetMonitoringSubscriptionRequest,
+  GetMonitoringSubscriptionRequest & RegionInput,
   GetMonitoringSubscriptionResult,
   GetMonitoringSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -6794,7 +6798,7 @@ export type GetOriginAccessControlError = AccessDenied | NoSuchOriginAccessContr
  * Gets a CloudFront origin access control, including its unique identifier.
  */
 export const getOriginAccessControl: API.OperationMethod<
-  GetOriginAccessControlRequest,
+  GetOriginAccessControlRequest & RegionInput,
   GetOriginAccessControlResult,
   GetOriginAccessControlError,
   Credentials | HttpClient.HttpClient
@@ -6817,7 +6821,7 @@ export type GetOriginAccessControlConfigError =
  * Gets a CloudFront origin access control configuration.
  */
 export const getOriginAccessControlConfig: API.OperationMethod<
-  GetOriginAccessControlConfigRequest,
+  GetOriginAccessControlConfigRequest & RegionInput,
   GetOriginAccessControlConfigResult,
   GetOriginAccessControlConfigError,
   Credentials | HttpClient.HttpClient
@@ -6843,7 +6847,7 @@ export type GetOriginRequestPolicyError = AccessDenied | NoSuchOriginRequestPoli
  * To get an origin request policy, you must provide the policy's identifier. If the origin request policy is attached to a distribution's cache behavior, you can get the policy's identifier using `ListDistributions` or `GetDistribution`. If the origin request policy is not attached to a cache behavior, you can get the identifier using `ListOriginRequestPolicies`.
  */
 export const getOriginRequestPolicy: API.OperationMethod<
-  GetOriginRequestPolicyRequest,
+  GetOriginRequestPolicyRequest & RegionInput,
   GetOriginRequestPolicyResult,
   GetOriginRequestPolicyError,
   Credentials | HttpClient.HttpClient
@@ -6868,7 +6872,7 @@ export type GetOriginRequestPolicyConfigError =
  * To get an origin request policy configuration, you must provide the policy's identifier. If the origin request policy is attached to a distribution's cache behavior, you can get the policy's identifier using `ListDistributions` or `GetDistribution`. If the origin request policy is not attached to a cache behavior, you can get the identifier using `ListOriginRequestPolicies`.
  */
 export const getOriginRequestPolicyConfig: API.OperationMethod<
-  GetOriginRequestPolicyConfigRequest,
+  GetOriginRequestPolicyConfigRequest & RegionInput,
   GetOriginRequestPolicyConfigResult,
   GetOriginRequestPolicyConfigError,
   Credentials | HttpClient.HttpClient
@@ -6888,7 +6892,7 @@ export type GetPublicKeyError = AccessDenied | NoSuchPublicKey | CommonErrors;
  * Gets a public key.
  */
 export const getPublicKey: API.OperationMethod<
-  GetPublicKeyRequest,
+  GetPublicKeyRequest & RegionInput,
   GetPublicKeyResult,
   GetPublicKeyError,
   Credentials | HttpClient.HttpClient
@@ -6908,7 +6912,7 @@ export type GetPublicKeyConfigError = AccessDenied | NoSuchPublicKey | CommonErr
  * Gets a public key configuration.
  */
 export const getPublicKeyConfig: API.OperationMethod<
-  GetPublicKeyConfigRequest,
+  GetPublicKeyConfigRequest & RegionInput,
   GetPublicKeyConfigResult,
   GetPublicKeyConfigError,
   Credentials | HttpClient.HttpClient
@@ -6934,7 +6938,7 @@ export type GetRealtimeLogConfigError =
  * To get a real-time log configuration, you can provide the configuration's name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to get.
  */
 export const getRealtimeLogConfig: API.OperationMethod<
-  GetRealtimeLogConfigRequest,
+  GetRealtimeLogConfigRequest & RegionInput,
   GetRealtimeLogConfigResult,
   GetRealtimeLogConfigError,
   Credentials | HttpClient.HttpClient
@@ -6959,7 +6963,7 @@ export type GetResourcePolicyError =
  * Retrieves the resource policy for the specified CloudFront resource that you own and have shared.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResult,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -6984,7 +6988,7 @@ export type GetResponseHeadersPolicyError =
  * To get a response headers policy, you must provide the policy's identifier. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using `ListDistributions` or `GetDistribution`. If the response headers policy is not attached to a cache behavior, you can get the identifier using `ListResponseHeadersPolicies`.
  */
 export const getResponseHeadersPolicy: API.OperationMethod<
-  GetResponseHeadersPolicyRequest,
+  GetResponseHeadersPolicyRequest & RegionInput,
   GetResponseHeadersPolicyResult,
   GetResponseHeadersPolicyError,
   Credentials | HttpClient.HttpClient
@@ -7009,7 +7013,7 @@ export type GetResponseHeadersPolicyConfigError =
  * To get a response headers policy configuration, you must provide the policy's identifier. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using `ListDistributions` or `GetDistribution`. If the response headers policy is not attached to a cache behavior, you can get the identifier using `ListResponseHeadersPolicies`.
  */
 export const getResponseHeadersPolicyConfig: API.OperationMethod<
-  GetResponseHeadersPolicyConfigRequest,
+  GetResponseHeadersPolicyConfigRequest & RegionInput,
   GetResponseHeadersPolicyConfigResult,
   GetResponseHeadersPolicyConfigError,
   Credentials | HttpClient.HttpClient
@@ -7032,7 +7036,7 @@ export type GetStreamingDistributionError =
  * Gets information about a specified RTMP distribution, including the distribution configuration.
  */
 export const getStreamingDistribution: API.OperationMethod<
-  GetStreamingDistributionRequest,
+  GetStreamingDistributionRequest & RegionInput,
   GetStreamingDistributionResult,
   GetStreamingDistributionError,
   Credentials | HttpClient.HttpClient
@@ -7055,7 +7059,7 @@ export type GetStreamingDistributionConfigError =
  * Get the configuration information about a streaming distribution.
  */
 export const getStreamingDistributionConfig: API.OperationMethod<
-  GetStreamingDistributionConfigRequest,
+  GetStreamingDistributionConfigRequest & RegionInput,
   GetStreamingDistributionConfigResult,
   GetStreamingDistributionConfigError,
   Credentials | HttpClient.HttpClient
@@ -7075,7 +7079,7 @@ export type GetTrustStoreError = AccessDenied | EntityNotFound | InvalidArgument
  * Gets a trust store.
  */
 export const getTrustStore: API.OperationMethod<
-  GetTrustStoreRequest,
+  GetTrustStoreRequest & RegionInput,
   GetTrustStoreResult,
   GetTrustStoreError,
   Credentials | HttpClient.HttpClient
@@ -7100,7 +7104,7 @@ export type GetVpcOriginError =
  * Get the details of an Amazon CloudFront VPC origin.
  */
 export const getVpcOrigin: API.OperationMethod<
-  GetVpcOriginRequest,
+  GetVpcOriginRequest & RegionInput,
   GetVpcOriginResult,
   GetVpcOriginError,
   Credentials | HttpClient.HttpClient
@@ -7125,7 +7129,7 @@ export type ListAnycastIpListsError =
  * Lists your Anycast static IP lists.
  */
 export const listAnycastIpLists: API.OperationMethod<
-  ListAnycastIpListsRequest,
+  ListAnycastIpListsRequest & RegionInput,
   ListAnycastIpListsResult,
   ListAnycastIpListsError,
   Credentials | HttpClient.HttpClient
@@ -7153,7 +7157,7 @@ export type ListCachePoliciesError =
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
 export const listCachePolicies: API.OperationMethod<
-  ListCachePoliciesRequest,
+  ListCachePoliciesRequest & RegionInput,
   ListCachePoliciesResult,
   ListCachePoliciesError,
   Credentials | HttpClient.HttpClient
@@ -7173,7 +7177,7 @@ export type ListCloudFrontOriginAccessIdentitiesError = InvalidArgument | Common
  * Lists origin access identities.
  */
 export const listCloudFrontOriginAccessIdentities: API.PaginatedOperationMethod<
-  ListCloudFrontOriginAccessIdentitiesRequest,
+  ListCloudFrontOriginAccessIdentitiesRequest & RegionInput,
   ListCloudFrontOriginAccessIdentitiesResult,
   ListCloudFrontOriginAccessIdentitiesError,
   Credentials | HttpClient.HttpClient,
@@ -7210,7 +7214,7 @@ export type ListConflictingAliasesError = InvalidArgument | NoSuchDistribution |
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
 export const listConflictingAliases: API.OperationMethod<
-  ListConflictingAliasesRequest,
+  ListConflictingAliasesRequest & RegionInput,
   ListConflictingAliasesResult,
   ListConflictingAliasesError,
   Credentials | HttpClient.HttpClient
@@ -7234,7 +7238,7 @@ export type ListConnectionFunctionsError =
  * Lists connection functions.
  */
 export const listConnectionFunctions: API.PaginatedOperationMethod<
-  ListConnectionFunctionsRequest,
+  ListConnectionFunctionsRequest & RegionInput,
   ListConnectionFunctionsResult,
   ListConnectionFunctionsError,
   Credentials | HttpClient.HttpClient,
@@ -7265,7 +7269,7 @@ export type ListConnectionGroupsError =
  * Lists the connection groups in your Amazon Web Services account.
  */
 export const listConnectionGroups: API.PaginatedOperationMethod<
-  ListConnectionGroupsRequest,
+  ListConnectionGroupsRequest & RegionInput,
   ListConnectionGroupsResult,
   ListConnectionGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -7298,7 +7302,7 @@ export type ListContinuousDeploymentPoliciesError =
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
 export const listContinuousDeploymentPolicies: API.OperationMethod<
-  ListContinuousDeploymentPoliciesRequest,
+  ListContinuousDeploymentPoliciesRequest & RegionInput,
   ListContinuousDeploymentPoliciesResult,
   ListContinuousDeploymentPoliciesError,
   Credentials | HttpClient.HttpClient
@@ -7318,7 +7322,7 @@ export type ListDistributionsError = InvalidArgument | CommonErrors;
  * List CloudFront distributions.
  */
 export const listDistributions: API.PaginatedOperationMethod<
-  ListDistributionsRequest,
+  ListDistributionsRequest & RegionInput,
   ListDistributionsResult,
   ListDistributionsError,
   Credentials | HttpClient.HttpClient,
@@ -7350,7 +7354,7 @@ export type ListDistributionsByAnycastIpListIdError =
  * Lists the distributions in your account that are associated with the specified `AnycastIpListId`.
  */
 export const listDistributionsByAnycastIpListId: API.OperationMethod<
-  ListDistributionsByAnycastIpListIdRequest,
+  ListDistributionsByAnycastIpListIdRequest & RegionInput,
   ListDistributionsByAnycastIpListIdResult,
   ListDistributionsByAnycastIpListIdError,
   Credentials | HttpClient.HttpClient
@@ -7376,7 +7380,7 @@ export type ListDistributionsByCachePolicyIdError =
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
 export const listDistributionsByCachePolicyId: API.OperationMethod<
-  ListDistributionsByCachePolicyIdRequest,
+  ListDistributionsByCachePolicyIdRequest & RegionInput,
   ListDistributionsByCachePolicyIdResult,
   ListDistributionsByCachePolicyIdError,
   Credentials | HttpClient.HttpClient
@@ -7400,7 +7404,7 @@ export type ListDistributionsByConnectionFunctionError =
  * Lists distributions by connection function.
  */
 export const listDistributionsByConnectionFunction: API.PaginatedOperationMethod<
-  ListDistributionsByConnectionFunctionRequest,
+  ListDistributionsByConnectionFunctionRequest & RegionInput,
   ListDistributionsByConnectionFunctionResult,
   ListDistributionsByConnectionFunctionError,
   Credentials | HttpClient.HttpClient,
@@ -7427,7 +7431,7 @@ export type ListDistributionsByConnectionModeError = AccessDenied | InvalidArgum
  * Lists the distributions by the connection mode that you specify.
  */
 export const listDistributionsByConnectionMode: API.PaginatedOperationMethod<
-  ListDistributionsByConnectionModeRequest,
+  ListDistributionsByConnectionModeRequest & RegionInput,
   ListDistributionsByConnectionModeResult,
   ListDistributionsByConnectionModeError,
   Credentials | HttpClient.HttpClient,
@@ -7456,7 +7460,7 @@ export type ListDistributionsByKeyGroupError = InvalidArgument | NoSuchResource 
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
 export const listDistributionsByKeyGroup: API.OperationMethod<
-  ListDistributionsByKeyGroupRequest,
+  ListDistributionsByKeyGroupRequest & RegionInput,
   ListDistributionsByKeyGroupResult,
   ListDistributionsByKeyGroupError,
   Credentials | HttpClient.HttpClient
@@ -7482,7 +7486,7 @@ export type ListDistributionsByOriginRequestPolicyIdError =
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
 export const listDistributionsByOriginRequestPolicyId: API.OperationMethod<
-  ListDistributionsByOriginRequestPolicyIdRequest,
+  ListDistributionsByOriginRequestPolicyIdRequest & RegionInput,
   ListDistributionsByOriginRequestPolicyIdResult,
   ListDistributionsByOriginRequestPolicyIdError,
   Credentials | HttpClient.HttpClient
@@ -7507,7 +7511,7 @@ export type ListDistributionsByOwnedResourceError =
  * Lists the CloudFront distributions that are associated with the specified resource that you own.
  */
 export const listDistributionsByOwnedResource: API.OperationMethod<
-  ListDistributionsByOwnedResourceRequest,
+  ListDistributionsByOwnedResourceRequest & RegionInput,
   ListDistributionsByOwnedResourceResult,
   ListDistributionsByOwnedResourceError,
   Credentials | HttpClient.HttpClient
@@ -7531,7 +7535,7 @@ export type ListDistributionsByRealtimeLogConfigError = InvalidArgument | Common
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
 export const listDistributionsByRealtimeLogConfig: API.OperationMethod<
-  ListDistributionsByRealtimeLogConfigRequest,
+  ListDistributionsByRealtimeLogConfigRequest & RegionInput,
   ListDistributionsByRealtimeLogConfigResult,
   ListDistributionsByRealtimeLogConfigError,
   Credentials | HttpClient.HttpClient
@@ -7557,7 +7561,7 @@ export type ListDistributionsByResponseHeadersPolicyIdError =
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
 export const listDistributionsByResponseHeadersPolicyId: API.OperationMethod<
-  ListDistributionsByResponseHeadersPolicyIdRequest,
+  ListDistributionsByResponseHeadersPolicyIdRequest & RegionInput,
   ListDistributionsByResponseHeadersPolicyIdResult,
   ListDistributionsByResponseHeadersPolicyIdError,
   Credentials | HttpClient.HttpClient
@@ -7581,7 +7585,7 @@ export type ListDistributionsByTrustStoreError =
  * Lists distributions by trust store.
  */
 export const listDistributionsByTrustStore: API.PaginatedOperationMethod<
-  ListDistributionsByTrustStoreRequest,
+  ListDistributionsByTrustStoreRequest & RegionInput,
   ListDistributionsByTrustStoreResult,
   ListDistributionsByTrustStoreError,
   Credentials | HttpClient.HttpClient,
@@ -7613,7 +7617,7 @@ export type ListDistributionsByVpcOriginIdError =
  * List CloudFront distributions by their VPC origin ID.
  */
 export const listDistributionsByVpcOriginId: API.OperationMethod<
-  ListDistributionsByVpcOriginIdRequest,
+  ListDistributionsByVpcOriginIdRequest & RegionInput,
   ListDistributionsByVpcOriginIdResult,
   ListDistributionsByVpcOriginIdError,
   Credentials | HttpClient.HttpClient
@@ -7633,7 +7637,7 @@ export type ListDistributionsByWebACLIdError = InvalidArgument | InvalidWebACLId
  * List the distributions that are associated with a specified WAF web ACL.
  */
 export const listDistributionsByWebACLId: API.OperationMethod<
-  ListDistributionsByWebACLIdRequest,
+  ListDistributionsByWebACLIdRequest & RegionInput,
   ListDistributionsByWebACLIdResult,
   ListDistributionsByWebACLIdError,
   Credentials | HttpClient.HttpClient
@@ -7657,7 +7661,7 @@ export type ListDistributionTenantsError =
  * Lists the distribution tenants in your Amazon Web Services account.
  */
 export const listDistributionTenants: API.PaginatedOperationMethod<
-  ListDistributionTenantsRequest,
+  ListDistributionTenantsRequest & RegionInput,
   ListDistributionTenantsResult,
   ListDistributionTenantsError,
   Credentials | HttpClient.HttpClient,
@@ -7690,7 +7694,7 @@ export type ListDistributionTenantsByCustomizationError =
  * You must specify either the `CertificateArn` parameter or `WebACLArn` parameter, but not both in the same request.
  */
 export const listDistributionTenantsByCustomization: API.PaginatedOperationMethod<
-  ListDistributionTenantsByCustomizationRequest,
+  ListDistributionTenantsByCustomizationRequest & RegionInput,
   ListDistributionTenantsByCustomizationResult,
   ListDistributionTenantsByCustomizationError,
   Credentials | HttpClient.HttpClient,
@@ -7737,7 +7741,7 @@ export type ListDomainConflictsError =
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
 export const listDomainConflicts: API.PaginatedOperationMethod<
-  ListDomainConflictsRequest,
+  ListDomainConflictsRequest & RegionInput,
   ListDomainConflictsResult,
   ListDomainConflictsError,
   Credentials | HttpClient.HttpClient,
@@ -7764,7 +7768,7 @@ export type ListFieldLevelEncryptionConfigsError = InvalidArgument | CommonError
  * List all field-level encryption configurations that have been created in CloudFront for this account.
  */
 export const listFieldLevelEncryptionConfigs: API.OperationMethod<
-  ListFieldLevelEncryptionConfigsRequest,
+  ListFieldLevelEncryptionConfigsRequest & RegionInput,
   ListFieldLevelEncryptionConfigsResult,
   ListFieldLevelEncryptionConfigsError,
   Credentials | HttpClient.HttpClient
@@ -7784,7 +7788,7 @@ export type ListFieldLevelEncryptionProfilesError = InvalidArgument | CommonErro
  * Request a list of field-level encryption profiles that have been created in CloudFront for this account.
  */
 export const listFieldLevelEncryptionProfiles: API.OperationMethod<
-  ListFieldLevelEncryptionProfilesRequest,
+  ListFieldLevelEncryptionProfilesRequest & RegionInput,
   ListFieldLevelEncryptionProfilesResult,
   ListFieldLevelEncryptionProfilesError,
   Credentials | HttpClient.HttpClient
@@ -7808,7 +7812,7 @@ export type ListFunctionsError = InvalidArgument | UnsupportedOperation | Common
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
 export const listFunctions: API.OperationMethod<
-  ListFunctionsRequest,
+  ListFunctionsRequest & RegionInput,
   ListFunctionsResult,
   ListFunctionsError,
   Credentials | HttpClient.HttpClient
@@ -7832,7 +7836,7 @@ export type ListInvalidationsError =
  * Lists invalidation batches.
  */
 export const listInvalidations: API.PaginatedOperationMethod<
-  ListInvalidationsRequest,
+  ListInvalidationsRequest & RegionInput,
   ListInvalidationsResult,
   ListInvalidationsError,
   Credentials | HttpClient.HttpClient,
@@ -7863,7 +7867,7 @@ export type ListInvalidationsForDistributionTenantError =
  * Lists the invalidations for a distribution tenant.
  */
 export const listInvalidationsForDistributionTenant: API.PaginatedOperationMethod<
-  ListInvalidationsForDistributionTenantRequest,
+  ListInvalidationsForDistributionTenantRequest & RegionInput,
   ListInvalidationsForDistributionTenantResult,
   ListInvalidationsForDistributionTenantError,
   Credentials | HttpClient.HttpClient,
@@ -7892,7 +7896,7 @@ export type ListKeyGroupsError = InvalidArgument | CommonErrors;
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
 export const listKeyGroups: API.OperationMethod<
-  ListKeyGroupsRequest,
+  ListKeyGroupsRequest & RegionInput,
   ListKeyGroupsResult,
   ListKeyGroupsError,
   Credentials | HttpClient.HttpClient
@@ -7916,7 +7920,7 @@ export type ListKeyValueStoresError =
  * Specifies the key value stores to list.
  */
 export const listKeyValueStores: API.PaginatedOperationMethod<
-  ListKeyValueStoresRequest,
+  ListKeyValueStoresRequest & RegionInput,
   ListKeyValueStoresResult,
   ListKeyValueStoresError,
   Credentials | HttpClient.HttpClient,
@@ -7947,7 +7951,7 @@ export type ListOriginAccessControlsError = InvalidArgument | CommonErrors;
  * If you're not using origin access controls for your Amazon Web Services account, the `ListOriginAccessControls` operation doesn't return the `Items` element in the response.
  */
 export const listOriginAccessControls: API.PaginatedOperationMethod<
-  ListOriginAccessControlsRequest,
+  ListOriginAccessControlsRequest & RegionInput,
   ListOriginAccessControlsResult,
   ListOriginAccessControlsError,
   Credentials | HttpClient.HttpClient,
@@ -7982,7 +7986,7 @@ export type ListOriginRequestPoliciesError =
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
 export const listOriginRequestPolicies: API.OperationMethod<
-  ListOriginRequestPoliciesRequest,
+  ListOriginRequestPoliciesRequest & RegionInput,
   ListOriginRequestPoliciesResult,
   ListOriginRequestPoliciesError,
   Credentials | HttpClient.HttpClient
@@ -8002,7 +8006,7 @@ export type ListPublicKeysError = InvalidArgument | CommonErrors;
  * List all public keys that have been added to CloudFront for this account.
  */
 export const listPublicKeys: API.PaginatedOperationMethod<
-  ListPublicKeysRequest,
+  ListPublicKeysRequest & RegionInput,
   ListPublicKeysResult,
   ListPublicKeysError,
   Credentials | HttpClient.HttpClient,
@@ -8035,7 +8039,7 @@ export type ListRealtimeLogConfigsError =
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
 export const listRealtimeLogConfigs: API.OperationMethod<
-  ListRealtimeLogConfigsRequest,
+  ListRealtimeLogConfigsRequest & RegionInput,
   ListRealtimeLogConfigsResult,
   ListRealtimeLogConfigsError,
   Credentials | HttpClient.HttpClient
@@ -8063,7 +8067,7 @@ export type ListResponseHeadersPoliciesError =
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
 export const listResponseHeadersPolicies: API.OperationMethod<
-  ListResponseHeadersPoliciesRequest,
+  ListResponseHeadersPoliciesRequest & RegionInput,
   ListResponseHeadersPoliciesResult,
   ListResponseHeadersPoliciesError,
   Credentials | HttpClient.HttpClient
@@ -8083,7 +8087,7 @@ export type ListStreamingDistributionsError = InvalidArgument | CommonErrors;
  * List streaming distributions.
  */
 export const listStreamingDistributions: API.PaginatedOperationMethod<
-  ListStreamingDistributionsRequest,
+  ListStreamingDistributionsRequest & RegionInput,
   ListStreamingDistributionsResult,
   ListStreamingDistributionsError,
   Credentials | HttpClient.HttpClient,
@@ -8115,7 +8119,7 @@ export type ListTagsForResourceError =
  * List tags for a CloudFront resource. For more information, see Tagging a distribution in the *Amazon CloudFront Developer Guide*.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResult,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -8135,7 +8139,7 @@ export type ListTrustStoresError = AccessDenied | EntityNotFound | InvalidArgume
  * Lists trust stores.
  */
 export const listTrustStores: API.PaginatedOperationMethod<
-  ListTrustStoresRequest,
+  ListTrustStoresRequest & RegionInput,
   ListTrustStoresResult,
   ListTrustStoresError,
   Credentials | HttpClient.HttpClient,
@@ -8167,7 +8171,7 @@ export type ListVpcOriginsError =
  * List the CloudFront VPC origins in your account.
  */
 export const listVpcOrigins: API.OperationMethod<
-  ListVpcOriginsRequest,
+  ListVpcOriginsRequest & RegionInput,
   ListVpcOriginsResult,
   ListVpcOriginsError,
   Credentials | HttpClient.HttpClient
@@ -8194,7 +8198,7 @@ export type PublishConnectionFunctionError =
  * Publishes a connection function.
  */
 export const publishConnectionFunction: API.OperationMethod<
-  PublishConnectionFunctionRequest,
+  PublishConnectionFunctionRequest & RegionInput,
   PublishConnectionFunctionResult,
   PublishConnectionFunctionError,
   Credentials | HttpClient.HttpClient
@@ -8231,7 +8235,7 @@ export type PublishFunctionError =
  * To publish a function, you must provide the function's name and version (`ETag` value). To get these values, you can use `ListFunctions` and `DescribeFunction`.
  */
 export const publishFunction: API.OperationMethod<
-  PublishFunctionRequest,
+  PublishFunctionRequest & RegionInput,
   PublishFunctionResult,
   PublishFunctionError,
   Credentials | HttpClient.HttpClient
@@ -8264,7 +8268,7 @@ export type PutResourcePolicyError =
  * Creates a resource control policy for a given CloudFront resource.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResult,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -8296,7 +8300,7 @@ export type TagResourceError =
  * Add tags to a CloudFront resource. For more information, see Tagging a distribution in the *Amazon CloudFront Developer Guide*.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -8323,7 +8327,7 @@ export type TestConnectionFunctionError =
  * Tests a connection function.
  */
 export const testConnectionFunction: API.OperationMethod<
-  TestConnectionFunctionRequest,
+  TestConnectionFunctionRequest & RegionInput,
   TestConnectionFunctionResult,
   TestConnectionFunctionError,
   Credentials | HttpClient.HttpClient
@@ -8360,7 +8364,7 @@ export type TestFunctionError =
  * To test a function, you provide the function's name and version (`ETag` value) along with the event object. To get the function's name and version, you can use `ListFunctions` and `DescribeFunction`.
  */
 export const testFunction: API.OperationMethod<
-  TestFunctionRequest,
+  TestFunctionRequest & RegionInput,
   TestFunctionResult,
   TestFunctionError,
   Credentials | HttpClient.HttpClient
@@ -8391,7 +8395,7 @@ export type UntagResourceError =
  * Remove tags from a CloudFront resource. For more information, see Tagging a distribution in the *Amazon CloudFront Developer Guide*.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -8418,7 +8422,7 @@ export type UpdateAnycastIpListError =
  * Updates an Anycast static IP list.
  */
 export const updateAnycastIpList: API.OperationMethod<
-  UpdateAnycastIpListRequest,
+  UpdateAnycastIpListRequest & RegionInput,
   UpdateAnycastIpListResult,
   UpdateAnycastIpListError,
   Credentials | HttpClient.HttpClient
@@ -8467,7 +8471,7 @@ export type UpdateCachePolicyError =
  * If your minimum TTL is greater than 0, CloudFront will cache content for at least the duration specified in the cache policy's minimum TTL, even if the `Cache-Control: no-cache`, `no-store`, or `private` directives are present in the origin headers.
  */
 export const updateCachePolicy: API.OperationMethod<
-  UpdateCachePolicyRequest,
+  UpdateCachePolicyRequest & RegionInput,
   UpdateCachePolicyResult,
   UpdateCachePolicyError,
   Credentials | HttpClient.HttpClient
@@ -8508,7 +8512,7 @@ export type UpdateCloudFrontOriginAccessIdentityError =
  * Update an origin access identity.
  */
 export const updateCloudFrontOriginAccessIdentity: API.OperationMethod<
-  UpdateCloudFrontOriginAccessIdentityRequest,
+  UpdateCloudFrontOriginAccessIdentityRequest & RegionInput,
   UpdateCloudFrontOriginAccessIdentityResult,
   UpdateCloudFrontOriginAccessIdentityError,
   Credentials | HttpClient.HttpClient
@@ -8545,7 +8549,7 @@ export type UpdateConnectionFunctionError =
  * Updates a connection function.
  */
 export const updateConnectionFunction: API.OperationMethod<
-  UpdateConnectionFunctionRequest,
+  UpdateConnectionFunctionRequest & RegionInput,
   UpdateConnectionFunctionResult,
   UpdateConnectionFunctionError,
   Credentials | HttpClient.HttpClient
@@ -8582,7 +8586,7 @@ export type UpdateConnectionGroupError =
  * Updates a connection group.
  */
 export const updateConnectionGroup: API.OperationMethod<
-  UpdateConnectionGroupRequest,
+  UpdateConnectionGroupRequest & RegionInput,
   UpdateConnectionGroupResult,
   UpdateConnectionGroupError,
   Credentials | HttpClient.HttpClient
@@ -8627,7 +8631,7 @@ export type UpdateContinuousDeploymentPolicyError =
  * - Use `UpdateContinuousDeploymentPolicy`, providing the entire continuous deployment policy configuration, including the fields that you modified and those that you didn't.
  */
 export const updateContinuousDeploymentPolicy: API.OperationMethod<
-  UpdateContinuousDeploymentPolicyRequest,
+  UpdateContinuousDeploymentPolicyRequest & RegionInput,
   UpdateContinuousDeploymentPolicyResult,
   UpdateContinuousDeploymentPolicyError,
   Credentials | HttpClient.HttpClient
@@ -8737,7 +8741,7 @@ export type UpdateDistributionError =
  * - Submit an `UpdateDistribution` request, providing the updated distribution configuration. The new configuration replaces the existing configuration. The values that you specify in an `UpdateDistribution` request are not merged into your existing configuration. Make sure to include all fields: the ones that you modified and also the ones that you didn't.
  */
 export const updateDistribution: API.OperationMethod<
-  UpdateDistributionRequest,
+  UpdateDistributionRequest & RegionInput,
   UpdateDistributionResult,
   UpdateDistributionError,
   Credentials | HttpClient.HttpClient
@@ -8835,7 +8839,7 @@ export type UpdateDistributionTenantError =
  * Updates a distribution tenant.
  */
 export const updateDistributionTenant: API.OperationMethod<
-  UpdateDistributionTenantRequest,
+  UpdateDistributionTenantRequest & RegionInput,
   UpdateDistributionTenantResult,
   UpdateDistributionTenantError,
   Credentials | HttpClient.HttpClient
@@ -8937,7 +8941,7 @@ export type UpdateDistributionWithStagingConfigError =
  * - UpdateDistribution
  */
 export const updateDistributionWithStagingConfig: API.OperationMethod<
-  UpdateDistributionWithStagingConfigRequest,
+  UpdateDistributionWithStagingConfigRequest & RegionInput,
   UpdateDistributionWithStagingConfigResult,
   UpdateDistributionWithStagingConfigError,
   Credentials | HttpClient.HttpClient
@@ -9034,7 +9038,7 @@ export type UpdateDomainAssociationError =
  * To use this operation, specify the domain and the ID of the target resource (standard distribution or distribution tenant). For more information, including how to set up the target resource, prerequisites that you must complete, and other restrictions, see Moving an alternate domain name to a different standard distribution or distribution tenant in the *Amazon CloudFront Developer Guide*.
  */
 export const updateDomainAssociation: API.OperationMethod<
-  UpdateDomainAssociationRequest,
+  UpdateDomainAssociationRequest & RegionInput,
   UpdateDomainAssociationResult,
   UpdateDomainAssociationError,
   Credentials | HttpClient.HttpClient
@@ -9073,7 +9077,7 @@ export type UpdateFieldLevelEncryptionConfigError =
  * Update a field-level encryption configuration.
  */
 export const updateFieldLevelEncryptionConfig: API.OperationMethod<
-  UpdateFieldLevelEncryptionConfigRequest,
+  UpdateFieldLevelEncryptionConfigRequest & RegionInput,
   UpdateFieldLevelEncryptionConfigResult,
   UpdateFieldLevelEncryptionConfigError,
   Credentials | HttpClient.HttpClient
@@ -9118,7 +9122,7 @@ export type UpdateFieldLevelEncryptionProfileError =
  * Update a field-level encryption profile.
  */
 export const updateFieldLevelEncryptionProfile: API.OperationMethod<
-  UpdateFieldLevelEncryptionProfileRequest,
+  UpdateFieldLevelEncryptionProfileRequest & RegionInput,
   UpdateFieldLevelEncryptionProfileResult,
   UpdateFieldLevelEncryptionProfileError,
   Credentials | HttpClient.HttpClient
@@ -9162,7 +9166,7 @@ export type UpdateFunctionError =
  * To update a function, you provide the function's name and version (`ETag` value) along with the updated function code. To get the name and version, you can use `ListFunctions` and `DescribeFunction`.
  */
 export const updateFunction: API.OperationMethod<
-  UpdateFunctionRequest,
+  UpdateFunctionRequest & RegionInput,
   UpdateFunctionResult,
   UpdateFunctionError,
   Credentials | HttpClient.HttpClient
@@ -9204,7 +9208,7 @@ export type UpdateKeyGroupError =
  * - Call `UpdateKeyGroup` with the entire key group object, including the fields that you modified and those that you didn't.
  */
 export const updateKeyGroup: API.OperationMethod<
-  UpdateKeyGroupRequest,
+  UpdateKeyGroupRequest & RegionInput,
   UpdateKeyGroupResult,
   UpdateKeyGroupError,
   Credentials | HttpClient.HttpClient
@@ -9238,7 +9242,7 @@ export type UpdateKeyValueStoreError =
  * Specifies the key value store to update.
  */
 export const updateKeyValueStore: API.OperationMethod<
-  UpdateKeyValueStoreRequest,
+  UpdateKeyValueStoreRequest & RegionInput,
   UpdateKeyValueStoreResult,
   UpdateKeyValueStoreError,
   Credentials | HttpClient.HttpClient
@@ -9273,7 +9277,7 @@ export type UpdateOriginAccessControlError =
  * Updates a CloudFront origin access control.
  */
 export const updateOriginAccessControl: API.OperationMethod<
-  UpdateOriginAccessControlRequest,
+  UpdateOriginAccessControlRequest & RegionInput,
   UpdateOriginAccessControlResult,
   UpdateOriginAccessControlError,
   Credentials | HttpClient.HttpClient
@@ -9321,7 +9325,7 @@ export type UpdateOriginRequestPolicyError =
  * - Call `UpdateOriginRequestPolicy` by providing the entire origin request policy configuration, including the fields that you modified and those that you didn't.
  */
 export const updateOriginRequestPolicy: API.OperationMethod<
-  UpdateOriginRequestPolicyRequest,
+  UpdateOriginRequestPolicyRequest & RegionInput,
   UpdateOriginRequestPolicyResult,
   UpdateOriginRequestPolicyError,
   Credentials | HttpClient.HttpClient
@@ -9361,7 +9365,7 @@ export type UpdatePublicKeyError =
  * Update public key information. Note that the only value you can change is the comment.
  */
 export const updatePublicKey: API.OperationMethod<
-  UpdatePublicKeyRequest,
+  UpdatePublicKeyRequest & RegionInput,
   UpdatePublicKeyResult,
   UpdatePublicKeyError,
   Credentials | HttpClient.HttpClient
@@ -9403,7 +9407,7 @@ export type UpdateRealtimeLogConfigError =
  * You cannot update a real-time log configuration's `Name` or `ARN`.
  */
 export const updateRealtimeLogConfig: API.OperationMethod<
-  UpdateRealtimeLogConfigRequest,
+  UpdateRealtimeLogConfigRequest & RegionInput,
   UpdateRealtimeLogConfigResult,
   UpdateRealtimeLogConfigError,
   Credentials | HttpClient.HttpClient
@@ -9443,7 +9447,7 @@ export type UpdateResponseHeadersPolicyError =
  * - Call `UpdateResponseHeadersPolicy`, providing the entire response headers policy configuration, including the fields that you modified and those that you didn't.
  */
 export const updateResponseHeadersPolicy: API.OperationMethod<
-  UpdateResponseHeadersPolicyRequest,
+  UpdateResponseHeadersPolicyRequest & RegionInput,
   UpdateResponseHeadersPolicyResult,
   UpdateResponseHeadersPolicyError,
   Credentials | HttpClient.HttpClient
@@ -9490,7 +9494,7 @@ export type UpdateStreamingDistributionError =
  * Update a streaming distribution.
  */
 export const updateStreamingDistribution: API.OperationMethod<
-  UpdateStreamingDistributionRequest,
+  UpdateStreamingDistributionRequest & RegionInput,
   UpdateStreamingDistributionResult,
   UpdateStreamingDistributionError,
   Credentials | HttpClient.HttpClient
@@ -9531,7 +9535,7 @@ export type UpdateTrustStoreError =
  * Updates a trust store.
  */
 export const updateTrustStore: API.OperationMethod<
-  UpdateTrustStoreRequest,
+  UpdateTrustStoreRequest & RegionInput,
   UpdateTrustStoreResult,
   UpdateTrustStoreError,
   Credentials | HttpClient.HttpClient
@@ -9569,7 +9573,7 @@ export type UpdateVpcOriginError =
  * Update an Amazon CloudFront VPC origin in your account.
  */
 export const updateVpcOrigin: API.OperationMethod<
-  UpdateVpcOriginRequest,
+  UpdateVpcOriginRequest & RegionInput,
   UpdateVpcOriginResult,
   UpdateVpcOriginError,
   Credentials | HttpClient.HttpClient
@@ -9605,7 +9609,7 @@ export type VerifyDnsConfigurationError =
  * Verify the DNS configuration for your domain names. This API operation checks whether your domain name points to the correct routing endpoint of the connection group, such as d111111abcdef8.cloudfront.net. You can use this API operation to troubleshoot and resolve DNS configuration issues.
  */
 export const verifyDnsConfiguration: API.OperationMethod<
-  VerifyDnsConfigurationRequest,
+  VerifyDnsConfigurationRequest & RegionInput,
   VerifyDnsConfigurationResult,
   VerifyDnsConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -12001,6 +12005,7 @@ function __c82(j: number): any {
           HTTPSPort: S.Number,
           OriginProtocolPolicy: S.String,
           OriginSslProtocols: S.optional(__S(257, __c8, 1)),
+          IpAddressType: S.optional(S.String),
         }),
       ).annotate({ identifier: "VpcOriginEndpointConfig" });
     case 1:
@@ -15561,6 +15566,7 @@ function __c193(j: number): any {
           Arn: S.String,
           AccountId: S.optional(S.String),
           OriginEndpointArn: S.String,
+          IpAddressType: S.optional(S.String),
         }),
       ).annotate({ identifier: "VpcOriginSummary" });
     case 2:

@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -808,7 +809,7 @@ export class KMSThrottlingException
 export class LimitExceededException
   extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()("LimitExceededException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
-  }).pipe(C.withQuotaError, C.withRetryableError) {}
+  }).pipe(C.withQuotaError, C.withRetryableError, C.withThrottlingError) {}
 export class ProvisionedThroughputExceededException
   extends /*@__PURE__*/ S.TaggedError<ProvisionedThroughputExceededException>()(
     "ProvisionedThroughputExceededException",
@@ -833,10 +834,10 @@ export type TagMap = { [key: string]: string | undefined };
 export type StreamARN = string;
 export type StreamId = string;
 export interface AddTagsToStreamInput {
-  StreamName?: string;
+  StreamName?: string | undefined;
   Tags: { [key: string]: string | undefined };
-  StreamARN?: string;
-  StreamId?: string;
+  StreamARN?: string | undefined;
+  StreamId?: string | undefined;
 }
 export interface AddTagsToStreamResponse {}
 export type ChannelName = string;
@@ -845,7 +846,7 @@ export type RecordFormatType = "GSR_JSON" | "JSON" | "STRING" | "BYTE_ARRAY" | (
 export type GSRSchemaARN = string;
 export interface RecordConfiguration {
   RecordFormatType: RecordFormatType;
-  GSRSchemaARN?: string;
+  GSRSchemaARN?: string | undefined;
 }
 export interface ChannelStreamConfiguration {
   StreamARN: string;
@@ -859,7 +860,7 @@ export type S3ErrorOutputPrefix = string;
 export interface DeadLetterQueueS3Configuration {
   BucketARN: string;
   ExpectedBucketOwner: string;
-  ErrorOutputPrefix?: string;
+  ErrorOutputPrefix?: string | undefined;
 }
 export type S3OutputKeyTemplate = string;
 export type S3StorageClass = "STANDARD" | "INTELLIGENT_TIERING" | "GLACIER_IR" | (string & {});
@@ -867,13 +868,13 @@ export type S3CompressionType = "NONE" | "GZIP" | "ZSTD" | (string & {});
 export interface S3StorageConfiguration {
   BucketARN: string;
   ExpectedBucketOwner: string;
-  OutputKeyTemplate?: string;
-  StorageClass?: S3StorageClass;
+  OutputKeyTemplate?: string | undefined;
+  StorageClass?: S3StorageClass | undefined;
   CompressionType: S3CompressionType;
 }
 export interface S3DestinationConfiguration {
-  DataFreshnessInSeconds?: number;
-  DeadLetterQueueS3Configuration?: DeadLetterQueueS3Configuration;
+  DataFreshnessInSeconds?: number | undefined;
+  DeadLetterQueueS3Configuration?: DeadLetterQueueS3Configuration | undefined;
   StorageConfiguration: S3StorageConfiguration;
 }
 export type TableBucketARN = string;
@@ -895,11 +896,11 @@ export interface S3TablesConfiguration {
   Namespace: string;
   TableName: string;
   CompressionType: S3TablesCompressionType;
-  PartitionSpec?: PartitionSpec;
+  PartitionSpec?: PartitionSpec | undefined;
 }
 export type S3TablesConfigurationList = S3TablesConfiguration[];
 export interface S3TablesDestinationConfiguration {
-  DataFreshnessInSeconds?: number;
+  DataFreshnessInSeconds?: number | undefined;
   DeadLetterQueueS3Configuration: DeadLetterQueueS3Configuration;
   S3TablesConfigurationList: S3TablesConfiguration[];
 }
@@ -913,8 +914,8 @@ export type CloudWatchLogGroupName = string;
 export type CloudWatchLogStreamName = string;
 export interface CloudWatchLogs {
   Enabled: boolean;
-  LogGroupName?: string;
-  LogStreamName?: string;
+  LogGroupName?: string | undefined;
+  LogStreamName?: string | undefined;
 }
 export interface ChannelLoggingConfiguration {
   CloudWatchLogs: CloudWatchLogs;
@@ -923,11 +924,11 @@ export interface CreateChannelInput {
   ChannelName: string;
   ServiceExecutionRoleARN: string;
   StreamConfigurationList: ChannelStreamConfiguration[];
-  S3DestinationConfiguration?: S3DestinationConfiguration;
-  S3TablesDestinationConfiguration?: S3TablesDestinationConfiguration;
-  EncryptionConfiguration?: ChannelEncryptionConfiguration;
-  Tags?: { [key: string]: string | undefined };
-  LoggingConfiguration?: ChannelLoggingConfiguration;
+  S3DestinationConfiguration?: S3DestinationConfiguration | undefined;
+  S3TablesDestinationConfiguration?: S3TablesDestinationConfiguration | undefined;
+  EncryptionConfiguration?: ChannelEncryptionConfiguration | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  LoggingConfiguration?: ChannelLoggingConfiguration | undefined;
 }
 export type ChannelARN = string;
 export type ChannelId = string;
@@ -960,13 +961,13 @@ export interface ChannelDescription {
   ChannelARN: string;
   ChannelId: string;
   ChannelStatus: ChannelStatus;
-  ChannelStatusReason?: string;
+  ChannelStatusReason?: string | undefined;
   ChannelCreationTimestamp: Date;
   ServiceExecutionRoleARN: string;
   StreamConfigurationList: ChannelStreamDescription[];
-  S3DestinationConfiguration?: S3DestinationDescription;
-  S3TablesDestinationConfiguration?: S3TablesDestinationDescription;
-  EncryptionConfiguration?: ChannelEncryptionConfiguration;
+  S3DestinationConfiguration?: S3DestinationDescription | undefined;
+  S3TablesDestinationConfiguration?: S3TablesDestinationDescription | undefined;
+  EncryptionConfiguration?: ChannelEncryptionConfiguration | undefined;
   LoggingConfiguration: ChannelLoggingConfiguration;
 }
 export interface CreateChannelOutput {
@@ -982,20 +983,20 @@ export type MaxRecordSizeInKiB = number;
 export type RecordDistributionStrategy = "AUTO" | "USER_PARTITION_KEY" | (string & {});
 export interface CreateStreamInput {
   StreamName: string;
-  ShardCount?: number;
-  StreamModeDetails?: StreamModeDetails;
-  Tags?: { [key: string]: string | undefined };
-  WarmThroughputMiBps?: number;
-  MaxRecordSizeInKiB?: number;
-  RecordDistributionStrategy?: RecordDistributionStrategy;
+  ShardCount?: number | undefined;
+  StreamModeDetails?: StreamModeDetails | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  WarmThroughputMiBps?: number | undefined;
+  MaxRecordSizeInKiB?: number | undefined;
+  RecordDistributionStrategy?: RecordDistributionStrategy | undefined;
 }
 export interface CreateStreamResponse {}
 export type RetentionPeriodHours = number;
 export interface DecreaseStreamRetentionPeriodInput {
-  StreamName?: string;
+  StreamName?: string | undefined;
   RetentionPeriodHours: number;
-  StreamARN?: string;
-  StreamId?: string;
+  StreamARN?: string | undefined;
+  StreamId?: string | undefined;
 }
 export interface DecreaseStreamRetentionPeriodResponse {}
 export interface DeleteChannelInput {
@@ -1005,23 +1006,23 @@ export interface DeleteChannelResponse {}
 export type ResourceARN = string;
 export interface DeleteResourcePolicyInput {
   ResourceARN: string;
-  StreamId?: string;
+  StreamId?: string | undefined;
 }
 export interface DeleteResourcePolicyResponse {}
 export interface DeleteStreamInput {
-  StreamName?: string;
-  EnforceConsumerDeletion?: boolean;
-  StreamARN?: string;
-  StreamId?: string;
+  StreamName?: string | undefined;
+  EnforceConsumerDeletion?: boolean | undefined;
+  StreamARN?: string | undefined;
+  StreamId?: string | undefined;
 }
 export interface DeleteStreamResponse {}
 export type ConsumerName = string;
 export type ConsumerARN = string;
 export interface DeregisterStreamConsumerInput {
-  StreamARN?: string;
-  ConsumerName?: string;
-  ConsumerARN?: string;
-  StreamId?: string;
+  StreamARN?: string | undefined;
+  ConsumerName?: string | undefined;
+  ConsumerARN?: string | undefined;
+  StreamId?: string | undefined;
 }
 export interface DeregisterStreamConsumerResponse {}
 export interface DescribeAccountSettingsInput {}
@@ -1032,12 +1033,12 @@ export type MinimumThroughputBillingCommitmentOutputStatus =
   | (string & {});
 export interface MinimumThroughputBillingCommitmentOutput {
   Status: MinimumThroughputBillingCommitmentOutputStatus;
-  StartedAt?: Date;
-  EndedAt?: Date;
-  EarliestAllowedEndAt?: Date;
+  StartedAt?: Date | undefined;
+  EndedAt?: Date | undefined;
+  EarliestAllowedEndAt?: Date | undefined;
 }
 export interface DescribeAccountSettingsOutput {
-  MinimumThroughputBillingCommitment?: MinimumThroughputBillingCommitmentOutput;
+  MinimumThroughputBillingCommitment?: MinimumThroughputBillingCommitmentOutput | undefined;
 }
 export interface DescribeChannelInput {
   ChannelARN: string;
@@ -1055,17 +1056,17 @@ export interface DescribeLimitsOutput {
   OpenShardCount: number;
   OnDemandStreamCount: number;
   OnDemandStreamCountLimit: number;
-  ChannelCount?: number;
-  ChannelCountLimit?: number;
+  ChannelCount?: number | undefined;
+  ChannelCountLimit?: number | undefined;
 }
 export type DescribeStreamInputLimit = number;
 export type ShardId = string;
 export interface DescribeStreamInput {
-  StreamName?: string;
-  Limit?: number;
-  ExclusiveStartShardId?: string;
-  StreamARN?: string;
-  StreamId?: string;
+  StreamName?: string | undefined;
+  Limit?: number | undefined;
+  ExclusiveStartShardId?: string | undefined;
+  StreamARN?: string | undefined;
+  StreamId?: string | undefined;
 }
 export type StreamStatus = "CREATING" | "DELETING" | "ACTIVE" | "UPDATING" | (string & {});
 export type HashKey = string;
@@ -1076,12 +1077,12 @@ export interface HashKeyRange {
 export type SequenceNumber = string;
 export interface SequenceNumberRange {
   StartingSequenceNumber: string;
-  EndingSequenceNumber?: string;
+  EndingSequenceNumber?: string | undefined;
 }
 export interface Shard {
   ShardId: string;
-  ParentShardId?: string;
-  AdjacentParentShardId?: string;
+  ParentShardId?: string | undefined;
+  AdjacentParentShardId?: string | undefined;
   HashKeyRange: HashKeyRange;
   SequenceNumberRange: SequenceNumberRange;
 }
@@ -1098,7 +1099,7 @@ export type MetricsName =
   | (string & {});
 export type MetricsNameList = MetricsName[];
 export interface EnhancedMetrics {
-  ShardLevelMetrics?: MetricsName[];
+  ShardLevelMetrics?: MetricsName[] | undefined;
 }
 export type EnhancedMonitoringList = EnhancedMetrics[];
 export type EncryptionType = "NONE" | "KMS" | (string & {});
@@ -1106,23 +1107,23 @@ export interface StreamDescription {
   StreamName: string;
   StreamARN: string;
   StreamStatus: StreamStatus;
-  StreamModeDetails?: StreamModeDetails;
+  StreamModeDetails?: StreamModeDetails | undefined;
   Shards: Shard[];
   HasMoreShards: boolean;
   RetentionPeriodHours: number;
   StreamCreationTimestamp: Date;
   EnhancedMonitoring: EnhancedMetrics[];
-  EncryptionType?: EncryptionType;
-  KeyId?: string;
+  EncryptionType?: EncryptionType | undefined;
+  KeyId?: string | undefined;
 }
 export interface DescribeStreamOutput {
   StreamDescription: StreamDescription;
 }
 export interface DescribeStreamConsumerInput {
-  StreamARN?: string;
-  ConsumerName?: string;
-  ConsumerARN?: string;
-  StreamId?: string;
+  StreamARN?: string | undefined;
+  ConsumerName?: string | undefined;
+  ConsumerARN?: string | undefined;
+  StreamId?: string | undefined;
 }
 export type ConsumerStatus = "CREATING" | "DELETING" | "ACTIVE" | (string & {});
 export interface ConsumerDescription {
@@ -1136,71 +1137,71 @@ export interface DescribeStreamConsumerOutput {
   ConsumerDescription: ConsumerDescription;
 }
 export interface DescribeStreamSummaryInput {
-  StreamName?: string;
-  StreamARN?: string;
-  StreamId?: string;
+  StreamName?: string | undefined;
+  StreamARN?: string | undefined;
+  StreamId?: string | undefined;
 }
 export type ConsumerCountObject = number;
 export interface WarmThroughputObject {
-  TargetMiBps?: number;
-  CurrentMiBps?: number;
+  TargetMiBps?: number | undefined;
+  CurrentMiBps?: number | undefined;
 }
 export interface StreamDescriptionSummary {
   StreamName: string;
   StreamARN: string;
-  StreamId?: string;
+  StreamId?: string | undefined;
   StreamStatus: StreamStatus;
-  StreamModeDetails?: StreamModeDetails;
+  StreamModeDetails?: StreamModeDetails | undefined;
   RetentionPeriodHours: number;
   StreamCreationTimestamp: Date;
   EnhancedMonitoring: EnhancedMetrics[];
-  EncryptionType?: EncryptionType;
-  KeyId?: string;
-  OpenShardCount?: number;
-  ConsumerCount?: number;
-  WarmThroughput?: WarmThroughputObject;
-  MaxRecordSizeInKiB?: number;
-  ChannelCount?: number;
-  RecordDistributionStrategy?: RecordDistributionStrategy;
+  EncryptionType?: EncryptionType | undefined;
+  KeyId?: string | undefined;
+  OpenShardCount?: number | undefined;
+  ConsumerCount?: number | undefined;
+  WarmThroughput?: WarmThroughputObject | undefined;
+  MaxRecordSizeInKiB?: number | undefined;
+  ChannelCount?: number | undefined;
+  RecordDistributionStrategy?: RecordDistributionStrategy | undefined;
 }
 export interface DescribeStreamSummaryOutput {
   StreamDescriptionSummary: StreamDescriptionSummary;
 }
 export interface DisableEnhancedMonitoringInput {
-  StreamName?: string;
+  StreamName?: string | undefined;
   ShardLevelMetrics: MetricsName[];
-  StreamARN?: string;
-  StreamId?: string;
+  StreamARN?: string | undefined;
+  StreamId?: string | undefined;
 }
 export interface EnhancedMonitoringOutput {
-  StreamName?: string;
-  CurrentShardLevelMetrics?: MetricsName[];
-  DesiredShardLevelMetrics?: MetricsName[];
-  StreamARN?: string;
+  StreamName?: string | undefined;
+  CurrentShardLevelMetrics?: MetricsName[] | undefined;
+  DesiredShardLevelMetrics?: MetricsName[] | undefined;
+  StreamARN?: string | undefined;
 }
 export interface EnableEnhancedMonitoringInput {
-  StreamName?: string;
+  StreamName?: string | undefined;
   ShardLevelMetrics: MetricsName[];
-  StreamARN?: string;
-  StreamId?: string;
+  StreamARN?: string | undefined;
+  StreamId?: string | undefined;
 }
 export type ShardIterator = string;
 export type GetRecordsInputLimit = number;
 export interface GetRecordsInput {
   ShardIterator: string;
-  Limit?: number;
-  StreamARN?: string;
-  StreamId?: string;
-  DryRun?: boolean;
+  Limit?: number | undefined;
+  StreamARN?: string | undefined;
+  StreamId?: string | undefined;
+  DryRun?: boolean | undefined;
 }
 export type Data = Uint8Array;
 export type PartitionKey = string;
 export interface Record {
   SequenceNumber: string;
-  ApproximateArrivalTimestamp?: Date;
+  ApproximateArrivalTimestamp?: Date | undefined;
   Data: Uint8Array;
-  PartitionKey?: string;
-  EncryptionType?: EncryptionType;
+  PartitionKey?: string | undefined;
+  EncryptionType?: EncryptionType | undefined;
 }
 export type RecordList = Record[];
 export type MillisBehindLatest = number;
@@ -1213,13 +1214,13 @@ export interface ChildShard {
 export type ChildShardList = ChildShard[];
 export interface GetRecordsOutput {
   Records: Record[];
-  NextShardIterator?: string;
-  MillisBehindLatest?: number;
-  ChildShards?: ChildShard[];
+  NextShardIterator?: string | undefined;
+  MillisBehindLatest?: number | undefined;
+  ChildShards?: ChildShard[] | undefined;
 }
 export interface GetResourcePolicyInput {
   ResourceARN: string;
-  StreamId?: string;
+  StreamId?: string | undefined;
 }
 export type Policy = string;
 export interface GetResourcePolicyOutput {
@@ -1233,36 +1234,36 @@ export type ShardIteratorType =
   | "AT_TIMESTAMP"
   | (string & {});
 export interface GetShardIteratorInput {
-  StreamName?: string;
+  StreamName?: string | undefined;
   ShardId: string;
   ShardIteratorType: ShardIteratorType;
-  StartingSequenceNumber?: string;
-  Timestamp?: Date;
-  StreamARN?: string;
-  StreamId?: string;
-  DryRun?: boolean;
+  StartingSequenceNumber?: string | undefined;
+  Timestamp?: Date | undefined;
+  StreamARN?: string | undefined;
+  StreamId?: string | undefined;
+  DryRun?: boolean | undefined;
 }
 export interface GetShardIteratorOutput {
-  ShardIterator?: string;
+  ShardIterator?: string | undefined;
 }
 export interface IncreaseStreamRetentionPeriodInput {
-  StreamName?: string;
+  StreamName?: string | undefined;
   RetentionPeriodHours: number;
-  StreamARN?: string;
-  StreamId?: string;
+  StreamARN?: string | undefined;
+  StreamId?: string | undefined;
 }
 export interface IncreaseStreamRetentionPeriodResponse {}
 export interface StreamFilter {
   StreamARN: string;
-  StreamCreationTimestamp?: Date;
+  StreamCreationTimestamp?: Date | undefined;
 }
 export type StreamFilterList = StreamFilter[];
 export type ListChannelsInputLimit = number;
 export type NextToken = string;
 export interface ListChannelsInput {
-  StreamFilter?: StreamFilter[];
-  MaxResults?: number;
-  NextToken?: string;
+  StreamFilter?: StreamFilter[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ChannelDestinationType = "S3" | "S3_TABLES" | (string & {});
 export interface ChannelStreamIdentifier {
@@ -1275,7 +1276,7 @@ export interface ChannelSummary {
   ChannelARN: string;
   ChannelId: string;
   ChannelStatus: ChannelStatus;
-  ChannelStatusReason?: string;
+  ChannelStatusReason?: string | undefined;
   ChannelCreationTimestamp: Date;
   ChannelDestinationType: ChannelDestinationType;
   Streams: ChannelStreamIdentifier[];
@@ -1283,7 +1284,7 @@ export interface ChannelSummary {
 export type ChannelSummaryList = ChannelSummary[];
 export interface ListChannelsOutput {
   ChannelSummaries: ChannelSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type ListShardsInputLimit = number;
 export type ShardFilterType =
@@ -1296,30 +1297,30 @@ export type ShardFilterType =
   | (string & {});
 export interface ShardFilter {
   Type: ShardFilterType;
-  ShardId?: string;
-  Timestamp?: Date;
+  ShardId?: string | undefined;
+  Timestamp?: Date | undefined;
 }
 export interface ListShardsInput {
-  StreamName?: string;
-  NextToken?: string;
-  ExclusiveStartShardId?: string;
-  MaxResults?: number;
-  StreamCreationTimestamp?: Date;
-  ShardFilter?: ShardFilter;
-  StreamARN?: string;
-  StreamId?: string;
+  StreamName?: string | undefined;
+  NextToken?: string | undefined;
+  ExclusiveStartShardId?: string | undefined;
+  MaxResults?: number | undefined;
+  StreamCreationTimestamp?: Date | undefined;
+  ShardFilter?: ShardFilter | undefined;
+  StreamARN?: string | undefined;
+  StreamId?: string | undefined;
 }
 export interface ListShardsOutput {
-  Shards?: Shard[];
-  NextToken?: string;
+  Shards?: Shard[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListStreamConsumersInputLimit = number;
 export interface ListStreamConsumersInput {
   StreamARN: string;
-  NextToken?: string;
-  MaxResults?: number;
-  StreamCreationTimestamp?: Date;
-  StreamId?: string;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  StreamCreationTimestamp?: Date | undefined;
+  StreamId?: string | undefined;
 }
 export interface Consumer {
   ConsumerName: string;
@@ -1329,288 +1330,288 @@ export interface Consumer {
 }
 export type ConsumerList = Consumer[];
 export interface ListStreamConsumersOutput {
-  Consumers?: Consumer[];
-  NextToken?: string;
+  Consumers?: Consumer[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListStreamsInputLimit = number;
 export interface ListStreamsInput {
-  Limit?: number;
-  ExclusiveStartStreamName?: string;
-  NextToken?: string;
+  Limit?: number | undefined;
+  ExclusiveStartStreamName?: string | undefined;
+  NextToken?: string | undefined;
 }
 export type StreamNameList = string[];
 export interface StreamSummary {
   StreamName: string;
   StreamARN: string;
   StreamStatus: StreamStatus;
-  StreamModeDetails?: StreamModeDetails;
-  StreamCreationTimestamp?: Date;
+  StreamModeDetails?: StreamModeDetails | undefined;
+  StreamCreationTimestamp?: Date | undefined;
 }
 export type StreamSummaryList = StreamSummary[];
 export interface ListStreamsOutput {
   StreamNames: string[];
   HasMoreStreams: boolean;
-  NextToken?: string;
-  StreamSummaries?: StreamSummary[];
+  NextToken?: string | undefined;
+  StreamSummaries?: StreamSummary[] | undefined;
 }
 export interface ListTagsForResourceInput {
   ResourceARN: string;
-  StreamId?: string;
+  StreamId?: string | undefined;
 }
 export interface Tag {
   Key: string;
-  Value?: string;
+  Value?: string | undefined;
 }
 export type TagList = Tag[];
 export interface ListTagsForResourceOutput {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type ListTagsForStreamInputLimit = number;
 export interface ListTagsForStreamInput {
-  StreamName?: string;
-  ExclusiveStartTagKey?: string;
-  Limit?: number;
-  StreamARN?: string;
-  StreamId?: string;
+  StreamName?: string | undefined;
+  ExclusiveStartTagKey?: string | undefined;
+  Limit?: number | undefined;
+  StreamARN?: string | undefined;
+  StreamId?: string | undefined;
 }
 export interface ListTagsForStreamOutput {
   Tags: Tag[];
   HasMoreTags: boolean;
 }
 export interface MergeShardsInput {
-  StreamName?: string;
+  StreamName?: string | undefined;
   ShardToMerge: string;
   AdjacentShardToMerge: string;
-  StreamARN?: string;
-  StreamId?: string;
+  StreamARN?: string | undefined;
+  StreamId?: string | undefined;
 }
 export interface MergeShardsResponse {}
 export interface PutRecordInput {
-  StreamName?: string;
+  StreamName?: string | undefined;
   Data: Uint8Array;
-  PartitionKey?: string;
-  ExplicitHashKey?: string;
-  SequenceNumberForOrdering?: string;
-  StreamARN?: string;
-  StreamId?: string;
-  DryRun?: boolean;
+  PartitionKey?: string | undefined;
+  ExplicitHashKey?: string | undefined;
+  SequenceNumberForOrdering?: string | undefined;
+  StreamARN?: string | undefined;
+  StreamId?: string | undefined;
+  DryRun?: boolean | undefined;
 }
 export interface PutRecordOutput {
   ShardId: string;
   SequenceNumber: string;
-  EncryptionType?: EncryptionType;
+  EncryptionType?: EncryptionType | undefined;
 }
 export interface PutRecordsRequestEntry {
   Data: Uint8Array;
-  ExplicitHashKey?: string;
-  PartitionKey?: string;
+  ExplicitHashKey?: string | undefined;
+  PartitionKey?: string | undefined;
 }
 export type PutRecordsRequestEntryList = PutRecordsRequestEntry[];
 export interface PutRecordsInput {
   Records: PutRecordsRequestEntry[];
-  StreamName?: string;
-  StreamARN?: string;
-  StreamId?: string;
-  DryRun?: boolean;
+  StreamName?: string | undefined;
+  StreamARN?: string | undefined;
+  StreamId?: string | undefined;
+  DryRun?: boolean | undefined;
 }
 export type ErrorCode = string;
 export type ErrorMessage = string;
 export interface PutRecordsResultEntry {
-  SequenceNumber?: string;
-  ShardId?: string;
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  SequenceNumber?: string | undefined;
+  ShardId?: string | undefined;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type PutRecordsResultEntryList = PutRecordsResultEntry[];
 export interface PutRecordsOutput {
-  FailedRecordCount?: number;
+  FailedRecordCount?: number | undefined;
   Records: PutRecordsResultEntry[];
-  EncryptionType?: EncryptionType;
+  EncryptionType?: EncryptionType | undefined;
 }
 export interface PutResourcePolicyInput {
   ResourceARN: string;
-  StreamId?: string;
+  StreamId?: string | undefined;
   Policy: string;
 }
 export interface PutResourcePolicyResponse {}
 export interface RegisterStreamConsumerInput {
   StreamARN: string;
   ConsumerName: string;
-  StreamId?: string;
-  Tags?: { [key: string]: string | undefined };
+  StreamId?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface RegisterStreamConsumerOutput {
   Consumer: Consumer;
 }
 export type TagKeyList = string[];
 export interface RemoveTagsFromStreamInput {
-  StreamName?: string;
+  StreamName?: string | undefined;
   TagKeys: string[];
-  StreamARN?: string;
-  StreamId?: string;
+  StreamARN?: string | undefined;
+  StreamId?: string | undefined;
 }
 export interface RemoveTagsFromStreamResponse {}
 export interface SplitShardInput {
-  StreamName?: string;
+  StreamName?: string | undefined;
   ShardToSplit: string;
   NewStartingHashKey: string;
-  StreamARN?: string;
-  StreamId?: string;
+  StreamARN?: string | undefined;
+  StreamId?: string | undefined;
 }
 export interface SplitShardResponse {}
 export interface StartStreamEncryptionInput {
-  StreamName?: string;
+  StreamName?: string | undefined;
   EncryptionType: EncryptionType;
   KeyId: string;
-  StreamARN?: string;
-  StreamId?: string;
+  StreamARN?: string | undefined;
+  StreamId?: string | undefined;
 }
 export interface StartStreamEncryptionResponse {}
 export interface StopStreamEncryptionInput {
-  StreamName?: string;
+  StreamName?: string | undefined;
   EncryptionType: EncryptionType;
   KeyId: string;
-  StreamARN?: string;
-  StreamId?: string;
+  StreamARN?: string | undefined;
+  StreamId?: string | undefined;
 }
 export interface StopStreamEncryptionResponse {}
 export interface StartingPosition {
   Type: ShardIteratorType;
-  SequenceNumber?: string;
-  Timestamp?: Date;
+  SequenceNumber?: string | undefined;
+  Timestamp?: Date | undefined;
 }
 export interface SubscribeToShardInput {
   ConsumerARN: string;
-  StreamId?: string;
+  StreamId?: string | undefined;
   ShardId: string;
   StartingPosition: StartingPosition;
-  DryRun?: boolean;
+  DryRun?: boolean | undefined;
 }
 export interface SubscribeToShardEvent {
   Records: Record[];
   ContinuationSequenceNumber: string;
   MillisBehindLatest: number;
-  ChildShards?: ChildShard[];
+  ChildShards?: ChildShard[] | undefined;
 }
 export type SubscribeToShardEventStream =
   | {
       SubscribeToShardEvent: SubscribeToShardEvent;
-      ResourceNotFoundException?: never;
-      ResourceInUseException?: never;
-      KMSDisabledException?: never;
-      KMSInvalidStateException?: never;
-      KMSAccessDeniedException?: never;
-      KMSNotFoundException?: never;
-      KMSOptInRequired?: never;
-      KMSThrottlingException?: never;
-      InternalFailureException?: never;
+      ResourceNotFoundException?: undefined;
+      ResourceInUseException?: undefined;
+      KMSDisabledException?: undefined;
+      KMSInvalidStateException?: undefined;
+      KMSAccessDeniedException?: undefined;
+      KMSNotFoundException?: undefined;
+      KMSOptInRequired?: undefined;
+      KMSThrottlingException?: undefined;
+      InternalFailureException?: undefined;
     }
   | {
-      SubscribeToShardEvent?: never;
+      SubscribeToShardEvent?: undefined;
       ResourceNotFoundException: ResourceNotFoundException;
-      ResourceInUseException?: never;
-      KMSDisabledException?: never;
-      KMSInvalidStateException?: never;
-      KMSAccessDeniedException?: never;
-      KMSNotFoundException?: never;
-      KMSOptInRequired?: never;
-      KMSThrottlingException?: never;
-      InternalFailureException?: never;
+      ResourceInUseException?: undefined;
+      KMSDisabledException?: undefined;
+      KMSInvalidStateException?: undefined;
+      KMSAccessDeniedException?: undefined;
+      KMSNotFoundException?: undefined;
+      KMSOptInRequired?: undefined;
+      KMSThrottlingException?: undefined;
+      InternalFailureException?: undefined;
     }
   | {
-      SubscribeToShardEvent?: never;
-      ResourceNotFoundException?: never;
+      SubscribeToShardEvent?: undefined;
+      ResourceNotFoundException?: undefined;
       ResourceInUseException: ResourceInUseException;
-      KMSDisabledException?: never;
-      KMSInvalidStateException?: never;
-      KMSAccessDeniedException?: never;
-      KMSNotFoundException?: never;
-      KMSOptInRequired?: never;
-      KMSThrottlingException?: never;
-      InternalFailureException?: never;
+      KMSDisabledException?: undefined;
+      KMSInvalidStateException?: undefined;
+      KMSAccessDeniedException?: undefined;
+      KMSNotFoundException?: undefined;
+      KMSOptInRequired?: undefined;
+      KMSThrottlingException?: undefined;
+      InternalFailureException?: undefined;
     }
   | {
-      SubscribeToShardEvent?: never;
-      ResourceNotFoundException?: never;
-      ResourceInUseException?: never;
+      SubscribeToShardEvent?: undefined;
+      ResourceNotFoundException?: undefined;
+      ResourceInUseException?: undefined;
       KMSDisabledException: KMSDisabledException;
-      KMSInvalidStateException?: never;
-      KMSAccessDeniedException?: never;
-      KMSNotFoundException?: never;
-      KMSOptInRequired?: never;
-      KMSThrottlingException?: never;
-      InternalFailureException?: never;
+      KMSInvalidStateException?: undefined;
+      KMSAccessDeniedException?: undefined;
+      KMSNotFoundException?: undefined;
+      KMSOptInRequired?: undefined;
+      KMSThrottlingException?: undefined;
+      InternalFailureException?: undefined;
     }
   | {
-      SubscribeToShardEvent?: never;
-      ResourceNotFoundException?: never;
-      ResourceInUseException?: never;
-      KMSDisabledException?: never;
+      SubscribeToShardEvent?: undefined;
+      ResourceNotFoundException?: undefined;
+      ResourceInUseException?: undefined;
+      KMSDisabledException?: undefined;
       KMSInvalidStateException: KMSInvalidStateException;
-      KMSAccessDeniedException?: never;
-      KMSNotFoundException?: never;
-      KMSOptInRequired?: never;
-      KMSThrottlingException?: never;
-      InternalFailureException?: never;
+      KMSAccessDeniedException?: undefined;
+      KMSNotFoundException?: undefined;
+      KMSOptInRequired?: undefined;
+      KMSThrottlingException?: undefined;
+      InternalFailureException?: undefined;
     }
   | {
-      SubscribeToShardEvent?: never;
-      ResourceNotFoundException?: never;
-      ResourceInUseException?: never;
-      KMSDisabledException?: never;
-      KMSInvalidStateException?: never;
+      SubscribeToShardEvent?: undefined;
+      ResourceNotFoundException?: undefined;
+      ResourceInUseException?: undefined;
+      KMSDisabledException?: undefined;
+      KMSInvalidStateException?: undefined;
       KMSAccessDeniedException: KMSAccessDeniedException;
-      KMSNotFoundException?: never;
-      KMSOptInRequired?: never;
-      KMSThrottlingException?: never;
-      InternalFailureException?: never;
+      KMSNotFoundException?: undefined;
+      KMSOptInRequired?: undefined;
+      KMSThrottlingException?: undefined;
+      InternalFailureException?: undefined;
     }
   | {
-      SubscribeToShardEvent?: never;
-      ResourceNotFoundException?: never;
-      ResourceInUseException?: never;
-      KMSDisabledException?: never;
-      KMSInvalidStateException?: never;
-      KMSAccessDeniedException?: never;
+      SubscribeToShardEvent?: undefined;
+      ResourceNotFoundException?: undefined;
+      ResourceInUseException?: undefined;
+      KMSDisabledException?: undefined;
+      KMSInvalidStateException?: undefined;
+      KMSAccessDeniedException?: undefined;
       KMSNotFoundException: KMSNotFoundException;
-      KMSOptInRequired?: never;
-      KMSThrottlingException?: never;
-      InternalFailureException?: never;
+      KMSOptInRequired?: undefined;
+      KMSThrottlingException?: undefined;
+      InternalFailureException?: undefined;
     }
   | {
-      SubscribeToShardEvent?: never;
-      ResourceNotFoundException?: never;
-      ResourceInUseException?: never;
-      KMSDisabledException?: never;
-      KMSInvalidStateException?: never;
-      KMSAccessDeniedException?: never;
-      KMSNotFoundException?: never;
+      SubscribeToShardEvent?: undefined;
+      ResourceNotFoundException?: undefined;
+      ResourceInUseException?: undefined;
+      KMSDisabledException?: undefined;
+      KMSInvalidStateException?: undefined;
+      KMSAccessDeniedException?: undefined;
+      KMSNotFoundException?: undefined;
       KMSOptInRequired: KMSOptInRequired;
-      KMSThrottlingException?: never;
-      InternalFailureException?: never;
+      KMSThrottlingException?: undefined;
+      InternalFailureException?: undefined;
     }
   | {
-      SubscribeToShardEvent?: never;
-      ResourceNotFoundException?: never;
-      ResourceInUseException?: never;
-      KMSDisabledException?: never;
-      KMSInvalidStateException?: never;
-      KMSAccessDeniedException?: never;
-      KMSNotFoundException?: never;
-      KMSOptInRequired?: never;
+      SubscribeToShardEvent?: undefined;
+      ResourceNotFoundException?: undefined;
+      ResourceInUseException?: undefined;
+      KMSDisabledException?: undefined;
+      KMSInvalidStateException?: undefined;
+      KMSAccessDeniedException?: undefined;
+      KMSNotFoundException?: undefined;
+      KMSOptInRequired?: undefined;
       KMSThrottlingException: KMSThrottlingException;
-      InternalFailureException?: never;
+      InternalFailureException?: undefined;
     }
   | {
-      SubscribeToShardEvent?: never;
-      ResourceNotFoundException?: never;
-      ResourceInUseException?: never;
-      KMSDisabledException?: never;
-      KMSInvalidStateException?: never;
-      KMSAccessDeniedException?: never;
-      KMSNotFoundException?: never;
-      KMSOptInRequired?: never;
-      KMSThrottlingException?: never;
+      SubscribeToShardEvent?: undefined;
+      ResourceNotFoundException?: undefined;
+      ResourceInUseException?: undefined;
+      KMSDisabledException?: undefined;
+      KMSInvalidStateException?: undefined;
+      KMSAccessDeniedException?: undefined;
+      KMSNotFoundException?: undefined;
+      KMSOptInRequired?: undefined;
+      KMSThrottlingException?: undefined;
       InternalFailureException: InternalFailureException;
     };
 export interface SubscribeToShardOutput {
@@ -1619,13 +1620,13 @@ export interface SubscribeToShardOutput {
 export interface TagResourceInput {
   Tags: { [key: string]: string | undefined };
   ResourceARN: string;
-  StreamId?: string;
+  StreamId?: string | undefined;
 }
 export interface TagResourceResponse {}
 export interface UntagResourceInput {
   TagKeys: string[];
   ResourceARN: string;
-  StreamId?: string;
+  StreamId?: string | undefined;
 }
 export interface UntagResourceResponse {}
 export type MinimumThroughputBillingCommitmentInputStatus = "ENABLED" | "DISABLED" | (string & {});
@@ -1636,7 +1637,7 @@ export interface UpdateAccountSettingsInput {
   MinimumThroughputBillingCommitment: MinimumThroughputBillingCommitmentInput;
 }
 export interface UpdateAccountSettingsOutput {
-  MinimumThroughputBillingCommitment?: MinimumThroughputBillingCommitmentOutput;
+  MinimumThroughputBillingCommitment?: MinimumThroughputBillingCommitmentOutput | undefined;
 }
 export interface S3DestinationUpdateInput {
   DataFreshnessInSeconds: number;
@@ -1646,64 +1647,64 @@ export interface S3TablesDestinationUpdateInput {
 }
 export interface CloudWatchLogsUpdateInput {
   Enabled: boolean;
-  LogGroupName?: string;
-  LogStreamName?: string;
+  LogGroupName?: string | undefined;
+  LogStreamName?: string | undefined;
 }
 export interface ChannelLoggingUpdateInput {
   CloudWatchLogs: CloudWatchLogsUpdateInput;
 }
 export interface UpdateChannelInput {
   ChannelARN: string;
-  S3DestinationConfiguration?: S3DestinationUpdateInput;
-  S3TablesDestinationConfiguration?: S3TablesDestinationUpdateInput;
-  LoggingConfiguration?: ChannelLoggingUpdateInput;
+  S3DestinationConfiguration?: S3DestinationUpdateInput | undefined;
+  S3TablesDestinationConfiguration?: S3TablesDestinationUpdateInput | undefined;
+  LoggingConfiguration?: ChannelLoggingUpdateInput | undefined;
 }
 export interface UpdateChannelOutput {
   ChannelDescription: ChannelDescription;
 }
 export interface UpdateMaxRecordSizeInput {
-  StreamARN?: string;
-  StreamId?: string;
+  StreamARN?: string | undefined;
+  StreamId?: string | undefined;
   MaxRecordSizeInKiB: number;
 }
 export interface UpdateMaxRecordSizeResponse {}
 export type ScalingType = "UNIFORM_SCALING" | (string & {});
 export interface UpdateShardCountInput {
-  StreamName?: string;
+  StreamName?: string | undefined;
   TargetShardCount: number;
   ScalingType: ScalingType;
-  StreamARN?: string;
-  StreamId?: string;
+  StreamARN?: string | undefined;
+  StreamId?: string | undefined;
 }
 export interface UpdateShardCountOutput {
-  StreamName?: string;
-  CurrentShardCount?: number;
-  TargetShardCount?: number;
-  StreamARN?: string;
+  StreamName?: string | undefined;
+  CurrentShardCount?: number | undefined;
+  TargetShardCount?: number | undefined;
+  StreamARN?: string | undefined;
 }
 export interface UpdateStreamModeInput {
   StreamARN: string;
-  StreamId?: string;
+  StreamId?: string | undefined;
   StreamModeDetails: StreamModeDetails;
-  WarmThroughputMiBps?: number;
+  WarmThroughputMiBps?: number | undefined;
 }
 export interface UpdateStreamModeResponse {}
 export interface UpdateStreamRecordDistributionStrategyInput {
   StreamARN: string;
-  StreamId?: string;
+  StreamId?: string | undefined;
   RecordDistributionStrategy: RecordDistributionStrategy;
 }
 export interface UpdateStreamRecordDistributionStrategyResponse {}
 export interface UpdateStreamWarmThroughputInput {
-  StreamARN?: string;
-  StreamName?: string;
-  StreamId?: string;
+  StreamARN?: string | undefined;
+  StreamName?: string | undefined;
+  StreamId?: string | undefined;
   WarmThroughputMiBps: number;
 }
 export interface UpdateStreamWarmThroughputOutput {
-  StreamARN?: string;
-  StreamName?: string;
-  WarmThroughput?: WarmThroughputObject;
+  StreamARN?: string | undefined;
+  StreamName?: string | undefined;
+  WarmThroughput?: WarmThroughputObject | undefined;
 }
 export type AddTagsToStreamError =
   | AccessDeniedException
@@ -1727,7 +1728,7 @@ export type AddTagsToStreamError =
  * account.
  */
 export const addTagsToStream: API.OperationMethod<
-  AddTagsToStreamInput,
+  AddTagsToStreamInput & RegionInput,
   AddTagsToStreamResponse,
   AddTagsToStreamError,
   Credentials | HttpClient.HttpClient
@@ -1782,7 +1783,7 @@ export type CreateChannelError =
  * This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a `LimitExceededException`.
  */
 export const createChannel: API.OperationMethod<
-  CreateChannelInput,
+  CreateChannelInput & RegionInput,
   CreateChannelOutput,
   CreateChannelError,
   Credentials | HttpClient.HttpClient
@@ -1858,7 +1859,7 @@ export type CreateStreamError =
  * You can add tags to the stream when making a `CreateStream` request by setting the `Tags` parameter. If you pass the `Tags` parameter, in addition to having the `kinesis:CreateStream` permission, you must also have the `kinesis:AddTagsToStream` permission for the stream that will be created. The `kinesis:TagResource` permission won't work to tag streams on creation. Tags will take effect from the `CREATING` status of the stream, but you can't make any updates to the tags until the stream is in `ACTIVE` state.
  */
 export const createStream: API.OperationMethod<
-  CreateStreamInput,
+  CreateStreamInput & RegionInput,
   CreateStreamResponse,
   CreateStreamError,
   Credentials | HttpClient.HttpClient
@@ -1899,7 +1900,7 @@ export type DecreaseStreamRetentionPeriodError =
  * than 24 hours is inaccessible.
  */
 export const decreaseStreamRetentionPeriod: API.OperationMethod<
-  DecreaseStreamRetentionPeriodInput,
+  DecreaseStreamRetentionPeriodInput & RegionInput,
   DecreaseStreamRetentionPeriodResponse,
   DecreaseStreamRetentionPeriodError,
   Credentials | HttpClient.HttpClient
@@ -1941,7 +1942,7 @@ export type DeleteChannelError =
  * This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a `LimitExceededException`.
  */
 export const deleteChannel: API.OperationMethod<
-  DeleteChannelInput,
+  DeleteChannelInput & RegionInput,
   DeleteChannelResponse,
   DeleteChannelError,
   Credentials | HttpClient.HttpClient
@@ -1977,7 +1978,7 @@ export type DeleteResourcePolicyError =
  * - Consumer pattern: `^(arn):aws.*:kinesis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/consumer\/[a-zA-Z0-9_.-]+:[0-9]+`
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyInput,
+  DeleteResourcePolicyInput & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2034,7 +2035,7 @@ export type DeleteStreamError =
  * account.
  */
 export const deleteStream: API.OperationMethod<
-  DeleteStreamInput,
+  DeleteStreamInput & RegionInput,
   DeleteStreamResponse,
   DeleteStreamError,
   Credentials | HttpClient.HttpClient
@@ -2078,7 +2079,7 @@ export type DeregisterStreamConsumerError =
  * This operation has a limit of five transactions per second per stream.
  */
 export const deregisterStreamConsumer: API.OperationMethod<
-  DeregisterStreamConsumerInput,
+  DeregisterStreamConsumerInput & RegionInput,
   DeregisterStreamConsumerResponse,
   DeregisterStreamConsumerError,
   Credentials | HttpClient.HttpClient
@@ -2103,7 +2104,7 @@ export type DescribeAccountSettingsError = LimitExceededException | CommonErrors
  * This API has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. TPS over 5 will initiate the `LimitExceededException`.
  */
 export const describeAccountSettings: API.OperationMethod<
-  DescribeAccountSettingsInput,
+  DescribeAccountSettingsInput & RegionInput,
   DescribeAccountSettingsOutput,
   DescribeAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2133,7 +2134,7 @@ export type DescribeChannelError =
  * This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a `LimitExceededException`.
  */
 export const describeChannel: API.OperationMethod<
-  DescribeChannelInput,
+  DescribeChannelInput & RegionInput,
   DescribeChannelOutput,
   DescribeChannelError,
   Credentials | HttpClient.HttpClient
@@ -2164,7 +2165,7 @@ export type DescribeLimitsError = LimitExceededException | CommonErrors;
  * This operation has a limit of one transaction per second per account.
  */
 export const describeLimits: API.OperationMethod<
-  DescribeLimitsInput,
+  DescribeLimitsInput & RegionInput,
   DescribeLimitsOutput,
   DescribeLimitsError,
   Credentials | HttpClient.HttpClient
@@ -2215,7 +2216,7 @@ export type DescribeStreamError =
  * This operation has a limit of 10 transactions per second per account.
  */
 export const describeStream: API.OperationMethod<
-  DescribeStreamInput,
+  DescribeStreamInput & RegionInput,
   DescribeStreamOutput,
   DescribeStreamError,
   Credentials | HttpClient.HttpClient
@@ -2260,7 +2261,7 @@ export type DescribeStreamConsumerError =
  * When making a cross-account call with `DescribeStreamConsumer`, make sure to provide the ARN of the consumer.
  */
 export const describeStreamConsumer: API.OperationMethod<
-  DescribeStreamConsumerInput,
+  DescribeStreamConsumerInput & RegionInput,
   DescribeStreamConsumerOutput,
   DescribeStreamConsumerError,
   Credentials | HttpClient.HttpClient
@@ -2300,7 +2301,7 @@ export type DescribeStreamSummaryError =
  * account.
  */
 export const describeStreamSummary: API.OperationMethod<
-  DescribeStreamSummaryInput,
+  DescribeStreamSummaryInput & RegionInput,
   DescribeStreamSummaryOutput,
   DescribeStreamSummaryError,
   Credentials | HttpClient.HttpClient
@@ -2341,7 +2342,7 @@ export type DisableEnhancedMonitoringError =
  * `StreamARN` input parameter when you invoke this API.
  */
 export const disableEnhancedMonitoring: API.OperationMethod<
-  DisableEnhancedMonitoringInput,
+  DisableEnhancedMonitoringInput & RegionInput,
   EnhancedMonitoringOutput,
   DisableEnhancedMonitoringError,
   Credentials | HttpClient.HttpClient
@@ -2383,7 +2384,7 @@ export type EnableEnhancedMonitoringError =
  * `StreamARN` input parameter when you invoke this API.
  */
 export const enableEnhancedMonitoring: API.OperationMethod<
-  EnableEnhancedMonitoringInput,
+  EnableEnhancedMonitoringInput & RegionInput,
   EnhancedMonitoringOutput,
   EnableEnhancedMonitoringError,
   Credentials | HttpClient.HttpClient
@@ -2490,7 +2491,7 @@ export type GetRecordsError =
  * This operation has a limit of five transactions per second per shard.
  */
 export const getRecords: API.OperationMethod<
-  GetRecordsInput,
+  GetRecordsInput & RegionInput,
   GetRecordsOutput,
   GetRecordsError,
   Credentials | HttpClient.HttpClient
@@ -2537,7 +2538,7 @@ export type GetResourcePolicyError =
  * - Consumer pattern: `^(arn):aws.*:kinesis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/consumer\/[a-zA-Z0-9_.-]+:[0-9]+`
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyInput,
+  GetResourcePolicyInput & RegionInput,
   GetResourcePolicyOutput,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2612,7 +2613,7 @@ export type GetShardIteratorError =
  * account per open shard.
  */
 export const getShardIterator: API.OperationMethod<
-  GetShardIteratorInput,
+  GetShardIteratorInput & RegionInput,
   GetShardIteratorOutput,
   GetShardIteratorError,
   Credentials | HttpClient.HttpClient
@@ -2664,7 +2665,7 @@ export type IncreaseStreamRetentionPeriodError =
  * hours remains inaccessible to consumer applications.
  */
 export const increaseStreamRetentionPeriod: API.OperationMethod<
-  IncreaseStreamRetentionPeriodInput,
+  IncreaseStreamRetentionPeriodInput & RegionInput,
   IncreaseStreamRetentionPeriodResponse,
   IncreaseStreamRetentionPeriodError,
   Credentials | HttpClient.HttpClient
@@ -2706,7 +2707,7 @@ export type ListChannelsError =
  * This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a `LimitExceededException`.
  */
 export const listChannels: API.PaginatedOperationMethod<
-  ListChannelsInput,
+  ListChannelsInput & RegionInput,
   ListChannelsOutput,
   ListChannelsError,
   Credentials | HttpClient.HttpClient,
@@ -2760,7 +2761,7 @@ export type ListShardsError =
  * IAM.
  */
 export const listShards: API.OperationMethod<
-  ListShardsInput,
+  ListShardsInput & RegionInput,
   ListShardsOutput,
   ListShardsError,
   Credentials | HttpClient.HttpClient
@@ -2802,7 +2803,7 @@ export type ListStreamConsumersError =
  * This operation has a limit of 5 transactions per second per stream.
  */
 export const listStreamConsumers: API.PaginatedOperationMethod<
-  ListStreamConsumersInput,
+  ListStreamConsumersInput & RegionInput,
   ListStreamConsumersOutput,
   ListStreamConsumersError,
   Credentials | HttpClient.HttpClient,
@@ -2858,7 +2859,7 @@ export type ListStreamsError =
  * account.
  */
 export const listStreams: API.PaginatedOperationMethod<
-  ListStreamsInput,
+  ListStreamsInput & RegionInput,
   ListStreamsOutput,
   ListStreamsError,
   Credentials | HttpClient.HttpClient,
@@ -2888,7 +2889,7 @@ export type ListTagsForResourceError =
  * For more information about tagging Kinesis resources, see Tag your Amazon Kinesis Data Streams resources.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2924,7 +2925,7 @@ export type ListTagsForStreamError =
  * `StreamARN` input parameter when you invoke this API.
  */
 export const listTagsForStream: API.OperationMethod<
-  ListTagsForStreamInput,
+  ListTagsForStreamInput & RegionInput,
   ListTagsForStreamOutput,
   ListTagsForStreamError,
   Credentials | HttpClient.HttpClient
@@ -3006,7 +3007,7 @@ export type MergeShardsError =
  * `MergeShards` has a limit of five transactions per second per account.
  */
 export const mergeShards: API.OperationMethod<
-  MergeShardsInput,
+  MergeShardsInput & RegionInput,
   MergeShardsResponse,
   MergeShardsError,
   Credentials | HttpClient.HttpClient
@@ -3097,7 +3098,7 @@ export type PutRecordError =
  * to a stream. You can use IncreaseStreamRetentionPeriod or DecreaseStreamRetentionPeriod to modify this retention period.
  */
 export const putRecord: API.OperationMethod<
-  PutRecordInput,
+  PutRecordInput & RegionInput,
   PutRecordOutput,
   PutRecordError,
   Credentials | HttpClient.HttpClient
@@ -3217,7 +3218,7 @@ export type PutRecordsError =
  * to a stream. You can use IncreaseStreamRetentionPeriod or DecreaseStreamRetentionPeriod to modify this retention period.
  */
 export const putRecords: API.OperationMethod<
-  PutRecordsInput,
+  PutRecordsInput & RegionInput,
   PutRecordsOutput,
   PutRecordsError,
   Credentials | HttpClient.HttpClient
@@ -3274,7 +3275,7 @@ export type PutResourcePolicyError =
  * For more information, see Controlling Access to Amazon Kinesis Data Streams Resources Using IAM.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyInput,
+  PutResourcePolicyInput & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3323,7 +3324,7 @@ export type RegisterStreamConsumerError =
  * `LimitExceededException`.
  */
 export const registerStreamConsumer: API.OperationMethod<
-  RegisterStreamConsumerInput,
+  RegisterStreamConsumerInput & RegionInput,
   RegisterStreamConsumerOutput,
   RegisterStreamConsumerError,
   Credentials | HttpClient.HttpClient
@@ -3367,7 +3368,7 @@ export type RemoveTagsFromStreamError =
  * account.
  */
 export const removeTagsFromStream: API.OperationMethod<
-  RemoveTagsFromStreamInput,
+  RemoveTagsFromStreamInput & RegionInput,
   RemoveTagsFromStreamResponse,
   RemoveTagsFromStreamError,
   Credentials | HttpClient.HttpClient
@@ -3456,7 +3457,7 @@ export type SplitShardError =
  * `SplitShard` has a limit of five transactions per second per account.
  */
 export const splitShard: API.OperationMethod<
-  SplitShardInput,
+  SplitShardInput & RegionInput,
   SplitShardResponse,
   SplitShardError,
   Credentials | HttpClient.HttpClient
@@ -3523,7 +3524,7 @@ export type StartStreamEncryptionError =
  * `PutRecord` or `PutRecords`.
  */
 export const startStreamEncryption: API.OperationMethod<
-  StartStreamEncryptionInput,
+  StartStreamEncryptionInput & RegionInput,
   StartStreamEncryptionResponse,
   StartStreamEncryptionError,
   Credentials | HttpClient.HttpClient
@@ -3588,7 +3589,7 @@ export type StopStreamEncryptionError =
  * response from `PutRecord` or `PutRecords`.
  */
 export const stopStreamEncryption: API.OperationMethod<
-  StopStreamEncryptionInput,
+  StopStreamEncryptionInput & RegionInput,
   StopStreamEncryptionResponse,
   StopStreamEncryptionError,
   Credentials | HttpClient.HttpClient
@@ -3653,7 +3654,7 @@ export type SubscribeToShardError =
  * Using the Kinesis Data Streams API.
  */
 export const subscribeToShard: API.OperationMethod<
-  SubscribeToShardInput,
+  SubscribeToShardInput & RegionInput,
   SubscribeToShardOutput,
   SubscribeToShardError,
   Credentials | HttpClient.HttpClient
@@ -3686,7 +3687,7 @@ export type TagResourceError =
  * Adds or updates tags for the specified Kinesis resource. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources. You can assign up to 50 tags to a Kinesis resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3718,7 +3719,7 @@ export type UntagResourceError =
  * Removes tags from the specified Kinesis resource. Removed tags are deleted and can't be recovered after this operation completes successfully.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3756,7 +3757,7 @@ export type UpdateAccountSettingsError =
  * - This API has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. TPS over 5 will initiate the `LimitExceededException`.
  */
 export const updateAccountSettings: API.OperationMethod<
-  UpdateAccountSettingsInput,
+  UpdateAccountSettingsInput & RegionInput,
   UpdateAccountSettingsOutput,
   UpdateAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -3787,7 +3788,7 @@ export type UpdateChannelError =
  * This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a `LimitExceededException`.
  */
 export const updateChannel: API.OperationMethod<
-  UpdateChannelInput,
+  UpdateChannelInput & RegionInput,
   UpdateChannelOutput,
   UpdateChannelError,
   Credentials | HttpClient.HttpClient
@@ -3821,7 +3822,7 @@ export type UpdateMaxRecordSizeError =
  * This allows you to update the `MaxRecordSize` of a single record that you can write to, and read from a stream. You can ingest and digest single records up to 10240 KiB.
  */
 export const updateMaxRecordSize: API.OperationMethod<
-  UpdateMaxRecordSizeInput,
+  UpdateMaxRecordSizeInput & RegionInput,
   UpdateMaxRecordSizeResponse,
   UpdateMaxRecordSizeError,
   Credentials | HttpClient.HttpClient
@@ -3904,7 +3905,7 @@ export type UpdateShardCountError =
  * this API, or your overall shard limit, use the limits form.
  */
 export const updateShardCount: API.OperationMethod<
-  UpdateShardCountInput,
+  UpdateShardCountInput & RegionInput,
   UpdateShardCountOutput,
   UpdateShardCountError,
   Credentials | HttpClient.HttpClient
@@ -3947,7 +3948,7 @@ export type UpdateStreamModeError =
  * If you'd still like to proactively scale your on-demand data stream's capacity, you can unlock the warm throughput feature for on-demand data streams by enabling `MinimumThroughputBillingCommitment` for your account. Once your account has `MinimumThroughputBillingCommitment` enabled, you can specify the warm throughput in MiB per second that your stream can support in writes.
  */
 export const updateStreamMode: API.OperationMethod<
-  UpdateStreamModeInput,
+  UpdateStreamModeInput & RegionInput,
   UpdateStreamModeResponse,
   UpdateStreamModeError,
   Credentials | HttpClient.HttpClient
@@ -4010,7 +4011,7 @@ export type UpdateStreamRecordDistributionStrategyError =
  * not redistributed.
  */
 export const updateStreamRecordDistributionStrategy: API.OperationMethod<
-  UpdateStreamRecordDistributionStrategyInput,
+  UpdateStreamRecordDistributionStrategyInput & RegionInput,
   UpdateStreamRecordDistributionStrategyResponse,
   UpdateStreamRecordDistributionStrategyError,
   Credentials | HttpClient.HttpClient
@@ -4064,7 +4065,7 @@ export type UpdateStreamWarmThroughputError =
  * Guide. To request an increase in the call rate limit, the shard limit for this API, or your overall shard limit, use the limits form.
  */
 export const updateStreamWarmThroughput: API.OperationMethod<
-  UpdateStreamWarmThroughputInput,
+  UpdateStreamWarmThroughputInput & RegionInput,
   UpdateStreamWarmThroughputOutput,
   UpdateStreamWarmThroughputError,
   Credentials | HttpClient.HttpClient

@@ -31,4 +31,10 @@ export * as Services from "./services/index.ts";
 // same-named shared ones from ./errors.ts -- the ops actually raise the
 // service-local classes.
 export * from "./services/opencode.ts";
-export { BadRequest, Conflict, Forbidden, NotFound } from "./services/opencode.ts";
+export {
+  BadRequest,
+  Conflict,
+  Forbidden,
+  NotFound,
+  UnprocessableEntity,
+} from "./services/opencode.ts";

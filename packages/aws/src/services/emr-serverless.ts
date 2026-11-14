@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -104,7 +105,7 @@ export class InternalServerException
     "InternalServerException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
@@ -129,7 +130,7 @@ export type ShutdownGracePeriodInSeconds = number;
 export interface CancelJobRunRequest {
   applicationId: string;
   jobRunId: string;
-  shutdownGracePeriodInSeconds?: number;
+  shutdownGracePeriodInSeconds?: number | undefined;
 }
 export interface CancelJobRunResponse {
   applicationId: string;
@@ -148,45 +149,45 @@ export type DiskType = string;
 export interface WorkerResourceConfig {
   cpu: string;
   memory: string;
-  disk?: string;
-  diskType?: string;
+  disk?: string | undefined;
+  diskType?: string | undefined;
 }
 export interface InitialCapacityConfig {
   workerCount: number;
-  workerConfiguration?: WorkerResourceConfig;
+  workerConfiguration?: WorkerResourceConfig | undefined;
 }
 export type InitialCapacityConfigMap = { [key: string]: InitialCapacityConfig | undefined };
 export interface MaximumAllowedResources {
   cpu: string;
   memory: string;
-  disk?: string;
+  disk?: string | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
 export interface AutoStartConfig {
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface AutoStopConfig {
-  enabled?: boolean;
-  idleTimeoutMinutes?: number;
+  enabled?: boolean | undefined;
+  idleTimeoutMinutes?: number | undefined;
 }
 export type SubnetString = string;
 export type SubnetIds = string[];
 export type SecurityGroupString = string;
 export type SecurityGroupIds = string[];
 export interface NetworkConfiguration {
-  subnetIds?: string[];
-  securityGroupIds?: string[];
+  subnetIds?: string[] | undefined;
+  securityGroupIds?: string[] | undefined;
 }
 export type Architecture = string;
 export type ImageUri = string;
 export interface ImageConfigurationInput {
-  imageUri?: string;
-  applicationLevelDigestResolution?: boolean;
+  imageUri?: string | undefined;
+  applicationLevelDigestResolution?: boolean | undefined;
 }
 export interface WorkerTypeSpecificationInput {
-  imageConfiguration?: ImageConfigurationInput;
+  imageConfiguration?: ImageConfigurationInput | undefined;
 }
 export type WorkerTypeSpecificationInputMap = {
   [key: string]: WorkerTypeSpecificationInput | undefined;
@@ -197,19 +198,19 @@ export type ConfigurationPropertyValue = string;
 export type SensitivePropertiesMap = { [key: string]: string | undefined };
 export interface Configuration {
   classification: string;
-  properties?: { [key: string]: string | undefined };
-  configurations?: Configuration[];
+  properties?: { [key: string]: string | undefined } | undefined;
+  configurations?: Configuration[] | undefined;
 }
 export type ConfigurationList = Configuration[];
 export type UriString = string;
 export type EncryptionKeyArn = string;
 export interface S3MonitoringConfiguration {
-  logUri?: string;
-  encryptionKeyArn?: string;
+  logUri?: string | undefined;
+  encryptionKeyArn?: string | undefined;
 }
 export interface ManagedPersistenceMonitoringConfiguration {
-  enabled?: boolean;
-  encryptionKeyArn?: string;
+  enabled?: boolean | undefined;
+  encryptionKeyArn?: string | undefined;
 }
 export type LogGroupName = string;
 export type LogStreamNamePrefix = string;
@@ -218,71 +219,73 @@ export type LogTypeList = string[];
 export type LogTypeMap = { [key: string]: string[] | undefined };
 export interface CloudWatchLoggingConfiguration {
   enabled: boolean;
-  logGroupName?: string;
-  logStreamNamePrefix?: string;
-  encryptionKeyArn?: string;
-  logTypes?: { [key: string]: string[] | undefined };
+  logGroupName?: string | undefined;
+  logStreamNamePrefix?: string | undefined;
+  encryptionKeyArn?: string | undefined;
+  logTypes?: { [key: string]: string[] | undefined } | undefined;
 }
 export type PrometheusUrlString = string;
 export interface PrometheusMonitoringConfiguration {
-  remoteWriteUrl?: string;
+  remoteWriteUrl?: string | undefined;
 }
 export interface MonitoringConfiguration {
-  s3MonitoringConfiguration?: S3MonitoringConfiguration;
-  managedPersistenceMonitoringConfiguration?: ManagedPersistenceMonitoringConfiguration;
-  cloudWatchLoggingConfiguration?: CloudWatchLoggingConfiguration;
-  prometheusMonitoringConfiguration?: PrometheusMonitoringConfiguration;
+  s3MonitoringConfiguration?: S3MonitoringConfiguration | undefined;
+  managedPersistenceMonitoringConfiguration?: ManagedPersistenceMonitoringConfiguration | undefined;
+  cloudWatchLoggingConfiguration?: CloudWatchLoggingConfiguration | undefined;
+  prometheusMonitoringConfiguration?: PrometheusMonitoringConfiguration | undefined;
 }
 export type EncryptionContextKey = string;
 export type EncryptionContextValue = string;
 export type EncryptionContext = { [key: string]: string | undefined };
 export interface DiskEncryptionConfiguration {
-  encryptionContext?: { [key: string]: string | undefined };
-  encryptionKeyArn?: string;
+  encryptionContext?: { [key: string]: string | undefined } | undefined;
+  encryptionKeyArn?: string | undefined;
 }
 export interface InteractiveConfiguration {
-  studioEnabled?: boolean;
-  livyEndpointEnabled?: boolean;
-  sessionEnabled?: boolean;
+  studioEnabled?: boolean | undefined;
+  livyEndpointEnabled?: boolean | undefined;
+  sessionEnabled?: boolean | undefined;
 }
 export interface SchedulerConfiguration {
-  queueTimeoutMinutes?: number;
-  maxConcurrentRuns?: number;
+  queueTimeoutMinutes?: number | undefined;
+  maxConcurrentRuns?: number | undefined;
 }
 export type IdentityCenterInstanceArn = string;
 export interface IdentityCenterConfigurationInput {
-  identityCenterInstanceArn?: string;
-  userBackgroundSessionsEnabled?: boolean;
+  identityCenterInstanceArn?: string | undefined;
+  userBackgroundSessionsEnabled?: boolean | undefined;
 }
 export interface JobLevelCostAllocationConfiguration {
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface CreateApplicationRequest {
-  name?: string;
+  name?: string | undefined;
   releaseLabel: string;
   type: string;
   clientToken: string;
-  initialCapacity?: { [key: string]: InitialCapacityConfig | undefined };
-  maximumCapacity?: MaximumAllowedResources;
-  tags?: { [key: string]: string | undefined };
-  autoStartConfiguration?: AutoStartConfig;
-  autoStopConfiguration?: AutoStopConfig;
-  networkConfiguration?: NetworkConfiguration;
-  architecture?: string;
-  imageConfiguration?: ImageConfigurationInput;
-  workerTypeSpecifications?: { [key: string]: WorkerTypeSpecificationInput | undefined };
-  runtimeConfiguration?: Configuration[];
-  monitoringConfiguration?: MonitoringConfiguration;
-  diskEncryptionConfiguration?: DiskEncryptionConfiguration;
-  interactiveConfiguration?: InteractiveConfiguration;
-  schedulerConfiguration?: SchedulerConfiguration;
-  identityCenterConfiguration?: IdentityCenterConfigurationInput;
-  jobLevelCostAllocationConfiguration?: JobLevelCostAllocationConfiguration;
+  initialCapacity?: { [key: string]: InitialCapacityConfig | undefined } | undefined;
+  maximumCapacity?: MaximumAllowedResources | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  autoStartConfiguration?: AutoStartConfig | undefined;
+  autoStopConfiguration?: AutoStopConfig | undefined;
+  networkConfiguration?: NetworkConfiguration | undefined;
+  architecture?: string | undefined;
+  imageConfiguration?: ImageConfigurationInput | undefined;
+  workerTypeSpecifications?:
+    | { [key: string]: WorkerTypeSpecificationInput | undefined }
+    | undefined;
+  runtimeConfiguration?: Configuration[] | undefined;
+  monitoringConfiguration?: MonitoringConfiguration | undefined;
+  diskEncryptionConfiguration?: DiskEncryptionConfiguration | undefined;
+  interactiveConfiguration?: InteractiveConfiguration | undefined;
+  schedulerConfiguration?: SchedulerConfiguration | undefined;
+  identityCenterConfiguration?: IdentityCenterConfigurationInput | undefined;
+  jobLevelCostAllocationConfiguration?: JobLevelCostAllocationConfiguration | undefined;
 }
 export type ApplicationArn = string;
 export interface CreateApplicationResponse {
   applicationId: string;
-  name?: string;
+  name?: string | undefined;
   arn: string;
 }
 export interface DeleteApplicationRequest {
@@ -297,45 +300,45 @@ export type String256 = string;
 export type ImageDigest = string;
 export interface ImageConfiguration {
   imageUri: string;
-  resolvedImageDigest?: string;
-  applicationLevelDigestResolution?: boolean;
+  resolvedImageDigest?: string | undefined;
+  applicationLevelDigestResolution?: boolean | undefined;
 }
 export interface WorkerTypeSpecification {
-  imageConfiguration?: ImageConfiguration;
+  imageConfiguration?: ImageConfiguration | undefined;
 }
 export type WorkerTypeSpecificationMap = { [key: string]: WorkerTypeSpecification | undefined };
 export type IdentityCenterApplicationArn = string;
 export interface IdentityCenterConfiguration {
-  identityCenterInstanceArn?: string;
-  identityCenterApplicationArn?: string;
-  userBackgroundSessionsEnabled?: boolean;
+  identityCenterInstanceArn?: string | undefined;
+  identityCenterApplicationArn?: string | undefined;
+  userBackgroundSessionsEnabled?: boolean | undefined;
 }
 export interface Application {
   applicationId: string;
-  name?: string;
+  name?: string | undefined;
   arn: string;
   releaseLabel: string;
   type: string;
   state: string;
-  stateDetails?: string;
-  initialCapacity?: { [key: string]: InitialCapacityConfig | undefined };
-  maximumCapacity?: MaximumAllowedResources;
+  stateDetails?: string | undefined;
+  initialCapacity?: { [key: string]: InitialCapacityConfig | undefined } | undefined;
+  maximumCapacity?: MaximumAllowedResources | undefined;
   createdAt: Date;
   updatedAt: Date;
-  tags?: { [key: string]: string | undefined };
-  autoStartConfiguration?: AutoStartConfig;
-  autoStopConfiguration?: AutoStopConfig;
-  networkConfiguration?: NetworkConfiguration;
-  architecture?: string;
-  imageConfiguration?: ImageConfiguration;
-  workerTypeSpecifications?: { [key: string]: WorkerTypeSpecification | undefined };
-  runtimeConfiguration?: Configuration[];
-  monitoringConfiguration?: MonitoringConfiguration;
-  diskEncryptionConfiguration?: DiskEncryptionConfiguration;
-  interactiveConfiguration?: InteractiveConfiguration;
-  schedulerConfiguration?: SchedulerConfiguration;
-  identityCenterConfiguration?: IdentityCenterConfiguration;
-  jobLevelCostAllocationConfiguration?: JobLevelCostAllocationConfiguration;
+  tags?: { [key: string]: string | undefined } | undefined;
+  autoStartConfiguration?: AutoStartConfig | undefined;
+  autoStopConfiguration?: AutoStopConfig | undefined;
+  networkConfiguration?: NetworkConfiguration | undefined;
+  architecture?: string | undefined;
+  imageConfiguration?: ImageConfiguration | undefined;
+  workerTypeSpecifications?: { [key: string]: WorkerTypeSpecification | undefined } | undefined;
+  runtimeConfiguration?: Configuration[] | undefined;
+  monitoringConfiguration?: MonitoringConfiguration | undefined;
+  diskEncryptionConfiguration?: DiskEncryptionConfiguration | undefined;
+  interactiveConfiguration?: InteractiveConfiguration | undefined;
+  schedulerConfiguration?: SchedulerConfiguration | undefined;
+  identityCenterConfiguration?: IdentityCenterConfiguration | undefined;
+  jobLevelCostAllocationConfiguration?: JobLevelCostAllocationConfiguration | undefined;
 }
 export interface GetApplicationResponse {
   application: Application;
@@ -344,17 +347,17 @@ export type AttemptNumber = number;
 export interface GetDashboardForJobRunRequest {
   applicationId: string;
   jobRunId: string;
-  attempt?: number;
-  accessSystemProfileLogs?: boolean;
+  attempt?: number | undefined;
+  accessSystemProfileLogs?: boolean | undefined;
 }
 export type Url = string;
 export interface GetDashboardForJobRunResponse {
-  url?: string;
+  url?: string | undefined;
 }
 export interface GetJobRunRequest {
   applicationId: string;
   jobRunId: string;
-  attempt?: number;
+  attempt?: number | undefined;
 }
 export type JobArn = string;
 export type RequestIdentityUserArn = string;
@@ -363,14 +366,14 @@ export type PolicyDocument = string;
 export type Arn = string;
 export type PolicyArnList = string[];
 export interface JobRunExecutionIamPolicy {
-  policy?: string;
-  policyArns?: string[];
+  policy?: string | undefined;
+  policyArns?: string[] | undefined;
 }
 export type JobRunState = string;
 export interface ConfigurationOverrides {
-  applicationConfiguration?: Configuration[];
-  monitoringConfiguration?: MonitoringConfiguration;
-  diskEncryptionConfiguration?: DiskEncryptionConfiguration;
+  applicationConfiguration?: Configuration[] | undefined;
+  monitoringConfiguration?: MonitoringConfiguration | undefined;
+  diskEncryptionConfiguration?: DiskEncryptionConfiguration | undefined;
 }
 export type EntryPointPath = string | redacted.Redacted<string>;
 export type EntryPointArgument = string | redacted.Redacted<string>;
@@ -378,67 +381,67 @@ export type EntryPointArguments = (string | redacted.Redacted<string>)[];
 export type SparkSubmitParameters = string | redacted.Redacted<string>;
 export interface SparkSubmit {
   entryPoint: string | redacted.Redacted<string>;
-  entryPointArguments?: (string | redacted.Redacted<string>)[];
-  sparkSubmitParameters?: string | redacted.Redacted<string>;
+  entryPointArguments?: (string | redacted.Redacted<string>)[] | undefined;
+  sparkSubmitParameters?: string | redacted.Redacted<string> | undefined;
 }
 export type Query = string | redacted.Redacted<string>;
 export type InitScriptPath = string | redacted.Redacted<string>;
 export type HiveCliParameters = string | redacted.Redacted<string>;
 export interface Hive {
   query: string | redacted.Redacted<string>;
-  initQueryFile?: string | redacted.Redacted<string>;
-  parameters?: string | redacted.Redacted<string>;
+  initQueryFile?: string | redacted.Redacted<string> | undefined;
+  parameters?: string | redacted.Redacted<string> | undefined;
 }
 export type JobDriver =
-  | { sparkSubmit: SparkSubmit; hive?: never }
-  | { sparkSubmit?: never; hive: Hive };
+  | { sparkSubmit: SparkSubmit; hive?: undefined }
+  | { sparkSubmit?: undefined; hive: Hive };
 export interface TotalResourceUtilization {
-  vCPUHour?: number;
-  memoryGBHour?: number;
-  storageGBHour?: number;
+  vCPUHour?: number | undefined;
+  memoryGBHour?: number | undefined;
+  storageGBHour?: number | undefined;
 }
 export type Duration = number;
 export interface ResourceUtilization {
-  vCPUHour?: number;
-  memoryGBHour?: number;
-  storageGBHour?: number;
+  vCPUHour?: number | undefined;
+  memoryGBHour?: number | undefined;
+  storageGBHour?: number | undefined;
 }
 export type JobRunMode = string;
 export interface RetryPolicy {
-  maxAttempts?: number;
-  maxFailedAttemptsPerHour?: number;
+  maxAttempts?: number | undefined;
+  maxFailedAttemptsPerHour?: number | undefined;
 }
 export interface JobRun {
   applicationId: string;
   jobRunId: string;
-  name?: string;
+  name?: string | undefined;
   arn: string;
   createdBy: string;
   createdAt: Date;
   updatedAt: Date;
   executionRole: string;
-  executionIamPolicy?: JobRunExecutionIamPolicy;
+  executionIamPolicy?: JobRunExecutionIamPolicy | undefined;
   state: string;
   stateDetails: string;
   releaseLabel: string;
-  configurationOverrides?: ConfigurationOverrides;
+  configurationOverrides?: ConfigurationOverrides | undefined;
   jobDriver: JobDriver;
-  tags?: { [key: string]: string | undefined };
-  totalResourceUtilization?: TotalResourceUtilization;
-  networkConfiguration?: NetworkConfiguration;
-  totalExecutionDurationSeconds?: number;
-  executionTimeoutMinutes?: number;
-  billedResourceUtilization?: ResourceUtilization;
-  mode?: string;
-  retryPolicy?: RetryPolicy;
-  attempt?: number;
-  attemptCreatedAt?: Date;
-  attemptUpdatedAt?: Date;
-  startedAt?: Date;
-  endedAt?: Date;
-  queuedDurationMilliseconds?: number;
-  imageConfiguration?: ImageConfiguration;
-  workerTypeSpecifications?: { [key: string]: WorkerTypeSpecification | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
+  totalResourceUtilization?: TotalResourceUtilization | undefined;
+  networkConfiguration?: NetworkConfiguration | undefined;
+  totalExecutionDurationSeconds?: number | undefined;
+  executionTimeoutMinutes?: number | undefined;
+  billedResourceUtilization?: ResourceUtilization | undefined;
+  mode?: string | undefined;
+  retryPolicy?: RetryPolicy | undefined;
+  attempt?: number | undefined;
+  attemptCreatedAt?: Date | undefined;
+  attemptUpdatedAt?: Date | undefined;
+  startedAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  queuedDurationMilliseconds?: number | undefined;
+  imageConfiguration?: ImageConfiguration | undefined;
+  workerTypeSpecifications?: { [key: string]: WorkerTypeSpecification | undefined } | undefined;
 }
 export interface GetJobRunResponse {
   jobRun: JobRun;
@@ -449,9 +452,10 @@ export interface GetResourceDashboardRequest {
   applicationId: string;
   resourceId: string;
   resourceType: string;
+  accessSystemProfileLogs?: boolean | undefined;
 }
 export interface GetResourceDashboardResponse {
-  url?: string;
+  url?: string | undefined;
 }
 export type SessionId = string;
 export interface GetSessionRequest {
@@ -461,13 +465,13 @@ export interface GetSessionRequest {
 export type SessionArn = string;
 export type SessionState = string;
 export interface SessionConfigurationOverrides {
-  runtimeConfiguration?: Configuration[];
+  runtimeConfiguration?: Configuration[] | undefined;
 }
 export interface Session {
   applicationId: string;
   sessionId: string;
   arn: string;
-  name?: string;
+  name?: string | undefined;
   state: string;
   stateDetails: string;
   releaseLabel: string;
@@ -475,16 +479,16 @@ export interface Session {
   createdBy: string;
   createdAt: Date;
   updatedAt: Date;
-  startedAt?: Date;
-  endedAt?: Date;
-  idleSince?: Date;
-  configurationOverrides?: SessionConfigurationOverrides;
-  networkConfiguration?: NetworkConfiguration;
-  idleTimeoutMinutes?: number;
-  tags?: { [key: string]: string | undefined };
-  totalResourceUtilization?: TotalResourceUtilization;
-  billedResourceUtilization?: ResourceUtilization;
-  totalExecutionDurationSeconds?: number;
+  startedAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  idleSince?: Date | undefined;
+  configurationOverrides?: SessionConfigurationOverrides | undefined;
+  networkConfiguration?: NetworkConfiguration | undefined;
+  idleTimeoutMinutes?: number | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  totalResourceUtilization?: TotalResourceUtilization | undefined;
+  billedResourceUtilization?: ResourceUtilization | undefined;
+  totalExecutionDurationSeconds?: number | undefined;
 }
 export interface GetSessionResponse {
   session: Session;
@@ -505,39 +509,39 @@ export interface GetSessionEndpointResponse {
 export type NextToken = string;
 export type ApplicationStateSet = string[];
 export interface ListApplicationsRequest {
-  nextToken?: string;
-  maxResults?: number;
-  states?: string[];
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  states?: string[] | undefined;
 }
 export interface ApplicationSummary {
   id: string;
-  name?: string;
+  name?: string | undefined;
   arn: string;
   releaseLabel: string;
   type: string;
   state: string;
-  stateDetails?: string;
+  stateDetails?: string | undefined;
   createdAt: Date;
   updatedAt: Date;
-  architecture?: string;
+  architecture?: string | undefined;
 }
 export type ApplicationList = ApplicationSummary[];
 export interface ListApplicationsResponse {
   applications: ApplicationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListJobRunAttemptsRequest {
   applicationId: string;
   jobRunId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type JobRunType = string;
 export interface JobRunAttemptSummary {
   applicationId: string;
   id: string;
-  name?: string;
-  mode?: string;
+  name?: string | undefined;
+  mode?: string | undefined;
   arn: string;
   createdBy: string;
   jobCreatedAt: Date;
@@ -547,29 +551,29 @@ export interface JobRunAttemptSummary {
   state: string;
   stateDetails: string;
   releaseLabel: string;
-  type?: string;
-  attempt?: number;
+  type?: string | undefined;
+  attempt?: number | undefined;
 }
 export type JobRunAttempts = JobRunAttemptSummary[];
 export interface ListJobRunAttemptsResponse {
   jobRunAttempts: JobRunAttemptSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type JobRunStateSet = string[];
 export interface ListJobRunsRequest {
   applicationId: string;
-  nextToken?: string;
-  maxResults?: number;
-  createdAtAfter?: Date;
-  createdAtBefore?: Date;
-  states?: string[];
-  mode?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  createdAtAfter?: Date | undefined;
+  createdAtBefore?: Date | undefined;
+  states?: string[] | undefined;
+  mode?: string | undefined;
 }
 export interface JobRunSummary {
   applicationId: string;
   id: string;
-  name?: string;
-  mode?: string;
+  name?: string | undefined;
+  mode?: string | undefined;
   arn: string;
   createdBy: string;
   createdAt: Date;
@@ -578,30 +582,30 @@ export interface JobRunSummary {
   state: string;
   stateDetails: string;
   releaseLabel: string;
-  type?: string;
-  attempt?: number;
-  attemptCreatedAt?: Date;
-  attemptUpdatedAt?: Date;
+  type?: string | undefined;
+  attempt?: number | undefined;
+  attemptCreatedAt?: Date | undefined;
+  attemptUpdatedAt?: Date | undefined;
 }
 export type JobRuns = JobRunSummary[];
 export interface ListJobRunsResponse {
   jobRuns: JobRunSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type SessionStateSet = string[];
 export interface ListSessionsRequest {
   applicationId: string;
-  nextToken?: string;
-  maxResults?: number;
-  states?: string[];
-  createdAtAfter?: Date;
-  createdAtBefore?: Date;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  states?: string[] | undefined;
+  createdAtAfter?: Date | undefined;
+  createdAtBefore?: Date | undefined;
 }
 export interface SessionSummary {
   applicationId: string;
   sessionId: string;
   arn: string;
-  name?: string;
+  name?: string | undefined;
   state: string;
   stateDetails: string;
   releaseLabel: string;
@@ -613,14 +617,14 @@ export interface SessionSummary {
 export type Sessions = SessionSummary[];
 export interface ListSessionsResponse {
   sessions: SessionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ResourceArn = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartApplicationRequest {
   applicationId: string;
@@ -630,14 +634,14 @@ export interface StartJobRunRequest {
   applicationId: string;
   clientToken: string;
   executionRoleArn: string;
-  executionIamPolicy?: JobRunExecutionIamPolicy;
-  jobDriver?: JobDriver;
-  configurationOverrides?: ConfigurationOverrides;
-  tags?: { [key: string]: string | undefined };
-  executionTimeoutMinutes?: number;
-  name?: string;
-  mode?: string;
-  retryPolicy?: RetryPolicy;
+  executionIamPolicy?: JobRunExecutionIamPolicy | undefined;
+  jobDriver?: JobDriver | undefined;
+  configurationOverrides?: ConfigurationOverrides | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  executionTimeoutMinutes?: number | undefined;
+  name?: string | undefined;
+  mode?: string | undefined;
+  retryPolicy?: RetryPolicy | undefined;
 }
 export interface StartJobRunResponse {
   applicationId: string;
@@ -648,10 +652,10 @@ export interface StartSessionRequest {
   applicationId: string;
   clientToken: string;
   executionRoleArn: string;
-  configurationOverrides?: SessionConfigurationOverrides;
-  tags?: { [key: string]: string | undefined };
-  idleTimeoutMinutes?: number;
-  name?: string;
+  configurationOverrides?: SessionConfigurationOverrides | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  idleTimeoutMinutes?: number | undefined;
+  name?: string | undefined;
 }
 export interface StartSessionResponse {
   applicationId: string;
@@ -684,22 +688,24 @@ export interface UntagResourceResponse {}
 export interface UpdateApplicationRequest {
   applicationId: string;
   clientToken: string;
-  initialCapacity?: { [key: string]: InitialCapacityConfig | undefined };
-  maximumCapacity?: MaximumAllowedResources;
-  autoStartConfiguration?: AutoStartConfig;
-  autoStopConfiguration?: AutoStopConfig;
-  networkConfiguration?: NetworkConfiguration;
-  architecture?: string;
-  imageConfiguration?: ImageConfigurationInput;
-  workerTypeSpecifications?: { [key: string]: WorkerTypeSpecificationInput | undefined };
-  interactiveConfiguration?: InteractiveConfiguration;
-  releaseLabel?: string;
-  runtimeConfiguration?: Configuration[];
-  monitoringConfiguration?: MonitoringConfiguration;
-  diskEncryptionConfiguration?: DiskEncryptionConfiguration;
-  schedulerConfiguration?: SchedulerConfiguration;
-  identityCenterConfiguration?: IdentityCenterConfigurationInput;
-  jobLevelCostAllocationConfiguration?: JobLevelCostAllocationConfiguration;
+  initialCapacity?: { [key: string]: InitialCapacityConfig | undefined } | undefined;
+  maximumCapacity?: MaximumAllowedResources | undefined;
+  autoStartConfiguration?: AutoStartConfig | undefined;
+  autoStopConfiguration?: AutoStopConfig | undefined;
+  networkConfiguration?: NetworkConfiguration | undefined;
+  architecture?: string | undefined;
+  imageConfiguration?: ImageConfigurationInput | undefined;
+  workerTypeSpecifications?:
+    | { [key: string]: WorkerTypeSpecificationInput | undefined }
+    | undefined;
+  interactiveConfiguration?: InteractiveConfiguration | undefined;
+  releaseLabel?: string | undefined;
+  runtimeConfiguration?: Configuration[] | undefined;
+  monitoringConfiguration?: MonitoringConfiguration | undefined;
+  diskEncryptionConfiguration?: DiskEncryptionConfiguration | undefined;
+  schedulerConfiguration?: SchedulerConfiguration | undefined;
+  identityCenterConfiguration?: IdentityCenterConfigurationInput | undefined;
+  jobLevelCostAllocationConfiguration?: JobLevelCostAllocationConfiguration | undefined;
 }
 export interface UpdateApplicationResponse {
   application: Application;
@@ -713,7 +719,7 @@ export type CancelJobRunError =
  * Cancels a job run.
  */
 export const cancelJobRun: API.OperationMethod<
-  CancelJobRunRequest,
+  CancelJobRunRequest & RegionInput,
   CancelJobRunResponse,
   CancelJobRunError,
   Credentials | HttpClient.HttpClient
@@ -738,7 +744,7 @@ export type CreateApplicationError =
  * Creates an application.
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationRequest,
+  CreateApplicationRequest & RegionInput,
   CreateApplicationResponse,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -767,7 +773,7 @@ export type DeleteApplicationError =
  * Deletes an application. An application has to be in a stopped or created state in order to be deleted.
  */
 export const deleteApplication: API.OperationMethod<
-  DeleteApplicationRequest,
+  DeleteApplicationRequest & RegionInput,
   DeleteApplicationResponse,
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
@@ -791,7 +797,7 @@ export type GetApplicationError =
  * Displays detailed information about a specified application.
  */
 export const getApplication: API.OperationMethod<
-  GetApplicationRequest,
+  GetApplicationRequest & RegionInput,
   GetApplicationResponse,
   GetApplicationError,
   Credentials | HttpClient.HttpClient
@@ -819,7 +825,7 @@ export type GetDashboardForJobRunError =
  * The URL is valid for one hour after you generate it. To access the application UI after that hour elapses, you must invoke the API again to generate a new URL.
  */
 export const getDashboardForJobRun: API.OperationMethod<
-  GetDashboardForJobRunRequest,
+  GetDashboardForJobRunRequest & RegionInput,
   GetDashboardForJobRunResponse,
   GetDashboardForJobRunError,
   Credentials | HttpClient.HttpClient
@@ -843,7 +849,7 @@ export type GetJobRunError =
  * Displays detailed information about a job run.
  */
 export const getJobRun: API.OperationMethod<
-  GetJobRunRequest,
+  GetJobRunRequest & RegionInput,
   GetJobRunResponse,
   GetJobRunError,
   Credentials | HttpClient.HttpClient
@@ -871,7 +877,7 @@ export type GetResourceDashboardError =
  * The URL is valid for one hour after you generate it. To access the application UI after that hour elapses, you must invoke the API again to generate a new URL.
  */
 export const getResourceDashboard: API.OperationMethod<
-  GetResourceDashboardRequest,
+  GetResourceDashboardRequest & RegionInput,
   GetResourceDashboardResponse,
   GetResourceDashboardError,
   Credentials | HttpClient.HttpClient
@@ -895,7 +901,7 @@ export type GetSessionError =
  * Displays detailed information about a session.
  */
 export const getSession: API.OperationMethod<
-  GetSessionRequest,
+  GetSessionRequest & RegionInput,
   GetSessionResponse,
   GetSessionError,
   Credentials | HttpClient.HttpClient
@@ -919,7 +925,7 @@ export type GetSessionEndpointError =
  * Returns the session endpoint URL and a time-limited authentication token for the specified session. Use the endpoint and token to connect a client to the session. Call this operation again when the authentication token expires to obtain a new token.
  */
 export const getSessionEndpoint: API.OperationMethod<
-  GetSessionEndpointRequest,
+  GetSessionEndpointRequest & RegionInput,
   GetSessionEndpointResponse,
   GetSessionEndpointError,
   Credentials | HttpClient.HttpClient
@@ -939,7 +945,7 @@ export type ListApplicationsError = InternalServerException | ValidationExceptio
  * Lists applications based on a set of parameters.
  */
 export const listApplications: API.PaginatedOperationMethod<
-  ListApplicationsRequest,
+  ListApplicationsRequest & RegionInput,
   ListApplicationsResponse,
   ListApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -970,7 +976,7 @@ export type ListJobRunAttemptsError =
  * Lists all attempt of a job run.
  */
 export const listJobRunAttempts: API.PaginatedOperationMethod<
-  ListJobRunAttemptsRequest,
+  ListJobRunAttemptsRequest & RegionInput,
   ListJobRunAttemptsResponse,
   ListJobRunAttemptsError,
   Credentials | HttpClient.HttpClient,
@@ -997,7 +1003,7 @@ export type ListJobRunsError = InternalServerException | ValidationException | C
  * Lists job runs based on a set of parameters.
  */
 export const listJobRuns: API.PaginatedOperationMethod<
-  ListJobRunsRequest,
+  ListJobRunsRequest & RegionInput,
   ListJobRunsResponse,
   ListJobRunsError,
   Credentials | HttpClient.HttpClient,
@@ -1028,7 +1034,7 @@ export type ListSessionsError =
  * Lists sessions for the specified application. You can filter sessions by state and creation time.
  */
 export const listSessions: API.PaginatedOperationMethod<
-  ListSessionsRequest,
+  ListSessionsRequest & RegionInput,
   ListSessionsResponse,
   ListSessionsError,
   Credentials | HttpClient.HttpClient,
@@ -1059,7 +1065,7 @@ export type ListTagsForResourceError =
  * Lists the tags assigned to the resources.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1084,7 +1090,7 @@ export type StartApplicationError =
  * Starts a specified application and initializes initial capacity if configured.
  */
 export const startApplication: API.OperationMethod<
-  StartApplicationRequest,
+  StartApplicationRequest & RegionInput,
   StartApplicationResponse,
   StartApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1114,7 +1120,7 @@ export type StartJobRunError =
  * Starts a job run.
  */
 export const startJobRun: API.OperationMethod<
-  StartJobRunRequest,
+  StartJobRunRequest & RegionInput,
   StartJobRunResponse,
   StartJobRunError,
   Credentials | HttpClient.HttpClient
@@ -1145,7 +1151,7 @@ export type StartSessionError =
  * Creates and starts a new session on the specified application. The application must be in the `STARTED` state or have `AutoStart` enabled, and have interactive sessions enabled. This operation is supported for EMR release 7.13.0 and later.
  */
 export const startSession: API.OperationMethod<
-  StartSessionRequest,
+  StartSessionRequest & RegionInput,
   StartSessionResponse,
   StartSessionError,
   Credentials | HttpClient.HttpClient
@@ -1175,7 +1181,7 @@ export type StopApplicationError =
  * Stops a specified application and releases initial capacity if configured. All scheduled and running jobs must be completed or cancelled before stopping an application.
  */
 export const stopApplication: API.OperationMethod<
-  StopApplicationRequest,
+  StopApplicationRequest & RegionInput,
   StopApplicationResponse,
   StopApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1199,7 +1205,7 @@ export type TagResourceError =
  * Assigns tags to resources. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value, both of which you define. Tags enable you to categorize your Amazon Web Services resources by attributes such as purpose, owner, or environment. When you have many resources of the same type, you can quickly identify a specific resource based on the tags you've assigned to it.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1223,7 +1229,7 @@ export type TerminateSessionError =
  * Terminates the specified session. After you terminate a session, it enters the `TERMINATING` state and then the `TERMINATED` state. You can still access the Spark History Server for a terminated session through the `GetResourceDashboard` operation.
  */
 export const terminateSession: API.OperationMethod<
-  TerminateSessionRequest,
+  TerminateSessionRequest & RegionInput,
   TerminateSessionResponse,
   TerminateSessionError,
   Credentials | HttpClient.HttpClient
@@ -1247,7 +1253,7 @@ export type UntagResourceError =
  * Removes tags from resources.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1271,7 +1277,7 @@ export type UpdateApplicationError =
  * Updates a specified application. An application has to be in a stopped or created state in order to be updated.
  */
 export const updateApplication: API.OperationMethod<
-  UpdateApplicationRequest,
+  UpdateApplicationRequest & RegionInput,
   UpdateApplicationResponse,
   UpdateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1413,6 +1419,9 @@ function __c3(j: number): any {
           applicationId: S.String.pipe(T.HttpLabel("applicationId")),
           resourceId: S.String.pipe(T.HttpQuery("resourceId")),
           resourceType: S.String.pipe(T.HttpQuery("resourceType")),
+          accessSystemProfileLogs: S.optional(S.Boolean).pipe(
+            T.HttpQuery("accessSystemProfileLogs"),
+          ),
         }).pipe(
           T.all(
             T.Http({ method: "GET", uri: "/applications/{applicationId}/dashboard" }),

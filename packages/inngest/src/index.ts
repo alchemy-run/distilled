@@ -14,11 +14,13 @@
  */
 export * from "./credentials.ts";
 export * from "./errors.ts";
+export * as Environment from "./environment.ts";
 export * as T from "./traits.ts";
 export { InngestProtocol, type InngestOpError, type InngestOpContext } from "./protocol.ts";
 export { paginateCursor } from "./pagination.ts";
 export * as Retry from "./retry.ts";
 export * as Services from "./services/index.ts";
+export * as v1 from "./services/v1.ts";
 // Operations (and their request/response types) are importable straight off
 // the package root. The service-local typed error classes shadow the
 // same-named shared ones from ./errors.ts -- the ops actually raise the

@@ -89,10 +89,10 @@ export interface AddSitesRequest {
 }
 export interface AddSitesResponse {}
 export interface DeleteSitemapsRequest {
-  /** The URL of the actual sitemap. For example: `http://www.example.com/sitemap.xml`. */
-  feedpath: string;
   /** The site's URL, including protocol. For example: `http://www.example.com/`. */
   siteUrl: string;
+  /** The URL of the actual sitemap. For example: `http://www.example.com/sitemap.xml`. */
+  feedpath: string;
 }
 export interface DeleteSitemapsResponse {}
 export interface DeleteSitesRequest {
@@ -106,6 +106,14 @@ export interface GetSitemapsRequest {
   /** The site's URL, including protocol. For example: `http://www.example.com/`. */
   siteUrl: string;
 }
+export type WmxSitemapTypeEnum =
+  | "NOT_SITEMAP"
+  | "URL_LIST"
+  | "SITEMAP"
+  | "RSS_FEED"
+  | "ATOM_FEED"
+  | "PATTERN_SITEMAP"
+  | "OCEANFRONT";
 export type WmxSitemapContentTypeEnum =
   | "WEB"
   | "IMAGE"
@@ -119,41 +127,33 @@ export type WmxSitemapContentTypeEnum =
 /** Information about the various content types in the sitemap. */
 export interface WmxSitemapContent {
   /** The number of URLs in the sitemap (of the content type). */
-  submitted?: string;
+  submitted?: string | undefined;
   /** *Deprecated; do not use.* */
-  indexed?: string;
+  indexed?: string | undefined;
   /** The specific type of content in this sitemap. For example: `web`. */
-  type?: WmxSitemapContentTypeEnum;
+  type?: WmxSitemapContentTypeEnum | undefined;
 }
 export type WmxSitemapContentList = Array<WmxSitemapContent>;
-export type WmxSitemapTypeEnum =
-  | "NOT_SITEMAP"
-  | "URL_LIST"
-  | "SITEMAP"
-  | "RSS_FEED"
-  | "ATOM_FEED"
-  | "PATTERN_SITEMAP"
-  | "OCEANFRONT";
 /** Contains detailed information about a specific URL submitted as a [sitemap](https://support.google.com/webmasters/answer/156184). */
 export interface WmxSitemap {
-  /** The url of the sitemap. */
-  path?: string;
-  /** Date & time in which this sitemap was submitted. Date format is in RFC 3339 format (yyyy-mm-dd). */
-  lastSubmitted?: string;
-  /** Date & time in which this sitemap was last downloaded. Date format is in RFC 3339 format (yyyy-mm-dd). */
-  lastDownloaded?: string;
-  /** Number of errors in the sitemap. These are issues with the sitemap itself that need to be fixed before it can be processed correctly. */
-  errors?: string;
-  /** If true, the sitemap has not been processed. */
-  isPending?: boolean;
-  /** If true, the sitemap is a collection of sitemaps. */
-  isSitemapsIndex?: boolean;
-  /** The various content types in the sitemap. */
-  contents?: WmxSitemapContentList;
-  /** The type of the sitemap. For example: `rssFeed`. */
-  type?: WmxSitemapTypeEnum;
   /** Number of warnings for the sitemap. These are generally non-critical issues with URLs in the sitemaps. */
-  warnings?: string;
+  warnings?: string | undefined;
+  /** The url of the sitemap. */
+  path?: string | undefined;
+  /** If true, the sitemap is a collection of sitemaps. */
+  isSitemapsIndex?: boolean | undefined;
+  /** Date & time in which this sitemap was last downloaded. Date format is in RFC 3339 format (yyyy-mm-dd). */
+  lastDownloaded?: string | undefined;
+  /** Number of errors in the sitemap. These are issues with the sitemap itself that need to be fixed before it can be processed correctly. */
+  errors?: string | undefined;
+  /** If true, the sitemap has not been processed. */
+  isPending?: boolean | undefined;
+  /** The type of the sitemap. For example: `rssFeed`. */
+  type?: WmxSitemapTypeEnum | undefined;
+  /** Date & time in which this sitemap was submitted. Date format is in RFC 3339 format (yyyy-mm-dd). */
+  lastSubmitted?: string | undefined;
+  /** The various content types in the sitemap. */
+  contents?: WmxSitemapContentList | undefined;
 }
 export interface GetSitesRequest {
   /** The URI of the property as defined in Search Console. **Examples:** `http://www.example.com/` or `sc-domain:example.com`. */
@@ -168,22 +168,151 @@ export type WmxSitePermissionLevelEnum =
 /** Contains permission level information about a Search Console site. For more information, see [Permissions in Search Console](https://support.google.com/webmasters/answer/2451999). */
 export interface WmxSite {
   /** The URL of the site. */
-  siteUrl?: string;
+  siteUrl?: string | undefined;
   /** The user's permission level for the site. */
-  permissionLevel?: WmxSitePermissionLevelEnum;
+  permissionLevel?: WmxSitePermissionLevelEnum | undefined;
 }
 /** Index inspection request. */
 export interface InspectUrlIndexRequest {
   /** Required. URL to inspect. Must be under the property specified in "site_url". */
-  inspectionUrl?: string;
+  inspectionUrl?: string | undefined;
   /** Required. The URL of the property as defined in Search Console. **Examples:** `http://www.example.com/` for a URL-prefix property, or `sc-domain:example.com` for a Domain property. */
-  siteUrl?: string;
+  siteUrl?: string | undefined;
   /** Optional. An [IETF BCP-47](https://en.wikipedia.org/wiki/IETF_language_tag) language code representing the requested language for translated issue messages, e.g. "en-US", "or "de-CH". Default value is "en-US". */
-  languageCode?: string;
+  languageCode?: string | undefined;
 }
-export interface InspectUrlInspectionIndexRequest {
-  /** Request body */
-  body?: InspectUrlIndexRequest;
+export interface InspectUrlInspectionIndexRequest extends InspectUrlIndexRequest {}
+export type MobileUsabilityInspectionResultVerdictEnum =
+  | "VERDICT_UNSPECIFIED"
+  | "PASS"
+  | "PARTIAL"
+  | "FAIL"
+  | "NEUTRAL";
+export type MobileUsabilityIssueIssueTypeEnum =
+  | "MOBILE_USABILITY_ISSUE_TYPE_UNSPECIFIED"
+  | "USES_INCOMPATIBLE_PLUGINS"
+  | "CONFIGURE_VIEWPORT"
+  | "FIXED_WIDTH_VIEWPORT"
+  | "SIZE_CONTENT_TO_VIEWPORT"
+  | "USE_LEGIBLE_FONT_SIZES"
+  | "TAP_TARGETS_TOO_CLOSE";
+export type MobileUsabilityIssueSeverityEnum = "SEVERITY_UNSPECIFIED" | "WARNING" | "ERROR";
+/** Mobile-usability issue. */
+export interface MobileUsabilityIssue {
+  /** Mobile-usability issue type. */
+  issueType?: MobileUsabilityIssueIssueTypeEnum | undefined;
+  /** Not returned; reserved for future use. */
+  severity?: MobileUsabilityIssueSeverityEnum | undefined;
+  /** Additional information regarding the issue. */
+  message?: string | undefined;
+}
+export type MobileUsabilityIssueList = Array<MobileUsabilityIssue>;
+/** Mobile-usability inspection results. */
+export interface MobileUsabilityInspectionResult {
+  /** High-level mobile-usability inspection result for this URL. */
+  verdict?: MobileUsabilityInspectionResultVerdictEnum | undefined;
+  /** A list of zero or more mobile-usability issues detected for this URL. */
+  issues?: MobileUsabilityIssueList | undefined;
+}
+export type RichResultsIssueSeverityEnum = "SEVERITY_UNSPECIFIED" | "WARNING" | "ERROR";
+/** Severity and status of a single issue affecting a single rich result instance on a page. */
+export interface RichResultsIssue {
+  /** Severity of this issue: WARNING, or ERROR. Items with an issue of status ERROR cannot appear with rich result features in Google Search results. */
+  severity?: RichResultsIssueSeverityEnum | undefined;
+  /** Rich Results issue type. */
+  issueMessage?: string | undefined;
+}
+export type RichResultsIssueList = Array<RichResultsIssue>;
+/** A specific rich result found on the page. */
+export interface Item {
+  /** The user-provided name of this item. */
+  name?: string | undefined;
+  /** A list of zero or more rich result issues found for this instance. */
+  issues?: RichResultsIssueList | undefined;
+}
+export type ItemList = Array<Item>;
+/** Rich Results items grouped by type. */
+export interface DetectedItems {
+  /** List of Rich Results items. */
+  items?: ItemList | undefined;
+  /** Rich Results type */
+  richResultType?: string | undefined;
+}
+export type DetectedItemsList = Array<DetectedItems>;
+export type RichResultsInspectionResultVerdictEnum =
+  | "VERDICT_UNSPECIFIED"
+  | "PASS"
+  | "PARTIAL"
+  | "FAIL"
+  | "NEUTRAL";
+/** Rich-Results inspection result, including any rich results found at this URL. */
+export interface RichResultsInspectionResult {
+  /** A list of zero or more rich results detected on this page. Rich results that cannot even be parsed due to syntactic issues will not be listed here. */
+  detectedItems?: DetectedItemsList | undefined;
+  /** High-level rich results inspection result for this URL. */
+  verdict?: RichResultsInspectionResultVerdictEnum | undefined;
+}
+export type AmpInspectionResultAmpIndexStatusVerdictEnum =
+  | "VERDICT_UNSPECIFIED"
+  | "PASS"
+  | "PARTIAL"
+  | "FAIL"
+  | "NEUTRAL";
+export type AmpIssueSeverityEnum = "SEVERITY_UNSPECIFIED" | "WARNING" | "ERROR";
+/** AMP issue. */
+export interface AmpIssue {
+  /** Brief description of this issue. */
+  issueMessage?: string | undefined;
+  /** Severity of this issue: WARNING or ERROR. */
+  severity?: AmpIssueSeverityEnum | undefined;
+}
+export type AmpIssueList = Array<AmpIssue>;
+export type AmpInspectionResultIndexingStateEnum =
+  | "AMP_INDEXING_STATE_UNSPECIFIED"
+  | "AMP_INDEXING_ALLOWED"
+  | "BLOCKED_DUE_TO_NOINDEX"
+  | "BLOCKED_DUE_TO_EXPIRED_UNAVAILABLE_AFTER";
+export type AmpInspectionResultRobotsTxtStateEnum =
+  | "ROBOTS_TXT_STATE_UNSPECIFIED"
+  | "ALLOWED"
+  | "DISALLOWED";
+export type AmpInspectionResultPageFetchStateEnum =
+  | "PAGE_FETCH_STATE_UNSPECIFIED"
+  | "SUCCESSFUL"
+  | "SOFT_404"
+  | "BLOCKED_ROBOTS_TXT"
+  | "NOT_FOUND"
+  | "ACCESS_DENIED"
+  | "SERVER_ERROR"
+  | "REDIRECT_ERROR"
+  | "ACCESS_FORBIDDEN"
+  | "BLOCKED_4XX"
+  | "INTERNAL_CRAWL_ERROR"
+  | "INVALID_URL";
+export type AmpInspectionResultVerdictEnum =
+  | "VERDICT_UNSPECIFIED"
+  | "PASS"
+  | "PARTIAL"
+  | "FAIL"
+  | "NEUTRAL";
+/** AMP inspection result of the live page or the current information from Google's index, depending on whether you requested a live inspection or not. */
+export interface AmpInspectionResult {
+  /** Index status of the AMP URL. */
+  ampIndexStatusVerdict?: AmpInspectionResultAmpIndexStatusVerdictEnum | undefined;
+  /** Last time this AMP version was crawled by Google. Absent if the URL was never crawled successfully. */
+  lastCrawlTime?: string | undefined;
+  /** URL of the AMP that was inspected. If the submitted URL is a desktop page that refers to an AMP version, the AMP version will be inspected. */
+  ampUrl?: string | undefined;
+  /** A list of zero or more AMP issues found for the inspected URL. */
+  issues?: AmpIssueList | undefined;
+  /** Whether or not the page blocks indexing through a noindex rule. */
+  indexingState?: AmpInspectionResultIndexingStateEnum | undefined;
+  /** Whether or not the page is blocked to Google by a robots.txt rule. */
+  robotsTxtState?: AmpInspectionResultRobotsTxtStateEnum | undefined;
+  /** Whether or not Google could fetch the AMP. */
+  pageFetchState?: AmpInspectionResultPageFetchStateEnum | undefined;
+  /** The status of the most severe error on the page. If a page has both warnings and errors, the page status is error. Error status means the page cannot be shown in Search results. */
+  verdict?: AmpInspectionResultVerdictEnum | undefined;
 }
 export type StringList = Array<string>;
 export type IndexStatusInspectionResultVerdictEnum =
@@ -196,12 +325,6 @@ export type IndexStatusInspectionResultCrawledAsEnum =
   | "CRAWLING_USER_AGENT_UNSPECIFIED"
   | "DESKTOP"
   | "MOBILE";
-export type IndexStatusInspectionResultIndexingStateEnum =
-  | "INDEXING_STATE_UNSPECIFIED"
-  | "INDEXING_ALLOWED"
-  | "BLOCKED_BY_META_TAG"
-  | "BLOCKED_BY_HTTP_HEADER"
-  | "BLOCKED_BY_ROBOTS_TXT";
 export type IndexStatusInspectionResultPageFetchStateEnum =
   | "PAGE_FETCH_STATE_UNSPECIFIED"
   | "SUCCESSFUL"
@@ -219,241 +342,74 @@ export type IndexStatusInspectionResultRobotsTxtStateEnum =
   | "ROBOTS_TXT_STATE_UNSPECIFIED"
   | "ALLOWED"
   | "DISALLOWED";
+export type IndexStatusInspectionResultIndexingStateEnum =
+  | "INDEXING_STATE_UNSPECIFIED"
+  | "INDEXING_ALLOWED"
+  | "BLOCKED_BY_META_TAG"
+  | "BLOCKED_BY_HTTP_HEADER"
+  | "BLOCKED_BY_ROBOTS_TXT";
 /** Results of index status inspection for either the live page or the version in Google's index, depending on whether you requested a live inspection or not. For more information, see the [Index coverage report documentation](https://support.google.com/webmasters/answer/7440203). */
 export interface IndexStatusInspectionResult {
-  /** The URL that your page or site [declares as canonical](https://developers.google.com/search/docs/advanced/crawling/consolidate-duplicate-urls?#define-canonical). If you did not declare a canonical URL, this field is absent. */
-  userCanonical?: string;
-  /** The URL of the page that Google selected as canonical. If the page was not indexed, this field is absent. */
-  googleCanonical?: string;
   /** URLs that link to the inspected URL, directly and indirectly. */
-  referringUrls?: StringList;
+  referringUrls?: StringList | undefined;
+  /** The URL that your page or site [declares as canonical](https://developers.google.com/search/docs/advanced/crawling/consolidate-duplicate-urls?#define-canonical). If you did not declare a canonical URL, this field is absent. */
+  userCanonical?: string | undefined;
   /** High level verdict about whether the URL *is* indexed (indexed status), or *can be* indexed (live inspection). */
-  verdict?: IndexStatusInspectionResultVerdictEnum;
+  verdict?: IndexStatusInspectionResultVerdictEnum | undefined;
   /** Primary crawler that was used by Google to crawl your site. */
-  crawledAs?: IndexStatusInspectionResultCrawledAsEnum;
-  /** Whether or not the page blocks indexing through a noindex rule. */
-  indexingState?: IndexStatusInspectionResultIndexingStateEnum;
-  /** Last time this URL was crawled by Google using the [primary crawler](https://support.google.com/webmasters/answer/7440203#primary_crawler). Absent if the URL was never crawled successfully. */
-  lastCrawlTime?: string;
+  crawledAs?: IndexStatusInspectionResultCrawledAsEnum | undefined;
+  /** The URL of the page that Google selected as canonical. If the page was not indexed, this field is absent. */
+  googleCanonical?: string | undefined;
   /** Any sitemaps that this URL was listed in, as known by Google. Not guaranteed to be an exhaustive list, especially if Google did not discover this URL through a sitemap. Absent if no sitemaps were found. */
-  sitemap?: StringList;
-  /** Whether or not Google could retrieve the page from your server. Equivalent to ["page fetch"](https://support.google.com/webmasters/answer/9012289#index_coverage) in the URL inspection report. */
-  pageFetchState?: IndexStatusInspectionResultPageFetchStateEnum;
+  sitemap?: StringList | undefined;
   /** Could Google find and index the page. More details about page indexing appear in 'indexing_state'. */
-  coverageState?: string;
+  coverageState?: string | undefined;
+  /** Whether or not Google could retrieve the page from your server. Equivalent to ["page fetch"](https://support.google.com/webmasters/answer/9012289#index_coverage) in the URL inspection report. */
+  pageFetchState?: IndexStatusInspectionResultPageFetchStateEnum | undefined;
+  /** Last time this URL was crawled by Google using the [primary crawler](https://support.google.com/webmasters/answer/7440203#primary_crawler). Absent if the URL was never crawled successfully. */
+  lastCrawlTime?: string | undefined;
   /** Whether or not the page is blocked to Google by a robots.txt rule. */
-  robotsTxtState?: IndexStatusInspectionResultRobotsTxtStateEnum;
-}
-export type AmpInspectionResultAmpIndexStatusVerdictEnum =
-  | "VERDICT_UNSPECIFIED"
-  | "PASS"
-  | "PARTIAL"
-  | "FAIL"
-  | "NEUTRAL";
-export type AmpIssueSeverityEnum = "SEVERITY_UNSPECIFIED" | "WARNING" | "ERROR";
-/** AMP issue. */
-export interface AmpIssue {
-  /** Brief description of this issue. */
-  issueMessage?: string;
-  /** Severity of this issue: WARNING or ERROR. */
-  severity?: AmpIssueSeverityEnum;
-}
-export type AmpIssueList = Array<AmpIssue>;
-export type AmpInspectionResultPageFetchStateEnum =
-  | "PAGE_FETCH_STATE_UNSPECIFIED"
-  | "SUCCESSFUL"
-  | "SOFT_404"
-  | "BLOCKED_ROBOTS_TXT"
-  | "NOT_FOUND"
-  | "ACCESS_DENIED"
-  | "SERVER_ERROR"
-  | "REDIRECT_ERROR"
-  | "ACCESS_FORBIDDEN"
-  | "BLOCKED_4XX"
-  | "INTERNAL_CRAWL_ERROR"
-  | "INVALID_URL";
-export type AmpInspectionResultRobotsTxtStateEnum =
-  | "ROBOTS_TXT_STATE_UNSPECIFIED"
-  | "ALLOWED"
-  | "DISALLOWED";
-export type AmpInspectionResultVerdictEnum =
-  | "VERDICT_UNSPECIFIED"
-  | "PASS"
-  | "PARTIAL"
-  | "FAIL"
-  | "NEUTRAL";
-export type AmpInspectionResultIndexingStateEnum =
-  | "AMP_INDEXING_STATE_UNSPECIFIED"
-  | "AMP_INDEXING_ALLOWED"
-  | "BLOCKED_DUE_TO_NOINDEX"
-  | "BLOCKED_DUE_TO_EXPIRED_UNAVAILABLE_AFTER";
-/** AMP inspection result of the live page or the current information from Google's index, depending on whether you requested a live inspection or not. */
-export interface AmpInspectionResult {
-  /** URL of the AMP that was inspected. If the submitted URL is a desktop page that refers to an AMP version, the AMP version will be inspected. */
-  ampUrl?: string;
-  /** Index status of the AMP URL. */
-  ampIndexStatusVerdict?: AmpInspectionResultAmpIndexStatusVerdictEnum;
-  /** A list of zero or more AMP issues found for the inspected URL. */
-  issues?: AmpIssueList;
-  /** Whether or not Google could fetch the AMP. */
-  pageFetchState?: AmpInspectionResultPageFetchStateEnum;
-  /** Whether or not the page is blocked to Google by a robots.txt rule. */
-  robotsTxtState?: AmpInspectionResultRobotsTxtStateEnum;
-  /** The status of the most severe error on the page. If a page has both warnings and errors, the page status is error. Error status means the page cannot be shown in Search results. */
-  verdict?: AmpInspectionResultVerdictEnum;
+  robotsTxtState?: IndexStatusInspectionResultRobotsTxtStateEnum | undefined;
   /** Whether or not the page blocks indexing through a noindex rule. */
-  indexingState?: AmpInspectionResultIndexingStateEnum;
-  /** Last time this AMP version was crawled by Google. Absent if the URL was never crawled successfully. */
-  lastCrawlTime?: string;
-}
-export type RichResultsIssueSeverityEnum = "SEVERITY_UNSPECIFIED" | "WARNING" | "ERROR";
-/** Severity and status of a single issue affecting a single rich result instance on a page. */
-export interface RichResultsIssue {
-  /** Rich Results issue type. */
-  issueMessage?: string;
-  /** Severity of this issue: WARNING, or ERROR. Items with an issue of status ERROR cannot appear with rich result features in Google Search results. */
-  severity?: RichResultsIssueSeverityEnum;
-}
-export type RichResultsIssueList = Array<RichResultsIssue>;
-/** A specific rich result found on the page. */
-export interface Item {
-  /** A list of zero or more rich result issues found for this instance. */
-  issues?: RichResultsIssueList;
-  /** The user-provided name of this item. */
-  name?: string;
-}
-export type ItemList = Array<Item>;
-/** Rich Results items grouped by type. */
-export interface DetectedItems {
-  /** List of Rich Results items. */
-  items?: ItemList;
-  /** Rich Results type */
-  richResultType?: string;
-}
-export type DetectedItemsList = Array<DetectedItems>;
-export type RichResultsInspectionResultVerdictEnum =
-  | "VERDICT_UNSPECIFIED"
-  | "PASS"
-  | "PARTIAL"
-  | "FAIL"
-  | "NEUTRAL";
-/** Rich-Results inspection result, including any rich results found at this URL. */
-export interface RichResultsInspectionResult {
-  /** A list of zero or more rich results detected on this page. Rich results that cannot even be parsed due to syntactic issues will not be listed here. */
-  detectedItems?: DetectedItemsList;
-  /** High-level rich results inspection result for this URL. */
-  verdict?: RichResultsInspectionResultVerdictEnum;
-}
-export type MobileUsabilityInspectionResultVerdictEnum =
-  | "VERDICT_UNSPECIFIED"
-  | "PASS"
-  | "PARTIAL"
-  | "FAIL"
-  | "NEUTRAL";
-export type MobileUsabilityIssueSeverityEnum = "SEVERITY_UNSPECIFIED" | "WARNING" | "ERROR";
-export type MobileUsabilityIssueIssueTypeEnum =
-  | "MOBILE_USABILITY_ISSUE_TYPE_UNSPECIFIED"
-  | "USES_INCOMPATIBLE_PLUGINS"
-  | "CONFIGURE_VIEWPORT"
-  | "FIXED_WIDTH_VIEWPORT"
-  | "SIZE_CONTENT_TO_VIEWPORT"
-  | "USE_LEGIBLE_FONT_SIZES"
-  | "TAP_TARGETS_TOO_CLOSE";
-/** Mobile-usability issue. */
-export interface MobileUsabilityIssue {
-  /** Not returned; reserved for future use. */
-  severity?: MobileUsabilityIssueSeverityEnum;
-  /** Additional information regarding the issue. */
-  message?: string;
-  /** Mobile-usability issue type. */
-  issueType?: MobileUsabilityIssueIssueTypeEnum;
-}
-export type MobileUsabilityIssueList = Array<MobileUsabilityIssue>;
-/** Mobile-usability inspection results. */
-export interface MobileUsabilityInspectionResult {
-  /** High-level mobile-usability inspection result for this URL. */
-  verdict?: MobileUsabilityInspectionResultVerdictEnum;
-  /** A list of zero or more mobile-usability issues detected for this URL. */
-  issues?: MobileUsabilityIssueList;
+  indexingState?: IndexStatusInspectionResultIndexingStateEnum | undefined;
 }
 /** URL inspection result, including all inspection results. */
 export interface UrlInspectionResult {
-  /** Link to Search Console URL inspection. */
-  inspectionResultLink?: string;
-  /** Result of the index status analysis. */
-  indexStatusResult?: IndexStatusInspectionResult;
-  /** Result of the AMP analysis. Absent if the page is not an AMP page. */
-  ampResult?: AmpInspectionResult;
-  /** Result of the Rich Results analysis. Absent if there are no rich results found. */
-  richResultsResult?: RichResultsInspectionResult;
   /** Result of the Mobile usability analysis. */
-  mobileUsabilityResult?: MobileUsabilityInspectionResult;
+  mobileUsabilityResult?: MobileUsabilityInspectionResult | undefined;
+  /** Link to Search Console URL inspection. */
+  inspectionResultLink?: string | undefined;
+  /** Result of the Rich Results analysis. Absent if there are no rich results found. */
+  richResultsResult?: RichResultsInspectionResult | undefined;
+  /** Result of the AMP analysis. Absent if the page is not an AMP page. */
+  ampResult?: AmpInspectionResult | undefined;
+  /** Result of the index status analysis. */
+  indexStatusResult?: IndexStatusInspectionResult | undefined;
 }
 /** Index-Status inspection response. */
 export interface InspectUrlIndexResponse {
   /** URL inspection results. */
-  inspectionResult?: UrlInspectionResult;
+  inspectionResult?: UrlInspectionResult | undefined;
 }
 export interface ListSitemapsRequest {
   /** The site's URL, including protocol. For example: `http://www.example.com/`. */
   siteUrl: string;
   /** A URL of a site's sitemap index. For example: `http://www.example.com/sitemapindex.xml`. */
-  sitemapIndex?: string;
+  sitemapIndex?: string | undefined;
 }
 export type WmxSitemapList = Array<WmxSitemap>;
 /** List of sitemaps. */
 export interface SitemapsListResponse {
   /** Contains detailed information about a specific URL submitted as a [sitemap](https://support.google.com/webmasters/answer/156184). */
-  sitemap?: WmxSitemapList;
+  sitemap?: WmxSitemapList | undefined;
 }
 export interface ListSitesRequest {}
 export type WmxSiteList = Array<WmxSite>;
 /** List of sites with access level information. */
 export interface SitesListResponse {
   /** Contains permission level information about a Search Console site. For more information, see [Permissions in Search Console](https://support.google.com/webmasters/answer/2451999). */
-  siteEntry?: WmxSiteList;
+  siteEntry?: WmxSiteList | undefined;
 }
-export type ApiDimensionFilterGroupGroupTypeEnum = "AND";
-export type ApiDimensionFilterOperatorEnum =
-  | "EQUALS"
-  | "NOT_EQUALS"
-  | "CONTAINS"
-  | "NOT_CONTAINS"
-  | "INCLUDING_REGEX"
-  | "EXCLUDING_REGEX";
-export type ApiDimensionFilterDimensionEnum =
-  | "QUERY"
-  | "PAGE"
-  | "COUNTRY"
-  | "DEVICE"
-  | "SEARCH_APPEARANCE";
-/** A filter test to be applied to each row in the data set, where a match can return the row. Filters are string comparisons, and values and dimension names are not case-sensitive. Individual filters are either AND'ed or OR'ed within their parent filter group, according to the group's group type. You do not need to group by a specified dimension to filter against it. */
-export interface ApiDimensionFilter {
-  operator?: ApiDimensionFilterOperatorEnum | (string & {});
-  dimension?: ApiDimensionFilterDimensionEnum | (string & {});
-  expression?: string;
-}
-export type ApiDimensionFilterList = Array<ApiDimensionFilter>;
-/** A set of `dimension` value filters to test against each row. Only rows that pass all filter groups will be returned. All results within a filter group are either AND'ed or OR'ed together, depending on the group type selected. All filter groups are AND'ed together. */
-export interface ApiDimensionFilterGroup {
-  /** Optional. The logic operator between filters of the same group. */
-  groupType?: ApiDimensionFilterGroupGroupTypeEnum | (string & {});
-  /** Optional. A list of single-value filters in this group. */
-  filters?: ApiDimensionFilterList;
-}
-export type ApiDimensionFilterGroupList = Array<ApiDimensionFilterGroup>;
-export type SearchAnalyticsQueryRequestSearchTypeEnum =
-  | "WEB"
-  | "IMAGE"
-  | "VIDEO"
-  | "NEWS"
-  | "DISCOVER"
-  | "GOOGLE_NEWS";
-export type SearchAnalyticsQueryRequestAggregationTypeEnum =
-  | "AUTO"
-  | "BY_PROPERTY"
-  | "BY_PAGE"
-  | "BY_NEWS_SHOWCASE_PANEL";
 export type SearchAnalyticsQueryRequestDimensionsItemEnum =
   | "DATE"
   | "QUERY"
@@ -465,6 +421,11 @@ export type SearchAnalyticsQueryRequestDimensionsItemEnum =
 export type SearchAnalyticsQueryRequestDimensionsItemEnumList = Array<
   SearchAnalyticsQueryRequestDimensionsItemEnum | (string & {})
 >;
+export type SearchAnalyticsQueryRequestDataStateEnum =
+  | "DATA_STATE_UNSPECIFIED"
+  | "FINAL"
+  | "ALL"
+  | "HOURLY_ALL";
 export type SearchAnalyticsQueryRequestTypeEnum =
   | "WEB"
   | "IMAGE"
@@ -472,38 +433,72 @@ export type SearchAnalyticsQueryRequestTypeEnum =
   | "NEWS"
   | "DISCOVER"
   | "GOOGLE_NEWS";
-export type SearchAnalyticsQueryRequestDataStateEnum =
-  | "DATA_STATE_UNSPECIFIED"
-  | "FINAL"
-  | "ALL"
-  | "HOURLY_ALL";
+export type ApiDimensionFilterGroupGroupTypeEnum = "AND";
+export type ApiDimensionFilterDimensionEnum =
+  | "QUERY"
+  | "PAGE"
+  | "COUNTRY"
+  | "DEVICE"
+  | "SEARCH_APPEARANCE";
+export type ApiDimensionFilterOperatorEnum =
+  | "EQUALS"
+  | "NOT_EQUALS"
+  | "CONTAINS"
+  | "NOT_CONTAINS"
+  | "INCLUDING_REGEX"
+  | "EXCLUDING_REGEX";
+/** A filter test to be applied to each row in the data set, where a match can return the row. Filters are string comparisons, and values and dimension names are not case-sensitive. Individual filters are either AND'ed or OR'ed within their parent filter group, according to the group's group type. You do not need to group by a specified dimension to filter against it. */
+export interface ApiDimensionFilter {
+  dimension?: ApiDimensionFilterDimensionEnum | (string & {}) | undefined;
+  expression?: string | undefined;
+  operator?: ApiDimensionFilterOperatorEnum | (string & {}) | undefined;
+}
+export type ApiDimensionFilterList = Array<ApiDimensionFilter>;
+/** A set of `dimension` value filters to test against each row. Only rows that pass all filter groups will be returned. All results within a filter group are either AND'ed or OR'ed together, depending on the group type selected. All filter groups are AND'ed together. */
+export interface ApiDimensionFilterGroup {
+  /** Optional. The logic operator between filters of the same group. */
+  groupType?: ApiDimensionFilterGroupGroupTypeEnum | (string & {}) | undefined;
+  /** Optional. A list of single-value filters in this group. */
+  filters?: ApiDimensionFilterList | undefined;
+}
+export type ApiDimensionFilterGroupList = Array<ApiDimensionFilterGroup>;
+export type SearchAnalyticsQueryRequestAggregationTypeEnum =
+  | "AUTO"
+  | "BY_PROPERTY"
+  | "BY_PAGE"
+  | "BY_NEWS_SHOWCASE_PANEL";
+export type SearchAnalyticsQueryRequestSearchTypeEnum =
+  | "WEB"
+  | "IMAGE"
+  | "VIDEO"
+  | "NEWS"
+  | "DISCOVER"
+  | "GOOGLE_NEWS";
 export interface SearchAnalyticsQueryRequest {
   /** [Required] End date of the requested date range, in YYYY-MM-DD format, in PST (UTC - 8:00). Must be greater than or equal to the start date. This value is included in the range. */
-  endDate?: string;
-  /** [Optional; Default is 1000] The maximum number of rows to return. Must be a number from 1 to 25,000 (inclusive). */
-  rowLimit?: number;
-  /** [Required] Start date of the requested date range, in YYYY-MM-DD format, in PST time (UTC - 8:00). Must be less than or equal to the end date. This value is included in the range. */
-  startDate?: string;
-  /** [Optional] Zero or more filters to apply to the dimension grouping values; for example, 'query contains \"buy\"' to see only data where the query string contains the substring \"buy\" (not case-sensitive). You can filter by a dimension without grouping by it. */
-  dimensionFilterGroups?: ApiDimensionFilterGroupList;
-  /** [Optional; Default is \"web\"] The search type to filter for. */
-  searchType?: SearchAnalyticsQueryRequestSearchTypeEnum | (string & {});
-  /** [Optional; Default is \"auto\"] How data is aggregated. If aggregated by property, all data for the same property is aggregated; if aggregated by page, all data is aggregated by canonical URI. If you filter or group by page, choose AUTO; otherwise you can aggregate either by property or by page, depending on how you want your data calculated; see the help documentation to learn how data is calculated differently by site versus by page. **Note:** If you group or filter by page, you cannot aggregate by property. If you specify any value other than AUTO, the aggregation type in the result will match the requested type, or if you request an invalid type, you will get an error. The API will never change your aggregation type if the requested type is invalid. */
-  aggregationType?: SearchAnalyticsQueryRequestAggregationTypeEnum | (string & {});
+  endDate?: string | undefined;
   /** [Optional] Zero or more dimensions to group results by. Dimensions are the group-by values in the Search Analytics page. Dimensions are combined to create a unique row key for each row. Results are grouped in the order that you supply these dimensions. */
-  dimensions?: SearchAnalyticsQueryRequestDimensionsItemEnumList;
+  dimensions?: SearchAnalyticsQueryRequestDimensionsItemEnumList | undefined;
+  /** [Required] Start date of the requested date range, in YYYY-MM-DD format, in PST time (UTC - 8:00). Must be less than or equal to the end date. This value is included in the range. */
+  startDate?: string | undefined;
+  /** [Optional; Default is 1000] The maximum number of rows to return. Must be a number from 1 to 25,000 (inclusive). */
+  rowLimit?: number | undefined;
   /** [Optional; Default is 0] Zero-based index of the first row in the response. Must be a non-negative number. */
-  startRow?: number;
-  /** Optional. [Optional; Default is \"web\"] Type of report: search type, or either Discover or Gnews. */
-  type?: SearchAnalyticsQueryRequestTypeEnum | (string & {});
+  startRow?: number | undefined;
   /** The data state to be fetched, can be full or all, the latter including full and partial data. */
-  dataState?: SearchAnalyticsQueryRequestDataStateEnum | (string & {});
+  dataState?: SearchAnalyticsQueryRequestDataStateEnum | (string & {}) | undefined;
+  /** Optional. [Optional; Default is \"web\"] Type of report: search type, or either Discover or Gnews. */
+  type?: SearchAnalyticsQueryRequestTypeEnum | (string & {}) | undefined;
+  /** [Optional] Zero or more filters to apply to the dimension grouping values; for example, 'query contains \"buy\"' to see only data where the query string contains the substring \"buy\" (not case-sensitive). You can filter by a dimension without grouping by it. */
+  dimensionFilterGroups?: ApiDimensionFilterGroupList | undefined;
+  /** [Optional; Default is \"auto\"] How data is aggregated. If aggregated by property, all data for the same property is aggregated; if aggregated by page, all data is aggregated by canonical URI. If you filter or group by page, choose AUTO; otherwise you can aggregate either by property or by page, depending on how you want your data calculated; see the help documentation to learn how data is calculated differently by site versus by page. **Note:** If you group or filter by page, you cannot aggregate by property. If you specify any value other than AUTO, the aggregation type in the result will match the requested type, or if you request an invalid type, you will get an error. The API will never change your aggregation type if the requested type is invalid. */
+  aggregationType?: SearchAnalyticsQueryRequestAggregationTypeEnum | (string & {}) | undefined;
+  /** [Optional; Default is \"web\"] The search type to filter for. */
+  searchType?: SearchAnalyticsQueryRequestSearchTypeEnum | (string & {}) | undefined;
 }
-export interface QuerySearchanalyticsRequest {
+export interface QuerySearchanalyticsRequest extends SearchAnalyticsQueryRequest {
   /** The site's URL, including protocol. For example: `http://www.example.com/`. */
   siteUrl: string;
-  /** Request body */
-  body?: SearchAnalyticsQueryRequest;
 }
 export type SearchAnalyticsQueryResponseResponseAggregationTypeEnum =
   | "AUTO"
@@ -513,54 +508,48 @@ export type SearchAnalyticsQueryResponseResponseAggregationTypeEnum =
 /** An object that may be returned with your query results, providing context about the state of the data. When you request recent data (using `all` or `hourly_all` for `dataState`), some of the rows returned may represent data that is incomplete, which means that the data is still being collected and processed. This metadata object helps you identify exactly when this starts and ends. All dates and times provided in this object are in the `America/Los_Angeles` time zone. The specific field returned within this object depends on how you've grouped your data in the request. See details in inner fields. */
 export interface Metadata {
   /** The first date for which the data is still being collected and processed, presented in `YYYY-MM-DD` format (ISO-8601 extended local date format). This field is populated only when the request's `dataState` is "`all`", data is grouped by "`DATE`", and the requested date range contains incomplete data points. All values after the `first_incomplete_date` may still change noticeably. */
-  firstIncompleteDate?: string;
+  firstIncompleteDate?: string | undefined;
   /** The first hour for which the data is still being collected and processed, presented in `YYYY-MM-DDThh:mm:ss[+|-]hh:mm` format (ISO-8601 extended offset date-time format). This field is populated only when the request's `dataState` is "`hourly_all`", data is grouped by "`HOUR`" and the requested date range contains incomplete data points. All values after the `first_incomplete_hour` may still change noticeably. */
-  firstIncompleteHour?: string;
+  firstIncompleteHour?: string | undefined;
 }
 export interface ApiDataRow {
-  impressions?: number;
-  ctr?: number;
-  clicks?: number;
-  position?: number;
-  keys?: StringList;
+  keys?: StringList | undefined;
+  ctr?: number | undefined;
+  clicks?: number | undefined;
+  position?: number | undefined;
+  impressions?: number | undefined;
 }
 export type ApiDataRowList = Array<ApiDataRow>;
 /** A list of rows, one per result, grouped by key. Metrics in each row are aggregated for all data grouped by that key either by page or property, as specified by the aggregation type parameter. */
 export interface SearchAnalyticsQueryResponse {
   /** How the results were aggregated. */
-  responseAggregationType?: SearchAnalyticsQueryResponseResponseAggregationTypeEnum;
+  responseAggregationType?: SearchAnalyticsQueryResponseResponseAggregationTypeEnum | undefined;
   /** An object that may be returned with your query results, providing context about the state of the data. See details in Metadata object documentation. */
-  metadata?: Metadata;
+  metadata?: Metadata | undefined;
   /** A list of rows grouped by the key values in the order given in the query. */
-  rows?: ApiDataRowList;
+  rows?: ApiDataRowList | undefined;
 }
 /** Mobile-friendly test request. */
 export interface RunMobileFriendlyTestRequest {
   /** Whether or not screenshot is requested. Default is false. */
-  requestScreenshot?: boolean;
+  requestScreenshot?: boolean | undefined;
   /** URL for inspection. */
-  url?: string;
+  url?: string | undefined;
 }
-export interface RunUrlTestingToolsMobileFriendlyTestRequest {
-  /** Request body */
-  body?: RunMobileFriendlyTestRequest;
-}
-/** Describe image data. */
-export interface Image {
-  /** The mime-type of the image data. */
-  mimeType?: string;
-  /** Image data in format determined by the mime type. Currently, the format will always be "image/png", but this might change in the future. */
-  data?: string;
-}
+export interface RunUrlTestingToolsMobileFriendlyTestRequest extends RunMobileFriendlyTestRequest {}
+export type RunMobileFriendlyTestResponseMobileFriendlinessEnum =
+  | "MOBILE_FRIENDLY_TEST_RESULT_UNSPECIFIED"
+  | "MOBILE_FRIENDLY"
+  | "NOT_MOBILE_FRIENDLY";
 /** Blocked resource. */
 export interface BlockedResource {
   /** URL of the blocked resource. */
-  url?: string;
+  url?: string | undefined;
 }
 /** Information about a resource with issue. */
 export interface ResourceIssue {
   /** Describes a blocked resource issue. */
-  blockedResource?: BlockedResource;
+  blockedResource?: BlockedResource | undefined;
 }
 export type ResourceIssueList = Array<ResourceIssue>;
 export type MobileFriendlyIssueRuleEnum =
@@ -574,13 +563,9 @@ export type MobileFriendlyIssueRuleEnum =
 /** Mobile-friendly issue. */
 export interface MobileFriendlyIssue {
   /** Rule violated. */
-  rule?: MobileFriendlyIssueRuleEnum;
+  rule?: MobileFriendlyIssueRuleEnum | undefined;
 }
 export type MobileFriendlyIssueList = Array<MobileFriendlyIssue>;
-export type RunMobileFriendlyTestResponseMobileFriendlinessEnum =
-  | "MOBILE_FRIENDLY_TEST_RESULT_UNSPECIFIED"
-  | "MOBILE_FRIENDLY"
-  | "NOT_MOBILE_FRIENDLY";
 export type TestStatusStatusEnum =
   | "TEST_STATUS_UNSPECIFIED"
   | "COMPLETE"
@@ -588,23 +573,30 @@ export type TestStatusStatusEnum =
   | "PAGE_UNREACHABLE";
 /** Final state of the test, including error details if necessary. */
 export interface TestStatus {
-  /** Status of the test. */
-  status?: TestStatusStatusEnum;
   /** Error details if applicable. */
-  details?: string;
+  details?: string | undefined;
+  /** Status of the test. */
+  status?: TestStatusStatusEnum | undefined;
+}
+/** Describe image data. */
+export interface Image {
+  /** Image data in format determined by the mime type. Currently, the format will always be "image/png", but this might change in the future. */
+  data?: string | undefined;
+  /** The mime-type of the image data. */
+  mimeType?: string | undefined;
 }
 /** Mobile-friendly test response, including mobile-friendly issues and resource issues. */
 export interface RunMobileFriendlyTestResponse {
-  /** Screenshot of the requested URL. */
-  screenshot?: Image;
-  /** Information about embedded resources issues. */
-  resourceIssues?: ResourceIssueList;
-  /** List of mobile-usability issues. */
-  mobileFriendlyIssues?: MobileFriendlyIssueList;
   /** Test verdict, whether the page is mobile friendly or not. */
-  mobileFriendliness?: RunMobileFriendlyTestResponseMobileFriendlinessEnum;
+  mobileFriendliness?: RunMobileFriendlyTestResponseMobileFriendlinessEnum | undefined;
+  /** Information about embedded resources issues. */
+  resourceIssues?: ResourceIssueList | undefined;
+  /** List of mobile-usability issues. */
+  mobileFriendlyIssues?: MobileFriendlyIssueList | undefined;
   /** Final state of the test, can be either complete or an error. */
-  testStatus?: TestStatus;
+  testStatus?: TestStatus | undefined;
+  /** Screenshot of the requested URL. */
+  screenshot?: Image | undefined;
 }
 export interface SubmitSitemapsRequest {
   /** The URL of the actual sitemap. For example: `http://www.example.com/sitemap.xml`. */
@@ -621,8 +613,8 @@ export const addSites: API.OperationMethod<
   AddSitesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<AddSitesRequest>,
-  output: __S(96, __c6, 0) as any as S.Schema<AddSitesResponse>,
+  input: __S(160, __c5, 0) as any as S.Schema<AddSitesRequest>,
+  output: __S(192, __c6, 0) as any as S.Schema<AddSitesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -638,8 +630,8 @@ export const deleteSitemaps: API.OperationMethod<
   DeleteSitemapsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<DeleteSitemapsRequest>,
-  output: __S(96, __c6, 0) as any as S.Schema<DeleteSitemapsResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<DeleteSitemapsRequest>,
+  output: __S(192, __c6, 0) as any as S.Schema<DeleteSitemapsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -655,8 +647,8 @@ export const deleteSites: API.OperationMethod<
   DeleteSitesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<DeleteSitesRequest>,
-  output: __S(96, __c6, 0) as any as S.Schema<DeleteSitesResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<DeleteSitesRequest>,
+  output: __S(192, __c6, 0) as any as S.Schema<DeleteSitesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -672,8 +664,8 @@ export const getSitemaps: API.OperationMethod<
   GetSitemapsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<GetSitemapsRequest>,
-  output: __S(162, __c10, 2) as any as S.Schema<WmxSitemap>,
+  input: __S(288, __c9, 0) as any as S.Schema<GetSitemapsRequest>,
+  output: __S(322, __c10, 2) as any as S.Schema<WmxSitemap>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -685,8 +677,8 @@ export type GetSitesError = NotFound | Forbidden | GcpOpError;
 /** Retrieves information about specific site. */
 export const getSites: API.OperationMethod<GetSitesRequest, WmxSite, GetSitesError, GcpOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(176, __c11, 0) as any as S.Schema<GetSitesRequest>,
-    output: __S(192, __c12, 0) as any as S.Schema<WmxSite>,
+    input: __S(352, __c11, 0) as any as S.Schema<GetSitesRequest>,
+    output: __S(384, __c12, 0) as any as S.Schema<WmxSite>,
     errors: [NotFound, Forbidden, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
@@ -707,8 +699,8 @@ export const inspectUrlInspectionIndex: API.OperationMethod<
   InspectUrlInspectionIndexError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(209, __c13, 1) as any as S.Schema<InspectUrlInspectionIndexRequest>,
-  output: __S(223, __c13, 15) as any as S.Schema<InspectUrlIndexResponse>,
+  input: __S(417, __c13, 1) as any as S.Schema<InspectUrlInspectionIndexRequest>,
+  output: __S(433, __c13, 17) as any as S.Schema<InspectUrlIndexResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -741,8 +733,8 @@ export const listSites: API.OperationMethod<
   ListSitesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c1, 0) as any as S.Schema<ListSitesRequest>,
-  output: __S(18, __c1, 2) as any as S.Schema<SitesListResponse>,
+  input: __S(32, __c1, 0) as any as S.Schema<ListSitesRequest>,
+  output: __S(34, __c1, 2) as any as S.Schema<SitesListResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -758,8 +750,8 @@ export const querySearchanalytics: API.OperationMethod<
   QuerySearchanalyticsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(38, __c2, 6) as any as S.Schema<QuerySearchanalyticsRequest>,
-  output: __S(42, __c2, 10) as any as S.Schema<SearchAnalyticsQueryResponse>,
+  input: __S(70, __c2, 6) as any as S.Schema<QuerySearchanalyticsRequest>,
+  output: __S(74, __c2, 10) as any as S.Schema<SearchAnalyticsQueryResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -780,8 +772,8 @@ export const runUrlTestingToolsMobileFriendlyTest: API.OperationMethod<
   RunUrlTestingToolsMobileFriendlyTestError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(49, __c3, 1) as any as S.Schema<RunUrlTestingToolsMobileFriendlyTestRequest>,
-  output: __S(57, __c3, 9) as any as S.Schema<RunMobileFriendlyTestResponse>,
+  input: __S(97, __c3, 1) as any as S.Schema<RunUrlTestingToolsMobileFriendlyTestRequest>,
+  output: __S(105, __c3, 9) as any as S.Schema<RunMobileFriendlyTestResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -797,8 +789,8 @@ export const submitSitemaps: API.OperationMethod<
   SubmitSitemapsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<SubmitSitemapsRequest>,
-  output: __S(96, __c6, 0) as any as S.Schema<SubmitSitemapsResponse>,
+  input: __S(128, __c4, 0) as any as S.Schema<SubmitSitemapsRequest>,
+  output: __S(192, __c6, 0) as any as S.Schema<SubmitSitemapsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -823,7 +815,7 @@ function __c0(j: number): any {
         ),
       ).annotate({ identifier: "ListSitemapsRequest" });
     case 1:
-      return S.Array(__S(162, __c10, 2));
+      return S.Array(__S(322, __c10, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -845,11 +837,11 @@ function __c1(j: number): any {
         ),
       ).annotate({ identifier: "ListSitesRequest" });
     case 1:
-      return S.Array(__S(192, __c12, 0));
+      return S.Array(__S(384, __c12, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          siteEntry: S.optional(__S(17, __c1, 1)),
+          siteEntry: S.optional(__S(33, __c1, 1)),
         }),
       ).annotate({ identifier: "SitesListResponse" });
   }
@@ -857,47 +849,49 @@ function __c1(j: number): any {
 function __c2(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.String);
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          operator: S.optional(S.String),
           dimension: S.optional(S.String),
           expression: S.optional(S.String),
+          operator: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApiDimensionFilter" });
-    case 1:
-      return S.Array(__S(32, __c2, 0));
     case 2:
+      return S.Array(__S(65, __c2, 1));
+    case 3:
       return S.suspend(() =>
         S.Struct({
           groupType: S.optional(S.String),
-          filters: S.optional(__S(33, __c2, 1)),
+          filters: S.optional(__S(66, __c2, 2)),
         }),
       ).annotate({ identifier: "ApiDimensionFilterGroup" });
-    case 3:
-      return S.Array(__S(34, __c2, 2));
     case 4:
-      return S.Array(S.String);
+      return S.Array(__S(67, __c2, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           endDate: S.optional(S.String),
-          rowLimit: S.optional(S.Number),
+          dimensions: S.optional(__S(64, __c2, 0)),
           startDate: S.optional(S.String),
-          dimensionFilterGroups: S.optional(__S(35, __c2, 3)),
-          searchType: S.optional(S.String),
-          aggregationType: S.optional(S.String),
-          dimensions: S.optional(__S(36, __c2, 4)),
+          rowLimit: S.optional(S.Number),
           startRow: S.optional(S.Number),
-          type: S.optional(S.String),
           dataState: S.optional(S.String),
+          type: S.optional(S.String),
+          dimensionFilterGroups: S.optional(__S(68, __c2, 4)),
+          aggregationType: S.optional(S.String),
+          searchType: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchAnalyticsQueryRequest" });
     case 6:
       return S.suspend(() =>
-        S.Struct({
-          siteUrl: S.String.pipe(T.Label()),
-          body: S.optional(__S(37, __c2, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(69, __c2, 5),
+          S.Struct({
+            siteUrl: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "webmasters/v3/sites/{siteUrl}/searchAnalytics/query",
@@ -915,21 +909,21 @@ function __c2(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          impressions: S.optional(S.Number),
+          keys: S.optional(__S(448, __c14, 0)),
           ctr: S.optional(S.Number),
           clicks: S.optional(S.Number),
           position: S.optional(S.Number),
-          keys: S.optional(__S(224, __c14, 0)),
+          impressions: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ApiDataRow" });
     case 9:
-      return S.Array(__S(40, __c2, 8));
+      return S.Array(__S(72, __c2, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
           responseAggregationType: S.optional(S.String),
-          metadata: S.optional(__S(39, __c2, 7)),
-          rows: S.optional(__S(41, __c2, 9)),
+          metadata: S.optional(__S(71, __c2, 7)),
+          rows: S.optional(__S(73, __c2, 9)),
         }),
       ).annotate({ identifier: "SearchAnalyticsQueryResponse" });
   }
@@ -945,9 +939,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "RunMobileFriendlyTestRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(48, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(96, __c3, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/urlTestingTools/mobileFriendlyTest:run",
@@ -958,47 +950,47 @@ function __c3(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          mimeType: S.optional(S.String),
-          data: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Image" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
           url: S.optional(S.String),
         }),
       ).annotate({ identifier: "BlockedResource" });
-    case 4:
+    case 3:
       return S.suspend(() =>
         S.Struct({
-          blockedResource: S.optional(__S(51, __c3, 3)),
+          blockedResource: S.optional(__S(98, __c3, 2)),
         }),
       ).annotate({ identifier: "ResourceIssue" });
+    case 4:
+      return S.Array(__S(99, __c3, 3));
     case 5:
-      return S.Array(__S(52, __c3, 4));
-    case 6:
       return S.suspend(() =>
         S.Struct({
           rule: S.optional(S.String),
         }),
       ).annotate({ identifier: "MobileFriendlyIssue" });
+    case 6:
+      return S.Array(__S(101, __c3, 5));
     case 7:
-      return S.Array(__S(54, __c3, 6));
+      return S.suspend(() =>
+        S.Struct({
+          details: S.optional(S.String),
+          status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TestStatus" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          status: S.optional(S.String),
-          details: S.optional(S.String),
+          data: S.optional(S.String),
+          mimeType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "TestStatus" });
+      ).annotate({ identifier: "Image" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          screenshot: S.optional(__S(50, __c3, 2)),
-          resourceIssues: S.optional(__S(53, __c3, 5)),
-          mobileFriendlyIssues: S.optional(__S(55, __c3, 7)),
           mobileFriendliness: S.optional(S.String),
-          testStatus: S.optional(__S(56, __c3, 8)),
+          resourceIssues: S.optional(__S(100, __c3, 4)),
+          mobileFriendlyIssues: S.optional(__S(102, __c3, 6)),
+          testStatus: S.optional(__S(103, __c3, 7)),
+          screenshot: S.optional(__S(104, __c3, 8)),
         }),
       ).annotate({ identifier: "RunMobileFriendlyTestResponse" });
   }
@@ -1047,8 +1039,8 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          feedpath: S.String.pipe(T.Label()),
           siteUrl: S.String.pipe(T.Label()),
+          feedpath: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -1103,19 +1095,19 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "WmxSitemapContent" });
     case 1:
-      return S.Array(__S(160, __c10, 0));
+      return S.Array(__S(320, __c10, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
+          warnings: S.optional(S.String),
           path: S.optional(S.String),
-          lastSubmitted: S.optional(S.String),
+          isSitemapsIndex: S.optional(S.Boolean),
           lastDownloaded: S.optional(S.String),
           errors: S.optional(S.String),
           isPending: S.optional(S.Boolean),
-          isSitemapsIndex: S.optional(S.Boolean),
-          contents: S.optional(__S(161, __c10, 1)),
           type: S.optional(S.String),
-          warnings: S.optional(S.String),
+          lastSubmitted: S.optional(S.String),
+          contents: S.optional(__S(321, __c10, 1)),
         }),
       ).annotate({ identifier: "WmxSitemap" });
   }
@@ -1159,9 +1151,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "InspectUrlIndexRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(208, __c13, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(416, __c13, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/urlInspection/index:inspect",
@@ -1172,97 +1162,106 @@ function __c13(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          userCanonical: S.optional(S.String),
-          googleCanonical: S.optional(S.String),
-          referringUrls: S.optional(__S(224, __c14, 0)),
-          verdict: S.optional(S.String),
-          crawledAs: S.optional(S.String),
-          indexingState: S.optional(S.String),
-          lastCrawlTime: S.optional(S.String),
-          sitemap: S.optional(__S(224, __c14, 0)),
-          pageFetchState: S.optional(S.String),
-          coverageState: S.optional(S.String),
-          robotsTxtState: S.optional(S.String),
+          issueType: S.optional(S.String),
+          severity: S.optional(S.String),
+          message: S.optional(S.String),
         }),
-      ).annotate({ identifier: "IndexStatusInspectionResult" });
+      ).annotate({ identifier: "MobileUsabilityIssue" });
     case 3:
+      return S.Array(__S(418, __c13, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          verdict: S.optional(S.String),
+          issues: S.optional(__S(419, __c13, 3)),
+        }),
+      ).annotate({ identifier: "MobileUsabilityInspectionResult" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          severity: S.optional(S.String),
+          issueMessage: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RichResultsIssue" });
+    case 6:
+      return S.Array(__S(421, __c13, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          issues: S.optional(__S(422, __c13, 6)),
+        }),
+      ).annotate({ identifier: "Item" });
+    case 8:
+      return S.Array(__S(423, __c13, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          items: S.optional(__S(424, __c13, 8)),
+          richResultType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DetectedItems" });
+    case 10:
+      return S.Array(__S(425, __c13, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          detectedItems: S.optional(__S(426, __c13, 10)),
+          verdict: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RichResultsInspectionResult" });
+    case 12:
       return S.suspend(() =>
         S.Struct({
           issueMessage: S.optional(S.String),
           severity: S.optional(S.String),
         }),
       ).annotate({ identifier: "AmpIssue" });
-    case 4:
-      return S.Array(__S(211, __c13, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          ampUrl: S.optional(S.String),
-          ampIndexStatusVerdict: S.optional(S.String),
-          issues: S.optional(__S(212, __c13, 4)),
-          pageFetchState: S.optional(S.String),
-          robotsTxtState: S.optional(S.String),
-          verdict: S.optional(S.String),
-          indexingState: S.optional(S.String),
-          lastCrawlTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AmpInspectionResult" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          issues: S.optional(__S(212, __c13, 4)),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Item" });
-    case 7:
-      return S.Array(__S(214, __c13, 6));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          items: S.optional(__S(215, __c13, 7)),
-          richResultType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DetectedItems" });
-    case 9:
-      return S.Array(__S(216, __c13, 8));
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          detectedItems: S.optional(__S(217, __c13, 9)),
-          verdict: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RichResultsInspectionResult" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          severity: S.optional(S.String),
-          message: S.optional(S.String),
-          issueType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MobileUsabilityIssue" });
-    case 12:
-      return S.Array(__S(219, __c13, 11));
     case 13:
-      return S.suspend(() =>
-        S.Struct({
-          verdict: S.optional(S.String),
-          issues: S.optional(__S(220, __c13, 12)),
-        }),
-      ).annotate({ identifier: "MobileUsabilityInspectionResult" });
+      return S.Array(__S(428, __c13, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
-          inspectionResultLink: S.optional(S.String),
-          indexStatusResult: S.optional(__S(210, __c13, 2)),
-          ampResult: S.optional(__S(213, __c13, 5)),
-          richResultsResult: S.optional(__S(218, __c13, 10)),
-          mobileUsabilityResult: S.optional(__S(221, __c13, 13)),
+          ampIndexStatusVerdict: S.optional(S.String),
+          lastCrawlTime: S.optional(S.String),
+          ampUrl: S.optional(S.String),
+          issues: S.optional(__S(429, __c13, 13)),
+          indexingState: S.optional(S.String),
+          robotsTxtState: S.optional(S.String),
+          pageFetchState: S.optional(S.String),
+          verdict: S.optional(S.String),
         }),
-      ).annotate({ identifier: "UrlInspectionResult" });
+      ).annotate({ identifier: "AmpInspectionResult" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          inspectionResult: S.optional(__S(222, __c13, 14)),
+          referringUrls: S.optional(__S(448, __c14, 0)),
+          userCanonical: S.optional(S.String),
+          verdict: S.optional(S.String),
+          crawledAs: S.optional(S.String),
+          googleCanonical: S.optional(S.String),
+          sitemap: S.optional(__S(448, __c14, 0)),
+          coverageState: S.optional(S.String),
+          pageFetchState: S.optional(S.String),
+          lastCrawlTime: S.optional(S.String),
+          robotsTxtState: S.optional(S.String),
+          indexingState: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IndexStatusInspectionResult" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          mobileUsabilityResult: S.optional(__S(420, __c13, 4)),
+          inspectionResultLink: S.optional(S.String),
+          richResultsResult: S.optional(__S(427, __c13, 11)),
+          ampResult: S.optional(__S(430, __c13, 14)),
+          indexStatusResult: S.optional(__S(431, __c13, 15)),
+        }),
+      ).annotate({ identifier: "UrlInspectionResult" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          inspectionResult: S.optional(__S(432, __c13, 16)),
         }),
       ).annotate({ identifier: "InspectUrlIndexResponse" });
   }

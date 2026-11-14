@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -102,13 +103,13 @@ export class InternalFailureException
     "InternalFailureException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
     "InternalServerException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InvalidRequestException
   extends /*@__PURE__*/ S.TaggedError<InvalidRequestException>()(
     "InvalidRequestException",
@@ -120,7 +121,7 @@ export class LimitExceededException
     "LimitExceededException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(410),
-  ).pipe(C.withBadRequestError) {}
+  ).pipe(C.withBadRequestError, C.withThrottlingError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
@@ -142,13 +143,13 @@ export class ServiceUnavailableException
     "ServiceUnavailableException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(503),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class UnauthorizedException
   extends /*@__PURE__*/ S.TaggedError<UnauthorizedException>()(
     "UnauthorizedException",
@@ -170,15 +171,15 @@ export type TagValue = string;
 export type TagsMap = { [key: string]: string | undefined };
 export type AuthMaterialName = string;
 export interface GeneralAuthorizationName {
-  AuthMaterialName?: string;
+  AuthMaterialName?: string | undefined;
 }
 export interface CreateAccountAssociationRequest {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   ConnectorDestinationId: string;
-  Name?: string;
-  Description?: string;
-  Tags?: { [key: string]: string | undefined };
-  GeneralAuthorization?: GeneralAuthorizationName;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  GeneralAuthorization?: GeneralAuthorizationName | undefined;
 }
 export type OAuthAuthorizationUrlOutput = string | redacted.Redacted<string>;
 export type AccountAssociationId = string;
@@ -194,7 +195,7 @@ export interface CreateAccountAssociationResponse {
   OAuthAuthorizationUrl: string | redacted.Redacted<string>;
   AccountAssociationId: string;
   AssociationState: AssociationState;
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export type DisplayName = string;
 export type LambdaArn = string;
@@ -202,20 +203,20 @@ export interface LambdaConfig {
   arn: string;
 }
 export interface EndpointConfig {
-  lambda?: LambdaConfig;
+  lambda?: LambdaConfig | undefined;
 }
 export type CloudConnectorDescription = string;
 export type EndpointType = "LAMBDA" | (string & {});
 export interface CreateCloudConnectorRequest {
   Name: string;
   EndpointConfig: EndpointConfig;
-  Description?: string;
-  EndpointType?: EndpointType;
-  ClientToken?: string;
+  Description?: string | undefined;
+  EndpointType?: EndpointType | undefined;
+  ClientToken?: string | undefined;
 }
 export type CloudConnectorId = string;
 export interface CreateCloudConnectorResponse {
-  Id?: string;
+  Id?: string | undefined;
 }
 export type ConnectorDestinationName = string;
 export type ConnectorDestinationDescription = string;
@@ -227,16 +228,16 @@ export type TokenEndpointAuthenticationScheme =
   | "REQUEST_BODY_CREDENTIALS"
   | (string & {});
 export interface ProactiveRefreshTokenRenewal {
-  enabled?: boolean;
-  DaysBeforeRenewal?: number;
+  enabled?: boolean | undefined;
+  DaysBeforeRenewal?: number | undefined;
 }
 export interface OAuthConfig {
   authUrl: string;
   tokenUrl: string;
-  scope?: string;
+  scope?: string | undefined;
   tokenEndpointAuthenticationScheme: TokenEndpointAuthenticationScheme;
-  oAuthCompleteRedirectUrl?: string;
-  proactiveRefreshTokenRenewal?: ProactiveRefreshTokenRenewal;
+  oAuthCompleteRedirectUrl?: string | undefined;
+  proactiveRefreshTokenRenewal?: ProactiveRefreshTokenRenewal | undefined;
 }
 export type SecretsManagerArn = string;
 export type SecretsManagerVersionId = string;
@@ -250,34 +251,34 @@ export interface AuthMaterial {
 }
 export type AuthMaterials = AuthMaterial[];
 export interface AuthConfig {
-  oAuth?: OAuthConfig;
-  GeneralAuthorization?: AuthMaterial[];
+  oAuth?: OAuthConfig | undefined;
+  GeneralAuthorization?: AuthMaterial[] | undefined;
 }
 export interface CreateConnectorDestinationRequest {
-  Name?: string;
-  Description?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
   CloudConnectorId: string;
-  AuthType?: AuthType;
+  AuthType?: AuthType | undefined;
   AuthConfig: AuthConfig;
-  SecretsManager?: SecretsManager;
-  ClientToken?: string;
+  SecretsManager?: SecretsManager | undefined;
+  ClientToken?: string | undefined;
 }
 export interface CreateConnectorDestinationResponse {
-  Id?: string;
+  Id?: string | undefined;
 }
 export type CredentialLockerName = string | redacted.Redacted<string>;
 export interface CreateCredentialLockerRequest {
-  Name?: string | redacted.Redacted<string>;
-  ClientToken?: string;
-  Tags?: { [key: string]: string | undefined };
+  Name?: string | redacted.Redacted<string> | undefined;
+  ClientToken?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type CredentialLockerId = string;
 export type CredentialLockerArn = string;
 export type CredentialLockerCreatedAt = Date;
 export interface CreateCredentialLockerResponse {
-  Id?: string;
-  Arn?: string;
-  CreatedAt?: Date;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  CreatedAt?: Date | undefined;
 }
 export type DeliveryDestinationArn = string;
 export type DeliveryDestinationType = "KINESIS" | (string & {});
@@ -289,25 +290,25 @@ export interface CreateDestinationRequest {
   DeliveryDestinationType: DeliveryDestinationType;
   Name: string;
   RoleArn: string;
-  ClientToken?: string;
-  Description?: string;
-  Tags?: { [key: string]: string | undefined };
+  ClientToken?: string | undefined;
+  Description?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateDestinationResponse {
-  Name?: string;
+  Name?: string | undefined;
 }
 export type SmartHomeResourceType = string;
 export type SmartHomeResourceId = string;
 export type LogLevel = "DEBUG" | "ERROR" | "INFO" | "WARN" | (string & {});
 export interface CreateEventLogConfigurationRequest {
   ResourceType: string;
-  ResourceId?: string;
+  ResourceId?: string | undefined;
   EventLogLevel: LogLevel;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export type LogConfigurationId = string;
 export interface CreateEventLogConfigurationResponse {
-  Id?: string;
+  Id?: string | undefined;
 }
 export type Role = "CONTROLLER" | "DEVICE" | (string & {});
 export type Owner = string | redacted.Redacted<string>;
@@ -324,9 +325,9 @@ export type EnableAsProvisioner = boolean;
 export type EnableAsProvisionee = boolean;
 export type TimeoutInMinutes = number;
 export interface WiFiSimpleSetupConfiguration {
-  EnableAsProvisioner?: boolean;
-  EnableAsProvisionee?: boolean;
-  TimeoutInMinutes?: number;
+  EnableAsProvisioner?: boolean | undefined;
+  EnableAsProvisionee?: boolean | undefined;
+  TimeoutInMinutes?: number | undefined;
 }
 export type SerialNumber = string | redacted.Redacted<string>;
 export type Brand = string | redacted.Redacted<string>;
@@ -363,7 +364,7 @@ export interface CapabilityReportEndpoint {
 export type CapabilityReportEndpoints = CapabilityReportEndpoint[];
 export interface CapabilityReport {
   version: string;
-  nodeId?: string;
+  nodeId?: string | undefined;
   endpoints: CapabilityReportEndpoint[];
 }
 export type SchemaVersionFormat = "AWS" | "ZCL" | "CONNECTOR" | (string & {});
@@ -385,30 +386,30 @@ export type AttributeValue = string;
 export type MetaData = { [key: string]: string | undefined };
 export interface CreateManagedThingRequest {
   Role: Role;
-  Owner?: string | redacted.Redacted<string>;
-  CredentialLockerId?: string;
+  Owner?: string | redacted.Redacted<string> | undefined;
+  CredentialLockerId?: string | undefined;
   AuthenticationMaterial: string | redacted.Redacted<string>;
   AuthenticationMaterialType: AuthMaterialType;
-  WiFiSimpleSetupConfiguration?: WiFiSimpleSetupConfiguration;
-  SerialNumber?: string | redacted.Redacted<string>;
-  Brand?: string | redacted.Redacted<string>;
-  Model?: string | redacted.Redacted<string>;
-  Name?: string;
-  CapabilityReport?: CapabilityReport;
-  CapabilitySchemas?: CapabilitySchemaItem[];
-  Capabilities?: string;
-  ClientToken?: string;
-  Classification?: string | redacted.Redacted<string>;
-  Tags?: { [key: string]: string | undefined };
-  MetaData?: { [key: string]: string | undefined };
+  WiFiSimpleSetupConfiguration?: WiFiSimpleSetupConfiguration | undefined;
+  SerialNumber?: string | redacted.Redacted<string> | undefined;
+  Brand?: string | redacted.Redacted<string> | undefined;
+  Model?: string | redacted.Redacted<string> | undefined;
+  Name?: string | undefined;
+  CapabilityReport?: CapabilityReport | undefined;
+  CapabilitySchemas?: CapabilitySchemaItem[] | undefined;
+  Capabilities?: string | undefined;
+  ClientToken?: string | undefined;
+  Classification?: string | redacted.Redacted<string> | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  MetaData?: { [key: string]: string | undefined } | undefined;
 }
 export type ManagedThingId = string;
 export type ManagedThingArn = string;
 export type CreatedAt = Date;
 export interface CreateManagedThingResponse {
-  Id?: string;
-  Arn?: string;
-  CreatedAt?: Date;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  CreatedAt?: Date | undefined;
 }
 export type EventType =
   | "DEVICE_COMMAND"
@@ -426,11 +427,11 @@ export type EventType =
 export interface CreateNotificationConfigurationRequest {
   EventType: EventType;
   DestinationName: string;
-  ClientToken?: string;
-  Tags?: { [key: string]: string | undefined };
+  ClientToken?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateNotificationConfigurationResponse {
-  EventType?: EventType;
+  EventType?: EventType | undefined;
 }
 export type OtaDescription = string;
 export type S3Url = string;
@@ -449,47 +450,47 @@ export type EndTime = string;
 export type DurationInMinutes = number;
 export type StartTime = string;
 export interface ScheduleMaintenanceWindow {
-  DurationInMinutes?: number;
-  StartTime?: string;
+  DurationInMinutes?: number | undefined;
+  StartTime?: string | undefined;
 }
 export type ScheduleMaintenanceWindowList = ScheduleMaintenanceWindow[];
 export type ScheduleStartTime = string;
 export interface OtaTaskSchedulingConfig {
-  EndBehavior?: SchedulingConfigEndBehavior;
-  EndTime?: string;
-  MaintenanceWindows?: ScheduleMaintenanceWindow[];
-  StartTime?: string;
+  EndBehavior?: SchedulingConfigEndBehavior | undefined;
+  EndTime?: string | undefined;
+  MaintenanceWindows?: ScheduleMaintenanceWindow[] | undefined;
+  StartTime?: string | undefined;
 }
 export type RetryCriteriaFailureType = "FAILED" | "TIMED_OUT" | "ALL" | (string & {});
 export type MinNumberOfRetries = number;
 export interface RetryConfigCriteria {
-  FailureType?: RetryCriteriaFailureType;
-  MinNumberOfRetries?: number;
+  FailureType?: RetryCriteriaFailureType | undefined;
+  MinNumberOfRetries?: number | undefined;
 }
 export type RetryConfigCriteriaList = RetryConfigCriteria[];
 export interface OtaTaskExecutionRetryConfig {
-  RetryConfigCriteria?: RetryConfigCriteria[];
+  RetryConfigCriteria?: RetryConfigCriteria[] | undefined;
 }
 export interface CreateOtaTaskRequest {
-  Description?: string;
+  Description?: string | undefined;
   S3Url: string;
-  Protocol?: OtaProtocol;
-  Target?: string[];
-  TaskConfigurationId?: string;
-  OtaMechanism?: OtaMechanism;
+  Protocol?: OtaProtocol | undefined;
+  Target?: string[] | undefined;
+  TaskConfigurationId?: string | undefined;
+  OtaMechanism?: OtaMechanism | undefined;
   OtaType: OtaType;
-  OtaTargetQueryString?: string;
-  ClientToken?: string;
-  OtaSchedulingConfig?: OtaTaskSchedulingConfig;
-  OtaTaskExecutionRetryConfig?: OtaTaskExecutionRetryConfig;
-  Tags?: { [key: string]: string | undefined };
+  OtaTargetQueryString?: string | undefined;
+  ClientToken?: string | undefined;
+  OtaSchedulingConfig?: OtaTaskSchedulingConfig | undefined;
+  OtaTaskExecutionRetryConfig?: OtaTaskExecutionRetryConfig | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type OtaTaskId = string;
 export type OtaTaskArn = string;
 export interface CreateOtaTaskResponse {
-  TaskId?: string;
-  TaskArn?: string;
-  Description?: string;
+  TaskId?: string | undefined;
+  TaskArn?: string | undefined;
+  Description?: string | undefined;
 }
 export type OtaTaskConfigurationName = string | redacted.Redacted<string>;
 export type AbortCriteriaAction = "CANCEL" | (string & {});
@@ -497,50 +498,50 @@ export type AbortCriteriaFailureType = "FAILED" | "REJECTED" | "TIMED_OUT" | "AL
 export type MinNumberOfExecutedThings = number;
 export type ThresholdPercentage = number;
 export interface AbortConfigCriteria {
-  Action?: AbortCriteriaAction;
-  FailureType?: AbortCriteriaFailureType;
-  MinNumberOfExecutedThings?: number;
-  ThresholdPercentage?: number;
+  Action?: AbortCriteriaAction | undefined;
+  FailureType?: AbortCriteriaFailureType | undefined;
+  MinNumberOfExecutedThings?: number | undefined;
+  ThresholdPercentage?: number | undefined;
 }
 export type AbortConfigCriteriaList = AbortConfigCriteria[];
 export interface OtaTaskAbortConfig {
-  AbortConfigCriteriaList?: AbortConfigCriteria[];
+  AbortConfigCriteriaList?: AbortConfigCriteria[] | undefined;
 }
 export type BaseRatePerMinute = number;
 export type IncrementFactor = number;
 export type NumberOfNotifiedThings = number;
 export type NumberOfSucceededThings = number;
 export interface RolloutRateIncreaseCriteria {
-  numberOfNotifiedThings?: number;
-  numberOfSucceededThings?: number;
+  numberOfNotifiedThings?: number | undefined;
+  numberOfSucceededThings?: number | undefined;
 }
 export interface ExponentialRolloutRate {
-  BaseRatePerMinute?: number;
-  IncrementFactor?: number;
-  RateIncreaseCriteria?: RolloutRateIncreaseCriteria;
+  BaseRatePerMinute?: number | undefined;
+  IncrementFactor?: number | undefined;
+  RateIncreaseCriteria?: RolloutRateIncreaseCriteria | undefined;
 }
 export type MaximumPerMinute = number;
 export interface OtaTaskExecutionRolloutConfig {
-  ExponentialRolloutRate?: ExponentialRolloutRate;
-  MaximumPerMinute?: number;
+  ExponentialRolloutRate?: ExponentialRolloutRate | undefined;
+  MaximumPerMinute?: number | undefined;
 }
 export type InProgressTimeoutInMinutes = number;
 export interface OtaTaskTimeoutConfig {
-  InProgressTimeoutInMinutes?: number;
+  InProgressTimeoutInMinutes?: number | undefined;
 }
 export interface PushConfig {
-  AbortConfig?: OtaTaskAbortConfig;
-  RolloutConfig?: OtaTaskExecutionRolloutConfig;
-  TimeoutConfig?: OtaTaskTimeoutConfig;
+  AbortConfig?: OtaTaskAbortConfig | undefined;
+  RolloutConfig?: OtaTaskExecutionRolloutConfig | undefined;
+  TimeoutConfig?: OtaTaskTimeoutConfig | undefined;
 }
 export interface CreateOtaTaskConfigurationRequest {
-  Description?: string;
-  Name?: string | redacted.Redacted<string>;
-  PushConfig?: PushConfig;
-  ClientToken?: string;
+  Description?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  PushConfig?: PushConfig | undefined;
+  ClientToken?: string | undefined;
 }
 export interface CreateOtaTaskConfigurationResponse {
-  TaskConfigurationId?: string;
+  TaskConfigurationId?: string | undefined;
 }
 export type ProvisioningType = "FLEET_PROVISIONING" | "JITR" | (string & {});
 export type CaCertificate = string | redacted.Redacted<string>;
@@ -548,11 +549,11 @@ export type ClaimCertificate = string | redacted.Redacted<string>;
 export type ProvisioningProfileName = string;
 export interface CreateProvisioningProfileRequest {
   ProvisioningType: ProvisioningType;
-  CaCertificate?: string | redacted.Redacted<string>;
-  ClaimCertificate?: string | redacted.Redacted<string>;
-  Name?: string;
-  ClientToken?: string;
-  Tags?: { [key: string]: string | undefined };
+  CaCertificate?: string | redacted.Redacted<string> | undefined;
+  ClaimCertificate?: string | redacted.Redacted<string> | undefined;
+  Name?: string | undefined;
+  ClientToken?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ProvisioningProfileArn = string;
 export type ProvisioningProfileId = string;
@@ -565,13 +566,13 @@ export type ProvisioningProfileStatus =
   | (string & {});
 export type ClaimCertificatePrivateKey = string | redacted.Redacted<string>;
 export interface CreateProvisioningProfileResponse {
-  Arn?: string;
-  Name?: string;
-  ProvisioningType?: ProvisioningType;
-  Id?: string;
-  Status?: ProvisioningProfileStatus;
-  ClaimCertificate?: string | redacted.Redacted<string>;
-  ClaimCertificatePrivateKey?: string | redacted.Redacted<string>;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  ProvisioningType?: ProvisioningType | undefined;
+  Id?: string | undefined;
+  Status?: ProvisioningProfileStatus | undefined;
+  ClaimCertificate?: string | redacted.Redacted<string> | undefined;
+  ClaimCertificatePrivateKey?: string | redacted.Redacted<string> | undefined;
 }
 export interface DeleteAccountAssociationRequest {
   AccountAssociationId: string;
@@ -599,7 +600,7 @@ export interface DeleteEventLogConfigurationRequest {
 export interface DeleteEventLogConfigurationResponse {}
 export interface DeleteManagedThingRequest {
   Identifier: string;
-  Force?: boolean;
+  Force?: boolean | undefined;
 }
 export interface DeleteManagedThingResponse {}
 export interface DeleteNotificationConfigurationRequest {
@@ -630,14 +631,14 @@ export type AccountAssociationErrorMessage = string;
 export interface GetAccountAssociationResponse {
   AccountAssociationId: string;
   AssociationState: AssociationState;
-  ErrorMessage?: string;
-  ConnectorDestinationId?: string;
-  Name?: string;
-  Description?: string;
-  Arn?: string;
+  ErrorMessage?: string | undefined;
+  ConnectorDestinationId?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Arn?: string | undefined;
   OAuthAuthorizationUrl: string | redacted.Redacted<string>;
-  Tags?: { [key: string]: string | undefined };
-  GeneralAuthorization?: GeneralAuthorizationName;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  GeneralAuthorization?: GeneralAuthorizationName | undefined;
 }
 export interface GetCloudConnectorRequest {
   Identifier: string;
@@ -646,34 +647,34 @@ export type CloudConnectorType = "LISTED" | "UNLISTED" | (string & {});
 export interface GetCloudConnectorResponse {
   Name: string;
   EndpointConfig: EndpointConfig;
-  Description?: string;
-  EndpointType?: EndpointType;
-  Id?: string;
-  Type?: CloudConnectorType;
+  Description?: string | undefined;
+  EndpointType?: EndpointType | undefined;
+  Id?: string | undefined;
+  Type?: CloudConnectorType | undefined;
 }
 export interface GetConnectorDestinationRequest {
   Identifier: string;
 }
 export type OAuthCompleteRedirectUrl = string;
 export interface GetConnectorDestinationResponse {
-  Name?: string;
-  Description?: string;
-  CloudConnectorId?: string;
-  Id?: string;
-  AuthType?: AuthType;
-  AuthConfig?: AuthConfig;
-  SecretsManager?: SecretsManager;
-  OAuthCompleteRedirectUrl?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  CloudConnectorId?: string | undefined;
+  Id?: string | undefined;
+  AuthType?: AuthType | undefined;
+  AuthConfig?: AuthConfig | undefined;
+  SecretsManager?: SecretsManager | undefined;
+  OAuthCompleteRedirectUrl?: string | undefined;
 }
 export interface GetCredentialLockerRequest {
   Identifier: string;
 }
 export interface GetCredentialLockerResponse {
-  Id?: string;
-  Arn?: string;
-  Name?: string | redacted.Redacted<string>;
-  CreatedAt?: Date;
-  Tags?: { [key: string]: string | undefined };
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  CreatedAt?: Date | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetCustomEndpointRequest {}
 export type EndpointAddress = string;
@@ -684,12 +685,12 @@ export interface GetDefaultEncryptionConfigurationRequest {}
 export type ConfigurationErrorCode = string;
 export type ConfigurationErrorMessage = string;
 export interface ConfigurationError {
-  code?: string;
-  message?: string;
+  code?: string | undefined;
+  message?: string | undefined;
 }
 export type ConfigurationState = "ENABLED" | "UPDATE_IN_PROGRESS" | "UPDATE_FAILED" | (string & {});
 export interface ConfigurationStatus {
-  error?: ConfigurationError;
+  error?: ConfigurationError | undefined;
   state: ConfigurationState;
 }
 export type EncryptionType =
@@ -700,7 +701,7 @@ export type KmsKeyArn = string;
 export interface GetDefaultEncryptionConfigurationResponse {
   configurationStatus: ConfigurationStatus;
   encryptionType: EncryptionType;
-  kmsKeyArn?: string;
+  kmsKeyArn?: string | undefined;
 }
 export interface GetDestinationRequest {
   Name: string;
@@ -708,14 +709,14 @@ export interface GetDestinationRequest {
 export type DestinationCreatedAt = Date;
 export type DestinationUpdatedAt = Date;
 export interface GetDestinationResponse {
-  Description?: string;
-  DeliveryDestinationArn?: string;
-  DeliveryDestinationType?: DeliveryDestinationType;
-  Name?: string;
-  RoleArn?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  DeliveryDestinationArn?: string | undefined;
+  DeliveryDestinationType?: DeliveryDestinationType | undefined;
+  Name?: string | undefined;
+  RoleArn?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type DeviceDiscoveryId = string;
 export interface GetDeviceDiscoveryRequest {
@@ -744,27 +745,27 @@ export interface GetDeviceDiscoveryResponse {
   DiscoveryType: DiscoveryType;
   Status: DeviceDiscoveryStatus;
   StartedAt: Date;
-  ControllerId?: string;
-  ConnectorAssociationId?: string;
-  AccountAssociationId?: string;
-  FinishedAt?: Date;
-  Tags?: { [key: string]: string | undefined };
+  ControllerId?: string | undefined;
+  ConnectorAssociationId?: string | undefined;
+  AccountAssociationId?: string | undefined;
+  FinishedAt?: Date | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetEventLogConfigurationRequest {
   Id: string;
 }
 export interface GetEventLogConfigurationResponse {
-  Id?: string;
-  ResourceType?: string;
-  ResourceId?: string;
-  EventLogLevel?: LogLevel;
+  Id?: string | undefined;
+  ResourceType?: string | undefined;
+  ResourceId?: string | undefined;
+  EventLogLevel?: LogLevel | undefined;
 }
 export interface GetHubConfigurationRequest {}
 export type HubTokenTimerExpirySettingInSeconds = number;
 export type HubConfigurationUpdatedAt = Date;
 export interface GetHubConfigurationResponse {
-  HubTokenTimerExpirySettingInSeconds?: number;
-  UpdatedAt?: Date;
+  HubTokenTimerExpirySettingInSeconds?: number | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface GetManagedThingRequest {
   Identifier: string;
@@ -791,49 +792,49 @@ export type UpdatedAt = Date;
 export type SetupAt = Date;
 export type HubNetworkMode = "STANDARD" | "NETWORK_WIDE_EXCLUSION" | (string & {});
 export interface GetManagedThingResponse {
-  Id?: string;
-  Arn?: string;
-  Owner?: string | redacted.Redacted<string>;
-  CredentialLockerId?: string;
-  AdvertisedProductId?: string;
-  Role?: Role;
-  ProvisioningStatus?: ProvisioningStatus;
-  Name?: string;
-  Model?: string | redacted.Redacted<string>;
-  Brand?: string | redacted.Redacted<string>;
-  SerialNumber?: string | redacted.Redacted<string>;
-  UniversalProductCode?: string | redacted.Redacted<string>;
-  InternationalArticleNumber?: string | redacted.Redacted<string>;
-  ConnectorPolicyId?: string;
-  ConnectorDestinationId?: string;
-  ConnectorDeviceId?: string | redacted.Redacted<string>;
-  DeviceSpecificKey?: string | redacted.Redacted<string>;
-  MacAddress?: string | redacted.Redacted<string>;
-  ParentControllerId?: string;
-  Classification?: string | redacted.Redacted<string>;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  ActivatedAt?: Date;
-  HubNetworkMode?: HubNetworkMode;
-  MetaData?: { [key: string]: string | undefined };
-  Tags?: { [key: string]: string | undefined };
-  WiFiSimpleSetupConfiguration?: WiFiSimpleSetupConfiguration;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Owner?: string | redacted.Redacted<string> | undefined;
+  CredentialLockerId?: string | undefined;
+  AdvertisedProductId?: string | undefined;
+  Role?: Role | undefined;
+  ProvisioningStatus?: ProvisioningStatus | undefined;
+  Name?: string | undefined;
+  Model?: string | redacted.Redacted<string> | undefined;
+  Brand?: string | redacted.Redacted<string> | undefined;
+  SerialNumber?: string | redacted.Redacted<string> | undefined;
+  UniversalProductCode?: string | redacted.Redacted<string> | undefined;
+  InternationalArticleNumber?: string | redacted.Redacted<string> | undefined;
+  ConnectorPolicyId?: string | undefined;
+  ConnectorDestinationId?: string | undefined;
+  ConnectorDeviceId?: string | redacted.Redacted<string> | undefined;
+  DeviceSpecificKey?: string | redacted.Redacted<string> | undefined;
+  MacAddress?: string | redacted.Redacted<string> | undefined;
+  ParentControllerId?: string | undefined;
+  Classification?: string | redacted.Redacted<string> | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  ActivatedAt?: Date | undefined;
+  HubNetworkMode?: HubNetworkMode | undefined;
+  MetaData?: { [key: string]: string | undefined } | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  WiFiSimpleSetupConfiguration?: WiFiSimpleSetupConfiguration | undefined;
 }
 export interface GetManagedThingCapabilitiesRequest {
   Identifier: string;
 }
 export interface GetManagedThingCapabilitiesResponse {
-  ManagedThingId?: string;
-  Capabilities?: string;
-  CapabilityReport?: CapabilityReport;
+  ManagedThingId?: string | undefined;
+  Capabilities?: string | undefined;
+  CapabilityReport?: CapabilityReport | undefined;
 }
 export interface GetManagedThingCertificateRequest {
   Identifier: string;
 }
 export type CertificatePem = string;
 export interface GetManagedThingCertificateResponse {
-  ManagedThingId?: string;
-  CertificatePem?: string;
+  ManagedThingId?: string | undefined;
+  CertificatePem?: string | undefined;
 }
 export interface GetManagedThingConnectivityDataRequest {
   Identifier: string;
@@ -857,17 +858,17 @@ export type DisconnectReasonValue =
   | "NONE"
   | (string & {});
 export interface GetManagedThingConnectivityDataResponse {
-  ManagedThingId?: string;
-  Connected?: boolean;
-  Timestamp?: Date;
-  DisconnectReason?: DisconnectReasonValue;
+  ManagedThingId?: string | undefined;
+  Connected?: boolean | undefined;
+  Timestamp?: Date | undefined;
+  DisconnectReason?: DisconnectReasonValue | undefined;
 }
 export interface GetManagedThingMetaDataRequest {
   Identifier: string;
 }
 export interface GetManagedThingMetaDataResponse {
-  ManagedThingId?: string;
-  MetaData?: { [key: string]: string | undefined };
+  ManagedThingId?: string | undefined;
+  MetaData?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetManagedThingStateRequest {
   ManagedThingId: string;
@@ -877,7 +878,7 @@ export interface StateCapability {
   id: string;
   name: string;
   version: string;
-  properties?: any;
+  properties?: any | undefined;
 }
 export type StateCapabilities = StateCapability[];
 export interface StateEndpoint {
@@ -894,26 +895,26 @@ export interface GetNotificationConfigurationRequest {
 export type NotificationConfigurationCreatedAt = Date;
 export type NotificationConfigurationUpdatedAt = Date;
 export interface GetNotificationConfigurationResponse {
-  EventType?: EventType;
-  DestinationName?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  Tags?: { [key: string]: string | undefined };
+  EventType?: EventType | undefined;
+  DestinationName?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetOtaTaskRequest {
   Identifier: string;
 }
 export type LastUpdatedAt = Date;
 export interface TaskProcessingDetails {
-  NumberOfCanceledThings?: number;
-  NumberOfFailedThings?: number;
-  NumberOfInProgressThings?: number;
-  numberOfQueuedThings?: number;
-  numberOfRejectedThings?: number;
-  numberOfRemovedThings?: number;
-  numberOfSucceededThings?: number;
-  numberOfTimedOutThings?: number;
-  processingTargets?: string[];
+  NumberOfCanceledThings?: number | undefined;
+  NumberOfFailedThings?: number | undefined;
+  NumberOfInProgressThings?: number | undefined;
+  numberOfQueuedThings?: number | undefined;
+  numberOfRejectedThings?: number | undefined;
+  numberOfRemovedThings?: number | undefined;
+  numberOfSucceededThings?: number | undefined;
+  numberOfTimedOutThings?: number | undefined;
+  processingTargets?: string[] | undefined;
 }
 export type OtaStatus =
   | "IN_PROGRESS"
@@ -923,45 +924,45 @@ export type OtaStatus =
   | "SCHEDULED"
   | (string & {});
 export interface GetOtaTaskResponse {
-  TaskId?: string;
-  TaskArn?: string;
-  Description?: string;
-  S3Url?: string;
-  Protocol?: OtaProtocol;
-  OtaType?: OtaType;
-  OtaTargetQueryString?: string;
-  OtaMechanism?: OtaMechanism;
-  Target?: string[];
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  TaskConfigurationId?: string;
-  TaskProcessingDetails?: TaskProcessingDetails;
-  OtaSchedulingConfig?: OtaTaskSchedulingConfig;
-  OtaTaskExecutionRetryConfig?: OtaTaskExecutionRetryConfig;
-  Status?: OtaStatus;
-  Tags?: { [key: string]: string | undefined };
+  TaskId?: string | undefined;
+  TaskArn?: string | undefined;
+  Description?: string | undefined;
+  S3Url?: string | undefined;
+  Protocol?: OtaProtocol | undefined;
+  OtaType?: OtaType | undefined;
+  OtaTargetQueryString?: string | undefined;
+  OtaMechanism?: OtaMechanism | undefined;
+  Target?: string[] | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  TaskConfigurationId?: string | undefined;
+  TaskProcessingDetails?: TaskProcessingDetails | undefined;
+  OtaSchedulingConfig?: OtaTaskSchedulingConfig | undefined;
+  OtaTaskExecutionRetryConfig?: OtaTaskExecutionRetryConfig | undefined;
+  Status?: OtaStatus | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetOtaTaskConfigurationRequest {
   Identifier: string;
 }
 export interface GetOtaTaskConfigurationResponse {
-  TaskConfigurationId?: string;
-  Name?: string | redacted.Redacted<string>;
-  PushConfig?: PushConfig;
-  Description?: string;
-  CreatedAt?: Date;
+  TaskConfigurationId?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  PushConfig?: PushConfig | undefined;
+  Description?: string | undefined;
+  CreatedAt?: Date | undefined;
 }
 export interface GetProvisioningProfileRequest {
   Identifier: string;
 }
 export interface GetProvisioningProfileResponse {
-  Arn?: string;
-  Name?: string;
-  ProvisioningType?: ProvisioningType;
-  Id?: string;
-  Status?: ProvisioningProfileStatus;
-  ClaimCertificate?: string | redacted.Redacted<string>;
-  Tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  ProvisioningType?: ProvisioningType | undefined;
+  Id?: string | undefined;
+  Status?: ProvisioningProfileStatus | undefined;
+  ClaimCertificate?: string | redacted.Redacted<string> | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetRuntimeLogConfigurationRequest {
   ManagedThingId: string;
@@ -973,24 +974,24 @@ export type UploadLog = boolean;
 export type UploadPeriodMinutes = number;
 export type DeleteLocalStoreAfterUpload = boolean;
 export interface RuntimeLogConfigurations {
-  LogLevel?: LogLevel;
-  LogFlushLevel?: LogLevel;
-  LocalStoreLocation?: string;
-  LocalStoreFileRotationMaxFiles?: number;
-  LocalStoreFileRotationMaxBytes?: number;
-  UploadLog?: boolean;
-  UploadPeriodMinutes?: number;
-  DeleteLocalStoreAfterUpload?: boolean;
+  LogLevel?: LogLevel | undefined;
+  LogFlushLevel?: LogLevel | undefined;
+  LocalStoreLocation?: string | undefined;
+  LocalStoreFileRotationMaxFiles?: number | undefined;
+  LocalStoreFileRotationMaxBytes?: number | undefined;
+  UploadLog?: boolean | undefined;
+  UploadPeriodMinutes?: number | undefined;
+  DeleteLocalStoreAfterUpload?: boolean | undefined;
 }
 export interface GetRuntimeLogConfigurationResponse {
-  ManagedThingId?: string;
-  RuntimeLogConfigurations?: RuntimeLogConfigurations;
+  ManagedThingId?: string | undefined;
+  RuntimeLogConfigurations?: RuntimeLogConfigurations | undefined;
 }
 export type SchemaVersionType = "capability" | "definition" | (string & {});
 export interface GetSchemaVersionRequest {
   Type: SchemaVersionType;
   SchemaVersionedId: string;
-  Format?: SchemaVersionFormat;
+  Format?: SchemaVersionFormat | undefined;
 }
 export type SchemaId = string;
 export type SchemaVersionDescription = string;
@@ -999,263 +1000,263 @@ export type SchemaVersionVersion = string;
 export type SchemaVersionVisibility = "PUBLIC" | "PRIVATE" | (string & {});
 export type SchemaVersionSchema = unknown;
 export interface GetSchemaVersionResponse {
-  SchemaId?: string;
-  Type?: SchemaVersionType;
-  Description?: string;
-  Namespace?: string;
-  SemanticVersion?: string;
-  Visibility?: SchemaVersionVisibility;
-  Schema?: any;
+  SchemaId?: string | undefined;
+  Type?: SchemaVersionType | undefined;
+  Description?: string | undefined;
+  Namespace?: string | undefined;
+  SemanticVersion?: string | undefined;
+  Visibility?: SchemaVersionVisibility | undefined;
+  Schema?: any | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListAccountAssociationsRequest {
-  ConnectorDestinationId?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  ConnectorDestinationId?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface AccountAssociationItem {
   AccountAssociationId: string;
   AssociationState: AssociationState;
-  ErrorMessage?: string;
-  ConnectorDestinationId?: string;
-  Name?: string;
-  Description?: string;
-  Arn?: string;
+  ErrorMessage?: string | undefined;
+  ConnectorDestinationId?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Arn?: string | undefined;
 }
 export type AccountAssociationListDefinition = AccountAssociationItem[];
 export interface ListAccountAssociationsResponse {
-  Items?: AccountAssociationItem[];
-  NextToken?: string;
+  Items?: AccountAssociationItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListCloudConnectorsRequest {
-  Type?: CloudConnectorType;
-  LambdaArn?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  Type?: CloudConnectorType | undefined;
+  LambdaArn?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ConnectorItem {
   Name: string;
   EndpointConfig: EndpointConfig;
-  Description?: string;
-  EndpointType?: EndpointType;
-  Id?: string;
-  Type?: CloudConnectorType;
+  Description?: string | undefined;
+  EndpointType?: EndpointType | undefined;
+  Id?: string | undefined;
+  Type?: CloudConnectorType | undefined;
 }
 export type ConnectorList = ConnectorItem[];
 export interface ListCloudConnectorsResponse {
-  Items?: ConnectorItem[];
-  NextToken?: string;
+  Items?: ConnectorItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListConnectorDestinationsRequest {
-  CloudConnectorId?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  CloudConnectorId?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ConnectorDestinationSummary {
-  Name?: string;
-  Description?: string;
-  CloudConnectorId?: string;
-  Id?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  CloudConnectorId?: string | undefined;
+  Id?: string | undefined;
 }
 export type ConnectorDestinationListDefinition = ConnectorDestinationSummary[];
 export interface ListConnectorDestinationsResponse {
-  ConnectorDestinationList?: ConnectorDestinationSummary[];
-  NextToken?: string;
+  ConnectorDestinationList?: ConnectorDestinationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListCredentialLockersRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface CredentialLockerSummary {
-  Id?: string;
-  Arn?: string;
-  Name?: string | redacted.Redacted<string>;
-  CreatedAt?: Date;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  CreatedAt?: Date | undefined;
 }
 export type CredentialLockerListDefinition = CredentialLockerSummary[];
 export interface ListCredentialLockersResponse {
-  Items?: CredentialLockerSummary[];
-  NextToken?: string;
+  Items?: CredentialLockerSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListDestinationsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface DestinationSummary {
-  Description?: string;
-  DeliveryDestinationArn?: string;
-  DeliveryDestinationType?: DeliveryDestinationType;
-  Name?: string;
-  RoleArn?: string;
+  Description?: string | undefined;
+  DeliveryDestinationArn?: string | undefined;
+  DeliveryDestinationType?: DeliveryDestinationType | undefined;
+  Name?: string | undefined;
+  RoleArn?: string | undefined;
 }
 export type DestinationListDefinition = DestinationSummary[];
 export interface ListDestinationsResponse {
-  DestinationList?: DestinationSummary[];
-  NextToken?: string;
+  DestinationList?: DestinationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListDeviceDiscoveriesRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  TypeFilter?: DiscoveryType;
-  StatusFilter?: DeviceDiscoveryStatus;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  TypeFilter?: DiscoveryType | undefined;
+  StatusFilter?: DeviceDiscoveryStatus | undefined;
 }
 export interface DeviceDiscoverySummary {
-  Id?: string;
-  DiscoveryType?: DiscoveryType;
-  Status?: DeviceDiscoveryStatus;
+  Id?: string | undefined;
+  DiscoveryType?: DiscoveryType | undefined;
+  Status?: DeviceDiscoveryStatus | undefined;
 }
 export type DeviceDiscoveryListDefinition = DeviceDiscoverySummary[];
 export interface ListDeviceDiscoveriesResponse {
-  Items?: DeviceDiscoverySummary[];
-  NextToken?: string;
+  Items?: DeviceDiscoverySummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListDiscoveredDevicesRequest {
   Identifier: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ConnectorDeviceName = string;
 export type DeviceTypeList = string[];
 export type DiscoveryModification = "DISCOVERED" | "UPDATED" | "NO_CHANGE" | (string & {});
 export type DiscoveredAt = Date;
 export interface DiscoveredDeviceSummary {
-  ConnectorDeviceId?: string | redacted.Redacted<string>;
-  ConnectorDeviceName?: string;
-  DeviceTypes?: string[];
-  ManagedThingId?: string;
-  Modification?: DiscoveryModification;
-  DiscoveredAt?: Date;
-  Brand?: string | redacted.Redacted<string>;
-  Model?: string | redacted.Redacted<string>;
-  AuthenticationMaterial?: string | redacted.Redacted<string>;
+  ConnectorDeviceId?: string | redacted.Redacted<string> | undefined;
+  ConnectorDeviceName?: string | undefined;
+  DeviceTypes?: string[] | undefined;
+  ManagedThingId?: string | undefined;
+  Modification?: DiscoveryModification | undefined;
+  DiscoveredAt?: Date | undefined;
+  Brand?: string | redacted.Redacted<string> | undefined;
+  Model?: string | redacted.Redacted<string> | undefined;
+  AuthenticationMaterial?: string | redacted.Redacted<string> | undefined;
 }
 export type DiscoveredDeviceListDefinition = DiscoveredDeviceSummary[];
 export interface ListDiscoveredDevicesResponse {
-  Items?: DiscoveredDeviceSummary[];
-  NextToken?: string;
+  Items?: DiscoveredDeviceSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListEventLogConfigurationsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface EventLogConfigurationSummary {
-  Id?: string;
-  ResourceType?: string;
-  ResourceId?: string;
-  EventLogLevel?: LogLevel;
+  Id?: string | undefined;
+  ResourceType?: string | undefined;
+  ResourceId?: string | undefined;
+  EventLogLevel?: LogLevel | undefined;
 }
 export type EventLogConfigurationListDefinition = EventLogConfigurationSummary[];
 export interface ListEventLogConfigurationsResponse {
-  EventLogConfigurationList?: EventLogConfigurationSummary[];
-  NextToken?: string;
+  EventLogConfigurationList?: EventLogConfigurationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListManagedThingAccountAssociationsRequest {
-  ManagedThingId?: string;
-  AccountAssociationId?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  ManagedThingId?: string | undefined;
+  AccountAssociationId?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ManagedThingAssociationStatus = "PRE_ASSOCIATED" | "ASSOCIATED" | (string & {});
 export interface ManagedThingAssociation {
-  ManagedThingId?: string;
-  AccountAssociationId?: string;
-  ManagedThingAssociationStatus?: ManagedThingAssociationStatus;
+  ManagedThingId?: string | undefined;
+  AccountAssociationId?: string | undefined;
+  ManagedThingAssociationStatus?: ManagedThingAssociationStatus | undefined;
 }
 export type ManagedThingAssociationList = ManagedThingAssociation[];
 export interface ListManagedThingAccountAssociationsResponse {
-  Items?: ManagedThingAssociation[];
-  NextToken?: string;
+  Items?: ManagedThingAssociation[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListManagedThingsRequest {
-  OwnerFilter?: string | redacted.Redacted<string>;
-  CredentialLockerFilter?: string;
-  RoleFilter?: Role;
-  ParentControllerIdentifierFilter?: string;
-  ConnectorPolicyIdFilter?: string;
-  ConnectorDestinationIdFilter?: string;
-  ConnectorDeviceIdFilter?: string | redacted.Redacted<string>;
-  SerialNumberFilter?: string | redacted.Redacted<string>;
-  ProvisioningStatusFilter?: ProvisioningStatus;
-  NextToken?: string;
-  MaxResults?: number;
+  OwnerFilter?: string | redacted.Redacted<string> | undefined;
+  CredentialLockerFilter?: string | undefined;
+  RoleFilter?: Role | undefined;
+  ParentControllerIdentifierFilter?: string | undefined;
+  ConnectorPolicyIdFilter?: string | undefined;
+  ConnectorDestinationIdFilter?: string | undefined;
+  ConnectorDeviceIdFilter?: string | redacted.Redacted<string> | undefined;
+  SerialNumberFilter?: string | redacted.Redacted<string> | undefined;
+  ProvisioningStatusFilter?: ProvisioningStatus | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ManagedThingSummary {
-  Id?: string;
-  Arn?: string;
-  AdvertisedProductId?: string;
-  Brand?: string | redacted.Redacted<string>;
-  Classification?: string | redacted.Redacted<string>;
-  ConnectorDeviceId?: string | redacted.Redacted<string>;
-  ConnectorPolicyId?: string;
-  ConnectorDestinationId?: string;
-  Model?: string | redacted.Redacted<string>;
-  Name?: string;
-  Owner?: string | redacted.Redacted<string>;
-  CredentialLockerId?: string;
-  ParentControllerId?: string;
-  ProvisioningStatus?: ProvisioningStatus;
-  Role?: Role;
-  SerialNumber?: string | redacted.Redacted<string>;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  ActivatedAt?: Date;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  AdvertisedProductId?: string | undefined;
+  Brand?: string | redacted.Redacted<string> | undefined;
+  Classification?: string | redacted.Redacted<string> | undefined;
+  ConnectorDeviceId?: string | redacted.Redacted<string> | undefined;
+  ConnectorPolicyId?: string | undefined;
+  ConnectorDestinationId?: string | undefined;
+  Model?: string | redacted.Redacted<string> | undefined;
+  Name?: string | undefined;
+  Owner?: string | redacted.Redacted<string> | undefined;
+  CredentialLockerId?: string | undefined;
+  ParentControllerId?: string | undefined;
+  ProvisioningStatus?: ProvisioningStatus | undefined;
+  Role?: Role | undefined;
+  SerialNumber?: string | redacted.Redacted<string> | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  ActivatedAt?: Date | undefined;
 }
 export type ManagedThingListDefinition = ManagedThingSummary[];
 export interface ListManagedThingsResponse {
-  Items?: ManagedThingSummary[];
-  NextToken?: string;
+  Items?: ManagedThingSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type CapabilityId = string;
 export interface ListManagedThingSchemasRequest {
   Identifier: string;
-  EndpointIdFilter?: string;
-  CapabilityIdFilter?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  EndpointIdFilter?: string | undefined;
+  CapabilityIdFilter?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ManagedThingSchemaListItem {
-  EndpointId?: string;
-  CapabilityId?: string;
-  Schema?: any;
+  EndpointId?: string | undefined;
+  CapabilityId?: string | undefined;
+  Schema?: any | undefined;
 }
 export type ManagedThingSchemaListDefinition = ManagedThingSchemaListItem[];
 export interface ListManagedThingSchemasResponse {
-  Items?: ManagedThingSchemaListItem[];
-  NextToken?: string;
+  Items?: ManagedThingSchemaListItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListNotificationConfigurationsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface NotificationConfigurationSummary {
-  EventType?: EventType;
-  DestinationName?: string;
+  EventType?: EventType | undefined;
+  DestinationName?: string | undefined;
 }
 export type NotificationConfigurationListDefinition = NotificationConfigurationSummary[];
 export interface ListNotificationConfigurationsResponse {
-  NotificationConfigurationList?: NotificationConfigurationSummary[];
-  NextToken?: string;
+  NotificationConfigurationList?: NotificationConfigurationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListOtaTaskConfigurationsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface OtaTaskConfigurationSummary {
-  TaskConfigurationId?: string;
-  Name?: string | redacted.Redacted<string>;
-  CreatedAt?: Date;
+  TaskConfigurationId?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  CreatedAt?: Date | undefined;
 }
 export type OtaTaskConfigurationListDefinition = OtaTaskConfigurationSummary[];
 export interface ListOtaTaskConfigurationsResponse {
-  Items?: OtaTaskConfigurationSummary[];
-  NextToken?: string;
+  Items?: OtaTaskConfigurationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type OtaNextToken = string;
 export interface ListOtaTaskExecutionsRequest {
   Identifier: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ExecutionNumber = number;
 export type QueuedAt = Date;
@@ -1272,98 +1273,98 @@ export type OtaTaskExecutionStatus =
   | "CANCELED"
   | (string & {});
 export interface OtaTaskExecutionSummary {
-  ExecutionNumber?: number;
-  LastUpdatedAt?: Date;
-  QueuedAt?: Date;
-  RetryAttempt?: number;
-  StartedAt?: Date;
-  Status?: OtaTaskExecutionStatus;
+  ExecutionNumber?: number | undefined;
+  LastUpdatedAt?: Date | undefined;
+  QueuedAt?: Date | undefined;
+  RetryAttempt?: number | undefined;
+  StartedAt?: Date | undefined;
+  Status?: OtaTaskExecutionStatus | undefined;
 }
 export interface OtaTaskExecutionSummaries {
-  TaskExecutionSummary?: OtaTaskExecutionSummary;
-  ManagedThingId?: string;
+  TaskExecutionSummary?: OtaTaskExecutionSummary | undefined;
+  ManagedThingId?: string | undefined;
 }
 export type OtaTaskExecutionSummariesListDefinition = OtaTaskExecutionSummaries[];
 export interface ListOtaTaskExecutionsResponse {
-  ExecutionSummaries?: OtaTaskExecutionSummaries[];
-  NextToken?: string;
+  ExecutionSummaries?: OtaTaskExecutionSummaries[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListOtaTasksRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface OtaTaskSummary {
-  TaskId?: string;
-  TaskArn?: string;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  TaskConfigurationId?: string;
-  Status?: OtaStatus;
+  TaskId?: string | undefined;
+  TaskArn?: string | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  TaskConfigurationId?: string | undefined;
+  Status?: OtaStatus | undefined;
 }
 export type OtaTaskListDefinition = OtaTaskSummary[];
 export interface ListOtaTasksResponse {
-  Tasks?: OtaTaskSummary[];
-  NextToken?: string;
+  Tasks?: OtaTaskSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListProvisioningProfilesRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ProvisioningProfileSummary {
-  Name?: string;
-  Id?: string;
-  Arn?: string;
-  ProvisioningType?: ProvisioningType;
-  Status?: ProvisioningProfileStatus;
+  Name?: string | undefined;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  ProvisioningType?: ProvisioningType | undefined;
+  Status?: ProvisioningProfileStatus | undefined;
 }
 export type ProvisioningProfileListDefinition = ProvisioningProfileSummary[];
 export interface ListProvisioningProfilesResponse {
-  Items?: ProvisioningProfileSummary[];
-  NextToken?: string;
+  Items?: ProvisioningProfileSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListSchemaVersionsRequest {
   Type: SchemaVersionType;
-  MaxResults?: number;
-  NextToken?: string;
-  SchemaId?: string;
-  Namespace?: string;
-  Visibility?: SchemaVersionVisibility;
-  SemanticVersion?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  SchemaId?: string | undefined;
+  Namespace?: string | undefined;
+  Visibility?: SchemaVersionVisibility | undefined;
+  SemanticVersion?: string | undefined;
 }
 export interface SchemaVersionListItem {
-  SchemaId?: string;
-  Type?: SchemaVersionType;
-  Description?: string;
-  Namespace?: string;
-  SemanticVersion?: string;
-  Visibility?: SchemaVersionVisibility;
+  SchemaId?: string | undefined;
+  Type?: SchemaVersionType | undefined;
+  Description?: string | undefined;
+  Namespace?: string | undefined;
+  SemanticVersion?: string | undefined;
+  Visibility?: SchemaVersionVisibility | undefined;
 }
 export type SchemaVersionList = SchemaVersionListItem[];
 export interface ListSchemaVersionsResponse {
-  Items?: SchemaVersionListItem[];
-  NextToken?: string;
+  Items?: SchemaVersionListItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export type IoTManagedIntegrationsResourceARN = string;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutDefaultEncryptionConfigurationRequest {
   encryptionType: EncryptionType;
-  kmsKeyArn?: string;
+  kmsKeyArn?: string | undefined;
 }
 export interface PutDefaultEncryptionConfigurationResponse {
   configurationStatus: ConfigurationStatus;
   encryptionType: EncryptionType;
-  kmsKeyArn?: string;
+  kmsKeyArn?: string | undefined;
 }
 export interface PutHubConfigurationRequest {
   HubTokenTimerExpirySettingInSeconds: number;
 }
 export interface PutHubConfigurationResponse {
-  HubTokenTimerExpirySettingInSeconds?: number;
+  HubTokenTimerExpirySettingInSeconds?: number | undefined;
 }
 export interface PutRuntimeLogConfigurationRequest {
   ManagedThingId: string;
@@ -1376,9 +1377,9 @@ export interface RegisterAccountAssociationRequest {
   DeviceDiscoveryId: string;
 }
 export interface RegisterAccountAssociationResponse {
-  AccountAssociationId?: string;
-  DeviceDiscoveryId?: string;
-  ManagedThingId?: string;
+  AccountAssociationId?: string | undefined;
+  DeviceDiscoveryId?: string | undefined;
+  ManagedThingId?: string | undefined;
 }
 export interface RegisterCustomEndpointRequest {}
 export interface RegisterCustomEndpointResponse {
@@ -1405,9 +1406,9 @@ export type SpecVersion = string;
 export type MatterAttributeId = string;
 export type MatterCapabilityReportAttributeValue = unknown;
 export interface MatterCapabilityReportAttribute {
-  id?: string;
-  name?: string;
-  value?: any;
+  id?: string | undefined;
+  name?: string | undefined;
+  value?: any | undefined;
 }
 export type MatterCapabilityReportAttributes = MatterCapabilityReportAttribute[];
 export type MatterCommandId = string;
@@ -1420,15 +1421,15 @@ export type MatterCapabilityReportFabricIndex = number;
 export interface MatterCapabilityReportCluster {
   id: string;
   revision: number;
-  publicId?: string;
-  name?: string;
-  specVersion?: string;
-  attributes?: MatterCapabilityReportAttribute[];
-  commands?: string[];
-  events?: string[];
-  featureMap?: number;
-  generatedCommands?: string[];
-  fabricIndex?: number;
+  publicId?: string | undefined;
+  name?: string | undefined;
+  specVersion?: string | undefined;
+  attributes?: MatterCapabilityReportAttribute[] | undefined;
+  commands?: string[] | undefined;
+  events?: string[] | undefined;
+  featureMap?: number | undefined;
+  generatedCommands?: string[] | undefined;
+  fabricIndex?: number | undefined;
 }
 export type MatterCapabilityReportClusters = MatterCapabilityReportCluster[];
 export type MatterCapabilityReportEndpointParts = string[];
@@ -1439,23 +1440,23 @@ export interface MatterCapabilityReportEndpoint {
   id: string;
   deviceTypes: string[];
   clusters: MatterCapabilityReportCluster[];
-  parts?: string[];
-  semanticTags?: string[];
-  clientClusters?: string[];
+  parts?: string[] | undefined;
+  semanticTags?: string[] | undefined;
+  clientClusters?: string[] | undefined;
 }
 export type MatterCapabilityReportEndpoints = MatterCapabilityReportEndpoint[];
 export interface MatterCapabilityReport {
   version: string;
-  nodeId?: string;
+  nodeId?: string | undefined;
   endpoints: MatterCapabilityReportEndpoint[];
 }
 export type DeviceMetadata = unknown;
 export interface Device {
   ConnectorDeviceId: string | redacted.Redacted<string>;
-  ConnectorDeviceName?: string;
+  ConnectorDeviceName?: string | undefined;
   CapabilityReport: MatterCapabilityReport;
-  CapabilitySchemas?: CapabilitySchemaItem[];
-  DeviceMetadata?: any;
+  CapabilitySchemas?: CapabilitySchemaItem[] | undefined;
+  DeviceMetadata?: any | undefined;
 }
 export type Devices = Device[];
 export type MatterAttributes = unknown;
@@ -1463,28 +1464,28 @@ export type MatterFields = unknown;
 export type MatterCommands = { [key: string]: any | undefined };
 export type MatterEvents = { [key: string]: any | undefined };
 export interface MatterCluster {
-  id?: string;
-  attributes?: any;
-  commands?: { [key: string]: any | undefined };
-  events?: { [key: string]: any | undefined };
+  id?: string | undefined;
+  attributes?: any | undefined;
+  commands?: { [key: string]: any | undefined } | undefined;
+  events?: { [key: string]: any | undefined } | undefined;
 }
 export type MatterClusters = MatterCluster[];
 export interface MatterEndpoint {
-  id?: string;
-  clusters?: MatterCluster[];
+  id?: string | undefined;
+  clusters?: MatterCluster[] | undefined;
 }
 export interface SendConnectorEventRequest {
   ConnectorId: string;
-  UserId?: string | redacted.Redacted<string>;
+  UserId?: string | redacted.Redacted<string> | undefined;
   Operation: ConnectorEventOperation;
-  OperationVersion?: string;
-  StatusCode?: number;
-  Message?: string | redacted.Redacted<string>;
-  DeviceDiscoveryId?: string;
-  ConnectorDeviceId?: string | redacted.Redacted<string>;
-  TraceId?: string;
-  Devices?: Device[];
-  MatterEndpoint?: MatterEndpoint;
+  OperationVersion?: string | undefined;
+  StatusCode?: number | undefined;
+  Message?: string | redacted.Redacted<string> | undefined;
+  DeviceDiscoveryId?: string | undefined;
+  ConnectorDeviceId?: string | redacted.Redacted<string> | undefined;
+  TraceId?: string | undefined;
+  Devices?: Device[] | undefined;
+  MatterEndpoint?: MatterEndpoint | undefined;
 }
 export interface SendConnectorEventResponse {
   ConnectorId: string;
@@ -1494,9 +1495,9 @@ export type ActionReference = string;
 export type ActionTraceId = string;
 export interface CapabilityAction {
   name: string;
-  ref?: string;
-  actionTraceId?: string;
-  parameters?: any;
+  ref?: string | undefined;
+  actionTraceId?: string | undefined;
+  parameters?: any | undefined;
 }
 export type CapabilityActions = CapabilityAction[];
 export interface CommandCapability {
@@ -1514,11 +1515,11 @@ export type CommandEndpoints = CommandEndpoint[];
 export interface SendManagedThingCommandRequest {
   ManagedThingId: string;
   Endpoints: CommandEndpoint[];
-  ConnectorAssociationId?: string;
-  AccountAssociationId?: string;
+  ConnectorAssociationId?: string | undefined;
+  AccountAssociationId?: string | undefined;
 }
 export interface SendManagedThingCommandResponse {
-  TraceId?: string;
+  TraceId?: string | undefined;
 }
 export interface StartAccountAssociationRefreshRequest {
   AccountAssociationId: string;
@@ -1535,21 +1536,21 @@ export type ConnectorDeviceIdList = (string | redacted.Redacted<string>)[];
 export type ProtocolType = "ZWAVE" | "ZIGBEE" | "CUSTOM" | (string & {});
 export interface StartDeviceDiscoveryRequest {
   DiscoveryType: DiscoveryType;
-  CustomProtocolDetail?: { [key: string]: string | undefined };
-  ControllerIdentifier?: string;
-  ConnectorAssociationIdentifier?: string;
-  AccountAssociationId?: string;
-  AuthenticationMaterial?: string | redacted.Redacted<string>;
-  AuthenticationMaterialType?: DiscoveryAuthMaterialType;
-  ClientToken?: string;
-  Tags?: { [key: string]: string | undefined };
-  ConnectorDeviceIdList?: (string | redacted.Redacted<string>)[];
-  Protocol?: ProtocolType;
-  EndDeviceIdentifier?: string;
+  CustomProtocolDetail?: { [key: string]: string | undefined } | undefined;
+  ControllerIdentifier?: string | undefined;
+  ConnectorAssociationIdentifier?: string | undefined;
+  AccountAssociationId?: string | undefined;
+  AuthenticationMaterial?: string | redacted.Redacted<string> | undefined;
+  AuthenticationMaterialType?: DiscoveryAuthMaterialType | undefined;
+  ClientToken?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ConnectorDeviceIdList?: (string | redacted.Redacted<string>)[] | undefined;
+  Protocol?: ProtocolType | undefined;
+  EndDeviceIdentifier?: string | undefined;
 }
 export interface StartDeviceDiscoveryResponse {
-  Id?: string;
-  StartedAt?: Date;
+  Id?: string | undefined;
+  StartedAt?: Date | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
@@ -1564,43 +1565,43 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateAccountAssociationRequest {
   AccountAssociationId: string;
-  Name?: string;
-  Description?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
 }
 export interface UpdateAccountAssociationResponse {}
 export interface UpdateCloudConnectorRequest {
   Identifier: string;
-  Name?: string;
-  Description?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
 }
 export interface UpdateCloudConnectorResponse {}
 export interface OAuthUpdate {
-  oAuthCompleteRedirectUrl?: string;
-  proactiveRefreshTokenRenewal?: ProactiveRefreshTokenRenewal;
+  oAuthCompleteRedirectUrl?: string | undefined;
+  proactiveRefreshTokenRenewal?: ProactiveRefreshTokenRenewal | undefined;
 }
 export interface GeneralAuthorizationUpdate {
-  AuthMaterialsToAdd?: AuthMaterial[];
-  AuthMaterialsToUpdate?: AuthMaterial[];
+  AuthMaterialsToAdd?: AuthMaterial[] | undefined;
+  AuthMaterialsToUpdate?: AuthMaterial[] | undefined;
 }
 export interface AuthConfigUpdate {
-  oAuthUpdate?: OAuthUpdate;
-  GeneralAuthorizationUpdate?: GeneralAuthorizationUpdate;
+  oAuthUpdate?: OAuthUpdate | undefined;
+  GeneralAuthorizationUpdate?: GeneralAuthorizationUpdate | undefined;
 }
 export interface UpdateConnectorDestinationRequest {
   Identifier: string;
-  Description?: string;
-  Name?: string;
-  AuthType?: AuthType;
-  AuthConfig?: AuthConfigUpdate;
-  SecretsManager?: SecretsManager;
+  Description?: string | undefined;
+  Name?: string | undefined;
+  AuthType?: AuthType | undefined;
+  AuthConfig?: AuthConfigUpdate | undefined;
+  SecretsManager?: SecretsManager | undefined;
 }
 export interface UpdateConnectorDestinationResponse {}
 export interface UpdateDestinationRequest {
   Name: string;
-  DeliveryDestinationArn?: string;
-  DeliveryDestinationType?: DeliveryDestinationType;
-  RoleArn?: string;
-  Description?: string;
+  DeliveryDestinationArn?: string | undefined;
+  DeliveryDestinationType?: DeliveryDestinationType | undefined;
+  RoleArn?: string | undefined;
+  Description?: string | undefined;
 }
 export interface UpdateDestinationResponse {}
 export interface UpdateEventLogConfigurationRequest {
@@ -1610,19 +1611,19 @@ export interface UpdateEventLogConfigurationRequest {
 export interface UpdateEventLogConfigurationResponse {}
 export interface UpdateManagedThingRequest {
   Identifier: string;
-  Owner?: string | redacted.Redacted<string>;
-  CredentialLockerId?: string;
-  SerialNumber?: string | redacted.Redacted<string>;
-  WiFiSimpleSetupConfiguration?: WiFiSimpleSetupConfiguration;
-  Brand?: string | redacted.Redacted<string>;
-  Model?: string | redacted.Redacted<string>;
-  Name?: string;
-  CapabilityReport?: CapabilityReport;
-  CapabilitySchemas?: CapabilitySchemaItem[];
-  Capabilities?: string;
-  Classification?: string | redacted.Redacted<string>;
-  HubNetworkMode?: HubNetworkMode;
-  MetaData?: { [key: string]: string | undefined };
+  Owner?: string | redacted.Redacted<string> | undefined;
+  CredentialLockerId?: string | undefined;
+  SerialNumber?: string | redacted.Redacted<string> | undefined;
+  WiFiSimpleSetupConfiguration?: WiFiSimpleSetupConfiguration | undefined;
+  Brand?: string | redacted.Redacted<string> | undefined;
+  Model?: string | redacted.Redacted<string> | undefined;
+  Name?: string | undefined;
+  CapabilityReport?: CapabilityReport | undefined;
+  CapabilitySchemas?: CapabilitySchemaItem[] | undefined;
+  Capabilities?: string | undefined;
+  Classification?: string | redacted.Redacted<string> | undefined;
+  HubNetworkMode?: HubNetworkMode | undefined;
+  MetaData?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateManagedThingResponse {}
 export interface UpdateNotificationConfigurationRequest {
@@ -1632,8 +1633,8 @@ export interface UpdateNotificationConfigurationRequest {
 export interface UpdateNotificationConfigurationResponse {}
 export interface UpdateOtaTaskRequest {
   Identifier: string;
-  Description?: string;
-  TaskConfigurationId?: string;
+  Description?: string | undefined;
+  TaskConfigurationId?: string | undefined;
 }
 export interface UpdateOtaTaskResponse {}
 export type ErrorMessage = string;
@@ -1653,7 +1654,7 @@ export type CreateAccountAssociationError =
  * Creates a new account association via the destination id.
  */
 export const createAccountAssociation: API.OperationMethod<
-  CreateAccountAssociationRequest,
+  CreateAccountAssociationRequest & RegionInput,
   CreateAccountAssociationResponse,
   CreateAccountAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1688,7 +1689,7 @@ export type CreateCloudConnectorError =
  * Creates a C2C (cloud-to-cloud) connector.
  */
 export const createCloudConnector: API.OperationMethod<
-  CreateCloudConnectorRequest,
+  CreateCloudConnectorRequest & RegionInput,
   CreateCloudConnectorResponse,
   CreateCloudConnectorError,
   Credentials | HttpClient.HttpClient
@@ -1722,7 +1723,7 @@ export type CreateConnectorDestinationError =
  * Create a connector destination for connecting a cloud-to-cloud (C2C) connector to the customer's Amazon Web Services account.
  */
 export const createConnectorDestination: API.OperationMethod<
-  CreateConnectorDestinationRequest,
+  CreateConnectorDestinationRequest & RegionInput,
   CreateConnectorDestinationResponse,
   CreateConnectorDestinationError,
   Credentials | HttpClient.HttpClient
@@ -1760,7 +1761,7 @@ export type CreateCredentialLockerError =
  * This operation will not trigger the creation of all the manufacturing resources.
  */
 export const createCredentialLocker: API.OperationMethod<
-  CreateCredentialLockerRequest,
+  CreateCredentialLockerRequest & RegionInput,
   CreateCredentialLockerResponse,
   CreateCredentialLockerError,
   Credentials | HttpClient.HttpClient
@@ -1794,7 +1795,7 @@ export type CreateDestinationError =
  * Create a notification destination such as Kinesis Data Streams that receive events and notifications from Managed integrations. Managed integrations uses the destination to determine where to deliver notifications.
  */
 export const createDestination: API.OperationMethod<
-  CreateDestinationRequest,
+  CreateDestinationRequest & RegionInput,
   CreateDestinationResponse,
   CreateDestinationError,
   Credentials | HttpClient.HttpClient
@@ -1827,7 +1828,7 @@ export type CreateEventLogConfigurationError =
  * Set the event log configuration for the account, resource type, or specific resource.
  */
 export const createEventLogConfiguration: API.OperationMethod<
-  CreateEventLogConfigurationRequest,
+  CreateEventLogConfigurationRequest & RegionInput,
   CreateEventLogConfigurationResponse,
   CreateEventLogConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1863,7 +1864,7 @@ export type CreateManagedThingError =
  * Creates a managed thing. A managed thing contains the device identifier, protocol supported, and capabilities of the device in a data model format defined by Managed integrations.
  */
 export const createManagedThing: API.OperationMethod<
-  CreateManagedThingRequest,
+  CreateManagedThingRequest & RegionInput,
   CreateManagedThingResponse,
   CreateManagedThingError,
   Credentials | HttpClient.HttpClient
@@ -1898,7 +1899,7 @@ export type CreateNotificationConfigurationError =
  * Creates a notification configuration. A configuration is a connection between an event type and a destination that you have already created.
  */
 export const createNotificationConfiguration: API.OperationMethod<
-  CreateNotificationConfigurationRequest,
+  CreateNotificationConfigurationRequest & RegionInput,
   CreateNotificationConfigurationResponse,
   CreateNotificationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1932,7 +1933,7 @@ export type CreateOtaTaskError =
  * Create an over-the-air (OTA) task to target a device.
  */
 export const createOtaTask: API.OperationMethod<
-  CreateOtaTaskRequest,
+  CreateOtaTaskRequest & RegionInput,
   CreateOtaTaskResponse,
   CreateOtaTaskError,
   Credentials | HttpClient.HttpClient
@@ -1966,7 +1967,7 @@ export type CreateOtaTaskConfigurationError =
  * Create a configuraiton for the over-the-air (OTA) task.
  */
 export const createOtaTaskConfiguration: API.OperationMethod<
-  CreateOtaTaskConfigurationRequest,
+  CreateOtaTaskConfigurationRequest & RegionInput,
   CreateOtaTaskConfigurationResponse,
   CreateOtaTaskConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2001,7 +2002,7 @@ export type CreateProvisioningProfileError =
  * Create a provisioning profile for executing device provisioning flows. The provisioning profile is a document that defines the set of resources and policies applied to a device during the provisioning process.
  */
 export const createProvisioningProfile: API.OperationMethod<
-  CreateProvisioningProfileRequest,
+  CreateProvisioningProfileRequest & RegionInput,
   CreateProvisioningProfileResponse,
   CreateProvisioningProfileError,
   Credentials | HttpClient.HttpClient
@@ -2039,7 +2040,7 @@ export type DeleteAccountAssociationError =
  * You must first call the `DeregisterAccountAssociation` to remove the connection between the managed thing and the third-party account before calling the `DeleteAccountAssociation` API.
  */
 export const deleteAccountAssociation: API.OperationMethod<
-  DeleteAccountAssociationRequest,
+  DeleteAccountAssociationRequest & RegionInput,
   DeleteAccountAssociationResponse,
   DeleteAccountAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2073,7 +2074,7 @@ export type DeleteCloudConnectorError =
  * Delete a cloud connector.
  */
 export const deleteCloudConnector: API.OperationMethod<
-  DeleteCloudConnectorRequest,
+  DeleteCloudConnectorRequest & RegionInput,
   DeleteCloudConnectorResponse,
   DeleteCloudConnectorError,
   Credentials | HttpClient.HttpClient
@@ -2108,7 +2109,7 @@ export type DeleteConnectorDestinationError =
  * Deletion can't be done if the account association has used this connector destination.
  */
 export const deleteConnectorDestination: API.OperationMethod<
-  DeleteConnectorDestinationRequest,
+  DeleteConnectorDestinationRequest & RegionInput,
   DeleteConnectorDestinationResponse,
   DeleteConnectorDestinationError,
   Credentials | HttpClient.HttpClient
@@ -2143,7 +2144,7 @@ export type DeleteCredentialLockerError =
  * This operation can't be undone and any existing device won't be able to use IoT managed integrations.
  */
 export const deleteCredentialLocker: API.OperationMethod<
-  DeleteCredentialLockerRequest,
+  DeleteCredentialLockerRequest & RegionInput,
   DeleteCredentialLockerResponse,
   DeleteCredentialLockerError,
   Credentials | HttpClient.HttpClient
@@ -2176,7 +2177,7 @@ export type DeleteDestinationError =
  * Deletes a notification destination specified by name.
  */
 export const deleteDestination: API.OperationMethod<
-  DeleteDestinationRequest,
+  DeleteDestinationRequest & RegionInput,
   DeleteDestinationResponse,
   DeleteDestinationError,
   Credentials | HttpClient.HttpClient
@@ -2208,7 +2209,7 @@ export type DeleteEventLogConfigurationError =
  * Delete an event log configuration.
  */
 export const deleteEventLogConfiguration: API.OperationMethod<
-  DeleteEventLogConfigurationRequest,
+  DeleteEventLogConfigurationRequest & RegionInput,
   DeleteEventLogConfigurationResponse,
   DeleteEventLogConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2243,7 +2244,7 @@ export type DeleteManagedThingError =
  * Delete a managed thing. For direct-connected and hub-connected devices connecting with Managed integrations via a controller, all of the devices connected to it will have their status changed to `PENDING`. It is not possible to remove a cloud-to-cloud device.
  */
 export const deleteManagedThing: API.OperationMethod<
-  DeleteManagedThingRequest,
+  DeleteManagedThingRequest & RegionInput,
   DeleteManagedThingResponse,
   DeleteManagedThingError,
   Credentials | HttpClient.HttpClient
@@ -2278,7 +2279,7 @@ export type DeleteNotificationConfigurationError =
  * Deletes a notification configuration.
  */
 export const deleteNotificationConfiguration: API.OperationMethod<
-  DeleteNotificationConfigurationRequest,
+  DeleteNotificationConfigurationRequest & RegionInput,
   DeleteNotificationConfigurationResponse,
   DeleteNotificationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2311,7 +2312,7 @@ export type DeleteOtaTaskError =
  * Delete the over-the-air (OTA) task.
  */
 export const deleteOtaTask: API.OperationMethod<
-  DeleteOtaTaskRequest,
+  DeleteOtaTaskRequest & RegionInput,
   DeleteOtaTaskResponse,
   DeleteOtaTaskError,
   Credentials | HttpClient.HttpClient
@@ -2344,7 +2345,7 @@ export type DeleteOtaTaskConfigurationError =
  * Delete the over-the-air (OTA) task configuration.
  */
 export const deleteOtaTaskConfiguration: API.OperationMethod<
-  DeleteOtaTaskConfigurationRequest,
+  DeleteOtaTaskConfigurationRequest & RegionInput,
   DeleteOtaTaskConfigurationResponse,
   DeleteOtaTaskConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2379,7 +2380,7 @@ export type DeleteProvisioningProfileError =
  * Delete a provisioning profile.
  */
 export const deleteProvisioningProfile: API.OperationMethod<
-  DeleteProvisioningProfileRequest,
+  DeleteProvisioningProfileRequest & RegionInput,
   DeleteProvisioningProfileResponse,
   DeleteProvisioningProfileError,
   Credentials | HttpClient.HttpClient
@@ -2415,7 +2416,7 @@ export type DeregisterAccountAssociationError =
  * Deregister an account association from a managed thing.
  */
 export const deregisterAccountAssociation: API.OperationMethod<
-  DeregisterAccountAssociationRequest,
+  DeregisterAccountAssociationRequest & RegionInput,
   DeregisterAccountAssociationResponse,
   DeregisterAccountAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2449,7 +2450,7 @@ export type GetAccountAssociationError =
  * Get an account association for an Amazon Web Services account linked to a customer-managed destination.
  */
 export const getAccountAssociation: API.OperationMethod<
-  GetAccountAssociationRequest,
+  GetAccountAssociationRequest & RegionInput,
   GetAccountAssociationResponse,
   GetAccountAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2482,7 +2483,7 @@ export type GetCloudConnectorError =
  * Get configuration details for a cloud connector.
  */
 export const getCloudConnector: API.OperationMethod<
-  GetCloudConnectorRequest,
+  GetCloudConnectorRequest & RegionInput,
   GetCloudConnectorResponse,
   GetCloudConnectorError,
   Credentials | HttpClient.HttpClient
@@ -2514,7 +2515,7 @@ export type GetConnectorDestinationError =
  * Get connector destination details linked to a cloud-to-cloud (C2C) connector.
  */
 export const getConnectorDestination: API.OperationMethod<
-  GetConnectorDestinationRequest,
+  GetConnectorDestinationRequest & RegionInput,
   GetConnectorDestinationResponse,
   GetConnectorDestinationError,
   Credentials | HttpClient.HttpClient
@@ -2547,7 +2548,7 @@ export type GetCredentialLockerError =
  * Get information on an existing credential locker
  */
 export const getCredentialLocker: API.OperationMethod<
-  GetCredentialLockerRequest,
+  GetCredentialLockerRequest & RegionInput,
   GetCredentialLockerResponse,
   GetCredentialLockerError,
   Credentials | HttpClient.HttpClient
@@ -2582,7 +2583,7 @@ export type GetCustomEndpointError =
  * Returns the IoT managed integrations custom endpoint.
  */
 export const getCustomEndpoint: API.OperationMethod<
-  GetCustomEndpointRequest,
+  GetCustomEndpointRequest & RegionInput,
   GetCustomEndpointResponse,
   GetCustomEndpointError,
   Credentials | HttpClient.HttpClient
@@ -2618,7 +2619,7 @@ export type GetDefaultEncryptionConfigurationError =
  * Retrieves information about the default encryption configuration for the Amazon Web Services account in the default or specified region. For more information, see Key management in the *AWS IoT SiteWise User Guide*.
  */
 export const getDefaultEncryptionConfiguration: API.OperationMethod<
-  GetDefaultEncryptionConfigurationRequest,
+  GetDefaultEncryptionConfigurationRequest & RegionInput,
   GetDefaultEncryptionConfigurationResponse,
   GetDefaultEncryptionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2652,7 +2653,7 @@ export type GetDestinationError =
  * Gets a destination by name.
  */
 export const getDestination: API.OperationMethod<
-  GetDestinationRequest,
+  GetDestinationRequest & RegionInput,
   GetDestinationResponse,
   GetDestinationError,
   Credentials | HttpClient.HttpClient
@@ -2686,7 +2687,7 @@ export type GetDeviceDiscoveryError =
  * Get the current state of a device discovery.
  */
 export const getDeviceDiscovery: API.OperationMethod<
-  GetDeviceDiscoveryRequest,
+  GetDeviceDiscoveryRequest & RegionInput,
   GetDeviceDiscoveryResponse,
   GetDeviceDiscoveryError,
   Credentials | HttpClient.HttpClient
@@ -2720,7 +2721,7 @@ export type GetEventLogConfigurationError =
  * Get an event log configuration.
  */
 export const getEventLogConfiguration: API.OperationMethod<
-  GetEventLogConfigurationRequest,
+  GetEventLogConfigurationRequest & RegionInput,
   GetEventLogConfigurationResponse,
   GetEventLogConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2753,7 +2754,7 @@ export type GetHubConfigurationError =
  * Get a hub configuration.
  */
 export const getHubConfiguration: API.OperationMethod<
-  GetHubConfigurationRequest,
+  GetHubConfigurationRequest & RegionInput,
   GetHubConfigurationResponse,
   GetHubConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2788,7 +2789,7 @@ export type GetManagedThingError =
  * Get details of a managed thing including its attributes and capabilities.
  */
 export const getManagedThing: API.OperationMethod<
-  GetManagedThingRequest,
+  GetManagedThingRequest & RegionInput,
   GetManagedThingResponse,
   GetManagedThingError,
   Credentials | HttpClient.HttpClient
@@ -2824,7 +2825,7 @@ export type GetManagedThingCapabilitiesError =
  * Get the capabilities for a managed thing using the device ID.
  */
 export const getManagedThingCapabilities: API.OperationMethod<
-  GetManagedThingCapabilitiesRequest,
+  GetManagedThingCapabilitiesRequest & RegionInput,
   GetManagedThingCapabilitiesResponse,
   GetManagedThingCapabilitiesError,
   Credentials | HttpClient.HttpClient
@@ -2860,7 +2861,7 @@ export type GetManagedThingCertificateError =
  * Retrieves the certificate PEM for a managed IoT thing.
  */
 export const getManagedThingCertificate: API.OperationMethod<
-  GetManagedThingCertificateRequest,
+  GetManagedThingCertificateRequest & RegionInput,
   GetManagedThingCertificateResponse,
   GetManagedThingCertificateError,
   Credentials | HttpClient.HttpClient
@@ -2896,7 +2897,7 @@ export type GetManagedThingConnectivityDataError =
  * Get the connectivity status of a managed thing.
  */
 export const getManagedThingConnectivityData: API.OperationMethod<
-  GetManagedThingConnectivityDataRequest,
+  GetManagedThingConnectivityDataRequest & RegionInput,
   GetManagedThingConnectivityDataResponse,
   GetManagedThingConnectivityDataError,
   Credentials | HttpClient.HttpClient
@@ -2934,7 +2935,7 @@ export type GetManagedThingMetaDataError =
  * The `managedThing` `metadata` parameter is used for associating attributes with a `managedThing` that can be used for grouping over-the-air (OTA) tasks. Name value pairs in `metadata` can be used in the `OtaTargetQueryString` parameter for the `CreateOtaTask` API operation.
  */
 export const getManagedThingMetaData: API.OperationMethod<
-  GetManagedThingMetaDataRequest,
+  GetManagedThingMetaDataRequest & RegionInput,
   GetManagedThingMetaDataResponse,
   GetManagedThingMetaDataError,
   Credentials | HttpClient.HttpClient
@@ -2970,7 +2971,7 @@ export type GetManagedThingStateError =
  * Returns the managed thing state for the given device Id.
  */
 export const getManagedThingState: API.OperationMethod<
-  GetManagedThingStateRequest,
+  GetManagedThingStateRequest & RegionInput,
   GetManagedThingStateResponse,
   GetManagedThingStateError,
   Credentials | HttpClient.HttpClient
@@ -3004,7 +3005,7 @@ export type GetNotificationConfigurationError =
  * Get a notification configuration for a specified event type.
  */
 export const getNotificationConfiguration: API.OperationMethod<
-  GetNotificationConfigurationRequest,
+  GetNotificationConfigurationRequest & RegionInput,
   GetNotificationConfigurationResponse,
   GetNotificationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3036,7 +3037,7 @@ export type GetOtaTaskError =
  * Get details of the over-the-air (OTA) task by its task id.
  */
 export const getOtaTask: API.OperationMethod<
-  GetOtaTaskRequest,
+  GetOtaTaskRequest & RegionInput,
   GetOtaTaskResponse,
   GetOtaTaskError,
   Credentials | HttpClient.HttpClient
@@ -3068,7 +3069,7 @@ export type GetOtaTaskConfigurationError =
  * Get a configuraiton for the over-the-air (OTA) task.
  */
 export const getOtaTaskConfiguration: API.OperationMethod<
-  GetOtaTaskConfigurationRequest,
+  GetOtaTaskConfigurationRequest & RegionInput,
   GetOtaTaskConfigurationResponse,
   GetOtaTaskConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3102,7 +3103,7 @@ export type GetProvisioningProfileError =
  * Get details of a provisioning profile.
  */
 export const getProvisioningProfile: API.OperationMethod<
-  GetProvisioningProfileRequest,
+  GetProvisioningProfileRequest & RegionInput,
   GetProvisioningProfileResponse,
   GetProvisioningProfileError,
   Credentials | HttpClient.HttpClient
@@ -3136,7 +3137,7 @@ export type GetRuntimeLogConfigurationError =
  * Get the runtime log configuration for a specific managed thing.
  */
 export const getRuntimeLogConfiguration: API.OperationMethod<
-  GetRuntimeLogConfigurationRequest,
+  GetRuntimeLogConfigurationRequest & RegionInput,
   GetRuntimeLogConfigurationResponse,
   GetRuntimeLogConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3170,7 +3171,7 @@ export type GetSchemaVersionError =
  * Gets a schema version with the provided information.
  */
 export const getSchemaVersion: API.OperationMethod<
-  GetSchemaVersionRequest,
+  GetSchemaVersionRequest & RegionInput,
   GetSchemaVersionResponse,
   GetSchemaVersionError,
   Credentials | HttpClient.HttpClient
@@ -3204,7 +3205,7 @@ export type ListAccountAssociationsError =
  * Lists all account associations, with optional filtering by connector destination ID.
  */
 export const listAccountAssociations: API.PaginatedOperationMethod<
-  ListAccountAssociationsRequest,
+  ListAccountAssociationsRequest & RegionInput,
   ListAccountAssociationsResponse,
   ListAccountAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3242,7 +3243,7 @@ export type ListCloudConnectorsError =
  * Returns a list of connectors filtered by its Lambda Amazon Resource Name (ARN) and `type`.
  */
 export const listCloudConnectors: API.PaginatedOperationMethod<
-  ListCloudConnectorsRequest,
+  ListCloudConnectorsRequest & RegionInput,
   ListCloudConnectorsResponse,
   ListCloudConnectorsError,
   Credentials | HttpClient.HttpClient,
@@ -3279,7 +3280,7 @@ export type ListConnectorDestinationsError =
  * Lists all connector destinations, with optional filtering by cloud connector ID.
  */
 export const listConnectorDestinations: API.PaginatedOperationMethod<
-  ListConnectorDestinationsRequest,
+  ListConnectorDestinationsRequest & RegionInput,
   ListConnectorDestinationsResponse,
   ListConnectorDestinationsError,
   Credentials | HttpClient.HttpClient,
@@ -3317,7 +3318,7 @@ export type ListCredentialLockersError =
  * List information on an existing credential locker.
  */
 export const listCredentialLockers: API.PaginatedOperationMethod<
-  ListCredentialLockersRequest,
+  ListCredentialLockersRequest & RegionInput,
   ListCredentialLockersResponse,
   ListCredentialLockersError,
   Credentials | HttpClient.HttpClient,
@@ -3355,7 +3356,7 @@ export type ListDestinationsError =
  * List all notification destinations.
  */
 export const listDestinations: API.PaginatedOperationMethod<
-  ListDestinationsRequest,
+  ListDestinationsRequest & RegionInput,
   ListDestinationsResponse,
   ListDestinationsError,
   Credentials | HttpClient.HttpClient,
@@ -3394,7 +3395,7 @@ export type ListDeviceDiscoveriesError =
  * Lists all device discovery tasks, with optional filtering by type and status.
  */
 export const listDeviceDiscoveries: API.PaginatedOperationMethod<
-  ListDeviceDiscoveriesRequest,
+  ListDeviceDiscoveriesRequest & RegionInput,
   ListDeviceDiscoveriesResponse,
   ListDeviceDiscoveriesError,
   Credentials | HttpClient.HttpClient,
@@ -3436,7 +3437,7 @@ export type ListDiscoveredDevicesError =
  * Lists all devices discovered during a specific device discovery task.
  */
 export const listDiscoveredDevices: API.PaginatedOperationMethod<
-  ListDiscoveredDevicesRequest,
+  ListDiscoveredDevicesRequest & RegionInput,
   ListDiscoveredDevicesResponse,
   ListDiscoveredDevicesError,
   Credentials | HttpClient.HttpClient,
@@ -3476,7 +3477,7 @@ export type ListEventLogConfigurationsError =
  * List all event log configurations for an account.
  */
 export const listEventLogConfigurations: API.PaginatedOperationMethod<
-  ListEventLogConfigurationsRequest,
+  ListEventLogConfigurationsRequest & RegionInput,
   ListEventLogConfigurationsResponse,
   ListEventLogConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -3513,7 +3514,7 @@ export type ListManagedThingAccountAssociationsError =
  * Lists all account associations for a specific managed thing.
  */
 export const listManagedThingAccountAssociations: API.PaginatedOperationMethod<
-  ListManagedThingAccountAssociationsRequest,
+  ListManagedThingAccountAssociationsRequest & RegionInput,
   ListManagedThingAccountAssociationsResponse,
   ListManagedThingAccountAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3552,7 +3553,7 @@ export type ListManagedThingsError =
  * Listing all managed things with provision for filters.
  */
 export const listManagedThings: API.PaginatedOperationMethod<
-  ListManagedThingsRequest,
+  ListManagedThingsRequest & RegionInput,
   ListManagedThingsResponse,
   ListManagedThingsError,
   Credentials | HttpClient.HttpClient,
@@ -3594,7 +3595,7 @@ export type ListManagedThingSchemasError =
  * List schemas associated with a managed thing.
  */
 export const listManagedThingSchemas: API.PaginatedOperationMethod<
-  ListManagedThingSchemasRequest,
+  ListManagedThingSchemasRequest & RegionInput,
   ListManagedThingSchemasResponse,
   ListManagedThingSchemasError,
   Credentials | HttpClient.HttpClient,
@@ -3634,7 +3635,7 @@ export type ListNotificationConfigurationsError =
  * List all notification configurations.
  */
 export const listNotificationConfigurations: API.PaginatedOperationMethod<
-  ListNotificationConfigurationsRequest,
+  ListNotificationConfigurationsRequest & RegionInput,
   ListNotificationConfigurationsResponse,
   ListNotificationConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -3671,7 +3672,7 @@ export type ListOtaTaskConfigurationsError =
  * List all of the over-the-air (OTA) task configurations.
  */
 export const listOtaTaskConfigurations: API.PaginatedOperationMethod<
-  ListOtaTaskConfigurationsRequest,
+  ListOtaTaskConfigurationsRequest & RegionInput,
   ListOtaTaskConfigurationsResponse,
   ListOtaTaskConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -3709,7 +3710,7 @@ export type ListOtaTaskExecutionsError =
  * List all of the over-the-air (OTA) task executions.
  */
 export const listOtaTaskExecutions: API.PaginatedOperationMethod<
-  ListOtaTaskExecutionsRequest,
+  ListOtaTaskExecutionsRequest & RegionInput,
   ListOtaTaskExecutionsResponse,
   ListOtaTaskExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -3748,7 +3749,7 @@ export type ListOtaTasksError =
  * List all of the over-the-air (OTA) tasks.
  */
 export const listOtaTasks: API.PaginatedOperationMethod<
-  ListOtaTasksRequest,
+  ListOtaTasksRequest & RegionInput,
   ListOtaTasksResponse,
   ListOtaTasksError,
   Credentials | HttpClient.HttpClient,
@@ -3788,7 +3789,7 @@ export type ListProvisioningProfilesError =
  * List the provisioning profiles within the Amazon Web Services account.
  */
 export const listProvisioningProfiles: API.PaginatedOperationMethod<
-  ListProvisioningProfilesRequest,
+  ListProvisioningProfilesRequest & RegionInput,
   ListProvisioningProfilesResponse,
   ListProvisioningProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -3829,7 +3830,7 @@ export type ListSchemaVersionsError =
  * Lists schema versions with the provided information.
  */
 export const listSchemaVersions: API.PaginatedOperationMethod<
-  ListSchemaVersionsRequest,
+  ListSchemaVersionsRequest & RegionInput,
   ListSchemaVersionsResponse,
   ListSchemaVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -3868,7 +3869,7 @@ export type ListTagsForResourceError =
  * Lists the tags for a specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -3901,7 +3902,7 @@ export type PutDefaultEncryptionConfigurationError =
  * Sets the default encryption configuration for the Amazon Web Services account. For more information, see Key management in the AWS IoT SiteWise User Guide.
  */
 export const putDefaultEncryptionConfiguration: API.OperationMethod<
-  PutDefaultEncryptionConfigurationRequest,
+  PutDefaultEncryptionConfigurationRequest & RegionInput,
   PutDefaultEncryptionConfigurationResponse,
   PutDefaultEncryptionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3936,7 +3937,7 @@ export type PutHubConfigurationError =
  * Update a hub configuration.
  */
 export const putHubConfiguration: API.OperationMethod<
-  PutHubConfigurationRequest,
+  PutHubConfigurationRequest & RegionInput,
   PutHubConfigurationResponse,
   PutHubConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3969,7 +3970,7 @@ export type PutRuntimeLogConfigurationError =
  * Set the runtime log configuration for a specific managed thing.
  */
 export const putRuntimeLogConfiguration: API.OperationMethod<
-  PutRuntimeLogConfigurationRequest,
+  PutRuntimeLogConfigurationRequest & RegionInput,
   PutRuntimeLogConfigurationResponse,
   PutRuntimeLogConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4002,7 +4003,7 @@ export type RegisterAccountAssociationError =
  * Registers an account association with a managed thing, establishing a connection between a device and a third-party account.
  */
 export const registerAccountAssociation: API.OperationMethod<
-  RegisterAccountAssociationRequest,
+  RegisterAccountAssociationRequest & RegionInput,
   RegisterAccountAssociationResponse,
   RegisterAccountAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4037,7 +4038,7 @@ export type RegisterCustomEndpointError =
  * Customers can request IoT managed integrations to manage the server trust for them or bring their own external server trusts for the custom domain. Returns an IoT managed integrations endpoint.
  */
 export const registerCustomEndpoint: API.OperationMethod<
-  RegisterCustomEndpointRequest,
+  RegisterCustomEndpointRequest & RegionInput,
   RegisterCustomEndpointResponse,
   RegisterCustomEndpointError,
   Credentials | HttpClient.HttpClient
@@ -4071,7 +4072,7 @@ export type ResetRuntimeLogConfigurationError =
  * Reset a runtime log configuration for a specific managed thing.
  */
 export const resetRuntimeLogConfiguration: API.OperationMethod<
-  ResetRuntimeLogConfigurationRequest,
+  ResetRuntimeLogConfigurationRequest & RegionInput,
   ResetRuntimeLogConfigurationResponse,
   ResetRuntimeLogConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4104,7 +4105,7 @@ export type SendConnectorEventError =
  * Relays third-party device events for a connector such as a new device or a device state change event.
  */
 export const sendConnectorEvent: API.OperationMethod<
-  SendConnectorEventRequest,
+  SendConnectorEventRequest & RegionInput,
   SendConnectorEventResponse,
   SendConnectorEventError,
   Credentials | HttpClient.HttpClient
@@ -4139,7 +4140,7 @@ export type SendManagedThingCommandError =
  * Send the command to the device represented by the managed thing.
  */
 export const sendManagedThingCommand: API.OperationMethod<
-  SendManagedThingCommandRequest,
+  SendManagedThingCommandRequest & RegionInput,
   SendManagedThingCommandResponse,
   SendManagedThingCommandError,
   Credentials | HttpClient.HttpClient
@@ -4175,7 +4176,7 @@ export type StartAccountAssociationRefreshError =
  * Initiates a refresh of an existing account association to update its authorization and connection status.
  */
 export const startAccountAssociationRefresh: API.OperationMethod<
-  StartAccountAssociationRefreshRequest,
+  StartAccountAssociationRefreshRequest & RegionInput,
   StartAccountAssociationRefreshResponse,
   StartAccountAssociationRefreshError,
   Credentials | HttpClient.HttpClient
@@ -4212,7 +4213,7 @@ export type StartDeviceDiscoveryError =
  * This API is used to start device discovery for hub-connected and third-party-connected devices. The authentication material (install code) is delivered as a message to the controller instructing it to start the discovery.
  */
 export const startDeviceDiscovery: API.OperationMethod<
-  StartDeviceDiscoveryRequest,
+  StartDeviceDiscoveryRequest & RegionInput,
   StartDeviceDiscoveryResponse,
   StartDeviceDiscoveryError,
   Credentials | HttpClient.HttpClient
@@ -4247,7 +4248,7 @@ export type TagResourceError =
  * Adds tags to a specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4279,7 +4280,7 @@ export type UntagResourceError =
  * Removes tags from a specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4313,7 +4314,7 @@ export type UpdateAccountAssociationError =
  * Updates the properties of an existing account association.
  */
 export const updateAccountAssociation: API.OperationMethod<
-  UpdateAccountAssociationRequest,
+  UpdateAccountAssociationRequest & RegionInput,
   UpdateAccountAssociationResponse,
   UpdateAccountAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4348,7 +4349,7 @@ export type UpdateCloudConnectorError =
  * Update an existing cloud connector.
  */
 export const updateCloudConnector: API.OperationMethod<
-  UpdateCloudConnectorRequest,
+  UpdateCloudConnectorRequest & RegionInput,
   UpdateCloudConnectorResponse,
   UpdateCloudConnectorError,
   Credentials | HttpClient.HttpClient
@@ -4381,7 +4382,7 @@ export type UpdateConnectorDestinationError =
  * Updates the properties of an existing connector destination.
  */
 export const updateConnectorDestination: API.OperationMethod<
-  UpdateConnectorDestinationRequest,
+  UpdateConnectorDestinationRequest & RegionInput,
   UpdateConnectorDestinationResponse,
   UpdateConnectorDestinationError,
   Credentials | HttpClient.HttpClient
@@ -4413,7 +4414,7 @@ export type UpdateDestinationError =
  * Update a destination specified by name.
  */
 export const updateDestination: API.OperationMethod<
-  UpdateDestinationRequest,
+  UpdateDestinationRequest & RegionInput,
   UpdateDestinationResponse,
   UpdateDestinationError,
   Credentials | HttpClient.HttpClient
@@ -4445,7 +4446,7 @@ export type UpdateEventLogConfigurationError =
  * Update an event log configuration by log configuration ID.
  */
 export const updateEventLogConfiguration: API.OperationMethod<
-  UpdateEventLogConfigurationRequest,
+  UpdateEventLogConfigurationRequest & RegionInput,
   UpdateEventLogConfigurationResponse,
   UpdateEventLogConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4480,7 +4481,7 @@ export type UpdateManagedThingError =
  * Update the attributes and capabilities associated with a managed thing.
  */
 export const updateManagedThing: API.OperationMethod<
-  UpdateManagedThingRequest,
+  UpdateManagedThingRequest & RegionInput,
   UpdateManagedThingResponse,
   UpdateManagedThingError,
   Credentials | HttpClient.HttpClient
@@ -4515,7 +4516,7 @@ export type UpdateNotificationConfigurationError =
  * Update a notification configuration.
  */
 export const updateNotificationConfiguration: API.OperationMethod<
-  UpdateNotificationConfigurationRequest,
+  UpdateNotificationConfigurationRequest & RegionInput,
   UpdateNotificationConfigurationResponse,
   UpdateNotificationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4547,7 +4548,7 @@ export type UpdateOtaTaskError =
  * Update an over-the-air (OTA) task.
  */
 export const updateOtaTask: API.OperationMethod<
-  UpdateOtaTaskRequest,
+  UpdateOtaTaskRequest & RegionInput,
   UpdateOtaTaskResponse,
   UpdateOtaTaskError,
   Credentials | HttpClient.HttpClient

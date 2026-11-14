@@ -80,36 +80,36 @@ export type CancelTasksRequestStatusesList = Array<Status | (string & {})>;
 export type CancelTasksRequestIndexUidsList = Array<string>;
 export interface CancelTasksRequest {
   /** Permits to select tasks by their uid. When the `uids` query parameter is set to `*`, all task uids included. It's possible to specify several uids by separating them with the `,` character. */
-  uids?: CancelTasksRequestUidsList;
+  uids?: CancelTasksRequestUidsList | undefined;
   /** Lets you filter tasks by their `batchUid`. */
-  batchUids?: CancelTasksRequestBatchUidsList;
+  batchUids?: CancelTasksRequestBatchUidsList | undefined;
   /** Permits to filter tasks using the uid of the task that canceled them. It's possible to specify several task uids by separating them with the `,` character. */
-  canceledBy?: CancelTasksRequestCanceledByList;
+  canceledBy?: CancelTasksRequestCanceledByList | undefined;
   /** Permits to filter tasks by their related type. By default, when `types` query parameter is not set, all task types are returned. It's possible to specify several types by separating them with the `,` character. */
-  types?: CancelTasksRequestTypesList;
+  types?: CancelTasksRequestTypesList | undefined;
   /** Permits to filter tasks by their status. By default, when `statuses` query parameter is not set, all task statuses are returned. It's possible to specify several statuses by separating them with the `,` character. */
-  statuses?: CancelTasksRequestStatusesList;
+  statuses?: CancelTasksRequestStatusesList | undefined;
   /** Permits to filter tasks by their related index. By default, when `indexUids` query parameter is not set, the tasks of all the indexes are returned. It is possible to specify several indexes by separating them with the `,` character. */
-  indexUids?: CancelTasksRequestIndexUidsList;
+  indexUids?: CancelTasksRequestIndexUidsList | undefined;
   /** Permits to filter tasks based on their enqueuedAt time. Matches tasks enqueued after the given date. Supports RFC 3339 date format. */
-  afterEnqueuedAt?: string;
+  afterEnqueuedAt?: string | undefined;
   /** Permits to filter tasks based on their enqueuedAt time. Matches tasks enqueued before the given date. Supports RFC 3339 date format. */
-  beforeEnqueuedAt?: string;
+  beforeEnqueuedAt?: string | undefined;
   /** Permits to filter tasks based on their startedAt time. Matches tasks started after the given date. Supports RFC 3339 date format. */
-  afterStartedAt?: string;
+  afterStartedAt?: string | undefined;
   /** Permits to filter tasks based on their startedAt time. Matches tasks started before the given date. Supports RFC 3339 date format. */
-  beforeStartedAt?: string;
+  beforeStartedAt?: string | undefined;
   /** Permits to filter tasks based on their finishedAt time. Matches tasks finished after the given date. Supports RFC 3339 date format. */
-  afterFinishedAt?: string;
+  afterFinishedAt?: string | undefined;
   /** Permits to filter tasks based on their finishedAt time. Matches tasks finished before the given date. Supports RFC 3339 date format. */
-  beforeFinishedAt?: string;
+  beforeFinishedAt?: string | undefined;
 }
 /** A summarized view of a task, returned when a task is enqueued */
 export interface SummarizedTaskView {
   /** Unique sequential identifier of the task. */
   taskUid: number;
   /** Unique identifier of the targeted index. Null for global tasks. */
-  indexUid?: string | null;
+  indexUid?: string | null | undefined;
   /** Status of the task. Possible values are `enqueued`, `processing`, `succeeded`, `failed`, and `canceled`. */
   status: Status;
   /** Type of operation performed by the task. */
@@ -117,7 +117,7 @@ export interface SummarizedTaskView {
   /** Date and time when the task was enqueued. */
   enqueuedAt: string;
   /** Custom metadata attached to this task at creation. Use it to associate tasks with external systems or add application-specific information. */
-  customMetadata?: string | null;
+  customMetadata?: string | null | undefined;
 }
 /** A text content part of a message. */
 export interface ChatCompletionRequestMessageContentPartText {
@@ -134,7 +134,7 @@ export interface ChatCompletionRequestMessageCase0 {
   /** The contents of the developer message. */
   content: ChatCompletionRequestDeveloperMessageContent;
   /** An optional name for the participant. Provides the model information to differentiate between participants of the same role. */
-  name?: string | null;
+  name?: string | null | undefined;
   role: ChatCompletionRequestMessageCase0Role;
 }
 export type ChatCompletionRequestSystemMessageContentPartType = "text";
@@ -154,7 +154,7 @@ export interface ChatCompletionRequestMessageCase1 {
   /** The contents of the system message. */
   content: ChatCompletionRequestSystemMessageContent;
   /** An optional name for the participant. Provides the model information to differentiate between participants of the same role. */
-  name?: string | null;
+  name?: string | null | undefined;
   role: ChatCompletionRequestMessageCase1Role;
 }
 export type ChatCompletionRequestUserMessageContentPartCase0Type = "text";
@@ -168,7 +168,7 @@ export type ImageDetail = "auto" | "low" | "high";
 export interface ImageUrl {
   /** Either a URL of the image or the base64 encoded image data. */
   url: string;
-  detail?: ImageDetail | (string & {}) | null;
+  detail?: ImageDetail | (string & {}) | null | undefined;
 }
 export type ChatCompletionRequestUserMessageContentPartCase1Type = "image_url";
 export interface ChatCompletionRequestUserMessageContentPartCase1 {
@@ -206,7 +206,7 @@ export interface ChatCompletionRequestMessageCase2 {
   /** The contents of the user message. */
   content: ChatCompletionRequestUserMessageContent;
   /** An optional name for the participant. Provides the model information to differentiate between participants of the same role. */
-  name?: string | null;
+  name?: string | null | undefined;
   role: ChatCompletionRequestMessageCase2Role;
 }
 export type ChatCompletionRequestAssistantMessageContentPartCase0Type = "text";
@@ -249,21 +249,21 @@ export interface FunctionCall {
 export interface ChatCompletionMessageToolCall {
   /** The ID of the tool call. */
   id: string;
-  type?: ChatCompletionToolType | (string & {}) | null;
+  type?: ChatCompletionToolType | (string & {}) | null | undefined;
   /** The function that the model called. */
   function: FunctionCall;
 }
 export type ChatCompletionRequestMessageCase3ToolCallsList = Array<ChatCompletionMessageToolCall>;
 export type ChatCompletionRequestMessageCase3Role = "assistant";
 export interface ChatCompletionRequestMessageCase3 {
-  content?: ChatCompletionRequestAssistantMessageContent | null;
+  content?: ChatCompletionRequestAssistantMessageContent | null | undefined;
   /** The refusal message by the assistant. */
-  refusal?: string | null;
+  refusal?: string | null | undefined;
   /** An optional name for the participant. Provides the model information to differentiate between participants of the same role. */
-  name?: string | null;
-  audio?: ChatCompletionRequestAssistantMessageAudio | null;
-  tool_calls?: ChatCompletionRequestMessageCase3ToolCallsList | null;
-  function_call?: FunctionCall | null;
+  name?: string | null | undefined;
+  audio?: ChatCompletionRequestAssistantMessageAudio | null | undefined;
+  tool_calls?: ChatCompletionRequestMessageCase3ToolCallsList | null | undefined;
+  function_call?: FunctionCall | null | undefined;
   role: ChatCompletionRequestMessageCase3Role;
 }
 export type ChatCompletionRequestToolMessageContentPartType = "text";
@@ -288,7 +288,7 @@ export interface ChatCompletionRequestMessageCase4 {
 export type ChatCompletionRequestMessageCase5Role = "function";
 export interface ChatCompletionRequestMessageCase5 {
   /** The return value from the function call, to return to the model. */
-  content?: string | null;
+  content?: string | null | undefined;
   /** The name of the function to call. */
   name: string;
   role: ChatCompletionRequestMessageCase5Role;
@@ -354,13 +354,13 @@ export interface ResponseFormatCase1 {
 /** A JSON Schema-based response format specification for Structured Outputs. */
 export interface ResponseFormatJsonSchema {
   /** A description of what the response format is for, used by the model to determine how to respond in the format. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The name of the response format. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64. */
   name: string;
   /** The schema for the response format, described as a JSON Schema object. */
-  schema?: unknown;
+  schema?: unknown | undefined;
   /** Whether to enable strict schema adherence when generating the output. If set to true, the model will always follow the exact schema defined in the `schema` field. Only a subset of JSON Schema is supported when `strict` is `true`. To learn more, read the [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs). */
-  strict?: boolean | null;
+  strict?: boolean | null | undefined;
 }
 export type ResponseFormatCase2Type = "json_schema";
 /** The type of response format being defined: `json_schema` */
@@ -385,11 +385,11 @@ export interface FunctionObject {
   /** The name of the function to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64. */
   name: string;
   /** A description of what the function does, used by the model to choose when and how to call the function. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/text-generation/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format. Omitting `parameters` defines a function with an empty parameter list. */
-  parameters?: unknown;
+  parameters?: unknown | undefined;
   /** Whether to enable strict schema adherence when generating the function call. If set to true, the model will follow the exact schema defined in the `parameters` field. Only a subset of JSON Schema is supported when `strict` is `true`. Learn more about Structured Outputs in the [function calling guide](https://platform.openai.com/docs/guides/function-calling). */
-  strict?: boolean | null;
+  strict?: boolean | null | undefined;
 }
 /** A tool the model may call. Currently, only functions are supported as a tool. */
 export interface ChatCompletionTool {
@@ -398,9 +398,7 @@ export interface ChatCompletionTool {
 }
 /** A list of tools the model may call. Currently, only functions are supported as a tool. Use this to provide a list of functions the model may generate JSON inputs for. A max of 128 functions are supported. */
 export type ChatRequestToolsList = Array<ChatCompletionTool>;
-export type ChatCompletionToolChoiceOptionCase0 = "none";
-export type ChatCompletionToolChoiceOptionCase1 = "auto";
-export type ChatCompletionToolChoiceOptionCase2 = "required";
+export type ChatCompletionToolChoiceOptionCase0 = "none" | "auto" | "required";
 /** A wrapper for a function name reference. */
 export interface FunctionName {
   /** The name of the function to call. */
@@ -412,39 +410,34 @@ export interface ChatCompletionNamedToolChoice {
   type: ChatCompletionToolType | (string & {});
   function: FunctionName;
 }
-export interface ChatCompletionToolChoiceOptionCase3 {
+export interface ChatCompletionToolChoiceOptionCase1 {
   named: ChatCompletionNamedToolChoice;
 }
 /** Controls which (if any) tool is called by the model. `none` means the model will not call any tool and instead generates a message. `auto` means the model can pick between generating a message or calling one or more tools. `required` means the model must call one or more tools. Specifying a particular tool via `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool. `none` is the default when no tools are present. `auto` is the default if tools are present.present. */
 export type ChatCompletionToolChoiceOption =
   | ChatCompletionToolChoiceOptionCase0
-  | ChatCompletionToolChoiceOptionCase1
-  | ChatCompletionToolChoiceOptionCase2
-  | ChatCompletionToolChoiceOptionCase3;
-/** The model does not call a function, and responds to the end-user. */
-export type ChatCompletionFunctionCallCase0 = "none";
-/** The model can pick between an end-user or calling a function. */
-export type ChatCompletionFunctionCallCase1 = "auto";
+  | ChatCompletionToolChoiceOptionCase1;
+/** - `none`: The model does not call a function, and responds to the end-user. - `auto`: The model can pick between an end-user or calling a function. */
+export type ChatCompletionFunctionCallCase0 = "none" | "auto";
 /** Forces the model to call the specified function. */
-export interface ChatCompletionFunctionCallCase2Function {
+export interface ChatCompletionFunctionCallCase1Function {
   name: string;
 }
 /** Forces the model to call the specified function. */
-export interface ChatCompletionFunctionCallCase2 {
+export interface ChatCompletionFunctionCallCase1 {
   /** Forces the model to call the specified function. */
-  Function: ChatCompletionFunctionCallCase2Function;
+  Function: ChatCompletionFunctionCallCase1Function;
 }
 /** Deprecated in favor of `tool_choice`. Controls which (if any) function is called by the model. */
 export type ChatCompletionFunctionCall =
   | ChatCompletionFunctionCallCase0
-  | ChatCompletionFunctionCallCase1
-  | ChatCompletionFunctionCallCase2;
+  | ChatCompletionFunctionCallCase1;
 /** Deprecated: A function the model may generate JSON inputs for. Use `ChatCompletionTool` instead. */
 export interface ChatCompletionFunctions {
   /** The name of the function to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64. */
   name: string;
   /** A description of what the function does, used by the model to choose when and how to call the function. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/text-generation/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format. Omitting `parameters` defines a function with an empty parameter list. */
   parameters: unknown;
 }
@@ -458,52 +451,52 @@ export interface ChatRequest {
   /** ID of the model to use. See the [model endpoint compatibility](https://platform.openai.com/docs/models#model-endpoint-compatibility) table for details on which models work with the Chat API. */
   model: string;
   /** Whether or not to store the output of this chat completion request for use in our [model distillation](https://platform.openai.com/docs/guides/distillation) or [evals](https://platform.openai.com/docs/guides/evals) products. */
-  store?: boolean | null;
-  reasoning_effort?: ReasoningEffort | (string & {}) | null;
+  store?: boolean | null | undefined;
+  reasoning_effort?: ReasoningEffort | (string & {}) | null | undefined;
   /** Developer-defined tags and values used for filtering completions in the [dashboard](https://platform.openai.com/chat-completions). */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim. */
-  frequency_penalty?: number | null;
+  frequency_penalty?: number | null | undefined;
   /** Modify the likelihood of specified tokens appearing in the completion. Accepts a json object that maps tokens (specified by their token ID in the tokenizer) to an associated bias value from -100 to 100. Mathematically, the bias is added to the logits generated by the model prior to sampling. The exact effect will vary per model, but values between -1 and 1 should decrease or increase likelihood of selection; values like -100 or 100 should result in a ban or exclusive selection of the relevant token. */
-  logit_bias?: ChatRequestLogitBiasMap | null;
+  logit_bias?: ChatRequestLogitBiasMap | null | undefined;
   /** Whether to return log probabilities of the output tokens or not. If true, returns the log probabilities of each output token returned in the `content` of `message`. */
-  logprobs?: boolean | null;
+  logprobs?: boolean | null | undefined;
   /** An integer between 0 and 20 specifying the number of most likely tokens to return at each token position, each with an associated log probability. `logprobs` must be set to `true` if this parameter is used. */
-  top_logprobs?: number | null;
+  top_logprobs?: number | null | undefined;
   /** The maximum number of [tokens](https://platform.openai.com/tokenizer) that can be generated in the chat completion. This value can be used to control [costs](https://openai.com/api/pricing/) for text generated via API. This value is now deprecated in favor of `max_completion_tokens`, and is not compatible with [o1 series models](https://platform.openai.com/docs/guides/reasoning). */
-  max_tokens?: number | null;
+  max_tokens?: number | null | undefined;
   /** An upper bound for the number of tokens that can be generated for a completion, including visible output tokens and [reasoning tokens](https://platform.openai.com/docs/guides/reasoning). */
-  max_completion_tokens?: number | null;
+  max_completion_tokens?: number | null | undefined;
   /** How many chat completion choices to generate for each input message. Note that you will be charged based on the number of generated tokens across all of the choices. Keep `n` as `1` to minimize costs. */
-  n?: number | null;
+  n?: number | null | undefined;
   /** Output types that you would like the model to generate for this request. Most models are capable of generating text, which is the default: `["text"]`. */
-  modalities?: ChatRequestModalitiesList | null;
-  prediction?: PredictionContent | null;
-  audio?: ChatCompletionAudio | null;
+  modalities?: ChatRequestModalitiesList | null | undefined;
+  prediction?: PredictionContent | null | undefined;
+  audio?: ChatCompletionAudio | null | undefined;
   /** Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics. */
-  presence_penalty?: number | null;
-  response_format?: ResponseFormat | null;
+  presence_penalty?: number | null | undefined;
+  response_format?: ResponseFormat | null | undefined;
   /** This feature is in Beta. If specified, our system will make a best effort to sample deterministically, such that repeated requests with the same `seed` and parameters should return the same result. Determinism is not guaranteed, and you should refer to the `system_fingerprint` response parameter to monitor changes in the backend. */
-  seed?: number | null;
-  service_tier?: ServiceTier | (string & {}) | null;
-  stop?: Stop | null;
+  seed?: number | null | undefined;
+  service_tier?: ServiceTier | (string & {}) | null | undefined;
+  stop?: Stop | null | undefined;
   /** If set, partial message deltas will be sent, like in ChatGPT. Tokens will be sent as data-only [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format) as they become available, with the stream terminated by a `data: [DONE]` message. [Example Python code](https://cookbook.openai.com/examples/how_to_stream_completions). */
-  stream?: boolean | null;
-  stream_options?: ChatCompletionStreamOptions | null;
+  stream?: boolean | null | undefined;
+  stream_options?: ChatCompletionStreamOptions | null | undefined;
   /** What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. We generally recommend altering this or `top_p` but not both. */
-  temperature?: number | null;
+  temperature?: number | null | undefined;
   /** An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered. We generally recommend altering this or `temperature` but not both. */
-  top_p?: number | null;
+  top_p?: number | null | undefined;
   /** A list of tools the model may call. Currently, only functions are supported as a tool. Use this to provide a list of functions the model may generate JSON inputs for. A max of 128 functions are supported. */
-  tools?: ChatRequestToolsList | null;
-  tool_choice?: ChatCompletionToolChoiceOption | null;
+  tools?: ChatRequestToolsList | null | undefined;
+  tool_choice?: ChatCompletionToolChoiceOption | null | undefined;
   /** Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling) during tool use. */
-  parallel_tool_calls?: boolean | null;
+  parallel_tool_calls?: boolean | null | undefined;
   /** A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#end-user-ids). */
-  user?: string | null;
-  function_call?: ChatCompletionFunctionCall | null;
+  user?: string | null | undefined;
+  function_call?: ChatCompletionFunctionCall | null | undefined;
   /** Deprecated in favor of `tools`. A list of functions the model may generate JSON inputs for. */
-  functions?: ChatRequestFunctionsList | null;
+  functions?: ChatRequestFunctionsList | null | undefined;
 }
 /** The tool calls generated by the model, such as function calls. */
 export type ChatCompletionResponseMessageToolCallsList = Array<ChatCompletionMessageToolCall>;
@@ -523,15 +516,15 @@ export interface ChatCompletionResponseMessageAudio {
 /** A chat completion message generated by the model. */
 export interface ChatCompletionResponseMessage {
   /** The contents of the message. */
-  content?: string | null;
+  content?: string | null | undefined;
   /** The refusal message generated by the model. */
-  refusal?: string | null;
+  refusal?: string | null | undefined;
   /** The tool calls generated by the model, such as function calls. */
-  tool_calls?: ChatCompletionResponseMessageToolCallsList | null;
+  tool_calls?: ChatCompletionResponseMessageToolCallsList | null | undefined;
   /** The role of the author of this message. */
   role: Role;
-  function_call?: FunctionCall | null;
-  audio?: ChatCompletionResponseMessageAudio | null;
+  function_call?: FunctionCall | null | undefined;
+  audio?: ChatCompletionResponseMessageAudio | null | undefined;
 }
 /** The reason the model stopped generating tokens. */
 export type FinishReason = "stop" | "length" | "tool_calls" | "content_filter" | "function_call";
@@ -546,7 +539,7 @@ export interface TopLogprobs {
   /** The log probability of this token. */
   logprob: number;
   /** A list of integers representing the UTF-8 bytes representation of the token. Useful in instances where characters are represented by multiple tokens and their byte representations must be combined to generate the correct text representation. Can be `null` if there is no bytes representation for the token. */
-  bytes?: TopLogprobsBytesList | null;
+  bytes?: TopLogprobsBytesList | null | undefined;
 }
 /** List of the most likely tokens and their log probability, at this token position. In rare cases, there may be fewer than the number of requested `top_logprobs` returned. */
 export type ChatCompletionTokenLogprobTopLogprobsList = Array<TopLogprobs>;
@@ -557,7 +550,7 @@ export interface ChatCompletionTokenLogprob {
   /** The log probability of this token, if it is within the top 20 most likely tokens. Otherwise, the value `-9999.0` is used to signify that the token is very unlikely. */
   logprob: number;
   /** A list of integers representing the UTF-8 bytes representation of the token. Useful in instances where characters are represented by multiple tokens and their byte representations must be combined to generate the correct text representation. Can be `null` if there is no bytes representation for the token. */
-  bytes?: ChatCompletionTokenLogprobBytesList | null;
+  bytes?: ChatCompletionTokenLogprobBytesList | null | undefined;
   /** List of the most likely tokens and their log probability, at this token position. In rare cases, there may be fewer than the number of requested `top_logprobs` returned. */
   top_logprobs: ChatCompletionTokenLogprobTopLogprobsList;
 }
@@ -567,16 +560,16 @@ export type ChatChoiceLogprobsRefusalList = Array<ChatCompletionTokenLogprob>;
 /** Log probability information for a chat completion choice. */
 export interface ChatChoiceLogprobs {
   /** A list of message content tokens with log probability information. */
-  content?: ChatChoiceLogprobsContentList | null;
-  refusal?: ChatChoiceLogprobsRefusalList | null;
+  content?: ChatChoiceLogprobsContentList | null | undefined;
+  refusal?: ChatChoiceLogprobsRefusalList | null | undefined;
 }
 /** A chat completion choice generated by the model. */
 export interface ChatChoice {
   /** The index of the choice in the list of choices. */
   index: number;
   message: ChatCompletionResponseMessage;
-  finish_reason?: FinishReason | null;
-  logprobs?: ChatChoiceLogprobs | null;
+  finish_reason?: FinishReason | null | undefined;
+  logprobs?: ChatChoiceLogprobs | null | undefined;
 }
 /** A list of chat completion choices. Can be more than one if `n` is greater than 1. */
 export type CreateChatCompletionResponseChoicesList = Array<ChatChoice>;
@@ -585,19 +578,19 @@ export type ServiceTierResponse = "scale" | "default" | "auto";
 /** Breakdown of tokens used in a completion. */
 export interface PromptTokensDetails {
   /** Audio input tokens present in the prompt. */
-  audio_tokens?: number | null;
+  audio_tokens?: number | null | undefined;
   /** Cached tokens present in the prompt. */
-  cached_tokens?: number | null;
+  cached_tokens?: number | null | undefined;
 }
 /** Breakdown of tokens used in a completion. */
 export interface CompletionTokensDetails {
-  accepted_prediction_tokens?: number | null;
+  accepted_prediction_tokens?: number | null | undefined;
   /** Audio input tokens generated by the model. */
-  audio_tokens?: number | null;
+  audio_tokens?: number | null | undefined;
   /** Tokens generated by the model for reasoning. */
-  reasoning_tokens?: number | null;
+  reasoning_tokens?: number | null | undefined;
   /** When using Predicted Outputs, the number of tokens in the prediction that did not appear in the completion. However, like reasoning tokens, these tokens are still counted in the total completion tokens for purposes of billing, output, and context window limits. */
-  rejected_prediction_tokens?: number | null;
+  rejected_prediction_tokens?: number | null | undefined;
 }
 /** Usage statistics for the completion request. */
 export interface CompletionUsage {
@@ -607,8 +600,8 @@ export interface CompletionUsage {
   completion_tokens: number;
   /** Total number of tokens used in the request (prompt + completion). */
   total_tokens: number;
-  prompt_tokens_details?: PromptTokensDetails | null;
-  completion_tokens_details?: CompletionTokensDetails | null;
+  prompt_tokens_details?: PromptTokensDetails | null | undefined;
+  completion_tokens_details?: CompletionTokensDetails | null | undefined;
 }
 /** Represents a chat completion response returned by model, based on the provided input. */
 export interface CreateChatCompletionResponse {
@@ -620,18 +613,18 @@ export interface CreateChatCompletionResponse {
   created: number;
   /** The model used for the chat completion. */
   model: string;
-  service_tier?: ServiceTierResponse | null;
+  service_tier?: ServiceTierResponse | null | undefined;
   /** This fingerprint represents the backend configuration that the model runs with. Can be used in conjunction with the `seed` request parameter to understand when backend changes have been made that might impact determinism. */
-  system_fingerprint?: string | null;
+  system_fingerprint?: string | null | undefined;
   /** The object type, which is always `chat.completion`. */
   object: string;
-  usage?: CompletionUsage | null;
+  usage?: CompletionUsage | null | undefined;
 }
 export interface ClearAllDocumentsRequest {
   /** Unique identifier of the index. */
   index_uid: string;
   /** A string that can be used to identify and filter tasks. This metadata is stored with the task and returned in task responses. Useful for tracking tasks from external systems or associating tasks with specific operations in your application. */
-  customMetadata?: string;
+  customMetadata?: string | undefined;
 }
 export interface ClearAllDocumentsResponse {}
 export interface ClearRulesRequest {}
@@ -644,15 +637,15 @@ export interface CompactResponse {}
 export interface CompactTaskQueueRequest {}
 export interface TaskCompactionSummary {
   /** Size of the task queue database before compaction. */
-  preSize?: string;
+  preSize?: string | undefined;
   /** Size of the task queue database after compaction. */
-  postSize?: string;
+  postSize?: string | undefined;
   /** Outcome of the compaction operation. */
   status: Status;
   /** Follow-up action required after a successful compaction. */
-  actionRequired?: string | null;
+  actionRequired?: string | null | undefined;
   /** Error message if compaction failed. */
-  errorMessage?: string | null;
+  errorMessage?: string | null | undefined;
 }
 export type Action =
   | "*"
@@ -719,11 +712,11 @@ export type CreateApiKeyRequestActionsList = Array<Action | (string & {})>;
 export type CreateApiKeyRequestIndexesList = Array<string>;
 export interface CreateApiKeyRequest {
   /** A description for the key. `null` if empty. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** A human-readable name for the key. `null` if empty. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** A uuid v4 to identify the API Key. If not specified, it's generated by Meilisearch. */
-  uid?: string | null;
+  uid?: string | null | undefined;
   /** A list of actions permitted for the key. `["*"]` for all actions. The `*` character can be used as a wildcard when located at the last position. e.g. `documents.*` to authorize access on all documents endpoints. Valid actions include: `search`, `documents.add`, `documents.get`, `documents.delete`, `indexes.create`, `indexes.get`, `indexes.update`, `indexes.delete`, `indexes.swap`, `tasks.get`, `tasks.cancel`, `tasks.delete`, `settings.get`, `settings.update`, `stats.get`, `dumps.create`, `snapshots.create`, `version`, `keys.get`, `keys.create`, `keys.update`, `keys.delete`. Use `*` to grant all actions. */
   actions: CreateApiKeyRequestActionsList;
   /** A list of accessible indexes permitted for the key. `["*"]` for all indexes. The `*` character can be used as a wildcard when located at the last position. e.g. `products_*` to allow access to all indexes whose names start with `products_`. */
@@ -738,9 +731,9 @@ export type KeyViewIndexesList = Array<string>;
 /** Represents an API key used for authenticating requests to Meilisearch. Each key has specific permissions defined by its actions and can be scoped to particular indexes. Keys provide fine-grained access control for your Meilisearch instance. */
 export interface KeyView {
   /** A human-readable name for the API key. Use this to identify the purpose of each key, such as "Frontend Search Key" or "Admin Key for CI/CD". This is optional and can be `null`. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** A longer description explaining the purpose or usage of this API key. Useful for documenting why the key was created and how it should be used. This is optional and can be `null`. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The actual API key string to use in the `Authorization: Bearer <key>` header when making requests to Meilisearch. Keep this value secret and never expose it in client-side code. */
   key: string;
   /** The unique identifier (UUID) for this API key. Use this to update or delete the key. The UID remains constant even if the key's name or description changes. */
@@ -750,7 +743,7 @@ export interface KeyView {
   /** The list of index UIDs this key can access. Use `*` to grant access to all indexes, including future ones. Patterns are also supported, e.g., `movies_*` matches any index starting with "movies_". */
   indexes: KeyViewIndexesList;
   /** The expiration date and time of the key in RFC 3339 format. After this time, the key will no longer be valid for authentication. Set to `null` for keys that never expire. */
-  expiresAt?: string | null;
+  expiresAt?: string | null | undefined;
   /** The date and time when this API key was created, formatted as an RFC 3339 date-time string. This is automatically set by Meilisearch and cannot be modified. */
   createdAt: string;
   /** The date and time when this API key was last modified, formatted as an RFC 3339 date-time string. This is automatically updated by Meilisearch when the key's name or description changes. */
@@ -762,35 +755,35 @@ export interface CreateIndexRequest {
   /** Unique identifier for the index */
   uid: string;
   /** [Primary key](https://www.meilisearch.com/docs/learn/getting_started/primary_key) of the index */
-  primaryKey?: string | null;
+  primaryKey?: string | null | undefined;
 }
 export interface CreateIndexResponse {}
 /** A collection of patterns used to match attribute names. Patterns can include wildcards (`*`) for flexible matching. For example, `title` matches exactly, `overview_*` matches any attribute starting with `overview_`, and `*_date` matches any attribute ending with `_date`. */
 export type AttributePatterns = Array<string>;
 /** Filter fields by attribute name patterns or by capability (displayed, searchable, sortable, etc.). All criteria are ANDed. */
 export interface ListFieldsFilter {
-  attributePatterns?: AttributePatterns | null;
+  attributePatterns?: AttributePatterns | null | undefined;
   /** Only include fields that are displayed (true) or not displayed (false) in search results. */
-  displayed?: boolean | null;
+  displayed?: boolean | null | undefined;
   /** Only include fields that are searchable (true) or not searchable (false). */
-  searchable?: boolean | null;
+  searchable?: boolean | null | undefined;
   /** Only include fields that are sortable (true) or not sortable (false). */
-  sortable?: boolean | null;
+  sortable?: boolean | null | undefined;
   /** Only include fields that are used as distinct attribute (true) or not (false). */
-  distinct?: boolean | null;
+  distinct?: boolean | null | undefined;
   /** Only include fields that have a custom ranking rule (asc/desc) (true) or not (false). */
-  rankingRule?: boolean | null;
+  rankingRule?: boolean | null | undefined;
   /** Only include fields that are filterable (true) or not filterable (false). */
-  filterable?: boolean | null;
+  filterable?: boolean | null | undefined;
 }
 export interface CreateIndexFieldRequest {
   /** Unique identifier of the index whose fields to list. */
   index_uid: string;
   /** Number of fields to skip. Defaults to 0. */
-  offset?: number;
+  offset?: number | undefined;
   /** Maximum number of fields to return. Defaults to 20. */
-  limit?: number;
-  filter?: ListFieldsFilter | null;
+  limit?: number | undefined;
+  filter?: ListFieldsFilter | null | undefined;
 }
 export interface FieldDisplayConfig {
   enabled: boolean;
@@ -801,9 +794,9 @@ export type FieldDistinctConfig = FieldDisplayConfig;
 export type FieldRankingRuleConfigOrderList = Array<string>;
 export interface FieldRankingRuleConfig {
   enabled: boolean;
-  order?: FieldRankingRuleConfigOrderList;
+  order?: FieldRankingRuleConfigOrderList | undefined;
 }
-export type FacetValuesSort = "alpha" | "count";
+export type FacetValuesSort = "alpha" | "count" | "sampledCount";
 export interface FieldFilterableConfig {
   enabled: boolean;
   sortBy: FacetValuesSort;
@@ -843,17 +836,17 @@ export interface CreateSnapshotResponse {}
 export type CreateWebhookRequestHeadersMap = { [key: string]: string | undefined };
 export interface CreateWebhookRequest {
   /** URL endpoint to call when tasks complete. */
-  url?: string | null;
+  url?: string | null | undefined;
   /** HTTP headers to include in webhook requests. */
-  headers?: CreateWebhookRequestHeadersMap | null;
+  headers?: CreateWebhookRequestHeadersMap | null | undefined;
 }
 /** HTTP headers to include in webhook requests. */
 export type CreateWebhookResponseHeadersMap = { [key: string]: string | undefined };
 export interface CreateWebhookResponse {
   /** URL endpoint to call when tasks complete. */
-  url?: string | null;
+  url?: string | null | undefined;
   /** HTTP headers to include in webhook requests. */
-  headers?: CreateWebhookResponseHeadersMap | null;
+  headers?: CreateWebhookResponseHeadersMap | null | undefined;
   /** Unique identifier of the webhook. */
   uuid: string;
   /** Whether the webhook can be edited. */
@@ -900,7 +893,7 @@ export interface DeleteDocumentRequest {
   /** Document identifier. */
   document_id: string;
   /** A string that can be used to identify and filter tasks. This metadata is stored with the task and returned in task responses. Useful for tracking tasks from external systems or associating tasks with specific operations in your application. */
-  customMetadata?: string;
+  customMetadata?: string | undefined;
 }
 export interface DeleteDocumentResponse {}
 export type DeleteDocumentsBatchRequestBodyList = Array<unknown>;
@@ -908,7 +901,7 @@ export interface DeleteDocumentsBatchRequest {
   /** Unique identifier of the index. */
   index_uid: string;
   /** A string that can be used to identify and filter tasks. This metadata is stored with the task and returned in task responses. Useful for tracking tasks from external systems or associating tasks with specific operations in your application. */
-  customMetadata?: string;
+  customMetadata?: string | undefined;
   body: DeleteDocumentsBatchRequestBodyList;
 }
 export interface DeleteDocumentsBatchResponse {}
@@ -916,7 +909,7 @@ export interface DeleteDocumentsByFilterRequest {
   /** Unique identifier of the index. */
   index_uid: string;
   /** A string that can be used to identify and filter tasks. This metadata is stored with the task and returned in task responses. Useful for tracking tasks from external systems or associating tasks with specific operations in your application. */
-  customMetadata?: string;
+  customMetadata?: string | undefined;
   /** Filter expression to match documents for deletion. Attributes must be in `filterableAttributes` before they can be used. Accepts a string or an array of arrays. Sending an empty filter will return a `bad_request` error. */
   filter: unknown;
 }
@@ -1014,29 +1007,29 @@ export type DeleteTasksRequestStatusesList = Array<Status | (string & {})>;
 export type DeleteTasksRequestIndexUidsList = Array<string>;
 export interface DeleteTasksRequest {
   /** Permits to select tasks by their uid. When the `uids` query parameter is set to `*`, all task uids included. It's possible to specify several uids by separating them with the `,` character. */
-  uids?: DeleteTasksRequestUidsList;
+  uids?: DeleteTasksRequestUidsList | undefined;
   /** Lets you filter tasks by their `batchUid`. */
-  batchUids?: DeleteTasksRequestBatchUidsList;
+  batchUids?: DeleteTasksRequestBatchUidsList | undefined;
   /** Permits to filter tasks using the uid of the task that canceled them. It's possible to specify several task uids by separating them with the `,` character. */
-  canceledBy?: DeleteTasksRequestCanceledByList;
+  canceledBy?: DeleteTasksRequestCanceledByList | undefined;
   /** Permits to filter tasks by their related type. By default, when `types` query parameter is not set, all task types are returned. It's possible to specify several types by separating them with the `,` character. */
-  types?: DeleteTasksRequestTypesList;
+  types?: DeleteTasksRequestTypesList | undefined;
   /** Permits to filter tasks by their status. By default, when `statuses` query parameter is not set, all task statuses are returned. It's possible to specify several statuses by separating them with the `,` character. */
-  statuses?: DeleteTasksRequestStatusesList;
+  statuses?: DeleteTasksRequestStatusesList | undefined;
   /** Permits to filter tasks by their related index. By default, when `indexUids` query parameter is not set, the tasks of all the indexes are returned. It is possible to specify several indexes by separating them with the `,` character. */
-  indexUids?: DeleteTasksRequestIndexUidsList;
+  indexUids?: DeleteTasksRequestIndexUidsList | undefined;
   /** Permits to filter tasks based on their enqueuedAt time. Matches tasks enqueued after the given date. Supports RFC 3339 date format. */
-  afterEnqueuedAt?: string;
+  afterEnqueuedAt?: string | undefined;
   /** Permits to filter tasks based on their enqueuedAt time. Matches tasks enqueued before the given date. Supports RFC 3339 date format. */
-  beforeEnqueuedAt?: string;
+  beforeEnqueuedAt?: string | undefined;
   /** Permits to filter tasks based on their startedAt time. Matches tasks started after the given date. Supports RFC 3339 date format. */
-  afterStartedAt?: string;
+  afterStartedAt?: string | undefined;
   /** Permits to filter tasks based on their startedAt time. Matches tasks started before the given date. Supports RFC 3339 date format. */
-  beforeStartedAt?: string;
+  beforeStartedAt?: string | undefined;
   /** Permits to filter tasks based on their finishedAt time. Matches tasks finished after the given date. Supports RFC 3339 date format. */
-  afterFinishedAt?: string;
+  afterFinishedAt?: string | undefined;
   /** Permits to filter tasks based on their finishedAt time. Matches tasks finished before the given date. Supports RFC 3339 date format. */
-  beforeFinishedAt?: string;
+  beforeFinishedAt?: string | undefined;
 }
 export interface DeletetypoToleranceRequest {
   /** Unique identifier of the index. */
@@ -1052,11 +1045,11 @@ export interface EditDocumentsByFunctionRequest {
   /** Unique identifier of the index. */
   index_uid: string;
   /** A string that can be used to identify and filter tasks. This metadata is stored with the task and returned in task responses. Useful for tracking tasks from external systems or associating tasks with specific operations in your application. */
-  customMetadata?: string;
+  customMetadata?: string | undefined;
   /** Filter expression to select which documents to edit. If omitted, all documents in the index will be processed. Attributes must be in `filterableAttributes` to be used. */
-  filter?: unknown;
+  filter?: unknown | undefined;
   /** Arbitrary data to pass into the function scope. By default the function only has access to the current document being edited via the `doc` variable. */
-  context?: unknown;
+  context?: unknown | undefined;
   /** A [RHAI](https://rhai.rs) function string to apply to each document. The function has access to a `doc` variable representing the current document. Modify `doc` fields to update the document. Return `null` or `()` to delete the document. To enable this feature: `PATCH /experimental-features/ {"editDocumentsByFunction": true}`. */
   function: string;
 }
@@ -1064,21 +1057,21 @@ export interface EditDocumentsByFunctionResponse {}
 /** Export settings for a specific index */
 export interface ExportIndexSettings {
   /** Filter expression to select which documents to export */
-  filter?: string | null;
+  filter?: string | null | undefined;
   /** Whether to override settings on the destination index */
-  overrideSettings?: boolean | null;
+  overrideSettings?: boolean | null | undefined;
 }
 /** Index patterns to export with their settings */
 export type ExportRequestIndexesMap = { [key: string]: ExportIndexSettings | undefined };
 export interface ExportRequest {
   /** URL of the destination Meilisearch instance */
-  url?: string;
+  url?: string | undefined;
   /** API key for authenticating with the destination instance */
-  apiKey?: string | Redacted.Redacted<string> | null;
+  apiKey?: string | Redacted.Redacted<string> | null | undefined;
   /** Maximum payload size per request */
-  payloadSize?: string | null;
+  payloadSize?: string | null | undefined;
   /** Index patterns to export with their settings */
-  indexes?: ExportRequestIndexesMap | null;
+  indexes?: ExportRequestIndexesMap | null | undefined;
 }
 export interface ExportResponse {}
 export interface GetAllRequest {
@@ -1094,25 +1087,26 @@ export type FilterableAttributesPatternsAttributePatternsList = Array<string>;
 /** Controls which filter operators are allowed for an attribute. This provides fine-grained control over filtering capabilities. */
 export interface FilterFeatures {
   /** When `true`, enables equality operators: `=`, `!=`, and `IN`. These allow filtering for exact matches or membership in a set of values. Also enables `IS EMPTY`, `IS NULL`, and `EXISTS` operators. Defaults to `true`. */
-  equality?: boolean;
+  equality?: boolean | undefined;
   /** When `true`, enables comparison operators: `<`, `>`, `<=`, `>=`, and `TO` (range). These allow filtering based on numeric or string comparisons. Defaults to `false`. */
-  comparison?: boolean;
+  comparison?: boolean | undefined;
 }
 /** Controls which filtering and faceting operations are enabled for matching attributes. This allows restricting certain operations on specific fields for security or performance reasons. */
 export interface FilterableAttributesFeatures {
   /** When `true`, allows searching within facet values for matching attributes. This enables the facet search feature which lets users search for specific facet values. Defaults to `false`. */
-  facetSearch?: boolean;
+  facetSearch?: boolean | undefined;
   /** Controls which filter operators are allowed for matching attributes. See `FilterFeatures` for available options. */
-  filter?: FilterFeatures;
+  filter?: FilterFeatures | undefined;
 }
 /** Defines a set of attribute patterns with specific filtering and faceting features. This allows fine-grained control over which operations are allowed on matched attributes. */
 export interface FilterableAttributesPatterns {
   /** Patterns to match attribute names. Use `*` as a wildcard to match any characters. For example, `["price_*", "stock"]` matches `price_usd`, `price_eur`, and `stock`. */
   attributePatterns: FilterableAttributesPatternsAttributePatternsList;
   /** The filtering and faceting features enabled for attributes matching these patterns. If not specified, defaults to equality filtering enabled. */
-  features?: FilterableAttributesFeatures;
+  features?: FilterableAttributesFeatures | undefined;
 }
-export type FilterableAttributesRule = string | FilterableAttributesPatterns;
+/** A rule declaring which attributes can be used for filtering and faceting. A rule takes one of two forms. The object form lists attribute patterns together with the filtering and faceting features they enable. The string form names a single attribute and is a shorthand for an object matching that attribute with the default features. */
+export type FilterableAttributesRule = FilterableAttributesPatterns | string;
 /** Attributes that can be used as [filters](https://www.meilisearch.com/docs/learn/filtering_and_sorting/filter_search_results) and [facets](https://www.meilisearch.com/docs/learn/filtering_and_sorting/search_with_facet_filters). Strings or objects with `attributePatterns` and `features`. */
 export type SettingsUncheckedFilterableAttributesList = Array<FilterableAttributesRule>;
 /** Attributes that can be used to [sort search results](https://www.meilisearch.com/docs/learn/filtering_and_sorting/sort_search_results). */
@@ -1141,9 +1135,9 @@ export type SettingsUncheckedSynonymsMap = {
 /** Minimum word length required before typos are allowed. This helps prevent matching very short words with typos, which can lead to irrelevant results. */
 export interface MinWordSizeTyposSetting {
   /** Minimum word length to accept one typo. Shorter words must match exactly. For example, if set to 5, "apple" can have one typo but "app" cannot. */
-  oneTypo?: number | null;
+  oneTypo?: number | null | undefined;
   /** Minimum word length to accept two typos. Must be greater than or equal to `oneTypo`. For example, if set to 9, "computing" can have two typos. */
-  twoTypos?: number | null;
+  twoTypos?: number | null | undefined;
 }
 /** Words for which typo tolerance is disabled. Use for brand names or terms that must match exactly. */
 export type TypoSettingsDisableOnWordsList = Array<string>;
@@ -1152,14 +1146,14 @@ export type TypoSettingsDisableOnAttributesList = Array<string>;
 /** Typo tolerance: how spelling mistakes in queries are handled. */
 export interface TypoSettings {
   /** When true, typo tolerance is enabled. When false, only exact matches are returned. */
-  enabled?: boolean | null;
-  minWordSizeForTypos?: MinWordSizeTyposSetting | null;
+  enabled?: boolean | null | undefined;
+  minWordSizeForTypos?: MinWordSizeTyposSetting | null | undefined;
   /** Words for which typo tolerance is disabled. Use for brand names or terms that must match exactly. */
-  disableOnWords?: TypoSettingsDisableOnWordsList | null;
+  disableOnWords?: TypoSettingsDisableOnWordsList | null | undefined;
   /** Attributes for which typo tolerance is disabled. Those attributes only return exact matches. Useful for fields like product codes or IDs. */
-  disableOnAttributes?: TypoSettingsDisableOnAttributesList | null;
+  disableOnAttributes?: TypoSettingsDisableOnAttributesList | null | undefined;
   /** When true, typo tolerance is disabled on numeric tokens. For example, 123 will not match 132. */
-  disableOnNumbers?: boolean | null;
+  disableOnNumbers?: boolean | null | undefined;
 }
 /** Sort order per facet: by descending count (`count`) or ascending alphanumeric (`alpha`). Key `*` applies to all facets. */
 export type FacetingSettingsSortFacetValuesByMap = {
@@ -1168,14 +1162,14 @@ export type FacetingSettingsSortFacetValuesByMap = {
 /** Faceting: maximum number of facet values and how they are sorted. */
 export interface FacetingSettings {
   /** Maximum number of facet values returned per facet. Values are sorted in ascending lexicographical order. */
-  maxValuesPerFacet?: number | null;
+  maxValuesPerFacet?: number | null | undefined;
   /** Sort order per facet: by descending count (`count`) or ascending alphanumeric (`alpha`). Key `*` applies to all facets. */
-  sortFacetValuesBy?: FacetingSettingsSortFacetValuesByMap | null;
+  sortFacetValuesBy?: FacetingSettingsSortFacetValuesByMap | null | undefined;
 }
 /** Pagination: cap on how many results a search can return. */
 export interface PaginationSettings {
   /** Maximum number of search results Meilisearch can return. Limit and offset cannot go beyond this value. */
-  maxTotalHits?: number | null;
+  maxTotalHits?: number | null | undefined;
 }
 export type EmbedderSource =
   | "openAi"
@@ -1199,32 +1193,32 @@ export type SubEmbeddingSettingsSearchFragmentsMap = { [key: string]: unknown | 
 export type SubEmbeddingSettingsHeadersMap = { [key: string]: string | undefined };
 /** Sub-embedder config for composite embedders. Used by `indexingEmbedder` (vectorize documents at index time) and `searchEmbedder` (vectorize queries at search time). Same fields as a top-level embedder, except no `binaryQuantized`, `distribution`, `documentTemplate`/`documentTemplateMaxBytes` for searchEmbedder. */
 export interface SubEmbeddingSettings {
-  source?: EmbedderSource | (string & {}) | null;
+  source?: EmbedderSource | (string & {}) | null | undefined;
   /** Model name. - Available for `openAi`, `huggingFace`, `ollama`. - Mandatory for `ollama`. - For `openAi`/`huggingFace` optional with defaults. - U+1F3D7 Changing the value of this parameter always regenerates embeddings. */
-  model?: string | null;
+  model?: string | null | undefined;
   /** Model revision (e.g. Hugging Face commit SHA). - Only available for `huggingFace`. - If unset, latest is used. - U+1F3D7 Changing the value of this parameter always regenerates embeddings */
-  revision?: string | null;
-  pooling?: OverridePooling | (string & {}) | null;
+  revision?: string | null | undefined;
+  pooling?: OverridePooling | (string & {}) | null | undefined;
   /** API key sent to the embedder. - If not set for source `openAi`, the key is read from the `OPENAI_API_KEY` then `MEILI_OPENAI_API_KEY` environment variables. - If not set for other sources, no bearer token is sent. - This setting is partially hidden when returned by the settings - U+1F331 Changing the value of this parameter never regenerates embeddings */
-  apiKey?: string | Redacted.Redacted<string> | null;
+  apiKey?: string | Redacted.Redacted<string> | null | undefined;
   /** Number of dimensions of the embedding vectors. - Available for `userProvided`, `openAi`, `ollama`, `rest`. - Mandatory for `userProvided`. - For `openAi`/`ollama`/`rest` inferred if omitted. - U+1F3D7 For `openAi`, changing the value of this parameter always regenerates embeddings - U+1F331 For other sources, changing the value of this parameter never regenerates embeddings */
-  dimensions?: number | null;
+  dimensions?: number | null | undefined;
   /** [Liquid template](https://shopify.github.io/liquid/) to build the text sent to the embedder for each document. - Only available for `indexingEmbedder`, not `searchEmbedder`. - Available for `openAi`, `huggingFace`, `ollama`, `rest`. - U+1F3D7 When modified, embeddings are regenerated for documents whose rendering through the template produces a different text. */
-  documentTemplate?: string | null;
+  documentTemplate?: string | null | undefined;
   /** Max size in bytes of the rendered document template. Longer output is truncated. - Only available for `indexingEmbedder`, not `searchEmbedder`. - Available for `openAi`, `huggingFace`, `ollama`, `rest`. - U+1F3D7 When increased, embeddings are regenerated for documents whose rendering through the template produces a different text. - U+1F331 When decreased, embeddings are never regenerated */
-  documentTemplateMaxBytes?: number | null;
+  documentTemplateMaxBytes?: number | null | undefined;
   /** URL of the embedder API. - Mandatory for `rest`. Optional for `openAi` and `ollama`. - U+1F331 When modified for `openAi``, embeddings are never regenerated - U+1F3D7 When modified for `ollama` and `rest`, embeddings are always regenerated - If targetting URL resolving to a non-global IP (such as `localhost`), make sure that `--experimental-allowed-ip-networks` allows it. For details on how use this parameter, refer to [this documentation](https://www.meilisearch.com/docs/learn/self_hosted/configure_meilisearch_at_launch#allow-requests-to-private-networks). */
-  url?: string | null;
+  url?: string | null | undefined;
   /** Fragments (with [Liquid](https://shopify.github.io/liquid/)) sent to the embedder at indexing time. For `rest` with multimodal; key is fragment name, value the payload. See also [Image search with multimodal embeddings](https://www.meilisearch.com/docs/learn/ai_powered_search/image_search_with_multimodal_embeddings) - Only available for `indexingEmbedder`, not `searchEmbedder`. - U+1F3D7 When a fragment is deleted by passing `null` to its name, the corresponding embeddings are removed from documents. - U+1F3D7 When a fragment is modified, the corresponding embeddings are regenerated if their rendered version changes. */
-  indexingFragments?: SubEmbeddingSettingsIndexingFragmentsMap | null;
+  indexingFragments?: SubEmbeddingSettingsIndexingFragmentsMap | null | undefined;
   /** Fragments (with [Liquid](https://shopify.github.io/liquid/)) sent to the embedder at search time. For `rest` with multimodal. See also [Image search with multimodal embeddings](https://www.meilisearch.com/docs/learn/ai_powered_search/image_search_with_multimodal_embeddings) - U+1F331 Changing the value of this parameter never regenerates embeddings */
-  searchFragments?: SubEmbeddingSettingsSearchFragmentsMap | null;
+  searchFragments?: SubEmbeddingSettingsSearchFragmentsMap | null | undefined;
   /** Request body template for `rest` embedder. See also [Configure a REST embedder](https://www.meilisearch.com/docs/learn/ai_powered_search/configure_rest_embedder) - Use `"{{text}}"` for the input. - Mandatory for `rest`. - U+1F3D7 Changing the value of this parameter always regenerates embeddings */
-  request?: unknown;
+  request?: unknown | undefined;
   /** Response template for `rest` embedder. See also [Configure a REST embedder](https://www.meilisearch.com/docs/learn/ai_powered_search/configure_rest_embedder) - Use `"{{embedding}}"` where the embedding array is. - Mandatory for `rest`. */
-  response?: unknown;
+  response?: unknown | undefined;
   /** Extra HTTP headers sent to the embedder. - Available for `rest`. - U+1F331 Changing the value of this parameter never regenerates embeddings */
-  headers?: SubEmbeddingSettingsHeadersMap | null;
+  headers?: SubEmbeddingSettingsHeadersMap | null | undefined;
 }
 /** Describes the mean and sigma of distribution of embedding similarity in the embedding space. The intended use is to make the similarity score more comparable to the regular ranking score. This allows to correct effects where results are too "packed" around a certain value. */
 export interface DistributionShift {
@@ -1235,37 +1229,37 @@ export interface DistributionShift {
 }
 /** Embedder configuration for [AI-powered / hybrid search](https://www.meilisearch.com/docs/learn/ai_powered_search/getting_started_with_ai_search). */
 export interface EmbeddingSettings {
-  source?: EmbedderSource | (string & {}) | null;
+  source?: EmbedderSource | (string & {}) | null | undefined;
   /** Model name. - Available for `openAi`, `huggingFace`, `ollama`. - Mandatory for `ollama`. - For `openAi`/`huggingFace` optional with defaults. - U+1F3D7 Changing the value of this parameter always regenerates embeddings. */
-  model?: string | null;
+  model?: string | null | undefined;
   /** Model revision (e.g. Hugging Face commit SHA). - Only available for `huggingFace`. - If unset, latest is used. - U+1F3D7 Changing the value of this parameter always regenerates embeddings */
-  revision?: string | null;
-  pooling?: OverridePooling | (string & {}) | null;
+  revision?: string | null | undefined;
+  pooling?: OverridePooling | (string & {}) | null | undefined;
   /** API key sent to the embedder. - If not set for source `openAi`, the key is read from the `OPENAI_API_KEY` then `MEILI_OPENAI_API_KEY` environment variables. - If not set for other sources, no bearer token is sent. - This setting is partially hidden when returned by the settings - U+1F331 Changing the value of this parameter never regenerates embeddings */
-  apiKey?: string | Redacted.Redacted<string> | null;
+  apiKey?: string | Redacted.Redacted<string> | null | undefined;
   /** Number of dimensions of the embedding vectors. - Available for `userProvided`, `openAi`, `ollama`, `rest`. - Mandatory for `userProvided`. - For `openAi`/`ollama`/`rest` inferred if omitted. - U+1F3D7 For `openAi`, changing the value of this parameter always regenerates embeddings - U+1F331 For other sources, changing the value of this parameter never regenerates embeddings */
-  dimensions?: number | null;
+  dimensions?: number | null | undefined;
   /** When true, vectors are stored as 1-bit (smaller, faster, less precise). - Available for all sources. - Irreversible once enabled. - U+1F3D7 When set to true, embeddings are not regenerated, but they are binary quantized, which takes time. */
-  binaryQuantized?: boolean | null;
+  binaryQuantized?: boolean | null | undefined;
   /** [Liquid template](https://shopify.github.io/liquid/) to build the text sent to the embedder for each document. - Available for `openAi`, `huggingFace`, `ollama`, `rest`. - U+1F3D7 When modified, embeddings are regenerated for documents whose rendering through the template produces a different text. */
-  documentTemplate?: string | null;
+  documentTemplate?: string | null | undefined;
   /** Max size in bytes of the rendered document template. Longer output is truncated. - Available for `openAi`, `huggingFace`, `ollama`, `rest`. - U+1F3D7 When increased, embeddings are regenerated for documents whose rendering through the template produces a different text. - U+1F331 When decreased, embeddings are never regenerated */
-  documentTemplateMaxBytes?: number | null;
+  documentTemplateMaxBytes?: number | null | undefined;
   /** URL of the embedder API. - Mandatory for `rest`. Optional for `openAi` and `ollama`. - U+1F331 When modified for `openAi``, embeddings are never regenerated - U+1F3D7 When modified for `ollama` and `rest`, embeddings are always regenerated - If targetting URL resolving to a non-global IP (such as `localhost`), make sure that `--experimental-allowed-ip-networks` allows it. For details on how use this parameter, refer to [this documentation](https://www.meilisearch.com/docs/learn/self_hosted/configure_meilisearch_at_launch#allow-requests-to-private-networks). */
-  url?: string | null;
+  url?: string | null | undefined;
   /** Fragments (with [Liquid](https://shopify.github.io/liquid/)) sent to the embedder at indexing time. For `rest` with multimodal; key is fragment name, value the payload. See also [Image search with multimodal embeddings](https://www.meilisearch.com/docs/learn/ai_powered_search/image_search_with_multimodal_embeddings) - U+1F3D7 When a fragment is deleted by passing `null` to its name, the corresponding embeddings are removed from documents. - U+1F3D7 When a fragment is modified, the corresponding embeddings are regenerated if their rendered version changes. */
-  indexingFragments?: EmbeddingSettingsIndexingFragmentsMap | null;
+  indexingFragments?: EmbeddingSettingsIndexingFragmentsMap | null | undefined;
   /** Fragments (with [Liquid](https://shopify.github.io/liquid/)) sent to the embedder at search time. For `rest` with multimodal. See also [Image search with multimodal embeddings](https://www.meilisearch.com/docs/learn/ai_powered_search/image_search_with_multimodal_embeddings) - U+1F331 Changing the value of this parameter never regenerates embeddings */
-  searchFragments?: EmbeddingSettingsSearchFragmentsMap | null;
+  searchFragments?: EmbeddingSettingsSearchFragmentsMap | null | undefined;
   /** Request body template for `rest` embedder. See also [Configure a REST embedder](https://www.meilisearch.com/docs/learn/ai_powered_search/configure_rest_embedder) - Use `"{{text}}"` for the input. - Mandatory for `rest`. - U+1F3D7 Changing the value of this parameter always regenerates embeddings */
-  request?: unknown;
+  request?: unknown | undefined;
   /** Response template for `rest` embedder. See also [Configure a REST embedder](https://www.meilisearch.com/docs/learn/ai_powered_search/configure_rest_embedder) - Use `"{{embedding}}"` where the embedding array is. - Mandatory for `rest`. */
-  response?: unknown;
+  response?: unknown | undefined;
   /** Extra HTTP headers sent to the embedder. - Available for `rest`. - U+1F331 Changing the value of this parameter never regenerates embeddings */
-  headers?: EmbeddingSettingsHeadersMap | null;
-  searchEmbedder?: SubEmbeddingSettings | null;
-  indexingEmbedder?: SubEmbeddingSettings | null;
-  distribution?: DistributionShift | null;
+  headers?: EmbeddingSettingsHeadersMap | null | undefined;
+  searchEmbedder?: SubEmbeddingSettings | null | undefined;
+  indexingEmbedder?: SubEmbeddingSettings | null | undefined;
+  distribution?: DistributionShift | null | undefined;
 }
 /** [Embedders](https://www.meilisearch.com/docs/learn/ai_powered_search/getting_started_with_ai_search) used for semantic and [hybrid search](https://www.meilisearch.com/docs/learn/ai_powered_search/getting_started_with_ai_search). Map of embedder name to config (`source`, `model`, `documentTemplate`, etc.). */
 export type SettingsUncheckedEmbeddersMap = { [key: string]: EmbeddingSettings | undefined };
@@ -1428,7 +1422,7 @@ export type PrefixSearchSettings = "indexingTime" | "disabled";
 /** Hybrid search: balance between keyword and semantic search. */
 export interface HybridQuery {
   /** Balance between keyword (0.0) and semantic (1.0) search. */
-  semanticRatio?: number;
+  semanticRatio?: number | undefined;
   /** Name of the embedder from the index embedders setting (`embedder` in JSON). Used to vectorize the query. */
   embedder: string;
 }
@@ -1440,69 +1434,69 @@ export type MatchingStrategy = "last" | "all" | "frequency";
 export type ChatSearchParamsAttributesToSearchOnList = Array<string>;
 /** Search parameters applied when the LLM queries this index. */
 export interface ChatSearchParams {
-  hybrid?: HybridQuery | null;
+  hybrid?: HybridQuery | null | undefined;
   /** Maximum number of documents returned per search performed by the LLM. */
-  limit?: number | null;
+  limit?: number | null | undefined;
   /** Sort order: array of strings like `attribute:asc` or `attribute:desc`. */
-  sort?: ChatSearchParamsSortList | null;
+  sort?: ChatSearchParamsSortList | null | undefined;
   /** Attribute used to return at most one document per distinct value. */
-  distinct?: string | null;
-  matchingStrategy?: MatchingStrategy | (string & {}) | null;
+  distinct?: string | null | undefined;
+  matchingStrategy?: MatchingStrategy | (string & {}) | null | undefined;
   /** Attributes on which to run the search. If unset, all searchable attributes are used. */
-  attributesToSearchOn?: ChatSearchParamsAttributesToSearchOnList | null;
-  rankingScoreThreshold?: number | null;
+  attributesToSearchOn?: ChatSearchParamsAttributesToSearchOnList | null | undefined;
+  rankingScoreThreshold?: number | null | undefined;
 }
 /** [Chat (conversation)](https://www.meilisearch.com/docs/learn/chat/getting_started_with_chat) settings: how the index is described to the LLM and how it is queried. */
 export interface ChatSettings {
   /** Index description shown to the LLM so it can decide when and how to query this index. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Liquid template that defines the text sent to the LLM for each document. */
-  documentTemplate?: string | null;
+  documentTemplate?: string | null | undefined;
   /** Maximum size in bytes of the rendered document template. Longer text is truncated. */
-  documentTemplateMaxBytes?: number | null;
-  searchParameters?: ChatSearchParams | null;
+  documentTemplateMaxBytes?: number | null | undefined;
+  searchParameters?: ChatSearchParams | null | undefined;
 }
 /** Index settings: every option you can configure for search and index behavior. Used as the request body for PATCH settings. Only the fields you send are updated; pass `null` to reset a setting to its default. See also: [Configuring index settings on the Cloud](https://www.meilisearch.com/docs/learn/configuration/configuring_index_settings). */
 export interface SettingsUnchecked {
   /** Fields returned in search results. Affects only search endpoints, not get-document endpoints. See [displayed and searchable attributes](https://www.meilisearch.com/docs/learn/relevancy/displayed_searchable_attributes). */
-  displayedAttributes?: SettingsUncheckedDisplayedAttributesList | null;
+  displayedAttributes?: SettingsUncheckedDisplayedAttributesList | null | undefined;
   /** Fields searched for query words, in order of importance. Defines [attribute ranking order](https://www.meilisearch.com/docs/learn/relevancy/attribute_ranking_order). See [displayed and searchable attributes](https://www.meilisearch.com/docs/learn/relevancy/displayed_searchable_attributes). */
-  searchableAttributes?: SettingsUncheckedSearchableAttributesList | null;
+  searchableAttributes?: SettingsUncheckedSearchableAttributesList | null | undefined;
   /** Attributes that can be used as [filters](https://www.meilisearch.com/docs/learn/filtering_and_sorting/filter_search_results) and [facets](https://www.meilisearch.com/docs/learn/filtering_and_sorting/search_with_facet_filters). Strings or objects with `attributePatterns` and `features`. */
-  filterableAttributes?: SettingsUncheckedFilterableAttributesList | null;
+  filterableAttributes?: SettingsUncheckedFilterableAttributesList | null | undefined;
   /** Attributes that can be used to [sort search results](https://www.meilisearch.com/docs/learn/filtering_and_sorting/sort_search_results). */
-  sortableAttributes?: SettingsUncheckedSortableAttributesList | null;
+  sortableAttributes?: SettingsUncheckedSortableAttributesList | null | undefined;
   /** Foreign keys to use for cross-index filtering search. */
-  foreignKeys?: SettingsUncheckedForeignKeysList | null;
+  foreignKeys?: SettingsUncheckedForeignKeysList | null | undefined;
   /** [Ranking rules](https://www.meilisearch.com/docs/learn/relevancy/ranking_rules) in order of importance. Built-in rules and custom sort rules (`attribute:asc` or `attribute:desc`). */
-  rankingRules?: SettingsUncheckedRankingRulesList | null;
+  rankingRules?: SettingsUncheckedRankingRulesList | null | undefined;
   /** Words ignored when present in search queries. */
-  stopWords?: SettingsUncheckedStopWordsList | null;
+  stopWords?: SettingsUncheckedStopWordsList | null | undefined;
   /** Characters that are not treated as word separators. Removed from the default separator set. */
-  nonSeparatorTokens?: SettingsUncheckedNonSeparatorTokensList | null;
+  nonSeparatorTokens?: SettingsUncheckedNonSeparatorTokensList | null | undefined;
   /** Characters that delimit words. Added on top of the default separators. */
-  separatorTokens?: SettingsUncheckedSeparatorTokensList | null;
+  separatorTokens?: SettingsUncheckedSeparatorTokensList | null | undefined;
   /** Strings Meilisearch parses as a single term. Useful for names or domain terms. */
-  dictionary?: SettingsUncheckedDictionaryList | null;
+  dictionary?: SettingsUncheckedDictionaryList | null | undefined;
   /** Pairs of words or phrases treated as equivalent for search. Key maps to an array of [synonyms](https://www.meilisearch.com/docs/learn/relevancy/synonyms). */
-  synonyms?: SettingsUncheckedSynonymsMap | null;
+  synonyms?: SettingsUncheckedSynonymsMap | null | undefined;
   /** Field whose value must be unique in the returned documents. One document per distinct value. See [distinct attribute](https://www.meilisearch.com/docs/learn/relevancy/distinct_attribute). */
-  distinctAttribute?: string | null;
+  distinctAttribute?: string | null | undefined;
   /** Precision for the proximity ranking rule and phrase search: `byWord` (exact distance) or `byAttribute` (same attribute). */
-  proximityPrecision?: string | null;
-  typoTolerance?: TypoSettings | null;
-  faceting?: FacetingSettings | null;
-  pagination?: PaginationSettings | null;
+  proximityPrecision?: string | null | undefined;
+  typoTolerance?: TypoSettings | null | undefined;
+  faceting?: FacetingSettings | null | undefined;
+  pagination?: PaginationSettings | null | undefined;
   /** [Embedders](https://www.meilisearch.com/docs/learn/ai_powered_search/getting_started_with_ai_search) used for semantic and [hybrid search](https://www.meilisearch.com/docs/learn/ai_powered_search/getting_started_with_ai_search). Map of embedder name to config (`source`, `model`, `documentTemplate`, etc.). */
-  embedders?: SettingsUncheckedEmbeddersMap | null;
+  embedders?: SettingsUncheckedEmbeddersMap | null | undefined;
   /** Maximum duration of a search in milliseconds. If reached, the search stops and returns results computed so far. When null, 1500 ms is used. */
-  searchCutoffMs?: number | null;
+  searchCutoffMs?: number | null | undefined;
   /** Locales and attribute patterns for [language-specific tokenization](https://www.meilisearch.com/docs/learn/resources/language). Affects searchable, filterable, and sortable attributes. */
-  localizedAttributes?: SettingsUncheckedLocalizedAttributesList | null;
+  localizedAttributes?: SettingsUncheckedLocalizedAttributesList | null | undefined;
   /** When true, [facet search](https://www.meilisearch.com/docs/learn/filtering_and_sorting/search_with_facet_filters) is enabled. When false, the facet-search endpoint is disabled. */
-  facetSearch?: boolean | null;
-  prefixSearch?: PrefixSearchSettings | null;
-  chat?: ChatSettings | null;
+  facetSearch?: boolean | null | undefined;
+  prefixSearch?: PrefixSearchSettings | null | undefined;
+  chat?: ChatSettings | null | undefined;
 }
 export interface GetApiKeyRequest {
   /** The `uid` or `key` field of an existing API key. */
@@ -1549,7 +1543,7 @@ export interface EmbedderStatsView {
   /** Number of failed embedder requests */
   failed: number;
   /** Last error message from the embedder */
-  lastError?: string | null;
+  lastError?: string | null | undefined;
 }
 /** Provides comprehensive statistics about a batch's execution. Includes task counts, status breakdowns, and AI embedder usage. This information is useful for monitoring system performance and understanding batch composition. */
 export interface BatchStatsView {
@@ -1562,31 +1556,31 @@ export interface BatchStatsView {
   /** Count of tasks by index UID */
   indexUids: BatchStatsViewIndexUidsMap;
   /** Detailed progress trace information */
-  progressTrace?: BatchStatsViewProgressTraceMap;
+  progressTrace?: BatchStatsViewProgressTraceMap | undefined;
   /** Write channel congestion metrics */
-  writeChannelCongestion?: BatchStatsViewWriteChannelCongestionMap | null;
+  writeChannelCongestion?: BatchStatsViewWriteChannelCongestionMap | null | undefined;
   /** Internal database size information */
-  internalDatabaseSizes?: BatchStatsViewInternalDatabaseSizesMap;
+  internalDatabaseSizes?: BatchStatsViewInternalDatabaseSizesMap | undefined;
   /** Statistics about AI embedder API requests made during batch processing. Includes total requests, successful/failed counts, and response times. Only present when the batch involved vector embedding operations. */
-  embedderRequests?: EmbedderStatsView;
+  embedderRequests?: EmbedderStatsView | undefined;
 }
 /** Represents a batch of tasks that were processed together. */
 export interface BatchView {
   /** The unique sequential identifier assigned to this batch. Batch UIDs are assigned in order of creation and can be used to retrieve specific batch information or correlate tasks that were processed together. */
   uid: number;
-  progress?: ProgressView | null;
+  progress?: ProgressView | null | undefined;
   /** Aggregated details from all tasks in this batch. For example, if the batch contains multiple document addition tasks, this will show the total number of documents received and indexed across all tasks. */
   details: unknown;
   /** Statistical information about the batch, including the number of tasks by status, the types of tasks included, and the indexes affected. Useful for understanding the composition and outcome of the batch. */
   stats: BatchStatsView;
   /** The total time spent processing this batch, formatted as an ISO-8601 duration (e.g., `PT2.5S` for 2.5 seconds). This is `null` for batches that haven't finished processing yet. */
-  duration?: string | null;
+  duration?: string | null | undefined;
   /** The timestamp when Meilisearch began processing this batch, formatted as an RFC 3339 date-time string. All batches have a start time as it's set when processing begins. */
-  startedAt?: string;
+  startedAt?: string | undefined;
   /** The timestamp when this batch finished processing, formatted as an RFC 3339 date-time string. This is `null` for batches that are still being processed. */
-  finishedAt?: string | null;
+  finishedAt?: string | null | undefined;
   /** Explains why the batch was finalized and stopped accepting more tasks. Common reasons include reaching the maximum batch size, encountering incompatible tasks, or processing being explicitly triggered. */
-  batchStrategy?: string;
+  batchStrategy?: string | undefined;
 }
 export type GetBatchesRequestBatchUidsList = Array<number>;
 export type GetBatchesRequestUidsList = Array<number>;
@@ -1596,35 +1590,35 @@ export type GetBatchesRequestStatusesList = Array<Status | (string & {})>;
 export type GetBatchesRequestIndexUidsList = Array<string>;
 export interface GetBatchesRequest {
   /** Maximum number of batches to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** `uid` of the first batch returned. */
-  from?: number;
+  from?: number | undefined;
   /** If `true`, returns results in the reverse order, from oldest to most recent. */
-  reverse?: boolean;
+  reverse?: boolean | undefined;
   /** Permits to filter tasks by their batch uid. By default, when the `batchUids` query parameter is not set, all task uids are returned. It's possible to specify several batch uids by separating them with the `,` character. */
-  batchUids?: GetBatchesRequestBatchUidsList;
+  batchUids?: GetBatchesRequestBatchUidsList | undefined;
   /** Permits to filter tasks by their uid. By default, when the uids query parameter is not set, all task uids are returned. It's possible to specify several uids by separating them with the `,` character. */
-  uids?: GetBatchesRequestUidsList;
+  uids?: GetBatchesRequestUidsList | undefined;
   /** Permits to filter tasks using the uid of the task that canceled them. It's possible to specify several task uids by separating them with the `,` character. */
-  canceledBy?: GetBatchesRequestCanceledByList;
+  canceledBy?: GetBatchesRequestCanceledByList | undefined;
   /** Permits to filter tasks by their related type. By default, when `types` query parameter is not set, all task types are returned. It's possible to specify several types by separating them with the `,` character. */
-  types?: GetBatchesRequestTypesList;
+  types?: GetBatchesRequestTypesList | undefined;
   /** Permits to filter tasks by their status. By default, when `statuses` query parameter is not set, all task statuses are returned. It's possible to specify several statuses by separating them with the `,` character. */
-  statuses?: GetBatchesRequestStatusesList;
+  statuses?: GetBatchesRequestStatusesList | undefined;
   /** Permits to filter tasks by their related index. By default, when `indexUids` query parameter is not set, the tasks of all the indexes are returned. It is possible to specify several indexes by separating them with the `,` character. */
-  indexUids?: GetBatchesRequestIndexUidsList;
+  indexUids?: GetBatchesRequestIndexUidsList | undefined;
   /** Permits to filter tasks based on their enqueuedAt time. Matches tasks enqueued after the given date. Supports RFC 3339 date format. */
-  afterEnqueuedAt?: string;
+  afterEnqueuedAt?: string | undefined;
   /** Permits to filter tasks based on their enqueuedAt time. Matches tasks enqueued before the given date. Supports RFC 3339 date format. */
-  beforeEnqueuedAt?: string;
+  beforeEnqueuedAt?: string | undefined;
   /** Permits to filter tasks based on their startedAt time. Matches tasks started after the given date. Supports RFC 3339 date format. */
-  afterStartedAt?: string;
+  afterStartedAt?: string | undefined;
   /** Permits to filter tasks based on their startedAt time. Matches tasks started before the given date. Supports RFC 3339 date format. */
-  beforeStartedAt?: string;
+  beforeStartedAt?: string | undefined;
   /** Permits to filter tasks based on their finishedAt time. Matches tasks finished after the given date. Supports RFC 3339 date format. */
-  afterFinishedAt?: string;
+  afterFinishedAt?: string | undefined;
   /** Permits to filter tasks based on their finishedAt time. Matches tasks finished before the given date. Supports RFC 3339 date format. */
-  beforeFinishedAt?: string;
+  beforeFinishedAt?: string | undefined;
 }
 /** Array of batch objects */
 export type AllBatchesResultsList = Array<BatchView>;
@@ -1637,9 +1631,9 @@ export interface AllBatches {
   /** Maximum number of batches returned */
   limit: number;
   /** The first batch uid returned */
-  from?: number | null;
+  from?: number | null | undefined;
   /** Value to send in from to fetch the next slice of results */
-  next?: number | null;
+  next?: number | null | undefined;
 }
 export interface GetBatchesStreamRequest {}
 export interface GetBatchesStreamResponse {}
@@ -1676,11 +1670,11 @@ export interface GetDocumentRequest {
   /** The document identifier. */
   document_id: string;
   /** Comma-separated list of document attributes to include in the response. Use `*` to retrieve all attributes. By default, all attributes listed in the `displayedAttributes` setting are returned. Example: `title,description,price`. */
-  fields?: GetDocumentRequestFieldsList;
+  fields?: GetDocumentRequestFieldsList | undefined;
   /** When `true`, includes the vector embeddings in the response for this document. This is useful when you need to inspect or export vector data. Note that this can significantly increase response size if the document has multiple embedders configured. Defaults to `false`. */
-  retrieveVectors?: boolean;
+  retrieveVectors?: boolean | undefined;
   /** When `true`, runs the query on the whole network (all shards covered exactly once). When `false`, the query runs locally. When omitted or `null`, the default value depends on whether the sharding is enabled for the instance: - If the instance has sharding enabled (has a leader), defaults to `true`. - Otherwise defaults to `false`. It also requires the `network` [experimental feature](http://localhost:3000/reference/api/experimental-features/configure-experimental-features). Values: `true` = use the whole network; `false` = local, default = see above. When using the network, the index must exist with compatible settings on all remotes. */
-  useNetwork?: boolean;
+  useNetwork?: boolean | undefined;
 }
 export type GetDocumentResponse = unknown;
 export type GetDocumentsRequestFieldsList = Array<string>;
@@ -1689,21 +1683,21 @@ export interface GetDocumentsRequest {
   /** Unique identifier of the index. */
   index_uid: string;
   /** Number of documents to skip in the response. Use this parameter together with `limit` to paginate through large document sets. For example, to get documents 21-40, set `offset=20` and `limit=20`. Defaults to `0`. */
-  offset?: number;
+  offset?: number | undefined;
   /** Maximum number of documents to return in a single response. Use together with `offset` for pagination. Defaults to `20`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Comma-separated list of document attributes to include in the response. Use `*` to retrieve all attributes. By default, all attributes are returned. Example: `title,description,price`. */
-  fields?: GetDocumentsRequestFieldsList;
+  fields?: GetDocumentsRequestFieldsList | undefined;
   /** When `true`, includes vector embeddings in the response for documents that have them. This is useful when you need to inspect or export vector data. Defaults to `false`. */
-  retrieveVectors?: boolean;
+  retrieveVectors?: boolean | undefined;
   /** Comma-separated list of document IDs to retrieve. Only documents with matching IDs will be returned. If not specified, all documents matching other criteria are returned. */
-  ids?: GetDocumentsRequestIdsList;
+  ids?: GetDocumentsRequestIdsList | undefined;
   /** Filter expression to select which documents to return. Attributes must be added to the `filterableAttributes` index setting before they can be used in filters. Only accepts string expressions (not array syntax). Example: `genres = action AND rating > 4`. */
-  filter?: string;
+  filter?: string | undefined;
   /** Attribute(s) to sort the documents by. Format: `attribute:asc` or `attribute:desc`. Multiple sort criteria can be comma-separated. Example: `price:asc,rating:desc`. */
-  sort?: string;
+  sort?: string | undefined;
   /** When `true`, runs the query on the whole network (all shards covered exactly once). When `false`, the query runs locally. When omitted or `null`, the default value depends on whether the sharding is enabled for the instance: - If the instance has sharding enabled (has a leader), defaults to `true`. - Otherwise defaults to `false`. It also requires the `network` [experimental feature](http://localhost:3000/reference/api/experimental-features/configure-experimental-features). Values: `true` = use the whole network; `false` = local, default = see above. When using the network, the index must exist with compatible settings on all remotes. */
-  useNetwork?: boolean;
+  useNetwork?: boolean | undefined;
 }
 /** Items for the current page. */
 export type PaginationViewValueResultsList = Array<unknown>;
@@ -1733,41 +1727,41 @@ export type SettingEmbeddingSettingsInnerSearchFragmentsMap = {
 export type SettingEmbeddingSettingsInnerHeadersMap = { [key: string]: string | undefined };
 /** Embedder configuration for [AI-powered / hybrid search](https://www.meilisearch.com/docs/learn/ai_powered_search/getting_started_with_ai_search). */
 export interface SettingEmbeddingSettingsInner {
-  source?: EmbedderSource | (string & {}) | null;
+  source?: EmbedderSource | (string & {}) | null | undefined;
   /** Model name. - Available for `openAi`, `huggingFace`, `ollama`. - Mandatory for `ollama`. - For `openAi`/`huggingFace` optional with defaults. - U+1F3D7 Changing the value of this parameter always regenerates embeddings. */
-  model?: string | null;
+  model?: string | null | undefined;
   /** Model revision (e.g. Hugging Face commit SHA). - Only available for `huggingFace`. - If unset, latest is used. - U+1F3D7 Changing the value of this parameter always regenerates embeddings */
-  revision?: string | null;
-  pooling?: OverridePooling | (string & {}) | null;
+  revision?: string | null | undefined;
+  pooling?: OverridePooling | (string & {}) | null | undefined;
   /** API key sent to the embedder. - If not set for source `openAi`, the key is read from the `OPENAI_API_KEY` then `MEILI_OPENAI_API_KEY` environment variables. - If not set for other sources, no bearer token is sent. - This setting is partially hidden when returned by the settings - U+1F331 Changing the value of this parameter never regenerates embeddings */
-  apiKey?: string | Redacted.Redacted<string> | null;
+  apiKey?: string | Redacted.Redacted<string> | null | undefined;
   /** Number of dimensions of the embedding vectors. - Available for `userProvided`, `openAi`, `ollama`, `rest`. - Mandatory for `userProvided`. - For `openAi`/`ollama`/`rest` inferred if omitted. - U+1F3D7 For `openAi`, changing the value of this parameter always regenerates embeddings - U+1F331 For other sources, changing the value of this parameter never regenerates embeddings */
-  dimensions?: number | null;
+  dimensions?: number | null | undefined;
   /** When true, vectors are stored as 1-bit (smaller, faster, less precise). - Available for all sources. - Irreversible once enabled. - U+1F3D7 When set to true, embeddings are not regenerated, but they are binary quantized, which takes time. */
-  binaryQuantized?: boolean | null;
+  binaryQuantized?: boolean | null | undefined;
   /** [Liquid template](https://shopify.github.io/liquid/) to build the text sent to the embedder for each document. - Available for `openAi`, `huggingFace`, `ollama`, `rest`. - U+1F3D7 When modified, embeddings are regenerated for documents whose rendering through the template produces a different text. */
-  documentTemplate?: string | null;
+  documentTemplate?: string | null | undefined;
   /** Max size in bytes of the rendered document template. Longer output is truncated. - Available for `openAi`, `huggingFace`, `ollama`, `rest`. - U+1F3D7 When increased, embeddings are regenerated for documents whose rendering through the template produces a different text. - U+1F331 When decreased, embeddings are never regenerated */
-  documentTemplateMaxBytes?: number | null;
+  documentTemplateMaxBytes?: number | null | undefined;
   /** URL of the embedder API. - Mandatory for `rest`. Optional for `openAi` and `ollama`. - U+1F331 When modified for `openAi``, embeddings are never regenerated - U+1F3D7 When modified for `ollama` and `rest`, embeddings are always regenerated - If targetting URL resolving to a non-global IP (such as `localhost`), make sure that `--experimental-allowed-ip-networks` allows it. For details on how use this parameter, refer to [this documentation](https://www.meilisearch.com/docs/learn/self_hosted/configure_meilisearch_at_launch#allow-requests-to-private-networks). */
-  url?: string | null;
+  url?: string | null | undefined;
   /** Fragments (with [Liquid](https://shopify.github.io/liquid/)) sent to the embedder at indexing time. For `rest` with multimodal; key is fragment name, value the payload. See also [Image search with multimodal embeddings](https://www.meilisearch.com/docs/learn/ai_powered_search/image_search_with_multimodal_embeddings) - U+1F3D7 When a fragment is deleted by passing `null` to its name, the corresponding embeddings are removed from documents. - U+1F3D7 When a fragment is modified, the corresponding embeddings are regenerated if their rendered version changes. */
-  indexingFragments?: SettingEmbeddingSettingsInnerIndexingFragmentsMap | null;
+  indexingFragments?: SettingEmbeddingSettingsInnerIndexingFragmentsMap | null | undefined;
   /** Fragments (with [Liquid](https://shopify.github.io/liquid/)) sent to the embedder at search time. For `rest` with multimodal. See also [Image search with multimodal embeddings](https://www.meilisearch.com/docs/learn/ai_powered_search/image_search_with_multimodal_embeddings) - U+1F331 Changing the value of this parameter never regenerates embeddings */
-  searchFragments?: SettingEmbeddingSettingsInnerSearchFragmentsMap | null;
+  searchFragments?: SettingEmbeddingSettingsInnerSearchFragmentsMap | null | undefined;
   /** Request body template for `rest` embedder. See also [Configure a REST embedder](https://www.meilisearch.com/docs/learn/ai_powered_search/configure_rest_embedder) - Use `"{{text}}"` for the input. - Mandatory for `rest`. - U+1F3D7 Changing the value of this parameter always regenerates embeddings */
-  request?: unknown;
+  request?: unknown | undefined;
   /** Response template for `rest` embedder. See also [Configure a REST embedder](https://www.meilisearch.com/docs/learn/ai_powered_search/configure_rest_embedder) - Use `"{{embedding}}"` where the embedding array is. - Mandatory for `rest`. */
-  response?: unknown;
+  response?: unknown | undefined;
   /** Extra HTTP headers sent to the embedder. - Available for `rest`. - U+1F331 Changing the value of this parameter never regenerates embeddings */
-  headers?: SettingEmbeddingSettingsInnerHeadersMap | null;
-  searchEmbedder?: SubEmbeddingSettings | null;
-  indexingEmbedder?: SubEmbeddingSettings | null;
-  distribution?: DistributionShift | null;
+  headers?: SettingEmbeddingSettingsInnerHeadersMap | null | undefined;
+  searchEmbedder?: SubEmbeddingSettings | null | undefined;
+  indexingEmbedder?: SubEmbeddingSettings | null | undefined;
+  distribution?: DistributionShift | null | undefined;
 }
 /** Configuration for one [embedder](https://www.meilisearch.com/docs/learn/ai_powered_search/getting_started_with_ai_search) used for semantic and hybrid search. Set `source` (`openAi`, `huggingFace`, `ollama`, `rest`, `userProvided`), then the options that apply: `model`, `apiKey`, `documentTemplate`, `dimensions`, `url`, etc. */
 export interface SettingEmbeddingSettings {
-  inner?: SettingEmbeddingSettingsInner | null;
+  inner?: SettingEmbeddingSettingsInner | null | undefined;
 }
 export type GetembeddersResponseBodyMap = { [key: string]: SettingEmbeddingSettings | undefined };
 export type GetembeddersResponse = GetembeddersResponseBodyMap;
@@ -1779,39 +1773,39 @@ export interface GetFeaturesRequest {}
 /** Experimental features that can be toggled at runtime */
 export interface RuntimeTogglableFeatures {
   /** Enable the /metrics endpoint for Prometheus metrics */
-  metrics?: boolean | null;
+  metrics?: boolean | null | undefined;
   /** Enable the /logs route for log configuration */
-  logsRoute?: boolean | null;
+  logsRoute?: boolean | null | undefined;
   /** Enable the `GET /tasks/stream` and `GET /batches/stream` SSE-based routes */
-  tasksStreamingRoute?: boolean | null;
+  tasksStreamingRoute?: boolean | null | undefined;
   /** Enable document editing via JavaScript functions */
-  editDocumentsByFunction?: boolean | null;
+  editDocumentsByFunction?: boolean | null | undefined;
   /** Enable the CONTAINS filter operator */
-  containsFilter?: boolean | null;
+  containsFilter?: boolean | null | undefined;
   /** Enable dynamic search rules and the `/dynamic-search-rules` routes */
-  dynamicSearchRules?: boolean | null;
+  dynamicSearchRules?: boolean | null | undefined;
   /** Enable network features for distributed search */
-  network?: boolean | null;
+  network?: boolean | null | undefined;
   /** Enable the route to get documents from tasks */
-  getTaskDocumentsRoute?: boolean | null;
+  getTaskDocumentsRoute?: boolean | null | undefined;
   /** Enable the route to compact the task queue database */
-  taskQueueCompactionRoute?: boolean | null;
+  taskQueueCompactionRoute?: boolean | null | undefined;
   /** Enable composite embedders for multi-source embeddings */
-  compositeEmbedders?: boolean | null;
+  compositeEmbedders?: boolean | null | undefined;
   /** Enable chat completion capabilities */
-  chatCompletions?: boolean | null;
+  chatCompletions?: boolean | null | undefined;
   /** Enable multimodal search with images and other media */
-  multimodal?: boolean | null;
+  multimodal?: boolean | null | undefined;
   /** Enable foreign key support for document hydration */
-  foreignKeys?: boolean | null;
+  foreignKeys?: boolean | null | undefined;
   /** Disable documents fetch queue */
-  disableDocumentsFetchQueue?: boolean | null;
+  disableDocumentsFetchQueue?: boolean | null | undefined;
   /** Enable legacy search pipeline */
-  legacySearch?: boolean | null;
+  legacySearch?: boolean | null | undefined;
   /** Enable the `POST /render-template` route */
-  renderRoute?: boolean | null;
+  renderRoute?: boolean | null | undefined;
   /** Enable the `POST /mcp` route */
-  mcpRoute?: boolean | null;
+  mcpRoute?: boolean | null | undefined;
 }
 export interface GetfilterableAttributesRequest {
   /** Unique identifier of the index. */
@@ -1844,16 +1838,16 @@ export interface IndexView {
   /** Latest date of index update, represented in RFC 3339 format */
   updatedAt: string;
   /** [Primary key](https://www.meilisearch.com/docs/learn/getting_started/primary_key) of the index */
-  primaryKey?: string | null;
+  primaryKey?: string | null | undefined;
 }
 export type SizeFormat = "human" | "raw";
 export interface GetIndexStatsRequest {
   /** Unique identifier of the index. */
   index_uid: string;
   /** If `true`, adds `internalDatabaseSizes` to the response. */
-  showInternalDatabaseSizes?: boolean;
+  showInternalDatabaseSizes?: boolean | undefined;
   /** Specify how to format the sizes: - `"raw"` (default): format sizes as a number of bytes - `"human"`: format sizes as a human-readable string with an appropriate unit. */
-  sizeFormat?: SizeFormat | (string & {});
+  sizeFormat?: SizeFormat | (string & {}) | undefined;
 }
 export type Size = number | string;
 /** Size of all the internal databases for the index. Database names can change from version to version. */
@@ -1875,11 +1869,11 @@ export interface IndexStats {
   /** Whether or not the index is currently ingesting document */
   isIndexing: boolean;
   /** Size of all the internal databases for the index. Database names can change from version to version. */
-  internalDatabaseSizes?: IndexStatsInternalDatabaseSizesMap;
+  internalDatabaseSizes?: IndexStatsInternalDatabaseSizesMap | undefined;
   /** Number of embeddings in the index */
-  numberOfEmbeddings?: number | null;
+  numberOfEmbeddings?: number | null | undefined;
   /** Number of embedded documents in the index */
-  numberOfEmbeddedDocuments?: number | null;
+  numberOfEmbeddedDocuments?: number | null | undefined;
   /** Association of every field name with the number of times it occurs in the documents. */
   fieldDistribution: IndexStatsFieldDistributionMap;
 }
@@ -1893,10 +1887,10 @@ export type GetlocalizedAttributesResponse = GetlocalizedAttributesResponseBodyL
 export type LogMode = "human" | "json" | "profile";
 export interface GetLogsRequest {
   /** Log targets to filter. Format: code_part=log_level (e.g., milli=trace,actix_web=off) */
-  target?: string;
-  mode?: LogMode | (string & {});
+  target?: string | undefined;
+  mode?: LogMode | (string & {}) | undefined;
   /** Enable memory profiling (only useful with profile mode, significantly slows down the engine) */
-  profileMemory?: boolean;
+  profileMemory?: boolean | undefined;
 }
 export type GetLogsResponse = string;
 export interface GetMetricsRequest {}
@@ -1905,11 +1899,11 @@ export interface GetNetworkRequest {}
 /** Configuration for a remote Meilisearch instance */
 export interface Remote {
   /** URL of the remote instance - If the URL of the remote instance is resolving to a non-global IP, make sure that `--experimental-allowed-ip-networks` allows it. For details on how use this parameter, refer to [this documentation](https://www.meilisearch.com/docs/learn/self_hosted/configure_meilisearch_at_launch#allow-requests-to-private-networks). */
-  url?: string | null;
+  url?: string | null | undefined;
   /** API key for search operations on this remote */
-  searchApiKey?: string | null;
+  searchApiKey?: string | null | undefined;
   /** API key for write operations on this remote */
-  writeApiKey?: string | null;
+  writeApiKey?: string | null | undefined;
 }
 /** Map of remote instance names to their configurations - Pass `null` as a value for a remote to remove it from the configuration. - Removing a remote will also remove it from all shards. - Remotes that don't appear in this list will be unmodified by the network call. */
 export type NetworkRemotesMap = { [key: string]: Remote | undefined };
@@ -1922,11 +1916,11 @@ export type ShardRemoveRemotesList = Array<string>;
 /** Configuration for a named shard of the network Documents are distributed among the various declared shards. Remotes own shards, meaning they own the documents that belong to these shards. */
 export interface Shard {
   /** List of remotes that own this shard. - The remotes must be part of the network's configuration - Setting this to a non-`null` value will replace all existing remotes for this shard. - `addRemotes` and `removeRemotes` are applied after `remotes` if multiple options are present. */
-  remotes?: ShardRemotesList | null;
+  remotes?: ShardRemotesList | null | undefined;
   /** Remotes to add to the list of owners of this shard. - The remotes must be part of the network's configuration - Setting this to non-`null` will append the listed remotes to the list of owners of this shard. - `remotes` is applied before `addRemotes` - `removeRemotes` is applied after `addRemotes` */
-  addRemotes?: ShardAddRemotesList | null;
+  addRemotes?: ShardAddRemotesList | null | undefined;
   /** Remotes to remove from the list of owners of this shard. - The remotes may or may not be part of the network's configuration - Setting this to non-`null` will remove the listed remotes from the list of owners of this shard. - `remotes` and `addRemotes` are applied before `removeRemotes` - Remotes removed from the configuration are automatically removed from all shards and it is not necessary to explicitly pass them as `removeRemotes`. */
-  removeRemotes?: ShardRemoveRemotesList | null;
+  removeRemotes?: ShardRemoveRemotesList | null | undefined;
 }
 /** Map of shard names to their configurations. - Pass `null` as a value for a shard to remove it from the configuration. - Shards that don't appear in this list will be unmodified by the network call. */
 export type NetworkShardsMap = { [key: string]: Shard | undefined };
@@ -1937,17 +1931,17 @@ export type NetworkPreviousRemotesMap = { [key: string]: Remote | undefined };
 /** Network topology configuration for distributed Meilisearch */
 export interface Network {
   /** Map of remote instance names to their configurations - Pass `null` as a value for a remote to remove it from the configuration. - Removing a remote will also remove it from all shards. - Remotes that don't appear in this list will be unmodified by the network call. */
-  remotes?: NetworkRemotesMap | null;
+  remotes?: NetworkRemotesMap | null | undefined;
   /** Map of shard names to their configurations. - Pass `null` as a value for a shard to remove it from the configuration. - Shards that don't appear in this list will be unmodified by the network call. */
-  shards?: NetworkShardsMap | null;
+  shards?: NetworkShardsMap | null | undefined;
   /** Previous shard configurations This field should not be passed by end-users. It is used in internal communications between Meilisearch instances */
-  previousShards?: NetworkPreviousShardsMap | null;
+  previousShards?: NetworkPreviousShardsMap | null | undefined;
   /** Name of this instance in the network */
-  self?: string | null;
+  self?: string | null | undefined;
   /** Name of the leader instance in the network */
-  leader?: string | null;
+  leader?: string | null | undefined;
   /** Previous remote configurations This field should not be passed by end-users. It is used in internal communications between Meilisearch instances */
-  previousRemotes?: NetworkPreviousRemotesMap | null;
+  previousRemotes?: NetworkPreviousRemotesMap | null | undefined;
 }
 export interface GetnonSeparatorTokensRequest {
   /** Unique identifier of the index. */
@@ -1969,43 +1963,28 @@ export interface GetrankingRulesRequest {
   /** Unique identifier of the index. */
   index_uid: string;
 }
-/** Sorted by decreasing number of matched query terms. */
-export type RankingRuleViewCase0 = "words";
-/** Sorted by increasing number of typos. */
-export type RankingRuleViewCase1 = "typo";
-/** Sorted by increasing distance between matched query terms. */
-export type RankingRuleViewCase2 = "proximity";
-/** Documents with query words contained in more important attributes and at a closer-to-the-front position in it are considered better. */
-export type RankingRuleViewCase3 = "attribute";
-/** Documents with query words contained in more important attributes are considered better. Position of the query words in an attribute is not considered. */
-export type RankingRuleViewCase4 = "attributeRank";
-/** Documents with query words that are closer to the front of an attribute are considered better. Attribute rank is not considered. */
-export type RankingRuleViewCase5 = "wordPosition";
-/** Dynamically sort at query time the documents. None, one or multiple Asc/Desc sortable attributes can be used in place of this criterion at query time. */
-export type RankingRuleViewCase6 = "sort";
-/** Sorted by the similarity of the matched words with the query words. */
-export type RankingRuleViewCase7 = "exactness";
+/** - `words`: Sorted by decreasing number of matched query terms. - `typo`: Sorted by increasing number of typos. - `proximity`: Sorted by increasing distance between matched query terms. - `attribute`: Documents with query words contained in more important attributes and at a closer-to-the-front position in it are considered better. - `attributeRank`: Documents with query words contained in more important attributes are considered better. Position of the query words in an attribute is not considered. - `wordPosition`: Documents with query words that are closer to the front of an attribute are considered better. Attribute rank is not considered. - `sort`: Dynamically sort at query time the documents. None, one or multiple Asc/Desc sortable attributes can be used in place of this criterion at query time. - `exactness`: Sorted by the similarity of the matched words with the query words. */
+export type RankingRuleViewCase0 =
+  | "words"
+  | "typo"
+  | "proximity"
+  | "attribute"
+  | "attributeRank"
+  | "wordPosition"
+  | "sort"
+  | "exactness";
 /** Sorted by the increasing value of the field specified. */
-export interface RankingRuleViewCase8 {
+export interface RankingRuleViewCase1 {
   /** Sorted by the increasing value of the field specified. */
   asc: string;
 }
 /** Sorted by the decreasing value of the field specified. */
-export interface RankingRuleViewCase9 {
+export interface RankingRuleViewCase2 {
   /** Sorted by the decreasing value of the field specified. */
   desc: string;
 }
-export type RankingRuleView =
-  | RankingRuleViewCase0
-  | RankingRuleViewCase1
-  | RankingRuleViewCase2
-  | RankingRuleViewCase3
-  | RankingRuleViewCase4
-  | RankingRuleViewCase5
-  | RankingRuleViewCase6
-  | RankingRuleViewCase7
-  | RankingRuleViewCase8
-  | RankingRuleViewCase9;
+/** A single ranking rule. Accepts one of the built-in rules (`words`, `typo`, `proximity`, `attribute`, `attributeRank`, `wordPosition`, `sort`, `exactness`) or a sort rule of the form `attribute:asc` or `attribute:desc`. */
+export type RankingRuleView = RankingRuleViewCase0 | RankingRuleViewCase1 | RankingRuleViewCase2;
 export type GetrankingRulesResponseBodyList = Array<RankingRuleView>;
 export type GetrankingRulesResponse = GetrankingRulesResponseBodyList;
 export interface GetRuleRequest {
@@ -2014,29 +1993,29 @@ export interface GetRuleRequest {
 }
 export interface TimeCondition {
   /** Start of the time range where this rule can be considered active. Specify as a RFC3339 datetime. */
-  start?: string | null;
+  start?: string | null | undefined;
   /** End of the time range where this rule can be considered active. Specify as a RFC3339 datetime. */
-  end?: string | null;
+  end?: string | null | undefined;
 }
 export interface QueryCondition {
   /** If present and non-null, specifies either: - That this rule can only be active when the search query is empty - That this rule can only be active when the search query is non-empty (contains at least one word) */
-  isEmpty?: boolean | null;
+  isEmpty?: boolean | null | undefined;
   /** If present and non-null, specifies that the rule can only be active if all the specified words are present in the search query. */
-  words?: string | null;
+  words?: string | null | undefined;
 }
 export type FilterConditionValuesMap = { [key: string]: unknown | undefined };
 export interface FilterCondition {
-  values?: FilterConditionValuesMap;
+  values?: FilterConditionValuesMap | undefined;
 }
 export interface Conditions {
-  time?: TimeCondition | null;
-  query?: QueryCondition | null;
-  filter?: FilterCondition | null;
+  time?: TimeCondition | null | undefined;
+  query?: QueryCondition | null | undefined;
+  filter?: FilterCondition | null | undefined;
 }
 /** An action that pins a selected document. */
 export interface PinAction {
   /** Index name. For the action to select any document, when this parameter is provided, the index of the query must match the provided parameter. */
-  indexUid?: string | null;
+  indexUid?: string | null | undefined;
   /** Document ID of the document to select. Only the document whose [primary key](https://www.meilisearch.com/docs/learn/getting_started/primary_key) value matches the specified id will be selected by the action. If there is no such document in the index of the query, then no documents will be selected and no pinning will occur. */
   id: string;
   /** Position at which the document should be pinned. */
@@ -2049,11 +2028,11 @@ export type ScaleActionIdsList = Array<string>;
 /** An action that applies a multiplicative factor to the score of selected documents. */
 export interface ScaleAction {
   /** List of index patterns. For the action to select any document, when this parameter is provided, the index of the query must match the provided parameter. */
-  indexUid?: string | null;
+  indexUid?: string | null | undefined;
   /** Array of specific document IDs to select. Only documents whose [primary key](https://www.meilisearch.com/docs/learn/getting_started/primary_key) value matches the specified ids will be selected by the action. If `filter` is also specified, the documents must also satisfy the filter to be selected. */
-  ids?: ScaleActionIdsList | null;
+  ids?: ScaleActionIdsList | null | undefined;
   /** Filter expression to select documents. Attributes must be added to the `filterableAttributes` index setting before they can be used in filters. Accepts a string or an array of arrays of strings for AND/OR combinations. Only documents matching the specified filter will be selected. If `ids` is also specified, the documents matching the filter must also have their primary key part of the `ids` list to be selected. If the filter cannot be evaluated for the current index due to referencing attributes that are not filterable, then no document will be applied for this action. */
-  filter?: unknown;
+  filter?: unknown | undefined;
   /** Scale factor for selected documents. - Set it >1.0 to boost the selected documents. - Set it <1.0 to deboost the selected documents. - Set it =0.0 to hide the selected documents. */
   weight: number;
 }
@@ -2062,25 +2041,25 @@ export type RuleActionsScaleList = Array<ScaleAction>;
 /** List of actions to apply when this rule is active for the query. */
 export interface RuleActions {
   /** Pins a selected document. */
-  pin?: RuleActionsPinList;
+  pin?: RuleActionsPinList | undefined;
   /** Applies a multiplicative factor to the score of selected documents. */
-  scale?: RuleActionsScaleList;
+  scale?: RuleActionsScaleList | undefined;
 }
 export interface DynamicSearchRule {
   /** Unique identifier of the dynamic search rule. */
   uid: string;
   /** Human-readable description of the dynamic search rule. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Date time of the last update of this rule. */
-  lastUpdatedAt?: string | null;
+  lastUpdatedAt?: string | null | undefined;
   /** Precedence of the dynamic search rule. Lower numeric values take precedence over higher ones. If omitted, the rule is treated as having the lowest precedence. This precedence is used to resolve conflicts between matching rules: - If the same document is selected by multiple rules, the smallest `priority` number wins - If different documents are pinned to the same position, they are ordered by ascending `priority` */
-  precedence?: number | null;
+  precedence?: number | null | undefined;
   /** Whether the dynamic search rule is active. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Conditions that must match before the dynamic search rule applies. */
-  conditions?: Conditions;
+  conditions?: Conditions | undefined;
   /** Actions to apply when the dynamic search rule matches. */
-  actions?: RuleActions;
+  actions?: RuleActions | undefined;
 }
 export interface GetsearchableAttributesRequest {
   /** Unique identifier of the index. */
@@ -2113,23 +2092,23 @@ export interface GetSimilarRequest {
   /** The name of the embedder to use for finding similar documents. This must match one of the embedders configured in your index settings. The embedder determines how document similarity is calculated based on vector embeddings. */
   embedder: string;
   /** Number of similar documents to skip in the response. Use together with `limit` for pagination through large result sets. For example, to get similar documents 21-40, set `offset=20` and `limit=20`. Defaults to `0`. */
-  offset?: number;
+  offset?: number | undefined;
   /** Maximum number of similar documents to return in a single response. Use together with `offset` for pagination. Higher values return more results but may increase response time. Defaults to `20`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Comma-separated list of document attributes to include in the response. Use `*` to retrieve all attributes. By default, all attributes listed in the `displayedAttributes` setting are returned. Example: `title,description,price`. */
-  attributes_to_retrieve?: GetSimilarRequestAttributesToRetrieveList;
+  attributes_to_retrieve?: GetSimilarRequestAttributesToRetrieveList | undefined;
   /** When `true`, includes the vector embeddings for each returned document. Useful for debugging or when you need to inspect the vector data. Note that this can significantly increase response size. Defaults to `false`. */
-  retrieve_vectors?: boolean;
+  retrieve_vectors?: boolean | undefined;
   /** Filter expression to narrow down which documents can be returned as similar. Uses the same syntax as search filters. Only documents matching this filter will be considered when finding similar documents. Example: `genres = action AND year > 2000`. */
-  filter?: string;
+  filter?: string | undefined;
   /** When `true`, includes a global `_rankingScore` field in each document showing how similar it is to the target document. The score is a value between 0 and 1, where higher values indicate greater similarity. Defaults to `false`. */
-  show_ranking_score?: boolean;
+  show_ranking_score?: boolean | undefined;
   /** When `true`, includes a detailed `_rankingScoreDetails` object in each document breaking down how the similarity score was calculated. Useful for debugging and understanding why certain documents are considered more similar. Defaults to `false`. */
-  show_ranking_score_details?: boolean;
+  show_ranking_score_details?: boolean | undefined;
   /** When `true`, includes a `_performanceDetails` object showing the performance details of the search. */
-  show_performance_details?: boolean;
+  show_performance_details?: boolean | undefined;
   /** Minimum ranking score threshold (between 0.0 and 1.0) that documents must meet to be included in results. Documents with a similarity score below this threshold will be excluded. Useful for ensuring only highly similar documents are returned. */
-  ranking_score_threshold?: number;
+  ranking_score_threshold?: number | undefined;
 }
 /** Document with highlighted and cropped attributes. Present when `attributesToHighlight` or `attributesToCrop` was set. */
 export type SearchHitFormattedMap = { [key: string]: unknown | undefined };
@@ -2142,7 +2121,7 @@ export interface MatchBounds {
   /** The length in bytes of the matched text. Combined with `start`, this defines the exact substring that matched the query term. */
   length: number;
   /** Byte indices of individual matched characters when the match spans multiple positions (e.g., for prefix matches). This is `null` for simple contiguous matches. */
-  indices?: MatchBoundsIndicesList | null;
+  indices?: MatchBoundsIndicesList | null | undefined;
 }
 export type SearchHitMatchesPositionValueList = Array<MatchBounds>;
 /** Byte offsets (`start`, `length`) of each matched term per attribute. Present when `showMatchesPosition` was true. */
@@ -2154,31 +2133,32 @@ export type SearchHitRankingScoreDetailsMap = { [key: string]: unknown | undefin
 /** A single search result hit. */
 export interface SearchHit {
   /** Document with highlighted and cropped attributes. Present when `attributesToHighlight` or `attributesToCrop` was set. */
-  _formatted?: SearchHitFormattedMap;
+  _formatted?: SearchHitFormattedMap | undefined;
   /** Byte offsets (`start`, `length`) of each matched term per attribute. Present when `showMatchesPosition` was true. */
-  _matchesPosition?: SearchHitMatchesPositionMap | null;
+  _matchesPosition?: SearchHitMatchesPositionMap | null | undefined;
   /** Global [ranking score](https://www.meilisearch.com/docs/learn/relevancy/ranking_score) from 0.0 to 1.0. Present when `showRankingScore` was true. */
-  _rankingScore?: number | null;
+  _rankingScore?: number | null | undefined;
   /** Per-rule score breakdown (words, typo, proximity, etc.). Present when `showRankingScoreDetails` was true. */
-  _rankingScoreDetails?: SearchHitRankingScoreDetailsMap | null;
+  _rankingScoreDetails?: SearchHitRankingScoreDetailsMap | null | undefined;
+  [key: string]: unknown;
 }
 /** Results of the query */
 export type GetSimilarResponseHitsList = Array<SearchHit>;
 export interface GetSimilarResponse {
   /** Number of results per page. */
-  hitsPerPage?: number;
+  hitsPerPage?: number | undefined;
   /** Current page index (1-based). */
-  page?: number;
+  page?: number | undefined;
   /** Exhaustive total number of result pages. */
-  totalPages?: number;
+  totalPages?: number | undefined;
   /** Exhaustive total number of matching documents. */
-  totalHits?: number;
+  totalHits?: number | undefined;
   /** Maximum number of documents returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** Number of documents skipped. */
-  offset?: number;
+  offset?: number | undefined;
   /** Estimated total number of matches (not exhaustive). Prioritizes relevancy and performance. */
-  estimatedTotalHits?: number;
+  estimatedTotalHits?: number | undefined;
   /** Results of the query */
   hits: GetSimilarResponseHitsList;
   /** Document ID that was used as reference */
@@ -2186,7 +2166,7 @@ export interface GetSimilarResponse {
   /** Processing time of the query in milliseconds */
   processingTimeMs: number;
   /** Performance details of the query */
-  performanceDetails?: unknown;
+  performanceDetails?: unknown | undefined;
 }
 export interface GetsortableAttributesRequest {
   /** Unique identifier of the index. */
@@ -2196,9 +2176,9 @@ export type GetsortableAttributesResponseBodyList = Array<string>;
 export type GetsortableAttributesResponse = GetsortableAttributesResponseBodyList;
 export interface GetStatsRequest {
   /** If `true`, adds `internalDatabaseSizes` to the response. */
-  showInternalDatabaseSizes?: boolean;
+  showInternalDatabaseSizes?: boolean | undefined;
   /** Specify how to format the sizes: - `"raw"` (default): format sizes as a number of bytes - `"human"`: format sizes as a human-readable string with an appropriate unit. */
-  sizeFormat?: SizeFormat | (string & {});
+  sizeFormat?: SizeFormat | (string & {}) | undefined;
 }
 /** Statistics for each index */
 export type StatsIndexesMap = { [key: string]: IndexStats | undefined };
@@ -2209,7 +2189,7 @@ export interface Stats {
   /** Actual size of the data in the database in bytes */
   usedDatabaseSize: Size;
   /** Date of the last update in RFC 3339 format. Null if no update has been processed */
-  lastUpdate?: string | null;
+  lastUpdate?: string | null | undefined;
   /** Statistics for each index */
   indexes: StatsIndexesMap;
 }
@@ -2541,7 +2521,7 @@ export interface Origin {
   /** The unique task identifier on the originating remote. This allows tracking the same task across different nodes in the network. */
   taskUid: number;
   /** The version of the network topology when this task was created. Used to ensure consistent task routing during network topology changes. */
-  networkVersion?: string;
+  networkVersion?: string | undefined;
 }
 /** Tasks that were duplicated from `origin` */
 export interface DbTaskNetworkCase0 {
@@ -2550,21 +2530,21 @@ export interface DbTaskNetworkCase0 {
 /** Represents a task that was replicated to a remote Meilisearch instance. Contains either the remote task UID on success, or an error if replication failed. */
 export interface RemoteTask {
   /** The unique task identifier assigned by the remote Meilisearch instance. Present when the task was successfully replicated to the remote. */
-  taskUid?: number | null;
-  error?: ResponseError | null;
+  taskUid?: number | null | undefined;
+  error?: ResponseError | null | undefined;
 }
 export type DbTaskNetworkCase1RemoteTasksMap = { [key: string]: RemoteTask | undefined };
 /** Tasks that were duplicated as `remote_tasks` */
 export interface DbTaskNetworkCase1 {
   remote_tasks: DbTaskNetworkCase1RemoteTasksMap;
-  network_version?: string;
+  network_version?: string | undefined;
 }
 /** Import data stored in a task */
 export interface ImportData {
   /** Remote that this task is imported from */
   remoteName: string;
   /** Index relevant to this task */
-  indexName?: string | null;
+  indexName?: string | null | undefined;
   /** Number of documents in this task */
   documentCount: number;
 }
@@ -2579,29 +2559,29 @@ export interface TaskView {
   /** The unique sequential identifier assigned to this task. Task UIDs are assigned in order of creation and can be used to retrieve specific task information or track task dependencies. */
   uid: number;
   /** The unique identifier of the batch that processed this task. Multiple tasks may share the same batch UID if they were processed together for efficiency. This is `null` for tasks that haven't been processed. */
-  batchUid?: number | null;
+  batchUid?: number | null | undefined;
   /** The unique identifier of the index this task operates on. This is `null` for global tasks like `dumpCreation` or `taskDeletion` that don't target a specific index. */
-  indexUid?: string | null;
+  indexUid?: string | null | undefined;
   /** The current processing status of the task. Possible values are: `enqueued` (waiting), `processing` (executing), `succeeded`, `failed`, or `canceled`. */
   status: Status;
   /** The type of operation this task performs. Examples include `documentAdditionOrUpdate`, `documentDeletion`, `settingsUpdate`, `indexCreation`, `indexDeletion`, `dumpCreation`, etc. */
   type: Kind;
   /** If this task was canceled, this field contains the UID of the `taskCancelation` task that canceled it. This is `null` for tasks that were not canceled. */
-  canceledBy?: number | null;
+  canceledBy?: number | null | undefined;
   /** Contains type-specific information about the task, such as the number of documents processed, settings that were applied, or filters that were used. The structure varies depending on the task type. */
-  details?: unknown | null;
-  error?: ResponseError | null;
+  details?: unknown | null | undefined;
+  error?: ResponseError | null | undefined;
   /** The total time spent processing this task, formatted as an ISO-8601 duration (e.g., `PT0.5S` for 0.5 seconds). This is `null` for tasks that haven't finished processing yet. */
-  duration?: string | null;
+  duration?: string | null | undefined;
   /** The timestamp when this task was added to the queue, formatted as an RFC 3339 date-time string. All tasks have an enqueued timestamp as it's set when the task is created. */
   enqueuedAt: string;
   /** The timestamp when Meilisearch began processing this task, formatted as an RFC 3339 date-time string. This is `null` for tasks that are still in the queue waiting to be processed. */
-  startedAt?: string;
+  startedAt?: string | undefined;
   /** The timestamp when this task finished processing (whether successfully or with an error), formatted as an RFC 3339 date-time string. This is `null` for tasks that haven't finished yet. */
-  finishedAt?: string;
-  network?: DbTaskNetwork | null;
+  finishedAt?: string | undefined;
+  network?: DbTaskNetwork | null | undefined;
   /** Custom metadata string that was attached to this task when it was created. This can be used to associate tasks with external systems, track task origins, or add any application-specific information. */
-  customMetadata?: string | null;
+  customMetadata?: string | null | undefined;
 }
 export interface GetTaskDocumentsFileRequest {
   /** The task identifier. */
@@ -2616,35 +2596,35 @@ export type GetTasksRequestStatusesList = Array<Status | (string & {})>;
 export type GetTasksRequestIndexUidsList = Array<string>;
 export interface GetTasksRequest {
   /** Maximum number of batches to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** `uid` of the first batch returned. */
-  from?: number;
+  from?: number | undefined;
   /** If `true`, returns results in the reverse order, from oldest to most recent. */
-  reverse?: boolean;
+  reverse?: boolean | undefined;
   /** Permits to filter tasks by their batch uid. By default, when the `batchUids` query parameter is not set, all task uids are returned. It's possible to specify several batch uids by separating them with the `,` character. */
-  batchUids?: GetTasksRequestBatchUidsList;
+  batchUids?: GetTasksRequestBatchUidsList | undefined;
   /** Permits to filter tasks by their uid. By default, when the uids query parameter is not set, all task uids are returned. It's possible to specify several uids by separating them with the `,` character. */
-  uids?: GetTasksRequestUidsList;
+  uids?: GetTasksRequestUidsList | undefined;
   /** Permits to filter tasks using the uid of the task that canceled them. It's possible to specify several task uids by separating them with the `,` character. */
-  canceledBy?: GetTasksRequestCanceledByList;
+  canceledBy?: GetTasksRequestCanceledByList | undefined;
   /** Permits to filter tasks by their related type. By default, when `types` query parameter is not set, all task types are returned. It's possible to specify several types by separating them with the `,` character. */
-  types?: GetTasksRequestTypesList;
+  types?: GetTasksRequestTypesList | undefined;
   /** Permits to filter tasks by their status. By default, when `statuses` query parameter is not set, all task statuses are returned. It's possible to specify several statuses by separating them with the `,` character. */
-  statuses?: GetTasksRequestStatusesList;
+  statuses?: GetTasksRequestStatusesList | undefined;
   /** Permits to filter tasks by their related index. By default, when `indexUids` query parameter is not set, the tasks of all the indexes are returned. It is possible to specify several indexes by separating them with the `,` character. */
-  indexUids?: GetTasksRequestIndexUidsList;
+  indexUids?: GetTasksRequestIndexUidsList | undefined;
   /** Permits to filter tasks based on their enqueuedAt time. Matches tasks enqueued after the given date. Supports RFC 3339 date format. */
-  afterEnqueuedAt?: string;
+  afterEnqueuedAt?: string | undefined;
   /** Permits to filter tasks based on their enqueuedAt time. Matches tasks enqueued before the given date. Supports RFC 3339 date format. */
-  beforeEnqueuedAt?: string;
+  beforeEnqueuedAt?: string | undefined;
   /** Permits to filter tasks based on their startedAt time. Matches tasks started after the given date. Supports RFC 3339 date format. */
-  afterStartedAt?: string;
+  afterStartedAt?: string | undefined;
   /** Permits to filter tasks based on their startedAt time. Matches tasks started before the given date. Supports RFC 3339 date format. */
-  beforeStartedAt?: string;
+  beforeStartedAt?: string | undefined;
   /** Permits to filter tasks based on their finishedAt time. Matches tasks finished after the given date. Supports RFC 3339 date format. */
-  afterFinishedAt?: string;
+  afterFinishedAt?: string | undefined;
   /** Permits to filter tasks based on their finishedAt time. Matches tasks finished before the given date. Supports RFC 3339 date format. */
-  beforeFinishedAt?: string;
+  beforeFinishedAt?: string | undefined;
 }
 /** Array of task objects matching the query */
 export type AllTasksResultsList = Array<TaskView>;
@@ -2657,9 +2637,9 @@ export interface AllTasks {
   /** Maximum number of tasks returned */
   limit: number;
   /** The first task uid returned */
-  from?: number | null;
+  from?: number | null | undefined;
   /** Value to pass as `from` parameter to get the next page. When `null`, there are no more tasks to retrieve. */
-  next?: number | null;
+  next?: number | null | undefined;
 }
 export interface GetTasksStreamRequest {}
 export interface GetTasksStreamResponse {}
@@ -2684,9 +2664,9 @@ export interface GetWebhookRequest {
 export type GetWebhookResponseHeadersMap = { [key: string]: string | undefined };
 export interface GetWebhookResponse {
   /** URL endpoint to call when tasks complete. */
-  url?: string | null;
+  url?: string | null | undefined;
   /** HTTP headers to include in webhook requests. */
-  headers?: GetWebhookResponseHeadersMap | null;
+  headers?: GetWebhookResponseHeadersMap | null | undefined;
   /** Unique identifier of the webhook. */
   uuid: string;
   /** Whether the webhook can be edited. */
@@ -2700,9 +2680,9 @@ export type WebhookWithMetadataRedactedAuthorizationHeadersMap = {
 /** Webhook object with metadata and redacted authorization headers. */
 export interface WebhookWithMetadataRedactedAuthorization {
   /** URL endpoint to call when tasks complete. */
-  url?: string | null;
+  url?: string | null | undefined;
   /** HTTP headers to include in webhook requests. */
-  headers?: WebhookWithMetadataRedactedAuthorizationHeadersMap | null;
+  headers?: WebhookWithMetadataRedactedAuthorizationHeadersMap | null | undefined;
   /** Unique identifier of the webhook. */
   uuid: string;
   /** Whether the webhook can be edited. */
@@ -2717,9 +2697,9 @@ export interface WebhookResults {
 }
 export interface ListApiKeysRequest {
   /** Number of keys to skip. Use with `limit` for pagination. Defaults to 0. */
-  offset?: number;
+  offset?: number | undefined;
   /** Maximum number of keys to return. Use with `offset` for pagination. Defaults to 20. */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** The list of actions (permissions) this key is allowed to perform. Examples include `documents.add`, `search`, `indexes.create`, `settings.update`, etc. Use `*` to grant all permissions. */
 export type PaginationViewKeyViewResultsItemActionsList = Array<Action>;
@@ -2728,9 +2708,9 @@ export type PaginationViewKeyViewResultsItemIndexesList = Array<string>;
 /** Represents an API key used for authenticating requests to Meilisearch. Each key has specific permissions defined by its actions and can be scoped to particular indexes. Keys provide fine-grained access control for your Meilisearch instance. */
 export interface PaginationViewKeyViewResultsItem {
   /** A human-readable name for the API key. Use this to identify the purpose of each key, such as "Frontend Search Key" or "Admin Key for CI/CD". This is optional and can be `null`. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** A longer description explaining the purpose or usage of this API key. Useful for documenting why the key was created and how it should be used. This is optional and can be `null`. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The actual API key string to use in the `Authorization: Bearer <key>` header when making requests to Meilisearch. Keep this value secret and never expose it in client-side code. */
   key: string;
   /** The unique identifier (UUID) for this API key. Use this to update or delete the key. The UID remains constant even if the key's name or description changes. */
@@ -2740,7 +2720,7 @@ export interface PaginationViewKeyViewResultsItem {
   /** The list of index UIDs this key can access. Use `*` to grant access to all indexes, including future ones. Patterns are also supported, e.g., `movies_*` matches any index starting with "movies_". */
   indexes: PaginationViewKeyViewResultsItemIndexesList;
   /** The expiration date and time of the key in RFC 3339 format. After this time, the key will no longer be valid for authentication. Set to `null` for keys that never expire. */
-  expiresAt?: string | null;
+  expiresAt?: string | null | undefined;
   /** The date and time when this API key was created, formatted as an RFC 3339 date-time string. This is automatically set by Meilisearch and cannot be modified. */
   createdAt: string;
   /** The date and time when this API key was last modified, formatted as an RFC 3339 date-time string. This is automatically updated by Meilisearch when the key's name or description changes. */
@@ -2760,9 +2740,9 @@ export interface PaginationViewKeyView {
 }
 export interface ListIndexesRequest {
   /** The number of indexes to skip before starting to retrieve anything. */
-  offset?: number;
+  offset?: number | undefined;
   /** The number of indexes to retrieve. */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** An index containing searchable documents */
 export interface PaginationViewIndexViewResultsItem {
@@ -2773,7 +2753,7 @@ export interface PaginationViewIndexViewResultsItem {
   /** Latest date of index update, represented in RFC 3339 format */
   updatedAt: string;
   /** [Primary key](https://www.meilisearch.com/docs/learn/getting_started/primary_key) of the index */
-  primaryKey?: string | null;
+  primaryKey?: string | null | undefined;
 }
 /** Items for the current page. */
 export type PaginationViewIndexViewResultsList = Array<PaginationViewIndexViewResultsItem>;
@@ -2789,32 +2769,32 @@ export interface PaginationViewIndexView {
 }
 export interface ListRulesFilter {
   /** Only include rules whose names match these patterns (e.g. `["black-friday", "promo*"]`). */
-  query?: string | null;
+  query?: string | null | undefined;
   /** Only include rules that are active (true) or not active (false). */
-  active?: boolean | null;
+  active?: boolean | null | undefined;
 }
 export interface ListRulesRequest {
   /** Number of rules to skip. Defaults to 0. */
-  offset?: number;
+  offset?: number | undefined;
   /** Maximum number of rules to return. Default to 20. */
-  limit?: number;
-  filter?: ListRulesFilter | null;
+  limit?: number | undefined;
+  filter?: ListRulesFilter | null | undefined;
 }
 export interface PaginationViewDynamicSearchRuleResultsItem {
   /** Unique identifier of the dynamic search rule. */
   uid: string;
   /** Human-readable description of the dynamic search rule. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Date time of the last update of this rule. */
-  lastUpdatedAt?: string | null;
+  lastUpdatedAt?: string | null | undefined;
   /** Precedence of the dynamic search rule. Lower numeric values take precedence over higher ones. If omitted, the rule is treated as having the lowest precedence. This precedence is used to resolve conflicts between matching rules: - If the same document is selected by multiple rules, the smallest `priority` number wins - If different documents are pinned to the same position, they are ordered by ascending `priority` */
-  precedence?: number | null;
+  precedence?: number | null | undefined;
   /** Whether the dynamic search rule is active. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Conditions that must match before the dynamic search rule applies. */
-  conditions?: Conditions;
+  conditions?: Conditions | undefined;
   /** Actions to apply when the dynamic search rule matches. */
-  actions?: RuleActions;
+  actions?: RuleActions | undefined;
 }
 /** Items for the current page. */
 export type PaginationViewDynamicSearchRuleResultsList =
@@ -2836,14 +2816,14 @@ export type RequestId = number | string;
 export interface McpClientMeta {
   io_modelcontextprotocol_protocolVersion: string;
   io_modelcontextprotocol_clientInfo: unknown;
-  io_modelcontextprotocol_clientCapabilities?: unknown;
+  io_modelcontextprotocol_clientCapabilities?: unknown | undefined;
 }
 export interface ParamsWithMeta {
-  _meta?: McpClientMeta | null;
+  _meta?: McpClientMeta | null | undefined;
   /** The tool name to call used by the MCP protocol. You can find more information about this field on [the MCP specification](https://modelcontextprotocol.io/specification/2026-07-28/server/tools#tool-names). */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The arguments to give to the tool from the MCP protocol. You can find more information about this field on [the MCP specification](https://modelcontextprotocol.io/specification/2026-07-28/schema#calltoolrequestparams). */
-  arguments?: unknown;
+  arguments?: unknown | undefined;
 }
 export interface McpRequest {
   /** Defines the version of a JSON-RPC request. You can find more information about this field on [the JSON-RPC specification](https://www.jsonrpc.org/specification#request_object). */
@@ -2880,7 +2860,7 @@ export interface McpServerMeta {
 }
 export type McpCapabilitiesToolsMap = { [key: string]: unknown | undefined };
 export interface McpCapabilities {
-  tools?: McpCapabilitiesToolsMap | null;
+  tools?: McpCapabilitiesToolsMap | null | undefined;
 }
 export interface McpTextContentOutput {
   type: string;
@@ -2889,18 +2869,18 @@ export interface McpTextContentOutput {
 export type McpResultContentList = Array<McpTextContentOutput>;
 export interface McpResult {
   resultType: string;
-  isError?: boolean | null;
+  isError?: boolean | null | undefined;
   /** Protocol versions the server supports. The client should choose one of these for subsequent requests. */
-  supportedVersions?: McpResultSupportedVersionsList | null;
-  tools?: McpResultToolsList | null;
-  resources?: McpResultResourcesList | null;
-  prompts?: McpResultPromptsList | null;
-  _meta?: McpServerMeta | null;
-  capabilities?: McpCapabilities | null;
-  content?: McpResultContentList | null;
-  structuredContent?: unknown;
+  supportedVersions?: McpResultSupportedVersionsList | null | undefined;
+  tools?: McpResultToolsList | null | undefined;
+  resources?: McpResultResourcesList | null | undefined;
+  prompts?: McpResultPromptsList | null | undefined;
+  _meta?: McpServerMeta | null | undefined;
+  capabilities?: McpCapabilities | null | undefined;
+  content?: McpResultContentList | null | undefined;
+  structuredContent?: unknown | undefined;
   /** Optional natural-language guidance for LLMs on how to use this server effectively. */
-  instructions?: string | null;
+  instructions?: string | null | undefined;
   ttlMs: number;
   cacheScope: string;
 }
@@ -2913,15 +2893,15 @@ export interface McpErrorData {
 export interface McpJsonRpcError {
   code: number;
   message: string;
-  data?: McpErrorData | null;
+  data?: McpErrorData | null | undefined;
 }
 export interface McpResponse {
   /** The JSON-RPC version. */
   jsonrpc: string;
   /** The JSON-RPC request ID. */
   id: RequestId;
-  result?: McpResult | null;
-  error?: McpJsonRpcError | null;
+  result?: McpResult | null | undefined;
+  error?: McpJsonRpcError | null | undefined;
 }
 /** Attributes to display in the returned documents */
 export type SearchQueryWithIndexAttributesToRetrieveList = Array<string>;
@@ -2945,73 +2925,81 @@ export interface Personalize {
 /** Options for federated multi-search queries */
 export interface FederationOptions {
   /** A multiplicative factor applied to the ranking score for hits from this query. Values less than 1.0 make hits from this query less likely to appear in final results; values greater than 1.0 make them more likely. Must be a positive number. Default: `1.0`. */
-  weight?: number;
+  weight?: number | undefined;
   /** Remote server to send this query to */
-  remote?: string | null;
+  remote?: string | null | undefined;
   /** Position of this query in the list of queries */
-  queryPosition?: number | null;
+  queryPosition?: number | null | undefined;
+}
+export interface InlineDynamicSearchRule {
+  uid: string;
+  precedence?: number | null | undefined;
+  active?: boolean | undefined;
+  conditions?: Conditions | undefined;
+  actions?: RuleActions | undefined;
 }
 /** A `SearchQuery` + an index UID and optional FederationOptions. */
 export interface SearchQueryWithIndex {
   /** Index unique identifier */
   indexUid: string;
   /** Query string */
-  q?: string | null;
+  q?: string | null | undefined;
   /** Number of documents to skip */
-  offset?: number | null;
+  offset?: number | null | undefined;
   /** Maximum number of documents returned */
-  limit?: number | null;
+  limit?: number | null | undefined;
   /** Request a specific page of results */
-  page?: number | null;
+  page?: number | null | undefined;
   /** Maximum number of documents returned for a page */
-  hitsPerPage?: number | null;
+  hitsPerPage?: number | null | undefined;
   /** Attributes to display in the returned documents */
-  attributesToRetrieve?: SearchQueryWithIndexAttributesToRetrieveList | null;
+  attributesToRetrieve?: SearchQueryWithIndexAttributesToRetrieveList | null | undefined;
   /** Attributes whose values have to be cropped */
-  attributesToCrop?: SearchQueryWithIndexAttributesToCropList | null;
+  attributesToCrop?: SearchQueryWithIndexAttributesToCropList | null | undefined;
   /** Maximum length of cropped value in words */
-  cropLength?: number;
+  cropLength?: number | undefined;
   /** String marking crop boundaries */
-  cropMarker?: string;
+  cropMarker?: string | undefined;
   /** Highlight matching terms contained in an attribute */
-  attributesToHighlight?: SearchQueryWithIndexAttributesToHighlightList | null;
+  attributesToHighlight?: SearchQueryWithIndexAttributesToHighlightList | null | undefined;
   /** String inserted at the start of a highlighted term */
-  highlightPreTag?: string;
+  highlightPreTag?: string | undefined;
   /** String inserted at the end of a highlighted term */
-  highlightPostTag?: string;
+  highlightPostTag?: string | undefined;
   /** Return matching terms location */
-  showMatchesPosition?: boolean;
+  showMatchesPosition?: boolean | undefined;
   /** Filter queries by an attribute's value */
-  filter?: unknown;
+  filter?: unknown | undefined;
   /** Sort search results by an attribute's value */
-  sort?: SearchQueryWithIndexSortList | null;
+  sort?: SearchQueryWithIndexSortList | null | undefined;
   /** Restrict search to documents with unique values of specified attribute */
-  distinct?: string | null;
-  facets?: AttributePatterns | null;
-  matchingStrategy?: MatchingStrategy | (string & {});
+  distinct?: string | null | undefined;
+  facets?: AttributePatterns | null | undefined;
+  matchingStrategy?: MatchingStrategy | (string & {}) | undefined;
   /** Restrict search to the specified attributes */
-  attributesToSearchOn?: SearchQueryWithIndexAttributesToSearchOnList | null;
-  /** Exclude results below the specified ranking score */
-  rankingScoreThreshold?: number | null;
+  attributesToSearchOn?: SearchQueryWithIndexAttributesToSearchOnList | null | undefined;
+  /** Stop the search at the first document whose [ranking score](https://www.meilisearch.com/docs/learn/relevancy/ranking_score) is below this value (between 0.0 and 1.0). All the documents after this document are excluded from the hits. Excluded hits do not count toward `estimatedTotalHits`, `totalHits`, or facet distribution. When used together with `page` and `hitsPerPage`, this parameter may reduce performance because Meilisearch must score all matching documents. */
+  rankingScoreThreshold?: number | null | undefined;
   /** Languages to use for query tokenization */
-  locales?: SearchQueryWithIndexLocalesList | null;
-  hybrid?: HybridQuery | null;
+  locales?: SearchQueryWithIndexLocalesList | null | undefined;
+  hybrid?: HybridQuery | null | undefined;
   /** Search using a custom query vector */
-  vector?: SearchQueryWithIndexVectorList | null;
+  vector?: SearchQueryWithIndexVectorList | null | undefined;
   /** Return document and query vector data */
-  retrieveVectors?: boolean;
+  retrieveVectors?: boolean | undefined;
   /** Perform AI-powered search queries with multimodal content */
-  media?: unknown;
-  personalize?: Personalize | null;
+  media?: unknown | undefined;
+  personalize?: Personalize | null | undefined;
   /** When `true`, runs the query on the whole network (all shards covered exactly once). When `false`, the query runs locally. When omitted or `null`, the default value depends on whether the sharding is enabled for the instance: - If the instance has sharding enabled (has a leader), defaults to `true`. - Otherwise defaults to `false`. It also requires the `network` [experimental feature](http://localhost:3000/reference/api/experimental-features/configure-experimental-features). Values: `true` = use the whole network; `false` = local, default = see above. When using the network, the index must exist with compatible settings on all remotes. */
-  useNetwork?: boolean | null;
+  useNetwork?: boolean | null | undefined;
   /** Display the global ranking score of a document */
-  showRankingScore?: boolean;
+  showRankingScore?: boolean | undefined;
   /** Adds a detailed global ranking score field */
-  showRankingScoreDetails?: boolean;
+  showRankingScoreDetails?: boolean | undefined;
   /** Adds a detailed performance details field */
-  showPerformanceDetails?: boolean | null;
-  federationOptions?: FederationOptions | null;
+  showPerformanceDetails?: boolean | null | undefined;
+  federationOptions?: FederationOptions | null | undefined;
+  inlineRule?: InlineDynamicSearchRule | null | undefined;
 }
 /** An array of search queries to execute. Each query can target a different index and have its own parameters. When `federation` is `null`, results are returned separately for each query. When `federation` is set, results are merged. Each query object must include `indexUid` to specify which index to search. */
 export type MultiSearchWithPostRequestQueriesList = Array<SearchQueryWithIndex>;
@@ -3020,33 +3008,34 @@ export type FederationFacetsByIndexMap = { [key: string]: AttributePatterns | un
 /** Options for merging facets from multiple indexes in federated search. When multiple indexes are queried, this controls how their facet values are combined into a single facet distribution. */
 export interface MergeFacets {
   /** The maximum number of facet values to return for each facet after merging. Values from all indexes are combined and sorted before truncation. If not specified, uses the default limit from the index settings. */
-  maxValuesPerFacet?: number | null;
+  maxValuesPerFacet?: number | null | undefined;
 }
 /** Configuration for federated multi-search */
 export interface Federation {
   /** Maximum number of results to return across all queries */
-  limit?: number;
+  limit?: number | undefined;
   /** Number of results to skip */
-  offset?: number;
-  page?: number | null;
-  hitsPerPage?: number | null;
+  offset?: number | undefined;
+  page?: number | null | undefined;
+  hitsPerPage?: number | null | undefined;
   /** Facets to retrieve per index */
-  facetsByIndex?: FederationFacetsByIndexMap;
-  mergeFacets?: MergeFacets | null;
+  facetsByIndex?: FederationFacetsByIndexMap | undefined;
+  mergeFacets?: MergeFacets | null | undefined;
   /** Restrict search to documents with unique values of the specified attribute across all queries. 1. This applies across all queries in the request, regardless of index or remote of origin. 2. This overrides the index-level distinct attribute. 3. This requires that the passed field can be set as distinct in all the participating indexes. */
-  distinct?: string | null;
+  distinct?: string | null | undefined;
   /** Whether to include performance details in the response */
-  showPerformanceDetails?: boolean;
-  personalize?: Personalize | null;
+  showPerformanceDetails?: boolean | undefined;
+  personalize?: Personalize | null | undefined;
 }
 export interface MultiSearchWithPostRequest {
   /** An array of search queries to execute. Each query can target a different index and have its own parameters. When `federation` is `null`, results are returned separately for each query. When `federation` is set, results are merged. Each query object must include `indexUid` to specify which index to search. */
   queries: MultiSearchWithPostRequestQueriesList;
-  federation?: Federation | null;
+  federation?: Federation | null | undefined;
 }
 /** Combined search results from all queries */
 export type MultiSearchWithPostResponseHitsList = Array<SearchHit>;
 export type Vec = Array<number>;
+/** List of vectors per query, if `retrieveVectors` is set to `true` */
 export type MultiSearchWithPostResponseQueryVectorsMap = { [key: string]: Vec | undefined };
 export type MultiSearchWithPostResponseFacetDistributionValueMap = {
   [key: string]: number | undefined;
@@ -3078,18 +3067,96 @@ export interface ComputedFacets {
   stats: ComputedFacetsStatsMap;
 }
 export type FederatedFacets = { [key: string]: ComputedFacets | undefined };
+/** Outcome of the time condition */
+export type TimeConditionOutcome = "satisfied" | "noConstraint" | "tooEarly" | "tooLate";
+/** Outcome of the query empty condition */
+export type QueryEmptyConditionOutcome =
+  | "satisfied"
+  | "noConstraint"
+  | "queryNotEmpty"
+  | "queryEmpty";
+/** - `satisfied`: The query contains all the words of the condition - `noConstraint`: No query words condition */
+export type QueryWordsConditionOutcomeCase0 = "satisfied" | "noConstraint";
+/** At least the specified word is missing in the query */
+export interface QueryWordsConditionOutcomeCase1MissingWord {
+  /** Missing word in query */
+  word: string;
+}
+/** At least the specified word is missing in the query */
+export interface QueryWordsConditionOutcomeCase1 {
+  /** At least the specified word is missing in the query */
+  missingWord: QueryWordsConditionOutcomeCase1MissingWord;
+}
+/** Outcome of the query words condition */
+export type QueryWordsConditionOutcome =
+  | QueryWordsConditionOutcomeCase0
+  | QueryWordsConditionOutcomeCase1;
+/** - `satisfied`: The filter satifies all constraints in the condition - `noConstraint`: No filter condition */
+export type FilterConditionOutcomeCase0 = "satisfied" | "noConstraint";
+/** At least one field from the condition is missing from the filter */
+export interface FilterConditionOutcomeCase1MissingConstraintOnField {
+  /** Missing field in filter */
+  field: string;
+}
+/** At least one field from the condition is missing from the filter */
+export interface FilterConditionOutcomeCase1 {
+  /** At least one field from the condition is missing from the filter */
+  missingConstraintOnField: FilterConditionOutcomeCase1MissingConstraintOnField;
+}
+/** At least one field has a condition not met in the filter */
+export interface FilterConditionOutcomeCase2UnmetConstraintOnField {
+  /** Field with unmet constraint in filter */
+  field: string;
+}
+/** At least one field has a condition not met in the filter */
+export interface FilterConditionOutcomeCase2 {
+  /** At least one field has a condition not met in the filter */
+  unmetConstraintOnField: FilterConditionOutcomeCase2UnmetConstraintOnField;
+}
+/** The filter does not constraint enough field to satisfy the condition */
+export interface FilterConditionOutcomeCase3NotEnoughFields {
+  /** Number of fields in the filter */
+  fieldCountInFilter: number;
+  /** Number of fields in the condition */
+  fieldCountInCondition: number;
+}
+/** The filter does not constraint enough field to satisfy the condition */
+export interface FilterConditionOutcomeCase3 {
+  /** The filter does not constraint enough field to satisfy the condition */
+  notEnoughFields: FilterConditionOutcomeCase3NotEnoughFields;
+}
+/** Outcome of the filter condition */
+export type FilterConditionOutcome =
+  | FilterConditionOutcomeCase0
+  | FilterConditionOutcomeCase1
+  | FilterConditionOutcomeCase2
+  | FilterConditionOutcomeCase3;
+/** Outcome of applying conditions to a query. */
+export interface ConditionOutcomes {
+  /** Whether the rule was active */
+  satisfiesActiveCondition: boolean;
+  /** Whether the current time falls in the range of time specified by the condition */
+  satisfiesTimeCondition?: TimeConditionOutcome | undefined;
+  /** Whether the query emptiness condition aligns with the actual query */
+  satisfiesQueryEmptyCondition?: QueryEmptyConditionOutcome | undefined;
+  /** Whether the query words meet the condition */
+  satisfiesQueryWordsCondition?: QueryWordsConditionOutcome | undefined;
+  /** Whether the filter meets the condition */
+  satisfiesFilterCondition?: FilterConditionOutcome | undefined;
+}
 /** Metadata about a search query (included when requested via header). */
 export interface SearchMetadata {
   /** Query string set for the query, if not already present in the response. Only set if: 1. the metadata corresponds to a query in a federated search request, **and** 2. that federated search request query is not a placeholder search (empty or missing `q`) Never set for regular search and non-federated multi-search because the query(ies) are already present in the response. */
-  query?: string | null;
+  query?: string | null | undefined;
   /** Unique identifier for the query. */
   queryUid: string;
   /** UID of the index that was searched. */
   indexUid: string;
   /** [Primary key](https://www.meilisearch.com/docs/learn/getting_started/primary_key) of the index. */
-  primaryKey?: string | null;
+  primaryKey?: string | null | undefined;
   /** Remote that processed the query (federated search only). */
-  remote?: string | null;
+  remote?: string | null | undefined;
+  inlineRuleConditionOutcomes?: ConditionOutcomes | null | undefined;
 }
 /** Metadata for each query */
 export type MultiSearchWithPostResponseMetadataList = Array<SearchMetadata>;
@@ -3099,56 +3166,57 @@ export type MultiSearchWithPostResponseRemoteErrorsMap = {
 };
 export interface MultiSearchWithPostResponse {
   /** Number of results per page. */
-  hitsPerPage?: number;
+  hitsPerPage?: number | undefined;
   /** Current page index (1-based). */
-  page?: number;
+  page?: number | undefined;
   /** Exhaustive total number of result pages. */
-  totalPages?: number;
+  totalPages?: number | undefined;
   /** Exhaustive total number of matching documents. */
-  totalHits?: number;
+  totalHits?: number | undefined;
   /** Maximum number of documents returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** Number of documents skipped. */
-  offset?: number;
+  offset?: number | undefined;
   /** Estimated total number of matches (not exhaustive). Prioritizes relevancy and performance. */
-  estimatedTotalHits?: number;
+  estimatedTotalHits?: number | undefined;
   /** Combined search results from all queries */
   hits: MultiSearchWithPostResponseHitsList;
-  queryVectors?: MultiSearchWithPostResponseQueryVectorsMap | null;
+  /** List of vectors per query, if `retrieveVectors` is set to `true` */
+  queryVectors?: MultiSearchWithPostResponseQueryVectorsMap | null | undefined;
   /** Total processing time in milliseconds */
   processingTimeMs: number;
-  facetDistribution?: MultiSearchWithPostResponseFacetDistributionMap | null;
+  facetDistribution?: MultiSearchWithPostResponseFacetDistributionMap | null | undefined;
   /** Merged facet statistics across all indexes */
-  facetStats?: MultiSearchWithPostResponseFacetStatsMap | null;
+  facetStats?: MultiSearchWithPostResponseFacetStatsMap | null | undefined;
   /** Facets grouped by index */
-  facetsByIndex?: FederatedFacets;
+  facetsByIndex?: FederatedFacets | undefined;
   /** Unique identifier for the request */
-  requestUid?: string | null;
+  requestUid?: string | null | undefined;
   /** Metadata for each query */
-  metadata?: MultiSearchWithPostResponseMetadataList | null;
+  metadata?: MultiSearchWithPostResponseMetadataList | null | undefined;
   /** Errors from remote servers */
-  remoteErrors?: MultiSearchWithPostResponseRemoteErrorsMap | null;
-  semanticHitCount?: number | null;
-  performanceDetails?: unknown;
+  remoteErrors?: MultiSearchWithPostResponseRemoteErrorsMap | null | undefined;
+  semanticHitCount?: number | null | undefined;
+  performanceDetails?: unknown | undefined;
 }
 export interface PatchApiKeyRequest {
   /** The `uid` or `key` field of an existing API key. */
   key: string;
   /** A new description for the API key. Pass `null` to remove the existing description. Useful for documenting the purpose or usage of the key. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** A new human-readable name for the API key. Pass `null` to remove the existing name. Use this to identify keys by purpose, such as "Production Search Key" or "CI/CD Indexing Key". */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export interface PatchchatRequest {
   /** Unique identifier of the index. */
   index_uid: string;
   /** Index description shown to the LLM so it can decide when and how to query this index. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Liquid template that defines the text sent to the LLM for each document. */
-  documentTemplate?: string | null;
+  documentTemplate?: string | null | undefined;
   /** Maximum size in bytes of the rendered document template. Longer text is truncated. */
-  documentTemplateMaxBytes?: number | null;
-  searchParameters?: ChatSearchParams | null;
+  documentTemplateMaxBytes?: number | null | undefined;
+  searchParameters?: ChatSearchParams | null | undefined;
 }
 export interface PatchchatResponse {}
 export type PatchembeddersRequestBodyMap = { [key: string]: SettingEmbeddingSettings | undefined };
@@ -3166,52 +3234,52 @@ export interface PatchfacetingRequest {
   /** Unique identifier of the index. */
   index_uid: string;
   /** Maximum number of facet values returned per facet. Values are sorted in ascending lexicographical order. */
-  maxValuesPerFacet?: number | null;
+  maxValuesPerFacet?: number | null | undefined;
   /** Sort order per facet: by descending count (`count`) or ascending alphanumeric (`alpha`). Key `*` applies to all facets. */
-  sortFacetValuesBy?: PatchfacetingRequestSortFacetValuesByMap | null;
+  sortFacetValuesBy?: PatchfacetingRequestSortFacetValuesByMap | null | undefined;
 }
 export interface PatchfacetingResponse {}
 export interface PatchFeaturesRequest {
   /** Enable the /metrics endpoint for Prometheus metrics */
-  metrics?: boolean | null;
+  metrics?: boolean | null | undefined;
   /** Enable the /logs route for log configuration */
-  logsRoute?: boolean | null;
+  logsRoute?: boolean | null | undefined;
   /** Enable the `GET /tasks/stream` and `GET /batches/stream` SSE-based routes */
-  tasksStreamingRoute?: boolean | null;
+  tasksStreamingRoute?: boolean | null | undefined;
   /** Enable document editing via JavaScript functions */
-  editDocumentsByFunction?: boolean | null;
+  editDocumentsByFunction?: boolean | null | undefined;
   /** Enable the CONTAINS filter operator */
-  containsFilter?: boolean | null;
+  containsFilter?: boolean | null | undefined;
   /** Enable dynamic search rules and the `/dynamic-search-rules` routes */
-  dynamicSearchRules?: boolean | null;
+  dynamicSearchRules?: boolean | null | undefined;
   /** Enable network features for distributed search */
-  network?: boolean | null;
+  network?: boolean | null | undefined;
   /** Enable the route to get documents from tasks */
-  getTaskDocumentsRoute?: boolean | null;
+  getTaskDocumentsRoute?: boolean | null | undefined;
   /** Enable the route to compact the task queue database */
-  taskQueueCompactionRoute?: boolean | null;
+  taskQueueCompactionRoute?: boolean | null | undefined;
   /** Enable composite embedders for multi-source embeddings */
-  compositeEmbedders?: boolean | null;
+  compositeEmbedders?: boolean | null | undefined;
   /** Enable chat completion capabilities */
-  chatCompletions?: boolean | null;
+  chatCompletions?: boolean | null | undefined;
   /** Enable multimodal search with images and other media */
-  multimodal?: boolean | null;
+  multimodal?: boolean | null | undefined;
   /** Enable foreign key support for document hydration */
-  foreignKeys?: boolean | null;
+  foreignKeys?: boolean | null | undefined;
   /** Disable documents fetch queue */
-  disableDocumentsFetchQueue?: boolean | null;
+  disableDocumentsFetchQueue?: boolean | null | undefined;
   /** Enable legacy search pipeline */
-  legacySearch?: boolean | null;
+  legacySearch?: boolean | null | undefined;
   /** Enable the `POST /render-template` route */
-  renderRoute?: boolean | null;
+  renderRoute?: boolean | null | undefined;
   /** Enable the `POST /mcp` route */
-  mcpRoute?: boolean | null;
+  mcpRoute?: boolean | null | undefined;
 }
 export interface PatchpaginationRequest {
   /** Unique identifier of the index. */
   index_uid: string;
   /** Maximum number of search results Meilisearch can return. Limit and offset cannot go beyond this value. */
-  maxTotalHits?: number | null;
+  maxTotalHits?: number | null | undefined;
 }
 export interface PatchpaginationResponse {}
 /** LLM provider for chat completions */
@@ -3219,33 +3287,33 @@ export type ChatCompletionSource = "openAi" | "mistral" | "azureOpenAi" | "vLlm"
 /** Custom prompts for chat completions */
 export interface PatchSettingsRequestPrompts {
   /** System prompt for the LLM */
-  system?: string | null;
+  system?: string | null | undefined;
   /** Description of the search function for the LLM */
-  searchDescription?: string | null;
+  searchDescription?: string | null | undefined;
   /** Description of the query parameter for search */
-  searchQParam?: string | null;
+  searchQParam?: string | null | undefined;
   /** Description of the filter parameter for search */
-  searchFilterParam?: string | null;
-  searchIndexUidParam?: string | null;
+  searchFilterParam?: string | null | undefined;
+  searchIndexUidParam?: string | null | undefined;
 }
 export interface PatchSettingsRequest {
   /** The unique identifier of the chat workspace. */
   workspace_uid: string;
-  source?: ChatCompletionSource | (string & {}) | null;
+  source?: ChatCompletionSource | (string & {}) | null | undefined;
   /** Organization ID for the LLM provider */
-  orgId?: string | null;
+  orgId?: string | null | undefined;
   /** Project ID for the LLM provider */
-  projectId?: string | null;
+  projectId?: string | null | undefined;
   /** API version for the LLM provider */
-  apiVersion?: string | null;
+  apiVersion?: string | null | undefined;
   /** Deployment ID for Azure OpenAI */
-  deploymentId?: string | null;
+  deploymentId?: string | null | undefined;
   /** Base URL for the LLM API */
-  baseUrl?: string | null;
+  baseUrl?: string | null | undefined;
   /** API key for authentication with the LLM provider */
-  apiKey?: string | Redacted.Redacted<string> | null;
+  apiKey?: string | Redacted.Redacted<string> | null | undefined;
   /** Custom prompts for chat completions */
-  prompts?: PatchSettingsRequestPrompts | null;
+  prompts?: PatchSettingsRequestPrompts | null | undefined;
 }
 export interface PatchSettingsResponse {}
 /** Words for which typo tolerance is disabled. Use for brand names or terms that must match exactly. */
@@ -3256,14 +3324,14 @@ export interface PatchtypoToleranceRequest {
   /** Unique identifier of the index. */
   index_uid: string;
   /** When true, typo tolerance is enabled. When false, only exact matches are returned. */
-  enabled?: boolean | null;
-  minWordSizeForTypos?: MinWordSizeTyposSetting | null;
+  enabled?: boolean | null | undefined;
+  minWordSizeForTypos?: MinWordSizeTyposSetting | null | undefined;
   /** Words for which typo tolerance is disabled. Use for brand names or terms that must match exactly. */
-  disableOnWords?: PatchtypoToleranceRequestDisableOnWordsList | null;
+  disableOnWords?: PatchtypoToleranceRequestDisableOnWordsList | null | undefined;
   /** Attributes for which typo tolerance is disabled. Those attributes only return exact matches. Useful for fields like product codes or IDs. */
-  disableOnAttributes?: PatchtypoToleranceRequestDisableOnAttributesList | null;
+  disableOnAttributes?: PatchtypoToleranceRequestDisableOnAttributesList | null | undefined;
   /** When true, typo tolerance is disabled on numeric tokens. For example, 123 will not match 132. */
-  disableOnNumbers?: boolean | null;
+  disableOnNumbers?: boolean | null | undefined;
 }
 export interface PatchtypoToleranceResponse {}
 /** Array of document attributes to include in the response. If not specified, all attributes listed in the `displayedAttributes` setting are returned. Use this to reduce response size by only requesting the fields you need. Example: `["title", "description", "price"]`. */
@@ -3276,21 +3344,21 @@ export interface PostDocumentsByQueryRequest {
   /** Unique identifier of the index. */
   index_uid: string;
   /** Number of documents to skip in the response. Use together with `limit` for pagination through large document sets. For example, to get documents 151-170, set `offset=150` and `limit=20`. Defaults to `0`. */
-  offset?: number;
+  offset?: number | undefined;
   /** Maximum number of documents to return in a single response. Use together with `offset` for pagination. Higher values return more results but may increase response time and memory usage. Defaults to `20`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Array of document attributes to include in the response. If not specified, all attributes listed in the `displayedAttributes` setting are returned. Use this to reduce response size by only requesting the fields you need. Example: `["title", "description", "price"]`. */
-  fields?: PostDocumentsByQueryRequestFieldsList | null;
+  fields?: PostDocumentsByQueryRequestFieldsList | null | undefined;
   /** When `true`, includes the vector embeddings in the response for documents that have them. This is useful when you need to inspect or export vector data. Note that this can significantly increase response size. Defaults to `false`. */
-  retrieveVectors?: boolean;
+  retrieveVectors?: boolean | undefined;
   /** Array of specific document IDs to retrieve. Only documents with matching [primary key](https://www.meilisearch.com/docs/learn/getting_started/primary_key) values will be returned. If not specified, all documents matching other criteria are returned. This is useful for fetching specific known documents. */
-  ids?: PostDocumentsByQueryRequestIdsList | null;
+  ids?: PostDocumentsByQueryRequestIdsList | null | undefined;
   /** Filter expression to select which documents to return. Attributes must be added to the `filterableAttributes` index setting before they can be used in filters. Accepts a string or an array of arrays of strings for AND/OR combinations. Example string: `"genres = action AND rating > 4"`. Example array: `[["genres = action", "genres = comedy"], "rating > 4"]` (inner array = OR, outer = AND). */
-  filter?: unknown;
+  filter?: unknown | undefined;
   /** Array of attributes to sort the documents by. Each entry should be in the format `attribute:direction` where direction is either `asc` (ascending) or `desc` (descending). Example: `["price:asc", "rating:desc"]` sorts by price ascending, then by rating descending. */
-  sort?: PostDocumentsByQueryRequestSortList | null;
+  sort?: PostDocumentsByQueryRequestSortList | null | undefined;
   /** When `true`, runs the query on the whole network (all shards covered exactly once). When `false`, the query runs locally. When omitted or `null`, the default value depends on whether the sharding is enabled for the instance: - If the instance has sharding enabled (has a leader), defaults to `true`. - Otherwise defaults to `false`. It also requires the `network` [experimental feature](http://localhost:3000/reference/api/experimental-features/configure-experimental-features). Values: `true` = use the whole network; `false` = local, default = see above. When using the network, the index must exist with compatible settings on all remotes. */
-  useNetwork?: boolean | null;
+  useNetwork?: boolean | null | undefined;
 }
 export type MessageCase0Type = "exportNoIndexForRemote";
 /** The specified remote will not longer export any document to this instance. Send this message to remotes that are blocked waiting on the specified remote to export its documents. */
@@ -3335,33 +3403,33 @@ export type RenderQueryTemplateKind =
 export interface RenderQueryTemplate {
   /** Kind of template or fragment to fetch. Determines which other parameters are allowed and mandatory. */
   kind: RenderQueryTemplateKind | (string & {});
-  indexUid?: string | null;
+  indexUid?: string | null | undefined;
   /** Embedder to fetch the template or fragment from. - Mandatory for `kind`s: `documentTemplate`, `chatDocumentTemplate`, `indexingFragment` and `searchFragment`. */
-  embedder?: string | null;
+  embedder?: string | null | undefined;
   /** Name of the fragment to fetch. - Mandatory for `kind`s: `indexingFragment` and `searchFragment`. */
-  fragment?: string | null;
+  fragment?: string | null | undefined;
   /** Inline value of the template or fragment. - Mandatory for `kind`s: `inlineDocumentTemplate` and `inlineFragment`. */
-  inline?: unknown;
+  inline?: unknown | undefined;
   /** If present, truncate document template rendering to the specified number of bytes. - Available for `kind`s: `documentTemplate`, `inlineDocumentTemplate` and `chatDocumentTemplate` - If present for `documentTemplate` overrides the setting of the index. - If missing for `documentTemplate`, the setting of the index is used. - If missing for `inlineDocumentTemplate`, the default value of 400 bytes is used. */
-  documentTemplateMaxBytes?: number | null;
+  documentTemplateMaxBytes?: number | null | undefined;
 }
 export type RenderQueryInputKind = "indexDocument" | "inlineDocument" | "inlineSearch";
 export interface RenderQueryInput {
   kind: RenderQueryInputKind | (string & {});
-  indexUid?: string | null;
-  id?: string | null;
-  inline?: unknown;
+  indexUid?: string | null | undefined;
+  id?: string | null | undefined;
+  inline?: unknown | undefined;
 }
 export interface PostRenderRequest {
   /** Template/fragment to fetch for rendering. Use its `kind` parameter to determine the type of template or fragment to fetch. */
   template: RenderQueryTemplate;
-  input?: RenderQueryInput | null;
+  input?: RenderQueryInput | null | undefined;
 }
 export interface RenderResult {
   /** **Un**rendered template or fragment, fetched in index or echoed back from inline template in request. */
   template: unknown;
   /** Result of rendering the template by injecting the `input` to the template. `null` if `input` was `null` or missing in the request. */
-  rendered?: unknown;
+  rendered?: unknown | undefined;
 }
 /** Attributes to display in the returned documents */
 export type PostSimilarRequestAttributesToRetrieveList = Array<string>;
@@ -3371,43 +3439,43 @@ export interface PostSimilarRequest {
   /** Document ID to find similar documents for */
   id: string;
   /** Number of documents to skip */
-  offset?: number;
+  offset?: number | undefined;
   /** Maximum number of documents returned */
-  limit?: number;
+  limit?: number | undefined;
   /** Filter queries by an attribute's value */
-  filter?: unknown;
+  filter?: unknown | undefined;
   /** Name of the embedder to use for semantic similarity */
   embedder: string;
   /** Attributes to display in the returned documents */
-  attributesToRetrieve?: PostSimilarRequestAttributesToRetrieveList | null;
+  attributesToRetrieve?: PostSimilarRequestAttributesToRetrieveList | null | undefined;
   /** Return document vector data */
-  retrieveVectors?: boolean;
+  retrieveVectors?: boolean | undefined;
   /** Display the global ranking score of a document */
-  showRankingScore?: boolean;
+  showRankingScore?: boolean | undefined;
   /** Adds a detailed global ranking score field */
-  showRankingScoreDetails?: boolean;
+  showRankingScoreDetails?: boolean | undefined;
   /** Adds a detailed performance details field */
-  showPerformanceDetails?: boolean;
+  showPerformanceDetails?: boolean | undefined;
   /** Excludes results with low ranking scores */
-  rankingScoreThreshold?: number;
+  rankingScoreThreshold?: number | undefined;
 }
 /** Results of the query */
 export type PostSimilarResponseHitsList = Array<SearchHit>;
 export interface PostSimilarResponse {
   /** Number of results per page. */
-  hitsPerPage?: number;
+  hitsPerPage?: number | undefined;
   /** Current page index (1-based). */
-  page?: number;
+  page?: number | undefined;
   /** Exhaustive total number of result pages. */
-  totalPages?: number;
+  totalPages?: number | undefined;
   /** Exhaustive total number of matching documents. */
-  totalHits?: number;
+  totalHits?: number | undefined;
   /** Maximum number of documents returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** Number of documents skipped. */
-  offset?: number;
+  offset?: number | undefined;
   /** Estimated total number of matches (not exhaustive). Prioritizes relevancy and performance. */
-  estimatedTotalHits?: number;
+  estimatedTotalHits?: number | undefined;
   /** Results of the query */
   hits: PostSimilarResponseHitsList;
   /** Document ID that was used as reference */
@@ -3415,7 +3483,7 @@ export interface PostSimilarResponse {
   /** Processing time of the query in milliseconds */
   processingTimeMs: number;
   /** Performance details of the query */
-  performanceDetails?: unknown;
+  performanceDetails?: unknown | undefined;
 }
 export type PutdictionaryRequestBodyList = Array<string>;
 export interface PutdictionaryRequest {
@@ -3524,13 +3592,13 @@ export interface ReplaceDocumentsRequest {
   /** Unique identifier of the index. */
   index_uid: string;
   /** The [primary key](https://www.meilisearch.com/docs/learn/getting_started/primary_key) field for uniquely identifying each document. This parameter is optional and can only be set the first time documents are added to an index. Subsequent attempts to specify it will be ignored if the primary key has already been set. */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
   /** Customize the CSV column delimiter when importing CSV documents. Must be a single ASCII character. Only valid when the content type is `text/csv`; using this parameter with `application/json` or `application/x-ndjson` will return an error. Default: `,`. */
-  csvDelimiter?: string;
+  csvDelimiter?: string | undefined;
   /** A string that can be used to identify and filter tasks. This metadata is stored with the task and returned in task responses. Useful for tracking tasks from external systems or associating tasks with specific operations in your application. */
-  customMetadata?: string;
+  customMetadata?: string | undefined;
   /** When set to `true`, only updates existing documents and skips creating new ones. Documents that don't already exist in the index will be ignored. This is useful for partial updates where you only want to modify existing records without adding new ones. */
-  skipCreation?: boolean;
+  skipCreation?: boolean | undefined;
 }
 export interface ReplaceDocumentsResponse {}
 export interface ResetSettingsRequest {
@@ -3548,29 +3616,29 @@ export interface SearchRequest {
   /** Unique identifier of the index. */
   index_uid: string;
   /** Query string to search for matching facet values. If not specified, Meilisearch returns all facet values for the `facetName`, limited to 100 results. Note: only the first word is used for matching. */
-  facetQuery?: string | null;
+  facetQuery?: string | null | undefined;
   /** Name of the facet attribute to search. Must be present in the index's `filterableAttributes` list. */
   facetName: string;
   /** Query string to filter the underlying documents before computing facet values. This affects which facet values appear and their counts, but does not filter the facet values themselves. */
-  q?: string | null;
+  q?: string | null | undefined;
   /** Custom query vector for semantic search */
-  vector?: SearchRequestVectorList | null;
+  vector?: SearchRequestVectorList | null | undefined;
   /** Multimodal content for AI-powered search */
-  media?: unknown;
-  hybrid?: HybridQuery | null;
+  media?: unknown | undefined;
+  hybrid?: HybridQuery | null | undefined;
   /** Filter expression to restrict which documents are considered when computing facet values. Attributes must be in `filterableAttributes` before they can be used in filters. */
-  filter?: unknown;
-  matchingStrategy?: MatchingStrategy | (string & {});
+  filter?: unknown | undefined;
+  matchingStrategy?: MatchingStrategy | (string & {}) | undefined;
   /** Restrict search to specified attributes */
-  attributesToSearchOn?: SearchRequestAttributesToSearchOnList | null;
+  attributesToSearchOn?: SearchRequestAttributesToSearchOnList | null | undefined;
   /** Minimum ranking score threshold (0.0 to 1.0) that documents must achieve to be considered when computing facet counts. Documents with scores below this threshold are excluded from facet value counts. */
-  rankingScoreThreshold?: number | null;
+  rankingScoreThreshold?: number | null | undefined;
   /** Languages to use for query processing */
-  locales?: SearchRequestLocalesList | null;
+  locales?: SearchRequestLocalesList | null | undefined;
   /** Return exhaustive facet count instead of an estimate */
-  exhaustiveFacetCount?: boolean | null;
+  exhaustiveFacetCount?: boolean | null | undefined;
   /** When `true`, runs the query on the whole network (all shards covered exactly once). When `false`, the query runs locally. When omitted or `null`, the default value depends on whether the sharding is enabled for the instance: - If the instance has sharding enabled (has a leader), defaults to `true`. - Otherwise defaults to `false`. It also requires the `network` [experimental feature](http://localhost:3000/reference/api/experimental-features/configure-experimental-features). Values: `true` = use the whole network; `false` = local, default = see above. When using the network, the index must exist with compatible settings on all remotes. */
-  useNetwork?: boolean | null;
+  useNetwork?: boolean | null | undefined;
 }
 /** Schema representation of a facet value hit (for OpenAPI documentation only). */
 export interface FacetValueHitSchema {
@@ -3588,11 +3656,11 @@ export interface FacetSearchResult {
   /** Array of matching facet values with their document counts, sorted lexicographically in ascending order (or by count if `sortFacetValuesBy` is set to `"count"`). */
   facetHits: FacetSearchResultFacetHitsList;
   /** The original `facetQuery` from the request. `null` if no query was provided. */
-  facetQuery?: string | null;
+  facetQuery?: string | null | undefined;
   /** Time in milliseconds Meilisearch took to process the request. */
   processingTimeMs: number;
   /** Errors from remote shards. Only present in federated search when some remotes failed. */
-  remoteErrors?: FacetSearchResultRemoteErrorsMap | null;
+  remoteErrors?: FacetSearchResultRemoteErrorsMap | null | undefined;
 }
 export interface SearchDeletefacetRequest {
   /** Unique identifier of the index. */
@@ -3643,61 +3711,62 @@ export interface SearchWithPostRequest {
   /** Unique identifier of the index. */
   index_uid: string;
   /** Sets the search terms. Meilisearch returns documents that match this query. The query supports [prefix search](https://www.meilisearch.com/docs/learn/engine/prefix) and [typo tolerance](https://www.meilisearch.com/docs/learn/relevancy/typo_tolerance_settings). Meilisearch only considers the first ten words; terms are normalized (lowercase, accents ignored). Omit or leave empty for a placeholder search: no query terms are applied, so Meilisearch returns all searchable documents in the index, ordered by [ranking rules](https://www.meilisearch.com/docs/learn/relevancy/ranking_rules). Enclose terms in double quotes (`"`) for phrase search: only documents containing that exact sequence of words are returned (e.g. `"Winter Feast"`). Use a minus sign (`-`) before a word or phrase to exclude it from results. */
-  q?: string | null;
+  q?: string | null | undefined;
   /** Number of documents to skip at the start of the results. Use together with `limit` for [pagination](https://www.meilisearch.com/docs/guides/front_end/pagination) (e.g. offset=20 and limit=20 returns results 21-40). This parameter is ignored when `page` or `hitsPerPage` is set; in that case the response includes `totalHits` and `totalPages` instead of `estimatedTotalHits`. */
-  offset?: number;
+  offset?: number | undefined;
   /** Maximum number of documents to return in the response. Use with `offset` for [pagination](https://www.meilisearch.com/docs/guides/front_end/pagination). This parameter is ignored when `page` or `hitsPerPage` is set. The value cannot exceed the index [maxTotalHits](https://www.meilisearch.com/docs/reference/api/settings/update-pagination#body-max-total-hits-one-of-0) setting. */
-  limit?: number;
+  limit?: number | undefined;
   /** Request a specific results page (1-indexed). Use together with `hitsPerPage`. When this parameter is set, the response includes `totalHits` and `totalPages` instead of `estimatedTotalHits`. `page` and `hitsPerPage` take precedence over `offset` and `limit`. */
-  page?: number | null;
+  page?: number | null | undefined;
   /** Maximum number of documents per page for [pagination](https://www.meilisearch.com/docs/guides/front_end/pagination). This value determines `totalPages`; use it together with `page`. When set, the response includes `totalHits` and `totalPages`. Set to 0 to obtain the exhaustive `totalHits` count without returning any documents. */
-  hitsPerPage?: number | null;
+  hitsPerPage?: number | null | undefined;
   /** List of attributes to include in each returned document. Use `["*"]` to return all attributes; if not set, the index [displayed attributes](https://www.meilisearch.com/docs/learn/relevancy/displayed_searchable_attributes) list is used. Attributes that are not in [displayedAttributes](https://www.meilisearch.com/docs/reference/api/settings/update-all-settings#body-displayed-attributes-one-of-0) are omitted from the response. */
-  attributesToRetrieve?: SearchWithPostRequestAttributesToRetrieveList | null;
+  attributesToRetrieve?: SearchWithPostRequestAttributesToRetrieveList | null | undefined;
   /** Attributes whose values should be cropped to a short excerpt. The cropped text appears in each hit's `_formatted` object. Length is controlled by `cropLength`, or you can override it per attribute with the `attribute:length` syntax. Use `["*"]` to crop all attributes in `attributesToRetrieve`. When possible, the crop is centered around the matching terms. */
-  attributesToCrop?: SearchWithPostRequestAttributesToCropList | null;
+  attributesToCrop?: SearchWithPostRequestAttributesToCropList | null | undefined;
   /** Maximum number of words to include in cropped values. This parameter only applies when `attributesToCrop` is set. Both query terms and [stop words](https://www.meilisearch.com/docs/reference/api/settings/update-all-settings#body-stop-words-one-of-0) count toward this length. */
-  cropLength?: number;
+  cropLength?: number | undefined;
   /** String used to mark crop boundaries in cropped text. If null or empty, no markers are inserted. Markers are only added where content was actually removed. */
-  cropMarker?: string;
+  cropMarker?: string | undefined;
   /** Attributes in which matching query terms should be highlighted. The highlighted text appears in each hit's `_formatted` object. Use `["*"]` to highlight in all attributes from `attributesToRetrieve`. By default, matches are wrapped in `<em>` and `</em>`; you can override this with `highlightPreTag` and `highlightPostTag`. Highlighting also applies to [synonyms](https://www.meilisearch.com/docs/learn/relevancy/synonyms) and [stop words](https://www.meilisearch.com/docs/reference/api/settings/update-all-settings#body-stop-words-one-of-0). Supported value types are string, number, array, and object. Note: highlights matches within all listed attributes, even those not in `searchableAttributes`. */
-  attributesToHighlight?: SearchWithPostRequestAttributesToHighlightList | null;
+  attributesToHighlight?: SearchWithPostRequestAttributesToHighlightList | null | undefined;
   /** String to insert before each highlighted term. Can be any string (e.g. `<strong>`, `*`). If null or empty, nothing is inserted at the start of a match. */
-  highlightPreTag?: string;
+  highlightPreTag?: string | undefined;
   /** String to insert after each highlighted term. Should be used together with `highlightPreTag` to avoid malformed output (e.g. unclosed HTML tags). */
-  highlightPostTag?: string;
+  highlightPostTag?: string | undefined;
   /** When true, each hit includes a `_matchesPosition` object with the byte offset (`start` and `length`) of each matched term. This is useful when you need custom highlighting. Note: reports match positions in all attributes, even non-searchable ones. Positions are measured in bytes, not characters. */
-  showMatchesPosition?: boolean;
+  showMatchesPosition?: boolean | undefined;
   /** A [filter](https://www.meilisearch.com/docs/learn/filtering_and_sorting/filter_search_results) expression to narrow results. All attributes used in the expression must be in [filterableAttributes](https://www.meilisearch.com/docs/reference/api/settings/update-all-settings#body-filterable-attributes-one-of-0). You can pass a string (e.g. `"(genres = horror OR genres = mystery) AND director = 'Jordan Peele'"`) or an array (e.g. `[["genres = horror", "genres = mystery"], "director = 'Jordan Peele'"]`). For [geo search](https://www.meilisearch.com/docs/learn/filtering_and_sorting/geosearch), use `_geoRadius(lat, lng, distance_in_meters)`, `_geoBoundingBox([lat,lng],[lat,lng])`, or `_geoPolygon([lat,lng], ...)` (GeoJSON only for polygon). */
-  filter?: unknown;
+  filter?: unknown | undefined;
   /** Sort results by one or more attributes and their order. Use the format `["attribute:asc", "attribute:desc"]`; only attributes in [sortableAttributes](https://www.meilisearch.com/docs/reference/api/settings/update-all-settings#body-sortable-attributes-one-of-0) can be used. For [geo search](https://www.meilisearch.com/docs/learn/filtering_and_sorting/geosearch), use `_geoPoint(lat,lng):asc` or `:desc`; the response then includes `_geoDistance` in meters. The first attribute in the list has precedence. See [sorting search results](https://www.meilisearch.com/docs/learn/filtering_and_sorting/sort_search_results). */
-  sort?: SearchWithPostRequestSortList | null;
+  sort?: SearchWithPostRequestSortList | null | undefined;
   /** Return only one document per distinct value of the given attribute (e.g. deduplicate by product_id). The attribute must be in [filterableAttributes](https://www.meilisearch.com/docs/reference/api/settings/update-all-settings#body-filterable-attributes-one-of-0). This overrides the index [distinctAttribute](https://www.meilisearch.com/docs/reference/api/settings/update-all-settings#body-distinct-attribute-one-of-0) setting for this request. See [distinct attribute](https://www.meilisearch.com/docs/learn/relevancy/distinct_attribute). */
-  distinct?: string | null;
-  facets?: AttributePatterns | null;
-  matchingStrategy?: MatchingStrategy | (string & {});
+  distinct?: string | null | undefined;
+  facets?: AttributePatterns | null | undefined;
+  matchingStrategy?: MatchingStrategy | (string & {}) | undefined;
   /** Restrict the search to the listed attributes only. Each attribute must be in the index [searchable attributes](https://www.meilisearch.com/docs/learn/relevancy/displayed_searchable_attributes) list. The order of attributes in this parameter does not affect relevancy. */
-  attributesToSearchOn?: SearchWithPostRequestAttributesToSearchOnList | null;
-  /** Exclude from the results any document whose [ranking score](https://www.meilisearch.com/docs/learn/relevancy/ranking_score) is below this value (between 0.0 and 1.0). Excluded hits do not count toward `estimatedTotalHits`, `totalHits`, or facet distribution. When used together with `page` and `hitsPerPage`, this parameter may reduce performance because Meilisearch must score all matching documents. */
-  rankingScoreThreshold?: number | null;
+  attributesToSearchOn?: SearchWithPostRequestAttributesToSearchOnList | null | undefined;
+  /** Stop the search at the first document whose [ranking score](https://www.meilisearch.com/docs/learn/relevancy/ranking_score) is below this value (between 0.0 and 1.0). All the documents after this document are excluded from the hits. Excluded hits do not count toward `estimatedTotalHits`, `totalHits`, or facet distribution. When used together with `page` and `hitsPerPage`, this parameter may reduce performance because Meilisearch must score all matching documents. */
+  rankingScoreThreshold?: number | null | undefined;
   /** Explicitly specify the language(s) of the query. Pass an array of [supported ISO-639 locales](https://www.meilisearch.com/docs/reference/api/settings/update-all-settings#body-localized-attributes-one-of-0). This overrides auto-detection; use it when auto-detection is wrong for the query or the documents. See also the [localizedAttributes](https://www.meilisearch.com/docs/reference/api/settings/list-all-settings#response-localized-attributes-one-of-0) settings and [Language](https://www.meilisearch.com/docs/learn/resources/language). */
-  locales?: SearchWithPostRequestLocalesList | null;
-  hybrid?: HybridQuery | null;
+  locales?: SearchWithPostRequestLocalesList | null | undefined;
+  hybrid?: HybridQuery | null | undefined;
   /** Custom query vector for [vector or hybrid search](https://www.meilisearch.com/docs/learn/ai_powered_search/getting_started_with_ai_search). The array length must match the dimensions of the embedder configured in the index. This parameter is mandatory when using a [user-provided embedder](https://www.meilisearch.com/docs/learn/ai_powered_search/search_with_user_provided_embeddings). When used with `hybrid`, documents are ranked by vector similarity. You can also use it to override an embedder's automatic vector generation. */
-  vector?: SearchWithPostRequestVectorList | null;
+  vector?: SearchWithPostRequestVectorList | null | undefined;
   /** When true, the response includes document and query embeddings in each hit's `_vectors` field. The `_vectors` field must be listed in [displayedAttributes](https://www.meilisearch.com/docs/reference/api/settings/update-all-settings#body-displayed-attributes-one-of-0) for it to appear. */
-  retrieveVectors?: boolean;
+  retrieveVectors?: boolean | undefined;
   /** For [multimodal search](https://www.meilisearch.com/docs/learn/ai_powered_search/image_search_with_multimodal_embeddings): provide data (e.g. image, text) that populates a single search fragment configured in index settings. A search fragment is a named slot that defines which media or fields are sent to the embedder. An embedder is required; this parameter is incompatible with `vector`. POST only. */
-  media?: unknown;
-  personalize?: Personalize | null;
+  media?: unknown | undefined;
+  personalize?: Personalize | null | undefined;
   /** When `true`, runs the query on the whole network (all shards covered exactly once). When `false`, the query runs locally. When omitted or `null`, the default value depends on whether the sharding is enabled for the instance: - If the instance has sharding enabled (has a leader), defaults to `true`. - Otherwise defaults to `false`. It also requires the `network` [experimental feature](http://localhost:3000/reference/api/experimental-features/configure-experimental-features). Values: `true` = use the whole network; `false` = local, default = see above. When using the network, the index must exist with compatible settings on all remotes. */
-  useNetwork?: boolean | null;
+  useNetwork?: boolean | null | undefined;
   /** When true, each document includes a `_rankingScore` between 0.0 and 1.0; a higher value means the document is more relevant. See [ranking score](https://www.meilisearch.com/docs/learn/relevancy/ranking_score). The `sort` ranking rule does not affect the value of `_rankingScore`. */
-  showRankingScore?: boolean;
+  showRankingScore?: boolean | undefined;
   /** When true, each document includes `_rankingScoreDetails`, which breaks down the score contribution of each [ranking rule](https://www.meilisearch.com/docs/learn/relevancy/ranking_rules). Useful for debugging relevancy. */
-  showRankingScoreDetails?: boolean;
+  showRankingScoreDetails?: boolean | undefined;
   /** When true, the response includes a `performanceDetails` object with a timing breakdown of the query processing. */
-  showPerformanceDetails?: boolean;
+  showPerformanceDetails?: boolean | undefined;
+  inlineRule?: InlineDynamicSearchRule | null | undefined;
 }
 /** Matching documents. Each hit contains document fields and, when requested, `_formatted`, `_matchesPosition`, `_rankingScore`, `_rankingScoreDetails`, `_geoDistance`. */
 export type SearchWithPostResponseHitsList = Array<SearchHit>;
@@ -3711,40 +3780,40 @@ export type SearchWithPostResponseFacetStatsMap = { [key: string]: FacetStats | 
 export type SearchWithPostResponseRemoteErrorsMap = { [key: string]: ResponseError | undefined };
 export interface SearchWithPostResponse {
   /** Number of results per page. */
-  hitsPerPage?: number;
+  hitsPerPage?: number | undefined;
   /** Current page index (1-based). */
-  page?: number;
+  page?: number | undefined;
   /** Exhaustive total number of result pages. */
-  totalPages?: number;
+  totalPages?: number | undefined;
   /** Exhaustive total number of matching documents. */
-  totalHits?: number;
+  totalHits?: number | undefined;
   /** Maximum number of documents returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** Number of documents skipped. */
-  offset?: number;
+  offset?: number | undefined;
   /** Estimated total number of matches (not exhaustive). Prioritizes relevancy and performance. */
-  estimatedTotalHits?: number;
+  estimatedTotalHits?: number | undefined;
   /** Matching documents. Each hit contains document fields and, when requested, `_formatted`, `_matchesPosition`, `_rankingScore`, `_rankingScoreDetails`, `_geoDistance`. */
   hits: SearchWithPostResponseHitsList;
   /** Query string that produced this response. */
   query: string;
   /** Query embedding used for the search. Present when vector or hybrid search was used. */
-  queryVector?: SearchWithPostResponseQueryVectorList | null;
+  queryVector?: SearchWithPostResponseQueryVectorList | null | undefined;
   /** Time taken to process the query, in milliseconds. */
   processingTimeMs: number;
   /** Count of matching documents per facet value for each requested facet. Present when `facets` was set. */
-  facetDistribution?: SearchWithPostResponseFacetDistributionMap | null;
+  facetDistribution?: SearchWithPostResponseFacetDistributionMap | null | undefined;
   /** Minimum and maximum numeric values per facet. Present for numeric facets when `facets` was set. */
-  facetStats?: SearchWithPostResponseFacetStatsMap | null;
+  facetStats?: SearchWithPostResponseFacetStatsMap | null | undefined;
   /** UUID v7 identifying this search request. */
-  requestUid?: string | null;
-  metadata?: SearchMetadata | null;
+  requestUid?: string | null | undefined;
+  metadata?: SearchMetadata | null | undefined;
   /** Timing breakdown per processing step. Present when `showPerformanceDetails` was true. */
-  performanceDetails?: unknown;
+  performanceDetails?: unknown | undefined;
   /** Errors from remote shards. Federated search only. */
-  remoteErrors?: SearchWithPostResponseRemoteErrorsMap | null;
+  remoteErrors?: SearchWithPostResponseRemoteErrorsMap | null | undefined;
   /** Exhaustive number of semantic search matches. AI-powered (hybrid/semantic) searches only. */
-  semanticHitCount?: number | null;
+  semanticHitCount?: number | null | undefined;
 }
 export type SearchWithUrlQueryRequestAttributesToRetrieveList = Array<string>;
 export type SearchWithUrlQueryRequestAttributesToCropList = Array<string>;
@@ -3757,65 +3826,65 @@ export interface SearchWithUrlQueryRequest {
   /** Unique identifier of the index. */
   index_uid: string;
   /** Sets the search terms. Meilisearch returns documents that match this query. The query supports [prefix search](https://www.meilisearch.com/docs/learn/engine/prefix) and [typo tolerance](https://www.meilisearch.com/docs/learn/relevancy/typo_tolerance_settings). Meilisearch only considers the first ten words; terms are normalized (lowercase, accents ignored). Omit or leave empty for a placeholder search: no query terms are applied, so Meilisearch returns all searchable documents in the index, ordered by [ranking rules](https://www.meilisearch.com/docs/learn/relevancy/ranking_rules). Enclose terms in double quotes (`"`) for phrase search: only documents containing that exact sequence of words are returned (e.g. `"Winter Feast"`). Use a minus sign (`-`) before a word or phrase to exclude it from results. */
-  q?: string;
+  q?: string | undefined;
   /** Number of documents to skip at the start of the results. Use together with `limit` for [pagination](https://www.meilisearch.com/docs/guides/front_end/pagination) (e.g. offset=20 and limit=20 returns results 21-40). This parameter is ignored when `page` or `hitsPerPage` is set; in that case the response includes `totalHits` and `totalPages` instead of `estimatedTotalHits`. */
-  offset?: number;
+  offset?: number | undefined;
   /** Maximum number of documents to return in the response. Use with `offset` for [pagination](https://www.meilisearch.com/docs/guides/front_end/pagination). This parameter is ignored when `page` or `hitsPerPage` is set. The value cannot exceed the index [maxTotalHits](https://www.meilisearch.com/docs/reference/api/settings/update-pagination#body-max-total-hits-one-of-0) setting. */
-  limit?: number;
+  limit?: number | undefined;
   /** Request a specific results page (1-indexed). Use together with `hitsPerPage`. When this parameter is set, the response includes `totalHits` and `totalPages` instead of `estimatedTotalHits`. `page` and `hitsPerPage` take precedence over `offset` and `limit`. */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of documents per page for [pagination](https://www.meilisearch.com/docs/guides/front_end/pagination). This value determines `totalPages`; use it together with `page`. When set, the response includes `totalHits` and `totalPages`. Set to 0 to obtain the exhaustive `totalHits` count without returning any documents. */
-  hitsPerPage?: number;
+  hitsPerPage?: number | undefined;
   /** List of attributes to include in each returned document. Use `["*"]` to return all attributes; if not set, the index [displayed attributes](https://www.meilisearch.com/docs/learn/relevancy/displayed_searchable_attributes) list is used. Attributes that are not in [displayedAttributes](https://www.meilisearch.com/docs/reference/api/settings/update-all-settings#body-displayed-attributes-one-of-0) are omitted from the response. */
-  attributesToRetrieve?: SearchWithUrlQueryRequestAttributesToRetrieveList;
+  attributesToRetrieve?: SearchWithUrlQueryRequestAttributesToRetrieveList | undefined;
   /** Attributes whose values should be cropped to a short excerpt. The cropped text appears in each hit's `_formatted` object. Length is controlled by `cropLength`, or you can override it per attribute with the `attribute:length` syntax. Use `["*"]` to crop all attributes in `attributesToRetrieve`. When possible, the crop is centered around the matching terms. */
-  attributesToCrop?: SearchWithUrlQueryRequestAttributesToCropList;
+  attributesToCrop?: SearchWithUrlQueryRequestAttributesToCropList | undefined;
   /** Maximum number of words to include in cropped values. This parameter only applies when `attributesToCrop` is set. Both query terms and [stop words](https://www.meilisearch.com/docs/reference/api/settings/update-all-settings#body-stop-words-one-of-0) count toward this length. */
-  cropLength?: number;
+  cropLength?: number | undefined;
   /** String used to mark crop boundaries in cropped text. If null or empty, no markers are inserted. Markers are only added where content was actually removed. */
-  cropMarker?: string;
+  cropMarker?: string | undefined;
   /** Attributes in which matching query terms should be highlighted. The highlighted text appears in each hit's `_formatted` object. Use `["*"]` to highlight in all attributes from `attributesToRetrieve`. By default, matches are wrapped in `<em>` and `</em>`; you can override this with `highlightPreTag` and `highlightPostTag`. Highlighting also applies to [synonyms](https://www.meilisearch.com/docs/learn/relevancy/synonyms) and [stop words](https://www.meilisearch.com/docs/reference/api/settings/update-all-settings#body-stop-words-one-of-0). Supported value types are string, number, array, and object. Note: highlights matches within all listed attributes, even those not in `searchableAttributes`. */
-  attributesToHighlight?: SearchWithUrlQueryRequestAttributesToHighlightList;
+  attributesToHighlight?: SearchWithUrlQueryRequestAttributesToHighlightList | undefined;
   /** String to insert before each highlighted term. Can be any string (e.g. `<strong>`, `*`). If null or empty, nothing is inserted at the start of a match. */
-  highlightPreTag?: string;
+  highlightPreTag?: string | undefined;
   /** String to insert after each highlighted term. Should be used together with `highlightPreTag` to avoid malformed output (e.g. unclosed HTML tags). */
-  highlightPostTag?: string;
+  highlightPostTag?: string | undefined;
   /** When true, each hit includes a `_matchesPosition` object with the byte offset (`start` and `length`) of each matched term. This is useful when you need custom highlighting. Note: reports match positions in all attributes, even non-searchable ones. Positions are measured in bytes, not characters. */
-  showMatchesPosition?: boolean;
+  showMatchesPosition?: boolean | undefined;
   /** A [filter](https://www.meilisearch.com/docs/learn/filtering_and_sorting/filter_search_results) expression to narrow results. All attributes used in the expression must be in [filterableAttributes](https://www.meilisearch.com/docs/reference/api/settings/update-all-settings#body-filterable-attributes-one-of-0). Pass a string (e.g. `"(genres = horror OR genres = mystery) AND director = 'Jordan Peele'"`). For [geo search](https://www.meilisearch.com/docs/learn/filtering_and_sorting/geosearch), use `_geoRadius(lat, lng, distance_in_meters)`, `_geoBoundingBox([lat,lng],[lat,lng])`, or `_geoPolygon([lat,lng], ...)` (GeoJSON only for polygon). GET route accepts a string only; the value must be URL-encoded. */
-  filter?: string;
+  filter?: string | undefined;
   /** Sort results by one or more attributes and their order. Use the format `["attribute:asc", "attribute:desc"]`; only attributes in [sortableAttributes](https://www.meilisearch.com/docs/reference/api/settings/update-all-settings#body-sortable-attributes-one-of-0) can be used. For [geo search](https://www.meilisearch.com/docs/learn/filtering_and_sorting/geosearch), use `_geoPoint(lat,lng):asc` or `:desc`; the response then includes `_geoDistance` in meters. The first attribute in the list has precedence. See [sorting search results](https://www.meilisearch.com/docs/learn/filtering_and_sorting/sort_search_results). */
-  sort?: string;
+  sort?: string | undefined;
   /** Return only one document per distinct value of the given attribute (e.g. deduplicate by product_id). The attribute must be in [filterableAttributes](https://www.meilisearch.com/docs/reference/api/settings/update-all-settings#body-filterable-attributes-one-of-0). This overrides the index [distinctAttribute](https://www.meilisearch.com/docs/reference/api/settings/update-all-settings#body-distinct-attribute-one-of-0) setting for this request. See [distinct attribute](https://www.meilisearch.com/docs/learn/relevancy/distinct_attribute). */
-  distinct?: string;
+  distinct?: string | undefined;
   /** Return the count of matches per facet value for the listed attributes. The response includes `facetDistribution` and, for numeric facets, `facetStats` (min/max). This route also supports patterns, i.e., "title", "dogs.*", "*", which can match over the [filterableAttributes](https://www.meilisearch.com/docs/reference/api/settings/update-all-settings#body-filterable-attributes-one-of-0). The number of values returned per facet is limited by the index [maxValuesPerFacet](https://www.meilisearch.com/docs/reference/api/settings/update-faceting#body-max-values-per-facet-one-of-0) setting; attributes not in filterableAttributes are ignored. More info: [faceting](https://www.meilisearch.com/docs/learn/filtering_and_sorting/search_with_facet_filters). */
-  facets?: SearchWithUrlQueryRequestFacetsList;
+  facets?: SearchWithUrlQueryRequestFacetsList | undefined;
   /** How to match query terms when there are not enough results to satisfy `limit`. **`last`**: Returns documents containing all query terms first. If there are not enough such results, Meilisearch removes one query term at a time, starting from the end of the query (e.g. for "big fat cat", then "big fat", then "big"). **`all`**: Only returns documents that contain all query terms. Meilisearch does not relax the query even if fewer than `limit` documents match. **`frequency`**: Returns documents containing all query terms first. If there are not enough, removes one term at a time starting with the word that is most frequent in the dataset, giving more weight to rarer terms (e.g. in "white cotton shirt", prioritizes documents containing "white" if "shirt" is very common). Default: `last`. */
-  matchingStrategy?: MatchingStrategy | (string & {});
+  matchingStrategy?: MatchingStrategy | (string & {}) | undefined;
   /** Restrict the search to the listed attributes only. Each attribute must be in the index [searchable attributes](https://www.meilisearch.com/docs/learn/relevancy/displayed_searchable_attributes) list. The order of attributes in this parameter does not affect relevancy. */
-  attributesToSearchOn?: SearchWithUrlQueryRequestAttributesToSearchOnList;
-  /** Exclude from the results any document whose [ranking score](https://www.meilisearch.com/docs/learn/relevancy/ranking_score) is below this value (between 0.0 and 1.0). Excluded hits do not count toward `estimatedTotalHits`, `totalHits`, or facet distribution. When used together with `page` and `hitsPerPage`, this parameter may reduce performance because Meilisearch must score all matching documents. */
-  rankingScoreThreshold?: number;
+  attributesToSearchOn?: SearchWithUrlQueryRequestAttributesToSearchOnList | undefined;
+  /** Stop the search at the first document whose [ranking score](https://www.meilisearch.com/docs/learn/relevancy/ranking_score) is below this value (between 0.0 and 1.0). All the documents after this document are excluded from the hits. Excluded hits do not count toward `estimatedTotalHits`, `totalHits`, or facet distribution. When used together with `page` and `hitsPerPage`, this parameter may reduce performance because Meilisearch must score all matching documents. */
+  rankingScoreThreshold?: number | undefined;
   /** Explicitly specify the language(s) of the query. Pass an array of [supported ISO-639 locales](https://www.meilisearch.com/docs/reference/api/settings/update-all-settings#body-localized-attributes-one-of-0). This overrides auto-detection; use it when auto-detection is wrong for the query or the documents. See also the [localizedAttributes](https://www.meilisearch.com/docs/reference/api/settings/list-all-settings#response-localized-attributes-one-of-0) settings and [Language](https://www.meilisearch.com/docs/learn/resources/language). */
-  locales?: SearchWithUrlQueryRequestLocalesList;
+  locales?: SearchWithUrlQueryRequestLocalesList | undefined;
   /** Name of the embedder for [hybrid search](https://www.meilisearch.com/docs/learn/ai_powered_search/getting_started_with_ai_search), which combines keyword and semantic search. Must match an embedder configured in the index settings. Required when `vector` or `hybridSemanticRatio` is set. */
-  hybridEmbedder?: string;
+  hybridEmbedder?: string | undefined;
   /** Balance between keyword and semantic search: 0.0 means keyword-only results, 1.0 means semantic-only. When `q` is empty and this value is greater than 0, Meilisearch performs a pure semantic search. Requires `hybridEmbedder` when set. */
-  hybridSemanticRatio?: number;
+  hybridSemanticRatio?: number | undefined;
   /** Custom query vector for [vector or hybrid search](https://www.meilisearch.com/docs/learn/ai_powered_search/getting_started_with_ai_search). The array length must match the dimensions of the embedder configured in the index. This parameter is mandatory when using a [user-provided embedder](https://www.meilisearch.com/docs/learn/ai_powered_search/search_with_user_provided_embeddings). When used with `hybrid`, documents are ranked by vector similarity. You can also use it to override an embedder's automatic vector generation. */
-  vector?: SearchWithUrlQueryRequestVectorList;
+  vector?: SearchWithUrlQueryRequestVectorList | undefined;
   /** When true, the response includes document and query embeddings in each hit's `_vectors` field. The `_vectors` field must be listed in [displayedAttributes](https://www.meilisearch.com/docs/reference/api/settings/update-all-settings#body-displayed-attributes-one-of-0) for it to appear. */
-  retrieveVectors?: boolean;
+  retrieveVectors?: boolean | undefined;
   /** For [personalized search](https://www.meilisearch.com/docs/learn/personalization/making_personalized_search_queries): a string describing the user (e.g. preferences or behavior). Results are then tailored to that profile. Personalization must be [enabled](https://www.meilisearch.com/docs/reference/api/experimental-features/configure-experimental-features) (e.g. Cohere key for self-hosted instances). */
-  personalizeUserContext?: string;
+  personalizeUserContext?: string | undefined;
   /** When `true`, runs the query on the whole network (all shards covered, documents deduplicated across remotes). When `false` or omitted, the query runs locally. It also requires the `network` [experimental feature](http://localhost:3000/reference/api/experimental-features/configure-experimental-features). Values: `true` = use the whole network; `false` or omitted = local (default). When using the network, the index must exist with compatible settings on all remotes. Documents with the same id are assumed identical for deduplication. */
-  useNetwork?: boolean;
+  useNetwork?: boolean | undefined;
   /** When true, each document includes a `_rankingScore` between 0.0 and 1.0; a higher value means the document is more relevant. See [ranking score](https://www.meilisearch.com/docs/learn/relevancy/ranking_score). The `sort` ranking rule does not affect the value of `_rankingScore`. */
-  showRankingScore?: boolean;
+  showRankingScore?: boolean | undefined;
   /** When true, each document includes `_rankingScoreDetails`, which breaks down the score contribution of each [ranking rule](https://www.meilisearch.com/docs/learn/relevancy/ranking_rules). Useful for debugging relevancy. */
-  showRankingScoreDetails?: boolean;
+  showRankingScoreDetails?: boolean | undefined;
   /** When true, the response includes a `performanceDetails` object with a timing breakdown of the query processing. */
-  showPerformanceDetails?: boolean;
+  showPerformanceDetails?: boolean | undefined;
 }
 /** Matching documents. Each hit contains document fields and, when requested, `_formatted`, `_matchesPosition`, `_rankingScore`, `_rankingScoreDetails`, `_geoDistance`. */
 export type SearchWithUrlQueryResponseHitsList = Array<SearchHit>;
@@ -3831,40 +3900,40 @@ export type SearchWithUrlQueryResponseRemoteErrorsMap = {
 };
 export interface SearchWithUrlQueryResponse {
   /** Number of results per page. */
-  hitsPerPage?: number;
+  hitsPerPage?: number | undefined;
   /** Current page index (1-based). */
-  page?: number;
+  page?: number | undefined;
   /** Exhaustive total number of result pages. */
-  totalPages?: number;
+  totalPages?: number | undefined;
   /** Exhaustive total number of matching documents. */
-  totalHits?: number;
+  totalHits?: number | undefined;
   /** Maximum number of documents returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** Number of documents skipped. */
-  offset?: number;
+  offset?: number | undefined;
   /** Estimated total number of matches (not exhaustive). Prioritizes relevancy and performance. */
-  estimatedTotalHits?: number;
+  estimatedTotalHits?: number | undefined;
   /** Matching documents. Each hit contains document fields and, when requested, `_formatted`, `_matchesPosition`, `_rankingScore`, `_rankingScoreDetails`, `_geoDistance`. */
   hits: SearchWithUrlQueryResponseHitsList;
   /** Query string that produced this response. */
   query: string;
   /** Query embedding used for the search. Present when vector or hybrid search was used. */
-  queryVector?: SearchWithUrlQueryResponseQueryVectorList | null;
+  queryVector?: SearchWithUrlQueryResponseQueryVectorList | null | undefined;
   /** Time taken to process the query, in milliseconds. */
   processingTimeMs: number;
   /** Count of matching documents per facet value for each requested facet. Present when `facets` was set. */
-  facetDistribution?: SearchWithUrlQueryResponseFacetDistributionMap | null;
+  facetDistribution?: SearchWithUrlQueryResponseFacetDistributionMap | null | undefined;
   /** Minimum and maximum numeric values per facet. Present for numeric facets when `facets` was set. */
-  facetStats?: SearchWithUrlQueryResponseFacetStatsMap | null;
+  facetStats?: SearchWithUrlQueryResponseFacetStatsMap | null | undefined;
   /** UUID v7 identifying this search request. */
-  requestUid?: string | null;
-  metadata?: SearchMetadata | null;
+  requestUid?: string | null | undefined;
+  metadata?: SearchMetadata | null | undefined;
   /** Timing breakdown per processing step. Present when `showPerformanceDetails` was true. */
-  performanceDetails?: unknown;
+  performanceDetails?: unknown | undefined;
   /** Errors from remote shards. Federated search only. */
-  remoteErrors?: SearchWithUrlQueryResponseRemoteErrorsMap | null;
+  remoteErrors?: SearchWithUrlQueryResponseRemoteErrorsMap | null | undefined;
   /** Exhaustive number of semantic search matches. AI-powered (hybrid/semantic) searches only. */
-  semanticHitCount?: number | null;
+  semanticHitCount?: number | null | undefined;
 }
 /** Array of the two index names to be swapped */
 export type SwapIndexesPayloadIndexesList = Array<string>;
@@ -3873,7 +3942,7 @@ export interface SwapIndexesPayload {
   /** Array of the two index names to be swapped */
   indexes: SwapIndexesPayloadIndexesList;
   /** If true, rename the first index to the second instead of swapping */
-  rename?: boolean;
+  rename?: boolean | undefined;
 }
 export type SwapIndexesRequestBodyList = Array<SwapIndexesPayload>;
 export interface SwapIndexesRequest {
@@ -3913,66 +3982,66 @@ export interface UpdateAllRequest {
   /** Unique identifier of the index. */
   index_uid: string;
   /** Fields returned in search results. Affects only search endpoints, not get-document endpoints. See [displayed and searchable attributes](https://www.meilisearch.com/docs/learn/relevancy/displayed_searchable_attributes). */
-  displayedAttributes?: UpdateAllRequestDisplayedAttributesList | null;
+  displayedAttributes?: UpdateAllRequestDisplayedAttributesList | null | undefined;
   /** Fields searched for query words, in order of importance. Defines [attribute ranking order](https://www.meilisearch.com/docs/learn/relevancy/attribute_ranking_order). See [displayed and searchable attributes](https://www.meilisearch.com/docs/learn/relevancy/displayed_searchable_attributes). */
-  searchableAttributes?: UpdateAllRequestSearchableAttributesList | null;
+  searchableAttributes?: UpdateAllRequestSearchableAttributesList | null | undefined;
   /** Attributes that can be used as [filters](https://www.meilisearch.com/docs/learn/filtering_and_sorting/filter_search_results) and [facets](https://www.meilisearch.com/docs/learn/filtering_and_sorting/search_with_facet_filters). Strings or objects with `attributePatterns` and `features`. */
-  filterableAttributes?: UpdateAllRequestFilterableAttributesList | null;
+  filterableAttributes?: UpdateAllRequestFilterableAttributesList | null | undefined;
   /** Attributes that can be used to [sort search results](https://www.meilisearch.com/docs/learn/filtering_and_sorting/sort_search_results). */
-  sortableAttributes?: UpdateAllRequestSortableAttributesList | null;
+  sortableAttributes?: UpdateAllRequestSortableAttributesList | null | undefined;
   /** Foreign keys to use for cross-index filtering search. */
-  foreignKeys?: UpdateAllRequestForeignKeysList | null;
+  foreignKeys?: UpdateAllRequestForeignKeysList | null | undefined;
   /** [Ranking rules](https://www.meilisearch.com/docs/learn/relevancy/ranking_rules) in order of importance. Built-in rules and custom sort rules (`attribute:asc` or `attribute:desc`). */
-  rankingRules?: UpdateAllRequestRankingRulesList | null;
+  rankingRules?: UpdateAllRequestRankingRulesList | null | undefined;
   /** Words ignored when present in search queries. */
-  stopWords?: UpdateAllRequestStopWordsList | null;
+  stopWords?: UpdateAllRequestStopWordsList | null | undefined;
   /** Characters that are not treated as word separators. Removed from the default separator set. */
-  nonSeparatorTokens?: UpdateAllRequestNonSeparatorTokensList | null;
+  nonSeparatorTokens?: UpdateAllRequestNonSeparatorTokensList | null | undefined;
   /** Characters that delimit words. Added on top of the default separators. */
-  separatorTokens?: UpdateAllRequestSeparatorTokensList | null;
+  separatorTokens?: UpdateAllRequestSeparatorTokensList | null | undefined;
   /** Strings Meilisearch parses as a single term. Useful for names or domain terms. */
-  dictionary?: UpdateAllRequestDictionaryList | null;
+  dictionary?: UpdateAllRequestDictionaryList | null | undefined;
   /** Pairs of words or phrases treated as equivalent for search. Key maps to an array of [synonyms](https://www.meilisearch.com/docs/learn/relevancy/synonyms). */
-  synonyms?: UpdateAllRequestSynonymsMap | null;
+  synonyms?: UpdateAllRequestSynonymsMap | null | undefined;
   /** Field whose value must be unique in the returned documents. One document per distinct value. See [distinct attribute](https://www.meilisearch.com/docs/learn/relevancy/distinct_attribute). */
-  distinctAttribute?: string | null;
+  distinctAttribute?: string | null | undefined;
   /** Precision for the proximity ranking rule and phrase search: `byWord` (exact distance) or `byAttribute` (same attribute). */
-  proximityPrecision?: string | null;
-  typoTolerance?: TypoSettings | null;
-  faceting?: FacetingSettings | null;
-  pagination?: PaginationSettings | null;
+  proximityPrecision?: string | null | undefined;
+  typoTolerance?: TypoSettings | null | undefined;
+  faceting?: FacetingSettings | null | undefined;
+  pagination?: PaginationSettings | null | undefined;
   /** [Embedders](https://www.meilisearch.com/docs/learn/ai_powered_search/getting_started_with_ai_search) used for semantic and [hybrid search](https://www.meilisearch.com/docs/learn/ai_powered_search/getting_started_with_ai_search). Map of embedder name to config (`source`, `model`, `documentTemplate`, etc.). */
-  embedders?: UpdateAllRequestEmbeddersMap | null;
+  embedders?: UpdateAllRequestEmbeddersMap | null | undefined;
   /** Maximum duration of a search in milliseconds. If reached, the search stops and returns results computed so far. When null, 1500 ms is used. */
-  searchCutoffMs?: number | null;
+  searchCutoffMs?: number | null | undefined;
   /** Locales and attribute patterns for [language-specific tokenization](https://www.meilisearch.com/docs/learn/resources/language). Affects searchable, filterable, and sortable attributes. */
-  localizedAttributes?: UpdateAllRequestLocalizedAttributesList | null;
+  localizedAttributes?: UpdateAllRequestLocalizedAttributesList | null | undefined;
   /** When true, [facet search](https://www.meilisearch.com/docs/learn/filtering_and_sorting/search_with_facet_filters) is enabled. When false, the facet-search endpoint is disabled. */
-  facetSearch?: boolean | null;
-  prefixSearch?: PrefixSearchSettings | (string & {}) | null;
-  chat?: ChatSettings | null;
+  facetSearch?: boolean | null | undefined;
+  prefixSearch?: PrefixSearchSettings | (string & {}) | null | undefined;
+  chat?: ChatSettings | null | undefined;
 }
 export interface UpdateAllResponse {}
 export interface UpdateDocumentsRequest {
   /** Unique identifier of the index. */
   index_uid: string;
   /** The [primary key](https://www.meilisearch.com/docs/learn/getting_started/primary_key) field for uniquely identifying each document. This parameter is optional and can only be set the first time documents are added to an index. Subsequent attempts to specify it will be ignored if the primary key has already been set. */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
   /** Customize the CSV column delimiter when importing CSV documents. Must be a single ASCII character. Only valid when the content type is `text/csv`; using this parameter with `application/json` or `application/x-ndjson` will return an error. Default: `,`. */
-  csvDelimiter?: string;
+  csvDelimiter?: string | undefined;
   /** A string that can be used to identify and filter tasks. This metadata is stored with the task and returned in task responses. Useful for tracking tasks from external systems or associating tasks with specific operations in your application. */
-  customMetadata?: string;
+  customMetadata?: string | undefined;
   /** When set to `true`, only updates existing documents and skips creating new ones. Documents that don't already exist in the index will be ignored. This is useful for partial updates where you only want to modify existing records without adding new ones. */
-  skipCreation?: boolean;
+  skipCreation?: boolean | undefined;
 }
 export interface UpdateDocumentsResponse {}
 export interface UpdateIndexRequest {
   /** Unique identifier of the index. */
   index_uid: string;
   /** New [primary key](https://www.meilisearch.com/docs/learn/getting_started/primary_key) of the index */
-  primaryKey?: string | null;
+  primaryKey?: string | null | undefined;
   /** New uid for the index (for renaming) */
-  uid?: string | null;
+  uid?: string | null | undefined;
 }
 export interface UpdateIndexResponse {}
 /** Map of remote instance names to their configurations - Pass `null` as a value for a remote to remove it from the configuration. - Removing a remote will also remove it from all shards. - Remotes that don't appear in this list will be unmodified by the network call. */
@@ -3985,34 +4054,34 @@ export type UpdateNetworkRequestPreviousShardsMap = { [key: string]: Shard | und
 export type UpdateNetworkRequestPreviousRemotesMap = { [key: string]: Remote | undefined };
 export interface UpdateNetworkRequest {
   /** Map of remote instance names to their configurations - Pass `null` as a value for a remote to remove it from the configuration. - Removing a remote will also remove it from all shards. - Remotes that don't appear in this list will be unmodified by the network call. */
-  remotes?: UpdateNetworkRequestRemotesMap | null;
+  remotes?: UpdateNetworkRequestRemotesMap | null | undefined;
   /** Map of shard names to their configurations. - Pass `null` as a value for a shard to remove it from the configuration. - Shards that don't appear in this list will be unmodified by the network call. */
-  shards?: UpdateNetworkRequestShardsMap | null;
+  shards?: UpdateNetworkRequestShardsMap | null | undefined;
   /** Previous shard configurations This field should not be passed by end-users. It is used in internal communications between Meilisearch instances */
-  previousShards?: UpdateNetworkRequestPreviousShardsMap | null;
+  previousShards?: UpdateNetworkRequestPreviousShardsMap | null | undefined;
   /** Name of this instance in the network */
-  self?: string | null;
+  self?: string | null | undefined;
   /** Name of the leader instance in the network */
-  leader?: string | null;
+  leader?: string | null | undefined;
   /** Previous remote configurations This field should not be passed by end-users. It is used in internal communications between Meilisearch instances */
-  previousRemotes?: UpdateNetworkRequestPreviousRemotesMap | null;
+  previousRemotes?: UpdateNetworkRequestPreviousRemotesMap | null | undefined;
 }
 export interface UpdateOrCreateRuleRequest {
   /** Unique identifier of the search rule. */
   uid: string;
   /** Human-readable description of the dynamic search rule. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Precedence of the dynamic search rule. Lower numeric values take precedence over higher ones. If omitted, the rule is treated as having the lowest precedence. This precedence is used to resolve conflicts between matching rules: - If the same document is selected by multiple rules, the smallest `priority` number wins - If different documents are pinned to the same position, they are ordered by ascending `priority` */
-  precedence?: number | null;
+  precedence?: number | null | undefined;
   /** Whether the dynamic search rule is active. */
-  active?: boolean | null;
-  conditions?: Conditions | null;
-  actions?: RuleActions | null;
+  active?: boolean | null | undefined;
+  conditions?: Conditions | null | undefined;
+  actions?: RuleActions | null | undefined;
 }
 export interface UpdateOrCreateRuleResponse {}
 export interface UpdateStderrTargetRequest {
   /** Log targets to filter. Format: code_part=log_level (e.g., milli=trace,actix_web=off) */
-  target?: string;
+  target?: string | undefined;
 }
 export interface UpdateStderrTargetResponse {}
 /** HTTP headers to include in webhook requests. */
@@ -4021,17 +4090,17 @@ export interface UpdateWebhookRequest {
   /** Universally unique identifier of the webhook. */
   uuid: string;
   /** URL endpoint to call when tasks complete. */
-  url?: string | null;
+  url?: string | null | undefined;
   /** HTTP headers to include in webhook requests. */
-  headers?: UpdateWebhookRequestHeadersMap | null;
+  headers?: UpdateWebhookRequestHeadersMap | null | undefined;
 }
 /** HTTP headers to include in webhook requests. */
 export type UpdateWebhookResponseHeadersMap = { [key: string]: string | undefined };
 export interface UpdateWebhookResponse {
   /** URL endpoint to call when tasks complete. */
-  url?: string | null;
+  url?: string | null | undefined;
   /** HTTP headers to include in webhook requests. */
-  headers?: UpdateWebhookResponseHeadersMap | null;
+  headers?: UpdateWebhookResponseHeadersMap | null | undefined;
   /** Unique identifier of the webhook. */
   uuid: string;
   /** Whether the webhook can be edited. */
@@ -5653,7 +5722,7 @@ export const listWorkspaces: API.OperationMethod<
 }));
 
 export type McpError = MeilisearchOpError;
-/** Model context protocol (MCP) The `/mcp` route exposes [the MCP open protocol](https://modelcontextprotocol.io) that enables seamless integration between LLM applications and external data sources and tools. */
+/** Model context protocol (MCP) The `/mcp` route exposes an [MCP server](https://www.meilisearch.com/docs/getting_started/integrations/mcp) for LLM applications to search Meilisearch. */
 export const mcp: API.OperationMethod<McpRequest, McpResponse, McpError, MeilisearchOpContext> =
   /*@__PURE__*/ API.make(() => ({
     input: __S(5858, __c183, 2) as any as S.Schema<McpRequest>,
@@ -5700,7 +5769,7 @@ export const patchApiKey: API.OperationMethod<
 }));
 
 export type PatchchatError = NotFound | MeilisearchOpError;
-/** Update chat Updates the `chat` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update chat Updates the `chat` setting for the index. */
 export const patchchat: API.OperationMethod<
   PatchchatRequest,
   PatchchatResponse,
@@ -5717,7 +5786,7 @@ export const patchchat: API.OperationMethod<
 }));
 
 export type PatchembeddersError = NotFound | MeilisearchOpError;
-/** Update embedders Updates the `embedders` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update embedders Updates the `embedders` setting for the index. */
 export const patchembedders: API.OperationMethod<
   PatchembeddersRequest,
   PatchembeddersResponse,
@@ -5734,7 +5803,7 @@ export const patchembedders: API.OperationMethod<
 }));
 
 export type PatchfacetingError = NotFound | MeilisearchOpError;
-/** Update faceting Updates the `faceting` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update faceting Updates the `faceting` setting for the index. */
 export const patchfaceting: API.OperationMethod<
   PatchfacetingRequest,
   PatchfacetingResponse,
@@ -5768,7 +5837,7 @@ export const patchFeatures: API.OperationMethod<
 }));
 
 export type PatchpaginationError = NotFound | MeilisearchOpError;
-/** Update pagination Updates the `pagination` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update pagination Updates the `pagination` setting for the index. */
 export const patchpagination: API.OperationMethod<
   PatchpaginationRequest,
   PatchpaginationResponse,
@@ -5802,7 +5871,7 @@ export const patchSettings: API.OperationMethod<
 }));
 
 export type PatchtypoToleranceError = NotFound | MeilisearchOpError;
-/** Update typoTolerance Updates the `typoTolerance` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update typoTolerance Updates the `typoTolerance` setting for the index. */
 export const patchtypoTolerance: API.OperationMethod<
   PatchtypoToleranceRequest,
   PatchtypoToleranceResponse,
@@ -5887,7 +5956,7 @@ export const postSimilar: API.OperationMethod<
 }));
 
 export type PutdictionaryError = NotFound | MeilisearchOpError;
-/** Update dictionary Updates the `dictionary` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update dictionary Updates the `dictionary` setting for the index. */
 export const putdictionary: API.OperationMethod<
   PutdictionaryRequest,
   PutdictionaryResponse,
@@ -5904,7 +5973,7 @@ export const putdictionary: API.OperationMethod<
 }));
 
 export type PutdisplayedAttributesError = NotFound | MeilisearchOpError;
-/** Update displayedAttributes Updates the `displayedAttributes` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update displayedAttributes Updates the `displayedAttributes` setting for the index. */
 export const putdisplayedAttributes: API.OperationMethod<
   PutdisplayedAttributesRequest,
   PutdisplayedAttributesResponse,
@@ -5921,7 +5990,7 @@ export const putdisplayedAttributes: API.OperationMethod<
 }));
 
 export type PutdistinctAttributeError = NotFound | MeilisearchOpError;
-/** Update distinctAttribute Updates the `distinctAttribute` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update distinctAttribute Updates the `distinctAttribute` setting for the index. */
 export const putdistinctAttribute: API.OperationMethod<
   PutdistinctAttributeRequest,
   PutdistinctAttributeResponse,
@@ -5938,7 +6007,7 @@ export const putdistinctAttribute: API.OperationMethod<
 }));
 
 export type PutfilterableAttributesError = NotFound | MeilisearchOpError;
-/** Update filterableAttributes Updates the `filterableAttributes` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update filterableAttributes Updates the `filterableAttributes` setting for the index. */
 export const putfilterableAttributes: API.OperationMethod<
   PutfilterableAttributesRequest,
   PutfilterableAttributesResponse,
@@ -5955,7 +6024,7 @@ export const putfilterableAttributes: API.OperationMethod<
 }));
 
 export type PutforeignKeysError = NotFound | MeilisearchOpError;
-/** Update foreignKeys Updates the `foreignKeys` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update foreignKeys Updates the `foreignKeys` setting for the index. */
 export const putforeignKeys: API.OperationMethod<
   PutforeignKeysRequest,
   PutforeignKeysResponse,
@@ -5972,7 +6041,7 @@ export const putforeignKeys: API.OperationMethod<
 }));
 
 export type PutlocalizedAttributesError = NotFound | MeilisearchOpError;
-/** Update localizedAttributes Updates the `localizedAttributes` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update localizedAttributes Updates the `localizedAttributes` setting for the index. */
 export const putlocalizedAttributes: API.OperationMethod<
   PutlocalizedAttributesRequest,
   PutlocalizedAttributesResponse,
@@ -5989,7 +6058,7 @@ export const putlocalizedAttributes: API.OperationMethod<
 }));
 
 export type PutnonSeparatorTokensError = NotFound | MeilisearchOpError;
-/** Update nonSeparatorTokens Updates the `nonSeparatorTokens` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update nonSeparatorTokens Updates the `nonSeparatorTokens` setting for the index. */
 export const putnonSeparatorTokens: API.OperationMethod<
   PutnonSeparatorTokensRequest,
   PutnonSeparatorTokensResponse,
@@ -6006,7 +6075,7 @@ export const putnonSeparatorTokens: API.OperationMethod<
 }));
 
 export type PutproximityPrecisionError = NotFound | MeilisearchOpError;
-/** Update proximityPrecision Updates the `proximityPrecision` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update proximityPrecision Updates the `proximityPrecision` setting for the index. */
 export const putproximityPrecision: API.OperationMethod<
   PutproximityPrecisionRequest,
   PutproximityPrecisionResponse,
@@ -6023,7 +6092,7 @@ export const putproximityPrecision: API.OperationMethod<
 }));
 
 export type PutrankingRulesError = NotFound | MeilisearchOpError;
-/** Update rankingRules Updates the `rankingRules` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update rankingRules Updates the `rankingRules` setting for the index. */
 export const putrankingRules: API.OperationMethod<
   PutrankingRulesRequest,
   PutrankingRulesResponse,
@@ -6040,7 +6109,7 @@ export const putrankingRules: API.OperationMethod<
 }));
 
 export type PutsearchableAttributesError = NotFound | MeilisearchOpError;
-/** Update searchableAttributes Updates the `searchableAttributes` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update searchableAttributes Updates the `searchableAttributes` setting for the index. */
 export const putsearchableAttributes: API.OperationMethod<
   PutsearchableAttributesRequest,
   PutsearchableAttributesResponse,
@@ -6057,7 +6126,7 @@ export const putsearchableAttributes: API.OperationMethod<
 }));
 
 export type PutsearchCutoffMsError = NotFound | MeilisearchOpError;
-/** Update searchCutoffMs Updates the `searchCutoffMs` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update searchCutoffMs Updates the `searchCutoffMs` setting for the index. */
 export const putsearchCutoffMs: API.OperationMethod<
   PutsearchCutoffMsRequest,
   PutsearchCutoffMsResponse,
@@ -6074,7 +6143,7 @@ export const putsearchCutoffMs: API.OperationMethod<
 }));
 
 export type PutseparatorTokensError = NotFound | MeilisearchOpError;
-/** Update separatorTokens Updates the `separatorTokens` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update separatorTokens Updates the `separatorTokens` setting for the index. */
 export const putseparatorTokens: API.OperationMethod<
   PutseparatorTokensRequest,
   PutseparatorTokensResponse,
@@ -6091,7 +6160,7 @@ export const putseparatorTokens: API.OperationMethod<
 }));
 
 export type PutsortableAttributesError = NotFound | MeilisearchOpError;
-/** Update sortableAttributes Updates the `sortableAttributes` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update sortableAttributes Updates the `sortableAttributes` setting for the index. */
 export const putsortableAttributes: API.OperationMethod<
   PutsortableAttributesRequest,
   PutsortableAttributesResponse,
@@ -6108,7 +6177,7 @@ export const putsortableAttributes: API.OperationMethod<
 }));
 
 export type PutstopWordsError = NotFound | MeilisearchOpError;
-/** Update stopWords Updates the `stopWords` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update stopWords Updates the `stopWords` setting for the index. */
 export const putstopWords: API.OperationMethod<
   PutstopWordsRequest,
   PutstopWordsResponse,
@@ -6125,7 +6194,7 @@ export const putstopWords: API.OperationMethod<
 }));
 
 export type PutsynonymsError = NotFound | MeilisearchOpError;
-/** Update synonyms Updates the `synonyms` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update synonyms Updates the `synonyms` setting for the index. */
 export const putsynonyms: API.OperationMethod<
   PutsynonymsRequest,
   PutsynonymsResponse,
@@ -6261,7 +6330,7 @@ export const searchGetprefix: API.OperationMethod<
 }));
 
 export type SearchPutfacetError = NotFound | MeilisearchOpError;
-/** Update facetSearch Updates the `facetSearch` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update facetSearch Updates the `facetSearch` setting for the index. */
 export const searchPutfacet: API.OperationMethod<
   SearchPutfacetRequest,
   SearchPutfacetResponse,
@@ -6278,7 +6347,7 @@ export const searchPutfacet: API.OperationMethod<
 }));
 
 export type SearchPutprefixError = NotFound | MeilisearchOpError;
-/** Update prefixSearch Updates the `prefixSearch` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update prefixSearch Updates the `prefixSearch` setting for the index. */
 export const searchPutprefix: API.OperationMethod<
   SearchPutprefixRequest,
   SearchPutprefixResponse,
@@ -7214,6 +7283,7 @@ function __c39(j: number): any {
           showRankingScore: S.optional(S.Boolean),
           showRankingScoreDetails: S.optional(S.Boolean),
           showPerformanceDetails: S.optional(S.Boolean),
+          inlineRule: S.optional(S.NullOr(__S(5953, __c186, 1))),
         }).pipe(T.Http({ method: "POST", uri: "/indexes/{index_uid}/search", code: 200 })),
       ).annotate({ identifier: "SearchWithPostRequest" });
   }
@@ -7237,7 +7307,7 @@ function __c40(j: number): any {
           facetDistribution: S.optional(S.NullOr(__S(2784, __c87, 0))),
           facetStats: S.optional(S.NullOr(__S(5985, __c187, 1))),
           requestUid: S.optional(S.NullOr(S.String)),
-          metadata: S.optional(S.NullOr(__S(5986, __c187, 2))),
+          metadata: S.optional(S.NullOr(__S(5987, __c187, 3))),
           performanceDetails: S.optional(S.Unknown),
           remoteErrors: S.optional(S.NullOr(__S(5920, __c185, 0))),
           semanticHitCount: S.optional(S.NullOr(S.Number)),
@@ -9255,12 +9325,15 @@ function __c162(j: number): any {
       return S.Record(S.String, __S(5185, __c162, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          _formatted: S.optional(__S(2784, __c87, 0)),
-          _matchesPosition: S.optional(S.NullOr(__S(5186, __c162, 2))),
-          _rankingScore: S.optional(S.NullOr(S.Number)),
-          _rankingScoreDetails: S.optional(S.NullOr(__S(2784, __c87, 0))),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            _formatted: S.optional(__S(2784, __c87, 0)),
+            _matchesPosition: S.optional(S.NullOr(__S(5186, __c162, 2))),
+            _rankingScore: S.optional(S.NullOr(S.Number)),
+            _rankingScoreDetails: S.optional(S.NullOr(__S(2784, __c87, 0))),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "SearchHit" });
     case 4:
       return S.Array(__S(5187, __c162, 3));
@@ -9766,6 +9839,7 @@ function __c184(j: number): any {
           showRankingScoreDetails: S.optional(S.Boolean),
           showPerformanceDetails: S.optional(S.NullOr(S.Boolean)),
           federationOptions: S.optional(S.NullOr(__S(5888, __c184, 0))),
+          inlineRule: S.optional(S.NullOr(__S(5953, __c186, 1))),
         }),
       ).annotate({ identifier: "SearchQueryWithIndex" });
     case 2:
@@ -9811,7 +9885,7 @@ function __c184(j: number): any {
     case 9:
       return S.Record(S.String, __S(5896, __c184, 8));
     case 10:
-      return S.Array(__S(5986, __c187, 2));
+      return S.Array(__S(5987, __c187, 3));
     case 11:
       return S.suspend(() =>
         S.Struct({
@@ -9851,6 +9925,16 @@ function __c186(j: number): any {
           userContext: S.String,
         }),
       ).annotate({ identifier: "Personalize" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          uid: S.String,
+          precedence: S.optional(S.NullOr(S.Number)),
+          active: S.optional(S.Boolean),
+          conditions: S.optional(__S(4931, __c154, 3)),
+          actions: S.optional(__S(4936, __c154, 8)),
+        }),
+      ).annotate({ identifier: "InlineDynamicSearchRule" });
   }
 }
 function __c187(j: number): any {
@@ -9867,11 +9951,22 @@ function __c187(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          satisfiesActiveCondition: S.Boolean,
+          satisfiesTimeCondition: S.optional(S.String),
+          satisfiesQueryEmptyCondition: S.optional(S.String),
+          satisfiesQueryWordsCondition: S.optional(S.Unknown),
+          satisfiesFilterCondition: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "ConditionOutcomes" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           query: S.optional(S.NullOr(S.String)),
           queryUid: S.String,
           indexUid: S.String,
           primaryKey: S.optional(S.NullOr(S.String)),
           remote: S.optional(S.NullOr(S.String)),
+          inlineRuleConditionOutcomes: S.optional(S.NullOr(__S(5986, __c187, 2))),
         }),
       ).annotate({ identifier: "SearchMetadata" });
   }

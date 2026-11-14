@@ -16,6 +16,14 @@ export const DEFAULT_API_BASE_URL = "https://boat.dev/api/v1";
 export interface Config {
   readonly apiKey: Redacted.Redacted<string>;
   readonly apiBaseUrl: string;
+  /**
+   * Optional default organization (wallet): an org id (`team_...`), an org
+   * name, or `personal`. Sent on every request as the `X-Boat-Org` header
+   * when set; omitted, Boat uses the account's active wallet. A per-call
+   * `xBoatOrg` or `org` overrides it. `/environments` routes ignore the
+   * header and need `org` on the call.
+   */
+  readonly org?: string;
 }
 
 export class Credentials
@@ -23,22 +31,25 @@ export class Credentials
     "BoatCredentials",
   ) {}
 
-/** Layer from a redacted API key + optional base URL. */
+/** Layer from a redacted API key + optional base URL / default org. */
 export const fromApiKey = (config: {
   readonly apiKey: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
+  readonly org?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
       apiKey: config.apiKey,
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
+      org: config.org,
     }),
   );
 
 /**
- * Reads `BOAT_API_KEY` (required) and `BOAT_API_BASE_URL` (optional).
- * `BOAT_API_BASE` is accepted as the vendor-docs alias for the base URL.
+ * Reads `BOAT_API_KEY` (required), `BOAT_API_BASE_URL` (optional) and
+ * `BOAT_ORG` (optional default org). `BOAT_API_BASE` is accepted as the
+ * vendor-docs alias for the base URL.
  */
 export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
   Credentials,
@@ -55,6 +66,7 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.
       apiKey: Redacted.make(apiKey),
       apiBaseUrl:
         process.env.BOAT_API_BASE_URL ?? process.env.BOAT_API_BASE ?? DEFAULT_API_BASE_URL,
+      org: process.env.BOAT_ORG || undefined,
     };
   }),
 );

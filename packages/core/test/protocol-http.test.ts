@@ -67,6 +67,29 @@ describe("StringEncoded members", () => {
   });
 });
 
+describe("empty JSON bodies", () => {
+  const Empty = S.Struct({}).pipe(T.Http({ method: "POST", uri: "/rpc.Service/List" }));
+  const build = (emptyJsonBody?: boolean) =>
+    Effect.runSync(
+      buildRequest({
+        input: {},
+        inputAst: Empty.ast,
+        baseUrl: "https://example.test",
+        ...(emptyJsonBody === undefined ? {} : { emptyJsonBody }),
+      }),
+    );
+
+  test("a POST with no body members sends no body by default", () => {
+    expect(build().body._tag).toBe("Empty");
+  });
+
+  test("emptyJsonBody sends {} as JSON", () => {
+    const body = build(true).body as { readonly _tag: string; readonly body?: Uint8Array };
+    expect(body._tag).toBe("Uint8Array");
+    expect(new TextDecoder().decode(body.body)).toBe("{}");
+  });
+});
+
 describe("URI label encoding", () => {
   const input = (preserve?: string) =>
     S.Struct({
@@ -145,7 +168,7 @@ describe("dot-segment labels", () => {
     for (const id of [".", ".."]) {
       const error = Effect.runSync(Effect.flip(request(id)));
       expect(error).toBeInstanceOf(InvalidInput);
-      expect(error.member).toBe("id");
+      expect((error as InvalidInput).member).toBe("id");
     }
   });
 
@@ -337,5 +360,52 @@ describe("UnionCases decoding", () => {
       type: "account",
       accountName: "acct-a",
     });
+  });
+});
+
+describe("UnionCases member dictionaries", () => {
+  const dict = { className: "class_name", scriptName: "script_name" };
+  const content = { className: "kept", nested: { scriptName: "kept" } };
+  // Worker-binding shaped: `props` is the caller's own JSON (`{}` dictionary).
+  const bindings = S.Unknown.pipe(
+    T.UnionCases(
+      [
+        ["type", "name", "service", "props"],
+        ["type", "name", "className", "scriptName"],
+      ],
+      { key: "type", values: ["service", "durable_object_namespace"] },
+      [{ props: {} }, {}],
+    ),
+  );
+
+  test("encode keeps the member's keys and renames the rest", () => {
+    expect(
+      mapKeys(
+        bindings.ast,
+        { type: "service", name: "A", service: "s", props: content },
+        "encode",
+        dict,
+      ),
+    ).toEqual({ type: "service", name: "A", service: "s", props: content });
+    expect(
+      mapKeys(
+        bindings.ast,
+        { type: "durable_object_namespace", name: "B", className: "C", scriptName: "w" },
+        "encode",
+        dict,
+      ),
+    ).toEqual({ type: "durable_object_namespace", name: "B", class_name: "C", script_name: "w" });
+  });
+
+  test("decode keeps the member's keys", () => {
+    const wire = { class_name: "kept", nested: { script_name: "kept" } };
+    expect(
+      mapKeys(
+        bindings.ast,
+        { type: "service", name: "A", service: "s", props: wire, class_name: null },
+        "decode",
+        dict,
+      ),
+    ).toEqual({ type: "service", name: "A", service: "s", props: wire });
   });
 });

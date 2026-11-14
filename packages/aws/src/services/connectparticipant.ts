@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -115,7 +116,7 @@ export class InternalServerException
     "InternalServerException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
@@ -139,7 +140,7 @@ export class ThrottlingException
     "ThrottlingException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
@@ -169,54 +170,54 @@ export type ConnectionType =
   | (string & {});
 export type ConnectionTypeList = ConnectionType[];
 export interface CreateParticipantConnectionRequest {
-  Type?: ConnectionType[];
+  Type?: ConnectionType[] | undefined;
   ParticipantToken: string;
-  ConnectParticipant?: boolean;
+  ConnectParticipant?: boolean | undefined;
 }
 export type PreSignedConnectionUrl = string;
 export type ISO8601Datetime = string;
 export interface Websocket {
-  Url?: string;
-  ConnectionExpiry?: string;
+  Url?: string | undefined;
+  ConnectionExpiry?: string | undefined;
 }
 export interface ConnectionCredentials {
-  ConnectionToken?: string;
-  Expiry?: string;
+  ConnectionToken?: string | undefined;
+  Expiry?: string | undefined;
 }
 export type AttendeeId = string;
 export type JoinToken = string | redacted.Redacted<string>;
 export interface Attendee {
-  AttendeeId?: string;
-  JoinToken?: string | redacted.Redacted<string>;
+  AttendeeId?: string | undefined;
+  JoinToken?: string | redacted.Redacted<string> | undefined;
 }
 export type URI = string;
 export interface WebRTCMediaPlacement {
-  AudioHostUrl?: string;
-  AudioFallbackUrl?: string;
-  SignalingUrl?: string;
-  EventIngestionUrl?: string;
+  AudioHostUrl?: string | undefined;
+  AudioFallbackUrl?: string | undefined;
+  SignalingUrl?: string | undefined;
+  EventIngestionUrl?: string | undefined;
 }
 export type MeetingFeatureStatus = "AVAILABLE" | "UNAVAILABLE" | (string & {});
 export interface AudioFeatures {
-  EchoReduction?: MeetingFeatureStatus;
+  EchoReduction?: MeetingFeatureStatus | undefined;
 }
 export interface MeetingFeaturesConfiguration {
-  Audio?: AudioFeatures;
+  Audio?: AudioFeatures | undefined;
 }
 export type GuidString = string;
 export interface WebRTCMeeting {
-  MediaPlacement?: WebRTCMediaPlacement;
-  MeetingFeatures?: MeetingFeaturesConfiguration;
-  MeetingId?: string;
+  MediaPlacement?: WebRTCMediaPlacement | undefined;
+  MeetingFeatures?: MeetingFeaturesConfiguration | undefined;
+  MeetingId?: string | undefined;
 }
 export interface WebRTCConnection {
-  Attendee?: Attendee;
-  Meeting?: WebRTCMeeting;
+  Attendee?: Attendee | undefined;
+  Meeting?: WebRTCMeeting | undefined;
 }
 export interface CreateParticipantConnectionResponse {
-  Websocket?: Websocket;
-  ConnectionCredentials?: ConnectionCredentials;
-  WebRTCConnection?: WebRTCConnection;
+  Websocket?: Websocket | undefined;
+  ConnectionCredentials?: ConnectionCredentials | undefined;
+  WebRTCConnection?: WebRTCConnection | undefined;
 }
 export type ViewToken = string;
 export interface DescribeViewRequest {
@@ -232,37 +233,39 @@ export type ViewTemplate = string | redacted.Redacted<string>;
 export type ViewAction = string | redacted.Redacted<string>;
 export type ViewActions = (string | redacted.Redacted<string>)[];
 export interface ViewContent {
-  InputSchema?: string | redacted.Redacted<string>;
-  Template?: string | redacted.Redacted<string>;
-  Actions?: (string | redacted.Redacted<string>)[];
+  InputSchema?: string | redacted.Redacted<string> | undefined;
+  Template?: string | redacted.Redacted<string> | undefined;
+  Actions?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export interface View {
-  Id?: string;
-  Arn?: string;
-  Name?: string | redacted.Redacted<string>;
-  Version?: number;
-  Content?: ViewContent;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Version?: number | undefined;
+  Content?: ViewContent | undefined;
 }
 export interface DescribeViewResponse {
-  View?: View;
+  View?: View | undefined;
 }
 export type ClientToken = string;
 export interface DisconnectParticipantRequest {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   ConnectionToken: string;
 }
 export interface DisconnectParticipantResponse {}
 export type URLExpiryInSeconds = number;
+export type ContentDisposition = "INLINE" | "ATTACHMENT" | (string & {});
 export interface GetAttachmentRequest {
   AttachmentId: string;
   ConnectionToken: string;
-  UrlExpiryInSeconds?: number;
+  UrlExpiryInSeconds?: number | undefined;
+  UrlContentDisposition?: ContentDisposition | undefined;
 }
 export type PreSignedAttachmentUrl = string;
 export type AttachmentSizeInBytes = number;
 export interface GetAttachmentResponse {
-  Url?: string;
-  UrlExpiry?: string;
+  Url?: string | undefined;
+  UrlExpiry?: string | undefined;
   AttachmentSizeInBytes: number;
 }
 export type RedirectURI = string;
@@ -273,7 +276,7 @@ export interface GetAuthenticationUrlRequest {
 }
 export type AuthenticationUrl = string;
 export interface GetAuthenticationUrlResponse {
-  AuthenticationUrl?: string;
+  AuthenticationUrl?: string | undefined;
 }
 export type ContactId = string;
 export type MaxResults = number;
@@ -284,17 +287,17 @@ export type ChatItemId = string;
 export type Instant = string;
 export type MostRecent = number;
 export interface StartPosition {
-  Id?: string;
-  AbsoluteTime?: string;
-  MostRecent?: number;
+  Id?: string | undefined;
+  AbsoluteTime?: string | undefined;
+  MostRecent?: number | undefined;
 }
 export interface GetTranscriptRequest {
-  ContactId?: string;
-  MaxResults?: number;
-  NextToken?: string;
-  ScanDirection?: ScanDirection;
-  SortOrder?: SortKey;
-  StartPosition?: StartPosition;
+  ContactId?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  ScanDirection?: ScanDirection | undefined;
+  SortOrder?: SortKey | undefined;
+  StartPosition?: StartPosition | undefined;
   ConnectionToken: string;
 }
 export type ChatContent = string;
@@ -326,67 +329,67 @@ export type ContentType = string;
 export type AttachmentName = string;
 export type ArtifactStatus = "APPROVED" | "REJECTED" | "IN_PROGRESS" | (string & {});
 export interface AttachmentItem {
-  ContentType?: string;
-  AttachmentId?: string;
-  AttachmentName?: string;
-  Status?: ArtifactStatus;
+  ContentType?: string | undefined;
+  AttachmentId?: string | undefined;
+  AttachmentName?: string | undefined;
+  Status?: ArtifactStatus | undefined;
 }
 export type Attachments = AttachmentItem[];
 export interface Receipt {
-  DeliveredTimestamp?: string;
-  ReadTimestamp?: string;
-  RecipientParticipantId?: string;
+  DeliveredTimestamp?: string | undefined;
+  ReadTimestamp?: string | undefined;
+  RecipientParticipantId?: string | undefined;
 }
 export type Receipts = Receipt[];
 export type MessageProcessingStatus = "PROCESSING" | "FAILED" | "REJECTED" | (string & {});
 export interface MessageMetadata {
-  MessageId?: string;
-  Receipts?: Receipt[];
-  MessageProcessingStatus?: MessageProcessingStatus;
+  MessageId?: string | undefined;
+  Receipts?: Receipt[] | undefined;
+  MessageProcessingStatus?: MessageProcessingStatus | undefined;
 }
 export interface Item {
-  AbsoluteTime?: string;
-  Content?: string;
-  ContentType?: string;
-  Id?: string;
-  Type?: ChatItemType;
-  ParticipantId?: string;
-  DisplayName?: string;
-  ParticipantRole?: ParticipantRole;
-  Attachments?: AttachmentItem[];
-  MessageMetadata?: MessageMetadata;
-  RelatedContactId?: string;
-  ContactId?: string;
+  AbsoluteTime?: string | undefined;
+  Content?: string | undefined;
+  ContentType?: string | undefined;
+  Id?: string | undefined;
+  Type?: ChatItemType | undefined;
+  ParticipantId?: string | undefined;
+  DisplayName?: string | undefined;
+  ParticipantRole?: ParticipantRole | undefined;
+  Attachments?: AttachmentItem[] | undefined;
+  MessageMetadata?: MessageMetadata | undefined;
+  RelatedContactId?: string | undefined;
+  ContactId?: string | undefined;
 }
 export type Transcript = Item[];
 export interface GetTranscriptResponse {
-  InitialContactId?: string;
-  Transcript?: Item[];
-  NextToken?: string;
+  InitialContactId?: string | undefined;
+  Transcript?: Item[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface SendEventRequest {
   ContentType: string;
-  Content?: string;
-  ClientToken?: string;
+  Content?: string | undefined;
+  ClientToken?: string | undefined;
   ConnectionToken: string;
 }
 export interface SendEventResponse {
-  Id?: string;
-  AbsoluteTime?: string;
+  Id?: string | undefined;
+  AbsoluteTime?: string | undefined;
 }
 export interface SendMessageRequest {
   ContentType: string;
   Content: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   ConnectionToken: string;
 }
 export interface MessageProcessingMetadata {
-  MessageProcessingStatus?: MessageProcessingStatus;
+  MessageProcessingStatus?: MessageProcessingStatus | undefined;
 }
 export interface SendMessageResponse {
-  Id?: string;
-  AbsoluteTime?: string;
-  MessageMetadata?: MessageProcessingMetadata;
+  Id?: string | undefined;
+  AbsoluteTime?: string | undefined;
+  MessageMetadata?: MessageProcessingMetadata | undefined;
 }
 export interface StartAttachmentUploadRequest {
   ContentType: string;
@@ -395,18 +398,18 @@ export interface StartAttachmentUploadRequest {
   ClientToken: string;
   ConnectionToken: string;
 }
-export type UploadMetadataUrl = string;
-export type UploadMetadataSignedHeadersKey = string;
-export type UploadMetadataSignedHeadersValue = string;
-export type UploadMetadataSignedHeaders = { [key: string]: string | undefined };
+export type MetadataUrl = string;
+export type UrlMetadataSignedHeadersKey = string;
+export type UrlMetadataSignedHeadersValue = string;
+export type UrlMetadataSignedHeaders = { [key: string]: string | undefined };
 export interface UploadMetadata {
-  Url?: string;
-  UrlExpiry?: string;
-  HeadersToInclude?: { [key: string]: string | undefined };
+  Url?: string | undefined;
+  UrlExpiry?: string | undefined;
+  HeadersToInclude?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartAttachmentUploadResponse {
-  AttachmentId?: string;
-  UploadMetadata?: UploadMetadata;
+  AttachmentId?: string | undefined;
+  UploadMetadata?: UploadMetadata | undefined;
 }
 export type Message = string;
 export type Reason = string;
@@ -441,7 +444,7 @@ export type CancelParticipantAuthenticationError =
  * authentication.
  */
 export const cancelParticipantAuthentication: API.OperationMethod<
-  CancelParticipantAuthenticationRequest,
+  CancelParticipantAuthenticationRequest & RegionInput,
   CancelParticipantAuthenticationResponse,
   CancelParticipantAuthenticationError,
   Credentials | HttpClient.HttpClient
@@ -483,7 +486,7 @@ export type CompleteAttachmentUploadError =
  * authentication.
  */
 export const completeAttachmentUpload: API.OperationMethod<
-  CompleteAttachmentUploadRequest,
+  CompleteAttachmentUploadRequest & RegionInput,
   CompleteAttachmentUploadResponse,
   CompleteAttachmentUploadError,
   Credentials | HttpClient.HttpClient
@@ -578,7 +581,7 @@ export type CreateParticipantConnectionError =
  * authentication.
  */
 export const createParticipantConnection: API.OperationMethod<
-  CreateParticipantConnectionRequest,
+  CreateParticipantConnectionRequest & RegionInput,
   CreateParticipantConnectionResponse,
   CreateParticipantConnectionError,
   Credentials | HttpClient.HttpClient
@@ -611,7 +614,7 @@ export type DescribeViewError =
  * For security recommendations, see Connect Customer Chat security best practices.
  */
 export const describeView: API.OperationMethod<
-  DescribeViewRequest,
+  DescribeViewRequest & RegionInput,
   DescribeViewResponse,
   DescribeViewError,
   Credentials | HttpClient.HttpClient
@@ -650,7 +653,7 @@ export type DisconnectParticipantError =
  * authentication.
  */
 export const disconnectParticipant: API.OperationMethod<
-  DisconnectParticipantRequest,
+  DisconnectParticipantRequest & RegionInput,
   DisconnectParticipantResponse,
   DisconnectParticipantError,
   Credentials | HttpClient.HttpClient
@@ -694,7 +697,7 @@ export type GetAttachmentError =
  * authentication.
  */
 export const getAttachment: API.OperationMethod<
-  GetAttachmentRequest,
+  GetAttachmentRequest & RegionInput,
   GetAttachmentResponse,
   GetAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -739,7 +742,7 @@ export type GetAuthenticationUrlError =
  * authentication.
  */
 export const getAuthenticationUrl: API.OperationMethod<
-  GetAuthenticationUrlRequest,
+  GetAuthenticationUrlRequest & RegionInput,
   GetAuthenticationUrlResponse,
   GetAuthenticationUrlError,
   Credentials | HttpClient.HttpClient
@@ -795,7 +798,7 @@ export type GetTranscriptError =
  * authentication.
  */
 export const getTranscript: API.PaginatedOperationMethod<
-  GetTranscriptRequest,
+  GetTranscriptRequest & RegionInput,
   GetTranscriptResponse,
   GetTranscriptError,
   Credentials | HttpClient.HttpClient,
@@ -847,7 +850,7 @@ export type SendEventError =
  * authentication.
  */
 export const sendEvent: API.OperationMethod<
-  SendEventRequest,
+  SendEventRequest & RegionInput,
   SendEventResponse,
   SendEventError,
   Credentials | HttpClient.HttpClient
@@ -886,7 +889,7 @@ export type SendMessageError =
  * authentication.
  */
 export const sendMessage: API.OperationMethod<
-  SendMessageRequest,
+  SendMessageRequest & RegionInput,
   SendMessageResponse,
   SendMessageError,
   Credentials | HttpClient.HttpClient
@@ -926,7 +929,7 @@ export type StartAttachmentUploadError =
  * authentication.
  */
 export const startAttachmentUpload: API.OperationMethod<
-  StartAttachmentUploadRequest,
+  StartAttachmentUploadRequest & RegionInput,
   StartAttachmentUploadResponse,
   StartAttachmentUploadError,
   Credentials | HttpClient.HttpClient
@@ -1020,6 +1023,7 @@ function __c2(j: number): any {
           AttachmentId: S.String,
           ConnectionToken: S.String.pipe(T.HttpHeader("X-Amz-Bearer")),
           UrlExpiryInSeconds: S.optional(S.Number),
+          UrlContentDisposition: S.optional(S.String),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/participant/attachment" }),

@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -156,7 +157,7 @@ export class InternalServerException
     "InternalServerException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
@@ -179,7 +180,7 @@ export class TooManyRequestsException
     "TooManyRequestsException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
@@ -210,53 +211,53 @@ export type DatasourcePackage =
   | (string & {});
 export type DatasourcePackageIngestState = "STARTED" | "STOPPED" | "DISABLED" | (string & {});
 export interface TimestampForCollection {
-  Timestamp?: Date;
+  Timestamp?: Date | undefined;
 }
 export type LastIngestStateChangeDates = {
-  [key in DatasourcePackageIngestState]?: TimestampForCollection;
+  [key in DatasourcePackageIngestState]?: TimestampForCollection | undefined;
 };
 export type DatasourcePackageIngestHistory = {
-  [key in DatasourcePackage]?: { [key: string]: TimestampForCollection | undefined };
+  [key in DatasourcePackage]?: { [key: string]: TimestampForCollection | undefined } | undefined;
 };
 export interface MembershipDatasources {
-  AccountId?: string;
-  GraphArn?: string;
-  DatasourcePackageIngestHistory?: {
-    [key: string]: { [key: string]: TimestampForCollection | undefined } | undefined;
-  };
+  AccountId?: string | undefined;
+  GraphArn?: string | undefined;
+  DatasourcePackageIngestHistory?:
+    | { [key: string]: { [key: string]: TimestampForCollection | undefined } | undefined }
+    | undefined;
 }
 export type MembershipDatasourcesList = MembershipDatasources[];
 export type UnprocessedReason = string;
 export interface UnprocessedAccount {
-  AccountId?: string;
-  Reason?: string;
+  AccountId?: string | undefined;
+  Reason?: string | undefined;
 }
 export type UnprocessedAccountList = UnprocessedAccount[];
 export interface BatchGetGraphMemberDatasourcesResponse {
-  MemberDatasources?: MembershipDatasources[];
-  UnprocessedAccounts?: UnprocessedAccount[];
+  MemberDatasources?: MembershipDatasources[] | undefined;
+  UnprocessedAccounts?: UnprocessedAccount[] | undefined;
 }
 export type GraphArnList = string[];
 export interface BatchGetMembershipDatasourcesRequest {
   GraphArns: string[];
 }
 export interface UnprocessedGraph {
-  GraphArn?: string;
-  Reason?: string;
+  GraphArn?: string | undefined;
+  Reason?: string | undefined;
 }
 export type UnprocessedGraphList = UnprocessedGraph[];
 export interface BatchGetMembershipDatasourcesResponse {
-  MembershipDatasources?: MembershipDatasources[];
-  UnprocessedGraphs?: UnprocessedGraph[];
+  MembershipDatasources?: MembershipDatasources[] | undefined;
+  UnprocessedGraphs?: UnprocessedGraph[] | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
 export interface CreateGraphRequest {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateGraphResponse {
-  GraphArn?: string;
+  GraphArn?: string | undefined;
 }
 export type EmailMessage = string | redacted.Redacted<string>;
 export type EmailAddress = string | redacted.Redacted<string>;
@@ -267,8 +268,8 @@ export interface Account {
 export type AccountList = Account[];
 export interface CreateMembersRequest {
   GraphArn: string;
-  Message?: string | redacted.Redacted<string>;
-  DisableEmailNotification?: boolean;
+  Message?: string | redacted.Redacted<string> | undefined;
+  DisableEmailNotification?: boolean | undefined;
   Accounts: Account[];
 }
 export type MemberStatus =
@@ -283,37 +284,41 @@ export type ByteValue = number;
 export type Percentage = number;
 export type InvitationType = "INVITATION" | "ORGANIZATION" | (string & {});
 export interface DatasourcePackageUsageInfo {
-  VolumeUsageInBytes?: number;
-  VolumeUsageUpdateTime?: Date;
+  VolumeUsageInBytes?: number | undefined;
+  VolumeUsageUpdateTime?: Date | undefined;
 }
 export type VolumeUsageByDatasourcePackage = {
-  [key in DatasourcePackage]?: DatasourcePackageUsageInfo;
+  [key in DatasourcePackage]?: DatasourcePackageUsageInfo | undefined;
 };
 export type DatasourcePackageIngestStates = {
-  [key in DatasourcePackage]?: DatasourcePackageIngestState;
+  [key in DatasourcePackage]?: DatasourcePackageIngestState | undefined;
 };
 export interface MemberDetail {
-  AccountId?: string;
-  EmailAddress?: string | redacted.Redacted<string>;
-  GraphArn?: string;
-  MasterId?: string;
-  AdministratorId?: string;
-  Status?: MemberStatus;
-  DisabledReason?: MemberDisabledReason;
-  InvitedTime?: Date;
-  UpdatedTime?: Date;
-  VolumeUsageInBytes?: number;
-  VolumeUsageUpdatedTime?: Date;
-  PercentOfGraphUtilization?: number;
-  PercentOfGraphUtilizationUpdatedTime?: Date;
-  InvitationType?: InvitationType;
-  VolumeUsageByDatasourcePackage?: { [key: string]: DatasourcePackageUsageInfo | undefined };
-  DatasourcePackageIngestStates?: { [key: string]: DatasourcePackageIngestState | undefined };
+  AccountId?: string | undefined;
+  EmailAddress?: string | redacted.Redacted<string> | undefined;
+  GraphArn?: string | undefined;
+  MasterId?: string | undefined;
+  AdministratorId?: string | undefined;
+  Status?: MemberStatus | undefined;
+  DisabledReason?: MemberDisabledReason | undefined;
+  InvitedTime?: Date | undefined;
+  UpdatedTime?: Date | undefined;
+  VolumeUsageInBytes?: number | undefined;
+  VolumeUsageUpdatedTime?: Date | undefined;
+  PercentOfGraphUtilization?: number | undefined;
+  PercentOfGraphUtilizationUpdatedTime?: Date | undefined;
+  InvitationType?: InvitationType | undefined;
+  VolumeUsageByDatasourcePackage?:
+    | { [key: string]: DatasourcePackageUsageInfo | undefined }
+    | undefined;
+  DatasourcePackageIngestStates?:
+    | { [key: string]: DatasourcePackageIngestState | undefined }
+    | undefined;
 }
 export type MemberDetailList = MemberDetail[];
 export interface CreateMembersResponse {
-  Members?: MemberDetail[];
-  UnprocessedAccounts?: UnprocessedAccount[];
+  Members?: MemberDetail[] | undefined;
+  UnprocessedAccounts?: UnprocessedAccount[] | undefined;
 }
 export interface DeleteGraphRequest {
   GraphArn: string;
@@ -325,14 +330,14 @@ export interface DeleteMembersRequest {
   AccountIds: string[];
 }
 export interface DeleteMembersResponse {
-  AccountIds?: string[];
-  UnprocessedAccounts?: UnprocessedAccount[];
+  AccountIds?: string[] | undefined;
+  UnprocessedAccounts?: UnprocessedAccount[] | undefined;
 }
 export interface DescribeOrganizationConfigurationRequest {
   GraphArn: string;
 }
 export interface DescribeOrganizationConfigurationResponse {
-  AutoEnable?: boolean;
+  AutoEnable?: boolean | undefined;
 }
 export interface DisableOrganizationAdminAccountRequest {}
 export interface DisableOrganizationAdminAccountResponse {}
@@ -355,55 +360,55 @@ export type Status = "RUNNING" | "FAILED" | "SUCCESSFUL" | (string & {});
 export type Severity = "INFORMATIONAL" | "LOW" | "MEDIUM" | "HIGH" | "CRITICAL" | (string & {});
 export type State = "ACTIVE" | "ARCHIVED" | (string & {});
 export interface GetInvestigationResponse {
-  GraphArn?: string;
-  InvestigationId?: string;
-  EntityArn?: string;
-  EntityType?: EntityType;
-  CreatedTime?: Date;
-  ScopeStartTime?: Date;
-  ScopeEndTime?: Date;
-  Status?: Status;
-  Severity?: Severity;
-  State?: State;
+  GraphArn?: string | undefined;
+  InvestigationId?: string | undefined;
+  EntityArn?: string | undefined;
+  EntityType?: EntityType | undefined;
+  CreatedTime?: Date | undefined;
+  ScopeStartTime?: Date | undefined;
+  ScopeEndTime?: Date | undefined;
+  Status?: Status | undefined;
+  Severity?: Severity | undefined;
+  State?: State | undefined;
 }
 export interface GetMembersRequest {
   GraphArn: string;
   AccountIds: string[];
 }
 export interface GetMembersResponse {
-  MemberDetails?: MemberDetail[];
-  UnprocessedAccounts?: UnprocessedAccount[];
+  MemberDetails?: MemberDetail[] | undefined;
+  UnprocessedAccounts?: UnprocessedAccount[] | undefined;
 }
 export type PaginationToken = string;
 export type MemberResultsLimit = number;
 export interface ListDatasourcePackagesRequest {
   GraphArn: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface DatasourcePackageIngestDetail {
-  DatasourcePackageIngestState?: DatasourcePackageIngestState;
-  LastIngestStateChange?: { [key: string]: TimestampForCollection | undefined };
+  DatasourcePackageIngestState?: DatasourcePackageIngestState | undefined;
+  LastIngestStateChange?: { [key: string]: TimestampForCollection | undefined } | undefined;
 }
 export type DatasourcePackageIngestDetails = {
-  [key in DatasourcePackage]?: DatasourcePackageIngestDetail;
+  [key in DatasourcePackage]?: DatasourcePackageIngestDetail | undefined;
 };
 export interface ListDatasourcePackagesResponse {
-  DatasourcePackages?: { [key: string]: DatasourcePackageIngestDetail | undefined };
-  NextToken?: string;
+  DatasourcePackages?: { [key: string]: DatasourcePackageIngestDetail | undefined } | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListGraphsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface Graph {
-  Arn?: string;
-  CreatedTime?: Date;
+  Arn?: string | undefined;
+  CreatedTime?: Date | undefined;
 }
 export type GraphList = Graph[];
 export interface ListGraphsResponse {
-  GraphList?: Graph[];
-  NextToken?: string;
+  GraphList?: Graph[] | undefined;
+  NextToken?: string | undefined;
 }
 export type IndicatorType =
   | "TTP_OBSERVED"
@@ -420,9 +425,9 @@ export type MaxResults = number;
 export interface ListIndicatorsRequest {
   GraphArn: string;
   InvestigationId: string;
-  IndicatorType?: IndicatorType;
-  NextToken?: string;
-  MaxResults?: number;
+  IndicatorType?: IndicatorType | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type Tactic = string;
 export type Technique = string;
@@ -432,74 +437,74 @@ export type APIName = string;
 export type APISuccessCount = number;
 export type APIFailureCount = number;
 export interface TTPsObservedDetail {
-  Tactic?: string;
-  Technique?: string;
-  Procedure?: string;
-  IpAddress?: string;
-  APIName?: string;
-  APISuccessCount?: number;
-  APIFailureCount?: number;
+  Tactic?: string | undefined;
+  Technique?: string | undefined;
+  Procedure?: string | undefined;
+  IpAddress?: string | undefined;
+  APIName?: string | undefined;
+  APISuccessCount?: number | undefined;
+  APIFailureCount?: number | undefined;
 }
 export type Location = string;
 export type HourlyTimeDelta = number;
 export interface ImpossibleTravelDetail {
-  StartingIpAddress?: string;
-  EndingIpAddress?: string;
-  StartingLocation?: string;
-  EndingLocation?: string;
-  HourlyTimeDelta?: number;
+  StartingIpAddress?: string | undefined;
+  EndingIpAddress?: string | undefined;
+  StartingLocation?: string | undefined;
+  EndingLocation?: string | undefined;
+  HourlyTimeDelta?: number | undefined;
 }
 export type Reason = "AWS_THREAT_INTELLIGENCE" | (string & {});
 export interface FlaggedIpAddressDetail {
-  IpAddress?: string;
-  Reason?: Reason;
+  IpAddress?: string | undefined;
+  Reason?: Reason | undefined;
 }
 export type IsNewForEntireAccount = boolean;
 export interface NewGeolocationDetail {
-  Location?: string;
-  IpAddress?: string;
-  IsNewForEntireAccount?: boolean;
+  Location?: string | undefined;
+  IpAddress?: string | undefined;
+  IsNewForEntireAccount?: boolean | undefined;
 }
 export type Aso = string;
 export interface NewAsoDetail {
-  Aso?: string;
-  IsNewForEntireAccount?: boolean;
+  Aso?: string | undefined;
+  IsNewForEntireAccount?: boolean | undefined;
 }
 export type UserAgent = string;
 export interface NewUserAgentDetail {
-  UserAgent?: string;
-  IsNewForEntireAccount?: boolean;
+  UserAgent?: string | undefined;
+  IsNewForEntireAccount?: boolean | undefined;
 }
 export type Type = string;
 export interface RelatedFindingDetail {
-  Arn?: string;
-  Type?: string;
-  IpAddress?: string;
+  Arn?: string | undefined;
+  Type?: string | undefined;
+  IpAddress?: string | undefined;
 }
 export type Id = string;
 export interface RelatedFindingGroupDetail {
-  Id?: string;
+  Id?: string | undefined;
 }
 export interface IndicatorDetail {
-  TTPsObservedDetail?: TTPsObservedDetail;
-  ImpossibleTravelDetail?: ImpossibleTravelDetail;
-  FlaggedIpAddressDetail?: FlaggedIpAddressDetail;
-  NewGeolocationDetail?: NewGeolocationDetail;
-  NewAsoDetail?: NewAsoDetail;
-  NewUserAgentDetail?: NewUserAgentDetail;
-  RelatedFindingDetail?: RelatedFindingDetail;
-  RelatedFindingGroupDetail?: RelatedFindingGroupDetail;
+  TTPsObservedDetail?: TTPsObservedDetail | undefined;
+  ImpossibleTravelDetail?: ImpossibleTravelDetail | undefined;
+  FlaggedIpAddressDetail?: FlaggedIpAddressDetail | undefined;
+  NewGeolocationDetail?: NewGeolocationDetail | undefined;
+  NewAsoDetail?: NewAsoDetail | undefined;
+  NewUserAgentDetail?: NewUserAgentDetail | undefined;
+  RelatedFindingDetail?: RelatedFindingDetail | undefined;
+  RelatedFindingGroupDetail?: RelatedFindingGroupDetail | undefined;
 }
 export interface Indicator {
-  IndicatorType?: IndicatorType;
-  IndicatorDetail?: IndicatorDetail;
+  IndicatorType?: IndicatorType | undefined;
+  IndicatorDetail?: IndicatorDetail | undefined;
 }
 export type Indicators = Indicator[];
 export interface ListIndicatorsResponse {
-  GraphArn?: string;
-  InvestigationId?: string;
-  NextToken?: string;
-  Indicators?: Indicator[];
+  GraphArn?: string | undefined;
+  InvestigationId?: string | undefined;
+  NextToken?: string | undefined;
+  Indicators?: Indicator[] | undefined;
 }
 export type Value = string;
 export interface StringFilter {
@@ -510,75 +515,75 @@ export interface DateFilter {
   EndInclusive: Date;
 }
 export interface FilterCriteria {
-  Severity?: StringFilter;
-  Status?: StringFilter;
-  State?: StringFilter;
-  EntityArn?: StringFilter;
-  CreatedTime?: DateFilter;
+  Severity?: StringFilter | undefined;
+  Status?: StringFilter | undefined;
+  State?: StringFilter | undefined;
+  EntityArn?: StringFilter | undefined;
+  CreatedTime?: DateFilter | undefined;
 }
 export type Field = "SEVERITY" | "STATUS" | "CREATED_TIME" | (string & {});
 export type SortOrder = "ASC" | "DESC" | (string & {});
 export interface SortCriteria {
-  Field?: Field;
-  SortOrder?: SortOrder;
+  Field?: Field | undefined;
+  SortOrder?: SortOrder | undefined;
 }
 export interface ListInvestigationsRequest {
   GraphArn: string;
-  NextToken?: string;
-  MaxResults?: number;
-  FilterCriteria?: FilterCriteria;
-  SortCriteria?: SortCriteria;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  FilterCriteria?: FilterCriteria | undefined;
+  SortCriteria?: SortCriteria | undefined;
 }
 export interface InvestigationDetail {
-  InvestigationId?: string;
-  Severity?: Severity;
-  Status?: Status;
-  State?: State;
-  CreatedTime?: Date;
-  EntityArn?: string;
-  EntityType?: EntityType;
+  InvestigationId?: string | undefined;
+  Severity?: Severity | undefined;
+  Status?: Status | undefined;
+  State?: State | undefined;
+  CreatedTime?: Date | undefined;
+  EntityArn?: string | undefined;
+  EntityType?: EntityType | undefined;
 }
 export type InvestigationDetails = InvestigationDetail[];
 export interface ListInvestigationsResponse {
-  InvestigationDetails?: InvestigationDetail[];
-  NextToken?: string;
+  InvestigationDetails?: InvestigationDetail[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListInvitationsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListInvitationsResponse {
-  Invitations?: MemberDetail[];
-  NextToken?: string;
+  Invitations?: MemberDetail[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListMembersRequest {
   GraphArn: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListMembersResponse {
-  MemberDetails?: MemberDetail[];
-  NextToken?: string;
+  MemberDetails?: MemberDetail[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListOrganizationAdminAccountsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface Administrator {
-  AccountId?: string;
-  GraphArn?: string;
-  DelegationTime?: Date;
+  AccountId?: string | undefined;
+  GraphArn?: string | undefined;
+  DelegationTime?: Date | undefined;
 }
 export type AdministratorList = Administrator[];
 export interface ListOrganizationAdminAccountsResponse {
-  Administrators?: Administrator[];
-  NextToken?: string;
+  Administrators?: Administrator[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface RejectInvitationRequest {
   GraphArn: string;
@@ -591,7 +596,7 @@ export interface StartInvestigationRequest {
   ScopeEndTime: Date;
 }
 export interface StartInvestigationResponse {
-  InvestigationId?: string;
+  InvestigationId?: string | undefined;
 }
 export interface StartMonitoringMemberRequest {
   GraphArn: string;
@@ -623,7 +628,7 @@ export interface UpdateInvestigationStateRequest {
 export interface UpdateInvestigationStateResponse {}
 export interface UpdateOrganizationConfigurationRequest {
   GraphArn: string;
-  AutoEnable?: boolean;
+  AutoEnable?: boolean | undefined;
 }
 export interface UpdateOrganizationConfigurationResponse {}
 export type ErrorMessage = string;
@@ -651,7 +656,7 @@ export type AcceptInvitationError =
  * The member account status in the graph must be `INVITED`.
  */
 export const acceptInvitation: API.OperationMethod<
-  AcceptInvitationRequest,
+  AcceptInvitationRequest & RegionInput,
   AcceptInvitationResponse,
   AcceptInvitationError,
   Credentials | HttpClient.HttpClient
@@ -682,7 +687,7 @@ export type BatchGetGraphMemberDatasourcesError =
  * Gets data source package information for the behavior graph.
  */
 export const batchGetGraphMemberDatasources: API.OperationMethod<
-  BatchGetGraphMemberDatasourcesRequest,
+  BatchGetGraphMemberDatasourcesRequest & RegionInput,
   BatchGetGraphMemberDatasourcesResponse,
   BatchGetGraphMemberDatasourcesError,
   Credentials | HttpClient.HttpClient
@@ -712,7 +717,7 @@ export type BatchGetMembershipDatasourcesError =
  * Gets information on the data source package history for an account.
  */
 export const batchGetMembershipDatasources: API.OperationMethod<
-  BatchGetMembershipDatasourcesRequest,
+  BatchGetMembershipDatasourcesRequest & RegionInput,
   BatchGetMembershipDatasourcesResponse,
   BatchGetMembershipDatasourcesError,
   Credentials | HttpClient.HttpClient
@@ -753,7 +758,7 @@ export type CreateGraphError =
  * always returns the same behavior graph ARN. It does not create a new behavior graph.
  */
 export const createGraph: API.OperationMethod<
-  CreateGraphRequest,
+  CreateGraphRequest & RegionInput,
   CreateGraphResponse,
   CreateGraphError,
   Credentials | HttpClient.HttpClient
@@ -814,7 +819,7 @@ export type CreateMembersError =
  * graph.
  */
 export const createMembers: API.OperationMethod<
-  CreateMembersRequest,
+  CreateMembersRequest & RegionInput,
   CreateMembersResponse,
   CreateMembersError,
   Credentials | HttpClient.HttpClient
@@ -849,7 +854,7 @@ export type DeleteGraphError =
  * graph.
  */
 export const deleteGraph: API.OperationMethod<
-  DeleteGraphRequest,
+  DeleteGraphRequest & RegionInput,
   DeleteGraphResponse,
   DeleteGraphError,
   Credentials | HttpClient.HttpClient
@@ -895,7 +900,7 @@ export type DeleteMembersError =
  * uses the `DeleteGraph` API method.
  */
 export const deleteMembers: API.OperationMethod<
-  DeleteMembersRequest,
+  DeleteMembersRequest & RegionInput,
   DeleteMembersResponse,
   DeleteMembersError,
   Credentials | HttpClient.HttpClient
@@ -930,7 +935,7 @@ export type DescribeOrganizationConfigurationError =
  * Can only be called by the Detective administrator account for the organization.
  */
 export const describeOrganizationConfiguration: API.OperationMethod<
-  DescribeOrganizationConfigurationRequest,
+  DescribeOrganizationConfigurationRequest & RegionInput,
   DescribeOrganizationConfigurationResponse,
   DescribeOrganizationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -968,7 +973,7 @@ export type DisableOrganizationAdminAccountError =
  * To remove the delegated administrator account in Organizations, use the Organizations API. Removing the delegated administrator account also removes the Detective administrator account in all Regions, except for Regions where the Detective administrator account is the organization management account.
  */
 export const disableOrganizationAdminAccount: API.OperationMethod<
-  DisableOrganizationAdminAccountRequest,
+  DisableOrganizationAdminAccountRequest & RegionInput,
   DisableOrganizationAdminAccountResponse,
   DisableOrganizationAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -1005,7 +1010,7 @@ export type DisassociateMembershipError =
  * accounts.
  */
 export const disassociateMembership: API.OperationMethod<
-  DisassociateMembershipRequest,
+  DisassociateMembershipRequest & RegionInput,
   DisassociateMembershipResponse,
   DisassociateMembershipError,
   Credentials | HttpClient.HttpClient
@@ -1051,7 +1056,7 @@ export type EnableOrganizationAdminAccountError =
  * organization management account cannot be the delegated administrator account.
  */
 export const enableOrganizationAdminAccount: API.OperationMethod<
-  EnableOrganizationAdminAccountRequest,
+  EnableOrganizationAdminAccountRequest & RegionInput,
   EnableOrganizationAdminAccountResponse,
   EnableOrganizationAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -1082,7 +1087,7 @@ export type GetInvestigationError =
  * Detective investigations lets you investigate IAM users and IAM roles using indicators of compromise. An indicator of compromise (IOC) is an artifact observed in or on a network, system, or environment that can (with a high level of confidence) identify malicious activity or a security incident. `GetInvestigation` returns the investigation results of an investigation for a behavior graph.
  */
 export const getInvestigation: API.OperationMethod<
-  GetInvestigationRequest,
+  GetInvestigationRequest & RegionInput,
   GetInvestigationResponse,
   GetInvestigationError,
   Credentials | HttpClient.HttpClient
@@ -1114,7 +1119,7 @@ export type GetMembersError =
  * graph.
  */
 export const getMembers: API.OperationMethod<
-  GetMembersRequest,
+  GetMembersRequest & RegionInput,
   GetMembersResponse,
   GetMembersError,
   Credentials | HttpClient.HttpClient
@@ -1144,7 +1149,7 @@ export type ListDatasourcePackagesError =
  * Lists data source packages in the behavior graph.
  */
 export const listDatasourcePackages: API.PaginatedOperationMethod<
-  ListDatasourcePackagesRequest,
+  ListDatasourcePackagesRequest & RegionInput,
   ListDatasourcePackagesResponse,
   ListDatasourcePackagesError,
   Credentials | HttpClient.HttpClient,
@@ -1183,7 +1188,7 @@ export type ListGraphsError =
  * a Region, the results always contain a single behavior graph.
  */
 export const listGraphs: API.PaginatedOperationMethod<
-  ListGraphsRequest,
+  ListGraphsRequest & RegionInput,
   ListGraphsResponse,
   ListGraphsError,
   Credentials | HttpClient.HttpClient,
@@ -1215,7 +1220,7 @@ export type ListIndicatorsError =
  * Gets the indicators from an investigation. You can use the information from the indicators to determine if an IAM user and/or IAM role is involved in an unusual activity that could indicate malicious behavior and its impact.
  */
 export const listIndicators: API.OperationMethod<
-  ListIndicatorsRequest,
+  ListIndicatorsRequest & RegionInput,
   ListIndicatorsResponse,
   ListIndicatorsError,
   Credentials | HttpClient.HttpClient
@@ -1252,7 +1257,7 @@ export type ListInvestigationsError =
  * investigations.
  */
 export const listInvestigations: API.OperationMethod<
-  ListInvestigationsRequest,
+  ListInvestigationsRequest & RegionInput,
   ListInvestigationsResponse,
   ListInvestigationsError,
   Credentials | HttpClient.HttpClient
@@ -1289,7 +1294,7 @@ export type ListInvitationsError =
  * resigned from or was removed from.
  */
 export const listInvitations: API.PaginatedOperationMethod<
-  ListInvitationsRequest,
+  ListInvitationsRequest & RegionInput,
   ListInvitationsResponse,
   ListInvitationsError,
   Credentials | HttpClient.HttpClient,
@@ -1327,7 +1332,7 @@ export type ListMembersError =
  * accounts.
  */
 export const listMembers: API.PaginatedOperationMethod<
-  ListMembersRequest,
+  ListMembersRequest & RegionInput,
   ListMembersResponse,
   ListMembersError,
   Credentials | HttpClient.HttpClient,
@@ -1364,7 +1369,7 @@ export type ListOrganizationAdminAccountsError =
  * organization. Can only be called by the organization management account.
  */
 export const listOrganizationAdminAccounts: API.PaginatedOperationMethod<
-  ListOrganizationAdminAccountsRequest,
+  ListOrganizationAdminAccountsRequest & RegionInput,
   ListOrganizationAdminAccountsResponse,
   ListOrganizationAdminAccountsError,
   Credentials | HttpClient.HttpClient,
@@ -1400,7 +1405,7 @@ export type ListTagsForResourceError =
  * Returns the tag values that are assigned to a behavior graph.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1437,7 +1442,7 @@ export type RejectInvitationError =
  * not receive an invitation.
  */
 export const rejectInvitation: API.OperationMethod<
-  RejectInvitationRequest,
+  RejectInvitationRequest & RegionInput,
   RejectInvitationResponse,
   RejectInvitationError,
   Credentials | HttpClient.HttpClient
@@ -1469,7 +1474,7 @@ export type StartInvestigationError =
  * Detective investigations lets you investigate IAM users and IAM roles using indicators of compromise. An indicator of compromise (IOC) is an artifact observed in or on a network, system, or environment that can (with a high level of confidence) identify malicious activity or a security incident. `StartInvestigation` initiates an investigation on an entity in a behavior graph.
  */
 export const startInvestigation: API.OperationMethod<
-  StartInvestigationRequest,
+  StartInvestigationRequest & RegionInput,
   StartInvestigationResponse,
   StartInvestigationError,
   Credentials | HttpClient.HttpClient
@@ -1511,7 +1516,7 @@ export type StartMonitoringMemberError =
  * `ACCEPTED_BUT_DISABLED`.
  */
 export const startMonitoringMember: API.OperationMethod<
-  StartMonitoringMemberRequest,
+  StartMonitoringMemberRequest & RegionInput,
   StartMonitoringMemberResponse,
   StartMonitoringMemberError,
   Credentials | HttpClient.HttpClient
@@ -1543,7 +1548,7 @@ export type TagResourceError =
  * Applies tag values to a behavior graph.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1573,7 +1578,7 @@ export type UntagResourceError =
  * Removes tags from a behavior graph.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1604,7 +1609,7 @@ export type UpdateDatasourcePackagesError =
  * Starts a data source package for the Detective behavior graph.
  */
 export const updateDatasourcePackages: API.OperationMethod<
-  UpdateDatasourcePackagesRequest,
+  UpdateDatasourcePackagesRequest & RegionInput,
   UpdateDatasourcePackagesResponse,
   UpdateDatasourcePackagesError,
   Credentials | HttpClient.HttpClient
@@ -1636,7 +1641,7 @@ export type UpdateInvestigationStateError =
  * Updates the state of an investigation.
  */
 export const updateInvestigationState: API.OperationMethod<
-  UpdateInvestigationStateRequest,
+  UpdateInvestigationStateRequest & RegionInput,
   UpdateInvestigationStateResponse,
   UpdateInvestigationStateError,
   Credentials | HttpClient.HttpClient
@@ -1669,7 +1674,7 @@ export type UpdateOrganizationConfigurationError =
  * organization.
  */
 export const updateOrganizationConfiguration: API.OperationMethod<
-  UpdateOrganizationConfigurationRequest,
+  UpdateOrganizationConfigurationRequest & RegionInput,
   UpdateOrganizationConfigurationResponse,
   UpdateOrganizationConfigurationError,
   Credentials | HttpClient.HttpClient

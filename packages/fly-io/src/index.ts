@@ -16,11 +16,11 @@
  * yield* Fly.mpg.createCluster({
  *   name, region, org_slug, plan, pg_major_version: "16", storage_in_gb: 10,
  * });
- * yield* Fly.addons.createAddOn({
- *   input: { type: "tigris", name, options: { website: { domain_name: "" } } },
- * });
  * yield* Fly.sprites.createSprite({ name, labels: ["alchemy"] });
  * ```
+ *
+ * The GraphQL API (add-ons, remote builders, organizations, ...) is a Query
+ * SDK at `@distilled.cloud/fly-io/GraphQL`.
  *
  * @example Per-service path
  * ```ts
@@ -35,7 +35,6 @@ export * as T from "./traits.ts";
 export {
   FlyIoProtocol,
   FlyApiProtocol,
-  FlyGraphqlProtocol,
   SpritesProtocol,
   MachineIdentity,
   type FlyIoOpError,

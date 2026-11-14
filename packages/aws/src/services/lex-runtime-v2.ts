@@ -9,6 +9,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -105,7 +106,7 @@ export class BadGatewayException
     "BadGatewayException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(502),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
@@ -123,7 +124,7 @@ export class InternalServerException
     "InternalServerException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
@@ -135,7 +136,7 @@ export class ThrottlingException
     "ThrottlingException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
@@ -153,10 +154,10 @@ export interface DeleteSessionRequest {
   sessionId: string;
 }
 export interface DeleteSessionResponse {
-  botId?: string;
-  botAliasId?: string;
-  localeId?: string;
-  sessionId?: string;
+  botId?: string | undefined;
+  botAliasId?: string | undefined;
+  localeId?: string | undefined;
+  sessionId?: string | undefined;
 }
 export interface GetSessionRequest {
   botId: string;
@@ -183,43 +184,43 @@ export interface Button {
 export type ButtonsList = Button[];
 export interface ImageResponseCard {
   title: string;
-  subtitle?: string;
-  imageUrl?: string;
-  buttons?: Button[];
+  subtitle?: string | undefined;
+  imageUrl?: string | undefined;
+  buttons?: Button[] | undefined;
 }
 export interface Message {
-  content?: string | redacted.Redacted<string>;
+  content?: string | redacted.Redacted<string> | undefined;
   contentType: MessageContentType;
-  imageResponseCard?: ImageResponseCard;
+  imageResponseCard?: ImageResponseCard | undefined;
 }
 export type Messages = Message[];
 export interface ConfidenceScore {
-  score?: number;
+  score?: number | undefined;
 }
 export type SentimentType = "MIXED" | "NEGATIVE" | "NEUTRAL" | "POSITIVE" | (string & {});
 export interface SentimentScore {
-  positive?: number;
-  negative?: number;
-  neutral?: number;
-  mixed?: number;
+  positive?: number | undefined;
+  negative?: number | undefined;
+  neutral?: number | undefined;
+  mixed?: number | undefined;
 }
 export interface SentimentResponse {
-  sentiment?: SentimentType;
-  sentimentScore?: SentimentScore;
+  sentiment?: SentimentType | undefined;
+  sentimentScore?: SentimentScore | undefined;
 }
 export type StringList = string[];
 export interface Value {
-  originalValue?: string;
+  originalValue?: string | undefined;
   interpretedValue: string;
-  resolvedValues?: string[];
+  resolvedValues?: string[] | undefined;
 }
 export type Shape = "Scalar" | "List" | "Composite" | (string & {});
 export type Values = Slot[];
 export interface Slot {
-  value?: Value;
-  shape?: Shape;
-  values?: Slot[];
-  subSlots?: { [key: string]: Slot | undefined };
+  value?: Value | undefined;
+  shape?: Shape | undefined;
+  values?: Slot[] | undefined;
+  subSlots?: { [key: string]: Slot | undefined } | undefined;
 }
 export type Slots = { [key: string]: Slot | undefined };
 export type IntentState =
@@ -233,16 +234,16 @@ export type IntentState =
 export type ConfirmationState = "Confirmed" | "Denied" | "None" | (string & {});
 export interface Intent {
   name: string;
-  slots?: { [key: string]: Slot | undefined };
-  state?: IntentState;
-  confirmationState?: ConfirmationState;
+  slots?: { [key: string]: Slot | undefined } | undefined;
+  state?: IntentState | undefined;
+  confirmationState?: ConfirmationState | undefined;
 }
 export type InterpretationSource = "Bedrock" | "Lex" | (string & {});
 export interface Interpretation {
-  nluConfidence?: ConfidenceScore;
-  sentimentResponse?: SentimentResponse;
-  intent?: Intent;
-  interpretationSource?: InterpretationSource;
+  nluConfidence?: ConfidenceScore | undefined;
+  sentimentResponse?: SentimentResponse | undefined;
+  intent?: Intent | undefined;
+  interpretationSource?: InterpretationSource | undefined;
 }
 export type Interpretations = Interpretation[];
 export type DialogActionType =
@@ -256,13 +257,13 @@ export type DialogActionType =
 export type StyleType = "Default" | "SpellByLetter" | "SpellByWord" | (string & {});
 export interface ElicitSubSlot {
   name: string;
-  subSlotToElicit?: ElicitSubSlot;
+  subSlotToElicit?: ElicitSubSlot | undefined;
 }
 export interface DialogAction {
   type: DialogActionType;
-  slotToElicit?: string;
-  slotElicitationStyle?: StyleType;
-  subSlotToElicit?: ElicitSubSlot;
+  slotToElicit?: string | undefined;
+  slotElicitationStyle?: StyleType | undefined;
+  subSlotToElicit?: ElicitSubSlot | undefined;
 }
 export type ActiveContextName = string;
 export type ActiveContextTimeToLiveInSeconds = number;
@@ -289,47 +290,49 @@ export interface RuntimeHintValue {
 }
 export type RuntimeHintValuesList = RuntimeHintValue[];
 export interface RuntimeHintDetails {
-  runtimeHintValues?: RuntimeHintValue[];
-  subSlotHints?: { [key: string]: RuntimeHintDetails | undefined };
+  runtimeHintValues?: RuntimeHintValue[] | undefined;
+  subSlotHints?: { [key: string]: RuntimeHintDetails | undefined } | undefined;
 }
 export type SlotHintsSlotMap = { [key: string]: RuntimeHintDetails | undefined };
 export type SlotHintsIntentMap = {
   [key: string]: { [key: string]: RuntimeHintDetails | undefined } | undefined;
 };
 export interface RuntimeHints {
-  slotHints?: { [key: string]: { [key: string]: RuntimeHintDetails | undefined } | undefined };
+  slotHints?:
+    | { [key: string]: { [key: string]: RuntimeHintDetails | undefined } | undefined }
+    | undefined;
 }
 export interface SessionState {
-  dialogAction?: DialogAction;
-  intent?: Intent;
-  activeContexts?: ActiveContext[];
-  sessionAttributes?: { [key: string]: string | undefined };
-  originatingRequestId?: string;
-  runtimeHints?: RuntimeHints;
+  dialogAction?: DialogAction | undefined;
+  intent?: Intent | undefined;
+  activeContexts?: ActiveContext[] | undefined;
+  sessionAttributes?: { [key: string]: string | undefined } | undefined;
+  originatingRequestId?: string | undefined;
+  runtimeHints?: RuntimeHints | undefined;
 }
 export interface GetSessionResponse {
-  sessionId?: string;
-  messages?: Message[];
-  interpretations?: Interpretation[];
-  sessionState?: SessionState;
+  sessionId?: string | undefined;
+  messages?: Message[] | undefined;
+  interpretations?: Interpretation[] | undefined;
+  sessionState?: SessionState | undefined;
 }
 export interface PutSessionRequest {
   botId: string;
   botAliasId: string;
   localeId: string;
   sessionId: string;
-  messages?: Message[];
+  messages?: Message[] | undefined;
   sessionState: SessionState;
-  requestAttributes?: { [key: string]: string | undefined };
-  responseContentType?: string;
+  requestAttributes?: { [key: string]: string | undefined } | undefined;
+  responseContentType?: string | undefined;
 }
 export interface PutSessionResponse {
-  contentType?: string;
-  messages?: string;
-  sessionState?: string;
-  requestAttributes?: string;
-  sessionId?: string;
-  audioStream?: T.StreamingOutputBody;
+  contentType?: string | undefined;
+  messages?: string | undefined;
+  sessionState?: string | undefined;
+  requestAttributes?: string | undefined;
+  sessionId?: string | undefined;
+  audioStream?: T.StreamingOutputBody | undefined;
 }
 export interface RecognizeTextRequest {
   botId: string;
@@ -337,20 +340,20 @@ export interface RecognizeTextRequest {
   localeId: string;
   sessionId: string;
   text: string | redacted.Redacted<string>;
-  sessionState?: SessionState;
-  requestAttributes?: { [key: string]: string | undefined };
+  sessionState?: SessionState | undefined;
+  requestAttributes?: { [key: string]: string | undefined } | undefined;
 }
 export interface RecognizedBotMember {
   botId: string;
-  botName?: string;
+  botName?: string | undefined;
 }
 export interface RecognizeTextResponse {
-  messages?: Message[];
-  sessionState?: SessionState;
-  interpretations?: Interpretation[];
-  requestAttributes?: { [key: string]: string | undefined };
-  sessionId?: string;
-  recognizedBotMember?: RecognizedBotMember;
+  messages?: Message[] | undefined;
+  sessionState?: SessionState | undefined;
+  interpretations?: Interpretation[] | undefined;
+  requestAttributes?: { [key: string]: string | undefined } | undefined;
+  sessionId?: string | undefined;
+  recognizedBotMember?: RecognizedBotMember | undefined;
 }
 export type SensitiveNonEmptyString = string | redacted.Redacted<string>;
 export interface RecognizeUtteranceRequest {
@@ -358,109 +361,109 @@ export interface RecognizeUtteranceRequest {
   botAliasId: string;
   localeId: string;
   sessionId: string;
-  sessionState?: string | redacted.Redacted<string>;
-  requestAttributes?: string | redacted.Redacted<string>;
+  sessionState?: string | redacted.Redacted<string> | undefined;
+  requestAttributes?: string | redacted.Redacted<string> | undefined;
   requestContentType: string;
-  responseContentType?: string;
-  inputStream?: T.StreamingInputBody;
+  responseContentType?: string | undefined;
+  inputStream?: T.StreamingInputBody | undefined;
 }
 export interface RecognizeUtteranceResponse {
-  inputMode?: string;
-  contentType?: string;
-  messages?: string;
-  interpretations?: string;
-  sessionState?: string;
-  requestAttributes?: string;
-  sessionId?: string;
-  inputTranscript?: string;
-  audioStream?: T.StreamingOutputBody;
-  recognizedBotMember?: string;
+  inputMode?: string | undefined;
+  contentType?: string | undefined;
+  messages?: string | undefined;
+  interpretations?: string | undefined;
+  sessionState?: string | undefined;
+  requestAttributes?: string | undefined;
+  sessionId?: string | undefined;
+  inputTranscript?: string | undefined;
+  audioStream?: T.StreamingOutputBody | undefined;
+  recognizedBotMember?: string | undefined;
 }
 export type ConversationMode = "AUDIO" | "TEXT" | (string & {});
 export type EventId = string;
 export type EpochMillis = number;
 export interface ConfigurationEvent {
-  requestAttributes?: { [key: string]: string | undefined };
+  requestAttributes?: { [key: string]: string | undefined } | undefined;
   responseContentType: string;
-  sessionState?: SessionState;
-  welcomeMessages?: Message[];
-  disablePlayback?: boolean;
-  eventId?: string;
-  clientTimestampMillis?: number;
+  sessionState?: SessionState | undefined;
+  welcomeMessages?: Message[] | undefined;
+  disablePlayback?: boolean | undefined;
+  eventId?: string | undefined;
+  clientTimestampMillis?: number | undefined;
 }
 export type AudioChunk = Uint8Array;
 export interface AudioInputEvent {
-  audioChunk?: Uint8Array;
+  audioChunk?: Uint8Array | undefined;
   contentType: string;
-  eventId?: string;
-  clientTimestampMillis?: number;
+  eventId?: string | undefined;
+  clientTimestampMillis?: number | undefined;
 }
 export type DTMFRegex = string | redacted.Redacted<string>;
 export interface DTMFInputEvent {
   inputCharacter: string | redacted.Redacted<string>;
-  eventId?: string;
-  clientTimestampMillis?: number;
+  eventId?: string | undefined;
+  clientTimestampMillis?: number | undefined;
 }
 export interface TextInputEvent {
   text: string | redacted.Redacted<string>;
-  eventId?: string;
-  clientTimestampMillis?: number;
+  eventId?: string | undefined;
+  clientTimestampMillis?: number | undefined;
 }
 export interface PlaybackCompletionEvent {
-  eventId?: string;
-  clientTimestampMillis?: number;
+  eventId?: string | undefined;
+  clientTimestampMillis?: number | undefined;
 }
 export interface DisconnectionEvent {
-  eventId?: string;
-  clientTimestampMillis?: number;
+  eventId?: string | undefined;
+  clientTimestampMillis?: number | undefined;
 }
 export type StartConversationRequestEventStream =
   | {
       ConfigurationEvent: ConfigurationEvent;
-      AudioInputEvent?: never;
-      DTMFInputEvent?: never;
-      TextInputEvent?: never;
-      PlaybackCompletionEvent?: never;
-      DisconnectionEvent?: never;
+      AudioInputEvent?: undefined;
+      DTMFInputEvent?: undefined;
+      TextInputEvent?: undefined;
+      PlaybackCompletionEvent?: undefined;
+      DisconnectionEvent?: undefined;
     }
   | {
-      ConfigurationEvent?: never;
+      ConfigurationEvent?: undefined;
       AudioInputEvent: AudioInputEvent;
-      DTMFInputEvent?: never;
-      TextInputEvent?: never;
-      PlaybackCompletionEvent?: never;
-      DisconnectionEvent?: never;
+      DTMFInputEvent?: undefined;
+      TextInputEvent?: undefined;
+      PlaybackCompletionEvent?: undefined;
+      DisconnectionEvent?: undefined;
     }
   | {
-      ConfigurationEvent?: never;
-      AudioInputEvent?: never;
+      ConfigurationEvent?: undefined;
+      AudioInputEvent?: undefined;
       DTMFInputEvent: DTMFInputEvent;
-      TextInputEvent?: never;
-      PlaybackCompletionEvent?: never;
-      DisconnectionEvent?: never;
+      TextInputEvent?: undefined;
+      PlaybackCompletionEvent?: undefined;
+      DisconnectionEvent?: undefined;
     }
   | {
-      ConfigurationEvent?: never;
-      AudioInputEvent?: never;
-      DTMFInputEvent?: never;
+      ConfigurationEvent?: undefined;
+      AudioInputEvent?: undefined;
+      DTMFInputEvent?: undefined;
       TextInputEvent: TextInputEvent;
-      PlaybackCompletionEvent?: never;
-      DisconnectionEvent?: never;
+      PlaybackCompletionEvent?: undefined;
+      DisconnectionEvent?: undefined;
     }
   | {
-      ConfigurationEvent?: never;
-      AudioInputEvent?: never;
-      DTMFInputEvent?: never;
-      TextInputEvent?: never;
+      ConfigurationEvent?: undefined;
+      AudioInputEvent?: undefined;
+      DTMFInputEvent?: undefined;
+      TextInputEvent?: undefined;
       PlaybackCompletionEvent: PlaybackCompletionEvent;
-      DisconnectionEvent?: never;
+      DisconnectionEvent?: undefined;
     }
   | {
-      ConfigurationEvent?: never;
-      AudioInputEvent?: never;
-      DTMFInputEvent?: never;
-      TextInputEvent?: never;
-      PlaybackCompletionEvent?: never;
+      ConfigurationEvent?: undefined;
+      AudioInputEvent?: undefined;
+      DTMFInputEvent?: undefined;
+      TextInputEvent?: undefined;
+      PlaybackCompletionEvent?: undefined;
       DisconnectionEvent: DisconnectionEvent;
     };
 export interface StartConversationRequest {
@@ -468,7 +471,7 @@ export interface StartConversationRequest {
   botAliasId: string;
   localeId: string;
   sessionId: string;
-  conversationMode?: ConversationMode;
+  conversationMode?: ConversationMode | undefined;
   requestEventStream: stream.Stream<StartConversationRequestEventStream, Error, never>;
 }
 export type PlaybackInterruptionReason =
@@ -477,263 +480,265 @@ export type PlaybackInterruptionReason =
   | "VOICE_START_DETECTED"
   | (string & {});
 export interface PlaybackInterruptionEvent {
-  eventReason?: PlaybackInterruptionReason;
-  causedByEventId?: string;
-  eventId?: string;
+  eventReason?: PlaybackInterruptionReason | undefined;
+  causedByEventId?: string | undefined;
+  eventId?: string | undefined;
 }
 export interface TranscriptEvent {
-  transcript?: string;
-  eventId?: string;
+  transcript?: string | undefined;
+  eventId?: string | undefined;
 }
 export type InputMode = "Text" | "Speech" | "DTMF" | (string & {});
 export interface IntentResultEvent {
-  inputMode?: InputMode;
-  interpretations?: Interpretation[];
-  sessionState?: SessionState;
-  requestAttributes?: { [key: string]: string | undefined };
-  sessionId?: string;
-  eventId?: string;
-  recognizedBotMember?: RecognizedBotMember;
+  inputMode?: InputMode | undefined;
+  interpretations?: Interpretation[] | undefined;
+  sessionState?: SessionState | undefined;
+  requestAttributes?: { [key: string]: string | undefined } | undefined;
+  sessionId?: string | undefined;
+  eventId?: string | undefined;
+  recognizedBotMember?: RecognizedBotMember | undefined;
 }
 export interface TextResponseEvent {
-  messages?: Message[];
-  eventId?: string;
+  messages?: Message[] | undefined;
+  eventId?: string | undefined;
 }
 export interface AudioResponseEvent {
-  audioChunk?: Uint8Array;
-  contentType?: string;
-  eventId?: string;
+  audioChunk?: Uint8Array | undefined;
+  contentType?: string | undefined;
+  eventId?: string | undefined;
 }
 export interface HeartbeatEvent {
-  eventId?: string;
+  eventId?: string | undefined;
 }
 export type StartConversationResponseEventStream =
   | {
       PlaybackInterruptionEvent: PlaybackInterruptionEvent;
-      TranscriptEvent?: never;
-      IntentResultEvent?: never;
-      TextResponseEvent?: never;
-      AudioResponseEvent?: never;
-      HeartbeatEvent?: never;
-      AccessDeniedException?: never;
-      ResourceNotFoundException?: never;
-      ValidationException?: never;
-      ThrottlingException?: never;
-      InternalServerException?: never;
-      ConflictException?: never;
-      DependencyFailedException?: never;
-      BadGatewayException?: never;
+      TranscriptEvent?: undefined;
+      IntentResultEvent?: undefined;
+      TextResponseEvent?: undefined;
+      AudioResponseEvent?: undefined;
+      HeartbeatEvent?: undefined;
+      AccessDeniedException?: undefined;
+      ResourceNotFoundException?: undefined;
+      ValidationException?: undefined;
+      ThrottlingException?: undefined;
+      InternalServerException?: undefined;
+      ConflictException?: undefined;
+      DependencyFailedException?: undefined;
+      BadGatewayException?: undefined;
     }
   | {
-      PlaybackInterruptionEvent?: never;
+      PlaybackInterruptionEvent?: undefined;
       TranscriptEvent: TranscriptEvent;
-      IntentResultEvent?: never;
-      TextResponseEvent?: never;
-      AudioResponseEvent?: never;
-      HeartbeatEvent?: never;
-      AccessDeniedException?: never;
-      ResourceNotFoundException?: never;
-      ValidationException?: never;
-      ThrottlingException?: never;
-      InternalServerException?: never;
-      ConflictException?: never;
-      DependencyFailedException?: never;
-      BadGatewayException?: never;
+      IntentResultEvent?: undefined;
+      TextResponseEvent?: undefined;
+      AudioResponseEvent?: undefined;
+      HeartbeatEvent?: undefined;
+      AccessDeniedException?: undefined;
+      ResourceNotFoundException?: undefined;
+      ValidationException?: undefined;
+      ThrottlingException?: undefined;
+      InternalServerException?: undefined;
+      ConflictException?: undefined;
+      DependencyFailedException?: undefined;
+      BadGatewayException?: undefined;
     }
   | {
-      PlaybackInterruptionEvent?: never;
-      TranscriptEvent?: never;
+      PlaybackInterruptionEvent?: undefined;
+      TranscriptEvent?: undefined;
       IntentResultEvent: IntentResultEvent;
-      TextResponseEvent?: never;
-      AudioResponseEvent?: never;
-      HeartbeatEvent?: never;
-      AccessDeniedException?: never;
-      ResourceNotFoundException?: never;
-      ValidationException?: never;
-      ThrottlingException?: never;
-      InternalServerException?: never;
-      ConflictException?: never;
-      DependencyFailedException?: never;
-      BadGatewayException?: never;
+      TextResponseEvent?: undefined;
+      AudioResponseEvent?: undefined;
+      HeartbeatEvent?: undefined;
+      AccessDeniedException?: undefined;
+      ResourceNotFoundException?: undefined;
+      ValidationException?: undefined;
+      ThrottlingException?: undefined;
+      InternalServerException?: undefined;
+      ConflictException?: undefined;
+      DependencyFailedException?: undefined;
+      BadGatewayException?: undefined;
     }
   | {
-      PlaybackInterruptionEvent?: never;
-      TranscriptEvent?: never;
-      IntentResultEvent?: never;
+      PlaybackInterruptionEvent?: undefined;
+      TranscriptEvent?: undefined;
+      IntentResultEvent?: undefined;
       TextResponseEvent: TextResponseEvent;
-      AudioResponseEvent?: never;
-      HeartbeatEvent?: never;
-      AccessDeniedException?: never;
-      ResourceNotFoundException?: never;
-      ValidationException?: never;
-      ThrottlingException?: never;
-      InternalServerException?: never;
-      ConflictException?: never;
-      DependencyFailedException?: never;
-      BadGatewayException?: never;
+      AudioResponseEvent?: undefined;
+      HeartbeatEvent?: undefined;
+      AccessDeniedException?: undefined;
+      ResourceNotFoundException?: undefined;
+      ValidationException?: undefined;
+      ThrottlingException?: undefined;
+      InternalServerException?: undefined;
+      ConflictException?: undefined;
+      DependencyFailedException?: undefined;
+      BadGatewayException?: undefined;
     }
   | {
-      PlaybackInterruptionEvent?: never;
-      TranscriptEvent?: never;
-      IntentResultEvent?: never;
-      TextResponseEvent?: never;
+      PlaybackInterruptionEvent?: undefined;
+      TranscriptEvent?: undefined;
+      IntentResultEvent?: undefined;
+      TextResponseEvent?: undefined;
       AudioResponseEvent: AudioResponseEvent;
-      HeartbeatEvent?: never;
-      AccessDeniedException?: never;
-      ResourceNotFoundException?: never;
-      ValidationException?: never;
-      ThrottlingException?: never;
-      InternalServerException?: never;
-      ConflictException?: never;
-      DependencyFailedException?: never;
-      BadGatewayException?: never;
+      HeartbeatEvent?: undefined;
+      AccessDeniedException?: undefined;
+      ResourceNotFoundException?: undefined;
+      ValidationException?: undefined;
+      ThrottlingException?: undefined;
+      InternalServerException?: undefined;
+      ConflictException?: undefined;
+      DependencyFailedException?: undefined;
+      BadGatewayException?: undefined;
     }
   | {
-      PlaybackInterruptionEvent?: never;
-      TranscriptEvent?: never;
-      IntentResultEvent?: never;
-      TextResponseEvent?: never;
-      AudioResponseEvent?: never;
+      PlaybackInterruptionEvent?: undefined;
+      TranscriptEvent?: undefined;
+      IntentResultEvent?: undefined;
+      TextResponseEvent?: undefined;
+      AudioResponseEvent?: undefined;
       HeartbeatEvent: HeartbeatEvent;
-      AccessDeniedException?: never;
-      ResourceNotFoundException?: never;
-      ValidationException?: never;
-      ThrottlingException?: never;
-      InternalServerException?: never;
-      ConflictException?: never;
-      DependencyFailedException?: never;
-      BadGatewayException?: never;
+      AccessDeniedException?: undefined;
+      ResourceNotFoundException?: undefined;
+      ValidationException?: undefined;
+      ThrottlingException?: undefined;
+      InternalServerException?: undefined;
+      ConflictException?: undefined;
+      DependencyFailedException?: undefined;
+      BadGatewayException?: undefined;
     }
   | {
-      PlaybackInterruptionEvent?: never;
-      TranscriptEvent?: never;
-      IntentResultEvent?: never;
-      TextResponseEvent?: never;
-      AudioResponseEvent?: never;
-      HeartbeatEvent?: never;
+      PlaybackInterruptionEvent?: undefined;
+      TranscriptEvent?: undefined;
+      IntentResultEvent?: undefined;
+      TextResponseEvent?: undefined;
+      AudioResponseEvent?: undefined;
+      HeartbeatEvent?: undefined;
       AccessDeniedException: AccessDeniedException;
-      ResourceNotFoundException?: never;
-      ValidationException?: never;
-      ThrottlingException?: never;
-      InternalServerException?: never;
-      ConflictException?: never;
-      DependencyFailedException?: never;
-      BadGatewayException?: never;
+      ResourceNotFoundException?: undefined;
+      ValidationException?: undefined;
+      ThrottlingException?: undefined;
+      InternalServerException?: undefined;
+      ConflictException?: undefined;
+      DependencyFailedException?: undefined;
+      BadGatewayException?: undefined;
     }
   | {
-      PlaybackInterruptionEvent?: never;
-      TranscriptEvent?: never;
-      IntentResultEvent?: never;
-      TextResponseEvent?: never;
-      AudioResponseEvent?: never;
-      HeartbeatEvent?: never;
-      AccessDeniedException?: never;
+      PlaybackInterruptionEvent?: undefined;
+      TranscriptEvent?: undefined;
+      IntentResultEvent?: undefined;
+      TextResponseEvent?: undefined;
+      AudioResponseEvent?: undefined;
+      HeartbeatEvent?: undefined;
+      AccessDeniedException?: undefined;
       ResourceNotFoundException: ResourceNotFoundException;
-      ValidationException?: never;
-      ThrottlingException?: never;
-      InternalServerException?: never;
-      ConflictException?: never;
-      DependencyFailedException?: never;
-      BadGatewayException?: never;
+      ValidationException?: undefined;
+      ThrottlingException?: undefined;
+      InternalServerException?: undefined;
+      ConflictException?: undefined;
+      DependencyFailedException?: undefined;
+      BadGatewayException?: undefined;
     }
   | {
-      PlaybackInterruptionEvent?: never;
-      TranscriptEvent?: never;
-      IntentResultEvent?: never;
-      TextResponseEvent?: never;
-      AudioResponseEvent?: never;
-      HeartbeatEvent?: never;
-      AccessDeniedException?: never;
-      ResourceNotFoundException?: never;
+      PlaybackInterruptionEvent?: undefined;
+      TranscriptEvent?: undefined;
+      IntentResultEvent?: undefined;
+      TextResponseEvent?: undefined;
+      AudioResponseEvent?: undefined;
+      HeartbeatEvent?: undefined;
+      AccessDeniedException?: undefined;
+      ResourceNotFoundException?: undefined;
       ValidationException: ValidationException;
-      ThrottlingException?: never;
-      InternalServerException?: never;
-      ConflictException?: never;
-      DependencyFailedException?: never;
-      BadGatewayException?: never;
+      ThrottlingException?: undefined;
+      InternalServerException?: undefined;
+      ConflictException?: undefined;
+      DependencyFailedException?: undefined;
+      BadGatewayException?: undefined;
     }
   | {
-      PlaybackInterruptionEvent?: never;
-      TranscriptEvent?: never;
-      IntentResultEvent?: never;
-      TextResponseEvent?: never;
-      AudioResponseEvent?: never;
-      HeartbeatEvent?: never;
-      AccessDeniedException?: never;
-      ResourceNotFoundException?: never;
-      ValidationException?: never;
+      PlaybackInterruptionEvent?: undefined;
+      TranscriptEvent?: undefined;
+      IntentResultEvent?: undefined;
+      TextResponseEvent?: undefined;
+      AudioResponseEvent?: undefined;
+      HeartbeatEvent?: undefined;
+      AccessDeniedException?: undefined;
+      ResourceNotFoundException?: undefined;
+      ValidationException?: undefined;
       ThrottlingException: ThrottlingException;
-      InternalServerException?: never;
-      ConflictException?: never;
-      DependencyFailedException?: never;
-      BadGatewayException?: never;
+      InternalServerException?: undefined;
+      ConflictException?: undefined;
+      DependencyFailedException?: undefined;
+      BadGatewayException?: undefined;
     }
   | {
-      PlaybackInterruptionEvent?: never;
-      TranscriptEvent?: never;
-      IntentResultEvent?: never;
-      TextResponseEvent?: never;
-      AudioResponseEvent?: never;
-      HeartbeatEvent?: never;
-      AccessDeniedException?: never;
-      ResourceNotFoundException?: never;
-      ValidationException?: never;
-      ThrottlingException?: never;
+      PlaybackInterruptionEvent?: undefined;
+      TranscriptEvent?: undefined;
+      IntentResultEvent?: undefined;
+      TextResponseEvent?: undefined;
+      AudioResponseEvent?: undefined;
+      HeartbeatEvent?: undefined;
+      AccessDeniedException?: undefined;
+      ResourceNotFoundException?: undefined;
+      ValidationException?: undefined;
+      ThrottlingException?: undefined;
       InternalServerException: InternalServerException;
-      ConflictException?: never;
-      DependencyFailedException?: never;
-      BadGatewayException?: never;
+      ConflictException?: undefined;
+      DependencyFailedException?: undefined;
+      BadGatewayException?: undefined;
     }
   | {
-      PlaybackInterruptionEvent?: never;
-      TranscriptEvent?: never;
-      IntentResultEvent?: never;
-      TextResponseEvent?: never;
-      AudioResponseEvent?: never;
-      HeartbeatEvent?: never;
-      AccessDeniedException?: never;
-      ResourceNotFoundException?: never;
-      ValidationException?: never;
-      ThrottlingException?: never;
-      InternalServerException?: never;
+      PlaybackInterruptionEvent?: undefined;
+      TranscriptEvent?: undefined;
+      IntentResultEvent?: undefined;
+      TextResponseEvent?: undefined;
+      AudioResponseEvent?: undefined;
+      HeartbeatEvent?: undefined;
+      AccessDeniedException?: undefined;
+      ResourceNotFoundException?: undefined;
+      ValidationException?: undefined;
+      ThrottlingException?: undefined;
+      InternalServerException?: undefined;
       ConflictException: ConflictException;
-      DependencyFailedException?: never;
-      BadGatewayException?: never;
+      DependencyFailedException?: undefined;
+      BadGatewayException?: undefined;
     }
   | {
-      PlaybackInterruptionEvent?: never;
-      TranscriptEvent?: never;
-      IntentResultEvent?: never;
-      TextResponseEvent?: never;
-      AudioResponseEvent?: never;
-      HeartbeatEvent?: never;
-      AccessDeniedException?: never;
-      ResourceNotFoundException?: never;
-      ValidationException?: never;
-      ThrottlingException?: never;
-      InternalServerException?: never;
-      ConflictException?: never;
+      PlaybackInterruptionEvent?: undefined;
+      TranscriptEvent?: undefined;
+      IntentResultEvent?: undefined;
+      TextResponseEvent?: undefined;
+      AudioResponseEvent?: undefined;
+      HeartbeatEvent?: undefined;
+      AccessDeniedException?: undefined;
+      ResourceNotFoundException?: undefined;
+      ValidationException?: undefined;
+      ThrottlingException?: undefined;
+      InternalServerException?: undefined;
+      ConflictException?: undefined;
       DependencyFailedException: DependencyFailedException;
-      BadGatewayException?: never;
+      BadGatewayException?: undefined;
     }
   | {
-      PlaybackInterruptionEvent?: never;
-      TranscriptEvent?: never;
-      IntentResultEvent?: never;
-      TextResponseEvent?: never;
-      AudioResponseEvent?: never;
-      HeartbeatEvent?: never;
-      AccessDeniedException?: never;
-      ResourceNotFoundException?: never;
-      ValidationException?: never;
-      ThrottlingException?: never;
-      InternalServerException?: never;
-      ConflictException?: never;
-      DependencyFailedException?: never;
+      PlaybackInterruptionEvent?: undefined;
+      TranscriptEvent?: undefined;
+      IntentResultEvent?: undefined;
+      TextResponseEvent?: undefined;
+      AudioResponseEvent?: undefined;
+      HeartbeatEvent?: undefined;
+      AccessDeniedException?: undefined;
+      ResourceNotFoundException?: undefined;
+      ValidationException?: undefined;
+      ThrottlingException?: undefined;
+      InternalServerException?: undefined;
+      ConflictException?: undefined;
+      DependencyFailedException?: undefined;
       BadGatewayException: BadGatewayException;
     };
 export interface StartConversationResponse {
-  responseEventStream?: stream.Stream<StartConversationResponseEventStream, Error, never>;
+  responseEventStream?:
+    | stream.Stream<StartConversationResponseEventStream, Error, never>
+    | undefined;
 }
 export type DeleteSessionError =
   | AccessDeniedException
@@ -763,7 +768,7 @@ export type DeleteSessionError =
  * `BadRequestException`.
  */
 export const deleteSession: API.OperationMethod<
-  DeleteSessionRequest,
+  DeleteSessionRequest & RegionInput,
   DeleteSessionResponse,
   DeleteSessionError,
   Credentials | HttpClient.HttpClient
@@ -806,7 +811,7 @@ export type GetSessionError =
  * `BadRequestException`.
  */
 export const getSession: API.OperationMethod<
-  GetSessionRequest,
+  GetSessionRequest & RegionInput,
   GetSessionResponse,
   GetSessionError,
   Credentials | HttpClient.HttpClient
@@ -843,7 +848,7 @@ export type PutSessionError =
  * the bot.
  */
 export const putSession: API.OperationMethod<
-  PutSessionRequest,
+  PutSessionRequest & RegionInput,
   PutSessionResponse,
   PutSessionError,
   Credentials | HttpClient.HttpClient
@@ -906,7 +911,7 @@ export type RecognizeTextError =
  * For more information, see Completion message.
  */
 export const recognizeText: API.OperationMethod<
-  RecognizeTextRequest,
+  RecognizeTextRequest & RegionInput,
   RecognizeTextResponse,
   RecognizeTextError,
   Credentials | HttpClient.HttpClient
@@ -992,7 +997,7 @@ export type RecognizeUtteranceError =
  * For more information, see Completion message.
  */
 export const recognizeUtterance: API.OperationMethod<
-  RecognizeUtteranceRequest,
+  RecognizeUtteranceRequest & RegionInput,
   RecognizeUtteranceResponse,
   RecognizeUtteranceError,
   Credentials | HttpClient.HttpClient
@@ -1070,7 +1075,7 @@ export type StartConversationError =
  * - AWS SDK for Ruby V3
  */
 export const startConversation: API.OperationMethod<
-  StartConversationRequest,
+  StartConversationRequest & RegionInput,
   StartConversationResponse,
   StartConversationError,
   Credentials | HttpClient.HttpClient

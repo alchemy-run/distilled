@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -167,7 +168,7 @@ export class ServiceException
       tip: /*@__PURE__*/ S.optional(S.String),
     },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class UnauthenticatedException
   extends /*@__PURE__*/ S.TaggedError<UnauthenticatedException>()(
     "UnauthenticatedException",
@@ -230,8 +231,8 @@ export type RegionName =
   | "sa-east-1"
   | (string & {});
 export interface ResourceLocation {
-  availabilityZone?: string;
-  regionName?: RegionName;
+  availabilityZone?: string | undefined;
+  regionName?: RegionName | undefined;
 }
 export type OperationType =
   | "DeleteKnownHostKeys"
@@ -327,38 +328,38 @@ export type OperationStatus =
   | "Succeeded"
   | (string & {});
 export interface Operation {
-  id?: string;
-  resourceName?: string;
-  resourceType?: ResourceType;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  isTerminal?: boolean;
-  operationDetails?: string;
-  operationType?: OperationType;
-  status?: OperationStatus;
-  statusChangedAt?: Date;
-  errorCode?: string;
-  errorDetails?: string;
+  id?: string | undefined;
+  resourceName?: string | undefined;
+  resourceType?: ResourceType | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  isTerminal?: boolean | undefined;
+  operationDetails?: string | undefined;
+  operationType?: OperationType | undefined;
+  status?: OperationStatus | undefined;
+  statusChangedAt?: Date | undefined;
+  errorCode?: string | undefined;
+  errorDetails?: string | undefined;
 }
 export type OperationList = Operation[];
 export interface AllocateStaticIpResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface AttachCertificateToDistributionRequest {
   distributionName: string;
   certificateName: string;
 }
 export interface AttachCertificateToDistributionResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface AttachDiskRequest {
   diskName: string;
   instanceName: string;
   diskPath: string;
-  autoMounting?: boolean;
+  autoMounting?: boolean | undefined;
 }
 export interface AttachDiskResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export type ResourceNameList = string[];
 export interface AttachInstancesToLoadBalancerRequest {
@@ -366,85 +367,85 @@ export interface AttachInstancesToLoadBalancerRequest {
   instanceNames: string[];
 }
 export interface AttachInstancesToLoadBalancerResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface AttachLoadBalancerTlsCertificateRequest {
   loadBalancerName: string;
   certificateName: string;
 }
 export interface AttachLoadBalancerTlsCertificateResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface AttachStaticIpRequest {
   staticIpName: string;
   instanceName: string;
 }
 export interface AttachStaticIpResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export type Port = number;
 export type NetworkProtocol = "tcp" | "all" | "udp" | "icmp" | "icmpv6" | (string & {});
 export type StringList = string[];
 export interface PortInfo {
-  fromPort?: number;
-  toPort?: number;
-  protocol?: NetworkProtocol;
-  cidrs?: string[];
-  ipv6Cidrs?: string[];
-  cidrListAliases?: string[];
+  fromPort?: number | undefined;
+  toPort?: number | undefined;
+  protocol?: NetworkProtocol | undefined;
+  cidrs?: string[] | undefined;
+  ipv6Cidrs?: string[] | undefined;
+  cidrListAliases?: string[] | undefined;
 }
 export interface CloseInstancePublicPortsRequest {
   portInfo: PortInfo;
   instanceName: string;
 }
 export interface CloseInstancePublicPortsResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface CopySnapshotRequest {
-  sourceSnapshotName?: string;
-  sourceResourceName?: string;
-  restoreDate?: string;
-  useLatestRestorableAutoSnapshot?: boolean;
+  sourceSnapshotName?: string | undefined;
+  sourceResourceName?: string | undefined;
+  restoreDate?: string | undefined;
+  useLatestRestorableAutoSnapshot?: boolean | undefined;
   targetSnapshotName: string;
   sourceRegion: RegionName;
 }
 export interface CopySnapshotResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export type BucketName = string;
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
-  key?: string;
-  value?: string;
+  key?: string | undefined;
+  value?: string | undefined;
 }
 export type TagList = Tag[];
 export interface CreateBucketRequest {
   bucketName: string;
   bundleId: string;
-  tags?: Tag[];
-  enableObjectVersioning?: boolean;
+  tags?: Tag[] | undefined;
+  enableObjectVersioning?: boolean | undefined;
 }
 export type AccessType = "public" | "private" | (string & {});
 export interface AccessRules {
-  getObject?: AccessType;
-  allowPublicOverrides?: boolean;
+  getObject?: AccessType | undefined;
+  allowPublicOverrides?: boolean | undefined;
 }
 export type PartnerIdList = string[];
 export interface ResourceReceivingAccess {
-  name?: string;
-  resourceType?: string;
+  name?: string | undefined;
+  resourceType?: string | undefined;
 }
 export type AccessReceiverList = ResourceReceivingAccess[];
 export interface BucketState {
-  code?: string;
-  message?: string;
+  code?: string | undefined;
+  message?: string | undefined;
 }
 export type BucketAccessLogPrefix = string;
 export interface BucketAccessLogConfig {
   enabled: boolean;
-  destination?: string;
-  prefix?: string;
+  destination?: string | undefined;
+  prefix?: string | undefined;
 }
 export type BucketCorsRuleId = string;
 export type BucketCorsAllowedMethod = string;
@@ -453,60 +454,61 @@ export type BucketCorsAllowedOrigins = string[];
 export type BucketCorsAllowedHeaders = string[];
 export type BucketCorsExposeHeaders = string[];
 export interface BucketCorsRule {
-  id?: string;
+  id?: string | undefined;
   allowedMethods: string[];
   allowedOrigins: string[];
-  allowedHeaders?: string[];
-  exposeHeaders?: string[];
-  maxAgeSeconds?: number;
+  allowedHeaders?: string[] | undefined;
+  exposeHeaders?: string[] | undefined;
+  maxAgeSeconds?: number | undefined;
 }
 export type BucketCorsRules = BucketCorsRule[];
 export interface BucketCorsConfig {
-  rules?: BucketCorsRule[];
+  rules?: BucketCorsRule[] | undefined;
 }
 export interface Bucket {
-  resourceType?: string;
-  accessRules?: AccessRules;
-  arn?: string;
-  bundleId?: string;
-  createdAt?: Date;
-  url?: string;
-  location?: ResourceLocation;
-  name?: string;
-  supportCode?: string;
-  tags?: Tag[];
-  objectVersioning?: string;
-  ableToUpdateBundle?: boolean;
-  readonlyAccessAccounts?: string[];
-  resourcesReceivingAccess?: ResourceReceivingAccess[];
-  state?: BucketState;
-  accessLogConfig?: BucketAccessLogConfig;
-  cors?: BucketCorsConfig;
+  resourceType?: string | undefined;
+  accessRules?: AccessRules | undefined;
+  arn?: string | undefined;
+  bundleId?: string | undefined;
+  createdAt?: Date | undefined;
+  url?: string | undefined;
+  location?: ResourceLocation | undefined;
+  name?: string | undefined;
+  supportCode?: string | undefined;
+  tags?: Tag[] | undefined;
+  objectVersioning?: string | undefined;
+  ableToUpdateBundle?: boolean | undefined;
+  readonlyAccessAccounts?: string[] | undefined;
+  resourcesReceivingAccess?: ResourceReceivingAccess[] | undefined;
+  state?: BucketState | undefined;
+  accessLogConfig?: BucketAccessLogConfig | undefined;
+  cors?: BucketCorsConfig | undefined;
 }
 export interface CreateBucketResult {
-  bucket?: Bucket;
-  operations?: Operation[];
+  bucket?: Bucket | undefined;
+  operations?: Operation[] | undefined;
 }
 export interface CreateBucketAccessKeyRequest {
   bucketName: string;
 }
 export type IAMAccessKeyId = string | redacted.Redacted<string>;
+export type SensitiveNonEmptyString = string | redacted.Redacted<string>;
 export type StatusType = "Active" | "Inactive" | (string & {});
 export interface AccessKeyLastUsed {
-  lastUsedDate?: Date;
-  region?: string;
-  serviceName?: string;
+  lastUsedDate?: Date | undefined;
+  region?: string | undefined;
+  serviceName?: string | undefined;
 }
 export interface AccessKey {
-  accessKeyId?: string | redacted.Redacted<string>;
-  secretAccessKey?: string;
-  status?: StatusType;
-  createdAt?: Date;
-  lastUsed?: AccessKeyLastUsed;
+  accessKeyId?: string | redacted.Redacted<string> | undefined;
+  secretAccessKey?: string | redacted.Redacted<string> | undefined;
+  status?: StatusType | undefined;
+  createdAt?: Date | undefined;
+  lastUsed?: AccessKeyLastUsed | undefined;
 }
 export interface CreateBucketAccessKeyResult {
-  accessKey?: AccessKey;
-  operations?: Operation[];
+  accessKey?: AccessKey | undefined;
+  operations?: Operation[] | undefined;
 }
 export type CertificateName = string;
 export type DomainName = string;
@@ -514,8 +516,8 @@ export type SubjectAlternativeNameList = string[];
 export interface CreateCertificateRequest {
   certificateName: string;
   domainName: string;
-  subjectAlternativeNames?: string[];
-  tags?: Tag[];
+  subjectAlternativeNames?: string[] | undefined;
+  tags?: Tag[] | undefined;
 }
 export type CertificateStatus =
   | "PENDING_VALIDATION"
@@ -528,14 +530,14 @@ export type CertificateStatus =
   | (string & {});
 export type SerialNumber = string;
 export interface ResourceRecord {
-  name?: string;
-  type?: string;
-  value?: string;
+  name?: string | undefined;
+  type?: string | undefined;
+  value?: string | undefined;
 }
 export type DnsRecordCreationStateCode = "SUCCEEDED" | "STARTED" | "FAILED" | (string & {});
 export interface DnsRecordCreationState {
-  code?: DnsRecordCreationStateCode;
-  message?: string;
+  code?: DnsRecordCreationStateCode | undefined;
+  message?: string | undefined;
 }
 export type CertificateDomainValidationStatus =
   | "PENDING_VALIDATION"
@@ -543,10 +545,10 @@ export type CertificateDomainValidationStatus =
   | "SUCCESS"
   | (string & {});
 export interface DomainValidationRecord {
-  domainName?: string;
-  resourceRecord?: ResourceRecord;
-  dnsRecordCreationState?: DnsRecordCreationState;
-  validationStatus?: CertificateDomainValidationStatus;
+  domainName?: string | undefined;
+  resourceRecord?: ResourceRecord | undefined;
+  dnsRecordCreationState?: DnsRecordCreationState | undefined;
+  validationStatus?: CertificateDomainValidationStatus | undefined;
 }
 export type DomainValidationRecordList = DomainValidationRecord[];
 export type RequestFailureReason = string;
@@ -562,52 +564,52 @@ export type RenewalStatus =
   | (string & {});
 export type RenewalStatusReason = string;
 export interface RenewalSummary {
-  domainValidationRecords?: DomainValidationRecord[];
-  renewalStatus?: RenewalStatus;
-  renewalStatusReason?: string;
-  updatedAt?: Date;
+  domainValidationRecords?: DomainValidationRecord[] | undefined;
+  renewalStatus?: RenewalStatus | undefined;
+  renewalStatusReason?: string | undefined;
+  updatedAt?: Date | undefined;
 }
 export type RevocationReason = string;
 export interface Certificate {
-  arn?: string;
-  name?: string;
-  domainName?: string;
-  status?: CertificateStatus;
-  serialNumber?: string;
-  subjectAlternativeNames?: string[];
-  domainValidationRecords?: DomainValidationRecord[];
-  requestFailureReason?: string;
-  inUseResourceCount?: number;
-  keyAlgorithm?: string;
-  createdAt?: Date;
-  issuedAt?: Date;
-  issuerCA?: string;
-  notBefore?: Date;
-  notAfter?: Date;
-  eligibleToRenew?: string;
-  renewalSummary?: RenewalSummary;
-  revokedAt?: Date;
-  revocationReason?: string;
-  tags?: Tag[];
-  supportCode?: string;
+  arn?: string | undefined;
+  name?: string | undefined;
+  domainName?: string | undefined;
+  status?: CertificateStatus | undefined;
+  serialNumber?: string | undefined;
+  subjectAlternativeNames?: string[] | undefined;
+  domainValidationRecords?: DomainValidationRecord[] | undefined;
+  requestFailureReason?: string | undefined;
+  inUseResourceCount?: number | undefined;
+  keyAlgorithm?: string | undefined;
+  createdAt?: Date | undefined;
+  issuedAt?: Date | undefined;
+  issuerCA?: string | undefined;
+  notBefore?: Date | undefined;
+  notAfter?: Date | undefined;
+  eligibleToRenew?: string | undefined;
+  renewalSummary?: RenewalSummary | undefined;
+  revokedAt?: Date | undefined;
+  revocationReason?: string | undefined;
+  tags?: Tag[] | undefined;
+  supportCode?: string | undefined;
 }
 export interface CertificateSummary {
-  certificateArn?: string;
-  certificateName?: string;
-  domainName?: string;
-  certificateDetail?: Certificate;
-  tags?: Tag[];
+  certificateArn?: string | undefined;
+  certificateName?: string | undefined;
+  domainName?: string | undefined;
+  certificateDetail?: Certificate | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface CreateCertificateResult {
-  certificate?: CertificateSummary;
-  operations?: Operation[];
+  certificate?: CertificateSummary | undefined;
+  operations?: Operation[] | undefined;
 }
 export type PortInfoSourceType = "DEFAULT" | "INSTANCE" | "NONE" | "CLOSED" | (string & {});
 export interface InstanceEntry {
   sourceName: string;
   instanceType: string;
   portInfoSource: PortInfoSourceType;
-  userData?: string;
+  userData?: string | undefined;
   availabilityZone: string;
 }
 export type InstanceEntryList = InstanceEntry[];
@@ -615,17 +617,17 @@ export interface CreateCloudFormationStackRequest {
   instances: InstanceEntry[];
 }
 export interface CreateCloudFormationStackResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export type ContactProtocol = "Email" | "SMS" | (string & {});
 export type StringMax256 = string;
 export interface CreateContactMethodRequest {
   protocol: ContactProtocol;
   contactEndpoint: string;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface CreateContactMethodResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export type ContainerServiceName = string;
 export type ContainerServicePowerName =
@@ -644,43 +646,43 @@ export type Environment = { [key: string]: string | undefined };
 export type ContainerServiceProtocol = "HTTP" | "HTTPS" | "TCP" | "UDP" | (string & {});
 export type PortMap = { [key: string]: ContainerServiceProtocol | undefined };
 export interface Container {
-  image?: string;
-  command?: string[];
-  environment?: { [key: string]: string | undefined };
-  ports?: { [key: string]: ContainerServiceProtocol | undefined };
+  image?: string | undefined;
+  command?: string[] | undefined;
+  environment?: { [key: string]: string | undefined } | undefined;
+  ports?: { [key: string]: ContainerServiceProtocol | undefined } | undefined;
 }
 export type ContainerMap = { [key: string]: Container | undefined };
 export interface ContainerServiceHealthCheckConfig {
-  healthyThreshold?: number;
-  unhealthyThreshold?: number;
-  timeoutSeconds?: number;
-  intervalSeconds?: number;
-  path?: string;
-  successCodes?: string;
+  healthyThreshold?: number | undefined;
+  unhealthyThreshold?: number | undefined;
+  timeoutSeconds?: number | undefined;
+  intervalSeconds?: number | undefined;
+  path?: string | undefined;
+  successCodes?: string | undefined;
 }
 export interface EndpointRequest {
   containerName: string;
   containerPort: number;
-  healthCheck?: ContainerServiceHealthCheckConfig;
+  healthCheck?: ContainerServiceHealthCheckConfig | undefined;
 }
 export interface ContainerServiceDeploymentRequest {
-  containers?: { [key: string]: Container | undefined };
-  publicEndpoint?: EndpointRequest;
+  containers?: { [key: string]: Container | undefined } | undefined;
+  publicEndpoint?: EndpointRequest | undefined;
 }
 export interface ContainerServiceECRImagePullerRoleRequest {
-  isActive?: boolean;
+  isActive?: boolean | undefined;
 }
 export interface PrivateRegistryAccessRequest {
-  ecrImagePullerRole?: ContainerServiceECRImagePullerRoleRequest;
+  ecrImagePullerRole?: ContainerServiceECRImagePullerRoleRequest | undefined;
 }
 export interface CreateContainerServiceRequest {
   serviceName: string;
   power: ContainerServicePowerName;
   scale: number;
-  tags?: Tag[];
-  publicDomainNames?: { [key: string]: string[] | undefined };
-  deployment?: ContainerServiceDeploymentRequest;
-  privateRegistryAccess?: PrivateRegistryAccessRequest;
+  tags?: Tag[] | undefined;
+  publicDomainNames?: { [key: string]: string[] | undefined } | undefined;
+  deployment?: ContainerServiceDeploymentRequest | undefined;
+  privateRegistryAccess?: PrivateRegistryAccessRequest | undefined;
 }
 export type ContainerServiceState =
   | "PENDING"
@@ -703,8 +705,8 @@ export type ContainerServiceStateDetailCode =
   | "UNKNOWN_ERROR"
   | (string & {});
 export interface ContainerServiceStateDetail {
-  code?: ContainerServiceStateDetailCode;
-  message?: string;
+  code?: ContainerServiceStateDetailCode | undefined;
+  message?: string | undefined;
 }
 export type ContainerServiceDeploymentState =
   | "ACTIVATING"
@@ -713,131 +715,132 @@ export type ContainerServiceDeploymentState =
   | "FAILED"
   | (string & {});
 export interface ContainerServiceEndpoint {
-  containerName?: string;
-  containerPort?: number;
-  healthCheck?: ContainerServiceHealthCheckConfig;
+  containerName?: string | undefined;
+  containerPort?: number | undefined;
+  healthCheck?: ContainerServiceHealthCheckConfig | undefined;
 }
 export interface ContainerServiceDeployment {
-  version?: number;
-  state?: ContainerServiceDeploymentState;
-  containers?: { [key: string]: Container | undefined };
-  publicEndpoint?: ContainerServiceEndpoint;
-  createdAt?: Date;
+  version?: number | undefined;
+  state?: ContainerServiceDeploymentState | undefined;
+  containers?: { [key: string]: Container | undefined } | undefined;
+  publicEndpoint?: ContainerServiceEndpoint | undefined;
+  createdAt?: Date | undefined;
 }
 export interface ContainerServiceECRImagePullerRole {
-  isActive?: boolean;
-  principalArn?: string;
+  isActive?: boolean | undefined;
+  principalArn?: string | undefined;
 }
 export interface PrivateRegistryAccess {
-  ecrImagePullerRole?: ContainerServiceECRImagePullerRole;
+  ecrImagePullerRole?: ContainerServiceECRImagePullerRole | undefined;
 }
 export interface ContainerService {
-  containerServiceName?: string;
-  arn?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  tags?: Tag[];
-  power?: ContainerServicePowerName;
-  powerId?: string;
-  state?: ContainerServiceState;
-  stateDetail?: ContainerServiceStateDetail;
-  scale?: number;
-  currentDeployment?: ContainerServiceDeployment;
-  nextDeployment?: ContainerServiceDeployment;
-  isDisabled?: boolean;
-  principalArn?: string;
-  privateDomainName?: string;
-  publicDomainNames?: { [key: string]: string[] | undefined };
-  url?: string;
-  privateRegistryAccess?: PrivateRegistryAccess;
+  containerServiceName?: string | undefined;
+  arn?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  tags?: Tag[] | undefined;
+  power?: ContainerServicePowerName | undefined;
+  powerId?: string | undefined;
+  state?: ContainerServiceState | undefined;
+  stateDetail?: ContainerServiceStateDetail | undefined;
+  scale?: number | undefined;
+  currentDeployment?: ContainerServiceDeployment | undefined;
+  nextDeployment?: ContainerServiceDeployment | undefined;
+  isDisabled?: boolean | undefined;
+  principalArn?: string | undefined;
+  privateDomainName?: string | undefined;
+  publicDomainNames?: { [key: string]: string[] | undefined } | undefined;
+  url?: string | undefined;
+  privateRegistryAccess?: PrivateRegistryAccess | undefined;
 }
 export interface CreateContainerServiceResult {
-  containerService?: ContainerService;
+  containerService?: ContainerService | undefined;
 }
 export interface CreateContainerServiceDeploymentRequest {
   serviceName: string;
-  containers?: { [key: string]: Container | undefined };
-  publicEndpoint?: EndpointRequest;
+  containers?: { [key: string]: Container | undefined } | undefined;
+  publicEndpoint?: EndpointRequest | undefined;
 }
 export interface CreateContainerServiceDeploymentResult {
-  containerService?: ContainerService;
+  containerService?: ContainerService | undefined;
 }
 export interface CreateContainerServiceRegistryLoginRequest {}
+export type SensitiveString = string | redacted.Redacted<string>;
 export interface ContainerServiceRegistryLogin {
-  username?: string;
-  password?: string;
-  expiresAt?: Date;
-  registry?: string;
+  username?: string | undefined;
+  password?: string | redacted.Redacted<string> | undefined;
+  expiresAt?: Date | undefined;
+  registry?: string | undefined;
 }
 export interface CreateContainerServiceRegistryLoginResult {
-  registryLogin?: ContainerServiceRegistryLogin;
+  registryLogin?: ContainerServiceRegistryLogin | undefined;
 }
 export type AddOnType = "AutoSnapshot" | "StopInstanceOnIdle" | (string & {});
 export type TimeOfDay = string;
 export interface AutoSnapshotAddOnRequest {
-  snapshotTimeOfDay?: string;
+  snapshotTimeOfDay?: string | undefined;
 }
 export interface StopInstanceOnIdleRequest {
-  threshold?: string;
-  duration?: string;
+  threshold?: string | undefined;
+  duration?: string | undefined;
 }
 export interface AddOnRequest {
   addOnType: AddOnType;
-  autoSnapshotAddOnRequest?: AutoSnapshotAddOnRequest;
-  stopInstanceOnIdleRequest?: StopInstanceOnIdleRequest;
+  autoSnapshotAddOnRequest?: AutoSnapshotAddOnRequest | undefined;
+  stopInstanceOnIdleRequest?: StopInstanceOnIdleRequest | undefined;
 }
 export type AddOnRequestList = AddOnRequest[];
 export interface CreateDiskRequest {
   diskName: string;
   availabilityZone: string;
   sizeInGb: number;
-  tags?: Tag[];
-  addOns?: AddOnRequest[];
+  tags?: Tag[] | undefined;
+  addOns?: AddOnRequest[] | undefined;
 }
 export interface CreateDiskResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface CreateDiskFromSnapshotRequest {
   diskName: string;
-  diskSnapshotName?: string;
+  diskSnapshotName?: string | undefined;
   availabilityZone: string;
   sizeInGb: number;
-  tags?: Tag[];
-  addOns?: AddOnRequest[];
-  sourceDiskName?: string;
-  restoreDate?: string;
-  useLatestRestorableAutoSnapshot?: boolean;
+  tags?: Tag[] | undefined;
+  addOns?: AddOnRequest[] | undefined;
+  sourceDiskName?: string | undefined;
+  restoreDate?: string | undefined;
+  useLatestRestorableAutoSnapshot?: boolean | undefined;
 }
 export interface CreateDiskFromSnapshotResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface CreateDiskSnapshotRequest {
-  diskName?: string;
+  diskName?: string | undefined;
   diskSnapshotName: string;
-  instanceName?: string;
-  tags?: Tag[];
+  instanceName?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface CreateDiskSnapshotResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export type OriginProtocolPolicyEnum = "http-only" | "https-only" | (string & {});
 export type OriginIpAddressTypeEnum = "ipv4" | "ipv6" | "dualstack" | (string & {});
 export interface InputOrigin {
-  name?: string;
-  regionName?: RegionName;
-  protocolPolicy?: OriginProtocolPolicyEnum;
-  responseTimeout?: number;
-  ipAddressType?: OriginIpAddressTypeEnum;
+  name?: string | undefined;
+  regionName?: RegionName | undefined;
+  protocolPolicy?: OriginProtocolPolicyEnum | undefined;
+  responseTimeout?: number | undefined;
+  ipAddressType?: OriginIpAddressTypeEnum | undefined;
 }
 export type BehaviorEnum = "dont-cache" | "cache" | (string & {});
 export interface CacheBehavior {
-  behavior?: BehaviorEnum;
+  behavior?: BehaviorEnum | undefined;
 }
 export type ForwardValues = "none" | "allow-list" | "all" | (string & {});
 export interface CookieObject {
-  option?: ForwardValues;
-  cookiesAllowList?: string[];
+  option?: ForwardValues | undefined;
+  cookiesAllowList?: string[] | undefined;
 }
 export type HeaderEnum =
   | "Accept"
@@ -858,26 +861,26 @@ export type HeaderEnum =
   | (string & {});
 export type HeaderForwardList = HeaderEnum[];
 export interface HeaderObject {
-  option?: ForwardValues;
-  headersAllowList?: HeaderEnum[];
+  option?: ForwardValues | undefined;
+  headersAllowList?: HeaderEnum[] | undefined;
 }
 export interface QueryStringObject {
-  option?: boolean;
-  queryStringsAllowList?: string[];
+  option?: boolean | undefined;
+  queryStringsAllowList?: string[] | undefined;
 }
 export interface CacheSettings {
-  defaultTTL?: number;
-  minimumTTL?: number;
-  maximumTTL?: number;
-  allowedHTTPMethods?: string;
-  cachedHTTPMethods?: string;
-  forwardedCookies?: CookieObject;
-  forwardedHeaders?: HeaderObject;
-  forwardedQueryStrings?: QueryStringObject;
+  defaultTTL?: number | undefined;
+  minimumTTL?: number | undefined;
+  maximumTTL?: number | undefined;
+  allowedHTTPMethods?: string | undefined;
+  cachedHTTPMethods?: string | undefined;
+  forwardedCookies?: CookieObject | undefined;
+  forwardedHeaders?: HeaderObject | undefined;
+  forwardedQueryStrings?: QueryStringObject | undefined;
 }
 export interface CacheBehaviorPerPath {
-  path?: string;
-  behavior?: BehaviorEnum;
+  path?: string | undefined;
+  behavior?: BehaviorEnum | undefined;
 }
 export type CacheBehaviorList = CacheBehaviorPerPath[];
 export type IpAddressType = "dualstack" | "ipv4" | "ipv6" | (string & {});
@@ -888,89 +891,126 @@ export type ViewerMinimumTlsProtocolVersionEnum =
   | "TLSv1.2_2021"
   | (string & {});
 export interface DistributionCustomErrorResponse {
-  errorCode?: number;
-  responseCode?: string;
-  responsePagePath?: string;
-  errorCachingMinTTL?: number;
+  errorCode?: number | undefined;
+  responseCode?: string | undefined;
+  responsePagePath?: string | undefined;
+  errorCachingMinTTL?: number | undefined;
 }
 export type DistributionCustomErrorResponseList = DistributionCustomErrorResponse[];
+export type WafPayloadTypeEnum = "JSON" | "FORM_ENCODED" | (string & {});
+export type WafStatusCodeList = number[];
+export interface WafResponseInspection {
+  successCodes?: number[] | undefined;
+  failureCodes?: number[] | undefined;
+}
+export interface WafAtpConfig {
+  loginPath?: string | undefined;
+  payloadType?: WafPayloadTypeEnum | undefined;
+  usernameField?: string | undefined;
+  passwordField?: string | undefined;
+  responseInspection?: WafResponseInspection | undefined;
+}
+export interface WafAcfpConfig {
+  payloadType?: WafPayloadTypeEnum | undefined;
+  creationPath?: string | undefined;
+  registrationPagePath?: string | undefined;
+  responseInspection?: WafResponseInspection | undefined;
+}
+export type WafInspectionLevelEnum = "COMMON" | "TARGETED" | (string & {});
+export interface WafBotControlConfig {
+  inspectionLevel?: WafInspectionLevelEnum | undefined;
+}
+export interface WafRule {
+  name: string;
+  atpConfig?: WafAtpConfig | undefined;
+  acfpConfig?: WafAcfpConfig | undefined;
+  botControlConfig?: WafBotControlConfig | undefined;
+}
+export type WafRuleList = WafRule[];
 export interface CreateDistributionRequest {
   distributionName: string;
   origin: InputOrigin;
   defaultCacheBehavior: CacheBehavior;
-  cacheBehaviorSettings?: CacheSettings;
-  cacheBehaviors?: CacheBehaviorPerPath[];
+  cacheBehaviorSettings?: CacheSettings | undefined;
+  cacheBehaviors?: CacheBehaviorPerPath[] | undefined;
   bundleId: string;
-  ipAddressType?: IpAddressType;
-  tags?: Tag[];
-  certificateName?: string;
-  viewerMinimumTlsProtocolVersion?: ViewerMinimumTlsProtocolVersionEnum;
-  enablePrivateOriginAccess?: boolean;
-  defaultRootObject?: string;
-  customErrorResponses?: DistributionCustomErrorResponse[];
+  ipAddressType?: IpAddressType | undefined;
+  tags?: Tag[] | undefined;
+  certificateName?: string | undefined;
+  viewerMinimumTlsProtocolVersion?: ViewerMinimumTlsProtocolVersionEnum | undefined;
+  enablePrivateOriginAccess?: boolean | undefined;
+  defaultRootObject?: string | undefined;
+  customErrorResponses?: DistributionCustomErrorResponse[] | undefined;
+  enableWaf?: boolean | undefined;
+  wafRules?: WafRule[] | undefined;
 }
 export interface Origin {
-  name?: string;
-  resourceType?: ResourceType;
-  regionName?: RegionName;
-  protocolPolicy?: OriginProtocolPolicyEnum;
-  responseTimeout?: number;
-  ipAddressType?: OriginIpAddressTypeEnum;
-  isPrivateOriginAccessEnabled?: boolean;
+  name?: string | undefined;
+  resourceType?: ResourceType | undefined;
+  regionName?: RegionName | undefined;
+  protocolPolicy?: OriginProtocolPolicyEnum | undefined;
+  responseTimeout?: number | undefined;
+  ipAddressType?: OriginIpAddressTypeEnum | undefined;
+  isPrivateOriginAccessEnabled?: boolean | undefined;
+}
+export interface WafConfig {
+  isWafEnabled?: boolean | undefined;
+  wafRules?: WafRule[] | undefined;
 }
 export interface LightsailDistribution {
-  name?: string;
-  arn?: string;
-  supportCode?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  alternativeDomainNames?: string[];
-  status?: string;
-  isEnabled?: boolean;
-  domainName?: string;
-  bundleId?: string;
-  certificateName?: string;
-  origin?: Origin;
-  originPublicDNS?: string;
-  defaultCacheBehavior?: CacheBehavior;
-  cacheBehaviorSettings?: CacheSettings;
-  cacheBehaviors?: CacheBehaviorPerPath[];
-  ableToUpdateBundle?: boolean;
-  ipAddressType?: IpAddressType;
-  tags?: Tag[];
-  viewerMinimumTlsProtocolVersion?: string;
-  defaultRootObject?: string;
-  customErrorResponses?: DistributionCustomErrorResponse[];
+  name?: string | undefined;
+  arn?: string | undefined;
+  supportCode?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  alternativeDomainNames?: string[] | undefined;
+  status?: string | undefined;
+  isEnabled?: boolean | undefined;
+  domainName?: string | undefined;
+  bundleId?: string | undefined;
+  certificateName?: string | undefined;
+  origin?: Origin | undefined;
+  originPublicDNS?: string | undefined;
+  defaultCacheBehavior?: CacheBehavior | undefined;
+  cacheBehaviorSettings?: CacheSettings | undefined;
+  cacheBehaviors?: CacheBehaviorPerPath[] | undefined;
+  ableToUpdateBundle?: boolean | undefined;
+  ipAddressType?: IpAddressType | undefined;
+  tags?: Tag[] | undefined;
+  viewerMinimumTlsProtocolVersion?: string | undefined;
+  defaultRootObject?: string | undefined;
+  customErrorResponses?: DistributionCustomErrorResponse[] | undefined;
+  waf?: WafConfig | undefined;
 }
 export interface CreateDistributionResult {
-  distribution?: LightsailDistribution;
-  operation?: Operation;
+  distribution?: LightsailDistribution | undefined;
+  operation?: Operation | undefined;
 }
 export interface CreateDomainRequest {
   domainName: string;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface CreateDomainResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export type DomainEntryType = string;
 export type DomainEntryOptionsKeys = string;
 export type DomainEntryOptions = { [key: string]: string | undefined };
 export interface DomainEntry {
-  id?: string;
-  name?: string;
-  target?: string;
-  isAlias?: boolean;
-  type?: string;
-  options?: { [key: string]: string | undefined };
+  id?: string | undefined;
+  name?: string | undefined;
+  target?: string | undefined;
+  isAlias?: boolean | undefined;
+  type?: string | undefined;
+  options?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateDomainEntryRequest {
   domainName: string;
   domainEntry: DomainEntry;
 }
 export interface CreateDomainEntryResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface CreateGUISessionAccessDetailsRequest {
   resourceName: string;
@@ -987,157 +1027,156 @@ export type Status =
   | "failedStartingGUISession"
   | "failedStoppingGUISession"
   | (string & {});
-export type SensitiveNonEmptyString = string | redacted.Redacted<string>;
 export interface Session {
-  name?: string;
-  url?: string | redacted.Redacted<string>;
-  isPrimary?: boolean;
+  name?: string | undefined;
+  url?: string | redacted.Redacted<string> | undefined;
+  isPrimary?: boolean | undefined;
 }
 export type Sessions = Session[];
 export interface CreateGUISessionAccessDetailsResult {
-  resourceName?: string;
-  status?: Status;
-  percentageComplete?: number;
-  failureReason?: string;
-  sessions?: Session[];
+  resourceName?: string | undefined;
+  status?: Status | undefined;
+  percentageComplete?: number | undefined;
+  failureReason?: string | undefined;
+  sessions?: Session[] | undefined;
 }
 export interface CreateInstancesRequest {
   instanceNames: string[];
   availabilityZone: string;
-  customImageName?: string;
+  customImageName?: string | undefined;
   blueprintId: string;
   bundleId: string;
-  userData?: string;
-  keyPairName?: string;
-  tags?: Tag[];
-  addOns?: AddOnRequest[];
-  ipAddressType?: IpAddressType;
+  userData?: string | undefined;
+  keyPairName?: string | undefined;
+  tags?: Tag[] | undefined;
+  addOns?: AddOnRequest[] | undefined;
+  ipAddressType?: IpAddressType | undefined;
 }
 export interface CreateInstancesResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DiskMap {
-  originalDiskPath?: string;
-  newDiskName?: string;
+  originalDiskPath?: string | undefined;
+  newDiskName?: string | undefined;
 }
 export type DiskMapList = DiskMap[];
 export type AttachedDiskMap = { [key: string]: DiskMap[] | undefined };
 export interface CreateInstancesFromSnapshotRequest {
   instanceNames: string[];
-  attachedDiskMapping?: { [key: string]: DiskMap[] | undefined };
+  attachedDiskMapping?: { [key: string]: DiskMap[] | undefined } | undefined;
   availabilityZone: string;
-  instanceSnapshotName?: string;
+  instanceSnapshotName?: string | undefined;
   bundleId: string;
-  userData?: string;
-  keyPairName?: string;
-  tags?: Tag[];
-  addOns?: AddOnRequest[];
-  ipAddressType?: IpAddressType;
-  sourceInstanceName?: string;
-  restoreDate?: string;
-  useLatestRestorableAutoSnapshot?: boolean;
+  userData?: string | undefined;
+  keyPairName?: string | undefined;
+  tags?: Tag[] | undefined;
+  addOns?: AddOnRequest[] | undefined;
+  ipAddressType?: IpAddressType | undefined;
+  sourceInstanceName?: string | undefined;
+  restoreDate?: string | undefined;
+  useLatestRestorableAutoSnapshot?: boolean | undefined;
 }
 export interface CreateInstancesFromSnapshotResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface CreateInstanceSnapshotRequest {
   instanceSnapshotName: string;
   instanceName: string;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface CreateInstanceSnapshotResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface CreateKeyPairRequest {
   keyPairName: string;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export type Base64 = string;
 export interface KeyPair {
-  name?: string;
-  arn?: string;
-  supportCode?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  tags?: Tag[];
-  fingerprint?: string;
+  name?: string | undefined;
+  arn?: string | undefined;
+  supportCode?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  tags?: Tag[] | undefined;
+  fingerprint?: string | undefined;
 }
+export type SensitiveBase64 = string | redacted.Redacted<string>;
 export interface CreateKeyPairResult {
-  keyPair?: KeyPair;
-  publicKeyBase64?: string;
-  privateKeyBase64?: string;
-  operation?: Operation;
+  keyPair?: KeyPair | undefined;
+  publicKeyBase64?: string | undefined;
+  privateKeyBase64?: string | redacted.Redacted<string> | undefined;
+  operation?: Operation | undefined;
 }
 export type DomainNameList = string[];
 export interface CreateLoadBalancerRequest {
   loadBalancerName: string;
   instancePort: number;
-  healthCheckPath?: string;
-  certificateName?: string;
-  certificateDomainName?: string;
-  certificateAlternativeNames?: string[];
-  tags?: Tag[];
-  ipAddressType?: IpAddressType;
-  tlsPolicyName?: string;
+  healthCheckPath?: string | undefined;
+  certificateName?: string | undefined;
+  certificateDomainName?: string | undefined;
+  certificateAlternativeNames?: string[] | undefined;
+  tags?: Tag[] | undefined;
+  ipAddressType?: IpAddressType | undefined;
+  tlsPolicyName?: string | undefined;
 }
 export interface CreateLoadBalancerResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface CreateLoadBalancerTlsCertificateRequest {
   loadBalancerName: string;
   certificateName: string;
   certificateDomainName: string;
-  certificateAlternativeNames?: string[];
-  tags?: Tag[];
+  certificateAlternativeNames?: string[] | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface CreateLoadBalancerTlsCertificateResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
-export type SensitiveString = string | redacted.Redacted<string>;
 export interface CreateRelationalDatabaseRequest {
   relationalDatabaseName: string;
-  availabilityZone?: string;
+  availabilityZone?: string | undefined;
   relationalDatabaseBlueprintId: string;
   relationalDatabaseBundleId: string;
   masterDatabaseName: string;
   masterUsername: string;
-  masterUserPassword?: string | redacted.Redacted<string>;
-  preferredBackupWindow?: string;
-  preferredMaintenanceWindow?: string;
-  publiclyAccessible?: boolean;
-  tags?: Tag[];
+  masterUserPassword?: string | redacted.Redacted<string> | undefined;
+  preferredBackupWindow?: string | undefined;
+  preferredMaintenanceWindow?: string | undefined;
+  publiclyAccessible?: boolean | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface CreateRelationalDatabaseResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface CreateRelationalDatabaseFromSnapshotRequest {
   relationalDatabaseName: string;
-  availabilityZone?: string;
-  publiclyAccessible?: boolean;
-  relationalDatabaseSnapshotName?: string;
-  relationalDatabaseBundleId?: string;
-  sourceRelationalDatabaseName?: string;
-  restoreTime?: Date;
-  useLatestRestorableTime?: boolean;
-  tags?: Tag[];
+  availabilityZone?: string | undefined;
+  publiclyAccessible?: boolean | undefined;
+  relationalDatabaseSnapshotName?: string | undefined;
+  relationalDatabaseBundleId?: string | undefined;
+  sourceRelationalDatabaseName?: string | undefined;
+  restoreTime?: Date | undefined;
+  useLatestRestorableTime?: boolean | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface CreateRelationalDatabaseFromSnapshotResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface CreateRelationalDatabaseSnapshotRequest {
   relationalDatabaseName: string;
   relationalDatabaseSnapshotName: string;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface CreateRelationalDatabaseSnapshotResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DeleteAlarmRequest {
   alarmName: string;
 }
 export interface DeleteAlarmResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export type AutoSnapshotDate = string;
 export interface DeleteAutoSnapshotRequest {
@@ -1145,33 +1184,33 @@ export interface DeleteAutoSnapshotRequest {
   date: string;
 }
 export interface DeleteAutoSnapshotResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DeleteBucketRequest {
   bucketName: string;
-  forceDelete?: boolean;
+  forceDelete?: boolean | undefined;
 }
 export interface DeleteBucketResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DeleteBucketAccessKeyRequest {
   bucketName: string;
   accessKeyId: string;
 }
 export interface DeleteBucketAccessKeyResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DeleteCertificateRequest {
   certificateName: string;
 }
 export interface DeleteCertificateResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DeleteContactMethodRequest {
   protocol: ContactProtocol;
 }
 export interface DeleteContactMethodResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DeleteContainerImageRequest {
   serviceName: string;
@@ -1184,158 +1223,158 @@ export interface DeleteContainerServiceRequest {
 export interface DeleteContainerServiceResult {}
 export interface DeleteDiskRequest {
   diskName: string;
-  forceDeleteAddOns?: boolean;
+  forceDeleteAddOns?: boolean | undefined;
 }
 export interface DeleteDiskResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DeleteDiskSnapshotRequest {
   diskSnapshotName: string;
 }
 export interface DeleteDiskSnapshotResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DeleteDistributionRequest {
-  distributionName?: string;
+  distributionName?: string | undefined;
 }
 export interface DeleteDistributionResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface DeleteDomainRequest {
   domainName: string;
 }
 export interface DeleteDomainResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface DeleteDomainEntryRequest {
   domainName: string;
   domainEntry: DomainEntry;
 }
 export interface DeleteDomainEntryResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface DeleteInstanceRequest {
   instanceName: string;
-  forceDeleteAddOns?: boolean;
+  forceDeleteAddOns?: boolean | undefined;
 }
 export interface DeleteInstanceResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DeleteInstanceSnapshotRequest {
   instanceSnapshotName: string;
 }
 export interface DeleteInstanceSnapshotResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DeleteKeyPairRequest {
   keyPairName: string;
-  expectedFingerprint?: string;
+  expectedFingerprint?: string | undefined;
 }
 export interface DeleteKeyPairResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface DeleteKnownHostKeysRequest {
   instanceName: string;
 }
 export interface DeleteKnownHostKeysResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DeleteLoadBalancerRequest {
   loadBalancerName: string;
 }
 export interface DeleteLoadBalancerResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DeleteLoadBalancerTlsCertificateRequest {
   loadBalancerName: string;
   certificateName: string;
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteLoadBalancerTlsCertificateResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DeleteRelationalDatabaseRequest {
   relationalDatabaseName: string;
-  skipFinalSnapshot?: boolean;
-  finalRelationalDatabaseSnapshotName?: string;
+  skipFinalSnapshot?: boolean | undefined;
+  finalRelationalDatabaseSnapshotName?: string | undefined;
 }
 export interface DeleteRelationalDatabaseResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DeleteRelationalDatabaseSnapshotRequest {
   relationalDatabaseSnapshotName: string;
 }
 export interface DeleteRelationalDatabaseSnapshotResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DetachCertificateFromDistributionRequest {
   distributionName: string;
 }
 export interface DetachCertificateFromDistributionResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface DetachDiskRequest {
   diskName: string;
 }
 export interface DetachDiskResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DetachInstancesFromLoadBalancerRequest {
   loadBalancerName: string;
   instanceNames: string[];
 }
 export interface DetachInstancesFromLoadBalancerResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DetachStaticIpRequest {
   staticIpName: string;
 }
 export interface DetachStaticIpResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DisableAddOnRequest {
   addOnType: AddOnType;
   resourceName: string;
 }
 export interface DisableAddOnResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DownloadDefaultKeyPairRequest {}
 export interface DownloadDefaultKeyPairResult {
-  publicKeyBase64?: string;
-  privateKeyBase64?: string;
-  createdAt?: Date;
+  publicKeyBase64?: string | undefined;
+  privateKeyBase64?: string | redacted.Redacted<string> | undefined;
+  createdAt?: Date | undefined;
 }
 export interface EnableAddOnRequest {
   resourceName: string;
   addOnRequest: AddOnRequest;
 }
 export interface EnableAddOnResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface ExportSnapshotRequest {
   sourceSnapshotName: string;
 }
 export interface ExportSnapshotResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface GetActiveNamesRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface GetActiveNamesResult {
-  activeNames?: string[];
-  nextPageToken?: string;
+  activeNames?: string[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetAlarmsRequest {
-  alarmName?: string;
-  pageToken?: string;
-  monitoredResourceName?: string;
+  alarmName?: string | undefined;
+  pageToken?: string | undefined;
+  monitoredResourceName?: string | undefined;
 }
 export type ResourceArn = string;
 export interface MonitoredResourceInfo {
-  arn?: string;
-  name?: string;
-  resourceType?: ResourceType;
+  arn?: string | undefined;
+  name?: string | undefined;
+  resourceType?: ResourceType | undefined;
 }
 export type ComparisonOperator =
   | "GreaterThanOrEqualToThreshold"
@@ -1380,6 +1419,13 @@ export type MetricName =
   | "SwapUsage"
   | "BurstCapacityTime"
   | "BurstCapacityPercentage"
+  | "DiskReadOps"
+  | "DiskWriteOps"
+  | "DiskReadBytes"
+  | "DiskWriteBytes"
+  | "DiskTotalReadTime"
+  | "DiskTotalWriteTime"
+  | "DiskQueueLength"
   | (string & {});
 export type AlarmState = "OK" | "ALARM" | "INSUFFICIENT_DATA" | (string & {});
 export type MetricUnit =
@@ -1414,103 +1460,103 @@ export type MetricUnit =
 export type ContactProtocolsList = ContactProtocol[];
 export type NotificationTriggerList = AlarmState[];
 export interface Alarm {
-  name?: string;
-  arn?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  supportCode?: string;
-  monitoredResourceInfo?: MonitoredResourceInfo;
-  comparisonOperator?: ComparisonOperator;
-  evaluationPeriods?: number;
-  period?: number;
-  threshold?: number;
-  datapointsToAlarm?: number;
-  treatMissingData?: TreatMissingData;
-  statistic?: MetricStatistic;
-  metricName?: MetricName;
-  state?: AlarmState;
-  unit?: MetricUnit;
-  contactProtocols?: ContactProtocol[];
-  notificationTriggers?: AlarmState[];
-  notificationEnabled?: boolean;
-  tags?: Tag[];
+  name?: string | undefined;
+  arn?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  supportCode?: string | undefined;
+  monitoredResourceInfo?: MonitoredResourceInfo | undefined;
+  comparisonOperator?: ComparisonOperator | undefined;
+  evaluationPeriods?: number | undefined;
+  period?: number | undefined;
+  threshold?: number | undefined;
+  datapointsToAlarm?: number | undefined;
+  treatMissingData?: TreatMissingData | undefined;
+  statistic?: MetricStatistic | undefined;
+  metricName?: MetricName | undefined;
+  state?: AlarmState | undefined;
+  unit?: MetricUnit | undefined;
+  contactProtocols?: ContactProtocol[] | undefined;
+  notificationTriggers?: AlarmState[] | undefined;
+  notificationEnabled?: boolean | undefined;
+  tags?: Tag[] | undefined;
 }
 export type AlarmsList = Alarm[];
 export interface GetAlarmsResult {
-  alarms?: Alarm[];
-  nextPageToken?: string;
+  alarms?: Alarm[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetAutoSnapshotsRequest {
   resourceName: string;
 }
 export type AutoSnapshotStatus = "Success" | "Failed" | "InProgress" | "NotFound" | (string & {});
 export interface AttachedDisk {
-  path?: string;
-  sizeInGb?: number;
+  path?: string | undefined;
+  sizeInGb?: number | undefined;
 }
 export type AttachedDiskList = AttachedDisk[];
 export interface AutoSnapshotDetails {
-  date?: string;
-  createdAt?: Date;
-  status?: AutoSnapshotStatus;
-  fromAttachedDisks?: AttachedDisk[];
+  date?: string | undefined;
+  createdAt?: Date | undefined;
+  status?: AutoSnapshotStatus | undefined;
+  fromAttachedDisks?: AttachedDisk[] | undefined;
 }
 export type AutoSnapshotDetailsList = AutoSnapshotDetails[];
 export interface GetAutoSnapshotsResult {
-  resourceName?: string;
-  resourceType?: ResourceType;
-  autoSnapshots?: AutoSnapshotDetails[];
+  resourceName?: string | undefined;
+  resourceType?: ResourceType | undefined;
+  autoSnapshots?: AutoSnapshotDetails[] | undefined;
 }
 export type AppCategory = "LfR" | (string & {});
 export interface GetBlueprintsRequest {
-  includeInactive?: boolean;
-  pageToken?: string;
-  appCategory?: AppCategory;
+  includeInactive?: boolean | undefined;
+  pageToken?: string | undefined;
+  appCategory?: AppCategory | undefined;
 }
 export type BlueprintType = "os" | "app" | (string & {});
 export type InstancePlatform = "LINUX_UNIX" | "WINDOWS" | (string & {});
 export interface Blueprint {
-  blueprintId?: string;
-  name?: string;
-  group?: string;
-  type?: BlueprintType;
-  description?: string;
-  isActive?: boolean;
-  minPower?: number;
-  version?: string;
-  versionCode?: string;
-  productUrl?: string;
-  licenseUrl?: string;
-  platform?: InstancePlatform;
-  appCategory?: AppCategory;
+  blueprintId?: string | undefined;
+  name?: string | undefined;
+  group?: string | undefined;
+  type?: BlueprintType | undefined;
+  description?: string | undefined;
+  isActive?: boolean | undefined;
+  minPower?: number | undefined;
+  version?: string | undefined;
+  versionCode?: string | undefined;
+  productUrl?: string | undefined;
+  licenseUrl?: string | undefined;
+  platform?: InstancePlatform | undefined;
+  appCategory?: AppCategory | undefined;
 }
 export type BlueprintList = Blueprint[];
 export interface GetBlueprintsResult {
-  blueprints?: Blueprint[];
-  nextPageToken?: string;
+  blueprints?: Blueprint[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetBucketAccessKeysRequest {
   bucketName: string;
 }
 export type AccessKeyList = AccessKey[];
 export interface GetBucketAccessKeysResult {
-  accessKeys?: AccessKey[];
+  accessKeys?: AccessKey[] | undefined;
 }
 export interface GetBucketBundlesRequest {
-  includeInactive?: boolean;
+  includeInactive?: boolean | undefined;
 }
 export interface BucketBundle {
-  bundleId?: string;
-  name?: string;
-  price?: number;
-  storagePerMonthInGb?: number;
-  transferPerMonthInGb?: number;
-  isActive?: boolean;
+  bundleId?: string | undefined;
+  name?: string | undefined;
+  price?: number | undefined;
+  storagePerMonthInGb?: number | undefined;
+  transferPerMonthInGb?: number | undefined;
+  isActive?: boolean | undefined;
 }
 export type BucketBundleList = BucketBundle[];
 export interface GetBucketBundlesResult {
-  bundles?: BucketBundle[];
+  bundles?: BucketBundle[] | undefined;
 }
 export type BucketMetricName = "BucketSizeBytes" | "NumberOfObjects" | (string & {});
 export type MetricStatisticList = MetricStatistic[];
@@ -1524,24 +1570,24 @@ export interface GetBucketMetricDataRequest {
   unit: MetricUnit;
 }
 export interface MetricDatapoint {
-  average?: number;
-  maximum?: number;
-  minimum?: number;
-  sampleCount?: number;
-  sum?: number;
-  timestamp?: Date;
-  unit?: MetricUnit;
+  average?: number | undefined;
+  maximum?: number | undefined;
+  minimum?: number | undefined;
+  sampleCount?: number | undefined;
+  sum?: number | undefined;
+  timestamp?: Date | undefined;
+  unit?: MetricUnit | undefined;
 }
 export type MetricDatapointList = MetricDatapoint[];
 export interface GetBucketMetricDataResult {
-  metricName?: BucketMetricName;
-  metricData?: MetricDatapoint[];
+  metricName?: BucketMetricName | undefined;
+  metricData?: MetricDatapoint[] | undefined;
 }
 export interface GetBucketsRequest {
-  bucketName?: string;
-  pageToken?: string;
-  includeConnectedResources?: boolean;
-  includeCors?: boolean;
+  bucketName?: string | undefined;
+  pageToken?: string | undefined;
+  includeConnectedResources?: boolean | undefined;
+  includeCors?: boolean | undefined;
 }
 export type BucketList = Bucket[];
 export type AccountLevelBpaSyncStatus =
@@ -1557,147 +1603,147 @@ export type BPAStatusMessage =
   | "Unknown"
   | (string & {});
 export interface AccountLevelBpaSync {
-  status?: AccountLevelBpaSyncStatus;
-  lastSyncedAt?: Date;
-  message?: BPAStatusMessage;
-  bpaImpactsLightsail?: boolean;
+  status?: AccountLevelBpaSyncStatus | undefined;
+  lastSyncedAt?: Date | undefined;
+  message?: BPAStatusMessage | undefined;
+  bpaImpactsLightsail?: boolean | undefined;
 }
 export interface GetBucketsResult {
-  buckets?: Bucket[];
-  nextPageToken?: string;
-  accountLevelBpaSync?: AccountLevelBpaSync;
+  buckets?: Bucket[] | undefined;
+  nextPageToken?: string | undefined;
+  accountLevelBpaSync?: AccountLevelBpaSync | undefined;
 }
 export interface GetBundlesRequest {
-  includeInactive?: boolean;
-  pageToken?: string;
-  appCategory?: AppCategory;
+  includeInactive?: boolean | undefined;
+  pageToken?: string | undefined;
+  appCategory?: AppCategory | undefined;
 }
 export type InstancePlatformList = InstancePlatform[];
 export type AppCategoryList = AppCategory[];
 export interface Bundle {
-  price?: number;
-  cpuCount?: number;
-  diskSizeInGb?: number;
-  bundleId?: string;
-  instanceType?: string;
-  isActive?: boolean;
-  name?: string;
-  power?: number;
-  ramSizeInGb?: number;
-  transferPerMonthInGb?: number;
-  supportedPlatforms?: InstancePlatform[];
-  supportedAppCategories?: AppCategory[];
-  publicIpv4AddressCount?: number;
+  price?: number | undefined;
+  cpuCount?: number | undefined;
+  diskSizeInGb?: number | undefined;
+  bundleId?: string | undefined;
+  instanceType?: string | undefined;
+  isActive?: boolean | undefined;
+  name?: string | undefined;
+  power?: number | undefined;
+  ramSizeInGb?: number | undefined;
+  transferPerMonthInGb?: number | undefined;
+  supportedPlatforms?: InstancePlatform[] | undefined;
+  supportedAppCategories?: AppCategory[] | undefined;
+  publicIpv4AddressCount?: number | undefined;
 }
 export type BundleList = Bundle[];
 export interface GetBundlesResult {
-  bundles?: Bundle[];
-  nextPageToken?: string;
+  bundles?: Bundle[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export type CertificateStatusList = CertificateStatus[];
 export type IncludeCertificateDetails = boolean;
 export interface GetCertificatesRequest {
-  certificateStatuses?: CertificateStatus[];
-  includeCertificateDetails?: boolean;
-  certificateName?: string;
-  pageToken?: string;
+  certificateStatuses?: CertificateStatus[] | undefined;
+  includeCertificateDetails?: boolean | undefined;
+  certificateName?: string | undefined;
+  pageToken?: string | undefined;
 }
 export type CertificateSummaryList = CertificateSummary[];
 export interface GetCertificatesResult {
-  certificates?: CertificateSummary[];
-  nextPageToken?: string;
+  certificates?: CertificateSummary[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetCloudFormationStackRecordsRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type RecordState = "Started" | "Succeeded" | "Failed" | (string & {});
 export type CloudFormationStackRecordSourceType = "ExportSnapshotRecord" | (string & {});
 export interface CloudFormationStackRecordSourceInfo {
-  resourceType?: CloudFormationStackRecordSourceType;
-  name?: string;
-  arn?: string;
+  resourceType?: CloudFormationStackRecordSourceType | undefined;
+  name?: string | undefined;
+  arn?: string | undefined;
 }
 export type CloudFormationStackRecordSourceInfoList = CloudFormationStackRecordSourceInfo[];
 export interface DestinationInfo {
-  id?: string;
-  service?: string;
+  id?: string | undefined;
+  service?: string | undefined;
 }
 export interface CloudFormationStackRecord {
-  name?: string;
-  arn?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  state?: RecordState;
-  sourceInfo?: CloudFormationStackRecordSourceInfo[];
-  destinationInfo?: DestinationInfo;
+  name?: string | undefined;
+  arn?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  state?: RecordState | undefined;
+  sourceInfo?: CloudFormationStackRecordSourceInfo[] | undefined;
+  destinationInfo?: DestinationInfo | undefined;
 }
 export type CloudFormationStackRecordList = CloudFormationStackRecord[];
 export interface GetCloudFormationStackRecordsResult {
-  cloudFormationStackRecords?: CloudFormationStackRecord[];
-  nextPageToken?: string;
+  cloudFormationStackRecords?: CloudFormationStackRecord[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetContactMethodsRequest {
-  protocols?: ContactProtocol[];
+  protocols?: ContactProtocol[] | undefined;
 }
 export type ContactMethodStatus = "PendingVerification" | "Valid" | "Invalid" | (string & {});
 export interface ContactMethod {
-  contactEndpoint?: string;
-  status?: ContactMethodStatus;
-  protocol?: ContactProtocol;
-  name?: string;
-  arn?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  supportCode?: string;
-  tags?: Tag[];
+  contactEndpoint?: string | undefined;
+  status?: ContactMethodStatus | undefined;
+  protocol?: ContactProtocol | undefined;
+  name?: string | undefined;
+  arn?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  supportCode?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export type ContactMethodsList = ContactMethod[];
 export interface GetContactMethodsResult {
-  contactMethods?: ContactMethod[];
+  contactMethods?: ContactMethod[] | undefined;
 }
 export interface GetContainerAPIMetadataRequest {}
 export type ContainerServiceMetadataEntry = { [key: string]: string | undefined };
 export type ContainerServiceMetadataEntryList = { [key: string]: string | undefined }[];
 export interface GetContainerAPIMetadataResult {
-  metadata?: { [key: string]: string | undefined }[];
+  metadata?: { [key: string]: string | undefined }[] | undefined;
 }
 export interface GetContainerImagesRequest {
   serviceName: string;
 }
 export interface ContainerImage {
-  image?: string;
-  digest?: string;
-  createdAt?: Date;
+  image?: string | undefined;
+  digest?: string | undefined;
+  createdAt?: Date | undefined;
 }
 export type ContainerImageList = ContainerImage[];
 export interface GetContainerImagesResult {
-  containerImages?: ContainerImage[];
+  containerImages?: ContainerImage[] | undefined;
 }
 export interface GetContainerLogRequest {
   serviceName: string;
   containerName: string;
-  startTime?: Date;
-  endTime?: Date;
-  filterPattern?: string;
-  pageToken?: string;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  filterPattern?: string | undefined;
+  pageToken?: string | undefined;
 }
 export interface ContainerServiceLogEvent {
-  createdAt?: Date;
-  message?: string;
+  createdAt?: Date | undefined;
+  message?: string | undefined;
 }
 export type ContainerServiceLogEventList = ContainerServiceLogEvent[];
 export interface GetContainerLogResult {
-  logEvents?: ContainerServiceLogEvent[];
-  nextPageToken?: string;
+  logEvents?: ContainerServiceLogEvent[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetContainerServiceDeploymentsRequest {
   serviceName: string;
 }
 export type ContainerServiceDeploymentList = ContainerServiceDeployment[];
 export interface GetContainerServiceDeploymentsResult {
-  deployments?: ContainerServiceDeployment[];
+  deployments?: ContainerServiceDeployment[] | undefined;
 }
 export type ContainerServiceMetricName = "CPUUtilization" | "MemoryUtilization" | (string & {});
 export interface GetContainerServiceMetricDataRequest {
@@ -1709,28 +1755,28 @@ export interface GetContainerServiceMetricDataRequest {
   statistics: MetricStatistic[];
 }
 export interface GetContainerServiceMetricDataResult {
-  metricName?: ContainerServiceMetricName;
-  metricData?: MetricDatapoint[];
+  metricName?: ContainerServiceMetricName | undefined;
+  metricData?: MetricDatapoint[] | undefined;
 }
 export interface GetContainerServicePowersRequest {}
 export interface ContainerServicePower {
-  powerId?: string;
-  price?: number;
-  cpuCount?: number;
-  ramSizeInGb?: number;
-  name?: string;
-  isActive?: boolean;
+  powerId?: string | undefined;
+  price?: number | undefined;
+  cpuCount?: number | undefined;
+  ramSizeInGb?: number | undefined;
+  name?: string | undefined;
+  isActive?: boolean | undefined;
 }
 export type ContainerServicePowerList = ContainerServicePower[];
 export interface GetContainerServicePowersResult {
-  powers?: ContainerServicePower[];
+  powers?: ContainerServicePower[] | undefined;
 }
 export interface GetContainerServicesRequest {
-  serviceName?: string;
+  serviceName?: string | undefined;
 }
 export type ContainerServiceList = ContainerService[];
 export interface ContainerServicesListResult {
-  containerServices?: ContainerService[];
+  containerServices?: ContainerService[] | undefined;
 }
 export interface GetCostEstimateRequest {
   resourceName: string;
@@ -1740,128 +1786,128 @@ export interface GetCostEstimateRequest {
 export type PricingUnit = "GB" | "Hrs" | "GB-Mo" | "Bundles" | "Queries" | (string & {});
 export type Currency = "USD" | (string & {});
 export interface TimePeriod {
-  start?: Date;
-  end?: Date;
+  start?: Date | undefined;
+  end?: Date | undefined;
 }
 export interface EstimateByTime {
-  usageCost?: number;
-  pricingUnit?: PricingUnit;
-  unit?: number;
-  currency?: Currency;
-  timePeriod?: TimePeriod;
+  usageCost?: number | undefined;
+  pricingUnit?: PricingUnit | undefined;
+  unit?: number | undefined;
+  currency?: Currency | undefined;
+  timePeriod?: TimePeriod | undefined;
 }
 export type EstimatesByTime = EstimateByTime[];
 export interface CostEstimate {
-  usageType?: string;
-  resultsByTime?: EstimateByTime[];
+  usageType?: string | undefined;
+  resultsByTime?: EstimateByTime[] | undefined;
 }
 export type CostEstimates = CostEstimate[];
 export interface ResourceBudgetEstimate {
-  resourceName?: string;
-  resourceType?: ResourceType;
-  costEstimates?: CostEstimate[];
-  startTime?: Date;
-  endTime?: Date;
+  resourceName?: string | undefined;
+  resourceType?: ResourceType | undefined;
+  costEstimates?: CostEstimate[] | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
 }
 export type ResourcesBudgetEstimate = ResourceBudgetEstimate[];
 export interface GetCostEstimateResult {
-  resourcesBudgetEstimate?: ResourceBudgetEstimate[];
+  resourcesBudgetEstimate?: ResourceBudgetEstimate[] | undefined;
 }
 export interface GetDiskRequest {
   diskName: string;
 }
 export interface AddOn {
-  name?: string;
-  status?: string;
-  snapshotTimeOfDay?: string;
-  nextSnapshotTimeOfDay?: string;
-  threshold?: string;
-  duration?: string;
+  name?: string | undefined;
+  status?: string | undefined;
+  snapshotTimeOfDay?: string | undefined;
+  nextSnapshotTimeOfDay?: string | undefined;
+  threshold?: string | undefined;
+  duration?: string | undefined;
 }
 export type AddOnList = AddOn[];
 export type DiskState = "pending" | "error" | "available" | "in-use" | "unknown" | (string & {});
 export type AutoMountStatus = "Failed" | "Pending" | "Mounted" | "NotMounted" | (string & {});
 export interface Disk {
-  name?: string;
-  arn?: string;
-  supportCode?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  tags?: Tag[];
-  addOns?: AddOn[];
-  sizeInGb?: number;
-  isSystemDisk?: boolean;
-  iops?: number;
-  path?: string;
-  state?: DiskState;
-  attachedTo?: string;
-  isAttached?: boolean;
-  attachmentState?: string;
-  gbInUse?: number;
-  autoMountStatus?: AutoMountStatus;
+  name?: string | undefined;
+  arn?: string | undefined;
+  supportCode?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  tags?: Tag[] | undefined;
+  addOns?: AddOn[] | undefined;
+  sizeInGb?: number | undefined;
+  isSystemDisk?: boolean | undefined;
+  iops?: number | undefined;
+  path?: string | undefined;
+  state?: DiskState | undefined;
+  attachedTo?: string | undefined;
+  isAttached?: boolean | undefined;
+  attachmentState?: string | undefined;
+  gbInUse?: number | undefined;
+  autoMountStatus?: AutoMountStatus | undefined;
 }
 export interface GetDiskResult {
-  disk?: Disk;
+  disk?: Disk | undefined;
 }
 export interface GetDisksRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type DiskList = Disk[];
 export interface GetDisksResult {
-  disks?: Disk[];
-  nextPageToken?: string;
+  disks?: Disk[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetDiskSnapshotRequest {
   diskSnapshotName: string;
 }
 export type DiskSnapshotState = "pending" | "completed" | "error" | "unknown" | (string & {});
 export interface DiskSnapshot {
-  name?: string;
-  arn?: string;
-  supportCode?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  tags?: Tag[];
-  sizeInGb?: number;
-  state?: DiskSnapshotState;
-  progress?: string;
-  fromDiskName?: string;
-  fromDiskArn?: string;
-  fromInstanceName?: string;
-  fromInstanceArn?: string;
-  isFromAutoSnapshot?: boolean;
+  name?: string | undefined;
+  arn?: string | undefined;
+  supportCode?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  tags?: Tag[] | undefined;
+  sizeInGb?: number | undefined;
+  state?: DiskSnapshotState | undefined;
+  progress?: string | undefined;
+  fromDiskName?: string | undefined;
+  fromDiskArn?: string | undefined;
+  fromInstanceName?: string | undefined;
+  fromInstanceArn?: string | undefined;
+  isFromAutoSnapshot?: boolean | undefined;
 }
 export interface GetDiskSnapshotResult {
-  diskSnapshot?: DiskSnapshot;
+  diskSnapshot?: DiskSnapshot | undefined;
 }
 export interface GetDiskSnapshotsRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type DiskSnapshotList = DiskSnapshot[];
 export interface GetDiskSnapshotsResult {
-  diskSnapshots?: DiskSnapshot[];
-  nextPageToken?: string;
+  diskSnapshots?: DiskSnapshot[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetDistributionBundlesRequest {}
 export interface DistributionBundle {
-  bundleId?: string;
-  name?: string;
-  price?: number;
-  transferPerMonthInGb?: number;
-  isActive?: boolean;
+  bundleId?: string | undefined;
+  name?: string | undefined;
+  price?: number | undefined;
+  transferPerMonthInGb?: number | undefined;
+  isActive?: boolean | undefined;
 }
 export type DistributionBundleList = DistributionBundle[];
 export interface GetDistributionBundlesResult {
-  bundles?: DistributionBundle[];
+  bundles?: DistributionBundle[] | undefined;
 }
 export interface GetDistributionLatestCacheResetRequest {
-  distributionName?: string;
+  distributionName?: string | undefined;
 }
 export interface GetDistributionLatestCacheResetResult {
-  status?: string;
-  createTime?: Date;
+  status?: string | undefined;
+  createTime?: Date | undefined;
 }
 export type DistributionMetricName =
   | "Requests"
@@ -1870,6 +1916,8 @@ export type DistributionMetricName =
   | "TotalErrorRate"
   | "Http4xxErrorRate"
   | "Http5xxErrorRate"
+  | "WafAllowedRequests"
+  | "WafBlockedRequests"
   | (string & {});
 export interface GetDistributionMetricDataRequest {
   distributionName: string;
@@ -1881,17 +1929,17 @@ export interface GetDistributionMetricDataRequest {
   statistics: MetricStatistic[];
 }
 export interface GetDistributionMetricDataResult {
-  metricName?: DistributionMetricName;
-  metricData?: MetricDatapoint[];
+  metricName?: DistributionMetricName | undefined;
+  metricData?: MetricDatapoint[] | undefined;
 }
 export interface GetDistributionsRequest {
-  distributionName?: string;
-  pageToken?: string;
+  distributionName?: string | undefined;
+  pageToken?: string | undefined;
 }
 export type DistributionList = LightsailDistribution[];
 export interface GetDistributionsResult {
-  distributions?: LightsailDistribution[];
-  nextPageToken?: string;
+  distributions?: LightsailDistribution[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetDomainRequest {
   domainName: string;
@@ -1904,8 +1952,8 @@ export type NameServersUpdateStateCode =
   | "STARTED"
   | (string & {});
 export interface NameServersUpdateState {
-  code?: NameServersUpdateStateCode;
-  message?: string;
+  code?: NameServersUpdateStateCode | undefined;
+  message?: string | undefined;
 }
 export type R53HostedZoneDeletionStateCode =
   | "SUCCEEDED"
@@ -1914,188 +1962,215 @@ export type R53HostedZoneDeletionStateCode =
   | "STARTED"
   | (string & {});
 export interface R53HostedZoneDeletionState {
-  code?: R53HostedZoneDeletionStateCode;
-  message?: string;
+  code?: R53HostedZoneDeletionStateCode | undefined;
+  message?: string | undefined;
 }
 export interface RegisteredDomainDelegationInfo {
-  nameServersUpdateState?: NameServersUpdateState;
-  r53HostedZoneDeletionState?: R53HostedZoneDeletionState;
+  nameServersUpdateState?: NameServersUpdateState | undefined;
+  r53HostedZoneDeletionState?: R53HostedZoneDeletionState | undefined;
 }
 export interface Domain {
-  name?: string;
-  arn?: string;
-  supportCode?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  tags?: Tag[];
-  domainEntries?: DomainEntry[];
-  registeredDomainDelegationInfo?: RegisteredDomainDelegationInfo;
+  name?: string | undefined;
+  arn?: string | undefined;
+  supportCode?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  tags?: Tag[] | undefined;
+  domainEntries?: DomainEntry[] | undefined;
+  registeredDomainDelegationInfo?: RegisteredDomainDelegationInfo | undefined;
 }
 export interface GetDomainResult {
-  domain?: Domain;
+  domain?: Domain | undefined;
 }
 export interface GetDomainsRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type DomainList = Domain[];
 export interface GetDomainsResult {
-  domains?: Domain[];
-  nextPageToken?: string;
+  domains?: Domain[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetExportSnapshotRecordsRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type ExportSnapshotRecordSourceType = "InstanceSnapshot" | "DiskSnapshot" | (string & {});
 export interface DiskInfo {
-  name?: string;
-  path?: string;
-  sizeInGb?: number;
-  isSystemDisk?: boolean;
+  name?: string | undefined;
+  path?: string | undefined;
+  sizeInGb?: number | undefined;
+  isSystemDisk?: boolean | undefined;
 }
 export type DiskInfoList = DiskInfo[];
 export interface InstanceSnapshotInfo {
-  fromBundleId?: string;
-  fromBlueprintId?: string;
-  fromDiskInfo?: DiskInfo[];
+  fromBundleId?: string | undefined;
+  fromBlueprintId?: string | undefined;
+  fromDiskInfo?: DiskInfo[] | undefined;
 }
 export interface DiskSnapshotInfo {
-  sizeInGb?: number;
+  sizeInGb?: number | undefined;
 }
 export interface ExportSnapshotRecordSourceInfo {
-  resourceType?: ExportSnapshotRecordSourceType;
-  createdAt?: Date;
-  name?: string;
-  arn?: string;
-  fromResourceName?: string;
-  fromResourceArn?: string;
-  instanceSnapshotInfo?: InstanceSnapshotInfo;
-  diskSnapshotInfo?: DiskSnapshotInfo;
+  resourceType?: ExportSnapshotRecordSourceType | undefined;
+  createdAt?: Date | undefined;
+  name?: string | undefined;
+  arn?: string | undefined;
+  fromResourceName?: string | undefined;
+  fromResourceArn?: string | undefined;
+  instanceSnapshotInfo?: InstanceSnapshotInfo | undefined;
+  diskSnapshotInfo?: DiskSnapshotInfo | undefined;
 }
 export interface ExportSnapshotRecord {
-  name?: string;
-  arn?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  state?: RecordState;
-  sourceInfo?: ExportSnapshotRecordSourceInfo;
-  destinationInfo?: DestinationInfo;
+  name?: string | undefined;
+  arn?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  state?: RecordState | undefined;
+  sourceInfo?: ExportSnapshotRecordSourceInfo | undefined;
+  destinationInfo?: DestinationInfo | undefined;
 }
 export type ExportSnapshotRecordList = ExportSnapshotRecord[];
 export interface GetExportSnapshotRecordsResult {
-  exportSnapshotRecords?: ExportSnapshotRecord[];
-  nextPageToken?: string;
+  exportSnapshotRecords?: ExportSnapshotRecord[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetInstanceRequest {
   instanceName: string;
+  includeHealthStatus?: boolean | undefined;
 }
 export type IpAddress = string;
 export type Ipv6Address = string;
 export type Ipv6AddressList = string[];
 export interface InstanceHardware {
-  cpuCount?: number;
-  disks?: Disk[];
-  ramSizeInGb?: number;
+  cpuCount?: number | undefined;
+  disks?: Disk[] | undefined;
+  ramSizeInGb?: number | undefined;
 }
 export interface MonthlyTransfer {
-  gbPerMonthAllocated?: number;
+  gbPerMonthAllocated?: number | undefined;
 }
 export type PortAccessType = "Public" | "Private" | (string & {});
 export type AccessDirection = "inbound" | "outbound" | (string & {});
 export interface InstancePortInfo {
-  fromPort?: number;
-  toPort?: number;
-  protocol?: NetworkProtocol;
-  accessFrom?: string;
-  accessType?: PortAccessType;
-  commonName?: string;
-  accessDirection?: AccessDirection;
-  cidrs?: string[];
-  ipv6Cidrs?: string[];
-  cidrListAliases?: string[];
+  fromPort?: number | undefined;
+  toPort?: number | undefined;
+  protocol?: NetworkProtocol | undefined;
+  accessFrom?: string | undefined;
+  accessType?: PortAccessType | undefined;
+  commonName?: string | undefined;
+  accessDirection?: AccessDirection | undefined;
+  cidrs?: string[] | undefined;
+  ipv6Cidrs?: string[] | undefined;
+  cidrListAliases?: string[] | undefined;
 }
 export type InstancePortInfoList = InstancePortInfo[];
 export interface InstanceNetworking {
-  monthlyTransfer?: MonthlyTransfer;
-  ports?: InstancePortInfo[];
+  monthlyTransfer?: MonthlyTransfer | undefined;
+  ports?: InstancePortInfo[] | undefined;
 }
 export interface InstanceState {
-  code?: number;
-  name?: string;
+  code?: number | undefined;
+  name?: string | undefined;
 }
 export type InstanceMetadataState = "pending" | "applied" | (string & {});
 export type HttpTokens = "optional" | "required" | (string & {});
 export type HttpEndpoint = "disabled" | "enabled" | (string & {});
 export type HttpProtocolIpv6 = "disabled" | "enabled" | (string & {});
 export interface InstanceMetadataOptions {
-  state?: InstanceMetadataState;
-  httpTokens?: HttpTokens;
-  httpEndpoint?: HttpEndpoint;
-  httpPutResponseHopLimit?: number;
-  httpProtocolIpv6?: HttpProtocolIpv6;
+  state?: InstanceMetadataState | undefined;
+  httpTokens?: HttpTokens | undefined;
+  httpEndpoint?: HttpEndpoint | undefined;
+  httpPutResponseHopLimit?: number | undefined;
+  httpProtocolIpv6?: HttpProtocolIpv6 | undefined;
+}
+export type InstanceHealthStatusValue =
+  | "ok"
+  | "impaired"
+  | "initializing"
+  | "insufficient-data"
+  | "not-applicable"
+  | (string & {});
+export type InstanceHealthStatusDetailName = "reachability" | (string & {});
+export type InstanceHealthStatusDetailValue =
+  | "passed"
+  | "failed"
+  | "insufficient-data"
+  | "initializing"
+  | (string & {});
+export interface InstanceHealthStatusDetail {
+  name?: InstanceHealthStatusDetailName | undefined;
+  status?: InstanceHealthStatusDetailValue | undefined;
+  impairedSince?: Date | undefined;
+}
+export type InstanceHealthStatusDetailList = InstanceHealthStatusDetail[];
+export interface InstanceHealthStatus {
+  status?: InstanceHealthStatusValue | undefined;
+  details?: InstanceHealthStatusDetail[] | undefined;
 }
 export interface Instance {
-  name?: string;
-  arn?: string;
-  supportCode?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  tags?: Tag[];
-  blueprintId?: string;
-  blueprintName?: string;
-  bundleId?: string;
-  addOns?: AddOn[];
-  isStaticIp?: boolean;
-  privateIpAddress?: string;
-  publicIpAddress?: string;
-  ipv6Addresses?: string[];
-  ipAddressType?: IpAddressType;
-  hardware?: InstanceHardware;
-  networking?: InstanceNetworking;
-  state?: InstanceState;
-  username?: string;
-  sshKeyName?: string;
-  metadataOptions?: InstanceMetadataOptions;
+  name?: string | undefined;
+  arn?: string | undefined;
+  supportCode?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  tags?: Tag[] | undefined;
+  blueprintId?: string | undefined;
+  blueprintName?: string | undefined;
+  bundleId?: string | undefined;
+  addOns?: AddOn[] | undefined;
+  isStaticIp?: boolean | undefined;
+  privateIpAddress?: string | undefined;
+  publicIpAddress?: string | undefined;
+  ipv6Addresses?: string[] | undefined;
+  ipAddressType?: IpAddressType | undefined;
+  hardware?: InstanceHardware | undefined;
+  networking?: InstanceNetworking | undefined;
+  state?: InstanceState | undefined;
+  username?: string | undefined;
+  sshKeyName?: string | undefined;
+  metadataOptions?: InstanceMetadataOptions | undefined;
+  instanceStatus?: InstanceHealthStatus | undefined;
+  systemStatus?: InstanceHealthStatus | undefined;
 }
 export interface GetInstanceResult {
-  instance?: Instance;
+  instance?: Instance | undefined;
 }
 export type InstanceAccessProtocol = "ssh" | "rdp" | (string & {});
 export interface GetInstanceAccessDetailsRequest {
   instanceName: string;
-  protocol?: InstanceAccessProtocol;
+  protocol?: InstanceAccessProtocol | undefined;
 }
 export interface PasswordData {
-  ciphertext?: string;
-  keyPairName?: string;
+  ciphertext?: string | redacted.Redacted<string> | undefined;
+  keyPairName?: string | undefined;
 }
 export interface HostKeyAttributes {
-  algorithm?: string;
-  publicKey?: string;
-  witnessedAt?: Date;
-  fingerprintSHA1?: string;
-  fingerprintSHA256?: string;
-  notValidBefore?: Date;
-  notValidAfter?: Date;
+  algorithm?: string | undefined;
+  publicKey?: string | undefined;
+  witnessedAt?: Date | undefined;
+  fingerprintSHA1?: string | undefined;
+  fingerprintSHA256?: string | undefined;
+  notValidBefore?: Date | undefined;
+  notValidAfter?: Date | undefined;
 }
 export type HostKeysList = HostKeyAttributes[];
 export interface InstanceAccessDetails {
-  certKey?: string;
-  expiresAt?: Date;
-  ipAddress?: string;
-  ipv6Addresses?: string[];
-  password?: string;
-  passwordData?: PasswordData;
-  privateKey?: string;
-  protocol?: InstanceAccessProtocol;
-  instanceName?: string;
-  username?: string;
-  hostKeys?: HostKeyAttributes[];
+  certKey?: string | undefined;
+  expiresAt?: Date | undefined;
+  ipAddress?: string | undefined;
+  ipv6Addresses?: string[] | undefined;
+  password?: string | redacted.Redacted<string> | undefined;
+  passwordData?: PasswordData | undefined;
+  privateKey?: string | redacted.Redacted<string> | undefined;
+  protocol?: InstanceAccessProtocol | undefined;
+  instanceName?: string | undefined;
+  username?: string | undefined;
+  hostKeys?: HostKeyAttributes[] | undefined;
 }
 export interface GetInstanceAccessDetailsResult {
-  accessDetails?: InstanceAccessDetails;
+  accessDetails?: InstanceAccessDetails | undefined;
 }
 export type InstanceMetricName =
   | "CPUUtilization"
@@ -2107,6 +2182,13 @@ export type InstanceMetricName =
   | "BurstCapacityTime"
   | "BurstCapacityPercentage"
   | "MetadataNoToken"
+  | "DiskReadOps"
+  | "DiskWriteOps"
+  | "DiskReadBytes"
+  | "DiskWriteBytes"
+  | "DiskTotalReadTime"
+  | "DiskTotalWriteTime"
+  | "DiskQueueLength"
   | (string & {});
 export interface GetInstanceMetricDataRequest {
   instanceName: string;
@@ -2118,87 +2200,88 @@ export interface GetInstanceMetricDataRequest {
   statistics: MetricStatistic[];
 }
 export interface GetInstanceMetricDataResult {
-  metricName?: InstanceMetricName;
-  metricData?: MetricDatapoint[];
+  metricName?: InstanceMetricName | undefined;
+  metricData?: MetricDatapoint[] | undefined;
 }
 export interface GetInstancePortStatesRequest {
   instanceName: string;
 }
 export type PortState = "open" | "closed" | (string & {});
 export interface InstancePortState {
-  fromPort?: number;
-  toPort?: number;
-  protocol?: NetworkProtocol;
-  state?: PortState;
-  cidrs?: string[];
-  ipv6Cidrs?: string[];
-  cidrListAliases?: string[];
+  fromPort?: number | undefined;
+  toPort?: number | undefined;
+  protocol?: NetworkProtocol | undefined;
+  state?: PortState | undefined;
+  cidrs?: string[] | undefined;
+  ipv6Cidrs?: string[] | undefined;
+  cidrListAliases?: string[] | undefined;
 }
 export type InstancePortStateList = InstancePortState[];
 export interface GetInstancePortStatesResult {
-  portStates?: InstancePortState[];
+  portStates?: InstancePortState[] | undefined;
 }
 export interface GetInstancesRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
+  includeHealthStatus?: boolean | undefined;
 }
 export type InstanceList = Instance[];
 export interface GetInstancesResult {
-  instances?: Instance[];
-  nextPageToken?: string;
+  instances?: Instance[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetInstanceSnapshotRequest {
   instanceSnapshotName: string;
 }
 export type InstanceSnapshotState = "pending" | "error" | "available" | (string & {});
 export interface InstanceSnapshot {
-  name?: string;
-  arn?: string;
-  supportCode?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  tags?: Tag[];
-  state?: InstanceSnapshotState;
-  progress?: string;
-  fromAttachedDisks?: Disk[];
-  fromInstanceName?: string;
-  fromInstanceArn?: string;
-  fromBlueprintId?: string;
-  fromBundleId?: string;
-  isFromAutoSnapshot?: boolean;
-  sizeInGb?: number;
+  name?: string | undefined;
+  arn?: string | undefined;
+  supportCode?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  tags?: Tag[] | undefined;
+  state?: InstanceSnapshotState | undefined;
+  progress?: string | undefined;
+  fromAttachedDisks?: Disk[] | undefined;
+  fromInstanceName?: string | undefined;
+  fromInstanceArn?: string | undefined;
+  fromBlueprintId?: string | undefined;
+  fromBundleId?: string | undefined;
+  isFromAutoSnapshot?: boolean | undefined;
+  sizeInGb?: number | undefined;
 }
 export interface GetInstanceSnapshotResult {
-  instanceSnapshot?: InstanceSnapshot;
+  instanceSnapshot?: InstanceSnapshot | undefined;
 }
 export interface GetInstanceSnapshotsRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type InstanceSnapshotList = InstanceSnapshot[];
 export interface GetInstanceSnapshotsResult {
-  instanceSnapshots?: InstanceSnapshot[];
-  nextPageToken?: string;
+  instanceSnapshots?: InstanceSnapshot[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetInstanceStateRequest {
   instanceName: string;
 }
 export interface GetInstanceStateResult {
-  state?: InstanceState;
+  state?: InstanceState | undefined;
 }
 export interface GetKeyPairRequest {
   keyPairName: string;
 }
 export interface GetKeyPairResult {
-  keyPair?: KeyPair;
+  keyPair?: KeyPair | undefined;
 }
 export interface GetKeyPairsRequest {
-  pageToken?: string;
-  includeDefaultKeyPair?: boolean;
+  pageToken?: string | undefined;
+  includeDefaultKeyPair?: boolean | undefined;
 }
 export type KeyPairList = KeyPair[];
 export interface GetKeyPairsResult {
-  keyPairs?: KeyPair[];
-  nextPageToken?: string;
+  keyPairs?: KeyPair[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetLoadBalancerRequest {
   loadBalancerName: string;
@@ -2234,14 +2317,14 @@ export type InstanceHealthReason =
   | "Instance.IpUnusable"
   | (string & {});
 export interface InstanceHealthSummary {
-  instanceName?: string;
-  instanceHealth?: InstanceHealthState;
-  instanceHealthReason?: InstanceHealthReason;
+  instanceName?: string | undefined;
+  instanceHealth?: InstanceHealthState | undefined;
+  instanceHealthReason?: InstanceHealthReason | undefined;
 }
 export type InstanceHealthSummaryList = InstanceHealthSummary[];
 export interface LoadBalancerTlsCertificateSummary {
-  name?: string;
-  isAttached?: boolean;
+  name?: string | undefined;
+  isAttached?: boolean | undefined;
 }
 export type LoadBalancerTlsCertificateSummaryList = LoadBalancerTlsCertificateSummary[];
 export type LoadBalancerAttributeName =
@@ -2251,30 +2334,32 @@ export type LoadBalancerAttributeName =
   | "HttpsRedirectionEnabled"
   | "TlsPolicyName"
   | (string & {});
-export type LoadBalancerConfigurationOptions = { [key in LoadBalancerAttributeName]?: string };
+export type LoadBalancerConfigurationOptions = {
+  [key in LoadBalancerAttributeName]?: string | undefined;
+};
 export interface LoadBalancer {
-  name?: string;
-  arn?: string;
-  supportCode?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  tags?: Tag[];
-  dnsName?: string;
-  state?: LoadBalancerState;
-  protocol?: LoadBalancerProtocol;
-  publicPorts?: number[];
-  healthCheckPath?: string;
-  instancePort?: number;
-  instanceHealthSummary?: InstanceHealthSummary[];
-  tlsCertificateSummaries?: LoadBalancerTlsCertificateSummary[];
-  configurationOptions?: { [key: string]: string | undefined };
-  ipAddressType?: IpAddressType;
-  httpsRedirectionEnabled?: boolean;
-  tlsPolicyName?: string;
+  name?: string | undefined;
+  arn?: string | undefined;
+  supportCode?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  tags?: Tag[] | undefined;
+  dnsName?: string | undefined;
+  state?: LoadBalancerState | undefined;
+  protocol?: LoadBalancerProtocol | undefined;
+  publicPorts?: number[] | undefined;
+  healthCheckPath?: string | undefined;
+  instancePort?: number | undefined;
+  instanceHealthSummary?: InstanceHealthSummary[] | undefined;
+  tlsCertificateSummaries?: LoadBalancerTlsCertificateSummary[] | undefined;
+  configurationOptions?: { [key: string]: string | undefined } | undefined;
+  ipAddressType?: IpAddressType | undefined;
+  httpsRedirectionEnabled?: boolean | undefined;
+  tlsPolicyName?: string | undefined;
 }
 export interface GetLoadBalancerResult {
-  loadBalancer?: LoadBalancer;
+  loadBalancer?: LoadBalancer | undefined;
 }
 export type LoadBalancerMetricName =
   | "ClientTLSNegotiationErrorCount"
@@ -2300,16 +2385,16 @@ export interface GetLoadBalancerMetricDataRequest {
   statistics: MetricStatistic[];
 }
 export interface GetLoadBalancerMetricDataResult {
-  metricName?: LoadBalancerMetricName;
-  metricData?: MetricDatapoint[];
+  metricName?: LoadBalancerMetricName | undefined;
+  metricData?: MetricDatapoint[] | undefined;
 }
 export interface GetLoadBalancersRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type LoadBalancerList = LoadBalancer[];
 export interface GetLoadBalancersResult {
-  loadBalancers?: LoadBalancer[];
-  nextPageToken?: string;
+  loadBalancers?: LoadBalancer[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetLoadBalancerTlsCertificatesRequest {
   loadBalancerName: string;
@@ -2335,16 +2420,16 @@ export type LoadBalancerTlsCertificateDnsRecordCreationStateCode =
   | "FAILED"
   | (string & {});
 export interface LoadBalancerTlsCertificateDnsRecordCreationState {
-  code?: LoadBalancerTlsCertificateDnsRecordCreationStateCode;
-  message?: string;
+  code?: LoadBalancerTlsCertificateDnsRecordCreationStateCode | undefined;
+  message?: string | undefined;
 }
 export interface LoadBalancerTlsCertificateDomainValidationRecord {
-  name?: string;
-  type?: string;
-  value?: string;
-  validationStatus?: LoadBalancerTlsCertificateDomainStatus;
-  domainName?: string;
-  dnsRecordCreationState?: LoadBalancerTlsCertificateDnsRecordCreationState;
+  name?: string | undefined;
+  type?: string | undefined;
+  value?: string | undefined;
+  validationStatus?: LoadBalancerTlsCertificateDomainStatus | undefined;
+  domainName?: string | undefined;
+  dnsRecordCreationState?: LoadBalancerTlsCertificateDnsRecordCreationState | undefined;
 }
 export type LoadBalancerTlsCertificateDomainValidationRecordList =
   LoadBalancerTlsCertificateDomainValidationRecord[];
@@ -2362,14 +2447,14 @@ export type LoadBalancerTlsCertificateRenewalStatus =
   | "FAILED"
   | (string & {});
 export interface LoadBalancerTlsCertificateDomainValidationOption {
-  domainName?: string;
-  validationStatus?: LoadBalancerTlsCertificateDomainStatus;
+  domainName?: string | undefined;
+  validationStatus?: LoadBalancerTlsCertificateDomainStatus | undefined;
 }
 export type LoadBalancerTlsCertificateDomainValidationOptionList =
   LoadBalancerTlsCertificateDomainValidationOption[];
 export interface LoadBalancerTlsCertificateRenewalSummary {
-  renewalStatus?: LoadBalancerTlsCertificateRenewalStatus;
-  domainValidationOptions?: LoadBalancerTlsCertificateDomainValidationOption[];
+  renewalStatus?: LoadBalancerTlsCertificateRenewalStatus | undefined;
+  domainValidationOptions?: LoadBalancerTlsCertificateDomainValidationOption[] | undefined;
 }
 export type LoadBalancerTlsCertificateRevocationReason =
   | "UNSPECIFIED"
@@ -2384,72 +2469,72 @@ export type LoadBalancerTlsCertificateRevocationReason =
   | "A_A_COMPROMISE"
   | (string & {});
 export interface LoadBalancerTlsCertificate {
-  name?: string;
-  arn?: string;
-  supportCode?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  tags?: Tag[];
-  loadBalancerName?: string;
-  isAttached?: boolean;
-  status?: LoadBalancerTlsCertificateStatus;
-  domainName?: string;
-  domainValidationRecords?: LoadBalancerTlsCertificateDomainValidationRecord[];
-  failureReason?: LoadBalancerTlsCertificateFailureReason;
-  issuedAt?: Date;
-  issuer?: string;
-  keyAlgorithm?: string;
-  notAfter?: Date;
-  notBefore?: Date;
-  renewalSummary?: LoadBalancerTlsCertificateRenewalSummary;
-  revocationReason?: LoadBalancerTlsCertificateRevocationReason;
-  revokedAt?: Date;
-  serial?: string;
-  signatureAlgorithm?: string;
-  subject?: string;
-  subjectAlternativeNames?: string[];
+  name?: string | undefined;
+  arn?: string | undefined;
+  supportCode?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  tags?: Tag[] | undefined;
+  loadBalancerName?: string | undefined;
+  isAttached?: boolean | undefined;
+  status?: LoadBalancerTlsCertificateStatus | undefined;
+  domainName?: string | undefined;
+  domainValidationRecords?: LoadBalancerTlsCertificateDomainValidationRecord[] | undefined;
+  failureReason?: LoadBalancerTlsCertificateFailureReason | undefined;
+  issuedAt?: Date | undefined;
+  issuer?: string | undefined;
+  keyAlgorithm?: string | undefined;
+  notAfter?: Date | undefined;
+  notBefore?: Date | undefined;
+  renewalSummary?: LoadBalancerTlsCertificateRenewalSummary | undefined;
+  revocationReason?: LoadBalancerTlsCertificateRevocationReason | undefined;
+  revokedAt?: Date | undefined;
+  serial?: string | undefined;
+  signatureAlgorithm?: string | undefined;
+  subject?: string | undefined;
+  subjectAlternativeNames?: string[] | undefined;
 }
 export type LoadBalancerTlsCertificateList = LoadBalancerTlsCertificate[];
 export interface GetLoadBalancerTlsCertificatesResult {
-  tlsCertificates?: LoadBalancerTlsCertificate[];
+  tlsCertificates?: LoadBalancerTlsCertificate[] | undefined;
 }
 export interface GetLoadBalancerTlsPoliciesRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface LoadBalancerTlsPolicy {
-  name?: string;
-  isDefault?: boolean;
-  description?: string;
-  protocols?: string[];
-  ciphers?: string[];
+  name?: string | undefined;
+  isDefault?: boolean | undefined;
+  description?: string | undefined;
+  protocols?: string[] | undefined;
+  ciphers?: string[] | undefined;
 }
 export type LoadBalancerTlsPolicyList = LoadBalancerTlsPolicy[];
 export interface GetLoadBalancerTlsPoliciesResult {
-  tlsPolicies?: LoadBalancerTlsPolicy[];
-  nextPageToken?: string;
+  tlsPolicies?: LoadBalancerTlsPolicy[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetOperationRequest {
   operationId: string;
 }
 export interface GetOperationResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface GetOperationsRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface GetOperationsResult {
-  operations?: Operation[];
-  nextPageToken?: string;
+  operations?: Operation[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetOperationsForResourceRequest {
   resourceName: string;
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface GetOperationsForResourceResult {
-  operations?: Operation[];
-  nextPageCount?: string;
-  nextPageToken?: string;
+  operations?: Operation[] | undefined;
+  nextPageCount?: string | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetProfileRequest {}
 export type ProfileType = "Lightsailor" | "LightsailPartner" | (string & {});
@@ -2457,174 +2542,174 @@ export type TierName = "Essential" | "Growth" | "Accelerate" | "Premier" | (stri
 export type PartnerStatus = "Active" | "Suspended" | (string & {});
 export interface PartnerInfo {
   enrolledAt: Date;
-  tierName?: TierName;
+  tierName?: TierName | undefined;
   status: PartnerStatus;
 }
 export interface GetProfileResult {
   profileType: ProfileType;
-  partner?: PartnerInfo;
+  partner?: PartnerInfo | undefined;
 }
 export interface GetRegionsRequest {
-  includeAvailabilityZones?: boolean;
-  includeRelationalDatabaseAvailabilityZones?: boolean;
+  includeAvailabilityZones?: boolean | undefined;
+  includeRelationalDatabaseAvailabilityZones?: boolean | undefined;
 }
 export interface AvailabilityZone {
-  zoneName?: string;
-  state?: string;
+  zoneName?: string | undefined;
+  state?: string | undefined;
 }
 export type AvailabilityZoneList = AvailabilityZone[];
 export interface Region {
-  continentCode?: string;
-  description?: string;
-  displayName?: string;
-  name?: RegionName;
-  availabilityZones?: AvailabilityZone[];
-  relationalDatabaseAvailabilityZones?: AvailabilityZone[];
+  continentCode?: string | undefined;
+  description?: string | undefined;
+  displayName?: string | undefined;
+  name?: RegionName | undefined;
+  availabilityZones?: AvailabilityZone[] | undefined;
+  relationalDatabaseAvailabilityZones?: AvailabilityZone[] | undefined;
 }
-const Region = /*@__PURE__*/ __L.at(__c176, 2) as any as S.Schema<Region>;
+const Region = /*@__PURE__*/ __L.at(__c177, 2) as any as S.Schema<Region>;
 export type RegionList = Region[];
 export interface GetRegionsResult {
-  regions?: Region[];
+  regions?: Region[] | undefined;
 }
 export interface GetRelationalDatabaseRequest {
   relationalDatabaseName: string;
 }
 export interface RelationalDatabaseHardware {
-  cpuCount?: number;
-  diskSizeInGb?: number;
-  ramSizeInGb?: number;
+  cpuCount?: number | undefined;
+  diskSizeInGb?: number | undefined;
+  ramSizeInGb?: number | undefined;
 }
 export interface PendingModifiedRelationalDatabaseValues {
-  masterUserPassword?: string;
-  engineVersion?: string;
-  backupRetentionEnabled?: boolean;
+  masterUserPassword?: string | redacted.Redacted<string> | undefined;
+  engineVersion?: string | undefined;
+  backupRetentionEnabled?: boolean | undefined;
 }
 export interface RelationalDatabaseEndpoint {
-  port?: number;
-  address?: string;
+  port?: number | undefined;
+  address?: string | undefined;
 }
 export interface PendingMaintenanceAction {
-  action?: string;
-  description?: string;
-  currentApplyDate?: Date;
+  action?: string | undefined;
+  description?: string | undefined;
+  currentApplyDate?: Date | undefined;
 }
 export type PendingMaintenanceActionList = PendingMaintenanceAction[];
 export interface RelationalDatabase {
-  name?: string;
-  arn?: string;
-  supportCode?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  tags?: Tag[];
-  relationalDatabaseBlueprintId?: string;
-  relationalDatabaseBundleId?: string;
-  masterDatabaseName?: string;
-  hardware?: RelationalDatabaseHardware;
-  state?: string;
-  secondaryAvailabilityZone?: string;
-  backupRetentionEnabled?: boolean;
-  pendingModifiedValues?: PendingModifiedRelationalDatabaseValues;
-  engine?: string;
-  engineVersion?: string;
-  latestRestorableTime?: Date;
-  masterUsername?: string;
-  parameterApplyStatus?: string;
-  preferredBackupWindow?: string;
-  preferredMaintenanceWindow?: string;
-  publiclyAccessible?: boolean;
-  masterEndpoint?: RelationalDatabaseEndpoint;
-  pendingMaintenanceActions?: PendingMaintenanceAction[];
-  caCertificateIdentifier?: string;
+  name?: string | undefined;
+  arn?: string | undefined;
+  supportCode?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  tags?: Tag[] | undefined;
+  relationalDatabaseBlueprintId?: string | undefined;
+  relationalDatabaseBundleId?: string | undefined;
+  masterDatabaseName?: string | undefined;
+  hardware?: RelationalDatabaseHardware | undefined;
+  state?: string | undefined;
+  secondaryAvailabilityZone?: string | undefined;
+  backupRetentionEnabled?: boolean | undefined;
+  pendingModifiedValues?: PendingModifiedRelationalDatabaseValues | undefined;
+  engine?: string | undefined;
+  engineVersion?: string | undefined;
+  latestRestorableTime?: Date | undefined;
+  masterUsername?: string | undefined;
+  parameterApplyStatus?: string | undefined;
+  preferredBackupWindow?: string | undefined;
+  preferredMaintenanceWindow?: string | undefined;
+  publiclyAccessible?: boolean | undefined;
+  masterEndpoint?: RelationalDatabaseEndpoint | undefined;
+  pendingMaintenanceActions?: PendingMaintenanceAction[] | undefined;
+  caCertificateIdentifier?: string | undefined;
 }
 export interface GetRelationalDatabaseResult {
-  relationalDatabase?: RelationalDatabase;
+  relationalDatabase?: RelationalDatabase | undefined;
 }
 export interface GetRelationalDatabaseBlueprintsRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type RelationalDatabaseEngine = "mysql" | (string & {});
 export interface RelationalDatabaseBlueprint {
-  blueprintId?: string;
-  engine?: RelationalDatabaseEngine;
-  engineVersion?: string;
-  engineDescription?: string;
-  engineVersionDescription?: string;
-  isEngineDefault?: boolean;
+  blueprintId?: string | undefined;
+  engine?: RelationalDatabaseEngine | undefined;
+  engineVersion?: string | undefined;
+  engineDescription?: string | undefined;
+  engineVersionDescription?: string | undefined;
+  isEngineDefault?: boolean | undefined;
 }
 export type RelationalDatabaseBlueprintList = RelationalDatabaseBlueprint[];
 export interface GetRelationalDatabaseBlueprintsResult {
-  blueprints?: RelationalDatabaseBlueprint[];
-  nextPageToken?: string;
+  blueprints?: RelationalDatabaseBlueprint[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetRelationalDatabaseBundlesRequest {
-  pageToken?: string;
-  includeInactive?: boolean;
+  pageToken?: string | undefined;
+  includeInactive?: boolean | undefined;
 }
 export interface RelationalDatabaseBundle {
-  bundleId?: string;
-  name?: string;
-  price?: number;
-  ramSizeInGb?: number;
-  diskSizeInGb?: number;
-  transferPerMonthInGb?: number;
-  cpuCount?: number;
-  isEncrypted?: boolean;
-  isActive?: boolean;
+  bundleId?: string | undefined;
+  name?: string | undefined;
+  price?: number | undefined;
+  ramSizeInGb?: number | undefined;
+  diskSizeInGb?: number | undefined;
+  transferPerMonthInGb?: number | undefined;
+  cpuCount?: number | undefined;
+  isEncrypted?: boolean | undefined;
+  isActive?: boolean | undefined;
 }
 export type RelationalDatabaseBundleList = RelationalDatabaseBundle[];
 export interface GetRelationalDatabaseBundlesResult {
-  bundles?: RelationalDatabaseBundle[];
-  nextPageToken?: string;
+  bundles?: RelationalDatabaseBundle[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetRelationalDatabaseEventsRequest {
   relationalDatabaseName: string;
-  durationInMinutes?: number;
-  pageToken?: string;
+  durationInMinutes?: number | undefined;
+  pageToken?: string | undefined;
 }
 export interface RelationalDatabaseEvent {
-  resource?: string;
-  createdAt?: Date;
-  message?: string;
-  eventCategories?: string[];
+  resource?: string | undefined;
+  createdAt?: Date | undefined;
+  message?: string | undefined;
+  eventCategories?: string[] | undefined;
 }
 export type RelationalDatabaseEventList = RelationalDatabaseEvent[];
 export interface GetRelationalDatabaseEventsResult {
-  relationalDatabaseEvents?: RelationalDatabaseEvent[];
-  nextPageToken?: string;
+  relationalDatabaseEvents?: RelationalDatabaseEvent[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetRelationalDatabaseLogEventsRequest {
   relationalDatabaseName: string;
   logStreamName: string;
-  startTime?: Date;
-  endTime?: Date;
-  startFromHead?: boolean;
-  pageToken?: string;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  startFromHead?: boolean | undefined;
+  pageToken?: string | undefined;
 }
 export interface LogEvent {
-  createdAt?: Date;
-  message?: string;
+  createdAt?: Date | undefined;
+  message?: string | undefined;
 }
 export type LogEventList = LogEvent[];
 export interface GetRelationalDatabaseLogEventsResult {
-  resourceLogEvents?: LogEvent[];
-  nextBackwardToken?: string;
-  nextForwardToken?: string;
+  resourceLogEvents?: LogEvent[] | undefined;
+  nextBackwardToken?: string | undefined;
+  nextForwardToken?: string | undefined;
 }
 export interface GetRelationalDatabaseLogStreamsRequest {
   relationalDatabaseName: string;
 }
 export interface GetRelationalDatabaseLogStreamsResult {
-  logStreams?: string[];
+  logStreams?: string[] | undefined;
 }
 export type RelationalDatabasePasswordVersion = "CURRENT" | "PREVIOUS" | "PENDING" | (string & {});
 export interface GetRelationalDatabaseMasterUserPasswordRequest {
   relationalDatabaseName: string;
-  passwordVersion?: RelationalDatabasePasswordVersion;
+  passwordVersion?: RelationalDatabasePasswordVersion | undefined;
 }
 export interface GetRelationalDatabaseMasterUserPasswordResult {
-  masterUserPassword?: string | redacted.Redacted<string>;
-  createdAt?: Date;
+  masterUserPassword?: string | redacted.Redacted<string> | undefined;
+  createdAt?: Date | undefined;
 }
 export type RelationalDatabaseMetricName =
   | "CPUUtilization"
@@ -2646,156 +2731,156 @@ export interface GetRelationalDatabaseMetricDataRequest {
   statistics: MetricStatistic[];
 }
 export interface GetRelationalDatabaseMetricDataResult {
-  metricName?: RelationalDatabaseMetricName;
-  metricData?: MetricDatapoint[];
+  metricName?: RelationalDatabaseMetricName | undefined;
+  metricData?: MetricDatapoint[] | undefined;
 }
 export interface GetRelationalDatabaseParametersRequest {
   relationalDatabaseName: string;
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface RelationalDatabaseParameter {
-  allowedValues?: string;
-  applyMethod?: string;
-  applyType?: string;
-  dataType?: string;
-  description?: string;
-  isModifiable?: boolean;
-  parameterName?: string;
-  parameterValue?: string;
+  allowedValues?: string | undefined;
+  applyMethod?: string | undefined;
+  applyType?: string | undefined;
+  dataType?: string | undefined;
+  description?: string | undefined;
+  isModifiable?: boolean | undefined;
+  parameterName?: string | undefined;
+  parameterValue?: string | undefined;
 }
 export type RelationalDatabaseParameterList = RelationalDatabaseParameter[];
 export interface GetRelationalDatabaseParametersResult {
-  parameters?: RelationalDatabaseParameter[];
-  nextPageToken?: string;
+  parameters?: RelationalDatabaseParameter[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetRelationalDatabasesRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type RelationalDatabaseList = RelationalDatabase[];
 export interface GetRelationalDatabasesResult {
-  relationalDatabases?: RelationalDatabase[];
-  nextPageToken?: string;
+  relationalDatabases?: RelationalDatabase[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetRelationalDatabaseSnapshotRequest {
   relationalDatabaseSnapshotName: string;
 }
 export interface RelationalDatabaseSnapshot {
-  name?: string;
-  arn?: string;
-  supportCode?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  tags?: Tag[];
-  engine?: string;
-  engineVersion?: string;
-  sizeInGb?: number;
-  state?: string;
-  fromRelationalDatabaseName?: string;
-  fromRelationalDatabaseArn?: string;
-  fromRelationalDatabaseBundleId?: string;
-  fromRelationalDatabaseBlueprintId?: string;
+  name?: string | undefined;
+  arn?: string | undefined;
+  supportCode?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  tags?: Tag[] | undefined;
+  engine?: string | undefined;
+  engineVersion?: string | undefined;
+  sizeInGb?: number | undefined;
+  state?: string | undefined;
+  fromRelationalDatabaseName?: string | undefined;
+  fromRelationalDatabaseArn?: string | undefined;
+  fromRelationalDatabaseBundleId?: string | undefined;
+  fromRelationalDatabaseBlueprintId?: string | undefined;
 }
 export interface GetRelationalDatabaseSnapshotResult {
-  relationalDatabaseSnapshot?: RelationalDatabaseSnapshot;
+  relationalDatabaseSnapshot?: RelationalDatabaseSnapshot | undefined;
 }
 export interface GetRelationalDatabaseSnapshotsRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type RelationalDatabaseSnapshotList = RelationalDatabaseSnapshot[];
 export interface GetRelationalDatabaseSnapshotsResult {
-  relationalDatabaseSnapshots?: RelationalDatabaseSnapshot[];
-  nextPageToken?: string;
+  relationalDatabaseSnapshots?: RelationalDatabaseSnapshot[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export type SetupHistoryPageToken = string;
 export interface GetSetupHistoryRequest {
   resourceName: string;
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type SetupDomainName = string;
 export type SetupDomainNameList = string[];
 export type CertificateProvider = "LetsEncrypt" | (string & {});
 export interface SetupRequest {
-  instanceName?: string;
-  domainNames?: string[];
-  certificateProvider?: CertificateProvider;
+  instanceName?: string | undefined;
+  domainNames?: string[] | undefined;
+  certificateProvider?: CertificateProvider | undefined;
 }
 export interface SetupHistoryResource {
-  name?: string;
-  arn?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
+  name?: string | undefined;
+  arn?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
 }
 export type SetupStatus = "succeeded" | "failed" | "inProgress" | (string & {});
 export interface SetupExecutionDetails {
-  command?: string;
-  dateTime?: Date;
-  name?: string;
-  status?: SetupStatus;
-  standardError?: string;
-  standardOutput?: string;
-  version?: string;
+  command?: string | undefined;
+  dateTime?: Date | undefined;
+  name?: string | undefined;
+  status?: SetupStatus | undefined;
+  standardError?: string | undefined;
+  standardOutput?: string | undefined;
+  version?: string | undefined;
 }
 export type SetupExecutionDetailsList = SetupExecutionDetails[];
 export interface SetupHistory {
-  operationId?: string;
-  request?: SetupRequest;
-  resource?: SetupHistoryResource;
-  executionDetails?: SetupExecutionDetails[];
-  status?: SetupStatus;
+  operationId?: string | undefined;
+  request?: SetupRequest | undefined;
+  resource?: SetupHistoryResource | undefined;
+  executionDetails?: SetupExecutionDetails[] | undefined;
+  status?: SetupStatus | undefined;
 }
 export type SetupHistoryList = SetupHistory[];
 export interface GetSetupHistoryResult {
-  setupHistory?: SetupHistory[];
-  nextPageToken?: string;
+  setupHistory?: SetupHistory[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetStaticIpRequest {
   staticIpName: string;
 }
 export interface StaticIp {
-  name?: string;
-  arn?: string;
-  supportCode?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  ipAddress?: string;
-  attachedTo?: string;
-  isAttached?: boolean;
+  name?: string | undefined;
+  arn?: string | undefined;
+  supportCode?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  ipAddress?: string | undefined;
+  attachedTo?: string | undefined;
+  isAttached?: boolean | undefined;
 }
 export interface GetStaticIpResult {
-  staticIp?: StaticIp;
+  staticIp?: StaticIp | undefined;
 }
 export interface GetStaticIpsRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type StaticIpList = StaticIp[];
 export interface GetStaticIpsResult {
-  staticIps?: StaticIp[];
-  nextPageToken?: string;
+  staticIps?: StaticIp[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface ImportKeyPairRequest {
   keyPairName: string;
   publicKeyBase64: string;
 }
 export interface ImportKeyPairResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface IsVpcPeeredRequest {}
 export interface IsVpcPeeredResult {
-  isPeered?: boolean;
+  isPeered?: boolean | undefined;
 }
 export interface OpenInstancePublicPortsRequest {
   portInfo: PortInfo;
   instanceName: string;
 }
 export interface OpenInstancePublicPortsResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface PeerVpcRequest {}
 export interface PeerVpcResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface PutAlarmRequest {
   alarmName: string;
@@ -2804,15 +2889,15 @@ export interface PutAlarmRequest {
   comparisonOperator: ComparisonOperator;
   threshold: number;
   evaluationPeriods: number;
-  datapointsToAlarm?: number;
-  treatMissingData?: TreatMissingData;
-  contactProtocols?: ContactProtocol[];
-  notificationTriggers?: AlarmState[];
-  notificationEnabled?: boolean;
-  tags?: Tag[];
+  datapointsToAlarm?: number | undefined;
+  treatMissingData?: TreatMissingData | undefined;
+  contactProtocols?: ContactProtocol[] | undefined;
+  notificationTriggers?: AlarmState[] | undefined;
+  notificationEnabled?: boolean | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface PutAlarmResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export type PortInfoList = PortInfo[];
 export interface PutInstancePublicPortsRequest {
@@ -2820,19 +2905,19 @@ export interface PutInstancePublicPortsRequest {
   instanceName: string;
 }
 export interface PutInstancePublicPortsResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface RebootInstanceRequest {
   instanceName: string;
 }
 export interface RebootInstanceResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface RebootRelationalDatabaseRequest {
   relationalDatabaseName: string;
 }
 export interface RebootRelationalDatabaseResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export type ContainerLabel = string;
 export interface RegisterContainerImageRequest {
@@ -2841,37 +2926,37 @@ export interface RegisterContainerImageRequest {
   digest: string;
 }
 export interface RegisterContainerImageResult {
-  containerImage?: ContainerImage;
+  containerImage?: ContainerImage | undefined;
 }
 export interface ReleaseStaticIpRequest {
   staticIpName: string;
 }
 export interface ReleaseStaticIpResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface ResetDistributionCacheRequest {
-  distributionName?: string;
+  distributionName?: string | undefined;
 }
 export interface ResetDistributionCacheResult {
-  status?: string;
-  createTime?: Date;
-  operation?: Operation;
+  status?: string | undefined;
+  createTime?: Date | undefined;
+  operation?: Operation | undefined;
 }
 export type ContactMethodVerificationProtocol = "Email" | (string & {});
 export interface SendContactMethodVerificationRequest {
   protocol: ContactMethodVerificationProtocol;
 }
 export interface SendContactMethodVerificationResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface SetIpAddressTypeRequest {
   resourceType: ResourceType;
   resourceName: string;
   ipAddressType: IpAddressType;
-  acceptBundleUpdate?: boolean;
+  acceptBundleUpdate?: boolean | undefined;
 }
 export interface SetIpAddressTypeResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export type ResourceBucketAccess = "allow" | "deny" | (string & {});
 export interface SetResourceAccessForBucketRequest {
@@ -2880,7 +2965,7 @@ export interface SetResourceAccessForBucketRequest {
   access: ResourceBucketAccess;
 }
 export interface SetResourceAccessForBucketResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export type EmailAddress = string | redacted.Redacted<string>;
 export interface SetupInstanceHttpsRequest {
@@ -2890,144 +2975,150 @@ export interface SetupInstanceHttpsRequest {
   certificateProvider: CertificateProvider;
 }
 export interface SetupInstanceHttpsResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface StartGUISessionRequest {
   resourceName: string;
 }
 export interface StartGUISessionResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
+}
+export interface InstanceAttributeUpdates {
+  bundleId?: string | undefined;
 }
 export interface StartInstanceRequest {
   instanceName: string;
+  attributeUpdates?: InstanceAttributeUpdates | undefined;
 }
 export interface StartInstanceResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface StartRelationalDatabaseRequest {
   relationalDatabaseName: string;
 }
 export interface StartRelationalDatabaseResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface StopGUISessionRequest {
   resourceName: string;
 }
 export interface StopGUISessionResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface StopInstanceRequest {
   instanceName: string;
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface StopInstanceResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface StopRelationalDatabaseRequest {
   relationalDatabaseName: string;
-  relationalDatabaseSnapshotName?: string;
+  relationalDatabaseSnapshotName?: string | undefined;
 }
 export interface StopRelationalDatabaseResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface TagResourceRequest {
   resourceName: string;
-  resourceArn?: string;
+  resourceArn?: string | undefined;
   tags: Tag[];
 }
 export interface TagResourceResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface TestAlarmRequest {
   alarmName: string;
   state: AlarmState;
 }
 export interface TestAlarmResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface UnpeerVpcRequest {}
 export interface UnpeerVpcResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export type TagKeyList = string[];
 export interface UntagResourceRequest {
   resourceName: string;
-  resourceArn?: string;
+  resourceArn?: string | undefined;
   tagKeys: string[];
 }
 export interface UntagResourceResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface UpdateBucketRequest {
   bucketName: string;
-  accessRules?: AccessRules;
-  versioning?: string;
-  readonlyAccessAccounts?: string[];
-  accessLogConfig?: BucketAccessLogConfig;
-  cors?: BucketCorsConfig;
+  accessRules?: AccessRules | undefined;
+  versioning?: string | undefined;
+  readonlyAccessAccounts?: string[] | undefined;
+  accessLogConfig?: BucketAccessLogConfig | undefined;
+  cors?: BucketCorsConfig | undefined;
 }
 export interface UpdateBucketResult {
-  bucket?: Bucket;
-  operations?: Operation[];
+  bucket?: Bucket | undefined;
+  operations?: Operation[] | undefined;
 }
 export interface UpdateBucketBundleRequest {
   bucketName: string;
   bundleId: string;
 }
 export interface UpdateBucketBundleResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface UpdateContainerServiceRequest {
   serviceName: string;
-  power?: ContainerServicePowerName;
-  scale?: number;
-  isDisabled?: boolean;
-  publicDomainNames?: { [key: string]: string[] | undefined };
-  privateRegistryAccess?: PrivateRegistryAccessRequest;
+  power?: ContainerServicePowerName | undefined;
+  scale?: number | undefined;
+  isDisabled?: boolean | undefined;
+  publicDomainNames?: { [key: string]: string[] | undefined } | undefined;
+  privateRegistryAccess?: PrivateRegistryAccessRequest | undefined;
 }
 export interface UpdateContainerServiceResult {
-  containerService?: ContainerService;
+  containerService?: ContainerService | undefined;
 }
 export interface UpdateDistributionRequest {
   distributionName: string;
-  origin?: InputOrigin;
-  defaultCacheBehavior?: CacheBehavior;
-  cacheBehaviorSettings?: CacheSettings;
-  cacheBehaviors?: CacheBehaviorPerPath[];
-  isEnabled?: boolean;
-  viewerMinimumTlsProtocolVersion?: ViewerMinimumTlsProtocolVersionEnum;
-  certificateName?: string;
-  useDefaultCertificate?: boolean;
-  enablePrivateOriginAccess?: boolean;
-  defaultRootObject?: string;
-  customErrorResponses?: DistributionCustomErrorResponse[];
+  origin?: InputOrigin | undefined;
+  defaultCacheBehavior?: CacheBehavior | undefined;
+  cacheBehaviorSettings?: CacheSettings | undefined;
+  cacheBehaviors?: CacheBehaviorPerPath[] | undefined;
+  isEnabled?: boolean | undefined;
+  viewerMinimumTlsProtocolVersion?: ViewerMinimumTlsProtocolVersionEnum | undefined;
+  certificateName?: string | undefined;
+  useDefaultCertificate?: boolean | undefined;
+  enablePrivateOriginAccess?: boolean | undefined;
+  defaultRootObject?: string | undefined;
+  customErrorResponses?: DistributionCustomErrorResponse[] | undefined;
+  enableWaf?: boolean | undefined;
+  wafRules?: WafRule[] | undefined;
 }
 export interface UpdateDistributionResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface UpdateDistributionBundleRequest {
-  distributionName?: string;
-  bundleId?: string;
+  distributionName?: string | undefined;
+  bundleId?: string | undefined;
 }
 export interface UpdateDistributionBundleResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface UpdateDomainEntryRequest {
   domainName: string;
   domainEntry: DomainEntry;
 }
 export interface UpdateDomainEntryResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface UpdateInstanceMetadataOptionsRequest {
   instanceName: string;
-  httpTokens?: HttpTokens;
-  httpEndpoint?: HttpEndpoint;
-  httpPutResponseHopLimit?: number;
-  httpProtocolIpv6?: HttpProtocolIpv6;
+  httpTokens?: HttpTokens | undefined;
+  httpEndpoint?: HttpEndpoint | undefined;
+  httpPutResponseHopLimit?: number | undefined;
+  httpProtocolIpv6?: HttpProtocolIpv6 | undefined;
 }
 export interface UpdateInstanceMetadataOptionsResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface UpdateLoadBalancerAttributeRequest {
   loadBalancerName: string;
@@ -3035,30 +3126,30 @@ export interface UpdateLoadBalancerAttributeRequest {
   attributeValue: string;
 }
 export interface UpdateLoadBalancerAttributeResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface UpdateRelationalDatabaseRequest {
   relationalDatabaseName: string;
-  masterUserPassword?: string | redacted.Redacted<string>;
-  rotateMasterUserPassword?: boolean;
-  preferredBackupWindow?: string;
-  preferredMaintenanceWindow?: string;
-  enableBackupRetention?: boolean;
-  disableBackupRetention?: boolean;
-  publiclyAccessible?: boolean;
-  applyImmediately?: boolean;
-  caCertificateIdentifier?: string;
-  relationalDatabaseBlueprintId?: string;
+  masterUserPassword?: string | redacted.Redacted<string> | undefined;
+  rotateMasterUserPassword?: boolean | undefined;
+  preferredBackupWindow?: string | undefined;
+  preferredMaintenanceWindow?: string | undefined;
+  enableBackupRetention?: boolean | undefined;
+  disableBackupRetention?: boolean | undefined;
+  publiclyAccessible?: boolean | undefined;
+  applyImmediately?: boolean | undefined;
+  caCertificateIdentifier?: string | undefined;
+  relationalDatabaseBlueprintId?: string | undefined;
 }
 export interface UpdateRelationalDatabaseResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface UpdateRelationalDatabaseParametersRequest {
   relationalDatabaseName: string;
   parameters: RelationalDatabaseParameter[];
 }
 export interface UpdateRelationalDatabaseParametersResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export type AllocateStaticIpError =
   | AccessDeniedException
@@ -3074,13 +3165,13 @@ export type AllocateStaticIpError =
  * Allocates a static IP address.
  */
 export const allocateStaticIp: API.OperationMethod<
-  AllocateStaticIpRequest,
+  AllocateStaticIpRequest & RegionInput,
   AllocateStaticIpResult,
   AllocateStaticIpError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2768, __c173, 0) as any as S.Schema<AllocateStaticIpRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<AllocateStaticIpResult>,
+  input: __S(2784, __c174, 0) as any as S.Schema<AllocateStaticIpRequest>,
+  output: __S(2816, __c176, 0) as any as S.Schema<AllocateStaticIpResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -3123,13 +3214,13 @@ export type AttachCertificateToDistributionError =
  * `us-east-1` Region.
  */
 export const attachCertificateToDistribution: API.OperationMethod<
-  AttachCertificateToDistributionRequest,
+  AttachCertificateToDistributionRequest & RegionInput,
   AttachCertificateToDistributionResult,
   AttachCertificateToDistributionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c192, 0) as any as S.Schema<AttachCertificateToDistributionRequest>,
-  output: __S(3088, __c193, 0) as any as S.Schema<AttachCertificateToDistributionResult>,
+  input: __S(3088, __c193, 0) as any as S.Schema<AttachCertificateToDistributionRequest>,
+  output: __S(3104, __c194, 0) as any as S.Schema<AttachCertificateToDistributionResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -3164,13 +3255,13 @@ export type AttachDiskError =
  * Amazon Lightsail Developer Guide.
  */
 export const attachDisk: API.OperationMethod<
-  AttachDiskRequest,
+  AttachDiskRequest & RegionInput,
   AttachDiskResult,
   AttachDiskError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AttachDiskRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<AttachDiskResult>,
+  output: __S(2816, __c176, 0) as any as S.Schema<AttachDiskResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -3209,13 +3300,13 @@ export type AttachInstancesToLoadBalancerError =
  * name. For more information, see the Lightsail Developer Guide.
  */
 export const attachInstancesToLoadBalancer: API.OperationMethod<
-  AttachInstancesToLoadBalancerRequest,
+  AttachInstancesToLoadBalancerRequest & RegionInput,
   AttachInstancesToLoadBalancerResult,
   AttachInstancesToLoadBalancerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<AttachInstancesToLoadBalancerRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<AttachInstancesToLoadBalancerResult>,
+  output: __S(2816, __c176, 0) as any as S.Schema<AttachInstancesToLoadBalancerResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -3257,13 +3348,13 @@ export type AttachLoadBalancerTlsCertificateError =
  * name. For more information, see the Amazon Lightsail Developer Guide.
  */
 export const attachLoadBalancerTlsCertificate: API.OperationMethod<
-  AttachLoadBalancerTlsCertificateRequest,
+  AttachLoadBalancerTlsCertificateRequest & RegionInput,
   AttachLoadBalancerTlsCertificateResult,
   AttachLoadBalancerTlsCertificateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<AttachLoadBalancerTlsCertificateRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<AttachLoadBalancerTlsCertificateResult>,
+  output: __S(2816, __c176, 0) as any as S.Schema<AttachLoadBalancerTlsCertificateResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -3295,13 +3386,13 @@ export type AttachStaticIpError =
  * Attaches a static IP address to a specific Amazon Lightsail instance.
  */
 export const attachStaticIp: API.OperationMethod<
-  AttachStaticIpRequest,
+  AttachStaticIpRequest & RegionInput,
   AttachStaticIpResult,
   AttachStaticIpError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<AttachStaticIpRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<AttachStaticIpResult>,
+  output: __S(2816, __c176, 0) as any as S.Schema<AttachStaticIpResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -3337,13 +3428,13 @@ export type CloseInstancePublicPortsError =
  * information, see the Amazon Lightsail Developer Guide.
  */
 export const closeInstancePublicPorts: API.OperationMethod<
-  CloseInstancePublicPortsRequest,
+  CloseInstancePublicPortsRequest & RegionInput,
   CloseInstancePublicPortsResult,
   CloseInstancePublicPortsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(848, __c53, 0) as any as S.Schema<CloseInstancePublicPortsRequest>,
-  output: __S(3088, __c193, 0) as any as S.Schema<CloseInstancePublicPortsResult>,
+  output: __S(3104, __c194, 0) as any as S.Schema<CloseInstancePublicPortsResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -3386,13 +3477,13 @@ export type CopySnapshotError =
  * auto snapshot parameters.
  */
 export const copySnapshot: API.OperationMethod<
-  CopySnapshotRequest,
+  CopySnapshotRequest & RegionInput,
   CopySnapshotResult,
   CopySnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1040, __c65, 0) as any as S.Schema<CopySnapshotRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<CopySnapshotResult>,
+  output: __S(2816, __c176, 0) as any as S.Schema<CopySnapshotResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -3426,7 +3517,7 @@ export type CreateBucketError =
  * Guide.
  */
 export const createBucket: API.OperationMethod<
-  CreateBucketRequest,
+  CreateBucketRequest & RegionInput,
   CreateBucketResult,
   CreateBucketError,
   Credentials | HttpClient.HttpClient
@@ -3470,7 +3561,7 @@ export type CreateBucketAccessKeyError =
  * secret access key, you must create a new access key.
  */
 export const createBucketAccessKey: API.OperationMethod<
-  CreateBucketAccessKeyRequest,
+  CreateBucketAccessKeyRequest & RegionInput,
   CreateBucketAccessKeyResult,
   CreateBucketAccessKeyError,
   Credentials | HttpClient.HttpClient
@@ -3516,7 +3607,7 @@ export type CreateCertificateError =
  * `us-east-1` Region.
  */
 export const createCertificate: API.OperationMethod<
-  CreateCertificateRequest,
+  CreateCertificateRequest & RegionInput,
   CreateCertificateResult,
   CreateCertificateError,
   Credentials | HttpClient.HttpClient
@@ -3558,13 +3649,13 @@ export type CreateCloudFormationStackError =
  * cloud formation stack operation again with the same export snapshot record.
  */
 export const createCloudFormationStack: API.OperationMethod<
-  CreateCloudFormationStackRequest,
+  CreateCloudFormationStackRequest & RegionInput,
   CreateCloudFormationStackResult,
   CreateCloudFormationStackError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1522, __c95, 2) as any as S.Schema<CreateCloudFormationStackRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<CreateCloudFormationStackResult>,
+  output: __S(2816, __c176, 0) as any as S.Schema<CreateCloudFormationStackResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -3603,13 +3694,13 @@ export type CreateContactMethodError =
  * tags. For more information, see the Lightsail Developer Guide.
  */
 export const createContactMethod: API.OperationMethod<
-  CreateContactMethodRequest,
+  CreateContactMethodRequest & RegionInput,
   CreateContactMethodResult,
   CreateContactMethodError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c96, 0) as any as S.Schema<CreateContactMethodRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<CreateContactMethodResult>,
+  output: __S(2816, __c176, 0) as any as S.Schema<CreateContactMethodResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -3642,7 +3733,7 @@ export type CreateContainerServiceError =
  * Guide.
  */
 export const createContainerService: API.OperationMethod<
-  CreateContainerServiceRequest,
+  CreateContainerServiceRequest & RegionInput,
   CreateContainerServiceResult,
   CreateContainerServiceError,
   Credentials | HttpClient.HttpClient
@@ -3687,7 +3778,7 @@ export type CreateContainerServiceDeploymentError =
  * *Amazon Lightsail Developer Guide*.
  */
 export const createContainerServiceDeployment: API.OperationMethod<
-  CreateContainerServiceDeploymentRequest,
+  CreateContainerServiceDeploymentRequest & RegionInput,
   CreateContainerServiceDeploymentResult,
   CreateContainerServiceDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -3739,7 +3830,7 @@ export type CreateContainerServiceRegistryLoginError =
  * in the *Amazon Lightsail Developer Guide*.
  */
 export const createContainerServiceRegistryLogin: API.OperationMethod<
-  CreateContainerServiceRegistryLoginRequest,
+  CreateContainerServiceRegistryLoginRequest & RegionInput,
   CreateContainerServiceRegistryLoginResult,
   CreateContainerServiceRegistryLoginError,
   Credentials | HttpClient.HttpClient
@@ -3779,13 +3870,13 @@ export type CreateDiskError =
  * For more information, see the Amazon Lightsail Developer Guide.
  */
 export const createDisk: API.OperationMethod<
-  CreateDiskRequest,
+  CreateDiskRequest & RegionInput,
   CreateDiskResult,
   CreateDiskError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c106, 0) as any as S.Schema<CreateDiskRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<CreateDiskResult>,
+  output: __S(2816, __c176, 0) as any as S.Schema<CreateDiskResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -3823,13 +3914,13 @@ export type CreateDiskFromSnapshotError =
  * name. For more information, see the Amazon Lightsail Developer Guide.
  */
 export const createDiskFromSnapshot: API.OperationMethod<
-  CreateDiskFromSnapshotRequest,
+  CreateDiskFromSnapshotRequest & RegionInput,
   CreateDiskFromSnapshotResult,
   CreateDiskFromSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1744, __c109, 0) as any as S.Schema<CreateDiskFromSnapshotRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<CreateDiskFromSnapshotResult>,
+  output: __S(2816, __c176, 0) as any as S.Schema<CreateDiskFromSnapshotResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -3882,13 +3973,13 @@ export type CreateDiskSnapshotError =
  * request tags. For more information, see the Amazon Lightsail Developer Guide.
  */
 export const createDiskSnapshot: API.OperationMethod<
-  CreateDiskSnapshotRequest,
+  CreateDiskSnapshotRequest & RegionInput,
   CreateDiskSnapshotResult,
   CreateDiskSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c110, 0) as any as S.Schema<CreateDiskSnapshotRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<CreateDiskSnapshotResult>,
+  output: __S(2816, __c176, 0) as any as S.Schema<CreateDiskSnapshotResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -3922,7 +4013,7 @@ export type CreateDistributionError =
  * information, see Content delivery networks in Amazon Lightsail.
  */
 export const createDistribution: API.OperationMethod<
-  CreateDistributionRequest,
+  CreateDistributionRequest & RegionInput,
   CreateDistributionResult,
   CreateDistributionError,
   Credentials | HttpClient.HttpClient
@@ -3961,13 +4052,13 @@ export type CreateDomainError =
  * tags. For more information, see the Amazon Lightsail Developer Guide.
  */
 export const createDomain: API.OperationMethod<
-  CreateDomainRequest,
+  CreateDomainRequest & RegionInput,
   CreateDomainResult,
   CreateDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c116, 0) as any as S.Schema<CreateDomainRequest>,
-  output: __S(3088, __c193, 0) as any as S.Schema<CreateDomainResult>,
+  input: __S(1872, __c117, 0) as any as S.Schema<CreateDomainRequest>,
+  output: __S(3104, __c194, 0) as any as S.Schema<CreateDomainResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -4005,13 +4096,13 @@ export type CreateDomainEntryError =
  * information, see the Amazon Lightsail Developer Guide.
  */
 export const createDomainEntry: API.OperationMethod<
-  CreateDomainEntryRequest,
+  CreateDomainEntryRequest & RegionInput,
   CreateDomainEntryResult,
   CreateDomainEntryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1872, __c117, 0) as any as S.Schema<CreateDomainEntryRequest>,
-  output: __S(3088, __c193, 0) as any as S.Schema<CreateDomainEntryResult>,
+  input: __S(1888, __c118, 0) as any as S.Schema<CreateDomainEntryRequest>,
+  output: __S(3104, __c194, 0) as any as S.Schema<CreateDomainEntryResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -4046,13 +4137,13 @@ export type CreateGUISessionAccessDetailsError =
  * Use `StartGUISession` to open the session.
  */
 export const createGUISessionAccessDetails: API.OperationMethod<
-  CreateGUISessionAccessDetailsRequest,
+  CreateGUISessionAccessDetailsRequest & RegionInput,
   CreateGUISessionAccessDetailsResult,
   CreateGUISessionAccessDetailsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1904, __c119, 0) as any as S.Schema<CreateGUISessionAccessDetailsRequest>,
-  output: __S(1907, __c119, 3) as any as S.Schema<CreateGUISessionAccessDetailsResult>,
+  input: __S(1920, __c120, 0) as any as S.Schema<CreateGUISessionAccessDetailsRequest>,
+  output: __S(1923, __c120, 3) as any as S.Schema<CreateGUISessionAccessDetailsResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -4085,13 +4176,13 @@ export type CreateInstancesError =
  * tags. For more information, see the Lightsail Developer Guide.
  */
 export const createInstances: API.OperationMethod<
-  CreateInstancesRequest,
+  CreateInstancesRequest & RegionInput,
   CreateInstancesResult,
   CreateInstancesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c120, 0) as any as S.Schema<CreateInstancesRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<CreateInstancesResult>,
+  input: __S(1936, __c121, 0) as any as S.Schema<CreateInstancesRequest>,
+  output: __S(2816, __c176, 0) as any as S.Schema<CreateInstancesResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -4128,13 +4219,13 @@ export type CreateInstancesFromSnapshotError =
  * `instance snapshot name`. For more information, see the Amazon Lightsail Developer Guide.
  */
 export const createInstancesFromSnapshot: API.OperationMethod<
-  CreateInstancesFromSnapshotRequest,
+  CreateInstancesFromSnapshotRequest & RegionInput,
   CreateInstancesFromSnapshotResult,
   CreateInstancesFromSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1939, __c121, 3) as any as S.Schema<CreateInstancesFromSnapshotRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<CreateInstancesFromSnapshotResult>,
+  input: __S(1955, __c122, 3) as any as S.Schema<CreateInstancesFromSnapshotRequest>,
+  output: __S(2816, __c176, 0) as any as S.Schema<CreateInstancesFromSnapshotResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -4170,13 +4261,13 @@ export type CreateInstanceSnapshotError =
  * request tags. For more information, see the Amazon Lightsail Developer Guide.
  */
 export const createInstanceSnapshot: API.OperationMethod<
-  CreateInstanceSnapshotRequest,
+  CreateInstanceSnapshotRequest & RegionInput,
   CreateInstanceSnapshotResult,
   CreateInstanceSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c122, 0) as any as S.Schema<CreateInstanceSnapshotRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<CreateInstanceSnapshotResult>,
+  input: __S(1968, __c123, 0) as any as S.Schema<CreateInstanceSnapshotRequest>,
+  output: __S(2816, __c176, 0) as any as S.Schema<CreateInstanceSnapshotResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -4216,13 +4307,13 @@ export type CreateKeyPairError =
  * tags. For more information, see the Amazon Lightsail Developer Guide.
  */
 export const createKeyPair: API.OperationMethod<
-  CreateKeyPairRequest,
+  CreateKeyPairRequest & RegionInput,
   CreateKeyPairResult,
   CreateKeyPairError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1968, __c123, 0) as any as S.Schema<CreateKeyPairRequest>,
-  output: __S(1969, __c123, 1) as any as S.Schema<CreateKeyPairResult>,
+  input: __S(1984, __c124, 0) as any as S.Schema<CreateKeyPairRequest>,
+  output: __S(1985, __c124, 1) as any as S.Schema<CreateKeyPairResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -4263,13 +4354,13 @@ export type CreateLoadBalancerError =
  * request tags. For more information, see the Amazon Lightsail Developer Guide.
  */
 export const createLoadBalancer: API.OperationMethod<
-  CreateLoadBalancerRequest,
+  CreateLoadBalancerRequest & RegionInput,
   CreateLoadBalancerResult,
   CreateLoadBalancerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2000, __c125, 0) as any as S.Schema<CreateLoadBalancerRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<CreateLoadBalancerResult>,
+  input: __S(2016, __c126, 0) as any as S.Schema<CreateLoadBalancerRequest>,
+  output: __S(2816, __c176, 0) as any as S.Schema<CreateLoadBalancerResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -4307,13 +4398,13 @@ export type CreateLoadBalancerTlsCertificateError =
  * name. For more information, see the Amazon Lightsail Developer Guide.
  */
 export const createLoadBalancerTlsCertificate: API.OperationMethod<
-  CreateLoadBalancerTlsCertificateRequest,
+  CreateLoadBalancerTlsCertificateRequest & RegionInput,
   CreateLoadBalancerTlsCertificateResult,
   CreateLoadBalancerTlsCertificateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c126, 0) as any as S.Schema<CreateLoadBalancerTlsCertificateRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<CreateLoadBalancerTlsCertificateResult>,
+  input: __S(2032, __c127, 0) as any as S.Schema<CreateLoadBalancerTlsCertificateRequest>,
+  output: __S(2816, __c176, 0) as any as S.Schema<CreateLoadBalancerTlsCertificateResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -4348,13 +4439,13 @@ export type CreateRelationalDatabaseError =
  * via request tags. For more information, see the Amazon Lightsail Developer Guide.
  */
 export const createRelationalDatabase: API.OperationMethod<
-  CreateRelationalDatabaseRequest,
+  CreateRelationalDatabaseRequest & RegionInput,
   CreateRelationalDatabaseResult,
   CreateRelationalDatabaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2032, __c127, 0) as any as S.Schema<CreateRelationalDatabaseRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<CreateRelationalDatabaseResult>,
+  input: __S(2048, __c128, 0) as any as S.Schema<CreateRelationalDatabaseRequest>,
+  output: __S(2816, __c176, 0) as any as S.Schema<CreateRelationalDatabaseResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -4394,13 +4485,13 @@ export type CreateRelationalDatabaseFromSnapshotError =
  * relationalDatabaseSnapshotName. For more information, see the Amazon Lightsail Developer Guide.
  */
 export const createRelationalDatabaseFromSnapshot: API.OperationMethod<
-  CreateRelationalDatabaseFromSnapshotRequest,
+  CreateRelationalDatabaseFromSnapshotRequest & RegionInput,
   CreateRelationalDatabaseFromSnapshotResult,
   CreateRelationalDatabaseFromSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c128, 0) as any as S.Schema<CreateRelationalDatabaseFromSnapshotRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<CreateRelationalDatabaseFromSnapshotResult>,
+  input: __S(2064, __c129, 0) as any as S.Schema<CreateRelationalDatabaseFromSnapshotRequest>,
+  output: __S(2816, __c176, 0) as any as S.Schema<CreateRelationalDatabaseFromSnapshotResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -4436,13 +4527,13 @@ export type CreateRelationalDatabaseSnapshotError =
  * control via request tags. For more information, see the Amazon Lightsail Developer Guide.
  */
 export const createRelationalDatabaseSnapshot: API.OperationMethod<
-  CreateRelationalDatabaseSnapshotRequest,
+  CreateRelationalDatabaseSnapshotRequest & RegionInput,
   CreateRelationalDatabaseSnapshotResult,
   CreateRelationalDatabaseSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2064, __c129, 0) as any as S.Schema<CreateRelationalDatabaseSnapshotRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<CreateRelationalDatabaseSnapshotResult>,
+  input: __S(2080, __c130, 0) as any as S.Schema<CreateRelationalDatabaseSnapshotRequest>,
+  output: __S(2816, __c176, 0) as any as S.Schema<CreateRelationalDatabaseSnapshotResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -4478,13 +4569,13 @@ export type DeleteAlarmError =
  * in Amazon Lightsail.
  */
 export const deleteAlarm: API.OperationMethod<
-  DeleteAlarmRequest,
+  DeleteAlarmRequest & RegionInput,
   DeleteAlarmResult,
   DeleteAlarmError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c130, 0) as any as S.Schema<DeleteAlarmRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<DeleteAlarmResult>,
+  input: __S(2096, __c131, 0) as any as S.Schema<DeleteAlarmRequest>,
+  output: __S(2816, __c176, 0) as any as S.Schema<DeleteAlarmResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -4514,13 +4605,13 @@ export type DeleteAutoSnapshotError =
  * Deletes an automatic snapshot of an instance or disk. For more information, see the Amazon Lightsail Developer Guide.
  */
 export const deleteAutoSnapshot: API.OperationMethod<
-  DeleteAutoSnapshotRequest,
+  DeleteAutoSnapshotRequest & RegionInput,
   DeleteAutoSnapshotResult,
   DeleteAutoSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2096, __c131, 0) as any as S.Schema<DeleteAutoSnapshotRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<DeleteAutoSnapshotResult>,
+  input: __S(2112, __c132, 0) as any as S.Schema<DeleteAutoSnapshotRequest>,
+  output: __S(2816, __c176, 0) as any as S.Schema<DeleteAutoSnapshotResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -4552,13 +4643,13 @@ export type DeleteBucketError =
  * bucket in your account or another Amazon Web Services account.
  */
 export const deleteBucket: API.OperationMethod<
-  DeleteBucketRequest,
+  DeleteBucketRequest & RegionInput,
   DeleteBucketResult,
   DeleteBucketError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c132, 0) as any as S.Schema<DeleteBucketRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<DeleteBucketResult>,
+  input: __S(2128, __c133, 0) as any as S.Schema<DeleteBucketRequest>,
+  output: __S(2816, __c176, 0) as any as S.Schema<DeleteBucketResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -4591,13 +4682,13 @@ export type DeleteBucketAccessKeyError =
  * *Amazon Lightsail Developer Guide*.
  */
 export const deleteBucketAccessKey: API.OperationMethod<
-  DeleteBucketAccessKeyRequest,
+  DeleteBucketAccessKeyRequest & RegionInput,
   DeleteBucketAccessKeyResult,
   DeleteBucketAccessKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2128, __c133, 0) as any as S.Schema<DeleteBucketAccessKeyRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<DeleteBucketAccessKeyResult>,
+  input: __S(2144, __c134, 0) as any as S.Schema<DeleteBucketAccessKeyRequest>,
+  output: __S(2816, __c176, 0) as any as S.Schema<DeleteBucketAccessKeyResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -4630,13 +4721,13 @@ export type DeleteCertificateError =
  * distribution.
  */
 export const deleteCertificate: API.OperationMethod<
-  DeleteCertificateRequest,
+  DeleteCertificateRequest & RegionInput,
   DeleteCertificateResult,
   DeleteCertificateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c134, 0) as any as S.Schema<DeleteCertificateRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<DeleteCertificateResult>,
+  input: __S(2160, __c135, 0) as any as S.Schema<DeleteCertificateRequest>,
+  output: __S(2816, __c176, 0) as any as S.Schema<DeleteCertificateResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -4670,13 +4761,13 @@ export type DeleteContactMethodError =
  * see Notifications in Amazon Lightsail.
  */
 export const deleteContactMethod: API.OperationMethod<
-  DeleteContactMethodRequest,
+  DeleteContactMethodRequest & RegionInput,
   DeleteContactMethodResult,
   DeleteContactMethodError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2160, __c135, 0) as any as S.Schema<DeleteContactMethodRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<DeleteContactMethodResult>,
+  input: __S(2176, __c136, 0) as any as S.Schema<DeleteContactMethodRequest>,
+  output: __S(2816, __c176, 0) as any as S.Schema<DeleteContactMethodResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -4706,13 +4797,13 @@ export type DeleteContainerImageError =
  * service.
  */
 export const deleteContainerImage: API.OperationMethod<
-  DeleteContainerImageRequest,
+  DeleteContainerImageRequest & RegionInput,
   DeleteContainerImageResult,
   DeleteContainerImageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c136, 0) as any as S.Schema<DeleteContainerImageRequest>,
-  output: __S(2192, __c137, 0) as any as S.Schema<DeleteContainerImageResult>,
+  input: __S(2192, __c137, 0) as any as S.Schema<DeleteContainerImageRequest>,
+  output: __S(2208, __c138, 0) as any as S.Schema<DeleteContainerImageResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -4740,13 +4831,13 @@ export type DeleteContainerServiceError =
  * Deletes your Amazon Lightsail container service.
  */
 export const deleteContainerService: API.OperationMethod<
-  DeleteContainerServiceRequest,
+  DeleteContainerServiceRequest & RegionInput,
   DeleteContainerServiceResult,
   DeleteContainerServiceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c138, 0) as any as S.Schema<DeleteContainerServiceRequest>,
-  output: __S(2192, __c137, 0) as any as S.Schema<DeleteContainerServiceResult>,
+  input: __S(2224, __c139, 0) as any as S.Schema<DeleteContainerServiceRequest>,
+  output: __S(2208, __c138, 0) as any as S.Schema<DeleteContainerServiceResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -4783,13 +4874,13 @@ export type DeleteDiskError =
  * Amazon Lightsail Developer Guide.
  */
 export const deleteDisk: API.OperationMethod<
-  DeleteDiskRequest,
+  DeleteDiskRequest & RegionInput,
   DeleteDiskResult,
   DeleteDiskError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2224, __c139, 0) as any as S.Schema<DeleteDiskRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<DeleteDiskResult>,
+  input: __S(2240, __c140, 0) as any as S.Schema<DeleteDiskRequest>,
+  output: __S(2816, __c176, 0) as any as S.Schema<DeleteDiskResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -4831,13 +4922,13 @@ export type DeleteDiskSnapshotError =
  * information, see the Amazon Lightsail Developer Guide.
  */
 export const deleteDiskSnapshot: API.OperationMethod<
-  DeleteDiskSnapshotRequest,
+  DeleteDiskSnapshotRequest & RegionInput,
   DeleteDiskSnapshotResult,
   DeleteDiskSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c140, 0) as any as S.Schema<DeleteDiskSnapshotRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<DeleteDiskSnapshotResult>,
+  input: __S(2256, __c141, 0) as any as S.Schema<DeleteDiskSnapshotRequest>,
+  output: __S(2816, __c176, 0) as any as S.Schema<DeleteDiskSnapshotResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -4867,13 +4958,13 @@ export type DeleteDistributionError =
  * Deletes your Amazon Lightsail content delivery network (CDN) distribution.
  */
 export const deleteDistribution: API.OperationMethod<
-  DeleteDistributionRequest,
+  DeleteDistributionRequest & RegionInput,
   DeleteDistributionResult,
   DeleteDistributionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2256, __c141, 0) as any as S.Schema<DeleteDistributionRequest>,
-  output: __S(3088, __c193, 0) as any as S.Schema<DeleteDistributionResult>,
+  input: __S(2272, __c142, 0) as any as S.Schema<DeleteDistributionRequest>,
+  output: __S(3104, __c194, 0) as any as S.Schema<DeleteDistributionResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -4907,13 +4998,13 @@ export type DeleteDomainError =
  * the Amazon Lightsail Developer Guide.
  */
 export const deleteDomain: API.OperationMethod<
-  DeleteDomainRequest,
+  DeleteDomainRequest & RegionInput,
   DeleteDomainResult,
   DeleteDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c142, 0) as any as S.Schema<DeleteDomainRequest>,
-  output: __S(3088, __c193, 0) as any as S.Schema<DeleteDomainResult>,
+  input: __S(2288, __c143, 0) as any as S.Schema<DeleteDomainRequest>,
+  output: __S(3104, __c194, 0) as any as S.Schema<DeleteDomainResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -4949,13 +5040,13 @@ export type DeleteDomainEntryError =
  * information, see the Amazon Lightsail Developer Guide.
  */
 export const deleteDomainEntry: API.OperationMethod<
-  DeleteDomainEntryRequest,
+  DeleteDomainEntryRequest & RegionInput,
   DeleteDomainEntryResult,
   DeleteDomainEntryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2288, __c143, 0) as any as S.Schema<DeleteDomainEntryRequest>,
-  output: __S(3088, __c193, 0) as any as S.Schema<DeleteDomainEntryResult>,
+  input: __S(2304, __c144, 0) as any as S.Schema<DeleteDomainEntryRequest>,
+  output: __S(3104, __c194, 0) as any as S.Schema<DeleteDomainEntryResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -4991,13 +5082,13 @@ export type DeleteInstanceError =
  * see the Amazon Lightsail Developer Guide.
  */
 export const deleteInstance: API.OperationMethod<
-  DeleteInstanceRequest,
+  DeleteInstanceRequest & RegionInput,
   DeleteInstanceResult,
   DeleteInstanceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c144, 0) as any as S.Schema<DeleteInstanceRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<DeleteInstanceResult>,
+  input: __S(2320, __c145, 0) as any as S.Schema<DeleteInstanceRequest>,
+  output: __S(2816, __c176, 0) as any as S.Schema<DeleteInstanceResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -5034,13 +5125,13 @@ export type DeleteInstanceSnapshotError =
  * more information, see the Amazon Lightsail Developer Guide.
  */
 export const deleteInstanceSnapshot: API.OperationMethod<
-  DeleteInstanceSnapshotRequest,
+  DeleteInstanceSnapshotRequest & RegionInput,
   DeleteInstanceSnapshotResult,
   DeleteInstanceSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2320, __c145, 0) as any as S.Schema<DeleteInstanceSnapshotRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<DeleteInstanceSnapshotResult>,
+  input: __S(2336, __c146, 0) as any as S.Schema<DeleteInstanceSnapshotRequest>,
+  output: __S(2816, __c176, 0) as any as S.Schema<DeleteInstanceSnapshotResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -5081,13 +5172,13 @@ export type DeleteKeyPairError =
  * see the Amazon Lightsail Developer Guide.
  */
 export const deleteKeyPair: API.OperationMethod<
-  DeleteKeyPairRequest,
+  DeleteKeyPairRequest & RegionInput,
   DeleteKeyPairResult,
   DeleteKeyPairError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c146, 0) as any as S.Schema<DeleteKeyPairRequest>,
-  output: __S(3088, __c193, 0) as any as S.Schema<DeleteKeyPairResult>,
+  input: __S(2352, __c147, 0) as any as S.Schema<DeleteKeyPairRequest>,
+  output: __S(3104, __c194, 0) as any as S.Schema<DeleteKeyPairResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -5126,13 +5217,13 @@ export type DeleteKnownHostKeysError =
  * client.
  */
 export const deleteKnownHostKeys: API.OperationMethod<
-  DeleteKnownHostKeysRequest,
+  DeleteKnownHostKeysRequest & RegionInput,
   DeleteKnownHostKeysResult,
   DeleteKnownHostKeysError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2352, __c147, 0) as any as S.Schema<DeleteKnownHostKeysRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<DeleteKnownHostKeysResult>,
+  input: __S(2368, __c148, 0) as any as S.Schema<DeleteKnownHostKeysRequest>,
+  output: __S(2816, __c176, 0) as any as S.Schema<DeleteKnownHostKeysResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -5170,13 +5261,13 @@ export type DeleteLoadBalancerError =
  * information, see the Amazon Lightsail Developer Guide.
  */
 export const deleteLoadBalancer: API.OperationMethod<
-  DeleteLoadBalancerRequest,
+  DeleteLoadBalancerRequest & RegionInput,
   DeleteLoadBalancerResult,
   DeleteLoadBalancerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c148, 0) as any as S.Schema<DeleteLoadBalancerRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<DeleteLoadBalancerResult>,
+  input: __S(2384, __c149, 0) as any as S.Schema<DeleteLoadBalancerRequest>,
+  output: __S(2816, __c176, 0) as any as S.Schema<DeleteLoadBalancerResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -5212,13 +5303,13 @@ export type DeleteLoadBalancerTlsCertificateError =
  * name. For more information, see the Amazon Lightsail Developer Guide.
  */
 export const deleteLoadBalancerTlsCertificate: API.OperationMethod<
-  DeleteLoadBalancerTlsCertificateRequest,
+  DeleteLoadBalancerTlsCertificateRequest & RegionInput,
   DeleteLoadBalancerTlsCertificateResult,
   DeleteLoadBalancerTlsCertificateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2384, __c149, 0) as any as S.Schema<DeleteLoadBalancerTlsCertificateRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<DeleteLoadBalancerTlsCertificateResult>,
+  input: __S(2400, __c150, 0) as any as S.Schema<DeleteLoadBalancerTlsCertificateRequest>,
+  output: __S(2816, __c176, 0) as any as S.Schema<DeleteLoadBalancerTlsCertificateResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -5254,13 +5345,13 @@ export type DeleteRelationalDatabaseError =
  * information, see the Amazon Lightsail Developer Guide.
  */
 export const deleteRelationalDatabase: API.OperationMethod<
-  DeleteRelationalDatabaseRequest,
+  DeleteRelationalDatabaseRequest & RegionInput,
   DeleteRelationalDatabaseResult,
   DeleteRelationalDatabaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c150, 0) as any as S.Schema<DeleteRelationalDatabaseRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<DeleteRelationalDatabaseResult>,
+  input: __S(2416, __c151, 0) as any as S.Schema<DeleteRelationalDatabaseRequest>,
+  output: __S(2816, __c176, 0) as any as S.Schema<DeleteRelationalDatabaseResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -5296,13 +5387,13 @@ export type DeleteRelationalDatabaseSnapshotError =
  * more information, see the Amazon Lightsail Developer Guide.
  */
 export const deleteRelationalDatabaseSnapshot: API.OperationMethod<
-  DeleteRelationalDatabaseSnapshotRequest,
+  DeleteRelationalDatabaseSnapshotRequest & RegionInput,
   DeleteRelationalDatabaseSnapshotResult,
   DeleteRelationalDatabaseSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2416, __c151, 0) as any as S.Schema<DeleteRelationalDatabaseSnapshotRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<DeleteRelationalDatabaseSnapshotResult>,
+  input: __S(2432, __c152, 0) as any as S.Schema<DeleteRelationalDatabaseSnapshotRequest>,
+  output: __S(2816, __c176, 0) as any as S.Schema<DeleteRelationalDatabaseSnapshotResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -5336,13 +5427,13 @@ export type DetachCertificateFromDistributionError =
  * the domains that are associated with the certificate.
  */
 export const detachCertificateFromDistribution: API.OperationMethod<
-  DetachCertificateFromDistributionRequest,
+  DetachCertificateFromDistributionRequest & RegionInput,
   DetachCertificateFromDistributionResult,
   DetachCertificateFromDistributionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c152, 0) as any as S.Schema<DetachCertificateFromDistributionRequest>,
-  output: __S(3088, __c193, 0) as any as S.Schema<DetachCertificateFromDistributionResult>,
+  input: __S(2448, __c153, 0) as any as S.Schema<DetachCertificateFromDistributionRequest>,
+  output: __S(3104, __c194, 0) as any as S.Schema<DetachCertificateFromDistributionResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -5378,13 +5469,13 @@ export type DetachDiskError =
  * Amazon Lightsail Developer Guide.
  */
 export const detachDisk: API.OperationMethod<
-  DetachDiskRequest,
+  DetachDiskRequest & RegionInput,
   DetachDiskResult,
   DetachDiskError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2448, __c153, 0) as any as S.Schema<DetachDiskRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<DetachDiskResult>,
+  input: __S(2464, __c154, 0) as any as S.Schema<DetachDiskRequest>,
+  output: __S(2816, __c176, 0) as any as S.Schema<DetachDiskResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -5423,13 +5514,13 @@ export type DetachInstancesFromLoadBalancerError =
  * name. For more information, see the Amazon Lightsail Developer Guide.
  */
 export const detachInstancesFromLoadBalancer: API.OperationMethod<
-  DetachInstancesFromLoadBalancerRequest,
+  DetachInstancesFromLoadBalancerRequest & RegionInput,
   DetachInstancesFromLoadBalancerResult,
   DetachInstancesFromLoadBalancerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c154, 0) as any as S.Schema<DetachInstancesFromLoadBalancerRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<DetachInstancesFromLoadBalancerResult>,
+  input: __S(2480, __c155, 0) as any as S.Schema<DetachInstancesFromLoadBalancerRequest>,
+  output: __S(2816, __c176, 0) as any as S.Schema<DetachInstancesFromLoadBalancerResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -5461,13 +5552,13 @@ export type DetachStaticIpError =
  * Detaches a static IP from the Amazon Lightsail instance to which it is attached.
  */
 export const detachStaticIp: API.OperationMethod<
-  DetachStaticIpRequest,
+  DetachStaticIpRequest & RegionInput,
   DetachStaticIpResult,
   DetachStaticIpError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2480, __c155, 0) as any as S.Schema<DetachStaticIpRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<DetachStaticIpResult>,
+  input: __S(2496, __c156, 0) as any as S.Schema<DetachStaticIpRequest>,
+  output: __S(2816, __c176, 0) as any as S.Schema<DetachStaticIpResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -5498,13 +5589,13 @@ export type DisableAddOnError =
  * Disables an add-on for an Amazon Lightsail resource. For more information, see the Amazon Lightsail Developer Guide.
  */
 export const disableAddOn: API.OperationMethod<
-  DisableAddOnRequest,
+  DisableAddOnRequest & RegionInput,
   DisableAddOnResult,
   DisableAddOnError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c156, 0) as any as S.Schema<DisableAddOnRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<DisableAddOnResult>,
+  input: __S(2512, __c157, 0) as any as S.Schema<DisableAddOnRequest>,
+  output: __S(2816, __c176, 0) as any as S.Schema<DisableAddOnResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -5538,13 +5629,13 @@ export type DownloadDefaultKeyPairError =
  * does not currently exist in the Amazon Web Services Region.
  */
 export const downloadDefaultKeyPair: API.OperationMethod<
-  DownloadDefaultKeyPairRequest,
+  DownloadDefaultKeyPairRequest & RegionInput,
   DownloadDefaultKeyPairResult,
   DownloadDefaultKeyPairError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2512, __c157, 0) as any as S.Schema<DownloadDefaultKeyPairRequest>,
-  output: __S(2513, __c157, 1) as any as S.Schema<DownloadDefaultKeyPairResult>,
+  input: __S(2528, __c158, 0) as any as S.Schema<DownloadDefaultKeyPairRequest>,
+  output: __S(2529, __c158, 1) as any as S.Schema<DownloadDefaultKeyPairResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -5576,13 +5667,13 @@ export type EnableAddOnError =
  * the Amazon Lightsail Developer Guide.
  */
 export const enableAddOn: API.OperationMethod<
-  EnableAddOnRequest,
+  EnableAddOnRequest & RegionInput,
   EnableAddOnResult,
   EnableAddOnError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c158, 0) as any as S.Schema<EnableAddOnRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<EnableAddOnResult>,
+  input: __S(2544, __c159, 0) as any as S.Schema<EnableAddOnRequest>,
+  output: __S(2816, __c176, 0) as any as S.Schema<EnableAddOnResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -5627,13 +5718,13 @@ export type ExportSnapshotError =
  * operations to get a list of snapshots that you can export to Amazon EC2.
  */
 export const exportSnapshot: API.OperationMethod<
-  ExportSnapshotRequest,
+  ExportSnapshotRequest & RegionInput,
   ExportSnapshotResult,
   ExportSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2544, __c159, 0) as any as S.Schema<ExportSnapshotRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<ExportSnapshotResult>,
+  input: __S(2560, __c160, 0) as any as S.Schema<ExportSnapshotRequest>,
+  output: __S(2816, __c176, 0) as any as S.Schema<ExportSnapshotResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -5665,13 +5756,13 @@ export type GetActiveNamesError =
  * Returns the names of all active (not deleted) resources.
  */
 export const getActiveNames: API.OperationMethod<
-  GetActiveNamesRequest,
+  GetActiveNamesRequest & RegionInput,
   GetActiveNamesResult,
   GetActiveNamesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c160, 0) as any as S.Schema<GetActiveNamesRequest>,
-  output: __S(2561, __c160, 1) as any as S.Schema<GetActiveNamesResult>,
+  input: __S(2576, __c161, 0) as any as S.Schema<GetActiveNamesRequest>,
+  output: __S(2577, __c161, 1) as any as S.Schema<GetActiveNamesResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -5709,13 +5800,13 @@ export type GetAlarmsError =
  * in Amazon Lightsail.
  */
 export const getAlarms: API.OperationMethod<
-  GetAlarmsRequest,
+  GetAlarmsRequest & RegionInput,
   GetAlarmsResult,
   GetAlarmsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2576, __c161, 0) as any as S.Schema<GetAlarmsRequest>,
-  output: __S(2580, __c161, 4) as any as S.Schema<GetAlarmsResult>,
+  input: __S(2592, __c162, 0) as any as S.Schema<GetAlarmsRequest>,
+  output: __S(2596, __c162, 4) as any as S.Schema<GetAlarmsResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -5746,13 +5837,13 @@ export type GetAutoSnapshotsError =
  * see the Amazon Lightsail Developer Guide.
  */
 export const getAutoSnapshots: API.OperationMethod<
-  GetAutoSnapshotsRequest,
+  GetAutoSnapshotsRequest & RegionInput,
   GetAutoSnapshotsResult,
   GetAutoSnapshotsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c162, 0) as any as S.Schema<GetAutoSnapshotsRequest>,
-  output: __S(2597, __c162, 5) as any as S.Schema<GetAutoSnapshotsResult>,
+  input: __S(2608, __c163, 0) as any as S.Schema<GetAutoSnapshotsRequest>,
+  output: __S(2613, __c163, 5) as any as S.Schema<GetAutoSnapshotsResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -5791,13 +5882,13 @@ export type GetBlueprintsError =
  * updates or new application releases.
  */
 export const getBlueprints: API.OperationMethod<
-  GetBlueprintsRequest,
+  GetBlueprintsRequest & RegionInput,
   GetBlueprintsResult,
   GetBlueprintsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2608, __c163, 0) as any as S.Schema<GetBlueprintsRequest>,
-  output: __S(2611, __c163, 3) as any as S.Schema<GetBlueprintsResult>,
+  input: __S(2624, __c164, 0) as any as S.Schema<GetBlueprintsRequest>,
+  output: __S(2627, __c164, 3) as any as S.Schema<GetBlueprintsResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -5831,13 +5922,13 @@ export type GetBucketAccessKeysError =
  * a new access key.
  */
 export const getBucketAccessKeys: API.OperationMethod<
-  GetBucketAccessKeysRequest,
+  GetBucketAccessKeysRequest & RegionInput,
   GetBucketAccessKeysResult,
   GetBucketAccessKeysError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c164, 0) as any as S.Schema<GetBucketAccessKeysRequest>,
-  output: __S(2626, __c164, 2) as any as S.Schema<GetBucketAccessKeysResult>,
+  input: __S(2640, __c165, 0) as any as S.Schema<GetBucketAccessKeysRequest>,
+  output: __S(2642, __c165, 2) as any as S.Schema<GetBucketAccessKeysResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -5870,13 +5961,13 @@ export type GetBucketBundlesError =
  * bundle for a bucket.
  */
 export const getBucketBundles: API.OperationMethod<
-  GetBucketBundlesRequest,
+  GetBucketBundlesRequest & RegionInput,
   GetBucketBundlesResult,
   GetBucketBundlesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2640, __c165, 0) as any as S.Schema<GetBucketBundlesRequest>,
-  output: __S(2643, __c165, 3) as any as S.Schema<GetBucketBundlesResult>,
+  input: __S(2656, __c166, 0) as any as S.Schema<GetBucketBundlesRequest>,
+  output: __S(2659, __c166, 3) as any as S.Schema<GetBucketBundlesResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -5907,13 +5998,13 @@ export type GetBucketMetricDataError =
  * space used by those objects.
  */
 export const getBucketMetricData: API.OperationMethod<
-  GetBucketMetricDataRequest,
+  GetBucketMetricDataRequest & RegionInput,
   GetBucketMetricDataResult,
   GetBucketMetricDataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c166, 0) as any as S.Schema<GetBucketMetricDataRequest>,
-  output: __S(2674, __c167, 2) as any as S.Schema<GetBucketMetricDataResult>,
+  input: __S(2672, __c167, 0) as any as S.Schema<GetBucketMetricDataRequest>,
+  output: __S(2690, __c168, 2) as any as S.Schema<GetBucketMetricDataResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -5946,13 +6037,13 @@ export type GetBucketsError =
  * Guide.
  */
 export const getBuckets: API.OperationMethod<
-  GetBucketsRequest,
+  GetBucketsRequest & RegionInput,
   GetBucketsResult,
   GetBucketsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c168, 0) as any as S.Schema<GetBucketsRequest>,
-  output: __S(2691, __c168, 3) as any as S.Schema<GetBucketsResult>,
+  input: __S(2704, __c169, 0) as any as S.Schema<GetBucketsRequest>,
+  output: __S(2707, __c169, 3) as any as S.Schema<GetBucketsResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -5990,13 +6081,13 @@ export type GetBundlesError =
  * console.
  */
 export const getBundles: API.OperationMethod<
-  GetBundlesRequest,
+  GetBundlesRequest & RegionInput,
   GetBundlesResult,
   GetBundlesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2704, __c169, 0) as any as S.Schema<GetBundlesRequest>,
-  output: __S(2707, __c169, 3) as any as S.Schema<GetBundlesResult>,
+  input: __S(2720, __c170, 0) as any as S.Schema<GetBundlesRequest>,
+  output: __S(2723, __c170, 3) as any as S.Schema<GetBundlesResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -6030,13 +6121,13 @@ export type GetCertificatesError =
  * certificate name, domain name, and tags.
  */
 export const getCertificates: API.OperationMethod<
-  GetCertificatesRequest,
+  GetCertificatesRequest & RegionInput,
   GetCertificatesResult,
   GetCertificatesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c170, 0) as any as S.Schema<GetCertificatesRequest>,
-  output: __S(2722, __c170, 2) as any as S.Schema<GetCertificatesResult>,
+  input: __S(2736, __c171, 0) as any as S.Schema<GetCertificatesRequest>,
+  output: __S(2738, __c171, 2) as any as S.Schema<GetCertificatesResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -6070,13 +6161,13 @@ export type GetCloudFormationStackRecordsError =
  * snapshot.
  */
 export const getCloudFormationStackRecords: API.OperationMethod<
-  GetCloudFormationStackRecordsRequest,
+  GetCloudFormationStackRecordsRequest & RegionInput,
   GetCloudFormationStackRecordsResult,
   GetCloudFormationStackRecordsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2736, __c171, 0) as any as S.Schema<GetCloudFormationStackRecordsRequest>,
-  output: __S(2741, __c171, 5) as any as S.Schema<GetCloudFormationStackRecordsResult>,
+  input: __S(2752, __c172, 0) as any as S.Schema<GetCloudFormationStackRecordsRequest>,
+  output: __S(2757, __c172, 5) as any as S.Schema<GetCloudFormationStackRecordsResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -6113,13 +6204,13 @@ export type GetContactMethodsError =
  * see Notifications in Amazon Lightsail.
  */
 export const getContactMethods: API.OperationMethod<
-  GetContactMethodsRequest,
+  GetContactMethodsRequest & RegionInput,
   GetContactMethodsResult,
   GetContactMethodsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2864, __c179, 0) as any as S.Schema<GetContactMethodsRequest>,
-  output: __S(2867, __c179, 3) as any as S.Schema<GetContactMethodsResult>,
+  input: __S(2880, __c180, 0) as any as S.Schema<GetContactMethodsRequest>,
+  output: __S(2883, __c180, 3) as any as S.Schema<GetContactMethodsResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -6147,13 +6238,13 @@ export type GetContainerAPIMetadataError =
  * Lightsail Control (lightsailctl) plugin.
  */
 export const getContainerAPIMetadata: API.OperationMethod<
-  GetContainerAPIMetadataRequest,
+  GetContainerAPIMetadataRequest & RegionInput,
   GetContainerAPIMetadataResult,
   GetContainerAPIMetadataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c180, 0) as any as S.Schema<GetContainerAPIMetadataRequest>,
-  output: __S(2882, __c180, 2) as any as S.Schema<GetContainerAPIMetadataResult>,
+  input: __S(2896, __c181, 0) as any as S.Schema<GetContainerAPIMetadataRequest>,
+  output: __S(2898, __c181, 2) as any as S.Schema<GetContainerAPIMetadataResult>,
   errors: [
     AccessDeniedException,
     RegionSetupInProgressException,
@@ -6184,13 +6275,13 @@ export type GetContainerImagesError =
  * action. Those images are not registered to your Lightsail container service.
  */
 export const getContainerImages: API.OperationMethod<
-  GetContainerImagesRequest,
+  GetContainerImagesRequest & RegionInput,
   GetContainerImagesResult,
   GetContainerImagesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2896, __c181, 0) as any as S.Schema<GetContainerImagesRequest>,
-  output: __S(2898, __c181, 2) as any as S.Schema<GetContainerImagesResult>,
+  input: __S(2912, __c182, 0) as any as S.Schema<GetContainerImagesRequest>,
+  output: __S(2914, __c182, 2) as any as S.Schema<GetContainerImagesResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -6227,13 +6318,13 @@ export type GetContainerLogError =
  * Reference.
  */
 export const getContainerLog: API.OperationMethod<
-  GetContainerLogRequest,
+  GetContainerLogRequest & RegionInput,
   GetContainerLogResult,
   GetContainerLogError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2928, __c183, 0) as any as S.Schema<GetContainerLogRequest>,
-  output: __S(2929, __c183, 1) as any as S.Schema<GetContainerLogResult>,
+  input: __S(2944, __c184, 0) as any as S.Schema<GetContainerLogRequest>,
+  output: __S(2945, __c184, 1) as any as S.Schema<GetContainerLogResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -6272,13 +6363,13 @@ export type GetContainerServiceDeploymentsError =
  * Reference.
  */
 export const getContainerServiceDeployments: API.OperationMethod<
-  GetContainerServiceDeploymentsRequest,
+  GetContainerServiceDeploymentsRequest & RegionInput,
   GetContainerServiceDeploymentsResult,
   GetContainerServiceDeploymentsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2960, __c185, 0) as any as S.Schema<GetContainerServiceDeploymentsRequest>,
-  output: __S(2962, __c185, 2) as any as S.Schema<GetContainerServiceDeploymentsResult>,
+  input: __S(2976, __c186, 0) as any as S.Schema<GetContainerServiceDeploymentsRequest>,
+  output: __S(2978, __c186, 2) as any as S.Schema<GetContainerServiceDeploymentsResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -6310,13 +6401,13 @@ export type GetContainerServiceMetricDataError =
  * regularly to maintain the reliability, availability, and performance of your resources.
  */
 export const getContainerServiceMetricData: API.OperationMethod<
-  GetContainerServiceMetricDataRequest,
+  GetContainerServiceMetricDataRequest & RegionInput,
   GetContainerServiceMetricDataResult,
   GetContainerServiceMetricDataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c186, 0) as any as S.Schema<GetContainerServiceMetricDataRequest>,
-  output: __S(2674, __c167, 2) as any as S.Schema<GetContainerServiceMetricDataResult>,
+  input: __S(2992, __c187, 0) as any as S.Schema<GetContainerServiceMetricDataRequest>,
+  output: __S(2690, __c168, 2) as any as S.Schema<GetContainerServiceMetricDataResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -6348,13 +6439,13 @@ export type GetContainerServicePowersError =
  * container service.
  */
 export const getContainerServicePowers: API.OperationMethod<
-  GetContainerServicePowersRequest,
+  GetContainerServicePowersRequest & RegionInput,
   GetContainerServicePowersResult,
   GetContainerServicePowersError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2992, __c187, 0) as any as S.Schema<GetContainerServicePowersRequest>,
-  output: __S(2995, __c187, 3) as any as S.Schema<GetContainerServicePowersResult>,
+  input: __S(3008, __c188, 0) as any as S.Schema<GetContainerServicePowersRequest>,
+  output: __S(3011, __c188, 3) as any as S.Schema<GetContainerServicePowersResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -6382,13 +6473,13 @@ export type GetContainerServicesError =
  * Returns information about one or more of your Amazon Lightsail container services.
  */
 export const getContainerServices: API.OperationMethod<
-  GetContainerServicesRequest,
+  GetContainerServicesRequest & RegionInput,
   ContainerServicesListResult,
   GetContainerServicesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c188, 0) as any as S.Schema<GetContainerServicesRequest>,
-  output: __S(3010, __c188, 2) as any as S.Schema<ContainerServicesListResult>,
+  input: __S(3024, __c189, 0) as any as S.Schema<GetContainerServicesRequest>,
+  output: __S(3026, __c189, 2) as any as S.Schema<ContainerServicesListResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -6417,13 +6508,13 @@ export type GetCostEstimateError =
  * will not generate for a resource that has been deleted.
  */
 export const getCostEstimate: API.OperationMethod<
-  GetCostEstimateRequest,
+  GetCostEstimateRequest & RegionInput,
   GetCostEstimateResult,
   GetCostEstimateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3024, __c189, 0) as any as S.Schema<GetCostEstimateRequest>,
-  output: __S(3032, __c189, 8) as any as S.Schema<GetCostEstimateResult>,
+  input: __S(3040, __c190, 0) as any as S.Schema<GetCostEstimateRequest>,
+  output: __S(3048, __c190, 8) as any as S.Schema<GetCostEstimateResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -6453,13 +6544,13 @@ export type GetDiskError =
  * Returns information about a specific block storage disk.
  */
 export const getDisk: API.OperationMethod<
-  GetDiskRequest,
+  GetDiskRequest & RegionInput,
   GetDiskResult,
   GetDiskError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c190, 0) as any as S.Schema<GetDiskRequest>,
-  output: __S(3041, __c190, 1) as any as S.Schema<GetDiskResult>,
+  input: __S(3056, __c191, 0) as any as S.Schema<GetDiskRequest>,
+  output: __S(3057, __c191, 1) as any as S.Schema<GetDiskResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -6491,13 +6582,13 @@ export type GetDisksError =
  * Returns information about all block storage disks in your AWS account and region.
  */
 export const getDisks: API.OperationMethod<
-  GetDisksRequest,
+  GetDisksRequest & RegionInput,
   GetDisksResult,
   GetDisksError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c194, 0) as any as S.Schema<GetDisksRequest>,
-  output: __S(3105, __c194, 1) as any as S.Schema<GetDisksResult>,
+  input: __S(3120, __c195, 0) as any as S.Schema<GetDisksRequest>,
+  output: __S(3121, __c195, 1) as any as S.Schema<GetDisksResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -6529,13 +6620,13 @@ export type GetDiskSnapshotError =
  * Returns information about a specific block storage disk snapshot.
  */
 export const getDiskSnapshot: API.OperationMethod<
-  GetDiskSnapshotRequest,
+  GetDiskSnapshotRequest & RegionInput,
   GetDiskSnapshotResult,
   GetDiskSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c196, 0) as any as S.Schema<GetDiskSnapshotRequest>,
-  output: __S(3137, __c196, 1) as any as S.Schema<GetDiskSnapshotResult>,
+  input: __S(3152, __c197, 0) as any as S.Schema<GetDiskSnapshotRequest>,
+  output: __S(3153, __c197, 1) as any as S.Schema<GetDiskSnapshotResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -6568,13 +6659,13 @@ export type GetDiskSnapshotsError =
  * region.
  */
 export const getDiskSnapshots: API.OperationMethod<
-  GetDiskSnapshotsRequest,
+  GetDiskSnapshotsRequest & RegionInput,
   GetDiskSnapshotsResult,
   GetDiskSnapshotsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c198, 0) as any as S.Schema<GetDiskSnapshotsRequest>,
-  output: __S(3170, __c198, 2) as any as S.Schema<GetDiskSnapshotsResult>,
+  input: __S(3184, __c199, 0) as any as S.Schema<GetDiskSnapshotsRequest>,
+  output: __S(3186, __c199, 2) as any as S.Schema<GetDiskSnapshotsResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -6608,13 +6699,13 @@ export type GetDistributionBundlesError =
  * your distribution.
  */
 export const getDistributionBundles: API.OperationMethod<
-  GetDistributionBundlesRequest,
+  GetDistributionBundlesRequest & RegionInput,
   GetDistributionBundlesResult,
   GetDistributionBundlesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3184, __c199, 0) as any as S.Schema<GetDistributionBundlesRequest>,
-  output: __S(3187, __c199, 3) as any as S.Schema<GetDistributionBundlesResult>,
+  input: __S(3200, __c200, 0) as any as S.Schema<GetDistributionBundlesRequest>,
+  output: __S(3203, __c200, 3) as any as S.Schema<GetDistributionBundlesResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -6643,13 +6734,13 @@ export type GetDistributionLatestCacheResetError =
  * content delivery network (CDN) distribution.
  */
 export const getDistributionLatestCacheReset: API.OperationMethod<
-  GetDistributionLatestCacheResetRequest,
+  GetDistributionLatestCacheResetRequest & RegionInput,
   GetDistributionLatestCacheResetResult,
   GetDistributionLatestCacheResetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c200, 0) as any as S.Schema<GetDistributionLatestCacheResetRequest>,
-  output: __S(3201, __c200, 1) as any as S.Schema<GetDistributionLatestCacheResetResult>,
+  input: __S(3216, __c201, 0) as any as S.Schema<GetDistributionLatestCacheResetRequest>,
+  output: __S(3217, __c201, 1) as any as S.Schema<GetDistributionLatestCacheResetResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -6682,13 +6773,13 @@ export type GetDistributionMetricDataError =
  * performance of your resources.
  */
 export const getDistributionMetricData: API.OperationMethod<
-  GetDistributionMetricDataRequest,
+  GetDistributionMetricDataRequest & RegionInput,
   GetDistributionMetricDataResult,
   GetDistributionMetricDataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3216, __c201, 0) as any as S.Schema<GetDistributionMetricDataRequest>,
-  output: __S(2674, __c167, 2) as any as S.Schema<GetDistributionMetricDataResult>,
+  input: __S(3232, __c202, 0) as any as S.Schema<GetDistributionMetricDataRequest>,
+  output: __S(2690, __c168, 2) as any as S.Schema<GetDistributionMetricDataResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -6717,13 +6808,13 @@ export type GetDistributionsError =
  * (CDN) distributions.
  */
 export const getDistributions: API.OperationMethod<
-  GetDistributionsRequest,
+  GetDistributionsRequest & RegionInput,
   GetDistributionsResult,
   GetDistributionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c202, 0) as any as S.Schema<GetDistributionsRequest>,
-  output: __S(3234, __c202, 2) as any as S.Schema<GetDistributionsResult>,
+  input: __S(3248, __c203, 0) as any as S.Schema<GetDistributionsRequest>,
+  output: __S(3250, __c203, 2) as any as S.Schema<GetDistributionsResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -6753,13 +6844,13 @@ export type GetDomainError =
  * Returns information about a specific domain recordset.
  */
 export const getDomain: API.OperationMethod<
-  GetDomainRequest,
+  GetDomainRequest & RegionInput,
   GetDomainResult,
   GetDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3248, __c203, 0) as any as S.Schema<GetDomainRequest>,
-  output: __S(3249, __c203, 1) as any as S.Schema<GetDomainResult>,
+  input: __S(3264, __c204, 0) as any as S.Schema<GetDomainRequest>,
+  output: __S(3265, __c204, 1) as any as S.Schema<GetDomainResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -6791,13 +6882,13 @@ export type GetDomainsError =
  * Returns a list of all domains in the user's account.
  */
 export const getDomains: API.OperationMethod<
-  GetDomainsRequest,
+  GetDomainsRequest & RegionInput,
   GetDomainsResult,
   GetDomainsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3280, __c205, 0) as any as S.Schema<GetDomainsRequest>,
-  output: __S(3282, __c205, 2) as any as S.Schema<GetDomainsResult>,
+  input: __S(3296, __c206, 0) as any as S.Schema<GetDomainsRequest>,
+  output: __S(3298, __c206, 2) as any as S.Schema<GetDomainsResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -6834,13 +6925,13 @@ export type GetExportSnapshotRecordsError =
  * action.
  */
 export const getExportSnapshotRecords: API.OperationMethod<
-  GetExportSnapshotRecordsRequest,
+  GetExportSnapshotRecordsRequest & RegionInput,
   GetExportSnapshotRecordsResult,
   GetExportSnapshotRecordsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c206, 0) as any as S.Schema<GetExportSnapshotRecordsRequest>,
-  output: __S(3304, __c206, 8) as any as S.Schema<GetExportSnapshotRecordsResult>,
+  input: __S(3312, __c207, 0) as any as S.Schema<GetExportSnapshotRecordsRequest>,
+  output: __S(3320, __c207, 8) as any as S.Schema<GetExportSnapshotRecordsResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -6873,7 +6964,7 @@ export type GetInstanceError =
  * server.
  */
 export const getInstance: API.OperationMethod<
-  GetInstanceRequest,
+  GetInstanceRequest & RegionInput,
   GetInstanceResult,
   GetInstanceError,
   Credentials | HttpClient.HttpClient
@@ -6916,7 +7007,7 @@ export type GetInstanceAccessDetailsError =
  * information, see the Amazon Lightsail Developer Guide.
  */
 export const getInstanceAccessDetails: API.OperationMethod<
-  GetInstanceAccessDetailsRequest,
+  GetInstanceAccessDetailsRequest & RegionInput,
   GetInstanceAccessDetailsResult,
   GetInstanceAccessDetailsError,
   Credentials | HttpClient.HttpClient
@@ -6959,13 +7050,13 @@ export type GetInstanceMetricDataError =
  * performance of your resources.
  */
 export const getInstanceMetricData: API.OperationMethod<
-  GetInstanceMetricDataRequest,
+  GetInstanceMetricDataRequest & RegionInput,
   GetInstanceMetricDataResult,
   GetInstanceMetricDataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<GetInstanceMetricDataRequest>,
-  output: __S(2674, __c167, 2) as any as S.Schema<GetInstanceMetricDataResult>,
+  output: __S(2690, __c168, 2) as any as S.Schema<GetInstanceMetricDataResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -6998,7 +7089,7 @@ export type GetInstancePortStatesError =
  * allowed to connect to the instance through the ports, and the protocol.
  */
 export const getInstancePortStates: API.OperationMethod<
-  GetInstancePortStatesRequest,
+  GetInstancePortStatesRequest & RegionInput,
   GetInstancePortStatesResult,
   GetInstancePortStatesError,
   Credentials | HttpClient.HttpClient
@@ -7037,7 +7128,7 @@ export type GetInstancesError =
  * *instances*.
  */
 export const getInstances: API.OperationMethod<
-  GetInstancesRequest,
+  GetInstancesRequest & RegionInput,
   GetInstancesResult,
   GetInstancesError,
   Credentials | HttpClient.HttpClient
@@ -7075,7 +7166,7 @@ export type GetInstanceSnapshotError =
  * Returns information about a specific instance snapshot.
  */
 export const getInstanceSnapshot: API.OperationMethod<
-  GetInstanceSnapshotRequest,
+  GetInstanceSnapshotRequest & RegionInput,
   GetInstanceSnapshotResult,
   GetInstanceSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -7113,7 +7204,7 @@ export type GetInstanceSnapshotsError =
  * Returns all instance snapshots for the user's account.
  */
 export const getInstanceSnapshots: API.OperationMethod<
-  GetInstanceSnapshotsRequest,
+  GetInstanceSnapshotsRequest & RegionInput,
   GetInstanceSnapshotsResult,
   GetInstanceSnapshotsError,
   Credentials | HttpClient.HttpClient
@@ -7151,7 +7242,7 @@ export type GetInstanceStateError =
  * Returns the state of a specific instance. Works on one instance at a time.
  */
 export const getInstanceState: API.OperationMethod<
-  GetInstanceStateRequest,
+  GetInstanceStateRequest & RegionInput,
   GetInstanceStateResult,
   GetInstanceStateError,
   Credentials | HttpClient.HttpClient
@@ -7189,7 +7280,7 @@ export type GetKeyPairError =
  * Returns information about a specific key pair.
  */
 export const getKeyPair: API.OperationMethod<
-  GetKeyPairRequest,
+  GetKeyPairRequest & RegionInput,
   GetKeyPairResult,
   GetKeyPairError,
   Credentials | HttpClient.HttpClient
@@ -7227,7 +7318,7 @@ export type GetKeyPairsError =
  * Returns information about all key pairs in the user's account.
  */
 export const getKeyPairs: API.OperationMethod<
-  GetKeyPairsRequest,
+  GetKeyPairsRequest & RegionInput,
   GetKeyPairsResult,
   GetKeyPairsError,
   Credentials | HttpClient.HttpClient
@@ -7265,7 +7356,7 @@ export type GetLoadBalancerError =
  * Returns information about the specified Lightsail load balancer.
  */
 export const getLoadBalancer: API.OperationMethod<
-  GetLoadBalancerRequest,
+  GetLoadBalancerRequest & RegionInput,
   GetLoadBalancerResult,
   GetLoadBalancerError,
   Credentials | HttpClient.HttpClient
@@ -7307,13 +7398,13 @@ export type GetLoadBalancerMetricDataError =
  * performance of your resources.
  */
 export const getLoadBalancerMetricData: API.OperationMethod<
-  GetLoadBalancerMetricDataRequest,
+  GetLoadBalancerMetricDataRequest & RegionInput,
   GetLoadBalancerMetricDataResult,
   GetLoadBalancerMetricDataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<GetLoadBalancerMetricDataRequest>,
-  output: __S(2674, __c167, 2) as any as S.Schema<GetLoadBalancerMetricDataResult>,
+  output: __S(2690, __c168, 2) as any as S.Schema<GetLoadBalancerMetricDataResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -7345,7 +7436,7 @@ export type GetLoadBalancersError =
  * Returns information about all load balancers in an account.
  */
 export const getLoadBalancers: API.OperationMethod<
-  GetLoadBalancersRequest,
+  GetLoadBalancersRequest & RegionInput,
   GetLoadBalancersResult,
   GetLoadBalancersError,
   Credentials | HttpClient.HttpClient
@@ -7389,7 +7480,7 @@ export type GetLoadBalancerTlsCertificatesError =
  * is active and the other is inactive.
  */
 export const getLoadBalancerTlsCertificates: API.OperationMethod<
-  GetLoadBalancerTlsCertificatesRequest,
+  GetLoadBalancerTlsCertificatesRequest & RegionInput,
   GetLoadBalancerTlsCertificatesResult,
   GetLoadBalancerTlsCertificatesError,
   Credentials | HttpClient.HttpClient
@@ -7429,7 +7520,7 @@ export type GetLoadBalancerTlsPoliciesError =
  * balancers in the *Amazon Lightsail Developer Guide*.
  */
 export const getLoadBalancerTlsPolicies: API.OperationMethod<
-  GetLoadBalancerTlsPoliciesRequest,
+  GetLoadBalancerTlsPoliciesRequest & RegionInput,
   GetLoadBalancerTlsPoliciesResult,
   GetLoadBalancerTlsPoliciesError,
   Credentials | HttpClient.HttpClient
@@ -7466,13 +7557,13 @@ export type GetOperationError =
  * create an instance, allocate a static IP, attach a static IP, and so on.
  */
 export const getOperation: API.OperationMethod<
-  GetOperationRequest,
+  GetOperationRequest & RegionInput,
   GetOperationResult,
   GetOperationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<GetOperationRequest>,
-  output: __S(3088, __c193, 0) as any as S.Schema<GetOperationResult>,
+  output: __S(3104, __c194, 0) as any as S.Schema<GetOperationResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -7508,7 +7599,7 @@ export type GetOperationsError =
  * `statusChangedAt` value from the previous request.
  */
 export const getOperations: API.OperationMethod<
-  GetOperationsRequest,
+  GetOperationsRequest & RegionInput,
   GetOperationsResult,
   GetOperationsError,
   Credentials | HttpClient.HttpClient
@@ -7546,7 +7637,7 @@ export type GetOperationsForResourceError =
  * Gets operations for a specific resource (an instance or a static IP).
  */
 export const getOperationsForResource: API.OperationMethod<
-  GetOperationsForResourceRequest,
+  GetOperationsForResourceRequest & RegionInput,
   GetOperationsForResourceResult,
   GetOperationsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -7583,7 +7674,7 @@ export type GetProfileError =
  * partner program, the partner membership details.
  */
 export const getProfile: API.OperationMethod<
-  GetProfileRequest,
+  GetProfileRequest & RegionInput,
   GetProfileResult,
   GetProfileError,
   Credentials | HttpClient.HttpClient
@@ -7620,7 +7711,7 @@ export type GetRegionsError =
  * region.
  */
 export const getRegions: API.OperationMethod<
-  GetRegionsRequest,
+  GetRegionsRequest & RegionInput,
   GetRegionsResult,
   GetRegionsError,
   Credentials | HttpClient.HttpClient
@@ -7658,7 +7749,7 @@ export type GetRelationalDatabaseError =
  * Returns information about a specific database in Amazon Lightsail.
  */
 export const getRelationalDatabase: API.OperationMethod<
-  GetRelationalDatabaseRequest,
+  GetRelationalDatabaseRequest & RegionInput,
   GetRelationalDatabaseResult,
   GetRelationalDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -7700,7 +7791,7 @@ export type GetRelationalDatabaseBlueprintsError =
  * engine.
  */
 export const getRelationalDatabaseBlueprints: API.OperationMethod<
-  GetRelationalDatabaseBlueprintsRequest,
+  GetRelationalDatabaseBlueprintsRequest & RegionInput,
   GetRelationalDatabaseBlueprintsResult,
   GetRelationalDatabaseBlueprintsError,
   Credentials | HttpClient.HttpClient
@@ -7742,7 +7833,7 @@ export type GetRelationalDatabaseBundlesError =
  * specifications.
  */
 export const getRelationalDatabaseBundles: API.OperationMethod<
-  GetRelationalDatabaseBundlesRequest,
+  GetRelationalDatabaseBundlesRequest & RegionInput,
   GetRelationalDatabaseBundlesResult,
   GetRelationalDatabaseBundlesError,
   Credentials | HttpClient.HttpClient
@@ -7780,7 +7871,7 @@ export type GetRelationalDatabaseEventsError =
  * Returns a list of events for a specific database in Amazon Lightsail.
  */
 export const getRelationalDatabaseEvents: API.OperationMethod<
-  GetRelationalDatabaseEventsRequest,
+  GetRelationalDatabaseEventsRequest & RegionInput,
   GetRelationalDatabaseEventsResult,
   GetRelationalDatabaseEventsError,
   Credentials | HttpClient.HttpClient
@@ -7818,7 +7909,7 @@ export type GetRelationalDatabaseLogEventsError =
  * Returns a list of log events for a database in Amazon Lightsail.
  */
 export const getRelationalDatabaseLogEvents: API.OperationMethod<
-  GetRelationalDatabaseLogEventsRequest,
+  GetRelationalDatabaseLogEventsRequest & RegionInput,
   GetRelationalDatabaseLogEventsResult,
   GetRelationalDatabaseLogEventsError,
   Credentials | HttpClient.HttpClient
@@ -7856,7 +7947,7 @@ export type GetRelationalDatabaseLogStreamsError =
  * Returns a list of available log streams for a specific database in Amazon Lightsail.
  */
 export const getRelationalDatabaseLogStreams: API.OperationMethod<
-  GetRelationalDatabaseLogStreamsRequest,
+  GetRelationalDatabaseLogStreamsRequest & RegionInput,
   GetRelationalDatabaseLogStreamsResult,
   GetRelationalDatabaseLogStreamsError,
   Credentials | HttpClient.HttpClient
@@ -7899,7 +7990,7 @@ export type GetRelationalDatabaseMasterUserPasswordError =
  * relationalDatabaseName.
  */
 export const getRelationalDatabaseMasterUserPassword: API.OperationMethod<
-  GetRelationalDatabaseMasterUserPasswordRequest,
+  GetRelationalDatabaseMasterUserPasswordRequest & RegionInput,
   GetRelationalDatabaseMasterUserPasswordResult,
   GetRelationalDatabaseMasterUserPasswordError,
   Credentials | HttpClient.HttpClient
@@ -7941,13 +8032,13 @@ export type GetRelationalDatabaseMetricDataError =
  * performance of your resources.
  */
 export const getRelationalDatabaseMetricData: API.OperationMethod<
-  GetRelationalDatabaseMetricDataRequest,
+  GetRelationalDatabaseMetricDataRequest & RegionInput,
   GetRelationalDatabaseMetricDataResult,
   GetRelationalDatabaseMetricDataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<GetRelationalDatabaseMetricDataRequest>,
-  output: __S(2674, __c167, 2) as any as S.Schema<GetRelationalDatabaseMetricDataResult>,
+  output: __S(2690, __c168, 2) as any as S.Schema<GetRelationalDatabaseMetricDataResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -7984,7 +8075,7 @@ export type GetRelationalDatabaseParametersError =
  * parameter is modifiable, the allowed values, and the data types.
  */
 export const getRelationalDatabaseParameters: API.OperationMethod<
-  GetRelationalDatabaseParametersRequest,
+  GetRelationalDatabaseParametersRequest & RegionInput,
   GetRelationalDatabaseParametersResult,
   GetRelationalDatabaseParametersError,
   Credentials | HttpClient.HttpClient
@@ -8022,7 +8113,7 @@ export type GetRelationalDatabasesError =
  * Returns information about all of your databases in Amazon Lightsail.
  */
 export const getRelationalDatabases: API.OperationMethod<
-  GetRelationalDatabasesRequest,
+  GetRelationalDatabasesRequest & RegionInput,
   GetRelationalDatabasesResult,
   GetRelationalDatabasesError,
   Credentials | HttpClient.HttpClient
@@ -8060,7 +8151,7 @@ export type GetRelationalDatabaseSnapshotError =
  * Returns information about a specific database snapshot in Amazon Lightsail.
  */
 export const getRelationalDatabaseSnapshot: API.OperationMethod<
-  GetRelationalDatabaseSnapshotRequest,
+  GetRelationalDatabaseSnapshotRequest & RegionInput,
   GetRelationalDatabaseSnapshotResult,
   GetRelationalDatabaseSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -8098,7 +8189,7 @@ export type GetRelationalDatabaseSnapshotsError =
  * Returns information about all of your database snapshots in Amazon Lightsail.
  */
 export const getRelationalDatabaseSnapshots: API.OperationMethod<
-  GetRelationalDatabaseSnapshotsRequest,
+  GetRelationalDatabaseSnapshotsRequest & RegionInput,
   GetRelationalDatabaseSnapshotsResult,
   GetRelationalDatabaseSnapshotsError,
   Credentials | HttpClient.HttpClient
@@ -8135,7 +8226,7 @@ export type GetSetupHistoryError =
  * requests that were ran on the target instance.
  */
 export const getSetupHistory: API.OperationMethod<
-  GetSetupHistoryRequest,
+  GetSetupHistoryRequest & RegionInput,
   GetSetupHistoryResult,
   GetSetupHistoryError,
   Credentials | HttpClient.HttpClient
@@ -8171,7 +8262,7 @@ export type GetStaticIpError =
  * Returns information about an Amazon Lightsail static IP.
  */
 export const getStaticIp: API.OperationMethod<
-  GetStaticIpRequest,
+  GetStaticIpRequest & RegionInput,
   GetStaticIpResult,
   GetStaticIpError,
   Credentials | HttpClient.HttpClient
@@ -8209,7 +8300,7 @@ export type GetStaticIpsError =
  * Returns information about all static IPs in the user's account.
  */
 export const getStaticIps: API.OperationMethod<
-  GetStaticIpsRequest,
+  GetStaticIpsRequest & RegionInput,
   GetStaticIpsResult,
   GetStaticIpsError,
   Credentials | HttpClient.HttpClient
@@ -8247,13 +8338,13 @@ export type ImportKeyPairError =
  * Imports a public SSH key from a specific key pair.
  */
 export const importKeyPair: API.OperationMethod<
-  ImportKeyPairRequest,
+  ImportKeyPairRequest & RegionInput,
   ImportKeyPairResult,
   ImportKeyPairError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<ImportKeyPairRequest>,
-  output: __S(3088, __c193, 0) as any as S.Schema<ImportKeyPairResult>,
+  output: __S(3104, __c194, 0) as any as S.Schema<ImportKeyPairResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -8285,7 +8376,7 @@ export type IsVpcPeeredError =
  * Returns a Boolean value indicating whether your Lightsail VPC is peered.
  */
 export const isVpcPeered: API.OperationMethod<
-  IsVpcPeeredRequest,
+  IsVpcPeeredRequest & RegionInput,
   IsVpcPeeredResult,
   IsVpcPeeredError,
   Credentials | HttpClient.HttpClient
@@ -8328,13 +8419,13 @@ export type OpenInstancePublicPortsError =
  * information, see the Amazon Lightsail Developer Guide.
  */
 export const openInstancePublicPorts: API.OperationMethod<
-  OpenInstancePublicPortsRequest,
+  OpenInstancePublicPortsRequest & RegionInput,
   OpenInstancePublicPortsResult,
   OpenInstancePublicPortsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c50, 0) as any as S.Schema<OpenInstancePublicPortsRequest>,
-  output: __S(3088, __c193, 0) as any as S.Schema<OpenInstancePublicPortsResult>,
+  output: __S(3104, __c194, 0) as any as S.Schema<OpenInstancePublicPortsResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -8366,13 +8457,13 @@ export type PeerVpcError =
  * Peers the Lightsail VPC with the user's default VPC.
  */
 export const peerVpc: API.OperationMethod<
-  PeerVpcRequest,
+  PeerVpcRequest & RegionInput,
   PeerVpcResult,
   PeerVpcError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(816, __c51, 0) as any as S.Schema<PeerVpcRequest>,
-  output: __S(3088, __c193, 0) as any as S.Schema<PeerVpcResult>,
+  output: __S(3104, __c194, 0) as any as S.Schema<PeerVpcResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -8419,13 +8510,13 @@ export type PutAlarmError =
  * tags. For more information, see the Lightsail Developer Guide.
  */
 export const putAlarm: API.OperationMethod<
-  PutAlarmRequest,
+  PutAlarmRequest & RegionInput,
   PutAlarmResult,
   PutAlarmError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c52, 0) as any as S.Schema<PutAlarmRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<PutAlarmResult>,
+  output: __S(2816, __c176, 0) as any as S.Schema<PutAlarmResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -8465,13 +8556,13 @@ export type PutInstancePublicPortsError =
  * information, see the Amazon Lightsail Developer Guide.
  */
 export const putInstancePublicPorts: API.OperationMethod<
-  PutInstancePublicPortsRequest,
+  PutInstancePublicPortsRequest & RegionInput,
   PutInstancePublicPortsResult,
   PutInstancePublicPortsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(881, __c55, 1) as any as S.Schema<PutInstancePublicPortsRequest>,
-  output: __S(3088, __c193, 0) as any as S.Schema<PutInstancePublicPortsResult>,
+  output: __S(3104, __c194, 0) as any as S.Schema<PutInstancePublicPortsResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -8507,13 +8598,13 @@ export type RebootInstanceError =
  * see the Amazon Lightsail Developer Guide.
  */
 export const rebootInstance: API.OperationMethod<
-  RebootInstanceRequest,
+  RebootInstanceRequest & RegionInput,
   RebootInstanceResult,
   RebootInstanceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c56, 0) as any as S.Schema<RebootInstanceRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<RebootInstanceResult>,
+  output: __S(2816, __c176, 0) as any as S.Schema<RebootInstanceResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -8549,13 +8640,13 @@ export type RebootRelationalDatabaseError =
  * information, see the Amazon Lightsail Developer Guide.
  */
 export const rebootRelationalDatabase: API.OperationMethod<
-  RebootRelationalDatabaseRequest,
+  RebootRelationalDatabaseRequest & RegionInput,
   RebootRelationalDatabaseResult,
   RebootRelationalDatabaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(912, __c57, 0) as any as S.Schema<RebootRelationalDatabaseRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<RebootRelationalDatabaseResult>,
+  output: __S(2816, __c176, 0) as any as S.Schema<RebootRelationalDatabaseResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -8590,7 +8681,7 @@ export type RegisterContainerImageError =
  * in the *Amazon Lightsail Developer Guide*.
  */
 export const registerContainerImage: API.OperationMethod<
-  RegisterContainerImageRequest,
+  RegisterContainerImageRequest & RegionInput,
   RegisterContainerImageResult,
   RegisterContainerImageError,
   Credentials | HttpClient.HttpClient
@@ -8626,13 +8717,13 @@ export type ReleaseStaticIpError =
  * Deletes a specific static IP from your account.
  */
 export const releaseStaticIp: API.OperationMethod<
-  ReleaseStaticIpRequest,
+  ReleaseStaticIpRequest & RegionInput,
   ReleaseStaticIpResult,
   ReleaseStaticIpError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(944, __c59, 0) as any as S.Schema<ReleaseStaticIpRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<ReleaseStaticIpResult>,
+  output: __S(2816, __c176, 0) as any as S.Schema<ReleaseStaticIpResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -8666,7 +8757,7 @@ export type ResetDistributionCacheError =
  * pulls, serves, and caches it from the origin.
  */
 export const resetDistributionCache: API.OperationMethod<
-  ResetDistributionCacheRequest,
+  ResetDistributionCacheRequest & RegionInput,
   ResetDistributionCacheResult,
   ResetDistributionCacheError,
   Credentials | HttpClient.HttpClient
@@ -8714,13 +8805,13 @@ export type SendContactMethodVerificationError =
  * confirmed as valid.
  */
 export const sendContactMethodVerification: API.OperationMethod<
-  SendContactMethodVerificationRequest,
+  SendContactMethodVerificationRequest & RegionInput,
   SendContactMethodVerificationResult,
   SendContactMethodVerificationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(976, __c61, 0) as any as S.Schema<SendContactMethodVerificationRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<SendContactMethodVerificationResult>,
+  output: __S(2816, __c176, 0) as any as S.Schema<SendContactMethodVerificationResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -8755,13 +8846,13 @@ export type SetIpAddressTypeError =
  * IPv4 only.
  */
 export const setIpAddressType: API.OperationMethod<
-  SetIpAddressTypeRequest,
+  SetIpAddressTypeRequest & RegionInput,
   SetIpAddressTypeResult,
   SetIpAddressTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c62, 0) as any as S.Schema<SetIpAddressTypeRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<SetIpAddressTypeResult>,
+  output: __S(2816, __c176, 0) as any as S.Schema<SetIpAddressTypeResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -8795,13 +8886,13 @@ export type SetResourceAccessForBucketError =
  * Amazon Web Services Region.
  */
 export const setResourceAccessForBucket: API.OperationMethod<
-  SetResourceAccessForBucketRequest,
+  SetResourceAccessForBucketRequest & RegionInput,
   SetResourceAccessForBucketResult,
   SetResourceAccessForBucketError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<SetResourceAccessForBucketRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<SetResourceAccessForBucketResult>,
+  output: __S(2816, __c176, 0) as any as S.Schema<SetResourceAccessForBucketResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -8833,13 +8924,13 @@ export type SetupInstanceHttpsError =
  * than or equal to 63 characters in length.
  */
 export const setupInstanceHttps: API.OperationMethod<
-  SetupInstanceHttpsRequest,
+  SetupInstanceHttpsRequest & RegionInput,
   SetupInstanceHttpsResult,
   SetupInstanceHttpsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c64, 0) as any as S.Schema<SetupInstanceHttpsRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<SetupInstanceHttpsResult>,
+  output: __S(2816, __c176, 0) as any as S.Schema<SetupInstanceHttpsResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -8869,13 +8960,13 @@ export type StartGUISessionError =
  * action to resume the session after it expires.
  */
 export const startGUISession: API.OperationMethod<
-  StartGUISessionRequest,
+  StartGUISessionRequest & RegionInput,
   StartGUISessionResult,
   StartGUISessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c66, 0) as any as S.Schema<StartGUISessionRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<StartGUISessionResult>,
+  output: __S(2816, __c176, 0) as any as S.Schema<StartGUISessionResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -8914,13 +9005,13 @@ export type StartInstanceError =
  * see the Amazon Lightsail Developer Guide.
  */
 export const startInstance: API.OperationMethod<
-  StartInstanceRequest,
+  StartInstanceRequest & RegionInput,
   StartInstanceResult,
   StartInstanceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<StartInstanceRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<StartInstanceResult>,
+  input: __S(1073, __c67, 1) as any as S.Schema<StartInstanceRequest>,
+  output: __S(2816, __c176, 0) as any as S.Schema<StartInstanceResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -8957,13 +9048,13 @@ export type StartRelationalDatabaseError =
  * information, see the Amazon Lightsail Developer Guide.
  */
 export const startRelationalDatabase: API.OperationMethod<
-  StartRelationalDatabaseRequest,
+  StartRelationalDatabaseRequest & RegionInput,
   StartRelationalDatabaseResult,
   StartRelationalDatabaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c68, 0) as any as S.Schema<StartRelationalDatabaseRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<StartRelationalDatabaseResult>,
+  output: __S(2816, __c176, 0) as any as S.Schema<StartRelationalDatabaseResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -8995,13 +9086,13 @@ export type StopGUISessionError =
  * lost.
  */
 export const stopGUISession: API.OperationMethod<
-  StopGUISessionRequest,
+  StopGUISessionRequest & RegionInput,
   StopGUISessionResult,
   StopGUISessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1104, __c69, 0) as any as S.Schema<StopGUISessionRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<StopGUISessionResult>,
+  output: __S(2816, __c176, 0) as any as S.Schema<StopGUISessionResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -9039,13 +9130,13 @@ export type StopInstanceError =
  * see the Amazon Lightsail Developer Guide.
  */
 export const stopInstance: API.OperationMethod<
-  StopInstanceRequest,
+  StopInstanceRequest & RegionInput,
   StopInstanceResult,
   StopInstanceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c70, 0) as any as S.Schema<StopInstanceRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<StopInstanceResult>,
+  output: __S(2816, __c176, 0) as any as S.Schema<StopInstanceResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -9085,13 +9176,13 @@ export type StopRelationalDatabaseError =
  * information, see the Amazon Lightsail Developer Guide.
  */
 export const stopRelationalDatabase: API.OperationMethod<
-  StopRelationalDatabaseRequest,
+  StopRelationalDatabaseRequest & RegionInput,
   StopRelationalDatabaseResult,
   StopRelationalDatabaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1136, __c71, 0) as any as S.Schema<StopRelationalDatabaseRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<StopRelationalDatabaseResult>,
+  output: __S(2816, __c176, 0) as any as S.Schema<StopRelationalDatabaseResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -9129,13 +9220,13 @@ export type TagResourceError =
  * information, see the Amazon Lightsail Developer Guide.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResult,
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c72, 0) as any as S.Schema<TagResourceRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<TagResourceResult>,
+  output: __S(2816, __c176, 0) as any as S.Schema<TagResourceResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -9174,13 +9265,13 @@ export type TestAlarmError =
  * in Amazon Lightsail.
  */
 export const testAlarm: API.OperationMethod<
-  TestAlarmRequest,
+  TestAlarmRequest & RegionInput,
   TestAlarmResult,
   TestAlarmError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1168, __c73, 0) as any as S.Schema<TestAlarmRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<TestAlarmResult>,
+  output: __S(2816, __c176, 0) as any as S.Schema<TestAlarmResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -9211,13 +9302,13 @@ export type UnpeerVpcError =
  * Unpeers the Lightsail VPC from the user's default VPC.
  */
 export const unpeerVpc: API.OperationMethod<
-  UnpeerVpcRequest,
+  UnpeerVpcRequest & RegionInput,
   UnpeerVpcResult,
   UnpeerVpcError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c74, 0) as any as S.Schema<UnpeerVpcRequest>,
-  output: __S(3088, __c193, 0) as any as S.Schema<UnpeerVpcResult>,
+  output: __S(3104, __c194, 0) as any as S.Schema<UnpeerVpcResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -9254,13 +9345,13 @@ export type UntagResourceError =
  * more information, see the Amazon Lightsail Developer Guide.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResult,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1200, __c75, 0) as any as S.Schema<UntagResourceRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<UntagResourceResult>,
+  output: __S(2816, __c176, 0) as any as S.Schema<UntagResourceResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -9293,7 +9384,7 @@ export type UpdateBucketError =
  * public accessibility, and the Amazon Web Services accounts that can access the bucket.
  */
 export const updateBucket: API.OperationMethod<
-  UpdateBucketRequest,
+  UpdateBucketRequest & RegionInput,
   UpdateBucketResult,
   UpdateBucketError,
   Credentials | HttpClient.HttpClient
@@ -9341,13 +9432,13 @@ export type UpdateBucketBundleError =
  * come.
  */
 export const updateBucketBundle: API.OperationMethod<
-  UpdateBucketBundleRequest,
+  UpdateBucketBundleRequest & RegionInput,
   UpdateBucketBundleResult,
   UpdateBucketBundleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1296, __c81, 0) as any as S.Schema<UpdateBucketBundleRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<UpdateBucketBundleResult>,
+  output: __S(2816, __c176, 0) as any as S.Schema<UpdateBucketBundleResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -9376,7 +9467,7 @@ export type UpdateContainerServiceError =
  * scale, and public domain names.
  */
 export const updateContainerService: API.OperationMethod<
-  UpdateContainerServiceRequest,
+  UpdateContainerServiceRequest & RegionInput,
   UpdateContainerServiceResult,
   UpdateContainerServiceError,
   Credentials | HttpClient.HttpClient
@@ -9412,13 +9503,13 @@ export type UpdateDistributionError =
  * Use this action to update the configuration of your existing distribution.
  */
 export const updateDistribution: API.OperationMethod<
-  UpdateDistributionRequest,
+  UpdateDistributionRequest & RegionInput,
   UpdateDistributionResult,
   UpdateDistributionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1328, __c83, 0) as any as S.Schema<UpdateDistributionRequest>,
-  output: __S(3088, __c193, 0) as any as S.Schema<UpdateDistributionResult>,
+  output: __S(3104, __c194, 0) as any as S.Schema<UpdateDistributionResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -9457,13 +9548,13 @@ export type UpdateDistributionBundleError =
  * result will indicate whether you can currently update your distribution's bundle.
  */
 export const updateDistributionBundle: API.OperationMethod<
-  UpdateDistributionBundleRequest,
+  UpdateDistributionBundleRequest & RegionInput,
   UpdateDistributionBundleResult,
   UpdateDistributionBundleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c84, 0) as any as S.Schema<UpdateDistributionBundleRequest>,
-  output: __S(3088, __c193, 0) as any as S.Schema<UpdateDistributionBundleResult>,
+  output: __S(3104, __c194, 0) as any as S.Schema<UpdateDistributionBundleResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -9497,13 +9588,13 @@ export type UpdateDomainEntryError =
  * information, see the Amazon Lightsail Developer Guide.
  */
 export const updateDomainEntry: API.OperationMethod<
-  UpdateDomainEntryRequest,
+  UpdateDomainEntryRequest & RegionInput,
   UpdateDomainEntryResult,
   UpdateDomainEntryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1360, __c85, 0) as any as S.Schema<UpdateDomainEntryRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<UpdateDomainEntryResult>,
+  output: __S(2816, __c176, 0) as any as S.Schema<UpdateDomainEntryResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -9540,13 +9631,13 @@ export type UpdateInstanceMetadataOptionsError =
  * `GetInstances` API calls. For more information, see Use IMDSv2 with an Amazon Lightsail instance in the *Amazon Lightsail Developer Guide*.
  */
 export const updateInstanceMetadataOptions: API.OperationMethod<
-  UpdateInstanceMetadataOptionsRequest,
+  UpdateInstanceMetadataOptionsRequest & RegionInput,
   UpdateInstanceMetadataOptionsResult,
   UpdateInstanceMetadataOptionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c86, 0) as any as S.Schema<UpdateInstanceMetadataOptionsRequest>,
-  output: __S(3088, __c193, 0) as any as S.Schema<UpdateInstanceMetadataOptionsResult>,
+  output: __S(3104, __c194, 0) as any as S.Schema<UpdateInstanceMetadataOptionsResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -9583,13 +9674,13 @@ export type UpdateLoadBalancerAttributeError =
  * name. For more information, see the Amazon Lightsail Developer Guide.
  */
 export const updateLoadBalancerAttribute: API.OperationMethod<
-  UpdateLoadBalancerAttributeRequest,
+  UpdateLoadBalancerAttributeRequest & RegionInput,
   UpdateLoadBalancerAttributeResult,
   UpdateLoadBalancerAttributeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1392, __c87, 0) as any as S.Schema<UpdateLoadBalancerAttributeRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<UpdateLoadBalancerAttributeResult>,
+  output: __S(2816, __c176, 0) as any as S.Schema<UpdateLoadBalancerAttributeResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -9628,13 +9719,13 @@ export type UpdateRelationalDatabaseError =
  * information, see the Amazon Lightsail Developer Guide.
  */
 export const updateRelationalDatabase: API.OperationMethod<
-  UpdateRelationalDatabaseRequest,
+  UpdateRelationalDatabaseRequest & RegionInput,
   UpdateRelationalDatabaseResult,
   UpdateRelationalDatabaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c88, 0) as any as S.Schema<UpdateRelationalDatabaseRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<UpdateRelationalDatabaseResult>,
+  output: __S(2816, __c176, 0) as any as S.Schema<UpdateRelationalDatabaseResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -9677,13 +9768,13 @@ export type UpdateRelationalDatabaseParametersError =
  * more information, see the Amazon Lightsail Developer Guide.
  */
 export const updateRelationalDatabaseParameters: API.OperationMethod<
-  UpdateRelationalDatabaseParametersRequest,
+  UpdateRelationalDatabaseParametersRequest & RegionInput,
   UpdateRelationalDatabaseParametersResult,
   UpdateRelationalDatabaseParametersError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1424, __c89, 0) as any as S.Schema<UpdateRelationalDatabaseParametersRequest>,
-  output: __S(2800, __c175, 0) as any as S.Schema<UpdateRelationalDatabaseParametersResult>,
+  output: __S(2816, __c176, 0) as any as S.Schema<UpdateRelationalDatabaseParametersResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -9728,7 +9819,7 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ instanceName: S.String }).pipe(
+        S.Struct({ instanceName: S.String, includeHealthStatus: S.optional(S.Boolean) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetInstance" }),
             svc,
@@ -9740,7 +9831,7 @@ function __c1(j: number): any {
         ),
       ).annotate({ identifier: "GetInstanceRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ instance: S.optional(__S(38, __c2, 6)) })).annotate({
+      return S.suspend(() => S.Struct({ instance: S.optional(__S(41, __c2, 9)) })).annotate({
         identifier: "GetInstanceResult",
       });
   }
@@ -9751,7 +9842,7 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           cpuCount: S.optional(S.Number),
-          disks: S.optional(__S(3120, __c195, 0)),
+          disks: S.optional(__S(3136, __c196, 0)),
           ramSizeInGb: S.optional(S.Number),
         }),
       ).annotate({ identifier: "InstanceHardware" });
@@ -9797,16 +9888,30 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
+          status: S.optional(S.String),
+          impairedSince: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "InstanceHealthStatusDetail" });
+    case 7:
+      return S.Array(__S(38, __c2, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({ status: S.optional(S.String), details: S.optional(__S(39, __c2, 7)) }),
+      ).annotate({ identifier: "InstanceHealthStatus" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
           arn: S.optional(S.String),
           supportCode: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          location: S.optional(__S(2832, __c177, 0)),
+          location: S.optional(__S(2848, __c178, 0)),
           resourceType: S.optional(S.String),
           tags: S.optional(__S(1249, __c78, 1)),
           blueprintId: S.optional(S.String),
           blueprintName: S.optional(S.String),
           bundleId: S.optional(S.String),
-          addOns: S.optional(__S(3057, __c191, 1)),
+          addOns: S.optional(__S(3073, __c192, 1)),
           isStaticIp: S.optional(S.Boolean),
           privateIpAddress: S.optional(S.String),
           publicIpAddress: S.optional(S.String),
@@ -9818,6 +9923,8 @@ function __c2(j: number): any {
           username: S.optional(S.String),
           sshKeyName: S.optional(S.String),
           metadataOptions: S.optional(__S(37, __c2, 5)),
+          instanceStatus: S.optional(__S(40, __c2, 8)),
+          systemStatus: S.optional(__S(40, __c2, 8)),
         }),
       ).annotate({ identifier: "Instance" });
   }
@@ -9847,7 +9954,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetInstanceAccessDetailsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ ciphertext: S.optional(S.String), keyPairName: S.optional(S.String) }),
+        S.Struct({ ciphertext: S.optional(SensitiveString), keyPairName: S.optional(S.String) }),
       ).annotate({ identifier: "PasswordData" });
     case 2:
       return S.suspend(() =>
@@ -9870,9 +9977,9 @@ function __c4(j: number): any {
           expiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           ipAddress: S.optional(S.String),
           ipv6Addresses: S.optional(__S(240, __c15, 0)),
-          password: S.optional(S.String),
+          password: S.optional(SensitiveString),
           passwordData: S.optional(__S(65, __c4, 1)),
-          privateKey: S.optional(S.String),
+          privateKey: S.optional(SensitiveString),
           protocol: S.optional(S.String),
           instanceName: S.optional(S.String),
           username: S.optional(S.String),
@@ -9949,7 +10056,10 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ pageToken: S.optional(S.String) }).pipe(
+        S.Struct({
+          pageToken: S.optional(S.String),
+          includeHealthStatus: S.optional(S.Boolean),
+        }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetInstances" }),
             svc,
@@ -9961,7 +10071,7 @@ function __c7(j: number): any {
         ),
       ).annotate({ identifier: "GetInstancesRequest" });
     case 1:
-      return S.Array(__S(38, __c2, 6));
+      return S.Array(__S(41, __c2, 9));
     case 2:
       return S.suspend(() =>
         S.Struct({ instances: S.optional(__S(113, __c7, 1)), nextPageToken: S.optional(S.String) }),
@@ -9998,12 +10108,12 @@ function __c9(j: number): any {
           arn: S.optional(S.String),
           supportCode: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          location: S.optional(__S(2832, __c177, 0)),
+          location: S.optional(__S(2848, __c178, 0)),
           resourceType: S.optional(S.String),
           tags: S.optional(__S(1249, __c78, 1)),
           state: S.optional(S.String),
           progress: S.optional(S.String),
-          fromAttachedDisks: S.optional(__S(3120, __c195, 0)),
+          fromAttachedDisks: S.optional(__S(3136, __c196, 0)),
           fromInstanceName: S.optional(S.String),
           fromInstanceArn: S.optional(S.String),
           fromBlueprintId: S.optional(S.String),
@@ -10077,7 +10187,7 @@ function __c12(j: number): any {
         ),
       ).annotate({ identifier: "GetKeyPairRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ keyPair: S.optional(__S(1984, __c124, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ keyPair: S.optional(__S(2000, __c125, 0)) })).annotate({
         identifier: "GetKeyPairResult",
       });
   }
@@ -10101,7 +10211,7 @@ function __c13(j: number): any {
         ),
       ).annotate({ identifier: "GetKeyPairsRequest" });
     case 1:
-      return S.Array(__S(1984, __c124, 0));
+      return S.Array(__S(2000, __c125, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({ keyPairs: S.optional(__S(209, __c13, 1)), nextPageToken: S.optional(S.String) }),
@@ -10147,7 +10257,7 @@ function __c16(j: number): any {
         ),
       ).annotate({ identifier: "GetLoadBalancerRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ loadBalancer: S.optional(__S(278, __c17, 6)) })).annotate({
+      return S.suspend(() => S.Struct({ loadBalancer: S.optional(__S(277, __c17, 5)) })).annotate({
         identifier: "GetLoadBalancerResult",
       });
   }
@@ -10155,8 +10265,6 @@ function __c16(j: number): any {
 function __c17(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.Number);
-    case 1:
       return S.suspend(() =>
         S.Struct({
           instanceName: S.optional(S.String),
@@ -10164,35 +10272,35 @@ function __c17(j: number): any {
           instanceHealthReason: S.optional(S.String),
         }),
       ).annotate({ identifier: "InstanceHealthSummary" });
+    case 1:
+      return S.Array(__S(272, __c17, 0));
     case 2:
-      return S.Array(__S(273, __c17, 1));
-    case 3:
       return S.suspend(() =>
         S.Struct({ name: S.optional(S.String), isAttached: S.optional(S.Boolean) }),
       ).annotate({ identifier: "LoadBalancerTlsCertificateSummary" });
+    case 3:
+      return S.Array(__S(274, __c17, 2));
     case 4:
-      return S.Array(__S(275, __c17, 3));
-    case 5:
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
-    case 6:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           arn: S.optional(S.String),
           supportCode: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          location: S.optional(__S(2832, __c177, 0)),
+          location: S.optional(__S(2848, __c178, 0)),
           resourceType: S.optional(S.String),
           tags: S.optional(__S(1249, __c78, 1)),
           dnsName: S.optional(S.String),
           state: S.optional(S.String),
           protocol: S.optional(S.String),
-          publicPorts: S.optional(__S(272, __c17, 0)),
+          publicPorts: S.optional(__S(1840, __c115, 0)),
           healthCheckPath: S.optional(S.String),
           instancePort: S.optional(S.Number),
-          instanceHealthSummary: S.optional(__S(274, __c17, 2)),
-          tlsCertificateSummaries: S.optional(__S(276, __c17, 4)),
-          configurationOptions: S.optional(__S(277, __c17, 5)),
+          instanceHealthSummary: S.optional(__S(273, __c17, 1)),
+          tlsCertificateSummaries: S.optional(__S(275, __c17, 3)),
+          configurationOptions: S.optional(__S(276, __c17, 4)),
           ipAddressType: S.optional(S.String),
           httpsRedirectionEnabled: S.optional(S.Boolean),
           tlsPolicyName: S.optional(S.String),
@@ -10241,7 +10349,7 @@ function __c19(j: number): any {
         ),
       ).annotate({ identifier: "GetLoadBalancersRequest" });
     case 1:
-      return S.Array(__S(278, __c17, 6));
+      return S.Array(__S(277, __c17, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -10299,7 +10407,7 @@ function __c20(j: number): any {
           arn: S.optional(S.String),
           supportCode: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          location: S.optional(__S(2832, __c177, 0)),
+          location: S.optional(__S(2848, __c178, 0)),
           resourceType: S.optional(S.String),
           tags: S.optional(__S(1249, __c78, 1)),
           loadBalancerName: S.optional(S.String),
@@ -10401,7 +10509,7 @@ function __c23(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(2784, __c174, 0)),
+          operations: S.optional(__S(2800, __c175, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetOperationsResult" });
@@ -10425,7 +10533,7 @@ function __c24(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(2784, __c174, 0)),
+          operations: S.optional(__S(2800, __c175, 0)),
           nextPageCount: S.optional(S.String),
           nextPageToken: S.optional(S.String),
         }),
@@ -10538,7 +10646,7 @@ function __c29(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          masterUserPassword: S.optional(S.String),
+          masterUserPassword: S.optional(SensitiveString),
           engineVersion: S.optional(S.String),
           backupRetentionEnabled: S.optional(S.Boolean),
         }),
@@ -10564,7 +10672,7 @@ function __c29(j: number): any {
           arn: S.optional(S.String),
           supportCode: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          location: S.optional(__S(2832, __c177, 0)),
+          location: S.optional(__S(2848, __c178, 0)),
           resourceType: S.optional(S.String),
           tags: S.optional(__S(1249, __c78, 1)),
           relationalDatabaseBlueprintId: S.optional(S.String),
@@ -10728,7 +10836,7 @@ function __c33(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          resourceLogEvents: S.optional(__S(2945, __c184, 1)),
+          resourceLogEvents: S.optional(__S(2961, __c185, 1)),
           nextBackwardToken: S.optional(S.String),
           nextForwardToken: S.optional(S.String),
         }),
@@ -10924,7 +11032,7 @@ function __c42(j: number): any {
           arn: S.optional(S.String),
           supportCode: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          location: S.optional(__S(2832, __c177, 0)),
+          location: S.optional(__S(2848, __c178, 0)),
           resourceType: S.optional(S.String),
           tags: S.optional(__S(1249, __c78, 1)),
           engine: S.optional(S.String),
@@ -10994,7 +11102,7 @@ function __c44(j: number): any {
           name: S.optional(S.String),
           arn: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          location: S.optional(__S(2832, __c177, 0)),
+          location: S.optional(__S(2848, __c178, 0)),
           resourceType: S.optional(S.String),
         }),
       ).annotate({ identifier: "SetupHistoryResource" });
@@ -11063,7 +11171,7 @@ function __c46(j: number): any {
           arn: S.optional(S.String),
           supportCode: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          location: S.optional(__S(2832, __c177, 0)),
+          location: S.optional(__S(2848, __c178, 0)),
           resourceType: S.optional(S.String),
           ipAddress: S.optional(S.String),
           attachedTo: S.optional(S.String),
@@ -11309,7 +11417,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "RegisterContainerImageRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ containerImage: S.optional(__S(2912, __c182, 0)) }),
+        S.Struct({ containerImage: S.optional(__S(2928, __c183, 0)) }),
       ).annotate({ identifier: "RegisterContainerImageResult" });
   }
 }
@@ -11350,7 +11458,7 @@ function __c60(j: number): any {
         S.Struct({
           status: S.optional(S.String),
           createTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          operation: S.optional(__S(2848, __c178, 0)),
+          operation: S.optional(__S(2864, __c179, 0)),
         }),
       ).annotate({ identifier: "ResetDistributionCacheResult" });
   }
@@ -11477,8 +11585,15 @@ function __c66(j: number): any {
 function __c67(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() => S.Struct({ bundleId: S.optional(S.String) })).annotate({
+        identifier: "InstanceAttributeUpdates",
+      });
+    case 1:
       return S.suspend(() =>
-        S.Struct({ instanceName: S.String }).pipe(
+        S.Struct({
+          instanceName: S.String,
+          attributeUpdates: S.optional(__S(1072, __c67, 0)),
+        }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/ls/api/2016-11-28/StartInstance" }),
             svc,
@@ -11669,7 +11784,7 @@ function __c77(j: number): any {
       return S.suspend(() =>
         S.Struct({
           bucket: S.optional(__S(1272, __c79, 8)),
-          operations: S.optional(__S(2784, __c174, 0)),
+          operations: S.optional(__S(2800, __c175, 0)),
         }),
       ).annotate({ identifier: "CreateBucketResult" });
   }
@@ -11734,7 +11849,7 @@ function __c79(j: number): any {
           bundleId: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           url: S.optional(S.String),
-          location: S.optional(__S(2832, __c177, 0)),
+          location: S.optional(__S(2848, __c178, 0)),
           name: S.optional(S.String),
           supportCode: S.optional(S.String),
           tags: S.optional(__S(1249, __c78, 1)),
@@ -11821,16 +11936,18 @@ function __c83(j: number): any {
         S.Struct({
           distributionName: S.String,
           origin: S.optional(__S(1792, __c112, 0)),
-          defaultCacheBehavior: S.optional(__S(1840, __c115, 0)),
-          cacheBehaviorSettings: S.optional(__S(1844, __c115, 4)),
-          cacheBehaviors: S.optional(__S(1846, __c115, 6)),
+          defaultCacheBehavior: S.optional(__S(1856, __c116, 0)),
+          cacheBehaviorSettings: S.optional(__S(1860, __c116, 4)),
+          cacheBehaviors: S.optional(__S(1862, __c116, 6)),
           isEnabled: S.optional(S.Boolean),
           viewerMinimumTlsProtocolVersion: S.optional(S.String),
           certificateName: S.optional(S.String),
           useDefaultCertificate: S.optional(S.Boolean),
           enablePrivateOriginAccess: S.optional(S.Boolean),
           defaultRootObject: S.optional(S.String),
-          customErrorResponses: S.optional(__S(1848, __c115, 8)),
+          customErrorResponses: S.optional(__S(1864, __c116, 8)),
+          enableWaf: S.optional(S.Boolean),
+          wafRules: S.optional(__S(1870, __c116, 14)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/ls/api/2016-11-28/UpdateDistribution" }),
@@ -11865,7 +11982,7 @@ function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ domainName: S.String, domainEntry: __S(1888, __c118, 0) }).pipe(
+        S.Struct({ domainName: S.String, domainEntry: __S(1904, __c119, 0) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/ls/api/2016-11-28/UpdateDomainEntry" }),
             svc,
@@ -11990,7 +12107,7 @@ function __c90(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accessKey: S.optional(__S(1457, __c91, 1)),
-          operations: S.optional(__S(2784, __c174, 0)),
+          operations: S.optional(__S(2800, __c175, 0)),
         }),
       ).annotate({ identifier: "CreateBucketAccessKeyResult" });
   }
@@ -12009,7 +12126,7 @@ function __c91(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accessKeyId: S.optional(SensitiveString),
-          secretAccessKey: S.optional(S.String),
+          secretAccessKey: S.optional(SensitiveString),
           status: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           lastUsed: S.optional(__S(1456, __c91, 0)),
@@ -12041,7 +12158,7 @@ function __c92(j: number): any {
       return S.suspend(() =>
         S.Struct({
           certificate: S.optional(__S(1509, __c94, 5)),
-          operations: S.optional(__S(2784, __c174, 0)),
+          operations: S.optional(__S(2800, __c175, 0)),
         }),
       ).annotate({ identifier: "CreateCertificateResult" });
   }
@@ -12306,7 +12423,7 @@ function __c103(j: number): any {
           containerServiceName: S.optional(S.String),
           arn: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          location: S.optional(__S(2832, __c177, 0)),
+          location: S.optional(__S(2848, __c178, 0)),
           resourceType: S.optional(S.String),
           tags: S.optional(__S(1249, __c78, 1)),
           power: S.optional(S.String),
@@ -12369,7 +12486,7 @@ function __c105(j: number): any {
       return S.suspend(() =>
         S.Struct({
           username: S.optional(S.String),
-          password: S.optional(S.String),
+          password: S.optional(SensitiveString),
           expiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           registry: S.optional(S.String),
         }),
@@ -12485,9 +12602,9 @@ function __c111(j: number): any {
         S.Struct({
           distributionName: S.String,
           origin: __S(1792, __c112, 0),
-          defaultCacheBehavior: __S(1840, __c115, 0),
-          cacheBehaviorSettings: S.optional(__S(1844, __c115, 4)),
-          cacheBehaviors: S.optional(__S(1846, __c115, 6)),
+          defaultCacheBehavior: __S(1856, __c116, 0),
+          cacheBehaviorSettings: S.optional(__S(1860, __c116, 4)),
+          cacheBehaviors: S.optional(__S(1862, __c116, 6)),
           bundleId: S.String,
           ipAddressType: S.optional(S.String),
           tags: S.optional(__S(1249, __c78, 1)),
@@ -12495,7 +12612,9 @@ function __c111(j: number): any {
           viewerMinimumTlsProtocolVersion: S.optional(S.String),
           enablePrivateOriginAccess: S.optional(S.Boolean),
           defaultRootObject: S.optional(S.String),
-          customErrorResponses: S.optional(__S(1848, __c115, 8)),
+          customErrorResponses: S.optional(__S(1864, __c116, 8)),
+          enableWaf: S.optional(S.Boolean),
+          wafRules: S.optional(__S(1870, __c116, 14)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateDistribution" }),
@@ -12510,8 +12629,8 @@ function __c111(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          distribution: S.optional(__S(1825, __c114, 1)),
-          operation: S.optional(__S(2848, __c178, 0)),
+          distribution: S.optional(__S(1826, __c114, 2)),
+          operation: S.optional(__S(2864, __c179, 0)),
         }),
       ).annotate({ identifier: "CreateDistributionResult" });
   }
@@ -12553,11 +12672,18 @@ function __c114(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          isWafEnabled: S.optional(S.Boolean),
+          wafRules: S.optional(__S(1870, __c116, 14)),
+        }),
+      ).annotate({ identifier: "WafConfig" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           name: S.optional(S.String),
           arn: S.optional(S.String),
           supportCode: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          location: S.optional(__S(2832, __c177, 0)),
+          location: S.optional(__S(2848, __c178, 0)),
           resourceType: S.optional(S.String),
           alternativeDomainNames: S.optional(__S(240, __c15, 0)),
           status: S.optional(S.String),
@@ -12567,20 +12693,27 @@ function __c114(j: number): any {
           certificateName: S.optional(S.String),
           origin: S.optional(__S(1824, __c114, 0)),
           originPublicDNS: S.optional(S.String),
-          defaultCacheBehavior: S.optional(__S(1840, __c115, 0)),
-          cacheBehaviorSettings: S.optional(__S(1844, __c115, 4)),
-          cacheBehaviors: S.optional(__S(1846, __c115, 6)),
+          defaultCacheBehavior: S.optional(__S(1856, __c116, 0)),
+          cacheBehaviorSettings: S.optional(__S(1860, __c116, 4)),
+          cacheBehaviors: S.optional(__S(1862, __c116, 6)),
           ableToUpdateBundle: S.optional(S.Boolean),
           ipAddressType: S.optional(S.String),
           tags: S.optional(__S(1249, __c78, 1)),
           viewerMinimumTlsProtocolVersion: S.optional(S.String),
           defaultRootObject: S.optional(S.String),
-          customErrorResponses: S.optional(__S(1848, __c115, 8)),
+          customErrorResponses: S.optional(__S(1864, __c116, 8)),
+          waf: S.optional(__S(1825, __c114, 1)),
         }),
       ).annotate({ identifier: "LightsailDistribution" });
   }
 }
 function __c115(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Number);
+  }
+}
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ behavior: S.optional(S.String) })).annotate({
@@ -12615,9 +12748,9 @@ function __c115(j: number): any {
           maximumTTL: S.optional(S.Number),
           allowedHTTPMethods: S.optional(S.String),
           cachedHTTPMethods: S.optional(S.String),
-          forwardedCookies: S.optional(__S(1841, __c115, 1)),
-          forwardedHeaders: S.optional(__S(1842, __c115, 2)),
-          forwardedQueryStrings: S.optional(__S(1843, __c115, 3)),
+          forwardedCookies: S.optional(__S(1857, __c116, 1)),
+          forwardedHeaders: S.optional(__S(1858, __c116, 2)),
+          forwardedQueryStrings: S.optional(__S(1859, __c116, 3)),
         }),
       ).annotate({ identifier: "CacheSettings" });
     case 5:
@@ -12625,7 +12758,7 @@ function __c115(j: number): any {
         S.Struct({ path: S.optional(S.String), behavior: S.optional(S.String) }),
       ).annotate({ identifier: "CacheBehaviorPerPath" });
     case 6:
-      return S.Array(__S(1845, __c115, 5));
+      return S.Array(__S(1861, __c116, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -12636,10 +12769,51 @@ function __c115(j: number): any {
         }),
       ).annotate({ identifier: "DistributionCustomErrorResponse" });
     case 8:
-      return S.Array(__S(1847, __c115, 7));
+      return S.Array(__S(1863, __c116, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          successCodes: S.optional(__S(1840, __c115, 0)),
+          failureCodes: S.optional(__S(1840, __c115, 0)),
+        }),
+      ).annotate({ identifier: "WafResponseInspection" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          loginPath: S.optional(S.String),
+          payloadType: S.optional(S.String),
+          usernameField: S.optional(S.String),
+          passwordField: S.optional(S.String),
+          responseInspection: S.optional(__S(1865, __c116, 9)),
+        }),
+      ).annotate({ identifier: "WafAtpConfig" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          payloadType: S.optional(S.String),
+          creationPath: S.optional(S.String),
+          registrationPagePath: S.optional(S.String),
+          responseInspection: S.optional(__S(1865, __c116, 9)),
+        }),
+      ).annotate({ identifier: "WafAcfpConfig" });
+    case 12:
+      return S.suspend(() => S.Struct({ inspectionLevel: S.optional(S.String) })).annotate({
+        identifier: "WafBotControlConfig",
+      });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          atpConfig: S.optional(__S(1866, __c116, 10)),
+          acfpConfig: S.optional(__S(1867, __c116, 11)),
+          botControlConfig: S.optional(__S(1868, __c116, 12)),
+        }),
+      ).annotate({ identifier: "WafRule" });
+    case 14:
+      return S.Array(__S(1869, __c116, 13));
   }
 }
-function __c116(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12656,11 +12830,11 @@ function __c116(j: number): any {
       ).annotate({ identifier: "CreateDomainRequest" });
   }
 }
-function __c117(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ domainName: S.String, domainEntry: __S(1888, __c118, 0) }).pipe(
+        S.Struct({ domainName: S.String, domainEntry: __S(1904, __c119, 0) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateDomainEntry" }),
             svc,
@@ -12673,7 +12847,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "CreateDomainEntryRequest" });
   }
 }
-function __c118(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12688,7 +12862,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "DomainEntry" });
   }
 }
-function __c119(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12712,7 +12886,7 @@ function __c119(j: number): any {
         }),
       ).annotate({ identifier: "Session" });
     case 2:
-      return S.Array(__S(1905, __c119, 1));
+      return S.Array(__S(1921, __c120, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -12720,12 +12894,12 @@ function __c119(j: number): any {
           status: S.optional(S.String),
           percentageComplete: S.optional(S.Number),
           failureReason: S.optional(S.String),
-          sessions: S.optional(__S(1906, __c119, 2)),
+          sessions: S.optional(__S(1922, __c120, 2)),
         }),
       ).annotate({ identifier: "CreateGUISessionAccessDetailsResult" });
   }
 }
-function __c120(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12753,21 +12927,21 @@ function __c120(j: number): any {
       ).annotate({ identifier: "CreateInstancesRequest" });
   }
 }
-function __c121(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ originalDiskPath: S.optional(S.String), newDiskName: S.optional(S.String) }),
       ).annotate({ identifier: "DiskMap" });
     case 1:
-      return S.Array(__S(1936, __c121, 0));
+      return S.Array(__S(1952, __c122, 0));
     case 2:
-      return S.Record(S.String, /*@__PURE__*/ __S(1937, __c121, 1).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(1953, __c122, 1).pipe(S.optional));
     case 3:
       return S.suspend(() =>
         S.Struct({
           instanceNames: __S(240, __c15, 0),
-          attachedDiskMapping: S.optional(__S(1938, __c121, 2)),
+          attachedDiskMapping: S.optional(__S(1954, __c122, 2)),
           availabilityZone: S.String,
           instanceSnapshotName: S.optional(S.String),
           bundleId: S.String,
@@ -12792,7 +12966,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "CreateInstancesFromSnapshotRequest" });
   }
 }
-function __c122(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12813,7 +12987,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "CreateInstanceSnapshotRequest" });
   }
 }
-function __c123(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12831,15 +13005,15 @@ function __c123(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          keyPair: S.optional(__S(1984, __c124, 0)),
+          keyPair: S.optional(__S(2000, __c125, 0)),
           publicKeyBase64: S.optional(S.String),
-          privateKeyBase64: S.optional(S.String),
-          operation: S.optional(__S(2848, __c178, 0)),
+          privateKeyBase64: S.optional(SensitiveString),
+          operation: S.optional(__S(2864, __c179, 0)),
         }),
       ).annotate({ identifier: "CreateKeyPairResult" });
   }
 }
-function __c124(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12848,7 +13022,7 @@ function __c124(j: number): any {
           arn: S.optional(S.String),
           supportCode: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          location: S.optional(__S(2832, __c177, 0)),
+          location: S.optional(__S(2848, __c178, 0)),
           resourceType: S.optional(S.String),
           tags: S.optional(__S(1249, __c78, 1)),
           fingerprint: S.optional(S.String),
@@ -12856,7 +13030,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "KeyPair" });
   }
 }
-function __c125(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12883,7 +13057,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "CreateLoadBalancerRequest" });
   }
 }
-function __c126(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12906,7 +13080,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "CreateLoadBalancerTlsCertificateRequest" });
   }
 }
-function __c127(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12935,7 +13109,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "CreateRelationalDatabaseRequest" });
   }
 }
-function __c128(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12965,7 +13139,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "CreateRelationalDatabaseFromSnapshotRequest" });
   }
 }
-function __c129(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12986,7 +13160,7 @@ function __c129(j: number): any {
       ).annotate({ identifier: "CreateRelationalDatabaseSnapshotRequest" });
   }
 }
-function __c130(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13003,7 +13177,7 @@ function __c130(j: number): any {
       ).annotate({ identifier: "DeleteAlarmRequest" });
   }
 }
-function __c131(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13020,7 +13194,7 @@ function __c131(j: number): any {
       ).annotate({ identifier: "DeleteAutoSnapshotRequest" });
   }
 }
-function __c132(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13037,7 +13211,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "DeleteBucketRequest" });
   }
 }
-function __c133(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13054,7 +13228,7 @@ function __c133(j: number): any {
       ).annotate({ identifier: "DeleteBucketAccessKeyRequest" });
   }
 }
-function __c134(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13071,7 +13245,7 @@ function __c134(j: number): any {
       ).annotate({ identifier: "DeleteCertificateRequest" });
   }
 }
-function __c135(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13088,7 +13262,7 @@ function __c135(j: number): any {
       ).annotate({ identifier: "DeleteContactMethodRequest" });
   }
 }
-function __c136(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13111,13 +13285,13 @@ function __c136(j: number): any {
       ).annotate({ identifier: "DeleteContainerImageRequest" });
   }
 }
-function __c137(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteContainerImageResult" });
   }
 }
-function __c138(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13137,7 +13311,7 @@ function __c138(j: number): any {
       ).annotate({ identifier: "DeleteContainerServiceRequest" });
   }
 }
-function __c139(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13154,7 +13328,7 @@ function __c139(j: number): any {
       ).annotate({ identifier: "DeleteDiskRequest" });
   }
 }
-function __c140(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13171,7 +13345,7 @@ function __c140(j: number): any {
       ).annotate({ identifier: "DeleteDiskSnapshotRequest" });
   }
 }
-function __c141(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13188,7 +13362,7 @@ function __c141(j: number): any {
       ).annotate({ identifier: "DeleteDistributionRequest" });
   }
 }
-function __c142(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13205,11 +13379,11 @@ function __c142(j: number): any {
       ).annotate({ identifier: "DeleteDomainRequest" });
   }
 }
-function __c143(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ domainName: S.String, domainEntry: __S(1888, __c118, 0) }).pipe(
+        S.Struct({ domainName: S.String, domainEntry: __S(1904, __c119, 0) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/ls/api/2016-11-28/DeleteDomainEntry" }),
             svc,
@@ -13222,7 +13396,7 @@ function __c143(j: number): any {
       ).annotate({ identifier: "DeleteDomainEntryRequest" });
   }
 }
-function __c144(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13239,7 +13413,7 @@ function __c144(j: number): any {
       ).annotate({ identifier: "DeleteInstanceRequest" });
   }
 }
-function __c145(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13256,7 +13430,7 @@ function __c145(j: number): any {
       ).annotate({ identifier: "DeleteInstanceSnapshotRequest" });
   }
 }
-function __c146(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13273,7 +13447,7 @@ function __c146(j: number): any {
       ).annotate({ identifier: "DeleteKeyPairRequest" });
   }
 }
-function __c147(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13290,7 +13464,7 @@ function __c147(j: number): any {
       ).annotate({ identifier: "DeleteKnownHostKeysRequest" });
   }
 }
-function __c148(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13307,7 +13481,7 @@ function __c148(j: number): any {
       ).annotate({ identifier: "DeleteLoadBalancerRequest" });
   }
 }
-function __c149(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13328,7 +13502,7 @@ function __c149(j: number): any {
       ).annotate({ identifier: "DeleteLoadBalancerTlsCertificateRequest" });
   }
 }
-function __c150(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13349,7 +13523,7 @@ function __c150(j: number): any {
       ).annotate({ identifier: "DeleteRelationalDatabaseRequest" });
   }
 }
-function __c151(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13366,7 +13540,7 @@ function __c151(j: number): any {
       ).annotate({ identifier: "DeleteRelationalDatabaseSnapshotRequest" });
   }
 }
-function __c152(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13383,7 +13557,7 @@ function __c152(j: number): any {
       ).annotate({ identifier: "DetachCertificateFromDistributionRequest" });
   }
 }
-function __c153(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13400,7 +13574,7 @@ function __c153(j: number): any {
       ).annotate({ identifier: "DetachDiskRequest" });
   }
 }
-function __c154(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13417,7 +13591,7 @@ function __c154(j: number): any {
       ).annotate({ identifier: "DetachInstancesFromLoadBalancerRequest" });
   }
 }
-function __c155(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13434,7 +13608,7 @@ function __c155(j: number): any {
       ).annotate({ identifier: "DetachStaticIpRequest" });
   }
 }
-function __c156(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13451,7 +13625,7 @@ function __c156(j: number): any {
       ).annotate({ identifier: "DisableAddOnRequest" });
   }
 }
-function __c157(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13470,13 +13644,13 @@ function __c157(j: number): any {
       return S.suspend(() =>
         S.Struct({
           publicKeyBase64: S.optional(S.String),
-          privateKeyBase64: S.optional(S.String),
+          privateKeyBase64: S.optional(SensitiveString),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "DownloadDefaultKeyPairResult" });
   }
 }
-function __c158(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13493,7 +13667,7 @@ function __c158(j: number): any {
       ).annotate({ identifier: "EnableAddOnRequest" });
   }
 }
-function __c159(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13510,7 +13684,7 @@ function __c159(j: number): any {
       ).annotate({ identifier: "ExportSnapshotRequest" });
   }
 }
-function __c160(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13534,7 +13708,7 @@ function __c160(j: number): any {
       ).annotate({ identifier: "GetActiveNamesResult" });
   }
 }
-function __c161(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13567,10 +13741,10 @@ function __c161(j: number): any {
           name: S.optional(S.String),
           arn: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          location: S.optional(__S(2832, __c177, 0)),
+          location: S.optional(__S(2848, __c178, 0)),
           resourceType: S.optional(S.String),
           supportCode: S.optional(S.String),
-          monitoredResourceInfo: S.optional(__S(2577, __c161, 1)),
+          monitoredResourceInfo: S.optional(__S(2593, __c162, 1)),
           comparisonOperator: S.optional(S.String),
           evaluationPeriods: S.optional(S.Number),
           period: S.optional(S.Number),
@@ -13588,14 +13762,14 @@ function __c161(j: number): any {
         }),
       ).annotate({ identifier: "Alarm" });
     case 3:
-      return S.Array(__S(2578, __c161, 2));
+      return S.Array(__S(2594, __c162, 2));
     case 4:
       return S.suspend(() =>
-        S.Struct({ alarms: S.optional(__S(2579, __c161, 3)), nextPageToken: S.optional(S.String) }),
+        S.Struct({ alarms: S.optional(__S(2595, __c162, 3)), nextPageToken: S.optional(S.String) }),
       ).annotate({ identifier: "GetAlarmsResult" });
   }
 }
-function __c162(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13615,29 +13789,29 @@ function __c162(j: number): any {
         S.Struct({ path: S.optional(S.String), sizeInGb: S.optional(S.Number) }),
       ).annotate({ identifier: "AttachedDisk" });
     case 2:
-      return S.Array(__S(2593, __c162, 1));
+      return S.Array(__S(2609, __c163, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           date: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           status: S.optional(S.String),
-          fromAttachedDisks: S.optional(__S(2594, __c162, 2)),
+          fromAttachedDisks: S.optional(__S(2610, __c163, 2)),
         }),
       ).annotate({ identifier: "AutoSnapshotDetails" });
     case 4:
-      return S.Array(__S(2595, __c162, 3));
+      return S.Array(__S(2611, __c163, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           resourceName: S.optional(S.String),
           resourceType: S.optional(S.String),
-          autoSnapshots: S.optional(__S(2596, __c162, 4)),
+          autoSnapshots: S.optional(__S(2612, __c163, 4)),
         }),
       ).annotate({ identifier: "GetAutoSnapshotsResult" });
   }
 }
-function __c163(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13675,17 +13849,17 @@ function __c163(j: number): any {
         }),
       ).annotate({ identifier: "Blueprint" });
     case 2:
-      return S.Array(__S(2609, __c163, 1));
+      return S.Array(__S(2625, __c164, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          blueprints: S.optional(__S(2610, __c163, 2)),
+          blueprints: S.optional(__S(2626, __c164, 2)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetBlueprintsResult" });
   }
 }
-function __c164(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13703,12 +13877,12 @@ function __c164(j: number): any {
     case 1:
       return S.Array(__S(1457, __c91, 1));
     case 2:
-      return S.suspend(() => S.Struct({ accessKeys: S.optional(__S(2625, __c164, 1)) })).annotate({
+      return S.suspend(() => S.Struct({ accessKeys: S.optional(__S(2641, __c165, 1)) })).annotate({
         identifier: "GetBucketAccessKeysResult",
       });
   }
 }
-function __c165(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13735,14 +13909,14 @@ function __c165(j: number): any {
         }),
       ).annotate({ identifier: "BucketBundle" });
     case 2:
-      return S.Array(__S(2641, __c165, 1));
+      return S.Array(__S(2657, __c166, 1));
     case 3:
-      return S.suspend(() => S.Struct({ bundles: S.optional(__S(2642, __c165, 2)) })).annotate({
+      return S.suspend(() => S.Struct({ bundles: S.optional(__S(2658, __c166, 2)) })).annotate({
         identifier: "GetBucketBundlesResult",
       });
   }
 }
-function __c166(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13767,7 +13941,7 @@ function __c166(j: number): any {
       ).annotate({ identifier: "GetBucketMetricDataRequest" });
   }
 }
-function __c167(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13782,17 +13956,17 @@ function __c167(j: number): any {
         }),
       ).annotate({ identifier: "MetricDatapoint" });
     case 1:
-      return S.Array(__S(2672, __c167, 0));
+      return S.Array(__S(2688, __c168, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           metricName: S.optional(S.String),
-          metricData: S.optional(__S(2673, __c167, 1)),
+          metricData: S.optional(__S(2689, __c168, 1)),
         }),
       ).annotate({ identifier: "GetBucketMetricDataResult" });
   }
 }
-function __c168(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13826,14 +14000,14 @@ function __c168(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          buckets: S.optional(__S(2689, __c168, 1)),
+          buckets: S.optional(__S(2705, __c169, 1)),
           nextPageToken: S.optional(S.String),
-          accountLevelBpaSync: S.optional(__S(2690, __c168, 2)),
+          accountLevelBpaSync: S.optional(__S(2706, __c169, 2)),
         }),
       ).annotate({ identifier: "GetBucketsResult" });
   }
 }
-function __c169(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13871,17 +14045,17 @@ function __c169(j: number): any {
         }),
       ).annotate({ identifier: "Bundle" });
     case 2:
-      return S.Array(__S(2705, __c169, 1));
+      return S.Array(__S(2721, __c170, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          bundles: S.optional(__S(2706, __c169, 2)),
+          bundles: S.optional(__S(2722, __c170, 2)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetBundlesResult" });
   }
 }
-function __c170(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13906,13 +14080,13 @@ function __c170(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          certificates: S.optional(__S(2721, __c170, 1)),
+          certificates: S.optional(__S(2737, __c171, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetCertificatesResult" });
   }
 }
-function __c171(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13936,32 +14110,32 @@ function __c171(j: number): any {
         }),
       ).annotate({ identifier: "CloudFormationStackRecordSourceInfo" });
     case 2:
-      return S.Array(__S(2737, __c171, 1));
+      return S.Array(__S(2753, __c172, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           arn: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          location: S.optional(__S(2832, __c177, 0)),
+          location: S.optional(__S(2848, __c178, 0)),
           resourceType: S.optional(S.String),
           state: S.optional(S.String),
-          sourceInfo: S.optional(__S(2738, __c171, 2)),
-          destinationInfo: S.optional(__S(2752, __c172, 0)),
+          sourceInfo: S.optional(__S(2754, __c172, 2)),
+          destinationInfo: S.optional(__S(2768, __c173, 0)),
         }),
       ).annotate({ identifier: "CloudFormationStackRecord" });
     case 4:
-      return S.Array(__S(2739, __c171, 3));
+      return S.Array(__S(2755, __c172, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          cloudFormationStackRecords: S.optional(__S(2740, __c171, 4)),
+          cloudFormationStackRecords: S.optional(__S(2756, __c172, 4)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetCloudFormationStackRecordsResult" });
   }
 }
-function __c172(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13969,7 +14143,7 @@ function __c172(j: number): any {
       ).annotate({ identifier: "DestinationInfo" });
   }
 }
-function __c173(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13986,28 +14160,28 @@ function __c173(j: number): any {
       ).annotate({ identifier: "AllocateStaticIpRequest" });
   }
 }
-function __c174(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(2848, __c178, 0));
-  }
-}
 function __c175(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ operations: S.optional(__S(2784, __c174, 0)) })).annotate({
+      return S.Array(__S(2864, __c179, 0));
+  }
+}
+function __c176(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ operations: S.optional(__S(2800, __c175, 0)) })).annotate({
         identifier: "AllocateStaticIpResult",
       });
   }
 }
-function __c176(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ zoneName: S.optional(S.String), state: S.optional(S.String) }),
       ).annotate({ identifier: "AvailabilityZone" });
     case 1:
-      return S.Array(__S(2816, __c176, 0));
+      return S.Array(__S(2832, __c177, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -14015,13 +14189,13 @@ function __c176(j: number): any {
           description: S.optional(S.String),
           displayName: S.optional(S.String),
           name: S.optional(S.String),
-          availabilityZones: S.optional(__S(2817, __c176, 1)),
-          relationalDatabaseAvailabilityZones: S.optional(__S(2817, __c176, 1)),
+          availabilityZones: S.optional(__S(2833, __c177, 1)),
+          relationalDatabaseAvailabilityZones: S.optional(__S(2833, __c177, 1)),
         }),
       ).annotate({ identifier: "Region" });
   }
 }
-function __c177(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14029,7 +14203,7 @@ function __c177(j: number): any {
       ).annotate({ identifier: "ResourceLocation" });
   }
 }
-function __c178(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14038,7 +14212,7 @@ function __c178(j: number): any {
           resourceName: S.optional(S.String),
           resourceType: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          location: S.optional(__S(2832, __c177, 0)),
+          location: S.optional(__S(2848, __c178, 0)),
           isTerminal: S.optional(S.Boolean),
           operationDetails: S.optional(S.String),
           operationType: S.optional(S.String),
@@ -14050,7 +14224,7 @@ function __c178(j: number): any {
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c179(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14076,21 +14250,21 @@ function __c179(j: number): any {
           name: S.optional(S.String),
           arn: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          location: S.optional(__S(2832, __c177, 0)),
+          location: S.optional(__S(2848, __c178, 0)),
           resourceType: S.optional(S.String),
           supportCode: S.optional(S.String),
           tags: S.optional(__S(1249, __c78, 1)),
         }),
       ).annotate({ identifier: "ContactMethod" });
     case 2:
-      return S.Array(__S(2865, __c179, 1));
+      return S.Array(__S(2881, __c180, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ contactMethods: S.optional(__S(2866, __c179, 2)) }),
+        S.Struct({ contactMethods: S.optional(__S(2882, __c180, 2)) }),
       ).annotate({ identifier: "GetContactMethodsResult" });
   }
 }
-function __c180(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14108,12 +14282,12 @@ function __c180(j: number): any {
     case 1:
       return S.Array(__S(1616, __c101, 0));
     case 2:
-      return S.suspend(() => S.Struct({ metadata: S.optional(__S(2881, __c180, 1)) })).annotate({
+      return S.suspend(() => S.Struct({ metadata: S.optional(__S(2897, __c181, 1)) })).annotate({
         identifier: "GetContainerAPIMetadataResult",
       });
   }
 }
-function __c181(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14132,14 +14306,14 @@ function __c181(j: number): any {
         ),
       ).annotate({ identifier: "GetContainerImagesRequest" });
     case 1:
-      return S.Array(__S(2912, __c182, 0));
+      return S.Array(__S(2928, __c183, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ containerImages: S.optional(__S(2897, __c181, 1)) }),
+        S.Struct({ containerImages: S.optional(__S(2913, __c182, 1)) }),
       ).annotate({ identifier: "GetContainerImagesResult" });
   }
 }
-function __c182(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14151,7 +14325,7 @@ function __c182(j: number): any {
       ).annotate({ identifier: "ContainerImage" });
   }
 }
-function __c183(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14183,13 +14357,13 @@ function __c183(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          logEvents: S.optional(__S(2945, __c184, 1)),
+          logEvents: S.optional(__S(2961, __c185, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetContainerLogResult" });
   }
 }
-function __c184(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14199,10 +14373,10 @@ function __c184(j: number): any {
         }),
       ).annotate({ identifier: "ContainerServiceLogEvent" });
     case 1:
-      return S.Array(__S(2944, __c184, 0));
+      return S.Array(__S(2960, __c185, 0));
   }
 }
-function __c185(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14223,12 +14397,12 @@ function __c185(j: number): any {
     case 1:
       return S.Array(__S(1637, __c102, 5));
     case 2:
-      return S.suspend(() => S.Struct({ deployments: S.optional(__S(2961, __c185, 1)) })).annotate({
+      return S.suspend(() => S.Struct({ deployments: S.optional(__S(2977, __c186, 1)) })).annotate({
         identifier: "GetContainerServiceDeploymentsResult",
       });
   }
 }
-function __c186(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14255,7 +14429,7 @@ function __c186(j: number): any {
       ).annotate({ identifier: "GetContainerServiceMetricDataRequest" });
   }
 }
-function __c187(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14282,14 +14456,14 @@ function __c187(j: number): any {
         }),
       ).annotate({ identifier: "ContainerServicePower" });
     case 2:
-      return S.Array(__S(2993, __c187, 1));
+      return S.Array(__S(3009, __c188, 1));
     case 3:
-      return S.suspend(() => S.Struct({ powers: S.optional(__S(2994, __c187, 2)) })).annotate({
+      return S.suspend(() => S.Struct({ powers: S.optional(__S(3010, __c188, 2)) })).annotate({
         identifier: "GetContainerServicePowersResult",
       });
   }
 }
-function __c188(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14308,11 +14482,11 @@ function __c188(j: number): any {
       return S.Array(__S(1651, __c103, 3));
     case 2:
       return S.suspend(() =>
-        S.Struct({ containerServices: S.optional(__S(3009, __c188, 1)) }),
+        S.Struct({ containerServices: S.optional(__S(3025, __c189, 1)) }),
       ).annotate({ identifier: "ContainerServicesListResult" });
   }
 }
-function __c189(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14345,39 +14519,39 @@ function __c189(j: number): any {
           pricingUnit: S.optional(S.String),
           unit: S.optional(S.Number),
           currency: S.optional(S.String),
-          timePeriod: S.optional(__S(3025, __c189, 1)),
+          timePeriod: S.optional(__S(3041, __c190, 1)),
         }),
       ).annotate({ identifier: "EstimateByTime" });
     case 3:
-      return S.Array(__S(3026, __c189, 2));
+      return S.Array(__S(3042, __c190, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           usageType: S.optional(S.String),
-          resultsByTime: S.optional(__S(3027, __c189, 3)),
+          resultsByTime: S.optional(__S(3043, __c190, 3)),
         }),
       ).annotate({ identifier: "CostEstimate" });
     case 5:
-      return S.Array(__S(3028, __c189, 4));
+      return S.Array(__S(3044, __c190, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           resourceName: S.optional(S.String),
           resourceType: S.optional(S.String),
-          costEstimates: S.optional(__S(3029, __c189, 5)),
+          costEstimates: S.optional(__S(3045, __c190, 5)),
           startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "ResourceBudgetEstimate" });
     case 7:
-      return S.Array(__S(3030, __c189, 6));
+      return S.Array(__S(3046, __c190, 6));
     case 8:
       return S.suspend(() =>
-        S.Struct({ resourcesBudgetEstimate: S.optional(__S(3031, __c189, 7)) }),
+        S.Struct({ resourcesBudgetEstimate: S.optional(__S(3047, __c190, 7)) }),
       ).annotate({ identifier: "GetCostEstimateResult" });
   }
 }
-function __c190(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14393,12 +14567,12 @@ function __c190(j: number): any {
         ),
       ).annotate({ identifier: "GetDiskRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ disk: S.optional(__S(3058, __c191, 2)) })).annotate({
+      return S.suspend(() => S.Struct({ disk: S.optional(__S(3074, __c192, 2)) })).annotate({
         identifier: "GetDiskResult",
       });
   }
 }
-function __c191(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14412,7 +14586,7 @@ function __c191(j: number): any {
         }),
       ).annotate({ identifier: "AddOn" });
     case 1:
-      return S.Array(__S(3056, __c191, 0));
+      return S.Array(__S(3072, __c192, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -14420,10 +14594,10 @@ function __c191(j: number): any {
           arn: S.optional(S.String),
           supportCode: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          location: S.optional(__S(2832, __c177, 0)),
+          location: S.optional(__S(2848, __c178, 0)),
           resourceType: S.optional(S.String),
           tags: S.optional(__S(1249, __c78, 1)),
-          addOns: S.optional(__S(3057, __c191, 1)),
+          addOns: S.optional(__S(3073, __c192, 1)),
           sizeInGb: S.optional(S.Number),
           isSystemDisk: S.optional(S.Boolean),
           iops: S.optional(S.Number),
@@ -14438,7 +14612,7 @@ function __c191(j: number): any {
       ).annotate({ identifier: "Disk" });
   }
 }
-function __c192(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14455,15 +14629,15 @@ function __c192(j: number): any {
       ).annotate({ identifier: "AttachCertificateToDistributionRequest" });
   }
 }
-function __c193(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ operation: S.optional(__S(2848, __c178, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ operation: S.optional(__S(2864, __c179, 0)) })).annotate({
         identifier: "AttachCertificateToDistributionResult",
       });
   }
 }
-function __c194(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14480,17 +14654,17 @@ function __c194(j: number): any {
       ).annotate({ identifier: "GetDisksRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ disks: S.optional(__S(3120, __c195, 0)), nextPageToken: S.optional(S.String) }),
+        S.Struct({ disks: S.optional(__S(3136, __c196, 0)), nextPageToken: S.optional(S.String) }),
       ).annotate({ identifier: "GetDisksResult" });
   }
 }
-function __c195(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(3058, __c191, 2));
+      return S.Array(__S(3074, __c192, 2));
   }
 }
-function __c196(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14506,12 +14680,12 @@ function __c196(j: number): any {
         ),
       ).annotate({ identifier: "GetDiskSnapshotRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ diskSnapshot: S.optional(__S(3152, __c197, 0)) })).annotate(
+      return S.suspend(() => S.Struct({ diskSnapshot: S.optional(__S(3168, __c198, 0)) })).annotate(
         { identifier: "GetDiskSnapshotResult" },
       );
   }
 }
-function __c197(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14520,7 +14694,7 @@ function __c197(j: number): any {
           arn: S.optional(S.String),
           supportCode: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          location: S.optional(__S(2832, __c177, 0)),
+          location: S.optional(__S(2848, __c178, 0)),
           resourceType: S.optional(S.String),
           tags: S.optional(__S(1249, __c78, 1)),
           sizeInGb: S.optional(S.Number),
@@ -14535,7 +14709,7 @@ function __c197(j: number): any {
       ).annotate({ identifier: "DiskSnapshot" });
   }
 }
-function __c198(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14551,17 +14725,17 @@ function __c198(j: number): any {
         ),
       ).annotate({ identifier: "GetDiskSnapshotsRequest" });
     case 1:
-      return S.Array(__S(3152, __c197, 0));
+      return S.Array(__S(3168, __c198, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          diskSnapshots: S.optional(__S(3169, __c198, 1)),
+          diskSnapshots: S.optional(__S(3185, __c199, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetDiskSnapshotsResult" });
   }
 }
-function __c199(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14587,14 +14761,14 @@ function __c199(j: number): any {
         }),
       ).annotate({ identifier: "DistributionBundle" });
     case 2:
-      return S.Array(__S(3185, __c199, 1));
+      return S.Array(__S(3201, __c200, 1));
     case 3:
-      return S.suspend(() => S.Struct({ bundles: S.optional(__S(3186, __c199, 2)) })).annotate({
+      return S.suspend(() => S.Struct({ bundles: S.optional(__S(3202, __c200, 2)) })).annotate({
         identifier: "GetDistributionBundlesResult",
       });
   }
 }
-function __c200(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14618,7 +14792,7 @@ function __c200(j: number): any {
       ).annotate({ identifier: "GetDistributionLatestCacheResetResult" });
   }
 }
-function __c201(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14643,7 +14817,7 @@ function __c201(j: number): any {
       ).annotate({ identifier: "GetDistributionMetricDataRequest" });
   }
 }
-function __c202(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14659,17 +14833,17 @@ function __c202(j: number): any {
         ),
       ).annotate({ identifier: "GetDistributionsRequest" });
     case 1:
-      return S.Array(__S(1825, __c114, 1));
+      return S.Array(__S(1826, __c114, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          distributions: S.optional(__S(3233, __c202, 1)),
+          distributions: S.optional(__S(3249, __c203, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetDistributionsResult" });
   }
 }
-function __c203(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14685,15 +14859,15 @@ function __c203(j: number): any {
         ),
       ).annotate({ identifier: "GetDomainRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ domain: S.optional(__S(3266, __c204, 2)) })).annotate({
+      return S.suspend(() => S.Struct({ domain: S.optional(__S(3282, __c205, 2)) })).annotate({
         identifier: "GetDomainResult",
       });
   }
 }
-function __c204(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1888, __c118, 0));
+      return S.Array(__S(1904, __c119, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -14708,16 +14882,16 @@ function __c204(j: number): any {
           arn: S.optional(S.String),
           supportCode: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          location: S.optional(__S(2832, __c177, 0)),
+          location: S.optional(__S(2848, __c178, 0)),
           resourceType: S.optional(S.String),
           tags: S.optional(__S(1249, __c78, 1)),
-          domainEntries: S.optional(__S(3264, __c204, 0)),
-          registeredDomainDelegationInfo: S.optional(__S(3265, __c204, 1)),
+          domainEntries: S.optional(__S(3280, __c205, 0)),
+          registeredDomainDelegationInfo: S.optional(__S(3281, __c205, 1)),
         }),
       ).annotate({ identifier: "Domain" });
   }
 }
-function __c205(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14733,17 +14907,17 @@ function __c205(j: number): any {
         ),
       ).annotate({ identifier: "GetDomainsRequest" });
     case 1:
-      return S.Array(__S(3266, __c204, 2));
+      return S.Array(__S(3282, __c205, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          domains: S.optional(__S(3281, __c205, 1)),
+          domains: S.optional(__S(3297, __c206, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetDomainsResult" });
   }
 }
-function __c206(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14768,13 +14942,13 @@ function __c206(j: number): any {
         }),
       ).annotate({ identifier: "DiskInfo" });
     case 2:
-      return S.Array(__S(3297, __c206, 1));
+      return S.Array(__S(3313, __c207, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           fromBundleId: S.optional(S.String),
           fromBlueprintId: S.optional(S.String),
-          fromDiskInfo: S.optional(__S(3298, __c206, 2)),
+          fromDiskInfo: S.optional(__S(3314, __c207, 2)),
         }),
       ).annotate({ identifier: "InstanceSnapshotInfo" });
     case 4:
@@ -14790,8 +14964,8 @@ function __c206(j: number): any {
           arn: S.optional(S.String),
           fromResourceName: S.optional(S.String),
           fromResourceArn: S.optional(S.String),
-          instanceSnapshotInfo: S.optional(__S(3299, __c206, 3)),
-          diskSnapshotInfo: S.optional(__S(3300, __c206, 4)),
+          instanceSnapshotInfo: S.optional(__S(3315, __c207, 3)),
+          diskSnapshotInfo: S.optional(__S(3316, __c207, 4)),
         }),
       ).annotate({ identifier: "ExportSnapshotRecordSourceInfo" });
     case 6:
@@ -14800,19 +14974,19 @@ function __c206(j: number): any {
           name: S.optional(S.String),
           arn: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          location: S.optional(__S(2832, __c177, 0)),
+          location: S.optional(__S(2848, __c178, 0)),
           resourceType: S.optional(S.String),
           state: S.optional(S.String),
-          sourceInfo: S.optional(__S(3301, __c206, 5)),
-          destinationInfo: S.optional(__S(2752, __c172, 0)),
+          sourceInfo: S.optional(__S(3317, __c207, 5)),
+          destinationInfo: S.optional(__S(2768, __c173, 0)),
         }),
       ).annotate({ identifier: "ExportSnapshotRecord" });
     case 7:
-      return S.Array(__S(3302, __c206, 6));
+      return S.Array(__S(3318, __c207, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          exportSnapshotRecords: S.optional(__S(3303, __c206, 7)),
+          exportSnapshotRecords: S.optional(__S(3319, __c207, 7)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetExportSnapshotRecordsResult" });

@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -138,7 +139,7 @@ export class EC2InstanceUnavailableException
       /*@__PURE__*/ T.AwsQueryError({ code: "EC2InstanceUnavailable", httpResponseCode: 503 }),
       /*@__PURE__*/ T.HttpError(503),
     ),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InvalidArgsException
   extends /*@__PURE__*/ S.TaggedError<InvalidArgsException>()(
     "InvalidArgsException",
@@ -180,7 +181,7 @@ export class SerialConsoleSessionUnavailableException
       }),
       /*@__PURE__*/ T.HttpError(500),
     ),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class SerialConsoleSessionUnsupportedException
   extends /*@__PURE__*/ S.TaggedError<SerialConsoleSessionUnsupportedException>()(
     "SerialConsoleSessionUnsupportedException",
@@ -201,7 +202,7 @@ export class ServiceException
       /*@__PURE__*/ T.AwsQueryError({ code: "InternalServerError", httpResponseCode: 500 }),
       /*@__PURE__*/ T.HttpError(500),
     ),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",
@@ -216,14 +217,14 @@ export type SerialPort = number;
 export type SSHPublicKey = string;
 export interface SendSerialConsoleSSHPublicKeyRequest {
   InstanceId: string;
-  SerialPort?: number;
+  SerialPort?: number | undefined;
   SSHPublicKey: string;
 }
 export type RequestId = string;
 export type Success = boolean;
 export interface SendSerialConsoleSSHPublicKeyResponse {
-  RequestId?: string;
-  Success?: boolean;
+  RequestId?: string | undefined;
+  Success?: boolean | undefined;
 }
 export type InstanceOSUser = string;
 export type AvailabilityZone = string;
@@ -231,11 +232,11 @@ export interface SendSSHPublicKeyRequest {
   InstanceId: string;
   InstanceOSUser: string;
   SSHPublicKey: string;
-  AvailabilityZone?: string;
+  AvailabilityZone?: string | undefined;
 }
 export interface SendSSHPublicKeyResponse {
-  RequestId?: string;
-  Success?: boolean;
+  RequestId?: string | undefined;
+  Success?: boolean | undefined;
 }
 export type SendSerialConsoleSSHPublicKeyError =
   | AuthException
@@ -258,7 +259,7 @@ export type SendSerialConsoleSSHPublicKeyError =
  * the *Amazon EC2 User Guide*.
  */
 export const sendSerialConsoleSSHPublicKey: API.OperationMethod<
-  SendSerialConsoleSSHPublicKeyRequest,
+  SendSerialConsoleSSHPublicKeyRequest & RegionInput,
   SendSerialConsoleSSHPublicKeyResponse,
   SendSerialConsoleSSHPublicKeyError,
   Credentials | HttpClient.HttpClient
@@ -302,7 +303,7 @@ export type SendSSHPublicKeyError =
  * User Guide.
  */
 export const sendSSHPublicKey: API.OperationMethod<
-  SendSSHPublicKeyRequest,
+  SendSSHPublicKeyRequest & RegionInput,
   SendSSHPublicKeyResponse,
   SendSSHPublicKeyError,
   Credentials | HttpClient.HttpClient

@@ -89,62 +89,58 @@ export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
-export type ServerAccessTypeEnum = "ACCESS_TYPE_UNSPECIFIED" | "EXTERNAL" | "INTERNAL";
-export type StringMap = { [key: string]: string | undefined };
 /** A consumer project or network that is denied to connect to the server via PSC. */
 export interface DeniedConsumer {
   /** The project ID or number of the consumer project. Must be in the format: `projects/{project}`. */
-  project?: string;
+  project?: string | undefined;
 }
 export type DeniedConsumerList = Array<DeniedConsumer>;
-/** Details of PSC endpoint created by customer. */
-export interface PscEndpoint {
-  /** Output only. This is a Resource name for Private Service Connect endpoint. Format: `projects/{project}/regions/{region}/forwardingRules/{forwarding_rule}` */
-  endpoint?: string;
-  /** Output only. The consumer network. Format: `projects/{project}/locations/{location}/networks/{network}` */
-  network?: string;
-  /** Output only. The status of the connected endpoint. */
-  status?: string;
-}
-export type PscEndpointList = Array<PscEndpoint>;
 /** A consumer project or network that is permitted to connect to the server via PSC. */
 export interface AllowedConsumer {
-  /** The project ID or number of the consumer project. Must be in the format: `projects/{project}`. */
-  project?: string;
   /** Required. The connection limit for the consumer. Value must be greater than 0. */
-  connectionLimit?: string;
+  connectionLimit?: string | undefined;
+  /** The project ID or number of the consumer project. Must be in the format: `projects/{project}`. */
+  project?: string | undefined;
 }
 export type AllowedConsumerList = Array<AllowedConsumer>;
+/** Details of PSC endpoint created by customer. */
+export interface PscEndpoint {
+  /** Output only. The consumer network. Format: `projects/{project}/locations/{location}/networks/{network}` */
+  network?: string | undefined;
+  /** Output only. This is a Resource name for Private Service Connect endpoint. Format: `projects/{project}/regions/{region}/forwardingRules/{forwarding_rule}` */
+  endpoint?: string | undefined;
+  /** Output only. The status of the connected endpoint. */
+  status?: string | undefined;
+}
+export type PscEndpointList = Array<PscEndpoint>;
 /** Configuration for private server accessible via PSC. */
 export interface InternalServerConfig {
   /** Optional. A list of projects that are denied connection. Format: "projects/sample_project_id" or "projects/1234567890" Projects in this list will be denied access, even if they are included in the `allow_list`. If this list is empty, no projects are explicitly rejected. */
-  consumerRejectList?: DeniedConsumerList;
-  /** Output only. The resource name of the service attachment. Format: `projects/{project}/regions/{region}/serviceAttachments/{service_attachment}` */
-  serviceAttachment?: string;
-  /** Output only. Details of endpoints created by the customer. */
-  pscEndpoints?: PscEndpointList;
+  consumerRejectList?: DeniedConsumerList | undefined;
   /** Required. A list of projects that are permitted to connect. At least one project is required in the allow list. */
-  consumerAcceptList?: AllowedConsumerList;
+  consumerAcceptList?: AllowedConsumerList | undefined;
+  /** Output only. Details of endpoints created by the customer. */
+  pscEndpoints?: PscEndpointList | undefined;
+  /** Output only. The resource name of the service attachment. Format: `projects/{project}/regions/{region}/serviceAttachments/{service_attachment}` */
+  serviceAttachment?: string | undefined;
 }
-/** Represents credentials of an FTP Server. */
-export interface ServerCredential {
-  /** Output only. The fingerprint is a hash of the public key, and is displayed when clients access the server for the first time to verify the server's identity. */
-  fingerprint?: string;
-  /** Output only. Asymmetric algorithm used by the public key. Possible values (can be expanded in future): - ssh-ed25519 */
-  asymmetricAlgorithm?: string;
+export type LoggingConfigVerbosityEnum =
+  | "LOG_VERBOSITY_UNSPECIFIED"
+  | "ALL_EVENTS"
+  | "TRANSFERS_AND_AUTH_ONLY"
+  | "ERRORS_ONLY";
+/** Configuration for Cloud Logging on the Server. */
+export interface LoggingConfig {
+  /** Optional. Whether platform logging (`ftp.googleapis.com/ftp_events`) is enabled for this server. Defaults to `false`. */
+  enabled?: boolean | undefined;
+  /** Optional. The verbosity level of logs emitted when `enabled` is `true`. Defaults to `ALL_EVENTS` if unspecified when `enabled` is `true`. */
+  verbosity?: LoggingConfigVerbosityEnum | (string & {}) | undefined;
 }
-export type StringList = Array<string>;
-/** Configuration for external server. */
-export interface ExternalServerConfig {
-  /** Optional. List of CIDR blocks that are allowed to access the Server. A CIDR range consists of an IP Address and a prefix length to construct the subnet mask. By default, the prefix length is 32 (i.e. matches a single IP address). For now, only IPV4 addresses are supported. Examples: "203.0.113.0/24" - matches with the IP addresses in the range 203.0.113.0 - 203.0.113.255. "0.0.0.0/0" - matches against any IP address. This field must contain at least one entry if the access type is EXTERNAL. The number of allowed CIDR blocks cannot exceed 500. Example: 192.168.0.0/16 */
-  allowedCidrBlocks?: StringList;
-  /** Output only. IP address of the LB via which clients will connect. */
-  ipAddress?: string;
-}
+export type ServerAccessTypeEnum = "ACCESS_TYPE_UNSPECIFIED" | "EXTERNAL" | "INTERNAL";
 export type ServerStateEnum =
   | "STATE_UNSPECIFIED"
   | "CREATING"
@@ -155,78 +151,94 @@ export type ServerStateEnum =
   | "DELETING"
   | "ERROR"
   | "UPDATING";
+export type StringList = Array<string>;
+/** Configuration for external server. */
+export interface ExternalServerConfig {
+  /** Optional. List of CIDR blocks that are allowed to access the Server. A CIDR range consists of an IP Address and a prefix length to construct the subnet mask. By default, the prefix length is 32 (i.e. matches a single IP address). For now, only IPV4 addresses are supported. Examples: "203.0.113.0/24" - matches with the IP addresses in the range 203.0.113.0 - 203.0.113.255. "0.0.0.0/0" - matches against any IP address. This field must contain at least one entry if the access type is EXTERNAL. The number of allowed CIDR blocks cannot exceed 500. Example: 192.168.0.0/16 */
+  allowedCidrBlocks?: StringList | undefined;
+  /** Output only. IP address of the LB via which clients will connect. */
+  ipAddress?: string | undefined;
+}
+export type StringMap = { [key: string]: string | undefined };
+/** Represents credentials of an FTP Server. */
+export interface ServerCredential {
+  /** Output only. Asymmetric algorithm used by the public key. Possible values (can be expanded in future): - ssh-ed25519 */
+  asymmetricAlgorithm?: string | undefined;
+  /** Output only. The fingerprint is a hash of the public key, and is displayed when clients access the server for the first time to verify the server's identity. */
+  fingerprint?: string | undefined;
+}
 /** Message describing Server object */
 export interface Server {
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean;
-  /** Optional. Display name of the Server */
-  displayName?: string;
-  /** Output only. Service agent used to access the customer bucket. */
-  serviceAgent?: string;
-  /** Required. The access type of the Server. */
-  accessType?: ServerAccessTypeEnum | (string & {});
-  /** Identifier. name of resource */
-  name?: string;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean;
-  /** Output only. [Output only] Create time stamp */
-  createTime?: string;
-  /** Optional. Labels as key value pairs */
-  labels?: StringMap;
-  /** Output only. [Output only] Update time stamp */
-  updateTime?: string;
   /** Configuration for internal access. */
-  internalConfig?: InternalServerConfig;
-  /** Output only. Credentials of the FTP Server. */
-  googleManagedServerCredential?: ServerCredential;
-  /** Configuration for external access. */
-  externalConfig?: ExternalServerConfig;
+  internalConfig?: InternalServerConfig | undefined;
+  /** Output only. Reserved for future use. */
+  satisfiesPzs?: boolean | undefined;
+  /** Output only. Service agent used to access the customer bucket. */
+  serviceAgent?: string | undefined;
+  /** Output only. [Output only] Update time stamp */
+  updateTime?: string | undefined;
+  /** Optional. Configuration for Cloud Logging on the Server. */
+  loggingConfig?: LoggingConfig | undefined;
+  /** Required. The access type of the Server. */
+  accessType?: ServerAccessTypeEnum | (string & {}) | undefined;
+  /** Output only. Reserved for future use. */
+  satisfiesPzi?: boolean | undefined;
+  /** Optional. Display name of the Server */
+  displayName?: string | undefined;
   /** Output only. The state of the server. */
-  state?: ServerStateEnum | (string & {});
+  state?: ServerStateEnum | (string & {}) | undefined;
+  /** Output only. [Output only] Create time stamp */
+  createTime?: string | undefined;
+  /** Configuration for external access. */
+  externalConfig?: ExternalServerConfig | undefined;
+  /** Optional. Labels as key value pairs */
+  labels?: StringMap | undefined;
+  /** Identifier. name of resource */
+  name?: string | undefined;
+  /** Output only. Credentials of the FTP Server. */
+  googleManagedServerCredential?: ServerCredential | undefined;
 }
-export interface CreateProjectsLocationsServersRequest {
+export interface CreateProjectsLocationsServersRequest extends Server {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. Value for parent. */
   parent: string;
-  /** Required. A unique ID for the server. Must start with a lowercase letter, and end with a lowercase letter or number. Can contain lowercase letters, numbers, and hyphens. Maximum length is 30 characters. */
-  serverId?: string;
-  /** Request body */
-  body?: Server;
+  /** Required. A unique ID for the server. Must start with a lowercase letter, and end with a lowercase letter or number. Can contain lowercase letters, numbers, and hyphens. Can't begin with the prefix `goog` or contain the string `google`, including close misspellings such as `g00gle`. Maximum length is 30 characters. */
+  serverId?: string | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string | undefined;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap | undefined;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean | undefined;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status | undefined;
 }
 export type UserCredentialCredentialTypeEnum = "TYPE_UNSPECIFIED" | "PUBLIC_KEY";
 /** Message describing UserCredential object */
 export interface UserCredential {
   /** Optional. SSH public key body in OpenSSH format. Example: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQ..." */
-  sshPublicKeyBody?: string;
+  sshPublicKeyBody?: string | undefined;
   /** Required. Name of the user credential. */
-  credentialName?: string;
+  credentialName?: string | undefined;
   /** Required. Type of credential. */
-  credentialType?: UserCredentialCredentialTypeEnum | (string & {});
+  credentialType?: UserCredentialCredentialTypeEnum | (string & {}) | undefined;
 }
 export type UserCredentialList = Array<UserCredential>;
 export type StorageDirectoryMappingPermissionEnum =
@@ -235,14 +247,14 @@ export type StorageDirectoryMappingPermissionEnum =
   | "READ_WRITE";
 /** Mapping of backing Cloud Storage path to the directory where the user lands in the SFTP server. If directory is not specified, it'll default to '/'. Eg 1 - (bucket_name: bucket, bucket_prefix: path1/path2, directory: /abc/def/username) The user will land at /abcd/def/username, and the view there will match that of /bucket/path1/path2. The user will not be aware of Cloud Storage prefix '/bucket/path1' and there will be no such directory in the view. Eg 2 - (bucket_name: bucket, bucket_prefix: path1/path2, directory: '') The user will land at '/', and the view there will match that of /bucket/path1/path2. The user will not be aware of Cloud Storage prefix '/bucket/path1/path2' and there will be no such directory in the view. */
 export interface StorageDirectoryMapping {
-  /** Required. Directory where the user lands in the SFTP server. */
-  directory?: string;
-  /** Required. Permission to the bucket. */
-  permission?: StorageDirectoryMappingPermissionEnum | (string & {});
   /** Required. Name of the bucket. */
-  bucket?: string;
+  bucket?: string | undefined;
+  /** Required. Permission to the bucket. */
+  permission?: StorageDirectoryMappingPermissionEnum | (string & {}) | undefined;
   /** Optional. Prefix inside the bucket. */
-  bucketPrefix?: string;
+  bucketPrefix?: string | undefined;
+  /** Required. Directory where the user lands in the SFTP server. */
+  directory?: string | undefined;
 }
 export type StorageDirectoryMappingList = Array<StorageDirectoryMapping>;
 export type UserStateEnum =
@@ -254,34 +266,32 @@ export type UserStateEnum =
   | "DELETING";
 /** Message describing User object */
 export interface User {
-  /** Identifier. User-friendly name via which User will be identified. projects/{project}/locations/{location}/servers/{server}/users/{user} */
-  name?: string;
-  /** Required. User credential for the user. The maximum number of user credentials is 10. */
-  userCredentials?: UserCredentialList;
-  /** Output only. [Output only] Create time stamp */
-  createTime?: string;
   /** Optional. Labels as key value pairs */
-  labels?: StringMap;
-  /** Required. Service account in customer project attached to this SFTP User. */
-  customerServiceAccount?: string;
-  /** Required. Mapping of Cloud Storage buckets to directories where the user will land in the SFTP server. */
-  storageDirectoryMappings?: StorageDirectoryMappingList;
-  /** Output only. Tracks user creation. */
-  state?: UserStateEnum | (string & {});
+  labels?: StringMap | undefined;
   /** Output only. [Output only] The username of the user. */
-  username?: string;
+  username?: string | undefined;
+  /** Required. Service account in customer project attached to this SFTP User. */
+  customerServiceAccount?: string | undefined;
+  /** Required. User credential for the user. The maximum number of user credentials is 10. */
+  userCredentials?: UserCredentialList | undefined;
+  /** Identifier. User-friendly name via which User will be identified. projects/{project}/locations/{location}/servers/{server}/users/{user} */
+  name?: string | undefined;
+  /** Required. Mapping of Cloud Storage buckets to directories where the user will land in the SFTP server. */
+  storageDirectoryMappings?: StorageDirectoryMappingList | undefined;
   /** Output only. [Output only] Update time stamp */
-  updateTime?: string;
+  updateTime?: string | undefined;
+  /** Output only. Tracks user creation. */
+  state?: UserStateEnum | (string & {}) | undefined;
+  /** Output only. [Output only] Create time stamp */
+  createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsServersUsersRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+export interface CreateProjectsLocationsServersUsersRequest extends User {
   /** Required. Value for parent. */
   parent: string;
   /** Required. A unique user ID for the SFTP user. The user ID must start with a lowercase letter and can include lowercase letters, numbers, or hyphens. */
-  userId?: string;
-  /** Request body */
-  body?: User;
+  userId?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -294,8 +304,8 @@ export interface DeleteProjectsLocationsServersRequest {
 export interface DeleteProjectsLocationsServersUsersRequest {
   /** Required. Name of the resource */
   name: string;
-  /** Optional. If set to true, the request will force the deletion of the User. */
-  force?: boolean;
+  /** Optional. If set to `true`, the request will `force` the deletion of the User. */
+  force?: boolean | undefined;
 }
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -303,16 +313,16 @@ export interface GetProjectsLocationsRequest {
 }
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
+  name?: string | undefined;
   /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
+  locationId?: string | undefined;
+  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
+  labels?: StringMap | undefined;
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: DocumentMap | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -326,7 +336,7 @@ export interface GetProjectsLocationsServersRequest {
   /** Required. Name of the resource */
   name: string;
   /** Optional. The view of the Server resource to return. */
-  view?: GetProjectsLocationsServersViewEnum | (string & {});
+  view?: GetProjectsLocationsServersViewEnum | (string & {}) | undefined;
 }
 export type GetProjectsLocationsServersUsersViewEnum =
   | "USER_VIEW_UNSPECIFIED"
@@ -336,77 +346,77 @@ export interface GetProjectsLocationsServersUsersRequest {
   /** Required. Name of the resource */
   name: string;
   /** Optional. The view of the User resource to return. */
-  view?: GetProjectsLocationsServersUsersViewEnum | (string & {});
+  view?: GetProjectsLocationsServersUsersViewEnum | (string & {}) | undefined;
 }
 export interface ListProjectsLocationsRequest {
+  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
+  extraLocationTypes?: StringList | undefined;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number | undefined;
+  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
+  filter?: string | undefined;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
-  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
-  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
-  /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
+  /** A list of locations that matches the specified filter in the request. */
+  locations?: LocationList | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
   /** The standard list page token. */
-  pageToken?: string;
-  /** The standard list page size. */
-  pageSize?: number;
+  pageToken?: string | undefined;
   /** The standard list filter. */
-  filter?: string;
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  filter?: string | undefined;
   /** The name of the operation's parent resource. */
   name: string;
+  /** The standard list page size. */
+  pageSize?: number | undefined;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: OperationList | undefined;
 }
 export type ListProjectsLocationsServersViewEnum =
   | "SERVER_VIEW_UNSPECIFIED"
   | "SERVER_VIEW_BASIC"
   | "SERVER_VIEW_FULL";
 export interface ListProjectsLocationsServersRequest {
-  /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
   /** Optional. Filtering results */
-  filter?: string;
-  /** Optional. The view of the Server resource to return. */
-  view?: ListProjectsLocationsServersViewEnum | (string & {});
+  filter?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
+  /** Optional. The view of the Server resource to return. */
+  view?: ListProjectsLocationsServersViewEnum | (string & {}) | undefined;
+  /** Optional. A token identifying a page of results the server should return. */
+  pageToken?: string | undefined;
+  /** Optional. Hint for how to order the results */
+  orderBy?: string | undefined;
   /** Required. Parent value for ListServersRequest */
   parent: string;
-  /** Optional. Hint for how to order the results */
-  orderBy?: string;
 }
 export type ServerList = Array<Server>;
 /** Message for response to listing Servers */
 export interface ListServersResponse {
-  /** Unordered list. Locations that could not be reached. */
-  unreachable?: StringList;
-  /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
   /** The list of Server */
-  servers?: ServerList;
+  servers?: ServerList | undefined;
+  /** A token identifying a page of results the server should return. */
+  nextPageToken?: string | undefined;
+  /** Unordered list. Locations that could not be reached. */
+  unreachable?: StringList | undefined;
 }
 export type ListProjectsLocationsServersUsersViewEnum =
   | "USER_VIEW_UNSPECIFIED"
@@ -414,45 +424,41 @@ export type ListProjectsLocationsServersUsersViewEnum =
   | "USER_VIEW_FULL";
 export interface ListProjectsLocationsServersUsersRequest {
   /** Optional. Requested page size. User may return fewer items than requested. The maximum value is 1000; The default value is 50 if the field is omitted (or set to 0). */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A token identifying a page of results the user should return. */
-  pageToken?: string;
-  /** Optional. Hint for how to order the results */
-  orderBy?: string;
+  pageToken?: string | undefined;
   /** Required. Parent value for ListUsersRequest */
   parent: string;
-  /** Optional. Filtering results */
-  filter?: string;
   /** Optional. The view of the User resource to return. */
-  view?: ListProjectsLocationsServersUsersViewEnum | (string & {});
+  view?: ListProjectsLocationsServersUsersViewEnum | (string & {}) | undefined;
+  /** Optional. Hint for how to order the results */
+  orderBy?: string | undefined;
+  /** Optional. Filtering results */
+  filter?: string | undefined;
 }
 export type UserList = Array<User>;
 /** Message for response to listing Users */
 export interface ListUsersResponse {
-  /** The list of User */
-  users?: UserList;
   /** A token identifying a page of results the user should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Unordered list. Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
+  /** The list of User */
+  users?: UserList | undefined;
 }
-export interface PatchProjectsLocationsServersRequest {
-  /** Optional. Field mask is used to specify the fields to be overwritten in the Server resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields present in the request will be overwritten. */
-  updateMask?: string;
+export interface PatchProjectsLocationsServersRequest extends Omit<Server, "name"> {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Identifier. name of resource */
   name: string;
-  /** Request body */
-  body?: Server;
+  /** Optional. Field mask is used to specify the fields to be overwritten in the Server resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields present in the request will be overwritten. */
+  updateMask?: string | undefined;
 }
-export interface PatchProjectsLocationsServersUsersRequest {
+export interface PatchProjectsLocationsServersUsersRequest extends Omit<User, "name"> {
+  /** Optional. Field mask is used to specify the fields to be overwritten in the User resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields present in the request will be overwritten. */
+  updateMask?: string | undefined;
   /** Identifier. User-friendly name via which User will be identified. projects/{project}/locations/{location}/servers/{server}/users/{user} */
   name: string;
-  /** Optional. Field mask is used to specify the fields to be overwritten in the User resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields present in the request will be overwritten. */
-  updateMask?: string;
-  /** Request body */
-  body?: User;
 }
 /** Request message for starting a Server. */
 export type StartServerRequest = CancelOperationRequest;
@@ -460,7 +466,7 @@ export interface StartProjectsLocationsServersRequest {
   /** Required. Name of the resource Format: `projects/{project}/locations/{location}/servers/{server}` */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** Request message for stopping a Server. */
 export type StopServerRequest = CancelOperationRequest;
@@ -468,7 +474,7 @@ export interface StopProjectsLocationsServersRequest {
   /** Required. Name of the resource. Format: `projects/{project}/locations/{location}/servers/{server}` */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -645,7 +651,7 @@ export const getProjectsLocationsServers: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<GetProjectsLocationsServersRequest>,
-  output: __S(281, __c17, 9) as any as S.Schema<Server>,
+  output: __S(282, __c17, 10) as any as S.Schema<Server>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -852,10 +858,10 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(288, __c18, 0)),
           name: S.optional(S.String),
-          metadata: S.optional(__S(304, __c19, 0)),
           locationId: S.optional(S.String),
+          labels: S.optional(__S(288, __c18, 0)),
+          metadata: S.optional(__S(304, __c19, 0)),
           displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "Location" });
@@ -904,11 +910,11 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           extraLocationTypes: S.optional(__S(256, __c16, 0).pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -922,8 +928,8 @@ function __c5(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(81, __c5, 1)),
           nextPageToken: S.optional(S.String),
+          locations: S.optional(__S(81, __c5, 1)),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
@@ -934,10 +940,10 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -951,9 +957,9 @@ function __c6(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(97, __c6, 1)),
           unreachable: S.optional(__S(256, __c16, 0)),
           nextPageToken: S.optional(S.String),
+          operations: S.optional(__S(97, __c6, 1)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
@@ -963,12 +969,12 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          view: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
+          view: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -978,13 +984,13 @@ function __c7(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsServersRequest" });
     case 1:
-      return S.Array(__S(281, __c17, 9));
+      return S.Array(__S(282, __c17, 10));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(256, __c16, 0)),
-          nextPageToken: S.optional(S.String),
           servers: S.optional(__S(113, __c7, 1)),
+          nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(256, __c16, 0)),
         }),
       ).annotate({ identifier: "ListServersResponse" });
   }
@@ -996,10 +1002,10 @@ function __c8(j: number): any {
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
           view: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1013,9 +1019,9 @@ function __c8(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          users: S.optional(__S(129, __c8, 1)),
           nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(256, __c16, 0)),
+          users: S.optional(__S(129, __c8, 1)),
         }),
       ).annotate({ identifier: "ListUsersResponse" });
   }
@@ -1024,12 +1030,14 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(281, __c17, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(282, __c17, 10),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -1043,11 +1051,13 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(356, __c22, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(356, __c22, 4),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -1118,12 +1128,14 @@ function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          serverId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(281, __c17, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(282, __c17, 10),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            serverId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/servers",
@@ -1152,38 +1164,38 @@ function __c17(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          endpoint: S.optional(S.String),
-          network: S.optional(S.String),
-          status: S.optional(S.String),
+          connectionLimit: S.optional(S.String),
+          project: S.optional(S.String),
         }),
-      ).annotate({ identifier: "PscEndpoint" });
+      ).annotate({ identifier: "AllowedConsumer" });
     case 3:
       return S.Array(__S(274, __c17, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          project: S.optional(S.String),
-          connectionLimit: S.optional(S.String),
+          network: S.optional(S.String),
+          endpoint: S.optional(S.String),
+          status: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AllowedConsumer" });
+      ).annotate({ identifier: "PscEndpoint" });
     case 5:
       return S.Array(__S(276, __c17, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           consumerRejectList: S.optional(__S(273, __c17, 1)),
+          consumerAcceptList: S.optional(__S(275, __c17, 3)),
+          pscEndpoints: S.optional(__S(277, __c17, 5)),
           serviceAttachment: S.optional(S.String),
-          pscEndpoints: S.optional(__S(275, __c17, 3)),
-          consumerAcceptList: S.optional(__S(277, __c17, 5)),
         }),
       ).annotate({ identifier: "InternalServerConfig" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          fingerprint: S.optional(S.String),
-          asymmetricAlgorithm: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
+          verbosity: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ServerCredential" });
+      ).annotate({ identifier: "LoggingConfig" });
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -1194,19 +1206,27 @@ function __c17(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          satisfiesPzs: S.optional(S.Boolean),
-          displayName: S.optional(S.String),
-          serviceAgent: S.optional(S.String),
-          accessType: S.optional(S.String),
-          name: S.optional(S.String),
-          satisfiesPzi: S.optional(S.Boolean),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(288, __c18, 0)),
-          updateTime: S.optional(S.String),
+          asymmetricAlgorithm: S.optional(S.String),
+          fingerprint: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ServerCredential" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
           internalConfig: S.optional(__S(278, __c17, 6)),
-          googleManagedServerCredential: S.optional(__S(279, __c17, 7)),
-          externalConfig: S.optional(__S(280, __c17, 8)),
+          satisfiesPzs: S.optional(S.Boolean),
+          serviceAgent: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          loggingConfig: S.optional(__S(279, __c17, 7)),
+          accessType: S.optional(S.String),
+          satisfiesPzi: S.optional(S.Boolean),
+          displayName: S.optional(S.String),
           state: S.optional(S.String),
+          createTime: S.optional(S.String),
+          externalConfig: S.optional(__S(280, __c17, 8)),
+          labels: S.optional(__S(288, __c18, 0)),
+          name: S.optional(S.String),
+          googleManagedServerCredential: S.optional(__S(281, __c17, 9)),
         }),
       ).annotate({ identifier: "Server" });
   }
@@ -1238,11 +1258,11 @@ function __c20(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          metadata: S.optional(__S(304, __c19, 0)),
           name: S.optional(S.String),
-          error: S.optional(__S(321, __c20, 1)),
           response: S.optional(__S(304, __c19, 0)),
           done: S.optional(S.Boolean),
-          metadata: S.optional(__S(304, __c19, 0)),
+          error: S.optional(__S(321, __c20, 1)),
         }),
       ).annotate({ identifier: "Operation" });
   }
@@ -1251,12 +1271,14 @@ function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          userId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(356, __c22, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(356, __c22, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            userId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/users",
@@ -1281,10 +1303,10 @@ function __c22(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          directory: S.optional(S.String),
-          permission: S.optional(S.String),
           bucket: S.optional(S.String),
+          permission: S.optional(S.String),
           bucketPrefix: S.optional(S.String),
+          directory: S.optional(S.String),
         }),
       ).annotate({ identifier: "StorageDirectoryMapping" });
     case 3:
@@ -1292,15 +1314,15 @@ function __c22(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          userCredentials: S.optional(__S(353, __c22, 1)),
-          createTime: S.optional(S.String),
           labels: S.optional(__S(288, __c18, 0)),
-          customerServiceAccount: S.optional(S.String),
-          storageDirectoryMappings: S.optional(__S(355, __c22, 3)),
-          state: S.optional(S.String),
           username: S.optional(S.String),
+          customerServiceAccount: S.optional(S.String),
+          userCredentials: S.optional(__S(353, __c22, 1)),
+          name: S.optional(S.String),
+          storageDirectoryMappings: S.optional(__S(355, __c22, 3)),
           updateTime: S.optional(S.String),
+          state: S.optional(S.String),
+          createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "User" });
   }

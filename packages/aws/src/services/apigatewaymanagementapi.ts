@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -108,7 +109,7 @@ export class LimitExceededException
     "LimitExceededException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class PayloadTooLargeException
   extends /*@__PURE__*/ S.TaggedError<PayloadTooLargeException>()(
     "PayloadTooLargeException",
@@ -124,16 +125,16 @@ export interface GetConnectionRequest {
 }
 export type __timestampIso8601 = Date;
 export interface Identity {
-  SourceIp?: string;
-  UserAgent?: string;
+  SourceIp?: string | undefined;
+  UserAgent?: string | undefined;
 }
 export interface GetConnectionResponse {
-  ConnectedAt?: Date;
-  Identity?: Identity & { SourceIp: string; UserAgent: string };
-  LastActiveAt?: Date;
+  ConnectedAt?: Date | undefined;
+  Identity?: (Identity & { SourceIp: string; UserAgent: string }) | undefined;
+  LastActiveAt?: Date | undefined;
 }
 export interface PostToConnectionRequest {
-  Data?: T.StreamingInputBody;
+  Data?: T.StreamingInputBody | undefined;
   ConnectionId: string;
 }
 export interface PostToConnectionResponse {}
@@ -146,7 +147,7 @@ export type DeleteConnectionError =
  * Delete the connection with the provided id.
  */
 export const deleteConnection: API.OperationMethod<
-  DeleteConnectionRequest,
+  DeleteConnectionRequest & RegionInput,
   DeleteConnectionResponse,
   DeleteConnectionError,
   Credentials | HttpClient.HttpClient
@@ -170,7 +171,7 @@ export type GetConnectionError =
  * Get information about the connection with the provided id.
  */
 export const getConnection: API.OperationMethod<
-  GetConnectionRequest,
+  GetConnectionRequest & RegionInput,
   GetConnectionResponse,
   GetConnectionError,
   Credentials | HttpClient.HttpClient
@@ -195,7 +196,7 @@ export type PostToConnectionError =
  * Sends the provided data to the specified connection.
  */
 export const postToConnection: API.OperationMethod<
-  PostToConnectionRequest,
+  PostToConnectionRequest & RegionInput,
   PostToConnectionResponse,
   PostToConnectionError,
   Credentials | HttpClient.HttpClient

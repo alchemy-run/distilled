@@ -28,16 +28,16 @@ export {
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
 import * as Category from "@distilled.cloud/core/category";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 import { applyErrorMatchers } from "@distilled.cloud/core/trait";
 
 /** Unknown Resend error -- returned when nothing else matches the failure. */
 export class UnknownResendError
-  extends /*@__PURE__*/ Schema.TaggedError<UnknownResendError>()("UnknownResendError", {
-    code: /*@__PURE__*/ Schema.optional(Schema.String),
-    message: /*@__PURE__*/ Schema.optional(Schema.String),
-    body: Schema.Unknown,
-  }).pipe(Category.withServerError) {}
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownResendError>()(
+    "UnknownResendError",
+    UnknownErrorFields,
+  ) {}
 
 // Errors Resend can answer on any operation, from its error reference
 // (api-reference/errors) and the live runs of 2026-10-29. Each matches

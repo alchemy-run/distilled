@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -96,7 +97,7 @@ export class InternalServerException
     "InternalServerException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceLimitException
   extends /*@__PURE__*/ S.TaggedError<ResourceLimitException>()(
     "ResourceLimitException",
@@ -129,12 +130,12 @@ export interface CreateDeploymentInput {
   deploymentPatternName: string;
   name: string;
   specifications: { [key: string]: string | undefined };
-  dryRun?: boolean;
-  tags?: { [key: string]: string | undefined };
+  dryRun?: boolean | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type DeploymentId = string;
 export interface CreateDeploymentOutput {
-  deploymentId?: string;
+  deploymentId?: string | undefined;
 }
 export interface DeleteDeploymentInput {
   deploymentId: string;
@@ -156,28 +157,28 @@ export type DeploymentStatus =
   | "UPDATE_ROLLBACK_FAILED"
   | (string & {});
 export interface DeleteDeploymentOutput {
-  status?: DeploymentStatus;
-  statusReason?: string;
+  status?: DeploymentStatus | undefined;
+  statusReason?: string | undefined;
 }
 export interface GetDeploymentInput {
   deploymentId: string;
 }
 export interface DeploymentData {
-  name?: string;
-  id?: string;
-  workloadName?: string;
-  patternName?: string;
-  status?: DeploymentStatus;
-  createdAt?: Date;
-  modifiedAt?: Date;
-  specifications?: { [key: string]: string | undefined };
-  resourceGroup?: string;
-  deletedAt?: Date;
-  tags?: { [key: string]: string | undefined };
-  deploymentArn?: string;
+  name?: string | undefined;
+  id?: string | undefined;
+  workloadName?: string | undefined;
+  patternName?: string | undefined;
+  status?: DeploymentStatus | undefined;
+  createdAt?: Date | undefined;
+  modifiedAt?: Date | undefined;
+  specifications?: { [key: string]: string | undefined } | undefined;
+  resourceGroup?: string | undefined;
+  deletedAt?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  deploymentArn?: string | undefined;
 }
 export interface GetDeploymentOutput {
-  deployment?: DeploymentData;
+  deployment?: DeploymentData | undefined;
 }
 export type DeploymentPatternVersionName = string;
 export interface GetDeploymentPatternVersionInput {
@@ -186,14 +187,14 @@ export interface GetDeploymentPatternVersionInput {
   deploymentPatternVersionName: string;
 }
 export interface DeploymentPatternVersionDataSummary {
-  deploymentPatternVersionName?: string;
-  description?: string;
-  documentationUrl?: string;
-  workloadName?: string;
-  deploymentPatternName?: string;
+  deploymentPatternVersionName?: string | undefined;
+  description?: string | undefined;
+  documentationUrl?: string | undefined;
+  workloadName?: string | undefined;
+  deploymentPatternName?: string | undefined;
 }
 export interface GetDeploymentPatternVersionOutput {
-  deploymentPatternVersion?: DeploymentPatternVersionDataSummary;
+  deploymentPatternVersion?: DeploymentPatternVersionDataSummary | undefined;
 }
 export interface GetWorkloadInput {
   workloadName: string;
@@ -205,21 +206,21 @@ export interface DelegatedAdminConstraint {
   servicePrincipal: string;
 }
 export type AccountConstraint =
-  | { managementAccount: ManagementAccountConstraint; delegatedAdmin?: never }
-  | { managementAccount?: never; delegatedAdmin: DelegatedAdminConstraint };
+  | { managementAccount: ManagementAccountConstraint; delegatedAdmin?: undefined }
+  | { managementAccount?: undefined; delegatedAdmin: DelegatedAdminConstraint };
 export type AccountConstraintsList = AccountConstraint[];
 export interface WorkloadData {
-  workloadName?: string;
-  displayName?: string;
-  status?: WorkloadStatus;
-  accountConstraints?: AccountConstraint[];
-  description?: string;
-  documentationUrl?: string;
-  iconUrl?: string;
-  statusMessage?: string;
+  workloadName?: string | undefined;
+  displayName?: string | undefined;
+  status?: WorkloadStatus | undefined;
+  accountConstraints?: AccountConstraint[] | undefined;
+  description?: string | undefined;
+  documentationUrl?: string | undefined;
+  iconUrl?: string | undefined;
+  statusMessage?: string | undefined;
 }
 export interface GetWorkloadOutput {
-  workload?: WorkloadData;
+  workload?: WorkloadData | undefined;
 }
 export interface GetWorkloadDeploymentPatternInput {
   workloadName: string;
@@ -234,40 +235,40 @@ export type WorkloadDeploymentPatternStatus =
   | (string & {});
 export type AllowedValues = string[];
 export interface DeploymentConditionalField {
-  name?: string;
-  value?: string;
-  comparator?: string;
+  name?: string | undefined;
+  value?: string | undefined;
+  comparator?: string | undefined;
 }
 export type SpecificationsConditionalData = DeploymentConditionalField[];
 export interface DeploymentSpecificationsField {
-  name?: string;
-  description?: string;
-  allowedValues?: string[];
-  required?: string;
-  conditionals?: DeploymentConditionalField[];
+  name?: string | undefined;
+  description?: string | undefined;
+  allowedValues?: string[] | undefined;
+  required?: string | undefined;
+  conditionals?: DeploymentConditionalField[] | undefined;
 }
 export type DeploymentSpecificationsData = DeploymentSpecificationsField[];
 export interface WorkloadDeploymentPatternData {
-  workloadName?: string;
-  deploymentPatternName?: string;
-  workloadVersionName?: string;
-  deploymentPatternVersionName?: string;
-  displayName?: string;
-  description?: string;
-  status?: WorkloadDeploymentPatternStatus;
-  statusMessage?: string;
-  accountConstraints?: AccountConstraint[];
-  specifications?: DeploymentSpecificationsField[];
+  workloadName?: string | undefined;
+  deploymentPatternName?: string | undefined;
+  workloadVersionName?: string | undefined;
+  deploymentPatternVersionName?: string | undefined;
+  displayName?: string | undefined;
+  description?: string | undefined;
+  status?: WorkloadDeploymentPatternStatus | undefined;
+  statusMessage?: string | undefined;
+  accountConstraints?: AccountConstraint[] | undefined;
+  specifications?: DeploymentSpecificationsField[] | undefined;
 }
 export interface GetWorkloadDeploymentPatternOutput {
-  workloadDeploymentPattern?: WorkloadDeploymentPatternData;
+  workloadDeploymentPattern?: WorkloadDeploymentPatternData | undefined;
 }
 export type MaxDeploymentEventResults = number;
 export type NextToken = string;
 export interface ListDeploymentEventsInput {
   deploymentId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type EventStatus =
   | "CANCELED"
@@ -283,17 +284,17 @@ export type DeploymentEventMetadataKey = string;
 export type DeploymentEventMetadataValue = string;
 export type DeploymentEventMetadata = { [key: string]: string | undefined };
 export interface DeploymentEventDataSummary {
-  name?: string;
-  description?: string;
-  status?: EventStatus;
-  statusReason?: string;
-  timestamp?: Date;
-  metadata?: { [key: string]: string | undefined };
+  name?: string | undefined;
+  description?: string | undefined;
+  status?: EventStatus | undefined;
+  statusReason?: string | undefined;
+  timestamp?: Date | undefined;
+  metadata?: { [key: string]: string | undefined } | undefined;
 }
 export type DeploymentEventDataSummaryList = DeploymentEventDataSummary[];
 export interface ListDeploymentEventsOutput {
-  deploymentEvents?: DeploymentEventDataSummary[];
-  nextToken?: string;
+  deploymentEvents?: DeploymentEventDataSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type MaxWorkloadResults = number;
 export type DeploymentPatternVersionFilterKey = "updateFromVersion" | (string & {});
@@ -307,85 +308,85 @@ export type FilterList = DeploymentPatternVersionFilter[];
 export interface ListDeploymentPatternVersionsInput {
   workloadName: string;
   deploymentPatternName: string;
-  maxResults?: number;
-  nextToken?: string;
-  filters?: DeploymentPatternVersionFilter[];
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  filters?: DeploymentPatternVersionFilter[] | undefined;
 }
 export type DeploymentPatternVersionDataSummaryList = DeploymentPatternVersionDataSummary[];
 export interface ListDeploymentPatternVersionsOutput {
-  deploymentPatternVersions?: DeploymentPatternVersionDataSummary[];
-  nextToken?: string;
+  deploymentPatternVersions?: DeploymentPatternVersionDataSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type DeploymentFilterKey = "WORKLOAD_NAME" | "DEPLOYMENT_STATUS" | (string & {});
 export type DeploymentFilterValue = string;
 export type DeploymentFilterValues = string[];
 export interface DeploymentFilter {
-  name?: DeploymentFilterKey;
-  values?: string[];
+  name?: DeploymentFilterKey | undefined;
+  values?: string[] | undefined;
 }
 export type DeploymentFilterList = DeploymentFilter[];
 export type MaxDeploymentResults = number;
 export interface ListDeploymentsInput {
-  filters?: DeploymentFilter[];
-  maxResults?: number;
-  nextToken?: string;
+  filters?: DeploymentFilter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface DeploymentDataSummary {
-  name?: string;
-  id?: string;
-  workloadName?: string;
-  patternName?: string;
-  status?: DeploymentStatus;
-  createdAt?: Date;
-  modifiedAt?: Date;
+  name?: string | undefined;
+  id?: string | undefined;
+  workloadName?: string | undefined;
+  patternName?: string | undefined;
+  status?: DeploymentStatus | undefined;
+  createdAt?: Date | undefined;
+  modifiedAt?: Date | undefined;
 }
 export type DeploymentDataSummaryList = DeploymentDataSummary[];
 export interface ListDeploymentsOutput {
-  deployments?: DeploymentDataSummary[];
-  nextToken?: string;
+  deployments?: DeploymentDataSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceInput {
   resourceArn: string;
 }
 export interface ListTagsForResourceOutput {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type MaxWorkloadDeploymentPatternResults = number;
 export interface ListWorkloadDeploymentPatternsInput {
   workloadName: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface WorkloadDeploymentPatternDataSummary {
-  workloadName?: string;
-  deploymentPatternName?: string;
-  workloadVersionName?: string;
-  deploymentPatternVersionName?: string;
-  displayName?: string;
-  description?: string;
-  status?: WorkloadDeploymentPatternStatus;
-  statusMessage?: string;
-  accountConstraints?: AccountConstraint[];
+  workloadName?: string | undefined;
+  deploymentPatternName?: string | undefined;
+  workloadVersionName?: string | undefined;
+  deploymentPatternVersionName?: string | undefined;
+  displayName?: string | undefined;
+  description?: string | undefined;
+  status?: WorkloadDeploymentPatternStatus | undefined;
+  statusMessage?: string | undefined;
+  accountConstraints?: AccountConstraint[] | undefined;
 }
 export type WorkloadDeploymentPatternDataSummaryList = WorkloadDeploymentPatternDataSummary[];
 export interface ListWorkloadDeploymentPatternsOutput {
-  workloadDeploymentPatterns?: WorkloadDeploymentPatternDataSummary[];
-  nextToken?: string;
+  workloadDeploymentPatterns?: WorkloadDeploymentPatternDataSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListWorkloadsInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface WorkloadDataSummary {
-  workloadName?: string;
-  displayName?: string;
-  status?: WorkloadStatus;
-  accountConstraints?: AccountConstraint[];
+  workloadName?: string | undefined;
+  displayName?: string | undefined;
+  status?: WorkloadStatus | undefined;
+  accountConstraints?: AccountConstraint[] | undefined;
 }
 export type WorkloadDataSummaryList = WorkloadDataSummary[];
 export interface ListWorkloadsOutput {
-  workloads?: WorkloadDataSummary[];
-  nextToken?: string;
+  workloads?: WorkloadDataSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface TagResourceInput {
   resourceArn: string;
@@ -401,13 +402,13 @@ export interface UntagResourceOutput {}
 export interface UpdateDeploymentInput {
   deploymentId: string;
   specifications: { [key: string]: string | undefined };
-  workloadVersionName?: string;
-  deploymentPatternVersionName?: string;
-  dryRun?: boolean;
-  force?: boolean;
+  workloadVersionName?: string | undefined;
+  deploymentPatternVersionName?: string | undefined;
+  dryRun?: boolean | undefined;
+  force?: boolean | undefined;
 }
 export interface UpdateDeploymentOutput {
-  deployment?: DeploymentDataSummary;
+  deployment?: DeploymentDataSummary | undefined;
 }
 export type CreateDeploymentError =
   | InternalServerException
@@ -419,7 +420,7 @@ export type CreateDeploymentError =
  * Creates a deployment for the given workload. Deployments created by this operation are not available in the Launch Wizard console to use the `Clone deployment` action on.
  */
 export const createDeployment: API.OperationMethod<
-  CreateDeploymentInput,
+  CreateDeploymentInput & RegionInput,
   CreateDeploymentOutput,
   CreateDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -449,7 +450,7 @@ export type DeleteDeploymentError =
  * Deletes a deployment.
  */
 export const deleteDeployment: API.OperationMethod<
-  DeleteDeploymentInput,
+  DeleteDeploymentInput & RegionInput,
   DeleteDeploymentOutput,
   DeleteDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -478,7 +479,7 @@ export type GetDeploymentError =
  * Returns information about the deployment.
  */
 export const getDeployment: API.OperationMethod<
-  GetDeploymentInput,
+  GetDeploymentInput & RegionInput,
   GetDeploymentOutput,
   GetDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -501,7 +502,7 @@ export type GetDeploymentPatternVersionError =
  * Returns information about a deployment pattern version.
  */
 export const getDeploymentPatternVersion: API.OperationMethod<
-  GetDeploymentPatternVersionInput,
+  GetDeploymentPatternVersionInput & RegionInput,
   GetDeploymentPatternVersionOutput,
   GetDeploymentPatternVersionError,
   Credentials | HttpClient.HttpClient
@@ -525,7 +526,7 @@ export type GetWorkloadError =
  * Returns information about a workload.
  */
 export const getWorkload: API.OperationMethod<
-  GetWorkloadInput,
+  GetWorkloadInput & RegionInput,
   GetWorkloadOutput,
   GetWorkloadError,
   Credentials | HttpClient.HttpClient
@@ -549,7 +550,7 @@ export type GetWorkloadDeploymentPatternError =
  * Returns details for a given workload and deployment pattern, including the available specifications. You can use the ListWorkloads operation to discover the available workload names and the ListWorkloadDeploymentPatterns operation to discover the available deployment pattern names of a given workload.
  */
 export const getWorkloadDeploymentPattern: API.OperationMethod<
-  GetWorkloadDeploymentPatternInput,
+  GetWorkloadDeploymentPatternInput & RegionInput,
   GetWorkloadDeploymentPatternOutput,
   GetWorkloadDeploymentPatternError,
   Credentials | HttpClient.HttpClient
@@ -573,7 +574,7 @@ export type ListDeploymentEventsError =
  * Lists the events of a deployment.
  */
 export const listDeploymentEvents: API.PaginatedOperationMethod<
-  ListDeploymentEventsInput,
+  ListDeploymentEventsInput & RegionInput,
   ListDeploymentEventsOutput,
   ListDeploymentEventsError,
   Credentials | HttpClient.HttpClient,
@@ -604,7 +605,7 @@ export type ListDeploymentPatternVersionsError =
  * Lists the deployment pattern versions.
  */
 export const listDeploymentPatternVersions: API.PaginatedOperationMethod<
-  ListDeploymentPatternVersionsInput,
+  ListDeploymentPatternVersionsInput & RegionInput,
   ListDeploymentPatternVersionsOutput,
   ListDeploymentPatternVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -631,7 +632,7 @@ export type ListDeploymentsError = InternalServerException | ValidationException
  * Lists the deployments that have been created.
  */
 export const listDeployments: API.PaginatedOperationMethod<
-  ListDeploymentsInput,
+  ListDeploymentsInput & RegionInput,
   ListDeploymentsOutput,
   ListDeploymentsError,
   Credentials | HttpClient.HttpClient,
@@ -662,7 +663,7 @@ export type ListTagsForResourceError =
  * Lists the tags associated with a specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -686,7 +687,7 @@ export type ListWorkloadDeploymentPatternsError =
  * Lists the workload deployment patterns for a given workload name. You can use the ListWorkloads operation to discover the available workload names.
  */
 export const listWorkloadDeploymentPatterns: API.PaginatedOperationMethod<
-  ListWorkloadDeploymentPatternsInput,
+  ListWorkloadDeploymentPatternsInput & RegionInput,
   ListWorkloadDeploymentPatternsOutput,
   ListWorkloadDeploymentPatternsError,
   Credentials | HttpClient.HttpClient,
@@ -713,7 +714,7 @@ export type ListWorkloadsError = InternalServerException | ValidationException |
  * Lists the available workload names. You can use the ListWorkloadDeploymentPatterns operation to discover the available deployment patterns for a given workload.
  */
 export const listWorkloads: API.PaginatedOperationMethod<
-  ListWorkloadsInput,
+  ListWorkloadsInput & RegionInput,
   ListWorkloadsOutput,
   ListWorkloadsError,
   Credentials | HttpClient.HttpClient,
@@ -744,7 +745,7 @@ export type TagResourceError =
  * Adds the specified tags to the given resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -768,7 +769,7 @@ export type UntagResourceError =
  * Removes the specified tags from the given resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -793,7 +794,7 @@ export type UpdateDeploymentError =
  * Updates a deployment.
  */
 export const updateDeployment: API.OperationMethod<
-  UpdateDeploymentInput,
+  UpdateDeploymentInput & RegionInput,
   UpdateDeploymentOutput,
   UpdateDeploymentError,
   Credentials | HttpClient.HttpClient

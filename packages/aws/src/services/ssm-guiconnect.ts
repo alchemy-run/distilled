@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -108,7 +109,7 @@ export class InternalServerException
     "InternalServerException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
@@ -126,7 +127,7 @@ export class ThrottlingException
     "ThrottlingException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
@@ -135,10 +136,10 @@ export class ValidationException
   ).pipe(C.withBadRequestError) {}
 export type ClientToken = string;
 export interface DeleteConnectionRecordingPreferencesRequest {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface DeleteConnectionRecordingPreferencesResponse {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface GetConnectionRecordingPreferencesRequest {}
 export type AccountId = string;
@@ -156,16 +157,16 @@ export interface ConnectionRecordingPreferences {
   KMSKeyArn: string;
 }
 export interface GetConnectionRecordingPreferencesResponse {
-  ClientToken?: string;
-  ConnectionRecordingPreferences?: ConnectionRecordingPreferences;
+  ClientToken?: string | undefined;
+  ConnectionRecordingPreferences?: ConnectionRecordingPreferences | undefined;
 }
 export interface UpdateConnectionRecordingPreferencesRequest {
   ConnectionRecordingPreferences: ConnectionRecordingPreferences;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface UpdateConnectionRecordingPreferencesResponse {
-  ClientToken?: string;
-  ConnectionRecordingPreferences?: ConnectionRecordingPreferences;
+  ClientToken?: string | undefined;
+  ConnectionRecordingPreferences?: ConnectionRecordingPreferences | undefined;
 }
 export type ErrorMessage = string;
 export type DeleteConnectionRecordingPreferencesError =
@@ -181,7 +182,7 @@ export type DeleteConnectionRecordingPreferencesError =
  * Deletes the preferences for recording RDP connections.
  */
 export const deleteConnectionRecordingPreferences: API.OperationMethod<
-  DeleteConnectionRecordingPreferencesRequest,
+  DeleteConnectionRecordingPreferencesRequest & RegionInput,
   DeleteConnectionRecordingPreferencesResponse,
   DeleteConnectionRecordingPreferencesError,
   Credentials | HttpClient.HttpClient
@@ -217,7 +218,7 @@ export type GetConnectionRecordingPreferencesError =
  * Returns the preferences specified for recording RDP connections in the requesting Amazon Web Services account and Amazon Web Services Region.
  */
 export const getConnectionRecordingPreferences: API.OperationMethod<
-  GetConnectionRecordingPreferencesRequest,
+  GetConnectionRecordingPreferencesRequest & RegionInput,
   GetConnectionRecordingPreferencesResponse,
   GetConnectionRecordingPreferencesError,
   Credentials | HttpClient.HttpClient
@@ -253,7 +254,7 @@ export type UpdateConnectionRecordingPreferencesError =
  * Updates the preferences for recording RDP connections.
  */
 export const updateConnectionRecordingPreferences: API.OperationMethod<
-  UpdateConnectionRecordingPreferencesRequest,
+  UpdateConnectionRecordingPreferencesRequest & RegionInput,
   UpdateConnectionRecordingPreferencesResponse,
   UpdateConnectionRecordingPreferencesError,
   Credentials | HttpClient.HttpClient

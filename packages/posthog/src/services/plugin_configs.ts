@@ -51,36 +51,54 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+/** * `DEBUG` - Debug * `LOG` - Log * `INFO` - Info * `WARN` - Warn * `ERROR` - Error */
+export type ListPluginConfigsLogsRequestTypeFilterItem =
+  | "DEBUG"
+  | "LOG"
+  | "INFO"
+  | "WARN"
+  | "ERROR";
+export type ListPluginConfigsLogsRequestTypeFilterList = Array<
+  ListPluginConfigsLogsRequestTypeFilterItem | (string & {})
+>;
 export interface ListPluginConfigsLogsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   plugin_config_id: number;
-  /** Number of results to return per page. */
-  limit?: number;
+  /** Only return entries after this ISO 8601 timestamp. */
+  after?: string | undefined;
+  /** Only return entries before this ISO 8601 timestamp. */
+  before?: string | undefined;
+  /** Maximum number of log entries to return (1-1000, default 100). */
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
+  /** Case-insensitive substring search across log messages. */
+  search?: string | undefined;
+  /** Log types to include. Repeat the parameter to include more than one type. */
+  type_filter?: ListPluginConfigsLogsRequestTypeFilterList | undefined;
 }
 /** * `SYSTEM` - SYSTEM * `PLUGIN` - PLUGIN * `CONSOLE` - CONSOLE */
 export type PluginLogEntrySourceEnum = "SYSTEM" | "PLUGIN" | "CONSOLE";
-/** * `DEBUG` - DEBUG * `LOG` - LOG * `INFO` - INFO * `WARN` - WARN * `ERROR` - ERROR */
+/** * `DEBUG` - Debug * `LOG` - Log * `INFO` - Info * `WARN` - Warn * `ERROR` - Error */
 export type PluginLogEntryTypeEnum = "DEBUG" | "LOG" | "INFO" | "WARN" | "ERROR";
 export interface PluginLogEntry {
-  id?: string;
-  team_id?: number;
-  plugin_id?: number;
-  plugin_config_id?: number;
-  timestamp?: string;
-  source?: PluginLogEntrySourceEnum;
-  type?: PluginLogEntryTypeEnum;
-  message?: string;
-  instance_id?: string;
+  id?: string | undefined;
+  team_id?: number | undefined;
+  plugin_id?: number | undefined;
+  plugin_config_id?: number | undefined;
+  timestamp?: string | undefined;
+  source?: PluginLogEntrySourceEnum | undefined;
+  type?: PluginLogEntryTypeEnum | undefined;
+  message?: string | undefined;
+  instance_id?: string | undefined;
 }
 export type PaginatedPluginLogEntryListResultsList = Array<PluginLogEntry>;
 export interface PaginatedPluginLogEntryList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedPluginLogEntryListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedPluginLogEntryListResultsList | undefined;
 }
 export type ListPluginConfigsLogsError = BadRequest | Forbidden | NotFound | PosthogOpError;
 export const listPluginConfigsLogs: API.OperationMethod<
@@ -89,8 +107,8 @@ export const listPluginConfigsLogs: API.OperationMethod<
   ListPluginConfigsLogsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ListPluginConfigsLogsRequest>,
-  output: __S(3, __c0, 3) as any as S.Schema<PaginatedPluginLogEntryList>,
+  input: __S(1, __c0, 1) as any as S.Schema<ListPluginConfigsLogsRequest>,
+  output: __S(4, __c0, 4) as any as S.Schema<PaginatedPluginLogEntryList>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -102,12 +120,18 @@ export const listPluginConfigsLogs: API.OperationMethod<
 function __c0(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.String);
+    case 1:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           plugin_config_id: S.Number.pipe(T.Label()),
+          after: S.optional(S.String.pipe(T.Query())),
+          before: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
+          search: S.optional(S.String.pipe(T.Query())),
+          type_filter: S.optional(__S(0, __c0, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -116,7 +140,7 @@ function __c0(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListPluginConfigsLogsRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -130,15 +154,15 @@ function __c0(j: number): any {
           instance_id: S.optional(S.String),
         }),
       ).annotate({ identifier: "PluginLogEntry" });
-    case 2:
-      return S.Array(__S(1, __c0, 1));
     case 3:
+      return S.Array(__S(2, __c0, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(2, __c0, 2)),
+          results: S.optional(__S(3, __c0, 3)),
         }),
       ).annotate({ identifier: "PaginatedPluginLogEntryList" });
   }

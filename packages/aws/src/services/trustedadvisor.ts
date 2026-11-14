@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -142,9 +143,9 @@ export interface BatchUpdateRecommendationResourceExclusionRequest {
   recommendationResourceExclusions: RecommendationResourceExclusion[];
 }
 export interface UpdateRecommendationResourceExclusionError {
-  arn?: string;
-  errorCode?: string;
-  errorMessage?: string;
+  arn?: string | undefined;
+  errorCode?: string | undefined;
+  errorMessage?: string | undefined;
 }
 export type UpdateRecommendationResourceExclusionErrorList =
   UpdateRecommendationResourceExclusionError[];
@@ -194,14 +195,14 @@ export interface RecommendationResourcesAggregates {
   okCount: number;
   warningCount: number;
   errorCount: number;
-  excludedCount?: number;
+  excludedCount?: number | undefined;
 }
 export interface RecommendationCostOptimizingAggregates {
   estimatedMonthlySavings: number;
   estimatedPercentMonthlySavings: number;
 }
 export interface RecommendationPillarSpecificAggregates {
-  costOptimizing?: RecommendationCostOptimizingAggregates;
+  costOptimizing?: RecommendationCostOptimizingAggregates | undefined;
 }
 export type OrganizationRecommendationArn = string;
 export type RecommendationUpdateReason = string | redacted.Redacted<string>;
@@ -217,28 +218,28 @@ export type UpdateRecommendationLifecycleStageReasonCode =
 export interface OrganizationRecommendation {
   id: string;
   type: RecommendationType;
-  checkArn?: string;
+  checkArn?: string | undefined;
   status: RecommendationStatus;
-  lifecycleStage?: RecommendationLifecycleStage;
+  lifecycleStage?: RecommendationLifecycleStage | undefined;
   pillars: RecommendationPillar[];
   source: RecommendationSource;
-  awsServices?: string[];
+  awsServices?: string[] | undefined;
   name: string;
   resourcesAggregates: RecommendationResourcesAggregates;
-  pillarSpecificAggregates?: RecommendationPillarSpecificAggregates;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
+  pillarSpecificAggregates?: RecommendationPillarSpecificAggregates | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
   arn: string;
   description: string;
-  createdBy?: string;
-  updatedOnBehalfOf?: string;
-  updatedOnBehalfOfJobTitle?: string;
-  updateReason?: string | redacted.Redacted<string>;
-  updateReasonCode?: UpdateRecommendationLifecycleStageReasonCode;
-  resolvedAt?: Date;
+  createdBy?: string | undefined;
+  updatedOnBehalfOf?: string | undefined;
+  updatedOnBehalfOfJobTitle?: string | undefined;
+  updateReason?: string | redacted.Redacted<string> | undefined;
+  updateReasonCode?: UpdateRecommendationLifecycleStageReasonCode | undefined;
+  resolvedAt?: Date | undefined;
 }
 export interface GetOrganizationRecommendationResponse {
-  organizationRecommendation?: OrganizationRecommendation;
+  organizationRecommendation?: OrganizationRecommendation | undefined;
 }
 export type AccountRecommendationIdentifier = string;
 export type RecommendationLanguage =
@@ -256,44 +257,44 @@ export type RecommendationLanguage =
   | (string & {});
 export interface GetRecommendationRequest {
   recommendationIdentifier: string;
-  language?: RecommendationLanguage;
+  language?: RecommendationLanguage | undefined;
 }
 export type AccountRecommendationArn = string;
 export type StatusReason = "no_data_ok" | (string & {});
 export interface Recommendation {
   id: string;
   type: RecommendationType;
-  checkArn?: string;
+  checkArn?: string | undefined;
   status: RecommendationStatus;
-  lifecycleStage?: RecommendationLifecycleStage;
+  lifecycleStage?: RecommendationLifecycleStage | undefined;
   pillars: RecommendationPillar[];
   source: RecommendationSource;
-  awsServices?: string[];
+  awsServices?: string[] | undefined;
   name: string;
   resourcesAggregates: RecommendationResourcesAggregates;
-  pillarSpecificAggregates?: RecommendationPillarSpecificAggregates;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
+  pillarSpecificAggregates?: RecommendationPillarSpecificAggregates | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
   arn: string;
-  statusReason?: StatusReason;
+  statusReason?: StatusReason | undefined;
   description: string;
-  createdBy?: string;
-  updatedOnBehalfOf?: string;
-  updatedOnBehalfOfJobTitle?: string;
-  updateReason?: string | redacted.Redacted<string>;
-  updateReasonCode?: UpdateRecommendationLifecycleStageReasonCode;
-  resolvedAt?: Date;
+  createdBy?: string | undefined;
+  updatedOnBehalfOf?: string | undefined;
+  updatedOnBehalfOfJobTitle?: string | undefined;
+  updateReason?: string | redacted.Redacted<string> | undefined;
+  updateReasonCode?: UpdateRecommendationLifecycleStageReasonCode | undefined;
+  resolvedAt?: Date | undefined;
 }
 export interface GetRecommendationResponse {
-  recommendation?: Recommendation;
+  recommendation?: Recommendation | undefined;
 }
 export interface ListChecksRequest {
-  nextToken?: string;
-  maxResults?: number;
-  pillar?: RecommendationPillar;
-  awsService?: string;
-  source?: RecommendationSource;
-  language?: RecommendationLanguage;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  pillar?: RecommendationPillar | undefined;
+  awsService?: string | undefined;
+  source?: RecommendationSource | undefined;
+  language?: RecommendationLanguage | undefined;
 }
 export type CheckArn = string;
 export type StringMap = { [key: string]: string | undefined };
@@ -307,48 +308,48 @@ export interface CheckSummary {
   awsServices: string[];
   source: RecommendationSource;
   metadata: { [key: string]: string | undefined };
-  resourceArnQueryable?: boolean;
-  awsResourceTypes?: string[];
-  checkGranularity?: string;
-  recommendationId?: string;
+  resourceArnQueryable?: boolean | undefined;
+  awsResourceTypes?: string[] | undefined;
+  checkGranularity?: string | undefined;
+  recommendationId?: string | undefined;
 }
 export type CheckSummaryList = CheckSummary[];
 export interface ListChecksResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   checkSummaries: CheckSummary[];
 }
 export type AccountId = string;
 export interface ListOrganizationRecommendationAccountsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   organizationRecommendationIdentifier: string;
-  affectedAccountId?: string;
+  affectedAccountId?: string | undefined;
 }
 export interface AccountRecommendationLifecycleSummary {
-  accountId?: string;
-  accountRecommendationArn?: string;
-  lifecycleStage?: RecommendationLifecycleStage;
-  updatedOnBehalfOf?: string;
-  updatedOnBehalfOfJobTitle?: string;
-  updateReason?: string | redacted.Redacted<string>;
-  updateReasonCode?: UpdateRecommendationLifecycleStageReasonCode;
-  lastUpdatedAt?: Date;
+  accountId?: string | undefined;
+  accountRecommendationArn?: string | undefined;
+  lifecycleStage?: RecommendationLifecycleStage | undefined;
+  updatedOnBehalfOf?: string | undefined;
+  updatedOnBehalfOfJobTitle?: string | undefined;
+  updateReason?: string | redacted.Redacted<string> | undefined;
+  updateReasonCode?: UpdateRecommendationLifecycleStageReasonCode | undefined;
+  lastUpdatedAt?: Date | undefined;
 }
 export type AccountRecommendationLifecycleSummaryList = AccountRecommendationLifecycleSummary[];
 export interface ListOrganizationRecommendationAccountsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   accountRecommendationLifecycleSummaries: AccountRecommendationLifecycleSummary[];
 }
 export type ResourceStatus = "ok" | "warning" | "error" | (string & {});
 export type ExclusionStatus = "excluded" | "included" | (string & {});
 export interface ListOrganizationRecommendationResourcesRequest {
-  nextToken?: string;
-  maxResults?: number;
-  status?: ResourceStatus;
-  exclusionStatus?: ExclusionStatus;
-  regionCode?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  status?: ResourceStatus | undefined;
+  exclusionStatus?: ExclusionStatus | undefined;
+  regionCode?: string | undefined;
   organizationRecommendationIdentifier: string;
-  affectedAccountId?: string;
+  affectedAccountId?: string | undefined;
 }
 export type RecommendationRegionCode = string;
 export interface OrganizationRecommendationResourceSummary {
@@ -359,58 +360,58 @@ export interface OrganizationRecommendationResourceSummary {
   status: ResourceStatus;
   metadata: { [key: string]: string | undefined };
   lastUpdatedAt: Date;
-  exclusionStatus?: ExclusionStatus;
-  accountId?: string;
+  exclusionStatus?: ExclusionStatus | undefined;
+  accountId?: string | undefined;
   recommendationArn: string;
 }
 export type OrganizationRecommendationResourceSummaryList =
   OrganizationRecommendationResourceSummary[];
 export interface ListOrganizationRecommendationResourcesResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   organizationRecommendationResourceSummaries: OrganizationRecommendationResourceSummary[];
 }
 export type CheckIdentifier = string;
 export interface ListOrganizationRecommendationsRequest {
-  nextToken?: string;
-  maxResults?: number;
-  type?: RecommendationType;
-  status?: RecommendationStatus;
-  pillar?: RecommendationPillar;
-  awsService?: string;
-  source?: RecommendationSource;
-  checkIdentifier?: string;
-  afterLastUpdatedAt?: Date;
-  beforeLastUpdatedAt?: Date;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  type?: RecommendationType | undefined;
+  status?: RecommendationStatus | undefined;
+  pillar?: RecommendationPillar | undefined;
+  awsService?: string | undefined;
+  source?: RecommendationSource | undefined;
+  checkIdentifier?: string | undefined;
+  afterLastUpdatedAt?: Date | undefined;
+  beforeLastUpdatedAt?: Date | undefined;
 }
 export interface OrganizationRecommendationSummary {
   id: string;
   type: RecommendationType;
-  checkArn?: string;
+  checkArn?: string | undefined;
   status: RecommendationStatus;
-  lifecycleStage?: RecommendationLifecycleStage;
+  lifecycleStage?: RecommendationLifecycleStage | undefined;
   pillars: RecommendationPillar[];
   source: RecommendationSource;
-  awsServices?: string[];
+  awsServices?: string[] | undefined;
   name: string;
   resourcesAggregates: RecommendationResourcesAggregates;
-  pillarSpecificAggregates?: RecommendationPillarSpecificAggregates;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
+  pillarSpecificAggregates?: RecommendationPillarSpecificAggregates | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
   arn: string;
 }
 export type OrganizationRecommendationSummaryList = OrganizationRecommendationSummary[];
 export interface ListOrganizationRecommendationsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   organizationRecommendationSummaries: OrganizationRecommendationSummary[];
 }
 export interface ListRecommendationResourcesRequest {
-  nextToken?: string;
-  maxResults?: number;
-  status?: ResourceStatus;
-  exclusionStatus?: ExclusionStatus;
-  regionCode?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  status?: ResourceStatus | undefined;
+  exclusionStatus?: ExclusionStatus | undefined;
+  regionCode?: string | undefined;
   recommendationIdentifier: string;
-  language?: RecommendationLanguage;
+  language?: RecommendationLanguage | undefined;
 }
 export interface RecommendationResourceSummary {
   id: string;
@@ -420,58 +421,58 @@ export interface RecommendationResourceSummary {
   status: ResourceStatus;
   metadata: { [key: string]: string | undefined };
   lastUpdatedAt: Date;
-  exclusionStatus?: ExclusionStatus;
+  exclusionStatus?: ExclusionStatus | undefined;
   recommendationArn: string;
 }
 export type RecommendationResourceSummaryList = RecommendationResourceSummary[];
 export interface ListRecommendationResourcesResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   recommendationResourceSummaries: RecommendationResourceSummary[];
 }
 export interface ListRecommendationsRequest {
-  nextToken?: string;
-  maxResults?: number;
-  type?: RecommendationType;
-  status?: RecommendationStatus;
-  pillar?: RecommendationPillar;
-  awsService?: string;
-  source?: RecommendationSource;
-  checkIdentifier?: string;
-  afterLastUpdatedAt?: Date;
-  beforeLastUpdatedAt?: Date;
-  language?: RecommendationLanguage;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  type?: RecommendationType | undefined;
+  status?: RecommendationStatus | undefined;
+  pillar?: RecommendationPillar | undefined;
+  awsService?: string | undefined;
+  source?: RecommendationSource | undefined;
+  checkIdentifier?: string | undefined;
+  afterLastUpdatedAt?: Date | undefined;
+  beforeLastUpdatedAt?: Date | undefined;
+  language?: RecommendationLanguage | undefined;
 }
 export interface RecommendationSummary {
   id: string;
   type: RecommendationType;
-  checkArn?: string;
+  checkArn?: string | undefined;
   status: RecommendationStatus;
-  lifecycleStage?: RecommendationLifecycleStage;
+  lifecycleStage?: RecommendationLifecycleStage | undefined;
   pillars: RecommendationPillar[];
   source: RecommendationSource;
-  awsServices?: string[];
+  awsServices?: string[] | undefined;
   name: string;
   resourcesAggregates: RecommendationResourcesAggregates;
-  pillarSpecificAggregates?: RecommendationPillarSpecificAggregates;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
+  pillarSpecificAggregates?: RecommendationPillarSpecificAggregates | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
   arn: string;
-  statusReason?: StatusReason;
+  statusReason?: StatusReason | undefined;
 }
 export type RecommendationSummaryList = RecommendationSummary[];
 export interface ListRecommendationsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   recommendationSummaries: RecommendationSummary[];
 }
 export type AwsResourceArn = string;
 export interface ListRecommendationsForResourceRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   awsResourceArn: string;
-  pillar?: RecommendationPillar;
-  status?: ResourceStatus;
-  checkArn?: string;
-  language?: RecommendationLanguage;
+  pillar?: RecommendationPillar | undefined;
+  status?: ResourceStatus | undefined;
+  checkArn?: string | undefined;
+  language?: RecommendationLanguage | undefined;
 }
 export interface RecommendationForResourceSummary {
   checkArn: string;
@@ -485,7 +486,7 @@ export interface RecommendationForResourceSummary {
 }
 export type RecommendationForResourceSummaryList = RecommendationForResourceSummary[];
 export interface ListRecommendationsForResourceResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   recommendationForResourceSummaries: RecommendationForResourceSummary[];
 }
 export type UpdateRecommendationLifecycleStage =
@@ -496,15 +497,15 @@ export type UpdateRecommendationLifecycleStage =
   | (string & {});
 export interface UpdateOrganizationRecommendationLifecycleRequest {
   lifecycleStage: UpdateRecommendationLifecycleStage;
-  updateReason?: string | redacted.Redacted<string>;
-  updateReasonCode?: UpdateRecommendationLifecycleStageReasonCode;
+  updateReason?: string | redacted.Redacted<string> | undefined;
+  updateReasonCode?: UpdateRecommendationLifecycleStageReasonCode | undefined;
   organizationRecommendationIdentifier: string;
 }
 export interface UpdateOrganizationRecommendationLifecycleResponse {}
 export interface UpdateRecommendationLifecycleRequest {
   lifecycleStage: UpdateRecommendationLifecycleStage;
-  updateReason?: string | redacted.Redacted<string>;
-  updateReasonCode?: UpdateRecommendationLifecycleStageReasonCode;
+  updateReason?: string | redacted.Redacted<string> | undefined;
+  updateReasonCode?: UpdateRecommendationLifecycleStageReasonCode | undefined;
   recommendationIdentifier: string;
 }
 export interface UpdateRecommendationLifecycleResponse {}
@@ -519,7 +520,7 @@ export type BatchUpdateRecommendationResourceExclusionError =
  * Update one or more exclusion statuses for a list of recommendation resources. This API supports up to 25 unique recommendation resource ARNs per request. This API currently doesn't support prioritized recommendation resources. This API updates global recommendations, eliminating the need to call the API in each AWS Region. After submitting an exclusion update, note that it might take a few minutes for the changes to be reflected in the system.
  */
 export const batchUpdateRecommendationResourceExclusion: API.OperationMethod<
-  BatchUpdateRecommendationResourceExclusionRequest,
+  BatchUpdateRecommendationResourceExclusionRequest & RegionInput,
   BatchUpdateRecommendationResourceExclusionResponse,
   BatchUpdateRecommendationResourceExclusionError,
   Credentials | HttpClient.HttpClient
@@ -551,7 +552,7 @@ export type GetOrganizationRecommendationError =
  * Get a specific recommendation within an AWS Organizations organization. This API supports only prioritized recommendations and provides global priority recommendations, eliminating the need to call the API in each AWS Region.
  */
 export const getOrganizationRecommendation: API.OperationMethod<
-  GetOrganizationRecommendationRequest,
+  GetOrganizationRecommendationRequest & RegionInput,
   GetOrganizationRecommendationResponse,
   GetOrganizationRecommendationError,
   Credentials | HttpClient.HttpClient
@@ -583,7 +584,7 @@ export type GetRecommendationError =
  * Get a specific Recommendation. This API provides global recommendations, eliminating the need to call the API in each AWS Region.
  */
 export const getRecommendation: API.OperationMethod<
-  GetRecommendationRequest,
+  GetRecommendationRequest & RegionInput,
   GetRecommendationResponse,
   GetRecommendationError,
   Credentials | HttpClient.HttpClient
@@ -614,7 +615,7 @@ export type ListChecksError =
  * List a filterable set of Checks. This API provides global recommendations, eliminating the need to call the API in each AWS Region.
  */
 export const listChecks: API.PaginatedOperationMethod<
-  ListChecksRequest,
+  ListChecksRequest & RegionInput,
   ListChecksResponse,
   ListChecksError,
   Credentials | HttpClient.HttpClient,
@@ -652,7 +653,7 @@ export type ListOrganizationRecommendationAccountsError =
  * Lists the accounts that own the resources for an organization aggregate recommendation. This API only supports prioritized recommendations and provides global priority recommendations, eliminating the need to call the API in each AWS Region.
  */
 export const listOrganizationRecommendationAccounts: API.PaginatedOperationMethod<
-  ListOrganizationRecommendationAccountsRequest,
+  ListOrganizationRecommendationAccountsRequest & RegionInput,
   ListOrganizationRecommendationAccountsResponse,
   ListOrganizationRecommendationAccountsError,
   Credentials | HttpClient.HttpClient,
@@ -691,7 +692,7 @@ export type ListOrganizationRecommendationResourcesError =
  * List Resources of a Recommendation within an Organization. This API only supports prioritized recommendations and provides global priority recommendations, eliminating the need to call the API in each AWS Region.
  */
 export const listOrganizationRecommendationResources: API.PaginatedOperationMethod<
-  ListOrganizationRecommendationResourcesRequest,
+  ListOrganizationRecommendationResourcesRequest & RegionInput,
   ListOrganizationRecommendationResourcesResponse,
   ListOrganizationRecommendationResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -729,7 +730,7 @@ export type ListOrganizationRecommendationsError =
  * List a filterable set of Recommendations within an Organization. This API only supports prioritized recommendations and provides global priority recommendations, eliminating the need to call the API in each AWS Region.
  */
 export const listOrganizationRecommendations: API.PaginatedOperationMethod<
-  ListOrganizationRecommendationsRequest,
+  ListOrganizationRecommendationsRequest & RegionInput,
   ListOrganizationRecommendationsResponse,
   ListOrganizationRecommendationsError,
   Credentials | HttpClient.HttpClient,
@@ -767,7 +768,7 @@ export type ListRecommendationResourcesError =
  * List Resources of a Recommendation. This API provides global recommendations, eliminating the need to call the API in each AWS Region.
  */
 export const listRecommendationResources: API.PaginatedOperationMethod<
-  ListRecommendationResourcesRequest,
+  ListRecommendationResourcesRequest & RegionInput,
   ListRecommendationResourcesResponse,
   ListRecommendationResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -805,7 +806,7 @@ export type ListRecommendationsError =
  * List a filterable set of Recommendations. This API provides global recommendations, eliminating the need to call the API in each AWS Region.
  */
 export const listRecommendations: API.PaginatedOperationMethod<
-  ListRecommendationsRequest,
+  ListRecommendationsRequest & RegionInput,
   ListRecommendationsResponse,
   ListRecommendationsError,
   Credentials | HttpClient.HttpClient,
@@ -842,7 +843,7 @@ export type ListRecommendationsForResourceError =
  * List all Trusted Advisor recommendations for a given AWS resource ARN.
  */
 export const listRecommendationsForResource: API.PaginatedOperationMethod<
-  ListRecommendationsForResourceRequest,
+  ListRecommendationsForResourceRequest & RegionInput,
   ListRecommendationsForResourceResponse,
   ListRecommendationsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -881,7 +882,7 @@ export type UpdateOrganizationRecommendationLifecycleError =
  * Update the lifecycle of a Recommendation within an Organization. This API only supports prioritized recommendations and updates global priority recommendations, eliminating the need to call the API in each AWS Region.
  */
 export const updateOrganizationRecommendationLifecycle: API.OperationMethod<
-  UpdateOrganizationRecommendationLifecycleRequest,
+  UpdateOrganizationRecommendationLifecycleRequest & RegionInput,
   UpdateOrganizationRecommendationLifecycleResponse,
   UpdateOrganizationRecommendationLifecycleError,
   Credentials | HttpClient.HttpClient
@@ -915,7 +916,7 @@ export type UpdateRecommendationLifecycleError =
  * Update the lifecyle of a Recommendation. This API only supports prioritized recommendations and updates global priority recommendations, eliminating the need to call the API in each AWS Region.
  */
 export const updateRecommendationLifecycle: API.OperationMethod<
-  UpdateRecommendationLifecycleRequest,
+  UpdateRecommendationLifecycleRequest & RegionInput,
   UpdateRecommendationLifecycleResponse,
   UpdateRecommendationLifecycleError,
   Credentials | HttpClient.HttpClient

@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -115,7 +116,7 @@ export class LimitExceededException
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class NotFoundException
   extends /*@__PURE__*/ S.TaggedError<NotFoundException>()(
     "NotFoundException",
@@ -132,7 +133,7 @@ export class ServiceUnavailableException
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
     /*@__PURE__*/ T.HttpError(503),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class TooManyRequestsException
   extends /*@__PURE__*/ S.TaggedError<TooManyRequestsException>()(
     "TooManyRequestsException",
@@ -143,7 +144,7 @@ export class TooManyRequestsException
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class UnauthorizedException
   extends /*@__PURE__*/ S.TaggedError<UnauthorizedException>()(
     "UnauthorizedException",
@@ -151,33 +152,33 @@ export class UnauthorizedException
     /*@__PURE__*/ T.HttpError(401),
   ).pipe(C.withAuthError) {}
 export interface StageKey {
-  restApiId?: string;
-  stageName?: string;
+  restApiId?: string | undefined;
+  stageName?: string | undefined;
 }
 export type ListOfStageKeys = StageKey[];
 export type MapOfStringToString = { [key: string]: string | undefined };
 export interface CreateApiKeyRequest {
-  name?: string;
-  description?: string;
-  enabled?: boolean;
-  generateDistinctId?: boolean;
-  value?: string | redacted.Redacted<string>;
-  stageKeys?: StageKey[];
-  customerId?: string;
-  tags?: { [key: string]: string | undefined };
+  name?: string | undefined;
+  description?: string | undefined;
+  enabled?: boolean | undefined;
+  generateDistinctId?: boolean | undefined;
+  value?: string | redacted.Redacted<string> | undefined;
+  stageKeys?: StageKey[] | undefined;
+  customerId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ListOfString = string[];
 export interface ApiKey {
-  id?: string;
-  value?: string | redacted.Redacted<string>;
-  name?: string;
-  customerId?: string;
-  description?: string;
-  enabled?: boolean;
-  createdDate?: Date;
-  lastUpdatedDate?: Date;
-  stageKeys?: string[];
-  tags?: { [key: string]: string | undefined };
+  id?: string | undefined;
+  value?: string | redacted.Redacted<string> | undefined;
+  name?: string | undefined;
+  customerId?: string | undefined;
+  description?: string | undefined;
+  enabled?: boolean | undefined;
+  createdDate?: Date | undefined;
+  lastUpdatedDate?: Date | undefined;
+  stageKeys?: string[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type AuthorizerType = "TOKEN" | "REQUEST" | "COGNITO_USER_POOLS" | (string & {});
 export type ProviderARN = string;
@@ -186,37 +187,37 @@ export interface CreateAuthorizerRequest {
   restApiId: string;
   name: string;
   type: AuthorizerType;
-  providerARNs?: string[];
-  authType?: string;
-  authorizerUri?: string;
-  authorizerCredentials?: string;
-  identitySource?: string;
-  identityValidationExpression?: string;
-  authorizerResultTtlInSeconds?: number;
+  providerARNs?: string[] | undefined;
+  authType?: string | undefined;
+  authorizerUri?: string | undefined;
+  authorizerCredentials?: string | undefined;
+  identitySource?: string | undefined;
+  identityValidationExpression?: string | undefined;
+  authorizerResultTtlInSeconds?: number | undefined;
 }
 export interface Authorizer {
-  id?: string;
-  name?: string;
-  type?: AuthorizerType;
-  providerARNs?: string[];
-  authType?: string;
-  authorizerUri?: string;
-  authorizerCredentials?: string;
-  identitySource?: string;
-  identityValidationExpression?: string;
-  authorizerResultTtlInSeconds?: number;
+  id?: string | undefined;
+  name?: string | undefined;
+  type?: AuthorizerType | undefined;
+  providerARNs?: string[] | undefined;
+  authType?: string | undefined;
+  authorizerUri?: string | undefined;
+  authorizerCredentials?: string | undefined;
+  identitySource?: string | undefined;
+  identityValidationExpression?: string | undefined;
+  authorizerResultTtlInSeconds?: number | undefined;
 }
 export interface CreateBasePathMappingRequest {
   domainName: string;
-  domainNameId?: string;
-  basePath?: string;
+  domainNameId?: string | undefined;
+  basePath?: string | undefined;
   restApiId: string;
-  stage?: string;
+  stage?: string | undefined;
 }
 export interface BasePathMapping {
-  basePath?: string;
-  restApiId?: string;
-  stage?: string;
+  basePath?: string | undefined;
+  restApiId?: string | undefined;
+  stage?: string | undefined;
 }
 export type CacheClusterSize =
   | "0.5"
@@ -229,34 +230,36 @@ export type CacheClusterSize =
   | "237"
   | (string & {});
 export interface DeploymentCanarySettings {
-  percentTraffic?: number;
-  stageVariableOverrides?: { [key: string]: string | undefined };
-  useStageCache?: boolean;
+  percentTraffic?: number | undefined;
+  stageVariableOverrides?: { [key: string]: string | undefined } | undefined;
+  useStageCache?: boolean | undefined;
 }
 export interface CreateDeploymentRequest {
   restApiId: string;
-  stageName?: string;
-  stageDescription?: string;
-  description?: string;
-  cacheClusterEnabled?: boolean;
-  cacheClusterSize?: CacheClusterSize;
-  variables?: { [key: string]: string | undefined };
-  canarySettings?: DeploymentCanarySettings;
-  tracingEnabled?: boolean;
+  stageName?: string | undefined;
+  stageDescription?: string | undefined;
+  description?: string | undefined;
+  cacheClusterEnabled?: boolean | undefined;
+  cacheClusterSize?: CacheClusterSize | undefined;
+  variables?: { [key: string]: string | undefined } | undefined;
+  canarySettings?: DeploymentCanarySettings | undefined;
+  tracingEnabled?: boolean | undefined;
 }
 export interface MethodSnapshot {
-  authorizationType?: string;
-  apiKeyRequired?: boolean;
+  authorizationType?: string | undefined;
+  apiKeyRequired?: boolean | undefined;
 }
 export type MapOfMethodSnapshot = { [key: string]: MethodSnapshot | undefined };
 export type PathToMapOfMethodSnapshot = {
   [key: string]: { [key: string]: MethodSnapshot | undefined } | undefined;
 };
 export interface Deployment {
-  id?: string;
-  description?: string;
-  createdDate?: Date;
-  apiSummary?: { [key: string]: { [key: string]: MethodSnapshot | undefined } | undefined };
+  id?: string | undefined;
+  description?: string | undefined;
+  createdDate?: Date | undefined;
+  apiSummary?:
+    | { [key: string]: { [key: string]: MethodSnapshot | undefined } | undefined }
+    | undefined;
 }
 export type DocumentationPartType =
   | "API"
@@ -275,10 +278,10 @@ export type DocumentationPartType =
 export type DocumentationPartLocationStatusCode = string;
 export interface DocumentationPartLocation {
   type: DocumentationPartType;
-  path?: string;
-  method?: string;
-  statusCode?: string;
-  name?: string;
+  path?: string | undefined;
+  method?: string | undefined;
+  statusCode?: string | undefined;
+  name?: string | undefined;
 }
 export interface CreateDocumentationPartRequest {
   restApiId: string;
@@ -286,28 +289,28 @@ export interface CreateDocumentationPartRequest {
   properties: string;
 }
 export interface DocumentationPart {
-  id?: string;
-  location?: DocumentationPartLocation;
-  properties?: string;
+  id?: string | undefined;
+  location?: DocumentationPartLocation | undefined;
+  properties?: string | undefined;
 }
 export interface CreateDocumentationVersionRequest {
   restApiId: string;
   documentationVersion: string;
-  stageName?: string;
-  description?: string;
+  stageName?: string | undefined;
+  description?: string | undefined;
 }
 export interface DocumentationVersion {
-  version?: string;
-  createdDate?: Date;
-  description?: string;
+  version?: string | undefined;
+  createdDate?: Date | undefined;
+  description?: string | undefined;
 }
 export type EndpointType = "REGIONAL" | "EDGE" | "PRIVATE" | (string & {});
 export type ListOfEndpointType = EndpointType[];
 export type IpAddressType = "ipv4" | "dualstack" | (string & {});
 export interface EndpointConfiguration {
-  types?: EndpointType[];
-  ipAddressType?: IpAddressType;
-  vpcEndpointIds?: string[];
+  types?: EndpointType[] | undefined;
+  ipAddressType?: IpAddressType | undefined;
+  vpcEndpointIds?: string[] | undefined;
 }
 export type SecurityPolicy =
   | "TLS_1_0"
@@ -327,8 +330,8 @@ export type SecurityPolicy =
   | (string & {});
 export type EndpointAccessMode = "BASIC" | "STRICT" | (string & {});
 export interface MutualTlsAuthenticationInput {
-  truststoreUri?: string;
-  truststoreVersion?: string;
+  truststoreUri?: string | undefined;
+  truststoreVersion?: string | undefined;
 }
 export type RoutingMode =
   | "BASE_PATH_MAPPING_ONLY"
@@ -337,21 +340,21 @@ export type RoutingMode =
   | (string & {});
 export interface CreateDomainNameRequest {
   domainName: string;
-  certificateName?: string;
-  certificateBody?: string;
-  certificatePrivateKey?: string;
-  certificateChain?: string;
-  certificateArn?: string;
-  regionalCertificateName?: string;
-  regionalCertificateArn?: string;
-  endpointConfiguration?: EndpointConfiguration;
-  tags?: { [key: string]: string | undefined };
-  securityPolicy?: SecurityPolicy;
-  endpointAccessMode?: EndpointAccessMode;
-  mutualTlsAuthentication?: MutualTlsAuthenticationInput;
-  ownershipVerificationCertificateArn?: string;
-  policy?: string;
-  routingMode?: RoutingMode;
+  certificateName?: string | undefined;
+  certificateBody?: string | undefined;
+  certificatePrivateKey?: string | undefined;
+  certificateChain?: string | undefined;
+  certificateArn?: string | undefined;
+  regionalCertificateName?: string | undefined;
+  regionalCertificateArn?: string | undefined;
+  endpointConfiguration?: EndpointConfiguration | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  securityPolicy?: SecurityPolicy | undefined;
+  endpointAccessMode?: EndpointAccessMode | undefined;
+  mutualTlsAuthentication?: MutualTlsAuthenticationInput | undefined;
+  ownershipVerificationCertificateArn?: string | undefined;
+  policy?: string | undefined;
+  routingMode?: RoutingMode | undefined;
 }
 export type DomainNameStatus =
   | "AVAILABLE"
@@ -362,74 +365,74 @@ export type DomainNameStatus =
   | "FAILED"
   | (string & {});
 export interface MutualTlsAuthentication {
-  truststoreUri?: string;
-  truststoreVersion?: string;
-  truststoreWarnings?: string[];
+  truststoreUri?: string | undefined;
+  truststoreVersion?: string | undefined;
+  truststoreWarnings?: string[] | undefined;
 }
 export interface DomainName {
-  domainName?: string;
-  domainNameId?: string;
-  domainNameArn?: string;
-  certificateName?: string;
-  certificateArn?: string;
-  certificateUploadDate?: Date;
-  regionalDomainName?: string;
-  regionalHostedZoneId?: string;
-  regionalCertificateName?: string;
-  regionalCertificateArn?: string;
-  distributionDomainName?: string;
-  distributionHostedZoneId?: string;
-  endpointConfiguration?: EndpointConfiguration;
-  domainNameStatus?: DomainNameStatus;
-  domainNameStatusMessage?: string;
-  securityPolicy?: SecurityPolicy;
-  endpointAccessMode?: EndpointAccessMode;
-  tags?: { [key: string]: string | undefined };
-  mutualTlsAuthentication?: MutualTlsAuthentication;
-  ownershipVerificationCertificateArn?: string;
-  managementPolicy?: string;
-  policy?: string;
-  routingMode?: RoutingMode;
+  domainName?: string | undefined;
+  domainNameId?: string | undefined;
+  domainNameArn?: string | undefined;
+  certificateName?: string | undefined;
+  certificateArn?: string | undefined;
+  certificateUploadDate?: Date | undefined;
+  regionalDomainName?: string | undefined;
+  regionalHostedZoneId?: string | undefined;
+  regionalCertificateName?: string | undefined;
+  regionalCertificateArn?: string | undefined;
+  distributionDomainName?: string | undefined;
+  distributionHostedZoneId?: string | undefined;
+  endpointConfiguration?: EndpointConfiguration | undefined;
+  domainNameStatus?: DomainNameStatus | undefined;
+  domainNameStatusMessage?: string | undefined;
+  securityPolicy?: SecurityPolicy | undefined;
+  endpointAccessMode?: EndpointAccessMode | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  mutualTlsAuthentication?: MutualTlsAuthentication | undefined;
+  ownershipVerificationCertificateArn?: string | undefined;
+  managementPolicy?: string | undefined;
+  policy?: string | undefined;
+  routingMode?: RoutingMode | undefined;
 }
 export type AccessAssociationSourceType = "VPCE" | (string & {});
 export interface CreateDomainNameAccessAssociationRequest {
   domainNameArn: string;
   accessAssociationSourceType: AccessAssociationSourceType;
   accessAssociationSource: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DomainNameAccessAssociation {
-  domainNameAccessAssociationArn?: string;
-  domainNameArn?: string;
-  accessAssociationSourceType?: AccessAssociationSourceType;
-  accessAssociationSource?: string;
-  tags?: { [key: string]: string | undefined };
+  domainNameAccessAssociationArn?: string | undefined;
+  domainNameArn?: string | undefined;
+  accessAssociationSourceType?: AccessAssociationSourceType | undefined;
+  accessAssociationSource?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateModelRequest {
   restApiId: string;
   name: string;
-  description?: string;
-  schema?: string;
+  description?: string | undefined;
+  schema?: string | undefined;
   contentType: string;
 }
 export interface Model {
-  id?: string;
-  name?: string;
-  description?: string;
-  schema?: string;
-  contentType?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  schema?: string | undefined;
+  contentType?: string | undefined;
 }
 export interface CreateRequestValidatorRequest {
   restApiId: string;
-  name?: string;
-  validateRequestBody?: boolean;
-  validateRequestParameters?: boolean;
+  name?: string | undefined;
+  validateRequestBody?: boolean | undefined;
+  validateRequestParameters?: boolean | undefined;
 }
 export interface RequestValidator {
-  id?: string;
-  name?: string;
-  validateRequestBody?: boolean;
-  validateRequestParameters?: boolean;
+  id?: string | undefined;
+  name?: string | undefined;
+  validateRequestBody?: boolean | undefined;
+  validateRequestParameters?: boolean | undefined;
 }
 export interface CreateResourceRequest {
   restApiId: string;
@@ -439,121 +442,121 @@ export interface CreateResourceRequest {
 export type MapOfStringToBoolean = { [key: string]: boolean | undefined };
 export type StatusCode = string;
 export interface MethodResponse {
-  statusCode?: string;
-  responseParameters?: { [key: string]: boolean | undefined };
-  responseModels?: { [key: string]: string | undefined };
+  statusCode?: string | undefined;
+  responseParameters?: { [key: string]: boolean | undefined } | undefined;
+  responseModels?: { [key: string]: string | undefined } | undefined;
 }
 export type MapOfMethodResponse = { [key: string]: MethodResponse | undefined };
 export type IntegrationType = "HTTP" | "AWS" | "MOCK" | "HTTP_PROXY" | "AWS_PROXY" | (string & {});
 export type ConnectionType = "INTERNET" | "VPC_LINK" | (string & {});
 export type ContentHandlingStrategy = "CONVERT_TO_BINARY" | "CONVERT_TO_TEXT" | (string & {});
 export interface IntegrationResponse {
-  statusCode?: string;
-  selectionPattern?: string;
-  responseParameters?: { [key: string]: string | undefined };
-  responseTemplates?: { [key: string]: string | undefined };
-  contentHandling?: ContentHandlingStrategy;
+  statusCode?: string | undefined;
+  selectionPattern?: string | undefined;
+  responseParameters?: { [key: string]: string | undefined } | undefined;
+  responseTemplates?: { [key: string]: string | undefined } | undefined;
+  contentHandling?: ContentHandlingStrategy | undefined;
 }
 export type MapOfIntegrationResponse = { [key: string]: IntegrationResponse | undefined };
 export interface TlsConfig {
-  insecureSkipVerification?: boolean;
+  insecureSkipVerification?: boolean | undefined;
 }
 export type ResponseTransferMode = "BUFFERED" | "STREAM" | (string & {});
 export interface Integration {
-  type?: IntegrationType;
-  httpMethod?: string;
-  uri?: string;
-  connectionType?: ConnectionType;
-  connectionId?: string;
-  credentials?: string;
-  requestParameters?: { [key: string]: string | undefined };
-  requestTemplates?: { [key: string]: string | undefined };
-  passthroughBehavior?: string;
-  contentHandling?: ContentHandlingStrategy;
-  timeoutInMillis?: number;
-  cacheNamespace?: string;
-  cacheKeyParameters?: string[];
-  integrationResponses?: { [key: string]: IntegrationResponse | undefined };
-  tlsConfig?: TlsConfig;
-  responseTransferMode?: ResponseTransferMode;
-  integrationTarget?: string;
+  type?: IntegrationType | undefined;
+  httpMethod?: string | undefined;
+  uri?: string | undefined;
+  connectionType?: ConnectionType | undefined;
+  connectionId?: string | undefined;
+  credentials?: string | undefined;
+  requestParameters?: { [key: string]: string | undefined } | undefined;
+  requestTemplates?: { [key: string]: string | undefined } | undefined;
+  passthroughBehavior?: string | undefined;
+  contentHandling?: ContentHandlingStrategy | undefined;
+  timeoutInMillis?: number | undefined;
+  cacheNamespace?: string | undefined;
+  cacheKeyParameters?: string[] | undefined;
+  integrationResponses?: { [key: string]: IntegrationResponse | undefined } | undefined;
+  tlsConfig?: TlsConfig | undefined;
+  responseTransferMode?: ResponseTransferMode | undefined;
+  integrationTarget?: string | undefined;
 }
 export interface Method {
-  httpMethod?: string;
-  authorizationType?: string;
-  authorizerId?: string;
-  apiKeyRequired?: boolean;
-  requestValidatorId?: string;
-  operationName?: string;
-  requestParameters?: { [key: string]: boolean | undefined };
-  requestModels?: { [key: string]: string | undefined };
-  methodResponses?: { [key: string]: MethodResponse | undefined };
-  methodIntegration?: Integration;
-  authorizationScopes?: string[];
+  httpMethod?: string | undefined;
+  authorizationType?: string | undefined;
+  authorizerId?: string | undefined;
+  apiKeyRequired?: boolean | undefined;
+  requestValidatorId?: string | undefined;
+  operationName?: string | undefined;
+  requestParameters?: { [key: string]: boolean | undefined } | undefined;
+  requestModels?: { [key: string]: string | undefined } | undefined;
+  methodResponses?: { [key: string]: MethodResponse | undefined } | undefined;
+  methodIntegration?: Integration | undefined;
+  authorizationScopes?: string[] | undefined;
 }
 export type MapOfMethod = { [key: string]: Method | undefined };
 export interface Resource {
-  id?: string;
-  parentId?: string;
-  pathPart?: string;
-  path?: string;
-  resourceMethods?: { [key: string]: Method | undefined };
+  id?: string | undefined;
+  parentId?: string | undefined;
+  pathPart?: string | undefined;
+  path?: string | undefined;
+  resourceMethods?: { [key: string]: Method | undefined } | undefined;
 }
 export type ApiKeySourceType = "HEADER" | "AUTHORIZER" | (string & {});
 export interface CreateRestApiRequest {
   name: string;
-  description?: string;
-  version?: string;
-  cloneFrom?: string;
-  binaryMediaTypes?: string[];
-  minimumCompressionSize?: number;
-  apiKeySource?: ApiKeySourceType;
-  endpointConfiguration?: EndpointConfiguration;
-  policy?: string;
-  tags?: { [key: string]: string | undefined };
-  disableExecuteApiEndpoint?: boolean;
-  securityPolicy?: SecurityPolicy;
-  endpointAccessMode?: EndpointAccessMode;
+  description?: string | undefined;
+  version?: string | undefined;
+  cloneFrom?: string | undefined;
+  binaryMediaTypes?: string[] | undefined;
+  minimumCompressionSize?: number | undefined;
+  apiKeySource?: ApiKeySourceType | undefined;
+  endpointConfiguration?: EndpointConfiguration | undefined;
+  policy?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  disableExecuteApiEndpoint?: boolean | undefined;
+  securityPolicy?: SecurityPolicy | undefined;
+  endpointAccessMode?: EndpointAccessMode | undefined;
 }
 export type ApiStatus = "UPDATING" | "AVAILABLE" | "PENDING" | "FAILED" | (string & {});
 export interface RestApi {
-  id?: string;
-  name?: string;
-  description?: string;
-  createdDate?: Date;
-  version?: string;
-  warnings?: string[];
-  binaryMediaTypes?: string[];
-  minimumCompressionSize?: number;
-  apiKeySource?: ApiKeySourceType;
-  endpointConfiguration?: EndpointConfiguration;
-  policy?: string;
-  tags?: { [key: string]: string | undefined };
-  disableExecuteApiEndpoint?: boolean;
-  rootResourceId?: string;
-  securityPolicy?: SecurityPolicy;
-  endpointAccessMode?: EndpointAccessMode;
-  apiStatus?: ApiStatus;
-  apiStatusMessage?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  createdDate?: Date | undefined;
+  version?: string | undefined;
+  warnings?: string[] | undefined;
+  binaryMediaTypes?: string[] | undefined;
+  minimumCompressionSize?: number | undefined;
+  apiKeySource?: ApiKeySourceType | undefined;
+  endpointConfiguration?: EndpointConfiguration | undefined;
+  policy?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  disableExecuteApiEndpoint?: boolean | undefined;
+  rootResourceId?: string | undefined;
+  securityPolicy?: SecurityPolicy | undefined;
+  endpointAccessMode?: EndpointAccessMode | undefined;
+  apiStatus?: ApiStatus | undefined;
+  apiStatusMessage?: string | undefined;
 }
 export interface CanarySettings {
-  percentTraffic?: number;
-  deploymentId?: string;
-  stageVariableOverrides?: { [key: string]: string | undefined };
-  useStageCache?: boolean;
+  percentTraffic?: number | undefined;
+  deploymentId?: string | undefined;
+  stageVariableOverrides?: { [key: string]: string | undefined } | undefined;
+  useStageCache?: boolean | undefined;
 }
 export interface CreateStageRequest {
   restApiId: string;
   stageName: string;
   deploymentId: string;
-  description?: string;
-  cacheClusterEnabled?: boolean;
-  cacheClusterSize?: CacheClusterSize;
-  variables?: { [key: string]: string | undefined };
-  documentationVersion?: string;
-  canarySettings?: CanarySettings;
-  tracingEnabled?: boolean;
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  cacheClusterEnabled?: boolean | undefined;
+  cacheClusterSize?: CacheClusterSize | undefined;
+  variables?: { [key: string]: string | undefined } | undefined;
+  documentationVersion?: string | undefined;
+  canarySettings?: CanarySettings | undefined;
+  tracingEnabled?: boolean | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type CacheClusterStatus =
   | "CREATE_IN_PROGRESS"
@@ -568,75 +571,75 @@ export type UnauthorizedCacheControlHeaderStrategy =
   | "SUCCEED_WITHOUT_RESPONSE_HEADER"
   | (string & {});
 export interface MethodSetting {
-  metricsEnabled?: boolean;
-  loggingLevel?: string;
-  dataTraceEnabled?: boolean;
-  throttlingBurstLimit?: number;
-  throttlingRateLimit?: number;
-  cachingEnabled?: boolean;
-  cacheTtlInSeconds?: number;
-  cacheDataEncrypted?: boolean;
-  requireAuthorizationForCacheControl?: boolean;
-  unauthorizedCacheControlHeaderStrategy?: UnauthorizedCacheControlHeaderStrategy;
+  metricsEnabled?: boolean | undefined;
+  loggingLevel?: string | undefined;
+  dataTraceEnabled?: boolean | undefined;
+  throttlingBurstLimit?: number | undefined;
+  throttlingRateLimit?: number | undefined;
+  cachingEnabled?: boolean | undefined;
+  cacheTtlInSeconds?: number | undefined;
+  cacheDataEncrypted?: boolean | undefined;
+  requireAuthorizationForCacheControl?: boolean | undefined;
+  unauthorizedCacheControlHeaderStrategy?: UnauthorizedCacheControlHeaderStrategy | undefined;
 }
 export type MapOfMethodSettings = { [key: string]: MethodSetting | undefined };
 export interface AccessLogSettings {
-  format?: string;
-  destinationArn?: string;
+  format?: string | undefined;
+  destinationArn?: string | undefined;
 }
 export interface Stage {
-  deploymentId?: string;
-  clientCertificateId?: string;
-  stageName?: string;
-  description?: string;
-  cacheClusterEnabled?: boolean;
-  cacheClusterSize?: CacheClusterSize;
-  cacheClusterStatus?: CacheClusterStatus;
-  methodSettings?: { [key: string]: MethodSetting | undefined };
-  variables?: { [key: string]: string | undefined };
-  documentationVersion?: string;
-  accessLogSettings?: AccessLogSettings;
-  canarySettings?: CanarySettings;
-  tracingEnabled?: boolean;
-  webAclArn?: string;
-  tags?: { [key: string]: string | undefined };
-  createdDate?: Date;
-  lastUpdatedDate?: Date;
+  deploymentId?: string | undefined;
+  clientCertificateId?: string | undefined;
+  stageName?: string | undefined;
+  description?: string | undefined;
+  cacheClusterEnabled?: boolean | undefined;
+  cacheClusterSize?: CacheClusterSize | undefined;
+  cacheClusterStatus?: CacheClusterStatus | undefined;
+  methodSettings?: { [key: string]: MethodSetting | undefined } | undefined;
+  variables?: { [key: string]: string | undefined } | undefined;
+  documentationVersion?: string | undefined;
+  accessLogSettings?: AccessLogSettings | undefined;
+  canarySettings?: CanarySettings | undefined;
+  tracingEnabled?: boolean | undefined;
+  webAclArn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  createdDate?: Date | undefined;
+  lastUpdatedDate?: Date | undefined;
 }
 export interface ThrottleSettings {
-  burstLimit?: number;
-  rateLimit?: number;
+  burstLimit?: number | undefined;
+  rateLimit?: number | undefined;
 }
 export type MapOfApiStageThrottleSettings = { [key: string]: ThrottleSettings | undefined };
 export interface ApiStage {
-  apiId?: string;
-  stage?: string;
-  throttle?: { [key: string]: ThrottleSettings | undefined };
+  apiId?: string | undefined;
+  stage?: string | undefined;
+  throttle?: { [key: string]: ThrottleSettings | undefined } | undefined;
 }
 export type ListOfApiStage = ApiStage[];
 export type QuotaPeriodType = "DAY" | "WEEK" | "MONTH" | (string & {});
 export interface QuotaSettings {
-  limit?: number;
-  offset?: number;
-  period?: QuotaPeriodType;
+  limit?: number | undefined;
+  offset?: number | undefined;
+  period?: QuotaPeriodType | undefined;
 }
 export interface CreateUsagePlanRequest {
   name: string;
-  description?: string;
-  apiStages?: ApiStage[];
-  throttle?: ThrottleSettings;
-  quota?: QuotaSettings;
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  apiStages?: ApiStage[] | undefined;
+  throttle?: ThrottleSettings | undefined;
+  quota?: QuotaSettings | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UsagePlan {
-  id?: string;
-  name?: string;
-  description?: string;
-  apiStages?: ApiStage[];
-  throttle?: ThrottleSettings;
-  quota?: QuotaSettings;
-  productCode?: string;
-  tags?: { [key: string]: string | undefined };
+  id?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  apiStages?: ApiStage[] | undefined;
+  throttle?: ThrottleSettings | undefined;
+  quota?: QuotaSettings | undefined;
+  productCode?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateUsagePlanKeyRequest {
   usagePlanId: string;
@@ -644,26 +647,26 @@ export interface CreateUsagePlanKeyRequest {
   keyType: string;
 }
 export interface UsagePlanKey {
-  id?: string;
-  type?: string;
-  value?: string;
-  name?: string;
+  id?: string | undefined;
+  type?: string | undefined;
+  value?: string | undefined;
+  name?: string | undefined;
 }
 export interface CreateVpcLinkRequest {
   name: string;
-  description?: string;
+  description?: string | undefined;
   targetArns: string[];
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type VpcLinkStatus = "AVAILABLE" | "PENDING" | "DELETING" | "FAILED" | (string & {});
 export interface VpcLink {
-  id?: string;
-  name?: string;
-  description?: string;
-  targetArns?: string[];
-  status?: VpcLinkStatus;
-  statusMessage?: string;
-  tags?: { [key: string]: string | undefined };
+  id?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  targetArns?: string[] | undefined;
+  status?: VpcLinkStatus | undefined;
+  statusMessage?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DeleteApiKeyRequest {
   apiKey: string;
@@ -676,7 +679,7 @@ export interface DeleteAuthorizerRequest {
 export interface DeleteAuthorizerResponse {}
 export interface DeleteBasePathMappingRequest {
   domainName: string;
-  domainNameId?: string;
+  domainNameId?: string | undefined;
   basePath: string;
 }
 export interface DeleteBasePathMappingResponse {}
@@ -701,7 +704,7 @@ export interface DeleteDocumentationVersionRequest {
 export interface DeleteDocumentationVersionResponse {}
 export interface DeleteDomainNameRequest {
   domainName: string;
-  domainNameId?: string;
+  domainNameId?: string | undefined;
 }
 export interface DeleteDomainNameResponse {}
 export interface DeleteDomainNameAccessAssociationRequest {
@@ -810,40 +813,40 @@ export interface FlushStageCacheRequest {
 }
 export interface FlushStageCacheResponse {}
 export interface GenerateClientCertificateRequest {
-  description?: string;
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ClientCertificate {
-  clientCertificateId?: string;
-  description?: string;
-  pemEncodedCertificate?: string;
-  createdDate?: Date;
-  expirationDate?: Date;
-  tags?: { [key: string]: string | undefined };
+  clientCertificateId?: string | undefined;
+  description?: string | undefined;
+  pemEncodedCertificate?: string | undefined;
+  createdDate?: Date | undefined;
+  expirationDate?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetAccountRequest {}
 export interface Account {
-  cloudwatchRoleArn?: string;
-  throttleSettings?: ThrottleSettings;
-  features?: string[];
-  apiKeyVersion?: string;
+  cloudwatchRoleArn?: string | undefined;
+  throttleSettings?: ThrottleSettings | undefined;
+  features?: string[] | undefined;
+  apiKeyVersion?: string | undefined;
 }
 export interface GetApiKeyRequest {
   apiKey: string;
-  includeValue?: boolean;
+  includeValue?: boolean | undefined;
 }
 export interface GetApiKeysRequest {
-  position?: string;
-  limit?: number;
-  nameQuery?: string;
-  customerId?: string;
-  includeValues?: boolean;
+  position?: string | undefined;
+  limit?: number | undefined;
+  nameQuery?: string | undefined;
+  customerId?: string | undefined;
+  includeValues?: boolean | undefined;
 }
 export type ListOfApiKey = ApiKey[];
 export interface ApiKeys {
-  warnings?: string[];
-  items?: ApiKey[];
-  position?: string;
+  warnings?: string[] | undefined;
+  items?: ApiKey[] | undefined;
+  position?: string | undefined;
 }
 export interface GetAuthorizerRequest {
   restApiId: string;
@@ -851,56 +854,56 @@ export interface GetAuthorizerRequest {
 }
 export interface GetAuthorizersRequest {
   restApiId: string;
-  position?: string;
-  limit?: number;
+  position?: string | undefined;
+  limit?: number | undefined;
 }
 export type ListOfAuthorizer = Authorizer[];
 export interface Authorizers {
-  items?: Authorizer[];
-  position?: string;
+  items?: Authorizer[] | undefined;
+  position?: string | undefined;
 }
 export interface GetBasePathMappingRequest {
   domainName: string;
-  domainNameId?: string;
+  domainNameId?: string | undefined;
   basePath: string;
 }
 export interface GetBasePathMappingsRequest {
   domainName: string;
-  domainNameId?: string;
-  position?: string;
-  limit?: number;
+  domainNameId?: string | undefined;
+  position?: string | undefined;
+  limit?: number | undefined;
 }
 export type ListOfBasePathMapping = BasePathMapping[];
 export interface BasePathMappings {
-  items?: BasePathMapping[];
-  position?: string;
+  items?: BasePathMapping[] | undefined;
+  position?: string | undefined;
 }
 export interface GetClientCertificateRequest {
   clientCertificateId: string;
 }
 export interface GetClientCertificatesRequest {
-  position?: string;
-  limit?: number;
+  position?: string | undefined;
+  limit?: number | undefined;
 }
 export type ListOfClientCertificate = ClientCertificate[];
 export interface ClientCertificates {
-  items?: ClientCertificate[];
-  position?: string;
+  items?: ClientCertificate[] | undefined;
+  position?: string | undefined;
 }
 export interface GetDeploymentRequest {
   restApiId: string;
   deploymentId: string;
-  embed?: string[];
+  embed?: string[] | undefined;
 }
 export interface GetDeploymentsRequest {
   restApiId: string;
-  position?: string;
-  limit?: number;
+  position?: string | undefined;
+  limit?: number | undefined;
 }
 export type ListOfDeployment = Deployment[];
 export interface Deployments {
-  items?: Deployment[];
-  position?: string;
+  items?: Deployment[] | undefined;
+  position?: string | undefined;
 }
 export interface GetDocumentationPartRequest {
   restApiId: string;
@@ -909,17 +912,17 @@ export interface GetDocumentationPartRequest {
 export type LocationStatusType = "DOCUMENTED" | "UNDOCUMENTED" | (string & {});
 export interface GetDocumentationPartsRequest {
   restApiId: string;
-  type?: DocumentationPartType;
-  nameQuery?: string;
-  path?: string;
-  position?: string;
-  limit?: number;
-  locationStatus?: LocationStatusType;
+  type?: DocumentationPartType | undefined;
+  nameQuery?: string | undefined;
+  path?: string | undefined;
+  position?: string | undefined;
+  limit?: number | undefined;
+  locationStatus?: LocationStatusType | undefined;
 }
 export type ListOfDocumentationPart = DocumentationPart[];
 export interface DocumentationParts {
-  items?: DocumentationPart[];
-  position?: string;
+  items?: DocumentationPart[] | undefined;
+  position?: string | undefined;
 }
 export interface GetDocumentationVersionRequest {
   restApiId: string;
@@ -927,71 +930,71 @@ export interface GetDocumentationVersionRequest {
 }
 export interface GetDocumentationVersionsRequest {
   restApiId: string;
-  position?: string;
-  limit?: number;
+  position?: string | undefined;
+  limit?: number | undefined;
 }
 export type ListOfDocumentationVersion = DocumentationVersion[];
 export interface DocumentationVersions {
-  items?: DocumentationVersion[];
-  position?: string;
+  items?: DocumentationVersion[] | undefined;
+  position?: string | undefined;
 }
 export interface GetDomainNameRequest {
   domainName: string;
-  domainNameId?: string;
+  domainNameId?: string | undefined;
 }
 export type ResourceOwner = "SELF" | "OTHER_ACCOUNTS" | (string & {});
 export interface GetDomainNameAccessAssociationsRequest {
-  position?: string;
-  limit?: number;
-  resourceOwner?: ResourceOwner;
+  position?: string | undefined;
+  limit?: number | undefined;
+  resourceOwner?: ResourceOwner | undefined;
 }
 export type ListOfDomainNameAccessAssociation = DomainNameAccessAssociation[];
 export interface DomainNameAccessAssociations {
-  items?: DomainNameAccessAssociation[];
-  position?: string;
+  items?: DomainNameAccessAssociation[] | undefined;
+  position?: string | undefined;
 }
 export interface GetDomainNamesRequest {
-  position?: string;
-  limit?: number;
-  resourceOwner?: ResourceOwner;
+  position?: string | undefined;
+  limit?: number | undefined;
+  resourceOwner?: ResourceOwner | undefined;
 }
 export type ListOfDomainName = DomainName[];
 export interface DomainNames {
-  items?: DomainName[];
-  position?: string;
+  items?: DomainName[] | undefined;
+  position?: string | undefined;
 }
 export interface GetExportRequest {
   restApiId: string;
   stageName: string;
   exportType: string;
-  parameters?: { [key: string]: string | undefined };
-  accepts?: string;
+  parameters?: { [key: string]: string | undefined } | undefined;
+  accepts?: string | undefined;
 }
 export interface ExportResponse {
-  contentType?: string;
-  contentDisposition?: string;
-  body?: T.StreamingOutputBody;
+  contentType?: string | undefined;
+  contentDisposition?: string | undefined;
+  body?: T.StreamingOutputBody | undefined;
 }
 export interface GetGatewayResponseRequest {
   restApiId: string;
   responseType: GatewayResponseType;
 }
 export interface GatewayResponse {
-  responseType?: GatewayResponseType;
-  statusCode?: string;
-  responseParameters?: { [key: string]: string | undefined };
-  responseTemplates?: { [key: string]: string | undefined };
-  defaultResponse?: boolean;
+  responseType?: GatewayResponseType | undefined;
+  statusCode?: string | undefined;
+  responseParameters?: { [key: string]: string | undefined } | undefined;
+  responseTemplates?: { [key: string]: string | undefined } | undefined;
+  defaultResponse?: boolean | undefined;
 }
 export interface GetGatewayResponsesRequest {
   restApiId: string;
-  position?: string;
-  limit?: number;
+  position?: string | undefined;
+  limit?: number | undefined;
 }
 export type ListOfGatewayResponse = GatewayResponse[];
 export interface GatewayResponses {
-  items?: GatewayResponse[];
-  position?: string;
+  items?: GatewayResponse[] | undefined;
+  position?: string | undefined;
 }
 export interface GetIntegrationRequest {
   restApiId: string;
@@ -1018,24 +1021,24 @@ export interface GetMethodResponseRequest {
 export interface GetModelRequest {
   restApiId: string;
   modelName: string;
-  flatten?: boolean;
+  flatten?: boolean | undefined;
 }
 export interface GetModelsRequest {
   restApiId: string;
-  position?: string;
-  limit?: number;
+  position?: string | undefined;
+  limit?: number | undefined;
 }
 export type ListOfModel = Model[];
 export interface Models {
-  items?: Model[];
-  position?: string;
+  items?: Model[] | undefined;
+  position?: string | undefined;
 }
 export interface GetModelTemplateRequest {
   restApiId: string;
   modelName: string;
 }
 export interface Template {
-  value?: string;
+  value?: string | undefined;
 }
 export interface GetRequestValidatorRequest {
   restApiId: string;
@@ -1043,77 +1046,77 @@ export interface GetRequestValidatorRequest {
 }
 export interface GetRequestValidatorsRequest {
   restApiId: string;
-  position?: string;
-  limit?: number;
+  position?: string | undefined;
+  limit?: number | undefined;
 }
 export type ListOfRequestValidator = RequestValidator[];
 export interface RequestValidators {
-  items?: RequestValidator[];
-  position?: string;
+  items?: RequestValidator[] | undefined;
+  position?: string | undefined;
 }
 export interface GetResourceRequest {
   restApiId: string;
   resourceId: string;
-  embed?: string[];
+  embed?: string[] | undefined;
 }
 export interface GetResourcesRequest {
   restApiId: string;
-  position?: string;
-  limit?: number;
-  embed?: string[];
+  position?: string | undefined;
+  limit?: number | undefined;
+  embed?: string[] | undefined;
 }
 export type ListOfResource = Resource[];
 export interface Resources {
-  items?: Resource[];
-  position?: string;
+  items?: Resource[] | undefined;
+  position?: string | undefined;
 }
 export interface GetRestApiRequest {
   restApiId: string;
 }
 export interface GetRestApisRequest {
-  position?: string;
-  limit?: number;
+  position?: string | undefined;
+  limit?: number | undefined;
 }
 export type ListOfRestApi = RestApi[];
 export interface RestApis {
-  items?: RestApi[];
-  position?: string;
+  items?: RestApi[] | undefined;
+  position?: string | undefined;
 }
 export interface GetSdkRequest {
   restApiId: string;
   stageName: string;
   sdkType: string;
-  parameters?: { [key: string]: string | undefined };
+  parameters?: { [key: string]: string | undefined } | undefined;
 }
 export interface SdkResponse {
-  contentType?: string;
-  contentDisposition?: string;
-  body?: T.StreamingOutputBody;
+  contentType?: string | undefined;
+  contentDisposition?: string | undefined;
+  body?: T.StreamingOutputBody | undefined;
 }
 export interface GetSdkTypeRequest {
   id: string;
 }
 export interface SdkConfigurationProperty {
-  name?: string;
-  friendlyName?: string;
-  description?: string;
-  required?: boolean;
-  defaultValue?: string;
+  name?: string | undefined;
+  friendlyName?: string | undefined;
+  description?: string | undefined;
+  required?: boolean | undefined;
+  defaultValue?: string | undefined;
 }
 export type ListOfSdkConfigurationProperty = SdkConfigurationProperty[];
 export interface SdkType {
-  id?: string;
-  friendlyName?: string;
-  description?: string;
-  configurationProperties?: SdkConfigurationProperty[];
+  id?: string | undefined;
+  friendlyName?: string | undefined;
+  description?: string | undefined;
+  configurationProperties?: SdkConfigurationProperty[] | undefined;
 }
 export interface GetSdkTypesRequest {
-  position?: string;
-  limit?: number;
+  position?: string | undefined;
+  limit?: number | undefined;
 }
 export type ListOfSdkType = SdkType[];
 export interface SdkTypes {
-  items?: SdkType[];
+  items?: SdkType[] | undefined;
 }
 export interface GetStageRequest {
   restApiId: string;
@@ -1121,37 +1124,37 @@ export interface GetStageRequest {
 }
 export interface GetStagesRequest {
   restApiId: string;
-  deploymentId?: string;
+  deploymentId?: string | undefined;
 }
 export type ListOfStage = Stage[];
 export interface Stages {
-  item?: Stage[];
+  item?: Stage[] | undefined;
 }
 export interface GetTagsRequest {
   resourceArn: string;
-  position?: string;
-  limit?: number;
+  position?: string | undefined;
+  limit?: number | undefined;
 }
 export interface Tags {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetUsageRequest {
   usagePlanId: string;
-  keyId?: string;
+  keyId?: string | undefined;
   startDate: string;
   endDate: string;
-  position?: string;
-  limit?: number;
+  position?: string | undefined;
+  limit?: number | undefined;
 }
 export type ListOfLong = number[];
 export type ListOfUsage = number[][];
 export type MapOfKeyUsages = { [key: string]: number[][] | undefined };
 export interface Usage {
-  usagePlanId?: string;
-  startDate?: string;
-  endDate?: string;
-  items?: { [key: string]: number[][] | undefined };
-  position?: string;
+  usagePlanId?: string | undefined;
+  startDate?: string | undefined;
+  endDate?: string | undefined;
+  items?: { [key: string]: number[][] | undefined } | undefined;
+  position?: string | undefined;
 }
 export interface GetUsagePlanRequest {
   usagePlanId: string;
@@ -1162,127 +1165,127 @@ export interface GetUsagePlanKeyRequest {
 }
 export interface GetUsagePlanKeysRequest {
   usagePlanId: string;
-  position?: string;
-  limit?: number;
-  nameQuery?: string;
+  position?: string | undefined;
+  limit?: number | undefined;
+  nameQuery?: string | undefined;
 }
 export type ListOfUsagePlanKey = UsagePlanKey[];
 export interface UsagePlanKeys {
-  items?: UsagePlanKey[];
-  position?: string;
+  items?: UsagePlanKey[] | undefined;
+  position?: string | undefined;
 }
 export interface GetUsagePlansRequest {
-  position?: string;
-  keyId?: string;
-  limit?: number;
+  position?: string | undefined;
+  keyId?: string | undefined;
+  limit?: number | undefined;
 }
 export type ListOfUsagePlan = UsagePlan[];
 export interface UsagePlans {
-  items?: UsagePlan[];
-  position?: string;
+  items?: UsagePlan[] | undefined;
+  position?: string | undefined;
 }
 export interface GetVpcLinkRequest {
   vpcLinkId: string;
 }
 export interface GetVpcLinksRequest {
-  position?: string;
-  limit?: number;
+  position?: string | undefined;
+  limit?: number | undefined;
 }
 export type ListOfVpcLink = VpcLink[];
 export interface VpcLinks {
-  items?: VpcLink[];
-  position?: string;
+  items?: VpcLink[] | undefined;
+  position?: string | undefined;
 }
 export type ApiKeysFormat = "csv" | (string & {});
 export interface ImportApiKeysRequest {
   body: T.StreamingInputBody;
   format: ApiKeysFormat;
-  failOnWarnings?: boolean;
+  failOnWarnings?: boolean | undefined;
 }
 export interface ApiKeyIds {
-  ids?: string[];
-  warnings?: string[];
+  ids?: string[] | undefined;
+  warnings?: string[] | undefined;
 }
 export type PutMode = "merge" | "overwrite" | (string & {});
 export interface ImportDocumentationPartsRequest {
   restApiId: string;
-  mode?: PutMode;
-  failOnWarnings?: boolean;
+  mode?: PutMode | undefined;
+  failOnWarnings?: boolean | undefined;
   body: T.StreamingInputBody;
 }
 export interface DocumentationPartIds {
-  ids?: string[];
-  warnings?: string[];
+  ids?: string[] | undefined;
+  warnings?: string[] | undefined;
 }
 export interface ImportRestApiRequest {
-  failOnWarnings?: boolean;
-  parameters?: { [key: string]: string | undefined };
+  failOnWarnings?: boolean | undefined;
+  parameters?: { [key: string]: string | undefined } | undefined;
   body: T.StreamingInputBody;
 }
 export interface PutGatewayResponseRequest {
   restApiId: string;
   responseType: GatewayResponseType;
-  statusCode?: string;
-  responseParameters?: { [key: string]: string | undefined };
-  responseTemplates?: { [key: string]: string | undefined };
+  statusCode?: string | undefined;
+  responseParameters?: { [key: string]: string | undefined } | undefined;
+  responseTemplates?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutIntegrationRequest {
   restApiId: string;
   resourceId: string;
   httpMethod: string;
   type: IntegrationType;
-  integrationHttpMethod?: string;
-  uri?: string;
-  connectionType?: ConnectionType;
-  connectionId?: string;
-  credentials?: string;
-  requestParameters?: { [key: string]: string | undefined };
-  requestTemplates?: { [key: string]: string | undefined };
-  passthroughBehavior?: string;
-  cacheNamespace?: string;
-  cacheKeyParameters?: string[];
-  contentHandling?: ContentHandlingStrategy;
-  timeoutInMillis?: number;
-  tlsConfig?: TlsConfig;
-  responseTransferMode?: ResponseTransferMode;
-  integrationTarget?: string;
+  integrationHttpMethod?: string | undefined;
+  uri?: string | undefined;
+  connectionType?: ConnectionType | undefined;
+  connectionId?: string | undefined;
+  credentials?: string | undefined;
+  requestParameters?: { [key: string]: string | undefined } | undefined;
+  requestTemplates?: { [key: string]: string | undefined } | undefined;
+  passthroughBehavior?: string | undefined;
+  cacheNamespace?: string | undefined;
+  cacheKeyParameters?: string[] | undefined;
+  contentHandling?: ContentHandlingStrategy | undefined;
+  timeoutInMillis?: number | undefined;
+  tlsConfig?: TlsConfig | undefined;
+  responseTransferMode?: ResponseTransferMode | undefined;
+  integrationTarget?: string | undefined;
 }
 export interface PutIntegrationResponseRequest {
   restApiId: string;
   resourceId: string;
   httpMethod: string;
   statusCode: string;
-  selectionPattern?: string;
-  responseParameters?: { [key: string]: string | undefined };
-  responseTemplates?: { [key: string]: string | undefined };
-  contentHandling?: ContentHandlingStrategy;
+  selectionPattern?: string | undefined;
+  responseParameters?: { [key: string]: string | undefined } | undefined;
+  responseTemplates?: { [key: string]: string | undefined } | undefined;
+  contentHandling?: ContentHandlingStrategy | undefined;
 }
 export interface PutMethodRequest {
   restApiId: string;
   resourceId: string;
   httpMethod: string;
   authorizationType: string;
-  authorizerId?: string;
-  apiKeyRequired?: boolean;
-  operationName?: string;
-  requestParameters?: { [key: string]: boolean | undefined };
-  requestModels?: { [key: string]: string | undefined };
-  requestValidatorId?: string;
-  authorizationScopes?: string[];
+  authorizerId?: string | undefined;
+  apiKeyRequired?: boolean | undefined;
+  operationName?: string | undefined;
+  requestParameters?: { [key: string]: boolean | undefined } | undefined;
+  requestModels?: { [key: string]: string | undefined } | undefined;
+  requestValidatorId?: string | undefined;
+  authorizationScopes?: string[] | undefined;
 }
 export interface PutMethodResponseRequest {
   restApiId: string;
   resourceId: string;
   httpMethod: string;
   statusCode: string;
-  responseParameters?: { [key: string]: boolean | undefined };
-  responseModels?: { [key: string]: string | undefined };
+  responseParameters?: { [key: string]: boolean | undefined } | undefined;
+  responseModels?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutRestApiRequest {
   restApiId: string;
-  mode?: PutMode;
-  failOnWarnings?: boolean;
-  parameters?: { [key: string]: string | undefined };
+  mode?: PutMode | undefined;
+  failOnWarnings?: boolean | undefined;
+  parameters?: { [key: string]: string | undefined } | undefined;
   body: T.StreamingInputBody;
 }
 export interface RejectDomainNameAccessAssociationRequest {
@@ -1299,40 +1302,40 @@ export type MapOfStringToList = { [key: string]: string[] | undefined };
 export interface TestInvokeAuthorizerRequest {
   restApiId: string;
   authorizerId: string;
-  headers?: { [key: string]: string | undefined };
-  multiValueHeaders?: { [key: string]: string[] | undefined };
-  pathWithQueryString?: string;
-  body?: string;
-  stageVariables?: { [key: string]: string | undefined };
-  additionalContext?: { [key: string]: string | undefined };
+  headers?: { [key: string]: string | undefined } | undefined;
+  multiValueHeaders?: { [key: string]: string[] | undefined } | undefined;
+  pathWithQueryString?: string | undefined;
+  body?: string | undefined;
+  stageVariables?: { [key: string]: string | undefined } | undefined;
+  additionalContext?: { [key: string]: string | undefined } | undefined;
 }
 export interface TestInvokeAuthorizerResponse {
-  clientStatus?: number;
-  log?: string;
-  latency?: number;
-  principalId?: string;
-  policy?: string;
-  authorization?: { [key: string]: string[] | undefined };
-  claims?: { [key: string]: string | undefined };
+  clientStatus?: number | undefined;
+  log?: string | undefined;
+  latency?: number | undefined;
+  principalId?: string | undefined;
+  policy?: string | undefined;
+  authorization?: { [key: string]: string[] | undefined } | undefined;
+  claims?: { [key: string]: string | undefined } | undefined;
 }
 export interface TestInvokeMethodRequest {
   restApiId: string;
   resourceId: string;
   httpMethod: string;
-  pathWithQueryString?: string;
-  body?: string;
-  headers?: { [key: string]: string | undefined };
-  multiValueHeaders?: { [key: string]: string[] | undefined };
-  clientCertificateId?: string;
-  stageVariables?: { [key: string]: string | undefined };
+  pathWithQueryString?: string | undefined;
+  body?: string | undefined;
+  headers?: { [key: string]: string | undefined } | undefined;
+  multiValueHeaders?: { [key: string]: string[] | undefined } | undefined;
+  clientCertificateId?: string | undefined;
+  stageVariables?: { [key: string]: string | undefined } | undefined;
 }
 export interface TestInvokeMethodResponse {
-  status?: number;
-  body?: string;
-  headers?: { [key: string]: string | undefined };
-  multiValueHeaders?: { [key: string]: string[] | undefined };
-  log?: string;
-  latency?: number;
+  status?: number | undefined;
+  body?: string | undefined;
+  headers?: { [key: string]: string | undefined } | undefined;
+  multiValueHeaders?: { [key: string]: string[] | undefined } | undefined;
+  log?: string | undefined;
+  latency?: number | undefined;
 }
 export interface UntagResourceRequest {
   resourceArn: string;
@@ -1341,121 +1344,121 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export type Op = "add" | "remove" | "replace" | "move" | "copy" | "test" | (string & {});
 export interface PatchOperation {
-  op?: Op;
-  path?: string;
-  value?: string;
-  from?: string;
+  op?: Op | undefined;
+  path?: string | undefined;
+  value?: string | undefined;
+  from?: string | undefined;
 }
 export type ListOfPatchOperation = PatchOperation[];
 export interface UpdateAccountRequest {
-  patchOperations?: PatchOperation[];
+  patchOperations?: PatchOperation[] | undefined;
 }
 export interface UpdateApiKeyRequest {
   apiKey: string;
-  patchOperations?: PatchOperation[];
+  patchOperations?: PatchOperation[] | undefined;
 }
 export interface UpdateAuthorizerRequest {
   restApiId: string;
   authorizerId: string;
-  patchOperations?: PatchOperation[];
+  patchOperations?: PatchOperation[] | undefined;
 }
 export interface UpdateBasePathMappingRequest {
   domainName: string;
-  domainNameId?: string;
+  domainNameId?: string | undefined;
   basePath: string;
-  patchOperations?: PatchOperation[];
+  patchOperations?: PatchOperation[] | undefined;
 }
 export interface UpdateClientCertificateRequest {
   clientCertificateId: string;
-  patchOperations?: PatchOperation[];
+  patchOperations?: PatchOperation[] | undefined;
 }
 export interface UpdateDeploymentRequest {
   restApiId: string;
   deploymentId: string;
-  patchOperations?: PatchOperation[];
+  patchOperations?: PatchOperation[] | undefined;
 }
 export interface UpdateDocumentationPartRequest {
   restApiId: string;
   documentationPartId: string;
-  patchOperations?: PatchOperation[];
+  patchOperations?: PatchOperation[] | undefined;
 }
 export interface UpdateDocumentationVersionRequest {
   restApiId: string;
   documentationVersion: string;
-  patchOperations?: PatchOperation[];
+  patchOperations?: PatchOperation[] | undefined;
 }
 export interface UpdateDomainNameRequest {
   domainName: string;
-  domainNameId?: string;
-  patchOperations?: PatchOperation[];
+  domainNameId?: string | undefined;
+  patchOperations?: PatchOperation[] | undefined;
 }
 export interface UpdateGatewayResponseRequest {
   restApiId: string;
   responseType: GatewayResponseType;
-  patchOperations?: PatchOperation[];
+  patchOperations?: PatchOperation[] | undefined;
 }
 export interface UpdateIntegrationRequest {
   restApiId: string;
   resourceId: string;
   httpMethod: string;
-  patchOperations?: PatchOperation[];
+  patchOperations?: PatchOperation[] | undefined;
 }
 export interface UpdateIntegrationResponseRequest {
   restApiId: string;
   resourceId: string;
   httpMethod: string;
   statusCode: string;
-  patchOperations?: PatchOperation[];
+  patchOperations?: PatchOperation[] | undefined;
 }
 export interface UpdateMethodRequest {
   restApiId: string;
   resourceId: string;
   httpMethod: string;
-  patchOperations?: PatchOperation[];
+  patchOperations?: PatchOperation[] | undefined;
 }
 export interface UpdateMethodResponseRequest {
   restApiId: string;
   resourceId: string;
   httpMethod: string;
   statusCode: string;
-  patchOperations?: PatchOperation[];
+  patchOperations?: PatchOperation[] | undefined;
 }
 export interface UpdateModelRequest {
   restApiId: string;
   modelName: string;
-  patchOperations?: PatchOperation[];
+  patchOperations?: PatchOperation[] | undefined;
 }
 export interface UpdateRequestValidatorRequest {
   restApiId: string;
   requestValidatorId: string;
-  patchOperations?: PatchOperation[];
+  patchOperations?: PatchOperation[] | undefined;
 }
 export interface UpdateResourceRequest {
   restApiId: string;
   resourceId: string;
-  patchOperations?: PatchOperation[];
+  patchOperations?: PatchOperation[] | undefined;
 }
 export interface UpdateRestApiRequest {
   restApiId: string;
-  patchOperations?: PatchOperation[];
+  patchOperations?: PatchOperation[] | undefined;
 }
 export interface UpdateStageRequest {
   restApiId: string;
   stageName: string;
-  patchOperations?: PatchOperation[];
+  patchOperations?: PatchOperation[] | undefined;
 }
 export interface UpdateUsageRequest {
   usagePlanId: string;
   keyId: string;
-  patchOperations?: PatchOperation[];
+  patchOperations?: PatchOperation[] | undefined;
 }
 export interface UpdateUsagePlanRequest {
   usagePlanId: string;
-  patchOperations?: PatchOperation[];
+  patchOperations?: PatchOperation[] | undefined;
 }
 export interface UpdateVpcLinkRequest {
   vpcLinkId: string;
-  patchOperations?: PatchOperation[];
+  patchOperations?: PatchOperation[] | undefined;
 }
 export type CreateApiKeyError =
   | BadRequestException
@@ -1469,7 +1472,7 @@ export type CreateApiKeyError =
  * Create an ApiKey resource.
  */
 export const createApiKey: API.OperationMethod<
-  CreateApiKeyRequest,
+  CreateApiKeyRequest & RegionInput,
   ApiKey,
   CreateApiKeyError,
   Credentials | HttpClient.HttpClient
@@ -1503,7 +1506,7 @@ export type CreateAuthorizerError =
  * Adds a new Authorizer resource to an existing RestApi resource.
  */
 export const createAuthorizer: API.OperationMethod<
-  CreateAuthorizerRequest,
+  CreateAuthorizerRequest & RegionInput,
   Authorizer,
   CreateAuthorizerError,
   Credentials | HttpClient.HttpClient
@@ -1537,7 +1540,7 @@ export type CreateBasePathMappingError =
  * Creates a new BasePathMapping resource.
  */
 export const createBasePathMapping: API.OperationMethod<
-  CreateBasePathMappingRequest,
+  CreateBasePathMappingRequest & RegionInput,
   BasePathMapping,
   CreateBasePathMappingError,
   Credentials | HttpClient.HttpClient
@@ -1572,7 +1575,7 @@ export type CreateDeploymentError =
  * Creates a Deployment resource, which makes a specified RestApi callable over the internet.
  */
 export const createDeployment: API.OperationMethod<
-  CreateDeploymentRequest,
+  CreateDeploymentRequest & RegionInput,
   Deployment,
   CreateDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1607,7 +1610,7 @@ export type CreateDocumentationPartError =
  * Creates a documentation part.
  */
 export const createDocumentationPart: API.OperationMethod<
-  CreateDocumentationPartRequest,
+  CreateDocumentationPartRequest & RegionInput,
   DocumentationPart,
   CreateDocumentationPartError,
   Credentials | HttpClient.HttpClient
@@ -1641,7 +1644,7 @@ export type CreateDocumentationVersionError =
  * Creates a documentation version
  */
 export const createDocumentationVersion: API.OperationMethod<
-  CreateDocumentationVersionRequest,
+  CreateDocumentationVersionRequest & RegionInput,
   DocumentationVersion,
   CreateDocumentationVersionError,
   Credentials | HttpClient.HttpClient
@@ -1674,7 +1677,7 @@ export type CreateDomainNameError =
  * Creates a new domain name.
  */
 export const createDomainName: API.OperationMethod<
-  CreateDomainNameRequest,
+  CreateDomainNameRequest & RegionInput,
   DomainName,
   CreateDomainNameError,
   Credentials | HttpClient.HttpClient
@@ -1707,7 +1710,7 @@ export type CreateDomainNameAccessAssociationError =
  * domain name.
  */
 export const createDomainNameAccessAssociation: API.OperationMethod<
-  CreateDomainNameAccessAssociationRequest,
+  CreateDomainNameAccessAssociationRequest & RegionInput,
   DomainNameAccessAssociation,
   CreateDomainNameAccessAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1740,7 +1743,7 @@ export type CreateModelError =
  * Adds a new Model resource to an existing RestApi resource.
  */
 export const createModel: API.OperationMethod<
-  CreateModelRequest,
+  CreateModelRequest & RegionInput,
   Model,
   CreateModelError,
   Credentials | HttpClient.HttpClient
@@ -1774,7 +1777,7 @@ export type CreateRequestValidatorError =
  * Creates a RequestValidator of a given RestApi.
  */
 export const createRequestValidator: API.OperationMethod<
-  CreateRequestValidatorRequest,
+  CreateRequestValidatorRequest & RegionInput,
   RequestValidator,
   CreateRequestValidatorError,
   Credentials | HttpClient.HttpClient
@@ -1808,7 +1811,7 @@ export type CreateResourceError =
  * Creates a Resource resource.
  */
 export const createResource: API.OperationMethod<
-  CreateResourceRequest,
+  CreateResourceRequest & RegionInput,
   Resource,
   CreateResourceError,
   Credentials | HttpClient.HttpClient
@@ -1841,7 +1844,7 @@ export type CreateRestApiError =
  * Creates a new RestApi resource.
  */
 export const createRestApi: API.OperationMethod<
-  CreateRestApiRequest,
+  CreateRestApiRequest & RegionInput,
   RestApi,
   CreateRestApiError,
   Credentials | HttpClient.HttpClient
@@ -1874,7 +1877,7 @@ export type CreateStageError =
  * Creates a new Stage resource that references a pre-existing Deployment for the API.
  */
 export const createStage: API.OperationMethod<
-  CreateStageRequest,
+  CreateStageRequest & RegionInput,
   Stage,
   CreateStageError,
   Credentials | HttpClient.HttpClient
@@ -1908,7 +1911,7 @@ export type CreateUsagePlanError =
  * Creates a usage plan with the throttle and quota limits, as well as the associated API stages, specified in the payload.
  */
 export const createUsagePlan: API.OperationMethod<
-  CreateUsagePlanRequest,
+  CreateUsagePlanRequest & RegionInput,
   UsagePlan,
   CreateUsagePlanError,
   Credentials | HttpClient.HttpClient
@@ -1942,7 +1945,7 @@ export type CreateUsagePlanKeyError =
  * Creates a usage plan key for adding an existing API key to a usage plan.
  */
 export const createUsagePlanKey: API.OperationMethod<
-  CreateUsagePlanKeyRequest,
+  CreateUsagePlanKeyRequest & RegionInput,
   UsagePlanKey,
   CreateUsagePlanKeyError,
   Credentials | HttpClient.HttpClient
@@ -1975,7 +1978,7 @@ export type CreateVpcLinkError =
  * Creates a VPC link, under the caller's account in a selected region, in an asynchronous operation that typically takes 2-4 minutes to complete and become operational. The caller must have permissions to create and update VPC Endpoint services.
  */
 export const createVpcLink: API.OperationMethod<
-  CreateVpcLinkRequest,
+  CreateVpcLinkRequest & RegionInput,
   VpcLink,
   CreateVpcLinkError,
   Credentials | HttpClient.HttpClient
@@ -2007,7 +2010,7 @@ export type DeleteApiKeyError =
  * Deletes the ApiKey resource.
  */
 export const deleteApiKey: API.OperationMethod<
-  DeleteApiKeyRequest,
+  DeleteApiKeyRequest & RegionInput,
   DeleteApiKeyResponse,
   DeleteApiKeyError,
   Credentials | HttpClient.HttpClient
@@ -2039,7 +2042,7 @@ export type DeleteAuthorizerError =
  * Deletes an existing Authorizer resource.
  */
 export const deleteAuthorizer: API.OperationMethod<
-  DeleteAuthorizerRequest,
+  DeleteAuthorizerRequest & RegionInput,
   DeleteAuthorizerResponse,
   DeleteAuthorizerError,
   Credentials | HttpClient.HttpClient
@@ -2071,7 +2074,7 @@ export type DeleteBasePathMappingError =
  * Deletes the BasePathMapping resource.
  */
 export const deleteBasePathMapping: API.OperationMethod<
-  DeleteBasePathMappingRequest,
+  DeleteBasePathMappingRequest & RegionInput,
   DeleteBasePathMappingResponse,
   DeleteBasePathMappingError,
   Credentials | HttpClient.HttpClient
@@ -2103,7 +2106,7 @@ export type DeleteClientCertificateError =
  * Deletes the ClientCertificate resource.
  */
 export const deleteClientCertificate: API.OperationMethod<
-  DeleteClientCertificateRequest,
+  DeleteClientCertificateRequest & RegionInput,
   DeleteClientCertificateResponse,
   DeleteClientCertificateError,
   Credentials | HttpClient.HttpClient
@@ -2136,7 +2139,7 @@ export type DeleteDeploymentError =
  * Deletes a Deployment resource. Deleting a deployment will only succeed if there are no Stage resources associated with it.
  */
 export const deleteDeployment: API.OperationMethod<
-  DeleteDeploymentRequest,
+  DeleteDeploymentRequest & RegionInput,
   DeleteDeploymentResponse,
   DeleteDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -2169,7 +2172,7 @@ export type DeleteDocumentationPartError =
  * Deletes a documentation part
  */
 export const deleteDocumentationPart: API.OperationMethod<
-  DeleteDocumentationPartRequest,
+  DeleteDocumentationPartRequest & RegionInput,
   DeleteDocumentationPartResponse,
   DeleteDocumentationPartError,
   Credentials | HttpClient.HttpClient
@@ -2201,7 +2204,7 @@ export type DeleteDocumentationVersionError =
  * Deletes a documentation version.
  */
 export const deleteDocumentationVersion: API.OperationMethod<
-  DeleteDocumentationVersionRequest,
+  DeleteDocumentationVersionRequest & RegionInput,
   DeleteDocumentationVersionResponse,
   DeleteDocumentationVersionError,
   Credentials | HttpClient.HttpClient
@@ -2233,7 +2236,7 @@ export type DeleteDomainNameError =
  * Deletes the DomainName resource.
  */
 export const deleteDomainName: API.OperationMethod<
-  DeleteDomainNameRequest,
+  DeleteDomainNameRequest & RegionInput,
   DeleteDomainNameResponse,
   DeleteDomainNameError,
   Credentials | HttpClient.HttpClient
@@ -2267,7 +2270,7 @@ export type DeleteDomainNameAccessAssociationError =
  * Only the AWS account that created the DomainNameAccessAssociation resource can delete it. To stop an access association source in another AWS account from accessing your private custom domain name, use the RejectDomainNameAccessAssociation operation.
  */
 export const deleteDomainNameAccessAssociation: API.OperationMethod<
-  DeleteDomainNameAccessAssociationRequest,
+  DeleteDomainNameAccessAssociationRequest & RegionInput,
   DeleteDomainNameAccessAssociationResponse,
   DeleteDomainNameAccessAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2299,7 +2302,7 @@ export type DeleteGatewayResponseError =
  * Clears any customization of a GatewayResponse of a specified response type on the given RestApi and resets it with the default settings.
  */
 export const deleteGatewayResponse: API.OperationMethod<
-  DeleteGatewayResponseRequest,
+  DeleteGatewayResponseRequest & RegionInput,
   DeleteGatewayResponseResponse,
   DeleteGatewayResponseError,
   Credentials | HttpClient.HttpClient
@@ -2331,7 +2334,7 @@ export type DeleteIntegrationError =
  * Represents a delete integration.
  */
 export const deleteIntegration: API.OperationMethod<
-  DeleteIntegrationRequest,
+  DeleteIntegrationRequest & RegionInput,
   DeleteIntegrationResponse,
   DeleteIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -2363,7 +2366,7 @@ export type DeleteIntegrationResponseError =
  * Represents a delete integration response.
  */
 export const deleteIntegrationResponse: API.OperationMethod<
-  DeleteIntegrationResponseRequest,
+  DeleteIntegrationResponseRequest & RegionInput,
   DeleteIntegrationResponseResponse,
   DeleteIntegrationResponseError,
   Credentials | HttpClient.HttpClient
@@ -2394,7 +2397,7 @@ export type DeleteMethodError =
  * Deletes an existing Method resource.
  */
 export const deleteMethod: API.OperationMethod<
-  DeleteMethodRequest,
+  DeleteMethodRequest & RegionInput,
   DeleteMethodResponse,
   DeleteMethodError,
   Credentials | HttpClient.HttpClient
@@ -2420,7 +2423,7 @@ export type DeleteMethodResponseError =
  * Deletes an existing MethodResponse resource.
  */
 export const deleteMethodResponse: API.OperationMethod<
-  DeleteMethodResponseRequest,
+  DeleteMethodResponseRequest & RegionInput,
   DeleteMethodResponseResponse,
   DeleteMethodResponseError,
   Credentials | HttpClient.HttpClient
@@ -2452,7 +2455,7 @@ export type DeleteModelError =
  * Deletes a model.
  */
 export const deleteModel: API.OperationMethod<
-  DeleteModelRequest,
+  DeleteModelRequest & RegionInput,
   DeleteModelResponse,
   DeleteModelError,
   Credentials | HttpClient.HttpClient
@@ -2484,7 +2487,7 @@ export type DeleteRequestValidatorError =
  * Deletes a RequestValidator of a given RestApi.
  */
 export const deleteRequestValidator: API.OperationMethod<
-  DeleteRequestValidatorRequest,
+  DeleteRequestValidatorRequest & RegionInput,
   DeleteRequestValidatorResponse,
   DeleteRequestValidatorError,
   Credentials | HttpClient.HttpClient
@@ -2516,7 +2519,7 @@ export type DeleteResourceError =
  * Deletes a Resource resource.
  */
 export const deleteResource: API.OperationMethod<
-  DeleteResourceRequest,
+  DeleteResourceRequest & RegionInput,
   DeleteResourceResponse,
   DeleteResourceError,
   Credentials | HttpClient.HttpClient
@@ -2548,7 +2551,7 @@ export type DeleteRestApiError =
  * Deletes the specified API.
  */
 export const deleteRestApi: API.OperationMethod<
-  DeleteRestApiRequest,
+  DeleteRestApiRequest & RegionInput,
   DeleteRestApiResponse,
   DeleteRestApiError,
   Credentials | HttpClient.HttpClient
@@ -2581,7 +2584,7 @@ export type DeleteStageError =
  * Deletes a Stage resource.
  */
 export const deleteStage: API.OperationMethod<
-  DeleteStageRequest,
+  DeleteStageRequest & RegionInput,
   DeleteStageResponse,
   DeleteStageError,
   Credentials | HttpClient.HttpClient
@@ -2614,7 +2617,7 @@ export type DeleteUsagePlanError =
  * Deletes a usage plan of a given plan Id.
  */
 export const deleteUsagePlan: API.OperationMethod<
-  DeleteUsagePlanRequest,
+  DeleteUsagePlanRequest & RegionInput,
   DeleteUsagePlanResponse,
   DeleteUsagePlanError,
   Credentials | HttpClient.HttpClient
@@ -2646,7 +2649,7 @@ export type DeleteUsagePlanKeyError =
  * Deletes a usage plan key and remove the underlying API key from the associated usage plan.
  */
 export const deleteUsagePlanKey: API.OperationMethod<
-  DeleteUsagePlanKeyRequest,
+  DeleteUsagePlanKeyRequest & RegionInput,
   DeleteUsagePlanKeyResponse,
   DeleteUsagePlanKeyError,
   Credentials | HttpClient.HttpClient
@@ -2678,7 +2681,7 @@ export type DeleteVpcLinkError =
  * Deletes an existing VpcLink of a specified identifier.
  */
 export const deleteVpcLink: API.OperationMethod<
-  DeleteVpcLinkRequest,
+  DeleteVpcLinkRequest & RegionInput,
   DeleteVpcLinkResponse,
   DeleteVpcLinkError,
   Credentials | HttpClient.HttpClient
@@ -2711,7 +2714,7 @@ export type FlushStageAuthorizersCacheError =
  * Flushes all authorizer cache entries on a stage.
  */
 export const flushStageAuthorizersCache: API.OperationMethod<
-  FlushStageAuthorizersCacheRequest,
+  FlushStageAuthorizersCacheRequest & RegionInput,
   FlushStageAuthorizersCacheResponse,
   FlushStageAuthorizersCacheError,
   Credentials | HttpClient.HttpClient
@@ -2745,7 +2748,7 @@ export type FlushStageCacheError =
  * Flushes a stage's cache.
  */
 export const flushStageCache: API.OperationMethod<
-  FlushStageCacheRequest,
+  FlushStageCacheRequest & RegionInput,
   FlushStageCacheResponse,
   FlushStageCacheError,
   Credentials | HttpClient.HttpClient
@@ -2778,7 +2781,7 @@ export type GenerateClientCertificateError =
  * Generates a ClientCertificate resource.
  */
 export const generateClientCertificate: API.OperationMethod<
-  GenerateClientCertificateRequest,
+  GenerateClientCertificateRequest & RegionInput,
   ClientCertificate,
   GenerateClientCertificateError,
   Credentials | HttpClient.HttpClient
@@ -2809,7 +2812,7 @@ export type GetAccountError =
  * Gets information about the current Account resource.
  */
 export const getAccount: API.OperationMethod<
-  GetAccountRequest,
+  GetAccountRequest & RegionInput,
   Account,
   GetAccountError,
   Credentials | HttpClient.HttpClient
@@ -2834,7 +2837,7 @@ export type GetApiKeyError =
  * Gets information about the current ApiKey resource.
  */
 export const getApiKey: API.OperationMethod<
-  GetApiKeyRequest,
+  GetApiKeyRequest & RegionInput,
   ApiKey,
   GetApiKeyError,
   Credentials | HttpClient.HttpClient
@@ -2859,7 +2862,7 @@ export type GetApiKeysError =
  * Gets information about the current ApiKeys resource.
  */
 export const getApiKeys: API.PaginatedOperationMethod<
-  GetApiKeysRequest,
+  GetApiKeysRequest & RegionInput,
   ApiKeys,
   GetApiKeysError,
   Credentials | HttpClient.HttpClient,
@@ -2891,7 +2894,7 @@ export type GetAuthorizerError =
  * Describe an existing Authorizer resource.
  */
 export const getAuthorizer: API.OperationMethod<
-  GetAuthorizerRequest,
+  GetAuthorizerRequest & RegionInput,
   Authorizer,
   GetAuthorizerError,
   Credentials | HttpClient.HttpClient
@@ -2916,7 +2919,7 @@ export type GetAuthorizersError =
  * Describe an existing Authorizers resource.
  */
 export const getAuthorizers: API.OperationMethod<
-  GetAuthorizersRequest,
+  GetAuthorizersRequest & RegionInput,
   Authorizers,
   GetAuthorizersError,
   Credentials | HttpClient.HttpClient
@@ -2941,7 +2944,7 @@ export type GetBasePathMappingError =
  * Describe a BasePathMapping resource.
  */
 export const getBasePathMapping: API.OperationMethod<
-  GetBasePathMappingRequest,
+  GetBasePathMappingRequest & RegionInput,
   BasePathMapping,
   GetBasePathMappingError,
   Credentials | HttpClient.HttpClient
@@ -2966,7 +2969,7 @@ export type GetBasePathMappingsError =
  * Represents a collection of BasePathMapping resources.
  */
 export const getBasePathMappings: API.PaginatedOperationMethod<
-  GetBasePathMappingsRequest,
+  GetBasePathMappingsRequest & RegionInput,
   BasePathMappings,
   GetBasePathMappingsError,
   Credentials | HttpClient.HttpClient,
@@ -2998,7 +3001,7 @@ export type GetClientCertificateError =
  * Gets information about the current ClientCertificate resource.
  */
 export const getClientCertificate: API.OperationMethod<
-  GetClientCertificateRequest,
+  GetClientCertificateRequest & RegionInput,
   ClientCertificate,
   GetClientCertificateError,
   Credentials | HttpClient.HttpClient
@@ -3023,7 +3026,7 @@ export type GetClientCertificatesError =
  * Gets a collection of ClientCertificate resources.
  */
 export const getClientCertificates: API.PaginatedOperationMethod<
-  GetClientCertificatesRequest,
+  GetClientCertificatesRequest & RegionInput,
   ClientCertificates,
   GetClientCertificatesError,
   Credentials | HttpClient.HttpClient,
@@ -3056,7 +3059,7 @@ export type GetDeploymentError =
  * Gets information about a Deployment resource.
  */
 export const getDeployment: API.OperationMethod<
-  GetDeploymentRequest,
+  GetDeploymentRequest & RegionInput,
   Deployment,
   GetDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -3088,7 +3091,7 @@ export type GetDeploymentsError =
  * Gets information about a Deployments collection.
  */
 export const getDeployments: API.PaginatedOperationMethod<
-  GetDeploymentsRequest,
+  GetDeploymentsRequest & RegionInput,
   Deployments,
   GetDeploymentsError,
   Credentials | HttpClient.HttpClient,
@@ -3126,7 +3129,7 @@ export type GetDocumentationPartError =
  * Gets a documentation part.
  */
 export const getDocumentationPart: API.OperationMethod<
-  GetDocumentationPartRequest,
+  GetDocumentationPartRequest & RegionInput,
   DocumentationPart,
   GetDocumentationPartError,
   Credentials | HttpClient.HttpClient
@@ -3151,7 +3154,7 @@ export type GetDocumentationPartsError =
  * Gets documentation parts.
  */
 export const getDocumentationParts: API.OperationMethod<
-  GetDocumentationPartsRequest,
+  GetDocumentationPartsRequest & RegionInput,
   DocumentationParts,
   GetDocumentationPartsError,
   Credentials | HttpClient.HttpClient
@@ -3175,7 +3178,7 @@ export type GetDocumentationVersionError =
  * Gets a documentation version.
  */
 export const getDocumentationVersion: API.OperationMethod<
-  GetDocumentationVersionRequest,
+  GetDocumentationVersionRequest & RegionInput,
   DocumentationVersion,
   GetDocumentationVersionError,
   Credentials | HttpClient.HttpClient
@@ -3200,7 +3203,7 @@ export type GetDocumentationVersionsError =
  * Gets documentation versions.
  */
 export const getDocumentationVersions: API.OperationMethod<
-  GetDocumentationVersionsRequest,
+  GetDocumentationVersionsRequest & RegionInput,
   DocumentationVersions,
   GetDocumentationVersionsError,
   Credentials | HttpClient.HttpClient
@@ -3225,7 +3228,7 @@ export type GetDomainNameError =
  * Represents a domain name that is contained in a simpler, more intuitive URL that can be called.
  */
 export const getDomainName: API.OperationMethod<
-  GetDomainNameRequest,
+  GetDomainNameRequest & RegionInput,
   DomainName,
   GetDomainNameError,
   Credentials | HttpClient.HttpClient
@@ -3250,7 +3253,7 @@ export type GetDomainNameAccessAssociationsError =
  * Represents a collection on DomainNameAccessAssociations resources.
  */
 export const getDomainNameAccessAssociations: API.OperationMethod<
-  GetDomainNameAccessAssociationsRequest,
+  GetDomainNameAccessAssociationsRequest & RegionInput,
   DomainNameAccessAssociations,
   GetDomainNameAccessAssociationsError,
   Credentials | HttpClient.HttpClient
@@ -3275,7 +3278,7 @@ export type GetDomainNamesError =
  * Represents a collection of DomainName resources.
  */
 export const getDomainNames: API.PaginatedOperationMethod<
-  GetDomainNamesRequest,
+  GetDomainNamesRequest & RegionInput,
   DomainNames,
   GetDomainNamesError,
   Credentials | HttpClient.HttpClient,
@@ -3309,7 +3312,7 @@ export type GetExportError =
  * Exports a deployed version of a RestApi in a specified format.
  */
 export const getExport: API.OperationMethod<
-  GetExportRequest,
+  GetExportRequest & RegionInput,
   ExportResponse,
   GetExportError,
   Credentials | HttpClient.HttpClient
@@ -3341,7 +3344,7 @@ export type GetGatewayResponseError =
  * Gets a GatewayResponse of a specified response type on the given RestApi.
  */
 export const getGatewayResponse: API.OperationMethod<
-  GetGatewayResponseRequest,
+  GetGatewayResponseRequest & RegionInput,
   GatewayResponse,
   GetGatewayResponseError,
   Credentials | HttpClient.HttpClient
@@ -3366,7 +3369,7 @@ export type GetGatewayResponsesError =
  * Gets the GatewayResponses collection on the given RestApi. If an API developer has not added any definitions for gateway responses, the result will be the API Gateway-generated default GatewayResponses collection for the supported response types.
  */
 export const getGatewayResponses: API.OperationMethod<
-  GetGatewayResponsesRequest,
+  GetGatewayResponsesRequest & RegionInput,
   GatewayResponses,
   GetGatewayResponsesError,
   Credentials | HttpClient.HttpClient
@@ -3391,7 +3394,7 @@ export type GetIntegrationError =
  * Get the integration settings.
  */
 export const getIntegration: API.OperationMethod<
-  GetIntegrationRequest,
+  GetIntegrationRequest & RegionInput,
   Integration,
   GetIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -3416,7 +3419,7 @@ export type GetIntegrationResponseError =
  * Represents a get integration response.
  */
 export const getIntegrationResponse: API.OperationMethod<
-  GetIntegrationResponseRequest,
+  GetIntegrationResponseRequest & RegionInput,
   IntegrationResponse,
   GetIntegrationResponseError,
   Credentials | HttpClient.HttpClient
@@ -3440,7 +3443,7 @@ export type GetMethodError =
  * Describe an existing Method resource.
  */
 export const getMethod: API.OperationMethod<
-  GetMethodRequest,
+  GetMethodRequest & RegionInput,
   Method,
   GetMethodError,
   Credentials | HttpClient.HttpClient
@@ -3464,7 +3467,7 @@ export type GetMethodResponseError =
  * Describes a MethodResponse resource.
  */
 export const getMethodResponse: API.OperationMethod<
-  GetMethodResponseRequest,
+  GetMethodResponseRequest & RegionInput,
   MethodResponse,
   GetMethodResponseError,
   Credentials | HttpClient.HttpClient
@@ -3489,7 +3492,7 @@ export type GetModelError =
  * Describes an existing model defined for a RestApi resource.
  */
 export const getModel: API.OperationMethod<
-  GetModelRequest,
+  GetModelRequest & RegionInput,
   Model,
   GetModelError,
   Credentials | HttpClient.HttpClient
@@ -3514,7 +3517,7 @@ export type GetModelsError =
  * Describes existing Models defined for a RestApi resource.
  */
 export const getModels: API.PaginatedOperationMethod<
-  GetModelsRequest,
+  GetModelsRequest & RegionInput,
   Models,
   GetModelsError,
   Credentials | HttpClient.HttpClient,
@@ -3546,7 +3549,7 @@ export type GetModelTemplateError =
  * Generates a sample mapping template that can be used to transform a payload into the structure of a model.
  */
 export const getModelTemplate: API.OperationMethod<
-  GetModelTemplateRequest,
+  GetModelTemplateRequest & RegionInput,
   Template,
   GetModelTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3571,7 +3574,7 @@ export type GetRequestValidatorError =
  * Gets a RequestValidator of a given RestApi.
  */
 export const getRequestValidator: API.OperationMethod<
-  GetRequestValidatorRequest,
+  GetRequestValidatorRequest & RegionInput,
   RequestValidator,
   GetRequestValidatorError,
   Credentials | HttpClient.HttpClient
@@ -3596,7 +3599,7 @@ export type GetRequestValidatorsError =
  * Gets the RequestValidators collection of a given RestApi.
  */
 export const getRequestValidators: API.OperationMethod<
-  GetRequestValidatorsRequest,
+  GetRequestValidatorsRequest & RegionInput,
   RequestValidators,
   GetRequestValidatorsError,
   Credentials | HttpClient.HttpClient
@@ -3620,7 +3623,7 @@ export type GetResourceError =
  * Lists information about a resource.
  */
 export const getResource: API.OperationMethod<
-  GetResourceRequest,
+  GetResourceRequest & RegionInput,
   Resource,
   GetResourceError,
   Credentials | HttpClient.HttpClient
@@ -3645,7 +3648,7 @@ export type GetResourcesError =
  * Lists information about a collection of Resource resources.
  */
 export const getResources: API.PaginatedOperationMethod<
-  GetResourcesRequest,
+  GetResourcesRequest & RegionInput,
   Resources,
   GetResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -3677,7 +3680,7 @@ export type GetRestApiError =
  * Lists the RestApi resource in the collection.
  */
 export const getRestApi: API.OperationMethod<
-  GetRestApiRequest,
+  GetRestApiRequest & RegionInput,
   RestApi,
   GetRestApiError,
   Credentials | HttpClient.HttpClient
@@ -3702,7 +3705,7 @@ export type GetRestApisError =
  * Lists the RestApis resources for your collection.
  */
 export const getRestApis: API.PaginatedOperationMethod<
-  GetRestApisRequest,
+  GetRestApisRequest & RegionInput,
   RestApis,
   GetRestApisError,
   Credentials | HttpClient.HttpClient,
@@ -3736,7 +3739,7 @@ export type GetSdkError =
  * Generates a client SDK for a RestApi and Stage.
  */
 export const getSdk: API.OperationMethod<
-  GetSdkRequest,
+  GetSdkRequest & RegionInput,
   SdkResponse,
   GetSdkError,
   Credentials | HttpClient.HttpClient
@@ -3768,7 +3771,7 @@ export type GetSdkTypeError =
  * Gets an SDK type.
  */
 export const getSdkType: API.OperationMethod<
-  GetSdkTypeRequest,
+  GetSdkTypeRequest & RegionInput,
   SdkType,
   GetSdkTypeError,
   Credentials | HttpClient.HttpClient
@@ -3793,7 +3796,7 @@ export type GetSdkTypesError =
  * Gets SDK types
  */
 export const getSdkTypes: API.OperationMethod<
-  GetSdkTypesRequest,
+  GetSdkTypesRequest & RegionInput,
   SdkTypes,
   GetSdkTypesError,
   Credentials | HttpClient.HttpClient
@@ -3820,7 +3823,7 @@ export type GetStageError =
  * Gets information about a Stage resource.
  */
 export const getStage: API.OperationMethod<
-  GetStageRequest,
+  GetStageRequest & RegionInput,
   Stage,
   GetStageError,
   Credentials | HttpClient.HttpClient
@@ -3854,7 +3857,7 @@ export type GetStagesError =
  * Gets information about one or more Stage resources.
  */
 export const getStages: API.OperationMethod<
-  GetStagesRequest,
+  GetStagesRequest & RegionInput,
   Stages,
   GetStagesError,
   Credentials | HttpClient.HttpClient
@@ -3886,7 +3889,7 @@ export type GetTagsError =
  * Gets the Tags collection for a given resource.
  */
 export const getTags: API.OperationMethod<
-  GetTagsRequest,
+  GetTagsRequest & RegionInput,
   Tags,
   GetTagsError,
   Credentials | HttpClient.HttpClient
@@ -3911,7 +3914,7 @@ export type GetUsageError =
  * Gets the usage data of a usage plan in a specified time interval.
  */
 export const getUsage: API.PaginatedOperationMethod<
-  GetUsageRequest,
+  GetUsageRequest & RegionInput,
   Usage,
   GetUsageError,
   Credentials | HttpClient.HttpClient,
@@ -3943,7 +3946,7 @@ export type GetUsagePlanError =
  * Gets a usage plan of a given plan identifier.
  */
 export const getUsagePlan: API.OperationMethod<
-  GetUsagePlanRequest,
+  GetUsagePlanRequest & RegionInput,
   UsagePlan,
   GetUsagePlanError,
   Credentials | HttpClient.HttpClient
@@ -3968,7 +3971,7 @@ export type GetUsagePlanKeyError =
  * Gets a usage plan key of a given key identifier.
  */
 export const getUsagePlanKey: API.OperationMethod<
-  GetUsagePlanKeyRequest,
+  GetUsagePlanKeyRequest & RegionInput,
   UsagePlanKey,
   GetUsagePlanKeyError,
   Credentials | HttpClient.HttpClient
@@ -3993,7 +3996,7 @@ export type GetUsagePlanKeysError =
  * Gets all the usage plan keys representing the API keys added to a specified usage plan.
  */
 export const getUsagePlanKeys: API.PaginatedOperationMethod<
-  GetUsagePlanKeysRequest,
+  GetUsagePlanKeysRequest & RegionInput,
   UsagePlanKeys,
   GetUsagePlanKeysError,
   Credentials | HttpClient.HttpClient,
@@ -4025,7 +4028,7 @@ export type GetUsagePlansError =
  * Gets all the usage plans of the caller's account.
  */
 export const getUsagePlans: API.PaginatedOperationMethod<
-  GetUsagePlansRequest,
+  GetUsagePlansRequest & RegionInput,
   UsagePlans,
   GetUsagePlansError,
   Credentials | HttpClient.HttpClient,
@@ -4057,7 +4060,7 @@ export type GetVpcLinkError =
  * Gets a specified VPC link under the caller's account in a region.
  */
 export const getVpcLink: API.OperationMethod<
-  GetVpcLinkRequest,
+  GetVpcLinkRequest & RegionInput,
   VpcLink,
   GetVpcLinkError,
   Credentials | HttpClient.HttpClient
@@ -4082,7 +4085,7 @@ export type GetVpcLinksError =
  * Gets the VpcLinks collection under the caller's account in a selected region.
  */
 export const getVpcLinks: API.PaginatedOperationMethod<
-  GetVpcLinksRequest,
+  GetVpcLinksRequest & RegionInput,
   VpcLinks,
   GetVpcLinksError,
   Credentials | HttpClient.HttpClient,
@@ -4116,7 +4119,7 @@ export type ImportApiKeysError =
  * Import API keys from an external source, such as a CSV-formatted file.
  */
 export const importApiKeys: API.OperationMethod<
-  ImportApiKeysRequest,
+  ImportApiKeysRequest & RegionInput,
   ApiKeyIds,
   ImportApiKeysError,
   Credentials | HttpClient.HttpClient
@@ -4150,7 +4153,7 @@ export type ImportDocumentationPartsError =
  * Imports documentation parts
  */
 export const importDocumentationParts: API.OperationMethod<
-  ImportDocumentationPartsRequest,
+  ImportDocumentationPartsRequest & RegionInput,
   DocumentationPartIds,
   ImportDocumentationPartsError,
   Credentials | HttpClient.HttpClient
@@ -4184,7 +4187,7 @@ export type ImportRestApiError =
  * A feature of the API Gateway control service for creating a new API from an external API definition file.
  */
 export const importRestApi: API.OperationMethod<
-  ImportRestApiRequest,
+  ImportRestApiRequest & RegionInput,
   RestApi,
   ImportRestApiError,
   Credentials | HttpClient.HttpClient
@@ -4218,7 +4221,7 @@ export type PutGatewayResponseError =
  * Creates a customization of a GatewayResponse of a specified response type and status code on the given RestApi.
  */
 export const putGatewayResponse: API.OperationMethod<
-  PutGatewayResponseRequest,
+  PutGatewayResponseRequest & RegionInput,
   GatewayResponse,
   PutGatewayResponseError,
   Credentials | HttpClient.HttpClient
@@ -4252,7 +4255,7 @@ export type PutIntegrationError =
  * Sets up a method's integration.
  */
 export const putIntegration: API.OperationMethod<
-  PutIntegrationRequest,
+  PutIntegrationRequest & RegionInput,
   Integration,
   PutIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -4286,7 +4289,7 @@ export type PutIntegrationResponseError =
  * Represents a put integration.
  */
 export const putIntegrationResponse: API.OperationMethod<
-  PutIntegrationResponseRequest,
+  PutIntegrationResponseRequest & RegionInput,
   IntegrationResponse,
   PutIntegrationResponseError,
   Credentials | HttpClient.HttpClient
@@ -4320,7 +4323,7 @@ export type PutMethodError =
  * Add a method to an existing Resource resource.
  */
 export const putMethod: API.OperationMethod<
-  PutMethodRequest,
+  PutMethodRequest & RegionInput,
   Method,
   PutMethodError,
   Credentials | HttpClient.HttpClient
@@ -4354,7 +4357,7 @@ export type PutMethodResponseError =
  * Adds a MethodResponse to an existing Method resource.
  */
 export const putMethodResponse: API.OperationMethod<
-  PutMethodResponseRequest,
+  PutMethodResponseRequest & RegionInput,
   MethodResponse,
   PutMethodResponseError,
   Credentials | HttpClient.HttpClient
@@ -4389,7 +4392,7 @@ export type PutRestApiError =
  * The update can take the form of merging the supplied definition into the existing API or overwriting the existing API.
  */
 export const putRestApi: API.OperationMethod<
-  PutRestApiRequest,
+  PutRestApiRequest & RegionInput,
   RestApi,
   PutRestApiError,
   Credentials | HttpClient.HttpClient
@@ -4424,7 +4427,7 @@ export type RejectDomainNameAccessAssociationError =
  * To reject a domain name access association with an access association source in another AWS account, use this operation. To remove a domain name access association with an access association source in your own account, use the DeleteDomainNameAccessAssociation operation.
  */
 export const rejectDomainNameAccessAssociation: API.OperationMethod<
-  RejectDomainNameAccessAssociationRequest,
+  RejectDomainNameAccessAssociationRequest & RegionInput,
   RejectDomainNameAccessAssociationResponse,
   RejectDomainNameAccessAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4457,7 +4460,7 @@ export type TagResourceError =
  * Adds or updates a tag on a given resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4489,7 +4492,7 @@ export type TestInvokeAuthorizerError =
  * Simulate the execution of an Authorizer in your RestApi with headers, parameters, and an incoming request body.
  */
 export const testInvokeAuthorizer: API.OperationMethod<
-  TestInvokeAuthorizerRequest,
+  TestInvokeAuthorizerRequest & RegionInput,
   TestInvokeAuthorizerResponse,
   TestInvokeAuthorizerError,
   Credentials | HttpClient.HttpClient
@@ -4514,7 +4517,7 @@ export type TestInvokeMethodError =
  * Simulate the invocation of a Method in your RestApi with headers, parameters, and an incoming request body.
  */
 export const testInvokeMethod: API.OperationMethod<
-  TestInvokeMethodRequest,
+  TestInvokeMethodRequest & RegionInput,
   TestInvokeMethodResponse,
   TestInvokeMethodError,
   Credentials | HttpClient.HttpClient
@@ -4541,7 +4544,7 @@ export type UntagResourceError =
  * Removes a tag from a given resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4575,7 +4578,7 @@ export type UpdateAccountError =
  * Changes information about the current Account resource.
  */
 export const updateAccount: API.OperationMethod<
-  UpdateAccountRequest,
+  UpdateAccountRequest & RegionInput,
   Account,
   UpdateAccountError,
   Credentials | HttpClient.HttpClient
@@ -4609,7 +4612,7 @@ export type UpdateApiKeyError =
  * Changes information about an ApiKey resource.
  */
 export const updateApiKey: API.OperationMethod<
-  UpdateApiKeyRequest,
+  UpdateApiKeyRequest & RegionInput,
   ApiKey,
   UpdateApiKeyError,
   Credentials | HttpClient.HttpClient
@@ -4643,7 +4646,7 @@ export type UpdateAuthorizerError =
  * Updates an existing Authorizer resource.
  */
 export const updateAuthorizer: API.OperationMethod<
-  UpdateAuthorizerRequest,
+  UpdateAuthorizerRequest & RegionInput,
   Authorizer,
   UpdateAuthorizerError,
   Credentials | HttpClient.HttpClient
@@ -4677,7 +4680,7 @@ export type UpdateBasePathMappingError =
  * Changes information about the BasePathMapping resource.
  */
 export const updateBasePathMapping: API.OperationMethod<
-  UpdateBasePathMappingRequest,
+  UpdateBasePathMappingRequest & RegionInput,
   BasePathMapping,
   UpdateBasePathMappingError,
   Credentials | HttpClient.HttpClient
@@ -4711,7 +4714,7 @@ export type UpdateClientCertificateError =
  * Changes information about an ClientCertificate resource.
  */
 export const updateClientCertificate: API.OperationMethod<
-  UpdateClientCertificateRequest,
+  UpdateClientCertificateRequest & RegionInput,
   ClientCertificate,
   UpdateClientCertificateError,
   Credentials | HttpClient.HttpClient
@@ -4746,7 +4749,7 @@ export type UpdateDeploymentError =
  * Changes information about a Deployment resource.
  */
 export const updateDeployment: API.OperationMethod<
-  UpdateDeploymentRequest,
+  UpdateDeploymentRequest & RegionInput,
   Deployment,
   UpdateDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -4781,7 +4784,7 @@ export type UpdateDocumentationPartError =
  * Updates a documentation part.
  */
 export const updateDocumentationPart: API.OperationMethod<
-  UpdateDocumentationPartRequest,
+  UpdateDocumentationPartRequest & RegionInput,
   DocumentationPart,
   UpdateDocumentationPartError,
   Credentials | HttpClient.HttpClient
@@ -4815,7 +4818,7 @@ export type UpdateDocumentationVersionError =
  * Updates a documentation version.
  */
 export const updateDocumentationVersion: API.OperationMethod<
-  UpdateDocumentationVersionRequest,
+  UpdateDocumentationVersionRequest & RegionInput,
   DocumentationVersion,
   UpdateDocumentationVersionError,
   Credentials | HttpClient.HttpClient
@@ -4849,7 +4852,7 @@ export type UpdateDomainNameError =
  * Changes information about the DomainName resource.
  */
 export const updateDomainName: API.OperationMethod<
-  UpdateDomainNameRequest,
+  UpdateDomainNameRequest & RegionInput,
   DomainName,
   UpdateDomainNameError,
   Credentials | HttpClient.HttpClient
@@ -4883,7 +4886,7 @@ export type UpdateGatewayResponseError =
  * Updates a GatewayResponse of a specified response type on the given RestApi.
  */
 export const updateGatewayResponse: API.OperationMethod<
-  UpdateGatewayResponseRequest,
+  UpdateGatewayResponseRequest & RegionInput,
   GatewayResponse,
   UpdateGatewayResponseError,
   Credentials | HttpClient.HttpClient
@@ -4917,7 +4920,7 @@ export type UpdateIntegrationError =
  * Represents an update integration.
  */
 export const updateIntegration: API.OperationMethod<
-  UpdateIntegrationRequest,
+  UpdateIntegrationRequest & RegionInput,
   Integration,
   UpdateIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -4951,7 +4954,7 @@ export type UpdateIntegrationResponseError =
  * Represents an update integration response.
  */
 export const updateIntegrationResponse: API.OperationMethod<
-  UpdateIntegrationResponseRequest,
+  UpdateIntegrationResponseRequest & RegionInput,
   IntegrationResponse,
   UpdateIntegrationResponseError,
   Credentials | HttpClient.HttpClient
@@ -4984,7 +4987,7 @@ export type UpdateMethodError =
  * Updates an existing Method resource.
  */
 export const updateMethod: API.OperationMethod<
-  UpdateMethodRequest,
+  UpdateMethodRequest & RegionInput,
   Method,
   UpdateMethodError,
   Credentials | HttpClient.HttpClient
@@ -5017,7 +5020,7 @@ export type UpdateMethodResponseError =
  * Updates an existing MethodResponse resource.
  */
 export const updateMethodResponse: API.OperationMethod<
-  UpdateMethodResponseRequest,
+  UpdateMethodResponseRequest & RegionInput,
   MethodResponse,
   UpdateMethodResponseError,
   Credentials | HttpClient.HttpClient
@@ -5051,7 +5054,7 @@ export type UpdateModelError =
  * Changes information about a model. The maximum size of the model is 400 KB.
  */
 export const updateModel: API.OperationMethod<
-  UpdateModelRequest,
+  UpdateModelRequest & RegionInput,
   Model,
   UpdateModelError,
   Credentials | HttpClient.HttpClient
@@ -5085,7 +5088,7 @@ export type UpdateRequestValidatorError =
  * Updates a RequestValidator of a given RestApi.
  */
 export const updateRequestValidator: API.OperationMethod<
-  UpdateRequestValidatorRequest,
+  UpdateRequestValidatorRequest & RegionInput,
   RequestValidator,
   UpdateRequestValidatorError,
   Credentials | HttpClient.HttpClient
@@ -5118,7 +5121,7 @@ export type UpdateResourceError =
  * Changes information about a Resource resource.
  */
 export const updateResource: API.OperationMethod<
-  UpdateResourceRequest,
+  UpdateResourceRequest & RegionInput,
   Resource,
   UpdateResourceError,
   Credentials | HttpClient.HttpClient
@@ -5151,7 +5154,7 @@ export type UpdateRestApiError =
  * Changes information about the specified API.
  */
 export const updateRestApi: API.OperationMethod<
-  UpdateRestApiRequest,
+  UpdateRestApiRequest & RegionInput,
   RestApi,
   UpdateRestApiError,
   Credentials | HttpClient.HttpClient
@@ -5185,7 +5188,7 @@ export type UpdateStageError =
  * Changes information about a Stage resource.
  */
 export const updateStage: API.OperationMethod<
-  UpdateStageRequest,
+  UpdateStageRequest & RegionInput,
   Stage,
   UpdateStageError,
   Credentials | HttpClient.HttpClient
@@ -5219,7 +5222,7 @@ export type UpdateUsageError =
  * Grants a temporary extension to the remaining quota of a usage plan associated with a specified API key.
  */
 export const updateUsage: API.OperationMethod<
-  UpdateUsageRequest,
+  UpdateUsageRequest & RegionInput,
   Usage,
   UpdateUsageError,
   Credentials | HttpClient.HttpClient
@@ -5253,7 +5256,7 @@ export type UpdateUsagePlanError =
  * Updates a usage plan of a given plan Id.
  */
 export const updateUsagePlan: API.OperationMethod<
-  UpdateUsagePlanRequest,
+  UpdateUsagePlanRequest & RegionInput,
   UsagePlan,
   UpdateUsagePlanError,
   Credentials | HttpClient.HttpClient
@@ -5287,7 +5290,7 @@ export type UpdateVpcLinkError =
  * Updates an existing VpcLink of a specified identifier.
  */
 export const updateVpcLink: API.OperationMethod<
-  UpdateVpcLinkRequest,
+  UpdateVpcLinkRequest & RegionInput,
   VpcLink,
   UpdateVpcLinkError,
   Credentials | HttpClient.HttpClient

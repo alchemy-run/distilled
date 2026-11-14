@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -110,7 +111,7 @@ export class InternalServiceErrorException
     "InternalServiceErrorException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InvalidRequestException
   extends /*@__PURE__*/ S.TaggedError<InvalidRequestException>()(
     "InvalidRequestException",
@@ -149,7 +150,7 @@ export class ThrottlingException
     "ThrottlingException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class TooManyTagsException
   extends /*@__PURE__*/ S.TaggedError<TooManyTagsException>()(
     "TooManyTagsException",
@@ -174,15 +175,15 @@ export type AccessorNetworkType =
 export interface CreateAccessorInput {
   ClientRequestToken: string;
   AccessorType: AccessorType;
-  Tags?: { [key: string]: string | undefined };
-  NetworkType?: AccessorNetworkType;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  NetworkType?: AccessorNetworkType | undefined;
 }
 export type ResourceIdString = string;
 export type AccessorBillingTokenString = string;
 export interface CreateAccessorOutput {
-  AccessorId?: string;
-  BillingToken?: string;
-  NetworkType?: AccessorNetworkType;
+  AccessorId?: string | undefined;
+  BillingToken?: string | undefined;
+  NetworkType?: AccessorNetworkType | undefined;
 }
 export type NetworkMemberNameString = string;
 export type DescriptionString = string;
@@ -193,29 +194,29 @@ export interface MemberFabricConfiguration {
   AdminPassword: string | redacted.Redacted<string>;
 }
 export interface MemberFrameworkConfiguration {
-  Fabric?: MemberFabricConfiguration;
+  Fabric?: MemberFabricConfiguration | undefined;
 }
 export type Enabled = boolean;
 export interface LogConfiguration {
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
 export interface LogConfigurations {
-  Cloudwatch?: LogConfiguration;
+  Cloudwatch?: LogConfiguration | undefined;
 }
 export interface MemberFabricLogPublishingConfiguration {
-  CaLogs?: LogConfigurations;
+  CaLogs?: LogConfigurations | undefined;
 }
 export interface MemberLogPublishingConfiguration {
-  Fabric?: MemberFabricLogPublishingConfiguration;
+  Fabric?: MemberFabricLogPublishingConfiguration | undefined;
 }
 export type ArnString = string;
 export interface MemberConfiguration {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   FrameworkConfiguration: MemberFrameworkConfiguration;
-  LogPublishingConfiguration?: MemberLogPublishingConfiguration;
-  Tags?: { [key: string]: string | undefined };
-  KmsKeyArn?: string;
+  LogPublishingConfiguration?: MemberLogPublishingConfiguration | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  KmsKeyArn?: string | undefined;
 }
 export interface CreateMemberInput {
   ClientRequestToken: string;
@@ -224,7 +225,7 @@ export interface CreateMemberInput {
   MemberConfiguration: MemberConfiguration;
 }
 export interface CreateMemberOutput {
-  MemberId?: string;
+  MemberId?: string | undefined;
 }
 export type NameString = string;
 export type Framework = "HYPERLEDGER_FABRIC" | "ETHEREUM" | (string & {});
@@ -234,59 +235,59 @@ export interface NetworkFabricConfiguration {
   Edition: Edition;
 }
 export interface NetworkFrameworkConfiguration {
-  Fabric?: NetworkFabricConfiguration;
+  Fabric?: NetworkFabricConfiguration | undefined;
 }
 export type ThresholdPercentageInt = number;
 export type ProposalDurationInt = number;
 export type ThresholdComparator = "GREATER_THAN" | "GREATER_THAN_OR_EQUAL_TO" | (string & {});
 export interface ApprovalThresholdPolicy {
-  ThresholdPercentage?: number;
-  ProposalDurationInHours?: number;
-  ThresholdComparator?: ThresholdComparator;
+  ThresholdPercentage?: number | undefined;
+  ProposalDurationInHours?: number | undefined;
+  ThresholdComparator?: ThresholdComparator | undefined;
 }
 export interface VotingPolicy {
-  ApprovalThresholdPolicy?: ApprovalThresholdPolicy;
+  ApprovalThresholdPolicy?: ApprovalThresholdPolicy | undefined;
 }
 export interface CreateNetworkInput {
   ClientRequestToken: string;
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   Framework: Framework;
   FrameworkVersion: string;
-  FrameworkConfiguration?: NetworkFrameworkConfiguration;
+  FrameworkConfiguration?: NetworkFrameworkConfiguration | undefined;
   VotingPolicy: VotingPolicy;
   MemberConfiguration: MemberConfiguration;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateNetworkOutput {
-  NetworkId?: string;
-  MemberId?: string;
+  NetworkId?: string | undefined;
+  MemberId?: string | undefined;
 }
 export type InstanceTypeString = string;
 export type AvailabilityZoneString = string;
 export interface NodeFabricLogPublishingConfiguration {
-  ChaincodeLogs?: LogConfigurations;
-  PeerLogs?: LogConfigurations;
+  ChaincodeLogs?: LogConfigurations | undefined;
+  PeerLogs?: LogConfigurations | undefined;
 }
 export interface NodeLogPublishingConfiguration {
-  Fabric?: NodeFabricLogPublishingConfiguration;
+  Fabric?: NodeFabricLogPublishingConfiguration | undefined;
 }
 export type StateDBType = "LevelDB" | "CouchDB" | (string & {});
 export interface NodeConfiguration {
   InstanceType: string;
-  AvailabilityZone?: string;
-  LogPublishingConfiguration?: NodeLogPublishingConfiguration;
-  StateDB?: StateDBType;
+  AvailabilityZone?: string | undefined;
+  LogPublishingConfiguration?: NodeLogPublishingConfiguration | undefined;
+  StateDB?: StateDBType | undefined;
 }
 export interface CreateNodeInput {
   ClientRequestToken: string;
   NetworkId: string;
-  MemberId?: string;
+  MemberId?: string | undefined;
   NodeConfiguration: NodeConfiguration;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateNodeOutput {
-  NodeId?: string;
+  NodeId?: string | undefined;
 }
 export type PrincipalString = string;
 export interface InviteAction {
@@ -298,19 +299,19 @@ export interface RemoveAction {
 }
 export type RemoveActionList = RemoveAction[];
 export interface ProposalActions {
-  Invitations?: InviteAction[];
-  Removals?: RemoveAction[];
+  Invitations?: InviteAction[] | undefined;
+  Removals?: RemoveAction[] | undefined;
 }
 export interface CreateProposalInput {
   ClientRequestToken: string;
   NetworkId: string;
   MemberId: string;
   Actions: ProposalActions;
-  Description?: string;
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateProposalOutput {
-  ProposalId?: string;
+  ProposalId?: string | undefined;
 }
 export interface DeleteAccessorInput {
   AccessorId: string;
@@ -323,7 +324,7 @@ export interface DeleteMemberInput {
 export interface DeleteMemberOutput {}
 export interface DeleteNodeInput {
   NetworkId: string;
-  MemberId?: string;
+  MemberId?: string | undefined;
   NodeId: string;
 }
 export interface DeleteNodeOutput {}
@@ -333,28 +334,28 @@ export interface GetAccessorInput {
 export type AccessorStatus = "AVAILABLE" | "PENDING_DELETION" | "DELETED" | (string & {});
 export type OutputTagMap = { [key: string]: string | undefined };
 export interface Accessor {
-  Id?: string;
-  Type?: AccessorType;
-  BillingToken?: string;
-  Status?: AccessorStatus;
-  CreationDate?: Date;
-  Arn?: string;
-  Tags?: { [key: string]: string | undefined };
-  NetworkType?: AccessorNetworkType;
+  Id?: string | undefined;
+  Type?: AccessorType | undefined;
+  BillingToken?: string | undefined;
+  Status?: AccessorStatus | undefined;
+  CreationDate?: Date | undefined;
+  Arn?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  NetworkType?: AccessorNetworkType | undefined;
 }
 export interface GetAccessorOutput {
-  Accessor?: Accessor;
+  Accessor?: Accessor | undefined;
 }
 export interface GetMemberInput {
   NetworkId: string;
   MemberId: string;
 }
 export interface MemberFabricAttributes {
-  AdminUsername?: string;
-  CaEndpoint?: string;
+  AdminUsername?: string | undefined;
+  CaEndpoint?: string | undefined;
 }
 export interface MemberFrameworkAttributes {
-  Fabric?: MemberFabricAttributes;
+  Fabric?: MemberFabricAttributes | undefined;
 }
 export type MemberStatus =
   | "CREATING"
@@ -366,34 +367,34 @@ export type MemberStatus =
   | "INACCESSIBLE_ENCRYPTION_KEY"
   | (string & {});
 export interface Member {
-  NetworkId?: string;
-  Id?: string;
-  Name?: string;
-  Description?: string;
-  FrameworkAttributes?: MemberFrameworkAttributes;
-  LogPublishingConfiguration?: MemberLogPublishingConfiguration;
-  Status?: MemberStatus;
-  CreationDate?: Date;
-  Tags?: { [key: string]: string | undefined };
-  Arn?: string;
-  KmsKeyArn?: string;
+  NetworkId?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  FrameworkAttributes?: MemberFrameworkAttributes | undefined;
+  LogPublishingConfiguration?: MemberLogPublishingConfiguration | undefined;
+  Status?: MemberStatus | undefined;
+  CreationDate?: Date | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Arn?: string | undefined;
+  KmsKeyArn?: string | undefined;
 }
 export interface GetMemberOutput {
-  Member?: Member;
+  Member?: Member | undefined;
 }
 export interface GetNetworkInput {
   NetworkId: string;
 }
 export interface NetworkFabricAttributes {
-  OrderingServiceEndpoint?: string;
-  Edition?: Edition;
+  OrderingServiceEndpoint?: string | undefined;
+  Edition?: Edition | undefined;
 }
 export interface NetworkEthereumAttributes {
-  ChainId?: string;
+  ChainId?: string | undefined;
 }
 export interface NetworkFrameworkAttributes {
-  Fabric?: NetworkFabricAttributes;
-  Ethereum?: NetworkEthereumAttributes;
+  Fabric?: NetworkFabricAttributes | undefined;
+  Ethereum?: NetworkEthereumAttributes | undefined;
 }
 export type NetworkStatus =
   | "CREATING"
@@ -403,38 +404,38 @@ export type NetworkStatus =
   | "DELETED"
   | (string & {});
 export interface Network {
-  Id?: string;
-  Name?: string;
-  Description?: string;
-  Framework?: Framework;
-  FrameworkVersion?: string;
-  FrameworkAttributes?: NetworkFrameworkAttributes;
-  VpcEndpointServiceName?: string;
-  VotingPolicy?: VotingPolicy;
-  Status?: NetworkStatus;
-  CreationDate?: Date;
-  Tags?: { [key: string]: string | undefined };
-  Arn?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Framework?: Framework | undefined;
+  FrameworkVersion?: string | undefined;
+  FrameworkAttributes?: NetworkFrameworkAttributes | undefined;
+  VpcEndpointServiceName?: string | undefined;
+  VotingPolicy?: VotingPolicy | undefined;
+  Status?: NetworkStatus | undefined;
+  CreationDate?: Date | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Arn?: string | undefined;
 }
 export interface GetNetworkOutput {
-  Network?: Network;
+  Network?: Network | undefined;
 }
 export interface GetNodeInput {
   NetworkId: string;
-  MemberId?: string;
+  MemberId?: string | undefined;
   NodeId: string;
 }
 export interface NodeFabricAttributes {
-  PeerEndpoint?: string;
-  PeerEventEndpoint?: string;
+  PeerEndpoint?: string | undefined;
+  PeerEventEndpoint?: string | undefined;
 }
 export interface NodeEthereumAttributes {
-  HttpEndpoint?: string;
-  WebSocketEndpoint?: string;
+  HttpEndpoint?: string | undefined;
+  WebSocketEndpoint?: string | undefined;
 }
 export interface NodeFrameworkAttributes {
-  Fabric?: NodeFabricAttributes;
-  Ethereum?: NodeEthereumAttributes;
+  Fabric?: NodeFabricAttributes | undefined;
+  Ethereum?: NodeEthereumAttributes | undefined;
 }
 export type NodeStatus =
   | "CREATING"
@@ -448,22 +449,22 @@ export type NodeStatus =
   | "INACCESSIBLE_ENCRYPTION_KEY"
   | (string & {});
 export interface Node {
-  NetworkId?: string;
-  MemberId?: string;
-  Id?: string;
-  InstanceType?: string;
-  AvailabilityZone?: string;
-  FrameworkAttributes?: NodeFrameworkAttributes;
-  LogPublishingConfiguration?: NodeLogPublishingConfiguration;
-  StateDB?: StateDBType;
-  Status?: NodeStatus;
-  CreationDate?: Date;
-  Tags?: { [key: string]: string | undefined };
-  Arn?: string;
-  KmsKeyArn?: string;
+  NetworkId?: string | undefined;
+  MemberId?: string | undefined;
+  Id?: string | undefined;
+  InstanceType?: string | undefined;
+  AvailabilityZone?: string | undefined;
+  FrameworkAttributes?: NodeFrameworkAttributes | undefined;
+  LogPublishingConfiguration?: NodeLogPublishingConfiguration | undefined;
+  StateDB?: StateDBType | undefined;
+  Status?: NodeStatus | undefined;
+  CreationDate?: Date | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Arn?: string | undefined;
+  KmsKeyArn?: string | undefined;
 }
 export interface GetNodeOutput {
-  Node?: Node;
+  Node?: Node | undefined;
 }
 export interface GetProposalInput {
   NetworkId: string;
@@ -478,48 +479,48 @@ export type ProposalStatus =
   | (string & {});
 export type VoteCount = number;
 export interface Proposal {
-  ProposalId?: string;
-  NetworkId?: string;
-  Description?: string;
-  Actions?: ProposalActions;
-  ProposedByMemberId?: string;
-  ProposedByMemberName?: string;
-  Status?: ProposalStatus;
-  CreationDate?: Date;
-  ExpirationDate?: Date;
-  YesVoteCount?: number;
-  NoVoteCount?: number;
-  OutstandingVoteCount?: number;
-  Tags?: { [key: string]: string | undefined };
-  Arn?: string;
+  ProposalId?: string | undefined;
+  NetworkId?: string | undefined;
+  Description?: string | undefined;
+  Actions?: ProposalActions | undefined;
+  ProposedByMemberId?: string | undefined;
+  ProposedByMemberName?: string | undefined;
+  Status?: ProposalStatus | undefined;
+  CreationDate?: Date | undefined;
+  ExpirationDate?: Date | undefined;
+  YesVoteCount?: number | undefined;
+  NoVoteCount?: number | undefined;
+  OutstandingVoteCount?: number | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Arn?: string | undefined;
 }
 export interface GetProposalOutput {
-  Proposal?: Proposal;
+  Proposal?: Proposal | undefined;
 }
 export type AccessorListMaxResults = number;
 export type PaginationToken = string;
 export interface ListAccessorsInput {
-  MaxResults?: number;
-  NextToken?: string;
-  NetworkType?: AccessorNetworkType;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  NetworkType?: AccessorNetworkType | undefined;
 }
 export interface AccessorSummary {
-  Id?: string;
-  Type?: AccessorType;
-  Status?: AccessorStatus;
-  CreationDate?: Date;
-  Arn?: string;
-  NetworkType?: AccessorNetworkType;
+  Id?: string | undefined;
+  Type?: AccessorType | undefined;
+  Status?: AccessorStatus | undefined;
+  CreationDate?: Date | undefined;
+  Arn?: string | undefined;
+  NetworkType?: AccessorNetworkType | undefined;
 }
 export type AccessorSummaryList = AccessorSummary[];
 export interface ListAccessorsOutput {
-  Accessors?: AccessorSummary[];
-  NextToken?: string;
+  Accessors?: AccessorSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ProposalListMaxResults = number;
 export interface ListInvitationsInput {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type InvitationStatus =
   | "PENDING"
@@ -529,128 +530,128 @@ export type InvitationStatus =
   | "EXPIRED"
   | (string & {});
 export interface NetworkSummary {
-  Id?: string;
-  Name?: string;
-  Description?: string;
-  Framework?: Framework;
-  FrameworkVersion?: string;
-  Status?: NetworkStatus;
-  CreationDate?: Date;
-  Arn?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Framework?: Framework | undefined;
+  FrameworkVersion?: string | undefined;
+  Status?: NetworkStatus | undefined;
+  CreationDate?: Date | undefined;
+  Arn?: string | undefined;
 }
 export interface Invitation {
-  InvitationId?: string;
-  CreationDate?: Date;
-  ExpirationDate?: Date;
-  Status?: InvitationStatus;
-  NetworkSummary?: NetworkSummary;
-  Arn?: string;
+  InvitationId?: string | undefined;
+  CreationDate?: Date | undefined;
+  ExpirationDate?: Date | undefined;
+  Status?: InvitationStatus | undefined;
+  NetworkSummary?: NetworkSummary | undefined;
+  Arn?: string | undefined;
 }
 export type InvitationList = Invitation[];
 export interface ListInvitationsOutput {
-  Invitations?: Invitation[];
-  NextToken?: string;
+  Invitations?: Invitation[] | undefined;
+  NextToken?: string | undefined;
 }
 export type IsOwned = boolean;
 export type MemberListMaxResults = number;
 export interface ListMembersInput {
   NetworkId: string;
-  Name?: string;
-  Status?: MemberStatus;
-  IsOwned?: boolean;
-  MaxResults?: number;
-  NextToken?: string;
+  Name?: string | undefined;
+  Status?: MemberStatus | undefined;
+  IsOwned?: boolean | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface MemberSummary {
-  Id?: string;
-  Name?: string;
-  Description?: string;
-  Status?: MemberStatus;
-  CreationDate?: Date;
-  IsOwned?: boolean;
-  Arn?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Status?: MemberStatus | undefined;
+  CreationDate?: Date | undefined;
+  IsOwned?: boolean | undefined;
+  Arn?: string | undefined;
 }
 export type MemberSummaryList = MemberSummary[];
 export interface ListMembersOutput {
-  Members?: MemberSummary[];
-  NextToken?: string;
+  Members?: MemberSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type NetworkListMaxResults = number;
 export interface ListNetworksInput {
-  Name?: string;
-  Framework?: Framework;
-  Status?: NetworkStatus;
-  MaxResults?: number;
-  NextToken?: string;
+  Name?: string | undefined;
+  Framework?: Framework | undefined;
+  Status?: NetworkStatus | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type NetworkSummaryList = NetworkSummary[];
 export interface ListNetworksOutput {
-  Networks?: NetworkSummary[];
-  NextToken?: string;
+  Networks?: NetworkSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type NodeListMaxResults = number;
 export interface ListNodesInput {
   NetworkId: string;
-  MemberId?: string;
-  Status?: NodeStatus;
-  MaxResults?: number;
-  NextToken?: string;
+  MemberId?: string | undefined;
+  Status?: NodeStatus | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface NodeSummary {
-  Id?: string;
-  Status?: NodeStatus;
-  CreationDate?: Date;
-  AvailabilityZone?: string;
-  InstanceType?: string;
-  Arn?: string;
+  Id?: string | undefined;
+  Status?: NodeStatus | undefined;
+  CreationDate?: Date | undefined;
+  AvailabilityZone?: string | undefined;
+  InstanceType?: string | undefined;
+  Arn?: string | undefined;
 }
 export type NodeSummaryList = NodeSummary[];
 export interface ListNodesOutput {
-  Nodes?: NodeSummary[];
-  NextToken?: string;
+  Nodes?: NodeSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListProposalsInput {
   NetworkId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ProposalSummary {
-  ProposalId?: string;
-  Description?: string;
-  ProposedByMemberId?: string;
-  ProposedByMemberName?: string;
-  Status?: ProposalStatus;
-  CreationDate?: Date;
-  ExpirationDate?: Date;
-  Arn?: string;
+  ProposalId?: string | undefined;
+  Description?: string | undefined;
+  ProposedByMemberId?: string | undefined;
+  ProposedByMemberName?: string | undefined;
+  Status?: ProposalStatus | undefined;
+  CreationDate?: Date | undefined;
+  ExpirationDate?: Date | undefined;
+  Arn?: string | undefined;
 }
 export type ProposalSummaryList = ProposalSummary[];
 export interface ListProposalsOutput {
-  Proposals?: ProposalSummary[];
-  NextToken?: string;
+  Proposals?: ProposalSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListProposalVotesInput {
   NetworkId: string;
   ProposalId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type VoteValue = "YES" | "NO" | (string & {});
 export interface VoteSummary {
-  Vote?: VoteValue;
-  MemberName?: string;
-  MemberId?: string;
+  Vote?: VoteValue | undefined;
+  MemberName?: string | undefined;
+  MemberId?: string | undefined;
 }
 export type ProposalVoteList = VoteSummary[];
 export interface ListProposalVotesOutput {
-  ProposalVotes?: VoteSummary[];
-  NextToken?: string;
+  ProposalVotes?: VoteSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface RejectInvitationInput {
   InvitationId: string;
@@ -670,14 +671,14 @@ export interface UntagResourceResponse {}
 export interface UpdateMemberInput {
   NetworkId: string;
   MemberId: string;
-  LogPublishingConfiguration?: MemberLogPublishingConfiguration;
+  LogPublishingConfiguration?: MemberLogPublishingConfiguration | undefined;
 }
 export interface UpdateMemberOutput {}
 export interface UpdateNodeInput {
   NetworkId: string;
-  MemberId?: string;
+  MemberId?: string | undefined;
   NodeId: string;
-  LogPublishingConfiguration?: NodeLogPublishingConfiguration;
+  LogPublishingConfiguration?: NodeLogPublishingConfiguration | undefined;
 }
 export interface UpdateNodeOutput {}
 export interface VoteOnProposalInput {
@@ -702,7 +703,7 @@ export type CreateAccessorError =
  * The accessor contains information required for token based access.
  */
 export const createAccessor: API.OperationMethod<
-  CreateAccessorInput,
+  CreateAccessorInput & RegionInput,
   CreateAccessorOutput,
   CreateAccessorError,
   Credentials | HttpClient.HttpClient
@@ -742,7 +743,7 @@ export type CreateMemberError =
  * Applies only to Hyperledger Fabric.
  */
 export const createMember: API.OperationMethod<
-  CreateMemberInput,
+  CreateMemberInput & RegionInput,
   CreateMemberOutput,
   CreateMemberError,
   Credentials | HttpClient.HttpClient
@@ -782,7 +783,7 @@ export type CreateNetworkError =
  * Applies only to Hyperledger Fabric.
  */
 export const createNetwork: API.OperationMethod<
-  CreateNetworkInput,
+  CreateNetworkInput & RegionInput,
   CreateNetworkOutput,
   CreateNetworkError,
   Credentials | HttpClient.HttpClient
@@ -822,7 +823,7 @@ export type CreateNodeError =
  * Applies to Hyperledger Fabric and Ethereum.
  */
 export const createNode: API.OperationMethod<
-  CreateNodeInput,
+  CreateNodeInput & RegionInput,
   CreateNodeOutput,
   CreateNodeError,
   Credentials | HttpClient.HttpClient
@@ -862,7 +863,7 @@ export type CreateProposalError =
  * Applies only to Hyperledger Fabric.
  */
 export const createProposal: API.OperationMethod<
-  CreateProposalInput,
+  CreateProposalInput & RegionInput,
   CreateProposalOutput,
   CreateProposalError,
   Credentials | HttpClient.HttpClient
@@ -902,7 +903,7 @@ export type DeleteAccessorError =
  * `AVAILABLE` state remain open until they expire (up to 2 hours).
  */
 export const deleteAccessor: API.OperationMethod<
-  DeleteAccessorInput,
+  DeleteAccessorInput & RegionInput,
   DeleteAccessorOutput,
   DeleteAccessorError,
   Credentials | HttpClient.HttpClient
@@ -937,7 +938,7 @@ export type DeleteMemberError =
  * Applies only to Hyperledger Fabric.
  */
 export const deleteMember: API.OperationMethod<
-  DeleteMemberInput,
+  DeleteMemberInput & RegionInput,
   DeleteMemberOutput,
   DeleteMemberError,
   Credentials | HttpClient.HttpClient
@@ -973,7 +974,7 @@ export type DeleteNodeError =
  * Applies to Hyperledger Fabric and Ethereum.
  */
 export const deleteNode: API.OperationMethod<
-  DeleteNodeInput,
+  DeleteNodeInput & RegionInput,
   DeleteNodeOutput,
   DeleteNodeError,
   Credentials | HttpClient.HttpClient
@@ -1007,7 +1008,7 @@ export type GetAccessorError =
  * information required for token based access to your Ethereum nodes.
  */
 export const getAccessor: API.OperationMethod<
-  GetAccessorInput,
+  GetAccessorInput & RegionInput,
   GetAccessorOutput,
   GetAccessorError,
   Credentials | HttpClient.HttpClient
@@ -1041,7 +1042,7 @@ export type GetMemberError =
  * Applies only to Hyperledger Fabric.
  */
 export const getMember: API.OperationMethod<
-  GetMemberInput,
+  GetMemberInput & RegionInput,
   GetMemberOutput,
   GetMemberError,
   Credentials | HttpClient.HttpClient
@@ -1075,7 +1076,7 @@ export type GetNetworkError =
  * Applies to Hyperledger Fabric and Ethereum.
  */
 export const getNetwork: API.OperationMethod<
-  GetNetworkInput,
+  GetNetworkInput & RegionInput,
   GetNetworkOutput,
   GetNetworkError,
   Credentials | HttpClient.HttpClient
@@ -1109,7 +1110,7 @@ export type GetNodeError =
  * Applies to Hyperledger Fabric and Ethereum.
  */
 export const getNode: API.OperationMethod<
-  GetNodeInput,
+  GetNodeInput & RegionInput,
   GetNodeOutput,
   GetNodeError,
   Credentials | HttpClient.HttpClient
@@ -1143,7 +1144,7 @@ export type GetProposalError =
  * Applies only to Hyperledger Fabric.
  */
 export const getProposal: API.OperationMethod<
-  GetProposalInput,
+  GetProposalInput & RegionInput,
   GetProposalOutput,
   GetProposalError,
   Credentials | HttpClient.HttpClient
@@ -1175,7 +1176,7 @@ export type ListAccessorsError =
  * information required for token based access to your Ethereum nodes.
  */
 export const listAccessors: API.PaginatedOperationMethod<
-  ListAccessorsInput,
+  ListAccessorsInput & RegionInput,
   ListAccessorsOutput,
   ListAccessorsError,
   Credentials | HttpClient.HttpClient,
@@ -1216,7 +1217,7 @@ export type ListInvitationsError =
  * Applies only to Hyperledger Fabric.
  */
 export const listInvitations: API.PaginatedOperationMethod<
-  ListInvitationsInput,
+  ListInvitationsInput & RegionInput,
   ListInvitationsOutput,
   ListInvitationsError,
   Credentials | HttpClient.HttpClient,
@@ -1256,7 +1257,7 @@ export type ListMembersError =
  * Applies only to Hyperledger Fabric.
  */
 export const listMembers: API.PaginatedOperationMethod<
-  ListMembersInput,
+  ListMembersInput & RegionInput,
   ListMembersOutput,
   ListMembersError,
   Credentials | HttpClient.HttpClient,
@@ -1294,7 +1295,7 @@ export type ListNetworksError =
  * Applies to Hyperledger Fabric and Ethereum.
  */
 export const listNetworks: API.PaginatedOperationMethod<
-  ListNetworksInput,
+  ListNetworksInput & RegionInput,
   ListNetworksOutput,
   ListNetworksError,
   Credentials | HttpClient.HttpClient,
@@ -1332,7 +1333,7 @@ export type ListNodesError =
  * Applies to Hyperledger Fabric and Ethereum.
  */
 export const listNodes: API.PaginatedOperationMethod<
-  ListNodesInput,
+  ListNodesInput & RegionInput,
   ListNodesOutput,
   ListNodesError,
   Credentials | HttpClient.HttpClient,
@@ -1371,7 +1372,7 @@ export type ListProposalsError =
  * Applies only to Hyperledger Fabric.
  */
 export const listProposals: API.PaginatedOperationMethod<
-  ListProposalsInput,
+  ListProposalsInput & RegionInput,
   ListProposalsOutput,
   ListProposalsError,
   Credentials | HttpClient.HttpClient,
@@ -1410,7 +1411,7 @@ export type ListProposalVotesError =
  * Applies only to Hyperledger Fabric.
  */
 export const listProposalVotes: API.PaginatedOperationMethod<
-  ListProposalVotesInput,
+  ListProposalVotesInput & RegionInput,
   ListProposalVotesOutput,
   ListProposalVotesError,
   Credentials | HttpClient.HttpClient,
@@ -1448,7 +1449,7 @@ export type ListTagsForResourceError =
  * For more information about tags, see Tagging Resources in the *Amazon Managed Blockchain Ethereum Developer Guide*, or Tagging Resources in the *Amazon Managed Blockchain Hyperledger Fabric Developer Guide*.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1482,7 +1483,7 @@ export type RejectInvitationError =
  * Applies only to Hyperledger Fabric.
  */
 export const rejectInvitation: API.OperationMethod<
-  RejectInvitationInput,
+  RejectInvitationInput & RegionInput,
   RejectInvitationOutput,
   RejectInvitationError,
   Credentials | HttpClient.HttpClient
@@ -1521,7 +1522,7 @@ export type TagResourceError =
  * For more information about tags, see Tagging Resources in the *Amazon Managed Blockchain Ethereum Developer Guide*, or Tagging Resources in the *Amazon Managed Blockchain Hyperledger Fabric Developer Guide*.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1554,7 +1555,7 @@ export type UntagResourceError =
  * For more information about tags, see Tagging Resources in the *Amazon Managed Blockchain Ethereum Developer Guide*, or Tagging Resources in the *Amazon Managed Blockchain Hyperledger Fabric Developer Guide*.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1587,7 +1588,7 @@ export type UpdateMemberError =
  * Applies only to Hyperledger Fabric.
  */
 export const updateMember: API.OperationMethod<
-  UpdateMemberInput,
+  UpdateMemberInput & RegionInput,
   UpdateMemberOutput,
   UpdateMemberError,
   Credentials | HttpClient.HttpClient
@@ -1621,7 +1622,7 @@ export type UpdateNodeError =
  * Applies only to Hyperledger Fabric.
  */
 export const updateNode: API.OperationMethod<
-  UpdateNodeInput,
+  UpdateNodeInput & RegionInput,
   UpdateNodeOutput,
   UpdateNodeError,
   Credentials | HttpClient.HttpClient
@@ -1656,7 +1657,7 @@ export type VoteOnProposalError =
  * Applies only to Hyperledger Fabric.
  */
 export const voteOnProposal: API.OperationMethod<
-  VoteOnProposalInput,
+  VoteOnProposalInput & RegionInput,
   VoteOnProposalOutput,
   VoteOnProposalError,
   Credentials | HttpClient.HttpClient

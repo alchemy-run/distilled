@@ -52,11 +52,11 @@ export interface ConfirmDedicatedNashaTerminationRequest {
   /** The internal name of your storage */
   serviceName: string;
   /** Commentary about your termination request */
-  commentary?: string;
+  commentary?: string | undefined;
   /** What next after your termination request */
-  futureUse?: ServiceTerminationFutureUseEnum | (string & {});
+  futureUse?: ServiceTerminationFutureUseEnum | (string & {}) | undefined;
   /** Reason of your termination request */
-  reason?: ServiceTerminationReasonEnum | (string & {});
+  reason?: ServiceTerminationReasonEnum | (string & {}) | undefined;
   /** The termination token sent by email to the admin contact */
   token: string;
 }
@@ -65,11 +65,11 @@ export interface CreateDedicatedNashaChangeContactRequest {
   /** The internal name of your storage */
   serviceName: string;
   /** The contact to set as admin contact */
-  contactAdmin?: string;
+  contactAdmin?: string | undefined;
   /** The contact to set as billing contact */
-  contactBilling?: string;
+  contactBilling?: string | undefined;
   /** The contact to set as tech contact */
-  contactTech?: string;
+  contactTech?: string | undefined;
 }
 export type CreateDedicatedNashaChangeContactResponseBodyList = Array<number>;
 export type CreateDedicatedNashaChangeContactResponse =
@@ -80,7 +80,7 @@ export interface CreateDedicatedNashaPartitionRequest {
   /** The internal name of your storage */
   serviceName: string;
   /** Partition description */
-  partitionDescription?: string;
+  partitionDescription?: string | undefined;
   /** Partition name */
   partitionName: string;
   /** NFS|CIFS|NFS_CIFS */
@@ -123,23 +123,23 @@ export type DedicatedTaskStatusEnum =
 /** Storage task */
 export interface DedicatedNasTaskTask {
   /** information about operation */
-  details?: string | null;
+  details?: string | null | undefined;
   /** the date when the task finished */
-  doneDate?: string | null;
+  doneDate?: string | null | undefined;
   /** last modification of task */
-  lastUpdate?: string | null;
+  lastUpdate?: string | null | undefined;
   /** Task type of operation */
-  operation?: DedicatedStorageTaskFunctionEnum;
+  operation?: DedicatedStorageTaskFunctionEnum | undefined;
   /** name of the partition */
-  partitionName?: string | null;
+  partitionName?: string | null | undefined;
   /** The actual state of the task */
-  status?: DedicatedTaskStatusEnum;
+  status?: DedicatedTaskStatusEnum | undefined;
   /** the name of your service */
-  storageName?: string | null;
+  storageName?: string | null | undefined;
   /** id of the task */
-  taskId?: number;
+  taskId?: number | undefined;
   /** Insertion of task in the todo */
-  todoDate?: string | null;
+  todoDate?: string | null | undefined;
 }
 /** Acl Type */
 export type DedicatedStorageAclTypeEnum = "readonly" | "readwrite";
@@ -149,11 +149,11 @@ export interface CreateDedicatedNashaPartitionAccessRequest {
   /** the given name of partition */
   partitionName: string;
   /** ACL description */
-  aclDescription?: string;
+  aclDescription?: string | undefined;
   /** Ip or block to add */
   ip: string;
   /** ACL type */
-  type?: DedicatedStorageAclTypeEnum | (string & {});
+  type?: DedicatedStorageAclTypeEnum | (string & {}) | undefined;
 }
 export interface CreateDedicatedNashaPartitionCustomSnapshotRequest {
   /** The internal name of your storage */
@@ -161,7 +161,7 @@ export interface CreateDedicatedNashaPartitionCustomSnapshotRequest {
   /** the given name of partition */
   partitionName: string;
   /** optional expiration date/time, in iso8601 format */
-  expiration?: string;
+  expiration?: string | undefined;
   /** the name of the snapshot */
   name: string;
 }
@@ -190,13 +190,13 @@ export interface CreateDedicatedNashaPartitionOptionRequest {
   /** the given name of partition */
   partitionName: string;
   /** atime setting */
-  atime?: DedicatedStorageAtimeEnum | (string & {});
+  atime?: DedicatedStorageAtimeEnum | (string & {}) | undefined;
   /** ZFS recordsize */
-  recordsize?: DedicatedStorageRecordSizeEnum | (string & {});
+  recordsize?: DedicatedStorageRecordSizeEnum | (string & {}) | undefined;
   /** sync setting */
-  sync?: DedicatedStorageSyncEnum | (string & {});
+  sync?: DedicatedStorageSyncEnum | (string & {}) | undefined;
   /** The name of the usage template to apply for this partition. */
-  templateName?: DedicatedStorageTemplateUsageOptionsEnum | (string & {});
+  templateName?: DedicatedStorageTemplateUsageOptionsEnum | (string & {}) | undefined;
 }
 export interface CreateDedicatedNashaPartitionQuotaRequest {
   /** The internal name of your storage */
@@ -281,36 +281,36 @@ export type IamResourceMetadataTagsMap = { [key: string]: string | undefined };
 /** IAM resource metadata embedded in services models */
 export interface IamResourceMetadata {
   /** Resource display name */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Unique identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Resource tags. Tags that were internally computed are prefixed with ovh: */
-  tags?: IamResourceMetadataTagsMap | null;
+  tags?: IamResourceMetadataTagsMap | null | undefined;
   /** Unique resource name used in policies */
-  urn?: string;
+  urn?: string | undefined;
 }
 /** Storage nas HA */
 export interface DedicatedNashaStorageWithIAM {
   /** True, if partition creation is allowed on this nas HA */
-  canCreatePartition?: boolean;
+  canCreatePartition?: boolean | undefined;
   /** The name you give to the nas */
-  customName?: string | null;
+  customName?: string | null | undefined;
   /** area of nas */
-  datacenter?: string | null;
+  datacenter?: string | null | undefined;
   /** the disk type of the nasHa */
-  diskType?: DedicatedStorageDiskTypeEnum;
+  diskType?: DedicatedStorageDiskTypeEnum | undefined;
   /** IAM resource metadata */
-  iam?: IamResourceMetadata | null;
+  iam?: IamResourceMetadata | null | undefined;
   /** Access ip of nas */
-  ip?: string | null;
+  ip?: string | null | undefined;
   /** Send an email to customer if any issue is detected */
-  monitored?: boolean;
+  monitored?: boolean | undefined;
   /** The storage service name */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** percentage of nas space used in % */
-  zpoolCapacity?: number;
+  zpoolCapacity?: number | undefined;
   /** the size of the nas */
-  zpoolSize?: number;
+  zpoolSize?: number | undefined;
 }
 export interface GetDedicatedNashaMetricsTokenRequest {
   /** The internal name of your storage */
@@ -319,9 +319,9 @@ export interface GetDedicatedNashaMetricsTokenRequest {
 /** A structure describing the metrics token result */
 export interface DedicatedStorageMetricsTokenResult {
   /** The url of the endpoint */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** The token value */
-  token?: string;
+  token?: string | undefined;
 }
 export interface GetDedicatedNashaPartitionRequest {
   /** The internal name of your storage */
@@ -332,17 +332,17 @@ export interface GetDedicatedNashaPartitionRequest {
 /** Storage zpool partition */
 export interface DedicatedNashaPartition {
   /** percentage of partition space used in % */
-  partitionCapacity?: number | null;
+  partitionCapacity?: number | null | undefined;
   /** a brief description of the partition */
-  partitionDescription?: string | null;
+  partitionDescription?: string | null | undefined;
   /** the given name of partition */
-  partitionName?: string;
+  partitionName?: string | undefined;
   /** must be nfs cifs or both */
-  protocol?: DedicatedStorageProtocolEnum;
+  protocol?: DedicatedStorageProtocolEnum | undefined;
   /** Partition size */
-  size?: number;
+  size?: number | undefined;
   /** percentage of partition space used by snapshots, in % */
-  usedBySnapshots?: number | null;
+  usedBySnapshots?: number | null | undefined;
 }
 export interface GetDedicatedNashaPartitionAccessRequest {
   /** The internal name of your storage */
@@ -355,13 +355,13 @@ export interface GetDedicatedNashaPartitionAccessRequest {
 /** Define Acl for partition */
 export interface DedicatedNashaAccess {
   /** the id of the access */
-  accessId?: number;
+  accessId?: number | undefined;
   /** a brief description of the acl */
-  aclDescription?: string | null;
+  aclDescription?: string | null | undefined;
   /** the ip in root on storage */
-  ip?: string;
+  ip?: string | undefined;
   /** ACL type */
-  type?: DedicatedStorageAclTypeEnum;
+  type?: DedicatedStorageAclTypeEnum | undefined;
 }
 export interface GetDedicatedNashaPartitionCustomSnapshotRequest {
   /** The internal name of your storage */
@@ -374,9 +374,9 @@ export interface GetDedicatedNashaPartitionCustomSnapshotRequest {
 /** Custom Snapshot */
 export interface DedicatedNashaCustomSnap {
   /** date and time at which snapshot will be automatically destroyed */
-  expiration?: string | null;
+  expiration?: string | null | undefined;
   /** name of the snapshot */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetDedicatedNashaPartitionOptionsRequest {
   /** The internal name of your storage */
@@ -387,15 +387,15 @@ export interface GetDedicatedNashaPartitionOptionsRequest {
 /** Partition options */
 export interface DedicatedNashaOptions {
   /** atime setting */
-  atime?: string;
+  atime?: string | undefined;
   /** ID */
-  id?: number;
+  id?: number | undefined;
   /** ZFS recordsize */
-  recordsize?: string;
+  recordsize?: string | undefined;
   /** sync setting */
-  sync?: string;
+  sync?: string | undefined;
   /** the template name */
-  templateName?: DedicatedStorageTemplateUsageOptionsEnum | null;
+  templateName?: DedicatedStorageTemplateUsageOptionsEnum | null | undefined;
 }
 export interface GetDedicatedNashaPartitionQuotaRequest {
   /** The internal name of your storage */
@@ -408,9 +408,9 @@ export interface GetDedicatedNashaPartitionQuotaRequest {
 /** Partition Quota */
 export interface DedicatedNashaQuota {
   /** the size to set in MB */
-  size?: number;
+  size?: number | undefined;
   /** the uid to set quota on */
-  uid?: number;
+  uid?: number | undefined;
 }
 /** Partition snapshot allowed */
 export type GetDedicatedNashaPartitionSnapshotRequestSnapshotType =
@@ -431,7 +431,7 @@ export interface GetDedicatedNashaPartitionSnapshotRequest {
 /** Partition Snapshot */
 export interface DedicatedNashaSnapshot {
   /** the interval of snapshot */
-  snapshotType?: DedicatedStorageSnapshotEnum;
+  snapshotType?: DedicatedStorageSnapshotEnum | undefined;
 }
 /** Available types for NAS partition usage */
 export type DedicatedStoragePartitionUsageTypeEnum = "size" | "used" | "usedbysnapshots";
@@ -445,8 +445,8 @@ export interface GetDedicatedNashaPartitionUseRequest {
 }
 /** A numeric value tagged with its unit */
 export interface ComplexTypeUnitAndValueDouble {
-  unit?: string;
-  value?: number;
+  unit?: string | undefined;
+  value?: number | undefined;
 }
 export interface GetDedicatedNashaServiceInfosRequest {
   /** The internal name of your storage */
@@ -457,15 +457,15 @@ export type ServicesServicePossibleRenewPeriodList = Array<number>;
 /** Map a possible renew for a specific service */
 export interface ServiceRenewType {
   /** The service is automatically renewed */
-  automatic?: boolean;
+  automatic?: boolean | undefined;
   /** The service will be deleted at expiration */
-  deleteAtExpiration?: boolean;
+  deleteAtExpiration?: boolean | undefined;
   /** The service forced to be renewed */
-  forced?: boolean;
+  forced?: boolean | undefined;
   /** The service needs to be manually renewed and paid */
-  manualPayment?: boolean | null;
+  manualPayment?: boolean | null | undefined;
   /** period of renew in month */
-  period?: number | null;
+  period?: number | null | undefined;
 }
 /** Detailed renewal type of a service */
 export type ServiceRenewalTypeEnum =
@@ -487,21 +487,21 @@ export type ServiceStateEnum =
 /** Details about a Service */
 export interface ServicesService {
   /** Indicates that the service can be set up to be deleted at expiration */
-  canDeleteAtExpiration?: boolean;
-  contactAdmin?: string;
-  contactBilling?: string;
-  contactTech?: string;
-  creation?: string;
-  domain?: string;
-  engagedUpTo?: string | null;
-  expiration?: string;
+  canDeleteAtExpiration?: boolean | undefined;
+  contactAdmin?: string | undefined;
+  contactBilling?: string | undefined;
+  contactTech?: string | undefined;
+  creation?: string | undefined;
+  domain?: string | undefined;
+  engagedUpTo?: string | null | undefined;
+  expiration?: string | undefined;
   /** All the possible renew period of your service in month */
-  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null;
+  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null | undefined;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
-  renewalType?: ServiceRenewalTypeEnum;
-  serviceId?: number;
-  status?: ServiceStateEnum;
+  renew?: ServiceRenewType | null | undefined;
+  renewalType?: ServiceRenewalTypeEnum | undefined;
+  serviceId?: number | undefined;
+  status?: ServiceStateEnum | undefined;
 }
 export interface GetDedicatedNashaTaskRequest {
   /** The internal name of your storage */
@@ -525,7 +525,7 @@ export type ListDedicatedNashaRequestIamTagsMap = {
 };
 export interface ListDedicatedNashaRequest {
   /** Filter resources on IAM tags */
-  iamTags?: ListDedicatedNashaRequestIamTagsMap;
+  iamTags?: ListDedicatedNashaRequestIamTagsMap | undefined;
 }
 export type ListDedicatedNashaResponseBodyList = Array<string>;
 export type ListDedicatedNashaResponse = ListDedicatedNashaResponseBodyList;
@@ -599,9 +599,9 @@ export interface ListDedicatedNashaPartitionTemplateUsageRequest {
 /** A structure describing the template usage result */
 export interface DedicatedStorageTemplateUsageOptionsDetails {
   /** The description of the template. */
-  description?: string;
+  description?: string | undefined;
   /** The name of the template */
-  name?: string;
+  name?: string | undefined;
 }
 export type ListDedicatedNashaPartitionTemplateUsageResponseBodyList =
   Array<DedicatedStorageTemplateUsageOptionsDetails>;
@@ -611,9 +611,9 @@ export interface ListDedicatedNashaTaskRequest {
   /** The internal name of your storage */
   serviceName: string;
   /** Filter the value of operation property (=) */
-  operation?: DedicatedStorageTaskFunctionEnum | (string & {});
+  operation?: DedicatedStorageTaskFunctionEnum | (string & {}) | undefined;
   /** Filter the value of status property (=) */
-  status?: DedicatedTaskStatusEnum | (string & {});
+  status?: DedicatedTaskStatusEnum | (string & {}) | undefined;
 }
 export type ListDedicatedNashaTaskResponseBodyList = Array<number>;
 export type ListDedicatedNashaTaskResponse = ListDedicatedNashaTaskResponseBodyList;
@@ -621,9 +621,9 @@ export interface PutDedicatedNashaRequest {
   /** The internal name of your storage */
   serviceName: string;
   /** The name you give to the nas */
-  customName?: string | null;
+  customName?: string | null | undefined;
   /** Send an email to customer if any issue is detected */
-  monitored?: boolean;
+  monitored?: boolean | undefined;
 }
 export interface PutDedicatedNashaResponse {}
 export interface PutDedicatedNashaPartitionRequest {
@@ -632,16 +632,16 @@ export interface PutDedicatedNashaPartitionRequest {
   /** the given name of partition */
   partitionName: string;
   /** a brief description of the partition */
-  partitionDescription?: string | null;
+  partitionDescription?: string | null | undefined;
   /** Partition size */
-  size?: number;
+  size?: number | undefined;
 }
 export interface PutDedicatedNashaPartitionResponse {}
 export interface PutDedicatedNashaServiceInfosRequest {
   /** The internal name of your storage */
   serviceName: string;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
+  renew?: ServiceRenewType | null | undefined;
 }
 export interface PutDedicatedNashaServiceInfosResponse {}
 export interface TerminateDedicatedNashaRequest {

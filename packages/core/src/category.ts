@@ -254,35 +254,28 @@ const isHttpTransportError = (error: unknown): boolean =>
   HttpClientError.isHttpClientError(error) && error.reason._tag === "TransportError";
 
 /**
- * Check if an error is a transient error that should be automatically retried.
- * Transient errors include:
- * - Errors marked with withRetryable()
- * - RetryableError category
- * - ThrottlingError (rate limiting)
- * - ServerError (5xx responses)
- * - NetworkError (connection issues)
- * - TimeoutError (request timed out)
- * - LockedError (423 - resource temporarily locked)
- * - Effect `HttpClientError` with `reason._tag === "TransportError"`
- *   (undici connect/read timeout, socket reset, DNS failure, premature
- *   stream close)
+ * Check if an error should be retried automatically. Only errors that say
+ * so are retried; an HTTP status alone does not make an error retryable:
+ *
+ * - errors marked with `withRetryable()` (Smithy `@retryable`, a patch, or
+ *   the SDK's own error classes);
+ * - the `RetryableError` and `ThrottlingError` categories (`ThrottlingError`
+ *   is HTTP 429, the server's own "try again later");
+ * - the `NetworkError` category: the request failed on the way, before any
+ *   server answered;
+ * - an Effect `HttpClientError` with `reason._tag === "TransportError"`
+ *   (connect timeout, socket reset, DNS failure, premature stream close),
+ *   which no spec can mark.
+ *
+ * `ServerError`, `TimeoutError` and `LockedError` describe an
+ * error; they do not retry it.
  */
-export const isTransientError = (error: unknown): boolean => {
-  // Check for retryable trait first
-  if (isRetryable(error)) {
-    return true;
-  }
-  // Fall back to category-based checking
-  return (
-    hasCategory(error, RetryableError) ||
-    hasCategory(error, ThrottlingError) ||
-    hasCategory(error, ServerError) ||
-    hasCategory(error, NetworkError) ||
-    hasCategory(error, TimeoutError) ||
-    hasCategory(error, LockedError) ||
-    isHttpTransportError(error)
-  );
-};
+export const isTransientError = (error: unknown): boolean =>
+  isRetryable(error) ||
+  hasCategory(error, RetryableError) ||
+  hasCategory(error, ThrottlingError) ||
+  hasCategory(error, NetworkError) ||
+  isHttpTransportError(error);
 
 // ============================================================================
 // Category Type Utilities

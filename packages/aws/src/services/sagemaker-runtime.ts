@@ -9,6 +9,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -111,7 +112,7 @@ export class InternalFailure
     "InternalFailure",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InternalStreamFailure
   extends /*@__PURE__*/ S.TaggedError<InternalStreamFailure>()("InternalStreamFailure", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
@@ -146,7 +147,7 @@ export class ServiceUnavailable
     "ServiceUnavailable",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(503),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ValidationError
   extends /*@__PURE__*/ S.TaggedError<ValidationError>()(
     "ValidationError",
@@ -166,28 +167,28 @@ export type SessionIdOrNewSessionConstantHeader = string;
 export type PrefixAwareIdHeader = string;
 export interface InvokeEndpointInput {
   EndpointName: string;
-  Body?: T.StreamingInputBody;
-  ContentType?: string;
-  Accept?: string;
-  CustomAttributes?: string | redacted.Redacted<string>;
-  TargetModel?: string;
-  TargetVariant?: string;
-  TargetContainerHostname?: string;
-  InferenceId?: string;
-  EnableExplanations?: string;
-  InferenceComponentName?: string;
-  SessionId?: string;
-  PrefixAwareId?: string;
+  Body?: T.StreamingInputBody | undefined;
+  ContentType?: string | undefined;
+  Accept?: string | undefined;
+  CustomAttributes?: string | redacted.Redacted<string> | undefined;
+  TargetModel?: string | undefined;
+  TargetVariant?: string | undefined;
+  TargetContainerHostname?: string | undefined;
+  InferenceId?: string | undefined;
+  EnableExplanations?: string | undefined;
+  InferenceComponentName?: string | undefined;
+  SessionId?: string | undefined;
+  PrefixAwareId?: string | undefined;
 }
 export type NewSessionResponseHeader = string;
 export type SessionIdHeader = string;
 export interface InvokeEndpointOutput {
   Body: T.StreamingOutputBody;
-  ContentType?: string;
-  InvokedProductionVariant?: string;
-  CustomAttributes?: string | redacted.Redacted<string>;
-  NewSessionId?: string;
-  ClosedSessionId?: string;
+  ContentType?: string | undefined;
+  InvokedProductionVariant?: string | undefined;
+  CustomAttributes?: string | redacted.Redacted<string> | undefined;
+  NewSessionId?: string | undefined;
+  ClosedSessionId?: string | undefined;
 }
 export type InputLocationHeader = string;
 export type S3OutputPathExtensionHeader = string;
@@ -196,50 +197,58 @@ export type RequestTTLSecondsHeader = number;
 export type InvocationTimeoutSecondsHeader = number;
 export interface InvokeEndpointAsyncInput {
   EndpointName: string;
-  ContentType?: string;
-  Accept?: string;
-  CustomAttributes?: string | redacted.Redacted<string>;
-  InferenceId?: string;
-  InputLocation?: string;
-  S3OutputPathExtension?: string;
-  Filename?: string;
-  RequestTTLSeconds?: number;
-  InvocationTimeoutSeconds?: number;
-  Body?: T.StreamingInputBody;
+  ContentType?: string | undefined;
+  Accept?: string | undefined;
+  CustomAttributes?: string | redacted.Redacted<string> | undefined;
+  InferenceId?: string | undefined;
+  InputLocation?: string | undefined;
+  S3OutputPathExtension?: string | undefined;
+  Filename?: string | undefined;
+  RequestTTLSeconds?: number | undefined;
+  InvocationTimeoutSeconds?: number | undefined;
+  Body?: T.StreamingInputBody | undefined;
 }
 export interface InvokeEndpointAsyncOutput {
-  InferenceId?: string;
-  OutputLocation?: string;
-  FailureLocation?: string;
+  InferenceId?: string | undefined;
+  OutputLocation?: string | undefined;
+  FailureLocation?: string | undefined;
 }
 export interface InvokeEndpointWithResponseStreamInput {
   EndpointName: string;
-  Body?: T.StreamingInputBody;
-  ContentType?: string;
-  Accept?: string;
-  CustomAttributes?: string | redacted.Redacted<string>;
-  TargetVariant?: string;
-  TargetContainerHostname?: string;
-  InferenceId?: string;
-  InferenceComponentName?: string;
-  SessionId?: string;
-  PrefixAwareId?: string;
+  Body?: T.StreamingInputBody | undefined;
+  ContentType?: string | undefined;
+  Accept?: string | undefined;
+  CustomAttributes?: string | redacted.Redacted<string> | undefined;
+  TargetVariant?: string | undefined;
+  TargetContainerHostname?: string | undefined;
+  InferenceId?: string | undefined;
+  InferenceComponentName?: string | undefined;
+  SessionId?: string | undefined;
+  PrefixAwareId?: string | undefined;
 }
 export type PartBlob = Uint8Array | redacted.Redacted<Uint8Array>;
 export interface PayloadPart {
-  Bytes?: Uint8Array | redacted.Redacted<Uint8Array>;
+  Bytes?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
 }
 export type Message = string;
 export type ErrorCode = string;
 export type ResponseStream =
-  | { PayloadPart: PayloadPart; ModelStreamError?: never; InternalStreamFailure?: never }
-  | { PayloadPart?: never; ModelStreamError: ModelStreamError; InternalStreamFailure?: never }
-  | { PayloadPart?: never; ModelStreamError?: never; InternalStreamFailure: InternalStreamFailure };
+  | { PayloadPart: PayloadPart; ModelStreamError?: undefined; InternalStreamFailure?: undefined }
+  | {
+      PayloadPart?: undefined;
+      ModelStreamError: ModelStreamError;
+      InternalStreamFailure?: undefined;
+    }
+  | {
+      PayloadPart?: undefined;
+      ModelStreamError?: undefined;
+      InternalStreamFailure: InternalStreamFailure;
+    };
 export interface InvokeEndpointWithResponseStreamOutput {
   Body: stream.Stream<ResponseStream, Error, never>;
-  ContentType?: string;
-  InvokedProductionVariant?: string;
-  CustomAttributes?: string | redacted.Redacted<string>;
+  ContentType?: string | undefined;
+  InvokedProductionVariant?: string | undefined;
+  CustomAttributes?: string | redacted.Redacted<string> | undefined;
 }
 export type StatusCode = number;
 export type LogStreamArn = string;
@@ -276,7 +285,7 @@ export type InvokeEndpointError =
  * the authentication token that is supplied by the caller.
  */
 export const invokeEndpoint: API.OperationMethod<
-  InvokeEndpointInput,
+  InvokeEndpointInput & RegionInput,
   InvokeEndpointOutput,
   InvokeEndpointError,
   Credentials | HttpClient.HttpClient
@@ -321,7 +330,7 @@ export type InvokeEndpointAsyncError =
  * Requests (Amazon Web Services Signature Version 4) in the *Amazon S3 API Reference*.
  */
 export const invokeEndpointAsync: API.OperationMethod<
-  InvokeEndpointAsyncInput,
+  InvokeEndpointAsyncInput & RegionInput,
   InvokeEndpointAsyncOutput,
   InvokeEndpointAsyncError,
   Credentials | HttpClient.HttpClient
@@ -371,7 +380,7 @@ export type InvokeEndpointWithResponseStreamError =
  * *Amazon S3 API Reference*.
  */
 export const invokeEndpointWithResponseStream: API.OperationMethod<
-  InvokeEndpointWithResponseStreamInput,
+  InvokeEndpointWithResponseStreamInput & RegionInput,
   InvokeEndpointWithResponseStreamOutput,
   InvokeEndpointWithResponseStreamError,
   Credentials | HttpClient.HttpClient

@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -145,7 +146,7 @@ export interface ListTagsForResourceRequest {
 }
 export type Tags = { [key: string]: string | undefined };
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type Catalog = string;
 export type ResourceId = string;
@@ -164,9 +165,9 @@ export interface PutDeploymentParameterRequest {
   productId: string;
   agreementId: string;
   deploymentParameter: DeploymentParameterInput;
-  tags?: { [key: string]: string | undefined };
-  expirationDate?: Date;
-  clientToken?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  expirationDate?: Date | undefined;
+  clientToken?: string | undefined;
 }
 export type ResourceArn = string;
 export type DeploymentParameterResourceIdentifier = string;
@@ -174,11 +175,11 @@ export interface PutDeploymentParameterResponse {
   resourceArn: string;
   agreementId: string;
   deploymentParameterId: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceResponse {}
 export type StringList = string[];
@@ -198,7 +199,7 @@ export type ListTagsForResourceError =
  * Lists all tags that have been added to a deployment parameter resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -232,7 +233,7 @@ export type PutDeploymentParameterError =
  * Creates or updates a deployment parameter and is targeted by `catalog` and `agreementId`.
  */
 export const putDeploymentParameter: API.OperationMethod<
-  PutDeploymentParameterRequest,
+  PutDeploymentParameterRequest & RegionInput,
   PutDeploymentParameterResponse,
   PutDeploymentParameterError,
   Credentials | HttpClient.HttpClient
@@ -267,7 +268,7 @@ export type TagResourceError =
  * Tags a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -301,7 +302,7 @@ export type UntagResourceError =
  * Removes a tag or list of tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient

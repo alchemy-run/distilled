@@ -1,0 +1,165 @@
+{
+  "description": "Type the 409s POST /sandboxes/{sandboxId}/recover documents, each by its `code`: `sandbox_is_reachable`, `too_soon`, `no_machine`, `recover_unsupported` and `reset_failed` (\"Refused with `409`: …\"; the 409 response says \"`code` says why\"). They generated as one Conflict. Source: spec-mirror-boat-dev 71ab00f.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#SandboxIsReachable",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "The sandbox answers normally, so there is nothing to recover.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/code": "sandbox_is_reachable"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#RecoverTooSoon",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "A recover started less than 10 minutes ago.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/code": "too_soon"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#SandboxHasNoMachine",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "The sandbox has no machine. Resume it instead.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/code": "no_machine"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#RecoverUnsupported",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "The sandbox's machine cannot be power-cycled. Wait for it to answer, or stop it with `force: true` and resume it.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/code": "recover_unsupported"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#RecoverResetFailed",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "The power-cycle failed.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/code": "reset_failed"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#Recover/errors/-",
+      "value": {
+        "target": "com.boat.api#SandboxIsReachable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#Recover/errors/-",
+      "value": {
+        "target": "com.boat.api#RecoverTooSoon"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#Recover/errors/-",
+      "value": {
+        "target": "com.boat.api#SandboxHasNoMachine"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#Recover/errors/-",
+      "value": {
+        "target": "com.boat.api#RecoverUnsupported"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#Recover/errors/-",
+      "value": {
+        "target": "com.boat.api#RecoverResetFailed"
+      }
+    }
+  ]
+}

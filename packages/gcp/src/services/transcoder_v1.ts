@@ -83,551 +83,502 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-/** `fmp4` container configuration. */
-export interface Fmp4Config {
-  /** Optional. Specify the codec tag string that will be used in the media bitstream. When not specified, the codec appropriate value is used. Supported H265 codec tags: - `hvc1` (default) - `hev1` */
-  codecTag?: string;
+export type JobStateEnum =
+  | "PROCESSING_STATE_UNSPECIFIED"
+  | "PENDING"
+  | "RUNNING"
+  | "SUCCEEDED"
+  | "FAILED";
+export type JobModeEnum =
+  | "PROCESSING_MODE_UNSPECIFIED"
+  | "PROCESSING_MODE_INTERACTIVE"
+  | "PROCESSING_MODE_BATCH";
+export type DocumentMap = { [key: string]: unknown | undefined };
+export type DocumentMapList = Array<DocumentMap>;
+/** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
+export interface Status {
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string | undefined;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList | undefined;
 }
-/** Segment settings for `ts`, `fmp4` and `vtt`. */
-export interface SegmentSettings {
-  /** Required. Create an individual segment file. The default is `false`. */
-  individualSegments?: boolean;
-  /** Duration of the segments in seconds. The default is `6.0s`. Note that `segmentDuration` must be greater than or equal to [`gopDuration`](#videostream), and `segmentDuration` must be divisible by [`gopDuration`](#videostream). */
-  segmentDuration?: string;
+export type JobOptimizationEnum = "OPTIMIZATION_STRATEGY_UNSPECIFIED" | "AUTODETECT" | "DISABLED";
+/** Sprite sheet configuration. */
+export interface SpriteSheet {
+  /** Format type. The default is `jpeg`. Supported formats: - `jpeg` */
+  format?: string | undefined;
+  /** End time in seconds, relative to the output file timeline. When `end_time_offset` is not specified, the sprites are generated until the end of the output file. */
+  endTimeOffset?: string | undefined;
+  /** The maximum number of rows per sprite sheet. When the sprite sheet is full, a new sprite sheet is created. The default is 0, which indicates no maximum limit. */
+  rowCount?: number | undefined;
+  /** Start time in seconds, relative to the output file timeline. Determines the first sprite to pick. The default is `0s`. */
+  startTimeOffset?: string | undefined;
+  /** Required. File name prefix for the generated sprite sheets. Each sprite sheet has an incremental 10-digit zero-padded suffix starting from 0 before the extension, such as `sprite_sheet0000000123.jpeg`. */
+  filePrefix?: string | undefined;
+  /** The quality of the generated sprite sheet. Enter a value between 1 and 100, where 1 is the lowest quality and 100 is the highest quality. The default is 100. A high quality value corresponds to a low image data compression ratio. */
+  quality?: number | undefined;
+  /** The maximum number of sprites per row in a sprite sheet. The default is 0, which indicates no maximum limit. */
+  columnCount?: number | undefined;
+  /** Starting from `0s`, create sprites at regular intervals. Specify the interval value in seconds. */
+  interval?: string | undefined;
+  /** Total number of sprites. Create the specified number of sprites distributed evenly across the timeline of the output media. The default is 100. */
+  totalCount?: number | undefined;
+  /** Required. The width of sprite in pixels. Must be an even integer. To preserve the source aspect ratio, set the SpriteSheet.sprite_width_pixels field or the SpriteSheet.sprite_height_pixels field, but not both (the API will automatically calculate the missing field). For portrait videos that contain horizontal ASR and rotation metadata, provide the width, in pixels, per the horizontal ASR. The API calculates the height per the horizontal ASR. The API detects any rotation metadata and swaps the requested height and width for the output. */
+  spriteWidthPixels?: number | undefined;
+  /** Required. The height of sprite in pixels. Must be an even integer. To preserve the source aspect ratio, set the SpriteSheet.sprite_height_pixels field or the SpriteSheet.sprite_width_pixels field, but not both (the API will automatically calculate the missing field). For portrait videos that contain horizontal ASR and rotation metadata, provide the height, in pixels, per the horizontal ASR. The API calculates the width per the horizontal ASR. The API detects any rotation metadata and swaps the requested height and width for the output. */
+  spriteHeightPixels?: number | undefined;
 }
+export type SpriteSheetList = Array<SpriteSheet>;
 export type StringList = Array<string>;
-/** Multiplexing settings for output stream. */
-export interface MuxStream {
-  /** The container format. The default is `mp4` Supported streaming formats: - `ts` - `fmp4`- the corresponding file extension is `.m4s` Supported standalone file formats: - `mp4` - `mp3` - `ogg` - `vtt` See also: [Supported input and output formats](https://cloud.google.com/transcoder/docs/concepts/supported-input-and-output-formats) */
-  container?: string;
-  /** Optional. `fmp4` container configuration. */
-  fmp4?: Fmp4Config;
-  /** A unique key for this multiplexed stream. */
-  key?: string;
-  /** Identifier of the encryption configuration to use. If omitted, output will be unencrypted. */
-  encryptionId?: string;
-  /** Segment settings for `ts`, `fmp4` and `vtt`. */
-  segmentSettings?: SegmentSettings;
-  /** List of ElementaryStream.key values multiplexed in this stream. */
-  elementaryStreams?: StringList;
-  /** The name of the generated file. The default is MuxStream.key with the extension suffix corresponding to the MuxStream.container. Individual segments also have an incremental 10-digit zero-padded suffix starting from 0 before the extension, such as `mux_stream0000000123.ts`. */
-  fileName?: string;
-}
-export type MuxStreamList = Array<MuxStream>;
-/** Configuration for secrets stored in Google Secret Manager. */
-export interface SecretManagerSource {
-  /** Required. The name of the Secret Version containing the encryption key in the following format: `projects/{project}/secrets/{secret_id}/versions/{version_number}` Note that only numbered versions are supported. Aliases like "latest" are not supported. */
-  secretVersion?: string;
-}
-/** Playready configuration. */
-export interface Playready {}
-/** Widevine configuration. */
-export type Widevine = Playready;
-/** Fairplay configuration. */
-export type Fairplay = Playready;
-/** Clearkey configuration. */
-export type Clearkey = Playready;
-/** Defines configuration for DRM systems in use. */
-export interface DrmSystems {
-  /** Playready configuration. */
-  playready?: Playready;
-  /** Widevine configuration. */
-  widevine?: Playready;
-  /** Fairplay configuration. */
-  fairplay?: Playready;
-  /** Clearkey configuration. */
-  clearkey?: Playready;
-}
-/** Configuration for AES-128 encryption. */
-export type Aes128Encryption = Playready;
-/** Configuration for MPEG Common Encryption (MPEG-CENC). */
-export interface MpegCommonEncryption {
-  /** Required. Specify the encryption scheme. Supported encryption schemes: - `cenc` - `cbcs` */
-  scheme?: string;
-}
-/** Configuration for SAMPLE-AES encryption. */
-export type SampleAesEncryption = Playready;
-/** Encryption settings. */
-export interface Encryption {
-  /** Keys are stored in Google Secret Manager. */
-  secretManagerKeySource?: SecretManagerSource;
-  /** Required. DRM system(s) to use; at least one must be specified. If a DRM system is omitted, it is considered disabled. */
-  drmSystems?: DrmSystems;
-  /** Configuration for AES-128 encryption. */
-  aes128?: Playready;
-  /** Configuration for MPEG Common Encryption (MPEG-CENC). */
-  mpegCenc?: MpegCommonEncryption;
-  /** Configuration for SAMPLE-AES encryption. */
-  sampleAes?: Playready;
-  /** Required. Identifier for this set of encryption options. */
-  id?: string;
-}
-export type EncryptionList = Array<Encryption>;
 /** Edit atom. */
 export interface EditAtom {
-  /** List of Input.key values identifying files that should be used in this atom. The listed `inputs` must have the same timeline. */
-  inputs?: StringList;
   /** End time in seconds for the atom, relative to the input file timeline. When `end_time_offset` is not specified, the `inputs` are used until the end of the atom. */
-  endTimeOffset?: string;
+  endTimeOffset?: string | undefined;
+  /** List of Input.key values identifying files that should be used in this atom. The listed `inputs` must have the same timeline. */
+  inputs?: StringList | undefined;
   /** Start time in seconds for the atom, relative to the input file timeline. The default is `0s`. */
-  startTimeOffset?: string;
+  startTimeOffset?: string | undefined;
   /** A unique key for this atom. Must be specified when using advanced mapping. */
-  key?: string;
+  key?: string | undefined;
 }
 export type EditAtomList = Array<EditAtom>;
+/** Ad break. */
+export interface AdBreak {
+  /** Start time in seconds for the ad break, relative to the output file timeline. The default is `0s`. */
+  startTimeOffset?: string | undefined;
+}
+export type AdBreakList = Array<AdBreak>;
+/** 2D normalized coordinates. Default: `{0.0, 0.0}` */
+export interface NormalizedCoordinate {
+  /** Normalized x coordinate. */
+  x?: number | undefined;
+  /** Normalized y coordinate. */
+  y?: number | undefined;
+}
+/** Display static overlay object. */
+export interface AnimationStatic {
+  /** Normalized coordinates based on output video resolution. Valid values: `0.0`-`1.0`. `xy` is the upper-left coordinate of the overlay object. For example, use the x and y coordinates {0,0} to position the top-left corner of the overlay animation in the top-left corner of the output video. */
+  xy?: NormalizedCoordinate | undefined;
+  /** The time to start displaying the overlay object, in seconds. Default: 0 */
+  startTimeOffset?: string | undefined;
+}
+/** End previous overlay animation from the video. Without `AnimationEnd`, the overlay object will keep the state of previous animation until the end of the video. */
+export interface AnimationEnd {
+  /** The time to end overlay object, in seconds. Default: 0 */
+  startTimeOffset?: string | undefined;
+}
+export type AnimationFadeFadeTypeEnum = "FADE_TYPE_UNSPECIFIED" | "FADE_IN" | "FADE_OUT";
+/** Display overlay object with fade animation. */
+export interface AnimationFade {
+  /** The time to end the fade animation, in seconds. Default: `start_time_offset` + 1s */
+  endTimeOffset?: string | undefined;
+  /** Required. Type of fade animation: `FADE_IN` or `FADE_OUT`. */
+  fadeType?: AnimationFadeFadeTypeEnum | (string & {}) | undefined;
+  /** Normalized coordinates based on output video resolution. Valid values: `0.0`-`1.0`. `xy` is the upper-left coordinate of the overlay object. For example, use the x and y coordinates {0,0} to position the top-left corner of the overlay animation in the top-left corner of the output video. */
+  xy?: NormalizedCoordinate | undefined;
+  /** The time to start the fade animation, in seconds. Default: 0 */
+  startTimeOffset?: string | undefined;
+}
+/** Animation types. */
+export interface Animation {
+  /** Display static overlay object. */
+  animationStatic?: AnimationStatic | undefined;
+  /** End previous animation. */
+  animationEnd?: AnimationEnd | undefined;
+  /** Display overlay object with fade animation. */
+  animationFade?: AnimationFade | undefined;
+}
+export type AnimationList = Array<Animation>;
+/** Overlaid image. */
+export interface Image {
+  /** Normalized image resolution, based on output video resolution. Valid values: `0.0`-`1.0`. To respect the original image aspect ratio, set either `x` or `y` to `0.0`. To use the original image resolution, set both `x` and `y` to `0.0`. */
+  resolution?: NormalizedCoordinate | undefined;
+  /** Required. URI of the image in Cloud Storage. For example, `gs://bucket/inputs/image.png`. Only PNG and JPEG images are supported. */
+  uri?: string | undefined;
+  /** Target image opacity. Valid values are from `1.0` (solid, default) to `0.0` (transparent), exclusive. Set this to a value greater than `0.0`. */
+  alpha?: number | undefined;
+}
+/** Overlay configuration. */
+export interface Overlay {
+  /** List of animations. The list should be chronological, without any time overlap. */
+  animations?: AnimationList | undefined;
+  /** Image overlay. */
+  image?: Image | undefined;
+}
+export type OverlayList = Array<Overlay>;
 /** Track definition for the input asset. */
 export interface TrackDefinition {
   /** The input track. */
-  inputTrack?: number;
+  inputTrack?: number | undefined;
   /** Optional. Whether to automatically detect the languages present in the track. If true, the system will attempt to identify all the languages present in the track and populate the languages field. */
-  detectLanguages?: boolean;
-  /** Optional. A list of languages spoken in the input asset, represented by a BCP 47 language code, such as "en-US" or "sr-Latn". For more information, see https://www.unicode.org/reports/tr35/#Unicode_locale_identifier. */
-  languages?: StringList;
+  detectLanguages?: boolean | undefined;
   /** Output only. A list of languages detected in the input asset, represented by a BCP 47 language code, such as "en-US" or "sr-Latn". For more information, see https://www.unicode.org/reports/tr35/#Unicode_locale_identifier. This field is only populated if the detect_languages field is set to true. */
-  detectedLanguages?: StringList;
+  detectedLanguages?: StringList | undefined;
+  /** Optional. A list of languages spoken in the input asset, represented by a BCP 47 language code, such as "en-US" or "sr-Latn". For more information, see https://www.unicode.org/reports/tr35/#Unicode_locale_identifier. */
+  languages?: StringList | undefined;
 }
 export type TrackDefinitionList = Array<TrackDefinition>;
 /** Input attributes that provide additional information about the input asset. */
 export interface InputAttributes {
   /** Optional. A list of track definitions for the input asset. */
-  trackDefinitions?: TrackDefinitionList;
+  trackDefinitions?: TrackDefinitionList | undefined;
 }
-/** Denoise preprocessing configuration. **Note:** This configuration is not supported. */
-export interface Denoise {
-  /** Set the denoiser mode. The default is `standard`. Supported denoiser modes: - `standard` - `grain` */
-  tune?: string;
-  /** Set strength of the denoise. Enter a value between 0 and 1. The higher the value, the smoother the image. 0 is no denoising. The default is 0. */
-  strength?: number;
+/** Yet Another Deinterlacing Filter Configuration. */
+export interface YadifConfig {
+  /** Deinterlace all frames rather than just the frames identified as interlaced. The default is `false`. */
+  deinterlaceAllFrames?: boolean | undefined;
+  /** Specifies the deinterlacing mode to adopt. The default is `send_frame`. Supported values: - `send_frame`: Output one frame for each frame - `send_field`: Output one frame for each field */
+  mode?: string | undefined;
+  /** Disable spacial interlacing. The default is `false`. */
+  disableSpatialInterlacing?: boolean | undefined;
+  /** The picture field parity assumed for the input interlaced video. The default is `auto`. Supported values: - `tff`: Assume the top field is first - `bff`: Assume the bottom field is first - `auto`: Enable automatic detection of field parity */
+  parity?: string | undefined;
+}
+/** Bob Weaver Deinterlacing Filter Configuration. */
+export interface BwdifConfig {
+  /** The picture field parity assumed for the input interlaced video. The default is `auto`. Supported values: - `tff`: Assume the top field is first - `bff`: Assume the bottom field is first - `auto`: Enable automatic detection of field parity */
+  parity?: string | undefined;
+  /** Specifies the deinterlacing mode to adopt. The default is `send_frame`. Supported values: - `send_frame`: Output one frame for each frame - `send_field`: Output one frame for each field */
+  mode?: string | undefined;
+  /** Deinterlace all frames rather than just the frames identified as interlaced. The default is `false`. */
+  deinterlaceAllFrames?: boolean | undefined;
+}
+/** Deinterlace configuration for input video. */
+export interface Deinterlace {
+  /** Specifies the Yet Another Deinterlacing Filter Configuration. */
+  yadif?: YadifConfig | undefined;
+  /** Specifies the Bob Weaver Deinterlacing Filter Configuration. */
+  bwdif?: BwdifConfig | undefined;
 }
 /** Video cropping configuration for the input video. The cropped input video is scaled to match the output resolution. */
 export interface Crop {
-  /** The number of pixels to crop from the right. The default is 0. */
-  rightPixels?: number;
-  /** The number of pixels to crop from the top. The default is 0. */
-  topPixels?: number;
-  /** The number of pixels to crop from the bottom. The default is 0. */
-  bottomPixels?: number;
   /** The number of pixels to crop from the left. The default is 0. */
-  leftPixels?: number;
+  leftPixels?: number | undefined;
+  /** The number of pixels to crop from the top. The default is 0. */
+  topPixels?: number | undefined;
+  /** The number of pixels to crop from the bottom. The default is 0. */
+  bottomPixels?: number | undefined;
+  /** The number of pixels to crop from the right. The default is 0. */
+  rightPixels?: number | undefined;
+}
+/** Audio preprocessing configuration. */
+export interface Audio {
+  /** Enable boosting high frequency components. The default is `false`. **Note:** This field is not supported. */
+  highBoost?: boolean | undefined;
+  /** Specify audio loudness normalization in loudness units relative to full scale (LUFS). Enter a value between -24 and 0 (the default), where: * -24 is the Advanced Television Systems Committee (ATSC A/85) standard * -23 is the EU R128 broadcast standard * -19 is the prior standard for online mono audio * -18 is the ReplayGain standard * -16 is the prior standard for stereo audio * -14 is the new online audio standard recommended by Spotify, as well as Amazon Echo * 0 disables normalization */
+  lufs?: number | undefined;
+  /** Enable boosting low frequency components. The default is `false`. **Note:** This field is not supported. */
+  lowBoost?: boolean | undefined;
+}
+/** Denoise preprocessing configuration. **Note:** This configuration is not supported. */
+export interface Denoise {
+  /** Set strength of the denoise. Enter a value between 0 and 1. The higher the value, the smoother the image. 0 is no denoising. The default is 0. */
+  strength?: number | undefined;
+  /** Set the denoiser mode. The default is `standard`. Supported denoiser modes: - `standard` - `grain` */
+  tune?: string | undefined;
+}
+/** Color preprocessing configuration. **Note:** This configuration is not supported. */
+export interface Color {
+  /** Control color saturation of the video. Enter a value between -1 and 1, where -1 is fully desaturated and 1 is maximum saturation. 0 is no change. The default is 0. */
+  saturation?: number | undefined;
+  /** Control brightness of the video. Enter a value between -1 and 1, where -1 is minimum brightness and 1 is maximum brightness. 0 is no change. The default is 0. */
+  brightness?: number | undefined;
+  /** Control black and white contrast of the video. Enter a value between -1 and 1, where -1 is minimum contrast and 1 is maximum contrast. 0 is no change. The default is 0. */
+  contrast?: number | undefined;
 }
 /** Pad filter configuration for the input video. The padded input video is scaled after padding with black to match the output resolution. */
 export interface Pad {
   /** The number of pixels to add to the left. The default is 0. */
-  leftPixels?: number;
+  leftPixels?: number | undefined;
   /** The number of pixels to add to the top. The default is 0. */
-  topPixels?: number;
-  /** The number of pixels to add to the right. The default is 0. */
-  rightPixels?: number;
+  topPixels?: number | undefined;
   /** The number of pixels to add to the bottom. The default is 0. */
-  bottomPixels?: number;
-}
-/** Bob Weaver Deinterlacing Filter Configuration. */
-export interface BwdifConfig {
-  /** Specifies the deinterlacing mode to adopt. The default is `send_frame`. Supported values: - `send_frame`: Output one frame for each frame - `send_field`: Output one frame for each field */
-  mode?: string;
-  /** Deinterlace all frames rather than just the frames identified as interlaced. The default is `false`. */
-  deinterlaceAllFrames?: boolean;
-  /** The picture field parity assumed for the input interlaced video. The default is `auto`. Supported values: - `tff`: Assume the top field is first - `bff`: Assume the bottom field is first - `auto`: Enable automatic detection of field parity */
-  parity?: string;
-}
-/** Yet Another Deinterlacing Filter Configuration. */
-export interface YadifConfig {
-  /** Disable spacial interlacing. The default is `false`. */
-  disableSpatialInterlacing?: boolean;
-  /** Specifies the deinterlacing mode to adopt. The default is `send_frame`. Supported values: - `send_frame`: Output one frame for each frame - `send_field`: Output one frame for each field */
-  mode?: string;
-  /** Deinterlace all frames rather than just the frames identified as interlaced. The default is `false`. */
-  deinterlaceAllFrames?: boolean;
-  /** The picture field parity assumed for the input interlaced video. The default is `auto`. Supported values: - `tff`: Assume the top field is first - `bff`: Assume the bottom field is first - `auto`: Enable automatic detection of field parity */
-  parity?: string;
-}
-/** Deinterlace configuration for input video. */
-export interface Deinterlace {
-  /** Specifies the Bob Weaver Deinterlacing Filter Configuration. */
-  bwdif?: BwdifConfig;
-  /** Specifies the Yet Another Deinterlacing Filter Configuration. */
-  yadif?: YadifConfig;
-}
-/** Color preprocessing configuration. **Note:** This configuration is not supported. */
-export interface Color {
-  /** Control brightness of the video. Enter a value between -1 and 1, where -1 is minimum brightness and 1 is maximum brightness. 0 is no change. The default is 0. */
-  brightness?: number;
-  /** Control black and white contrast of the video. Enter a value between -1 and 1, where -1 is minimum contrast and 1 is maximum contrast. 0 is no change. The default is 0. */
-  contrast?: number;
-  /** Control color saturation of the video. Enter a value between -1 and 1, where -1 is fully desaturated and 1 is maximum saturation. 0 is no change. The default is 0. */
-  saturation?: number;
+  bottomPixels?: number | undefined;
+  /** The number of pixels to add to the right. The default is 0. */
+  rightPixels?: number | undefined;
 }
 /** Deblock preprocessing configuration. **Note:** This configuration is not supported. */
 export interface Deblock {
   /** Set strength of the deblocker. Enter a value between 0 and 1. The higher the value, the stronger the block removal. 0 is no deblocking. The default is 0. */
-  strength?: number;
+  strength?: number | undefined;
   /** Enable deblocker. The default is `false`. */
-  enabled?: boolean;
-}
-/** Audio preprocessing configuration. */
-export interface Audio {
-  /** Specify audio loudness normalization in loudness units relative to full scale (LUFS). Enter a value between -24 and 0 (the default), where: * -24 is the Advanced Television Systems Committee (ATSC A/85) standard * -23 is the EU R128 broadcast standard * -19 is the prior standard for online mono audio * -18 is the ReplayGain standard * -16 is the prior standard for stereo audio * -14 is the new online audio standard recommended by Spotify, as well as Amazon Echo * 0 disables normalization */
-  lufs?: number;
-  /** Enable boosting low frequency components. The default is `false`. **Note:** This field is not supported. */
-  lowBoost?: boolean;
-  /** Enable boosting high frequency components. The default is `false`. **Note:** This field is not supported. */
-  highBoost?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Preprocessing configurations. */
 export interface PreprocessingConfig {
-  /** Denoise preprocessing configuration. */
-  denoise?: Denoise;
-  /** Specify the video cropping configuration. */
-  crop?: Crop;
-  /** Specify the video pad filter configuration. */
-  pad?: Pad;
   /** Specify the video deinterlace configuration. */
-  deinterlace?: Deinterlace;
-  /** Color preprocessing configuration. */
-  color?: Color;
-  /** Deblock preprocessing configuration. */
-  deblock?: Deblock;
+  deinterlace?: Deinterlace | undefined;
+  /** Specify the video cropping configuration. */
+  crop?: Crop | undefined;
   /** Audio preprocessing configuration. */
-  audio?: Audio;
+  audio?: Audio | undefined;
+  /** Denoise preprocessing configuration. */
+  denoise?: Denoise | undefined;
+  /** Color preprocessing configuration. */
+  color?: Color | undefined;
+  /** Specify the video pad filter configuration. */
+  pad?: Pad | undefined;
+  /** Deblock preprocessing configuration. */
+  deblock?: Deblock | undefined;
 }
 /** Input asset. */
 export interface Input {
   /** A unique key for this input. Must be specified when using advanced mapping and edit lists. */
-  key?: string;
-  /** Optional. Input Attributes. */
-  attributes?: InputAttributes;
+  key?: string | undefined;
   /** URI of the media. Input files must be at least 5 seconds in duration and stored in Cloud Storage (for example, `gs://bucket/inputs/file.mp4`). If empty, the value is populated from Job.input_uri. See [Supported input and output formats](https://cloud.google.com/transcoder/docs/concepts/supported-input-and-output-formats). */
-  uri?: string;
+  uri?: string | undefined;
+  /** Optional. Input Attributes. */
+  attributes?: InputAttributes | undefined;
   /** Preprocessing configurations. */
-  preprocessingConfig?: PreprocessingConfig;
+  preprocessingConfig?: PreprocessingConfig | undefined;
 }
 export type InputList = Array<Input>;
-/** Location of output file(s) in a Cloud Storage bucket. */
-export interface Output {
-  /** URI for the output file(s). For example, `gs://my-bucket/outputs/`. Must be a directory and not a top-level bucket. If empty, the value is populated from Job.output_uri. See [Supported input and output formats](https://cloud.google.com/transcoder/docs/concepts/supported-input-and-output-formats). */
-  uri?: string;
+/** The mapping for the JobConfig.edit_list atoms with text EditAtom.inputs. */
+export interface TextMapping {
+  /** Required. The Input.key that identifies the input file. */
+  inputKey?: string | undefined;
+  /** Required. The zero-based index of the track in the input file. */
+  inputTrack?: number | undefined;
+  /** Required. The EditAtom.key that references atom with text inputs in the JobConfig.edit_list. */
+  atomKey?: string | undefined;
 }
-/** Sprite sheet configuration. */
-export interface SpriteSheet {
-  /** The maximum number of sprites per row in a sprite sheet. The default is 0, which indicates no maximum limit. */
-  columnCount?: number;
-  /** The maximum number of rows per sprite sheet. When the sprite sheet is full, a new sprite sheet is created. The default is 0, which indicates no maximum limit. */
-  rowCount?: number;
-  /** Total number of sprites. Create the specified number of sprites distributed evenly across the timeline of the output media. The default is 100. */
-  totalCount?: number;
-  /** Starting from `0s`, create sprites at regular intervals. Specify the interval value in seconds. */
-  interval?: string;
-  /** The quality of the generated sprite sheet. Enter a value between 1 and 100, where 1 is the lowest quality and 100 is the highest quality. The default is 100. A high quality value corresponds to a low image data compression ratio. */
-  quality?: number;
-  /** Format type. The default is `jpeg`. Supported formats: - `jpeg` */
-  format?: string;
-  /** Required. File name prefix for the generated sprite sheets. Each sprite sheet has an incremental 10-digit zero-padded suffix starting from 0 before the extension, such as `sprite_sheet0000000123.jpeg`. */
-  filePrefix?: string;
-  /** Required. The height of sprite in pixels. Must be an even integer. To preserve the source aspect ratio, set the SpriteSheet.sprite_height_pixels field or the SpriteSheet.sprite_width_pixels field, but not both (the API will automatically calculate the missing field). For portrait videos that contain horizontal ASR and rotation metadata, provide the height, in pixels, per the horizontal ASR. The API calculates the width per the horizontal ASR. The API detects any rotation metadata and swaps the requested height and width for the output. */
-  spriteHeightPixels?: number;
-  /** Start time in seconds, relative to the output file timeline. Determines the first sprite to pick. The default is `0s`. */
-  startTimeOffset?: string;
-  /** Required. The width of sprite in pixels. Must be an even integer. To preserve the source aspect ratio, set the SpriteSheet.sprite_width_pixels field or the SpriteSheet.sprite_height_pixels field, but not both (the API will automatically calculate the missing field). For portrait videos that contain horizontal ASR and rotation metadata, provide the width, in pixels, per the horizontal ASR. The API calculates the height per the horizontal ASR. The API detects any rotation metadata and swaps the requested height and width for the output. */
-  spriteWidthPixels?: number;
-  /** End time in seconds, relative to the output file timeline. When `end_time_offset` is not specified, the sprites are generated until the end of the output file. */
-  endTimeOffset?: string;
+export type TextMappingList = Array<TextMapping>;
+/** Encoding of a text stream. For example, closed captions or subtitles. */
+export interface TextStream {
+  /** The BCP-47 language code, such as `en-US` or `sr-Latn`. For more information, see https://www.unicode.org/reports/tr35/#Unicode_locale_identifier. Not supported in MP4 files. */
+  languageCode?: string | undefined;
+  /** The codec for this text stream. The default is `webvtt`. Supported text codecs: - `srt` - `ttml` - `cea608` - `cea708` - `webvtt` */
+  codec?: string | undefined;
+  /** The name for this particular text stream that will be added to the HLS/DASH manifest. Not supported in MP4 files. */
+  displayName?: string | undefined;
+  /** The mapping for the JobConfig.edit_list atoms with text EditAtom.inputs. */
+  mapping?: TextMappingList | undefined;
 }
-export type SpriteSheetList = Array<SpriteSheet>;
-/** Convert the input video to a Hybrid Log Gamma (HLG) video. */
-export type H264ColorFormatHLG = Playready;
-export type H264CodecSettingsFrameRateConversionStrategyEnum =
+export type H265CodecSettingsFrameRateConversionStrategyEnum =
   | "FRAME_RATE_CONVERSION_STRATEGY_UNSPECIFIED"
   | "DOWNSAMPLE"
   | "DROP_DUPLICATE";
 /** Convert the input video to a Standard Dynamic Range (SDR) video. */
-export type H264ColorFormatSDR = Playready;
-/** H264 codec settings. */
-export interface H264CodecSettings {
-  /** Enforces the specified codec tune. The available options are [FFmpeg-compatible](https://trac.ffmpeg.org/wiki/Encode/H.264#Tune). Note that certain values for this field may cause the transcoder to override other fields you set in the `H264CodecSettings` message. */
-  tune?: string;
-  /** The entropy coder to use. The default is `cabac`. Supported entropy coders: - `cavlc` - `cabac` */
-  entropyCoder?: string;
-  /** Specify the intensity of the adaptive quantizer (AQ). Must be between 0 and 1, where 0 disables the quantizer and 1 maximizes the quantizer. A higher value equals a lower bitrate but smoother image. The default is 0. */
-  aqStrength?: number;
-  /** Select the GOP size based on the specified frame count. Must be greater than zero. */
-  gopFrameCount?: number;
-  /** Initial fullness of the Video Buffering Verifier (VBV) buffer in bits. Must be greater than zero. The default is equal to 90% of H264CodecSettings.vbv_size_bits. */
-  vbvFullnessBits?: number;
-  /** Size of the Video Buffering Verifier (VBV) buffer in bits. Must be greater than zero. The default is equal to H264CodecSettings.bitrate_bps. */
-  vbvSizeBits?: number;
-  /** Specifies whether an open Group of Pictures (GOP) structure should be allowed or not. The default is `false`. */
-  allowOpenGop?: boolean;
-  /** The width of the video in pixels. Must be an even integer. When not specified, the width is adjusted to match the specified height and input aspect ratio. If both are omitted, the input width is used. For portrait videos that contain horizontal ASR and rotation metadata, provide the width, in pixels, per the horizontal ASR. The API calculates the height per the horizontal ASR. The API detects any rotation metadata and swaps the requested height and width for the output. */
-  widthPixels?: number;
-  /** Select the GOP size based on the specified duration. The default is `3s`. Note that `gopDuration` must be less than or equal to [`segmentDuration`](#SegmentSettings), and [`segmentDuration`](#SegmentSettings) must be divisible by `gopDuration`. */
-  gopDuration?: string;
-  /** Optional. HLG color format setting for H264. */
-  hlg?: Playready;
-  /** Target CRF level. Must be between 10 and 36, where 10 is the highest quality and 36 is the most efficient compression. The default is 21. */
-  crfLevel?: number;
-  /** Required. The video bitrate in bits per second. The minimum value is 1,000. The maximum value is 800,000,000. */
-  bitrateBps?: number;
-  /** Optional. Frame rate conversion strategy for desired frame rate. The default is `DOWNSAMPLE`. */
-  frameRateConversionStrategy?: H264CodecSettingsFrameRateConversionStrategyEnum | (string & {});
+export interface H265ColorFormatSDR {}
+/** Convert the input video to a Hybrid Log Gamma (HLG) video. */
+export type H265ColorFormatHLG = H265ColorFormatSDR;
+/** Convert the input video to a High Dynamic Range 10 (HDR10) video. */
+export type H265ColorFormatHDR10 = H265ColorFormatSDR;
+/** H265 codec settings. */
+export interface H265CodecSettings {
   /** The height of the video in pixels. Must be an even integer. When not specified, the height is adjusted to match the specified width and input aspect ratio. If both are omitted, the input height is used. For portrait videos that contain horizontal ASR and rotation metadata, provide the height, in pixels, per the horizontal ASR. The API calculates the width per the horizontal ASR. The API detects any rotation metadata and swaps the requested height and width for the output. */
-  heightPixels?: number;
-  /** The number of consecutive B-frames. Must be greater than or equal to zero. Must be less than H264CodecSettings.gop_frame_count if set. The default is 0. */
-  bFrameCount?: number;
-  /** Use two-pass encoding strategy to achieve better video quality. H264CodecSettings.rate_control_mode must be `vbr`. The default is `false`. */
-  enableTwoPass?: boolean;
-  /** Optional. SDR color format setting for H264. */
-  sdr?: Playready;
+  heightPixels?: number | undefined;
+  /** Enforces the specified codec profile. The following profiles are supported: * 8-bit profiles * `main` (default) * `main-intra` * `mainstillpicture` * 10-bit profiles * `main10` (default) * `main10-intra` * `main422-10` * `main422-10-intra` * `main444-10` * `main444-10-intra` * 12-bit profiles * `main12` (default) * `main12-intra` * `main422-12` * `main422-12-intra` * `main444-12` * `main444-12-intra` The available options are [FFmpeg-compatible](https://x265.readthedocs.io/). Note that certain values for this field may cause the transcoder to override other fields you set in the `H265CodecSettings` message. */
+  profile?: string | undefined;
+  /** Target CRF level. Must be between 10 and 36, where 10 is the highest quality and 36 is the most efficient compression. The default is 21. */
+  crfLevel?: number | undefined;
+  /** Optional. Frame rate conversion strategy for desired frame rate. The default is `DOWNSAMPLE`. */
+  frameRateConversionStrategy?:
+    | H265CodecSettingsFrameRateConversionStrategyEnum
+    | (string & {})
+    | undefined;
   /** Pixel format to use. The default is `yuv420p`. Supported pixel formats: - `yuv420p` pixel format - `yuv422p` pixel format - `yuv444p` pixel format - `yuv420p10` 10-bit HDR pixel format - `yuv422p10` 10-bit HDR pixel format - `yuv444p10` 10-bit HDR pixel format - `yuv420p12` 12-bit HDR pixel format - `yuv422p12` 12-bit HDR pixel format - `yuv444p12` 12-bit HDR pixel format */
-  pixelFormat?: string;
-  /** Enforces the specified codec profile. The following profiles are supported: * `baseline` * `main` * `high` (default) The available options are [FFmpeg-compatible](https://trac.ffmpeg.org/wiki/Encode/H.264#Tune). Note that certain values for this field may cause the transcoder to override other fields you set in the `H264CodecSettings` message. */
-  profile?: string;
-  /** Required. The target video frame rate in frames per second (FPS). Must be less than or equal to 120. */
-  frameRate?: number;
+  pixelFormat?: string | undefined;
   /** Specify the mode. The default is `vbr`. Supported rate control modes: - `vbr` - variable bitrate - `crf` - constant rate factor */
-  rateControlMode?: string;
-  /** Enforces the specified codec preset. The default is `veryfast`. The available options are [FFmpeg-compatible](https://trac.ffmpeg.org/wiki/Encode/H.264#Preset). Note that certain values for this field may cause the transcoder to override other fields you set in the `H264CodecSettings` message. */
-  preset?: string;
+  rateControlMode?: string | undefined;
+  /** Specify the intensity of the adaptive quantizer (AQ). Must be between 0 and 1, where 0 disables the quantizer and 1 maximizes the quantizer. A higher value equals a lower bitrate but smoother image. The default is 0. */
+  aqStrength?: number | undefined;
+  /** Initial fullness of the Video Buffering Verifier (VBV) buffer in bits. Must be greater than zero. The default is equal to 90% of H265CodecSettings.vbv_size_bits. */
+  vbvFullnessBits?: number | undefined;
   /** Allow B-pyramid for reference frame selection. This may not be supported on all decoders. The default is `false`. */
-  bPyramid?: boolean;
+  bPyramid?: boolean | undefined;
+  /** Enforces the specified codec preset. The default is `veryfast`. The available options are [FFmpeg-compatible](https://trac.ffmpeg.org/wiki/Encode/H.265). Note that certain values for this field may cause the transcoder to override other fields you set in the `H265CodecSettings` message. */
+  preset?: string | undefined;
+  /** Optional. SDR color format setting for H265. */
+  sdr?: H265ColorFormatSDR | undefined;
+  /** The width of the video in pixels. Must be an even integer. When not specified, the width is adjusted to match the specified height and input aspect ratio. If both are omitted, the input width is used. For portrait videos that contain horizontal ASR and rotation metadata, provide the width, in pixels, per the horizontal ASR. The API calculates the height per the horizontal ASR. The API detects any rotation metadata and swaps the requested height and width for the output. */
+  widthPixels?: number | undefined;
+  /** Enforces the specified codec tune. The available options are [FFmpeg-compatible](https://trac.ffmpeg.org/wiki/Encode/H.265). Note that certain values for this field may cause the transcoder to override other fields you set in the `H265CodecSettings` message. */
+  tune?: string | undefined;
+  /** Use two-pass encoding strategy to achieve better video quality. H265CodecSettings.rate_control_mode must be `vbr`. The default is `false`. */
+  enableTwoPass?: boolean | undefined;
+  /** Optional. HLG color format setting for H265. */
+  hlg?: H265ColorFormatSDR | undefined;
+  /** The number of consecutive B-frames. Must be greater than or equal to zero. Must be less than H265CodecSettings.gop_frame_count if set. The default is 0. */
+  bFrameCount?: number | undefined;
+  /** Select the GOP size based on the specified frame count. Must be greater than zero. */
+  gopFrameCount?: number | undefined;
+  /** Required. The target video frame rate in frames per second (FPS). Must be less than or equal to 120. */
+  frameRate?: number | undefined;
+  /** Size of the Video Buffering Verifier (VBV) buffer in bits. Must be greater than zero. The default is equal to `VideoStream.bitrate_bps`. */
+  vbvSizeBits?: number | undefined;
+  /** Required. The video bitrate in bits per second. The minimum value is 1,000. The maximum value is 800,000,000. */
+  bitrateBps?: number | undefined;
+  /** Optional. HDR10 color format setting for H265. */
+  hdr10?: H265ColorFormatSDR | undefined;
+  /** Specifies whether an open Group of Pictures (GOP) structure should be allowed or not. The default is `false`. */
+  allowOpenGop?: boolean | undefined;
+  /** Select the GOP size based on the specified duration. The default is `3s`. Note that `gopDuration` must be less than or equal to [`segmentDuration`](#SegmentSettings), and [`segmentDuration`](#SegmentSettings) must be divisible by `gopDuration`. */
+  gopDuration?: string | undefined;
 }
 /** Convert the input video to a Hybrid Log Gamma (HLG) video. */
-export type Vp9ColorFormatHLG = Playready;
+export type Vp9ColorFormatHLG = H265ColorFormatSDR;
 export type Vp9CodecSettingsFrameRateConversionStrategyEnum =
   | "FRAME_RATE_CONVERSION_STRATEGY_UNSPECIFIED"
   | "DOWNSAMPLE"
   | "DROP_DUPLICATE";
 /** Convert the input video to a Standard Dynamic Range (SDR) video. */
-export type Vp9ColorFormatSDR = Playready;
+export type Vp9ColorFormatSDR = H265ColorFormatSDR;
 /** VP9 codec settings. */
 export interface Vp9CodecSettings {
-  /** Pixel format to use. The default is `yuv420p`. Supported pixel formats: - `yuv420p` pixel format - `yuv422p` pixel format - `yuv444p` pixel format - `yuv420p10` 10-bit HDR pixel format - `yuv422p10` 10-bit HDR pixel format - `yuv444p10` 10-bit HDR pixel format - `yuv420p12` 12-bit HDR pixel format - `yuv422p12` 12-bit HDR pixel format - `yuv444p12` 12-bit HDR pixel format */
-  pixelFormat?: string;
   /** Optional. HLG color format setting for VP9. */
-  hlg?: Playready;
-  /** Enforces the specified codec profile. The following profiles are supported: * `profile0` (default) * `profile1` * `profile2` * `profile3` The available options are [WebM-compatible](https://www.webmproject.org/vp9/profiles/). Note that certain values for this field may cause the transcoder to override other fields you set in the `Vp9CodecSettings` message. */
-  profile?: string;
-  /** Target CRF level. Must be between 10 and 36, where 10 is the highest quality and 36 is the most efficient compression. The default is 21. **Note:** This field is not supported. */
-  crfLevel?: number;
-  /** The width of the video in pixels. Must be an even integer. When not specified, the width is adjusted to match the specified height and input aspect ratio. If both are omitted, the input width is used. For portrait videos that contain horizontal ASR and rotation metadata, provide the width, in pixels, per the horizontal ASR. The API calculates the height per the horizontal ASR. The API detects any rotation metadata and swaps the requested height and width for the output. */
-  widthPixels?: number;
-  /** Select the GOP size based on the specified duration. The default is `3s`. Note that `gopDuration` must be less than or equal to [`segmentDuration`](#SegmentSettings), and [`segmentDuration`](#SegmentSettings) must be divisible by `gopDuration`. */
-  gopDuration?: string;
-  /** Specify the mode. The default is `vbr`. Supported rate control modes: - `vbr` - variable bitrate */
-  rateControlMode?: string;
-  /** The height of the video in pixels. Must be an even integer. When not specified, the height is adjusted to match the specified width and input aspect ratio. If both are omitted, the input height is used. For portrait videos that contain horizontal ASR and rotation metadata, provide the height, in pixels, per the horizontal ASR. The API calculates the width per the horizontal ASR. The API detects any rotation metadata and swaps the requested height and width for the output. */
-  heightPixels?: number;
-  /** Select the GOP size based on the specified frame count. Must be greater than zero. */
-  gopFrameCount?: number;
+  hlg?: H265ColorFormatSDR | undefined;
   /** Required. The target video frame rate in frames per second (FPS). Must be less than or equal to 120. */
-  frameRate?: number;
+  frameRate?: number | undefined;
+  /** Pixel format to use. The default is `yuv420p`. Supported pixel formats: - `yuv420p` pixel format - `yuv422p` pixel format - `yuv444p` pixel format - `yuv420p10` 10-bit HDR pixel format - `yuv422p10` 10-bit HDR pixel format - `yuv444p10` 10-bit HDR pixel format - `yuv420p12` 12-bit HDR pixel format - `yuv422p12` 12-bit HDR pixel format - `yuv444p12` 12-bit HDR pixel format */
+  pixelFormat?: string | undefined;
+  /** Select the GOP size based on the specified frame count. Must be greater than zero. */
+  gopFrameCount?: number | undefined;
+  /** The height of the video in pixels. Must be an even integer. When not specified, the height is adjusted to match the specified width and input aspect ratio. If both are omitted, the input height is used. For portrait videos that contain horizontal ASR and rotation metadata, provide the height, in pixels, per the horizontal ASR. The API calculates the width per the horizontal ASR. The API detects any rotation metadata and swaps the requested height and width for the output. */
+  heightPixels?: number | undefined;
+  /** The width of the video in pixels. Must be an even integer. When not specified, the width is adjusted to match the specified height and input aspect ratio. If both are omitted, the input width is used. For portrait videos that contain horizontal ASR and rotation metadata, provide the width, in pixels, per the horizontal ASR. The API calculates the height per the horizontal ASR. The API detects any rotation metadata and swaps the requested height and width for the output. */
+  widthPixels?: number | undefined;
+  /** Enforces the specified codec profile. The following profiles are supported: * `profile0` (default) * `profile1` * `profile2` * `profile3` The available options are [WebM-compatible](https://www.webmproject.org/vp9/profiles/). Note that certain values for this field may cause the transcoder to override other fields you set in the `Vp9CodecSettings` message. */
+  profile?: string | undefined;
+  /** Specify the mode. The default is `vbr`. Supported rate control modes: - `vbr` - variable bitrate */
+  rateControlMode?: string | undefined;
   /** Optional. Frame rate conversion strategy for desired frame rate. The default is `DOWNSAMPLE`. */
-  frameRateConversionStrategy?: Vp9CodecSettingsFrameRateConversionStrategyEnum | (string & {});
+  frameRateConversionStrategy?:
+    | Vp9CodecSettingsFrameRateConversionStrategyEnum
+    | (string & {})
+    | undefined;
+  /** Select the GOP size based on the specified duration. The default is `3s`. Note that `gopDuration` must be less than or equal to [`segmentDuration`](#SegmentSettings), and [`segmentDuration`](#SegmentSettings) must be divisible by `gopDuration`. */
+  gopDuration?: string | undefined;
   /** Required. The video bitrate in bits per second. The minimum value is 1,000. The maximum value is 480,000,000. */
-  bitrateBps?: number;
+  bitrateBps?: number | undefined;
+  /** Target CRF level. Must be between 10 and 36, where 10 is the highest quality and 36 is the most efficient compression. The default is 21. **Note:** This field is not supported. */
+  crfLevel?: number | undefined;
   /** Optional. SDR color format setting for VP9. */
-  sdr?: Playready;
+  sdr?: H265ColorFormatSDR | undefined;
 }
 /** Convert the input video to a Hybrid Log Gamma (HLG) video. */
-export type H265ColorFormatHLG = Playready;
-export type H265CodecSettingsFrameRateConversionStrategyEnum =
+export type H264ColorFormatHLG = H265ColorFormatSDR;
+export type H264CodecSettingsFrameRateConversionStrategyEnum =
   | "FRAME_RATE_CONVERSION_STRATEGY_UNSPECIFIED"
   | "DOWNSAMPLE"
   | "DROP_DUPLICATE";
-/** Convert the input video to a High Dynamic Range 10 (HDR10) video. */
-export type H265ColorFormatHDR10 = Playready;
 /** Convert the input video to a Standard Dynamic Range (SDR) video. */
-export type H265ColorFormatSDR = Playready;
-/** H265 codec settings. */
-export interface H265CodecSettings {
-  /** Optional. HLG color format setting for H265. */
-  hlg?: Playready;
-  /** Use two-pass encoding strategy to achieve better video quality. H265CodecSettings.rate_control_mode must be `vbr`. The default is `false`. */
-  enableTwoPass?: boolean;
-  /** Enforces the specified codec profile. The following profiles are supported: * 8-bit profiles * `main` (default) * `main-intra` * `mainstillpicture` * 10-bit profiles * `main10` (default) * `main10-intra` * `main422-10` * `main422-10-intra` * `main444-10` * `main444-10-intra` * 12-bit profiles * `main12` (default) * `main12-intra` * `main422-12` * `main422-12-intra` * `main444-12` * `main444-12-intra` The available options are [FFmpeg-compatible](https://x265.readthedocs.io/). Note that certain values for this field may cause the transcoder to override other fields you set in the `H265CodecSettings` message. */
-  profile?: string;
-  /** Specify the mode. The default is `vbr`. Supported rate control modes: - `vbr` - variable bitrate - `crf` - constant rate factor */
-  rateControlMode?: string;
-  /** Enforces the specified codec tune. The available options are [FFmpeg-compatible](https://trac.ffmpeg.org/wiki/Encode/H.265). Note that certain values for this field may cause the transcoder to override other fields you set in the `H265CodecSettings` message. */
-  tune?: string;
-  /** Enforces the specified codec preset. The default is `veryfast`. The available options are [FFmpeg-compatible](https://trac.ffmpeg.org/wiki/Encode/H.265). Note that certain values for this field may cause the transcoder to override other fields you set in the `H265CodecSettings` message. */
-  preset?: string;
-  /** Allow B-pyramid for reference frame selection. This may not be supported on all decoders. The default is `false`. */
-  bPyramid?: boolean;
-  /** Pixel format to use. The default is `yuv420p`. Supported pixel formats: - `yuv420p` pixel format - `yuv422p` pixel format - `yuv444p` pixel format - `yuv420p10` 10-bit HDR pixel format - `yuv422p10` 10-bit HDR pixel format - `yuv444p10` 10-bit HDR pixel format - `yuv420p12` 12-bit HDR pixel format - `yuv422p12` 12-bit HDR pixel format - `yuv444p12` 12-bit HDR pixel format */
-  pixelFormat?: string;
-  /** The height of the video in pixels. Must be an even integer. When not specified, the height is adjusted to match the specified width and input aspect ratio. If both are omitted, the input height is used. For portrait videos that contain horizontal ASR and rotation metadata, provide the height, in pixels, per the horizontal ASR. The API calculates the width per the horizontal ASR. The API detects any rotation metadata and swaps the requested height and width for the output. */
-  heightPixels?: number;
-  /** Required. The video bitrate in bits per second. The minimum value is 1,000. The maximum value is 800,000,000. */
-  bitrateBps?: number;
-  /** The number of consecutive B-frames. Must be greater than or equal to zero. Must be less than H265CodecSettings.gop_frame_count if set. The default is 0. */
-  bFrameCount?: number;
-  /** Select the GOP size based on the specified frame count. Must be greater than zero. */
-  gopFrameCount?: number;
-  /** Initial fullness of the Video Buffering Verifier (VBV) buffer in bits. Must be greater than zero. The default is equal to 90% of H265CodecSettings.vbv_size_bits. */
-  vbvFullnessBits?: number;
-  /** Optional. Frame rate conversion strategy for desired frame rate. The default is `DOWNSAMPLE`. */
-  frameRateConversionStrategy?: H265CodecSettingsFrameRateConversionStrategyEnum | (string & {});
-  /** Optional. HDR10 color format setting for H265. */
-  hdr10?: Playready;
-  /** Specifies whether an open Group of Pictures (GOP) structure should be allowed or not. The default is `false`. */
-  allowOpenGop?: boolean;
-  /** Specify the intensity of the adaptive quantizer (AQ). Must be between 0 and 1, where 0 disables the quantizer and 1 maximizes the quantizer. A higher value equals a lower bitrate but smoother image. The default is 0. */
-  aqStrength?: number;
-  /** Size of the Video Buffering Verifier (VBV) buffer in bits. Must be greater than zero. The default is equal to `VideoStream.bitrate_bps`. */
-  vbvSizeBits?: number;
-  /** The width of the video in pixels. Must be an even integer. When not specified, the width is adjusted to match the specified height and input aspect ratio. If both are omitted, the input width is used. For portrait videos that contain horizontal ASR and rotation metadata, provide the width, in pixels, per the horizontal ASR. The API calculates the height per the horizontal ASR. The API detects any rotation metadata and swaps the requested height and width for the output. */
-  widthPixels?: number;
-  /** Select the GOP size based on the specified duration. The default is `3s`. Note that `gopDuration` must be less than or equal to [`segmentDuration`](#SegmentSettings), and [`segmentDuration`](#SegmentSettings) must be divisible by `gopDuration`. */
-  gopDuration?: string;
-  /** Optional. SDR color format setting for H265. */
-  sdr?: Playready;
+export type H264ColorFormatSDR = H265ColorFormatSDR;
+/** H264 codec settings. */
+export interface H264CodecSettings {
   /** Target CRF level. Must be between 10 and 36, where 10 is the highest quality and 36 is the most efficient compression. The default is 21. */
-  crfLevel?: number;
+  crfLevel?: number | undefined;
+  /** Select the GOP size based on the specified frame count. Must be greater than zero. */
+  gopFrameCount?: number | undefined;
+  /** Select the GOP size based on the specified duration. The default is `3s`. Note that `gopDuration` must be less than or equal to [`segmentDuration`](#SegmentSettings), and [`segmentDuration`](#SegmentSettings) must be divisible by `gopDuration`. */
+  gopDuration?: string | undefined;
+  /** Use two-pass encoding strategy to achieve better video quality. H264CodecSettings.rate_control_mode must be `vbr`. The default is `false`. */
+  enableTwoPass?: boolean | undefined;
+  /** Enforces the specified codec profile. The following profiles are supported: * `baseline` * `main` * `high` (default) The available options are [FFmpeg-compatible](https://trac.ffmpeg.org/wiki/Encode/H.264#Tune). Note that certain values for this field may cause the transcoder to override other fields you set in the `H264CodecSettings` message. */
+  profile?: string | undefined;
+  /** Specify the intensity of the adaptive quantizer (AQ). Must be between 0 and 1, where 0 disables the quantizer and 1 maximizes the quantizer. A higher value equals a lower bitrate but smoother image. The default is 0. */
+  aqStrength?: number | undefined;
+  /** Enforces the specified codec tune. The available options are [FFmpeg-compatible](https://trac.ffmpeg.org/wiki/Encode/H.264#Tune). Note that certain values for this field may cause the transcoder to override other fields you set in the `H264CodecSettings` message. */
+  tune?: string | undefined;
+  /** The height of the video in pixels. Must be an even integer. When not specified, the height is adjusted to match the specified width and input aspect ratio. If both are omitted, the input height is used. For portrait videos that contain horizontal ASR and rotation metadata, provide the height, in pixels, per the horizontal ASR. The API calculates the width per the horizontal ASR. The API detects any rotation metadata and swaps the requested height and width for the output. */
+  heightPixels?: number | undefined;
+  /** The entropy coder to use. The default is `cabac`. Supported entropy coders: - `cavlc` - `cabac` */
+  entropyCoder?: string | undefined;
+  /** Enforces the specified codec preset. The default is `veryfast`. The available options are [FFmpeg-compatible](https://trac.ffmpeg.org/wiki/Encode/H.264#Preset). Note that certain values for this field may cause the transcoder to override other fields you set in the `H264CodecSettings` message. */
+  preset?: string | undefined;
+  /** Size of the Video Buffering Verifier (VBV) buffer in bits. Must be greater than zero. The default is equal to H264CodecSettings.bitrate_bps. */
+  vbvSizeBits?: number | undefined;
+  /** Allow B-pyramid for reference frame selection. This may not be supported on all decoders. The default is `false`. */
+  bPyramid?: boolean | undefined;
+  /** Initial fullness of the Video Buffering Verifier (VBV) buffer in bits. Must be greater than zero. The default is equal to 90% of H264CodecSettings.vbv_size_bits. */
+  vbvFullnessBits?: number | undefined;
+  /** Optional. HLG color format setting for H264. */
+  hlg?: H265ColorFormatSDR | undefined;
+  /** The number of consecutive B-frames. Must be greater than or equal to zero. Must be less than H264CodecSettings.gop_frame_count if set. The default is 0. */
+  bFrameCount?: number | undefined;
   /** Required. The target video frame rate in frames per second (FPS). Must be less than or equal to 120. */
-  frameRate?: number;
+  frameRate?: number | undefined;
+  /** Specify the mode. The default is `vbr`. Supported rate control modes: - `vbr` - variable bitrate - `crf` - constant rate factor */
+  rateControlMode?: string | undefined;
+  /** Optional. Frame rate conversion strategy for desired frame rate. The default is `DOWNSAMPLE`. */
+  frameRateConversionStrategy?:
+    | H264CodecSettingsFrameRateConversionStrategyEnum
+    | (string & {})
+    | undefined;
+  /** The width of the video in pixels. Must be an even integer. When not specified, the width is adjusted to match the specified height and input aspect ratio. If both are omitted, the input width is used. For portrait videos that contain horizontal ASR and rotation metadata, provide the width, in pixels, per the horizontal ASR. The API calculates the height per the horizontal ASR. The API detects any rotation metadata and swaps the requested height and width for the output. */
+  widthPixels?: number | undefined;
+  /** Optional. SDR color format setting for H264. */
+  sdr?: H265ColorFormatSDR | undefined;
+  /** Pixel format to use. The default is `yuv420p`. Supported pixel formats: - `yuv420p` pixel format - `yuv422p` pixel format - `yuv444p` pixel format - `yuv420p10` 10-bit HDR pixel format - `yuv422p10` 10-bit HDR pixel format - `yuv444p10` 10-bit HDR pixel format - `yuv420p12` 12-bit HDR pixel format - `yuv422p12` 12-bit HDR pixel format - `yuv444p12` 12-bit HDR pixel format */
+  pixelFormat?: string | undefined;
+  /** Specifies whether an open Group of Pictures (GOP) structure should be allowed or not. The default is `false`. */
+  allowOpenGop?: boolean | undefined;
+  /** Required. The video bitrate in bits per second. The minimum value is 1,000. The maximum value is 800,000,000. */
+  bitrateBps?: number | undefined;
 }
 /** Video stream resource. */
 export interface VideoStream {
-  /** H264 codec settings. */
-  h264?: H264CodecSettings;
-  /** VP9 codec settings. */
-  vp9?: Vp9CodecSettings;
   /** H265 codec settings. */
-  h265?: H265CodecSettings;
-}
-/** The mapping for the JobConfig.edit_list atoms with text EditAtom.inputs. */
-export interface TextMapping {
-  /** Required. The Input.key that identifies the input file. */
-  inputKey?: string;
-  /** Required. The EditAtom.key that references atom with text inputs in the JobConfig.edit_list. */
-  atomKey?: string;
-  /** Required. The zero-based index of the track in the input file. */
-  inputTrack?: number;
-}
-export type TextMappingList = Array<TextMapping>;
-/** Encoding of a text stream. For example, closed captions or subtitles. */
-export interface TextStream {
-  /** The name for this particular text stream that will be added to the HLS/DASH manifest. Not supported in MP4 files. */
-  displayName?: string;
-  /** The mapping for the JobConfig.edit_list atoms with text EditAtom.inputs. */
-  mapping?: TextMappingList;
-  /** The BCP-47 language code, such as `en-US` or `sr-Latn`. For more information, see https://www.unicode.org/reports/tr35/#Unicode_locale_identifier. Not supported in MP4 files. */
-  languageCode?: string;
-  /** The codec for this text stream. The default is `webvtt`. Supported text codecs: - `srt` - `ttml` - `cea608` - `cea708` - `webvtt` */
-  codec?: string;
+  h265?: H265CodecSettings | undefined;
+  /** VP9 codec settings. */
+  vp9?: Vp9CodecSettings | undefined;
+  /** H264 codec settings. */
+  h264?: H264CodecSettings | undefined;
 }
 /** The mapping for the JobConfig.edit_list atoms with audio EditAtom.inputs. */
 export interface AudioMapping {
-  /** Required. The zero-based index of the channel in the input audio stream. */
-  inputChannel?: number;
-  /** Required. The zero-based index of the track in the input file. */
-  inputTrack?: number;
   /** Audio volume control in dB. Negative values decrease volume, positive values increase. The default is 0. */
-  gainDb?: number;
-  /** Required. The zero-based index of the channel in the output audio stream. */
-  outputChannel?: number;
+  gainDb?: number | undefined;
   /** Required. The Input.key that identifies the input file. */
-  inputKey?: string;
+  inputKey?: string | undefined;
+  /** Required. The zero-based index of the channel in the output audio stream. */
+  outputChannel?: number | undefined;
   /** Required. The EditAtom.key that references the atom with audio inputs in the JobConfig.edit_list. */
-  atomKey?: string;
+  atomKey?: string | undefined;
+  /** Required. The zero-based index of the track in the input file. */
+  inputTrack?: number | undefined;
+  /** Required. The zero-based index of the channel in the input audio stream. */
+  inputChannel?: number | undefined;
 }
 export type AudioMappingList = Array<AudioMapping>;
 /** Audio stream resource. */
 export interface AudioStream {
-  /** The name for this particular audio stream that will be added to the HLS/DASH manifest. Not supported in MP4 files. */
-  displayName?: string;
-  /** The audio sample rate in Hertz. The default is 48000 Hertz. */
-  sampleRateHertz?: number;
-  /** The mapping for the JobConfig.edit_list atoms with audio EditAtom.inputs. */
-  mapping?: AudioMappingList;
-  /** The codec for this audio stream. The default is `aac`. Supported audio codecs: - `aac` - `aac-he` - `aac-he-v2` - `mp3` - `ac3` - `eac3` - `vorbis` */
-  codec?: string;
-  /** The BCP-47 language code, such as `en-US` or `sr-Latn`. For more information, see https://www.unicode.org/reports/tr35/#Unicode_locale_identifier. Not supported in MP4 files. */
-  languageCode?: string;
   /** Required. Audio bitrate in bits per second. Must be between 1 and 10,000,000. */
-  bitrateBps?: number;
+  bitrateBps?: number | undefined;
   /** Number of audio channels. Must be between 1 and 6. The default is 2. */
-  channelCount?: number;
+  channelCount?: number | undefined;
+  /** The codec for this audio stream. The default is `aac`. Supported audio codecs: - `aac` - `aac-he` - `aac-he-v2` - `mp3` - `ac3` - `eac3` - `vorbis` */
+  codec?: string | undefined;
   /** A list of channel names specifying layout of the audio channels. This only affects the metadata embedded in the container headers, if supported by the specified format. The default is `["fl", "fr"]`. Supported channel names: - `fl` - Front left channel - `fr` - Front right channel - `sl` - Side left channel - `sr` - Side right channel - `fc` - Front center channel - `lfe` - Low frequency */
-  channelLayout?: StringList;
+  channelLayout?: StringList | undefined;
+  /** The audio sample rate in Hertz. The default is 48000 Hertz. */
+  sampleRateHertz?: number | undefined;
+  /** The BCP-47 language code, such as `en-US` or `sr-Latn`. For more information, see https://www.unicode.org/reports/tr35/#Unicode_locale_identifier. Not supported in MP4 files. */
+  languageCode?: string | undefined;
+  /** The name for this particular audio stream that will be added to the HLS/DASH manifest. Not supported in MP4 files. */
+  displayName?: string | undefined;
+  /** The mapping for the JobConfig.edit_list atoms with audio EditAtom.inputs. */
+  mapping?: AudioMappingList | undefined;
 }
 /** Encoding of an input file such as an audio, video, or text track. Elementary streams must be packaged before mapping and sharing between different output formats. */
 export interface ElementaryStream {
-  /** Encoding of a video stream. */
-  videoStream?: VideoStream;
   /** Encoding of a text stream. For example, closed captions or subtitles. */
-  textStream?: TextStream;
+  textStream?: TextStream | undefined;
   /** A unique key for this elementary stream. */
-  key?: string;
+  key?: string | undefined;
+  /** Encoding of a video stream. */
+  videoStream?: VideoStream | undefined;
   /** Encoding of an audio stream. */
-  audioStream?: AudioStream;
+  audioStream?: AudioStream | undefined;
 }
 export type ElementaryStreamList = Array<ElementaryStream>;
-/** Ad break. */
-export interface AdBreak {
-  /** Start time in seconds for the ad break, relative to the output file timeline. The default is `0s`. */
-  startTimeOffset?: string;
+/** A Pub/Sub destination. */
+export interface PubsubDestination {
+  /** The name of the Pub/Sub topic to publish job completion notification to. For example: `projects/{project}/topics/{topic}`. */
+  topic?: string | undefined;
 }
-export type AdBreakList = Array<AdBreak>;
-/** 2D normalized coordinates. Default: `{0.0, 0.0}` */
-export interface NormalizedCoordinate {
-  /** Normalized y coordinate. */
-  y?: number;
-  /** Normalized x coordinate. */
-  x?: number;
-}
-/** Overlaid image. */
-export interface Image {
-  /** Required. URI of the image in Cloud Storage. For example, `gs://bucket/inputs/image.png`. Only PNG and JPEG images are supported. */
-  uri?: string;
-  /** Normalized image resolution, based on output video resolution. Valid values: `0.0`-`1.0`. To respect the original image aspect ratio, set either `x` or `y` to `0.0`. To use the original image resolution, set both `x` and `y` to `0.0`. */
-  resolution?: NormalizedCoordinate;
-  /** Target image opacity. Valid values are from `1.0` (solid, default) to `0.0` (transparent), exclusive. Set this to a value greater than `0.0`. */
-  alpha?: number;
-}
-export type AnimationFadeFadeTypeEnum = "FADE_TYPE_UNSPECIFIED" | "FADE_IN" | "FADE_OUT";
-/** Display overlay object with fade animation. */
-export interface AnimationFade {
-  /** Normalized coordinates based on output video resolution. Valid values: `0.0`-`1.0`. `xy` is the upper-left coordinate of the overlay object. For example, use the x and y coordinates {0,0} to position the top-left corner of the overlay animation in the top-left corner of the output video. */
-  xy?: NormalizedCoordinate;
-  /** Required. Type of fade animation: `FADE_IN` or `FADE_OUT`. */
-  fadeType?: AnimationFadeFadeTypeEnum | (string & {});
-  /** The time to end the fade animation, in seconds. Default: `start_time_offset` + 1s */
-  endTimeOffset?: string;
-  /** The time to start the fade animation, in seconds. Default: 0 */
-  startTimeOffset?: string;
-}
-/** Display static overlay object. */
-export interface AnimationStatic {
-  /** The time to start displaying the overlay object, in seconds. Default: 0 */
-  startTimeOffset?: string;
-  /** Normalized coordinates based on output video resolution. Valid values: `0.0`-`1.0`. `xy` is the upper-left coordinate of the overlay object. For example, use the x and y coordinates {0,0} to position the top-left corner of the overlay animation in the top-left corner of the output video. */
-  xy?: NormalizedCoordinate;
-}
-/** End previous overlay animation from the video. Without `AnimationEnd`, the overlay object will keep the state of previous animation until the end of the video. */
-export interface AnimationEnd {
-  /** The time to end overlay object, in seconds. Default: 0 */
-  startTimeOffset?: string;
-}
-/** Animation types. */
-export interface Animation {
-  /** Display overlay object with fade animation. */
-  animationFade?: AnimationFade;
-  /** Display static overlay object. */
-  animationStatic?: AnimationStatic;
-  /** End previous animation. */
-  animationEnd?: AnimationEnd;
-}
-export type AnimationList = Array<Animation>;
-/** Overlay configuration. */
-export interface Overlay {
-  /** Image overlay. */
-  image?: Image;
-  /** List of animations. The list should be chronological, without any time overlap. */
-  animations?: AnimationList;
-}
-export type OverlayList = Array<Overlay>;
-export type ManifestTypeEnum = "MANIFEST_TYPE_UNSPECIFIED" | "HLS" | "DASH";
 export type DashConfigSegmentReferenceSchemeEnum =
   | "SEGMENT_REFERENCE_SCHEME_UNSPECIFIED"
   | "SEGMENT_LIST"
@@ -635,142 +586,196 @@ export type DashConfigSegmentReferenceSchemeEnum =
 /** `DASH` manifest configuration. */
 export interface DashConfig {
   /** The segment reference scheme for a `DASH` manifest. The default is `SEGMENT_LIST`. */
-  segmentReferenceScheme?: DashConfigSegmentReferenceSchemeEnum | (string & {});
+  segmentReferenceScheme?: DashConfigSegmentReferenceSchemeEnum | (string & {}) | undefined;
 }
+export type ManifestTypeEnum = "MANIFEST_TYPE_UNSPECIFIED" | "HLS" | "DASH";
 /** Manifest configuration. */
 export interface Manifest {
-  /** Required. List of user supplied MuxStream.key values that should appear in this manifest. When Manifest.type is `HLS`, a media manifest with name MuxStream.key and `.m3u8` extension is generated for each element in this list. */
-  muxStreams?: StringList;
-  /** Required. Type of the manifest. */
-  type?: ManifestTypeEnum | (string & {});
   /** The name of the generated file. The default is `manifest` with the extension suffix corresponding to the Manifest.type. */
-  fileName?: string;
+  fileName?: string | undefined;
+  /** Required. List of user supplied MuxStream.key values that should appear in this manifest. When Manifest.type is `HLS`, a media manifest with name MuxStream.key and `.m3u8` extension is generated for each element in this list. */
+  muxStreams?: StringList | undefined;
   /** `DASH` manifest configuration. */
-  dash?: DashConfig;
+  dash?: DashConfig | undefined;
+  /** Required. Type of the manifest. */
+  type?: ManifestTypeEnum | (string & {}) | undefined;
 }
 export type ManifestList = Array<Manifest>;
-/** A Pub/Sub destination. */
-export interface PubsubDestination {
-  /** The name of the Pub/Sub topic to publish job completion notification to. For example: `projects/{project}/topics/{topic}`. */
-  topic?: string;
+/** Location of output file(s) in a Cloud Storage bucket. */
+export interface Output {
+  /** URI for the output file(s). For example, `gs://my-bucket/outputs/`. Must be a directory and not a top-level bucket. If empty, the value is populated from Job.output_uri. See [Supported input and output formats](https://cloud.google.com/transcoder/docs/concepts/supported-input-and-output-formats). */
+  uri?: string | undefined;
 }
+/** Configuration for secrets stored in Google Secret Manager. */
+export interface SecretManagerSource {
+  /** Required. The name of the Secret Version containing the encryption key in the following format: `projects/{project}/secrets/{secret_id}/versions/{version_number}` Note that only numbered versions are supported. Aliases like "latest" are not supported. */
+  secretVersion?: string | undefined;
+}
+/** Configuration for MPEG Common Encryption (MPEG-CENC). */
+export interface MpegCommonEncryption {
+  /** Required. Specify the encryption scheme. Supported encryption schemes: - `cenc` - `cbcs` */
+  scheme?: string | undefined;
+}
+/** Configuration for SAMPLE-AES encryption. */
+export type SampleAesEncryption = H265ColorFormatSDR;
+/** Clearkey configuration. */
+export type Clearkey = H265ColorFormatSDR;
+/** Playready configuration. */
+export type Playready = H265ColorFormatSDR;
+/** Widevine configuration. */
+export type Widevine = H265ColorFormatSDR;
+/** Fairplay configuration. */
+export type Fairplay = H265ColorFormatSDR;
+/** Defines configuration for DRM systems in use. */
+export interface DrmSystems {
+  /** Clearkey configuration. */
+  clearkey?: H265ColorFormatSDR | undefined;
+  /** Playready configuration. */
+  playready?: H265ColorFormatSDR | undefined;
+  /** Widevine configuration. */
+  widevine?: H265ColorFormatSDR | undefined;
+  /** Fairplay configuration. */
+  fairplay?: H265ColorFormatSDR | undefined;
+}
+/** Configuration for AES-128 encryption. */
+export type Aes128Encryption = H265ColorFormatSDR;
+/** Encryption settings. */
+export interface Encryption {
+  /** Required. Identifier for this set of encryption options. */
+  id?: string | undefined;
+  /** Keys are stored in Google Secret Manager. */
+  secretManagerKeySource?: SecretManagerSource | undefined;
+  /** Configuration for MPEG Common Encryption (MPEG-CENC). */
+  mpegCenc?: MpegCommonEncryption | undefined;
+  /** Configuration for SAMPLE-AES encryption. */
+  sampleAes?: H265ColorFormatSDR | undefined;
+  /** Required. DRM system(s) to use; at least one must be specified. If a DRM system is omitted, it is considered disabled. */
+  drmSystems?: DrmSystems | undefined;
+  /** Configuration for AES-128 encryption. */
+  aes128?: H265ColorFormatSDR | undefined;
+}
+export type EncryptionList = Array<Encryption>;
+/** `fmp4` container configuration. */
+export interface Fmp4Config {
+  /** Optional. Specify the codec tag string that will be used in the media bitstream. When not specified, the codec appropriate value is used. Supported H265 codec tags: - `hvc1` (default) - `hev1` */
+  codecTag?: string | undefined;
+}
+/** Segment settings for `ts`, `fmp4` and `vtt`. */
+export interface SegmentSettings {
+  /** Duration of the segments in seconds. The default is `6.0s`. Note that `segmentDuration` must be greater than or equal to [`gopDuration`](#videostream), and `segmentDuration` must be divisible by [`gopDuration`](#videostream). */
+  segmentDuration?: string | undefined;
+  /** Required. Create an individual segment file. The default is `false`. */
+  individualSegments?: boolean | undefined;
+}
+/** Multiplexing settings for output stream. */
+export interface MuxStream {
+  /** Optional. `fmp4` container configuration. */
+  fmp4?: Fmp4Config | undefined;
+  /** The container format. The default is `mp4` Supported streaming formats: - `ts` - `fmp4`- the corresponding file extension is `.m4s` Supported standalone file formats: - `mp4` - `mp3` - `ogg` - `vtt` See also: [Supported input and output formats](https://cloud.google.com/transcoder/docs/concepts/supported-input-and-output-formats) */
+  container?: string | undefined;
+  /** A unique key for this multiplexed stream. */
+  key?: string | undefined;
+  /** List of ElementaryStream.key values multiplexed in this stream. */
+  elementaryStreams?: StringList | undefined;
+  /** Segment settings for `ts`, `fmp4` and `vtt`. */
+  segmentSettings?: SegmentSettings | undefined;
+  /** The name of the generated file. The default is MuxStream.key with the extension suffix corresponding to the MuxStream.container. Individual segments also have an incremental 10-digit zero-padded suffix starting from 0 before the extension, such as `mux_stream0000000123.ts`. */
+  fileName?: string | undefined;
+  /** Identifier of the encryption configuration to use. If omitted, output will be unencrypted. */
+  encryptionId?: string | undefined;
+}
+export type MuxStreamList = Array<MuxStream>;
 /** Job configuration */
 export interface JobConfig {
-  /** List of multiplexing settings for output streams. */
-  muxStreams?: MuxStreamList;
-  /** List of encryption configurations for the content. Each configuration has an ID. Specify this ID in the MuxStream.encryption_id field to indicate the configuration to use for that `MuxStream` output. */
-  encryptions?: EncryptionList;
-  /** List of edit atoms. Defines the ultimate timeline of the resulting file or manifest. */
-  editList?: EditAtomList;
-  /** List of input assets stored in Cloud Storage. */
-  inputs?: InputList;
-  /** Output configuration. */
-  output?: Output;
   /** List of output sprite sheets. Spritesheets require at least one VideoStream in the Jobconfig. */
-  spriteSheets?: SpriteSheetList;
-  /** List of elementary streams. */
-  elementaryStreams?: ElementaryStreamList;
+  spriteSheets?: SpriteSheetList | undefined;
+  /** List of edit atoms. Defines the ultimate timeline of the resulting file or manifest. */
+  editList?: EditAtomList | undefined;
   /** List of ad breaks. Specifies where to insert ad break tags in the output manifests. */
-  adBreaks?: AdBreakList;
+  adBreaks?: AdBreakList | undefined;
   /** List of overlays on the output video, in descending Z-order. */
-  overlays?: OverlayList;
-  /** List of output manifests. */
-  manifests?: ManifestList;
+  overlays?: OverlayList | undefined;
+  /** List of input assets stored in Cloud Storage. */
+  inputs?: InputList | undefined;
+  /** List of elementary streams. */
+  elementaryStreams?: ElementaryStreamList | undefined;
   /** Destination on Pub/Sub. */
-  pubsubDestination?: PubsubDestination;
+  pubsubDestination?: PubsubDestination | undefined;
+  /** List of output manifests. */
+  manifests?: ManifestList | undefined;
+  /** Output configuration. */
+  output?: Output | undefined;
+  /** List of encryption configurations for the content. Each configuration has an ID. Specify this ID in the MuxStream.encryption_id field to indicate the configuration to use for that `MuxStream` output. */
+  encryptions?: EncryptionList | undefined;
+  /** List of multiplexing settings for output streams. */
+  muxStreams?: MuxStreamList | undefined;
 }
-export type JobStateEnum =
-  | "PROCESSING_STATE_UNSPECIFIED"
-  | "PENDING"
-  | "RUNNING"
-  | "SUCCEEDED"
-  | "FAILED";
-export type JobOptimizationEnum = "OPTIMIZATION_STRATEGY_UNSPECIFIED" | "AUTODETECT" | "DISABLED";
-export type JobModeEnum =
-  | "PROCESSING_MODE_UNSPECIFIED"
-  | "PROCESSING_MODE_INTERACTIVE"
-  | "PROCESSING_MODE_BATCH";
 export type StringMap = { [key: string]: string | undefined };
-export type DocumentMap = { [key: string]: unknown | undefined };
-export type DocumentMapList = Array<DocumentMap>;
-/** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
-export interface Status {
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
-}
 /** Transcoding job resource. */
 export interface Job {
-  /** Output only. The time the transcoding finished. */
-  endTime?: string;
-  /** Input only. Specify the `output_uri` to populate an empty `Job.config.output.uri` or `JobTemplate.config.output.uri` when using template. URI for the output file(s). For example, `gs://my-bucket/outputs/`. See [Supported input and output formats](https://cloud.google.com/transcoder/docs/concepts/supported-input-and-output-formats). */
-  outputUri?: string;
-  /** Job time to live value in days, which will be effective after job completion. Job should be deleted automatically after the given TTL. Enter a value between 1 and 90. The default is 30. */
-  ttlAfterCompletionDays?: number;
-  /** The configuration for this job. */
-  config?: JobConfig;
-  /** Output only. The current state of the job. */
-  state?: JobStateEnum | (string & {});
-  /** Input only. Specify the `input_uri` to populate empty `uri` fields in each element of `Job.config.inputs` or `JobTemplate.config.inputs` when using template. URI of the media. Input files must be at least 5 seconds in duration and stored in Cloud Storage (for example, `gs://bucket/inputs/file.mp4`). See [Supported input and output formats](https://cloud.google.com/transcoder/docs/concepts/supported-input-and-output-formats). */
-  inputUri?: string;
-  /** The processing priority of a batch job. This field can only be set for batch mode jobs. The default value is 0. This value cannot be negative. Higher values correspond to higher priorities for the job. */
-  batchModePriority?: number;
-  /** Optional. The optimization strategy of the job. The default is `AUTODETECT`. */
-  optimization?: JobOptimizationEnum | (string & {});
   /** Optional. Insert silence and duplicate frames when timestamp gaps are detected in a given stream. */
-  fillContentGaps?: boolean;
-  /** The processing mode of the job. The default is `PROCESSING_MODE_INTERACTIVE`. */
-  mode?: JobModeEnum | (string & {});
-  /** The labels associated with this job. You can use these to organize and group your jobs. */
-  labels?: StringMap;
-  /** The resource name of the job. Format: `projects/{project_number}/locations/{location}/jobs/{job}` */
-  name?: string;
-  /** Output only. The time the transcoding started. */
-  startTime?: string;
-  /** Output only. An error object that describes the reason for the failure. This property is always present when ProcessingState is `FAILED`. */
-  error?: Status;
+  fillContentGaps?: boolean | undefined;
   /** Input only. Specify the `template_id` to use for populating `Job.config`. The default is `preset/web-hd`, which is the only supported preset. User defined JobTemplate: `{job_template_id}` */
-  templateId?: string;
+  templateId?: string | undefined;
+  /** Output only. The time the transcoding started. */
+  startTime?: string | undefined;
+  /** The resource name of the job. Format: `projects/{project_number}/locations/{location}/jobs/{job}` */
+  name?: string | undefined;
+  /** Output only. The current state of the job. */
+  state?: JobStateEnum | (string & {}) | undefined;
+  /** Input only. Specify the `output_uri` to populate an empty `Job.config.output.uri` or `JobTemplate.config.output.uri` when using template. URI for the output file(s). For example, `gs://my-bucket/outputs/`. See [Supported input and output formats](https://cloud.google.com/transcoder/docs/concepts/supported-input-and-output-formats). */
+  outputUri?: string | undefined;
+  /** Input only. Specify the `input_uri` to populate empty `uri` fields in each element of `Job.config.inputs` or `JobTemplate.config.inputs` when using template. URI of the media. Input files must be at least 5 seconds in duration and stored in Cloud Storage (for example, `gs://bucket/inputs/file.mp4`). See [Supported input and output formats](https://cloud.google.com/transcoder/docs/concepts/supported-input-and-output-formats). */
+  inputUri?: string | undefined;
   /** Output only. The time the job was created. */
-  createTime?: string;
+  createTime?: string | undefined;
+  /** The processing mode of the job. The default is `PROCESSING_MODE_INTERACTIVE`. */
+  mode?: JobModeEnum | (string & {}) | undefined;
+  /** The processing priority of a batch job. This field can only be set for batch mode jobs. The default value is 0. This value cannot be negative. Higher values correspond to higher priorities for the job. */
+  batchModePriority?: number | undefined;
+  /** Output only. An error object that describes the reason for the failure. This property is always present when ProcessingState is `FAILED`. */
+  error?: Status | undefined;
+  /** Optional. The optimization strategy of the job. The default is `AUTODETECT`. */
+  optimization?: JobOptimizationEnum | (string & {}) | undefined;
+  /** Output only. The time the transcoding finished. */
+  endTime?: string | undefined;
+  /** Job time to live value in days, which will be effective after job completion. Job should be deleted automatically after the given TTL. Enter a value between 1 and 90. The default is 30. */
+  ttlAfterCompletionDays?: number | undefined;
+  /** The configuration for this job. */
+  config?: JobConfig | undefined;
+  /** The labels associated with this job. You can use these to organize and group your jobs. */
+  labels?: StringMap | undefined;
 }
-export interface CreateProjectsLocationsJobsRequest {
+export interface CreateProjectsLocationsJobsRequest extends Job {
   /** Required. The parent location to create and process this job. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: Job;
 }
 /** Transcoding job template resource. */
 export interface JobTemplate {
-  /** The resource name of the job template. Format: `projects/{project_number}/locations/{location}/jobTemplates/{job_template}` */
-  name?: string;
-  /** The configuration for this template. */
-  config?: JobConfig;
   /** The labels associated with this job template. You can use these to organize and group your job templates. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
+  /** The resource name of the job template. Format: `projects/{project_number}/locations/{location}/jobTemplates/{job_template}` */
+  name?: string | undefined;
+  /** The configuration for this template. */
+  config?: JobConfig | undefined;
 }
-export interface CreateProjectsLocationsJobTemplatesRequest {
+export interface CreateProjectsLocationsJobTemplatesRequest extends JobTemplate {
   /** Required. The ID to use for the job template, which will become the final component of the job template's resource name. This value should be 4-63 characters, and valid characters must match the regular expression `a-zA-Z*`. */
-  jobTemplateId?: string;
+  jobTemplateId?: string | undefined;
   /** Required. The parent location to create this job template. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: JobTemplate;
 }
 export interface DeleteProjectsLocationsJobsRequest {
+  /** If set to true, and the job is not found, the request will succeed but no action will be taken on the server. */
+  allowMissing?: boolean | undefined;
   /** Required. The name of the job to delete. Format: `projects/{project}/locations/{location}/jobs/{job}` */
   name: string;
-  /** If set to true, and the job is not found, the request will succeed but no action will be taken on the server. */
-  allowMissing?: boolean;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
 export interface DeleteProjectsLocationsJobTemplatesRequest {
   /** If set to true, and the job template is not found, the request will succeed but no action will be taken on the server. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** Required. The name of the job template to delete. `projects/{project}/locations/{location}/jobTemplates/{job_template}` */
   name: string;
 }
@@ -783,48 +788,48 @@ export interface GetProjectsLocationsJobTemplatesRequest {
   name: string;
 }
 export interface ListProjectsLocationsJobsRequest {
+  /** One or more fields to compare and use to sort the output. See https://google.aip.dev/132#ordering. */
+  orderBy?: string | undefined;
+  /** The maximum number of items to return. */
+  pageSize?: number | undefined;
+  /** The `next_page_token` value returned from a previous List request, if any. */
+  pageToken?: string | undefined;
+  /** The filter expression, following the syntax outlined in https://google.aip.dev/160. */
+  filter?: string | undefined;
   /** Required. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** One or more fields to compare and use to sort the output. See https://google.aip.dev/132#ordering. */
-  orderBy?: string;
-  /** The filter expression, following the syntax outlined in https://google.aip.dev/160. */
-  filter?: string;
-  /** The maximum number of items to return. */
-  pageSize?: number;
-  /** The `next_page_token` value returned from a previous List request, if any. */
-  pageToken?: string;
 }
 export type JobList = Array<Job>;
 /** Response message for `TranscoderService.ListJobs`. */
 export interface ListJobsResponse {
   /** The pagination token. */
-  nextPageToken?: string;
-  /** List of jobs in the specified region. */
-  jobs?: JobList;
+  nextPageToken?: string | undefined;
   /** List of regions that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
+  /** List of jobs in the specified region. */
+  jobs?: JobList | undefined;
 }
 export interface ListProjectsLocationsJobTemplatesRequest {
-  /** One or more fields to compare and use to sort the output. See https://google.aip.dev/132#ordering. */
-  orderBy?: string;
   /** The maximum number of items to return. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The parent location from which to retrieve the collection of job templates. Format: `projects/{project}/locations/{location}` */
   parent: string;
+  /** One or more fields to compare and use to sort the output. See https://google.aip.dev/132#ordering. */
+  orderBy?: string | undefined;
   /** The `next_page_token` value returned from a previous List request, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The filter expression, following the syntax outlined in https://google.aip.dev/160. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type JobTemplateList = Array<JobTemplate>;
 /** Response message for `TranscoderService.ListJobTemplates`. */
 export interface ListJobTemplatesResponse {
-  /** List of regions that could not be reached. */
-  unreachable?: StringList;
-  /** The pagination token. */
-  nextPageToken?: string;
   /** List of job templates in the specified region. */
-  jobTemplates?: JobTemplateList;
+  jobTemplates?: JobTemplateList | undefined;
+  /** List of regions that could not be reached. */
+  unreachable?: StringList | undefined;
+  /** The pagination token. */
+  nextPageToken?: string | undefined;
 }
 export type CreateProjectsLocationsJobsError =
   | NotFound
@@ -992,11 +997,11 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           orderBy: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1011,8 +1016,8 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          jobs: S.optional(__S(1, __c0, 1)),
           unreachable: S.optional(__S(130, __c4, 2)),
+          jobs: S.optional(__S(1, __c0, 1)),
         }),
       ).annotate({ identifier: "ListJobsResponse" });
   }
@@ -1022,9 +1027,9 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          orderBy: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          orderBy: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -1040,9 +1045,9 @@ function __c1(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          jobTemplates: S.optional(__S(33, __c1, 1)),
           unreachable: S.optional(__S(130, __c4, 2)),
           nextPageToken: S.optional(S.String),
-          jobTemplates: S.optional(__S(33, __c1, 1)),
         }),
       ).annotate({ identifier: "ListJobTemplatesResponse" });
   }
@@ -1051,10 +1056,12 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(195, __c6, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(195, __c6, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/jobs",
@@ -1067,7 +1074,7 @@ function __c2(j: number): any {
 function __c3(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "Playready" });
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "H265ColorFormatSDR" });
   }
 }
 function __c4(j: number): any {
@@ -1075,259 +1082,214 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          codecTag: S.optional(S.String),
+          format: S.optional(S.String),
+          endTimeOffset: S.optional(S.String),
+          rowCount: S.optional(S.Number),
+          startTimeOffset: S.optional(S.String),
+          filePrefix: S.optional(S.String),
+          quality: S.optional(S.Number),
+          columnCount: S.optional(S.Number),
+          interval: S.optional(S.String),
+          totalCount: S.optional(S.Number),
+          spriteWidthPixels: S.optional(S.Number),
+          spriteHeightPixels: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "Fmp4Config" });
+      ).annotate({ identifier: "SpriteSheet" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          individualSegments: S.optional(S.Boolean),
-          segmentDuration: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SegmentSettings" });
+      return S.Array(__S(128, __c4, 0));
     case 2:
       return S.Array(S.String);
     case 3:
       return S.suspend(() =>
         S.Struct({
-          container: S.optional(S.String),
-          fmp4: S.optional(__S(128, __c4, 0)),
+          endTimeOffset: S.optional(S.String),
+          inputs: S.optional(__S(130, __c4, 2)),
+          startTimeOffset: S.optional(S.String),
           key: S.optional(S.String),
-          encryptionId: S.optional(S.String),
-          segmentSettings: S.optional(__S(129, __c4, 1)),
-          elementaryStreams: S.optional(__S(130, __c4, 2)),
-          fileName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "MuxStream" });
+      ).annotate({ identifier: "EditAtom" });
     case 4:
       return S.Array(__S(131, __c4, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          secretVersion: S.optional(S.String),
+          startTimeOffset: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SecretManagerSource" });
+      ).annotate({ identifier: "AdBreak" });
     case 6:
-      return S.suspend(() =>
-        S.Struct({
-          playready: S.optional(__S(96, __c3, 0)),
-          widevine: S.optional(__S(96, __c3, 0)),
-          fairplay: S.optional(__S(96, __c3, 0)),
-          clearkey: S.optional(__S(96, __c3, 0)),
-        }),
-      ).annotate({ identifier: "DrmSystems" });
+      return S.Array(__S(133, __c4, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          scheme: S.optional(S.String),
+          x: S.optional(S.Number),
+          y: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "MpegCommonEncryption" });
+      ).annotate({ identifier: "NormalizedCoordinate" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          secretManagerKeySource: S.optional(__S(133, __c4, 5)),
-          drmSystems: S.optional(__S(134, __c4, 6)),
-          aes128: S.optional(__S(96, __c3, 0)),
-          mpegCenc: S.optional(__S(135, __c4, 7)),
-          sampleAes: S.optional(__S(96, __c3, 0)),
-          id: S.optional(S.String),
+          xy: S.optional(__S(135, __c4, 7)),
+          startTimeOffset: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Encryption" });
+      ).annotate({ identifier: "AnimationStatic" });
     case 9:
-      return S.Array(__S(136, __c4, 8));
+      return S.suspend(() =>
+        S.Struct({
+          endTimeOffset: S.optional(S.String),
+          fadeType: S.optional(S.String),
+          xy: S.optional(__S(135, __c4, 7)),
+          startTimeOffset: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AnimationFade" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          inputs: S.optional(__S(130, __c4, 2)),
-          endTimeOffset: S.optional(S.String),
-          startTimeOffset: S.optional(S.String),
-          key: S.optional(S.String),
+          animationStatic: S.optional(__S(136, __c4, 8)),
+          animationEnd: S.optional(__S(133, __c4, 5)),
+          animationFade: S.optional(__S(137, __c4, 9)),
         }),
-      ).annotate({ identifier: "EditAtom" });
+      ).annotate({ identifier: "Animation" });
     case 11:
       return S.Array(__S(138, __c4, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          inputTrack: S.optional(S.Number),
-          detectLanguages: S.optional(S.Boolean),
-          languages: S.optional(__S(130, __c4, 2)),
-          detectedLanguages: S.optional(__S(130, __c4, 2)),
+          resolution: S.optional(__S(135, __c4, 7)),
+          uri: S.optional(S.String),
+          alpha: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "TrackDefinition" });
+      ).annotate({ identifier: "Image" });
     case 13:
-      return S.Array(__S(140, __c4, 12));
-    case 14:
       return S.suspend(() =>
         S.Struct({
-          trackDefinitions: S.optional(__S(141, __c4, 13)),
+          animations: S.optional(__S(139, __c4, 11)),
+          image: S.optional(__S(140, __c4, 12)),
         }),
-      ).annotate({ identifier: "InputAttributes" });
+      ).annotate({ identifier: "Overlay" });
+    case 14:
+      return S.Array(__S(141, __c4, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
-          tune: S.optional(S.String),
-          strength: S.optional(S.Number),
+          inputTrack: S.optional(S.Number),
+          detectLanguages: S.optional(S.Boolean),
+          detectedLanguages: S.optional(__S(130, __c4, 2)),
+          languages: S.optional(__S(130, __c4, 2)),
         }),
-      ).annotate({ identifier: "Denoise" });
+      ).annotate({ identifier: "TrackDefinition" });
     case 16:
-      return S.suspend(() =>
-        S.Struct({
-          rightPixels: S.optional(S.Number),
-          topPixels: S.optional(S.Number),
-          bottomPixels: S.optional(S.Number),
-          leftPixels: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "Crop" });
+      return S.Array(__S(143, __c4, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
-          leftPixels: S.optional(S.Number),
-          topPixels: S.optional(S.Number),
-          rightPixels: S.optional(S.Number),
-          bottomPixels: S.optional(S.Number),
+          trackDefinitions: S.optional(__S(144, __c4, 16)),
         }),
-      ).annotate({ identifier: "Pad" });
+      ).annotate({ identifier: "InputAttributes" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          mode: S.optional(S.String),
           deinterlaceAllFrames: S.optional(S.Boolean),
-          parity: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BwdifConfig" });
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
+          mode: S.optional(S.String),
           disableSpatialInterlacing: S.optional(S.Boolean),
-          mode: S.optional(S.String),
-          deinterlaceAllFrames: S.optional(S.Boolean),
           parity: S.optional(S.String),
         }),
       ).annotate({ identifier: "YadifConfig" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          parity: S.optional(S.String),
+          mode: S.optional(S.String),
+          deinterlaceAllFrames: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "BwdifConfig" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          bwdif: S.optional(__S(146, __c4, 18)),
-          yadif: S.optional(__S(147, __c4, 19)),
+          yadif: S.optional(__S(146, __c4, 18)),
+          bwdif: S.optional(__S(147, __c4, 19)),
         }),
       ).annotate({ identifier: "Deinterlace" });
     case 21:
       return S.suspend(() =>
         S.Struct({
+          leftPixels: S.optional(S.Number),
+          topPixels: S.optional(S.Number),
+          bottomPixels: S.optional(S.Number),
+          rightPixels: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "Crop" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          highBoost: S.optional(S.Boolean),
+          lufs: S.optional(S.Number),
+          lowBoost: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "Audio" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          strength: S.optional(S.Number),
+          tune: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Denoise" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          saturation: S.optional(S.Number),
           brightness: S.optional(S.Number),
           contrast: S.optional(S.Number),
-          saturation: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Color" });
-    case 22:
+    case 25:
       return S.suspend(() =>
         S.Struct({
           strength: S.optional(S.Number),
           enabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Deblock" });
-    case 23:
+    case 26:
       return S.suspend(() =>
         S.Struct({
-          lufs: S.optional(S.Number),
-          lowBoost: S.optional(S.Boolean),
-          highBoost: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "Audio" });
-    case 24:
-      return S.suspend(() =>
-        S.Struct({
-          denoise: S.optional(__S(143, __c4, 15)),
-          crop: S.optional(__S(144, __c4, 16)),
-          pad: S.optional(__S(145, __c4, 17)),
           deinterlace: S.optional(__S(148, __c4, 20)),
-          color: S.optional(__S(149, __c4, 21)),
-          deblock: S.optional(__S(150, __c4, 22)),
-          audio: S.optional(__S(151, __c4, 23)),
+          crop: S.optional(__S(149, __c4, 21)),
+          audio: S.optional(__S(150, __c4, 22)),
+          denoise: S.optional(__S(151, __c4, 23)),
+          color: S.optional(__S(152, __c4, 24)),
+          pad: S.optional(__S(149, __c4, 21)),
+          deblock: S.optional(__S(153, __c4, 25)),
         }),
       ).annotate({ identifier: "PreprocessingConfig" });
-    case 25:
-      return S.suspend(() =>
-        S.Struct({
-          key: S.optional(S.String),
-          attributes: S.optional(__S(142, __c4, 14)),
-          uri: S.optional(S.String),
-          preprocessingConfig: S.optional(__S(152, __c4, 24)),
-        }),
-      ).annotate({ identifier: "Input" });
-    case 26:
-      return S.Array(__S(153, __c4, 25));
     case 27:
       return S.suspend(() =>
         S.Struct({
+          key: S.optional(S.String),
           uri: S.optional(S.String),
+          attributes: S.optional(__S(145, __c4, 17)),
+          preprocessingConfig: S.optional(__S(154, __c4, 26)),
         }),
-      ).annotate({ identifier: "Output" });
+      ).annotate({ identifier: "Input" });
     case 28:
-      return S.suspend(() =>
-        S.Struct({
-          columnCount: S.optional(S.Number),
-          rowCount: S.optional(S.Number),
-          totalCount: S.optional(S.Number),
-          interval: S.optional(S.String),
-          quality: S.optional(S.Number),
-          format: S.optional(S.String),
-          filePrefix: S.optional(S.String),
-          spriteHeightPixels: S.optional(S.Number),
-          startTimeOffset: S.optional(S.String),
-          spriteWidthPixels: S.optional(S.Number),
-          endTimeOffset: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SpriteSheet" });
+      return S.Array(__S(155, __c4, 27));
     case 29:
-      return S.Array(__S(156, __c4, 28));
-    case 30:
       return S.suspend(() =>
         S.Struct({
-          tune: S.optional(S.String),
-          entropyCoder: S.optional(S.String),
-          aqStrength: S.optional(S.Number),
-          gopFrameCount: S.optional(S.Number),
-          vbvFullnessBits: S.optional(S.Number),
-          vbvSizeBits: S.optional(S.Number),
-          allowOpenGop: S.optional(S.Boolean),
-          widthPixels: S.optional(S.Number),
-          gopDuration: S.optional(S.String),
-          hlg: S.optional(__S(96, __c3, 0)),
-          crfLevel: S.optional(S.Number),
-          bitrateBps: S.optional(S.Number),
-          frameRateConversionStrategy: S.optional(S.String),
-          heightPixels: S.optional(S.Number),
-          bFrameCount: S.optional(S.Number),
-          enableTwoPass: S.optional(S.Boolean),
-          sdr: S.optional(__S(96, __c3, 0)),
-          pixelFormat: S.optional(S.String),
-          profile: S.optional(S.String),
-          frameRate: S.optional(S.Number),
-          rateControlMode: S.optional(S.String),
-          preset: S.optional(S.String),
-          bPyramid: S.optional(S.Boolean),
+          inputKey: S.optional(S.String),
+          inputTrack: S.optional(S.Number),
+          atomKey: S.optional(S.String),
         }),
-      ).annotate({ identifier: "H264CodecSettings" });
+      ).annotate({ identifier: "TextMapping" });
+    case 30:
+      return S.Array(__S(157, __c4, 29));
     case 31:
       return S.suspend(() =>
         S.Struct({
-          pixelFormat: S.optional(S.String),
-          hlg: S.optional(__S(96, __c3, 0)),
-          profile: S.optional(S.String),
-          crfLevel: S.optional(S.Number),
-          widthPixels: S.optional(S.Number),
-          gopDuration: S.optional(S.String),
-          rateControlMode: S.optional(S.String),
-          heightPixels: S.optional(S.Number),
-          gopFrameCount: S.optional(S.Number),
-          frameRate: S.optional(S.Number),
-          frameRateConversionStrategy: S.optional(S.String),
-          bitrateBps: S.optional(S.Number),
-          sdr: S.optional(__S(96, __c3, 0)),
+          languageCode: S.optional(S.String),
+          codec: S.optional(S.String),
+          displayName: S.optional(S.String),
+          mapping: S.optional(__S(158, __c4, 30)),
         }),
-      ).annotate({ identifier: "Vp9CodecSettings" });
+      ).annotate({ identifier: "TextStream" });
   }
 }
 function __c5(j: number): any {
@@ -1335,193 +1297,229 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          hlg: S.optional(__S(96, __c3, 0)),
-          enableTwoPass: S.optional(S.Boolean),
-          profile: S.optional(S.String),
-          rateControlMode: S.optional(S.String),
-          tune: S.optional(S.String),
-          preset: S.optional(S.String),
-          bPyramid: S.optional(S.Boolean),
-          pixelFormat: S.optional(S.String),
           heightPixels: S.optional(S.Number),
-          bitrateBps: S.optional(S.Number),
+          profile: S.optional(S.String),
+          crfLevel: S.optional(S.Number),
+          frameRateConversionStrategy: S.optional(S.String),
+          pixelFormat: S.optional(S.String),
+          rateControlMode: S.optional(S.String),
+          aqStrength: S.optional(S.Number),
+          vbvFullnessBits: S.optional(S.Number),
+          bPyramid: S.optional(S.Boolean),
+          preset: S.optional(S.String),
+          sdr: S.optional(__S(96, __c3, 0)),
+          widthPixels: S.optional(S.Number),
+          tune: S.optional(S.String),
+          enableTwoPass: S.optional(S.Boolean),
+          hlg: S.optional(__S(96, __c3, 0)),
           bFrameCount: S.optional(S.Number),
           gopFrameCount: S.optional(S.Number),
-          vbvFullnessBits: S.optional(S.Number),
-          frameRateConversionStrategy: S.optional(S.String),
+          frameRate: S.optional(S.Number),
+          vbvSizeBits: S.optional(S.Number),
+          bitrateBps: S.optional(S.Number),
           hdr10: S.optional(__S(96, __c3, 0)),
           allowOpenGop: S.optional(S.Boolean),
-          aqStrength: S.optional(S.Number),
-          vbvSizeBits: S.optional(S.Number),
-          widthPixels: S.optional(S.Number),
           gopDuration: S.optional(S.String),
-          sdr: S.optional(__S(96, __c3, 0)),
-          crfLevel: S.optional(S.Number),
-          frameRate: S.optional(S.Number),
         }),
       ).annotate({ identifier: "H265CodecSettings" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          h264: S.optional(__S(158, __c4, 30)),
-          vp9: S.optional(__S(159, __c4, 31)),
-          h265: S.optional(__S(160, __c5, 0)),
+          hlg: S.optional(__S(96, __c3, 0)),
+          frameRate: S.optional(S.Number),
+          pixelFormat: S.optional(S.String),
+          gopFrameCount: S.optional(S.Number),
+          heightPixels: S.optional(S.Number),
+          widthPixels: S.optional(S.Number),
+          profile: S.optional(S.String),
+          rateControlMode: S.optional(S.String),
+          frameRateConversionStrategy: S.optional(S.String),
+          gopDuration: S.optional(S.String),
+          bitrateBps: S.optional(S.Number),
+          crfLevel: S.optional(S.Number),
+          sdr: S.optional(__S(96, __c3, 0)),
         }),
-      ).annotate({ identifier: "VideoStream" });
+      ).annotate({ identifier: "Vp9CodecSettings" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          inputKey: S.optional(S.String),
-          atomKey: S.optional(S.String),
-          inputTrack: S.optional(S.Number),
+          crfLevel: S.optional(S.Number),
+          gopFrameCount: S.optional(S.Number),
+          gopDuration: S.optional(S.String),
+          enableTwoPass: S.optional(S.Boolean),
+          profile: S.optional(S.String),
+          aqStrength: S.optional(S.Number),
+          tune: S.optional(S.String),
+          heightPixels: S.optional(S.Number),
+          entropyCoder: S.optional(S.String),
+          preset: S.optional(S.String),
+          vbvSizeBits: S.optional(S.Number),
+          bPyramid: S.optional(S.Boolean),
+          vbvFullnessBits: S.optional(S.Number),
+          hlg: S.optional(__S(96, __c3, 0)),
+          bFrameCount: S.optional(S.Number),
+          frameRate: S.optional(S.Number),
+          rateControlMode: S.optional(S.String),
+          frameRateConversionStrategy: S.optional(S.String),
+          widthPixels: S.optional(S.Number),
+          sdr: S.optional(__S(96, __c3, 0)),
+          pixelFormat: S.optional(S.String),
+          allowOpenGop: S.optional(S.Boolean),
+          bitrateBps: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "TextMapping" });
+      ).annotate({ identifier: "H264CodecSettings" });
     case 3:
-      return S.Array(__S(162, __c5, 2));
+      return S.suspend(() =>
+        S.Struct({
+          h265: S.optional(__S(160, __c5, 0)),
+          vp9: S.optional(__S(161, __c5, 1)),
+          h264: S.optional(__S(162, __c5, 2)),
+        }),
+      ).annotate({ identifier: "VideoStream" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
-          mapping: S.optional(__S(163, __c5, 3)),
-          languageCode: S.optional(S.String),
-          codec: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TextStream" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          inputChannel: S.optional(S.Number),
-          inputTrack: S.optional(S.Number),
           gainDb: S.optional(S.Number),
-          outputChannel: S.optional(S.Number),
           inputKey: S.optional(S.String),
+          outputChannel: S.optional(S.Number),
           atomKey: S.optional(S.String),
+          inputTrack: S.optional(S.Number),
+          inputChannel: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AudioMapping" });
+    case 5:
+      return S.Array(__S(164, __c5, 4));
     case 6:
-      return S.Array(__S(165, __c5, 5));
+      return S.suspend(() =>
+        S.Struct({
+          bitrateBps: S.optional(S.Number),
+          channelCount: S.optional(S.Number),
+          codec: S.optional(S.String),
+          channelLayout: S.optional(__S(130, __c4, 2)),
+          sampleRateHertz: S.optional(S.Number),
+          languageCode: S.optional(S.String),
+          displayName: S.optional(S.String),
+          mapping: S.optional(__S(165, __c5, 5)),
+        }),
+      ).annotate({ identifier: "AudioStream" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
-          sampleRateHertz: S.optional(S.Number),
-          mapping: S.optional(__S(166, __c5, 6)),
-          codec: S.optional(S.String),
-          languageCode: S.optional(S.String),
-          bitrateBps: S.optional(S.Number),
-          channelCount: S.optional(S.Number),
-          channelLayout: S.optional(__S(130, __c4, 2)),
-        }),
-      ).annotate({ identifier: "AudioStream" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          videoStream: S.optional(__S(161, __c5, 1)),
-          textStream: S.optional(__S(164, __c5, 4)),
+          textStream: S.optional(__S(159, __c4, 31)),
           key: S.optional(S.String),
-          audioStream: S.optional(__S(167, __c5, 7)),
+          videoStream: S.optional(__S(163, __c5, 3)),
+          audioStream: S.optional(__S(166, __c5, 6)),
         }),
       ).annotate({ identifier: "ElementaryStream" });
+    case 8:
+      return S.Array(__S(167, __c5, 7));
     case 9:
-      return S.Array(__S(168, __c5, 8));
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          startTimeOffset: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AdBreak" });
-    case 11:
-      return S.Array(__S(170, __c5, 10));
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          y: S.optional(S.Number),
-          x: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "NormalizedCoordinate" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          uri: S.optional(S.String),
-          resolution: S.optional(__S(172, __c5, 12)),
-          alpha: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "Image" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          xy: S.optional(__S(172, __c5, 12)),
-          fadeType: S.optional(S.String),
-          endTimeOffset: S.optional(S.String),
-          startTimeOffset: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AnimationFade" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          startTimeOffset: S.optional(S.String),
-          xy: S.optional(__S(172, __c5, 12)),
-        }),
-      ).annotate({ identifier: "AnimationStatic" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          animationFade: S.optional(__S(174, __c5, 14)),
-          animationStatic: S.optional(__S(175, __c5, 15)),
-          animationEnd: S.optional(__S(170, __c5, 10)),
-        }),
-      ).annotate({ identifier: "Animation" });
-    case 17:
-      return S.Array(__S(176, __c5, 16));
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          image: S.optional(__S(173, __c5, 13)),
-          animations: S.optional(__S(177, __c5, 17)),
-        }),
-      ).annotate({ identifier: "Overlay" });
-    case 19:
-      return S.Array(__S(178, __c5, 18));
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          segmentReferenceScheme: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DashConfig" });
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          muxStreams: S.optional(__S(130, __c4, 2)),
-          type: S.optional(S.String),
-          fileName: S.optional(S.String),
-          dash: S.optional(__S(180, __c5, 20)),
-        }),
-      ).annotate({ identifier: "Manifest" });
-    case 22:
-      return S.Array(__S(181, __c5, 21));
-    case 23:
       return S.suspend(() =>
         S.Struct({
           topic: S.optional(S.String),
         }),
       ).annotate({ identifier: "PubsubDestination" });
-    case 24:
+    case 10:
       return S.suspend(() =>
         S.Struct({
-          muxStreams: S.optional(__S(132, __c4, 4)),
-          encryptions: S.optional(__S(137, __c4, 9)),
-          editList: S.optional(__S(139, __c4, 11)),
-          inputs: S.optional(__S(154, __c4, 26)),
-          output: S.optional(__S(155, __c4, 27)),
-          spriteSheets: S.optional(__S(157, __c4, 29)),
-          elementaryStreams: S.optional(__S(169, __c5, 9)),
-          adBreaks: S.optional(__S(171, __c5, 11)),
-          overlays: S.optional(__S(179, __c5, 19)),
-          manifests: S.optional(__S(182, __c5, 22)),
-          pubsubDestination: S.optional(__S(183, __c5, 23)),
+          segmentReferenceScheme: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DashConfig" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          fileName: S.optional(S.String),
+          muxStreams: S.optional(__S(130, __c4, 2)),
+          dash: S.optional(__S(170, __c5, 10)),
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Manifest" });
+    case 12:
+      return S.Array(__S(171, __c5, 11));
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          uri: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Output" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          secretVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SecretManagerSource" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          scheme: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MpegCommonEncryption" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          clearkey: S.optional(__S(96, __c3, 0)),
+          playready: S.optional(__S(96, __c3, 0)),
+          widevine: S.optional(__S(96, __c3, 0)),
+          fairplay: S.optional(__S(96, __c3, 0)),
+        }),
+      ).annotate({ identifier: "DrmSystems" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          secretManagerKeySource: S.optional(__S(174, __c5, 14)),
+          mpegCenc: S.optional(__S(175, __c5, 15)),
+          sampleAes: S.optional(__S(96, __c3, 0)),
+          drmSystems: S.optional(__S(176, __c5, 16)),
+          aes128: S.optional(__S(96, __c3, 0)),
+        }),
+      ).annotate({ identifier: "Encryption" });
+    case 18:
+      return S.Array(__S(177, __c5, 17));
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          codecTag: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Fmp4Config" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          segmentDuration: S.optional(S.String),
+          individualSegments: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "SegmentSettings" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          fmp4: S.optional(__S(179, __c5, 19)),
+          container: S.optional(S.String),
+          key: S.optional(S.String),
+          elementaryStreams: S.optional(__S(130, __c4, 2)),
+          segmentSettings: S.optional(__S(180, __c5, 20)),
+          fileName: S.optional(S.String),
+          encryptionId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MuxStream" });
+    case 22:
+      return S.Array(__S(181, __c5, 21));
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          spriteSheets: S.optional(__S(129, __c4, 1)),
+          editList: S.optional(__S(132, __c4, 4)),
+          adBreaks: S.optional(__S(134, __c4, 6)),
+          overlays: S.optional(__S(142, __c4, 14)),
+          inputs: S.optional(__S(156, __c4, 28)),
+          elementaryStreams: S.optional(__S(168, __c5, 8)),
+          pubsubDestination: S.optional(__S(169, __c5, 9)),
+          manifests: S.optional(__S(172, __c5, 12)),
+          output: S.optional(__S(173, __c5, 13)),
+          encryptions: S.optional(__S(178, __c5, 18)),
+          muxStreams: S.optional(__S(182, __c5, 22)),
         }),
       ).annotate({ identifier: "JobConfig" });
-    case 25:
+    case 24:
       return S.Record(S.String, S.String);
   }
 }
@@ -1542,22 +1540,22 @@ function __c6(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          endTime: S.optional(S.String),
-          outputUri: S.optional(S.String),
-          ttlAfterCompletionDays: S.optional(S.Number),
-          config: S.optional(__S(184, __c5, 24)),
-          state: S.optional(S.String),
-          inputUri: S.optional(S.String),
-          batchModePriority: S.optional(S.Number),
-          optimization: S.optional(S.String),
           fillContentGaps: S.optional(S.Boolean),
-          mode: S.optional(S.String),
-          labels: S.optional(__S(185, __c5, 25)),
-          name: S.optional(S.String),
-          startTime: S.optional(S.String),
-          error: S.optional(__S(194, __c6, 2)),
           templateId: S.optional(S.String),
+          startTime: S.optional(S.String),
+          name: S.optional(S.String),
+          state: S.optional(S.String),
+          outputUri: S.optional(S.String),
+          inputUri: S.optional(S.String),
           createTime: S.optional(S.String),
+          mode: S.optional(S.String),
+          batchModePriority: S.optional(S.Number),
+          error: S.optional(__S(194, __c6, 2)),
+          optimization: S.optional(S.String),
+          endTime: S.optional(S.String),
+          ttlAfterCompletionDays: S.optional(S.Number),
+          config: S.optional(__S(183, __c5, 23)),
+          labels: S.optional(__S(184, __c5, 24)),
         }),
       ).annotate({ identifier: "Job" });
   }
@@ -1566,11 +1564,13 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          jobTemplateId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(256, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(256, __c8, 0),
+          S.Struct({
+            jobTemplateId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/jobTemplates",
@@ -1585,9 +1585,9 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          labels: S.optional(__S(184, __c5, 24)),
           name: S.optional(S.String),
-          config: S.optional(__S(184, __c5, 24)),
-          labels: S.optional(__S(185, __c5, 25)),
+          config: S.optional(__S(183, __c5, 23)),
         }),
       ).annotate({ identifier: "JobTemplate" });
   }
@@ -1597,8 +1597,8 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",

@@ -1,0 +1,30 @@
+{
+  "description": "Mark minted credentials sensitive so they decode as Redacted: deploy keys, preview deploy keys, personal and team access tokens, and the AI gateway JWT.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#PlatformCreateDeployKeyResponse/members/deployKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#PlatformCreatePreviewDeployKeyResponse/members/previewDeployKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#CreatePersonalAccessTokenResponse/members/accessToken/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#CreateTeamAccessTokenResponse/members/accessToken/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#MintLocalAiGatewayJwtResponse/members/token/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

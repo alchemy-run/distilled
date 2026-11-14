@@ -4,7 +4,8 @@
  * API-compatible port of the distilled repo's prisma credentials
  * module: the `Credentials` service holds an *effect* that resolves the
  * current credentials on every request. Auth is a single bearer token
- * (`Authorization: Bearer <apiToken>`) against `https://api.prisma.io`.
+ * (`Authorization: Bearer <apiToken>`) against `https://api.prisma.io`,
+ * or none when the `HttpClient` authenticates requests itself.
  */
 import * as EffectConfig from "@distilled.cloud/core/config";
 import { ConfigError } from "@distilled.cloud/core/errors";
@@ -16,7 +17,8 @@ import * as Redacted from "effect/Redacted";
 export const DEFAULT_API_BASE_URL = "https://api.prisma.io";
 
 export interface Config {
-  readonly apiToken: Redacted.Redacted<string>;
+  /** Absent when the `HttpClient` authenticates requests itself. No Authorization header is sent. */
+  readonly apiToken?: Redacted.Redacted<string>;
   readonly apiBaseUrl: string;
 }
 

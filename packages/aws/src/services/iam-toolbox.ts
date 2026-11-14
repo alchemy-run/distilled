@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -102,7 +103,7 @@ export class InternalServerException
     "InternalServerException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
@@ -117,27 +118,27 @@ export class ValidationException
   ).pipe(C.withBadRequestError) {}
 export interface GetRequestAuthorizationDetailsInput {
   authorizationId: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type AuthorizationContext = { [key: string]: any | undefined };
 export type EvaluatedEffect = "ALLOW" | "EXPLICIT_DENY" | "IMPLICIT_DENY" | (string & {});
 export type StatementEffect = "ALLOW" | "DENY" | (string & {});
 export interface MatchedStatement {
-  sid?: string;
-  evaluatedEffect?: StatementEffect;
+  sid?: string | undefined;
+  evaluatedEffect?: StatementEffect | undefined;
 }
 export type MatchedStatementList = MatchedStatement[];
 export interface MatchedPolicy {
   uri: string;
-  matchedStatements?: MatchedStatement[];
+  matchedStatements?: MatchedStatement[] | undefined;
 }
 export type MatchedPolicyList = MatchedPolicy[];
 export interface Evaluation {
   action: string;
   resource: string;
-  context?: { [key: string]: any | undefined };
-  evaluatedEffect?: EvaluatedEffect;
-  matchedPolicies?: MatchedPolicy[];
+  context?: { [key: string]: any | undefined } | undefined;
+  evaluatedEffect?: EvaluatedEffect | undefined;
+  matchedPolicies?: MatchedPolicy[] | undefined;
 }
 export type Evaluations = Evaluation[];
 export type PolicyType =
@@ -150,21 +151,21 @@ export type PolicyType =
   | "VPC_ENDPOINT_POLICY"
   | (string & {});
 export interface AttachedTo {
-  arn?: string;
+  arn?: string | undefined;
 }
 export type AttachedToList = AttachedTo[];
 export interface PolicyInfo {
-  type?: PolicyType;
-  inline?: boolean;
-  uri?: string;
-  attachedTo?: AttachedTo[];
+  type?: PolicyType | undefined;
+  inline?: boolean | undefined;
+  uri?: string | undefined;
+  attachedTo?: AttachedTo[] | undefined;
 }
 export type PolicyInfoList = PolicyInfo[];
 export interface GetRequestAuthorizationDetailsOutput {
   requestContext: { [key: string]: any | undefined };
   evaluations: Evaluation[];
   policies: PolicyInfo[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type GetRequestAuthorizationDetailsError =
   | AccessDeniedException
@@ -182,7 +183,7 @@ export type GetRequestAuthorizationDetailsError =
  * To use this operation, you must have the `iam:GetRequestAuthorizationDetails` permission.
  */
 export const getRequestAuthorizationDetails: API.PaginatedOperationMethod<
-  GetRequestAuthorizationDetailsInput,
+  GetRequestAuthorizationDetailsInput & RegionInput,
   GetRequestAuthorizationDetailsOutput,
   GetRequestAuthorizationDetailsError,
   Credentials | HttpClient.HttpClient,

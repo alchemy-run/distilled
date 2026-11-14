@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -145,7 +146,7 @@ export class InternalServerException
       ),
     },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class RequestAlreadyInProgressException
   extends /*@__PURE__*/ S.TaggedError<RequestAlreadyInProgressException>()(
     "RequestAlreadyInProgressException",
@@ -186,7 +187,7 @@ export class ThrottlingException
       ),
     },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
@@ -209,7 +210,7 @@ export interface AssociateServiceRoleToAccountRequest {
   roleArn: string;
 }
 export interface AssociateServiceRoleToAccountResponse {
-  associatedAt?: string;
+  associatedAt?: string | undefined;
 }
 export type IoTThingName = string;
 export interface AssociateClientDeviceWithCoreDeviceEntry {
@@ -218,19 +219,19 @@ export interface AssociateClientDeviceWithCoreDeviceEntry {
 export type AssociateClientDeviceWithCoreDeviceEntryList =
   AssociateClientDeviceWithCoreDeviceEntry[];
 export interface BatchAssociateClientDeviceWithCoreDeviceRequest {
-  entries?: AssociateClientDeviceWithCoreDeviceEntry[];
+  entries?: AssociateClientDeviceWithCoreDeviceEntry[] | undefined;
   coreDeviceThingName: string;
 }
 export type NonEmptyString = string;
 export interface AssociateClientDeviceWithCoreDeviceErrorEntry {
-  thingName?: string;
-  code?: string;
-  message?: string;
+  thingName?: string | undefined;
+  code?: string | undefined;
+  message?: string | undefined;
 }
 export type AssociateClientDeviceWithCoreDeviceErrorList =
   AssociateClientDeviceWithCoreDeviceErrorEntry[];
 export interface BatchAssociateClientDeviceWithCoreDeviceResponse {
-  errorEntries?: AssociateClientDeviceWithCoreDeviceErrorEntry[];
+  errorEntries?: AssociateClientDeviceWithCoreDeviceErrorEntry[] | undefined;
 }
 export interface DisassociateClientDeviceFromCoreDeviceEntry {
   thingName: string;
@@ -238,38 +239,38 @@ export interface DisassociateClientDeviceFromCoreDeviceEntry {
 export type DisassociateClientDeviceFromCoreDeviceEntryList =
   DisassociateClientDeviceFromCoreDeviceEntry[];
 export interface BatchDisassociateClientDeviceFromCoreDeviceRequest {
-  entries?: DisassociateClientDeviceFromCoreDeviceEntry[];
+  entries?: DisassociateClientDeviceFromCoreDeviceEntry[] | undefined;
   coreDeviceThingName: string;
 }
 export interface DisassociateClientDeviceFromCoreDeviceErrorEntry {
-  thingName?: string;
-  code?: string;
-  message?: string;
+  thingName?: string | undefined;
+  code?: string | undefined;
+  message?: string | undefined;
 }
 export type DisassociateClientDeviceFromCoreDeviceErrorList =
   DisassociateClientDeviceFromCoreDeviceErrorEntry[];
 export interface BatchDisassociateClientDeviceFromCoreDeviceResponse {
-  errorEntries?: DisassociateClientDeviceFromCoreDeviceErrorEntry[];
+  errorEntries?: DisassociateClientDeviceFromCoreDeviceErrorEntry[] | undefined;
 }
 export interface CancelDeploymentRequest {
   deploymentId: string;
 }
 export interface CancelDeploymentResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export type RecipeBlob = Uint8Array;
 export type ComponentNameString = string;
 export type ComponentVersionString = string;
 export type PlatformAttributesMap = { [key: string]: string | undefined };
 export interface ComponentPlatform {
-  name?: string;
-  attributes?: { [key: string]: string | undefined };
+  name?: string | undefined;
+  attributes?: { [key: string]: string | undefined } | undefined;
 }
 export type ComponentPlatformList = ComponentPlatform[];
 export type ComponentDependencyType = "HARD" | "SOFT" | (string & {});
 export interface ComponentDependencyRequirement {
-  versionRequirement?: string;
-  dependencyType?: ComponentDependencyType;
+  versionRequirement?: string | undefined;
+  dependencyType?: ComponentDependencyType | undefined;
 }
 export type ComponentDependencyMap = { [key: string]: ComponentDependencyRequirement | undefined };
 export type TopicString = string;
@@ -291,56 +292,56 @@ export type LambdaFilesystemPermission = "ro" | "rw" | (string & {});
 export interface LambdaVolumeMount {
   sourcePath: string;
   destinationPath: string;
-  permission?: LambdaFilesystemPermission;
-  addGroupOwner?: boolean;
+  permission?: LambdaFilesystemPermission | undefined;
+  addGroupOwner?: boolean | undefined;
 }
 export type LambdaVolumeList = LambdaVolumeMount[];
 export interface LambdaDeviceMount {
   path: string;
-  permission?: LambdaFilesystemPermission;
-  addGroupOwner?: boolean;
+  permission?: LambdaFilesystemPermission | undefined;
+  addGroupOwner?: boolean | undefined;
 }
 export type LambdaDeviceList = LambdaDeviceMount[];
 export interface LambdaContainerParams {
-  memorySizeInKB?: number;
-  mountROSysfs?: boolean;
-  volumes?: LambdaVolumeMount[];
-  devices?: LambdaDeviceMount[];
+  memorySizeInKB?: number | undefined;
+  mountROSysfs?: boolean | undefined;
+  volumes?: LambdaVolumeMount[] | undefined;
+  devices?: LambdaDeviceMount[] | undefined;
 }
 export interface LambdaLinuxProcessParams {
-  isolationMode?: LambdaIsolationMode;
-  containerParams?: LambdaContainerParams;
+  isolationMode?: LambdaIsolationMode | undefined;
+  containerParams?: LambdaContainerParams | undefined;
 }
 export interface LambdaExecutionParameters {
-  eventSources?: LambdaEventSource[];
-  maxQueueSize?: number;
-  maxInstancesCount?: number;
-  maxIdleTimeInSeconds?: number;
-  timeoutInSeconds?: number;
-  statusTimeoutInSeconds?: number;
-  pinned?: boolean;
-  inputPayloadEncodingType?: LambdaInputPayloadEncodingType;
-  execArgs?: string[];
-  environmentVariables?: { [key: string]: string | undefined };
-  linuxProcessParams?: LambdaLinuxProcessParams;
+  eventSources?: LambdaEventSource[] | undefined;
+  maxQueueSize?: number | undefined;
+  maxInstancesCount?: number | undefined;
+  maxIdleTimeInSeconds?: number | undefined;
+  timeoutInSeconds?: number | undefined;
+  statusTimeoutInSeconds?: number | undefined;
+  pinned?: boolean | undefined;
+  inputPayloadEncodingType?: LambdaInputPayloadEncodingType | undefined;
+  execArgs?: string[] | undefined;
+  environmentVariables?: { [key: string]: string | undefined } | undefined;
+  linuxProcessParams?: LambdaLinuxProcessParams | undefined;
 }
 export interface LambdaFunctionRecipeSource {
   lambdaArn: string;
-  componentName?: string;
-  componentVersion?: string;
-  componentPlatforms?: ComponentPlatform[];
-  componentDependencies?: { [key: string]: ComponentDependencyRequirement | undefined };
-  componentLambdaParameters?: LambdaExecutionParameters;
+  componentName?: string | undefined;
+  componentVersion?: string | undefined;
+  componentPlatforms?: ComponentPlatform[] | undefined;
+  componentDependencies?: { [key: string]: ComponentDependencyRequirement | undefined } | undefined;
+  componentLambdaParameters?: LambdaExecutionParameters | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
 export type ClientTokenString = string;
 export interface CreateComponentVersionRequest {
-  inlineRecipe?: Uint8Array;
-  lambdaFunction?: LambdaFunctionRecipeSource;
-  tags?: { [key: string]: string | undefined };
-  clientToken?: string;
+  inlineRecipe?: Uint8Array | undefined;
+  lambdaFunction?: LambdaFunctionRecipeSource | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
 }
 export type ComponentVersionARN = string;
 export type CloudComponentState =
@@ -353,14 +354,14 @@ export type CloudComponentState =
 export type StringMap = { [key: string]: string | undefined };
 export type VendorGuidance = "ACTIVE" | "DISCONTINUED" | "DELETED" | (string & {});
 export interface CloudComponentStatus {
-  componentState?: CloudComponentState;
-  message?: string;
-  errors?: { [key: string]: string | undefined };
-  vendorGuidance?: VendorGuidance;
-  vendorGuidanceMessage?: string;
+  componentState?: CloudComponentState | undefined;
+  message?: string | undefined;
+  errors?: { [key: string]: string | undefined } | undefined;
+  vendorGuidance?: VendorGuidance | undefined;
+  vendorGuidanceMessage?: string | undefined;
 }
 export interface CreateComponentVersionResponse {
-  arn?: string;
+  arn?: string | undefined;
   componentName: string;
   componentVersion: string;
   creationTimestamp: Date;
@@ -372,24 +373,24 @@ export type ComponentConfigurationString = string;
 export type ComponentConfigurationPath = string;
 export type ComponentConfigurationPathList = string[];
 export interface ComponentConfigurationUpdate {
-  merge?: string;
-  reset?: string[];
+  merge?: string | undefined;
+  reset?: string[] | undefined;
 }
 export type Memory = number;
 export type CPU = number;
 export interface SystemResourceLimits {
-  memory?: number;
-  cpus?: number;
+  memory?: number | undefined;
+  cpus?: number | undefined;
 }
 export interface ComponentRunWith {
-  posixUser?: string;
-  systemResourceLimits?: SystemResourceLimits;
-  windowsUser?: string;
+  posixUser?: string | undefined;
+  systemResourceLimits?: SystemResourceLimits | undefined;
+  windowsUser?: string | undefined;
 }
 export interface ComponentDeploymentSpecification {
   componentVersion: string;
-  configurationUpdate?: ComponentConfigurationUpdate;
-  runWith?: ComponentRunWith;
+  configurationUpdate?: ComponentConfigurationUpdate | undefined;
+  runWith?: ComponentRunWith | undefined;
 }
 export type ComponentDeploymentSpecifications = {
   [key: string]: ComponentDeploymentSpecification | undefined;
@@ -398,8 +399,8 @@ export type IoTJobRolloutBaseRatePerMinute = number;
 export type IoTJobRolloutIncrementFactor = number;
 export type IoTJobNumberOfThings = number;
 export interface IoTJobRateIncreaseCriteria {
-  numberOfNotifiedThings?: number;
-  numberOfSucceededThings?: number;
+  numberOfNotifiedThings?: number | undefined;
+  numberOfSucceededThings?: number | undefined;
 }
 export interface IoTJobExponentialRolloutRate {
   baseRatePerMinute: number;
@@ -408,8 +409,8 @@ export interface IoTJobExponentialRolloutRate {
 }
 export type IoTJobMaxExecutionsPerMin = number;
 export interface IoTJobExecutionsRolloutConfig {
-  exponentialRate?: IoTJobExponentialRolloutRate;
-  maximumPerMinute?: number;
+  exponentialRate?: IoTJobExponentialRolloutRate | undefined;
+  maximumPerMinute?: number | undefined;
 }
 export type IoTJobExecutionFailureType =
   | "FAILED"
@@ -432,12 +433,12 @@ export interface IoTJobAbortConfig {
 }
 export type IoTJobInProgressTimeoutInMinutes = number;
 export interface IoTJobTimeoutConfig {
-  inProgressTimeoutInMinutes?: number;
+  inProgressTimeoutInMinutes?: number | undefined;
 }
 export interface DeploymentIoTJobConfiguration {
-  jobExecutionsRolloutConfig?: IoTJobExecutionsRolloutConfig;
-  abortConfig?: IoTJobAbortConfig;
-  timeoutConfig?: IoTJobTimeoutConfig;
+  jobExecutionsRolloutConfig?: IoTJobExecutionsRolloutConfig | undefined;
+  abortConfig?: IoTJobAbortConfig | undefined;
+  timeoutConfig?: IoTJobTimeoutConfig | undefined;
 }
 export type DeploymentFailureHandlingPolicy = "ROLLBACK" | "DO_NOTHING" | (string & {});
 export type DeploymentComponentUpdatePolicyAction =
@@ -445,33 +446,33 @@ export type DeploymentComponentUpdatePolicyAction =
   | "SKIP_NOTIFY_COMPONENTS"
   | (string & {});
 export interface DeploymentComponentUpdatePolicy {
-  timeoutInSeconds?: number;
-  action?: DeploymentComponentUpdatePolicyAction;
+  timeoutInSeconds?: number | undefined;
+  action?: DeploymentComponentUpdatePolicyAction | undefined;
 }
 export interface DeploymentConfigurationValidationPolicy {
-  timeoutInSeconds?: number;
+  timeoutInSeconds?: number | undefined;
 }
 export interface DeploymentPolicies {
-  failureHandlingPolicy?: DeploymentFailureHandlingPolicy;
-  componentUpdatePolicy?: DeploymentComponentUpdatePolicy;
-  configurationValidationPolicy?: DeploymentConfigurationValidationPolicy;
+  failureHandlingPolicy?: DeploymentFailureHandlingPolicy | undefined;
+  componentUpdatePolicy?: DeploymentComponentUpdatePolicy | undefined;
+  configurationValidationPolicy?: DeploymentConfigurationValidationPolicy | undefined;
 }
 export type ThingGroupARN = string;
 export interface CreateDeploymentRequest {
   targetArn: string;
-  deploymentName?: string;
-  components?: { [key: string]: ComponentDeploymentSpecification | undefined };
-  iotJobConfiguration?: DeploymentIoTJobConfiguration;
-  deploymentPolicies?: DeploymentPolicies;
-  parentTargetArn?: string;
-  tags?: { [key: string]: string | undefined };
-  clientToken?: string;
+  deploymentName?: string | undefined;
+  components?: { [key: string]: ComponentDeploymentSpecification | undefined } | undefined;
+  iotJobConfiguration?: DeploymentIoTJobConfiguration | undefined;
+  deploymentPolicies?: DeploymentPolicies | undefined;
+  parentTargetArn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
 }
 export type IoTJobARN = string;
 export interface CreateDeploymentResponse {
-  deploymentId?: string;
-  iotJobId?: string;
-  iotJobArn?: string;
+  deploymentId?: string | undefined;
+  iotJobId?: string | undefined;
+  iotJobArn?: string | undefined;
 }
 export interface DeleteComponentRequest {
   arn: string;
@@ -492,37 +493,37 @@ export interface DescribeComponentRequest {
 export type PublisherString = string;
 export type DescriptionString = string;
 export interface DescribeComponentResponse {
-  arn?: string;
-  componentName?: string;
-  componentVersion?: string;
-  creationTimestamp?: Date;
-  publisher?: string;
-  description?: string;
-  status?: CloudComponentStatus;
-  platforms?: ComponentPlatform[];
-  tags?: { [key: string]: string | undefined };
+  arn?: string | undefined;
+  componentName?: string | undefined;
+  componentVersion?: string | undefined;
+  creationTimestamp?: Date | undefined;
+  publisher?: string | undefined;
+  description?: string | undefined;
+  status?: CloudComponentStatus | undefined;
+  platforms?: ComponentPlatform[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DisassociateServiceRoleFromAccountRequest {}
 export interface DisassociateServiceRoleFromAccountResponse {
-  disassociatedAt?: string;
+  disassociatedAt?: string | undefined;
 }
 export type RecipeOutputFormat = "JSON" | "YAML" | (string & {});
 export interface GetComponentRequest {
-  recipeOutputFormat?: RecipeOutputFormat;
+  recipeOutputFormat?: RecipeOutputFormat | undefined;
   arn: string;
 }
 export interface GetComponentResponse {
   recipeOutputFormat: RecipeOutputFormat;
   recipe: Uint8Array;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type S3EndpointType = "REGIONAL" | "GLOBAL" | (string & {});
 export type IotEndpointType = "fips" | "standard" | (string & {});
 export interface GetComponentVersionArtifactRequest {
   arn: string;
   artifactName: string;
-  s3EndpointType?: S3EndpointType;
-  iotEndpointType?: IotEndpointType;
+  s3EndpointType?: S3EndpointType | undefined;
+  iotEndpointType?: IotEndpointType | undefined;
 }
 export interface GetComponentVersionArtifactResponse {
   preSignedUrl: string;
@@ -532,15 +533,15 @@ export interface GetConnectivityInfoRequest {
 }
 export type PortNumberInt = number;
 export interface ConnectivityInfo {
-  id?: string;
-  hostAddress?: string;
-  portNumber?: number;
-  metadata?: string;
+  id?: string | undefined;
+  hostAddress?: string | undefined;
+  portNumber?: number | undefined;
+  metadata?: string | undefined;
 }
 export type ConnectivityInfoList = ConnectivityInfo[];
 export interface GetConnectivityInfoResponse {
-  connectivityInfo?: ConnectivityInfo[];
-  message?: string;
+  connectivityInfo?: ConnectivityInfo[] | undefined;
+  message?: string | undefined;
 }
 export interface GetCoreDeviceRequest {
   coreDeviceThingName: string;
@@ -551,14 +552,14 @@ export type CoreDeviceArchitectureString = string;
 export type CoreDeviceRuntimeString = string;
 export type CoreDeviceStatus = "HEALTHY" | "UNHEALTHY" | (string & {});
 export interface GetCoreDeviceResponse {
-  coreDeviceThingName?: string;
-  coreVersion?: string;
-  platform?: string;
-  architecture?: string;
-  runtime?: string;
-  status?: CoreDeviceStatus;
-  lastStatusUpdateTimestamp?: Date;
-  tags?: { [key: string]: string | undefined };
+  coreDeviceThingName?: string | undefined;
+  coreVersion?: string | undefined;
+  platform?: string | undefined;
+  architecture?: string | undefined;
+  runtime?: string | undefined;
+  status?: CoreDeviceStatus | undefined;
+  lastStatusUpdateTimestamp?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetDeploymentRequest {
   deploymentId: string;
@@ -573,129 +574,129 @@ export type DeploymentStatus =
   | (string & {});
 export type IsLatestForTarget = boolean;
 export interface GetDeploymentResponse {
-  targetArn?: string;
-  revisionId?: string;
-  deploymentId?: string;
-  deploymentName?: string;
-  deploymentStatus?: DeploymentStatus;
-  iotJobId?: string;
-  iotJobArn?: string;
-  components?: { [key: string]: ComponentDeploymentSpecification | undefined };
-  deploymentPolicies?: DeploymentPolicies;
-  iotJobConfiguration?: DeploymentIoTJobConfiguration;
-  creationTimestamp?: Date;
-  isLatestForTarget?: boolean;
-  parentTargetArn?: string;
-  tags?: { [key: string]: string | undefined };
+  targetArn?: string | undefined;
+  revisionId?: string | undefined;
+  deploymentId?: string | undefined;
+  deploymentName?: string | undefined;
+  deploymentStatus?: DeploymentStatus | undefined;
+  iotJobId?: string | undefined;
+  iotJobArn?: string | undefined;
+  components?: { [key: string]: ComponentDeploymentSpecification | undefined } | undefined;
+  deploymentPolicies?: DeploymentPolicies | undefined;
+  iotJobConfiguration?: DeploymentIoTJobConfiguration | undefined;
+  creationTimestamp?: Date | undefined;
+  isLatestForTarget?: boolean | undefined;
+  parentTargetArn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetServiceRoleForAccountRequest {}
 export interface GetServiceRoleForAccountResponse {
-  associatedAt?: string;
-  roleArn?: string;
+  associatedAt?: string | undefined;
+  roleArn?: string | undefined;
 }
 export type DefaultMaxResults = number;
 export type NextTokenString = string;
 export interface ListClientDevicesAssociatedWithCoreDeviceRequest {
   coreDeviceThingName: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface AssociatedClientDevice {
-  thingName?: string;
-  associationTimestamp?: Date;
+  thingName?: string | undefined;
+  associationTimestamp?: Date | undefined;
 }
 export type AssociatedClientDeviceList = AssociatedClientDevice[];
 export interface ListClientDevicesAssociatedWithCoreDeviceResponse {
-  associatedClientDevices?: AssociatedClientDevice[];
-  nextToken?: string;
+  associatedClientDevices?: AssociatedClientDevice[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ComponentVisibilityScope = "PRIVATE" | "PUBLIC" | (string & {});
 export interface ListComponentsRequest {
-  scope?: ComponentVisibilityScope;
-  maxResults?: number;
-  nextToken?: string;
+  scope?: ComponentVisibilityScope | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ComponentARN = string;
 export interface ComponentLatestVersion {
-  arn?: string;
-  componentVersion?: string;
-  creationTimestamp?: Date;
-  description?: string;
-  publisher?: string;
-  platforms?: ComponentPlatform[];
+  arn?: string | undefined;
+  componentVersion?: string | undefined;
+  creationTimestamp?: Date | undefined;
+  description?: string | undefined;
+  publisher?: string | undefined;
+  platforms?: ComponentPlatform[] | undefined;
 }
 export interface Component {
-  arn?: string;
-  componentName?: string;
-  latestVersion?: ComponentLatestVersion;
+  arn?: string | undefined;
+  componentName?: string | undefined;
+  latestVersion?: ComponentLatestVersion | undefined;
 }
 export type ComponentList = Component[];
 export interface ListComponentsResponse {
-  components?: Component[];
-  nextToken?: string;
+  components?: Component[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListComponentVersionsRequest {
   arn: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ComponentVersionListItem {
-  componentName?: string;
-  componentVersion?: string;
-  arn?: string;
+  componentName?: string | undefined;
+  componentVersion?: string | undefined;
+  arn?: string | undefined;
 }
 export type ComponentVersionList = ComponentVersionListItem[];
 export interface ListComponentVersionsResponse {
-  componentVersions?: ComponentVersionListItem[];
-  nextToken?: string;
+  componentVersions?: ComponentVersionListItem[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListCoreDevicesRequest {
-  thingGroupArn?: string;
-  status?: CoreDeviceStatus;
-  maxResults?: number;
-  nextToken?: string;
-  runtime?: string;
+  thingGroupArn?: string | undefined;
+  status?: CoreDeviceStatus | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  runtime?: string | undefined;
 }
 export interface CoreDevice {
-  coreDeviceThingName?: string;
-  status?: CoreDeviceStatus;
-  lastStatusUpdateTimestamp?: Date;
-  platform?: string;
-  architecture?: string;
-  runtime?: string;
+  coreDeviceThingName?: string | undefined;
+  status?: CoreDeviceStatus | undefined;
+  lastStatusUpdateTimestamp?: Date | undefined;
+  platform?: string | undefined;
+  architecture?: string | undefined;
+  runtime?: string | undefined;
 }
 export type CoreDevicesList = CoreDevice[];
 export interface ListCoreDevicesResponse {
-  coreDevices?: CoreDevice[];
-  nextToken?: string;
+  coreDevices?: CoreDevice[] | undefined;
+  nextToken?: string | undefined;
 }
 export type DeploymentHistoryFilter = "ALL" | "LATEST_ONLY" | (string & {});
 export interface ListDeploymentsRequest {
-  targetArn?: string;
-  historyFilter?: DeploymentHistoryFilter;
-  parentTargetArn?: string;
-  maxResults?: number;
-  nextToken?: string;
+  targetArn?: string | undefined;
+  historyFilter?: DeploymentHistoryFilter | undefined;
+  parentTargetArn?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface Deployment {
-  targetArn?: string;
-  revisionId?: string;
-  deploymentId?: string;
-  deploymentName?: string;
-  creationTimestamp?: Date;
-  deploymentStatus?: DeploymentStatus;
-  isLatestForTarget?: boolean;
-  parentTargetArn?: string;
+  targetArn?: string | undefined;
+  revisionId?: string | undefined;
+  deploymentId?: string | undefined;
+  deploymentName?: string | undefined;
+  creationTimestamp?: Date | undefined;
+  deploymentStatus?: DeploymentStatus | undefined;
+  isLatestForTarget?: boolean | undefined;
+  parentTargetArn?: string | undefined;
 }
 export type DeploymentList = Deployment[];
 export interface ListDeploymentsResponse {
-  deployments?: Deployment[];
-  nextToken?: string;
+  deployments?: Deployment[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListEffectiveDeploymentsRequest {
   coreDeviceThingName: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type DeploymentID = string;
 export type DeploymentName = string;
@@ -717,33 +718,33 @@ export type EffectiveDeploymentErrorStack = string[];
 export type EffectiveDeploymentErrorType = string;
 export type EffectiveDeploymentErrorTypeList = string[];
 export interface EffectiveDeploymentStatusDetails {
-  errorStack?: string[];
-  errorTypes?: string[];
+  errorStack?: string[] | undefined;
+  errorTypes?: string[] | undefined;
 }
 export interface EffectiveDeployment {
   deploymentId: string;
   deploymentName: string;
-  iotJobId?: string;
-  iotJobArn?: string;
-  description?: string;
+  iotJobId?: string | undefined;
+  iotJobArn?: string | undefined;
+  description?: string | undefined;
   targetArn: string;
   coreDeviceExecutionStatus: EffectiveDeploymentExecutionStatus;
-  reason?: string;
+  reason?: string | undefined;
   creationTimestamp: Date;
   modifiedTimestamp: Date;
-  statusDetails?: EffectiveDeploymentStatusDetails;
+  statusDetails?: EffectiveDeploymentStatusDetails | undefined;
 }
 export type EffectiveDeploymentsList = EffectiveDeployment[];
 export interface ListEffectiveDeploymentsResponse {
-  effectiveDeployments?: EffectiveDeployment[];
-  nextToken?: string;
+  effectiveDeployments?: EffectiveDeployment[] | undefined;
+  nextToken?: string | undefined;
 }
 export type InstalledComponentTopologyFilter = "ALL" | "ROOT" | (string & {});
 export interface ListInstalledComponentsRequest {
   coreDeviceThingName: string;
-  maxResults?: number;
-  nextToken?: string;
-  topologyFilter?: InstalledComponentTopologyFilter;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  topologyFilter?: InstalledComponentTopologyFilter | undefined;
 }
 export type InstalledComponentLifecycleState =
   | "NEW"
@@ -760,50 +761,50 @@ export type IsRoot = boolean;
 export type InstalledComponentLifecycleStatusCode = string;
 export type InstalledComponentLifecycleStatusCodeList = string[];
 export interface InstalledComponent {
-  componentName?: string;
-  componentVersion?: string;
-  lifecycleState?: InstalledComponentLifecycleState;
-  lifecycleStateDetails?: string;
-  isRoot?: boolean;
-  lastStatusChangeTimestamp?: Date;
-  lastReportedTimestamp?: Date;
-  lastInstallationSource?: string;
-  lifecycleStatusCodes?: string[];
+  componentName?: string | undefined;
+  componentVersion?: string | undefined;
+  lifecycleState?: InstalledComponentLifecycleState | undefined;
+  lifecycleStateDetails?: string | undefined;
+  isRoot?: boolean | undefined;
+  lastStatusChangeTimestamp?: Date | undefined;
+  lastReportedTimestamp?: Date | undefined;
+  lastInstallationSource?: string | undefined;
+  lifecycleStatusCodes?: string[] | undefined;
 }
 export type InstalledComponentList = InstalledComponent[];
 export interface ListInstalledComponentsResponse {
-  installedComponents?: InstalledComponent[];
-  nextToken?: string;
+  installedComponents?: InstalledComponent[] | undefined;
+  nextToken?: string | undefined;
 }
 export type GenericV2ARN = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ComponentVersionRequirementMap = { [key: string]: string | undefined };
 export interface ComponentCandidate {
-  componentName?: string;
-  componentVersion?: string;
-  versionRequirements?: { [key: string]: string | undefined };
+  componentName?: string | undefined;
+  componentVersion?: string | undefined;
+  versionRequirements?: { [key: string]: string | undefined } | undefined;
 }
 export type ComponentCandidateList = ComponentCandidate[];
 export interface ResolveComponentCandidatesRequest {
-  platform?: ComponentPlatform;
-  componentCandidates?: ComponentCandidate[];
+  platform?: ComponentPlatform | undefined;
+  componentCandidates?: ComponentCandidate[] | undefined;
 }
 export interface ResolvedComponentVersion {
-  arn?: string;
-  componentName?: string;
-  componentVersion?: string;
-  recipe?: Uint8Array;
-  vendorGuidance?: VendorGuidance;
-  message?: string;
+  arn?: string | undefined;
+  componentName?: string | undefined;
+  componentVersion?: string | undefined;
+  recipe?: Uint8Array | undefined;
+  vendorGuidance?: VendorGuidance | undefined;
+  message?: string | undefined;
 }
 export type ResolvedComponentVersionsList = ResolvedComponentVersion[];
 export interface ResolveComponentCandidatesResponse {
-  resolvedComponentVersions?: ResolvedComponentVersion[];
+  resolvedComponentVersions?: ResolvedComponentVersion[] | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -821,8 +822,8 @@ export interface UpdateConnectivityInfoRequest {
   connectivityInfo: ConnectivityInfo[];
 }
 export interface UpdateConnectivityInfoResponse {
-  version?: string;
-  message?: string;
+  version?: string | undefined;
+  message?: string | undefined;
 }
 export type RetryAfterSeconds = number;
 export type ValidationExceptionReason =
@@ -848,7 +849,7 @@ export type AssociateServiceRoleToAccountError =
  * Greengrass service role in the *IoT Greengrass Version 2 Developer Guide*.
  */
 export const associateServiceRoleToAccount: API.OperationMethod<
-  AssociateServiceRoleToAccountRequest,
+  AssociateServiceRoleToAccountRequest & RegionInput,
   AssociateServiceRoleToAccountResponse,
   AssociateServiceRoleToAccountError,
   Credentials | HttpClient.HttpClient
@@ -884,7 +885,7 @@ export type BatchAssociateClientDeviceWithCoreDeviceError =
  * local IoT devices in the *IoT Greengrass V2 Developer Guide*.
  */
 export const batchAssociateClientDeviceWithCoreDevice: API.OperationMethod<
-  BatchAssociateClientDeviceWithCoreDeviceRequest,
+  BatchAssociateClientDeviceWithCoreDeviceRequest & RegionInput,
   BatchAssociateClientDeviceWithCoreDeviceResponse,
   BatchAssociateClientDeviceWithCoreDeviceError,
   Credentials | HttpClient.HttpClient
@@ -918,7 +919,7 @@ export type BatchDisassociateClientDeviceFromCoreDeviceError =
  * the core device's connectivity information and certificates.
  */
 export const batchDisassociateClientDeviceFromCoreDevice: API.OperationMethod<
-  BatchDisassociateClientDeviceFromCoreDeviceRequest,
+  BatchDisassociateClientDeviceFromCoreDeviceRequest & RegionInput,
   BatchDisassociateClientDeviceFromCoreDeviceResponse,
   BatchDisassociateClientDeviceFromCoreDeviceError,
   Credentials | HttpClient.HttpClient
@@ -957,7 +958,7 @@ export type CancelDeploymentError =
  * anything for that device.
  */
 export const cancelDeployment: API.OperationMethod<
-  CancelDeploymentRequest,
+  CancelDeploymentRequest & RegionInput,
   CancelDeploymentResponse,
   CancelDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1021,7 +1022,7 @@ export type CreateComponentVersionError =
  * IoT Greengrass currently supports Lambda functions on only Linux core devices.
  */
 export const createComponentVersion: API.OperationMethod<
-  CreateComponentVersionRequest,
+  CreateComponentVersionRequest & RegionInput,
   CreateComponentVersionResponse,
   CreateComponentVersionError,
   Credentials | HttpClient.HttpClient
@@ -1070,7 +1071,7 @@ export type CreateDeploymentError =
  * *IoT Greengrass V2 Developer Guide*.
  */
 export const createDeployment: API.OperationMethod<
-  CreateDeploymentRequest,
+  CreateDeploymentRequest & RegionInput,
   CreateDeploymentResponse,
   CreateDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1110,7 +1111,7 @@ export type DeleteComponentError =
  * to use a valid version.
  */
 export const deleteComponent: API.OperationMethod<
-  DeleteComponentRequest,
+  DeleteComponentRequest & RegionInput,
   DeleteComponentResponse,
   DeleteComponentError,
   Credentials | HttpClient.HttpClient
@@ -1147,7 +1148,7 @@ export type DeleteCoreDeviceError =
  * *IoT API Reference*.
  */
 export const deleteCoreDevice: API.OperationMethod<
-  DeleteCoreDeviceRequest,
+  DeleteCoreDeviceRequest & RegionInput,
   DeleteCoreDeviceResponse,
   DeleteCoreDeviceError,
   Credentials | HttpClient.HttpClient
@@ -1186,7 +1187,7 @@ export type DeleteDeploymentError =
  * roll back to a previous deployment that has been deleted.
  */
 export const deleteDeployment: API.OperationMethod<
-  DeleteDeploymentRequest,
+  DeleteDeploymentRequest & RegionInput,
   DeleteDeploymentResponse,
   DeleteDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1219,7 +1220,7 @@ export type DescribeComponentError =
  * Retrieves metadata for a version of a component.
  */
 export const describeComponent: API.OperationMethod<
-  DescribeComponentRequest,
+  DescribeComponentRequest & RegionInput,
   DescribeComponentResponse,
   DescribeComponentError,
   Credentials | HttpClient.HttpClient
@@ -1248,7 +1249,7 @@ export type DisassociateServiceRoleFromAccountError = InternalServerException | 
  * the *IoT Greengrass Version 2 Developer Guide*.
  */
 export const disassociateServiceRoleFromAccount: API.OperationMethod<
-  DisassociateServiceRoleFromAccountRequest,
+  DisassociateServiceRoleFromAccountRequest & RegionInput,
   DisassociateServiceRoleFromAccountResponse,
   DisassociateServiceRoleFromAccountError,
   Credentials | HttpClient.HttpClient
@@ -1274,7 +1275,7 @@ export type GetComponentError =
  * Gets the recipe for a version of a component.
  */
 export const getComponent: API.OperationMethod<
-  GetComponentRequest,
+  GetComponentRequest & RegionInput,
   GetComponentResponse,
   GetComponentError,
   Credentials | HttpClient.HttpClient
@@ -1308,7 +1309,7 @@ export type GetComponentVersionArtifactError =
  * install.
  */
 export const getComponentVersionArtifact: API.OperationMethod<
-  GetComponentVersionArtifactRequest,
+  GetComponentVersionArtifactRequest & RegionInput,
   GetComponentVersionArtifactResponse,
   GetComponentVersionArtifactError,
   Credentials | HttpClient.HttpClient
@@ -1341,7 +1342,7 @@ export type GetConnectivityInfoError = InternalServerException | ValidationExcep
  * core devices in the *IoT Greengrass Version 2 Developer Guide*.
  */
 export const getConnectivityInfo: API.OperationMethod<
-  GetConnectivityInfoRequest,
+  GetConnectivityInfoRequest & RegionInput,
   GetConnectivityInfoResponse,
   GetConnectivityInfoError,
   Credentials | HttpClient.HttpClient
@@ -1386,7 +1387,7 @@ export type GetCoreDeviceError =
  * cloud deployment
  */
 export const getCoreDevice: API.OperationMethod<
-  GetCoreDeviceRequest,
+  GetCoreDeviceRequest & RegionInput,
   GetCoreDeviceResponse,
   GetCoreDeviceError,
   Credentials | HttpClient.HttpClient
@@ -1418,7 +1419,7 @@ export type GetDeploymentError =
  * Gets a deployment. Deployments define the components that run on Greengrass core devices.
  */
 export const getDeployment: API.OperationMethod<
-  GetDeploymentRequest,
+  GetDeploymentRequest & RegionInput,
   GetDeploymentResponse,
   GetDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1447,7 +1448,7 @@ export type GetServiceRoleForAccountError = InternalServerException | CommonErro
  * the *IoT Greengrass Version 2 Developer Guide*.
  */
 export const getServiceRoleForAccount: API.OperationMethod<
-  GetServiceRoleForAccountRequest,
+  GetServiceRoleForAccountRequest & RegionInput,
   GetServiceRoleForAccountResponse,
   GetServiceRoleForAccountError,
   Credentials | HttpClient.HttpClient
@@ -1474,7 +1475,7 @@ export type ListClientDevicesAssociatedWithCoreDeviceError =
  * device.
  */
 export const listClientDevicesAssociatedWithCoreDevice: API.PaginatedOperationMethod<
-  ListClientDevicesAssociatedWithCoreDeviceRequest,
+  ListClientDevicesAssociatedWithCoreDeviceRequest & RegionInput,
   ListClientDevicesAssociatedWithCoreDeviceResponse,
   ListClientDevicesAssociatedWithCoreDeviceError,
   Credentials | HttpClient.HttpClient,
@@ -1514,7 +1515,7 @@ export type ListComponentsError =
  * have permission to view.
  */
 export const listComponents: API.PaginatedOperationMethod<
-  ListComponentsRequest,
+  ListComponentsRequest & RegionInput,
   ListComponentsResponse,
   ListComponentsError,
   Credentials | HttpClient.HttpClient,
@@ -1554,7 +1555,7 @@ export type ListComponentVersionsError =
  * first.
  */
 export const listComponentVersions: API.PaginatedOperationMethod<
-  ListComponentVersionsRequest,
+  ListComponentVersionsRequest & RegionInput,
   ListComponentVersionsResponse,
   ListComponentVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -1616,7 +1617,7 @@ export type ListCoreDevicesError =
  * cloud deployment
  */
 export const listCoreDevices: API.PaginatedOperationMethod<
-  ListCoreDevicesRequest,
+  ListCoreDevicesRequest & RegionInput,
   ListCoreDevicesResponse,
   ListCoreDevicesError,
   Credentials | HttpClient.HttpClient,
@@ -1653,7 +1654,7 @@ export type ListDeploymentsError =
  * Retrieves a paginated list of deployments.
  */
 export const listDeployments: API.PaginatedOperationMethod<
-  ListDeploymentsRequest,
+  ListDeploymentsRequest & RegionInput,
   ListDeploymentsResponse,
   ListDeploymentsError,
   Credentials | HttpClient.HttpClient,
@@ -1691,7 +1692,7 @@ export type ListEffectiveDeploymentsError =
  * Retrieves a paginated list of deployment jobs that IoT Greengrass sends to Greengrass core devices.
  */
 export const listEffectiveDeployments: API.PaginatedOperationMethod<
-  ListEffectiveDeploymentsRequest,
+  ListEffectiveDeploymentsRequest & RegionInput,
   ListEffectiveDeploymentsResponse,
   ListEffectiveDeploymentsError,
   Credentials | HttpClient.HttpClient,
@@ -1752,7 +1753,7 @@ export type ListInstalledComponentsError =
  * cloud deployment
  */
 export const listInstalledComponents: API.PaginatedOperationMethod<
-  ListInstalledComponentsRequest,
+  ListInstalledComponentsRequest & RegionInput,
   ListInstalledComponentsResponse,
   ListInstalledComponentsError,
   Credentials | HttpClient.HttpClient,
@@ -1789,7 +1790,7 @@ export type ListTagsForResourceError =
  * Retrieves the list of tags for an IoT Greengrass resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1831,7 +1832,7 @@ export type ResolveComponentCandidatesError =
  * IoT device certificate. For more information, see IoT Greengrass endpoints and quotas.
  */
 export const resolveComponentCandidates: API.OperationMethod<
-  ResolveComponentCandidatesRequest,
+  ResolveComponentCandidatesRequest & RegionInput,
   ResolveComponentCandidatesResponse,
   ResolveComponentCandidatesError,
   Credentials | HttpClient.HttpClient
@@ -1863,7 +1864,7 @@ export type TagResourceError =
  * updates the tag's value.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1887,7 +1888,7 @@ export type UntagResourceError =
  * Removes a tag from an IoT Greengrass resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1917,7 +1918,7 @@ export type UpdateConnectivityInfoError =
  * core devices in the *IoT Greengrass Version 2 Developer Guide*.
  */
 export const updateConnectivityInfo: API.OperationMethod<
-  UpdateConnectivityInfoRequest,
+  UpdateConnectivityInfoRequest & RegionInput,
   UpdateConnectivityInfoResponse,
   UpdateConnectivityInfoError,
   Credentials | HttpClient.HttpClient

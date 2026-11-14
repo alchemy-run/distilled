@@ -1,0 +1,39 @@
+{
+  "description": "Type the 409 DELETE /v1/organizations/{organizationId}/services/{serviceId} answers for a service with deletion protection on: {\"status\": 409, \"error\": \"CONFLICT: Deletion protection is enabled for this service. Turn it off before deleting the service.\"}. The operation's documentation says it returns 409 then, but the spec types it only as the shared envelope, so it surfaced as the generic Conflict. Observed live 2026-11-12 deleting a running service with deletionProtection: true (request id 673307cf-5d6a-4fb1-afcb-1a5bfe2191e1) and a stopped one (provider deploy test).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.service#DeletionProtectionEnabled",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "The service has deletion protection on. Turn it off (updateService with deletionProtection: false), then delete it.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "message": {
+                "includes": "Deletion protection is enabled"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.service#InstanceDelete/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.service#DeletionProtectionEnabled"
+        }
+      ]
+    }
+  ]
+}

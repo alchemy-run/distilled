@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -112,7 +113,7 @@ export class InternalServerException
     "InternalServerException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
@@ -134,7 +135,7 @@ export class ThrottlingException
     "ThrottlingException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class UnauthorizedException
   extends /*@__PURE__*/ S.TaggedError<UnauthorizedException>()(
     "UnauthorizedException",
@@ -158,11 +159,11 @@ export interface AssociateDefaultViewInput {
   ViewArn: string;
 }
 export interface AssociateDefaultViewOutput {
-  ViewArn?: string;
+  ViewArn?: string | undefined;
 }
 export type ViewArnList = string[];
 export interface BatchGetViewInput {
-  ViewArns?: string[];
+  ViewArns?: string[] | undefined;
 }
 export type ViewName = string;
 export interface IncludedProperty {
@@ -173,13 +174,13 @@ export interface SearchFilter {
   FilterString: string;
 }
 export interface View {
-  ViewArn?: string;
-  ViewName?: string;
-  Owner?: string;
-  LastUpdatedAt?: Date;
-  Scope?: string;
-  IncludedProperties?: IncludedProperty[];
-  Filters?: SearchFilter;
+  ViewArn?: string | undefined;
+  ViewName?: string | undefined;
+  Owner?: string | undefined;
+  LastUpdatedAt?: Date | undefined;
+  Scope?: string | undefined;
+  IncludedProperties?: IncludedProperty[] | undefined;
+  Filters?: SearchFilter | undefined;
 }
 export type ViewList = View[];
 export interface BatchGetViewError_ {
@@ -188,51 +189,51 @@ export interface BatchGetViewError_ {
 }
 export type BatchGetViewErrors = BatchGetViewError_[];
 export interface BatchGetViewOutput {
-  Views?: View[];
-  Errors?: BatchGetViewError_[];
+  Views?: View[] | undefined;
+  Errors?: BatchGetViewError_[] | undefined;
 }
 export type TagMap = { [key: string]: string | undefined };
 export interface CreateIndexInput {
-  ClientToken?: string;
-  Tags?: { [key: string]: string | undefined };
+  ClientToken?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type IndexState = string;
 export interface CreateIndexOutput {
-  Arn?: string;
-  State?: string;
-  CreatedAt?: Date;
+  Arn?: string | undefined;
+  State?: string | undefined;
+  CreatedAt?: Date | undefined;
 }
 export type RegionList = string[];
 export interface CreateResourceExplorerSetupInput {
   RegionList: string[];
-  AggregatorRegions?: string[];
+  AggregatorRegions?: string[] | undefined;
   ViewName: string;
 }
 export interface CreateResourceExplorerSetupOutput {
   TaskId: string;
 }
 export interface CreateViewInput {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   ViewName: string;
-  IncludedProperties?: IncludedProperty[];
-  Scope?: string;
-  Filters?: SearchFilter;
-  Tags?: { [key: string]: string | undefined };
+  IncludedProperties?: IncludedProperty[] | undefined;
+  Scope?: string | undefined;
+  Filters?: SearchFilter | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateViewOutput {
-  View?: View;
+  View?: View | undefined;
 }
 export interface DeleteIndexInput {
   Arn: string;
 }
 export interface DeleteIndexOutput {
-  Arn?: string;
-  State?: string;
-  LastUpdatedAt?: Date;
+  Arn?: string | undefined;
+  State?: string | undefined;
+  LastUpdatedAt?: Date | undefined;
 }
 export interface DeleteResourceExplorerSetupInput {
-  RegionList?: string[];
-  DeleteInAllRegions?: boolean;
+  RegionList?: string[] | undefined;
+  DeleteInAllRegions?: boolean | undefined;
 }
 export interface DeleteResourceExplorerSetupOutput {
   TaskId: string;
@@ -241,7 +242,7 @@ export interface DeleteViewInput {
   ViewArn: string;
 }
 export interface DeleteViewOutput {
-  ViewArn?: string;
+  ViewArn?: string | undefined;
 }
 export interface DisassociateDefaultViewRequest {}
 export interface DisassociateDefaultViewResponse {}
@@ -249,84 +250,84 @@ export interface GetAccountLevelServiceConfigurationRequest {}
 export type AWSServiceAccessStatus = string;
 export interface OrgConfiguration {
   AWSServiceAccessStatus: string;
-  ServiceLinkedRole?: string;
+  ServiceLinkedRole?: string | undefined;
 }
 export interface GetAccountLevelServiceConfigurationOutput {
-  OrgConfiguration?: OrgConfiguration;
+  OrgConfiguration?: OrgConfiguration | undefined;
 }
 export interface GetDefaultViewRequest {}
 export interface GetDefaultViewOutput {
-  ViewArn?: string;
+  ViewArn?: string | undefined;
 }
 export interface GetIndexRequest {}
 export type IndexType = string;
 export interface GetIndexOutput {
-  Arn?: string;
-  Type?: string;
-  State?: string;
-  ReplicatingFrom?: string[];
-  ReplicatingTo?: string[];
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  Tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  Type?: string | undefined;
+  State?: string | undefined;
+  ReplicatingFrom?: string[] | undefined;
+  ReplicatingTo?: string[] | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetManagedViewInput {
   ManagedViewArn: string;
 }
 export interface ManagedView {
-  ManagedViewArn?: string;
-  ManagedViewName?: string;
-  TrustedService?: string;
-  LastUpdatedAt?: Date;
-  Owner?: string;
-  Scope?: string;
-  IncludedProperties?: IncludedProperty[];
-  Filters?: SearchFilter;
-  ResourcePolicy?: string;
-  Version?: string;
+  ManagedViewArn?: string | undefined;
+  ManagedViewName?: string | undefined;
+  TrustedService?: string | undefined;
+  LastUpdatedAt?: Date | undefined;
+  Owner?: string | undefined;
+  Scope?: string | undefined;
+  IncludedProperties?: IncludedProperty[] | undefined;
+  Filters?: SearchFilter | undefined;
+  ResourcePolicy?: string | undefined;
+  Version?: string | undefined;
 }
 export interface GetManagedViewOutput {
-  ManagedView?: ManagedView;
+  ManagedView?: ManagedView | undefined;
 }
 export interface GetResourceExplorerSetupInput {
   TaskId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type OperationStatus = string;
 export interface Index {
-  Region?: string;
-  Arn?: string;
-  Type?: string;
+  Region?: string | undefined;
+  Arn?: string | undefined;
+  Type?: string | undefined;
 }
 export interface ErrorDetails {
-  Code?: string;
-  Message?: string;
+  Code?: string | undefined;
+  Message?: string | undefined;
 }
 export interface IndexStatus {
-  Status?: string;
-  Index?: Index;
-  ErrorDetails?: ErrorDetails;
+  Status?: string | undefined;
+  Index?: Index | undefined;
+  ErrorDetails?: ErrorDetails | undefined;
 }
 export interface ViewStatus {
-  Status?: string;
-  View?: View;
-  ErrorDetails?: ErrorDetails;
+  Status?: string | undefined;
+  View?: View | undefined;
+  ErrorDetails?: ErrorDetails | undefined;
 }
 export interface RegionStatus {
-  Region?: string;
-  Index?: IndexStatus;
-  View?: ViewStatus;
+  Region?: string | undefined;
+  Index?: IndexStatus | undefined;
+  View?: ViewStatus | undefined;
 }
 export type RegionStatusList = RegionStatus[];
 export interface GetResourceExplorerSetupOutput {
-  Regions?: RegionStatus[];
-  NextToken?: string;
+  Regions?: RegionStatus[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetServiceIndexRequest {}
 export interface GetServiceIndexOutput {
-  Arn?: string;
-  Type?: string;
+  Arn?: string | undefined;
+  Type?: string | undefined;
 }
 export interface GetServiceViewInput {
   ServiceViewArn: string;
@@ -334,18 +335,18 @@ export interface GetServiceViewInput {
 export type ServiceViewName = string;
 export type RecorderType = string;
 export interface ServiceLinkedRecorderInfo {
-  ServicePrincipal?: string;
-  RecorderName?: string;
-  RecorderType?: string;
+  ServicePrincipal?: string | undefined;
+  RecorderName?: string | undefined;
+  RecorderType?: string | undefined;
 }
 export interface ServiceView {
   ServiceViewArn: string;
-  ServiceViewName?: string;
-  Filters?: SearchFilter;
-  IncludedProperties?: IncludedProperty[];
-  StreamingAccessForService?: string;
-  ScopeType?: string;
-  ServiceLinkedRecorder?: ServiceLinkedRecorderInfo;
+  ServiceViewName?: string | undefined;
+  Filters?: SearchFilter | undefined;
+  IncludedProperties?: IncludedProperty[] | undefined;
+  StreamingAccessForService?: string | undefined;
+  ScopeType?: string | undefined;
+  ServiceLinkedRecorder?: ServiceLinkedRecorderInfo | undefined;
 }
 export interface GetServiceViewOutput {
   View: ServiceView;
@@ -354,97 +355,97 @@ export interface GetViewInput {
   ViewArn: string;
 }
 export interface GetViewOutput {
-  View?: View;
-  Tags?: { [key: string]: string | undefined };
+  View?: View | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListIndexesInput {
-  Type?: string;
-  Regions?: string[];
-  MaxResults?: number;
-  NextToken?: string;
+  Type?: string | undefined;
+  Regions?: string[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type IndexList = Index[];
 export interface ListIndexesOutput {
-  Indexes?: Index[];
-  NextToken?: string;
+  Indexes?: Index[] | undefined;
+  NextToken?: string | undefined;
 }
 export type AccountId = string;
 export type AccountIdList = string[];
 export interface ListIndexesForMembersInput {
   AccountIdList: string[];
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface MemberIndex {
-  AccountId?: string;
-  Region?: string;
-  Arn?: string;
-  Type?: string;
+  AccountId?: string | undefined;
+  Region?: string | undefined;
+  Arn?: string | undefined;
+  Type?: string | undefined;
 }
 export type MemberIndexList = MemberIndex[];
 export interface ListIndexesForMembersOutput {
-  Indexes?: MemberIndex[];
-  NextToken?: string;
+  Indexes?: MemberIndex[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListManagedViewsInput {
-  MaxResults?: number;
-  NextToken?: string;
-  ServicePrincipal?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  ServicePrincipal?: string | undefined;
 }
 export type ManagedViewArnList = string[];
 export interface ListManagedViewsOutput {
-  NextToken?: string;
-  ManagedViews?: string[];
+  NextToken?: string | undefined;
+  ManagedViews?: string[] | undefined;
 }
 export interface ListResourcesInput {
-  Filters?: SearchFilter;
-  MaxResults?: number;
-  ViewArn?: string;
-  NextToken?: string;
+  Filters?: SearchFilter | undefined;
+  MaxResults?: number | undefined;
+  ViewArn?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface ResourceProperty {
-  Name?: string;
-  LastReportedAt?: Date;
-  Data?: any;
+  Name?: string | undefined;
+  LastReportedAt?: Date | undefined;
+  Data?: any | undefined;
 }
 export type ResourcePropertyList = ResourceProperty[];
 export interface Resource {
-  Arn?: string;
-  OwningAccountId?: string;
-  Region?: string;
-  ResourceType?: string;
-  Service?: string;
-  CfnResourceType?: string;
-  LastReportedAt?: Date;
-  Properties?: ResourceProperty[];
+  Arn?: string | undefined;
+  OwningAccountId?: string | undefined;
+  Region?: string | undefined;
+  ResourceType?: string | undefined;
+  Service?: string | undefined;
+  CfnResourceType?: string | undefined;
+  LastReportedAt?: Date | undefined;
+  Properties?: ResourceProperty[] | undefined;
 }
 export type ResourceList = Resource[];
 export interface ListResourcesOutput {
-  Resources?: Resource[];
-  NextToken?: string;
-  ViewArn?: string;
+  Resources?: Resource[] | undefined;
+  NextToken?: string | undefined;
+  ViewArn?: string | undefined;
 }
 export interface ListServiceIndexesInput {
-  Regions?: string[];
-  MaxResults?: number;
-  NextToken?: string;
+  Regions?: string[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListServiceIndexesOutput {
-  Indexes?: Index[];
-  NextToken?: string;
+  Indexes?: Index[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListServiceViewsInput {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ServiceViewArnList = string[];
 export interface ListServiceViewsOutput {
-  NextToken?: string;
-  ServiceViews?: string[];
+  NextToken?: string | undefined;
+  ServiceViews?: string[] | undefined;
 }
 export interface ListStreamingAccessForServicesInput {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface StreamingAccessDetails {
   ServicePrincipal: string;
@@ -453,57 +454,57 @@ export interface StreamingAccessDetails {
 export type StreamingAccessDetailsList = StreamingAccessDetails[];
 export interface ListStreamingAccessForServicesOutput {
   StreamingAccessForServices: StreamingAccessDetails[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListSupportedResourceTypesInput {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type CFNResourceTypeList = string[];
 export interface SupportedResourceType {
-  Service?: string;
-  ResourceType?: string;
-  CFNResourceTypes?: string[];
+  Service?: string | undefined;
+  ResourceType?: string | undefined;
+  CFNResourceTypes?: string[] | undefined;
 }
 export type ResourceTypeList = SupportedResourceType[];
 export interface ListSupportedResourceTypesOutput {
-  ResourceTypes?: SupportedResourceType[];
-  NextToken?: string;
+  ResourceTypes?: SupportedResourceType[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceInput {
   resourceArn: string;
 }
 export interface ListTagsForResourceOutput {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListViewsInput {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListViewsOutput {
-  Views?: string[];
-  NextToken?: string;
+  Views?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export type QueryString = string | redacted.Redacted<string>;
 export interface SearchInput {
   QueryString: string | redacted.Redacted<string>;
-  MaxResults?: number;
-  ViewArn?: string;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  ViewArn?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface ResourceCount {
-  TotalResources?: number;
-  Complete?: boolean;
+  TotalResources?: number | undefined;
+  Complete?: boolean | undefined;
 }
 export interface SearchOutput {
-  Resources?: Resource[];
-  NextToken?: string;
-  ViewArn?: string;
-  Count?: ResourceCount;
+  Resources?: Resource[] | undefined;
+  NextToken?: string | undefined;
+  ViewArn?: string | undefined;
+  Count?: ResourceCount | undefined;
 }
 export interface TagResourceInput {
   resourceArn: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceOutput {}
 export type StringList = string[];
@@ -517,18 +518,18 @@ export interface UpdateIndexTypeInput {
   Type: string;
 }
 export interface UpdateIndexTypeOutput {
-  Arn?: string;
-  Type?: string;
-  State?: string;
-  LastUpdatedAt?: Date;
+  Arn?: string | undefined;
+  Type?: string | undefined;
+  State?: string | undefined;
+  LastUpdatedAt?: Date | undefined;
 }
 export interface UpdateViewInput {
   ViewArn: string;
-  IncludedProperties?: IncludedProperty[];
-  Filters?: SearchFilter;
+  IncludedProperties?: IncludedProperty[] | undefined;
+  Filters?: SearchFilter | undefined;
 }
 export interface UpdateViewOutput {
-  View?: View;
+  View?: View | undefined;
 }
 export interface ValidationExceptionField {
   Name: string;
@@ -548,7 +549,7 @@ export type AssociateDefaultViewError =
  * If an Amazon Web Services Region doesn't have a default view configured, then users must explicitly specify a view with every `Search` operation performed in that Region.
  */
 export const associateDefaultView: API.OperationMethod<
-  AssociateDefaultViewInput,
+  AssociateDefaultViewInput & RegionInput,
   AssociateDefaultViewOutput,
   AssociateDefaultViewError,
   Credentials | HttpClient.HttpClient
@@ -580,7 +581,7 @@ export type BatchGetViewError =
  * Retrieves details about a list of views.
  */
 export const batchGetView: API.OperationMethod<
-  BatchGetViewInput,
+  BatchGetViewInput & RegionInput,
   BatchGetViewOutput,
   BatchGetViewError,
   Credentials | HttpClient.HttpClient
@@ -632,7 +633,7 @@ export type CreateIndexError =
  * This permission is required only the first time you create an index to turn on Resource Explorer in the account. Resource Explorer uses this to create the service-linked role needed to index the resources in your account. Resource Explorer uses the same service-linked role for all additional indexes you create afterwards.
  */
 export const createIndex: API.OperationMethod<
-  CreateIndexInput,
+  CreateIndexInput & RegionInput,
   CreateIndexOutput,
   CreateIndexError,
   Credentials | HttpClient.HttpClient
@@ -664,7 +665,7 @@ export type CreateResourceExplorerSetupError =
  * Creates a Resource Explorer setup configuration across multiple Amazon Web Services Regions. This operation sets up indexes and views in the specified Regions. This operation can also be used to set an aggregator Region for cross-Region resource search.
  */
 export const createResourceExplorerSetup: API.OperationMethod<
-  CreateResourceExplorerSetupInput,
+  CreateResourceExplorerSetupInput & RegionInput,
   CreateResourceExplorerSetupOutput,
   CreateResourceExplorerSetupError,
   Credentials | HttpClient.HttpClient
@@ -700,7 +701,7 @@ export type CreateViewError =
  * Only the principals with an IAM identity-based policy that grants `Allow` to the `Search` action on a `Resource` with the Amazon resource name (ARN) of this view can Search using views you create with this operation.
  */
 export const createView: API.OperationMethod<
-  CreateViewInput,
+  CreateViewInput & RegionInput,
   CreateViewOutput,
   CreateViewError,
   Credentials | HttpClient.HttpClient
@@ -736,7 +737,7 @@ export type DeleteIndexError =
  * If the index you delete is the aggregator index for the Amazon Web Services account, you must wait 24 hours before you can promote another local index to be the aggregator index for the account. Users can't perform account-wide searches using Resource Explorer until another aggregator index is configured.
  */
 export const deleteIndex: API.OperationMethod<
-  DeleteIndexInput,
+  DeleteIndexInput & RegionInput,
   DeleteIndexOutput,
   DeleteIndexError,
   Credentials | HttpClient.HttpClient
@@ -768,7 +769,7 @@ export type DeleteResourceExplorerSetupError =
  * Deletes a Resource Explorer setup configuration. This operation removes indexes and views from the specified Regions or all Regions where Resource Explorer is configured.
  */
 export const deleteResourceExplorerSetup: API.OperationMethod<
-  DeleteResourceExplorerSetupInput,
+  DeleteResourceExplorerSetupInput & RegionInput,
   DeleteResourceExplorerSetupOutput,
   DeleteResourceExplorerSetupError,
   Credentials | HttpClient.HttpClient
@@ -803,7 +804,7 @@ export type DeleteViewError =
  * If the specified view is the default view for its Amazon Web Services Region, then all Search operations in that Region must explicitly specify the view to use until you configure a new default by calling the AssociateDefaultView operation.
  */
 export const deleteView: API.OperationMethod<
-  DeleteViewInput,
+  DeleteViewInput & RegionInput,
   DeleteViewOutput,
   DeleteViewError,
   Credentials | HttpClient.HttpClient
@@ -838,7 +839,7 @@ export type DisassociateDefaultViewError =
  * If an Amazon Web Services Region doesn't have a default view configured, then users must explicitly specify a view with every `Search` operation performed in that Region.
  */
 export const disassociateDefaultView: API.OperationMethod<
-  DisassociateDefaultViewRequest,
+  DisassociateDefaultViewRequest & RegionInput,
   DisassociateDefaultViewResponse,
   DisassociateDefaultViewError,
   Credentials | HttpClient.HttpClient
@@ -869,7 +870,7 @@ export type GetAccountLevelServiceConfigurationError =
  * Retrieves the status of your account's Amazon Web Services service access, and validates the service linked role required to access the multi-account search feature. Only the management account can invoke this API call.
  */
 export const getAccountLevelServiceConfiguration: API.OperationMethod<
-  GetAccountLevelServiceConfigurationRequest,
+  GetAccountLevelServiceConfigurationRequest & RegionInput,
   GetAccountLevelServiceConfigurationOutput,
   GetAccountLevelServiceConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -900,7 +901,7 @@ export type GetDefaultViewError =
  * Retrieves the Amazon Resource Name (ARN) of the view that is the default for the Amazon Web Services Region in which you call this operation. You can then call GetView to retrieve the details of that view.
  */
 export const getDefaultView: API.OperationMethod<
-  GetDefaultViewRequest,
+  GetDefaultViewRequest & RegionInput,
   GetDefaultViewOutput,
   GetDefaultViewError,
   Credentials | HttpClient.HttpClient
@@ -932,7 +933,7 @@ export type GetIndexError =
  * Retrieves details about the Amazon Web Services Resource Explorer index in the Amazon Web Services Region in which you invoked the operation.
  */
 export const getIndex: API.OperationMethod<
-  GetIndexRequest,
+  GetIndexRequest & RegionInput,
   GetIndexOutput,
   GetIndexError,
   Credentials | HttpClient.HttpClient
@@ -965,7 +966,7 @@ export type GetManagedViewError =
  * Retrieves details of the specified Amazon Web Services-managed view.
  */
 export const getManagedView: API.OperationMethod<
-  GetManagedViewInput,
+  GetManagedViewInput & RegionInput,
   GetManagedViewOutput,
   GetManagedViewError,
   Credentials | HttpClient.HttpClient
@@ -998,7 +999,7 @@ export type GetResourceExplorerSetupError =
  * Retrieves the status and details of a Resource Explorer setup operation. This operation returns information about the progress of creating or deleting Resource Explorer configurations across Regions.
  */
 export const getResourceExplorerSetup: API.PaginatedOperationMethod<
-  GetResourceExplorerSetupInput,
+  GetResourceExplorerSetupInput & RegionInput,
   GetResourceExplorerSetupOutput,
   GetResourceExplorerSetupError,
   Credentials | HttpClient.HttpClient,
@@ -1037,7 +1038,7 @@ export type GetServiceIndexError =
  * Retrieves information about the Resource Explorer index in the current Amazon Web Services Region. This operation returns the ARN and type of the index if one exists.
  */
 export const getServiceIndex: API.OperationMethod<
-  GetServiceIndexRequest,
+  GetServiceIndexRequest & RegionInput,
   GetServiceIndexOutput,
   GetServiceIndexError,
   Credentials | HttpClient.HttpClient
@@ -1069,7 +1070,7 @@ export type GetServiceViewError =
  * Retrieves details about a specific Resource Explorer service view. This operation returns the configuration and properties of the specified view.
  */
 export const getServiceView: API.OperationMethod<
-  GetServiceViewInput,
+  GetServiceViewInput & RegionInput,
   GetServiceViewOutput,
   GetServiceViewError,
   Credentials | HttpClient.HttpClient
@@ -1102,7 +1103,7 @@ export type GetViewError =
  * Retrieves details of the specified view.
  */
 export const getView: API.OperationMethod<
-  GetViewInput,
+  GetViewInput & RegionInput,
   GetViewOutput,
   GetViewError,
   Credentials | HttpClient.HttpClient
@@ -1134,7 +1135,7 @@ export type ListIndexesError =
  * Retrieves a list of all of the indexes in Amazon Web Services Regions that are currently collecting resource information for Amazon Web Services Resource Explorer.
  */
 export const listIndexes: API.PaginatedOperationMethod<
-  ListIndexesInput,
+  ListIndexesInput & RegionInput,
   ListIndexesOutput,
   ListIndexesError,
   Credentials | HttpClient.HttpClient,
@@ -1171,7 +1172,7 @@ export type ListIndexesForMembersError =
  * Retrieves a list of a member's indexes in all Amazon Web Services Regions that are currently collecting resource information for Amazon Web Services Resource Explorer. Only the management account or a delegated administrator with service access enabled can invoke this API call.
  */
 export const listIndexesForMembers: API.PaginatedOperationMethod<
-  ListIndexesForMembersInput,
+  ListIndexesForMembersInput & RegionInput,
   ListIndexesForMembersOutput,
   ListIndexesForMembersError,
   Credentials | HttpClient.HttpClient,
@@ -1209,7 +1210,7 @@ export type ListManagedViewsError =
  * Lists the Amazon resource names (ARNs) of the Amazon Web Services-managed views available in the Amazon Web Services Region in which you call this operation.
  */
 export const listManagedViews: API.PaginatedOperationMethod<
-  ListManagedViewsInput,
+  ListManagedViewsInput & RegionInput,
   ListManagedViewsOutput,
   ListManagedViewsError,
   Credentials | HttpClient.HttpClient,
@@ -1249,7 +1250,7 @@ export type ListResourcesError =
  * Returns a list of resources and their details that match the specified criteria. This query must use a view. If you don't explicitly specify a view, then Resource Explorer uses the default view for the Amazon Web Services Region in which you call this operation.
  */
 export const listResources: API.PaginatedOperationMethod<
-  ListResourcesInput,
+  ListResourcesInput & RegionInput,
   ListResourcesOutput,
   ListResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -1288,7 +1289,7 @@ export type ListServiceIndexesError =
  * Lists all Resource Explorer indexes across the specified Amazon Web Services Regions. This operation returns information about indexes including their ARNs, types, and Regions.
  */
 export const listServiceIndexes: API.PaginatedOperationMethod<
-  ListServiceIndexesInput,
+  ListServiceIndexesInput & RegionInput,
   ListServiceIndexesOutput,
   ListServiceIndexesError,
   Credentials | HttpClient.HttpClient,
@@ -1325,7 +1326,7 @@ export type ListServiceViewsError =
  * Lists all Resource Explorer service views available in the current Amazon Web Services account. This operation returns the ARNs of available service views.
  */
 export const listServiceViews: API.PaginatedOperationMethod<
-  ListServiceViewsInput,
+  ListServiceViewsInput & RegionInput,
   ListServiceViewsOutput,
   ListServiceViewsError,
   Credentials | HttpClient.HttpClient,
@@ -1361,7 +1362,7 @@ export type ListStreamingAccessForServicesError =
  * Returns a list of Amazon Web Services services that have been granted streaming access to your Resource Explorer data. Streaming access allows Amazon Web Services services to receive real-time updates about your resources as they are indexed by Resource Explorer.
  */
 export const listStreamingAccessForServices: API.PaginatedOperationMethod<
-  ListStreamingAccessForServicesInput,
+  ListStreamingAccessForServicesInput & RegionInput,
   ListStreamingAccessForServicesOutput,
   ListStreamingAccessForServicesError,
   Credentials | HttpClient.HttpClient,
@@ -1393,7 +1394,7 @@ export type ListSupportedResourceTypesError =
  * Retrieves a list of all resource types currently supported by Amazon Web Services Resource Explorer.
  */
 export const listSupportedResourceTypes: API.PaginatedOperationMethod<
-  ListSupportedResourceTypesInput,
+  ListSupportedResourceTypesInput & RegionInput,
   ListSupportedResourceTypesOutput,
   ListSupportedResourceTypesError,
   Credentials | HttpClient.HttpClient,
@@ -1432,7 +1433,7 @@ export type ListTagsForResourceError =
  * Lists the tags that are attached to the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1466,7 +1467,7 @@ export type ListViewsError =
  * Always check the `NextToken` response parameter for a `null` value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The `NextToken` response parameter value is `null` *only* when there are no more results to display.
  */
 export const listViews: API.PaginatedOperationMethod<
-  ListViewsInput,
+  ListViewsInput & RegionInput,
   ListViewsOutput,
   ListViewsError,
   Credentials | HttpClient.HttpClient,
@@ -1511,7 +1512,7 @@ export type SearchError =
  * If your search results are empty, or are missing results that you think should be there, see Troubleshooting Resource Explorer search.
  */
 export const search: API.PaginatedOperationMethod<
-  SearchInput,
+  SearchInput & RegionInput,
   SearchOutput,
   SearchError,
   Credentials | HttpClient.HttpClient,
@@ -1552,7 +1553,7 @@ export type TagResourceError =
  * Adds one or more tag key and value pairs to an Amazon Web Services Resource Explorer view or index.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1586,7 +1587,7 @@ export type UntagResourceError =
  * Removes one or more tag key and value pairs from an Amazon Web Services Resource Explorer view or index.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1637,7 +1638,7 @@ export type UpdateIndexTypeError =
  * After you demote an aggregator index to a local index, you must wait 24 hours before you can promote another index to be the new aggregator index for the account.
  */
 export const updateIndexType: API.OperationMethod<
-  UpdateIndexTypeInput,
+  UpdateIndexTypeInput & RegionInput,
   UpdateIndexTypeOutput,
   UpdateIndexTypeError,
   Credentials | HttpClient.HttpClient
@@ -1672,7 +1673,7 @@ export type UpdateViewError =
  * Modifies some of the details of a view. You can change the filter string and the list of included properties. You can't change the name of the view.
  */
 export const updateView: API.OperationMethod<
-  UpdateViewInput,
+  UpdateViewInput & RegionInput,
   UpdateViewOutput,
   UpdateViewError,
   Credentials | HttpClient.HttpClient

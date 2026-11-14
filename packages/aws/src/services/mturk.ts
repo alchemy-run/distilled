@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -119,32 +120,32 @@ export class ServiceFault
       /*@__PURE__*/ T.AwsQueryError({ code: "ServiceFault", httpResponseCode: 500 }),
       /*@__PURE__*/ T.HttpError(500),
     ),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export interface AcceptQualificationRequestRequest {
   QualificationRequestId: string;
-  IntegerValue?: number;
+  IntegerValue?: number | undefined;
 }
 export interface AcceptQualificationRequestResponse {}
 export type EntityId = string;
 export interface ApproveAssignmentRequest {
   AssignmentId: string;
-  RequesterFeedback?: string;
-  OverrideRejection?: boolean;
+  RequesterFeedback?: string | undefined;
+  OverrideRejection?: boolean | undefined;
 }
 export interface ApproveAssignmentResponse {}
 export type CustomerId = string;
 export interface AssociateQualificationWithWorkerRequest {
   QualificationTypeId: string;
   WorkerId: string;
-  IntegerValue?: number;
-  SendNotification?: boolean;
+  IntegerValue?: number | undefined;
+  SendNotification?: boolean | undefined;
 }
 export interface AssociateQualificationWithWorkerResponse {}
 export type IdempotencyToken = string;
 export interface CreateAdditionalAssignmentsForHITRequest {
   HITId: string;
   NumberOfAdditionalAssignments: number;
-  UniqueRequestToken?: string;
+  UniqueRequestToken?: string | undefined;
 }
 export interface CreateAdditionalAssignmentsForHITResponse {}
 export type CurrencyAmount = string;
@@ -164,7 +165,7 @@ export type IntegerList = number[];
 export type CountryParameters = string;
 export interface Locale {
   Country: string;
-  Subdivision?: string;
+  Subdivision?: string | undefined;
 }
 export type LocaleList = Locale[];
 export type HITAccessActions =
@@ -175,27 +176,27 @@ export type HITAccessActions =
 export interface QualificationRequirement {
   QualificationTypeId: string;
   Comparator: Comparator;
-  IntegerValues?: number[];
-  LocaleValues?: Locale[];
-  RequiredToPreview?: boolean;
-  ActionsGuarded?: HITAccessActions;
+  IntegerValues?: number[] | undefined;
+  LocaleValues?: Locale[] | undefined;
+  RequiredToPreview?: boolean | undefined;
+  ActionsGuarded?: HITAccessActions | undefined;
 }
 export type QualificationRequirementList = QualificationRequirement[];
 export type StringList = string[];
 export interface ParameterMapEntry {
-  Key?: string;
-  Values?: string[];
+  Key?: string | undefined;
+  Values?: string[] | undefined;
 }
 export type ParameterMapEntryList = ParameterMapEntry[];
 export interface PolicyParameter {
-  Key?: string;
-  Values?: string[];
-  MapEntries?: ParameterMapEntry[];
+  Key?: string | undefined;
+  Values?: string[] | undefined;
+  MapEntries?: ParameterMapEntry[] | undefined;
 }
 export type PolicyParameterList = PolicyParameter[];
 export interface ReviewPolicy {
   PolicyName: string;
-  Parameters?: PolicyParameter[];
+  Parameters?: PolicyParameter[] | undefined;
 }
 export interface HITLayoutParameter {
   Name: string;
@@ -203,22 +204,22 @@ export interface HITLayoutParameter {
 }
 export type HITLayoutParameterList = HITLayoutParameter[];
 export interface CreateHITRequest {
-  MaxAssignments?: number;
-  AutoApprovalDelayInSeconds?: number;
+  MaxAssignments?: number | undefined;
+  AutoApprovalDelayInSeconds?: number | undefined;
   LifetimeInSeconds: number;
   AssignmentDurationInSeconds: number;
   Reward: string;
   Title: string;
-  Keywords?: string;
+  Keywords?: string | undefined;
   Description: string;
-  Question?: string;
-  RequesterAnnotation?: string;
-  QualificationRequirements?: QualificationRequirement[];
-  UniqueRequestToken?: string;
-  AssignmentReviewPolicy?: ReviewPolicy;
-  HITReviewPolicy?: ReviewPolicy;
-  HITLayoutId?: string;
-  HITLayoutParameters?: HITLayoutParameter[];
+  Question?: string | undefined;
+  RequesterAnnotation?: string | undefined;
+  QualificationRequirements?: QualificationRequirement[] | undefined;
+  UniqueRequestToken?: string | undefined;
+  AssignmentReviewPolicy?: ReviewPolicy | undefined;
+  HITReviewPolicy?: ReviewPolicy | undefined;
+  HITLayoutId?: string | undefined;
+  HITLayoutParameters?: HITLayoutParameter[] | undefined;
 }
 export type HITStatus =
   | "Assignable"
@@ -234,88 +235,88 @@ export type HITReviewStatus =
   | "ReviewedInappropriate"
   | (string & {});
 export interface HIT {
-  HITId?: string;
-  HITTypeId?: string;
-  HITGroupId?: string;
-  HITLayoutId?: string;
-  CreationTime?: Date;
-  Title?: string;
-  Description?: string;
-  Question?: string;
-  Keywords?: string;
-  HITStatus?: HITStatus;
-  MaxAssignments?: number;
-  Reward?: string;
-  AutoApprovalDelayInSeconds?: number;
-  Expiration?: Date;
-  AssignmentDurationInSeconds?: number;
-  RequesterAnnotation?: string;
-  QualificationRequirements?: QualificationRequirement[];
-  HITReviewStatus?: HITReviewStatus;
-  NumberOfAssignmentsPending?: number;
-  NumberOfAssignmentsAvailable?: number;
-  NumberOfAssignmentsCompleted?: number;
+  HITId?: string | undefined;
+  HITTypeId?: string | undefined;
+  HITGroupId?: string | undefined;
+  HITLayoutId?: string | undefined;
+  CreationTime?: Date | undefined;
+  Title?: string | undefined;
+  Description?: string | undefined;
+  Question?: string | undefined;
+  Keywords?: string | undefined;
+  HITStatus?: HITStatus | undefined;
+  MaxAssignments?: number | undefined;
+  Reward?: string | undefined;
+  AutoApprovalDelayInSeconds?: number | undefined;
+  Expiration?: Date | undefined;
+  AssignmentDurationInSeconds?: number | undefined;
+  RequesterAnnotation?: string | undefined;
+  QualificationRequirements?: QualificationRequirement[] | undefined;
+  HITReviewStatus?: HITReviewStatus | undefined;
+  NumberOfAssignmentsPending?: number | undefined;
+  NumberOfAssignmentsAvailable?: number | undefined;
+  NumberOfAssignmentsCompleted?: number | undefined;
 }
 export interface CreateHITResponse {
-  HIT?: HIT;
+  HIT?: HIT | undefined;
 }
 export interface CreateHITTypeRequest {
-  AutoApprovalDelayInSeconds?: number;
+  AutoApprovalDelayInSeconds?: number | undefined;
   AssignmentDurationInSeconds: number;
   Reward: string;
   Title: string;
-  Keywords?: string;
+  Keywords?: string | undefined;
   Description: string;
-  QualificationRequirements?: QualificationRequirement[];
+  QualificationRequirements?: QualificationRequirement[] | undefined;
 }
 export interface CreateHITTypeResponse {
-  HITTypeId?: string;
+  HITTypeId?: string | undefined;
 }
 export interface CreateHITWithHITTypeRequest {
   HITTypeId: string;
-  MaxAssignments?: number;
+  MaxAssignments?: number | undefined;
   LifetimeInSeconds: number;
-  Question?: string;
-  RequesterAnnotation?: string;
-  UniqueRequestToken?: string;
-  AssignmentReviewPolicy?: ReviewPolicy;
-  HITReviewPolicy?: ReviewPolicy;
-  HITLayoutId?: string;
-  HITLayoutParameters?: HITLayoutParameter[];
+  Question?: string | undefined;
+  RequesterAnnotation?: string | undefined;
+  UniqueRequestToken?: string | undefined;
+  AssignmentReviewPolicy?: ReviewPolicy | undefined;
+  HITReviewPolicy?: ReviewPolicy | undefined;
+  HITLayoutId?: string | undefined;
+  HITLayoutParameters?: HITLayoutParameter[] | undefined;
 }
 export interface CreateHITWithHITTypeResponse {
-  HIT?: HIT;
+  HIT?: HIT | undefined;
 }
 export type QualificationTypeStatus = "Active" | "Inactive" | (string & {});
 export interface CreateQualificationTypeRequest {
   Name: string;
-  Keywords?: string;
+  Keywords?: string | undefined;
   Description: string;
   QualificationTypeStatus: QualificationTypeStatus;
-  RetryDelayInSeconds?: number;
-  Test?: string;
-  AnswerKey?: string;
-  TestDurationInSeconds?: number;
-  AutoGranted?: boolean;
-  AutoGrantedValue?: number;
+  RetryDelayInSeconds?: number | undefined;
+  Test?: string | undefined;
+  AnswerKey?: string | undefined;
+  TestDurationInSeconds?: number | undefined;
+  AutoGranted?: boolean | undefined;
+  AutoGrantedValue?: number | undefined;
 }
 export interface QualificationType {
-  QualificationTypeId?: string;
-  CreationTime?: Date;
-  Name?: string;
-  Description?: string;
-  Keywords?: string;
-  QualificationTypeStatus?: QualificationTypeStatus;
-  Test?: string;
-  TestDurationInSeconds?: number;
-  AnswerKey?: string;
-  RetryDelayInSeconds?: number;
-  IsRequestable?: boolean;
-  AutoGranted?: boolean;
-  AutoGrantedValue?: number;
+  QualificationTypeId?: string | undefined;
+  CreationTime?: Date | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Keywords?: string | undefined;
+  QualificationTypeStatus?: QualificationTypeStatus | undefined;
+  Test?: string | undefined;
+  TestDurationInSeconds?: number | undefined;
+  AnswerKey?: string | undefined;
+  RetryDelayInSeconds?: number | undefined;
+  IsRequestable?: boolean | undefined;
+  AutoGranted?: boolean | undefined;
+  AutoGrantedValue?: number | undefined;
 }
 export interface CreateQualificationTypeResponse {
-  QualificationType?: QualificationType;
+  QualificationType?: QualificationType | undefined;
 }
 export interface CreateWorkerBlockRequest {
   WorkerId: string;
@@ -332,54 +333,54 @@ export interface DeleteQualificationTypeRequest {
 export interface DeleteQualificationTypeResponse {}
 export interface DeleteWorkerBlockRequest {
   WorkerId: string;
-  Reason?: string;
+  Reason?: string | undefined;
 }
 export interface DeleteWorkerBlockResponse {}
 export interface DisassociateQualificationFromWorkerRequest {
   WorkerId: string;
   QualificationTypeId: string;
-  Reason?: string;
+  Reason?: string | undefined;
 }
 export interface DisassociateQualificationFromWorkerResponse {}
 export interface GetAccountBalanceRequest {}
 export interface GetAccountBalanceResponse {
-  AvailableBalance?: string;
-  OnHoldBalance?: string;
+  AvailableBalance?: string | undefined;
+  OnHoldBalance?: string | undefined;
 }
 export interface GetAssignmentRequest {
   AssignmentId: string;
 }
 export type AssignmentStatus = "Submitted" | "Approved" | "Rejected" | (string & {});
 export interface Assignment {
-  AssignmentId?: string;
-  WorkerId?: string;
-  HITId?: string;
-  AssignmentStatus?: AssignmentStatus;
-  AutoApprovalTime?: Date;
-  AcceptTime?: Date;
-  SubmitTime?: Date;
-  ApprovalTime?: Date;
-  RejectionTime?: Date;
-  Deadline?: Date;
-  Answer?: string;
-  RequesterFeedback?: string;
+  AssignmentId?: string | undefined;
+  WorkerId?: string | undefined;
+  HITId?: string | undefined;
+  AssignmentStatus?: AssignmentStatus | undefined;
+  AutoApprovalTime?: Date | undefined;
+  AcceptTime?: Date | undefined;
+  SubmitTime?: Date | undefined;
+  ApprovalTime?: Date | undefined;
+  RejectionTime?: Date | undefined;
+  Deadline?: Date | undefined;
+  Answer?: string | undefined;
+  RequesterFeedback?: string | undefined;
 }
 export interface GetAssignmentResponse {
-  Assignment?: Assignment;
-  HIT?: HIT;
+  Assignment?: Assignment | undefined;
+  HIT?: HIT | undefined;
 }
 export interface GetFileUploadURLRequest {
   AssignmentId: string;
   QuestionIdentifier: string;
 }
 export interface GetFileUploadURLResponse {
-  FileUploadURL?: string;
+  FileUploadURL?: string | undefined;
 }
 export interface GetHITRequest {
   HITId: string;
 }
 export interface GetHITResponse {
-  HIT?: HIT;
+  HIT?: HIT | undefined;
 }
 export interface GetQualificationScoreRequest {
   QualificationTypeId: string;
@@ -387,188 +388,188 @@ export interface GetQualificationScoreRequest {
 }
 export type QualificationStatus = "Granted" | "Revoked" | (string & {});
 export interface Qualification {
-  QualificationTypeId?: string;
-  WorkerId?: string;
-  GrantTime?: Date;
-  IntegerValue?: number;
-  LocaleValue?: Locale;
-  Status?: QualificationStatus;
+  QualificationTypeId?: string | undefined;
+  WorkerId?: string | undefined;
+  GrantTime?: Date | undefined;
+  IntegerValue?: number | undefined;
+  LocaleValue?: Locale | undefined;
+  Status?: QualificationStatus | undefined;
 }
 export interface GetQualificationScoreResponse {
-  Qualification?: Qualification;
+  Qualification?: Qualification | undefined;
 }
 export interface GetQualificationTypeRequest {
   QualificationTypeId: string;
 }
 export interface GetQualificationTypeResponse {
-  QualificationType?: QualificationType;
+  QualificationType?: QualificationType | undefined;
 }
 export type PaginationToken = string;
 export type ResultSize = number;
 export type AssignmentStatusList = AssignmentStatus[];
 export interface ListAssignmentsForHITRequest {
   HITId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  AssignmentStatuses?: AssignmentStatus[];
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  AssignmentStatuses?: AssignmentStatus[] | undefined;
 }
 export type AssignmentList = Assignment[];
 export interface ListAssignmentsForHITResponse {
-  NextToken?: string;
-  NumResults?: number;
-  Assignments?: Assignment[];
+  NextToken?: string | undefined;
+  NumResults?: number | undefined;
+  Assignments?: Assignment[] | undefined;
 }
 export interface ListBonusPaymentsRequest {
-  HITId?: string;
-  AssignmentId?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  HITId?: string | undefined;
+  AssignmentId?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface BonusPayment {
-  WorkerId?: string;
-  BonusAmount?: string;
-  AssignmentId?: string;
-  Reason?: string;
-  GrantTime?: Date;
+  WorkerId?: string | undefined;
+  BonusAmount?: string | undefined;
+  AssignmentId?: string | undefined;
+  Reason?: string | undefined;
+  GrantTime?: Date | undefined;
 }
 export type BonusPaymentList = BonusPayment[];
 export interface ListBonusPaymentsResponse {
-  NumResults?: number;
-  NextToken?: string;
-  BonusPayments?: BonusPayment[];
+  NumResults?: number | undefined;
+  NextToken?: string | undefined;
+  BonusPayments?: BonusPayment[] | undefined;
 }
 export interface ListHITsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type HITList = HIT[];
 export interface ListHITsResponse {
-  NextToken?: string;
-  NumResults?: number;
-  HITs?: HIT[];
+  NextToken?: string | undefined;
+  NumResults?: number | undefined;
+  HITs?: HIT[] | undefined;
 }
 export interface ListHITsForQualificationTypeRequest {
   QualificationTypeId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListHITsForQualificationTypeResponse {
-  NextToken?: string;
-  NumResults?: number;
-  HITs?: HIT[];
+  NextToken?: string | undefined;
+  NumResults?: number | undefined;
+  HITs?: HIT[] | undefined;
 }
 export interface ListQualificationRequestsRequest {
-  QualificationTypeId?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  QualificationTypeId?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface QualificationRequest {
-  QualificationRequestId?: string;
-  QualificationTypeId?: string;
-  WorkerId?: string;
-  Test?: string;
-  Answer?: string;
-  SubmitTime?: Date;
+  QualificationRequestId?: string | undefined;
+  QualificationTypeId?: string | undefined;
+  WorkerId?: string | undefined;
+  Test?: string | undefined;
+  Answer?: string | undefined;
+  SubmitTime?: Date | undefined;
 }
 export type QualificationRequestList = QualificationRequest[];
 export interface ListQualificationRequestsResponse {
-  NumResults?: number;
-  NextToken?: string;
-  QualificationRequests?: QualificationRequest[];
+  NumResults?: number | undefined;
+  NextToken?: string | undefined;
+  QualificationRequests?: QualificationRequest[] | undefined;
 }
 export interface ListQualificationTypesRequest {
-  Query?: string;
+  Query?: string | undefined;
   MustBeRequestable: boolean;
-  MustBeOwnedByCaller?: boolean;
-  NextToken?: string;
-  MaxResults?: number;
+  MustBeOwnedByCaller?: boolean | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type QualificationTypeList = QualificationType[];
 export interface ListQualificationTypesResponse {
-  NumResults?: number;
-  NextToken?: string;
-  QualificationTypes?: QualificationType[];
+  NumResults?: number | undefined;
+  NextToken?: string | undefined;
+  QualificationTypes?: QualificationType[] | undefined;
 }
 export type ReviewableHITStatus = "Reviewable" | "Reviewing" | (string & {});
 export interface ListReviewableHITsRequest {
-  HITTypeId?: string;
-  Status?: ReviewableHITStatus;
-  NextToken?: string;
-  MaxResults?: number;
+  HITTypeId?: string | undefined;
+  Status?: ReviewableHITStatus | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListReviewableHITsResponse {
-  NextToken?: string;
-  NumResults?: number;
-  HITs?: HIT[];
+  NextToken?: string | undefined;
+  NumResults?: number | undefined;
+  HITs?: HIT[] | undefined;
 }
 export type ReviewPolicyLevel = "Assignment" | "HIT" | (string & {});
 export type ReviewPolicyLevelList = ReviewPolicyLevel[];
 export interface ListReviewPolicyResultsForHITRequest {
   HITId: string;
-  PolicyLevels?: ReviewPolicyLevel[];
-  RetrieveActions?: boolean;
-  RetrieveResults?: boolean;
-  NextToken?: string;
-  MaxResults?: number;
+  PolicyLevels?: ReviewPolicyLevel[] | undefined;
+  RetrieveActions?: boolean | undefined;
+  RetrieveResults?: boolean | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ReviewResultDetail {
-  ActionId?: string;
-  SubjectId?: string;
-  SubjectType?: string;
-  QuestionId?: string;
-  Key?: string;
-  Value?: string;
+  ActionId?: string | undefined;
+  SubjectId?: string | undefined;
+  SubjectType?: string | undefined;
+  QuestionId?: string | undefined;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type ReviewResultDetailList = ReviewResultDetail[];
 export type ReviewActionStatus = "Intended" | "Succeeded" | "Failed" | "Cancelled" | (string & {});
 export interface ReviewActionDetail {
-  ActionId?: string;
-  ActionName?: string;
-  TargetId?: string;
-  TargetType?: string;
-  Status?: ReviewActionStatus;
-  CompleteTime?: Date;
-  Result?: string;
-  ErrorCode?: string;
+  ActionId?: string | undefined;
+  ActionName?: string | undefined;
+  TargetId?: string | undefined;
+  TargetType?: string | undefined;
+  Status?: ReviewActionStatus | undefined;
+  CompleteTime?: Date | undefined;
+  Result?: string | undefined;
+  ErrorCode?: string | undefined;
 }
 export type ReviewActionDetailList = ReviewActionDetail[];
 export interface ReviewReport {
-  ReviewResults?: ReviewResultDetail[];
-  ReviewActions?: ReviewActionDetail[];
+  ReviewResults?: ReviewResultDetail[] | undefined;
+  ReviewActions?: ReviewActionDetail[] | undefined;
 }
 export interface ListReviewPolicyResultsForHITResponse {
-  HITId?: string;
-  AssignmentReviewPolicy?: ReviewPolicy;
-  HITReviewPolicy?: ReviewPolicy;
-  AssignmentReviewReport?: ReviewReport;
-  HITReviewReport?: ReviewReport;
-  NextToken?: string;
+  HITId?: string | undefined;
+  AssignmentReviewPolicy?: ReviewPolicy | undefined;
+  HITReviewPolicy?: ReviewPolicy | undefined;
+  AssignmentReviewReport?: ReviewReport | undefined;
+  HITReviewReport?: ReviewReport | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListWorkerBlocksRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface WorkerBlock {
-  WorkerId?: string;
-  Reason?: string;
+  WorkerId?: string | undefined;
+  Reason?: string | undefined;
 }
 export type WorkerBlockList = WorkerBlock[];
 export interface ListWorkerBlocksResponse {
-  NextToken?: string;
-  NumResults?: number;
-  WorkerBlocks?: WorkerBlock[];
+  NextToken?: string | undefined;
+  NumResults?: number | undefined;
+  WorkerBlocks?: WorkerBlock[] | undefined;
 }
 export interface ListWorkersWithQualificationTypeRequest {
   QualificationTypeId: string;
-  Status?: QualificationStatus;
-  NextToken?: string;
-  MaxResults?: number;
+  Status?: QualificationStatus | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type QualificationList = Qualification[];
 export interface ListWorkersWithQualificationTypeResponse {
-  NextToken?: string;
-  NumResults?: number;
-  Qualifications?: Qualification[];
+  NextToken?: string | undefined;
+  NumResults?: number | undefined;
+  Qualifications?: Qualification[] | undefined;
 }
 export type CustomerIdList = string[];
 export interface NotifyWorkersRequest {
@@ -578,13 +579,13 @@ export interface NotifyWorkersRequest {
 }
 export type NotifyWorkersFailureCode = "SoftFailure" | "HardFailure" | (string & {});
 export interface NotifyWorkersFailureStatus {
-  NotifyWorkersFailureCode?: NotifyWorkersFailureCode;
-  NotifyWorkersFailureMessage?: string;
-  WorkerId?: string;
+  NotifyWorkersFailureCode?: NotifyWorkersFailureCode | undefined;
+  NotifyWorkersFailureMessage?: string | undefined;
+  WorkerId?: string | undefined;
 }
 export type NotifyWorkersFailureStatusList = NotifyWorkersFailureStatus[];
 export interface NotifyWorkersResponse {
-  NotifyWorkersFailureStatuses?: NotifyWorkersFailureStatus[];
+  NotifyWorkersFailureStatuses?: NotifyWorkersFailureStatus[] | undefined;
 }
 export interface RejectAssignmentRequest {
   AssignmentId: string;
@@ -593,7 +594,7 @@ export interface RejectAssignmentRequest {
 export interface RejectAssignmentResponse {}
 export interface RejectQualificationRequestRequest {
   QualificationRequestId: string;
-  Reason?: string;
+  Reason?: string | undefined;
 }
 export interface RejectQualificationRequestResponse {}
 export interface SendBonusRequest {
@@ -601,7 +602,7 @@ export interface SendBonusRequest {
   BonusAmount: string;
   AssignmentId: string;
   Reason: string;
-  UniqueRequestToken?: string;
+  UniqueRequestToken?: string | undefined;
 }
 export interface SendBonusResponse {}
 export type NotificationTransport = "Email" | "SQS" | "SNS" | (string & {});
@@ -638,7 +639,7 @@ export interface UpdateExpirationForHITRequest {
 export interface UpdateExpirationForHITResponse {}
 export interface UpdateHITReviewStatusRequest {
   HITId: string;
-  Revert?: boolean;
+  Revert?: boolean | undefined;
 }
 export interface UpdateHITReviewStatusResponse {}
 export interface UpdateHITTypeOfHITRequest {
@@ -648,23 +649,23 @@ export interface UpdateHITTypeOfHITRequest {
 export interface UpdateHITTypeOfHITResponse {}
 export interface UpdateNotificationSettingsRequest {
   HITTypeId: string;
-  Notification?: NotificationSpecification;
-  Active?: boolean;
+  Notification?: NotificationSpecification | undefined;
+  Active?: boolean | undefined;
 }
 export interface UpdateNotificationSettingsResponse {}
 export interface UpdateQualificationTypeRequest {
   QualificationTypeId: string;
-  Description?: string;
-  QualificationTypeStatus?: QualificationTypeStatus;
-  Test?: string;
-  AnswerKey?: string;
-  TestDurationInSeconds?: number;
-  RetryDelayInSeconds?: number;
-  AutoGranted?: boolean;
-  AutoGrantedValue?: number;
+  Description?: string | undefined;
+  QualificationTypeStatus?: QualificationTypeStatus | undefined;
+  Test?: string | undefined;
+  AnswerKey?: string | undefined;
+  TestDurationInSeconds?: number | undefined;
+  RetryDelayInSeconds?: number | undefined;
+  AutoGranted?: boolean | undefined;
+  AutoGrantedValue?: number | undefined;
 }
 export interface UpdateQualificationTypeResponse {
-  QualificationType?: QualificationType;
+  QualificationType?: QualificationType | undefined;
 }
 export type ExceptionMessage = string;
 export type TurkErrorCode = string;
@@ -678,7 +679,7 @@ export type AcceptQualificationRequestError = RequestError | ServiceFault | Comm
  * returns with no errors and an empty body.
  */
 export const acceptQualificationRequest: API.OperationMethod<
-  AcceptQualificationRequestRequest,
+  AcceptQualificationRequestRequest & RegionInput,
   AcceptQualificationRequestResponse,
   AcceptQualificationRequestError,
   Credentials | HttpClient.HttpClient
@@ -714,7 +715,7 @@ export type ApproveAssignmentError = RequestError | ServiceFault | CommonErrors;
  * and only if the assignment's related HIT has not been deleted.
  */
 export const approveAssignment: API.OperationMethod<
-  ApproveAssignmentRequest,
+  ApproveAssignmentRequest & RegionInput,
   ApproveAssignmentResponse,
   ApproveAssignmentError,
   Credentials | HttpClient.HttpClient
@@ -746,7 +747,7 @@ export type AssociateQualificationWithWorkerError = RequestError | ServiceFault 
  * request with the `RejectQualificationRequest` operation.
  */
 export const associateQualificationWithWorker: API.OperationMethod<
-  AssociateQualificationWithWorkerRequest,
+  AssociateQualificationWithWorkerRequest & RegionInput,
   AssociateQualificationWithWorkerResponse,
   AssociateQualificationWithWorkerError,
   Credentials | HttpClient.HttpClient
@@ -779,7 +780,7 @@ export type CreateAdditionalAssignmentsForHITError = RequestError | ServiceFault
  * exception.
  */
 export const createAdditionalAssignmentsForHIT: API.OperationMethod<
-  CreateAdditionalAssignmentsForHITRequest,
+  CreateAdditionalAssignmentsForHITRequest & RegionInput,
   CreateAdditionalAssignmentsForHITResponse,
   CreateAdditionalAssignmentsForHITError,
   Credentials | HttpClient.HttpClient
@@ -812,7 +813,7 @@ export type CreateHITError = RequestError | ServiceFault | CommonErrors;
  * Amazon Mechanical Turk Pricing.
  */
 export const createHIT: API.OperationMethod<
-  CreateHITRequest,
+  CreateHITRequest & RegionInput,
   CreateHITResponse,
   CreateHITError,
   Credentials | HttpClient.HttpClient
@@ -835,7 +836,7 @@ export type CreateHITTypeError = RequestError | ServiceFault | CommonErrors;
  * ID of the existing type will be returned.
  */
 export const createHITType: API.OperationMethod<
-  CreateHITTypeRequest,
+  CreateHITTypeRequest & RegionInput,
   CreateHITTypeResponse,
   CreateHITTypeError,
   Credentials | HttpClient.HttpClient
@@ -866,7 +867,7 @@ export type CreateHITWithHITTypeError = RequestError | ServiceFault | CommonErro
  * For more information, see Amazon Mechanical Turk Pricing.
  */
 export const createHITWithHITType: API.OperationMethod<
-  CreateHITWithHITTypeRequest,
+  CreateHITWithHITTypeRequest & RegionInput,
   CreateHITWithHITTypeResponse,
   CreateHITWithHITTypeError,
   Credentials | HttpClient.HttpClient
@@ -890,7 +891,7 @@ export type CreateQualificationTypeError = RequestError | ServiceFault | CommonE
  * data structure.
  */
 export const createQualificationType: API.OperationMethod<
-  CreateQualificationTypeRequest,
+  CreateQualificationTypeRequest & RegionInput,
   CreateQualificationTypeResponse,
   CreateQualificationTypeError,
   Credentials | HttpClient.HttpClient
@@ -910,7 +911,7 @@ export type CreateWorkerBlockError = RequestError | ServiceFault | CommonErrors;
  * The `CreateWorkerBlock` operation allows you to prevent a Worker from working on your HITs. For example, you can block a Worker who is producing poor quality work. You can block up to 100,000 Workers.
  */
 export const createWorkerBlock: API.OperationMethod<
-  CreateWorkerBlockRequest,
+  CreateWorkerBlockRequest & RegionInput,
   CreateWorkerBlockResponse,
   CreateWorkerBlockError,
   Credentials | HttpClient.HttpClient
@@ -946,7 +947,7 @@ export type DeleteHITError = RequestError | ServiceFault | CommonErrors;
  * - Disposing HITs can improve the performance of operations such as ListReviewableHITs and ListHITs.
  */
 export const deleteHIT: API.OperationMethod<
-  DeleteHITRequest,
+  DeleteHITRequest & RegionInput,
   DeleteHITResponse,
   DeleteHITError,
   Credentials | HttpClient.HttpClient
@@ -982,7 +983,7 @@ export type DeleteQualificationTypeError = RequestError | ServiceFault | CommonE
  * CreateQualificationType.
  */
 export const deleteQualificationType: API.OperationMethod<
-  DeleteQualificationTypeRequest,
+  DeleteQualificationTypeRequest & RegionInput,
   DeleteQualificationTypeResponse,
   DeleteQualificationTypeError,
   Credentials | HttpClient.HttpClient
@@ -1002,7 +1003,7 @@ export type DeleteWorkerBlockError = RequestError | ServiceFault | CommonErrors;
  * The `DeleteWorkerBlock` operation allows you to reinstate a blocked Worker to work on your HITs. This operation reverses the effects of the CreateWorkerBlock operation. You need the Worker ID to use this operation. If the Worker ID is missing or invalid, this operation fails and returns the message "WorkerId is invalid." If the specified Worker is not blocked, this operation returns successfully.
  */
 export const deleteWorkerBlock: API.OperationMethod<
-  DeleteWorkerBlockRequest,
+  DeleteWorkerBlockRequest & RegionInput,
   DeleteWorkerBlockResponse,
   DeleteWorkerBlockError,
   Credentials | HttpClient.HttpClient
@@ -1026,7 +1027,7 @@ export type DisassociateQualificationFromWorkerError = RequestError | ServiceFau
  * revoked. The user who had the Qualification can see this message.
  */
 export const disassociateQualificationFromWorker: API.OperationMethod<
-  DisassociateQualificationFromWorkerRequest,
+  DisassociateQualificationFromWorkerRequest & RegionInput,
   DisassociateQualificationFromWorkerResponse,
   DisassociateQualificationFromWorkerError,
   Credentials | HttpClient.HttpClient
@@ -1048,7 +1049,7 @@ export type GetAccountBalanceError = RequestError | ServiceFault | CommonErrors;
  * Note: If you have enabled AWS Billing and still have a remaining Prepaid HITs balance, this balance can be viewed on the My Account page in the Requester console.
  */
 export const getAccountBalance: API.OperationMethod<
-  GetAccountBalanceRequest,
+  GetAccountBalanceRequest & RegionInput,
   GetAccountBalanceResponse,
   GetAccountBalanceError,
   Credentials | HttpClient.HttpClient
@@ -1068,7 +1069,7 @@ export type GetAssignmentError = RequestError | ServiceFault | CommonErrors;
  * The `GetAssignment` operation retrieves the details of the specified Assignment.
  */
 export const getAssignment: API.OperationMethod<
-  GetAssignmentRequest,
+  GetAssignmentRequest & RegionInput,
   GetAssignmentResponse,
   GetAssignmentError,
   Credentials | HttpClient.HttpClient
@@ -1102,7 +1103,7 @@ export type GetFileUploadURLError = RequestError | ServiceFault | CommonErrors;
  * Workers to upload files to use Amazon S3.
  */
 export const getFileUploadURL: API.OperationMethod<
-  GetFileUploadURLRequest,
+  GetFileUploadURLRequest & RegionInput,
   GetFileUploadURLResponse,
   GetFileUploadURLError,
   Credentials | HttpClient.HttpClient
@@ -1122,7 +1123,7 @@ export type GetHITError = RequestError | ServiceFault | CommonErrors;
  * The `GetHIT` operation retrieves the details of the specified HIT.
  */
 export const getHIT: API.OperationMethod<
-  GetHITRequest,
+  GetHITRequest & RegionInput,
   GetHITResponse,
   GetHITError,
   Credentials | HttpClient.HttpClient
@@ -1153,7 +1154,7 @@ export type GetQualificationScoreError = RequestError | ServiceFault | CommonErr
  * a Worker's Qualification of that type.
  */
 export const getQualificationScore: API.OperationMethod<
-  GetQualificationScoreRequest,
+  GetQualificationScoreRequest & RegionInput,
   GetQualificationScoreResponse,
   GetQualificationScoreError,
   Credentials | HttpClient.HttpClient
@@ -1173,7 +1174,7 @@ export type GetQualificationTypeError = RequestError | ServiceFault | CommonErro
  * The `GetQualificationType`operation retrieves information about a Qualification type using its ID.
  */
 export const getQualificationType: API.OperationMethod<
-  GetQualificationTypeRequest,
+  GetQualificationTypeRequest & RegionInput,
   GetQualificationTypeResponse,
   GetQualificationTypeError,
   Credentials | HttpClient.HttpClient
@@ -1217,7 +1218,7 @@ export type ListAssignmentsForHITError = RequestError | ServiceFault | CommonErr
  * of the operation to control sorting and pagination.
  */
 export const listAssignmentsForHIT: API.PaginatedOperationMethod<
-  ListAssignmentsForHITRequest,
+  ListAssignmentsForHITRequest & RegionInput,
   ListAssignmentsForHITResponse,
   ListAssignmentsForHITError,
   Credentials | HttpClient.HttpClient,
@@ -1246,7 +1247,7 @@ export type ListBonusPaymentsError = RequestError | ServiceFault | CommonErrors;
  * for a given HIT or assignment.
  */
 export const listBonusPayments: API.PaginatedOperationMethod<
-  ListBonusPaymentsRequest,
+  ListBonusPaymentsRequest & RegionInput,
   ListBonusPaymentsResponse,
   ListBonusPaymentsError,
   Credentials | HttpClient.HttpClient,
@@ -1276,7 +1277,7 @@ export type ListHITsError = RequestError | ServiceFault | CommonErrors;
  * the DeleteHIT operation or that have been auto-deleted.
  */
 export const listHITs: API.PaginatedOperationMethod<
-  ListHITsRequest,
+  ListHITsRequest & RegionInput,
   ListHITsResponse,
   ListHITsError,
   Credentials | HttpClient.HttpClient,
@@ -1305,7 +1306,7 @@ export type ListHITsForQualificationTypeError = RequestError | ServiceFault | Co
  * with the `DeleteHIT` operation or that have been auto-deleted.
  */
 export const listHITsForQualificationType: API.PaginatedOperationMethod<
-  ListHITsForQualificationTypeRequest,
+  ListHITsForQualificationTypeRequest & RegionInput,
   ListHITsForQualificationTypeResponse,
   ListHITsForQualificationTypeError,
   Credentials | HttpClient.HttpClient,
@@ -1336,7 +1337,7 @@ export type ListQualificationRequestsError = RequestError | ServiceFault | Commo
  * AcceptQualification operation.
  */
 export const listQualificationRequests: API.PaginatedOperationMethod<
-  ListQualificationRequestsRequest,
+  ListQualificationRequestsRequest & RegionInput,
   ListQualificationRequestsResponse,
   ListQualificationRequestsError,
   Credentials | HttpClient.HttpClient,
@@ -1365,7 +1366,7 @@ export type ListQualificationTypesError = RequestError | ServiceFault | CommonEr
  * an optional search term.
  */
 export const listQualificationTypes: API.PaginatedOperationMethod<
-  ListQualificationTypesRequest,
+  ListQualificationTypesRequest & RegionInput,
   ListQualificationTypesResponse,
   ListQualificationTypesError,
   Credentials | HttpClient.HttpClient,
@@ -1392,7 +1393,7 @@ export type ListReviewableHITsError = RequestError | ServiceFault | CommonErrors
  * Reviewable or Status equal to Reviewing that belong to the Requester calling the operation.
  */
 export const listReviewableHITs: API.PaginatedOperationMethod<
-  ListReviewableHITsRequest,
+  ListReviewableHITsRequest & RegionInput,
   ListReviewableHITsResponse,
   ListReviewableHITsError,
   Credentials | HttpClient.HttpClient,
@@ -1422,7 +1423,7 @@ export type ListReviewPolicyResultsForHITError = RequestError | ServiceFault | C
  * Assignment-level and HIT-level review results.
  */
 export const listReviewPolicyResultsForHIT: API.PaginatedOperationMethod<
-  ListReviewPolicyResultsForHITRequest,
+  ListReviewPolicyResultsForHITRequest & RegionInput,
   ListReviewPolicyResultsForHITResponse,
   ListReviewPolicyResultsForHITError,
   Credentials | HttpClient.HttpClient,
@@ -1448,7 +1449,7 @@ export type ListWorkerBlocksError = RequestError | ServiceFault | CommonErrors;
  * The `ListWorkersBlocks` operation retrieves a list of Workers who are blocked from working on your HITs.
  */
 export const listWorkerBlocks: API.PaginatedOperationMethod<
-  ListWorkerBlocksRequest,
+  ListWorkerBlocksRequest & RegionInput,
   ListWorkerBlocksResponse,
   ListWorkerBlocksError,
   Credentials | HttpClient.HttpClient,
@@ -1475,7 +1476,7 @@ export type ListWorkersWithQualificationTypeError = RequestError | ServiceFault 
  * that have been associated with a given Qualification type.
  */
 export const listWorkersWithQualificationType: API.PaginatedOperationMethod<
-  ListWorkersWithQualificationTypeRequest,
+  ListWorkersWithQualificationTypeRequest & RegionInput,
   ListWorkersWithQualificationTypeResponse,
   ListWorkersWithQualificationTypeError,
   Credentials | HttpClient.HttpClient,
@@ -1508,7 +1509,7 @@ export type NotifyWorkersError = RequestError | ServiceFault | CommonErrors;
  * Worker.
  */
 export const notifyWorkers: API.OperationMethod<
-  NotifyWorkersRequest,
+  NotifyWorkersRequest & RegionInput,
   NotifyWorkersResponse,
   NotifyWorkersError,
   Credentials | HttpClient.HttpClient
@@ -1536,7 +1537,7 @@ export type RejectAssignmentError = RequestError | ServiceFault | CommonErrors;
  * Only the Requester who created the HIT can reject an assignment for the HIT.
  */
 export const rejectAssignment: API.OperationMethod<
-  RejectAssignmentRequest,
+  RejectAssignmentRequest & RegionInput,
   RejectAssignmentResponse,
   RejectAssignmentError,
   Credentials | HttpClient.HttpClient
@@ -1561,7 +1562,7 @@ export type RejectQualificationRequestError = RequestError | ServiceFault | Comm
  * rejected. The Worker who made the request can see this message.
  */
 export const rejectQualificationRequest: API.OperationMethod<
-  RejectQualificationRequestRequest,
+  RejectQualificationRequestRequest & RegionInput,
   RejectQualificationRequestResponse,
   RejectQualificationRequestError,
   Credentials | HttpClient.HttpClient
@@ -1592,7 +1593,7 @@ export type SendBonusError = RequestError | ServiceFault | CommonErrors;
  * and the fees.
  */
 export const sendBonus: API.OperationMethod<
-  SendBonusRequest,
+  SendBonusRequest & RegionInput,
   SendBonusResponse,
   SendBonusError,
   Credentials | HttpClient.HttpClient
@@ -1616,7 +1617,7 @@ export type SendTestEventNotificationError = RequestError | ServiceFault | Commo
  * When you call this operation, the service attempts to send the test notification immediately.
  */
 export const sendTestEventNotification: API.OperationMethod<
-  SendTestEventNotificationRequest,
+  SendTestEventNotificationRequest & RegionInput,
   SendTestEventNotificationResponse,
   SendTestEventNotificationError,
   Credentials | HttpClient.HttpClient
@@ -1637,7 +1638,7 @@ export type UpdateExpirationForHITError = RequestError | ServiceFault | CommonEr
  * If you update it to a time in the past, the HIT will be immediately expired.
  */
 export const updateExpirationForHIT: API.OperationMethod<
-  UpdateExpirationForHITRequest,
+  UpdateExpirationForHITRequest & RegionInput,
   UpdateExpirationForHITResponse,
   UpdateExpirationForHITError,
   Credentials | HttpClient.HttpClient
@@ -1659,7 +1660,7 @@ export type UpdateHITReviewStatusError = RequestError | ServiceFault | CommonErr
  * or it can revert a Reviewing HIT back to the Reviewable status.
  */
 export const updateHITReviewStatus: API.OperationMethod<
-  UpdateHITReviewStatusRequest,
+  UpdateHITReviewStatusRequest & RegionInput,
   UpdateHITReviewStatusResponse,
   UpdateHITReviewStatusError,
   Credentials | HttpClient.HttpClient
@@ -1684,7 +1685,7 @@ export type UpdateHITTypeOfHITError = RequestError | ServiceFault | CommonErrors
  * properties of the new HITType in place of the old ones.
  */
 export const updateHITTypeOfHIT: API.OperationMethod<
-  UpdateHITTypeOfHITRequest,
+  UpdateHITTypeOfHITRequest & RegionInput,
   UpdateHITTypeOfHITResponse,
   UpdateHITTypeOfHITError,
   Credentials | HttpClient.HttpClient
@@ -1713,7 +1714,7 @@ export type UpdateNotificationSettingsError = RequestError | ServiceFault | Comm
  * or one must be provided in the same call to `UpdateNotificationSettings`.
  */
 export const updateNotificationSettings: API.OperationMethod<
-  UpdateNotificationSettingsRequest,
+  UpdateNotificationSettingsRequest & RegionInput,
   UpdateNotificationSettingsResponse,
   UpdateNotificationSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1769,7 +1770,7 @@ export type UpdateQualificationTypeError = RequestError | ServiceFault | CommonE
  * attributes of the Qualification type.
  */
 export const updateQualificationType: API.OperationMethod<
-  UpdateQualificationTypeRequest,
+  UpdateQualificationTypeRequest & RegionInput,
   UpdateQualificationTypeResponse,
   UpdateQualificationTypeError,
   Credentials | HttpClient.HttpClient

@@ -36,7 +36,7 @@ export interface ActivateEmailRegistrationEmailRequest {
   /** Location of the activation. */
   location: string;
   /** Activation code for the registration */
-  activationCode?: string;
+  activationCode?: string | undefined;
 }
 /** Registration status */
 export type EmailRegistrationRegistrationStatus =
@@ -46,15 +46,15 @@ export type EmailRegistrationRegistrationStatus =
 /** Dto for tenant domain registration */
 export interface EmailRegistration {
   /** Activation code for the registration */
-  activationCode?: string;
+  activationCode?: string | undefined;
   /** Date of the activation expiration */
-  activationExpirationDate?: string;
+  activationExpirationDate?: string | undefined;
   /** The email to register */
-  email?: string;
+  email?: string | undefined;
   /** Registration status */
-  registrationStatus?: EmailRegistrationRegistrationStatus;
+  registrationStatus?: EmailRegistrationRegistrationStatus | undefined;
   /** The tenant to register */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 export interface CancelShareSubscriptionSynchronizationRequest {
   /** The subscription identifier */
@@ -73,19 +73,19 @@ export type ShareSubscriptionSynchronizationSynchronizationMode = "Incremental" 
 /** A ShareSubscriptionSynchronization data transfer object. */
 export interface ShareSubscriptionSynchronization {
   /** Synchronization duration */
-  durationMs?: number;
+  durationMs?: number | undefined;
   /** End time of synchronization */
-  endTime?: string;
+  endTime?: string | undefined;
   /** message of Synchronization */
-  message?: string;
+  message?: string | undefined;
   /** start time of synchronization */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Raw Status */
-  status?: string;
+  status?: string | undefined;
   /** Synchronization id */
   synchronizationId: string;
   /** Synchronization Mode */
-  synchronizationMode?: ShareSubscriptionSynchronizationSynchronizationMode;
+  synchronizationMode?: ShareSubscriptionSynchronizationSynchronizationMode | undefined;
 }
 /** Tags on the azure resource. */
 export type CreateAccountRequestTagsMap = { [key: string]: string | undefined };
@@ -94,7 +94,7 @@ export type IdentityInputType = "SystemAssigned";
 /** Identity of resource */
 export interface IdentityInput {
   /** Identity Type */
-  type?: IdentityInputType | (string & {});
+  type?: IdentityInputType | (string & {}) | undefined;
 }
 /** Account property bag. */
 export interface AccountPropertiesInput {}
@@ -106,13 +106,13 @@ export interface CreateAccountRequest {
   /** The name of the share account. */
   accountName: string;
   /** Location of the azure resource. */
-  location?: string;
+  location?: string | undefined;
   /** Tags on the azure resource. */
-  tags?: CreateAccountRequestTagsMap;
+  tags?: CreateAccountRequestTagsMap | undefined;
   /** Identity Info on the Account */
   identity: IdentityInput;
   /** Properties on the account */
-  properties?: AccountPropertiesInput;
+  properties?: AccountPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -121,17 +121,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
 }
 /** Tags on the azure resource. */
 export type CreateAccountResponseTagsMap = { [key: string]: string | undefined };
@@ -140,11 +140,11 @@ export type IdentityType = "SystemAssigned";
 /** Identity of resource */
 export interface Identity {
   /** service principal Id */
-  principalId?: string;
+  principalId?: string | undefined;
   /** Tenant Id */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Identity Type */
-  type?: IdentityType;
+  type?: IdentityType | undefined;
 }
 /** Provisioning state of the Account */
 export type AccountPropertiesProvisioningState =
@@ -156,31 +156,31 @@ export type AccountPropertiesProvisioningState =
 /** Account property bag. */
 export interface AccountProperties {
   /** Time at which the account was created. */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Provisioning state of the Account */
-  provisioningState?: AccountPropertiesProvisioningState;
+  provisioningState?: AccountPropertiesProvisioningState | undefined;
   /** Email of the user who created the resource */
-  userEmail?: string;
+  userEmail?: string | undefined;
   /** Name of the user who created the resource */
-  userName?: string;
+  userName?: string | undefined;
 }
 export interface CreateAccountResponse {
   /** The resource id of the azure resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the azure resource */
-  name?: string;
+  name?: string | undefined;
   /** System Data of the Azure resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Type of the azure resource */
-  type?: string;
+  type?: string | undefined;
   /** Location of the azure resource. */
-  location?: string;
+  location?: string | undefined;
   /** Tags on the azure resource. */
-  tags?: CreateAccountResponseTagsMap;
+  tags?: CreateAccountResponseTagsMap | undefined;
   /** Identity Info on the Account */
   identity: Identity;
   /** Properties on the account */
-  properties?: AccountProperties;
+  properties?: AccountProperties | undefined;
 }
 /** Kind of data set. */
 export type CreateDataSetRequestKind =
@@ -212,7 +212,7 @@ export interface CreateDataSetRequest {
   /** Kind of data set. */
   kind: CreateDataSetRequestKind | (string & {});
   /** Kind-specific data set properties (polymorphic on `kind`), e.g. `{ containerName, resourceGroup, storageAccountName, subscriptionId }` for `Container`. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 /** Kind of data set. */
 export type CreateDataSetResponseKind =
@@ -232,17 +232,17 @@ export type CreateDataSetResponseKind =
   | "SynapseWorkspaceSqlPoolTable";
 export interface CreateDataSetResponse {
   /** The resource id of the azure resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the azure resource */
-  name?: string;
+  name?: string | undefined;
   /** System Data of the Azure resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Type of the azure resource */
-  type?: string;
+  type?: string | undefined;
   /** Kind of data set. */
   kind: CreateDataSetResponseKind;
   /** Kind-specific data set properties (polymorphic on `kind`), e.g. `{ containerName, resourceGroup, storageAccountName, subscriptionId }` for `Container`. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 /** Kind of data set mapping. */
 export type CreateDataSetMappingRequestKind =
@@ -272,7 +272,7 @@ export interface CreateDataSetMappingRequest {
   /** Kind of data set mapping. */
   kind: CreateDataSetMappingRequestKind | (string & {});
   /** Kind-specific data set mapping properties (polymorphic on `kind`), e.g. `{ dataSetId, containerName, resourceGroup, storageAccountName, subscriptionId }` for `Container`. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 /** Kind of data set mapping. */
 export type CreateDataSetMappingResponseKind =
@@ -290,28 +290,28 @@ export type CreateDataSetMappingResponseKind =
   | "SynapseWorkspaceSqlPoolTable";
 export interface CreateDataSetMappingResponse {
   /** The resource id of the azure resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the azure resource */
-  name?: string;
+  name?: string | undefined;
   /** System Data of the Azure resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Type of the azure resource */
-  type?: string;
+  type?: string | undefined;
   /** Kind of data set mapping. */
   kind: CreateDataSetMappingResponseKind;
   /** Kind-specific data set mapping properties (polymorphic on `kind`), e.g. `{ dataSetId, containerName, resourceGroup, storageAccountName, subscriptionId }` for `Container`. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 /** Invitation property bag. */
 export interface InvitationPropertiesInput {
   /** The expiration date for the invitation and share subscription. */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** The target Azure AD Id. Can't be combined with email. */
-  targetActiveDirectoryId?: string;
+  targetActiveDirectoryId?: string | undefined;
   /** The email the invitation is directed to. */
-  targetEmail?: string;
+  targetEmail?: string | undefined;
   /** The target user or application Id that invitation is being sent to. Must be specified along TargetActiveDirectoryId. This enables sending invitations to specific users or applications in an AD tenant. */
-  targetObjectId?: string;
+  targetObjectId?: string | undefined;
 }
 export interface CreateInvitationRequest {
   /** The subscription identifier */
@@ -325,7 +325,7 @@ export interface CreateInvitationRequest {
   /** The name of the invitation. */
   invitationName: string;
   /** Properties on the Invitation */
-  properties?: InvitationPropertiesInput;
+  properties?: InvitationPropertiesInput | undefined;
 }
 /** The status of the invitation. */
 export type InvitationPropertiesInvitationStatus =
@@ -336,48 +336,48 @@ export type InvitationPropertiesInvitationStatus =
 /** Invitation property bag. */
 export interface InvitationProperties {
   /** The expiration date for the invitation and share subscription. */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** unique invitation id */
-  invitationId?: string;
+  invitationId?: string | undefined;
   /** The status of the invitation. */
-  invitationStatus?: InvitationPropertiesInvitationStatus;
+  invitationStatus?: InvitationPropertiesInvitationStatus | undefined;
   /** The time the recipient responded to the invitation. */
-  respondedAt?: string;
+  respondedAt?: string | undefined;
   /** Gets the time at which the invitation was sent. */
-  sentAt?: string;
+  sentAt?: string | undefined;
   /** The target Azure AD Id. Can't be combined with email. */
-  targetActiveDirectoryId?: string;
+  targetActiveDirectoryId?: string | undefined;
   /** The email the invitation is directed to. */
-  targetEmail?: string;
+  targetEmail?: string | undefined;
   /** The target user or application Id that invitation is being sent to. Must be specified along TargetActiveDirectoryId. This enables sending invitations to specific users or applications in an AD tenant. */
-  targetObjectId?: string;
+  targetObjectId?: string | undefined;
   /** Email of the user who created the resource */
-  userEmail?: string;
+  userEmail?: string | undefined;
   /** Name of the user who created the resource */
-  userName?: string;
+  userName?: string | undefined;
 }
 export interface CreateInvitationResponse {
   /** The resource id of the azure resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the azure resource */
-  name?: string;
+  name?: string | undefined;
   /** System Data of the Azure resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Type of the azure resource */
-  type?: string;
+  type?: string | undefined;
   /** Properties on the Invitation */
-  properties?: InvitationProperties;
+  properties?: InvitationProperties | undefined;
 }
 /** Share kind. */
 export type SharePropertiesInputShareKind = "CopyBased" | "InPlace";
 /** Share property bag. */
 export interface SharePropertiesInput {
   /** Share description. */
-  description?: string;
+  description?: string | undefined;
   /** Share kind. */
-  shareKind?: SharePropertiesInputShareKind | (string & {});
+  shareKind?: SharePropertiesInputShareKind | (string & {}) | undefined;
   /** Share terms. */
-  terms?: string;
+  terms?: string | undefined;
 }
 export interface CreateShareRequest {
   /** The subscription identifier */
@@ -389,7 +389,7 @@ export interface CreateShareRequest {
   /** The name of the share. */
   shareName: string;
   /** Properties on the share */
-  properties?: SharePropertiesInput;
+  properties?: SharePropertiesInput | undefined;
 }
 /** Gets or sets the provisioning state */
 export type SharePropertiesProvisioningState =
@@ -403,36 +403,36 @@ export type SharePropertiesShareKind = "CopyBased" | "InPlace";
 /** Share property bag. */
 export interface ShareProperties {
   /** Time at which the share was created. */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Share description. */
-  description?: string;
+  description?: string | undefined;
   /** Gets or sets the provisioning state */
-  provisioningState?: SharePropertiesProvisioningState;
+  provisioningState?: SharePropertiesProvisioningState | undefined;
   /** Share kind. */
-  shareKind?: SharePropertiesShareKind;
+  shareKind?: SharePropertiesShareKind | undefined;
   /** Share terms. */
-  terms?: string;
+  terms?: string | undefined;
   /** Email of the user who created the resource */
-  userEmail?: string;
+  userEmail?: string | undefined;
   /** Name of the user who created the resource */
-  userName?: string;
+  userName?: string | undefined;
 }
 export interface CreateShareResponse {
   /** The resource id of the azure resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the azure resource */
-  name?: string;
+  name?: string | undefined;
   /** System Data of the Azure resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Type of the azure resource */
-  type?: string;
+  type?: string | undefined;
   /** Properties on the share */
-  properties?: ShareProperties;
+  properties?: ShareProperties | undefined;
 }
 /** Share subscription property bag. */
 export interface ShareSubscriptionPropertiesInput {
   /** The expiration date of the share subscription. */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** The invitation id. */
   invitationId: string;
   /** Source share location. */
@@ -468,45 +468,45 @@ export type ShareSubscriptionPropertiesShareSubscriptionStatus =
 /** Share subscription property bag. */
 export interface ShareSubscriptionProperties {
   /** Time at which the share subscription was created. */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The expiration date of the share subscription. */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** The invitation id. */
   invitationId: string;
   /** Email of the provider who created the resource */
-  providerEmail?: string;
+  providerEmail?: string | undefined;
   /** Name of the provider who created the resource */
-  providerName?: string;
+  providerName?: string | undefined;
   /** Tenant name of the provider who created the resource */
-  providerTenantName?: string;
+  providerTenantName?: string | undefined;
   /** Provisioning state of the share subscription */
-  provisioningState?: ShareSubscriptionPropertiesProvisioningState;
+  provisioningState?: ShareSubscriptionPropertiesProvisioningState | undefined;
   /** Description of share */
-  shareDescription?: string;
+  shareDescription?: string | undefined;
   /** Kind of share */
-  shareKind?: ShareSubscriptionPropertiesShareKind;
+  shareKind?: ShareSubscriptionPropertiesShareKind | undefined;
   /** Name of the share */
-  shareName?: string;
+  shareName?: string | undefined;
   /** Gets the current status of share subscription. */
-  shareSubscriptionStatus?: ShareSubscriptionPropertiesShareSubscriptionStatus;
+  shareSubscriptionStatus?: ShareSubscriptionPropertiesShareSubscriptionStatus | undefined;
   /** Terms of a share */
-  shareTerms?: string;
+  shareTerms?: string | undefined;
   /** Source share location. */
   sourceShareLocation: string;
   /** Email of the user who created the resource */
-  userEmail?: string;
+  userEmail?: string | undefined;
   /** Name of the user who created the resource */
-  userName?: string;
+  userName?: string | undefined;
 }
 export interface CreateShareSubscriptionResponse {
   /** The resource id of the azure resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the azure resource */
-  name?: string;
+  name?: string | undefined;
   /** System Data of the Azure resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Type of the azure resource */
-  type?: string;
+  type?: string | undefined;
   /** Properties on the share subscription */
   properties: ShareSubscriptionProperties;
 }
@@ -526,23 +526,23 @@ export interface CreateSynchronizationSettingsRequest {
   /** Kind of synchronization setting. */
   kind: CreateSynchronizationSettingsRequestKind | (string & {});
   /** Kind-specific synchronization setting properties (polymorphic on `kind`), e.g. `{ recurrenceInterval, synchronizationTime }` for `ScheduleBased`. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 /** Kind of synchronization setting. */
 export type CreateSynchronizationSettingsResponseKind = "ScheduleBased";
 export interface CreateSynchronizationSettingsResponse {
   /** The resource id of the azure resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the azure resource */
-  name?: string;
+  name?: string | undefined;
   /** System Data of the Azure resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Type of the azure resource */
-  type?: string;
+  type?: string | undefined;
   /** Kind of synchronization setting. */
   kind: CreateSynchronizationSettingsResponseKind;
   /** Kind-specific synchronization setting properties (polymorphic on `kind`), e.g. `{ recurrenceInterval, synchronizationTime }` for `ScheduleBased`. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 /** Kind of synchronization on trigger. */
 export type CreateTriggerRequestKind = "ScheduleBased";
@@ -560,23 +560,23 @@ export interface CreateTriggerRequest {
   /** Kind of synchronization on trigger. */
   kind: CreateTriggerRequestKind | (string & {});
   /** Kind-specific trigger properties (polymorphic on `kind`), e.g. `{ recurrenceInterval, synchronizationTime, synchronizationMode }` for `ScheduleBased`. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 /** Kind of synchronization on trigger. */
 export type CreateTriggerResponseKind = "ScheduleBased";
 export interface CreateTriggerResponse {
   /** The resource id of the azure resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the azure resource */
-  name?: string;
+  name?: string | undefined;
   /** System Data of the Azure resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Type of the azure resource */
-  type?: string;
+  type?: string | undefined;
   /** Kind of synchronization on trigger. */
   kind: CreateTriggerResponseKind;
   /** Kind-specific trigger properties (polymorphic on `kind`), e.g. `{ recurrenceInterval, synchronizationTime, synchronizationMode }` for `ScheduleBased`. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 export interface DeleteAccountRequest {
   /** The subscription identifier */
@@ -593,11 +593,11 @@ export interface DataShareErrorInfo {
   /** Code of the error */
   code: string;
   /** Nested details of the error model */
-  details?: DataShareErrorInfoDetailsList;
+  details?: DataShareErrorInfoDetailsList | undefined;
   /** Message of the error */
   message: string;
   /** Target of the error */
-  target?: string;
+  target?: string | undefined;
 }
 /** Operation state of the long running operation. */
 export type OperationResponseStatus =
@@ -610,13 +610,13 @@ export type OperationResponseStatus =
 /** Response for long running operation */
 export interface OperationResponse {
   /** start time */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The error property when status is failed. */
-  error?: DataShareErrorInfo;
+  error?: DataShareErrorInfo | undefined;
   /** start time */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Operation state of the long running operation. */
-  status?: OperationResponseStatus;
+  status?: OperationResponseStatus | undefined;
 }
 export interface DeleteDataSetRequest {
   /** The subscription identifier */
@@ -713,21 +713,21 @@ export interface GetAccountRequest {
 export type GetAccountResponseTagsMap = { [key: string]: string | undefined };
 export interface GetAccountResponse {
   /** The resource id of the azure resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the azure resource */
-  name?: string;
+  name?: string | undefined;
   /** System Data of the Azure resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Type of the azure resource */
-  type?: string;
+  type?: string | undefined;
   /** Location of the azure resource. */
-  location?: string;
+  location?: string | undefined;
   /** Tags on the azure resource. */
-  tags?: GetAccountResponseTagsMap;
+  tags?: GetAccountResponseTagsMap | undefined;
   /** Identity Info on the Account */
   identity: Identity;
   /** Properties on the account */
-  properties?: AccountProperties;
+  properties?: AccountProperties | undefined;
 }
 export interface GetConsumerInvitationRequest {
   /** Location of the invitation */
@@ -744,45 +744,45 @@ export type ConsumerInvitationPropertiesInvitationStatus =
 /** Properties of consumer invitation */
 export interface ConsumerInvitationProperties {
   /** Number of data sets in a share */
-  dataSetCount?: number;
+  dataSetCount?: number | undefined;
   /** Description shared when the invitation was created */
-  description?: string;
+  description?: string | undefined;
   /** The expiration date for the share subscription created by accepting the invitation. */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Unique id of the invitation. */
   invitationId: string;
   /** The status of the invitation. */
-  invitationStatus?: ConsumerInvitationPropertiesInvitationStatus;
+  invitationStatus?: ConsumerInvitationPropertiesInvitationStatus | undefined;
   /** invitation location */
-  location?: string;
+  location?: string | undefined;
   /** Email of the provider who created the resource */
-  providerEmail?: string;
+  providerEmail?: string | undefined;
   /** Name of the provider who created the resource */
-  providerName?: string;
+  providerName?: string | undefined;
   /** Tenant name of the provider who created the resource */
-  providerTenantName?: string;
+  providerTenantName?: string | undefined;
   /** The time the recipient responded to the invitation. */
-  respondedAt?: string;
+  respondedAt?: string | undefined;
   /** Gets the time at which the invitation was sent. */
-  sentAt?: string;
+  sentAt?: string | undefined;
   /** Gets the source share Name. */
-  shareName?: string;
+  shareName?: string | undefined;
   /** Terms of use shared when the invitation was created */
-  termsOfUse?: string;
+  termsOfUse?: string | undefined;
   /** Email of the user who created the resource */
-  userEmail?: string;
+  userEmail?: string | undefined;
   /** Name of the user who created the resource */
-  userName?: string;
+  userName?: string | undefined;
 }
 export interface GetConsumerInvitationResponse {
   /** The resource id of the azure resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the azure resource */
-  name?: string;
+  name?: string | undefined;
   /** System Data of the Azure resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Type of the azure resource */
-  type?: string;
+  type?: string | undefined;
   /** Properties on the account */
   properties: ConsumerInvitationProperties;
 }
@@ -816,17 +816,17 @@ export type GetDataSetResponseKind =
   | "SynapseWorkspaceSqlPoolTable";
 export interface GetDataSetResponse {
   /** The resource id of the azure resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the azure resource */
-  name?: string;
+  name?: string | undefined;
   /** System Data of the Azure resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Type of the azure resource */
-  type?: string;
+  type?: string | undefined;
   /** Kind of data set. */
   kind: GetDataSetResponseKind;
   /** Kind-specific data set properties (polymorphic on `kind`), e.g. `{ containerName, resourceGroup, storageAccountName, subscriptionId }` for `Container`. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 export interface GetDataSetMappingRequest {
   /** The subscription identifier */
@@ -856,17 +856,17 @@ export type GetDataSetMappingResponseKind =
   | "SynapseWorkspaceSqlPoolTable";
 export interface GetDataSetMappingResponse {
   /** The resource id of the azure resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the azure resource */
-  name?: string;
+  name?: string | undefined;
   /** System Data of the Azure resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Type of the azure resource */
-  type?: string;
+  type?: string | undefined;
   /** Kind of data set mapping. */
   kind: GetDataSetMappingResponseKind;
   /** Kind-specific data set mapping properties (polymorphic on `kind`), e.g. `{ dataSetId, containerName, resourceGroup, storageAccountName, subscriptionId }` for `Container`. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 export interface GetInvitationRequest {
   /** The subscription identifier */
@@ -882,15 +882,15 @@ export interface GetInvitationRequest {
 }
 export interface GetInvitationResponse {
   /** The resource id of the azure resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the azure resource */
-  name?: string;
+  name?: string | undefined;
   /** System Data of the Azure resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Type of the azure resource */
-  type?: string;
+  type?: string | undefined;
   /** Properties on the Invitation */
-  properties?: InvitationProperties;
+  properties?: InvitationProperties | undefined;
 }
 export interface GetProviderShareSubscriptionByShareRequest {
   /** The subscription identifier */
@@ -913,37 +913,37 @@ export type ProviderShareSubscriptionPropertiesShareSubscriptionStatus =
 /** Provider share subscription properties */
 export interface ProviderShareSubscriptionProperties {
   /** Email of the consumer who created the share subscription */
-  consumerEmail?: string;
+  consumerEmail?: string | undefined;
   /** Name of the consumer who created the share subscription */
-  consumerName?: string;
+  consumerName?: string | undefined;
   /** Tenant name of the consumer who created the share subscription */
-  consumerTenantName?: string;
+  consumerTenantName?: string | undefined;
   /** created at */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Expiration date of the share subscription in UTC format */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Email of the provider who created the share */
-  providerEmail?: string;
+  providerEmail?: string | undefined;
   /** Name of the provider who created the share */
-  providerName?: string;
+  providerName?: string | undefined;
   /** Shared at */
-  sharedAt?: string;
+  sharedAt?: string | undefined;
   /** share Subscription Object Id */
-  shareSubscriptionObjectId?: string;
+  shareSubscriptionObjectId?: string | undefined;
   /** Gets the status of share subscription */
-  shareSubscriptionStatus?: ProviderShareSubscriptionPropertiesShareSubscriptionStatus;
+  shareSubscriptionStatus?: ProviderShareSubscriptionPropertiesShareSubscriptionStatus | undefined;
 }
 export interface GetProviderShareSubscriptionByShareResponse {
   /** The resource id of the azure resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the azure resource */
-  name?: string;
+  name?: string | undefined;
   /** System Data of the Azure resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Type of the azure resource */
-  type?: string;
+  type?: string | undefined;
   /** properties of providerShareSubscription */
-  properties?: ProviderShareSubscriptionProperties;
+  properties?: ProviderShareSubscriptionProperties | undefined;
 }
 export interface GetShareRequest {
   /** The subscription identifier */
@@ -957,15 +957,15 @@ export interface GetShareRequest {
 }
 export interface GetShareResponse {
   /** The resource id of the azure resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the azure resource */
-  name?: string;
+  name?: string | undefined;
   /** System Data of the Azure resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Type of the azure resource */
-  type?: string;
+  type?: string | undefined;
   /** Properties on the share */
-  properties?: ShareProperties;
+  properties?: ShareProperties | undefined;
 }
 export interface GetShareSubscriptionRequest {
   /** The subscription identifier */
@@ -979,13 +979,13 @@ export interface GetShareSubscriptionRequest {
 }
 export interface GetShareSubscriptionResponse {
   /** The resource id of the azure resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the azure resource */
-  name?: string;
+  name?: string | undefined;
   /** System Data of the Azure resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Type of the azure resource */
-  type?: string;
+  type?: string | undefined;
   /** Properties on the share subscription */
   properties: ShareSubscriptionProperties;
 }
@@ -1005,17 +1005,17 @@ export interface GetSynchronizationSettingsRequest {
 export type GetSynchronizationSettingsResponseKind = "ScheduleBased";
 export interface GetSynchronizationSettingsResponse {
   /** The resource id of the azure resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the azure resource */
-  name?: string;
+  name?: string | undefined;
   /** System Data of the Azure resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Type of the azure resource */
-  type?: string;
+  type?: string | undefined;
   /** Kind of synchronization setting. */
   kind: GetSynchronizationSettingsResponseKind;
   /** Kind-specific synchronization setting properties (polymorphic on `kind`), e.g. `{ recurrenceInterval, synchronizationTime }` for `ScheduleBased`. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 export interface GetTriggerRequest {
   /** The subscription identifier */
@@ -1033,17 +1033,17 @@ export interface GetTriggerRequest {
 export type GetTriggerResponseKind = "ScheduleBased";
 export interface GetTriggerResponse {
   /** The resource id of the azure resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the azure resource */
-  name?: string;
+  name?: string | undefined;
   /** System Data of the Azure resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Type of the azure resource */
-  type?: string;
+  type?: string | undefined;
   /** Kind of synchronization on trigger. */
   kind: GetTriggerResponseKind;
   /** Kind-specific trigger properties (polymorphic on `kind`), e.g. `{ recurrenceInterval, synchronizationTime, synchronizationMode }` for `ScheduleBased`. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 export interface ListAccountByResourceGroupRequest {
   /** The subscription identifier */
@@ -1051,35 +1051,35 @@ export interface ListAccountByResourceGroupRequest {
   /** The resource group name. */
   resourceGroupName: string;
   /** Continuation token */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Tags on the azure resource. */
 export type AccountTagsMap = { [key: string]: string | undefined };
 /** An account data transfer object. */
 export interface Account {
   /** The resource id of the azure resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the azure resource */
-  name?: string;
+  name?: string | undefined;
   /** System Data of the Azure resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Type of the azure resource */
-  type?: string;
+  type?: string | undefined;
   /** Location of the azure resource. */
-  location?: string;
+  location?: string | undefined;
   /** Tags on the azure resource. */
-  tags?: AccountTagsMap;
+  tags?: AccountTagsMap | undefined;
   /** Identity Info on the Account */
   identity: Identity;
   /** Properties on the account */
-  properties?: AccountProperties;
+  properties?: AccountProperties | undefined;
 }
 /** Collection of items of type DataTransferObjects. */
 export type AccountListValueList = Array<Account>;
 /** List response for get Accounts. */
 export interface AccountList {
   /** The Url of next result page. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Collection of items of type DataTransferObjects. */
   value: AccountListValueList;
 }
@@ -1087,22 +1087,22 @@ export interface ListAccountBySubscriptionRequest {
   /** The subscription identifier */
   subscriptionId: string;
   /** Continuation token */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 export interface ListConsumerInvitationInvitationsRequest {
   /** The continuation token */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** A consumer Invitation data transfer object. */
 export interface ConsumerInvitation {
   /** The resource id of the azure resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the azure resource */
-  name?: string;
+  name?: string | undefined;
   /** System Data of the Azure resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Type of the azure resource */
-  type?: string;
+  type?: string | undefined;
   /** Properties on the account */
   properties: ConsumerInvitationProperties;
 }
@@ -1111,7 +1111,7 @@ export type ConsumerInvitationListValueList = Array<ConsumerInvitation>;
 /** List response for get InvitationList */
 export interface ConsumerInvitationList {
   /** The Url of next result page. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Collection of items of type DataTransferObjects. */
   value: ConsumerInvitationListValueList;
 }
@@ -1125,7 +1125,7 @@ export interface ListConsumerSourceDataSetByShareSubscriptionRequest {
   /** The name of the shareSubscription. */
   shareSubscriptionName: string;
   /** Continuation token */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Type of data set */
 export type ConsumerSourceDataSetPropertiesDataSetType =
@@ -1146,35 +1146,35 @@ export type ConsumerSourceDataSetPropertiesDataSetType =
 /** Properties of consumer source dataSet */
 export interface ConsumerSourceDataSetProperties {
   /** DataSet Id */
-  dataSetId?: string;
+  dataSetId?: string | undefined;
   /** Location of the data set. */
-  dataSetLocation?: string;
+  dataSetLocation?: string | undefined;
   /** DataSet name */
-  dataSetName?: string;
+  dataSetName?: string | undefined;
   /** DataSet path */
-  dataSetPath?: string;
+  dataSetPath?: string | undefined;
   /** Type of data set */
-  dataSetType?: ConsumerSourceDataSetPropertiesDataSetType;
+  dataSetType?: ConsumerSourceDataSetPropertiesDataSetType | undefined;
 }
 /** A consumer side dataSet data transfer object. */
 export interface ConsumerSourceDataSet {
   /** The resource id of the azure resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the azure resource */
-  name?: string;
+  name?: string | undefined;
   /** System Data of the Azure resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Type of the azure resource */
-  type?: string;
+  type?: string | undefined;
   /** source dataSet properties */
-  properties?: ConsumerSourceDataSetProperties;
+  properties?: ConsumerSourceDataSetProperties | undefined;
 }
 /** Collection of items of type DataTransferObjects. */
 export type ConsumerSourceDataSetListValueList = Array<ConsumerSourceDataSet>;
 /** A consumer side list of source dataSets */
 export interface ConsumerSourceDataSetList {
   /** The Url of next result page. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Collection of items of type DataTransferObjects. */
   value: ConsumerSourceDataSetListValueList;
 }
@@ -1188,11 +1188,11 @@ export interface ListDataSetByShareRequest {
   /** The name of the share. */
   shareName: string;
   /** continuation token */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
   /** Filters the results using OData syntax. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Sorts the results using OData syntax. */
-  _orderby?: string;
+  _orderby?: string | undefined;
 }
 /** Kind of data set. */
 export type DataSetKind =
@@ -1213,13 +1213,13 @@ export type DataSetKind =
 /** A DataSet data transfer object. */
 export interface DataSet {
   /** The resource id of the azure resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the azure resource */
-  name?: string;
+  name?: string | undefined;
   /** System Data of the Azure resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Type of the azure resource */
-  type?: string;
+  type?: string | undefined;
   /** Kind of data set. */
   kind: DataSetKind;
 }
@@ -1228,7 +1228,7 @@ export type DataSetListValueList = Array<DataSet>;
 /** List response for get DataSets */
 export interface DataSetList {
   /** The Url of next result page. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Collection of items of type DataTransferObjects. */
   value: DataSetListValueList;
 }
@@ -1242,11 +1242,11 @@ export interface ListDataSetMappingByShareSubscriptionRequest {
   /** The name of the share subscription. */
   shareSubscriptionName: string;
   /** Continuation token */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
   /** Filters the results using OData syntax. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Sorts the results using OData syntax. */
-  _orderby?: string;
+  _orderby?: string | undefined;
 }
 /** Kind of data set mapping. */
 export type DataSetMappingKind =
@@ -1265,13 +1265,13 @@ export type DataSetMappingKind =
 /** A data set mapping data transfer object. */
 export interface DataSetMapping {
   /** The resource id of the azure resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the azure resource */
-  name?: string;
+  name?: string | undefined;
   /** System Data of the Azure resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Type of the azure resource */
-  type?: string;
+  type?: string | undefined;
   /** Kind of data set mapping. */
   kind: DataSetMappingKind;
 }
@@ -1280,7 +1280,7 @@ export type DataSetMappingListValueList = Array<DataSetMapping>;
 /** List response for get DataSetMappings */
 export interface DataSetMappingList {
   /** The Url of next result page. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Collection of items of type DataTransferObjects. */
   value: DataSetMappingListValueList;
 }
@@ -1294,31 +1294,31 @@ export interface ListInvitationByShareRequest {
   /** The name of the share. */
   shareName: string;
   /** The continuation token */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
   /** Filters the results using OData syntax. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Sorts the results using OData syntax. */
-  _orderby?: string;
+  _orderby?: string | undefined;
 }
 /** A Invitation data transfer object. */
 export interface Invitation {
   /** The resource id of the azure resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the azure resource */
-  name?: string;
+  name?: string | undefined;
   /** System Data of the Azure resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Type of the azure resource */
-  type?: string;
+  type?: string | undefined;
   /** Properties on the Invitation */
-  properties?: InvitationProperties;
+  properties?: InvitationProperties | undefined;
 }
 /** Collection of items of type DataTransferObjects. */
 export type InvitationListValueList = Array<Invitation>;
 /** List response for get InvitationList */
 export interface InvitationList {
   /** The Url of next result page. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Collection of items of type DataTransferObjects. */
   value: InvitationListValueList;
 }
@@ -1326,22 +1326,22 @@ export interface ListOperationsRequest {}
 /** Properties on operations */
 export interface OperationModelProperties {
   /** Description of the operation for display purposes */
-  description?: string;
+  description?: string | undefined;
   /** Name of the operation for display purposes */
-  operation?: string;
+  operation?: string | undefined;
   /** Name of the provider for display purposes */
-  provider?: string;
+  provider?: string | undefined;
   /** Name of the resource type for display purposes */
-  resource?: string;
+  resource?: string | undefined;
 }
 /** log specifications for operation api */
 export interface OperationMetaLogSpecification {
   /** blob duration of the log */
-  blobDuration?: string;
+  blobDuration?: string | undefined;
   /** localized name of the log category */
-  displayName?: string;
+  displayName?: string | undefined;
   /** name of the log category */
-  name?: string;
+  name?: string | undefined;
 }
 /** log specifications for the operation */
 export type OperationMetaServiceSpecificationLogSpecificationsList =
@@ -1349,9 +1349,9 @@ export type OperationMetaServiceSpecificationLogSpecificationsList =
 /** properties for dimension */
 export interface DimensionProperties {
   /** localized display name of the dimension to customer */
-  displayName?: string;
+  displayName?: string | undefined;
   /** dimension name */
-  name?: string;
+  name?: string | undefined;
 }
 /** properties for dimension */
 export type OperationMetaMetricSpecificationDimensionsList = Array<DimensionProperties>;
@@ -1362,29 +1362,31 @@ export type OperationMetaMetricSpecificationSupportedTimeGrainTypesList = Array<
 /** metric specifications for the operation */
 export interface OperationMetaMetricSpecification {
   /** aggregation type of metric */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
   /** properties for dimension */
-  dimensions?: OperationMetaMetricSpecificationDimensionsList;
+  dimensions?: OperationMetaMetricSpecificationDimensionsList | undefined;
   /** description of the metric */
-  displayDescription?: string;
+  displayDescription?: string | undefined;
   /** localized name of the metric */
-  displayName?: string;
+  displayName?: string | undefined;
   /** enable regional mdm account */
-  enableRegionalMdmAccount?: string;
+  enableRegionalMdmAccount?: string | undefined;
   /** fill gap with zero */
-  fillGapWithZero?: boolean;
+  fillGapWithZero?: boolean | undefined;
   /** internal metric name */
-  internalMetricName?: string;
+  internalMetricName?: string | undefined;
   /** name of the metric */
-  name?: string;
+  name?: string | undefined;
   /** dimension name use to replace resource id if specified */
-  resourceIdDimensionNameOverride?: string;
+  resourceIdDimensionNameOverride?: string | undefined;
   /** supported aggregation types */
-  supportedAggregationTypes?: OperationMetaMetricSpecificationSupportedAggregationTypesList;
+  supportedAggregationTypes?:
+    | OperationMetaMetricSpecificationSupportedAggregationTypesList
+    | undefined;
   /** supported time grain types */
-  supportedTimeGrainTypes?: OperationMetaMetricSpecificationSupportedTimeGrainTypesList;
+  supportedTimeGrainTypes?: OperationMetaMetricSpecificationSupportedTimeGrainTypesList | undefined;
   /** units for the metric */
-  unit?: string;
+  unit?: string | undefined;
 }
 /** metric specifications for the operation */
 export type OperationMetaServiceSpecificationMetricSpecificationsList =
@@ -1392,32 +1394,32 @@ export type OperationMetaServiceSpecificationMetricSpecificationsList =
 /** The operation meta service specification */
 export interface OperationMetaServiceSpecification {
   /** log specifications for the operation */
-  logSpecifications?: OperationMetaServiceSpecificationLogSpecificationsList;
+  logSpecifications?: OperationMetaServiceSpecificationLogSpecificationsList | undefined;
   /** metric specifications for the operation */
-  metricSpecifications?: OperationMetaServiceSpecificationMetricSpecificationsList;
+  metricSpecifications?: OperationMetaServiceSpecificationMetricSpecificationsList | undefined;
 }
 /** properties on meta info */
 export interface OperationMetaPropertyInfo {
   /** meta service specification */
-  serviceSpecification?: OperationMetaServiceSpecification;
+  serviceSpecification?: OperationMetaServiceSpecification | undefined;
 }
 /** The response model for get operations */
 export interface OperationModel {
   /** Properties on the operation */
-  display?: OperationModelProperties;
+  display?: OperationModelProperties | undefined;
   /** Operation name for display purposes */
-  name?: string;
+  name?: string | undefined;
   /** origin of the operation */
-  origin?: string;
+  origin?: string | undefined;
   /** properties for the operation meta info */
-  properties?: OperationMetaPropertyInfo;
+  properties?: OperationMetaPropertyInfo | undefined;
 }
 /** Collection of items of type DataTransferObjects. */
 export type OperationListValueList = Array<OperationModel>;
 /** List response for get operations. */
 export interface OperationList {
   /** The Url of next result page. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Collection of items of type DataTransferObjects. */
   value: OperationListValueList;
 }
@@ -1431,27 +1433,27 @@ export interface ListProviderShareSubscriptionByShareRequest {
   /** The name of the share. */
   shareName: string;
   /** Continuation Token */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** A provider side share subscription data transfer object. */
 export interface ProviderShareSubscription {
   /** The resource id of the azure resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the azure resource */
-  name?: string;
+  name?: string | undefined;
   /** System Data of the Azure resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Type of the azure resource */
-  type?: string;
+  type?: string | undefined;
   /** properties of providerShareSubscription */
-  properties?: ProviderShareSubscriptionProperties;
+  properties?: ProviderShareSubscriptionProperties | undefined;
 }
 /** Collection of items of type DataTransferObjects. */
 export type ProviderShareSubscriptionListValueList = Array<ProviderShareSubscription>;
 /** List response for get ShareSubscription. */
 export interface ProviderShareSubscriptionList {
   /** The Url of next result page. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Collection of items of type DataTransferObjects. */
   value: ProviderShareSubscriptionListValueList;
 }
@@ -1463,31 +1465,31 @@ export interface ListShareByAccountRequest {
   /** The name of the share account. */
   accountName: string;
   /** Continuation Token */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
   /** Filters the results using OData syntax. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Sorts the results using OData syntax. */
-  _orderby?: string;
+  _orderby?: string | undefined;
 }
 /** A share data transfer object. */
 export interface Share {
   /** The resource id of the azure resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the azure resource */
-  name?: string;
+  name?: string | undefined;
   /** System Data of the Azure resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Type of the azure resource */
-  type?: string;
+  type?: string | undefined;
   /** Properties on the share */
-  properties?: ShareProperties;
+  properties?: ShareProperties | undefined;
 }
 /** Collection of items of type DataTransferObjects. */
 export type ShareListValueList = Array<Share>;
 /** List response for get Shares. */
 export interface ShareList {
   /** The Url of next result page. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Collection of items of type DataTransferObjects. */
   value: ShareListValueList;
 }
@@ -1499,22 +1501,22 @@ export interface ListShareSubscriptionByAccountRequest {
   /** The name of the share account. */
   accountName: string;
   /** Continuation Token */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
   /** Filters the results using OData syntax. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Sorts the results using OData syntax. */
-  _orderby?: string;
+  _orderby?: string | undefined;
 }
 /** A share subscription data transfer object. */
 export interface ShareSubscription {
   /** The resource id of the azure resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the azure resource */
-  name?: string;
+  name?: string | undefined;
   /** System Data of the Azure resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Type of the azure resource */
-  type?: string;
+  type?: string | undefined;
   /** Properties on the share subscription */
   properties: ShareSubscriptionProperties;
 }
@@ -1523,7 +1525,7 @@ export type ShareSubscriptionListValueList = Array<ShareSubscription>;
 /** List response for get ShareSubscription. */
 export interface ShareSubscriptionList {
   /** The Url of next result page. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Collection of items of type DataTransferObjects. */
   value: ShareSubscriptionListValueList;
 }
@@ -1537,7 +1539,7 @@ export interface ListShareSubscriptionSourceShareSynchronizationSettingsRequest 
   /** The name of the shareSubscription. */
   shareSubscriptionName: string;
   /** Continuation token */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Kind of synchronization setting on share. */
 export type SourceShareSynchronizationSettingKind = "ScheduleBased";
@@ -1552,7 +1554,7 @@ export type SourceShareSynchronizationSettingListValueList =
 /** List response for get source share Synchronization settings */
 export interface SourceShareSynchronizationSettingList {
   /** The Url of next result page. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Collection of items of type DataTransferObjects. */
   value: SourceShareSynchronizationSettingListValueList;
 }
@@ -1566,11 +1568,11 @@ export interface ListShareSubscriptionSynchronizationDetailsRequest {
   /** The name of the share subscription. */
   shareSubscriptionName: string;
   /** Continuation token */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
   /** Filters the results using OData syntax. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Sorts the results using OData syntax. */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** Synchronization id */
   synchronizationId: string;
 }
@@ -1593,42 +1595,42 @@ export type SynchronizationDetailsDataSetType =
 /** Synchronization details at data set level */
 export interface SynchronizationDetails {
   /** Id of data set */
-  dataSetId?: string;
+  dataSetId?: string | undefined;
   /** Type of the data set */
-  dataSetType?: SynchronizationDetailsDataSetType;
+  dataSetType?: SynchronizationDetailsDataSetType | undefined;
   /** Duration of data set level copy */
-  durationMs?: number;
+  durationMs?: number | undefined;
   /** End time of data set level copy */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The number of files read from the source data set */
-  filesRead?: number;
+  filesRead?: number | undefined;
   /** The number of files written into the sink data set */
-  filesWritten?: number;
+  filesWritten?: number | undefined;
   /** Error message if any */
-  message?: string;
+  message?: string | undefined;
   /** Name of the data set */
-  name?: string;
+  name?: string | undefined;
   /** The number of files copied into the sink data set */
-  rowsCopied?: number;
+  rowsCopied?: number | undefined;
   /** The number of rows read from the source data set. */
-  rowsRead?: number;
+  rowsRead?: number | undefined;
   /** The size of the data read from the source data set in bytes */
-  sizeRead?: number;
+  sizeRead?: number | undefined;
   /** The size of the data written into the sink data set in bytes */
-  sizeWritten?: number;
+  sizeWritten?: number | undefined;
   /** Start time of data set level copy */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Raw Status */
-  status?: string;
+  status?: string | undefined;
   /** The vCore units consumed for the data set synchronization */
-  vCore?: number;
+  vCore?: number | undefined;
 }
 /** Collection of items of type DataTransferObjects. */
 export type SynchronizationDetailsListValueList = Array<SynchronizationDetails>;
 /** details of synchronization */
 export interface SynchronizationDetailsList {
   /** The Url of next result page. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Collection of items of type DataTransferObjects. */
   value: SynchronizationDetailsListValueList;
 }
@@ -1642,18 +1644,18 @@ export interface ListShareSubscriptionSynchronizationsRequest {
   /** The name of the share subscription. */
   shareSubscriptionName: string;
   /** Continuation token */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
   /** Filters the results using OData syntax. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Sorts the results using OData syntax. */
-  _orderby?: string;
+  _orderby?: string | undefined;
 }
 /** Collection of items of type DataTransferObjects. */
 export type ShareSubscriptionSynchronizationListValueList = Array<ShareSubscriptionSynchronization>;
 /** A consumer side list of share subscription synchronizations */
 export interface ShareSubscriptionSynchronizationList {
   /** The Url of next result page. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Collection of items of type DataTransferObjects. */
   value: ShareSubscriptionSynchronizationListValueList;
 }
@@ -1667,29 +1669,29 @@ export interface ListShareSynchronizationDetailsRequest {
   /** The name of the share. */
   shareName: string;
   /** Continuation token */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
   /** Filters the results using OData syntax. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Sorts the results using OData syntax. */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** Email of the user who created the synchronization */
-  consumerEmail?: string;
+  consumerEmail?: string | undefined;
   /** Name of the user who created the synchronization */
-  consumerName?: string;
+  consumerName?: string | undefined;
   /** Tenant name of the consumer who created the synchronization */
-  consumerTenantName?: string;
+  consumerTenantName?: string | undefined;
   /** synchronization duration */
-  durationMs?: number;
+  durationMs?: number | undefined;
   /** End time of synchronization */
-  endTime?: string;
+  endTime?: string | undefined;
   /** message of synchronization */
-  message?: string;
+  message?: string | undefined;
   /** start time of synchronization */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Raw Status */
-  status?: string;
+  status?: string | undefined;
   /** Synchronization id */
-  synchronizationId?: string;
+  synchronizationId?: string | undefined;
 }
 export interface ListShareSynchronizationsRequest {
   /** The subscription identifier */
@@ -1701,43 +1703,43 @@ export interface ListShareSynchronizationsRequest {
   /** The name of the share. */
   shareName: string;
   /** Continuation token */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
   /** Filters the results using OData syntax. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Sorts the results using OData syntax. */
-  _orderby?: string;
+  _orderby?: string | undefined;
 }
 /** Synchronization mode */
 export type ShareSynchronizationSynchronizationMode = "Incremental" | "FullSync";
 /** A ShareSynchronization data transfer object. */
 export interface ShareSynchronization {
   /** Email of the user who created the synchronization */
-  consumerEmail?: string;
+  consumerEmail?: string | undefined;
   /** Name of the user who created the synchronization */
-  consumerName?: string;
+  consumerName?: string | undefined;
   /** Tenant name of the consumer who created the synchronization */
-  consumerTenantName?: string;
+  consumerTenantName?: string | undefined;
   /** synchronization duration */
-  durationMs?: number;
+  durationMs?: number | undefined;
   /** End time of synchronization */
-  endTime?: string;
+  endTime?: string | undefined;
   /** message of synchronization */
-  message?: string;
+  message?: string | undefined;
   /** start time of synchronization */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Raw Status */
-  status?: string;
+  status?: string | undefined;
   /** Synchronization id */
-  synchronizationId?: string;
+  synchronizationId?: string | undefined;
   /** Synchronization mode */
-  synchronizationMode?: ShareSynchronizationSynchronizationMode;
+  synchronizationMode?: ShareSynchronizationSynchronizationMode | undefined;
 }
 /** Collection of items of type DataTransferObjects. */
 export type ShareSynchronizationListValueList = Array<ShareSynchronization>;
 /** List response for get ShareSynchronization. */
 export interface ShareSynchronizationList {
   /** The Url of next result page. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Collection of items of type DataTransferObjects. */
   value: ShareSynchronizationListValueList;
 }
@@ -1751,20 +1753,20 @@ export interface ListSynchronizationSettingsByShareRequest {
   /** The name of the share. */
   shareName: string;
   /** continuation token */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Kind of synchronization setting. */
 export type SynchronizationSettingKind = "ScheduleBased";
 /** A Synchronization Setting data transfer object. */
 export interface SynchronizationSetting {
   /** The resource id of the azure resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the azure resource */
-  name?: string;
+  name?: string | undefined;
   /** System Data of the Azure resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Type of the azure resource */
-  type?: string;
+  type?: string | undefined;
   /** Kind of synchronization setting. */
   kind: SynchronizationSettingKind;
 }
@@ -1773,7 +1775,7 @@ export type SynchronizationSettingListValueList = Array<SynchronizationSetting>;
 /** List response for get Synchronization settings */
 export interface SynchronizationSettingList {
   /** The Url of next result page. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Collection of items of type DataTransferObjects. */
   value: SynchronizationSettingListValueList;
 }
@@ -1787,20 +1789,20 @@ export interface ListTriggerByShareSubscriptionRequest {
   /** The name of the share subscription. */
   shareSubscriptionName: string;
   /** Continuation token */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Kind of synchronization on trigger. */
 export type TriggerKind = "ScheduleBased";
 /** A Trigger data transfer object. */
 export interface Trigger {
   /** The resource id of the azure resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the azure resource */
-  name?: string;
+  name?: string | undefined;
   /** System Data of the Azure resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Type of the azure resource */
-  type?: string;
+  type?: string | undefined;
   /** Kind of synchronization on trigger. */
   kind: TriggerKind;
 }
@@ -1809,14 +1811,14 @@ export type TriggerListValueList = Array<Trigger>;
 /** List response for get triggers */
 export interface TriggerList {
   /** The Url of next result page. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Collection of items of type DataTransferObjects. */
   value: TriggerListValueList;
 }
 /** Provider share subscription properties */
 export interface ProviderShareSubscriptionPropertiesInput {
   /** Expiration date of the share subscription in UTC format */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
 }
 export interface ProviderShareSubscriptionsAdjustRequest {
   /** The subscription identifier */
@@ -1830,19 +1832,19 @@ export interface ProviderShareSubscriptionsAdjustRequest {
   /** To locate shareSubscription */
   providerShareSubscriptionId: string;
   /** properties of providerShareSubscription */
-  properties?: ProviderShareSubscriptionPropertiesInput;
+  properties?: ProviderShareSubscriptionPropertiesInput | undefined;
 }
 export interface ProviderShareSubscriptionsAdjustResponse {
   /** The resource id of the azure resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the azure resource */
-  name?: string;
+  name?: string | undefined;
   /** System Data of the Azure resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Type of the azure resource */
-  type?: string;
+  type?: string | undefined;
   /** properties of providerShareSubscription */
-  properties?: ProviderShareSubscriptionProperties;
+  properties?: ProviderShareSubscriptionProperties | undefined;
 }
 export interface ProviderShareSubscriptionsReinstateRequest {
   /** The subscription identifier */
@@ -1856,19 +1858,19 @@ export interface ProviderShareSubscriptionsReinstateRequest {
   /** To locate shareSubscription */
   providerShareSubscriptionId: string;
   /** properties of providerShareSubscription */
-  properties?: ProviderShareSubscriptionPropertiesInput;
+  properties?: ProviderShareSubscriptionPropertiesInput | undefined;
 }
 export interface ProviderShareSubscriptionsReinstateResponse {
   /** The resource id of the azure resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the azure resource */
-  name?: string;
+  name?: string | undefined;
   /** System Data of the Azure resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Type of the azure resource */
-  type?: string;
+  type?: string | undefined;
   /** properties of providerShareSubscription */
-  properties?: ProviderShareSubscriptionProperties;
+  properties?: ProviderShareSubscriptionProperties | undefined;
 }
 export interface RegisterEmailRegistrationEmailRequest {
   /** Location of the registration */
@@ -1887,13 +1889,13 @@ export interface RejectConsumerInvitationInvitationRequest {
 }
 export interface RejectConsumerInvitationInvitationResponse {
   /** The resource id of the azure resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the azure resource */
-  name?: string;
+  name?: string | undefined;
   /** System Data of the Azure resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Type of the azure resource */
-  type?: string;
+  type?: string | undefined;
   /** Properties on the account */
   properties: ConsumerInvitationProperties;
 }
@@ -1911,15 +1913,15 @@ export interface RevokeProviderShareSubscriptionRequest {
 }
 export interface RevokeProviderShareSubscriptionResponse {
   /** The resource id of the azure resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the azure resource */
-  name?: string;
+  name?: string | undefined;
   /** System Data of the Azure resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Type of the azure resource */
-  type?: string;
+  type?: string | undefined;
   /** properties of providerShareSubscription */
-  properties?: ProviderShareSubscriptionProperties;
+  properties?: ProviderShareSubscriptionProperties | undefined;
 }
 /** Mode of synchronization used in triggers and snapshot sync. Incremental by default */
 export type ShareSubscriptionsSynchronizeRequestSynchronizationMode = "Incremental" | "FullSync";
@@ -1933,7 +1935,10 @@ export interface ShareSubscriptionsSynchronizeRequest {
   /** The name of share subscription */
   shareSubscriptionName: string;
   /** Mode of synchronization used in triggers and snapshot sync. Incremental by default */
-  synchronizationMode?: ShareSubscriptionsSynchronizeRequestSynchronizationMode | (string & {});
+  synchronizationMode?:
+    | ShareSubscriptionsSynchronizeRequestSynchronizationMode
+    | (string & {})
+    | undefined;
 }
 /** Tags on the azure resource. */
 export type UpdateAccountRequestTagsMap = { [key: string]: string | undefined };
@@ -1945,27 +1950,27 @@ export interface UpdateAccountRequest {
   /** The name of the share account. */
   accountName: string;
   /** Tags on the azure resource. */
-  tags?: UpdateAccountRequestTagsMap;
+  tags?: UpdateAccountRequestTagsMap | undefined;
 }
 /** Tags on the azure resource. */
 export type UpdateAccountResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateAccountResponse {
   /** The resource id of the azure resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the azure resource */
-  name?: string;
+  name?: string | undefined;
   /** System Data of the Azure resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Type of the azure resource */
-  type?: string;
+  type?: string | undefined;
   /** Location of the azure resource. */
-  location?: string;
+  location?: string | undefined;
   /** Tags on the azure resource. */
-  tags?: UpdateAccountResponseTagsMap;
+  tags?: UpdateAccountResponseTagsMap | undefined;
   /** Identity Info on the Account */
   identity: Identity;
   /** Properties on the account */
-  properties?: AccountProperties;
+  properties?: AccountProperties | undefined;
 }
 export type ActivateEmailRegistrationEmailError = AzureOpError;
 /** Activates the tenant and email combination using email code received. Activate the email registration for the current tenant */

@@ -1,0 +1,60 @@
+{
+  "description": "Type the missing warm-pool routes: Daytona Cloud (API v0.229.2) does not serve /warm-pools; the NestJS router answers HTTP 404 \"Cannot GET /api/warm-pools\" (observed live 2026-11-03).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.warm_pools#WarmPoolsUnavailable",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "This Daytona deployment does not serve warm pools (HTTP 404 on /warm-pools).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "message": {
+                "matches": "^Cannot (GET|POST|PATCH|DELETE) /api/warm-pools"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.warm_pools#ListWarmPools/errors",
+      "value": [
+        {
+          "target": "com.daytona.warm_pools#WarmPoolsUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.warm_pools#CreateWarmPool/errors/-",
+      "value": {
+        "target": "com.daytona.warm_pools#WarmPoolsUnavailable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.warm_pools#UpdateWarmPool/errors/-",
+      "value": {
+        "target": "com.daytona.warm_pools#WarmPoolsUnavailable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.warm_pools#DeleteWarmPool/errors/-",
+      "value": {
+        "target": "com.daytona.warm_pools#WarmPoolsUnavailable"
+      }
+    }
+  ]
+}

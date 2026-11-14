@@ -1,0 +1,10 @@
+{
+  "description": "BuilderCredentials.private_key_pem is documented as a PEM container with exactly one \"PRIVATE KEY\" block but carries no sensitive mark. proto/namespace/cloud/builder/v1beta/builder.proto. Source: buf.build/namespace/cloud, fetched 2026-11-11.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.builder#BuilderCredentials/members/privateKeyPem/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

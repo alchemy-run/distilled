@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -111,13 +112,13 @@ export class InternalFailureException
     "InternalFailureException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
     "InternalServerException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class NotFoundException
   extends /*@__PURE__*/ S.TaggedError<NotFoundException>()(
     "NotFoundException",
@@ -147,7 +148,7 @@ export class TooManyRequestsException
     "TooManyRequestsException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
@@ -167,18 +168,18 @@ export type BlueprintType = string;
 export type BlueprintTypes = string[];
 export type DependencyType = "LambdaLayer" | (string & {});
 export interface Dependency {
-  Type?: DependencyType;
+  Type?: DependencyType | undefined;
   Reference: string;
 }
 export type Dependencies = Dependency[];
 export interface CanaryCodeInput {
-  S3Bucket?: string;
-  S3Key?: string;
-  S3Version?: string;
-  ZipFile?: Uint8Array;
-  Handler?: string;
-  BlueprintTypes?: string[];
-  Dependencies?: Dependency[];
+  S3Bucket?: string | undefined;
+  S3Key?: string | undefined;
+  S3Version?: string | undefined;
+  ZipFile?: Uint8Array | undefined;
+  Handler?: string | undefined;
+  BlueprintTypes?: string[] | undefined;
+  Dependencies?: Dependency[] | undefined;
 }
 export type RoleArn = string;
 export type MaxOneYearInSeconds = number;
@@ -188,8 +189,8 @@ export interface RetryConfigInput {
 }
 export interface CanaryScheduleInput {
   Expression: string;
-  DurationInSeconds?: number;
-  RetryConfig?: RetryConfigInput;
+  DurationInSeconds?: number | undefined;
+  RetryConfig?: RetryConfigInput | undefined;
 }
 export type MaxFifteenMinutesInSeconds = number;
 export type MaxSize3008 = number;
@@ -198,11 +199,11 @@ export type EnvironmentVariableValue = string;
 export type EnvironmentVariablesMap = { [key: string]: string | undefined };
 export type EphemeralStorageSize = number;
 export interface CanaryRunConfigInput {
-  TimeoutInSeconds?: number;
-  MemoryInMB?: number;
-  ActiveTracing?: boolean;
-  EnvironmentVariables?: { [key: string]: string | undefined };
-  EphemeralStorage?: number;
+  TimeoutInSeconds?: number | undefined;
+  MemoryInMB?: number | undefined;
+  ActiveTracing?: boolean | undefined;
+  EnvironmentVariables?: { [key: string]: string | undefined } | undefined;
+  EphemeralStorage?: number | undefined;
 }
 export type MaxSize1024 = number;
 export type SubnetId = string;
@@ -210,24 +211,24 @@ export type SubnetIds = string[];
 export type SecurityGroupId = string;
 export type SecurityGroupIds = string[];
 export interface VpcConfigInput {
-  SubnetIds?: string[];
-  SecurityGroupIds?: string[];
-  Ipv6AllowedForDualStack?: boolean;
+  SubnetIds?: string[] | undefined;
+  SecurityGroupIds?: string[] | undefined;
+  Ipv6AllowedForDualStack?: boolean | undefined;
 }
 export type ResourceToTag = "lambda-function" | (string & {});
 export type ResourceList = ResourceToTag[];
 export type ProvisionedResourceCleanupSetting = "AUTOMATIC" | "OFF" | (string & {});
 export type BrowserType = "CHROME" | "FIREFOX" | (string & {});
 export interface BrowserConfig {
-  BrowserType?: BrowserType;
+  BrowserType?: BrowserType | undefined;
 }
 export type BrowserConfigs = BrowserConfig[];
 export type Location = string;
 export type KmsKeyArn = string;
 export interface AddReplicaLocationInput {
   Location: string;
-  VpcConfig?: VpcConfigInput;
-  KmsKeyArn?: string;
+  VpcConfig?: VpcConfigInput | undefined;
+  KmsKeyArn?: string | undefined;
 }
 export type AddReplicaLocations = AddReplicaLocationInput[];
 export type TagKey = string;
@@ -235,11 +236,11 @@ export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
 export type EncryptionMode = "SSE_S3" | "SSE_KMS" | (string & {});
 export interface S3EncryptionConfig {
-  EncryptionMode?: EncryptionMode;
-  KmsKeyArn?: string;
+  EncryptionMode?: EncryptionMode | undefined;
+  KmsKeyArn?: string | undefined;
 }
 export interface ArtifactConfigInput {
-  S3Encryption?: S3EncryptionConfig;
+  S3Encryption?: S3EncryptionConfig | undefined;
 }
 export interface CreateCanaryRequest {
   Name: string;
@@ -247,39 +248,39 @@ export interface CreateCanaryRequest {
   ArtifactS3Location: string;
   ExecutionRoleArn: string;
   Schedule: CanaryScheduleInput;
-  RunConfig?: CanaryRunConfigInput;
-  SuccessRetentionPeriodInDays?: number;
-  FailureRetentionPeriodInDays?: number;
+  RunConfig?: CanaryRunConfigInput | undefined;
+  SuccessRetentionPeriodInDays?: number | undefined;
+  FailureRetentionPeriodInDays?: number | undefined;
   RuntimeVersion: string;
-  VpcConfig?: VpcConfigInput;
-  ResourcesToReplicateTags?: ResourceToTag[];
-  ProvisionedResourceCleanup?: ProvisionedResourceCleanupSetting;
-  BrowserConfigs?: BrowserConfig[];
-  AddReplicaLocations?: AddReplicaLocationInput[];
-  Tags?: { [key: string]: string | undefined };
-  ArtifactConfig?: ArtifactConfigInput;
-  KmsKeyArn?: string;
+  VpcConfig?: VpcConfigInput | undefined;
+  ResourcesToReplicateTags?: ResourceToTag[] | undefined;
+  ProvisionedResourceCleanup?: ProvisionedResourceCleanupSetting | undefined;
+  BrowserConfigs?: BrowserConfig[] | undefined;
+  AddReplicaLocations?: AddReplicaLocationInput[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ArtifactConfig?: ArtifactConfigInput | undefined;
+  KmsKeyArn?: string | undefined;
 }
 export type UUID = string;
 export interface CanaryCodeOutput {
-  SourceLocationArn?: string;
-  Handler?: string;
-  BlueprintTypes?: string[];
-  Dependencies?: Dependency[];
+  SourceLocationArn?: string | undefined;
+  Handler?: string | undefined;
+  BlueprintTypes?: string[] | undefined;
+  Dependencies?: Dependency[] | undefined;
 }
 export interface RetryConfigOutput {
-  MaxRetries?: number;
+  MaxRetries?: number | undefined;
 }
 export interface CanaryScheduleOutput {
-  Expression?: string;
-  DurationInSeconds?: number;
-  RetryConfig?: RetryConfigOutput;
+  Expression?: string | undefined;
+  DurationInSeconds?: number | undefined;
+  RetryConfig?: RetryConfigOutput | undefined;
 }
 export interface CanaryRunConfigOutput {
-  TimeoutInSeconds?: number;
-  MemoryInMB?: number;
-  ActiveTracing?: boolean;
-  EphemeralStorage?: number;
+  TimeoutInSeconds?: number | undefined;
+  MemoryInMB?: number | undefined;
+  ActiveTracing?: boolean | undefined;
+  EphemeralStorage?: number | undefined;
 }
 export type CanaryState =
   | "CREATING"
@@ -307,119 +308,119 @@ export type CanaryStateReasonCode =
   | "SYNC_DELETE_IN_PROGRESS"
   | (string & {});
 export interface CanaryStatus {
-  State?: CanaryState;
-  StateReason?: string;
-  StateReasonCode?: CanaryStateReasonCode;
+  State?: CanaryState | undefined;
+  StateReason?: string | undefined;
+  StateReasonCode?: CanaryStateReasonCode | undefined;
 }
 export interface CanaryTimeline {
-  Created?: Date;
-  LastModified?: Date;
-  LastStarted?: Date;
-  LastStopped?: Date;
+  Created?: Date | undefined;
+  LastModified?: Date | undefined;
+  LastStarted?: Date | undefined;
+  LastStopped?: Date | undefined;
 }
 export type FunctionArn = string;
 export type VpcId = string;
 export interface VpcConfigOutput {
-  VpcId?: string;
-  SubnetIds?: string[];
-  SecurityGroupIds?: string[];
-  Ipv6AllowedForDualStack?: boolean;
+  VpcId?: string | undefined;
+  SubnetIds?: string[] | undefined;
+  SecurityGroupIds?: string[] | undefined;
+  Ipv6AllowedForDualStack?: boolean | undefined;
 }
 export type BaseScreenshotConfigIgnoreCoordinate = string;
 export type BaseScreenshotIgnoreCoordinates = string[];
 export interface BaseScreenshot {
   ScreenshotName: string;
-  IgnoreCoordinates?: string[];
+  IgnoreCoordinates?: string[] | undefined;
 }
 export type BaseScreenshots = BaseScreenshot[];
 export interface VisualReferenceOutput {
-  BaseScreenshots?: BaseScreenshot[];
-  BaseCanaryRunId?: string;
-  BrowserType?: BrowserType;
+  BaseScreenshots?: BaseScreenshot[] | undefined;
+  BaseCanaryRunId?: string | undefined;
+  BrowserType?: BrowserType | undefined;
 }
 export interface EngineConfig {
-  EngineArn?: string;
-  BrowserType?: BrowserType;
+  EngineArn?: string | undefined;
+  BrowserType?: BrowserType | undefined;
 }
 export type EngineConfigs = EngineConfig[];
 export type VisualReferencesOutput = VisualReferenceOutput[];
 export type LocationType = "Primary" | "Replica" | (string & {});
 export type ReplicationState = "InProgress" | "InSync" | "Inconsistent" | (string & {});
 export interface ReplicationStatus {
-  State?: ReplicationState;
-  StateReason?: string;
-  StateReasonCode?: string;
+  State?: ReplicationState | undefined;
+  StateReason?: string | undefined;
+  StateReasonCode?: string | undefined;
 }
 export interface Replica {
-  Location?: string;
-  ReplicationStatus?: ReplicationStatus;
-  CanaryState?: CanaryState;
-  LastModified?: Date;
-  VpcConfig?: VpcConfigOutput;
+  Location?: string | undefined;
+  ReplicationStatus?: ReplicationStatus | undefined;
+  CanaryState?: CanaryState | undefined;
+  LastModified?: Date | undefined;
+  VpcConfig?: VpcConfigOutput | undefined;
 }
 export type Replicas = Replica[];
 export interface MultiLocationConfig {
-  LocationType?: LocationType;
-  PrimaryLocation?: string;
-  Replicas?: Replica[];
-  ReplicationState?: ReplicationState;
+  LocationType?: LocationType | undefined;
+  PrimaryLocation?: string | undefined;
+  Replicas?: Replica[] | undefined;
+  ReplicationState?: ReplicationState | undefined;
 }
 export interface ArtifactConfigOutput {
-  S3Encryption?: S3EncryptionConfig;
+  S3Encryption?: S3EncryptionConfig | undefined;
 }
 export interface DryRunConfigOutput {
-  DryRunId?: string;
-  LastDryRunExecutionStatus?: string;
+  DryRunId?: string | undefined;
+  LastDryRunExecutionStatus?: string | undefined;
 }
 export interface Canary {
-  Id?: string;
-  Name?: string;
-  Code?: CanaryCodeOutput;
-  ExecutionRoleArn?: string;
-  Schedule?: CanaryScheduleOutput;
-  RunConfig?: CanaryRunConfigOutput;
-  SuccessRetentionPeriodInDays?: number;
-  FailureRetentionPeriodInDays?: number;
-  Status?: CanaryStatus;
-  Timeline?: CanaryTimeline;
-  ArtifactS3Location?: string;
-  EngineArn?: string;
-  RuntimeVersion?: string;
-  VpcConfig?: VpcConfigOutput;
-  VisualReference?: VisualReferenceOutput;
-  ProvisionedResourceCleanup?: ProvisionedResourceCleanupSetting;
-  BrowserConfigs?: BrowserConfig[];
-  EngineConfigs?: EngineConfig[];
-  VisualReferences?: VisualReferenceOutput[];
-  MultiLocationConfig?: MultiLocationConfig;
-  Tags?: { [key: string]: string | undefined };
-  ArtifactConfig?: ArtifactConfigOutput;
-  KmsKeyArn?: string;
-  DryRunConfig?: DryRunConfigOutput;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Code?: CanaryCodeOutput | undefined;
+  ExecutionRoleArn?: string | undefined;
+  Schedule?: CanaryScheduleOutput | undefined;
+  RunConfig?: CanaryRunConfigOutput | undefined;
+  SuccessRetentionPeriodInDays?: number | undefined;
+  FailureRetentionPeriodInDays?: number | undefined;
+  Status?: CanaryStatus | undefined;
+  Timeline?: CanaryTimeline | undefined;
+  ArtifactS3Location?: string | undefined;
+  EngineArn?: string | undefined;
+  RuntimeVersion?: string | undefined;
+  VpcConfig?: VpcConfigOutput | undefined;
+  VisualReference?: VisualReferenceOutput | undefined;
+  ProvisionedResourceCleanup?: ProvisionedResourceCleanupSetting | undefined;
+  BrowserConfigs?: BrowserConfig[] | undefined;
+  EngineConfigs?: EngineConfig[] | undefined;
+  VisualReferences?: VisualReferenceOutput[] | undefined;
+  MultiLocationConfig?: MultiLocationConfig | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ArtifactConfig?: ArtifactConfigOutput | undefined;
+  KmsKeyArn?: string | undefined;
+  DryRunConfig?: DryRunConfigOutput | undefined;
 }
 export interface CreateCanaryResponse {
-  Canary?: Canary;
+  Canary?: Canary | undefined;
 }
 export type GroupName = string;
 export interface CreateGroupRequest {
   Name: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type GroupArn = string;
 export interface Group {
-  Id?: string;
-  Name?: string;
-  Arn?: string;
-  Tags?: { [key: string]: string | undefined };
-  CreatedTime?: Date;
-  LastModifiedTime?: Date;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Arn?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  CreatedTime?: Date | undefined;
+  LastModifiedTime?: Date | undefined;
 }
 export interface CreateGroupResponse {
-  Group?: Group;
+  Group?: Group | undefined;
 }
 export interface DeleteCanaryRequest {
   Name: string;
-  DeleteLambda?: boolean;
+  DeleteLambda?: boolean | undefined;
 }
 export interface DeleteCanaryResponse {}
 export interface DeleteGroupRequest {
@@ -430,76 +431,76 @@ export type Token = string;
 export type MaxCanaryResults = number;
 export type DescribeCanariesNameFilter = string[];
 export interface DescribeCanariesRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Names?: string[];
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Names?: string[] | undefined;
 }
 export type Canaries = Canary[];
 export interface DescribeCanariesResponse {
-  Canaries?: Canary[];
-  NextToken?: string;
+  Canaries?: Canary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type MaxSize100 = number;
 export type DescribeCanariesLastRunNameFilter = string[];
 export interface DescribeCanariesLastRunRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Names?: string[];
-  BrowserType?: BrowserType;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Names?: string[] | undefined;
+  BrowserType?: BrowserType | undefined;
 }
 export type RetryAttempt = number;
 export type CanaryRunState = "RUNNING" | "PASSED" | "FAILED" | (string & {});
 export type CanaryRunStateReasonCode = "CANARY_FAILURE" | "EXECUTION_FAILURE" | (string & {});
 export type CanaryRunTestResult = "PASSED" | "FAILED" | "UNKNOWN" | (string & {});
 export interface CanaryRunStatus {
-  State?: CanaryRunState;
-  StateReason?: string;
-  StateReasonCode?: CanaryRunStateReasonCode;
-  TestResult?: CanaryRunTestResult;
+  State?: CanaryRunState | undefined;
+  StateReason?: string | undefined;
+  StateReasonCode?: CanaryRunStateReasonCode | undefined;
+  TestResult?: CanaryRunTestResult | undefined;
 }
 export interface CanaryRunTimeline {
-  Started?: Date;
-  Completed?: Date;
-  MetricTimestampForRunAndRetries?: Date;
+  Started?: Date | undefined;
+  Completed?: Date | undefined;
+  MetricTimestampForRunAndRetries?: Date | undefined;
 }
 export interface CanaryDryRunConfigOutput {
-  DryRunId?: string;
+  DryRunId?: string | undefined;
 }
 export interface CanaryRun {
-  Id?: string;
-  ScheduledRunId?: string;
-  RetryAttempt?: number;
-  Name?: string;
-  Status?: CanaryRunStatus;
-  Timeline?: CanaryRunTimeline;
-  ArtifactS3Location?: string;
-  DryRunConfig?: CanaryDryRunConfigOutput;
-  BrowserType?: BrowserType;
-  Location?: string;
+  Id?: string | undefined;
+  ScheduledRunId?: string | undefined;
+  RetryAttempt?: number | undefined;
+  Name?: string | undefined;
+  Status?: CanaryRunStatus | undefined;
+  Timeline?: CanaryRunTimeline | undefined;
+  ArtifactS3Location?: string | undefined;
+  DryRunConfig?: CanaryDryRunConfigOutput | undefined;
+  BrowserType?: BrowserType | undefined;
+  Location?: string | undefined;
 }
 export interface CanaryLastRun {
-  CanaryName?: string;
-  LastRun?: CanaryRun;
+  CanaryName?: string | undefined;
+  LastRun?: CanaryRun | undefined;
 }
 export type CanariesLastRun = CanaryLastRun[];
 export interface DescribeCanariesLastRunResponse {
-  CanariesLastRun?: CanaryLastRun[];
-  NextToken?: string;
+  CanariesLastRun?: CanaryLastRun[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeRuntimeVersionsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface RuntimeVersion {
-  VersionName?: string;
-  Description?: string;
-  ReleaseDate?: Date;
-  DeprecationDate?: Date;
+  VersionName?: string | undefined;
+  Description?: string | undefined;
+  ReleaseDate?: Date | undefined;
+  DeprecationDate?: Date | undefined;
 }
 export type RuntimeVersionList = RuntimeVersion[];
 export interface DescribeRuntimeVersionsResponse {
-  RuntimeVersions?: RuntimeVersion[];
-  NextToken?: string;
+  RuntimeVersions?: RuntimeVersion[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DisassociateResourceRequest {
   GroupIdentifier: string;
@@ -508,100 +509,100 @@ export interface DisassociateResourceRequest {
 export interface DisassociateResourceResponse {}
 export interface GetCanaryRequest {
   Name: string;
-  DryRunId?: string;
+  DryRunId?: string | undefined;
 }
 export interface GetCanaryResponse {
-  Canary?: Canary;
+  Canary?: Canary | undefined;
 }
 export type RunType = "CANARY_RUN" | "DRY_RUN" | (string & {});
 export interface GetCanaryRunsRequest {
   Name: string;
-  NextToken?: string;
-  MaxResults?: number;
-  DryRunId?: string;
-  RunType?: RunType;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  DryRunId?: string | undefined;
+  RunType?: RunType | undefined;
 }
 export type CanaryRuns = CanaryRun[];
 export interface GetCanaryRunsResponse {
-  CanaryRuns?: CanaryRun[];
-  NextToken?: string;
+  CanaryRuns?: CanaryRun[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetGroupRequest {
   GroupIdentifier: string;
 }
 export interface GetGroupResponse {
-  Group?: Group;
+  Group?: Group | undefined;
 }
 export type PaginationToken = string;
 export type MaxGroupResults = number;
 export interface ListAssociatedGroupsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
   ResourceArn: string;
 }
 export interface GroupSummary {
-  Id?: string;
-  Name?: string;
-  Arn?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Arn?: string | undefined;
 }
 export type GroupSummaryList = GroupSummary[];
 export interface ListAssociatedGroupsResponse {
-  Groups?: GroupSummary[];
-  NextToken?: string;
+  Groups?: GroupSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListGroupResourcesRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
   GroupIdentifier: string;
 }
 export type StringList = string[];
 export interface ListGroupResourcesResponse {
-  Resources?: string[];
-  NextToken?: string;
+  Resources?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListGroupsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListGroupsResponse {
-  Groups?: GroupSummary[];
-  NextToken?: string;
+  Groups?: GroupSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ResourceArn = string;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartCanaryRequest {
   Name: string;
 }
 export interface StartCanaryResponse {}
 export interface VisualReferenceInput {
-  BaseScreenshots?: BaseScreenshot[];
+  BaseScreenshots?: BaseScreenshot[] | undefined;
   BaseCanaryRunId: string;
-  BrowserType?: BrowserType;
+  BrowserType?: BrowserType | undefined;
 }
 export type VisualReferences = VisualReferenceInput[];
 export interface StartCanaryDryRunRequest {
   Name: string;
-  Code?: CanaryCodeInput;
-  RuntimeVersion?: string;
-  RunConfig?: CanaryRunConfigInput;
-  VpcConfig?: VpcConfigInput;
-  ExecutionRoleArn?: string;
-  SuccessRetentionPeriodInDays?: number;
-  FailureRetentionPeriodInDays?: number;
-  VisualReference?: VisualReferenceInput;
-  ArtifactS3Location?: string;
-  ArtifactConfig?: ArtifactConfigInput;
-  ProvisionedResourceCleanup?: ProvisionedResourceCleanupSetting;
-  BrowserConfigs?: BrowserConfig[];
-  VisualReferences?: VisualReferenceInput[];
+  Code?: CanaryCodeInput | undefined;
+  RuntimeVersion?: string | undefined;
+  RunConfig?: CanaryRunConfigInput | undefined;
+  VpcConfig?: VpcConfigInput | undefined;
+  ExecutionRoleArn?: string | undefined;
+  SuccessRetentionPeriodInDays?: number | undefined;
+  FailureRetentionPeriodInDays?: number | undefined;
+  VisualReference?: VisualReferenceInput | undefined;
+  ArtifactS3Location?: string | undefined;
+  ArtifactConfig?: ArtifactConfigInput | undefined;
+  ProvisionedResourceCleanup?: ProvisionedResourceCleanupSetting | undefined;
+  BrowserConfigs?: BrowserConfig[] | undefined;
+  VisualReferences?: VisualReferenceInput[] | undefined;
 }
 export interface StartCanaryDryRunResponse {
-  DryRunConfig?: DryRunConfigOutput;
+  DryRunConfig?: DryRunConfigOutput | undefined;
 }
 export interface StopCanaryRequest {
   Name: string;
@@ -621,24 +622,24 @@ export interface UntagResourceResponse {}
 export type RemoveReplicaLocations = string[];
 export interface UpdateCanaryRequest {
   Name: string;
-  Code?: CanaryCodeInput;
-  ExecutionRoleArn?: string;
-  RuntimeVersion?: string;
-  Schedule?: CanaryScheduleInput;
-  RunConfig?: CanaryRunConfigInput;
-  SuccessRetentionPeriodInDays?: number;
-  FailureRetentionPeriodInDays?: number;
-  VpcConfig?: VpcConfigInput;
-  VisualReference?: VisualReferenceInput;
-  ArtifactS3Location?: string;
-  ArtifactConfig?: ArtifactConfigInput;
-  ProvisionedResourceCleanup?: ProvisionedResourceCleanupSetting;
-  DryRunId?: string;
-  VisualReferences?: VisualReferenceInput[];
-  BrowserConfigs?: BrowserConfig[];
-  AddReplicaLocations?: AddReplicaLocationInput[];
-  RemoveReplicaLocations?: string[];
-  KmsKeyArn?: string;
+  Code?: CanaryCodeInput | undefined;
+  ExecutionRoleArn?: string | undefined;
+  RuntimeVersion?: string | undefined;
+  Schedule?: CanaryScheduleInput | undefined;
+  RunConfig?: CanaryRunConfigInput | undefined;
+  SuccessRetentionPeriodInDays?: number | undefined;
+  FailureRetentionPeriodInDays?: number | undefined;
+  VpcConfig?: VpcConfigInput | undefined;
+  VisualReference?: VisualReferenceInput | undefined;
+  ArtifactS3Location?: string | undefined;
+  ArtifactConfig?: ArtifactConfigInput | undefined;
+  ProvisionedResourceCleanup?: ProvisionedResourceCleanupSetting | undefined;
+  DryRunId?: string | undefined;
+  VisualReferences?: VisualReferenceInput[] | undefined;
+  BrowserConfigs?: BrowserConfig[] | undefined;
+  AddReplicaLocations?: AddReplicaLocationInput[] | undefined;
+  RemoveReplicaLocations?: string[] | undefined;
+  KmsKeyArn?: string | undefined;
 }
 export interface UpdateCanaryResponse {}
 export type ErrorMessage = string;
@@ -657,7 +658,7 @@ export type AssociateResourceError =
  * You must run this operation in the Region where the canary exists.
  */
 export const associateResource: API.OperationMethod<
-  AssociateResourceRequest,
+  AssociateResourceRequest & RegionInput,
   AssociateResourceResponse,
   AssociateResourceError,
   Credentials | HttpClient.HttpClient
@@ -703,7 +704,7 @@ export type CreateCanaryError =
  * Considerations for Synthetics Canaries.
  */
 export const createCanary: API.OperationMethod<
-  CreateCanaryRequest,
+  CreateCanaryRequest & RegionInput,
   CreateCanaryResponse,
   CreateCanaryError,
   Credentials | HttpClient.HttpClient
@@ -743,7 +744,7 @@ export type CreateGroupError =
  * can be a member of up to 10 groups.
  */
 export const createGroup: API.OperationMethod<
-  CreateGroupRequest,
+  CreateGroupRequest & RegionInput,
   CreateGroupResponse,
   CreateGroupError,
   Credentials | HttpClient.HttpClient
@@ -798,7 +799,7 @@ export type DeleteCanaryError =
  * after you delete the canary.
  */
 export const deleteCanary: API.OperationMethod<
-  DeleteCanaryRequest,
+  DeleteCanaryRequest & RegionInput,
   DeleteCanaryResponse,
   DeleteCanaryError,
   Credentials | HttpClient.HttpClient
@@ -832,7 +833,7 @@ export type DeleteGroupError =
  * must be made from its home Region. You can find the home Region of a group within its ARN.
  */
 export const deleteGroup: API.OperationMethod<
-  DeleteGroupRequest,
+  DeleteGroupRequest & RegionInput,
   DeleteGroupResponse,
   DeleteGroupError,
   Credentials | HttpClient.HttpClient
@@ -868,7 +869,7 @@ export type DescribeCanariesError = InternalServerException | ValidationExceptio
  * Limiting a user to viewing specific canaries.
  */
 export const describeCanaries: API.PaginatedOperationMethod<
-  DescribeCanariesRequest,
+  DescribeCanariesRequest & RegionInput,
   DescribeCanariesResponse,
   DescribeCanariesError,
   Credentials | HttpClient.HttpClient,
@@ -907,7 +908,7 @@ export type DescribeCanariesLastRunError =
  * Limiting a user to viewing specific canaries.
  */
 export const describeCanariesLastRun: API.PaginatedOperationMethod<
-  DescribeCanariesLastRunRequest,
+  DescribeCanariesLastRunRequest & RegionInput,
   DescribeCanariesLastRunResponse,
   DescribeCanariesLastRunError,
   Credentials | HttpClient.HttpClient,
@@ -938,7 +939,7 @@ export type DescribeRuntimeVersionsError =
  * Canary Runtime Versions.
  */
 export const describeRuntimeVersions: API.PaginatedOperationMethod<
-  DescribeRuntimeVersionsRequest,
+  DescribeRuntimeVersionsRequest & RegionInput,
   DescribeRuntimeVersionsResponse,
   DescribeRuntimeVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -969,7 +970,7 @@ export type DisassociateResourceError =
  * Removes a canary from a group. You must run this operation in the Region where the canary exists.
  */
 export const disassociateResource: API.OperationMethod<
-  DisassociateResourceRequest,
+  DisassociateResourceRequest & RegionInput,
   DisassociateResourceResponse,
   DisassociateResourceError,
   Credentials | HttpClient.HttpClient
@@ -1000,7 +1001,7 @@ export type GetCanaryError =
  * and their names, use DescribeCanaries.
  */
 export const getCanary: API.OperationMethod<
-  GetCanaryRequest,
+  GetCanaryRequest & RegionInput,
   GetCanaryResponse,
   GetCanaryError,
   Credentials | HttpClient.HttpClient
@@ -1024,7 +1025,7 @@ export type GetCanaryRunsError =
  * Retrieves a list of runs for a specified canary.
  */
 export const getCanaryRuns: API.PaginatedOperationMethod<
-  GetCanaryRunsRequest,
+  GetCanaryRunsRequest & RegionInput,
   GetCanaryRunsResponse,
   GetCanaryRunsError,
   Credentials | HttpClient.HttpClient,
@@ -1056,7 +1057,7 @@ export type GetGroupError =
  * any Region.
  */
 export const getGroup: API.OperationMethod<
-  GetGroupRequest,
+  GetGroupRequest & RegionInput,
   GetGroupResponse,
   GetGroupError,
   Credentials | HttpClient.HttpClient
@@ -1086,7 +1087,7 @@ export type ListAssociatedGroupsError =
  * that you specify must be in the current Region.
  */
 export const listAssociatedGroups: API.PaginatedOperationMethod<
-  ListAssociatedGroupsRequest,
+  ListAssociatedGroupsRequest & RegionInput,
   ListAssociatedGroupsResponse,
   ListAssociatedGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -1117,7 +1118,7 @@ export type ListGroupResourcesError =
  * This operation returns a list of the ARNs of the canaries that are associated with the specified group.
  */
 export const listGroupResources: API.PaginatedOperationMethod<
-  ListGroupResourcesRequest,
+  ListGroupResourcesRequest & RegionInput,
   ListGroupResourcesResponse,
   ListGroupResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -1149,7 +1150,7 @@ export type ListGroupsError = InternalServerException | ValidationException | Co
  * from all Regions are returned.
  */
 export const listGroups: API.PaginatedOperationMethod<
-  ListGroupsRequest,
+  ListGroupsRequest & RegionInput,
   ListGroupsResponse,
   ListGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -1181,7 +1182,7 @@ export type ListTagsForResourceError =
  * Displays the tags associated with a canary or group.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1214,7 +1215,7 @@ export type StartCanaryError =
  * use GetCanary.
  */
 export const startCanary: API.OperationMethod<
-  StartCanaryRequest,
+  StartCanaryRequest & RegionInput,
   StartCanaryResponse,
   StartCanaryError,
   Credentials | HttpClient.HttpClient
@@ -1245,7 +1246,7 @@ export type StartCanaryDryRunError =
  * Use this operation to start a dry run for a canary that has already been created
  */
 export const startCanaryDryRun: API.OperationMethod<
-  StartCanaryDryRunRequest,
+  StartCanaryDryRunRequest & RegionInput,
   StartCanaryDryRunResponse,
   StartCanaryDryRunError,
   Credentials | HttpClient.HttpClient
@@ -1281,7 +1282,7 @@ export type StopCanaryError =
  * with the canary's current schedule at any point in the future.
  */
 export const stopCanary: API.OperationMethod<
-  StopCanaryRequest,
+  StopCanaryRequest & RegionInput,
   StopCanaryResponse,
   StopCanaryError,
   Credentials | HttpClient.HttpClient
@@ -1327,7 +1328,7 @@ export type TagResourceError =
  * You can associate as many as 50 tags with a canary or group.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1359,7 +1360,7 @@ export type UntagResourceError =
  * Removes one or more tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1403,7 +1404,7 @@ export type UpdateCanaryError =
  * When you use the `dryRunId` field when updating a canary, the only other field you can provide is the `Schedule`. Adding any other field will thrown an exception.
  */
 export const updateCanary: API.OperationMethod<
-  UpdateCanaryRequest,
+  UpdateCanaryRequest & RegionInput,
   UpdateCanaryResponse,
   UpdateCanaryError,
   Credentials | HttpClient.HttpClient

@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -114,7 +115,7 @@ export class InternalServerException
     "InternalServerException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
@@ -140,7 +141,7 @@ export class ThrottlingException
     "ThrottlingException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
@@ -164,12 +165,12 @@ export type Id = string;
 export type Arn = string;
 export interface AcceptDataGrantResponse {
   Name: string;
-  SenderPrincipal?: string;
+  SenderPrincipal?: string | undefined;
   ReceiverPrincipal: string;
-  Description?: string;
+  Description?: string | undefined;
   AcceptanceState: string;
-  AcceptedAt?: Date;
-  EndsAt?: Date;
+  AcceptedAt?: Date | undefined;
+  EndsAt?: Date | undefined;
   GrantDistributionScope: string;
   DataSetId: string;
   Id: string;
@@ -188,18 +189,18 @@ export interface CreateDataGrantRequest {
   GrantDistributionScope: string;
   ReceiverPrincipal: string;
   SourceDataSetId: string;
-  EndsAt?: Date;
-  Description?: string;
-  Tags?: { [key: string]: string | undefined };
+  EndsAt?: Date | undefined;
+  Description?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateDataGrantResponse {
   Name: string;
   SenderPrincipal: string;
   ReceiverPrincipal: string;
-  Description?: string;
+  Description?: string | undefined;
   AcceptanceState: string;
-  AcceptedAt?: Date;
-  EndsAt?: Date;
+  AcceptedAt?: Date | undefined;
+  EndsAt?: Date | undefined;
   GrantDistributionScope: string;
   DataSetId: string;
   SourceDataSetId: string;
@@ -207,7 +208,7 @@ export interface CreateDataGrantResponse {
   Arn: string;
   CreatedAt: Date;
   UpdatedAt: Date;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type AssetType = string;
 export type Name = string;
@@ -215,61 +216,61 @@ export interface CreateDataSetRequest {
   AssetType: string;
   Description: string;
   Name: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type Origin = string;
 export interface OriginDetails {
-  ProductId?: string;
-  DataGrantId?: string;
+  ProductId?: string | undefined;
+  DataGrantId?: string | undefined;
 }
 export interface CreateDataSetResponse {
-  Arn?: string;
-  AssetType?: string;
-  CreatedAt?: Date;
-  Description?: string;
-  Id?: string;
-  Name?: string;
-  Origin?: string;
-  OriginDetails?: OriginDetails;
-  SourceId?: string;
-  Tags?: { [key: string]: string | undefined };
-  UpdatedAt?: Date;
+  Arn?: string | undefined;
+  AssetType?: string | undefined;
+  CreatedAt?: Date | undefined;
+  Description?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Origin?: string | undefined;
+  OriginDetails?: OriginDetails | undefined;
+  SourceId?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export type ServerSideEncryptionTypes = string;
 export interface ExportServerSideEncryption {
-  KmsKeyArn?: string;
+  KmsKeyArn?: string | undefined;
   Type: string;
 }
 export interface AutoExportRevisionDestinationEntry {
   Bucket: string;
-  KeyPattern?: string;
+  KeyPattern?: string | undefined;
 }
 export interface AutoExportRevisionToS3RequestDetails {
-  Encryption?: ExportServerSideEncryption;
+  Encryption?: ExportServerSideEncryption | undefined;
   RevisionDestination: AutoExportRevisionDestinationEntry;
 }
 export interface Action {
-  ExportRevisionToS3?: AutoExportRevisionToS3RequestDetails;
+  ExportRevisionToS3?: AutoExportRevisionToS3RequestDetails | undefined;
 }
 export interface RevisionPublished {
   DataSetId: string;
 }
 export interface Event {
-  RevisionPublished?: RevisionPublished;
+  RevisionPublished?: RevisionPublished | undefined;
 }
 export interface CreateEventActionRequest {
   Action: Action;
   Event: Event;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateEventActionResponse {
-  Action?: Action;
-  Arn?: string;
-  CreatedAt?: Date;
-  Event?: Event;
-  Id?: string;
-  Tags?: { [key: string]: string | undefined };
-  UpdatedAt?: Date;
+  Action?: Action | undefined;
+  Arn?: string | undefined;
+  CreatedAt?: Date | undefined;
+  Event?: Event | undefined;
+  Id?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface Tag {
   Key: string;
@@ -277,7 +278,7 @@ export interface Tag {
 }
 export type ListOfTag = Tag[];
 export interface AssetConfiguration {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface ExportAssetToSignedUrlRequestDetails {
   AssetId: string;
@@ -287,24 +288,24 @@ export interface ExportAssetToSignedUrlRequestDetails {
 export interface AssetDestinationEntry {
   AssetId: string;
   Bucket: string;
-  Key?: string;
+  Key?: string | undefined;
 }
 export type ListOfAssetDestinationEntry = AssetDestinationEntry[];
 export interface ExportAssetsToS3RequestDetails {
   AssetDestinations: AssetDestinationEntry[];
   DataSetId: string;
-  Encryption?: ExportServerSideEncryption;
+  Encryption?: ExportServerSideEncryption | undefined;
   RevisionId: string;
 }
 export interface RevisionDestinationEntry {
   Bucket: string;
-  KeyPattern?: string;
+  KeyPattern?: string | undefined;
   RevisionId: string;
 }
 export type ListOfRevisionDestinationEntry = RevisionDestinationEntry[];
 export interface ExportRevisionsToS3RequestDetails {
   DataSetId: string;
-  Encryption?: ExportServerSideEncryption;
+  Encryption?: ExportServerSideEncryption | undefined;
   RevisionDestinations: RevisionDestinationEntry[];
 }
 export type AssetName = string;
@@ -337,9 +338,9 @@ export interface ImportAssetsFromRedshiftDataSharesRequestDetails {
 export type ApiDescription = string;
 export type ProtocolType = string;
 export interface ImportAssetFromApiGatewayApiRequestDetails {
-  ApiDescription?: string;
+  ApiDescription?: string | undefined;
   ApiId: string;
-  ApiKey?: string | redacted.Redacted<string>;
+  ApiKey?: string | redacted.Redacted<string> | undefined;
   ApiName: string;
   ApiSpecificationMd5Hash: string;
   DataSetId: string;
@@ -355,9 +356,9 @@ export interface KmsKeyToGrant {
 export type ListOfKmsKeysToGrant = KmsKeyToGrant[];
 export interface S3DataAccessAssetSourceEntry {
   Bucket: string;
-  KeyPrefixes?: string[];
-  Keys?: string[];
-  KmsKeysToGrant?: KmsKeyToGrant[];
+  KeyPrefixes?: string[] | undefined;
+  Keys?: string[] | undefined;
+  KmsKeysToGrant?: KmsKeyToGrant[] | undefined;
 }
 export interface CreateS3DataAccessFromS3BucketRequestDetails {
   AssetSource: S3DataAccessAssetSourceEntry;
@@ -386,26 +387,28 @@ export interface TableLFTagPolicyAndPermissions {
 export type RoleArn = string;
 export interface ImportAssetsFromLakeFormationTagPolicyRequestDetails {
   CatalogId: string;
-  Database?: DatabaseLFTagPolicyAndPermissions;
-  Table?: TableLFTagPolicyAndPermissions;
+  Database?: DatabaseLFTagPolicyAndPermissions | undefined;
+  Table?: TableLFTagPolicyAndPermissions | undefined;
   RoleArn: string;
   DataSetId: string;
   RevisionId: string;
 }
 export interface RequestDetails {
-  ExportAssetToSignedUrl?: ExportAssetToSignedUrlRequestDetails;
-  ExportAssetsToS3?: ExportAssetsToS3RequestDetails;
-  ExportRevisionsToS3?: ExportRevisionsToS3RequestDetails;
-  ImportAssetFromSignedUrl?: ImportAssetFromSignedUrlRequestDetails;
-  ImportAssetsFromS3?: ImportAssetsFromS3RequestDetails;
-  ImportAssetsFromRedshiftDataShares?: ImportAssetsFromRedshiftDataSharesRequestDetails;
-  ImportAssetFromApiGatewayApi?: ImportAssetFromApiGatewayApiRequestDetails;
-  CreateS3DataAccessFromS3Bucket?: CreateS3DataAccessFromS3BucketRequestDetails;
-  ImportAssetsFromLakeFormationTagPolicy?: ImportAssetsFromLakeFormationTagPolicyRequestDetails;
+  ExportAssetToSignedUrl?: ExportAssetToSignedUrlRequestDetails | undefined;
+  ExportAssetsToS3?: ExportAssetsToS3RequestDetails | undefined;
+  ExportRevisionsToS3?: ExportRevisionsToS3RequestDetails | undefined;
+  ImportAssetFromSignedUrl?: ImportAssetFromSignedUrlRequestDetails | undefined;
+  ImportAssetsFromS3?: ImportAssetsFromS3RequestDetails | undefined;
+  ImportAssetsFromRedshiftDataShares?: ImportAssetsFromRedshiftDataSharesRequestDetails | undefined;
+  ImportAssetFromApiGatewayApi?: ImportAssetFromApiGatewayApiRequestDetails | undefined;
+  CreateS3DataAccessFromS3Bucket?: CreateS3DataAccessFromS3BucketRequestDetails | undefined;
+  ImportAssetsFromLakeFormationTagPolicy?:
+    | ImportAssetsFromLakeFormationTagPolicyRequestDetails
+    | undefined;
 }
 export type Type = string;
 export interface CreateJobRequest {
-  AssetConfiguration?: AssetConfiguration;
+  AssetConfiguration?: AssetConfiguration | undefined;
   Details: RequestDetails;
   Type: string;
 }
@@ -413,28 +416,28 @@ export interface ExportAssetToSignedUrlResponseDetails {
   AssetId: string;
   DataSetId: string;
   RevisionId: string;
-  SignedUrl?: string;
-  SignedUrlExpiresAt?: Date;
+  SignedUrl?: string | undefined;
+  SignedUrlExpiresAt?: Date | undefined;
 }
 export interface ExportAssetsToS3ResponseDetails {
   AssetDestinations: AssetDestinationEntry[];
   DataSetId: string;
-  Encryption?: ExportServerSideEncryption;
+  Encryption?: ExportServerSideEncryption | undefined;
   RevisionId: string;
 }
 export interface ExportRevisionsToS3ResponseDetails {
   DataSetId: string;
-  Encryption?: ExportServerSideEncryption;
+  Encryption?: ExportServerSideEncryption | undefined;
   RevisionDestinations: RevisionDestinationEntry[];
-  EventActionArn?: string;
+  EventActionArn?: string | undefined;
 }
 export interface ImportAssetFromSignedUrlResponseDetails {
   AssetName: string;
   DataSetId: string;
-  Md5Hash?: string;
+  Md5Hash?: string | undefined;
   RevisionId: string;
-  SignedUrl?: string;
-  SignedUrlExpiresAt?: Date;
+  SignedUrl?: string | undefined;
+  SignedUrlExpiresAt?: Date | undefined;
 }
 export interface ImportAssetsFromS3ResponseDetails {
   AssetSources: AssetSourceEntry[];
@@ -447,9 +450,9 @@ export interface ImportAssetsFromRedshiftDataSharesResponseDetails {
   RevisionId: string;
 }
 export interface ImportAssetFromApiGatewayApiResponseDetails {
-  ApiDescription?: string;
+  ApiDescription?: string | undefined;
   ApiId: string;
-  ApiKey?: string | redacted.Redacted<string>;
+  ApiKey?: string | redacted.Redacted<string> | undefined;
   ApiName: string;
   ApiSpecificationMd5Hash: string;
   ApiSpecificationUploadUrl: string;
@@ -466,75 +469,79 @@ export interface CreateS3DataAccessFromS3BucketResponseDetails {
 }
 export interface ImportAssetsFromLakeFormationTagPolicyResponseDetails {
   CatalogId: string;
-  Database?: DatabaseLFTagPolicyAndPermissions;
-  Table?: TableLFTagPolicyAndPermissions;
+  Database?: DatabaseLFTagPolicyAndPermissions | undefined;
+  Table?: TableLFTagPolicyAndPermissions | undefined;
   RoleArn: string;
   DataSetId: string;
   RevisionId: string;
 }
 export interface ResponseDetails {
-  ExportAssetToSignedUrl?: ExportAssetToSignedUrlResponseDetails;
-  ExportAssetsToS3?: ExportAssetsToS3ResponseDetails;
-  ExportRevisionsToS3?: ExportRevisionsToS3ResponseDetails;
-  ImportAssetFromSignedUrl?: ImportAssetFromSignedUrlResponseDetails;
-  ImportAssetsFromS3?: ImportAssetsFromS3ResponseDetails;
-  ImportAssetsFromRedshiftDataShares?: ImportAssetsFromRedshiftDataSharesResponseDetails;
-  ImportAssetFromApiGatewayApi?: ImportAssetFromApiGatewayApiResponseDetails;
-  CreateS3DataAccessFromS3Bucket?: CreateS3DataAccessFromS3BucketResponseDetails;
-  ImportAssetsFromLakeFormationTagPolicy?: ImportAssetsFromLakeFormationTagPolicyResponseDetails;
+  ExportAssetToSignedUrl?: ExportAssetToSignedUrlResponseDetails | undefined;
+  ExportAssetsToS3?: ExportAssetsToS3ResponseDetails | undefined;
+  ExportRevisionsToS3?: ExportRevisionsToS3ResponseDetails | undefined;
+  ImportAssetFromSignedUrl?: ImportAssetFromSignedUrlResponseDetails | undefined;
+  ImportAssetsFromS3?: ImportAssetsFromS3ResponseDetails | undefined;
+  ImportAssetsFromRedshiftDataShares?:
+    | ImportAssetsFromRedshiftDataSharesResponseDetails
+    | undefined;
+  ImportAssetFromApiGatewayApi?: ImportAssetFromApiGatewayApiResponseDetails | undefined;
+  CreateS3DataAccessFromS3Bucket?: CreateS3DataAccessFromS3BucketResponseDetails | undefined;
+  ImportAssetsFromLakeFormationTagPolicy?:
+    | ImportAssetsFromLakeFormationTagPolicyResponseDetails
+    | undefined;
 }
 export type Code = string;
 export interface ImportAssetFromSignedUrlJobErrorDetails {
   AssetName: string;
 }
 export interface Details {
-  ImportAssetFromSignedUrlJobErrorDetails?: ImportAssetFromSignedUrlJobErrorDetails;
-  ImportAssetsFromS3JobErrorDetails?: AssetSourceEntry[];
+  ImportAssetFromSignedUrlJobErrorDetails?: ImportAssetFromSignedUrlJobErrorDetails | undefined;
+  ImportAssetsFromS3JobErrorDetails?: AssetSourceEntry[] | undefined;
 }
 export type JobErrorLimitName = string;
 export type JobErrorResourceTypes = string;
 export interface JobError {
   Code: string;
-  Details?: Details;
-  LimitName?: string;
-  LimitValue?: number;
+  Details?: Details | undefined;
+  LimitName?: string | undefined;
+  LimitValue?: number | undefined;
   Message: string;
-  ResourceId?: string;
-  ResourceType?: string;
+  ResourceId?: string | undefined;
+  ResourceType?: string | undefined;
 }
 export type ListOfJobError = JobError[];
 export type State = string;
 export interface CreateJobResponse {
-  Arn?: string;
-  AssetConfiguration?: AssetConfiguration;
-  CreatedAt?: Date;
-  Details?: ResponseDetails;
-  Errors?: JobError[];
-  Id?: string;
-  State?: string;
-  Type?: string;
-  UpdatedAt?: Date;
+  Arn?: string | undefined;
+  AssetConfiguration?: AssetConfiguration | undefined;
+  CreatedAt?: Date | undefined;
+  Details?: ResponseDetails | undefined;
+  Errors?: JobError[] | undefined;
+  Id?: string | undefined;
+  State?: string | undefined;
+  Type?: string | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export type __stringMin0Max16384 = string;
 export interface CreateRevisionRequest {
-  Comment?: string;
+  Comment?: string | undefined;
   DataSetId: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type __stringMin10Max512 = string;
 export interface CreateRevisionResponse {
-  Arn?: string;
-  Comment?: string;
-  CreatedAt?: Date;
-  DataSetId?: string;
-  Finalized?: boolean;
-  Id?: string;
-  SourceId?: string;
-  Tags?: { [key: string]: string | undefined };
-  UpdatedAt?: Date;
-  RevocationComment?: string;
-  Revoked?: boolean;
-  RevokedAt?: Date;
+  Arn?: string | undefined;
+  Comment?: string | undefined;
+  CreatedAt?: Date | undefined;
+  DataSetId?: string | undefined;
+  Finalized?: boolean | undefined;
+  Id?: string | undefined;
+  SourceId?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  UpdatedAt?: Date | undefined;
+  RevocationComment?: string | undefined;
+  Revoked?: boolean | undefined;
+  RevokedAt?: Date | undefined;
 }
 export interface DeleteAssetRequest {
   AssetId: string;
@@ -573,23 +580,23 @@ export interface RedshiftDataShareAsset {
   Arn: string;
 }
 export interface ApiGatewayApiAsset {
-  ApiDescription?: string;
-  ApiEndpoint?: string;
-  ApiId?: string;
-  ApiKey?: string | redacted.Redacted<string>;
-  ApiName?: string;
-  ApiSpecificationDownloadUrl?: string;
-  ApiSpecificationDownloadUrlExpiresAt?: Date;
-  ProtocolType?: string;
-  Stage?: string;
+  ApiDescription?: string | undefined;
+  ApiEndpoint?: string | undefined;
+  ApiId?: string | undefined;
+  ApiKey?: string | redacted.Redacted<string> | undefined;
+  ApiName?: string | undefined;
+  ApiSpecificationDownloadUrl?: string | undefined;
+  ApiSpecificationDownloadUrlExpiresAt?: Date | undefined;
+  ProtocolType?: string | undefined;
+  Stage?: string | undefined;
 }
 export interface S3DataAccessAsset {
   Bucket: string;
-  KeyPrefixes?: string[];
-  Keys?: string[];
-  S3AccessPointAlias?: string;
-  S3AccessPointArn?: string;
-  KmsKeysToGrant?: KmsKeyToGrant[];
+  KeyPrefixes?: string[] | undefined;
+  Keys?: string[] | undefined;
+  S3AccessPointAlias?: string | undefined;
+  S3AccessPointArn?: string | undefined;
+  KmsKeysToGrant?: KmsKeyToGrant[] | undefined;
 }
 export type LFResourceType = string;
 export interface DatabaseLFTagPolicy {
@@ -599,8 +606,8 @@ export interface TableLFTagPolicy {
   Expression: LFTag[];
 }
 export interface LFResourceDetails {
-  Database?: DatabaseLFTagPolicy;
-  Table?: TableLFTagPolicy;
+  Database?: DatabaseLFTagPolicy | undefined;
+  Table?: TableLFTagPolicy | undefined;
 }
 export interface LFTagPolicyDetails {
   CatalogId: string;
@@ -608,7 +615,7 @@ export interface LFTagPolicyDetails {
   ResourceDetails: LFResourceDetails;
 }
 export interface LakeFormationDataPermissionDetails {
-  LFTagPolicy?: LFTagPolicyDetails;
+  LFTagPolicy?: LFTagPolicyDetails | undefined;
 }
 export type LakeFormationDataPermissionType = string;
 export type LFPermission = string;
@@ -617,27 +624,27 @@ export interface LakeFormationDataPermissionAsset {
   LakeFormationDataPermissionDetails: LakeFormationDataPermissionDetails;
   LakeFormationDataPermissionType: string;
   Permissions: string[];
-  RoleArn?: string;
+  RoleArn?: string | undefined;
 }
 export interface AssetDetails {
-  S3SnapshotAsset?: S3SnapshotAsset;
-  RedshiftDataShareAsset?: RedshiftDataShareAsset;
-  ApiGatewayApiAsset?: ApiGatewayApiAsset;
-  S3DataAccessAsset?: S3DataAccessAsset;
-  LakeFormationDataPermissionAsset?: LakeFormationDataPermissionAsset;
+  S3SnapshotAsset?: S3SnapshotAsset | undefined;
+  RedshiftDataShareAsset?: RedshiftDataShareAsset | undefined;
+  ApiGatewayApiAsset?: ApiGatewayApiAsset | undefined;
+  S3DataAccessAsset?: S3DataAccessAsset | undefined;
+  LakeFormationDataPermissionAsset?: LakeFormationDataPermissionAsset | undefined;
 }
 export interface GetAssetResponse {
-  Arn?: string;
-  AssetDetails?: AssetDetails;
-  AssetType?: string;
-  CreatedAt?: Date;
-  DataSetId?: string;
-  Id?: string;
-  Name?: string;
-  RevisionId?: string;
-  SourceId?: string;
-  Tags?: { [key: string]: string | undefined };
-  UpdatedAt?: Date;
+  Arn?: string | undefined;
+  AssetDetails?: AssetDetails | undefined;
+  AssetType?: string | undefined;
+  CreatedAt?: Date | undefined;
+  DataSetId?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  RevisionId?: string | undefined;
+  SourceId?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface GetDataGrantRequest {
   DataGrantId: string;
@@ -646,10 +653,10 @@ export interface GetDataGrantResponse {
   Name: string;
   SenderPrincipal: string;
   ReceiverPrincipal: string;
-  Description?: string;
+  Description?: string | undefined;
   AcceptanceState: string;
-  AcceptedAt?: Date;
-  EndsAt?: Date;
+  AcceptedAt?: Date | undefined;
+  EndsAt?: Date | undefined;
   GrantDistributionScope: string;
   DataSetId: string;
   SourceDataSetId: string;
@@ -657,61 +664,61 @@ export interface GetDataGrantResponse {
   Arn: string;
   CreatedAt: Date;
   UpdatedAt: Date;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetDataSetRequest {
   DataSetId: string;
 }
 export interface GetDataSetResponse {
-  Arn?: string;
-  AssetType?: string;
-  CreatedAt?: Date;
-  Description?: string;
-  Id?: string;
-  Name?: string;
-  Origin?: string;
-  OriginDetails?: OriginDetails;
-  SourceId?: string;
-  Tags?: { [key: string]: string | undefined };
-  UpdatedAt?: Date;
+  Arn?: string | undefined;
+  AssetType?: string | undefined;
+  CreatedAt?: Date | undefined;
+  Description?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Origin?: string | undefined;
+  OriginDetails?: OriginDetails | undefined;
+  SourceId?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface GetEventActionRequest {
   EventActionId: string;
 }
 export interface GetEventActionResponse {
-  Action?: Action;
-  Arn?: string;
-  CreatedAt?: Date;
-  Event?: Event;
-  Id?: string;
-  Tags?: { [key: string]: string | undefined };
-  UpdatedAt?: Date;
+  Action?: Action | undefined;
+  Arn?: string | undefined;
+  CreatedAt?: Date | undefined;
+  Event?: Event | undefined;
+  Id?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface GetJobRequest {
   JobId: string;
 }
 export interface GetJobResponse {
-  Arn?: string;
-  AssetConfiguration?: AssetConfiguration;
-  CreatedAt?: Date;
-  Details?: ResponseDetails;
-  Errors?: JobError[];
-  Id?: string;
-  State?: string;
-  Type?: string;
-  UpdatedAt?: Date;
+  Arn?: string | undefined;
+  AssetConfiguration?: AssetConfiguration | undefined;
+  CreatedAt?: Date | undefined;
+  Details?: ResponseDetails | undefined;
+  Errors?: JobError[] | undefined;
+  Id?: string | undefined;
+  State?: string | undefined;
+  Type?: string | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface GetReceivedDataGrantRequest {
   DataGrantArn: string;
 }
 export interface GetReceivedDataGrantResponse {
   Name: string;
-  SenderPrincipal?: string;
+  SenderPrincipal?: string | undefined;
   ReceiverPrincipal: string;
-  Description?: string;
+  Description?: string | undefined;
   AcceptanceState: string;
-  AcceptedAt?: Date;
-  EndsAt?: Date;
+  AcceptedAt?: Date | undefined;
+  EndsAt?: Date | undefined;
   GrantDistributionScope: string;
   DataSetId: string;
   Id: string;
@@ -724,31 +731,31 @@ export interface GetRevisionRequest {
   RevisionId: string;
 }
 export interface GetRevisionResponse {
-  Arn?: string;
-  Comment?: string;
-  CreatedAt?: Date;
-  DataSetId?: string;
-  Finalized?: boolean;
-  Id?: string;
-  SourceId?: string;
-  Tags?: { [key: string]: string | undefined };
-  UpdatedAt?: Date;
-  RevocationComment?: string;
-  Revoked?: boolean;
-  RevokedAt?: Date;
+  Arn?: string | undefined;
+  Comment?: string | undefined;
+  CreatedAt?: Date | undefined;
+  DataSetId?: string | undefined;
+  Finalized?: boolean | undefined;
+  Id?: string | undefined;
+  SourceId?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  UpdatedAt?: Date | undefined;
+  RevocationComment?: string | undefined;
+  Revoked?: boolean | undefined;
+  RevokedAt?: Date | undefined;
 }
 export type MaxResults = number;
 export interface ListDataGrantsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface DataGrantSummaryEntry {
   Name: string;
   SenderPrincipal: string;
   ReceiverPrincipal: string;
   AcceptanceState: string;
-  AcceptedAt?: Date;
-  EndsAt?: Date;
+  AcceptedAt?: Date | undefined;
+  EndsAt?: Date | undefined;
   DataSetId: string;
   SourceDataSetId: string;
   Id: string;
@@ -759,36 +766,36 @@ export interface DataGrantSummaryEntry {
 export type ListOfDataGrantSummaryEntry = DataGrantSummaryEntry[];
 export type NextToken = string;
 export interface ListDataGrantsResponse {
-  DataGrantSummaries?: DataGrantSummaryEntry[];
-  NextToken?: string;
+  DataGrantSummaries?: DataGrantSummaryEntry[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListDataSetRevisionsRequest {
   DataSetId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface RevisionEntry {
   Arn: string;
-  Comment?: string;
+  Comment?: string | undefined;
   CreatedAt: Date;
   DataSetId: string;
-  Finalized?: boolean;
+  Finalized?: boolean | undefined;
   Id: string;
-  SourceId?: string;
+  SourceId?: string | undefined;
   UpdatedAt: Date;
-  RevocationComment?: string;
-  Revoked?: boolean;
-  RevokedAt?: Date;
+  RevocationComment?: string | undefined;
+  Revoked?: boolean | undefined;
+  RevokedAt?: Date | undefined;
 }
 export type ListOfRevisionEntry = RevisionEntry[];
 export interface ListDataSetRevisionsResponse {
-  NextToken?: string;
-  Revisions?: RevisionEntry[];
+  NextToken?: string | undefined;
+  Revisions?: RevisionEntry[] | undefined;
 }
 export interface ListDataSetsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  Origin?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Origin?: string | undefined;
 }
 export interface DataSetEntry {
   Arn: string;
@@ -798,19 +805,19 @@ export interface DataSetEntry {
   Id: string;
   Name: string;
   Origin: string;
-  OriginDetails?: OriginDetails;
-  SourceId?: string;
+  OriginDetails?: OriginDetails | undefined;
+  SourceId?: string | undefined;
   UpdatedAt: Date;
 }
 export type ListOfDataSetEntry = DataSetEntry[];
 export interface ListDataSetsResponse {
-  DataSets?: DataSetEntry[];
-  NextToken?: string;
+  DataSets?: DataSetEntry[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListEventActionsRequest {
-  EventSourceId?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  EventSourceId?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface EventActionEntry {
   Action: Action;
@@ -822,21 +829,21 @@ export interface EventActionEntry {
 }
 export type ListOfEventActionEntry = EventActionEntry[];
 export interface ListEventActionsResponse {
-  EventActions?: EventActionEntry[];
-  NextToken?: string;
+  EventActions?: EventActionEntry[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListJobsRequest {
-  DataSetId?: string;
-  MaxResults?: number;
-  NextToken?: string;
-  RevisionId?: string;
+  DataSetId?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  RevisionId?: string | undefined;
 }
 export interface JobEntry {
   Arn: string;
-  AssetConfiguration?: AssetConfiguration;
+  AssetConfiguration?: AssetConfiguration | undefined;
   CreatedAt: Date;
   Details: ResponseDetails;
-  Errors?: JobError[];
+  Errors?: JobError[] | undefined;
   Id: string;
   State: string;
   Type: string;
@@ -844,23 +851,23 @@ export interface JobEntry {
 }
 export type ListOfJobEntry = JobEntry[];
 export interface ListJobsResponse {
-  Jobs?: JobEntry[];
-  NextToken?: string;
+  Jobs?: JobEntry[] | undefined;
+  NextToken?: string | undefined;
 }
 export type AcceptanceStateFilterValue = string;
 export type AcceptanceStateFilterValues = string[];
 export interface ListReceivedDataGrantsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  AcceptanceState?: string[];
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  AcceptanceState?: string[] | undefined;
 }
 export interface ReceivedDataGrantSummariesEntry {
   Name: string;
   SenderPrincipal: string;
   ReceiverPrincipal: string;
   AcceptanceState: string;
-  AcceptedAt?: Date;
-  EndsAt?: Date;
+  AcceptedAt?: Date | undefined;
+  EndsAt?: Date | undefined;
   DataSetId: string;
   Id: string;
   Arn: string;
@@ -869,13 +876,13 @@ export interface ReceivedDataGrantSummariesEntry {
 }
 export type ListOfReceivedDataGrantSummariesEntry = ReceivedDataGrantSummariesEntry[];
 export interface ListReceivedDataGrantsResponse {
-  DataGrantSummaries?: ReceivedDataGrantSummariesEntry[];
-  NextToken?: string;
+  DataGrantSummaries?: ReceivedDataGrantSummariesEntry[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListRevisionAssetsRequest {
   DataSetId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   RevisionId: string;
 }
 export interface AssetEntry {
@@ -887,19 +894,19 @@ export interface AssetEntry {
   Id: string;
   Name: string;
   RevisionId: string;
-  SourceId?: string;
+  SourceId?: string | undefined;
   UpdatedAt: Date;
 }
 export type ListOfAssetEntry = AssetEntry[];
 export interface ListRevisionAssetsResponse {
-  Assets?: AssetEntry[];
-  NextToken?: string;
+  Assets?: AssetEntry[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface RevokeRevisionRequest {
   DataSetId: string;
@@ -907,60 +914,60 @@ export interface RevokeRevisionRequest {
   RevocationComment: string;
 }
 export interface RevokeRevisionResponse {
-  Arn?: string;
-  Comment?: string;
-  CreatedAt?: Date;
-  DataSetId?: string;
-  Finalized?: boolean;
-  Id?: string;
-  SourceId?: string;
-  UpdatedAt?: Date;
-  RevocationComment?: string;
-  Revoked?: boolean;
-  RevokedAt?: Date;
+  Arn?: string | undefined;
+  Comment?: string | undefined;
+  CreatedAt?: Date | undefined;
+  DataSetId?: string | undefined;
+  Finalized?: boolean | undefined;
+  Id?: string | undefined;
+  SourceId?: string | undefined;
+  UpdatedAt?: Date | undefined;
+  RevocationComment?: string | undefined;
+  Revoked?: boolean | undefined;
+  RevokedAt?: Date | undefined;
 }
 export interface SendApiAssetRequest {
-  Body?: string;
-  QueryStringParameters?: { [key: string]: string | undefined };
+  Body?: string | undefined;
+  QueryStringParameters?: { [key: string]: string | undefined } | undefined;
   AssetId: string;
   DataSetId: string;
-  RequestHeaders?: { [key: string]: string | undefined };
-  Method?: string;
-  Path?: string;
+  RequestHeaders?: { [key: string]: string | undefined } | undefined;
+  Method?: string | undefined;
+  Path?: string | undefined;
   RevisionId: string;
 }
 export interface SendApiAssetResponse {
-  Body?: string;
-  ResponseHeaders?: { [key: string]: string | undefined };
+  Body?: string | undefined;
+  ResponseHeaders?: { [key: string]: string | undefined } | undefined;
 }
 export interface LakeFormationTagPolicyDetails {
-  Database?: string;
-  Table?: string;
+  Database?: string | undefined;
+  Table?: string | undefined;
 }
 export type ListOfLakeFormationTagPolicies = LakeFormationTagPolicyDetails[];
 export interface RedshiftDataShareDetails {
   Arn: string;
   Database: string;
-  Function?: string;
-  Table?: string;
-  Schema?: string;
-  View?: string;
+  Function?: string | undefined;
+  Table?: string | undefined;
+  Schema?: string | undefined;
+  View?: string | undefined;
 }
 export type ListOfRedshiftDataShares = RedshiftDataShareDetails[];
 export interface S3DataAccessDetails {
-  KeyPrefixes?: string[];
-  Keys?: string[];
+  KeyPrefixes?: string[] | undefined;
+  Keys?: string[] | undefined;
 }
 export type ListOfS3DataAccesses = S3DataAccessDetails[];
 export interface ScopeDetails {
-  LakeFormationTagPolicies?: LakeFormationTagPolicyDetails[];
-  RedshiftDataShares?: RedshiftDataShareDetails[];
-  S3DataAccesses?: S3DataAccessDetails[];
+  LakeFormationTagPolicies?: LakeFormationTagPolicyDetails[] | undefined;
+  RedshiftDataShares?: RedshiftDataShareDetails[] | undefined;
+  S3DataAccesses?: S3DataAccessDetails[] | undefined;
 }
 export type ClientToken = string;
 export type __stringMin0Max4096 = string;
 export interface DataUpdateRequestDetails {
-  DataUpdatedAt?: Date;
+  DataUpdatedAt?: Date | undefined;
 }
 export interface DeprecationRequestDetails {
   DeprecationAt: Date;
@@ -969,25 +976,25 @@ export type SchemaChangeType = string;
 export interface SchemaChangeDetails {
   Name: string;
   Type: string;
-  Description?: string;
+  Description?: string | undefined;
 }
 export type ListOfSchemaChangeDetails = SchemaChangeDetails[];
 export interface SchemaChangeRequestDetails {
-  Changes?: SchemaChangeDetails[];
+  Changes?: SchemaChangeDetails[] | undefined;
   SchemaChangeAt: Date;
 }
 export interface NotificationDetails {
-  DataUpdate?: DataUpdateRequestDetails;
-  Deprecation?: DeprecationRequestDetails;
-  SchemaChange?: SchemaChangeRequestDetails;
+  DataUpdate?: DataUpdateRequestDetails | undefined;
+  Deprecation?: DeprecationRequestDetails | undefined;
+  SchemaChange?: SchemaChangeRequestDetails | undefined;
 }
 export type NotificationType = string;
 export interface SendDataSetNotificationRequest {
-  Scope?: ScopeDetails;
-  ClientToken?: string;
-  Comment?: string;
+  Scope?: ScopeDetails | undefined;
+  ClientToken?: string | undefined;
+  Comment?: string | undefined;
   DataSetId: string;
-  Details?: NotificationDetails;
+  Details?: NotificationDetails | undefined;
   Type: string;
 }
 export interface SendDataSetNotificationResponse {}
@@ -1012,64 +1019,64 @@ export interface UpdateAssetRequest {
   RevisionId: string;
 }
 export interface UpdateAssetResponse {
-  Arn?: string;
-  AssetDetails?: AssetDetails;
-  AssetType?: string;
-  CreatedAt?: Date;
-  DataSetId?: string;
-  Id?: string;
-  Name?: string;
-  RevisionId?: string;
-  SourceId?: string;
-  UpdatedAt?: Date;
+  Arn?: string | undefined;
+  AssetDetails?: AssetDetails | undefined;
+  AssetType?: string | undefined;
+  CreatedAt?: Date | undefined;
+  DataSetId?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  RevisionId?: string | undefined;
+  SourceId?: string | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface UpdateDataSetRequest {
   DataSetId: string;
-  Description?: string;
-  Name?: string;
+  Description?: string | undefined;
+  Name?: string | undefined;
 }
 export interface UpdateDataSetResponse {
-  Arn?: string;
-  AssetType?: string;
-  CreatedAt?: Date;
-  Description?: string;
-  Id?: string;
-  Name?: string;
-  Origin?: string;
-  OriginDetails?: OriginDetails;
-  SourceId?: string;
-  UpdatedAt?: Date;
+  Arn?: string | undefined;
+  AssetType?: string | undefined;
+  CreatedAt?: Date | undefined;
+  Description?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Origin?: string | undefined;
+  OriginDetails?: OriginDetails | undefined;
+  SourceId?: string | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface UpdateEventActionRequest {
-  Action?: Action;
+  Action?: Action | undefined;
   EventActionId: string;
 }
 export interface UpdateEventActionResponse {
-  Action?: Action;
-  Arn?: string;
-  CreatedAt?: Date;
-  Event?: Event;
-  Id?: string;
-  UpdatedAt?: Date;
+  Action?: Action | undefined;
+  Arn?: string | undefined;
+  CreatedAt?: Date | undefined;
+  Event?: Event | undefined;
+  Id?: string | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface UpdateRevisionRequest {
-  Comment?: string;
+  Comment?: string | undefined;
   DataSetId: string;
-  Finalized?: boolean;
+  Finalized?: boolean | undefined;
   RevisionId: string;
 }
 export interface UpdateRevisionResponse {
-  Arn?: string;
-  Comment?: string;
-  CreatedAt?: Date;
-  DataSetId?: string;
-  Finalized?: boolean;
-  Id?: string;
-  SourceId?: string;
-  UpdatedAt?: Date;
-  RevocationComment?: string;
-  Revoked?: boolean;
-  RevokedAt?: Date;
+  Arn?: string | undefined;
+  Comment?: string | undefined;
+  CreatedAt?: Date | undefined;
+  DataSetId?: string | undefined;
+  Finalized?: boolean | undefined;
+  Id?: string | undefined;
+  SourceId?: string | undefined;
+  UpdatedAt?: Date | undefined;
+  RevocationComment?: string | undefined;
+  Revoked?: boolean | undefined;
+  RevokedAt?: Date | undefined;
 }
 export type ResourceType = string;
 export type ExceptionCause = string;
@@ -1086,7 +1093,7 @@ export type AcceptDataGrantError =
  * This operation accepts a data grant.
  */
 export const acceptDataGrant: API.OperationMethod<
-  AcceptDataGrantRequest,
+  AcceptDataGrantRequest & RegionInput,
   AcceptDataGrantResponse,
   AcceptDataGrantError,
   Credentials | HttpClient.HttpClient
@@ -1119,7 +1126,7 @@ export type CancelJobError =
  * This operation cancels a job. Jobs can be cancelled only when they are in the WAITING state.
  */
 export const cancelJob: API.OperationMethod<
-  CancelJobRequest,
+  CancelJobRequest & RegionInput,
   CancelJobResponse,
   CancelJobError,
   Credentials | HttpClient.HttpClient
@@ -1152,7 +1159,7 @@ export type CreateDataGrantError =
  * This operation creates a data grant.
  */
 export const createDataGrant: API.OperationMethod<
-  CreateDataGrantRequest,
+  CreateDataGrantRequest & RegionInput,
   CreateDataGrantResponse,
   CreateDataGrantError,
   Credentials | HttpClient.HttpClient
@@ -1185,7 +1192,7 @@ export type CreateDataSetError =
  * This operation creates a data set.
  */
 export const createDataSet: API.OperationMethod<
-  CreateDataSetRequest,
+  CreateDataSetRequest & RegionInput,
   CreateDataSetResponse,
   CreateDataSetError,
   Credentials | HttpClient.HttpClient
@@ -1217,7 +1224,7 @@ export type CreateEventActionError =
  * This operation creates an event action.
  */
 export const createEventAction: API.OperationMethod<
-  CreateEventActionRequest,
+  CreateEventActionRequest & RegionInput,
   CreateEventActionResponse,
   CreateEventActionError,
   Credentials | HttpClient.HttpClient
@@ -1250,7 +1257,7 @@ export type CreateJobError =
  * This operation creates a job.
  */
 export const createJob: API.OperationMethod<
-  CreateJobRequest,
+  CreateJobRequest & RegionInput,
   CreateJobResponse,
   CreateJobError,
   Credentials | HttpClient.HttpClient
@@ -1283,7 +1290,7 @@ export type CreateRevisionError =
  * This operation creates a revision for a data set.
  */
 export const createRevision: API.OperationMethod<
-  CreateRevisionRequest,
+  CreateRevisionRequest & RegionInput,
   CreateRevisionResponse,
   CreateRevisionError,
   Credentials | HttpClient.HttpClient
@@ -1316,7 +1323,7 @@ export type DeleteAssetError =
  * This operation deletes an asset.
  */
 export const deleteAsset: API.OperationMethod<
-  DeleteAssetRequest,
+  DeleteAssetRequest & RegionInput,
   DeleteAssetResponse,
   DeleteAssetError,
   Credentials | HttpClient.HttpClient
@@ -1349,7 +1356,7 @@ export type DeleteDataGrantError =
  * This operation deletes a data grant.
  */
 export const deleteDataGrant: API.OperationMethod<
-  DeleteDataGrantRequest,
+  DeleteDataGrantRequest & RegionInput,
   DeleteDataGrantResponse,
   DeleteDataGrantError,
   Credentials | HttpClient.HttpClient
@@ -1382,7 +1389,7 @@ export type DeleteDataSetError =
  * This operation deletes a data set.
  */
 export const deleteDataSet: API.OperationMethod<
-  DeleteDataSetRequest,
+  DeleteDataSetRequest & RegionInput,
   DeleteDataSetResponse,
   DeleteDataSetError,
   Credentials | HttpClient.HttpClient
@@ -1414,7 +1421,7 @@ export type DeleteEventActionError =
  * This operation deletes the event action.
  */
 export const deleteEventAction: API.OperationMethod<
-  DeleteEventActionRequest,
+  DeleteEventActionRequest & RegionInput,
   DeleteEventActionResponse,
   DeleteEventActionError,
   Credentials | HttpClient.HttpClient
@@ -1446,7 +1453,7 @@ export type DeleteRevisionError =
  * This operation deletes a revision.
  */
 export const deleteRevision: API.OperationMethod<
-  DeleteRevisionRequest,
+  DeleteRevisionRequest & RegionInput,
   DeleteRevisionResponse,
   DeleteRevisionError,
   Credentials | HttpClient.HttpClient
@@ -1478,7 +1485,7 @@ export type GetAssetError =
  * This operation returns information about an asset.
  */
 export const getAsset: API.OperationMethod<
-  GetAssetRequest,
+  GetAssetRequest & RegionInput,
   GetAssetResponse,
   GetAssetError,
   Credentials | HttpClient.HttpClient
@@ -1509,7 +1516,7 @@ export type GetDataGrantError =
  * This operation returns information about a data grant.
  */
 export const getDataGrant: API.OperationMethod<
-  GetDataGrantRequest,
+  GetDataGrantRequest & RegionInput,
   GetDataGrantResponse,
   GetDataGrantError,
   Credentials | HttpClient.HttpClient
@@ -1540,7 +1547,7 @@ export type GetDataSetError =
  * This operation returns information about a data set.
  */
 export const getDataSet: API.OperationMethod<
-  GetDataSetRequest,
+  GetDataSetRequest & RegionInput,
   GetDataSetResponse,
   GetDataSetError,
   Credentials | HttpClient.HttpClient
@@ -1570,7 +1577,7 @@ export type GetEventActionError =
  * This operation retrieves information about an event action.
  */
 export const getEventAction: API.OperationMethod<
-  GetEventActionRequest,
+  GetEventActionRequest & RegionInput,
   GetEventActionResponse,
   GetEventActionError,
   Credentials | HttpClient.HttpClient
@@ -1600,7 +1607,7 @@ export type GetJobError =
  * This operation returns information about a job.
  */
 export const getJob: API.OperationMethod<
-  GetJobRequest,
+  GetJobRequest & RegionInput,
   GetJobResponse,
   GetJobError,
   Credentials | HttpClient.HttpClient
@@ -1631,7 +1638,7 @@ export type GetReceivedDataGrantError =
  * This operation returns information about a received data grant.
  */
 export const getReceivedDataGrant: API.OperationMethod<
-  GetReceivedDataGrantRequest,
+  GetReceivedDataGrantRequest & RegionInput,
   GetReceivedDataGrantResponse,
   GetReceivedDataGrantError,
   Credentials | HttpClient.HttpClient
@@ -1662,7 +1669,7 @@ export type GetRevisionError =
  * This operation returns information about a revision.
  */
 export const getRevision: API.OperationMethod<
-  GetRevisionRequest,
+  GetRevisionRequest & RegionInput,
   GetRevisionResponse,
   GetRevisionError,
   Credentials | HttpClient.HttpClient
@@ -1693,7 +1700,7 @@ export type ListDataGrantsError =
  * This operation returns information about all data grants.
  */
 export const listDataGrants: API.PaginatedOperationMethod<
-  ListDataGrantsRequest,
+  ListDataGrantsRequest & RegionInput,
   ListDataGrantsResponse,
   ListDataGrantsError,
   Credentials | HttpClient.HttpClient,
@@ -1731,7 +1738,7 @@ export type ListDataSetRevisionsError =
  * This operation lists a data set's revisions sorted by CreatedAt in descending order.
  */
 export const listDataSetRevisions: API.PaginatedOperationMethod<
-  ListDataSetRevisionsRequest,
+  ListDataSetRevisionsRequest & RegionInput,
   ListDataSetRevisionsResponse,
   ListDataSetRevisionsError,
   Credentials | HttpClient.HttpClient,
@@ -1768,7 +1775,7 @@ export type ListDataSetsError =
  * This operation lists your data sets. When listing by origin OWNED, results are sorted by CreatedAt in descending order. When listing by origin ENTITLED, there is no order.
  */
 export const listDataSets: API.PaginatedOperationMethod<
-  ListDataSetsRequest,
+  ListDataSetsRequest & RegionInput,
   ListDataSetsResponse,
   ListDataSetsError,
   Credentials | HttpClient.HttpClient,
@@ -1805,7 +1812,7 @@ export type ListEventActionsError =
  * This operation lists your event actions.
  */
 export const listEventActions: API.PaginatedOperationMethod<
-  ListEventActionsRequest,
+  ListEventActionsRequest & RegionInput,
   ListEventActionsResponse,
   ListEventActionsError,
   Credentials | HttpClient.HttpClient,
@@ -1842,7 +1849,7 @@ export type ListJobsError =
  * This operation lists your jobs sorted by CreatedAt in descending order.
  */
 export const listJobs: API.PaginatedOperationMethod<
-  ListJobsRequest,
+  ListJobsRequest & RegionInput,
   ListJobsResponse,
   ListJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1880,7 +1887,7 @@ export type ListReceivedDataGrantsError =
  * This operation returns information about all received data grants.
  */
 export const listReceivedDataGrants: API.PaginatedOperationMethod<
-  ListReceivedDataGrantsRequest,
+  ListReceivedDataGrantsRequest & RegionInput,
   ListReceivedDataGrantsResponse,
   ListReceivedDataGrantsError,
   Credentials | HttpClient.HttpClient,
@@ -1918,7 +1925,7 @@ export type ListRevisionAssetsError =
  * This operation lists a revision's assets sorted alphabetically in descending order.
  */
 export const listRevisionAssets: API.PaginatedOperationMethod<
-  ListRevisionAssetsRequest,
+  ListRevisionAssetsRequest & RegionInput,
   ListRevisionAssetsResponse,
   ListRevisionAssetsError,
   Credentials | HttpClient.HttpClient,
@@ -1950,7 +1957,7 @@ export type ListTagsForResourceError = CommonErrors;
  * This operation lists the tags on the resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1977,7 +1984,7 @@ export type RevokeRevisionError =
  * This operation revokes subscribers' access to a revision.
  */
 export const revokeRevision: API.OperationMethod<
-  RevokeRevisionRequest,
+  RevokeRevisionRequest & RegionInput,
   RevokeRevisionResponse,
   RevokeRevisionError,
   Credentials | HttpClient.HttpClient
@@ -2010,7 +2017,7 @@ export type SendApiAssetError =
  * This operation invokes an API Gateway API asset. The request is proxied to the provider's API Gateway API.
  */
 export const sendApiAsset: API.OperationMethod<
-  SendApiAssetRequest,
+  SendApiAssetRequest & RegionInput,
   SendApiAssetResponse,
   SendApiAssetError,
   Credentials | HttpClient.HttpClient
@@ -2044,7 +2051,7 @@ export type SendDataSetNotificationError =
  * The type of event associated with the data set.
  */
 export const sendDataSetNotification: API.OperationMethod<
-  SendDataSetNotificationRequest,
+  SendDataSetNotificationRequest & RegionInput,
   SendDataSetNotificationResponse,
   SendDataSetNotificationError,
   Credentials | HttpClient.HttpClient
@@ -2078,7 +2085,7 @@ export type StartJobError =
  * This operation starts a job.
  */
 export const startJob: API.OperationMethod<
-  StartJobRequest,
+  StartJobRequest & RegionInput,
   StartJobResponse,
   StartJobError,
   Credentials | HttpClient.HttpClient
@@ -2105,7 +2112,7 @@ export type TagResourceError = CommonErrors;
  * This operation tags a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2125,7 +2132,7 @@ export type UntagResourceError = CommonErrors;
  * This operation removes one or more tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2152,7 +2159,7 @@ export type UpdateAssetError =
  * This operation updates an asset.
  */
 export const updateAsset: API.OperationMethod<
-  UpdateAssetRequest,
+  UpdateAssetRequest & RegionInput,
   UpdateAssetResponse,
   UpdateAssetError,
   Credentials | HttpClient.HttpClient
@@ -2185,7 +2192,7 @@ export type UpdateDataSetError =
  * This operation updates a data set.
  */
 export const updateDataSet: API.OperationMethod<
-  UpdateDataSetRequest,
+  UpdateDataSetRequest & RegionInput,
   UpdateDataSetResponse,
   UpdateDataSetError,
   Credentials | HttpClient.HttpClient
@@ -2217,7 +2224,7 @@ export type UpdateEventActionError =
  * This operation updates the event action.
  */
 export const updateEventAction: API.OperationMethod<
-  UpdateEventActionRequest,
+  UpdateEventActionRequest & RegionInput,
   UpdateEventActionResponse,
   UpdateEventActionError,
   Credentials | HttpClient.HttpClient
@@ -2250,7 +2257,7 @@ export type UpdateRevisionError =
  * This operation updates a revision.
  */
 export const updateRevision: API.OperationMethod<
-  UpdateRevisionRequest,
+  UpdateRevisionRequest & RegionInput,
   UpdateRevisionResponse,
   UpdateRevisionError,
   Credentials | HttpClient.HttpClient

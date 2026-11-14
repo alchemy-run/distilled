@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -124,7 +125,7 @@ export class InternalServerException
     "InternalServerException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class PayloadTooLargeException
   extends /*@__PURE__*/ S.TaggedError<PayloadTooLargeException>()(
     "PayloadTooLargeException",
@@ -160,14 +161,14 @@ export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
 export interface CreateApplicationRequest {
   Name: string;
-  Description?: string;
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type Id = string;
 export interface Application {
-  Id?: string;
-  Name?: string;
-  Description?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
 }
 export type LongName = string;
 export type Uri = string;
@@ -184,26 +185,26 @@ export type KmsKeyIdentifier = string;
 export interface CreateConfigurationProfileRequest {
   ApplicationId: string;
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   LocationUri: string;
-  RetrievalRoleArn?: string;
-  Validators?: Validator[];
-  Tags?: { [key: string]: string | undefined };
-  Type?: string;
-  KmsKeyIdentifier?: string;
+  RetrievalRoleArn?: string | undefined;
+  Validators?: Validator[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Type?: string | undefined;
+  KmsKeyIdentifier?: string | undefined;
 }
 export type Arn = string;
 export interface ConfigurationProfile {
-  ApplicationId?: string;
-  Id?: string;
-  Name?: string;
-  Description?: string;
-  LocationUri?: string;
-  RetrievalRoleArn?: string;
-  Validators?: Validator[];
-  Type?: string;
-  KmsKeyArn?: string;
-  KmsKeyIdentifier?: string;
+  ApplicationId?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  LocationUri?: string | undefined;
+  RetrievalRoleArn?: string | undefined;
+  Validators?: Validator[] | undefined;
+  Type?: string | undefined;
+  KmsKeyArn?: string | undefined;
+  KmsKeyIdentifier?: string | undefined;
 }
 export type MinutesBetween0And24Hours = number;
 export type GrowthFactor = number;
@@ -211,37 +212,37 @@ export type GrowthType = "LINEAR" | "EXPONENTIAL" | (string & {});
 export type ReplicateTo = "NONE" | "SSM_DOCUMENT" | (string & {});
 export interface CreateDeploymentStrategyRequest {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   DeploymentDurationInMinutes: number;
-  FinalBakeTimeInMinutes?: number;
+  FinalBakeTimeInMinutes?: number | undefined;
   GrowthFactor: number;
-  GrowthType?: GrowthType;
-  ReplicateTo?: ReplicateTo;
-  Tags?: { [key: string]: string | undefined };
+  GrowthType?: GrowthType | undefined;
+  ReplicateTo?: ReplicateTo | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type Percentage = number;
 export interface DeploymentStrategy {
-  Id?: string;
-  Name?: string;
-  Description?: string;
-  DeploymentDurationInMinutes?: number;
-  GrowthType?: GrowthType;
-  GrowthFactor?: number;
-  FinalBakeTimeInMinutes?: number;
-  ReplicateTo?: ReplicateTo;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  DeploymentDurationInMinutes?: number | undefined;
+  GrowthType?: GrowthType | undefined;
+  GrowthFactor?: number | undefined;
+  FinalBakeTimeInMinutes?: number | undefined;
+  ReplicateTo?: ReplicateTo | undefined;
 }
 export type StringWithLengthBetween1And2048 = string;
 export interface Monitor {
   AlarmArn: string;
-  AlarmRoleArn?: string;
+  AlarmRoleArn?: string | undefined;
 }
 export type MonitorList = Monitor[];
 export interface CreateEnvironmentRequest {
   ApplicationId: string;
   Name: string;
-  Description?: string;
-  Monitors?: Monitor[];
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  Monitors?: Monitor[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type EnvironmentState =
   | "READY_FOR_DEPLOYMENT"
@@ -251,12 +252,12 @@ export type EnvironmentState =
   | "REVERTED"
   | (string & {});
 export interface Environment {
-  ApplicationId?: string;
-  Id?: string;
-  Name?: string;
-  Description?: string;
-  State?: EnvironmentState;
-  Monitors?: Monitor[];
+  ApplicationId?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  State?: EnvironmentState | undefined;
+  Monitors?: Monitor[] | undefined;
 }
 export type Identifier = string;
 export type NameWithReservedAwsPrefix = string;
@@ -269,47 +270,47 @@ export type NumberList = number[];
 export type AttributeValue =
   | {
       StringValue: string;
-      NumberValue?: never;
-      BooleanValue?: never;
-      StringArray?: never;
-      NumberArray?: never;
+      NumberValue?: undefined;
+      BooleanValue?: undefined;
+      StringArray?: undefined;
+      NumberArray?: undefined;
     }
   | {
-      StringValue?: never;
+      StringValue?: undefined;
       NumberValue: number;
-      BooleanValue?: never;
-      StringArray?: never;
-      NumberArray?: never;
+      BooleanValue?: undefined;
+      StringArray?: undefined;
+      NumberArray?: undefined;
     }
   | {
-      StringValue?: never;
-      NumberValue?: never;
+      StringValue?: undefined;
+      NumberValue?: undefined;
       BooleanValue: boolean;
-      StringArray?: never;
-      NumberArray?: never;
+      StringArray?: undefined;
+      NumberArray?: undefined;
     }
   | {
-      StringValue?: never;
-      NumberValue?: never;
-      BooleanValue?: never;
+      StringValue?: undefined;
+      NumberValue?: undefined;
+      BooleanValue?: undefined;
       StringArray: string[];
-      NumberArray?: never;
+      NumberArray?: undefined;
     }
   | {
-      StringValue?: never;
-      NumberValue?: never;
-      BooleanValue?: never;
-      StringArray?: never;
+      StringValue?: undefined;
+      NumberValue?: undefined;
+      BooleanValue?: undefined;
+      StringArray?: undefined;
       NumberArray: number[];
     };
 export type AttributeValueMap = { [key: string]: AttributeValue | undefined };
 export interface FlagValue {
   Enabled: boolean;
-  AttributeValues?: { [key: string]: AttributeValue | undefined };
+  AttributeValues?: { [key: string]: AttributeValue | undefined } | undefined;
 }
 export interface TreatmentInput {
   Weight: number;
-  Description?: string;
+  Description?: string | undefined;
   FlagValue: FlagValue;
 }
 export type TreatmentInputList = TreatmentInput[];
@@ -323,38 +324,38 @@ export interface CreateExperimentDefinitionRequest {
   Treatments: TreatmentInput[];
   Control: TreatmentInput;
   AudienceRule: string;
-  Hypothesis?: string;
-  AudienceDescription?: string;
-  LaunchCriteria?: string;
-  Tags?: { [key: string]: string | undefined };
+  Hypothesis?: string | undefined;
+  AudienceDescription?: string | undefined;
+  LaunchCriteria?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ExperimentDefinitionStatus = "ACTIVE" | "IDLE" | "ARCHIVED" | (string & {});
 export type TreatmentKey = string;
 export interface Treatment {
-  Key?: string;
+  Key?: string | undefined;
   Weight: number;
-  Description?: string;
+  Description?: string | undefined;
   FlagValue: FlagValue;
 }
 export type TreatmentList = Treatment[];
 export type Iso8601DateTime = Date;
 export interface ExperimentDefinition {
-  ApplicationId?: string;
-  Id?: string;
-  Name?: string;
-  Hypothesis?: string;
-  Status?: ExperimentDefinitionStatus;
-  ConfigurationProfileId?: string;
-  EnvironmentId?: string;
-  FlagKey?: string;
-  AudienceRule?: string;
-  AudienceDescription?: string;
-  LaunchCriteria?: string;
-  Treatments?: Treatment[];
-  Control?: Treatment;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  KmsKeyIdentifier?: string;
+  ApplicationId?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Hypothesis?: string | undefined;
+  Status?: ExperimentDefinitionStatus | undefined;
+  ConfigurationProfileId?: string | undefined;
+  EnvironmentId?: string | undefined;
+  FlagKey?: string | undefined;
+  AudienceRule?: string | undefined;
+  AudienceDescription?: string | undefined;
+  LaunchCriteria?: string | undefined;
+  Treatments?: Treatment[] | undefined;
+  Control?: Treatment | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  KmsKeyIdentifier?: string | undefined;
 }
 export type ExtensionOrParameterName = string;
 export type ActionPoint =
@@ -368,72 +369,72 @@ export type ActionPoint =
   | "ON_DEPLOYMENT_ROLLED_BACK"
   | (string & {});
 export interface Action {
-  Name?: string;
-  Description?: string;
-  Uri?: string;
-  RoleArn?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Uri?: string | undefined;
+  RoleArn?: string | undefined;
 }
 export type ActionList = Action[];
-export type ActionsMap = { [key in ActionPoint]?: Action[] };
+export type ActionsMap = { [key in ActionPoint]?: Action[] | undefined };
 export interface Parameter {
-  Description?: string;
-  Required?: boolean;
-  Dynamic?: boolean;
+  Description?: string | undefined;
+  Required?: boolean | undefined;
+  Dynamic?: boolean | undefined;
 }
 export type ParameterMap = { [key: string]: Parameter | undefined };
 export interface CreateExtensionRequest {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   Actions: { [key: string]: Action[] | undefined };
-  Parameters?: { [key: string]: Parameter | undefined };
-  Tags?: { [key: string]: string | undefined };
-  LatestVersionNumber?: number;
+  Parameters?: { [key: string]: Parameter | undefined } | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  LatestVersionNumber?: number | undefined;
 }
 export interface Extension {
-  Id?: string;
-  Name?: string;
-  VersionNumber?: number;
-  Arn?: string;
-  Description?: string;
-  Actions?: { [key: string]: Action[] | undefined };
-  Parameters?: { [key: string]: Parameter | undefined };
+  Id?: string | undefined;
+  Name?: string | undefined;
+  VersionNumber?: number | undefined;
+  Arn?: string | undefined;
+  Description?: string | undefined;
+  Actions?: { [key: string]: Action[] | undefined } | undefined;
+  Parameters?: { [key: string]: Parameter | undefined } | undefined;
 }
 export type ParameterValueMap = { [key: string]: string | undefined };
 export interface CreateExtensionAssociationRequest {
   ExtensionIdentifier: string;
-  ExtensionVersionNumber?: number;
+  ExtensionVersionNumber?: number | undefined;
   ResourceIdentifier: string;
-  Parameters?: { [key: string]: string | undefined };
-  Tags?: { [key: string]: string | undefined };
+  Parameters?: { [key: string]: string | undefined } | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ExtensionAssociation {
-  Id?: string;
-  ExtensionArn?: string;
-  ResourceArn?: string;
-  Arn?: string;
-  Parameters?: { [key: string]: string | undefined };
-  ExtensionVersionNumber?: number;
+  Id?: string | undefined;
+  ExtensionArn?: string | undefined;
+  ResourceArn?: string | undefined;
+  Arn?: string | undefined;
+  Parameters?: { [key: string]: string | undefined } | undefined;
+  ExtensionVersionNumber?: number | undefined;
 }
 export type StringWithLengthBetween1And255 = string;
 export type VersionLabel = string;
 export interface CreateHostedConfigurationVersionRequest {
   ApplicationId: string;
   ConfigurationProfileId: string;
-  Description?: string;
+  Description?: string | undefined;
   Content: T.StreamingInputBody;
   ContentType: string;
-  LatestVersionNumber?: number;
-  VersionLabel?: string;
+  LatestVersionNumber?: number | undefined;
+  VersionLabel?: string | undefined;
 }
 export interface HostedConfigurationVersion {
-  ApplicationId?: string;
-  ConfigurationProfileId?: string;
-  VersionNumber?: number;
-  Description?: string;
-  Content?: T.StreamingOutputBody;
-  ContentType?: string;
-  VersionLabel?: string;
-  KmsKeyArn?: string;
+  ApplicationId?: string | undefined;
+  ConfigurationProfileId?: string | undefined;
+  VersionNumber?: number | undefined;
+  Description?: string | undefined;
+  Content?: T.StreamingOutputBody | undefined;
+  ContentType?: string | undefined;
+  VersionLabel?: string | undefined;
+  KmsKeyArn?: string | undefined;
 }
 export interface DeleteApplicationRequest {
   ApplicationId: string;
@@ -443,7 +444,7 @@ export type DeletionProtectionCheck = "ACCOUNT_DEFAULT" | "APPLY" | "BYPASS" | (
 export interface DeleteConfigurationProfileRequest {
   ApplicationId: string;
   ConfigurationProfileId: string;
-  DeletionProtectionCheck?: DeletionProtectionCheck;
+  DeletionProtectionCheck?: DeletionProtectionCheck | undefined;
 }
 export interface DeleteConfigurationProfileResponse {}
 export type DeploymentStrategyId = string;
@@ -454,19 +455,19 @@ export interface DeleteDeploymentStrategyResponse {}
 export interface DeleteEnvironmentRequest {
   EnvironmentId: string;
   ApplicationId: string;
-  DeletionProtectionCheck?: DeletionProtectionCheck;
+  DeletionProtectionCheck?: DeletionProtectionCheck | undefined;
 }
 export interface DeleteEnvironmentResponse {}
 export type DeleteType = "ARCHIVE" | "DESTROY" | (string & {});
 export interface DeleteExperimentDefinitionRequest {
   ApplicationIdentifier: string;
   ExperimentDefinitionIdentifier: string;
-  DeleteType?: DeleteType;
+  DeleteType?: DeleteType | undefined;
 }
 export interface DeleteExperimentDefinitionResponse {}
 export interface DeleteExtensionRequest {
   ExtensionIdentifier: string;
-  VersionNumber?: number;
+  VersionNumber?: number | undefined;
 }
 export interface DeleteExtensionResponse {}
 export interface DeleteExtensionAssociationRequest {
@@ -482,15 +483,15 @@ export interface DeleteHostedConfigurationVersionResponse {}
 export interface GetAccountSettingsRequest {}
 export type DeletionProtectionDuration = number;
 export interface DeletionProtectionSettings {
-  Enabled?: boolean;
-  ProtectionPeriodInMinutes?: number;
+  Enabled?: boolean | undefined;
+  ProtectionPeriodInMinutes?: number | undefined;
 }
 export interface VendedMetricsSettings {
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
 export interface AccountSettings {
-  DeletionProtection?: DeletionProtectionSettings;
-  VendedMetrics?: VendedMetricsSettings;
+  DeletionProtection?: DeletionProtectionSettings | undefined;
+  VendedMetrics?: VendedMetricsSettings | undefined;
 }
 export interface GetApplicationRequest {
   ApplicationId: string;
@@ -502,12 +503,12 @@ export interface GetConfigurationRequest {
   Environment: string;
   Configuration: string;
   ClientId: string;
-  ClientConfigurationVersion?: string;
+  ClientConfigurationVersion?: string | undefined;
 }
 export interface Configuration {
-  Content?: T.StreamingOutputBody;
-  ConfigurationVersion?: string;
-  ContentType?: string;
+  Content?: T.StreamingOutputBody | undefined;
+  ConfigurationVersion?: string | undefined;
+  ContentType?: string | undefined;
 }
 export interface GetConfigurationProfileRequest {
   ApplicationId: string;
@@ -543,53 +544,53 @@ export type TriggeredBy =
   | "INTERNAL_ERROR"
   | (string & {});
 export interface ActionInvocation {
-  ExtensionIdentifier?: string;
-  ActionName?: string;
-  Uri?: string;
-  RoleArn?: string;
-  ErrorMessage?: string;
-  ErrorCode?: string;
-  InvocationId?: string;
+  ExtensionIdentifier?: string | undefined;
+  ActionName?: string | undefined;
+  Uri?: string | undefined;
+  RoleArn?: string | undefined;
+  ErrorMessage?: string | undefined;
+  ErrorCode?: string | undefined;
+  InvocationId?: string | undefined;
 }
 export type ActionInvocations = ActionInvocation[];
 export interface DeploymentEvent {
-  EventType?: DeploymentEventType;
-  TriggeredBy?: TriggeredBy;
-  Description?: string;
-  ActionInvocations?: ActionInvocation[];
-  OccurredAt?: Date;
+  EventType?: DeploymentEventType | undefined;
+  TriggeredBy?: TriggeredBy | undefined;
+  Description?: string | undefined;
+  ActionInvocations?: ActionInvocation[] | undefined;
+  OccurredAt?: Date | undefined;
 }
 export type DeploymentEvents = DeploymentEvent[];
 export interface AppliedExtension {
-  ExtensionId?: string;
-  ExtensionAssociationId?: string;
-  VersionNumber?: number;
-  Parameters?: { [key: string]: string | undefined };
+  ExtensionId?: string | undefined;
+  ExtensionAssociationId?: string | undefined;
+  VersionNumber?: number | undefined;
+  Parameters?: { [key: string]: string | undefined } | undefined;
 }
 export type AppliedExtensions = AppliedExtension[];
 export interface Deployment {
-  ApplicationId?: string;
-  EnvironmentId?: string;
-  DeploymentStrategyId?: string;
-  ConfigurationProfileId?: string;
-  DeploymentNumber?: number;
-  ConfigurationName?: string;
-  ConfigurationLocationUri?: string;
-  ConfigurationVersion?: string;
-  Description?: string;
-  DeploymentDurationInMinutes?: number;
-  GrowthType?: GrowthType;
-  GrowthFactor?: number;
-  FinalBakeTimeInMinutes?: number;
-  State?: DeploymentState;
-  EventLog?: DeploymentEvent[];
-  PercentageComplete?: number;
-  StartedAt?: Date;
-  CompletedAt?: Date;
-  AppliedExtensions?: AppliedExtension[];
-  KmsKeyArn?: string;
-  KmsKeyIdentifier?: string;
-  VersionLabel?: string;
+  ApplicationId?: string | undefined;
+  EnvironmentId?: string | undefined;
+  DeploymentStrategyId?: string | undefined;
+  ConfigurationProfileId?: string | undefined;
+  DeploymentNumber?: number | undefined;
+  ConfigurationName?: string | undefined;
+  ConfigurationLocationUri?: string | undefined;
+  ConfigurationVersion?: string | undefined;
+  Description?: string | undefined;
+  DeploymentDurationInMinutes?: number | undefined;
+  GrowthType?: GrowthType | undefined;
+  GrowthFactor?: number | undefined;
+  FinalBakeTimeInMinutes?: number | undefined;
+  State?: DeploymentState | undefined;
+  EventLog?: DeploymentEvent[] | undefined;
+  PercentageComplete?: number | undefined;
+  StartedAt?: Date | undefined;
+  CompletedAt?: Date | undefined;
+  AppliedExtensions?: AppliedExtension[] | undefined;
+  KmsKeyArn?: string | undefined;
+  KmsKeyIdentifier?: string | undefined;
+  VersionLabel?: string | undefined;
 }
 export interface GetDeploymentStrategyRequest {
   DeploymentStrategyId: string;
@@ -614,41 +615,41 @@ export type EntityId = string;
 export type TreatmentOverrideMap = { [key: string]: string | undefined };
 export type TreatmentOverrides = { Inline: { [key: string]: string | undefined } };
 export interface ExperimentRunResult {
-  ExecutiveSummary?: string;
-  ReasonsToLaunch?: string;
-  ReasonsNotToLaunch?: string;
+  ExecutiveSummary?: string | undefined;
+  ReasonsToLaunch?: string | undefined;
+  ReasonsNotToLaunch?: string | undefined;
 }
 export interface ExperimentDefinitionSnapshot {
-  ApplicationId?: string;
-  Id?: string;
-  Name?: string;
-  Hypothesis?: string;
-  ConfigurationProfileId?: string;
-  EnvironmentId?: string;
-  FlagKey?: string;
-  AudienceRule?: string;
-  AudienceDescription?: string;
-  LaunchCriteria?: string;
-  Treatments?: Treatment[];
-  Control?: Treatment;
+  ApplicationId?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Hypothesis?: string | undefined;
+  ConfigurationProfileId?: string | undefined;
+  EnvironmentId?: string | undefined;
+  FlagKey?: string | undefined;
+  AudienceRule?: string | undefined;
+  AudienceDescription?: string | undefined;
+  LaunchCriteria?: string | undefined;
+  Treatments?: Treatment[] | undefined;
+  Control?: Treatment | undefined;
 }
 export interface ExperimentRun {
-  ApplicationId?: string;
-  ExperimentDefinitionId?: string;
-  Run?: number;
-  Description?: string;
-  Status?: ExperimentRunStatus;
-  ExposurePercentage?: number;
-  TreatmentOverrides?: TreatmentOverrides;
-  Result?: ExperimentRunResult;
-  StartedAt?: Date;
-  UpdatedAt?: Date;
-  EndedAt?: Date;
-  ExperimentDefinitionSnapshot?: ExperimentDefinitionSnapshot;
+  ApplicationId?: string | undefined;
+  ExperimentDefinitionId?: string | undefined;
+  Run?: number | undefined;
+  Description?: string | undefined;
+  Status?: ExperimentRunStatus | undefined;
+  ExposurePercentage?: number | undefined;
+  TreatmentOverrides?: TreatmentOverrides | undefined;
+  Result?: ExperimentRunResult | undefined;
+  StartedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  EndedAt?: Date | undefined;
+  ExperimentDefinitionSnapshot?: ExperimentDefinitionSnapshot | undefined;
 }
 export interface GetExtensionRequest {
   ExtensionIdentifier: string;
-  VersionNumber?: number;
+  VersionNumber?: number | undefined;
 }
 export interface GetExtensionAssociationRequest {
   ExtensionAssociationId: string;
@@ -661,112 +662,112 @@ export interface GetHostedConfigurationVersionRequest {
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListApplicationsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ApplicationList = Application[];
 export interface Applications {
-  Items?: Application[];
-  NextToken?: string;
+  Items?: Application[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListConfigurationProfilesRequest {
   ApplicationId: string;
-  MaxResults?: number;
-  NextToken?: string;
-  Type?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Type?: string | undefined;
 }
 export type ValidatorTypeList = ValidatorType[];
 export interface ConfigurationProfileSummary {
-  ApplicationId?: string;
-  Id?: string;
-  Name?: string;
-  LocationUri?: string;
-  ValidatorTypes?: ValidatorType[];
-  Type?: string;
+  ApplicationId?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  LocationUri?: string | undefined;
+  ValidatorTypes?: ValidatorType[] | undefined;
+  Type?: string | undefined;
 }
 export type ConfigurationProfileSummaryList = ConfigurationProfileSummary[];
 export interface ConfigurationProfiles {
-  Items?: ConfigurationProfileSummary[];
-  NextToken?: string;
+  Items?: ConfigurationProfileSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListDeploymentsRequest {
   ApplicationId: string;
   EnvironmentId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type DeploymentType = "USER" | "MANAGED" | (string & {});
 export interface DeploymentSummary {
-  DeploymentNumber?: number;
-  ConfigurationProfileId?: string;
-  ConfigurationName?: string;
-  ConfigurationVersion?: string;
-  DeploymentDurationInMinutes?: number;
-  GrowthType?: GrowthType;
-  GrowthFactor?: number;
-  FinalBakeTimeInMinutes?: number;
-  State?: DeploymentState;
-  PercentageComplete?: number;
-  StartedAt?: Date;
-  CompletedAt?: Date;
-  VersionLabel?: string;
-  Type?: DeploymentType;
+  DeploymentNumber?: number | undefined;
+  ConfigurationProfileId?: string | undefined;
+  ConfigurationName?: string | undefined;
+  ConfigurationVersion?: string | undefined;
+  DeploymentDurationInMinutes?: number | undefined;
+  GrowthType?: GrowthType | undefined;
+  GrowthFactor?: number | undefined;
+  FinalBakeTimeInMinutes?: number | undefined;
+  State?: DeploymentState | undefined;
+  PercentageComplete?: number | undefined;
+  StartedAt?: Date | undefined;
+  CompletedAt?: Date | undefined;
+  VersionLabel?: string | undefined;
+  Type?: DeploymentType | undefined;
 }
 export type DeploymentList = DeploymentSummary[];
 export interface Deployments {
-  Items?: DeploymentSummary[];
-  NextToken?: string;
+  Items?: DeploymentSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListDeploymentStrategiesRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type DeploymentStrategyList = DeploymentStrategy[];
 export interface DeploymentStrategies {
-  Items?: DeploymentStrategy[];
-  NextToken?: string;
+  Items?: DeploymentStrategy[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListEnvironmentsRequest {
   ApplicationId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type EnvironmentList = Environment[];
 export interface Environments {
-  Items?: Environment[];
-  NextToken?: string;
+  Items?: Environment[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListExperimentDefinitionsRequest {
-  ApplicationIdentifier?: string;
-  ConfigurationProfileIdentifier?: string;
-  EnvironmentIdentifier?: string;
-  Status?: ExperimentDefinitionStatus;
-  MaxResults?: number;
-  NextToken?: string;
+  ApplicationIdentifier?: string | undefined;
+  ConfigurationProfileIdentifier?: string | undefined;
+  EnvironmentIdentifier?: string | undefined;
+  Status?: ExperimentDefinitionStatus | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ExperimentDefinitionSummary {
-  ApplicationId?: string;
-  Id?: string;
-  Name?: string;
-  Hypothesis?: string;
-  Status?: ExperimentDefinitionStatus;
-  ConfigurationProfileId?: string;
-  EnvironmentId?: string;
-  FlagKey?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  ApplicationId?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Hypothesis?: string | undefined;
+  Status?: ExperimentDefinitionStatus | undefined;
+  ConfigurationProfileId?: string | undefined;
+  EnvironmentId?: string | undefined;
+  FlagKey?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export type ExperimentDefinitionList = ExperimentDefinitionSummary[];
 export interface ExperimentDefinitions {
-  Items?: ExperimentDefinitionSummary[];
-  NextToken?: string;
+  Items?: ExperimentDefinitionSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListExperimentRunEventsRequest {
   ApplicationIdentifier: string;
   ExperimentDefinitionIdentifier: string;
   Run: number;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ExperimentRunEventType =
   | "RUN_STARTED"
@@ -775,101 +776,101 @@ export type ExperimentRunEventType =
   | "RUN_STOPPED"
   | (string & {});
 export interface ExperimentRunEvent {
-  Description?: string;
-  AssociatedDeployment?: string;
-  EventType?: ExperimentRunEventType;
-  OccurredAt?: Date;
-  TriggeredBy?: TriggeredBy;
-  ExposurePercentage?: number;
-  TreatmentOverrides?: TreatmentOverrides;
+  Description?: string | undefined;
+  AssociatedDeployment?: string | undefined;
+  EventType?: ExperimentRunEventType | undefined;
+  OccurredAt?: Date | undefined;
+  TriggeredBy?: TriggeredBy | undefined;
+  ExposurePercentage?: number | undefined;
+  TreatmentOverrides?: TreatmentOverrides | undefined;
 }
 export type ExperimentRunEventList = ExperimentRunEvent[];
 export interface ExperimentRunEvents {
-  Items?: ExperimentRunEvent[];
-  NextToken?: string;
+  Items?: ExperimentRunEvent[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListExperimentRunsRequest {
   ApplicationIdentifier: string;
   ExperimentDefinitionIdentifier: string;
-  MaxResults?: number;
-  NextToken?: string;
-  Status?: ExperimentRunStatus;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Status?: ExperimentRunStatus | undefined;
 }
 export interface ExperimentRunSummary {
-  ExperimentDefinitionId?: string;
-  Run?: number;
-  Description?: string;
-  Status?: ExperimentRunStatus;
-  StartedAt?: Date;
-  UpdatedAt?: Date;
-  EndedAt?: Date;
+  ExperimentDefinitionId?: string | undefined;
+  Run?: number | undefined;
+  Description?: string | undefined;
+  Status?: ExperimentRunStatus | undefined;
+  StartedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  EndedAt?: Date | undefined;
 }
 export type ExperimentRunSummaryList = ExperimentRunSummary[];
 export interface ExperimentRuns {
-  Items?: ExperimentRunSummary[];
-  NextToken?: string;
+  Items?: ExperimentRunSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListExtensionAssociationsRequest {
-  ResourceIdentifier?: string;
-  ExtensionIdentifier?: string;
-  ExtensionVersionNumber?: number;
-  MaxResults?: number;
-  NextToken?: string;
+  ResourceIdentifier?: string | undefined;
+  ExtensionIdentifier?: string | undefined;
+  ExtensionVersionNumber?: number | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ExtensionAssociationSummary {
-  Id?: string;
-  ExtensionArn?: string;
-  ResourceArn?: string;
+  Id?: string | undefined;
+  ExtensionArn?: string | undefined;
+  ResourceArn?: string | undefined;
 }
 export type ExtensionAssociationSummaries = ExtensionAssociationSummary[];
 export interface ExtensionAssociations {
-  Items?: ExtensionAssociationSummary[];
-  NextToken?: string;
+  Items?: ExtensionAssociationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type QueryName = string;
 export interface ListExtensionsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  Name?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Name?: string | undefined;
 }
 export interface ExtensionSummary {
-  Id?: string;
-  Name?: string;
-  VersionNumber?: number;
-  Arn?: string;
-  Description?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  VersionNumber?: number | undefined;
+  Arn?: string | undefined;
+  Description?: string | undefined;
 }
 export type ExtensionSummaries = ExtensionSummary[];
 export interface Extensions {
-  Items?: ExtensionSummary[];
-  NextToken?: string;
+  Items?: ExtensionSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListHostedConfigurationVersionsRequest {
   ApplicationId: string;
   ConfigurationProfileId: string;
-  MaxResults?: number;
-  NextToken?: string;
-  VersionLabel?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  VersionLabel?: string | undefined;
 }
 export interface HostedConfigurationVersionSummary {
-  ApplicationId?: string;
-  ConfigurationProfileId?: string;
-  VersionNumber?: number;
-  Description?: string;
-  ContentType?: string;
-  VersionLabel?: string;
-  KmsKeyArn?: string;
+  ApplicationId?: string | undefined;
+  ConfigurationProfileId?: string | undefined;
+  VersionNumber?: number | undefined;
+  Description?: string | undefined;
+  ContentType?: string | undefined;
+  VersionLabel?: string | undefined;
+  KmsKeyArn?: string | undefined;
 }
 export type HostedConfigurationVersionSummaryList = HostedConfigurationVersionSummary[];
 export interface HostedConfigurationVersions {
-  Items?: HostedConfigurationVersionSummary[];
-  NextToken?: string;
+  Items?: HostedConfigurationVersionSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ResourceTags {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type DynamicParameterKey = string;
 export type DynamicParameterMap = { [key: string]: string | undefined };
@@ -879,37 +880,37 @@ export interface StartDeploymentRequest {
   DeploymentStrategyId: string;
   ConfigurationProfileId: string;
   ConfigurationVersion: string;
-  Description?: string;
-  Tags?: { [key: string]: string | undefined };
-  KmsKeyIdentifier?: string;
-  DynamicExtensionParameters?: { [key: string]: string | undefined };
-  LatestDeploymentNumber?: number;
+  Description?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  KmsKeyIdentifier?: string | undefined;
+  DynamicExtensionParameters?: { [key: string]: string | undefined } | undefined;
+  LatestDeploymentNumber?: number | undefined;
 }
 export interface DeploymentParameters {
-  DynamicExtensionParameters?: { [key: string]: string | undefined };
-  Tags?: { [key: string]: string | undefined };
+  DynamicExtensionParameters?: { [key: string]: string | undefined } | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartExperimentRunRequest {
   ApplicationIdentifier: string;
   ExperimentDefinitionIdentifier: string;
-  Description?: string;
-  ExposurePercentage?: number;
-  TreatmentOverrides?: TreatmentOverrides;
-  Tags?: { [key: string]: string | undefined };
-  DeploymentParameters?: DeploymentParameters;
+  Description?: string | undefined;
+  ExposurePercentage?: number | undefined;
+  TreatmentOverrides?: TreatmentOverrides | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  DeploymentParameters?: DeploymentParameters | undefined;
 }
 export interface StopDeploymentRequest {
   ApplicationId: string;
   EnvironmentId: string;
   DeploymentNumber: number;
-  AllowRevert?: boolean;
+  AllowRevert?: boolean | undefined;
 }
 export interface StopExperimentRunRequest {
   ApplicationIdentifier: string;
   ExperimentDefinitionIdentifier: string;
   Run: number;
-  Result?: ExperimentRunResult;
-  DeploymentParameters?: DeploymentParameters;
+  Result?: ExperimentRunResult | undefined;
+  DeploymentParameters?: DeploymentParameters | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
@@ -923,68 +924,68 @@ export interface UntagResourceRequest {
 }
 export interface UntagResourceResponse {}
 export interface UpdateAccountSettingsRequest {
-  DeletionProtection?: DeletionProtectionSettings;
-  VendedMetrics?: VendedMetricsSettings;
+  DeletionProtection?: DeletionProtectionSettings | undefined;
+  VendedMetrics?: VendedMetricsSettings | undefined;
 }
 export interface UpdateApplicationRequest {
   ApplicationId: string;
-  Name?: string;
-  Description?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
 }
 export type KmsKeyIdentifierOrEmpty = string;
 export interface UpdateConfigurationProfileRequest {
   ApplicationId: string;
   ConfigurationProfileId: string;
-  Name?: string;
-  Description?: string;
-  RetrievalRoleArn?: string;
-  Validators?: Validator[];
-  KmsKeyIdentifier?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  RetrievalRoleArn?: string | undefined;
+  Validators?: Validator[] | undefined;
+  KmsKeyIdentifier?: string | undefined;
 }
 export interface UpdateDeploymentStrategyRequest {
   DeploymentStrategyId: string;
-  Description?: string;
-  DeploymentDurationInMinutes?: number;
-  FinalBakeTimeInMinutes?: number;
-  GrowthFactor?: number;
-  GrowthType?: GrowthType;
+  Description?: string | undefined;
+  DeploymentDurationInMinutes?: number | undefined;
+  FinalBakeTimeInMinutes?: number | undefined;
+  GrowthFactor?: number | undefined;
+  GrowthType?: GrowthType | undefined;
 }
 export interface UpdateEnvironmentRequest {
   ApplicationId: string;
   EnvironmentId: string;
-  Name?: string;
-  Description?: string;
-  Monitors?: Monitor[];
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Monitors?: Monitor[] | undefined;
 }
 export interface UpdateExperimentDefinitionRequest {
   ApplicationIdentifier: string;
   ExperimentDefinitionIdentifier: string;
-  Treatments?: TreatmentInput[];
-  Control?: TreatmentInput;
-  Hypothesis?: string;
-  AudienceRule?: string;
-  AudienceDescription?: string;
-  LaunchCriteria?: string;
+  Treatments?: TreatmentInput[] | undefined;
+  Control?: TreatmentInput | undefined;
+  Hypothesis?: string | undefined;
+  AudienceRule?: string | undefined;
+  AudienceDescription?: string | undefined;
+  LaunchCriteria?: string | undefined;
 }
 export interface UpdateExperimentRunRequest {
   ApplicationIdentifier: string;
   ExperimentDefinitionIdentifier: string;
   Run: number;
-  Description?: string;
-  ExposurePercentage?: number;
-  TreatmentOverrides?: TreatmentOverrides;
-  DeploymentParameters?: DeploymentParameters;
+  Description?: string | undefined;
+  ExposurePercentage?: number | undefined;
+  TreatmentOverrides?: TreatmentOverrides | undefined;
+  DeploymentParameters?: DeploymentParameters | undefined;
 }
 export interface UpdateExtensionRequest {
   ExtensionIdentifier: string;
-  Description?: string;
-  Actions?: { [key: string]: Action[] | undefined };
-  Parameters?: { [key: string]: Parameter | undefined };
-  VersionNumber?: number;
+  Description?: string | undefined;
+  Actions?: { [key: string]: Action[] | undefined } | undefined;
+  Parameters?: { [key: string]: Parameter | undefined } | undefined;
+  VersionNumber?: number | undefined;
 }
 export interface UpdateExtensionAssociationRequest {
   ExtensionAssociationId: string;
-  Parameters?: { [key: string]: string | undefined };
+  Parameters?: { [key: string]: string | undefined } | undefined;
 }
 export interface ValidateConfigurationRequest {
   ApplicationId: string;
@@ -994,11 +995,11 @@ export interface ValidateConfigurationRequest {
 export interface ValidateConfigurationResponse {}
 export type BadRequestReason = "InvalidConfiguration" | (string & {});
 export interface InvalidConfigurationDetail {
-  Constraint?: string;
-  Location?: string;
-  Reason?: string;
-  Type?: string;
-  Value?: string;
+  Constraint?: string | undefined;
+  Location?: string | undefined;
+  Reason?: string | undefined;
+  Type?: string | undefined;
+  Value?: string | undefined;
 }
 export type InvalidConfigurationDetailList = InvalidConfigurationDetail[];
 export type BadRequestDetails = { InvalidConfiguration: InvalidConfigurationDetail[] };
@@ -1016,7 +1017,7 @@ export type CreateApplicationError =
  * your users.
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationRequest,
+  CreateApplicationRequest & RegionInput,
   Application,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1069,7 +1070,7 @@ export type CreateConfigurationProfileError =
  * User Guide.
  */
 export const createConfigurationProfile: API.OperationMethod<
-  CreateConfigurationProfileRequest,
+  CreateConfigurationProfileRequest & RegionInput,
   ConfigurationProfile,
   CreateConfigurationProfileError,
   Credentials | HttpClient.HttpClient
@@ -1101,7 +1102,7 @@ export type CreateDeploymentStrategyError =
  * an algorithm that defines how percentage grows, and bake time.
  */
 export const createDeploymentStrategy: API.OperationMethod<
-  CreateDeploymentStrategyRequest,
+  CreateDeploymentStrategyRequest & RegionInput,
   DeploymentStrategy,
   CreateDeploymentStrategyError,
   Credentials | HttpClient.HttpClient
@@ -1133,7 +1134,7 @@ export type CreateEnvironmentError =
  * configuration.
  */
 export const createEnvironment: API.OperationMethod<
-  CreateEnvironmentRequest,
+  CreateEnvironmentRequest & RegionInput,
   Environment,
   CreateEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1164,7 +1165,7 @@ export type CreateExperimentDefinitionError =
  * Creates an experiment definition in AppConfig. An experiment definition describes the purpose, scope, and operational configuration of an experiment, including the target audience, feature flag, and treatment configurations.
  */
 export const createExperimentDefinition: API.OperationMethod<
-  CreateExperimentDefinitionRequest,
+  CreateExperimentDefinitionRequest & RegionInput,
   ExperimentDefinition,
   CreateExperimentDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1215,7 +1216,7 @@ export type CreateExtensionError =
  * workflows in the *AppConfig User Guide*.
  */
 export const createExtension: API.OperationMethod<
-  CreateExtensionRequest,
+  CreateExtensionRequest & RegionInput,
   Extension,
   CreateExtensionError,
   Credentials | HttpClient.HttpClient
@@ -1256,7 +1257,7 @@ export type CreateExtensionAssociationError =
  * workflows in the *AppConfig User Guide*.
  */
 export const createExtensionAssociation: API.OperationMethod<
-  CreateExtensionAssociationRequest,
+  CreateExtensionAssociationRequest & RegionInput,
   ExtensionAssociation,
   CreateExtensionAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1291,7 +1292,7 @@ export type CreateHostedConfigurationVersionError =
  * *AppConfig User Guide*.
  */
 export const createHostedConfigurationVersion: API.OperationMethod<
-  CreateHostedConfigurationVersionRequest,
+  CreateHostedConfigurationVersionRequest & RegionInput,
   HostedConfigurationVersion,
   CreateHostedConfigurationVersionError,
   Credentials | HttpClient.HttpClient
@@ -1322,7 +1323,7 @@ export type DeleteApplicationError =
  * Deletes an application.
  */
 export const deleteApplication: API.OperationMethod<
-  DeleteApplicationRequest,
+  DeleteApplicationRequest & RegionInput,
   DeleteApplicationResponse,
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1351,7 +1352,7 @@ export type DeleteConfigurationProfileError =
  * protection.
  */
 export const deleteConfigurationProfile: API.OperationMethod<
-  DeleteConfigurationProfileRequest,
+  DeleteConfigurationProfileRequest & RegionInput,
   DeleteConfigurationProfileResponse,
   DeleteConfigurationProfileError,
   Credentials | HttpClient.HttpClient
@@ -1380,7 +1381,7 @@ export type DeleteDeploymentStrategyError =
  * Deletes a deployment strategy.
  */
 export const deleteDeploymentStrategy: API.OperationMethod<
-  DeleteDeploymentStrategyRequest,
+  DeleteDeploymentStrategyRequest & RegionInput,
   DeleteDeploymentStrategyResponse,
   DeleteDeploymentStrategyError,
   Credentials | HttpClient.HttpClient
@@ -1408,7 +1409,7 @@ export type DeleteEnvironmentError =
  * protection.
  */
 export const deleteEnvironment: API.OperationMethod<
-  DeleteEnvironmentRequest,
+  DeleteEnvironmentRequest & RegionInput,
   DeleteEnvironmentResponse,
   DeleteEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1438,7 +1439,7 @@ export type DeleteExperimentDefinitionError =
  * Deletes an experiment definition. You can archive the definition to hide it from the active list while preserving it for future reference, or permanently delete it along with all associated run history.
  */
 export const deleteExperimentDefinition: API.OperationMethod<
-  DeleteExperimentDefinitionRequest,
+  DeleteExperimentDefinitionRequest & RegionInput,
   DeleteExperimentDefinitionResponse,
   DeleteExperimentDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1468,7 +1469,7 @@ export type DeleteExtensionError =
  * extension before you delete the extension.
  */
 export const deleteExtension: API.OperationMethod<
-  DeleteExtensionRequest,
+  DeleteExtensionRequest & RegionInput,
   DeleteExtensionResponse,
   DeleteExtensionError,
   Credentials | HttpClient.HttpClient
@@ -1493,7 +1494,7 @@ export type DeleteExtensionAssociationError =
  * association.
  */
 export const deleteExtensionAssociation: API.OperationMethod<
-  DeleteExtensionAssociationRequest,
+  DeleteExtensionAssociationRequest & RegionInput,
   DeleteExtensionAssociationResponse,
   DeleteExtensionAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1518,7 +1519,7 @@ export type DeleteHostedConfigurationVersionError =
  * store.
  */
 export const deleteHostedConfigurationVersion: API.OperationMethod<
-  DeleteHostedConfigurationVersionRequest,
+  DeleteHostedConfigurationVersionRequest & RegionInput,
   DeleteHostedConfigurationVersionResponse,
   DeleteHostedConfigurationVersionError,
   Credentials | HttpClient.HttpClient
@@ -1539,7 +1540,7 @@ export type GetAccountSettingsError = BadRequestException | InternalServerExcept
  * parameter.
  */
 export const getAccountSettings: API.OperationMethod<
-  GetAccountSettingsRequest,
+  GetAccountSettingsRequest & RegionInput,
   AccountSettings,
   GetAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1563,7 +1564,7 @@ export type GetApplicationError =
  * Retrieves information about an application.
  */
 export const getApplication: API.OperationMethod<
-  GetApplicationRequest,
+  GetApplicationRequest & RegionInput,
   Application,
   GetApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1595,7 +1596,7 @@ export type GetConfigurationError =
  * Pricing.
  */
 export const getConfiguration: API.OperationMethod<
-  GetConfigurationRequest,
+  GetConfigurationRequest & RegionInput,
   Configuration,
   GetConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1619,7 +1620,7 @@ export type GetConfigurationProfileError =
  * Retrieves information about a configuration profile.
  */
 export const getConfigurationProfile: API.OperationMethod<
-  GetConfigurationProfileRequest,
+  GetConfigurationProfileRequest & RegionInput,
   ConfigurationProfile,
   GetConfigurationProfileError,
   Credentials | HttpClient.HttpClient
@@ -1643,7 +1644,7 @@ export type GetDeploymentError =
  * Retrieves information about a configuration deployment.
  */
 export const getDeployment: API.OperationMethod<
-  GetDeploymentRequest,
+  GetDeploymentRequest & RegionInput,
   Deployment,
   GetDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1671,7 +1672,7 @@ export type GetDeploymentStrategyError =
  * grows, and bake time.
  */
 export const getDeploymentStrategy: API.OperationMethod<
-  GetDeploymentStrategyRequest,
+  GetDeploymentStrategyRequest & RegionInput,
   DeploymentStrategy,
   GetDeploymentStrategyError,
   Credentials | HttpClient.HttpClient
@@ -1700,7 +1701,7 @@ export type GetEnvironmentError =
  * configuration.
  */
 export const getEnvironment: API.OperationMethod<
-  GetEnvironmentRequest,
+  GetEnvironmentRequest & RegionInput,
   Environment,
   GetEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1724,7 +1725,7 @@ export type GetExperimentDefinitionError =
  * Retrieves information about an experiment definition.
  */
 export const getExperimentDefinition: API.OperationMethod<
-  GetExperimentDefinitionRequest,
+  GetExperimentDefinitionRequest & RegionInput,
   ExperimentDefinition,
   GetExperimentDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1748,7 +1749,7 @@ export type GetExperimentRunError =
  * Retrieves information about an experiment run, including its status, start time, and exposure settings.
  */
 export const getExperimentRun: API.OperationMethod<
-  GetExperimentRunRequest,
+  GetExperimentRunRequest & RegionInput,
   ExperimentRun,
   GetExperimentRunError,
   Credentials | HttpClient.HttpClient
@@ -1772,7 +1773,7 @@ export type GetExtensionError =
  * Returns information about an AppConfig extension.
  */
 export const getExtension: API.OperationMethod<
-  GetExtensionRequest,
+  GetExtensionRequest & RegionInput,
   Extension,
   GetExtensionError,
   Credentials | HttpClient.HttpClient
@@ -1798,7 +1799,7 @@ export type GetExtensionAssociationError =
  * workflows in the *AppConfig User Guide*.
  */
 export const getExtensionAssociation: API.OperationMethod<
-  GetExtensionAssociationRequest,
+  GetExtensionAssociationRequest & RegionInput,
   ExtensionAssociation,
   GetExtensionAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1822,7 +1823,7 @@ export type GetHostedConfigurationVersionError =
  * Retrieves information about a specific configuration version.
  */
 export const getHostedConfigurationVersion: API.OperationMethod<
-  GetHostedConfigurationVersionRequest,
+  GetHostedConfigurationVersionRequest & RegionInput,
   HostedConfigurationVersion,
   GetHostedConfigurationVersionError,
   Credentials | HttpClient.HttpClient
@@ -1842,7 +1843,7 @@ export type ListApplicationsError = BadRequestException | InternalServerExceptio
  * Lists all applications in your Amazon Web Services account.
  */
 export const listApplications: API.PaginatedOperationMethod<
-  ListApplicationsRequest,
+  ListApplicationsRequest & RegionInput,
   Applications,
   ListApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -1873,7 +1874,7 @@ export type ListConfigurationProfilesError =
  * Lists the configuration profiles for an application.
  */
 export const listConfigurationProfiles: API.PaginatedOperationMethod<
-  ListConfigurationProfilesRequest,
+  ListConfigurationProfilesRequest & RegionInput,
   ConfigurationProfiles,
   ListConfigurationProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -1904,7 +1905,7 @@ export type ListDeploymentsError =
  * Lists the deployments for an environment in descending deployment number order.
  */
 export const listDeployments: API.PaginatedOperationMethod<
-  ListDeploymentsRequest,
+  ListDeploymentsRequest & RegionInput,
   Deployments,
   ListDeploymentsError,
   Credentials | HttpClient.HttpClient,
@@ -1934,7 +1935,7 @@ export type ListDeploymentStrategiesError =
  * Lists deployment strategies.
  */
 export const listDeploymentStrategies: API.PaginatedOperationMethod<
-  ListDeploymentStrategiesRequest,
+  ListDeploymentStrategiesRequest & RegionInput,
   DeploymentStrategies,
   ListDeploymentStrategiesError,
   Credentials | HttpClient.HttpClient,
@@ -1965,7 +1966,7 @@ export type ListEnvironmentsError =
  * Lists the environments for an application.
  */
 export const listEnvironments: API.PaginatedOperationMethod<
-  ListEnvironmentsRequest,
+  ListEnvironmentsRequest & RegionInput,
   Environments,
   ListEnvironmentsError,
   Credentials | HttpClient.HttpClient,
@@ -1996,7 +1997,7 @@ export type ListExperimentDefinitionsError =
  * Lists the experiment definitions for an account. You can filter results by application, configuration profile, environment, or status.
  */
 export const listExperimentDefinitions: API.PaginatedOperationMethod<
-  ListExperimentDefinitionsRequest,
+  ListExperimentDefinitionsRequest & RegionInput,
   ExperimentDefinitions,
   ListExperimentDefinitionsError,
   Credentials | HttpClient.HttpClient,
@@ -2027,7 +2028,7 @@ export type ListExperimentRunEventsError =
  * Lists the events for a specified experiment run. Events provide a timeline of actions and state changes that occurred during the run.
  */
 export const listExperimentRunEvents: API.PaginatedOperationMethod<
-  ListExperimentRunEventsRequest,
+  ListExperimentRunEventsRequest & RegionInput,
   ExperimentRunEvents,
   ListExperimentRunEventsError,
   Credentials | HttpClient.HttpClient,
@@ -2058,7 +2059,7 @@ export type ListExperimentRunsError =
  * Lists the experiment runs for a specified experiment definition. You can filter by status.
  */
 export const listExperimentRuns: API.PaginatedOperationMethod<
-  ListExperimentRunsRequest,
+  ListExperimentRunsRequest & RegionInput,
   ExperimentRuns,
   ListExperimentRunsError,
   Credentials | HttpClient.HttpClient,
@@ -2090,7 +2091,7 @@ export type ListExtensionAssociationsError =
  * workflows in the *AppConfig User Guide*.
  */
 export const listExtensionAssociations: API.PaginatedOperationMethod<
-  ListExtensionAssociationsRequest,
+  ListExtensionAssociationsRequest & RegionInput,
   ExtensionAssociations,
   ListExtensionAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -2119,7 +2120,7 @@ export type ListExtensionsError = BadRequestException | InternalServerException 
  * workflows in the *AppConfig User Guide*.
  */
 export const listExtensions: API.PaginatedOperationMethod<
-  ListExtensionsRequest,
+  ListExtensionsRequest & RegionInput,
   Extensions,
   ListExtensionsError,
   Credentials | HttpClient.HttpClient,
@@ -2151,7 +2152,7 @@ export type ListHostedConfigurationVersionsError =
  * version.
  */
 export const listHostedConfigurationVersions: API.PaginatedOperationMethod<
-  ListHostedConfigurationVersionsRequest,
+  ListHostedConfigurationVersionsRequest & RegionInput,
   HostedConfigurationVersions,
   ListHostedConfigurationVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -2182,7 +2183,7 @@ export type ListTagsForResourceError =
  * Retrieves the list of key-value tags assigned to the resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ResourceTags,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2209,7 +2210,7 @@ export type StartDeploymentError =
  * AppConfig Agent supports deploying feature flag or free-form configuration data to specific segments or individual users during a gradual rollout. Entity-based gradual deployments ensure that once a user or segment receives a configuration version, they continue to receive that same version throughout the deployment period, regardless of which compute resource serves their requests. For more information, see Using AppConfig Agent for user-based or entity-based gradual deployments
  */
 export const startDeployment: API.OperationMethod<
-  StartDeploymentRequest,
+  StartDeploymentRequest & RegionInput,
   Deployment,
   StartDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -2241,7 +2242,7 @@ export type StartExperimentRunError =
  * Billing for this experiment begins when you call this operation and continues until the experiment is stopped. For pricing details, see AppConfig pricing.
  */
 export const startExperimentRun: API.OperationMethod<
-  StartExperimentRunRequest,
+  StartExperimentRunRequest & RegionInput,
   ExperimentRun,
   StartExperimentRunError,
   Credentials | HttpClient.HttpClient
@@ -2275,7 +2276,7 @@ export type StopDeploymentError =
  * deployment completion.
  */
 export const stopDeployment: API.OperationMethod<
-  StopDeploymentRequest,
+  StopDeploymentRequest & RegionInput,
   Deployment,
   StopDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -2300,7 +2301,7 @@ export type StopExperimentRunError =
  * Stops a running experiment. Stopping an experiment run ends audience exposure and returns users to the currently deployed feature flag configuration.
  */
 export const stopExperimentRun: API.OperationMethod<
-  StopExperimentRunRequest,
+  StopExperimentRunRequest & RegionInput,
   ExperimentRun,
   StopExperimentRunError,
   Credentials | HttpClient.HttpClient
@@ -2331,7 +2332,7 @@ export type TagResourceError =
  * of which you define. You can specify a maximum of 50 tags for a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2355,7 +2356,7 @@ export type UntagResourceError =
  * Deletes a tag key and value from an AppConfig resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2378,7 +2379,7 @@ export type UpdateAccountSettingsError =
  * Updates the value of the `DeletionProtection` parameter.
  */
 export const updateAccountSettings: API.OperationMethod<
-  UpdateAccountSettingsRequest,
+  UpdateAccountSettingsRequest & RegionInput,
   AccountSettings,
   UpdateAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2402,7 +2403,7 @@ export type UpdateApplicationError =
  * Updates an application.
  */
 export const updateApplication: API.OperationMethod<
-  UpdateApplicationRequest,
+  UpdateApplicationRequest & RegionInput,
   Application,
   UpdateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -2426,7 +2427,7 @@ export type UpdateConfigurationProfileError =
  * Updates a configuration profile.
  */
 export const updateConfigurationProfile: API.OperationMethod<
-  UpdateConfigurationProfileRequest,
+  UpdateConfigurationProfileRequest & RegionInput,
   ConfigurationProfile,
   UpdateConfigurationProfileError,
   Credentials | HttpClient.HttpClient
@@ -2450,7 +2451,7 @@ export type UpdateDeploymentStrategyError =
  * Updates a deployment strategy.
  */
 export const updateDeploymentStrategy: API.OperationMethod<
-  UpdateDeploymentStrategyRequest,
+  UpdateDeploymentStrategyRequest & RegionInput,
   DeploymentStrategy,
   UpdateDeploymentStrategyError,
   Credentials | HttpClient.HttpClient
@@ -2474,7 +2475,7 @@ export type UpdateEnvironmentError =
  * Updates an environment.
  */
 export const updateEnvironment: API.OperationMethod<
-  UpdateEnvironmentRequest,
+  UpdateEnvironmentRequest & RegionInput,
   Environment,
   UpdateEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -2499,7 +2500,7 @@ export type UpdateExperimentDefinitionError =
  * Updates an experiment definition. You can update treatments, the control, audience rules, and other properties. You cannot update an experiment definition while an experiment run is active.
  */
 export const updateExperimentDefinition: API.OperationMethod<
-  UpdateExperimentDefinitionRequest,
+  UpdateExperimentDefinitionRequest & RegionInput,
   ExperimentDefinition,
   UpdateExperimentDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -2529,7 +2530,7 @@ export type UpdateExperimentRunError =
  * Updates a running experiment. Use this operation to increase audience exposure, modify treatment assignment overrides, or update the description of an active experiment run. Audience exposure can only be increased, not decreased.
  */
 export const updateExperimentRun: API.OperationMethod<
-  UpdateExperimentRunRequest,
+  UpdateExperimentRunRequest & RegionInput,
   ExperimentRun,
   UpdateExperimentRunError,
   Credentials | HttpClient.HttpClient
@@ -2561,7 +2562,7 @@ export type UpdateExtensionError =
  * workflows in the *AppConfig User Guide*.
  */
 export const updateExtension: API.OperationMethod<
-  UpdateExtensionRequest,
+  UpdateExtensionRequest & RegionInput,
   Extension,
   UpdateExtensionError,
   Credentials | HttpClient.HttpClient
@@ -2592,7 +2593,7 @@ export type UpdateExtensionAssociationError =
  * workflows in the *AppConfig User Guide*.
  */
 export const updateExtensionAssociation: API.OperationMethod<
-  UpdateExtensionAssociationRequest,
+  UpdateExtensionAssociationRequest & RegionInput,
   ExtensionAssociation,
   UpdateExtensionAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2616,7 +2617,7 @@ export type ValidateConfigurationError =
  * Uses the validators in a configuration profile to validate a configuration.
  */
 export const validateConfiguration: API.OperationMethod<
-  ValidateConfigurationRequest,
+  ValidateConfigurationRequest & RegionInput,
   ValidateConfigurationResponse,
   ValidateConfigurationError,
   Credentials | HttpClient.HttpClient

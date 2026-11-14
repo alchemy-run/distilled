@@ -89,7 +89,7 @@ export interface CancelOrganizationsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -97,8 +97,49 @@ export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
+export type AuditScheduleStateEnum =
+  | "SCHEDULE_STATE_UNSPECIFIED"
+  | "SCHEDULE_STATE_ACTIVE"
+  | "SCHEDULE_STATE_PAUSED"
+  | "SCHEDULE_STATE_COMPLETED"
+  | "SCHEDULE_STATE_FAILED_SETUP"
+  | "SCHEDULE_STATE_ERROR"
+  | "SCHEDULE_STATE_DELETED";
+export type StringList_ = Array<string>;
+/** A list of strings for the parameter value. */
+export interface StringList {
+  /** Required. The strings in the list. */
+  values?: StringList_ | undefined;
+}
+/** The possible parameter value types. */
+export interface ParamValue {
+  /** Optional. A double value. */
+  numberValue?: number | undefined;
+  /** Optional. Sub-parameter values. */
+  oneofValue?: Parameter | undefined;
+  /** Optional. A repeated string. */
+  stringListValue?: StringList | undefined;
+  /** Optional. A string value. */
+  stringValue?: string | undefined;
+  /** Optional. A boolean value. */
+  boolValue?: boolean | undefined;
+}
+/** Parameters are key-value pairs that let you provide your custom location requirements, environment requirements, or other settings that are relevant to the cloud control. */
+export interface Parameter {
+  /** Required. The name or key of the parameter. */
+  name?: string | undefined;
+  /** Required. The value of the parameter. */
+  parameterValue?: ParamValue | undefined;
+}
+export type ParameterList = Array<Parameter>;
+/** Wrapper message to associate a list of CSC internal parameter overrides with a control name. */
+export interface ParameterOverrides {
+  /** The list of parameter overrides. */
+  parameters?: ParameterList | undefined;
+}
+export type ParameterOverridesMap = { [key: string]: ParameterOverrides | undefined };
 export type AuditScheduleReportFormatEnum =
   | "AUDIT_REPORT_FORMAT_UNSPECIFIED"
   | "AUDIT_REPORT_FORMAT_ODF";
@@ -112,78 +153,66 @@ export type ScheduleConfigFrequencyEnum =
 /** Timing and frequency parameters for recurring audit runs. */
 export interface ScheduleConfig {
   /** Optional. Time zone for the audit schedule in IANA format (for example, `America/New_York`). The time zone is used to interpret the `start_time` and the `end_time`, and to calculate subsequent run dates. If not specified, the time zone default is UTC. */
-  timeZone?: string;
-  /** Required. Date and time when the first audit run is triggered. Subsequent runs are based on this time and the chosen frequency. */
-  startTime?: string;
-  /** Required. Frequency of audit runs. */
-  frequency?: ScheduleConfigFrequencyEnum | (string & {});
+  timeZone?: string | undefined;
   /** Optional. Date that the schedule stops. If not specified, the schedule runs indefinitely. */
-  endTime?: string;
+  endTime?: string | undefined;
+  /** Required. Date and time when the first audit run is triggered. Subsequent runs are based on this time and the chosen frequency. */
+  startTime?: string | undefined;
+  /** Required. Frequency of audit runs. */
+  frequency?: ScheduleConfigFrequencyEnum | (string & {}) | undefined;
 }
-export type AuditScheduleStateEnum =
-  | "SCHEDULE_STATE_UNSPECIFIED"
-  | "SCHEDULE_STATE_ACTIVE"
-  | "SCHEDULE_STATE_PAUSED"
-  | "SCHEDULE_STATE_COMPLETED"
-  | "SCHEDULE_STATE_FAILED_SETUP"
-  | "SCHEDULE_STATE_ERROR"
-  | "SCHEDULE_STATE_DELETED";
 /** An audit schedule, in one of the following formats: * `projects/{project}/locations/{location}/auditSchedules/{audit_schedule}` * `folders/{folder}/locations/{location}/auditSchedules/{audit_schedule}` */
 export interface AuditSchedule {
-  /** Required. Format for the audit report. */
-  reportFormat?: AuditScheduleReportFormatEnum | (string & {});
-  /** Required. Configuration that defines when and how often audit runs are automatically triggered for this schedule. */
-  scheduleConfig?: ScheduleConfig;
-  /** Required. Framework (set of controls) that the audit scope report is generated against. For example, `NIST_800_53`. */
-  complianceFramework?: string;
-  /** Output only. Calculated timestamp for the next scheduled run. */
-  nextRunTime?: string;
-  /** Output only. Timestamp when the schedule was created. */
-  createTime?: string;
-  /** Output only. Timestamp when the audit run was last triggered. */
-  lastTriggerTime?: string;
-  /** Required. Cloud Storage bucket where Audit Manager can upload the audit report and evidence. The format is `gs://{bucket_name}`. */
-  gcsUri?: string;
   /** Output only. Describes the error if the schedule is in an error state. */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
+  /** Required. Cloud Storage bucket where Audit Manager can upload the audit report and evidence. The format is `gs://{bucket_name}`. */
+  gcsUri?: string | undefined;
   /** Optional. State of the audit schedule. While most states are managed by the system, you can use UpdateAuditSchedule to start, pause, or delete the schedule. */
-  state?: AuditScheduleStateEnum | (string & {});
+  state?: AuditScheduleStateEnum | (string & {}) | undefined;
+  /** Optional. Maps dynamic parameter overrides by Cloud Control resource name at execution time. For example, `{"organizations/123/locations/global/cloudControls/control-1": {parameters: [...]}}` */
+  parameterOverrides?: ParameterOverridesMap | undefined;
+  /** Required. Framework (set of controls) that the audit scope report is generated against. For example, `NIST_800_53`. */
+  complianceFramework?: string | undefined;
   /** Identifier. Unique identifier for the audit schedule. Format: projects/{project}/locations/{location}/auditSchedules/{audit_schedule} folders/{folder}/locations/{location}/auditSchedules/{audit_schedule} organizations/{organization}/locations/{location}/auditSchedules/{audit_schedule} */
-  name?: string;
-  /** Optional. Display name for the audit schedule. */
-  displayName?: string;
+  name?: string | undefined;
+  /** Output only. Calculated timestamp for the next scheduled run. */
+  nextRunTime?: string | undefined;
+  /** Required. Format for the audit report. */
+  reportFormat?: AuditScheduleReportFormatEnum | (string & {}) | undefined;
   /** Output only. Timestamp when the schedule was last updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
+  /** Optional. Display name for the audit schedule. */
+  displayName?: string | undefined;
+  /** Output only. Timestamp when the schedule was created. */
+  createTime?: string | undefined;
+  /** Required. Configuration that defines when and how often audit runs are automatically triggered for this schedule. */
+  scheduleConfig?: ScheduleConfig | undefined;
+  /** Output only. Timestamp when the audit run was last triggered. */
+  lastTriggerTime?: string | undefined;
 }
-export interface CreateFoldersLocationsAuditSchedulesRequest {
-  /** Required. ID to use for the audit schedule, which becomes the final component of the audit schedule's resource name. */
-  auditScheduleId?: string;
+export interface CreateFoldersLocationsAuditSchedulesRequest extends AuditSchedule {
   /** Optional. If `true`, only validates the request and does not create the audit schedule. This executes standard request validation (such as schema, framework existence, scope, and IAM checks) and skips the apply phase. Use this field for the following purposes: * **Infrastructure as Code (IaC)**: Allow tools like Terraform to run dry-run mutations (e.g., `terraform plan`) without creating real resources or incurring costs. * **User Interface Validation**: Enable real-time form and permission validation in custom UIs before submitting requests. * **CI/CD & Automation**: Test your scripts, permissions, and parameters safely without consuming resource quotas. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
+  /** Required. ID to use for the audit schedule, which becomes the final component of the audit schedule's resource name. */
+  auditScheduleId?: string | undefined;
   /** Required. Project or folder that this audit schedule is for, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: AuditSchedule;
 }
-export interface CreateOrganizationsLocationsAuditSchedulesRequest {
+export interface CreateOrganizationsLocationsAuditSchedulesRequest extends AuditSchedule {
   /** Optional. If `true`, only validates the request and does not create the audit schedule. This executes standard request validation (such as schema, framework existence, scope, and IAM checks) and skips the apply phase. Use this field for the following purposes: * **Infrastructure as Code (IaC)**: Allow tools like Terraform to run dry-run mutations (e.g., `terraform plan`) without creating real resources or incurring costs. * **User Interface Validation**: Enable real-time form and permission validation in custom UIs before submitting requests. * **CI/CD & Automation**: Test your scripts, permissions, and parameters safely without consuming resource quotas. */
-  validateOnly?: boolean;
-  /** Required. ID to use for the audit schedule, which becomes the final component of the audit schedule's resource name. */
-  auditScheduleId?: string;
-  /** Required. Project or folder that this audit schedule is for, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` */
-  parent: string;
-  /** Request body */
-  body?: AuditSchedule;
-}
-export interface CreateProjectsLocationsAuditSchedulesRequest {
-  /** Optional. If `true`, only validates the request and does not create the audit schedule. This executes standard request validation (such as schema, framework existence, scope, and IAM checks) and skips the apply phase. Use this field for the following purposes: * **Infrastructure as Code (IaC)**: Allow tools like Terraform to run dry-run mutations (e.g., `terraform plan`) without creating real resources or incurring costs. * **User Interface Validation**: Enable real-time form and permission validation in custom UIs before submitting requests. * **CI/CD & Automation**: Test your scripts, permissions, and parameters safely without consuming resource quotas. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Required. Project or folder that this audit schedule is for, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` */
   parent: string;
   /** Required. ID to use for the audit schedule, which becomes the final component of the audit schedule's resource name. */
-  auditScheduleId?: string;
-  /** Request body */
-  body?: AuditSchedule;
+  auditScheduleId?: string | undefined;
+}
+export interface CreateProjectsLocationsAuditSchedulesRequest extends AuditSchedule {
+  /** Required. Project or folder that this audit schedule is for, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` */
+  parent: string;
+  /** Required. ID to use for the audit schedule, which becomes the final component of the audit schedule's resource name. */
+  auditScheduleId?: string | undefined;
+  /** Optional. If `true`, only validates the request and does not create the audit schedule. This executes standard request validation (such as schema, framework existence, scope, and IAM checks) and skips the apply phase. Use this field for the following purposes: * **Infrastructure as Code (IaC)**: Allow tools like Terraform to run dry-run mutations (e.g., `terraform plan`) without creating real resources or incurring costs. * **User Interface Validation**: Enable real-time form and permission validation in custom UIs before submitting requests. * **CI/CD & Automation**: Test your scripts, permissions, and parameters safely without consuming resource quotas. */
+  validateOnly?: boolean | undefined;
 }
 export interface DeleteOrganizationsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -196,46 +225,40 @@ export interface DeleteProjectsLocationsOperationsRequest {
 /** Details about the bucket where you want to upload the audit report. */
 export interface EligibleDestination {
   /** The location of the Cloud Storage bucket where you want to upload the audit report and evidence during the GenerateAuditReport API call. */
-  eligibleGcsBucket?: string;
+  eligibleGcsBucket?: string | undefined;
 }
 export type EligibleDestinationList = Array<EligibleDestination>;
 /** Request message for EnrollResource. */
 export interface EnrollResourceRequest {
-  /** Optional. If `true`, only validates the request and does not enroll the resource. This executes standard request validation (such as schema, IAM, and destination checks) and skips the apply phase. Use this field for the following purposes: * **Infrastructure as Code (IaC)**: Allow tools like Terraform to run dry-run mutations (e.g., `terraform plan`) without creating real resources or incurring costs. * **User Interface Validation**: Enable real-time form and permission validation in custom UIs before submitting requests. * **CI/CD & Automation**: Test your scripts, permissions, and parameters safely without consuming resource quotas. */
-  validateOnly?: boolean;
   /** Required. Cloud Storage buckets that you can upload your audit reports to during the audit process. When you enroll an organization or folder, you can choose a Cloud Storage bucket from any project in the organization or folder. If you run an audit at the project level using the service agent at the organization or folder level, all the buckets that are associated with the service agent are available. */
-  destinations?: EligibleDestinationList;
+  destinations?: EligibleDestinationList | undefined;
+  /** Optional. If `true`, only validates the request and does not enroll the resource. This executes standard request validation (such as schema, IAM, and destination checks) and skips the apply phase. Use this field for the following purposes: * **Infrastructure as Code (IaC)**: Allow tools like Terraform to run dry-run mutations (e.g., `terraform plan`) without creating real resources or incurring costs. * **User Interface Validation**: Enable real-time form and permission validation in custom UIs before submitting requests. * **CI/CD & Automation**: Test your scripts, permissions, and parameters safely without consuming resource quotas. */
+  validateOnly?: boolean | undefined;
 }
-export interface EnrollResourceFoldersLocationsRequest {
+export interface EnrollResourceFoldersLocationsRequest extends EnrollResourceRequest {
   /** Required. Organization, folder, or project to enroll in Audit Manager, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   scope: string;
-  /** Request body */
-  body?: EnrollResourceRequest;
 }
 /** Cloud Storage bucket where the audit report is uploaded to. */
 export interface DestinationDetails {
   /** URI for the Cloud Storage bucket, in the format `gs://{bucket_name}`. */
-  gcsBucketUri?: string;
+  gcsBucketUri?: string | undefined;
 }
 export type DestinationDetailsList = Array<DestinationDetails>;
 /** Organization, folder, or project to enroll for audit reports. */
 export interface Enrollment {
-  /** Identifier. Name of the enrollment, in one of the following formats: * `projects/{project}/locations/{location}/enrollments/{enrollment}` * `folders/{folder}/locations/{location}/enrollments/{enrollment}` * `organizations/{organization}/locations/{location}/enrollments/{enrollment}` */
-  name?: string;
   /** Output only. Cloud Storage buckets where you want to upload the audit reports. */
-  destinationDetails?: DestinationDetailsList;
+  destinationDetails?: DestinationDetailsList | undefined;
+  /** Identifier. Name of the enrollment, in one of the following formats: * `projects/{project}/locations/{location}/enrollments/{enrollment}` * `folders/{folder}/locations/{location}/enrollments/{enrollment}` * `organizations/{organization}/locations/{location}/enrollments/{enrollment}` */
+  name?: string | undefined;
 }
-export interface EnrollResourceOrganizationsLocationsRequest {
+export interface EnrollResourceOrganizationsLocationsRequest extends EnrollResourceRequest {
   /** Required. Organization, folder, or project to enroll in Audit Manager, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   scope: string;
-  /** Request body */
-  body?: EnrollResourceRequest;
 }
-export interface EnrollResourceProjectsLocationsRequest {
+export interface EnrollResourceProjectsLocationsRequest extends EnrollResourceRequest {
   /** Required. Organization, folder, or project to enroll in Audit Manager, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   scope: string;
-  /** Request body */
-  body?: EnrollResourceRequest;
 }
 export type GenerateAuditReportRequestReportFormatEnum =
   | "AUDIT_REPORT_FORMAT_UNSPECIFIED"
@@ -243,114 +266,99 @@ export type GenerateAuditReportRequestReportFormatEnum =
 /** Request message for GenerateAuditReport. */
 export interface GenerateAuditReportRequest {
   /** Required. Format for the audit report. */
-  reportFormat?: GenerateAuditReportRequestReportFormatEnum | (string & {});
+  reportFormat?: GenerateAuditReportRequestReportFormatEnum | (string & {}) | undefined;
   /** Optional. Deprecated. Compliance standard for the audit report. Use the `compliance_framework` field instead. */
-  complianceStandard?: string;
+  complianceStandard?: string | undefined;
   /** Optional. If `true`, only validates the request and does not generate the audit report. This executes standard request validation (such as schema, framework existence, scope, and IAM checks) and skips the apply phase. Use this field for the following purposes: * **Infrastructure as Code (IaC)**: Allow tools like Terraform to run dry-run mutations (e.g., `terraform plan`) without creating real resources or incurring costs. * **User Interface Validation**: Enable real-time form and permission validation in custom UIs before submitting requests. * **CI/CD & Automation**: Test your scripts, permissions, and parameters safely without triggering expensive Long-Running Operations (LROs) or consuming resource quotas. */
-  validateOnly?: boolean;
-  /** URL for the Cloud Storage bucket where the report and evidence is uploaded. You must select a bucket that was provided during the enrollment process. */
-  gcsUri?: string;
+  validateOnly?: boolean | undefined;
   /** Required. The framework that's used for the audit report. For example, `NIST_800_53`. */
-  complianceFramework?: string;
+  complianceFramework?: string | undefined;
+  /** URL for the Cloud Storage bucket where the report and evidence is uploaded. You must select a bucket that was provided during the enrollment process. */
+  gcsUri?: string | undefined;
+  /** Optional. Maps dynamic parameter overrides by Cloud Control resource name at execution time. For example, `{"organizations/123/locations/global/cloudControls/control-1": {parameters: [...]}}` */
+  parameterOverrides?: ParameterOverridesMap | undefined;
 }
-export interface GenerateFoldersLocationsAuditReportsRequest {
+export interface GenerateFoldersLocationsAuditReportsRequest extends GenerateAuditReportRequest {
   /** Required. Organization, folder, or project that the audit applies to, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   scope: string;
-  /** Request body */
-  body?: GenerateAuditReportRequest;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string | undefined;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean | undefined;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap | undefined;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status | undefined;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string | undefined;
 }
 export type GenerateAuditScopeReportRequestReportFormatEnum =
   | "AUDIT_SCOPE_REPORT_FORMAT_UNSPECIFIED"
   | "AUDIT_SCOPE_REPORT_FORMAT_ODF";
 /** Request message for GenerateAuditScopeReport. */
 export interface GenerateAuditScopeReportRequest {
-  /** Required. Format for the audit scope report. */
-  reportFormat?: GenerateAuditScopeReportRequestReportFormatEnum | (string & {});
-  /** Optional. Deprecated. The standard (industry or regulatory requirements) that the audit scope report is run against. Use the `compliance_framework` field instead. */
-  complianceStandard?: string;
-  /** Required. Framework (set of controls) that the audit scope report is generated against. For example, `NIST_800_53`. */
-  complianceFramework?: string;
   /** Optional. If `true`, only validates the request and does not generate the audit scope report. This executes standard request validation (such as schema, framework existence, scope, and IAM checks) and skips the apply phase. Use this field for the following purposes: * **Infrastructure as Code (IaC)**: Allow tools like Terraform to run dry-run mutations (e.g., `terraform plan`) without creating real resources or incurring costs. * **User Interface Validation**: Enable real-time form and permission validation in custom UIs before submitting requests. * **CI/CD & Automation**: Test your scripts, permissions, and parameters safely without consuming resource quotas. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
+  /** Optional. Deprecated. The standard (industry or regulatory requirements) that the audit scope report is run against. Use the `compliance_framework` field instead. */
+  complianceStandard?: string | undefined;
+  /** Required. Format for the audit scope report. */
+  reportFormat?: GenerateAuditScopeReportRequestReportFormatEnum | (string & {}) | undefined;
+  /** Required. Framework (set of controls) that the audit scope report is generated against. For example, `NIST_800_53`. */
+  complianceFramework?: string | undefined;
+  /** Optional. Maps dynamic parameter overrides by Cloud Control resource name at execution time. For example, `{"organizations/123/locations/global/cloudControls/control-1": {parameters: [...]}}` */
+  parameterOverrides?: ParameterOverridesMap | undefined;
 }
-export interface GenerateFoldersLocationsAuditScopeReportsRequest {
+export interface GenerateFoldersLocationsAuditScopeReportsRequest extends GenerateAuditScopeReportRequest {
   /** Required. Project or folder that the audit scope report is generated for, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   scope: string;
-  /** Request body */
-  body?: GenerateAuditScopeReportRequest;
 }
 /** Audit scope report. */
 export interface AuditScopeReport {
-  /** Audit scope report content in byte format. */
-  scopeReportContents?: string;
   /** Identifier. Name for the audit scope report, in one of the following formats: * `projects/{project}/locations/{location}/auditScopeReports/{audit_scope_report}` * `folders/{folder}/locations/{location}/auditScopeReports/{audit_scope_report}` * `organizations/{organization}/locations/{location}/auditScopeReports/{audit_scope_report}` */
-  name?: string;
+  name?: string | undefined;
+  /** Audit scope report content in byte format. */
+  scopeReportContents?: string | undefined;
 }
-export interface GenerateOrganizationsLocationsAuditReportsRequest {
+export interface GenerateOrganizationsLocationsAuditReportsRequest extends GenerateAuditReportRequest {
   /** Required. Organization, folder, or project that the audit applies to, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   scope: string;
-  /** Request body */
-  body?: GenerateAuditReportRequest;
 }
-export interface GenerateOrganizationsLocationsAuditScopeReportsRequest {
+export interface GenerateOrganizationsLocationsAuditScopeReportsRequest extends GenerateAuditScopeReportRequest {
   /** Required. Project or folder that the audit scope report is generated for, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   scope: string;
-  /** Request body */
-  body?: GenerateAuditScopeReportRequest;
 }
-export interface GenerateProjectsLocationsAuditReportsRequest {
+export interface GenerateProjectsLocationsAuditReportsRequest extends GenerateAuditReportRequest {
   /** Required. Organization, folder, or project that the audit applies to, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   scope: string;
-  /** Request body */
-  body?: GenerateAuditReportRequest;
 }
-export interface GenerateProjectsLocationsAuditScopeReportsRequest {
+export interface GenerateProjectsLocationsAuditScopeReportsRequest extends GenerateAuditScopeReportRequest {
   /** Required. Project or folder that the audit scope report is generated for, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   scope: string;
-  /** Request body */
-  body?: GenerateAuditScopeReportRequest;
 }
 export interface GetFoldersLocationsAuditReportsRequest {
   /** Required. Name of the audit report, in one of the following formats: * `projects/{project}/locations/{location}/auditReports/{audit_report}` * `folders/{folder}/locations/{location}/auditReports/{audit_report}` * `organizations/{organization}/locations/{location}/auditReports/{audit_report}` */
   name: string;
 }
-/** Additional information about the number of checks that were made during an audit operation. */
-export interface ReportSummary {
-  /** Number of checks that require a manual review. */
-  manualReviewNeededCount?: number;
-  /** Total number of evaluated checks. */
-  totalCount?: number;
-  /** Number of checks that can't be performed due to errors. */
-  errorCount?: number;
-  /** Number of compliant checks. */
-  compliantCount?: number;
-  /** Number of checks with violations. */
-  violationCount?: number;
-}
+export type AuditReportReportGenerationStateEnum =
+  | "REPORT_GENERATION_STATE_UNSPECIFIED"
+  | "IN_PROGRESS"
+  | "COMPLETED"
+  | "FAILED"
+  | "SUMMARY_UNKNOWN";
 export type ControlDetailsComplianceStateEnum =
   | "COMPLIANCE_STATE_UNSPECIFIED"
   | "COMPLIANT"
@@ -358,6 +366,19 @@ export type ControlDetailsComplianceStateEnum =
   | "MANUAL_REVIEW_NEEDED"
   | "ERROR"
   | "AUDIT_NOT_SUPPORTED";
+/** Additional information about the number of checks that were made during an audit operation. */
+export interface ReportSummary {
+  /** Number of checks with violations. */
+  violationCount?: number | undefined;
+  /** Total number of evaluated checks. */
+  totalCount?: number | undefined;
+  /** Number of checks that require a manual review. */
+  manualReviewNeededCount?: number | undefined;
+  /** Number of compliant checks. */
+  compliantCount?: number | undefined;
+  /** Number of checks that can't be performed due to errors. */
+  errorCount?: number | undefined;
+}
 export type ControlFamilyEnum =
   | "FAMILY_UNSPECIFIED"
   | "AC"
@@ -380,74 +401,86 @@ export type ControlFamilyEnum =
   | "SR";
 /** Regulatory family of the control. */
 export interface ControlFamily {
-  /** Display name of the regulatory control family. */
-  displayName?: string;
   /** ID of the regulatory control family. To find the list of supported control families, use the ListControls method and review the `control_family` field in the response. */
-  familyId?: string;
+  familyId?: string | undefined;
+  /** Display name of the regulatory control family. */
+  displayName?: string | undefined;
 }
 /** A control. */
 export interface Control {
-  /** Output only. A description of Google's responsibility for this control. */
-  googleResponsibilityDescription?: string;
-  /** Output only. Display name of the control. */
-  displayName?: string;
-  /** Output only. A description of how Google implements its responsibility for this control. */
-  googleResponsibilityImplementation?: string;
-  /** Output only. Who is responsible for implementing this control. Set to one of the following values: `GOOGLE`, `CUSTOMER`, or `SHARED`. */
-  responsibilityType?: string;
   /** Output only. Category that the control belongs to. */
-  family?: ControlFamilyEnum;
-  /** Output only. A description of your responsibility for this control. */
-  customerResponsibilityDescription?: string;
-  /** Output only. Regulatory family of the control. */
-  controlFamily?: ControlFamily;
-  /** Output only. Description of the control. */
-  description?: string;
-  /** Output only. Control identifier that's used to fetch the findings. The identifier is the same as the control report name. */
-  id?: string;
+  family?: ControlFamilyEnum | undefined;
+  /** Output only. A description of how Google implements its responsibility for this control. */
+  googleResponsibilityImplementation?: string | undefined;
+  /** Output only. A description of Google's responsibility for this control. */
+  googleResponsibilityDescription?: string | undefined;
   /** Output only. A description of how you can implement your responsibility for this control. */
-  customerResponsibilityImplementation?: string;
+  customerResponsibilityImplementation?: string | undefined;
+  /** Output only. Control identifier that's used to fetch the findings. The identifier is the same as the control report name. */
+  id?: string | undefined;
+  /** Output only. A description of your responsibility for this control. */
+  customerResponsibilityDescription?: string | undefined;
+  /** Output only. Regulatory family of the control. */
+  controlFamily?: ControlFamily | undefined;
+  /** Output only. Description of the control. */
+  description?: string | undefined;
+  /** Output only. Display name of the control. */
+  displayName?: string | undefined;
+  /** Output only. Who is responsible for implementing this control. Set to one of the following values: `GOOGLE`, `CUSTOMER`, or `SHARED`. */
+  responsibilityType?: string | undefined;
 }
 /** Evaluation details for a control. */
 export interface ControlDetails {
-  /** A control report summary that provides a high-level overview of the compliance controls and the assessment status. */
-  controlReportSummary?: ReportSummary;
   /** Output only. Overall status of the findings for the control. */
-  complianceState?: ControlDetailsComplianceStateEnum;
+  complianceState?: ControlDetailsComplianceStateEnum | undefined;
+  /** A control report summary that provides a high-level overview of the compliance controls and the assessment status. */
+  controlReportSummary?: ReportSummary | undefined;
   /** Control that the findings are being reported for. */
-  control?: Control;
+  control?: Control | undefined;
 }
 export type ControlDetailsList = Array<ControlDetails>;
-export type AuditReportReportGenerationStateEnum =
-  | "REPORT_GENERATION_STATE_UNSPECIFIED"
-  | "IN_PROGRESS"
-  | "COMPLETED"
-  | "FAILED"
-  | "SUMMARY_UNKNOWN";
+/** State of a parameter for a cloud control. */
+export interface ParameterState {
+  /** Output only. The parameter key and value. */
+  parameter?: Parameter | undefined;
+  /** Output only. Whether this parameter was overridden by the user. */
+  isOverridden?: boolean | undefined;
+}
+export type ParameterStateList = Array<ParameterState>;
+/** Collection of parameter states for a cloud control. */
+export interface CloudControlParameterStates {
+  /** Output only. The parameter states for the cloud control. */
+  parameterStates?: ParameterStateList | undefined;
+}
+export type CloudControlParameterStatesMap = {
+  [key: string]: CloudControlParameterStates | undefined;
+};
 /** An audit report. */
 export interface AuditReport {
-  /** Output only. Organization, folder, or project that the report is generated for, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
-  scope?: string;
   /** Output only. Deprecated. Compliance standard to be audited against. Use the `compliance_framework` field instead. */
-  complianceStandard?: string;
-  /** Output only. Overall status of the controls. */
-  controlDetails?: ControlDetailsList;
-  /** Output only. Report summary that includes information about compliance and violation counts. */
-  reportSummary?: ReportSummary;
+  complianceStandard?: string | undefined;
   /** Output only. State of audit report generation. */
-  reportGenerationState?: AuditReportReportGenerationStateEnum;
+  reportGenerationState?: AuditReportReportGenerationStateEnum | undefined;
   /** Identifier. Name of the audit report, in one of the following formats: * `projects/{project}/locations/{location}/auditReports/{audit_report}` * `folders/{folder}/locations/{location}/auditReports/{audit_report}` * `organizations/{organization}/locations/{location}/auditReports/{audit_report}` */
-  name?: string;
-  /** Output only. Creation time of the audit report. */
-  createTime?: string;
+  name?: string | undefined;
+  /** Output only. Overall status of the controls. */
+  controlDetails?: ControlDetailsList | undefined;
   /** Output only. Compliance framework to use for the audit report. For example, `CIS_GCP_FOUNDATIONS_V1_2_0`. */
-  complianceFramework?: string;
+  complianceFramework?: string | undefined;
+  /** Output only. Organization, folder, or project that the report is generated for, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
+  scope?: string | undefined;
+  /** Output only. Creation time of the audit report. */
+  createTime?: string | undefined;
   /** Output only. Cloud Storage bucket where the audit report is uploaded to. */
-  destinationDetails?: DestinationDetails;
+  destinationDetails?: DestinationDetails | undefined;
   /** Output only. Client operation ID for the audit report. */
-  operationId?: string;
+  operationId?: string | undefined;
   /** Output only. Project number, folder ID, or organization ID that the audit report was generated for. */
-  scopeId?: string;
+  scopeId?: string | undefined;
+  /** Output only. Parameter values provided by the user and values for tunable parameters, stored in the DB, keyed by control name. */
+  cloudControlParameterStates?: CloudControlParameterStatesMap | undefined;
+  /** Output only. Report summary that includes information about compliance and violation counts. */
+  reportSummary?: ReportSummary | undefined;
 }
 export interface GetFoldersLocationsAuditSchedulesRequest {
   /** Required. Name of the audit schedule to retrieve, in one of the following formats: * `projects/{project}/locations/{location}/auditSchedules/{audit_schedule}` * `folders/{folder}/locations/{location}/auditSchedules/{audit_schedule}` * `organizations/{organization}/locations/{location}/auditSchedules/{audit_schedule}` */
@@ -473,15 +506,15 @@ export type ResourceEnrollmentStatusEnrollmentStateEnum =
 /** An organization, folder, or project with its enrollment status. */
 export interface ResourceEnrollmentStatus {
   /** Identifier. Name of the resource enrollment status, in one of the following formats: * `folders/{folder}/locations/{location}/resourceEnrollmentStatuses/{resource_enrollment_status}` * `projects/{project}/locations/{location}/resourceEnrollmentStatuses/{resource_enrollment_status}` * `organizations/{organization}/locations/{location}/resourceEnrollmentStatuses/{resource_enrollment_status}` */
-  name?: string;
-  /** Output only. Enrollment state of the organization, folder, or project. */
-  enrollmentState?: ResourceEnrollmentStatusEnrollmentStateEnum;
-  /** Output only. Enrolled destination details for the organization, folder, or project. */
-  enrollment?: Enrollment;
+  name?: string | undefined;
   /** Output only. Deprecated. Whether the organization, folder, or project is enrolled. Use `enrollment_state` instead. */
-  enrolled?: boolean;
+  enrolled?: boolean | undefined;
+  /** Output only. Enrolled destination details for the organization, folder, or project. */
+  enrollment?: Enrollment | undefined;
+  /** Output only. Enrollment state of the organization, folder, or project. */
+  enrollmentState?: ResourceEnrollmentStatusEnrollmentStateEnum | undefined;
   /** Output only. Display name for the organization, folder, or project. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export interface GetOrganizationsLocationsAuditReportsRequest {
   /** Required. Name of the audit report, in one of the following formats: * `projects/{project}/locations/{location}/auditReports/{audit_report}` * `folders/{folder}/locations/{location}/auditReports/{audit_report}` * `organizations/{organization}/locations/{location}/auditReports/{audit_report}` */
@@ -515,15 +548,15 @@ export type StringMap = { [key: string]: string | undefined };
 /** A resource that represents a Google Cloud location. */
 export interface Location {
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
+  name?: string | undefined;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
-  /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
-  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
+  labels?: StringMap | undefined;
   /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
+  /** The canonical id for this location. For example: `"us-east1"`. */
+  locationId?: string | undefined;
+  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
+  displayName?: string | undefined;
 }
 export interface GetProjectsLocationsAuditReportsRequest {
   /** Required. Name of the audit report, in one of the following formats: * `projects/{project}/locations/{location}/auditReports/{audit_report}` * `folders/{folder}/locations/{location}/auditReports/{audit_report}` * `organizations/{organization}/locations/{location}/auditReports/{audit_report}` */
@@ -550,211 +583,207 @@ export interface GetProjectsLocationsResourceEnrollmentStatusesRequest {
   name: string;
 }
 export interface ListFoldersLocationsAuditReportsRequest {
-  /** Optional. A page token, received from a previous call, to retrieve the next page of results. */
-  pageToken?: string;
   /** Required. Parent organization, folder, or project to list reports for, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   parent: string;
   /** Optional. Maximum number of items to return in a single page. The service might return fewer items than this value. If unspecified, the service picks an appropriate default. The maximum value is 100; values above 100 are reduced to 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
+  /** Optional. A page token, received from a previous call, to retrieve the next page of results. */
+  pageToken?: string | undefined;
 }
 export type AuditReportList = Array<AuditReport>;
 /** Response message for ListAuditReports. */
 export interface ListAuditReportsResponse {
-  /** Output only. Audit reports. */
-  auditReports?: AuditReportList;
   /** Output only. A token that you can send as the `page_token` in a subsequent request to retrieve the next page of results. If this field is empty, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
+  /** Output only. Audit reports. */
+  auditReports?: AuditReportList | undefined;
 }
 export interface ListFoldersLocationsAuditSchedulesRequest {
   /** Optional. Maximum number of items to return in a single page. The service might return fewer items than this value. If unspecified, the service picks an appropriate default. The maximum value is 100; values above 100 are reduced to 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous call, to retrieve the next page of results. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. Parent for the audit schedule, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   parent: string;
 }
 export type AuditScheduleList = Array<AuditSchedule>;
-export type StringList = Array<string>;
 /** Response message for ListAuditSchedules. */
 export interface ListAuditSchedulesResponse {
-  /** List of audit schedules. */
-  auditSchedules?: AuditScheduleList;
-  /** Locations that can't be reached. */
-  unreachable?: StringList;
   /** A token that you can send as the `page_token` in a subsequent request to retrieve the next page of results. If this field is empty, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
+  /** List of audit schedules. */
+  auditSchedules?: AuditScheduleList | undefined;
+  /** Locations that can't be reached. */
+  unreachable?: StringList_ | undefined;
 }
 export interface ListFoldersLocationsResourceEnrollmentStatusesRequest {
+  /** Optional. A page token, received from a previous call, to retrieve the next page of results. */
+  pageToken?: string | undefined;
   /** Optional. Maximum number of items to return in a single page. The service might return fewer items than this value. If unspecified, the service picks an appropriate default. The maximum value is 100; values above 100 are reduced to 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Parent organization or folder to list enrollment statuses for, in one of the following formats: * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   parent: string;
-  /** Optional. A page token, received from a previous call, to retrieve the next page of results. */
-  pageToken?: string;
 }
 export type ResourceEnrollmentStatusList = Array<ResourceEnrollmentStatus>;
 /** Response message for ListResourceEnrollmentStatuses. */
 export interface ListResourceEnrollmentStatusesResponse {
   /** Resources with their enrollment status. */
-  resourceEnrollmentStatuses?: ResourceEnrollmentStatusList;
+  resourceEnrollmentStatuses?: ResourceEnrollmentStatusList | undefined;
   /** Output only. A token that you can send as the `page_token` in a subsequent request to retrieve the next page of results. If this field is empty, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListFoldersLocationsStandardsControlsRequest {
+  /** Optional. Maximum number of items to return in a single page. The service might return fewer items than this value. If unspecified, the service picks an appropriate default. The maximum value is 100; values above 100 are reduced to 100. */
+  pageSize?: number | undefined;
+  /** Optional. A page token, received from a previous call, to retrieve the next page of results. */
+  pageToken?: string | undefined;
   /** Required. Standard to list controls for, in one of the following formats: * `projects/{project}/locations/{location}/standards/{standard}` * `folders/{folder}/locations/{location}/standards/{standard}` * `organizations/{organization}/locations/{location}/standards/{standard}` */
   parent: string;
-  /** Optional. A page token, received from a previous call, to retrieve the next page of results. */
-  pageToken?: string;
-  /** Optional. Maximum number of items to return in a single page. The service might return fewer items than this value. If unspecified, the service picks an appropriate default. The maximum value is 100; values above 100 are reduced to 100. */
-  pageSize?: number;
 }
 export type ControlList = Array<Control>;
 /** Response message for ListControls. */
 export interface ListControlsResponse {
-  /** Output only. A token that you can send as the `page_token` in a subsequent request to retrieve the next page of results. If this field is empty, there are no subsequent pages. */
-  nextPageToken?: string;
   /** Output only. Controls for a given regulatory standard. */
-  controls?: ControlList;
+  controls?: ControlList | undefined;
+  /** Output only. A token that you can send as the `page_token` in a subsequent request to retrieve the next page of results. If this field is empty, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
 }
 export interface ListOrganizationsLocationsAuditReportsRequest {
+  /** Optional. A page token, received from a previous call, to retrieve the next page of results. */
+  pageToken?: string | undefined;
+  /** Optional. Maximum number of items to return in a single page. The service might return fewer items than this value. If unspecified, the service picks an appropriate default. The maximum value is 100; values above 100 are reduced to 100. */
+  pageSize?: number | undefined;
   /** Required. Parent organization, folder, or project to list reports for, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   parent: string;
-  /** Optional. A page token, received from a previous call, to retrieve the next page of results. */
-  pageToken?: string;
-  /** Optional. Maximum number of items to return in a single page. The service might return fewer items than this value. If unspecified, the service picks an appropriate default. The maximum value is 100; values above 100 are reduced to 100. */
-  pageSize?: number;
 }
 export interface ListOrganizationsLocationsAuditSchedulesRequest {
+  /** Optional. Maximum number of items to return in a single page. The service might return fewer items than this value. If unspecified, the service picks an appropriate default. The maximum value is 100; values above 100 are reduced to 100. */
+  pageSize?: number | undefined;
+  /** Optional. A page token, received from a previous call, to retrieve the next page of results. */
+  pageToken?: string | undefined;
   /** Required. Parent for the audit schedule, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   parent: string;
-  /** Optional. Maximum number of items to return in a single page. The service might return fewer items than this value. If unspecified, the service picks an appropriate default. The maximum value is 100; values above 100 are reduced to 100. */
-  pageSize?: number;
-  /** Optional. A page token, received from a previous call, to retrieve the next page of results. */
-  pageToken?: string;
 }
 export interface ListOrganizationsLocationsOperationsRequest {
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
-  /** The standard list filter. */
-  filter?: string;
+  returnPartialSuccess?: boolean | undefined;
+  /** The standard list page size. */
+  pageSize?: number | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list page token. */
-  pageToken?: string;
-  /** The standard list page size. */
-  pageSize?: number;
+  pageToken?: string | undefined;
+  /** The standard list filter. */
+  filter?: string | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
+  operations?: OperationList | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList_ | undefined;
 }
 export interface ListOrganizationsLocationsResourceEnrollmentStatusesRequest {
-  /** Optional. A page token, received from a previous call, to retrieve the next page of results. */
-  pageToken?: string;
   /** Required. Parent organization or folder to list enrollment statuses for, in one of the following formats: * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   parent: string;
   /** Optional. Maximum number of items to return in a single page. The service might return fewer items than this value. If unspecified, the service picks an appropriate default. The maximum value is 100; values above 100 are reduced to 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
+  /** Optional. A page token, received from a previous call, to retrieve the next page of results. */
+  pageToken?: string | undefined;
 }
 export interface ListOrganizationsLocationsStandardsControlsRequest {
-  /** Optional. Maximum number of items to return in a single page. The service might return fewer items than this value. If unspecified, the service picks an appropriate default. The maximum value is 100; values above 100 are reduced to 100. */
-  pageSize?: number;
+  /** Optional. A page token, received from a previous call, to retrieve the next page of results. */
+  pageToken?: string | undefined;
   /** Required. Standard to list controls for, in one of the following formats: * `projects/{project}/locations/{location}/standards/{standard}` * `folders/{folder}/locations/{location}/standards/{standard}` * `organizations/{organization}/locations/{location}/standards/{standard}` */
   parent: string;
-  /** Optional. A page token, received from a previous call, to retrieve the next page of results. */
-  pageToken?: string;
+  /** Optional. Maximum number of items to return in a single page. The service might return fewer items than this value. If unspecified, the service picks an appropriate default. The maximum value is 100; values above 100 are reduced to 100. */
+  pageSize?: number | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
-  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
-  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
+  pageToken?: string | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
+  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
+  extraLocationTypes?: StringList_ | undefined;
+  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
+  filter?: string | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
+  locations?: LocationList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsAuditReportsRequest {
   /** Optional. A page token, received from a previous call, to retrieve the next page of results. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Maximum number of items to return in a single page. The service might return fewer items than this value. If unspecified, the service picks an appropriate default. The maximum value is 100; values above 100 are reduced to 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Parent organization, folder, or project to list reports for, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   parent: string;
 }
 export interface ListProjectsLocationsAuditSchedulesRequest {
   /** Optional. Maximum number of items to return in a single page. The service might return fewer items than this value. If unspecified, the service picks an appropriate default. The maximum value is 100; values above 100 are reduced to 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Parent for the audit schedule, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   parent: string;
   /** Optional. A page token, received from a previous call, to retrieve the next page of results. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
-  /** The standard list page size. */
-  pageSize?: number;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
+  /** The standard list filter. */
+  filter?: string | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
-  /** The standard list filter. */
-  filter?: string;
+  returnPartialSuccess?: boolean | undefined;
+  /** The standard list page size. */
+  pageSize?: number | undefined;
 }
 export interface ListProjectsLocationsStandardsControlsRequest {
-  /** Optional. Maximum number of items to return in a single page. The service might return fewer items than this value. If unspecified, the service picks an appropriate default. The maximum value is 100; values above 100 are reduced to 100. */
-  pageSize?: number;
   /** Required. Standard to list controls for, in one of the following formats: * `projects/{project}/locations/{location}/standards/{standard}` * `folders/{folder}/locations/{location}/standards/{standard}` * `organizations/{organization}/locations/{location}/standards/{standard}` */
   parent: string;
   /** Optional. A page token, received from a previous call, to retrieve the next page of results. */
-  pageToken?: string;
+  pageToken?: string | undefined;
+  /** Optional. Maximum number of items to return in a single page. The service might return fewer items than this value. If unspecified, the service picks an appropriate default. The maximum value is 100; values above 100 are reduced to 100. */
+  pageSize?: number | undefined;
 }
-export interface PatchFoldersLocationsAuditSchedulesRequest {
+export interface PatchFoldersLocationsAuditSchedulesRequest extends Omit<AuditSchedule, "name"> {
   /** Optional. If `true`, only validates the request and does not update the audit schedule. This executes standard request validation (such as schema, framework existence, scope, and IAM checks) and skips the apply phase. Use this field for the following purposes: * **Infrastructure as Code (IaC)**: Allow tools like Terraform to run dry-run mutations (e.g., `terraform plan`) without creating real resources or incurring costs. * **User Interface Validation**: Enable real-time form and permission validation in custom UIs before submitting requests. * **CI/CD & Automation**: Test your scripts, permissions, and parameters safely without consuming resource quotas. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Identifier. Unique identifier for the audit schedule. Format: projects/{project}/locations/{location}/auditSchedules/{audit_schedule} folders/{folder}/locations/{location}/auditSchedules/{audit_schedule} organizations/{organization}/locations/{location}/auditSchedules/{audit_schedule} */
   name: string;
   /** Optional. List of fields to update. */
-  updateMask?: string;
-  /** Request body */
-  body?: AuditSchedule;
+  updateMask?: string | undefined;
 }
-export interface PatchOrganizationsLocationsAuditSchedulesRequest {
+export interface PatchOrganizationsLocationsAuditSchedulesRequest extends Omit<
+  AuditSchedule,
+  "name"
+> {
   /** Optional. If `true`, only validates the request and does not update the audit schedule. This executes standard request validation (such as schema, framework existence, scope, and IAM checks) and skips the apply phase. Use this field for the following purposes: * **Infrastructure as Code (IaC)**: Allow tools like Terraform to run dry-run mutations (e.g., `terraform plan`) without creating real resources or incurring costs. * **User Interface Validation**: Enable real-time form and permission validation in custom UIs before submitting requests. * **CI/CD & Automation**: Test your scripts, permissions, and parameters safely without consuming resource quotas. */
-  validateOnly?: boolean;
-  /** Optional. List of fields to update. */
-  updateMask?: string;
+  validateOnly?: boolean | undefined;
   /** Identifier. Unique identifier for the audit schedule. Format: projects/{project}/locations/{location}/auditSchedules/{audit_schedule} folders/{folder}/locations/{location}/auditSchedules/{audit_schedule} organizations/{organization}/locations/{location}/auditSchedules/{audit_schedule} */
   name: string;
-  /** Request body */
-  body?: AuditSchedule;
-}
-export interface PatchProjectsLocationsAuditSchedulesRequest {
   /** Optional. List of fields to update. */
-  updateMask?: string;
+  updateMask?: string | undefined;
+}
+export interface PatchProjectsLocationsAuditSchedulesRequest extends Omit<AuditSchedule, "name"> {
   /** Identifier. Unique identifier for the audit schedule. Format: projects/{project}/locations/{location}/auditSchedules/{audit_schedule} folders/{folder}/locations/{location}/auditSchedules/{audit_schedule} organizations/{organization}/locations/{location}/auditSchedules/{audit_schedule} */
   name: string;
+  /** Optional. List of fields to update. */
+  updateMask?: string | undefined;
   /** Optional. If `true`, only validates the request and does not update the audit schedule. This executes standard request validation (such as schema, framework existence, scope, and IAM checks) and skips the apply phase. Use this field for the following purposes: * **Infrastructure as Code (IaC)**: Allow tools like Terraform to run dry-run mutations (e.g., `terraform plan`) without creating real resources or incurring costs. * **User Interface Validation**: Enable real-time form and permission validation in custom UIs before submitting requests. * **CI/CD & Automation**: Test your scripts, permissions, and parameters safely without consuming resource quotas. */
-  validateOnly?: boolean;
-  /** Request body */
-  body?: AuditSchedule;
+  validateOnly?: boolean | undefined;
 }
 export type CancelOrganizationsLocationsOperationsError =
   | NotFound
@@ -769,8 +798,8 @@ export const cancelOrganizationsLocationsOperations: API.OperationMethod<
   CancelOrganizationsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c44, 0) as any as S.Schema<CancelOrganizationsLocationsOperationsRequest>,
-  output: __S(180, __c45, 0) as any as S.Schema<Empty>,
+  input: __S(344, __c43, 0) as any as S.Schema<CancelOrganizationsLocationsOperationsRequest>,
+  output: __S(352, __c44, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -791,8 +820,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(236, __c59, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(180, __c45, 0) as any as S.Schema<Empty>,
+  input: __S(464, __c58, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(352, __c44, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -813,8 +842,8 @@ export const createFoldersLocationsAuditSchedules: API.OperationMethod<
   CreateFoldersLocationsAuditSchedulesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(260, __c65, 0) as any as S.Schema<CreateFoldersLocationsAuditSchedulesRequest>,
-  output: __S(265, __c66, 1) as any as S.Schema<AuditSchedule>,
+  input: __S(512, __c64, 0) as any as S.Schema<CreateFoldersLocationsAuditSchedulesRequest>,
+  output: __S(545, __c68, 1) as any as S.Schema<AuditSchedule>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -835,8 +864,8 @@ export const createOrganizationsLocationsAuditSchedules: API.OperationMethod<
   CreateOrganizationsLocationsAuditSchedulesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(268, __c67, 0) as any as S.Schema<CreateOrganizationsLocationsAuditSchedulesRequest>,
-  output: __S(265, __c66, 1) as any as S.Schema<AuditSchedule>,
+  input: __S(552, __c69, 0) as any as S.Schema<CreateOrganizationsLocationsAuditSchedulesRequest>,
+  output: __S(545, __c68, 1) as any as S.Schema<AuditSchedule>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -857,8 +886,8 @@ export const createProjectsLocationsAuditSchedules: API.OperationMethod<
   CreateProjectsLocationsAuditSchedulesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c68, 0) as any as S.Schema<CreateProjectsLocationsAuditSchedulesRequest>,
-  output: __S(265, __c66, 1) as any as S.Schema<AuditSchedule>,
+  input: __S(560, __c70, 0) as any as S.Schema<CreateProjectsLocationsAuditSchedulesRequest>,
+  output: __S(545, __c68, 1) as any as S.Schema<AuditSchedule>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -879,8 +908,8 @@ export const deleteOrganizationsLocationsOperations: API.OperationMethod<
   DeleteOrganizationsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(276, __c69, 0) as any as S.Schema<DeleteOrganizationsLocationsOperationsRequest>,
-  output: __S(180, __c45, 0) as any as S.Schema<Empty>,
+  input: __S(568, __c71, 0) as any as S.Schema<DeleteOrganizationsLocationsOperationsRequest>,
+  output: __S(352, __c44, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -902,7 +931,7 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(180, __c45, 0) as any as S.Schema<Empty>,
+  output: __S(352, __c44, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -923,8 +952,8 @@ export const enrollResourceFoldersLocations: API.OperationMethod<
   EnrollResourceFoldersLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<EnrollResourceFoldersLocationsRequest>,
-  output: __S(17, __c4, 1) as any as S.Schema<Enrollment>,
+  input: __S(8, __c1, 0) as any as S.Schema<EnrollResourceFoldersLocationsRequest>,
+  output: __S(33, __c4, 1) as any as S.Schema<Enrollment>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -945,8 +974,8 @@ export const enrollResourceOrganizationsLocations: API.OperationMethod<
   EnrollResourceOrganizationsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<EnrollResourceOrganizationsLocationsRequest>,
-  output: __S(17, __c4, 1) as any as S.Schema<Enrollment>,
+  input: __S(40, __c5, 0) as any as S.Schema<EnrollResourceOrganizationsLocationsRequest>,
+  output: __S(33, __c4, 1) as any as S.Schema<Enrollment>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -967,8 +996,8 @@ export const enrollResourceProjectsLocations: API.OperationMethod<
   EnrollResourceProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<EnrollResourceProjectsLocationsRequest>,
-  output: __S(17, __c4, 1) as any as S.Schema<Enrollment>,
+  input: __S(48, __c6, 0) as any as S.Schema<EnrollResourceProjectsLocationsRequest>,
+  output: __S(33, __c4, 1) as any as S.Schema<Enrollment>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -989,8 +1018,8 @@ export const generateFoldersLocationsAuditReports: API.OperationMethod<
   GenerateFoldersLocationsAuditReportsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<GenerateFoldersLocationsAuditReportsRequest>,
-  output: __S(42, __c10, 2) as any as S.Schema<Operation>,
+  input: __S(56, __c7, 0) as any as S.Schema<GenerateFoldersLocationsAuditReportsRequest>,
+  output: __S(82, __c10, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1011,8 +1040,8 @@ export const generateFoldersLocationsAuditScopeReports: API.OperationMethod<
   GenerateFoldersLocationsAuditScopeReportsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(44, __c11, 0) as any as S.Schema<GenerateFoldersLocationsAuditScopeReportsRequest>,
-  output: __S(49, __c12, 1) as any as S.Schema<AuditScopeReport>,
+  input: __S(88, __c11, 0) as any as S.Schema<GenerateFoldersLocationsAuditScopeReportsRequest>,
+  output: __S(97, __c12, 1) as any as S.Schema<AuditScopeReport>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1033,8 +1062,8 @@ export const generateOrganizationsLocationsAuditReports: API.OperationMethod<
   GenerateOrganizationsLocationsAuditReportsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(52, __c13, 0) as any as S.Schema<GenerateOrganizationsLocationsAuditReportsRequest>,
-  output: __S(42, __c10, 2) as any as S.Schema<Operation>,
+  input: __S(104, __c13, 0) as any as S.Schema<GenerateOrganizationsLocationsAuditReportsRequest>,
+  output: __S(82, __c10, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1056,11 +1085,11 @@ export const generateOrganizationsLocationsAuditScopeReports: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    56,
+    112,
     __c14,
     0,
   ) as any as S.Schema<GenerateOrganizationsLocationsAuditScopeReportsRequest>,
-  output: __S(49, __c12, 1) as any as S.Schema<AuditScopeReport>,
+  output: __S(97, __c12, 1) as any as S.Schema<AuditScopeReport>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1081,8 +1110,8 @@ export const generateProjectsLocationsAuditReports: API.OperationMethod<
   GenerateProjectsLocationsAuditReportsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(60, __c15, 0) as any as S.Schema<GenerateProjectsLocationsAuditReportsRequest>,
-  output: __S(42, __c10, 2) as any as S.Schema<Operation>,
+  input: __S(120, __c15, 0) as any as S.Schema<GenerateProjectsLocationsAuditReportsRequest>,
+  output: __S(82, __c10, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1103,8 +1132,8 @@ export const generateProjectsLocationsAuditScopeReports: API.OperationMethod<
   GenerateProjectsLocationsAuditScopeReportsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c16, 0) as any as S.Schema<GenerateProjectsLocationsAuditScopeReportsRequest>,
-  output: __S(49, __c12, 1) as any as S.Schema<AuditScopeReport>,
+  input: __S(128, __c16, 0) as any as S.Schema<GenerateProjectsLocationsAuditScopeReportsRequest>,
+  output: __S(97, __c12, 1) as any as S.Schema<AuditScopeReport>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1120,8 +1149,8 @@ export const getFoldersLocationsAuditReports: API.OperationMethod<
   GetFoldersLocationsAuditReportsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(68, __c17, 0) as any as S.Schema<GetFoldersLocationsAuditReportsRequest>,
-  output: __S(79, __c19, 3) as any as S.Schema<AuditReport>,
+  input: __S(136, __c17, 0) as any as S.Schema<GetFoldersLocationsAuditReportsRequest>,
+  output: __S(159, __c19, 7) as any as S.Schema<AuditReport>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1137,8 +1166,8 @@ export const getFoldersLocationsAuditSchedules: API.OperationMethod<
   GetFoldersLocationsAuditSchedulesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c20, 0) as any as S.Schema<GetFoldersLocationsAuditSchedulesRequest>,
-  output: __S(265, __c66, 1) as any as S.Schema<AuditSchedule>,
+  input: __S(160, __c20, 0) as any as S.Schema<GetFoldersLocationsAuditSchedulesRequest>,
+  output: __S(545, __c68, 1) as any as S.Schema<AuditSchedule>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1154,8 +1183,8 @@ export const getFoldersLocationsOperationDetails: API.OperationMethod<
   GetFoldersLocationsOperationDetailsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(84, __c21, 0) as any as S.Schema<GetFoldersLocationsOperationDetailsRequest>,
-  output: __S(42, __c10, 2) as any as S.Schema<Operation>,
+  input: __S(168, __c21, 0) as any as S.Schema<GetFoldersLocationsOperationDetailsRequest>,
+  output: __S(82, __c10, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1171,8 +1200,8 @@ export const getFoldersLocationsOperationIds: API.OperationMethod<
   GetFoldersLocationsOperationIdsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c22, 0) as any as S.Schema<GetFoldersLocationsOperationIdsRequest>,
-  output: __S(42, __c10, 2) as any as S.Schema<Operation>,
+  input: __S(176, __c22, 0) as any as S.Schema<GetFoldersLocationsOperationIdsRequest>,
+  output: __S(82, __c10, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1188,8 +1217,12 @@ export const getFoldersLocationsResourceEnrollmentStatuses: API.OperationMethod<
   GetFoldersLocationsResourceEnrollmentStatusesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(92, __c23, 0) as any as S.Schema<GetFoldersLocationsResourceEnrollmentStatusesRequest>,
-  output: __S(96, __c24, 0) as any as S.Schema<ResourceEnrollmentStatus>,
+  input: __S(
+    184,
+    __c23,
+    0,
+  ) as any as S.Schema<GetFoldersLocationsResourceEnrollmentStatusesRequest>,
+  output: __S(192, __c24, 0) as any as S.Schema<ResourceEnrollmentStatus>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1205,8 +1238,8 @@ export const getOrganizationsLocationsAuditReports: API.OperationMethod<
   GetOrganizationsLocationsAuditReportsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(100, __c25, 0) as any as S.Schema<GetOrganizationsLocationsAuditReportsRequest>,
-  output: __S(79, __c19, 3) as any as S.Schema<AuditReport>,
+  input: __S(200, __c25, 0) as any as S.Schema<GetOrganizationsLocationsAuditReportsRequest>,
+  output: __S(159, __c19, 7) as any as S.Schema<AuditReport>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1222,8 +1255,8 @@ export const getOrganizationsLocationsAuditSchedules: API.OperationMethod<
   GetOrganizationsLocationsAuditSchedulesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c26, 0) as any as S.Schema<GetOrganizationsLocationsAuditSchedulesRequest>,
-  output: __S(265, __c66, 1) as any as S.Schema<AuditSchedule>,
+  input: __S(208, __c26, 0) as any as S.Schema<GetOrganizationsLocationsAuditSchedulesRequest>,
+  output: __S(545, __c68, 1) as any as S.Schema<AuditSchedule>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1239,8 +1272,8 @@ export const getOrganizationsLocationsOperationDetails: API.OperationMethod<
   GetOrganizationsLocationsOperationDetailsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(108, __c27, 0) as any as S.Schema<GetOrganizationsLocationsOperationDetailsRequest>,
-  output: __S(42, __c10, 2) as any as S.Schema<Operation>,
+  input: __S(216, __c27, 0) as any as S.Schema<GetOrganizationsLocationsOperationDetailsRequest>,
+  output: __S(82, __c10, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1256,8 +1289,8 @@ export const getOrganizationsLocationsOperationIds: API.OperationMethod<
   GetOrganizationsLocationsOperationIdsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c28, 0) as any as S.Schema<GetOrganizationsLocationsOperationIdsRequest>,
-  output: __S(42, __c10, 2) as any as S.Schema<Operation>,
+  input: __S(224, __c28, 0) as any as S.Schema<GetOrganizationsLocationsOperationIdsRequest>,
+  output: __S(82, __c10, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1273,8 +1306,8 @@ export const getOrganizationsLocationsOperations: API.OperationMethod<
   GetOrganizationsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(116, __c29, 0) as any as S.Schema<GetOrganizationsLocationsOperationsRequest>,
-  output: __S(42, __c10, 2) as any as S.Schema<Operation>,
+  input: __S(232, __c29, 0) as any as S.Schema<GetOrganizationsLocationsOperationsRequest>,
+  output: __S(82, __c10, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1294,11 +1327,11 @@ export const getOrganizationsLocationsResourceEnrollmentStatuses: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    120,
+    240,
     __c30,
     0,
   ) as any as S.Schema<GetOrganizationsLocationsResourceEnrollmentStatusesRequest>,
-  output: __S(96, __c24, 0) as any as S.Schema<ResourceEnrollmentStatus>,
+  output: __S(192, __c24, 0) as any as S.Schema<ResourceEnrollmentStatus>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1314,8 +1347,8 @@ export const getProjectsLocations: API.OperationMethod<
   GetProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(124, __c31, 0) as any as S.Schema<GetProjectsLocationsRequest>,
-  output: __S(129, __c32, 1) as any as S.Schema<Location>,
+  input: __S(248, __c31, 0) as any as S.Schema<GetProjectsLocationsRequest>,
+  output: __S(257, __c32, 1) as any as S.Schema<Location>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1331,8 +1364,8 @@ export const getProjectsLocationsAuditReports: API.OperationMethod<
   GetProjectsLocationsAuditReportsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(132, __c33, 0) as any as S.Schema<GetProjectsLocationsAuditReportsRequest>,
-  output: __S(79, __c19, 3) as any as S.Schema<AuditReport>,
+  input: __S(264, __c33, 0) as any as S.Schema<GetProjectsLocationsAuditReportsRequest>,
+  output: __S(159, __c19, 7) as any as S.Schema<AuditReport>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1348,8 +1381,8 @@ export const getProjectsLocationsAuditSchedules: API.OperationMethod<
   GetProjectsLocationsAuditSchedulesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c34, 0) as any as S.Schema<GetProjectsLocationsAuditSchedulesRequest>,
-  output: __S(265, __c66, 1) as any as S.Schema<AuditSchedule>,
+  input: __S(272, __c34, 0) as any as S.Schema<GetProjectsLocationsAuditSchedulesRequest>,
+  output: __S(545, __c68, 1) as any as S.Schema<AuditSchedule>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1365,8 +1398,8 @@ export const getProjectsLocationsOperationDetails: API.OperationMethod<
   GetProjectsLocationsOperationDetailsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(140, __c35, 0) as any as S.Schema<GetProjectsLocationsOperationDetailsRequest>,
-  output: __S(42, __c10, 2) as any as S.Schema<Operation>,
+  input: __S(280, __c35, 0) as any as S.Schema<GetProjectsLocationsOperationDetailsRequest>,
+  output: __S(82, __c10, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1382,8 +1415,8 @@ export const getProjectsLocationsOperationIds: API.OperationMethod<
   GetProjectsLocationsOperationIdsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c36, 0) as any as S.Schema<GetProjectsLocationsOperationIdsRequest>,
-  output: __S(42, __c10, 2) as any as S.Schema<Operation>,
+  input: __S(288, __c36, 0) as any as S.Schema<GetProjectsLocationsOperationIdsRequest>,
+  output: __S(82, __c10, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1399,8 +1432,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(148, __c37, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(42, __c10, 2) as any as S.Schema<Operation>,
+  input: __S(296, __c37, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(82, __c10, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1417,11 +1450,11 @@ export const getProjectsLocationsResourceEnrollmentStatuses: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    152,
+    304,
     __c38,
     0,
   ) as any as S.Schema<GetProjectsLocationsResourceEnrollmentStatusesRequest>,
-  output: __S(96, __c24, 0) as any as S.Schema<ResourceEnrollmentStatus>,
+  output: __S(192, __c24, 0) as any as S.Schema<ResourceEnrollmentStatus>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1438,8 +1471,8 @@ export const listFoldersLocationsAuditReports: API.PaginatedOperationMethod<
   GcpOpContext,
   ListAuditReportsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(156, __c39, 0) as any as S.Schema<ListFoldersLocationsAuditReportsRequest>,
-  output: __S(161, __c40, 1) as any as S.Schema<ListAuditReportsResponse>,
+  input: __S(312, __c39, 0) as any as S.Schema<ListFoldersLocationsAuditReportsRequest>,
+  output: __S(321, __c40, 1) as any as S.Schema<ListAuditReportsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1457,8 +1490,8 @@ export const listFoldersLocationsAuditSchedules: API.PaginatedOperationMethod<
   GcpOpContext,
   ListAuditSchedulesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(164, __c41, 0) as any as S.Schema<ListFoldersLocationsAuditSchedulesRequest>,
-  output: __S(173, __c43, 1) as any as S.Schema<ListAuditSchedulesResponse>,
+  input: __S(328, __c41, 0) as any as S.Schema<ListFoldersLocationsAuditSchedulesRequest>,
+  output: __S(337, __c42, 1) as any as S.Schema<ListAuditSchedulesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1477,11 +1510,11 @@ export const listFoldersLocationsResourceEnrollmentStatuses: API.PaginatedOperat
   ListResourceEnrollmentStatusesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    184,
-    __c46,
+    360,
+    __c45,
     0,
   ) as any as S.Schema<ListFoldersLocationsResourceEnrollmentStatusesRequest>,
-  output: __S(189, __c47, 1) as any as S.Schema<ListResourceEnrollmentStatusesResponse>,
+  output: __S(369, __c46, 1) as any as S.Schema<ListResourceEnrollmentStatusesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1499,8 +1532,8 @@ export const listFoldersLocationsStandardsControls: API.PaginatedOperationMethod
   GcpOpContext,
   ListControlsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(192, __c48, 0) as any as S.Schema<ListFoldersLocationsStandardsControlsRequest>,
-  output: __S(197, __c49, 1) as any as S.Schema<ListControlsResponse>,
+  input: __S(376, __c47, 0) as any as S.Schema<ListFoldersLocationsStandardsControlsRequest>,
+  output: __S(385, __c48, 1) as any as S.Schema<ListControlsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1518,8 +1551,8 @@ export const listOrganizationsLocationsAuditReports: API.PaginatedOperationMetho
   GcpOpContext,
   ListAuditReportsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(200, __c50, 0) as any as S.Schema<ListOrganizationsLocationsAuditReportsRequest>,
-  output: __S(161, __c40, 1) as any as S.Schema<ListAuditReportsResponse>,
+  input: __S(392, __c49, 0) as any as S.Schema<ListOrganizationsLocationsAuditReportsRequest>,
+  output: __S(321, __c40, 1) as any as S.Schema<ListAuditReportsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1537,8 +1570,8 @@ export const listOrganizationsLocationsAuditSchedules: API.PaginatedOperationMet
   GcpOpContext,
   ListAuditSchedulesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(204, __c51, 0) as any as S.Schema<ListOrganizationsLocationsAuditSchedulesRequest>,
-  output: __S(173, __c43, 1) as any as S.Schema<ListAuditSchedulesResponse>,
+  input: __S(400, __c50, 0) as any as S.Schema<ListOrganizationsLocationsAuditSchedulesRequest>,
+  output: __S(337, __c42, 1) as any as S.Schema<ListAuditSchedulesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1556,8 +1589,8 @@ export const listOrganizationsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(208, __c52, 0) as any as S.Schema<ListOrganizationsLocationsOperationsRequest>,
-  output: __S(213, __c53, 1) as any as S.Schema<ListOperationsResponse>,
+  input: __S(408, __c51, 0) as any as S.Schema<ListOrganizationsLocationsOperationsRequest>,
+  output: __S(417, __c52, 1) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1579,11 +1612,11 @@ export const listOrganizationsLocationsResourceEnrollmentStatuses: API.Paginated
   ListResourceEnrollmentStatusesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    216,
-    __c54,
+    424,
+    __c53,
     0,
   ) as any as S.Schema<ListOrganizationsLocationsResourceEnrollmentStatusesRequest>,
-  output: __S(189, __c47, 1) as any as S.Schema<ListResourceEnrollmentStatusesResponse>,
+  output: __S(369, __c46, 1) as any as S.Schema<ListResourceEnrollmentStatusesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1601,8 +1634,8 @@ export const listOrganizationsLocationsStandardsControls: API.PaginatedOperation
   GcpOpContext,
   ListControlsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(220, __c55, 0) as any as S.Schema<ListOrganizationsLocationsStandardsControlsRequest>,
-  output: __S(197, __c49, 1) as any as S.Schema<ListControlsResponse>,
+  input: __S(432, __c54, 0) as any as S.Schema<ListOrganizationsLocationsStandardsControlsRequest>,
+  output: __S(385, __c48, 1) as any as S.Schema<ListControlsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1620,8 +1653,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(224, __c56, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(226, __c56, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(440, __c55, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(442, __c55, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1639,8 +1672,8 @@ export const listProjectsLocationsAuditReports: API.PaginatedOperationMethod<
   GcpOpContext,
   ListAuditReportsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(228, __c57, 0) as any as S.Schema<ListProjectsLocationsAuditReportsRequest>,
-  output: __S(161, __c40, 1) as any as S.Schema<ListAuditReportsResponse>,
+  input: __S(448, __c56, 0) as any as S.Schema<ListProjectsLocationsAuditReportsRequest>,
+  output: __S(321, __c40, 1) as any as S.Schema<ListAuditReportsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1658,8 +1691,8 @@ export const listProjectsLocationsAuditSchedules: API.PaginatedOperationMethod<
   GcpOpContext,
   ListAuditSchedulesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(232, __c58, 0) as any as S.Schema<ListProjectsLocationsAuditSchedulesRequest>,
-  output: __S(173, __c43, 1) as any as S.Schema<ListAuditSchedulesResponse>,
+  input: __S(456, __c57, 0) as any as S.Schema<ListProjectsLocationsAuditSchedulesRequest>,
+  output: __S(337, __c42, 1) as any as S.Schema<ListAuditSchedulesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1677,8 +1710,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(240, __c60, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(213, __c53, 1) as any as S.Schema<ListOperationsResponse>,
+  input: __S(472, __c59, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(417, __c52, 1) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1696,8 +1729,8 @@ export const listProjectsLocationsStandardsControls: API.PaginatedOperationMetho
   GcpOpContext,
   ListControlsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(244, __c61, 0) as any as S.Schema<ListProjectsLocationsStandardsControlsRequest>,
-  output: __S(197, __c49, 1) as any as S.Schema<ListControlsResponse>,
+  input: __S(480, __c60, 0) as any as S.Schema<ListProjectsLocationsStandardsControlsRequest>,
+  output: __S(385, __c48, 1) as any as S.Schema<ListControlsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1719,8 +1752,8 @@ export const patchFoldersLocationsAuditSchedules: API.OperationMethod<
   PatchFoldersLocationsAuditSchedulesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(248, __c62, 0) as any as S.Schema<PatchFoldersLocationsAuditSchedulesRequest>,
-  output: __S(265, __c66, 1) as any as S.Schema<AuditSchedule>,
+  input: __S(488, __c61, 0) as any as S.Schema<PatchFoldersLocationsAuditSchedulesRequest>,
+  output: __S(545, __c68, 1) as any as S.Schema<AuditSchedule>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1741,8 +1774,8 @@ export const patchOrganizationsLocationsAuditSchedules: API.OperationMethod<
   PatchOrganizationsLocationsAuditSchedulesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(252, __c63, 0) as any as S.Schema<PatchOrganizationsLocationsAuditSchedulesRequest>,
-  output: __S(265, __c66, 1) as any as S.Schema<AuditSchedule>,
+  input: __S(496, __c62, 0) as any as S.Schema<PatchOrganizationsLocationsAuditSchedulesRequest>,
+  output: __S(545, __c68, 1) as any as S.Schema<AuditSchedule>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1763,8 +1796,8 @@ export const patchProjectsLocationsAuditSchedules: API.OperationMethod<
   PatchProjectsLocationsAuditSchedulesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c64, 0) as any as S.Schema<PatchProjectsLocationsAuditSchedulesRequest>,
-  output: __S(265, __c66, 1) as any as S.Schema<AuditSchedule>,
+  input: __S(504, __c63, 0) as any as S.Schema<PatchProjectsLocationsAuditSchedulesRequest>,
+  output: __S(545, __c68, 1) as any as S.Schema<AuditSchedule>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1793,10 +1826,12 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          scope: S.String.pipe(T.Label()),
-          body: S.optional(__S(10, __c2, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(18, __c2, 2),
+          S.Struct({
+            scope: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+scope}:enrollResource",
@@ -1815,12 +1850,12 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "EligibleDestination" });
     case 1:
-      return S.Array(__S(8, __c2, 0));
+      return S.Array(__S(16, __c2, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
+          destinations: S.optional(__S(17, __c2, 1)),
           validateOnly: S.optional(S.Boolean),
-          destinations: S.optional(__S(9, __c2, 1)),
         }),
       ).annotate({ identifier: "EnrollResourceRequest" });
   }
@@ -1838,12 +1873,12 @@ function __c3(j: number): any {
 function __c4(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(12, __c3, 0));
+      return S.Array(__S(24, __c3, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
+          destinationDetails: S.optional(__S(32, __c4, 0)),
           name: S.optional(S.String),
-          destinationDetails: S.optional(__S(16, __c4, 0)),
         }),
       ).annotate({ identifier: "Enrollment" });
   }
@@ -1852,10 +1887,12 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          scope: S.String.pipe(T.Label()),
-          body: S.optional(__S(10, __c2, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(18, __c2, 2),
+          S.Struct({
+            scope: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+scope}:enrollResource",
@@ -1869,10 +1906,12 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          scope: S.String.pipe(T.Label()),
-          body: S.optional(__S(10, __c2, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(18, __c2, 2),
+          S.Struct({
+            scope: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+scope}:enrollResource",
@@ -1886,10 +1925,12 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          scope: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(64, __c8, 0),
+          S.Struct({
+            scope: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+scope}/auditReports:generate",
@@ -1907,8 +1948,9 @@ function __c8(j: number): any {
           reportFormat: S.optional(S.String),
           complianceStandard: S.optional(S.String),
           validateOnly: S.optional(S.Boolean),
-          gcsUri: S.optional(S.String),
           complianceFramework: S.optional(S.String),
+          gcsUri: S.optional(S.String),
+          parameterOverrides: S.optional(__S(538, __c67, 2)),
         }),
       ).annotate({ identifier: "GenerateAuditReportRequest" });
   }
@@ -1922,23 +1964,23 @@ function __c9(j: number): any {
 function __c10(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(36, __c9, 0));
+      return S.Array(__S(72, __c9, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
+          details: S.optional(__S(80, __c10, 0)),
           message: S.optional(S.String),
           code: S.optional(S.Number),
-          details: S.optional(__S(40, __c10, 0)),
         }),
       ).annotate({ identifier: "Status" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(36, __c9, 0)),
+          response: S.optional(__S(72, __c9, 0)),
           done: S.optional(S.Boolean),
-          error: S.optional(__S(41, __c10, 1)),
+          metadata: S.optional(__S(72, __c9, 0)),
+          error: S.optional(__S(81, __c10, 1)),
           name: S.optional(S.String),
-          response: S.optional(__S(36, __c9, 0)),
         }),
       ).annotate({ identifier: "Operation" });
   }
@@ -1947,10 +1989,12 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          scope: S.String.pipe(T.Label()),
-          body: S.optional(__S(48, __c12, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(96, __c12, 0),
+          S.Struct({
+            scope: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+scope}/auditScopeReports:generate",
@@ -1965,17 +2009,18 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          reportFormat: S.optional(S.String),
-          complianceStandard: S.optional(S.String),
-          complianceFramework: S.optional(S.String),
           validateOnly: S.optional(S.Boolean),
+          complianceStandard: S.optional(S.String),
+          reportFormat: S.optional(S.String),
+          complianceFramework: S.optional(S.String),
+          parameterOverrides: S.optional(__S(538, __c67, 2)),
         }),
       ).annotate({ identifier: "GenerateAuditScopeReportRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          scopeReportContents: S.optional(S.String),
           name: S.optional(S.String),
+          scopeReportContents: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuditScopeReport" });
   }
@@ -1984,10 +2029,12 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          scope: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(64, __c8, 0),
+          S.Struct({
+            scope: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+scope}/auditReports:generate",
@@ -2001,10 +2048,12 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          scope: S.String.pipe(T.Label()),
-          body: S.optional(__S(48, __c12, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(96, __c12, 0),
+          S.Struct({
+            scope: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+scope}/auditScopeReports:generate",
@@ -2018,10 +2067,12 @@ function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          scope: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(64, __c8, 0),
+          S.Struct({
+            scope: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+scope}/auditReports:generate",
@@ -2035,10 +2086,12 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          scope: S.String.pipe(T.Label()),
-          body: S.optional(__S(48, __c12, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(96, __c12, 0),
+          S.Struct({
+            scope: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+scope}/auditScopeReports:generate",
@@ -2069,23 +2122,23 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
           familyId: S.optional(S.String),
+          displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "ControlFamily" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          googleResponsibilityDescription: S.optional(S.String),
-          displayName: S.optional(S.String),
-          googleResponsibilityImplementation: S.optional(S.String),
-          responsibilityType: S.optional(S.String),
           family: S.optional(S.String),
-          customerResponsibilityDescription: S.optional(S.String),
-          controlFamily: S.optional(__S(72, __c18, 0)),
-          description: S.optional(S.String),
-          id: S.optional(S.String),
+          googleResponsibilityImplementation: S.optional(S.String),
+          googleResponsibilityDescription: S.optional(S.String),
           customerResponsibilityImplementation: S.optional(S.String),
+          id: S.optional(S.String),
+          customerResponsibilityDescription: S.optional(S.String),
+          controlFamily: S.optional(__S(144, __c18, 0)),
+          description: S.optional(S.String),
+          displayName: S.optional(S.String),
+          responsibilityType: S.optional(S.String),
         }),
       ).annotate({ identifier: "Control" });
   }
@@ -2095,37 +2148,55 @@ function __c19(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          manualReviewNeededCount: S.optional(S.Number),
-          totalCount: S.optional(S.Number),
-          errorCount: S.optional(S.Number),
-          compliantCount: S.optional(S.Number),
           violationCount: S.optional(S.Number),
+          totalCount: S.optional(S.Number),
+          manualReviewNeededCount: S.optional(S.Number),
+          compliantCount: S.optional(S.Number),
+          errorCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ReportSummary" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          controlReportSummary: S.optional(__S(76, __c19, 0)),
           complianceState: S.optional(S.String),
-          control: S.optional(__S(73, __c18, 1)),
+          controlReportSummary: S.optional(__S(152, __c19, 0)),
+          control: S.optional(__S(145, __c18, 1)),
         }),
       ).annotate({ identifier: "ControlDetails" });
     case 2:
-      return S.Array(__S(77, __c19, 1));
+      return S.Array(__S(153, __c19, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          scope: S.optional(S.String),
+          parameter: S.optional(__S(530, __c66, 2)),
+          isOverridden: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ParameterState" });
+    case 4:
+      return S.Array(__S(155, __c19, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          parameterStates: S.optional(__S(156, __c19, 4)),
+        }),
+      ).annotate({ identifier: "CloudControlParameterStates" });
+    case 6:
+      return S.Record(S.String, __S(157, __c19, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
           complianceStandard: S.optional(S.String),
-          controlDetails: S.optional(__S(78, __c19, 2)),
-          reportSummary: S.optional(__S(76, __c19, 0)),
           reportGenerationState: S.optional(S.String),
           name: S.optional(S.String),
-          createTime: S.optional(S.String),
+          controlDetails: S.optional(__S(154, __c19, 2)),
           complianceFramework: S.optional(S.String),
-          destinationDetails: S.optional(__S(12, __c3, 0)),
+          scope: S.optional(S.String),
+          createTime: S.optional(S.String),
+          destinationDetails: S.optional(__S(24, __c3, 0)),
           operationId: S.optional(S.String),
           scopeId: S.optional(S.String),
+          cloudControlParameterStates: S.optional(__S(158, __c19, 6)),
+          reportSummary: S.optional(__S(152, __c19, 0)),
         }),
       ).annotate({ identifier: "AuditReport" });
   }
@@ -2200,9 +2271,9 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          enrollmentState: S.optional(S.String),
-          enrollment: S.optional(__S(17, __c4, 1)),
           enrolled: S.optional(S.Boolean),
+          enrollment: S.optional(__S(33, __c4, 1)),
+          enrollmentState: S.optional(S.String),
           displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResourceEnrollmentStatus" });
@@ -2328,10 +2399,10 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          labels: S.optional(__S(128, __c32, 0)),
+          labels: S.optional(__S(256, __c32, 0)),
+          metadata: S.optional(__S(72, __c9, 0)),
           locationId: S.optional(S.String),
           displayName: S.optional(S.String),
-          metadata: S.optional(__S(36, __c9, 0)),
         }),
       ).annotate({ identifier: "Location" });
   }
@@ -2437,9 +2508,9 @@ function __c39(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2453,12 +2524,12 @@ function __c39(j: number): any {
 function __c40(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(79, __c19, 3));
+      return S.Array(__S(159, __c19, 7));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          auditReports: S.optional(__S(160, __c40, 0)),
           nextPageToken: S.optional(S.String),
+          auditReports: S.optional(__S(320, __c40, 0)),
         }),
       ).annotate({ identifier: "ListAuditReportsResponse" });
   }
@@ -2484,30 +2555,24 @@ function __c41(j: number): any {
 function __c42(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
+      return S.Array(__S(545, __c68, 1));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          nextPageToken: S.optional(S.String),
+          auditSchedules: S.optional(__S(336, __c42, 0)),
+          unreachable: S.optional(__S(520, __c65, 0)),
+        }),
+      ).annotate({ identifier: "ListAuditSchedulesResponse" });
   }
 }
 function __c43(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(265, __c66, 1));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          auditSchedules: S.optional(__S(172, __c43, 0)),
-          unreachable: S.optional(__S(168, __c42, 0)),
-          nextPageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListAuditSchedulesResponse" });
-  }
-}
-function __c44(j: number): any {
-  switch (j) {
-    case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(180, __c45, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(352, __c44, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2518,20 +2583,20 @@ function __c44(j: number): any {
       ).annotate({ identifier: "CancelOrganizationsLocationsOperationsRequest" });
   }
 }
-function __c45(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelOperationRequest" });
   }
 }
-function __c46(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2542,27 +2607,27 @@ function __c46(j: number): any {
       ).annotate({ identifier: "ListFoldersLocationsResourceEnrollmentStatusesRequest" });
   }
 }
-function __c47(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(96, __c24, 0));
+      return S.Array(__S(192, __c24, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          resourceEnrollmentStatuses: S.optional(__S(188, __c47, 0)),
+          resourceEnrollmentStatuses: S.optional(__S(368, __c46, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListResourceEnrollmentStatusesResponse" });
   }
 }
-function __c48(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2573,27 +2638,27 @@ function __c48(j: number): any {
       ).annotate({ identifier: "ListFoldersLocationsStandardsControlsRequest" });
   }
 }
-function __c49(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(73, __c18, 1));
+      return S.Array(__S(145, __c18, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
+          controls: S.optional(__S(384, __c48, 0)),
           nextPageToken: S.optional(S.String),
-          controls: S.optional(__S(196, __c49, 0)),
         }),
       ).annotate({ identifier: "ListControlsResponse" });
   }
 }
-function __c50(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2604,14 +2669,14 @@ function __c50(j: number): any {
       ).annotate({ identifier: "ListOrganizationsLocationsAuditReportsRequest" });
   }
 }
-function __c51(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2622,16 +2687,16 @@ function __c51(j: number): any {
       ).annotate({ identifier: "ListOrganizationsLocationsAuditSchedulesRequest" });
   }
 }
-function __c52(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2642,18 +2707,36 @@ function __c52(j: number): any {
       ).annotate({ identifier: "ListOrganizationsLocationsOperationsRequest" });
   }
 }
-function __c53(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(42, __c10, 2));
+      return S.Array(__S(82, __c10, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          operations: S.optional(__S(212, __c53, 0)),
-          unreachable: S.optional(__S(168, __c42, 0)),
+          operations: S.optional(__S(416, __c52, 0)),
+          unreachable: S.optional(__S(520, __c65, 0)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1/{+parent}/resourceEnrollmentStatuses",
+            baseUrl: "https://auditmanager.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "ListOrganizationsLocationsResourceEnrollmentStatusesRequest" });
   }
 }
 function __c54(j: number): any {
@@ -2667,11 +2750,11 @@ function __c54(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "v1/{+parent}/resourceEnrollmentStatuses",
+            uri: "v1/{+parent}/controls",
             baseUrl: "https://auditmanager.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "ListOrganizationsLocationsResourceEnrollmentStatusesRequest" });
+      ).annotate({ identifier: "ListOrganizationsLocationsStandardsControlsRequest" });
   }
 }
 function __c55(j: number): any {
@@ -2680,28 +2763,10 @@ function __c55(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1/{+parent}/controls",
-            baseUrl: "https://auditmanager.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "ListOrganizationsLocationsStandardsControlsRequest" });
-  }
-}
-function __c56(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(168, __c42, 0).pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          extraLocationTypes: S.optional(__S(520, __c65, 0).pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2711,17 +2776,17 @@ function __c56(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRequest" });
     case 1:
-      return S.Array(__S(129, __c32, 1));
+      return S.Array(__S(257, __c32, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(225, __c56, 1)),
+          locations: S.optional(__S(441, __c55, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c57(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2739,7 +2804,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsAuditReportsRequest" });
   }
 }
-function __c58(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2757,13 +2822,13 @@ function __c58(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsAuditSchedulesRequest" });
   }
 }
-function __c59(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(180, __c45, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(352, __c44, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2774,16 +2839,16 @@ function __c59(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c60(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2794,14 +2859,14 @@ function __c60(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
   }
 }
-function __c61(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2812,16 +2877,18 @@ function __c61(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsStandardsControlsRequest" });
   }
 }
-function __c62(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(265, __c66, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(545, __c68, 1),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2831,16 +2898,18 @@ function __c62(j: number): any {
       ).annotate({ identifier: "PatchFoldersLocationsAuditSchedulesRequest" });
   }
 }
-function __c63(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(265, __c66, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(545, __c68, 1),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2850,16 +2919,18 @@ function __c63(j: number): any {
       ).annotate({ identifier: "PatchOrganizationsLocationsAuditSchedulesRequest" });
   }
 }
-function __c64(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(265, __c66, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(545, __c68, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2869,16 +2940,18 @@ function __c64(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsAuditSchedulesRequest" });
   }
 }
-function __c65(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          auditScheduleId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(265, __c66, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(545, __c68, 1),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            auditScheduleId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/auditSchedules",
@@ -2888,46 +2961,96 @@ function __c65(j: number): any {
       ).annotate({ identifier: "CreateFoldersLocationsAuditSchedulesRequest" });
   }
 }
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
 function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          timeZone: S.optional(S.String),
-          startTime: S.optional(S.String),
-          frequency: S.optional(S.String),
-          endTime: S.optional(S.String),
+          values: S.optional(__S(520, __c65, 0)),
         }),
-      ).annotate({ identifier: "ScheduleConfig" });
+      ).annotate({ identifier: "StringList" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          reportFormat: S.optional(S.String),
-          scheduleConfig: S.optional(__S(264, __c66, 0)),
-          complianceFramework: S.optional(S.String),
-          nextRunTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          lastTriggerTime: S.optional(S.String),
-          gcsUri: S.optional(S.String),
-          errorMessage: S.optional(S.String),
-          state: S.optional(S.String),
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
-          updateTime: S.optional(S.String),
+          numberValue: S.optional(S.Number),
+          oneofValue: S.optional(S.suspend(() => __S(530, __c66, 2))),
+          stringListValue: S.optional(__S(528, __c66, 0)),
+          stringValue: S.optional(S.String),
+          boolValue: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "AuditSchedule" });
+      ).annotate({ identifier: "ParamValue" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          parameterValue: S.optional(__S(529, __c66, 1)),
+        }),
+      ).annotate({ identifier: "Parameter" });
   }
 }
 function __c67(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(__S(530, __c66, 2));
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          auditScheduleId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(265, __c66, 1).pipe(T.HttpBody())),
-        }).pipe(
+          parameters: S.optional(__S(536, __c67, 0)),
+        }),
+      ).annotate({ identifier: "ParameterOverrides" });
+    case 2:
+      return S.Record(S.String, __S(537, __c67, 1));
+  }
+}
+function __c68(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          timeZone: S.optional(S.String),
+          endTime: S.optional(S.String),
+          startTime: S.optional(S.String),
+          frequency: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ScheduleConfig" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          errorMessage: S.optional(S.String),
+          gcsUri: S.optional(S.String),
+          state: S.optional(S.String),
+          parameterOverrides: S.optional(__S(538, __c67, 2)),
+          complianceFramework: S.optional(S.String),
+          name: S.optional(S.String),
+          nextRunTime: S.optional(S.String),
+          reportFormat: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          createTime: S.optional(S.String),
+          scheduleConfig: S.optional(__S(544, __c68, 0)),
+          lastTriggerTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AuditSchedule" });
+  }
+}
+function __c69(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(545, __c68, 1),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            auditScheduleId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/auditSchedules",
@@ -2937,16 +3060,18 @@ function __c67(j: number): any {
       ).annotate({ identifier: "CreateOrganizationsLocationsAuditSchedulesRequest" });
   }
 }
-function __c68(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          auditScheduleId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(265, __c66, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(545, __c68, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            auditScheduleId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/auditSchedules",
@@ -2956,7 +3081,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsAuditSchedulesRequest" });
   }
 }
-function __c69(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

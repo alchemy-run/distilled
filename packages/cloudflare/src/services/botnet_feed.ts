@@ -38,13 +38,13 @@ export interface DayReportAsnRequest {
   /** Identifier. */
   accountId: string;
   asnId: number;
-  date?: string;
+  date?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DayReportAsnResponse {
-  cidr?: string | null;
-  date?: string | null;
-  offenseCount?: number | null;
+  cidr?: string | null | undefined;
+  date?: string | null | undefined;
+  offenseCount?: number | null | undefined;
 }
 export interface DeleteConfigAsnRequest {
   /** Identifier. */
@@ -53,7 +53,7 @@ export interface DeleteConfigAsnRequest {
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteConfigAsnResponse {
-  asn?: number | null;
+  asn?: number | null | undefined;
 }
 export interface FullReportAsnRequest {
   /** Identifier. */
@@ -62,9 +62,9 @@ export interface FullReportAsnRequest {
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface FullReportAsnResponse {
-  cidr?: string | null;
-  date?: string | null;
-  offenseCount?: number | null;
+  cidr?: string | null | undefined;
+  date?: string | null | undefined;
+  offenseCount?: number | null | undefined;
 }
 export interface GetConfigAsnRequest {
   /** Identifier. */
@@ -72,7 +72,7 @@ export interface GetConfigAsnRequest {
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetConfigAsnResponse {
-  asn?: number | null;
+  asn?: number | null | undefined;
 }
 export type DayReportAsnError = CloudflareOpError;
 /** Gets all the data the botnet tracking database has for a given ASN registered to user account for given date. If no date is given, it will return results for the previous day. */

@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -150,7 +151,7 @@ export class InternalServerException
       ),
     },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InvalidRotationArn
   extends /*@__PURE__*/ S.TaggedError<InvalidRotationArn>()(
     "InvalidRotationArn",
@@ -206,7 +207,7 @@ export class ThrottlingException
       ),
     },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
@@ -232,11 +233,11 @@ export type AcceptCode = string;
 export type AcceptCodeValidation = "IGNORE" | "ENFORCE" | (string & {});
 export interface AcceptPageRequest {
   PageId: string;
-  ContactChannelId?: string;
+  ContactChannelId?: string | undefined;
   AcceptType: AcceptType;
-  Note?: string;
+  Note?: string | undefined;
   AcceptCode: string;
-  AcceptCodeValidation?: AcceptCodeValidation;
+  AcceptCodeValidation?: AcceptCodeValidation | undefined;
 }
 export interface AcceptPageResult {}
 export type ActivationCode = string;
@@ -252,16 +253,16 @@ export type StageDurationInMins = number;
 export type RetryIntervalInMinutes = number;
 export interface ChannelTargetInfo {
   ContactChannelId: string;
-  RetryIntervalInMinutes?: number;
+  RetryIntervalInMinutes?: number | undefined;
 }
 export type IsEssential = boolean;
 export interface ContactTargetInfo {
-  ContactId?: string;
+  ContactId?: string | undefined;
   IsEssential: boolean;
 }
 export interface Target {
-  ChannelTargetInfo?: ChannelTargetInfo;
-  ContactTargetInfo?: ContactTargetInfo;
+  ChannelTargetInfo?: ChannelTargetInfo | undefined;
+  ContactTargetInfo?: ContactTargetInfo | undefined;
 }
 export type TargetsList = Target[];
 export interface Stage {
@@ -271,24 +272,24 @@ export interface Stage {
 export type StagesList = Stage[];
 export type SsmContactsArnList = string[];
 export interface Plan {
-  Stages?: Stage[];
-  RotationIds?: string[];
+  Stages?: Stage[] | undefined;
+  RotationIds?: string[] | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type TagsList = Tag[];
 export type IdempotencyToken = string;
 export interface CreateContactRequest {
   Alias: string;
-  DisplayName?: string;
+  DisplayName?: string | undefined;
   Type: ContactType;
   Plan: Plan;
-  Tags?: Tag[];
-  IdempotencyToken?: string;
+  Tags?: Tag[] | undefined;
+  IdempotencyToken?: string | undefined;
 }
 export interface CreateContactResult {
   ContactArn: string;
@@ -297,7 +298,7 @@ export type ChannelName = string;
 export type ChannelType = "SMS" | "VOICE" | "EMAIL" | (string & {});
 export type SimpleAddress = string;
 export interface ContactChannelAddress {
-  SimpleAddress?: string;
+  SimpleAddress?: string | undefined;
 }
 export type DeferActivation = boolean;
 export interface CreateContactChannelRequest {
@@ -305,8 +306,8 @@ export interface CreateContactChannelRequest {
   Name: string;
   Type: ChannelType;
   DeliveryAddress: ContactChannelAddress;
-  DeferActivation?: boolean;
-  IdempotencyToken?: string;
+  DeferActivation?: boolean | undefined;
+  IdempotencyToken?: string | undefined;
 }
 export interface CreateContactChannelResult {
   ContactChannelArn: string;
@@ -335,28 +336,28 @@ export type WeeklySettings = WeeklySetting[];
 export type DailySettings = HandOffTime[];
 export type NumberOfOnCalls = number;
 export interface CoverageTime {
-  Start?: HandOffTime;
-  End?: HandOffTime;
+  Start?: HandOffTime | undefined;
+  End?: HandOffTime | undefined;
 }
 export type CoverageTimes = CoverageTime[];
-export type ShiftCoveragesMap = { [key in DayOfWeek]?: CoverageTime[] };
+export type ShiftCoveragesMap = { [key in DayOfWeek]?: CoverageTime[] | undefined };
 export type RecurrenceMultiplier = number;
 export interface RecurrenceSettings {
-  MonthlySettings?: MonthlySetting[];
-  WeeklySettings?: WeeklySetting[];
-  DailySettings?: HandOffTime[];
+  MonthlySettings?: MonthlySetting[] | undefined;
+  WeeklySettings?: WeeklySetting[] | undefined;
+  DailySettings?: HandOffTime[] | undefined;
   NumberOfOnCalls: number;
-  ShiftCoverages?: { [key: string]: CoverageTime[] | undefined };
+  ShiftCoverages?: { [key: string]: CoverageTime[] | undefined } | undefined;
   RecurrenceMultiplier: number;
 }
 export interface CreateRotationRequest {
   Name: string;
   ContactIds: string[];
-  StartTime?: Date;
+  StartTime?: Date | undefined;
   TimeZoneId: string;
   Recurrence: RecurrenceSettings;
-  Tags?: Tag[];
-  IdempotencyToken?: string;
+  Tags?: Tag[] | undefined;
+  IdempotencyToken?: string | undefined;
 }
 export interface CreateRotationResult {
   RotationArn: string;
@@ -367,7 +368,7 @@ export interface CreateRotationOverrideRequest {
   NewContactIds: string[];
   StartTime: Date;
   EndTime: Date;
-  IdempotencyToken?: string;
+  IdempotencyToken?: string | undefined;
 }
 export type Uuid = string;
 export interface CreateRotationOverrideResult {
@@ -409,11 +410,11 @@ export interface DescribeEngagementResult {
   Sender: string;
   Subject: string;
   Content: string;
-  PublicSubject?: string;
-  PublicContent?: string;
-  IncidentId?: string;
-  StartTime?: Date;
-  StopTime?: Date;
+  PublicSubject?: string | undefined;
+  PublicContent?: string | undefined;
+  IncidentId?: string | undefined;
+  StartTime?: Date | undefined;
+  StopTime?: Date | undefined;
 }
 export interface DescribePageRequest {
   PageId: string;
@@ -425,12 +426,12 @@ export interface DescribePageResult {
   Sender: string;
   Subject: string;
   Content: string;
-  PublicSubject?: string;
-  PublicContent?: string;
-  IncidentId?: string;
-  SentTime?: Date;
-  ReadTime?: Date;
-  DeliveryTime?: Date;
+  PublicSubject?: string | undefined;
+  PublicContent?: string | undefined;
+  IncidentId?: string | undefined;
+  SentTime?: Date | undefined;
+  ReadTime?: Date | undefined;
+  DeliveryTime?: Date | undefined;
 }
 export interface GetContactRequest {
   ContactId: string;
@@ -438,7 +439,7 @@ export interface GetContactRequest {
 export interface GetContactResult {
   ContactArn: string;
   Alias: string;
-  DisplayName?: string;
+  DisplayName?: string | undefined;
   Type: ContactType;
   Plan: Plan;
 }
@@ -452,15 +453,15 @@ export interface GetContactChannelResult {
   Name: string;
   Type: ChannelType;
   DeliveryAddress: ContactChannelAddress;
-  ActivationStatus?: ActivationStatus;
+  ActivationStatus?: ActivationStatus | undefined;
 }
 export interface GetContactPolicyRequest {
   ContactArn: string;
 }
 export type Policy = string;
 export interface GetContactPolicyResult {
-  ContactArn?: string;
-  Policy?: string;
+  ContactArn?: string | undefined;
+  Policy?: string | undefined;
 }
 export interface GetRotationRequest {
   RotationId: string;
@@ -478,176 +479,176 @@ export interface GetRotationOverrideRequest {
   RotationOverrideId: string;
 }
 export interface GetRotationOverrideResult {
-  RotationOverrideId?: string;
-  RotationArn?: string;
-  NewContactIds?: string[];
-  StartTime?: Date;
-  EndTime?: Date;
-  CreateTime?: Date;
+  RotationOverrideId?: string | undefined;
+  RotationArn?: string | undefined;
+  NewContactIds?: string[] | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  CreateTime?: Date | undefined;
 }
 export type PaginationToken = string;
 export type MaxResults = number;
 export interface ListContactChannelsRequest {
   ContactId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ContactChannel {
   ContactChannelArn: string;
   ContactArn: string;
   Name: string;
-  Type?: ChannelType;
+  Type?: ChannelType | undefined;
   DeliveryAddress: ContactChannelAddress;
   ActivationStatus: ActivationStatus;
 }
 export type ContactChannelList = ContactChannel[];
 export interface ListContactChannelsResult {
-  NextToken?: string;
+  NextToken?: string | undefined;
   ContactChannels: ContactChannel[];
 }
 export interface ListContactsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  AliasPrefix?: string;
-  Type?: ContactType;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  AliasPrefix?: string | undefined;
+  Type?: ContactType | undefined;
 }
 export interface Contact {
   ContactArn: string;
   Alias: string;
-  DisplayName?: string;
+  DisplayName?: string | undefined;
   Type: ContactType;
 }
 export type ContactsList = Contact[];
 export interface ListContactsResult {
-  NextToken?: string;
-  Contacts?: Contact[];
+  NextToken?: string | undefined;
+  Contacts?: Contact[] | undefined;
 }
 export interface TimeRange {
-  StartTime?: Date;
-  EndTime?: Date;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
 }
 export interface ListEngagementsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  IncidentId?: string;
-  TimeRangeValue?: TimeRange;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  IncidentId?: string | undefined;
+  TimeRangeValue?: TimeRange | undefined;
 }
 export interface Engagement {
   EngagementArn: string;
   ContactArn: string;
   Sender: string;
-  IncidentId?: string;
-  StartTime?: Date;
-  StopTime?: Date;
+  IncidentId?: string | undefined;
+  StartTime?: Date | undefined;
+  StopTime?: Date | undefined;
 }
 export type EngagementsList = Engagement[];
 export interface ListEngagementsResult {
-  NextToken?: string;
+  NextToken?: string | undefined;
   Engagements: Engagement[];
 }
 export interface ListPageReceiptsRequest {
   PageId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ReceiptType = "DELIVERED" | "ERROR" | "READ" | "SENT" | "STOP" | (string & {});
 export interface Receipt {
-  ContactChannelArn?: string;
+  ContactChannelArn?: string | undefined;
   ReceiptType: ReceiptType;
-  ReceiptInfo?: string;
+  ReceiptInfo?: string | undefined;
   ReceiptTime: Date;
 }
 export type ReceiptsList = Receipt[];
 export interface ListPageReceiptsResult {
-  NextToken?: string;
-  Receipts?: Receipt[];
+  NextToken?: string | undefined;
+  Receipts?: Receipt[] | undefined;
 }
 export interface ListPageResolutionsRequest {
-  NextToken?: string;
+  NextToken?: string | undefined;
   PageId: string;
 }
 export type StageIndex = number;
 export interface ResolutionContact {
   ContactArn: string;
   Type: ContactType;
-  StageIndex?: number;
+  StageIndex?: number | undefined;
 }
 export type ResolutionList = ResolutionContact[];
 export interface ListPageResolutionsResult {
-  NextToken?: string;
+  NextToken?: string | undefined;
   PageResolutions: ResolutionContact[];
 }
 export interface ListPagesByContactRequest {
   ContactId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface Page {
   PageArn: string;
   EngagementArn: string;
   ContactArn: string;
   Sender: string;
-  IncidentId?: string;
-  SentTime?: Date;
-  DeliveryTime?: Date;
-  ReadTime?: Date;
+  IncidentId?: string | undefined;
+  SentTime?: Date | undefined;
+  DeliveryTime?: Date | undefined;
+  ReadTime?: Date | undefined;
 }
 export type PagesList = Page[];
 export interface ListPagesByContactResult {
-  NextToken?: string;
+  NextToken?: string | undefined;
   Pages: Page[];
 }
 export interface ListPagesByEngagementRequest {
   EngagementId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListPagesByEngagementResult {
-  NextToken?: string;
+  NextToken?: string | undefined;
   Pages: Page[];
 }
 export type Member = string;
 export type RotationPreviewMemberList = string[];
 export type RotationOverridePreviewMemberList = string[];
 export interface PreviewOverride {
-  NewMembers?: string[];
-  StartTime?: Date;
-  EndTime?: Date;
+  NewMembers?: string[] | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
 }
 export type OverrideList = PreviewOverride[];
 export interface ListPreviewRotationShiftsRequest {
-  RotationStartTime?: Date;
-  StartTime?: Date;
+  RotationStartTime?: Date | undefined;
+  StartTime?: Date | undefined;
   EndTime: Date;
   Members: string[];
   TimeZoneId: string;
   Recurrence: RecurrenceSettings;
-  Overrides?: PreviewOverride[];
-  NextToken?: string;
-  MaxResults?: number;
+  Overrides?: PreviewOverride[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ShiftType = "REGULAR" | "OVERRIDDEN" | (string & {});
 export interface ShiftDetails {
   OverriddenContactIds: string[];
 }
 export interface RotationShift {
-  ContactIds?: string[];
+  ContactIds?: string[] | undefined;
   StartTime: Date;
   EndTime: Date;
-  Type?: ShiftType;
-  ShiftDetails?: ShiftDetails;
+  Type?: ShiftType | undefined;
+  ShiftDetails?: ShiftDetails | undefined;
 }
 export type RotationShifts = RotationShift[];
 export interface ListPreviewRotationShiftsResult {
-  RotationShifts?: RotationShift[];
-  NextToken?: string;
+  RotationShifts?: RotationShift[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListRotationOverridesRequest {
   RotationId: string;
   StartTime: Date;
   EndTime: Date;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface RotationOverride {
   RotationOverrideId: string;
@@ -658,44 +659,44 @@ export interface RotationOverride {
 }
 export type RotationOverrides = RotationOverride[];
 export interface ListRotationOverridesResult {
-  RotationOverrides?: RotationOverride[];
-  NextToken?: string;
+  RotationOverrides?: RotationOverride[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListRotationsRequest {
-  RotationNamePrefix?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  RotationNamePrefix?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface Rotation {
   RotationArn: string;
   Name: string;
-  ContactIds?: string[];
-  StartTime?: Date;
-  TimeZoneId?: string;
-  Recurrence?: RecurrenceSettings;
+  ContactIds?: string[] | undefined;
+  StartTime?: Date | undefined;
+  TimeZoneId?: string | undefined;
+  Recurrence?: RecurrenceSettings | undefined;
 }
 export type Rotations = Rotation[];
 export interface ListRotationsResult {
-  NextToken?: string;
+  NextToken?: string | undefined;
   Rotations: Rotation[];
 }
 export interface ListRotationShiftsRequest {
   RotationId: string;
-  StartTime?: Date;
+  StartTime?: Date | undefined;
   EndTime: Date;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListRotationShiftsResult {
-  RotationShifts?: RotationShift[];
-  NextToken?: string;
+  RotationShifts?: RotationShift[] | undefined;
+  NextToken?: string | undefined;
 }
 export type AmazonResourceName = string;
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
 }
 export interface ListTagsForResourceResult {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface PutContactPolicyRequest {
   ContactArn: string;
@@ -711,10 +712,10 @@ export interface StartEngagementRequest {
   Sender: string;
   Subject: string;
   Content: string;
-  PublicSubject?: string;
-  PublicContent?: string;
-  IncidentId?: string;
-  IdempotencyToken?: string;
+  PublicSubject?: string | undefined;
+  PublicContent?: string | undefined;
+  IncidentId?: string | undefined;
+  IdempotencyToken?: string | undefined;
 }
 export interface StartEngagementResult {
   EngagementArn: string;
@@ -722,7 +723,7 @@ export interface StartEngagementResult {
 export type StopReason = string;
 export interface StopEngagementRequest {
   EngagementId: string;
-  Reason?: string;
+  Reason?: string | undefined;
 }
 export interface StopEngagementResult {}
 export interface TagResourceRequest {
@@ -738,21 +739,21 @@ export interface UntagResourceRequest {
 export interface UntagResourceResult {}
 export interface UpdateContactRequest {
   ContactId: string;
-  DisplayName?: string;
-  Plan?: Plan;
+  DisplayName?: string | undefined;
+  Plan?: Plan | undefined;
 }
 export interface UpdateContactResult {}
 export interface UpdateContactChannelRequest {
   ContactChannelId: string;
-  Name?: string;
-  DeliveryAddress?: ContactChannelAddress;
+  Name?: string | undefined;
+  DeliveryAddress?: ContactChannelAddress | undefined;
 }
 export interface UpdateContactChannelResult {}
 export interface UpdateRotationRequest {
   RotationId: string;
-  ContactIds?: string[];
-  StartTime?: Date;
-  TimeZoneId?: string;
+  ContactIds?: string[] | undefined;
+  StartTime?: Date | undefined;
+  TimeZoneId?: string | undefined;
   Recurrence: RecurrenceSettings;
 }
 export interface UpdateRotationResult {}
@@ -785,7 +786,7 @@ export type AcceptPageError =
  * Used to acknowledge an engagement to a contact channel during an incident.
  */
 export const acceptPage: API.OperationMethod<
-  AcceptPageRequest,
+  AcceptPageRequest & RegionInput,
   AcceptPageResult,
   AcceptPageError,
   Credentials | HttpClient.HttpClient
@@ -820,7 +821,7 @@ export type ActivateContactChannelError =
  * contact channel has been activated.
  */
 export const activateContactChannel: API.OperationMethod<
-  ActivateContactChannelRequest,
+  ActivateContactChannelRequest & RegionInput,
   ActivateContactChannelResult,
   ActivateContactChannelError,
   Credentials | HttpClient.HttpClient
@@ -858,7 +859,7 @@ export type CreateContactError =
  * incident.
  */
 export const createContact: API.OperationMethod<
-  CreateContactRequest,
+  CreateContactRequest & RegionInput,
   CreateContactResult,
   CreateContactError,
   Credentials | HttpClient.HttpClient
@@ -895,7 +896,7 @@ export type CreateContactChannelError =
  * A contact channel is the method that Incident Manager uses to engage your contact.
  */
 export const createContactChannel: API.OperationMethod<
-  CreateContactChannelRequest,
+  CreateContactChannelRequest & RegionInput,
   CreateContactChannelResult,
   CreateContactChannelError,
   Credentials | HttpClient.HttpClient
@@ -932,7 +933,7 @@ export type CreateRotationError =
  * Creates a rotation in an on-call schedule.
  */
 export const createRotation: API.OperationMethod<
-  CreateRotationRequest,
+  CreateRotationRequest & RegionInput,
   CreateRotationResult,
   CreateRotationError,
   Credentials | HttpClient.HttpClient
@@ -970,7 +971,7 @@ export type CreateRotationOverrideError =
  * Creates an override for a rotation in an on-call schedule.
  */
 export const createRotationOverride: API.OperationMethod<
-  CreateRotationOverrideRequest,
+  CreateRotationOverrideRequest & RegionInput,
   CreateRotationOverrideResult,
   CreateRotationOverrideError,
   Credentials | HttpClient.HttpClient
@@ -1007,7 +1008,7 @@ export type DeactivateContactChannelError =
  * the channel.
  */
 export const deactivateContactChannel: API.OperationMethod<
-  DeactivateContactChannelRequest,
+  DeactivateContactChannelRequest & RegionInput,
   DeactivateContactChannelResult,
   DeactivateContactChannelError,
   Credentials | HttpClient.HttpClient
@@ -1046,7 +1047,7 @@ export type DeleteContactError =
  * different existing contact.
  */
 export const deleteContact: API.OperationMethod<
-  DeleteContactRequest,
+  DeleteContactRequest & RegionInput,
   DeleteContactResult,
   DeleteContactError,
   Credentials | HttpClient.HttpClient
@@ -1085,7 +1086,7 @@ export type DeleteContactChannelError =
  * incident.
  */
 export const deleteContactChannel: API.OperationMethod<
-  DeleteContactChannelRequest,
+  DeleteContactChannelRequest & RegionInput,
   DeleteContactChannelResult,
   DeleteContactChannelError,
   Credentials | HttpClient.HttpClient
@@ -1122,7 +1123,7 @@ export type DeleteRotationError =
  * schedule, this operation deletes it from all of them.
  */
 export const deleteRotation: API.OperationMethod<
-  DeleteRotationRequest,
+  DeleteRotationRequest & RegionInput,
   DeleteRotationResult,
   DeleteRotationError,
   Credentials | HttpClient.HttpClient
@@ -1159,7 +1160,7 @@ export type DeleteRotationOverrideError =
  * Deletes an existing override for an on-call rotation.
  */
 export const deleteRotationOverride: API.OperationMethod<
-  DeleteRotationOverrideRequest,
+  DeleteRotationOverrideRequest & RegionInput,
   DeleteRotationOverrideResult,
   DeleteRotationOverrideError,
   Credentials | HttpClient.HttpClient
@@ -1196,7 +1197,7 @@ export type DescribeEngagementError =
  * Use this command to describe the engagement that occurred during an incident.
  */
 export const describeEngagement: API.OperationMethod<
-  DescribeEngagementRequest,
+  DescribeEngagementRequest & RegionInput,
   DescribeEngagementResult,
   DescribeEngagementError,
   Credentials | HttpClient.HttpClient
@@ -1232,7 +1233,7 @@ export type DescribePageError =
  * Lists details of the engagement to a contact channel.
  */
 export const describePage: API.OperationMethod<
-  DescribePageRequest,
+  DescribePageRequest & RegionInput,
   DescribePageResult,
   DescribePageError,
   Credentials | HttpClient.HttpClient
@@ -1268,7 +1269,7 @@ export type GetContactError =
  * Retrieves information about the specified contact or escalation plan.
  */
 export const getContact: API.OperationMethod<
-  GetContactRequest,
+  GetContactRequest & RegionInput,
   GetContactResult,
   GetContactError,
   Credentials | HttpClient.HttpClient
@@ -1304,7 +1305,7 @@ export type GetContactChannelError =
  * List details about a specific contact channel.
  */
 export const getContactChannel: API.OperationMethod<
-  GetContactChannelRequest,
+  GetContactChannelRequest & RegionInput,
   GetContactChannelResult,
   GetContactChannelError,
   Credentials | HttpClient.HttpClient
@@ -1340,7 +1341,7 @@ export type GetContactPolicyError =
  * plan.
  */
 export const getContactPolicy: API.OperationMethod<
-  GetContactPolicyRequest,
+  GetContactPolicyRequest & RegionInput,
   GetContactPolicyResult,
   GetContactPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1375,7 +1376,7 @@ export type GetRotationError =
  * Retrieves information about an on-call rotation.
  */
 export const getRotation: API.OperationMethod<
-  GetRotationRequest,
+  GetRotationRequest & RegionInput,
   GetRotationResult,
   GetRotationError,
   Credentials | HttpClient.HttpClient
@@ -1411,7 +1412,7 @@ export type GetRotationOverrideError =
  * Retrieves information about an override to an on-call rotation.
  */
 export const getRotationOverride: API.OperationMethod<
-  GetRotationOverrideRequest,
+  GetRotationOverrideRequest & RegionInput,
   GetRotationOverrideResult,
   GetRotationOverrideError,
   Credentials | HttpClient.HttpClient
@@ -1447,7 +1448,7 @@ export type ListContactChannelsError =
  * Lists all contact channels for the specified contact.
  */
 export const listContactChannels: API.PaginatedOperationMethod<
-  ListContactChannelsRequest,
+  ListContactChannelsRequest & RegionInput,
   ListContactChannelsResult,
   ListContactChannelsError,
   Credentials | HttpClient.HttpClient,
@@ -1488,7 +1489,7 @@ export type ListContactsError =
  * Lists all contacts and escalation plans in Incident Manager.
  */
 export const listContacts: API.PaginatedOperationMethod<
-  ListContactsRequest,
+  ListContactsRequest & RegionInput,
   ListContactsResult,
   ListContactsError,
   Credentials | HttpClient.HttpClient,
@@ -1527,7 +1528,7 @@ export type ListEngagementsError =
  * Lists all engagements that have happened in an incident.
  */
 export const listEngagements: API.PaginatedOperationMethod<
-  ListEngagementsRequest,
+  ListEngagementsRequest & RegionInput,
   ListEngagementsResult,
   ListEngagementsError,
   Credentials | HttpClient.HttpClient,
@@ -1567,7 +1568,7 @@ export type ListPageReceiptsError =
  * Lists all of the engagements to contact channels that have been acknowledged.
  */
 export const listPageReceipts: API.PaginatedOperationMethod<
-  ListPageReceiptsRequest,
+  ListPageReceiptsRequest & RegionInput,
   ListPageReceiptsResult,
   ListPageReceiptsError,
   Credentials | HttpClient.HttpClient,
@@ -1612,7 +1613,7 @@ export type ListPageResolutionsError =
  * contact.
  */
 export const listPageResolutions: API.PaginatedOperationMethod<
-  ListPageResolutionsRequest,
+  ListPageResolutionsRequest & RegionInput,
   ListPageResolutionsResult,
   ListPageResolutionsError,
   Credentials | HttpClient.HttpClient,
@@ -1652,7 +1653,7 @@ export type ListPagesByContactError =
  * Lists the engagements to a contact's contact channels.
  */
 export const listPagesByContact: API.PaginatedOperationMethod<
-  ListPagesByContactRequest,
+  ListPagesByContactRequest & RegionInput,
   ListPagesByContactResult,
   ListPagesByContactError,
   Credentials | HttpClient.HttpClient,
@@ -1693,7 +1694,7 @@ export type ListPagesByEngagementError =
  * Lists the engagements to contact channels that occurred by engaging a contact.
  */
 export const listPagesByEngagement: API.PaginatedOperationMethod<
-  ListPagesByEngagementRequest,
+  ListPagesByEngagementRequest & RegionInput,
   ListPagesByEngagementResult,
   ListPagesByEngagementError,
   Credentials | HttpClient.HttpClient,
@@ -1735,7 +1736,7 @@ export type ListPreviewRotationShiftsError =
  * The Incident Manager primarily uses this operation to populate the **Preview** calendar. It is not typically run by end users.
  */
 export const listPreviewRotationShifts: API.PaginatedOperationMethod<
-  ListPreviewRotationShiftsRequest,
+  ListPreviewRotationShiftsRequest & RegionInput,
   ListPreviewRotationShiftsResult,
   ListPreviewRotationShiftsError,
   Credentials | HttpClient.HttpClient,
@@ -1776,7 +1777,7 @@ export type ListRotationOverridesError =
  * Retrieves a list of overrides currently specified for an on-call rotation.
  */
 export const listRotationOverrides: API.PaginatedOperationMethod<
-  ListRotationOverridesRequest,
+  ListRotationOverridesRequest & RegionInput,
   ListRotationOverridesResult,
   ListRotationOverridesError,
   Credentials | HttpClient.HttpClient,
@@ -1818,7 +1819,7 @@ export type ListRotationsError =
  * Retrieves a list of on-call rotations.
  */
 export const listRotations: API.PaginatedOperationMethod<
-  ListRotationsRequest,
+  ListRotationsRequest & RegionInput,
   ListRotationsResult,
   ListRotationsError,
   Credentials | HttpClient.HttpClient,
@@ -1861,7 +1862,7 @@ export type ListRotationShiftsError =
  * Returns a list of shifts generated by an existing rotation in the system.
  */
 export const listRotationShifts: API.PaginatedOperationMethod<
-  ListRotationShiftsRequest,
+  ListRotationShiftsRequest & RegionInput,
   ListRotationShiftsResult,
   ListRotationShiftsError,
   Credentials | HttpClient.HttpClient,
@@ -1904,7 +1905,7 @@ export type ListTagsForResourceError =
  * Lists the tags of a contact, escalation plan, rotation, or on-call schedule.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResult,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1941,7 +1942,7 @@ export type PutContactPolicyError =
  * cross-account functionality.
  */
 export const putContactPolicy: API.OperationMethod<
-  PutContactPolicyRequest,
+  PutContactPolicyRequest & RegionInput,
   PutContactPolicyResult,
   PutContactPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1980,7 +1981,7 @@ export type SendActivationCodeError =
  * Incident Manager can't engage a contact channel until it has been activated.
  */
 export const sendActivationCode: API.OperationMethod<
-  SendActivationCodeRequest,
+  SendActivationCodeRequest & RegionInput,
   SendActivationCodeResult,
   SendActivationCodeError,
   Credentials | HttpClient.HttpClient
@@ -2018,7 +2019,7 @@ export type StartEngagementError =
  * contact specified in the incident.
  */
 export const startEngagement: API.OperationMethod<
-  StartEngagementRequest,
+  StartEngagementRequest & RegionInput,
   StartEngagementResult,
   StartEngagementError,
   Credentials | HttpClient.HttpClient
@@ -2054,7 +2055,7 @@ export type StopEngagementError =
  * engagement plan. Further contacts aren't engaged.
  */
 export const stopEngagement: API.OperationMethod<
-  StopEngagementRequest,
+  StopEngagementRequest & RegionInput,
   StopEngagementResult,
   StopEngagementError,
   Credentials | HttpClient.HttpClient
@@ -2090,7 +2091,7 @@ export type TagResourceError =
  * first region of your replication set.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResult,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2125,7 +2126,7 @@ export type UntagResourceError =
  * Removes tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResult,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2161,7 +2162,7 @@ export type UpdateContactError =
  * Updates the contact or escalation plan specified.
  */
 export const updateContact: API.OperationMethod<
-  UpdateContactRequest,
+  UpdateContactRequest & RegionInput,
   UpdateContactResult,
   UpdateContactError,
   Credentials | HttpClient.HttpClient
@@ -2199,7 +2200,7 @@ export type UpdateContactChannelError =
  * Updates a contact's contact channel.
  */
 export const updateContactChannel: API.OperationMethod<
-  UpdateContactChannelRequest,
+  UpdateContactChannelRequest & RegionInput,
   UpdateContactChannelResult,
   UpdateContactChannelError,
   Credentials | HttpClient.HttpClient
@@ -2237,7 +2238,7 @@ export type UpdateRotationError =
  * Updates the information specified for an on-call rotation.
  */
 export const updateRotation: API.OperationMethod<
-  UpdateRotationRequest,
+  UpdateRotationRequest & RegionInput,
   UpdateRotationResult,
   UpdateRotationError,
   Credentials | HttpClient.HttpClient

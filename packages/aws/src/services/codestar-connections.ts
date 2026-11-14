@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -123,7 +124,7 @@ export class InternalServerException
     "InternalServerException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(503),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InvalidInputException
   extends /*@__PURE__*/ S.TaggedError<InvalidInputException>()(
     "InvalidInputException",
@@ -135,7 +136,7 @@ export class LimitExceededException
     "LimitExceededException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ResourceAlreadyExistsException
   extends /*@__PURE__*/ S.TaggedError<ResourceAlreadyExistsException>()(
     "ResourceAlreadyExistsException",
@@ -159,7 +160,7 @@ export class RetryLatestCommitFailedException
     "RetryLatestCommitFailedException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(503),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class SyncBlockerDoesNotExistException
   extends /*@__PURE__*/ S.TaggedError<SyncBlockerDoesNotExistException>()(
     "SyncBlockerDoesNotExistException",
@@ -177,7 +178,7 @@ export class ThrottlingException
     "ThrottlingException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class UnsupportedOperationException
   extends /*@__PURE__*/ S.TaggedError<UnsupportedOperationException>()(
     "UnsupportedOperationException",
@@ -213,15 +214,15 @@ export interface Tag {
 export type TagList = Tag[];
 export type HostArn = string;
 export interface CreateConnectionInput {
-  ProviderType?: ProviderType;
+  ProviderType?: ProviderType | undefined;
   ConnectionName: string;
-  Tags?: Tag[];
-  HostArn?: string;
+  Tags?: Tag[] | undefined;
+  HostArn?: string | undefined;
 }
 export type ConnectionArn = string;
 export interface CreateConnectionOutput {
   ConnectionArn: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type HostName = string;
 export type Url = string;
@@ -235,18 +236,18 @@ export interface VpcConfiguration {
   VpcId: string;
   SubnetIds: string[];
   SecurityGroupIds: string[];
-  TlsCertificate?: string;
+  TlsCertificate?: string | undefined;
 }
 export interface CreateHostInput {
   Name: string;
   ProviderType: ProviderType;
   ProviderEndpoint: string;
-  VpcConfiguration?: VpcConfiguration;
-  Tags?: Tag[];
+  VpcConfiguration?: VpcConfiguration | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateHostOutput {
-  HostArn?: string;
-  Tags?: Tag[];
+  HostArn?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type OwnerId = string;
 export type RepositoryName = string;
@@ -255,14 +256,14 @@ export interface CreateRepositoryLinkInput {
   ConnectionArn: string;
   OwnerId: string;
   RepositoryName: string;
-  EncryptionKeyArn?: string;
-  Tags?: Tag[];
+  EncryptionKeyArn?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type RepositoryLinkArn = string;
 export type RepositoryLinkId = string;
 export interface RepositoryLinkInfo {
   ConnectionArn: string;
-  EncryptionKeyArn?: string;
+  EncryptionKeyArn?: string | undefined;
   OwnerId: string;
   ProviderType: ProviderType;
   RepositoryLinkArn: string;
@@ -286,12 +287,12 @@ export interface CreateSyncConfigurationInput {
   ResourceName: string;
   RoleArn: string;
   SyncType: SyncConfigurationType;
-  PublishDeploymentStatus?: PublishDeploymentStatus;
-  TriggerResourceUpdateOn?: TriggerResourceUpdateOn;
+  PublishDeploymentStatus?: PublishDeploymentStatus | undefined;
+  TriggerResourceUpdateOn?: TriggerResourceUpdateOn | undefined;
 }
 export interface SyncConfiguration {
   Branch: string;
-  ConfigFile?: string;
+  ConfigFile?: string | undefined;
   OwnerId: string;
   ProviderType: ProviderType;
   RepositoryLinkId: string;
@@ -299,8 +300,8 @@ export interface SyncConfiguration {
   ResourceName: string;
   RoleArn: string;
   SyncType: SyncConfigurationType;
-  PublishDeploymentStatus?: PublishDeploymentStatus;
-  TriggerResourceUpdateOn?: TriggerResourceUpdateOn;
+  PublishDeploymentStatus?: PublishDeploymentStatus | undefined;
+  TriggerResourceUpdateOn?: TriggerResourceUpdateOn | undefined;
 }
 export interface CreateSyncConfigurationOutput {
   SyncConfiguration: SyncConfiguration;
@@ -328,26 +329,26 @@ export interface GetConnectionInput {
 export type AccountId = string;
 export type ConnectionStatus = "PENDING" | "AVAILABLE" | "ERROR" | (string & {});
 export interface Connection {
-  ConnectionName?: string;
-  ConnectionArn?: string;
-  ProviderType?: ProviderType;
-  OwnerAccountId?: string;
-  ConnectionStatus?: ConnectionStatus;
-  HostArn?: string;
+  ConnectionName?: string | undefined;
+  ConnectionArn?: string | undefined;
+  ProviderType?: ProviderType | undefined;
+  OwnerAccountId?: string | undefined;
+  ConnectionStatus?: ConnectionStatus | undefined;
+  HostArn?: string | undefined;
 }
 export interface GetConnectionOutput {
-  Connection?: Connection;
+  Connection?: Connection | undefined;
 }
 export interface GetHostInput {
   HostArn: string;
 }
 export type HostStatus = string;
 export interface GetHostOutput {
-  Name?: string;
-  Status?: string;
-  ProviderType?: ProviderType;
-  ProviderEndpoint?: string;
-  VpcConfiguration?: VpcConfiguration;
+  Name?: string | undefined;
+  Status?: string | undefined;
+  ProviderType?: ProviderType | undefined;
+  ProviderEndpoint?: string | undefined;
+  VpcConfiguration?: VpcConfiguration | undefined;
 }
 export interface GetRepositoryLinkInput {
   RepositoryLinkId: string;
@@ -372,7 +373,7 @@ export type ExternalId = string;
 export type Type = string;
 export interface RepositorySyncEvent {
   Event: string;
-  ExternalId?: string;
+  ExternalId?: string | undefined;
   Time: Date;
   Type: string;
 }
@@ -401,7 +402,7 @@ export interface Revision {
 }
 export interface ResourceSyncEvent {
   Event: string;
-  ExternalId?: string;
+  ExternalId?: string | undefined;
   Time: Date;
   Type: string;
 }
@@ -422,8 +423,8 @@ export interface ResourceSyncAttempt {
   Target: string;
 }
 export interface GetResourceSyncStatusOutput {
-  DesiredState?: Revision;
-  LatestSuccessfulSync?: ResourceSyncAttempt;
+  DesiredState?: Revision | undefined;
+  LatestSuccessfulSync?: ResourceSyncAttempt | undefined;
   LatestSync: ResourceSyncAttempt;
 }
 export interface GetSyncBlockerSummaryInput {
@@ -448,15 +449,15 @@ export interface SyncBlocker {
   Status: BlockerStatus;
   CreatedReason: string;
   CreatedAt: Date;
-  Contexts?: SyncBlockerContext[];
-  ResolvedReason?: string;
-  ResolvedAt?: Date;
+  Contexts?: SyncBlockerContext[] | undefined;
+  ResolvedReason?: string | undefined;
+  ResolvedAt?: Date | undefined;
 }
 export type LatestSyncBlockerList = SyncBlocker[];
 export interface SyncBlockerSummary {
   ResourceName: string;
-  ParentResourceName?: string;
-  LatestBlockers?: SyncBlocker[];
+  ParentResourceName?: string | undefined;
+  LatestBlockers?: SyncBlocker[] | undefined;
 }
 export interface GetSyncBlockerSummaryOutput {
   SyncBlockerSummary: SyncBlockerSummary;
@@ -471,44 +472,44 @@ export interface GetSyncConfigurationOutput {
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListConnectionsInput {
-  ProviderTypeFilter?: ProviderType;
-  HostArnFilter?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  ProviderTypeFilter?: ProviderType | undefined;
+  HostArnFilter?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ConnectionList = Connection[];
 export interface ListConnectionsOutput {
-  Connections?: Connection[];
-  NextToken?: string;
+  Connections?: Connection[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListHostsInput {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type HostStatusMessage = string;
 export interface Host {
-  Name?: string;
-  HostArn?: string;
-  ProviderType?: ProviderType;
-  ProviderEndpoint?: string;
-  VpcConfiguration?: VpcConfiguration;
-  Status?: string;
-  StatusMessage?: string;
+  Name?: string | undefined;
+  HostArn?: string | undefined;
+  ProviderType?: ProviderType | undefined;
+  ProviderEndpoint?: string | undefined;
+  VpcConfiguration?: VpcConfiguration | undefined;
+  Status?: string | undefined;
+  StatusMessage?: string | undefined;
 }
 export type HostList = Host[];
 export interface ListHostsOutput {
-  Hosts?: Host[];
-  NextToken?: string;
+  Hosts?: Host[] | undefined;
+  NextToken?: string | undefined;
 }
 export type SharpNextToken = string;
 export interface ListRepositoryLinksInput {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type RepositoryLinkList = RepositoryLinkInfo[];
 export interface ListRepositoryLinksOutput {
   RepositoryLinks: RepositoryLinkInfo[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListRepositorySyncDefinitionsInput {
   RepositoryLinkId: string;
@@ -524,25 +525,25 @@ export interface RepositorySyncDefinition {
 export type RepositorySyncDefinitionList = RepositorySyncDefinition[];
 export interface ListRepositorySyncDefinitionsOutput {
   RepositorySyncDefinitions: RepositorySyncDefinition[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListSyncConfigurationsInput {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   RepositoryLinkId: string;
   SyncType: SyncConfigurationType;
 }
 export type SyncConfigurationList = SyncConfiguration[];
 export interface ListSyncConfigurationsOutput {
   SyncConfigurations: SyncConfiguration[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type AmazonResourceName = string;
 export interface ListTagsForResourceInput {
   ResourceArn: string;
 }
 export interface ListTagsForResourceOutput {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface TagResourceInput {
   ResourceArn: string;
@@ -557,13 +558,13 @@ export interface UntagResourceInput {
 export interface UntagResourceOutput {}
 export interface UpdateHostInput {
   HostArn: string;
-  ProviderEndpoint?: string;
-  VpcConfiguration?: VpcConfiguration;
+  ProviderEndpoint?: string | undefined;
+  VpcConfiguration?: VpcConfiguration | undefined;
 }
 export interface UpdateHostOutput {}
 export interface UpdateRepositoryLinkInput {
-  ConnectionArn?: string;
-  EncryptionKeyArn?: string;
+  ConnectionArn?: string | undefined;
+  EncryptionKeyArn?: string | undefined;
   RepositoryLinkId: string;
 }
 export interface UpdateRepositoryLinkOutput {
@@ -577,18 +578,18 @@ export interface UpdateSyncBlockerInput {
 }
 export interface UpdateSyncBlockerOutput {
   ResourceName: string;
-  ParentResourceName?: string;
+  ParentResourceName?: string | undefined;
   SyncBlocker: SyncBlocker;
 }
 export interface UpdateSyncConfigurationInput {
-  Branch?: string;
-  ConfigFile?: string;
-  RepositoryLinkId?: string;
+  Branch?: string | undefined;
+  ConfigFile?: string | undefined;
+  RepositoryLinkId?: string | undefined;
   ResourceName: string;
-  RoleArn?: string;
+  RoleArn?: string | undefined;
   SyncType: SyncConfigurationType;
-  PublishDeploymentStatus?: PublishDeploymentStatus;
-  TriggerResourceUpdateOn?: TriggerResourceUpdateOn;
+  PublishDeploymentStatus?: PublishDeploymentStatus | undefined;
+  TriggerResourceUpdateOn?: TriggerResourceUpdateOn | undefined;
 }
 export interface UpdateSyncConfigurationOutput {
   SyncConfiguration: SyncConfiguration;
@@ -605,7 +606,7 @@ export type CreateConnectionError =
  * the third-party connection handshake is completed from the console.
  */
 export const createConnection: API.OperationMethod<
-  CreateConnectionInput,
+  CreateConnectionInput & RegionInput,
   CreateConnectionOutput,
   CreateConnectionError,
   Credentials | HttpClient.HttpClient
@@ -631,7 +632,7 @@ export type CreateHostError = LimitExceededException | CommonErrors;
  * default. You can make its status `AVAILABLE` by setting up the host in the console.
  */
 export const createHost: API.OperationMethod<
-  CreateHostInput,
+  CreateHostInput & RegionInput,
   CreateHostOutput,
   CreateHostError,
   Credentials | HttpClient.HttpClient
@@ -659,7 +660,7 @@ export type CreateRepositoryLinkError =
  * Creates a link to a specified external Git repository. A repository link allows Git sync to monitor and sync changes to files in a specified Git repository.
  */
 export const createRepositoryLink: API.OperationMethod<
-  CreateRepositoryLinkInput,
+  CreateRepositoryLinkInput & RegionInput,
   CreateRepositoryLinkOutput,
   CreateRepositoryLinkError,
   Credentials | HttpClient.HttpClient
@@ -697,7 +698,7 @@ export type CreateSyncConfigurationError =
  * configuration are determined by the sync type.
  */
 export const createSyncConfiguration: API.OperationMethod<
-  CreateSyncConfigurationInput,
+  CreateSyncConfigurationInput & RegionInput,
   CreateSyncConfigurationOutput,
   CreateSyncConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -725,7 +726,7 @@ export type DeleteConnectionError = ResourceNotFoundException | CommonErrors;
  * The connection to be deleted.
  */
 export const deleteConnection: API.OperationMethod<
-  DeleteConnectionInput,
+  DeleteConnectionInput & RegionInput,
   DeleteConnectionOutput,
   DeleteConnectionError,
   Credentials | HttpClient.HttpClient
@@ -750,7 +751,7 @@ export type DeleteHostError =
  * A host cannot be deleted if it is in the VPC_CONFIG_INITIALIZING or VPC_CONFIG_DELETING state.
  */
 export const deleteHost: API.OperationMethod<
-  DeleteHostInput,
+  DeleteHostInput & RegionInput,
   DeleteHostOutput,
   DeleteHostError,
   Credentials | HttpClient.HttpClient
@@ -779,7 +780,7 @@ export type DeleteRepositoryLinkError =
  * Deletes the association between your connection and a specified external Git repository.
  */
 export const deleteRepositoryLink: API.OperationMethod<
-  DeleteRepositoryLinkInput,
+  DeleteRepositoryLinkInput & RegionInput,
   DeleteRepositoryLinkOutput,
   DeleteRepositoryLinkError,
   Credentials | HttpClient.HttpClient
@@ -815,7 +816,7 @@ export type DeleteSyncConfigurationError =
  * Deletes the sync configuration for a specified repository and connection.
  */
 export const deleteSyncConfiguration: API.OperationMethod<
-  DeleteSyncConfigurationInput,
+  DeleteSyncConfigurationInput & RegionInput,
   DeleteSyncConfigurationOutput,
   DeleteSyncConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -845,7 +846,7 @@ export type GetConnectionError =
  * Returns the connection ARN and details such as status, owner, and provider type.
  */
 export const getConnection: API.OperationMethod<
-  GetConnectionInput,
+  GetConnectionInput & RegionInput,
   GetConnectionOutput,
   GetConnectionError,
   Credentials | HttpClient.HttpClient
@@ -866,7 +867,7 @@ export type GetHostError = ResourceNotFoundException | ResourceUnavailableExcept
  * applicable, the VPC configuration.
  */
 export const getHost: API.OperationMethod<
-  GetHostInput,
+  GetHostInput & RegionInput,
   GetHostOutput,
   GetHostError,
   Credentials | HttpClient.HttpClient
@@ -894,7 +895,7 @@ export type GetRepositoryLinkError =
  * and sync changes from files in a specified Git repository.
  */
 export const getRepositoryLink: API.OperationMethod<
-  GetRepositoryLinkInput,
+  GetRepositoryLinkInput & RegionInput,
   GetRepositoryLinkOutput,
   GetRepositoryLinkError,
   Credentials | HttpClient.HttpClient
@@ -928,7 +929,7 @@ export type GetRepositorySyncStatusError =
  * to push and pull changes from your remote repository.
  */
 export const getRepositorySyncStatus: API.OperationMethod<
-  GetRepositorySyncStatusInput,
+  GetRepositorySyncStatusInput & RegionInput,
   GetRepositorySyncStatusOutput,
   GetRepositorySyncStatusError,
   Credentials | HttpClient.HttpClient
@@ -961,7 +962,7 @@ export type GetResourceSyncStatusError =
  * resource.
  */
 export const getResourceSyncStatus: API.OperationMethod<
-  GetResourceSyncStatusInput,
+  GetResourceSyncStatusInput & RegionInput,
   GetResourceSyncStatusOutput,
   GetResourceSyncStatusError,
   Credentials | HttpClient.HttpClient
@@ -993,7 +994,7 @@ export type GetSyncBlockerSummaryError =
  * Returns a list of the most recent sync blockers.
  */
 export const getSyncBlockerSummary: API.OperationMethod<
-  GetSyncBlockerSummaryInput,
+  GetSyncBlockerSummaryInput & RegionInput,
   GetSyncBlockerSummaryOutput,
   GetSyncBlockerSummaryError,
   Credentials | HttpClient.HttpClient
@@ -1025,7 +1026,7 @@ export type GetSyncConfigurationError =
  * Returns details about a sync configuration, including the sync type and resource name. A sync configuration allows the configuration to sync (push and pull) changes from the remote repository for a specified branch in a Git repository.
  */
 export const getSyncConfiguration: API.OperationMethod<
-  GetSyncConfigurationInput,
+  GetSyncConfigurationInput & RegionInput,
   GetSyncConfigurationOutput,
   GetSyncConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1051,7 +1052,7 @@ export type ListConnectionsError = ResourceNotFoundException | CommonErrors;
  * Lists the connections associated with your account.
  */
 export const listConnections: API.PaginatedOperationMethod<
-  ListConnectionsInput,
+  ListConnectionsInput & RegionInput,
   ListConnectionsOutput,
   ListConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -1077,7 +1078,7 @@ export type ListHostsError = CommonErrors;
  * Lists the hosts associated with your account.
  */
 export const listHosts: API.PaginatedOperationMethod<
-  ListHostsInput,
+  ListHostsInput & RegionInput,
   ListHostsOutput,
   ListHostsError,
   Credentials | HttpClient.HttpClient,
@@ -1110,7 +1111,7 @@ export type ListRepositoryLinksError =
  * Lists the repository links created for connections in your account.
  */
 export const listRepositoryLinks: API.PaginatedOperationMethod<
-  ListRepositoryLinksInput,
+  ListRepositoryLinksInput & RegionInput,
   ListRepositoryLinksOutput,
   ListRepositoryLinksError,
   Credentials | HttpClient.HttpClient,
@@ -1149,7 +1150,7 @@ export type ListRepositorySyncDefinitionsError =
  * Lists the repository sync definitions for repository links in your account.
  */
 export const listRepositorySyncDefinitions: API.OperationMethod<
-  ListRepositorySyncDefinitionsInput,
+  ListRepositorySyncDefinitionsInput & RegionInput,
   ListRepositorySyncDefinitionsOutput,
   ListRepositorySyncDefinitionsError,
   Credentials | HttpClient.HttpClient
@@ -1181,7 +1182,7 @@ export type ListSyncConfigurationsError =
  * Returns a list of sync configurations for a specified repository.
  */
 export const listSyncConfigurations: API.PaginatedOperationMethod<
-  ListSyncConfigurationsInput,
+  ListSyncConfigurationsInput & RegionInput,
   ListSyncConfigurationsOutput,
   ListSyncConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1213,7 +1214,7 @@ export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
  * Gets the set of key-value pairs (metadata) that are used to manage the resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1234,7 +1235,7 @@ export type TagResourceError = LimitExceededException | ResourceNotFoundExceptio
  * to manage a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1254,7 +1255,7 @@ export type UntagResourceError = ResourceNotFoundException | CommonErrors;
  * Removes tags from an Amazon Web Services resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1279,7 +1280,7 @@ export type UpdateHostError =
  * Updates a specified host with the provided configurations.
  */
 export const updateHost: API.OperationMethod<
-  UpdateHostInput,
+  UpdateHostInput & RegionInput,
   UpdateHostOutput,
   UpdateHostError,
   Credentials | HttpClient.HttpClient
@@ -1314,7 +1315,7 @@ export type UpdateRepositoryLinkError =
  * repository.
  */
 export const updateRepositoryLink: API.OperationMethod<
-  UpdateRepositoryLinkInput,
+  UpdateRepositoryLinkInput & RegionInput,
   UpdateRepositoryLinkOutput,
   UpdateRepositoryLinkError,
   Credentials | HttpClient.HttpClient
@@ -1350,7 +1351,7 @@ export type UpdateSyncBlockerError =
  * Allows you to update the status of a sync blocker, resolving the blocker and allowing syncing to continue.
  */
 export const updateSyncBlocker: API.OperationMethod<
-  UpdateSyncBlockerInput,
+  UpdateSyncBlockerInput & RegionInput,
   UpdateSyncBlockerOutput,
   UpdateSyncBlockerError,
   Credentials | HttpClient.HttpClient
@@ -1386,7 +1387,7 @@ export type UpdateSyncConfigurationError =
  * Updates the sync configuration for your connection and a specified external Git repository.
  */
 export const updateSyncConfiguration: API.OperationMethod<
-  UpdateSyncConfigurationInput,
+  UpdateSyncConfigurationInput & RegionInput,
   UpdateSyncConfigurationOutput,
   UpdateSyncConfigurationError,
   Credentials | HttpClient.HttpClient

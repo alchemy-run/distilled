@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -157,7 +158,7 @@ export class LimitExceededException
       identifier: "LimitExceededErrorCode",
     }),
     canRetry: S.Boolean,
-  }) {}
+  }).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class NoSuchEntityException
   extends /*@__PURE__*/ S.TaggedError<NoSuchEntityException>()("NoSuchEntityException", {
     message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
@@ -176,7 +177,7 @@ export class ServiceTemporarilyUnavailableException
     "ServiceTemporarilyUnavailableException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()), canRetry: S.Boolean },
     /*@__PURE__*/ T.HttpError(503),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class UnsupportedFeatureException
   extends /*@__PURE__*/ S.TaggedError<UnsupportedFeatureException>()(
     "UnsupportedFeatureException",
@@ -188,7 +189,7 @@ export type AttributeKey = string;
 export type AttributeValue = string;
 export interface Attribute {
   key: string;
-  value?: string;
+  value?: string | undefined;
 }
 export type UserAttributeList = Attribute[];
 export interface AddAttributesToFindingsRequest {
@@ -214,7 +215,7 @@ export interface AddAttributesToFindingsResponse {
 export type AssessmentTargetName = string;
 export interface CreateAssessmentTargetRequest {
   assessmentTargetName: string;
-  resourceGroupArn?: string;
+  resourceGroupArn?: string | undefined;
 }
 export interface CreateAssessmentTargetResponse {
   assessmentTargetArn: string;
@@ -227,7 +228,7 @@ export interface CreateAssessmentTemplateRequest {
   assessmentTemplateName: string;
   durationInSeconds: number;
   rulesPackageArns: string[];
-  userAttributesForFindings?: Attribute[];
+  userAttributesForFindings?: Attribute[] | undefined;
 }
 export interface CreateAssessmentTemplateResponse {
   assessmentTemplateArn: string;
@@ -243,7 +244,7 @@ export type TagKey = string;
 export type TagValue = string;
 export interface ResourceGroupTag {
   key: string;
-  value?: string;
+  value?: string | undefined;
 }
 export type ResourceGroupTags = ResourceGroupTag[];
 export interface CreateResourceGroupRequest {
@@ -307,15 +308,15 @@ export type AssessmentRunNotificationSnsStatusCode =
 export interface AssessmentRunNotification {
   date: Date;
   event: InspectorEvent;
-  message?: string;
+  message?: string | undefined;
   error: boolean;
-  snsTopicArn?: string;
-  snsPublishStatusCode?: AssessmentRunNotificationSnsStatusCode;
+  snsTopicArn?: string | undefined;
+  snsPublishStatusCode?: AssessmentRunNotificationSnsStatusCode | undefined;
 }
 export type AssessmentRunNotificationList = AssessmentRunNotification[];
 export type Severity = "Low" | "Medium" | "High" | "Informational" | "Undefined" | (string & {});
 export type FindingCount = number;
-export type AssessmentRunFindingCounts = { [key in Severity]?: number };
+export type AssessmentRunFindingCounts = { [key in Severity]?: number | undefined };
 export interface AssessmentRun {
   arn: string;
   name: string;
@@ -325,8 +326,8 @@ export interface AssessmentRun {
   rulesPackageArns: string[];
   userAttributesForFindings: Attribute[];
   createdAt: Date;
-  startedAt?: Date;
-  completedAt?: Date;
+  startedAt?: Date | undefined;
+  completedAt?: Date | undefined;
   stateChangedAt: Date;
   dataCollected: boolean;
   stateChanges: AssessmentRunStateChange[];
@@ -344,7 +345,7 @@ export interface DescribeAssessmentTargetsRequest {
 export interface AssessmentTarget {
   arn: string;
   name: string;
-  resourceGroupArn?: string;
+  resourceGroupArn?: string | undefined;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -364,7 +365,7 @@ export interface AssessmentTemplate {
   durationInSeconds: number;
   rulesPackageArns: string[];
   userAttributesForFindings: Attribute[];
-  lastAssessmentRunArn?: string;
+  lastAssessmentRunArn?: string | undefined;
   assessmentRunCount: number;
   createdAt: Date;
 }
@@ -383,14 +384,14 @@ export type BatchDescribeExclusionsArnList = string[];
 export type Locale = "EN_US" | (string & {});
 export interface DescribeExclusionsRequest {
   exclusionArns: string[];
-  locale?: Locale;
+  locale?: Locale | undefined;
 }
 export type Text = string;
 export type ScopeType = "INSTANCE_ID" | "RULES_PACKAGE_ARN" | (string & {});
 export type ScopeValue = string;
 export interface Scope {
-  key?: ScopeType;
-  value?: string;
+  key?: ScopeType | undefined;
+  value?: string | undefined;
 }
 export type ScopeList = Scope[];
 export type AttributeList = Attribute[];
@@ -400,7 +401,7 @@ export interface Exclusion {
   description: string;
   recommendation: string;
   scopes: Scope[];
-  attributes?: Attribute[];
+  attributes?: Attribute[] | undefined;
 }
 export type ExclusionMap = { [key: string]: Exclusion | undefined };
 export interface DescribeExclusionsResponse {
@@ -409,14 +410,14 @@ export interface DescribeExclusionsResponse {
 }
 export interface DescribeFindingsRequest {
   findingArns: string[];
-  locale?: Locale;
+  locale?: Locale | undefined;
 }
 export type NumericVersion = number;
 export type ServiceName = string;
 export interface InspectorServiceAttributes {
   schemaVersion: number;
-  assessmentRunArn?: string;
-  rulesPackageArn?: string;
+  assessmentRunArn?: string | undefined;
+  rulesPackageArn?: string | undefined;
 }
 export type AssetType = "ec2-instance" | (string & {});
 export type AgentId = string;
@@ -427,61 +428,61 @@ export type Ipv4Address = string;
 export type Ipv4AddressList = string[];
 export interface Tag {
   key: string;
-  value?: string;
+  value?: string | undefined;
 }
 export type Tags = Tag[];
 export interface PrivateIp {
-  privateDnsName?: string;
-  privateIpAddress?: string;
+  privateDnsName?: string | undefined;
+  privateIpAddress?: string | undefined;
 }
 export type PrivateIpAddresses = PrivateIp[];
 export type Ipv6Addresses = string[];
 export interface SecurityGroup {
-  groupName?: string;
-  groupId?: string;
+  groupName?: string | undefined;
+  groupId?: string | undefined;
 }
 export type SecurityGroups = SecurityGroup[];
 export interface NetworkInterface {
-  networkInterfaceId?: string;
-  subnetId?: string;
-  vpcId?: string;
-  privateDnsName?: string;
-  privateIpAddress?: string;
-  privateIpAddresses?: PrivateIp[];
-  publicDnsName?: string;
-  publicIp?: string;
-  ipv6Addresses?: string[];
-  securityGroups?: SecurityGroup[];
+  networkInterfaceId?: string | undefined;
+  subnetId?: string | undefined;
+  vpcId?: string | undefined;
+  privateDnsName?: string | undefined;
+  privateIpAddress?: string | undefined;
+  privateIpAddresses?: PrivateIp[] | undefined;
+  publicDnsName?: string | undefined;
+  publicIp?: string | undefined;
+  ipv6Addresses?: string[] | undefined;
+  securityGroups?: SecurityGroup[] | undefined;
 }
 export type NetworkInterfaces = NetworkInterface[];
 export interface AssetAttributes {
   schemaVersion: number;
-  agentId?: string;
-  autoScalingGroup?: string;
-  amiId?: string;
-  hostname?: string;
-  ipv4Addresses?: string[];
-  tags?: Tag[];
-  networkInterfaces?: NetworkInterface[];
+  agentId?: string | undefined;
+  autoScalingGroup?: string | undefined;
+  amiId?: string | undefined;
+  hostname?: string | undefined;
+  ipv4Addresses?: string[] | undefined;
+  tags?: Tag[] | undefined;
+  networkInterfaces?: NetworkInterface[] | undefined;
 }
 export type FindingId = string;
 export type NumericSeverity = number;
 export type IocConfidence = number;
 export interface Finding {
   arn: string;
-  schemaVersion?: number;
-  service?: string;
-  serviceAttributes?: InspectorServiceAttributes;
-  assetType?: AssetType;
-  assetAttributes?: AssetAttributes;
-  id?: string;
-  title?: string;
-  description?: string;
-  recommendation?: string;
-  severity?: Severity;
-  numericSeverity?: number;
-  confidence?: number;
-  indicatorOfCompromise?: boolean;
+  schemaVersion?: number | undefined;
+  service?: string | undefined;
+  serviceAttributes?: InspectorServiceAttributes | undefined;
+  assetType?: AssetType | undefined;
+  assetAttributes?: AssetAttributes | undefined;
+  id?: string | undefined;
+  title?: string | undefined;
+  description?: string | undefined;
+  recommendation?: string | undefined;
+  severity?: Severity | undefined;
+  numericSeverity?: number | undefined;
+  confidence?: number | undefined;
+  indicatorOfCompromise?: boolean | undefined;
   attributes: Attribute[];
   userAttributes: Attribute[];
   createdAt: Date;
@@ -507,7 +508,7 @@ export interface DescribeResourceGroupsResponse {
 }
 export interface DescribeRulesPackagesRequest {
   rulesPackageArns: string[];
-  locale?: Locale;
+  locale?: Locale | undefined;
 }
 export type RulesPackageName = string;
 export type Version = string;
@@ -517,7 +518,7 @@ export interface RulesPackage {
   name: string;
   version: string;
   provider: string;
-  description?: string;
+  description?: string | undefined;
 }
 export type RulesPackageList = RulesPackage[];
 export interface DescribeRulesPackagesResponse {
@@ -535,16 +536,16 @@ export type ReportStatus = "WORK_IN_PROGRESS" | "FAILED" | "COMPLETED" | (string
 export type Url = string;
 export interface GetAssessmentReportResponse {
   status: ReportStatus;
-  url?: string;
+  url?: string | undefined;
 }
 export type PaginationToken = string;
 export type ListMaxResults = number;
 export interface GetExclusionsPreviewRequest {
   assessmentTemplateArn: string;
   previewToken: string;
-  nextToken?: string;
-  maxResults?: number;
-  locale?: Locale;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  locale?: Locale | undefined;
 }
 export type PreviewStatus = "WORK_IN_PROGRESS" | "COMPLETED" | (string & {});
 export interface ExclusionPreview {
@@ -552,13 +553,13 @@ export interface ExclusionPreview {
   description: string;
   recommendation: string;
   scopes: Scope[];
-  attributes?: Attribute[];
+  attributes?: Attribute[] | undefined;
 }
 export type ExclusionPreviewList = ExclusionPreview[];
 export interface GetExclusionsPreviewResponse {
   previewStatus: PreviewStatus;
-  exclusionPreviews?: ExclusionPreview[];
-  nextToken?: string;
+  exclusionPreviews?: ExclusionPreview[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface GetTelemetryMetadataRequest {
   assessmentRunArn: string;
@@ -567,7 +568,7 @@ export type MessageType = string;
 export interface TelemetryMetadata {
   messageType: string;
   count: number;
-  dataSize?: number;
+  dataSize?: number | undefined;
 }
 export type TelemetryMetadataList = TelemetryMetadata[];
 export interface GetTelemetryMetadataResponse {
@@ -590,88 +591,88 @@ export interface AgentFilter {
 }
 export interface ListAssessmentRunAgentsRequest {
   assessmentRunArn: string;
-  filter?: AgentFilter;
-  nextToken?: string;
-  maxResults?: number;
+  filter?: AgentFilter | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface AssessmentRunAgent {
   agentId: string;
   assessmentRunArn: string;
   agentHealth: AgentHealth;
   agentHealthCode: AgentHealthCode;
-  agentHealthDetails?: string;
-  autoScalingGroup?: string;
+  agentHealthDetails?: string | undefined;
+  autoScalingGroup?: string | undefined;
   telemetryMetadata: TelemetryMetadata[];
 }
 export type AssessmentRunAgentList = AssessmentRunAgent[];
 export interface ListAssessmentRunAgentsResponse {
   assessmentRunAgents: AssessmentRunAgent[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ListParentArnList = string[];
 export type NamePattern = string;
 export type AssessmentRunStateList = AssessmentRunState[];
 export interface DurationRange {
-  minSeconds?: number;
-  maxSeconds?: number;
+  minSeconds?: number | undefined;
+  maxSeconds?: number | undefined;
 }
 export type FilterRulesPackageArnList = string[];
 export interface TimestampRange {
-  beginDate?: Date;
-  endDate?: Date;
+  beginDate?: Date | undefined;
+  endDate?: Date | undefined;
 }
 export interface AssessmentRunFilter {
-  namePattern?: string;
-  states?: AssessmentRunState[];
-  durationRange?: DurationRange;
-  rulesPackageArns?: string[];
-  startTimeRange?: TimestampRange;
-  completionTimeRange?: TimestampRange;
-  stateChangeTimeRange?: TimestampRange;
+  namePattern?: string | undefined;
+  states?: AssessmentRunState[] | undefined;
+  durationRange?: DurationRange | undefined;
+  rulesPackageArns?: string[] | undefined;
+  startTimeRange?: TimestampRange | undefined;
+  completionTimeRange?: TimestampRange | undefined;
+  stateChangeTimeRange?: TimestampRange | undefined;
 }
 export interface ListAssessmentRunsRequest {
-  assessmentTemplateArns?: string[];
-  filter?: AssessmentRunFilter;
-  nextToken?: string;
-  maxResults?: number;
+  assessmentTemplateArns?: string[] | undefined;
+  filter?: AssessmentRunFilter | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type ListReturnedArnList = string[];
 export interface ListAssessmentRunsResponse {
   assessmentRunArns: string[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface AssessmentTargetFilter {
-  assessmentTargetNamePattern?: string;
+  assessmentTargetNamePattern?: string | undefined;
 }
 export interface ListAssessmentTargetsRequest {
-  filter?: AssessmentTargetFilter;
-  nextToken?: string;
-  maxResults?: number;
+  filter?: AssessmentTargetFilter | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListAssessmentTargetsResponse {
   assessmentTargetArns: string[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface AssessmentTemplateFilter {
-  namePattern?: string;
-  durationRange?: DurationRange;
-  rulesPackageArns?: string[];
+  namePattern?: string | undefined;
+  durationRange?: DurationRange | undefined;
+  rulesPackageArns?: string[] | undefined;
 }
 export interface ListAssessmentTemplatesRequest {
-  assessmentTargetArns?: string[];
-  filter?: AssessmentTemplateFilter;
-  nextToken?: string;
-  maxResults?: number;
+  assessmentTargetArns?: string[] | undefined;
+  filter?: AssessmentTemplateFilter | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListAssessmentTemplatesResponse {
   assessmentTemplateArns: string[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ListEventSubscriptionsMaxResults = number;
 export interface ListEventSubscriptionsRequest {
-  resourceArn?: string;
-  nextToken?: string;
-  maxResults?: number;
+  resourceArn?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface EventSubscription {
   event: InspectorEvent;
@@ -686,16 +687,16 @@ export interface Subscription {
 export type SubscriptionList = Subscription[];
 export interface ListEventSubscriptionsResponse {
   subscriptions: Subscription[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListExclusionsRequest {
   assessmentRunArn: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListExclusionsResponse {
   exclusionArns: string[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type AgentIdList = string[];
 export type AutoScalingGroupList = string[];
@@ -703,32 +704,32 @@ export type RuleName = string;
 export type RuleNameList = string[];
 export type SeverityList = Severity[];
 export interface FindingFilter {
-  agentIds?: string[];
-  autoScalingGroups?: string[];
-  ruleNames?: string[];
-  severities?: Severity[];
-  rulesPackageArns?: string[];
-  attributes?: Attribute[];
-  userAttributes?: Attribute[];
-  creationTimeRange?: TimestampRange;
+  agentIds?: string[] | undefined;
+  autoScalingGroups?: string[] | undefined;
+  ruleNames?: string[] | undefined;
+  severities?: Severity[] | undefined;
+  rulesPackageArns?: string[] | undefined;
+  attributes?: Attribute[] | undefined;
+  userAttributes?: Attribute[] | undefined;
+  creationTimeRange?: TimestampRange | undefined;
 }
 export interface ListFindingsRequest {
-  assessmentRunArns?: string[];
-  filter?: FindingFilter;
-  nextToken?: string;
-  maxResults?: number;
+  assessmentRunArns?: string[] | undefined;
+  filter?: FindingFilter | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListFindingsResponse {
   findingArns: string[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListRulesPackagesRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListRulesPackagesResponse {
   rulesPackageArns: string[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
@@ -740,26 +741,26 @@ export interface ListTagsForResourceResponse {
 export type PreviewAgentsMaxResults = number;
 export interface PreviewAgentsRequest {
   previewAgentsArn: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type AgentVersion = string;
 export type OperatingSystem = string;
 export type KernelVersion = string;
 export interface AgentPreview {
-  hostname?: string;
+  hostname?: string | undefined;
   agentId: string;
-  autoScalingGroup?: string;
-  agentHealth?: AgentHealth;
-  agentVersion?: string;
-  operatingSystem?: string;
-  kernelVersion?: string;
-  ipv4Address?: string;
+  autoScalingGroup?: string | undefined;
+  agentHealth?: AgentHealth | undefined;
+  agentVersion?: string | undefined;
+  operatingSystem?: string | undefined;
+  kernelVersion?: string | undefined;
+  ipv4Address?: string | undefined;
 }
 export type AgentPreviewList = AgentPreview[];
 export interface PreviewAgentsResponse {
   agentPreviews: AgentPreview[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface RegisterCrossAccountAccessRoleRequest {
   roleArn: string;
@@ -775,12 +776,12 @@ export interface RemoveAttributesFromFindingsResponse {
 }
 export interface SetTagsForResourceRequest {
   resourceArn: string;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface SetTagsForResourceResponse {}
 export interface StartAssessmentRunRequest {
   assessmentTemplateArn: string;
-  assessmentRunName?: string;
+  assessmentRunName?: string | undefined;
 }
 export interface StartAssessmentRunResponse {
   assessmentRunArn: string;
@@ -788,7 +789,7 @@ export interface StartAssessmentRunResponse {
 export type StopAction = "START_EVALUATION" | "SKIP_EVALUATION" | (string & {});
 export interface StopAssessmentRunRequest {
   assessmentRunArn: string;
-  stopAction?: StopAction;
+  stopAction?: StopAction | undefined;
 }
 export interface StopAssessmentRunResponse {}
 export interface SubscribeToEventRequest {
@@ -806,7 +807,7 @@ export interface UnsubscribeFromEventResponse {}
 export interface UpdateAssessmentTargetRequest {
   assessmentTargetArn: string;
   assessmentTargetName: string;
-  resourceGroupArn?: string;
+  resourceGroupArn?: string | undefined;
 }
 export interface UpdateAssessmentTargetResponse {}
 export type ErrorMessage = string;
@@ -915,7 +916,7 @@ export type AddAttributesToFindingsError =
  * ARNs of the findings.
  */
 export const addAttributesToFindings: API.OperationMethod<
-  AddAttributesToFindingsRequest,
+  AddAttributesToFindingsRequest & RegionInput,
   AddAttributesToFindingsResponse,
   AddAttributesToFindingsError,
   Credentials | HttpClient.HttpClient
@@ -956,7 +957,7 @@ export type CreateAssessmentTargetError =
  * Amazon Inspector Assessment Targets.
  */
 export const createAssessmentTarget: API.OperationMethod<
-  CreateAssessmentTargetRequest,
+  CreateAssessmentTargetRequest & RegionInput,
   CreateAssessmentTargetResponse,
   CreateAssessmentTargetError,
   Credentials | HttpClient.HttpClient
@@ -994,7 +995,7 @@ export type CreateAssessmentTemplateError =
  * perform security assessments.
  */
 export const createAssessmentTemplate: API.OperationMethod<
-  CreateAssessmentTemplateRequest,
+  CreateAssessmentTemplateRequest & RegionInput,
   CreateAssessmentTemplateResponse,
   CreateAssessmentTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1030,7 +1031,7 @@ export type CreateExclusionsPreviewError =
  * detect before it runs the assessment.
  */
 export const createExclusionsPreview: API.OperationMethod<
-  CreateExclusionsPreviewRequest,
+  CreateExclusionsPreviewRequest & RegionInput,
   CreateExclusionsPreviewResponse,
   CreateExclusionsPreviewError,
   Credentials | HttpClient.HttpClient
@@ -1066,7 +1067,7 @@ export type CreateResourceGroupError =
  * target. For more information, see CreateAssessmentTarget.
  */
 export const createResourceGroup: API.OperationMethod<
-  CreateResourceGroupRequest,
+  CreateResourceGroupRequest & RegionInput,
   CreateResourceGroupResponse,
   CreateResourceGroupError,
   Credentials | HttpClient.HttpClient
@@ -1100,7 +1101,7 @@ export type DeleteAssessmentRunError =
  * run.
  */
 export const deleteAssessmentRun: API.OperationMethod<
-  DeleteAssessmentRunRequest,
+  DeleteAssessmentRunRequest & RegionInput,
   DeleteAssessmentRunResponse,
   DeleteAssessmentRunError,
   Credentials | HttpClient.HttpClient
@@ -1135,7 +1136,7 @@ export type DeleteAssessmentTargetError =
  * target.
  */
 export const deleteAssessmentTarget: API.OperationMethod<
-  DeleteAssessmentTargetRequest,
+  DeleteAssessmentTargetRequest & RegionInput,
   DeleteAssessmentTargetResponse,
   DeleteAssessmentTargetError,
   Credentials | HttpClient.HttpClient
@@ -1170,7 +1171,7 @@ export type DeleteAssessmentTemplateError =
  * template.
  */
 export const deleteAssessmentTemplate: API.OperationMethod<
-  DeleteAssessmentTemplateRequest,
+  DeleteAssessmentTemplateRequest & RegionInput,
   DeleteAssessmentTemplateResponse,
   DeleteAssessmentTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1198,7 +1199,7 @@ export type DescribeAssessmentRunsError = InternalException | InvalidInputExcept
  * runs.
  */
 export const describeAssessmentRuns: API.OperationMethod<
-  DescribeAssessmentRunsRequest,
+  DescribeAssessmentRunsRequest & RegionInput,
   DescribeAssessmentRunsResponse,
   DescribeAssessmentRunsError,
   Credentials | HttpClient.HttpClient
@@ -1222,7 +1223,7 @@ export type DescribeAssessmentTargetsError =
  * targets.
  */
 export const describeAssessmentTargets: API.OperationMethod<
-  DescribeAssessmentTargetsRequest,
+  DescribeAssessmentTargetsRequest & RegionInput,
   DescribeAssessmentTargetsResponse,
   DescribeAssessmentTargetsError,
   Credentials | HttpClient.HttpClient
@@ -1246,7 +1247,7 @@ export type DescribeAssessmentTemplatesError =
  * templates.
  */
 export const describeAssessmentTemplates: API.OperationMethod<
-  DescribeAssessmentTemplatesRequest,
+  DescribeAssessmentTemplatesRequest & RegionInput,
   DescribeAssessmentTemplatesResponse,
   DescribeAssessmentTemplatesError,
   Credentials | HttpClient.HttpClient
@@ -1267,7 +1268,7 @@ export type DescribeCrossAccountAccessRoleError = InternalException | CommonErro
  * account.
  */
 export const describeCrossAccountAccessRole: API.OperationMethod<
-  DescribeCrossAccountAccessRoleRequest,
+  DescribeCrossAccountAccessRoleRequest & RegionInput,
   DescribeCrossAccountAccessRoleResponse,
   DescribeCrossAccountAccessRoleError,
   Credentials | HttpClient.HttpClient
@@ -1287,7 +1288,7 @@ export type DescribeExclusionsError = InternalException | InvalidInputException 
  * Describes the exclusions that are specified by the exclusions' ARNs.
  */
 export const describeExclusions: API.OperationMethod<
-  DescribeExclusionsRequest,
+  DescribeExclusionsRequest & RegionInput,
   DescribeExclusionsResponse,
   DescribeExclusionsError,
   Credentials | HttpClient.HttpClient
@@ -1307,7 +1308,7 @@ export type DescribeFindingsError = InternalException | InvalidInputException | 
  * Describes the findings that are specified by the ARNs of the findings.
  */
 export const describeFindings: API.OperationMethod<
-  DescribeFindingsRequest,
+  DescribeFindingsRequest & RegionInput,
   DescribeFindingsResponse,
   DescribeFindingsError,
   Credentials | HttpClient.HttpClient
@@ -1328,7 +1329,7 @@ export type DescribeResourceGroupsError = InternalException | InvalidInputExcept
  * groups.
  */
 export const describeResourceGroups: API.OperationMethod<
-  DescribeResourceGroupsRequest,
+  DescribeResourceGroupsRequest & RegionInput,
   DescribeResourceGroupsResponse,
   DescribeResourceGroupsError,
   Credentials | HttpClient.HttpClient
@@ -1349,7 +1350,7 @@ export type DescribeRulesPackagesError = InternalException | InvalidInputExcepti
  * packages.
  */
 export const describeRulesPackages: API.OperationMethod<
-  DescribeRulesPackagesRequest,
+  DescribeRulesPackagesRequest & RegionInput,
   DescribeRulesPackagesResponse,
   DescribeRulesPackagesError,
   Credentials | HttpClient.HttpClient
@@ -1378,7 +1379,7 @@ export type GetAssessmentReportError =
  * specified assessment run.
  */
 export const getAssessmentReport: API.OperationMethod<
-  GetAssessmentReportRequest,
+  GetAssessmentReportRequest & RegionInput,
   GetAssessmentReportResponse,
   GetAssessmentReportError,
   Credentials | HttpClient.HttpClient
@@ -1413,7 +1414,7 @@ export type GetExclusionsPreviewError =
  * API.
  */
 export const getExclusionsPreview: API.PaginatedOperationMethod<
-  GetExclusionsPreviewRequest,
+  GetExclusionsPreviewRequest & RegionInput,
   GetExclusionsPreviewResponse,
   GetExclusionsPreviewError,
   Credentials | HttpClient.HttpClient,
@@ -1445,7 +1446,7 @@ export type GetTelemetryMetadataError =
  * run.
  */
 export const getTelemetryMetadata: API.OperationMethod<
-  GetTelemetryMetadataRequest,
+  GetTelemetryMetadataRequest & RegionInput,
   GetTelemetryMetadataResponse,
   GetTelemetryMetadataError,
   Credentials | HttpClient.HttpClient
@@ -1471,7 +1472,7 @@ export type ListAssessmentRunAgentsError =
  * assessment runs.
  */
 export const listAssessmentRunAgents: API.PaginatedOperationMethod<
-  ListAssessmentRunAgentsRequest,
+  ListAssessmentRunAgentsRequest & RegionInput,
   ListAssessmentRunAgentsResponse,
   ListAssessmentRunAgentsError,
   Credentials | HttpClient.HttpClient,
@@ -1503,7 +1504,7 @@ export type ListAssessmentRunsError =
  * specified by the ARNs of the assessment templates.
  */
 export const listAssessmentRuns: API.PaginatedOperationMethod<
-  ListAssessmentRunsRequest,
+  ListAssessmentRunsRequest & RegionInput,
   ListAssessmentRunsResponse,
   ListAssessmentRunsError,
   Credentials | HttpClient.HttpClient,
@@ -1535,7 +1536,7 @@ export type ListAssessmentTargetsError =
  * Targets.
  */
 export const listAssessmentTargets: API.PaginatedOperationMethod<
-  ListAssessmentTargetsRequest,
+  ListAssessmentTargetsRequest & RegionInput,
   ListAssessmentTargetsResponse,
   ListAssessmentTargetsError,
   Credentials | HttpClient.HttpClient,
@@ -1567,7 +1568,7 @@ export type ListAssessmentTemplatesError =
  * specified by the ARNs of the assessment targets.
  */
 export const listAssessmentTemplates: API.PaginatedOperationMethod<
-  ListAssessmentTemplatesRequest,
+  ListAssessmentTemplatesRequest & RegionInput,
   ListAssessmentTemplatesResponse,
   ListAssessmentTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -1599,7 +1600,7 @@ export type ListEventSubscriptionsError =
  * the ARN of the assessment template. For more information, see SubscribeToEvent and UnsubscribeFromEvent.
  */
 export const listEventSubscriptions: API.PaginatedOperationMethod<
-  ListEventSubscriptionsRequest,
+  ListEventSubscriptionsRequest & RegionInput,
   ListEventSubscriptionsResponse,
   ListEventSubscriptionsError,
   Credentials | HttpClient.HttpClient,
@@ -1630,7 +1631,7 @@ export type ListExclusionsError =
  * List exclusions that are generated by the assessment run.
  */
 export const listExclusions: API.PaginatedOperationMethod<
-  ListExclusionsRequest,
+  ListExclusionsRequest & RegionInput,
   ListExclusionsResponse,
   ListExclusionsError,
   Credentials | HttpClient.HttpClient,
@@ -1662,7 +1663,7 @@ export type ListFindingsError =
  * ARNs of the assessment runs.
  */
 export const listFindings: API.PaginatedOperationMethod<
-  ListFindingsRequest,
+  ListFindingsRequest & RegionInput,
   ListFindingsResponse,
   ListFindingsError,
   Credentials | HttpClient.HttpClient,
@@ -1692,7 +1693,7 @@ export type ListRulesPackagesError =
  * Lists all available Amazon Inspector rules packages.
  */
 export const listRulesPackages: API.PaginatedOperationMethod<
-  ListRulesPackagesRequest,
+  ListRulesPackagesRequest & RegionInput,
   ListRulesPackagesResponse,
   ListRulesPackagesError,
   Credentials | HttpClient.HttpClient,
@@ -1723,7 +1724,7 @@ export type ListTagsForResourceError =
  * Lists all tags associated with an assessment template.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1750,7 +1751,7 @@ export type PreviewAgentsError =
  * assessment target.
  */
 export const previewAgents: API.PaginatedOperationMethod<
-  PreviewAgentsRequest,
+  PreviewAgentsRequest & RegionInput,
   PreviewAgentsResponse,
   PreviewAgentsError,
   Credentials | HttpClient.HttpClient,
@@ -1789,7 +1790,7 @@ export type RegisterCrossAccountAccessRoleError =
  * perform security assessments.
  */
 export const registerCrossAccountAccessRole: API.OperationMethod<
-  RegisterCrossAccountAccessRoleRequest,
+  RegisterCrossAccountAccessRoleRequest & RegionInput,
   RegisterCrossAccountAccessRoleResponse,
   RegisterCrossAccountAccessRoleError,
   Credentials | HttpClient.HttpClient
@@ -1822,7 +1823,7 @@ export type RemoveAttributesFromFindingsError =
  * by the ARNs of the findings where an attribute with the specified key exists.
  */
 export const removeAttributesFromFindings: API.OperationMethod<
-  RemoveAttributesFromFindingsRequest,
+  RemoveAttributesFromFindingsRequest & RegionInput,
   RemoveAttributesFromFindingsResponse,
   RemoveAttributesFromFindingsError,
   Credentials | HttpClient.HttpClient
@@ -1855,7 +1856,7 @@ export type SetTagsForResourceError =
  * ARN of the assessment template.
  */
 export const setTagsForResource: API.OperationMethod<
-  SetTagsForResourceRequest,
+  SetTagsForResourceRequest & RegionInput,
   SetTagsForResourceResponse,
   SetTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1892,7 +1893,7 @@ export type StartAssessmentRunError =
  * agents per AWS account.
  */
 export const startAssessmentRun: API.OperationMethod<
-  StartAssessmentRunRequest,
+  StartAssessmentRunRequest & RegionInput,
   StartAssessmentRunResponse,
   StartAssessmentRunError,
   Credentials | HttpClient.HttpClient
@@ -1928,7 +1929,7 @@ export type StopAssessmentRunError =
  * run.
  */
 export const stopAssessmentRun: API.OperationMethod<
-  StopAssessmentRunRequest,
+  StopAssessmentRunRequest & RegionInput,
   StopAssessmentRunResponse,
   StopAssessmentRunError,
   Credentials | HttpClient.HttpClient
@@ -1962,7 +1963,7 @@ export type SubscribeToEventError =
  * about a specified event to a specified SNS topic.
  */
 export const subscribeToEvent: API.OperationMethod<
-  SubscribeToEventRequest,
+  SubscribeToEventRequest & RegionInput,
   SubscribeToEventResponse,
   SubscribeToEventError,
   Credentials | HttpClient.HttpClient
@@ -1996,7 +1997,7 @@ export type UnsubscribeFromEventError =
  * notifications about a specified event to a specified SNS topic.
  */
 export const unsubscribeFromEvent: API.OperationMethod<
-  UnsubscribeFromEventRequest,
+  UnsubscribeFromEventRequest & RegionInput,
   UnsubscribeFromEventResponse,
   UnsubscribeFromEventError,
   Credentials | HttpClient.HttpClient
@@ -2032,7 +2033,7 @@ export type UpdateAssessmentTargetError =
  * and region are included in the assessment target.
  */
 export const updateAssessmentTarget: API.OperationMethod<
-  UpdateAssessmentTargetRequest,
+  UpdateAssessmentTargetRequest & RegionInput,
   UpdateAssessmentTargetResponse,
   UpdateAssessmentTargetError,
   Credentials | HttpClient.HttpClient

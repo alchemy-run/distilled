@@ -1,6 +1,7 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * ResendProtocol -- hand-written.
  *
@@ -43,7 +44,8 @@ export type ResendOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | ResendParseError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Resend operation. */
 export type ResendOpContext = Credentials | HttpClient.HttpClient;
@@ -69,11 +71,6 @@ export const ResendProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestP
     if (code === undefined && message === undefined) return undefined;
     return { code, message };
   },
-  unknownError: ({ code, message, body }) =>
-    new UnknownResendError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownResendError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new ResendParseError({ body, cause }),
 });

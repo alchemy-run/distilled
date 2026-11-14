@@ -13,16 +13,21 @@ allowBuilds:
   msgpackr-extract: true
   # alchemy pulls in miniflare for the Cloudflare state store.
   workerd: true
+  # benches/bundlers: the binary comes from @esbuild/<platform>; its postinstall
+  # only checks it.
+  esbuild: false
 
 catalog:
-  "@effect/platform-node": "^4.0.5"
+  "@effect/platform-node": "^4.1.2"
   "@oxc-project/types": "^0.153.0"
   "@types/node": "26.6.5"
-  "@alchemy.run/cloudflare": "2.0.0-beta.84"
-  "@alchemy.run/github": "2.0.0-beta.84"
-  alchemy: "2.0.0-beta.84"
+  "@alchemy.run/cloudflare": "2.0.0-beta.85"
+  "@alchemy.run/github": "2.0.0-beta.85"
+  alchemy: "2.0.0-beta.85"
   changelogithub: "^13.16.1"
-  effect: "^4.0.5"
+  effect: "^4.1.2"
+  # Only benches/bundlers: the bundlers it checks the published SDKs against.
+  esbuild: "^0.28.2"
   graphql: "^16.11.0"
   husky: "^9.1.7"
   mitata: "^1.0.34"
@@ -32,8 +37,30 @@ catalog:
   tsrs: "0.18.0-ts7.1.0-dev.20260929"
   # Only benches/sdks: it measures the consumer typecheck with the compiler SDK users run.
   typescript: "^7.0.2"
+  vite: "8.3.4"
   vitest: "^5.0.4"
+  webpack: "^5.112.2"
   yaml: "^2.9.1"
+
+# alchemy 2.0.0-beta.85 and the distilled 1.0.0-rc.18 packages it depends on
+# are younger than the minimum release age (1 day) when the stacks moved to it.
+minimumReleaseAgeExclude:
+  - "@alchemy.run/acme@2.0.0-beta.85"
+  - "@alchemy.run/cloudflare-runtime@2.0.0-beta.85"
+  - "@alchemy.run/cloudflare@2.0.0-beta.85"
+  - "@alchemy.run/docker@2.0.0-beta.85"
+  - "@alchemy.run/github@2.0.0-beta.85"
+  - "@alchemy.run/node-utils@2.0.0-beta.85"
+  - "@alchemy.run/pkg@2.0.0-beta.85"
+  - "@alchemy.run/sql@2.0.0-beta.85"
+  - "@distilled.cloud/acme@1.0.0-rc.18"
+  - "@distilled.cloud/aws4signer@1.0.0-rc.18"
+  - "@distilled.cloud/aws@1.0.0-rc.18"
+  - "@distilled.cloud/cloudflare@1.0.0-rc.18"
+  - "@distilled.cloud/core@1.0.0-rc.18"
+  - "@distilled.cloud/github@1.0.0-rc.18"
+  - "@distilled.cloud/iceberg@1.0.0-rc.18"
+  - alchemy@2.0.0-beta.85
 
 # Benchmark-only (benches/sdks official SDK suite): AWS SDK v3 internals pinned
 # to releases older than the minimum release age.

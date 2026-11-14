@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -144,7 +145,7 @@ export class InvalidPasswordException
 export class LimitExceededException
   extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()("LimitExceededException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
-  }) {}
+  }).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class MailDomainInUseException
   extends /*@__PURE__*/ S.TaggedError<MailDomainInUseException>()("MailDomainInUseException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
@@ -214,8 +215,8 @@ export interface AssumeImpersonationRoleRequest {
 export type ImpersonationToken = string;
 export type ExpiresIn = number;
 export interface AssumeImpersonationRoleResponse {
-  Token?: string;
-  ExpiresIn?: number;
+  Token?: string | undefined;
+  ExpiresIn?: number | undefined;
 }
 export type IdempotencyClientToken = string;
 export type MailboxExportJobId = string;
@@ -247,32 +248,32 @@ export interface LambdaAvailabilityProvider {
   LambdaArn: string;
 }
 export interface CreateAvailabilityConfigurationRequest {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   OrganizationId: string;
   DomainName: string;
-  EwsProvider?: EwsAvailabilityProvider;
-  LambdaProvider?: LambdaAvailabilityProvider;
+  EwsProvider?: EwsAvailabilityProvider | undefined;
+  LambdaProvider?: LambdaAvailabilityProvider | undefined;
 }
 export interface CreateAvailabilityConfigurationResponse {}
 export type GroupName = string;
 export interface CreateGroupRequest {
   OrganizationId: string;
   Name: string;
-  HiddenFromGlobalAddressList?: boolean;
+  HiddenFromGlobalAddressList?: boolean | undefined;
 }
 export interface CreateGroupResponse {
-  GroupId?: string;
+  GroupId?: string | undefined;
 }
 export type IdentityCenterApplicationName = string;
 export type InstanceArn = string;
 export interface CreateIdentityCenterApplicationRequest {
   Name: string;
   InstanceArn: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export type ApplicationArn = string;
 export interface CreateIdentityCenterApplicationResponse {
-  ApplicationArn?: string;
+  ApplicationArn?: string | undefined;
 }
 export type ImpersonationRoleName = string;
 export type ImpersonationRoleType = "FULL_ACCESS" | "READ_ONLY" | (string & {});
@@ -284,23 +285,23 @@ export type AccessEffect = "ALLOW" | "DENY" | (string & {});
 export type TargetUsers = string[];
 export interface ImpersonationRule {
   ImpersonationRuleId: string;
-  Name?: string;
-  Description?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
   Effect: AccessEffect;
-  TargetUsers?: string[];
-  NotTargetUsers?: string[];
+  TargetUsers?: string[] | undefined;
+  NotTargetUsers?: string[] | undefined;
 }
 export type ImpersonationRuleList = ImpersonationRule[];
 export interface CreateImpersonationRoleRequest {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   OrganizationId: string;
   Name: string;
   Type: ImpersonationRoleType;
-  Description?: string;
+  Description?: string | undefined;
   Rules: ImpersonationRule[];
 }
 export interface CreateImpersonationRoleResponse {
-  ImpersonationRoleId?: string;
+  ImpersonationRoleId?: string | undefined;
 }
 export type MobileDeviceAccessRuleName = string;
 export type MobileDeviceAccessRuleDescription = string;
@@ -315,42 +316,42 @@ export type DeviceUserAgent = string;
 export type DeviceUserAgentList = string[];
 export interface CreateMobileDeviceAccessRuleRequest {
   OrganizationId: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   Effect: MobileDeviceAccessRuleEffect;
-  DeviceTypes?: string[];
-  NotDeviceTypes?: string[];
-  DeviceModels?: string[];
-  NotDeviceModels?: string[];
-  DeviceOperatingSystems?: string[];
-  NotDeviceOperatingSystems?: string[];
-  DeviceUserAgents?: string[];
-  NotDeviceUserAgents?: string[];
+  DeviceTypes?: string[] | undefined;
+  NotDeviceTypes?: string[] | undefined;
+  DeviceModels?: string[] | undefined;
+  NotDeviceModels?: string[] | undefined;
+  DeviceOperatingSystems?: string[] | undefined;
+  NotDeviceOperatingSystems?: string[] | undefined;
+  DeviceUserAgents?: string[] | undefined;
+  NotDeviceUserAgents?: string[] | undefined;
 }
 export type MobileDeviceAccessRuleId = string;
 export interface CreateMobileDeviceAccessRuleResponse {
-  MobileDeviceAccessRuleId?: string;
+  MobileDeviceAccessRuleId?: string | undefined;
 }
 export type DirectoryId = string;
 export type OrganizationName = string;
 export type HostedZoneId = string;
 export interface Domain {
   DomainName: string;
-  HostedZoneId?: string;
+  HostedZoneId?: string | undefined;
 }
 export type Domains = Domain[];
 export type KmsKeyArn = string;
 export interface CreateOrganizationRequest {
-  DirectoryId?: string;
+  DirectoryId?: string | undefined;
   Alias: string;
-  ClientToken?: string;
-  Domains?: Domain[];
-  KmsKeyArn?: string;
-  EnableInteroperability?: boolean;
+  ClientToken?: string | undefined;
+  Domains?: Domain[] | undefined;
+  KmsKeyArn?: string | undefined;
+  EnableInteroperability?: boolean | undefined;
 }
 export interface CreateOrganizationResponse {
-  OrganizationId?: string;
+  OrganizationId?: string | undefined;
 }
 export type ResourceName = string;
 export type ResourceType = "ROOM" | "EQUIPMENT" | (string & {});
@@ -359,12 +360,12 @@ export interface CreateResourceRequest {
   OrganizationId: string;
   Name: string;
   Type: ResourceType;
-  Description?: string | redacted.Redacted<string>;
-  HiddenFromGlobalAddressList?: boolean;
+  Description?: string | redacted.Redacted<string> | undefined;
+  HiddenFromGlobalAddressList?: boolean | undefined;
 }
 export type ResourceId = string;
 export interface CreateResourceResponse {
-  ResourceId?: string;
+  ResourceId?: string | undefined;
 }
 export type UserName = string;
 export type UserAttribute = string | redacted.Redacted<string>;
@@ -374,15 +375,15 @@ export interface CreateUserRequest {
   OrganizationId: string;
   Name: string;
   DisplayName: string | redacted.Redacted<string>;
-  Password?: string | redacted.Redacted<string>;
-  Role?: UserRole;
-  FirstName?: string | redacted.Redacted<string>;
-  LastName?: string | redacted.Redacted<string>;
-  HiddenFromGlobalAddressList?: boolean;
-  IdentityProviderUserId?: string;
+  Password?: string | redacted.Redacted<string> | undefined;
+  Role?: UserRole | undefined;
+  FirstName?: string | redacted.Redacted<string> | undefined;
+  LastName?: string | redacted.Redacted<string> | undefined;
+  HiddenFromGlobalAddressList?: boolean | undefined;
+  IdentityProviderUserId?: string | undefined;
 }
 export interface CreateUserResponse {
-  UserId?: string;
+  UserId?: string | undefined;
 }
 export type AccessControlRuleName = string;
 export interface DeleteAccessControlRuleRequest {
@@ -442,15 +443,15 @@ export interface DeleteMobileDeviceAccessRuleRequest {
 }
 export interface DeleteMobileDeviceAccessRuleResponse {}
 export interface DeleteOrganizationRequest {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   OrganizationId: string;
   DeleteDirectory: boolean;
-  ForceDelete?: boolean;
-  DeleteIdentityCenterApplication?: boolean;
+  ForceDelete?: boolean | undefined;
+  DeleteIdentityCenterApplication?: boolean | undefined;
 }
 export interface DeleteOrganizationResponse {
-  OrganizationId?: string;
-  State?: string;
+  OrganizationId?: string | undefined;
+  State?: string | undefined;
 }
 export type PersonalAccessTokenId = string;
 export interface DeletePersonalAccessTokenRequest {
@@ -491,8 +492,8 @@ export interface DescribeEmailMonitoringConfigurationRequest {
 export type RoleArn = string;
 export type LogGroupArn = string;
 export interface DescribeEmailMonitoringConfigurationResponse {
-  RoleArn?: string;
-  LogGroupArn?: string;
+  RoleArn?: string | undefined;
+  LogGroupArn?: string | undefined;
 }
 export interface DescribeEntityRequest {
   OrganizationId: string;
@@ -500,9 +501,9 @@ export interface DescribeEntityRequest {
 }
 export type EntityType = "GROUP" | "USER" | "RESOURCE" | (string & {});
 export interface DescribeEntityResponse {
-  EntityId?: string;
-  Name?: string;
-  Type?: EntityType;
+  EntityId?: string | undefined;
+  Name?: string | undefined;
+  Type?: EntityType | undefined;
 }
 export interface DescribeGroupRequest {
   OrganizationId: string;
@@ -510,13 +511,13 @@ export interface DescribeGroupRequest {
 }
 export type EntityState = "ENABLED" | "DISABLED" | "DELETED" | (string & {});
 export interface DescribeGroupResponse {
-  GroupId?: string;
-  Name?: string;
-  Email?: string;
-  State?: EntityState;
-  EnabledDate?: Date;
-  DisabledDate?: Date;
-  HiddenFromGlobalAddressList?: boolean;
+  GroupId?: string | undefined;
+  Name?: string | undefined;
+  Email?: string | undefined;
+  State?: EntityState | undefined;
+  EnabledDate?: Date | undefined;
+  DisabledDate?: Date | undefined;
+  HiddenFromGlobalAddressList?: boolean | undefined;
 }
 export interface DescribeIdentityProviderConfigurationRequest {
   OrganizationId: string;
@@ -533,18 +534,18 @@ export type PersonalAccessTokenConfigurationStatus = "ACTIVE" | "INACTIVE" | (st
 export type PersonalAccessTokenLifetimeInDays = number;
 export interface PersonalAccessTokenConfiguration {
   Status: PersonalAccessTokenConfigurationStatus;
-  LifetimeInDays?: number;
+  LifetimeInDays?: number | undefined;
 }
 export interface DescribeIdentityProviderConfigurationResponse {
-  AuthenticationMode?: IdentityProviderAuthenticationMode;
-  IdentityCenterConfiguration?: IdentityCenterConfiguration;
-  PersonalAccessTokenConfiguration?: PersonalAccessTokenConfiguration;
+  AuthenticationMode?: IdentityProviderAuthenticationMode | undefined;
+  IdentityCenterConfiguration?: IdentityCenterConfiguration | undefined;
+  PersonalAccessTokenConfiguration?: PersonalAccessTokenConfiguration | undefined;
 }
 export interface DescribeInboundDmarcSettingsRequest {
   OrganizationId: string;
 }
 export interface DescribeInboundDmarcSettingsResponse {
-  Enforced?: boolean;
+  Enforced?: boolean | undefined;
 }
 export interface DescribeMailboxExportJobRequest {
   JobId: string;
@@ -562,56 +563,56 @@ export type MailboxExportJobState =
   | (string & {});
 export type MailboxExportErrorInfo = string;
 export interface DescribeMailboxExportJobResponse {
-  EntityId?: string;
-  Description?: string;
-  RoleArn?: string;
-  KmsKeyArn?: string;
-  S3BucketName?: string;
-  S3Prefix?: string;
-  S3Path?: string;
-  EstimatedProgress?: number;
-  State?: MailboxExportJobState;
-  ErrorInfo?: string;
-  StartTime?: Date;
-  EndTime?: Date;
+  EntityId?: string | undefined;
+  Description?: string | undefined;
+  RoleArn?: string | undefined;
+  KmsKeyArn?: string | undefined;
+  S3BucketName?: string | undefined;
+  S3Prefix?: string | undefined;
+  S3Path?: string | undefined;
+  EstimatedProgress?: number | undefined;
+  State?: MailboxExportJobState | undefined;
+  ErrorInfo?: string | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
 }
 export interface DescribeOrganizationRequest {
   OrganizationId: string;
 }
 export type AmazonResourceName = string;
 export interface DescribeOrganizationResponse {
-  OrganizationId?: string;
-  Alias?: string;
-  State?: string;
-  DirectoryId?: string;
-  DirectoryType?: string;
-  DefaultMailDomain?: string;
-  CompletedDate?: Date;
-  ErrorMessage?: string;
-  ARN?: string;
-  MigrationAdmin?: string;
-  InteroperabilityEnabled?: boolean;
+  OrganizationId?: string | undefined;
+  Alias?: string | undefined;
+  State?: string | undefined;
+  DirectoryId?: string | undefined;
+  DirectoryType?: string | undefined;
+  DefaultMailDomain?: string | undefined;
+  CompletedDate?: Date | undefined;
+  ErrorMessage?: string | undefined;
+  ARN?: string | undefined;
+  MigrationAdmin?: string | undefined;
+  InteroperabilityEnabled?: boolean | undefined;
 }
 export interface DescribeResourceRequest {
   OrganizationId: string;
   ResourceId: string;
 }
 export interface BookingOptions {
-  AutoAcceptRequests?: boolean;
-  AutoDeclineRecurringRequests?: boolean;
-  AutoDeclineConflictingRequests?: boolean;
+  AutoAcceptRequests?: boolean | undefined;
+  AutoDeclineRecurringRequests?: boolean | undefined;
+  AutoDeclineConflictingRequests?: boolean | undefined;
 }
 export interface DescribeResourceResponse {
-  ResourceId?: string;
-  Email?: string;
-  Name?: string;
-  Type?: ResourceType;
-  BookingOptions?: BookingOptions;
-  State?: EntityState;
-  EnabledDate?: Date;
-  DisabledDate?: Date;
-  Description?: string | redacted.Redacted<string>;
-  HiddenFromGlobalAddressList?: boolean;
+  ResourceId?: string | undefined;
+  Email?: string | undefined;
+  Name?: string | undefined;
+  Type?: ResourceType | undefined;
+  BookingOptions?: BookingOptions | undefined;
+  State?: EntityState | undefined;
+  EnabledDate?: Date | undefined;
+  DisabledDate?: Date | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  HiddenFromGlobalAddressList?: boolean | undefined;
 }
 export interface DescribeUserRequest {
   OrganizationId: string;
@@ -619,31 +620,31 @@ export interface DescribeUserRequest {
 }
 export type IdentityProviderIdentityStoreId = string;
 export interface DescribeUserResponse {
-  UserId?: string;
-  Name?: string;
-  Email?: string;
-  DisplayName?: string | redacted.Redacted<string>;
-  State?: EntityState;
-  UserRole?: UserRole;
-  EnabledDate?: Date;
-  DisabledDate?: Date;
-  MailboxProvisionedDate?: Date;
-  MailboxDeprovisionedDate?: Date;
-  FirstName?: string | redacted.Redacted<string>;
-  LastName?: string | redacted.Redacted<string>;
-  HiddenFromGlobalAddressList?: boolean;
-  Initials?: string | redacted.Redacted<string>;
-  Telephone?: string | redacted.Redacted<string>;
-  Street?: string | redacted.Redacted<string>;
-  JobTitle?: string | redacted.Redacted<string>;
-  City?: string | redacted.Redacted<string>;
-  Company?: string | redacted.Redacted<string>;
-  ZipCode?: string | redacted.Redacted<string>;
-  Department?: string | redacted.Redacted<string>;
-  Country?: string | redacted.Redacted<string>;
-  Office?: string | redacted.Redacted<string>;
-  IdentityProviderUserId?: string;
-  IdentityProviderIdentityStoreId?: string;
+  UserId?: string | undefined;
+  Name?: string | undefined;
+  Email?: string | undefined;
+  DisplayName?: string | redacted.Redacted<string> | undefined;
+  State?: EntityState | undefined;
+  UserRole?: UserRole | undefined;
+  EnabledDate?: Date | undefined;
+  DisabledDate?: Date | undefined;
+  MailboxProvisionedDate?: Date | undefined;
+  MailboxDeprovisionedDate?: Date | undefined;
+  FirstName?: string | redacted.Redacted<string> | undefined;
+  LastName?: string | redacted.Redacted<string> | undefined;
+  HiddenFromGlobalAddressList?: boolean | undefined;
+  Initials?: string | redacted.Redacted<string> | undefined;
+  Telephone?: string | redacted.Redacted<string> | undefined;
+  Street?: string | redacted.Redacted<string> | undefined;
+  JobTitle?: string | redacted.Redacted<string> | undefined;
+  City?: string | redacted.Redacted<string> | undefined;
+  Company?: string | redacted.Redacted<string> | undefined;
+  ZipCode?: string | redacted.Redacted<string> | undefined;
+  Department?: string | redacted.Redacted<string> | undefined;
+  Country?: string | redacted.Redacted<string> | undefined;
+  Office?: string | redacted.Redacted<string> | undefined;
+  IdentityProviderUserId?: string | undefined;
+  IdentityProviderIdentityStoreId?: string | undefined;
 }
 export interface DisassociateDelegateFromResourceRequest {
   OrganizationId: string;
@@ -663,14 +664,14 @@ export interface GetAccessControlEffectRequest {
   OrganizationId: string;
   IpAddress: string;
   Action: string;
-  UserId?: string;
-  ImpersonationRoleId?: string;
+  UserId?: string | undefined;
+  ImpersonationRoleId?: string | undefined;
 }
 export type AccessControlRuleEffect = "ALLOW" | "DENY" | (string & {});
 export type AccessControlRuleNameList = string[];
 export interface GetAccessControlEffectResponse {
-  Effect?: AccessControlRuleEffect;
-  MatchedRules?: string[];
+  Effect?: AccessControlRuleEffect | undefined;
+  MatchedRules?: string[] | undefined;
 }
 export interface GetDefaultRetentionPolicyRequest {
   OrganizationId: string;
@@ -687,27 +688,27 @@ export type RetentionPeriod = number;
 export interface FolderConfiguration {
   Name: FolderName;
   Action: RetentionAction;
-  Period?: number;
+  Period?: number | undefined;
 }
 export type FolderConfigurations = FolderConfiguration[];
 export interface GetDefaultRetentionPolicyResponse {
-  Id?: string;
-  Name?: string;
-  Description?: string;
-  FolderConfigurations?: FolderConfiguration[];
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  FolderConfigurations?: FolderConfiguration[] | undefined;
 }
 export interface GetImpersonationRoleRequest {
   OrganizationId: string;
   ImpersonationRoleId: string;
 }
 export interface GetImpersonationRoleResponse {
-  ImpersonationRoleId?: string;
-  Name?: string;
-  Type?: ImpersonationRoleType;
-  Description?: string;
-  Rules?: ImpersonationRule[];
-  DateCreated?: Date;
-  DateModified?: Date;
+  ImpersonationRoleId?: string | undefined;
+  Name?: string | undefined;
+  Type?: ImpersonationRoleType | undefined;
+  Description?: string | undefined;
+  Rules?: ImpersonationRule[] | undefined;
+  DateCreated?: Date | undefined;
+  DateModified?: Date | undefined;
 }
 export interface GetImpersonationRoleEffectRequest {
   OrganizationId: string;
@@ -715,14 +716,14 @@ export interface GetImpersonationRoleEffectRequest {
   TargetUser: string;
 }
 export interface ImpersonationMatchedRule {
-  ImpersonationRuleId?: string;
-  Name?: string;
+  ImpersonationRuleId?: string | undefined;
+  Name?: string | undefined;
 }
 export type ImpersonationMatchedRuleList = ImpersonationMatchedRule[];
 export interface GetImpersonationRoleEffectResponse {
-  Type?: ImpersonationRoleType;
-  Effect?: AccessEffect;
-  MatchedRules?: ImpersonationMatchedRule[];
+  Type?: ImpersonationRoleType | undefined;
+  Effect?: AccessEffect | undefined;
+  MatchedRules?: ImpersonationMatchedRule[] | undefined;
 }
 export interface GetMailboxDetailsRequest {
   OrganizationId: string;
@@ -731,42 +732,42 @@ export interface GetMailboxDetailsRequest {
 export type MailboxQuota = number;
 export type MailboxSize = number;
 export interface GetMailboxDetailsResponse {
-  MailboxQuota?: number;
-  MailboxSize?: number;
+  MailboxQuota?: number | undefined;
+  MailboxSize?: number | undefined;
 }
 export interface GetMailDomainRequest {
   OrganizationId: string;
   DomainName: string;
 }
 export interface DnsRecord {
-  Type?: string;
-  Hostname?: string;
-  Value?: string;
+  Type?: string | undefined;
+  Hostname?: string | undefined;
+  Value?: string | undefined;
 }
 export type DnsRecords = DnsRecord[];
 export type DnsRecordVerificationStatus = "PENDING" | "VERIFIED" | "FAILED" | (string & {});
 export interface GetMailDomainResponse {
-  Records?: DnsRecord[];
-  IsTestDomain?: boolean;
-  IsDefault?: boolean;
-  OwnershipVerificationStatus?: DnsRecordVerificationStatus;
-  DkimVerificationStatus?: DnsRecordVerificationStatus;
+  Records?: DnsRecord[] | undefined;
+  IsTestDomain?: boolean | undefined;
+  IsDefault?: boolean | undefined;
+  OwnershipVerificationStatus?: DnsRecordVerificationStatus | undefined;
+  DkimVerificationStatus?: DnsRecordVerificationStatus | undefined;
 }
 export interface GetMobileDeviceAccessEffectRequest {
   OrganizationId: string;
-  DeviceType?: string;
-  DeviceModel?: string;
-  DeviceOperatingSystem?: string;
-  DeviceUserAgent?: string;
+  DeviceType?: string | undefined;
+  DeviceModel?: string | undefined;
+  DeviceOperatingSystem?: string | undefined;
+  DeviceUserAgent?: string | undefined;
 }
 export interface MobileDeviceAccessMatchedRule {
-  MobileDeviceAccessRuleId?: string;
-  Name?: string;
+  MobileDeviceAccessRuleId?: string | undefined;
+  Name?: string | undefined;
 }
 export type MobileDeviceAccessMatchedRuleList = MobileDeviceAccessMatchedRule[];
 export interface GetMobileDeviceAccessEffectResponse {
-  Effect?: MobileDeviceAccessRuleEffect;
-  MatchedRules?: MobileDeviceAccessMatchedRule[];
+  Effect?: MobileDeviceAccessRuleEffect | undefined;
+  MatchedRules?: MobileDeviceAccessMatchedRule[] | undefined;
 }
 export interface GetMobileDeviceAccessOverrideRequest {
   OrganizationId: string;
@@ -774,12 +775,12 @@ export interface GetMobileDeviceAccessOverrideRequest {
   DeviceId: string;
 }
 export interface GetMobileDeviceAccessOverrideResponse {
-  UserId?: string;
-  DeviceId?: string;
-  Effect?: MobileDeviceAccessRuleEffect;
-  Description?: string;
-  DateCreated?: Date;
-  DateModified?: Date;
+  UserId?: string | undefined;
+  DeviceId?: string | undefined;
+  Effect?: MobileDeviceAccessRuleEffect | undefined;
+  Description?: string | undefined;
+  DateCreated?: Date | undefined;
+  DateModified?: Date | undefined;
 }
 export interface GetPersonalAccessTokenMetadataRequest {
   OrganizationId: string;
@@ -789,13 +790,13 @@ export type PersonalAccessTokenName = string;
 export type PersonalAccessTokenScope = string;
 export type PersonalAccessTokenScopeList = string[];
 export interface GetPersonalAccessTokenMetadataResponse {
-  PersonalAccessTokenId?: string;
-  UserId?: string;
-  Name?: string;
-  DateCreated?: Date;
-  DateLastUsed?: Date;
-  ExpiresTime?: Date;
-  Scopes?: string[];
+  PersonalAccessTokenId?: string | undefined;
+  UserId?: string | undefined;
+  Name?: string | undefined;
+  DateCreated?: Date | undefined;
+  DateLastUsed?: Date | undefined;
+  ExpiresTime?: Date | undefined;
+  Scopes?: string[] | undefined;
 }
 export interface ListAccessControlRulesRequest {
   OrganizationId: string;
@@ -807,166 +808,166 @@ export type ActionsList = string[];
 export type UserIdList = string[];
 export type ImpersonationRoleIdList = string[];
 export interface AccessControlRule {
-  Name?: string;
-  Effect?: AccessControlRuleEffect;
-  Description?: string;
-  IpRanges?: string[];
-  NotIpRanges?: string[];
-  Actions?: string[];
-  NotActions?: string[];
-  UserIds?: string[];
-  NotUserIds?: string[];
-  DateCreated?: Date;
-  DateModified?: Date;
-  ImpersonationRoleIds?: string[];
-  NotImpersonationRoleIds?: string[];
+  Name?: string | undefined;
+  Effect?: AccessControlRuleEffect | undefined;
+  Description?: string | undefined;
+  IpRanges?: string[] | undefined;
+  NotIpRanges?: string[] | undefined;
+  Actions?: string[] | undefined;
+  NotActions?: string[] | undefined;
+  UserIds?: string[] | undefined;
+  NotUserIds?: string[] | undefined;
+  DateCreated?: Date | undefined;
+  DateModified?: Date | undefined;
+  ImpersonationRoleIds?: string[] | undefined;
+  NotImpersonationRoleIds?: string[] | undefined;
 }
 export type AccessControlRulesList = AccessControlRule[];
 export interface ListAccessControlRulesResponse {
-  Rules?: AccessControlRule[];
+  Rules?: AccessControlRule[] | undefined;
 }
 export type NextToken = string;
 export type MaxResults = number;
 export interface ListAliasesRequest {
   OrganizationId: string;
   EntityId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type Aliases = string[];
 export interface ListAliasesResponse {
-  Aliases?: string[];
-  NextToken?: string;
+  Aliases?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListAvailabilityConfigurationsRequest {
   OrganizationId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type AvailabilityProviderType = "EWS" | "LAMBDA" | (string & {});
 export interface RedactedEwsAvailabilityProvider {
-  EwsEndpoint?: string;
-  EwsUsername?: string;
+  EwsEndpoint?: string | undefined;
+  EwsUsername?: string | undefined;
 }
 export interface AvailabilityConfiguration {
-  DomainName?: string;
-  ProviderType?: AvailabilityProviderType;
-  EwsProvider?: RedactedEwsAvailabilityProvider;
-  LambdaProvider?: LambdaAvailabilityProvider;
-  DateCreated?: Date;
-  DateModified?: Date;
+  DomainName?: string | undefined;
+  ProviderType?: AvailabilityProviderType | undefined;
+  EwsProvider?: RedactedEwsAvailabilityProvider | undefined;
+  LambdaProvider?: LambdaAvailabilityProvider | undefined;
+  DateCreated?: Date | undefined;
+  DateModified?: Date | undefined;
 }
 export type AvailabilityConfigurationList = AvailabilityConfiguration[];
 export interface ListAvailabilityConfigurationsResponse {
-  AvailabilityConfigurations?: AvailabilityConfiguration[];
-  NextToken?: string;
+  AvailabilityConfigurations?: AvailabilityConfiguration[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListGroupMembersRequest {
   OrganizationId: string;
   GroupId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type MemberType = "GROUP" | "USER" | (string & {});
 export interface Member {
-  Id?: string;
-  Name?: string;
-  Type?: MemberType;
-  State?: EntityState;
-  EnabledDate?: Date;
-  DisabledDate?: Date;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Type?: MemberType | undefined;
+  State?: EntityState | undefined;
+  EnabledDate?: Date | undefined;
+  DisabledDate?: Date | undefined;
 }
 export type Members = Member[];
 export interface ListGroupMembersResponse {
-  Members?: Member[];
-  NextToken?: string;
+  Members?: Member[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListGroupsFilters {
-  NamePrefix?: string;
-  PrimaryEmailPrefix?: string;
-  State?: EntityState;
+  NamePrefix?: string | undefined;
+  PrimaryEmailPrefix?: string | undefined;
+  State?: EntityState | undefined;
 }
 export interface ListGroupsRequest {
   OrganizationId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  Filters?: ListGroupsFilters;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Filters?: ListGroupsFilters | undefined;
 }
 export interface Group {
-  Id?: string;
-  Email?: string;
-  Name?: string;
-  State?: EntityState;
-  EnabledDate?: Date;
-  DisabledDate?: Date;
+  Id?: string | undefined;
+  Email?: string | undefined;
+  Name?: string | undefined;
+  State?: EntityState | undefined;
+  EnabledDate?: Date | undefined;
+  DisabledDate?: Date | undefined;
 }
 export type Groups = Group[];
 export interface ListGroupsResponse {
-  Groups?: Group[];
-  NextToken?: string;
+  Groups?: Group[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListGroupsForEntityFilters {
-  GroupNamePrefix?: string;
+  GroupNamePrefix?: string | undefined;
 }
 export interface ListGroupsForEntityRequest {
   OrganizationId: string;
   EntityId: string;
-  Filters?: ListGroupsForEntityFilters;
-  NextToken?: string;
-  MaxResults?: number;
+  Filters?: ListGroupsForEntityFilters | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface GroupIdentifier {
-  GroupId?: string;
-  GroupName?: string;
+  GroupId?: string | undefined;
+  GroupName?: string | undefined;
 }
 export type GroupIdentifiers = GroupIdentifier[];
 export interface ListGroupsForEntityResponse {
-  Groups?: GroupIdentifier[];
-  NextToken?: string;
+  Groups?: GroupIdentifier[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListImpersonationRolesRequest {
   OrganizationId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ImpersonationRole {
-  ImpersonationRoleId?: string;
-  Name?: string;
-  Type?: ImpersonationRoleType;
-  DateCreated?: Date;
-  DateModified?: Date;
+  ImpersonationRoleId?: string | undefined;
+  Name?: string | undefined;
+  Type?: ImpersonationRoleType | undefined;
+  DateCreated?: Date | undefined;
+  DateModified?: Date | undefined;
 }
 export type ImpersonationRoleList = ImpersonationRole[];
 export interface ListImpersonationRolesResponse {
-  Roles?: ImpersonationRole[];
-  NextToken?: string;
+  Roles?: ImpersonationRole[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListMailboxExportJobsRequest {
   OrganizationId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface MailboxExportJob {
-  JobId?: string;
-  EntityId?: string;
-  Description?: string;
-  S3BucketName?: string;
-  S3Path?: string;
-  EstimatedProgress?: number;
-  State?: MailboxExportJobState;
-  StartTime?: Date;
-  EndTime?: Date;
+  JobId?: string | undefined;
+  EntityId?: string | undefined;
+  Description?: string | undefined;
+  S3BucketName?: string | undefined;
+  S3Path?: string | undefined;
+  EstimatedProgress?: number | undefined;
+  State?: MailboxExportJobState | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
 }
 export type Jobs = MailboxExportJob[];
 export interface ListMailboxExportJobsResponse {
-  Jobs?: MailboxExportJob[];
-  NextToken?: string;
+  Jobs?: MailboxExportJob[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListMailboxPermissionsRequest {
   OrganizationId: string;
   EntityId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type PermissionType = "FULL_ACCESS" | "SEND_AS" | "SEND_ON_BEHALF" | (string & {});
 export type PermissionValues = PermissionType[];
@@ -977,107 +978,107 @@ export interface Permission {
 }
 export type Permissions = Permission[];
 export interface ListMailboxPermissionsResponse {
-  Permissions?: Permission[];
-  NextToken?: string;
+  Permissions?: Permission[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListMailDomainsRequest {
   OrganizationId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface MailDomainSummary {
-  DomainName?: string;
-  DefaultDomain?: boolean;
+  DomainName?: string | undefined;
+  DefaultDomain?: boolean | undefined;
 }
 export type MailDomains = MailDomainSummary[];
 export interface ListMailDomainsResponse {
-  MailDomains?: MailDomainSummary[];
-  NextToken?: string;
+  MailDomains?: MailDomainSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListMobileDeviceAccessOverridesRequest {
   OrganizationId: string;
-  UserId?: string;
-  DeviceId?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  UserId?: string | undefined;
+  DeviceId?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface MobileDeviceAccessOverride {
-  UserId?: string;
-  DeviceId?: string;
-  Effect?: MobileDeviceAccessRuleEffect;
-  Description?: string;
-  DateCreated?: Date;
-  DateModified?: Date;
+  UserId?: string | undefined;
+  DeviceId?: string | undefined;
+  Effect?: MobileDeviceAccessRuleEffect | undefined;
+  Description?: string | undefined;
+  DateCreated?: Date | undefined;
+  DateModified?: Date | undefined;
 }
 export type MobileDeviceAccessOverridesList = MobileDeviceAccessOverride[];
 export interface ListMobileDeviceAccessOverridesResponse {
-  Overrides?: MobileDeviceAccessOverride[];
-  NextToken?: string;
+  Overrides?: MobileDeviceAccessOverride[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListMobileDeviceAccessRulesRequest {
   OrganizationId: string;
 }
 export interface MobileDeviceAccessRule {
-  MobileDeviceAccessRuleId?: string;
-  Name?: string;
-  Description?: string;
-  Effect?: MobileDeviceAccessRuleEffect;
-  DeviceTypes?: string[];
-  NotDeviceTypes?: string[];
-  DeviceModels?: string[];
-  NotDeviceModels?: string[];
-  DeviceOperatingSystems?: string[];
-  NotDeviceOperatingSystems?: string[];
-  DeviceUserAgents?: string[];
-  NotDeviceUserAgents?: string[];
-  DateCreated?: Date;
-  DateModified?: Date;
+  MobileDeviceAccessRuleId?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Effect?: MobileDeviceAccessRuleEffect | undefined;
+  DeviceTypes?: string[] | undefined;
+  NotDeviceTypes?: string[] | undefined;
+  DeviceModels?: string[] | undefined;
+  NotDeviceModels?: string[] | undefined;
+  DeviceOperatingSystems?: string[] | undefined;
+  NotDeviceOperatingSystems?: string[] | undefined;
+  DeviceUserAgents?: string[] | undefined;
+  NotDeviceUserAgents?: string[] | undefined;
+  DateCreated?: Date | undefined;
+  DateModified?: Date | undefined;
 }
 export type MobileDeviceAccessRulesList = MobileDeviceAccessRule[];
 export interface ListMobileDeviceAccessRulesResponse {
-  Rules?: MobileDeviceAccessRule[];
+  Rules?: MobileDeviceAccessRule[] | undefined;
 }
 export interface ListOrganizationsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface OrganizationSummary {
-  OrganizationId?: string;
-  Alias?: string;
-  DefaultMailDomain?: string;
-  ErrorMessage?: string;
-  State?: string;
+  OrganizationId?: string | undefined;
+  Alias?: string | undefined;
+  DefaultMailDomain?: string | undefined;
+  ErrorMessage?: string | undefined;
+  State?: string | undefined;
 }
 export type OrganizationSummaries = OrganizationSummary[];
 export interface ListOrganizationsResponse {
-  OrganizationSummaries?: OrganizationSummary[];
-  NextToken?: string;
+  OrganizationSummaries?: OrganizationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPersonalAccessTokensRequest {
   OrganizationId: string;
-  UserId?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  UserId?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface PersonalAccessTokenSummary {
-  PersonalAccessTokenId?: string;
-  UserId?: string;
-  Name?: string;
-  DateCreated?: Date;
-  DateLastUsed?: Date;
-  ExpiresTime?: Date;
-  Scopes?: string[];
+  PersonalAccessTokenId?: string | undefined;
+  UserId?: string | undefined;
+  Name?: string | undefined;
+  DateCreated?: Date | undefined;
+  DateLastUsed?: Date | undefined;
+  ExpiresTime?: Date | undefined;
+  Scopes?: string[] | undefined;
 }
 export type PersonalAccessTokenSummaryList = PersonalAccessTokenSummary[];
 export interface ListPersonalAccessTokensResponse {
-  NextToken?: string;
-  PersonalAccessTokenSummaries?: PersonalAccessTokenSummary[];
+  NextToken?: string | undefined;
+  PersonalAccessTokenSummaries?: PersonalAccessTokenSummary[] | undefined;
 }
 export interface ListResourceDelegatesRequest {
   OrganizationId: string;
   ResourceId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface Delegate {
   Id: string;
@@ -1085,34 +1086,34 @@ export interface Delegate {
 }
 export type ResourceDelegates = Delegate[];
 export interface ListResourceDelegatesResponse {
-  Delegates?: Delegate[];
-  NextToken?: string;
+  Delegates?: Delegate[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListResourcesFilters {
-  NamePrefix?: string;
-  PrimaryEmailPrefix?: string;
-  State?: EntityState;
+  NamePrefix?: string | undefined;
+  PrimaryEmailPrefix?: string | undefined;
+  State?: EntityState | undefined;
 }
 export interface ListResourcesRequest {
   OrganizationId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  Filters?: ListResourcesFilters;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Filters?: ListResourcesFilters | undefined;
 }
 export interface Resource {
-  Id?: string;
-  Email?: string;
-  Name?: string;
-  Type?: ResourceType;
-  State?: EntityState;
-  EnabledDate?: Date;
-  DisabledDate?: Date;
-  Description?: string | redacted.Redacted<string>;
+  Id?: string | undefined;
+  Email?: string | undefined;
+  Name?: string | undefined;
+  Type?: ResourceType | undefined;
+  State?: EntityState | undefined;
+  EnabledDate?: Date | undefined;
+  DisabledDate?: Date | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
 }
 export type Resources = Resource[];
 export interface ListResourcesResponse {
-  Resources?: Resource[];
-  NextToken?: string;
+  Resources?: Resource[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
@@ -1125,57 +1126,57 @@ export interface Tag {
 }
 export type TagList = Tag[];
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type IdentityProviderUserIdPrefix = string;
 export interface ListUsersFilters {
-  UsernamePrefix?: string;
-  DisplayNamePrefix?: string | redacted.Redacted<string>;
-  PrimaryEmailPrefix?: string;
-  State?: EntityState;
-  IdentityProviderUserIdPrefix?: string;
+  UsernamePrefix?: string | undefined;
+  DisplayNamePrefix?: string | redacted.Redacted<string> | undefined;
+  PrimaryEmailPrefix?: string | undefined;
+  State?: EntityState | undefined;
+  IdentityProviderUserIdPrefix?: string | undefined;
 }
 export interface ListUsersRequest {
   OrganizationId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  Filters?: ListUsersFilters;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Filters?: ListUsersFilters | undefined;
 }
 export interface User {
-  Id?: string;
-  Email?: string;
-  Name?: string;
-  DisplayName?: string;
-  State?: EntityState;
-  UserRole?: UserRole;
-  EnabledDate?: Date;
-  DisabledDate?: Date;
-  IdentityProviderUserId?: string;
-  IdentityProviderIdentityStoreId?: string;
+  Id?: string | undefined;
+  Email?: string | undefined;
+  Name?: string | undefined;
+  DisplayName?: string | undefined;
+  State?: EntityState | undefined;
+  UserRole?: UserRole | undefined;
+  EnabledDate?: Date | undefined;
+  DisabledDate?: Date | undefined;
+  IdentityProviderUserId?: string | undefined;
+  IdentityProviderIdentityStoreId?: string | undefined;
 }
 export type Users = User[];
 export interface ListUsersResponse {
-  Users?: User[];
-  NextToken?: string;
+  Users?: User[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface PutAccessControlRuleRequest {
   Name: string;
   Effect: AccessControlRuleEffect;
   Description: string;
-  IpRanges?: string[];
-  NotIpRanges?: string[];
-  Actions?: string[];
-  NotActions?: string[];
-  UserIds?: string[];
-  NotUserIds?: string[];
+  IpRanges?: string[] | undefined;
+  NotIpRanges?: string[] | undefined;
+  Actions?: string[] | undefined;
+  NotActions?: string[] | undefined;
+  UserIds?: string[] | undefined;
+  NotUserIds?: string[] | undefined;
   OrganizationId: string;
-  ImpersonationRoleIds?: string[];
-  NotImpersonationRoleIds?: string[];
+  ImpersonationRoleIds?: string[] | undefined;
+  NotImpersonationRoleIds?: string[] | undefined;
 }
 export interface PutAccessControlRuleResponse {}
 export interface PutEmailMonitoringConfigurationRequest {
   OrganizationId: string;
-  RoleArn?: string;
+  RoleArn?: string | undefined;
   LogGroupArn: string;
 }
 export interface PutEmailMonitoringConfigurationResponse {}
@@ -1203,20 +1204,20 @@ export interface PutMobileDeviceAccessOverrideRequest {
   UserId: string;
   DeviceId: string;
   Effect: MobileDeviceAccessRuleEffect;
-  Description?: string;
+  Description?: string | undefined;
 }
 export interface PutMobileDeviceAccessOverrideResponse {}
 export type PolicyDescription = string | redacted.Redacted<string>;
 export interface PutRetentionPolicyRequest {
   OrganizationId: string;
-  Id?: string;
+  Id?: string | undefined;
   Name: string;
-  Description?: string | redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string> | undefined;
   FolderConfigurations: FolderConfiguration[];
 }
 export interface PutRetentionPolicyResponse {}
 export interface RegisterMailDomainRequest {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   OrganizationId: string;
   DomainName: string;
 }
@@ -1237,14 +1238,14 @@ export interface StartMailboxExportJobRequest {
   ClientToken: string;
   OrganizationId: string;
   EntityId: string;
-  Description?: string;
+  Description?: string | undefined;
   RoleArn: string;
   KmsKeyArn: string;
   S3BucketName: string;
   S3Prefix: string;
 }
 export interface StartMailboxExportJobResponse {
-  JobId?: string;
+  JobId?: string | undefined;
 }
 export interface TagResourceRequest {
   ResourceARN: string;
@@ -1253,13 +1254,13 @@ export interface TagResourceRequest {
 export interface TagResourceResponse {}
 export interface TestAvailabilityConfigurationRequest {
   OrganizationId: string;
-  DomainName?: string;
-  EwsProvider?: EwsAvailabilityProvider;
-  LambdaProvider?: LambdaAvailabilityProvider;
+  DomainName?: string | undefined;
+  EwsProvider?: EwsAvailabilityProvider | undefined;
+  LambdaProvider?: LambdaAvailabilityProvider | undefined;
 }
 export interface TestAvailabilityConfigurationResponse {
-  TestPassed?: boolean;
-  FailureReason?: string;
+  TestPassed?: boolean | undefined;
+  FailureReason?: string | undefined;
 }
 export type TagKeyList = string[];
 export interface UntagResourceRequest {
@@ -1270,8 +1271,8 @@ export interface UntagResourceResponse {}
 export interface UpdateAvailabilityConfigurationRequest {
   OrganizationId: string;
   DomainName: string;
-  EwsProvider?: EwsAvailabilityProvider;
-  LambdaProvider?: LambdaAvailabilityProvider;
+  EwsProvider?: EwsAvailabilityProvider | undefined;
+  LambdaProvider?: LambdaAvailabilityProvider | undefined;
 }
 export interface UpdateAvailabilityConfigurationResponse {}
 export interface UpdateDefaultMailDomainRequest {
@@ -1282,7 +1283,7 @@ export interface UpdateDefaultMailDomainResponse {}
 export interface UpdateGroupRequest {
   OrganizationId: string;
   GroupId: string;
-  HiddenFromGlobalAddressList?: boolean;
+  HiddenFromGlobalAddressList?: boolean | undefined;
 }
 export interface UpdateGroupResponse {}
 export interface UpdateImpersonationRoleRequest {
@@ -1290,7 +1291,7 @@ export interface UpdateImpersonationRoleRequest {
   ImpersonationRoleId: string;
   Name: string;
   Type: ImpersonationRoleType;
-  Description?: string;
+  Description?: string | undefined;
   Rules: ImpersonationRule[];
 }
 export interface UpdateImpersonationRoleResponse {}
@@ -1304,16 +1305,16 @@ export interface UpdateMobileDeviceAccessRuleRequest {
   OrganizationId: string;
   MobileDeviceAccessRuleId: string;
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   Effect: MobileDeviceAccessRuleEffect;
-  DeviceTypes?: string[];
-  NotDeviceTypes?: string[];
-  DeviceModels?: string[];
-  NotDeviceModels?: string[];
-  DeviceOperatingSystems?: string[];
-  NotDeviceOperatingSystems?: string[];
-  DeviceUserAgents?: string[];
-  NotDeviceUserAgents?: string[];
+  DeviceTypes?: string[] | undefined;
+  NotDeviceTypes?: string[] | undefined;
+  DeviceModels?: string[] | undefined;
+  NotDeviceModels?: string[] | undefined;
+  DeviceOperatingSystems?: string[] | undefined;
+  NotDeviceOperatingSystems?: string[] | undefined;
+  DeviceUserAgents?: string[] | undefined;
+  NotDeviceUserAgents?: string[] | undefined;
 }
 export interface UpdateMobileDeviceAccessRuleResponse {}
 export interface UpdatePrimaryEmailAddressRequest {
@@ -1326,33 +1327,33 @@ export type NewResourceDescription = string | redacted.Redacted<string>;
 export interface UpdateResourceRequest {
   OrganizationId: string;
   ResourceId: string;
-  Name?: string;
-  BookingOptions?: BookingOptions;
-  Description?: string | redacted.Redacted<string>;
-  Type?: ResourceType;
-  HiddenFromGlobalAddressList?: boolean;
+  Name?: string | undefined;
+  BookingOptions?: BookingOptions | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  Type?: ResourceType | undefined;
+  HiddenFromGlobalAddressList?: boolean | undefined;
 }
 export interface UpdateResourceResponse {}
 export type IdentityProviderUserIdForUpdate = string;
 export interface UpdateUserRequest {
   OrganizationId: string;
   UserId: string;
-  Role?: UserRole;
-  DisplayName?: string | redacted.Redacted<string>;
-  FirstName?: string | redacted.Redacted<string>;
-  LastName?: string | redacted.Redacted<string>;
-  HiddenFromGlobalAddressList?: boolean;
-  Initials?: string | redacted.Redacted<string>;
-  Telephone?: string | redacted.Redacted<string>;
-  Street?: string | redacted.Redacted<string>;
-  JobTitle?: string | redacted.Redacted<string>;
-  City?: string | redacted.Redacted<string>;
-  Company?: string | redacted.Redacted<string>;
-  ZipCode?: string | redacted.Redacted<string>;
-  Department?: string | redacted.Redacted<string>;
-  Country?: string | redacted.Redacted<string>;
-  Office?: string | redacted.Redacted<string>;
-  IdentityProviderUserId?: string;
+  Role?: UserRole | undefined;
+  DisplayName?: string | redacted.Redacted<string> | undefined;
+  FirstName?: string | redacted.Redacted<string> | undefined;
+  LastName?: string | redacted.Redacted<string> | undefined;
+  HiddenFromGlobalAddressList?: boolean | undefined;
+  Initials?: string | redacted.Redacted<string> | undefined;
+  Telephone?: string | redacted.Redacted<string> | undefined;
+  Street?: string | redacted.Redacted<string> | undefined;
+  JobTitle?: string | redacted.Redacted<string> | undefined;
+  City?: string | redacted.Redacted<string> | undefined;
+  Company?: string | redacted.Redacted<string> | undefined;
+  ZipCode?: string | redacted.Redacted<string> | undefined;
+  Department?: string | redacted.Redacted<string> | undefined;
+  Country?: string | redacted.Redacted<string> | undefined;
+  Office?: string | redacted.Redacted<string> | undefined;
+  IdentityProviderUserId?: string | undefined;
 }
 export interface UpdateUserResponse {}
 export type AssociateDelegateToResourceError =
@@ -1367,7 +1368,7 @@ export type AssociateDelegateToResourceError =
  * Adds a member (user or group) to the resource's set of delegates.
  */
 export const associateDelegateToResource: API.OperationMethod<
-  AssociateDelegateToResourceRequest,
+  AssociateDelegateToResourceRequest & RegionInput,
   AssociateDelegateToResourceResponse,
   AssociateDelegateToResourceError,
   Credentials | HttpClient.HttpClient
@@ -1403,7 +1404,7 @@ export type AssociateMemberToGroupError =
  * Adds a member (user or group) to the group's set.
  */
 export const associateMemberToGroup: API.OperationMethod<
-  AssociateMemberToGroupRequest,
+  AssociateMemberToGroupRequest & RegionInput,
   AssociateMemberToGroupResponse,
   AssociateMemberToGroupError,
   Credentials | HttpClient.HttpClient
@@ -1438,7 +1439,7 @@ export type AssumeImpersonationRoleError =
  * authentication token you can use to make impersonated calls.
  */
 export const assumeImpersonationRole: API.OperationMethod<
-  AssumeImpersonationRoleRequest,
+  AssumeImpersonationRoleRequest & RegionInput,
   AssumeImpersonationRoleResponse,
   AssumeImpersonationRoleError,
   Credentials | HttpClient.HttpClient
@@ -1471,7 +1472,7 @@ export type CancelMailboxExportJobError =
  * it.
  */
 export const cancelMailboxExportJob: API.OperationMethod<
-  CancelMailboxExportJobRequest,
+  CancelMailboxExportJobRequest & RegionInput,
   CancelMailboxExportJobResponse,
   CancelMailboxExportJobError,
   Credentials | HttpClient.HttpClient
@@ -1506,7 +1507,7 @@ export type CreateAliasError =
  * Adds an alias to the set of a given member (user or group) of WorkMail.
  */
 export const createAlias: API.OperationMethod<
-  CreateAliasRequest,
+  CreateAliasRequest & RegionInput,
   CreateAliasResponse,
   CreateAliasError,
   Credentials | HttpClient.HttpClient
@@ -1542,7 +1543,7 @@ export type CreateAvailabilityConfigurationError =
  * Creates an `AvailabilityConfiguration` for the given WorkMail organization and domain.
  */
 export const createAvailabilityConfiguration: API.OperationMethod<
-  CreateAvailabilityConfigurationRequest,
+  CreateAvailabilityConfigurationRequest & RegionInput,
   CreateAvailabilityConfigurationResponse,
   CreateAvailabilityConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1577,7 +1578,7 @@ export type CreateGroupError =
  * Creates a group that can be used in WorkMail by calling the RegisterToWorkMail operation.
  */
 export const createGroup: API.OperationMethod<
-  CreateGroupRequest,
+  CreateGroupRequest & RegionInput,
   CreateGroupResponse,
   CreateGroupError,
   Credentials | HttpClient.HttpClient
@@ -1606,7 +1607,7 @@ export type CreateIdentityCenterApplicationError = InvalidParameterException | C
  * Creates the WorkMail application in IAM Identity Center that can be used later in the WorkMail - IdC integration. For more information, see PutIdentityProviderConfiguration. This action does not affect the authentication settings for any WorkMail organizations.
  */
 export const createIdentityCenterApplication: API.OperationMethod<
-  CreateIdentityCenterApplicationRequest,
+  CreateIdentityCenterApplicationRequest & RegionInput,
   CreateIdentityCenterApplicationResponse,
   CreateIdentityCenterApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1638,7 +1639,7 @@ export type CreateImpersonationRoleError =
  * actions.
  */
 export const createImpersonationRole: API.OperationMethod<
-  CreateImpersonationRoleRequest,
+  CreateImpersonationRoleRequest & RegionInput,
   CreateImpersonationRoleResponse,
   CreateImpersonationRoleError,
   Credentials | HttpClient.HttpClient
@@ -1670,7 +1671,7 @@ export type CreateMobileDeviceAccessRuleError =
  * Creates a new mobile device access rule for the specified WorkMail organization.
  */
 export const createMobileDeviceAccessRule: API.OperationMethod<
-  CreateMobileDeviceAccessRuleRequest,
+  CreateMobileDeviceAccessRuleRequest & RegionInput,
   CreateMobileDeviceAccessRuleResponse,
   CreateMobileDeviceAccessRuleError,
   Credentials | HttpClient.HttpClient
@@ -1711,7 +1712,7 @@ export type CreateOrganizationError =
  * creates a default, AWS managed key for you.
  */
 export const createOrganization: API.OperationMethod<
-  CreateOrganizationRequest,
+  CreateOrganizationRequest & RegionInput,
   CreateOrganizationResponse,
   CreateOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -1746,7 +1747,7 @@ export type CreateResourceError =
  * Creates a new WorkMail resource.
  */
 export const createResource: API.OperationMethod<
-  CreateResourceRequest,
+  CreateResourceRequest & RegionInput,
   CreateResourceResponse,
   CreateResourceError,
   Credentials | HttpClient.HttpClient
@@ -1785,7 +1786,7 @@ export type CreateUserError =
  * Creates a user who can be used in WorkMail by calling the RegisterToWorkMail operation.
  */
 export const createUser: API.OperationMethod<
-  CreateUserRequest,
+  CreateUserRequest & RegionInput,
   CreateUserResponse,
   CreateUserError,
   Credentials | HttpClient.HttpClient
@@ -1820,7 +1821,7 @@ export type DeleteAccessControlRuleError =
  * Deleting already deleted and non-existing rules does not produce an error. In those cases, the service sends back an HTTP 200 response with an empty HTTP body.
  */
 export const deleteAccessControlRule: API.OperationMethod<
-  DeleteAccessControlRuleRequest,
+  DeleteAccessControlRuleRequest & RegionInput,
   DeleteAccessControlRuleResponse,
   DeleteAccessControlRuleError,
   Credentials | HttpClient.HttpClient
@@ -1847,7 +1848,7 @@ export type DeleteAliasError =
  * user.
  */
 export const deleteAlias: API.OperationMethod<
-  DeleteAliasRequest,
+  DeleteAliasRequest & RegionInput,
   DeleteAliasResponse,
   DeleteAliasError,
   Credentials | HttpClient.HttpClient
@@ -1876,7 +1877,7 @@ export type DeleteAvailabilityConfigurationError =
  * Deletes the `AvailabilityConfiguration` for the given WorkMail organization and domain.
  */
 export const deleteAvailabilityConfiguration: API.OperationMethod<
-  DeleteAvailabilityConfigurationRequest,
+  DeleteAvailabilityConfigurationRequest & RegionInput,
   DeleteAvailabilityConfigurationResponse,
   DeleteAvailabilityConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1900,7 +1901,7 @@ export type DeleteEmailMonitoringConfigurationError =
  * Deletes the email monitoring configuration for a specified organization.
  */
 export const deleteEmailMonitoringConfiguration: API.OperationMethod<
-  DeleteEmailMonitoringConfigurationRequest,
+  DeleteEmailMonitoringConfigurationRequest & RegionInput,
   DeleteEmailMonitoringConfigurationResponse,
   DeleteEmailMonitoringConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1928,7 +1929,7 @@ export type DeleteGroupError =
  * Deletes a group from WorkMail.
  */
 export const deleteGroup: API.OperationMethod<
-  DeleteGroupRequest,
+  DeleteGroupRequest & RegionInput,
   DeleteGroupResponse,
   DeleteGroupError,
   Credentials | HttpClient.HttpClient
@@ -1959,7 +1960,7 @@ export type DeleteIdentityCenterApplicationError =
  * Deletes the IAM Identity Center application from WorkMail. This action does not affect the authentication settings for any WorkMail organizations.
  */
 export const deleteIdentityCenterApplication: API.OperationMethod<
-  DeleteIdentityCenterApplicationRequest,
+  DeleteIdentityCenterApplicationRequest & RegionInput,
   DeleteIdentityCenterApplicationResponse,
   DeleteIdentityCenterApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1983,7 +1984,7 @@ export type DeleteIdentityProviderConfigurationError =
  * Disables the integration between IdC and WorkMail. Authentication will continue with the directory as it was before the IdC integration. You might have to reset your directory passwords and reconfigure your desktop and mobile email clients.
  */
 export const deleteIdentityProviderConfiguration: API.OperationMethod<
-  DeleteIdentityProviderConfigurationRequest,
+  DeleteIdentityProviderConfigurationRequest & RegionInput,
   DeleteIdentityProviderConfigurationResponse,
   DeleteIdentityProviderConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2007,7 +2008,7 @@ export type DeleteImpersonationRoleError =
  * Deletes an impersonation role for the given WorkMail organization.
  */
 export const deleteImpersonationRole: API.OperationMethod<
-  DeleteImpersonationRoleRequest,
+  DeleteImpersonationRoleRequest & RegionInput,
   DeleteImpersonationRoleResponse,
   DeleteImpersonationRoleError,
   Credentials | HttpClient.HttpClient
@@ -2033,7 +2034,7 @@ export type DeleteMailboxPermissionsError =
  * Deletes permissions granted to a member (user or group).
  */
 export const deleteMailboxPermissions: API.OperationMethod<
-  DeleteMailboxPermissionsRequest,
+  DeleteMailboxPermissionsRequest & RegionInput,
   DeleteMailboxPermissionsResponse,
   DeleteMailboxPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -2066,7 +2067,7 @@ export type DeleteMobileDeviceAccessOverrideError =
  * Deleting already deleted and non-existing overrides does not produce an error. In those cases, the service sends back an HTTP 200 response with an empty HTTP body.
  */
 export const deleteMobileDeviceAccessOverride: API.OperationMethod<
-  DeleteMobileDeviceAccessOverrideRequest,
+  DeleteMobileDeviceAccessOverrideRequest & RegionInput,
   DeleteMobileDeviceAccessOverrideResponse,
   DeleteMobileDeviceAccessOverrideError,
   Credentials | HttpClient.HttpClient
@@ -2097,7 +2098,7 @@ export type DeleteMobileDeviceAccessRuleError =
  * Deleting already deleted and non-existing rules does not produce an error. In those cases, the service sends back an HTTP 200 response with an empty HTTP body.
  */
 export const deleteMobileDeviceAccessRule: API.OperationMethod<
-  DeleteMobileDeviceAccessRuleRequest,
+  DeleteMobileDeviceAccessRuleRequest & RegionInput,
   DeleteMobileDeviceAccessRuleResponse,
   DeleteMobileDeviceAccessRuleError,
   Credentials | HttpClient.HttpClient
@@ -2121,7 +2122,7 @@ export type DeleteOrganizationError =
  * Deletes an WorkMail organization and all underlying AWS resources managed by WorkMail as part of the organization. You can choose whether to delete the associated directory. For more information, see Removing an organization in the *WorkMail Administrator Guide*.
  */
 export const deleteOrganization: API.OperationMethod<
-  DeleteOrganizationRequest,
+  DeleteOrganizationRequest & RegionInput,
   DeleteOrganizationResponse,
   DeleteOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -2145,7 +2146,7 @@ export type DeletePersonalAccessTokenError =
  * Deletes the Personal Access Token from the provided WorkMail Organization.
  */
 export const deletePersonalAccessToken: API.OperationMethod<
-  DeletePersonalAccessTokenRequest,
+  DeletePersonalAccessTokenRequest & RegionInput,
   DeletePersonalAccessTokenResponse,
   DeletePersonalAccessTokenError,
   Credentials | HttpClient.HttpClient
@@ -2171,7 +2172,7 @@ export type DeleteResourceError =
  * Deletes the specified resource.
  */
 export const deleteResource: API.OperationMethod<
-  DeleteResourceRequest,
+  DeleteResourceRequest & RegionInput,
   DeleteResourceResponse,
   DeleteResourceError,
   Credentials | HttpClient.HttpClient
@@ -2201,7 +2202,7 @@ export type DeleteRetentionPolicyError =
  * Deletes the specified retention policy from the specified organization.
  */
 export const deleteRetentionPolicy: API.OperationMethod<
-  DeleteRetentionPolicyRequest,
+  DeleteRetentionPolicyRequest & RegionInput,
   DeleteRetentionPolicyResponse,
   DeleteRetentionPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2234,7 +2235,7 @@ export type DeleteUserError =
  * 30 days before they are permanently removed.
  */
 export const deleteUser: API.OperationMethod<
-  DeleteUserRequest,
+  DeleteUserRequest & RegionInput,
   DeleteUserResponse,
   DeleteUserError,
   Credentials | HttpClient.HttpClient
@@ -2271,7 +2272,7 @@ export type DeregisterFromWorkMailError =
  * *Disable*.
  */
 export const deregisterFromWorkMail: API.OperationMethod<
-  DeregisterFromWorkMailRequest,
+  DeregisterFromWorkMailRequest & RegionInput,
   DeregisterFromWorkMailResponse,
   DeregisterFromWorkMailError,
   Credentials | HttpClient.HttpClient
@@ -2304,7 +2305,7 @@ export type DeregisterMailDomainError =
  * remove any email address used by WorkMail entities before you remove the domain.
  */
 export const deregisterMailDomain: API.OperationMethod<
-  DeregisterMailDomainRequest,
+  DeregisterMailDomainRequest & RegionInput,
   DeregisterMailDomainResponse,
   DeregisterMailDomainError,
   Credentials | HttpClient.HttpClient
@@ -2335,7 +2336,7 @@ export type DescribeEmailMonitoringConfigurationError =
  * Describes the current email monitoring configuration for a specified organization.
  */
 export const describeEmailMonitoringConfiguration: API.OperationMethod<
-  DescribeEmailMonitoringConfigurationRequest,
+  DescribeEmailMonitoringConfigurationRequest & RegionInput,
   DescribeEmailMonitoringConfigurationResponse,
   DescribeEmailMonitoringConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2365,7 +2366,7 @@ export type DescribeEntityError =
  * Returns basic details about an entity in WorkMail.
  */
 export const describeEntity: API.OperationMethod<
-  DescribeEntityRequest,
+  DescribeEntityRequest & RegionInput,
   DescribeEntityResponse,
   DescribeEntityError,
   Credentials | HttpClient.HttpClient
@@ -2395,7 +2396,7 @@ export type DescribeGroupError =
  * Returns the data available for the group.
  */
 export const describeGroup: API.OperationMethod<
-  DescribeGroupRequest,
+  DescribeGroupRequest & RegionInput,
   DescribeGroupResponse,
   DescribeGroupError,
   Credentials | HttpClient.HttpClient
@@ -2425,7 +2426,7 @@ export type DescribeIdentityProviderConfigurationError =
  * Returns detailed information on the current IdC setup for the WorkMail organization.
  */
 export const describeIdentityProviderConfiguration: API.OperationMethod<
-  DescribeIdentityProviderConfigurationRequest,
+  DescribeIdentityProviderConfigurationRequest & RegionInput,
   DescribeIdentityProviderConfigurationResponse,
   DescribeIdentityProviderConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2453,7 +2454,7 @@ export type DescribeInboundDmarcSettingsError =
  * Lists the settings in a DMARC policy for a specified organization.
  */
 export const describeInboundDmarcSettings: API.OperationMethod<
-  DescribeInboundDmarcSettingsRequest,
+  DescribeInboundDmarcSettingsRequest & RegionInput,
   DescribeInboundDmarcSettingsResponse,
   DescribeInboundDmarcSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2478,7 +2479,7 @@ export type DescribeMailboxExportJobError =
  * Describes the current status of a mailbox export job.
  */
 export const describeMailboxExportJob: API.OperationMethod<
-  DescribeMailboxExportJobRequest,
+  DescribeMailboxExportJobRequest & RegionInput,
   DescribeMailboxExportJobResponse,
   DescribeMailboxExportJobError,
   Credentials | HttpClient.HttpClient
@@ -2507,7 +2508,7 @@ export type DescribeOrganizationError =
  * identifier.
  */
 export const describeOrganization: API.OperationMethod<
-  DescribeOrganizationRequest,
+  DescribeOrganizationRequest & RegionInput,
   DescribeOrganizationResponse,
   DescribeOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -2533,7 +2534,7 @@ export type DescribeResourceError =
  * Returns the data available for the resource.
  */
 export const describeResource: API.OperationMethod<
-  DescribeResourceRequest,
+  DescribeResourceRequest & RegionInput,
   DescribeResourceResponse,
   DescribeResourceError,
   Credentials | HttpClient.HttpClient
@@ -2566,7 +2567,7 @@ export type DescribeUserError =
  * Provides information regarding the user.
  */
 export const describeUser: API.OperationMethod<
-  DescribeUserRequest,
+  DescribeUserRequest & RegionInput,
   DescribeUserResponse,
   DescribeUserError,
   Credentials | HttpClient.HttpClient
@@ -2600,7 +2601,7 @@ export type DisassociateDelegateFromResourceError =
  * Removes a member from the resource's set of delegates.
  */
 export const disassociateDelegateFromResource: API.OperationMethod<
-  DisassociateDelegateFromResourceRequest,
+  DisassociateDelegateFromResourceRequest & RegionInput,
   DisassociateDelegateFromResourceResponse,
   DisassociateDelegateFromResourceError,
   Credentials | HttpClient.HttpClient
@@ -2636,7 +2637,7 @@ export type DisassociateMemberFromGroupError =
  * Removes a member from a group.
  */
 export const disassociateMemberFromGroup: API.OperationMethod<
-  DisassociateMemberFromGroupRequest,
+  DisassociateMemberFromGroupRequest & RegionInput,
   DisassociateMemberFromGroupResponse,
   DisassociateMemberFromGroupError,
   Credentials | HttpClient.HttpClient
@@ -2672,7 +2673,7 @@ export type GetAccessControlEffectError =
  * specified IPv4 address, access protocol action, and user ID or impersonation role ID. You must provide either the user ID or impersonation role ID. Impersonation role ID can only be used with Action EWS.
  */
 export const getAccessControlEffect: API.OperationMethod<
-  GetAccessControlEffectRequest,
+  GetAccessControlEffectRequest & RegionInput,
   GetAccessControlEffectResponse,
   GetAccessControlEffectError,
   Credentials | HttpClient.HttpClient
@@ -2703,7 +2704,7 @@ export type GetDefaultRetentionPolicyError =
  * Gets the default retention policy details for the specified organization.
  */
 export const getDefaultRetentionPolicy: API.OperationMethod<
-  GetDefaultRetentionPolicyRequest,
+  GetDefaultRetentionPolicyRequest & RegionInput,
   GetDefaultRetentionPolicyResponse,
   GetDefaultRetentionPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2733,7 +2734,7 @@ export type GetImpersonationRoleError =
  * Gets the impersonation role details for the given WorkMail organization.
  */
 export const getImpersonationRole: API.OperationMethod<
-  GetImpersonationRoleRequest,
+  GetImpersonationRoleRequest & RegionInput,
   GetImpersonationRoleResponse,
   GetImpersonationRoleError,
   Credentials | HttpClient.HttpClient
@@ -2765,7 +2766,7 @@ export type GetImpersonationRoleEffectError =
  * Tests whether the given impersonation role can impersonate a target user.
  */
 export const getImpersonationRoleEffect: API.OperationMethod<
-  GetImpersonationRoleEffectRequest,
+  GetImpersonationRoleEffectRequest & RegionInput,
   GetImpersonationRoleEffectResponse,
   GetImpersonationRoleEffectError,
   Credentials | HttpClient.HttpClient
@@ -2797,7 +2798,7 @@ export type GetMailboxDetailsError =
  * Requests a user's mailbox details for a specified organization and user.
  */
 export const getMailboxDetails: API.OperationMethod<
-  GetMailboxDetailsRequest,
+  GetMailboxDetailsRequest & RegionInput,
   GetMailboxDetailsResponse,
   GetMailboxDetailsError,
   Credentials | HttpClient.HttpClient
@@ -2827,7 +2828,7 @@ export type GetMailDomainError =
  * Gets details for a mail domain, including domain records required to configure your domain with recommended security.
  */
 export const getMailDomain: API.OperationMethod<
-  GetMailDomainRequest,
+  GetMailDomainRequest & RegionInput,
   GetMailDomainResponse,
   GetMailDomainError,
   Credentials | HttpClient.HttpClient
@@ -2857,7 +2858,7 @@ export type GetMobileDeviceAccessEffectError =
  * rules for the WorkMail organization for a particular user's attributes.
  */
 export const getMobileDeviceAccessEffect: API.OperationMethod<
-  GetMobileDeviceAccessEffectRequest,
+  GetMobileDeviceAccessEffectRequest & RegionInput,
   GetMobileDeviceAccessEffectResponse,
   GetMobileDeviceAccessEffectError,
   Credentials | HttpClient.HttpClient
@@ -2883,7 +2884,7 @@ export type GetMobileDeviceAccessOverrideError =
  * Gets the mobile device access override for the given WorkMail organization, user, and device.
  */
 export const getMobileDeviceAccessOverride: API.OperationMethod<
-  GetMobileDeviceAccessOverrideRequest,
+  GetMobileDeviceAccessOverrideRequest & RegionInput,
   GetMobileDeviceAccessOverrideResponse,
   GetMobileDeviceAccessOverrideError,
   Credentials | HttpClient.HttpClient
@@ -2914,7 +2915,7 @@ export type GetPersonalAccessTokenMetadataError =
  * Requests details of a specific Personal Access Token within the WorkMail organization.
  */
 export const getPersonalAccessTokenMetadata: API.OperationMethod<
-  GetPersonalAccessTokenMetadataRequest,
+  GetPersonalAccessTokenMetadataRequest & RegionInput,
   GetPersonalAccessTokenMetadataResponse,
   GetPersonalAccessTokenMetadataError,
   Credentials | HttpClient.HttpClient
@@ -2942,7 +2943,7 @@ export type ListAccessControlRulesError =
  * Lists the access control rules for the specified organization.
  */
 export const listAccessControlRules: API.OperationMethod<
-  ListAccessControlRulesRequest,
+  ListAccessControlRulesRequest & RegionInput,
   ListAccessControlRulesResponse,
   ListAccessControlRulesError,
   Credentials | HttpClient.HttpClient
@@ -2969,7 +2970,7 @@ export type ListAliasesError =
  * entity.
  */
 export const listAliases: API.PaginatedOperationMethod<
-  ListAliasesRequest,
+  ListAliasesRequest & RegionInput,
   ListAliasesResponse,
   ListAliasesError,
   Credentials | HttpClient.HttpClient,
@@ -3005,7 +3006,7 @@ export type ListAvailabilityConfigurationsError =
  * List all the `AvailabilityConfiguration`'s for the given WorkMail organization.
  */
 export const listAvailabilityConfigurations: API.PaginatedOperationMethod<
-  ListAvailabilityConfigurationsRequest,
+  ListAvailabilityConfigurationsRequest & RegionInput,
   ListAvailabilityConfigurationsResponse,
   ListAvailabilityConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -3039,7 +3040,7 @@ export type ListGroupMembersError =
  * group.
  */
 export const listGroupMembers: API.PaginatedOperationMethod<
-  ListGroupMembersRequest,
+  ListGroupMembersRequest & RegionInput,
   ListGroupMembersResponse,
   ListGroupMembersError,
   Credentials | HttpClient.HttpClient,
@@ -3076,7 +3077,7 @@ export type ListGroupsError =
  * Returns summaries of the organization's groups.
  */
 export const listGroups: API.PaginatedOperationMethod<
-  ListGroupsRequest,
+  ListGroupsRequest & RegionInput,
   ListGroupsResponse,
   ListGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -3113,7 +3114,7 @@ export type ListGroupsForEntityError =
  * Returns all the groups to which an entity belongs.
  */
 export const listGroupsForEntity: API.PaginatedOperationMethod<
-  ListGroupsForEntityRequest,
+  ListGroupsForEntityRequest & RegionInput,
   ListGroupsForEntityResponse,
   ListGroupsForEntityError,
   Credentials | HttpClient.HttpClient,
@@ -3149,7 +3150,7 @@ export type ListImpersonationRolesError =
  * Lists all the impersonation roles for the given WorkMail organization.
  */
 export const listImpersonationRoles: API.PaginatedOperationMethod<
-  ListImpersonationRolesRequest,
+  ListImpersonationRolesRequest & RegionInput,
   ListImpersonationRolesResponse,
   ListImpersonationRolesError,
   Credentials | HttpClient.HttpClient,
@@ -3180,7 +3181,7 @@ export type ListMailboxExportJobsError =
  * seven days.
  */
 export const listMailboxExportJobs: API.PaginatedOperationMethod<
-  ListMailboxExportJobsRequest,
+  ListMailboxExportJobsRequest & RegionInput,
   ListMailboxExportJobsResponse,
   ListMailboxExportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -3212,7 +3213,7 @@ export type ListMailboxPermissionsError =
  * mailbox.
  */
 export const listMailboxPermissions: API.PaginatedOperationMethod<
-  ListMailboxPermissionsRequest,
+  ListMailboxPermissionsRequest & RegionInput,
   ListMailboxPermissionsResponse,
   ListMailboxPermissionsError,
   Credentials | HttpClient.HttpClient,
@@ -3247,7 +3248,7 @@ export type ListMailDomainsError =
  * Lists the mail domains in a given WorkMail organization.
  */
 export const listMailDomains: API.PaginatedOperationMethod<
-  ListMailDomainsRequest,
+  ListMailDomainsRequest & RegionInput,
   ListMailDomainsResponse,
   ListMailDomainsError,
   Credentials | HttpClient.HttpClient,
@@ -3278,7 +3279,7 @@ export type ListMobileDeviceAccessOverridesError =
  * Lists all the mobile device access overrides for any given combination of WorkMail organization, user, or device.
  */
 export const listMobileDeviceAccessOverrides: API.PaginatedOperationMethod<
-  ListMobileDeviceAccessOverridesRequest,
+  ListMobileDeviceAccessOverridesRequest & RegionInput,
   ListMobileDeviceAccessOverridesResponse,
   ListMobileDeviceAccessOverridesError,
   Credentials | HttpClient.HttpClient,
@@ -3313,7 +3314,7 @@ export type ListMobileDeviceAccessRulesError =
  * Lists the mobile device access rules for the specified WorkMail organization.
  */
 export const listMobileDeviceAccessRules: API.OperationMethod<
-  ListMobileDeviceAccessRulesRequest,
+  ListMobileDeviceAccessRulesRequest & RegionInput,
   ListMobileDeviceAccessRulesResponse,
   ListMobileDeviceAccessRulesError,
   Credentials | HttpClient.HttpClient
@@ -3333,7 +3334,7 @@ export type ListOrganizationsError = InvalidParameterException | CommonErrors;
  * Returns summaries of the customer's organizations.
  */
 export const listOrganizations: API.PaginatedOperationMethod<
-  ListOrganizationsRequest,
+  ListOrganizationsRequest & RegionInput,
   ListOrganizationsResponse,
   ListOrganizationsError,
   Credentials | HttpClient.HttpClient,
@@ -3365,7 +3366,7 @@ export type ListPersonalAccessTokensError =
  * Returns a summary of your Personal Access Tokens.
  */
 export const listPersonalAccessTokens: API.PaginatedOperationMethod<
-  ListPersonalAccessTokensRequest,
+  ListPersonalAccessTokensRequest & RegionInput,
   ListPersonalAccessTokensResponse,
   ListPersonalAccessTokensError,
   Credentials | HttpClient.HttpClient,
@@ -3406,7 +3407,7 @@ export type ListResourceDelegatesError =
  * delegates and answer requests on behalf of the resource.
  */
 export const listResourceDelegates: API.PaginatedOperationMethod<
-  ListResourceDelegatesRequest,
+  ListResourceDelegatesRequest & RegionInput,
   ListResourceDelegatesResponse,
   ListResourceDelegatesError,
   Credentials | HttpClient.HttpClient,
@@ -3444,7 +3445,7 @@ export type ListResourcesError =
  * Returns summaries of the organization's resources.
  */
 export const listResources: API.PaginatedOperationMethod<
-  ListResourcesRequest,
+  ListResourcesRequest & RegionInput,
   ListResourcesResponse,
   ListResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -3475,7 +3476,7 @@ export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
  * Lists the tags applied to an WorkMail organization resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -3499,7 +3500,7 @@ export type ListUsersError =
  * Returns summaries of the organization's users.
  */
 export const listUsers: API.PaginatedOperationMethod<
-  ListUsersRequest,
+  ListUsersRequest & RegionInput,
   ListUsersResponse,
   ListUsersError,
   Credentials | HttpClient.HttpClient,
@@ -3535,7 +3536,7 @@ export type PutAccessControlRuleError =
  * the older rule.
  */
 export const putAccessControlRule: API.OperationMethod<
-  PutAccessControlRuleRequest,
+  PutAccessControlRuleRequest & RegionInput,
   PutAccessControlRuleResponse,
   PutAccessControlRuleError,
   Credentials | HttpClient.HttpClient
@@ -3567,7 +3568,7 @@ export type PutEmailMonitoringConfigurationError =
  * Creates or updates the email monitoring configuration for a specified organization.
  */
 export const putEmailMonitoringConfiguration: API.OperationMethod<
-  PutEmailMonitoringConfigurationRequest,
+  PutEmailMonitoringConfigurationRequest & RegionInput,
   PutEmailMonitoringConfigurationResponse,
   PutEmailMonitoringConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3598,7 +3599,7 @@ export type PutIdentityProviderConfigurationError =
  * IdC and manage access to WorkMail mailboxes in a single place. For enhanced protection, you could enable Multifactor Authentication (MFA) and Personal Access Tokens.
  */
 export const putIdentityProviderConfiguration: API.OperationMethod<
-  PutIdentityProviderConfigurationRequest,
+  PutIdentityProviderConfigurationRequest & RegionInput,
   PutIdentityProviderConfigurationResponse,
   PutIdentityProviderConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3626,7 +3627,7 @@ export type PutInboundDmarcSettingsError =
  * Enables or disables a DMARC policy for a given organization.
  */
 export const putInboundDmarcSettings: API.OperationMethod<
-  PutInboundDmarcSettingsRequest,
+  PutInboundDmarcSettingsRequest & RegionInput,
   PutInboundDmarcSettingsResponse,
   PutInboundDmarcSettingsError,
   Credentials | HttpClient.HttpClient
@@ -3653,7 +3654,7 @@ export type PutMailboxPermissionsError =
  * permissions.
  */
 export const putMailboxPermissions: API.OperationMethod<
-  PutMailboxPermissionsRequest,
+  PutMailboxPermissionsRequest & RegionInput,
   PutMailboxPermissionsResponse,
   PutMailboxPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -3685,7 +3686,7 @@ export type PutMobileDeviceAccessOverrideError =
  * Creates or updates a mobile device access override for the given WorkMail organization, user, and device.
  */
 export const putMobileDeviceAccessOverride: API.OperationMethod<
-  PutMobileDeviceAccessOverrideRequest,
+  PutMobileDeviceAccessOverrideRequest & RegionInput,
   PutMobileDeviceAccessOverrideResponse,
   PutMobileDeviceAccessOverrideError,
   Credentials | HttpClient.HttpClient
@@ -3716,7 +3717,7 @@ export type PutRetentionPolicyError =
  * Puts a retention policy to the specified organization.
  */
 export const putRetentionPolicy: API.OperationMethod<
-  PutRetentionPolicyRequest,
+  PutRetentionPolicyRequest & RegionInput,
   PutRetentionPolicyResponse,
   PutRetentionPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3748,7 +3749,7 @@ export type RegisterMailDomainError =
  * permanent permission to use the specified domain for sending your users' emails.
  */
 export const registerMailDomain: API.OperationMethod<
-  RegisterMailDomainRequest,
+  RegisterMailDomainRequest & RegionInput,
   RegisterMailDomainResponse,
   RegisterMailDomainError,
   Credentials | HttpClient.HttpClient
@@ -3794,7 +3795,7 @@ export type RegisterToWorkMailError =
  * or they can be synchronized from your directory. For more information, see DeregisterFromWorkMail.
  */
 export const registerToWorkMail: API.OperationMethod<
-  RegisterToWorkMailRequest,
+  RegisterToWorkMailRequest & RegionInput,
   RegisterToWorkMailResponse,
   RegisterToWorkMailError,
   Credentials | HttpClient.HttpClient
@@ -3837,7 +3838,7 @@ export type ResetPasswordError =
  * Allows the administrator to reset the password for a user.
  */
 export const resetPassword: API.OperationMethod<
-  ResetPasswordRequest,
+  ResetPasswordRequest & RegionInput,
   ResetPasswordResponse,
   ResetPasswordError,
   Credentials | HttpClient.HttpClient
@@ -3876,7 +3877,7 @@ export type StartMailboxExportJobError =
  * the *WorkMail Administrator Guide*.
  */
 export const startMailboxExportJob: API.OperationMethod<
-  StartMailboxExportJobRequest,
+  StartMailboxExportJobRequest & RegionInput,
   StartMailboxExportJobResponse,
   StartMailboxExportJobError,
   Credentials | HttpClient.HttpClient
@@ -3908,7 +3909,7 @@ export type TagResourceError =
  * resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3944,7 +3945,7 @@ export type TestAvailabilityConfigurationError =
  * `DomainName` will be tested.
  */
 export const testAvailabilityConfiguration: API.OperationMethod<
-  TestAvailabilityConfigurationRequest,
+  TestAvailabilityConfigurationRequest & RegionInput,
   TestAvailabilityConfigurationResponse,
   TestAvailabilityConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3970,7 +3971,7 @@ export type UntagResourceError = ResourceNotFoundException | CommonErrors;
  * resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3996,7 +3997,7 @@ export type UpdateAvailabilityConfigurationError =
  * organization and domain.
  */
 export const updateAvailabilityConfiguration: API.OperationMethod<
-  UpdateAvailabilityConfigurationRequest,
+  UpdateAvailabilityConfigurationRequest & RegionInput,
   UpdateAvailabilityConfigurationResponse,
   UpdateAvailabilityConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4027,7 +4028,7 @@ export type UpdateDefaultMailDomainError =
  * Updates the default mail domain for an organization. The default mail domain is used by the WorkMail AWS Console to suggest an email address when enabling a mail user. You can only have one default domain.
  */
 export const updateDefaultMailDomain: API.OperationMethod<
-  UpdateDefaultMailDomainRequest,
+  UpdateDefaultMailDomainRequest & RegionInput,
   UpdateDefaultMailDomainResponse,
   UpdateDefaultMailDomainError,
   Credentials | HttpClient.HttpClient
@@ -4060,7 +4061,7 @@ export type UpdateGroupError =
  * Updates attributes in a group.
  */
 export const updateGroup: API.OperationMethod<
-  UpdateGroupRequest,
+  UpdateGroupRequest & RegionInput,
   UpdateGroupResponse,
   UpdateGroupError,
   Credentials | HttpClient.HttpClient
@@ -4095,7 +4096,7 @@ export type UpdateImpersonationRoleError =
  * Updates an impersonation role for the given WorkMail organization.
  */
 export const updateImpersonationRole: API.OperationMethod<
-  UpdateImpersonationRoleRequest,
+  UpdateImpersonationRoleRequest & RegionInput,
   UpdateImpersonationRoleResponse,
   UpdateImpersonationRoleError,
   Credentials | HttpClient.HttpClient
@@ -4130,7 +4131,7 @@ export type UpdateMailboxQuotaError =
  * user.
  */
 export const updateMailboxQuota: API.OperationMethod<
-  UpdateMailboxQuotaRequest,
+  UpdateMailboxQuotaRequest & RegionInput,
   UpdateMailboxQuotaResponse,
   UpdateMailboxQuotaError,
   Credentials | HttpClient.HttpClient
@@ -4161,7 +4162,7 @@ export type UpdateMobileDeviceAccessRuleError =
  * Updates a mobile device access rule for the specified WorkMail organization.
  */
 export const updateMobileDeviceAccessRule: API.OperationMethod<
-  UpdateMobileDeviceAccessRuleRequest,
+  UpdateMobileDeviceAccessRuleRequest & RegionInput,
   UpdateMobileDeviceAccessRuleResponse,
   UpdateMobileDeviceAccessRuleError,
   Credentials | HttpClient.HttpClient
@@ -4200,7 +4201,7 @@ export type UpdatePrimaryEmailAddressError =
  * email), and the email provided in the input is promoted as the primary.
  */
 export const updatePrimaryEmailAddress: API.OperationMethod<
-  UpdatePrimaryEmailAddressRequest,
+  UpdatePrimaryEmailAddressRequest & RegionInput,
   UpdatePrimaryEmailAddressResponse,
   UpdatePrimaryEmailAddressError,
   Credentials | HttpClient.HttpClient
@@ -4247,7 +4248,7 @@ export type UpdateResourceError =
  * expected when performing another `DescribeResource` call.
  */
 export const updateResource: API.OperationMethod<
-  UpdateResourceRequest,
+  UpdateResourceRequest & RegionInput,
   UpdateResourceResponse,
   UpdateResourceError,
   Credentials | HttpClient.HttpClient
@@ -4291,7 +4292,7 @@ export type UpdateUserError =
  * expected when performing another `DescribeUser` call.
  */
 export const updateUser: API.OperationMethod<
-  UpdateUserRequest,
+  UpdateUserRequest & RegionInput,
   UpdateUserResponse,
   UpdateUserError,
   Credentials | HttpClient.HttpClient

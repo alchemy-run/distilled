@@ -1,0 +1,60 @@
+{
+  "description": "Secrets in the administration calls: user passwords, the cluster primary node's password and one-time code, the SSO client secret and API tokens. Technitium's documentation marks no member as secret; these members carry credentials by their documented meaning (pass, newPass, totp, primaryNodePassword, primaryNodeTotp, ssoClientSecret and token in APIDOCS.md, v15.5.0). Inputs accept a string or a Redacted value; outputs are always Redacted (technitium.api#redactedOutput).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/technitium.admin#CreateApiTokenResponse/members/token/traits",
+      "value": {
+        "smithy.api#sensitive": {},
+        "technitium.api#redactedOutput": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.admin#CreateUserRequest/members/pass/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.admin#GetSsoConfigResponse/members/ssoClientSecret/traits",
+      "value": {
+        "smithy.api#sensitive": {},
+        "technitium.api#redactedOutput": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.admin#InitializeAndJoinClusterRequest/members/primaryNodePassword/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.admin#InitializeAndJoinClusterRequest/members/primaryNodeTotp/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.admin#SetSsoConfigRequest/members/ssoClientSecret/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.admin#SetSsoConfigResponse/members/ssoClientSecret/traits",
+      "value": {
+        "smithy.api#sensitive": {},
+        "technitium.api#redactedOutput": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.admin#SetUserDetailsRequest/members/newPass/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    }
+  ]
+}

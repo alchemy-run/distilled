@@ -20,10 +20,35 @@ const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
 const RAW_RESPONSE_TRAIT = "com.distilled.openapi#rawResponse";
 const SENSITIVE_TRAIT = "smithy.api#sensitive";
 
+// Shared by the main API and Functions (which swaps the context and protocol).
+const operationDecl = {
+  contextType: "DigitalOceanOpContext",
+  commonErrorType: "DigitalOceanOpError",
+  commonErrorClasses: ["UnknownDigitalOceanError"],
+  protocol: "DigitalOceanProtocol",
+  retry: "Retry.Retry",
+};
+
 /** DigitalOcean's provider spec for the shared smithy→SDK compiler. */
 const digitaloceanSpec: SdkSpec = {
   nullableTrait: NULLABLE_TRAIT,
   errorMatchersTrait: ERROR_MATCHERS_TRAIT,
+
+  // A response whose sole member is a raw Blob body is the bytes themselves
+  // (audio from Serverless Inference's speech endpoint).
+  shapeOverride: ({ name, def }) => {
+    if (
+      def.type === "structure" &&
+      Object.keys(def.members ?? {}).length === 1 &&
+      def.members.body?.target === "smithy.api#Blob" &&
+      RAW_RESPONSE_TRAIT in (def.members.body.traits ?? {})
+    ) {
+      return [
+        `export type ${name} = Uint8Array;`,
+        `export const ${name} = S.instanceOf(Uint8Array).pipe(T.BinaryResponse()) as S.Schema<${name}>;`,
+      ];
+    }
+  },
 
   extraBindings: [
     {
@@ -72,13 +97,7 @@ const digitaloceanSpec: SdkSpec = {
     },
   },
 
-  operationDecl: {
-    contextType: "DigitalOceanOpContext",
-    commonErrorType: "DigitalOceanOpError",
-    commonErrorClasses: ["UnknownDigitalOceanError"],
-    protocol: "DigitalOceanProtocol",
-    retry: "Retry.Retry",
-  },
+  operationDecl,
 
   sourceNote: ".generated-specs (specs/spec-mirror-digitalocean/specs/openapi.json)",
 
@@ -99,5 +118,20 @@ runGeneratorCli({
   // patches/ holds OpenAPI-document patches consumed by scripts/convert.ts;
   // there is no smithy-model patch chain.
   patchesDir: false,
-  spec: () => digitaloceanSpec,
+  // The OpenWhisk API (specs/openwhisk.json) is served by each Functions
+  // namespace's own host, signed with the namespace key.
+  spec: (model) =>
+    Object.keys((model as { shapes?: object }).shapes ?? {}).some((id) =>
+      id.startsWith("com.digitalocean.functions#"),
+    )
+      ? {
+          ...digitaloceanSpec,
+          operationDecl: {
+            ...operationDecl,
+            contextType: "FunctionsOpContext",
+            protocol: "FunctionsProtocol",
+          },
+          sourceNote: ".generated-specs (specs/spec-mirror-digitalocean/specs/openwhisk.json)",
+        }
+      : digitaloceanSpec,
 });

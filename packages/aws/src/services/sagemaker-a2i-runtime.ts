@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -104,7 +105,7 @@ export class InternalServerException
     "InternalServerException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
@@ -122,7 +123,7 @@ export class ThrottlingException
     "ThrottlingException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
@@ -147,45 +148,45 @@ export type HumanLoopStatus =
 export type HumanLoopArn = string;
 export type FlowDefinitionArn = string;
 export interface HumanLoopOutput {
-  OutputS3Uri?: string;
+  OutputS3Uri?: string | undefined;
 }
 export interface DescribeHumanLoopResponse {
   CreationTime: Date;
-  FailureReason?: string;
-  FailureCode?: string;
+  FailureReason?: string | undefined;
+  FailureCode?: string | undefined;
   HumanLoopStatus: HumanLoopStatus;
   HumanLoopName: string;
   HumanLoopArn: string;
   FlowDefinitionArn: string;
-  HumanLoopOutput?: HumanLoopOutput & { OutputS3Uri: string };
+  HumanLoopOutput?: (HumanLoopOutput & { OutputS3Uri: string }) | undefined;
 }
 export type SortOrder = "Ascending" | "Descending" | (string & {});
 export type NextToken = string;
 export type MaxResults = number;
 export interface ListHumanLoopsRequest {
-  CreationTimeAfter?: Date;
-  CreationTimeBefore?: Date;
-  FlowDefinitionArn?: string;
-  SortOrder?: SortOrder;
-  NextToken?: string;
-  MaxResults?: number;
+  CreationTimeAfter?: Date | undefined;
+  CreationTimeBefore?: Date | undefined;
+  FlowDefinitionArn?: string | undefined;
+  SortOrder?: SortOrder | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type FailureReason = string;
 export interface HumanLoopSummary {
-  HumanLoopName?: string;
-  HumanLoopStatus?: HumanLoopStatus;
-  CreationTime?: Date;
-  FailureReason?: string;
-  FlowDefinitionArn?: string;
+  HumanLoopName?: string | undefined;
+  HumanLoopStatus?: HumanLoopStatus | undefined;
+  CreationTime?: Date | undefined;
+  FailureReason?: string | undefined;
+  FlowDefinitionArn?: string | undefined;
 }
 export type HumanLoopSummaries = HumanLoopSummary[];
 export interface ListHumanLoopsResponse {
   HumanLoopSummaries: HumanLoopSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type InputContent = string;
 export interface HumanLoopInput {
-  InputContent?: string;
+  InputContent?: string | undefined;
 }
 export type ContentClassifier =
   | "FreeOfPersonallyIdentifiableInformation"
@@ -193,19 +194,19 @@ export type ContentClassifier =
   | (string & {});
 export type ContentClassifiers = ContentClassifier[];
 export interface HumanLoopDataAttributes {
-  ContentClassifiers?: ContentClassifier[];
+  ContentClassifiers?: ContentClassifier[] | undefined;
 }
 export interface StartHumanLoopRequest {
-  HumanLoopName?: string;
-  FlowDefinitionArn?: string;
-  HumanLoopInput?: HumanLoopInput;
-  DataAttributes?: HumanLoopDataAttributes;
+  HumanLoopName?: string | undefined;
+  FlowDefinitionArn?: string | undefined;
+  HumanLoopInput?: HumanLoopInput | undefined;
+  DataAttributes?: HumanLoopDataAttributes | undefined;
 }
 export interface StartHumanLoopResponse {
-  HumanLoopArn?: string;
+  HumanLoopArn?: string | undefined;
 }
 export interface StopHumanLoopRequest {
-  HumanLoopName?: string;
+  HumanLoopName?: string | undefined;
 }
 export interface StopHumanLoopResponse {}
 export type DeleteHumanLoopError =
@@ -221,7 +222,7 @@ export type DeleteHumanLoopError =
  * `ResourceNotFoundException`.
  */
 export const deleteHumanLoop: API.OperationMethod<
-  DeleteHumanLoopRequest,
+  DeleteHumanLoopRequest & RegionInput,
   DeleteHumanLoopResponse,
   DeleteHumanLoopError,
   Credentials | HttpClient.HttpClient
@@ -252,7 +253,7 @@ export type DescribeHumanLoopError =
  * operation will return a `ResourceNotFoundException` error.
  */
 export const describeHumanLoop: API.OperationMethod<
-  DescribeHumanLoopRequest,
+  DescribeHumanLoopRequest & RegionInput,
   DescribeHumanLoopResponse,
   DescribeHumanLoopError,
   Credentials | HttpClient.HttpClient
@@ -282,7 +283,7 @@ export type ListHumanLoopsError =
  * Returns information about human loops, given the specified parameters. If a human loop was deleted, it will not be included.
  */
 export const listHumanLoops: API.PaginatedOperationMethod<
-  ListHumanLoopsRequest,
+  ListHumanLoopsRequest & RegionInput,
   ListHumanLoopsResponse,
   ListHumanLoopsError,
   Credentials | HttpClient.HttpClient,
@@ -320,7 +321,7 @@ export type StartHumanLoopError =
  * Starts a human loop, provided that at least one activation condition is met.
  */
 export const startHumanLoop: API.OperationMethod<
-  StartHumanLoopRequest,
+  StartHumanLoopRequest & RegionInput,
   StartHumanLoopResponse,
   StartHumanLoopError,
   Credentials | HttpClient.HttpClient
@@ -351,7 +352,7 @@ export type StopHumanLoopError =
  * Stops the specified human loop.
  */
 export const stopHumanLoop: API.OperationMethod<
-  StopHumanLoopRequest,
+  StopHumanLoopRequest & RegionInput,
   StopHumanLoopResponse,
   StopHumanLoopError,
   Credentials | HttpClient.HttpClient

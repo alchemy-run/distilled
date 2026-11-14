@@ -1,6 +1,7 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * TypesenseProtocol -- the shared bearer/header-auth REST factory from core,
  * instantiated with Typesense's specifics:
@@ -31,7 +32,8 @@ export type TypesenseOpError =
   | DefaultErrors
   | ConfigError
   | HttpClientError.HttpClientError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Typesense operation. */
 export type TypesenseOpContext = Credentials | HttpClient.HttpClient;
@@ -44,6 +46,6 @@ export const TypesenseProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRe
   headers: formatHeaders,
   // Typesense's ApiResponse error body is `{ message }` -- covered by the
   // factory's default envelope reader.
-  unknownError: ({ message, body }) => new UnknownTypesenseError({ message, body }),
+  unknownError: (info) => new UnknownTypesenseError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new TypesenseParseError({ body, cause }),
 });

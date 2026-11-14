@@ -85,48 +85,44 @@ export class NotFound
 
 /** A tag is associated with exactly one package name and user. */
 export interface Tag {
-  /** A string value of the tag. */
-  stringValue?: string;
-  /** A signed 64-bit integer value of the tag. */
-  int64Value?: string;
   /** Required. Key for the tag. */
-  key?: string;
-  /** A boolean value of the tag. */
-  booleanValue?: boolean;
+  key?: string | undefined;
+  /** A string value of the tag. */
+  stringValue?: string | undefined;
   /** A time value of the tag. */
-  timeValue?: string;
+  timeValue?: string | undefined;
+  /** A boolean value of the tag. */
+  booleanValue?: boolean | undefined;
+  /** A signed 64-bit integer value of the tag. */
+  int64Value?: string | undefined;
 }
 export type TagList = Array<Tag>;
 /** Request message for CreateOrUpdateTags. VerifyToken. */
 export interface CreateOrUpdateTagsRequest {
   /** Tags to be inserted or updated. */
-  tags?: TagList;
+  tags?: TagList | undefined;
 }
-export interface CreateOrUpdateAppsTokensTagsRequest {
+export interface CreateOrUpdateAppsTokensTagsRequest extends CreateOrUpdateTagsRequest {
   /** Required. App whose tags are being manipulated. Format: apps/{package_name} */
   appPackage: string;
   /** Required. Token for which the tags are being inserted or updated. Format: tokens/{token} */
   token: string;
-  /** Request body */
-  body?: CreateOrUpdateTagsRequest;
 }
 /** Response message for CreateOrUpdateTags. */
 export interface CreateOrUpdateTagsResponse {
   /** All requested tags are returned, including pre-existing ones. */
-  tags?: TagList;
+  tags?: TagList | undefined;
 }
 /** Request message for VerifyToken. */
 export interface VerifyTokenRequest {
   /** Required. Persona represented by the token. Format: personas/{persona} */
-  persona?: string;
+  persona?: string | undefined;
 }
-export interface VerifyAppsTokensRequest {
+export interface VerifyAppsTokensRequest extends VerifyTokenRequest {
   /** Required. The token to be verified. Format: tokens/{token} */
   token: string;
   /** Required. App the token belongs to. Format: apps/{package_name} */
   appPackage: string;
-  /** Request body */
-  body?: VerifyTokenRequest;
 }
 /** Response message for VerifyToken. */
 export interface VerifyTokenResponse {}
@@ -175,11 +171,11 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          stringValue: S.optional(S.String),
-          int64Value: S.optional(S.String),
           key: S.optional(S.String),
-          booleanValue: S.optional(S.Boolean),
+          stringValue: S.optional(S.String),
           timeValue: S.optional(S.String),
+          booleanValue: S.optional(S.Boolean),
+          int64Value: S.optional(S.String),
         }),
       ).annotate({ identifier: "Tag" });
     case 1:
@@ -192,11 +188,13 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateOrUpdateTagsRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          appPackage: S.String.pipe(T.Label()),
-          token: S.String.pipe(T.Label()),
-          body: S.optional(__S(2, __c0, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2, __c0, 2),
+          S.Struct({
+            appPackage: S.String.pipe(T.Label()),
+            token: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+appPackage}/{+token}/tags:createOrUpdate",
@@ -216,11 +214,13 @@ function __c1(j: number): any {
       ).annotate({ identifier: "VerifyTokenRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          token: S.String.pipe(T.Label()),
-          appPackage: S.String.pipe(T.Label()),
-          body: S.optional(__S(4, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4, __c1, 0),
+          S.Struct({
+            token: S.String.pipe(T.Label()),
+            appPackage: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+appPackage}/{+token}:verify",

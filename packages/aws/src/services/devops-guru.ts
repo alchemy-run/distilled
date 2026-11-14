@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -117,7 +118,7 @@ export class InternalServerException
       ),
     },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
@@ -146,7 +147,7 @@ export class ThrottlingException
       ),
     },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
@@ -167,7 +168,7 @@ export class ValidationException
   ).pipe(C.withBadRequestError) {}
 export type TopicArn = string;
 export interface SnsChannelConfig {
-  TopicArn?: string;
+  TopicArn?: string | undefined;
 }
 export type InsightSeverity = "LOW" | "MEDIUM" | "HIGH" | (string & {});
 export type InsightSeverities = InsightSeverity[];
@@ -180,12 +181,12 @@ export type NotificationMessageType =
   | (string & {});
 export type NotificationMessageTypes = NotificationMessageType[];
 export interface NotificationFilterConfig {
-  Severities?: InsightSeverity[];
-  MessageTypes?: NotificationMessageType[];
+  Severities?: InsightSeverity[] | undefined;
+  MessageTypes?: NotificationMessageType[] | undefined;
 }
 export interface NotificationChannelConfig {
   Sns: SnsChannelConfig;
-  Filters?: NotificationFilterConfig;
+  Filters?: NotificationFilterConfig | undefined;
 }
 export interface AddNotificationChannelRequest {
   Config: NotificationChannelConfig;
@@ -210,11 +211,11 @@ export interface DescribeAccountHealthResponse {
   OpenProactiveInsights: number;
   MetricsAnalyzed: number;
   ResourceHours: number;
-  AnalyzedResourceCount?: number;
+  AnalyzedResourceCount?: number | undefined;
 }
 export interface DescribeAccountOverviewRequest {
   FromTime: Date;
-  ToTime?: Date;
+  ToTime?: Date | undefined;
 }
 export type NumReactiveInsights = number;
 export type NumProactiveInsights = number;
@@ -228,29 +229,29 @@ export type AnomalyId = string;
 export type AwsAccountId = string;
 export interface DescribeAnomalyRequest {
   Id: string;
-  AccountId?: string;
+  AccountId?: string | undefined;
 }
 export type AnomalySeverity = "LOW" | "MEDIUM" | "HIGH" | (string & {});
 export type AnomalyStatus = "ONGOING" | "CLOSED" | (string & {});
 export interface AnomalyTimeRange {
   StartTime: Date;
-  EndTime?: Date;
+  EndTime?: Date | undefined;
 }
 export interface AnomalyReportedTimeRange {
   OpenTime: Date;
-  CloseTime?: Date;
+  CloseTime?: Date | undefined;
 }
 export interface PredictionTimeRange {
   StartTime: Date;
-  EndTime?: Date;
+  EndTime?: Date | undefined;
 }
 export type CloudWatchMetricsMetricName = string;
 export type CloudWatchMetricsNamespace = string;
 export type CloudWatchMetricsDimensionName = string;
 export type CloudWatchMetricsDimensionValue = string;
 export interface CloudWatchMetricsDimension {
-  Name?: string;
-  Value?: string;
+  Name?: string | undefined;
+  Value?: string | undefined;
 }
 export type CloudWatchMetricsDimensions = CloudWatchMetricsDimension[];
 export type CloudWatchMetricsStat =
@@ -267,8 +268,8 @@ export type CloudWatchMetricsUnit = string;
 export type CloudWatchMetricsPeriod = number;
 export type MetricValue = number;
 export interface TimestampMetricValuePair {
-  Timestamp?: Date;
-  MetricValue?: number;
+  Timestamp?: Date | undefined;
+  MetricValue?: number | undefined;
 }
 export type TimestampMetricValuePairList = TimestampMetricValuePair[];
 export type CloudWatchMetricDataStatusCode =
@@ -277,17 +278,17 @@ export type CloudWatchMetricDataStatusCode =
   | "PartialData"
   | (string & {});
 export interface CloudWatchMetricsDataSummary {
-  TimestampMetricValuePairList?: TimestampMetricValuePair[];
-  StatusCode?: CloudWatchMetricDataStatusCode;
+  TimestampMetricValuePairList?: TimestampMetricValuePair[] | undefined;
+  StatusCode?: CloudWatchMetricDataStatusCode | undefined;
 }
 export interface CloudWatchMetricsDetail {
-  MetricName?: string;
-  Namespace?: string;
-  Dimensions?: CloudWatchMetricsDimension[];
-  Stat?: CloudWatchMetricsStat;
-  Unit?: string;
-  Period?: number;
-  MetricDataSummary?: CloudWatchMetricsDataSummary;
+  MetricName?: string | undefined;
+  Namespace?: string | undefined;
+  Dimensions?: CloudWatchMetricsDimension[] | undefined;
+  Stat?: CloudWatchMetricsStat | undefined;
+  Unit?: string | undefined;
+  Period?: number | undefined;
+  MetricDataSummary?: CloudWatchMetricsDataSummary | undefined;
 }
 export type CloudWatchMetricsDetails = CloudWatchMetricsDetail[];
 export type PerformanceInsightsMetricDisplayName = string;
@@ -298,58 +299,58 @@ export type PerformanceInsightsMetricDimension = string;
 export type PerformanceInsightsMetricDimensions = string[];
 export type PerformanceInsightsMetricLimitInteger = number;
 export interface PerformanceInsightsMetricDimensionGroup {
-  Group?: string;
-  Dimensions?: string[];
-  Limit?: number;
+  Group?: string | undefined;
+  Dimensions?: string[] | undefined;
+  Limit?: number | undefined;
 }
 export type PerformanceInsightsMetricFilterKey = string;
 export type PerformanceInsightsMetricFilterValue = string;
 export type PerformanceInsightsMetricFilterMap = { [key: string]: string | undefined };
 export interface PerformanceInsightsMetricQuery {
-  Metric?: string;
-  GroupBy?: PerformanceInsightsMetricDimensionGroup;
-  Filter?: { [key: string]: string | undefined };
+  Metric?: string | undefined;
+  GroupBy?: PerformanceInsightsMetricDimensionGroup | undefined;
+  Filter?: { [key: string]: string | undefined } | undefined;
 }
 export type PerformanceInsightsReferenceName = string;
 export type PerformanceInsightsValueDouble = number;
 export interface PerformanceInsightsReferenceScalar {
-  Value?: number;
+  Value?: number | undefined;
 }
 export interface PerformanceInsightsReferenceMetric {
-  MetricQuery?: PerformanceInsightsMetricQuery;
+  MetricQuery?: PerformanceInsightsMetricQuery | undefined;
 }
 export interface PerformanceInsightsReferenceComparisonValues {
-  ReferenceScalar?: PerformanceInsightsReferenceScalar;
-  ReferenceMetric?: PerformanceInsightsReferenceMetric;
+  ReferenceScalar?: PerformanceInsightsReferenceScalar | undefined;
+  ReferenceMetric?: PerformanceInsightsReferenceMetric | undefined;
 }
 export interface PerformanceInsightsReferenceData {
-  Name?: string;
-  ComparisonValues?: PerformanceInsightsReferenceComparisonValues;
+  Name?: string | undefined;
+  ComparisonValues?: PerformanceInsightsReferenceComparisonValues | undefined;
 }
 export type PerformanceInsightsReferenceDataList = PerformanceInsightsReferenceData[];
 export type PerformanceInsightsStatType = string;
 export interface PerformanceInsightsStat {
-  Type?: string;
-  Value?: number;
+  Type?: string | undefined;
+  Value?: number | undefined;
 }
 export type PerformanceInsightsStats = PerformanceInsightsStat[];
 export interface PerformanceInsightsMetricsDetail {
-  MetricDisplayName?: string;
-  Unit?: string;
-  MetricQuery?: PerformanceInsightsMetricQuery;
-  ReferenceData?: PerformanceInsightsReferenceData[];
-  StatsAtAnomaly?: PerformanceInsightsStat[];
-  StatsAtBaseline?: PerformanceInsightsStat[];
+  MetricDisplayName?: string | undefined;
+  Unit?: string | undefined;
+  MetricQuery?: PerformanceInsightsMetricQuery | undefined;
+  ReferenceData?: PerformanceInsightsReferenceData[] | undefined;
+  StatsAtAnomaly?: PerformanceInsightsStat[] | undefined;
+  StatsAtBaseline?: PerformanceInsightsStat[] | undefined;
 }
 export type PerformanceInsightsMetricsDetails = PerformanceInsightsMetricsDetail[];
 export interface AnomalySourceDetails {
-  CloudWatchMetrics?: CloudWatchMetricsDetail[];
-  PerformanceInsightsMetrics?: PerformanceInsightsMetricsDetail[];
+  CloudWatchMetrics?: CloudWatchMetricsDetail[] | undefined;
+  PerformanceInsightsMetrics?: PerformanceInsightsMetricsDetail[] | undefined;
 }
 export type StackName = string;
 export type StackNames = string[];
 export interface CloudFormationCollection {
-  StackNames?: string[];
+  StackNames?: string[] | undefined;
 }
 export type AppBoundaryKey = string;
 export type TagValue = string;
@@ -360,74 +361,74 @@ export interface TagCollection {
 }
 export type TagCollections = TagCollection[];
 export interface ResourceCollection {
-  CloudFormation?: CloudFormationCollection;
-  Tags?: TagCollection[];
+  CloudFormation?: CloudFormationCollection | undefined;
+  Tags?: TagCollection[] | undefined;
 }
 export type AnomalyLimit = number;
 export type AnomalySource = string;
 export type ResourceName = string;
 export type ResourceType = string;
 export interface AnomalySourceMetadata {
-  Source?: string;
-  SourceResourceName?: string;
-  SourceResourceType?: string;
+  Source?: string | undefined;
+  SourceResourceName?: string | undefined;
+  SourceResourceType?: string | undefined;
 }
 export interface AnomalyResource {
-  Name?: string;
-  Type?: string;
+  Name?: string | undefined;
+  Type?: string | undefined;
 }
 export type AnomalyResources = AnomalyResource[];
 export type AnomalyDescription = string;
 export interface ProactiveAnomaly {
-  Id?: string;
-  Severity?: AnomalySeverity;
-  Status?: AnomalyStatus;
-  UpdateTime?: Date;
-  AnomalyTimeRange?: AnomalyTimeRange;
-  AnomalyReportedTimeRange?: AnomalyReportedTimeRange;
-  PredictionTimeRange?: PredictionTimeRange;
-  SourceDetails?: AnomalySourceDetails;
-  AssociatedInsightId?: string;
-  ResourceCollection?: ResourceCollection;
-  Limit?: number;
-  SourceMetadata?: AnomalySourceMetadata;
-  AnomalyResources?: AnomalyResource[];
-  Description?: string;
+  Id?: string | undefined;
+  Severity?: AnomalySeverity | undefined;
+  Status?: AnomalyStatus | undefined;
+  UpdateTime?: Date | undefined;
+  AnomalyTimeRange?: AnomalyTimeRange | undefined;
+  AnomalyReportedTimeRange?: AnomalyReportedTimeRange | undefined;
+  PredictionTimeRange?: PredictionTimeRange | undefined;
+  SourceDetails?: AnomalySourceDetails | undefined;
+  AssociatedInsightId?: string | undefined;
+  ResourceCollection?: ResourceCollection | undefined;
+  Limit?: number | undefined;
+  SourceMetadata?: AnomalySourceMetadata | undefined;
+  AnomalyResources?: AnomalyResource[] | undefined;
+  Description?: string | undefined;
 }
 export type AnomalyType = "CAUSAL" | "CONTEXTUAL" | (string & {});
 export type AnomalyName = string;
 export interface ReactiveAnomaly {
-  Id?: string;
-  Severity?: AnomalySeverity;
-  Status?: AnomalyStatus;
-  AnomalyTimeRange?: AnomalyTimeRange;
-  AnomalyReportedTimeRange?: AnomalyReportedTimeRange;
-  SourceDetails?: AnomalySourceDetails;
-  AssociatedInsightId?: string;
-  ResourceCollection?: ResourceCollection;
-  Type?: AnomalyType;
-  Name?: string;
-  Description?: string;
-  CausalAnomalyId?: string;
-  AnomalyResources?: AnomalyResource[];
+  Id?: string | undefined;
+  Severity?: AnomalySeverity | undefined;
+  Status?: AnomalyStatus | undefined;
+  AnomalyTimeRange?: AnomalyTimeRange | undefined;
+  AnomalyReportedTimeRange?: AnomalyReportedTimeRange | undefined;
+  SourceDetails?: AnomalySourceDetails | undefined;
+  AssociatedInsightId?: string | undefined;
+  ResourceCollection?: ResourceCollection | undefined;
+  Type?: AnomalyType | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  CausalAnomalyId?: string | undefined;
+  AnomalyResources?: AnomalyResource[] | undefined;
 }
 export interface DescribeAnomalyResponse {
-  ProactiveAnomaly?: ProactiveAnomaly;
-  ReactiveAnomaly?: ReactiveAnomaly;
+  ProactiveAnomaly?: ProactiveAnomaly | undefined;
+  ReactiveAnomaly?: ReactiveAnomaly | undefined;
 }
 export interface DescribeEventSourcesConfigRequest {}
 export type EventSourceOptInStatus = "ENABLED" | "DISABLED" | (string & {});
 export interface AmazonCodeGuruProfilerIntegration {
-  Status?: EventSourceOptInStatus;
+  Status?: EventSourceOptInStatus | undefined;
 }
 export interface EventSourcesConfig {
-  AmazonCodeGuruProfiler?: AmazonCodeGuruProfilerIntegration;
+  AmazonCodeGuruProfiler?: AmazonCodeGuruProfilerIntegration | undefined;
 }
 export interface DescribeEventSourcesConfigResponse {
-  EventSources?: EventSourcesConfig;
+  EventSources?: EventSourcesConfig | undefined;
 }
 export interface DescribeFeedbackRequest {
-  InsightId?: string;
+  InsightId?: string | undefined;
 }
 export type InsightFeedbackOption =
   | "VALID_COLLECTION"
@@ -437,55 +438,55 @@ export type InsightFeedbackOption =
   | "DATA_INCORRECT"
   | (string & {});
 export interface InsightFeedback {
-  Id?: string;
-  Feedback?: InsightFeedbackOption;
+  Id?: string | undefined;
+  Feedback?: InsightFeedbackOption | undefined;
 }
 export interface DescribeFeedbackResponse {
-  InsightFeedback?: InsightFeedback;
+  InsightFeedback?: InsightFeedback | undefined;
 }
 export interface DescribeInsightRequest {
   Id: string;
-  AccountId?: string;
+  AccountId?: string | undefined;
 }
 export type InsightName = string;
 export type InsightStatus = "ONGOING" | "CLOSED" | (string & {});
 export interface InsightTimeRange {
   StartTime: Date;
-  EndTime?: Date;
+  EndTime?: Date | undefined;
 }
 export type SsmOpsItemId = string;
 export type InsightDescription = string;
 export interface ProactiveInsight {
-  Id?: string;
-  Name?: string;
-  Severity?: InsightSeverity;
-  Status?: InsightStatus;
-  InsightTimeRange?: InsightTimeRange;
-  PredictionTimeRange?: PredictionTimeRange;
-  ResourceCollection?: ResourceCollection;
-  SsmOpsItemId?: string;
-  Description?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Severity?: InsightSeverity | undefined;
+  Status?: InsightStatus | undefined;
+  InsightTimeRange?: InsightTimeRange | undefined;
+  PredictionTimeRange?: PredictionTimeRange | undefined;
+  ResourceCollection?: ResourceCollection | undefined;
+  SsmOpsItemId?: string | undefined;
+  Description?: string | undefined;
 }
 export interface ReactiveInsight {
-  Id?: string;
-  Name?: string;
-  Severity?: InsightSeverity;
-  Status?: InsightStatus;
-  InsightTimeRange?: InsightTimeRange;
-  ResourceCollection?: ResourceCollection;
-  SsmOpsItemId?: string;
-  Description?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Severity?: InsightSeverity | undefined;
+  Status?: InsightStatus | undefined;
+  InsightTimeRange?: InsightTimeRange | undefined;
+  ResourceCollection?: ResourceCollection | undefined;
+  SsmOpsItemId?: string | undefined;
+  Description?: string | undefined;
 }
 export interface DescribeInsightResponse {
-  ProactiveInsight?: ProactiveInsight;
-  ReactiveInsight?: ReactiveInsight;
+  ProactiveInsight?: ProactiveInsight | undefined;
+  ReactiveInsight?: ReactiveInsight | undefined;
 }
 export type AccountIdList = string[];
 export type OrganizationalUnitId = string;
 export type OrganizationalUnitIdList = string[];
 export interface DescribeOrganizationHealthRequest {
-  AccountIds?: string[];
-  OrganizationalUnitIds?: string[];
+  AccountIds?: string[] | undefined;
+  OrganizationalUnitIds?: string[] | undefined;
 }
 export interface DescribeOrganizationHealthResponse {
   OpenReactiveInsights: number;
@@ -495,9 +496,9 @@ export interface DescribeOrganizationHealthResponse {
 }
 export interface DescribeOrganizationOverviewRequest {
   FromTime: Date;
-  ToTime?: Date;
-  AccountIds?: string[];
-  OrganizationalUnitIds?: string[];
+  ToTime?: Date | undefined;
+  AccountIds?: string[] | undefined;
+  OrganizationalUnitIds?: string[] | undefined;
 }
 export interface DescribeOrganizationOverviewResponse {
   ReactiveInsights: number;
@@ -513,20 +514,20 @@ export type UuidNextToken = string;
 export type OrganizationResourceCollectionMaxResults = number;
 export interface DescribeOrganizationResourceCollectionHealthRequest {
   OrganizationResourceCollectionType: OrganizationResourceCollectionType;
-  AccountIds?: string[];
-  OrganizationalUnitIds?: string[];
-  NextToken?: string;
-  MaxResults?: number;
+  AccountIds?: string[] | undefined;
+  OrganizationalUnitIds?: string[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface InsightHealth {
-  OpenProactiveInsights?: number;
-  OpenReactiveInsights?: number;
-  MeanTimeToRecoverInMilliseconds?: number;
+  OpenProactiveInsights?: number | undefined;
+  OpenReactiveInsights?: number | undefined;
+  MeanTimeToRecoverInMilliseconds?: number | undefined;
 }
 export interface CloudFormationHealth {
-  StackName?: string;
-  Insight?: InsightHealth;
-  AnalyzedResourceCount?: number;
+  StackName?: string | undefined;
+  Insight?: InsightHealth | undefined;
+  AnalyzedResourceCount?: number | undefined;
 }
 export type CloudFormationHealths = CloudFormationHealth[];
 export type ServiceName =
@@ -557,37 +558,37 @@ export type ServiceName =
   | "SWF"
   | (string & {});
 export interface ServiceInsightHealth {
-  OpenProactiveInsights?: number;
-  OpenReactiveInsights?: number;
+  OpenProactiveInsights?: number | undefined;
+  OpenReactiveInsights?: number | undefined;
 }
 export interface ServiceHealth {
-  ServiceName?: ServiceName;
-  Insight?: ServiceInsightHealth;
-  AnalyzedResourceCount?: number;
+  ServiceName?: ServiceName | undefined;
+  Insight?: ServiceInsightHealth | undefined;
+  AnalyzedResourceCount?: number | undefined;
 }
 export type ServiceHealths = ServiceHealth[];
 export interface AccountInsightHealth {
-  OpenProactiveInsights?: number;
-  OpenReactiveInsights?: number;
+  OpenProactiveInsights?: number | undefined;
+  OpenReactiveInsights?: number | undefined;
 }
 export interface AccountHealth {
-  AccountId?: string;
-  Insight?: AccountInsightHealth;
+  AccountId?: string | undefined;
+  Insight?: AccountInsightHealth | undefined;
 }
 export type AccountHealths = AccountHealth[];
 export interface TagHealth {
-  AppBoundaryKey?: string;
-  TagValue?: string;
-  Insight?: InsightHealth;
-  AnalyzedResourceCount?: number;
+  AppBoundaryKey?: string | undefined;
+  TagValue?: string | undefined;
+  Insight?: InsightHealth | undefined;
+  AnalyzedResourceCount?: number | undefined;
 }
 export type TagHealths = TagHealth[];
 export interface DescribeOrganizationResourceCollectionHealthResponse {
-  CloudFormation?: CloudFormationHealth[];
-  Service?: ServiceHealth[];
-  Account?: AccountHealth[];
-  NextToken?: string;
-  Tags?: TagHealth[];
+  CloudFormation?: CloudFormationHealth[] | undefined;
+  Service?: ServiceHealth[] | undefined;
+  Account?: AccountHealth[] | undefined;
+  NextToken?: string | undefined;
+  Tags?: TagHealth[] | undefined;
 }
 export type ResourceCollectionType =
   | "AWS_CLOUD_FORMATION"
@@ -596,43 +597,43 @@ export type ResourceCollectionType =
   | (string & {});
 export interface DescribeResourceCollectionHealthRequest {
   ResourceCollectionType: ResourceCollectionType;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface DescribeResourceCollectionHealthResponse {
-  CloudFormation?: CloudFormationHealth[];
-  Service?: ServiceHealth[];
-  NextToken?: string;
-  Tags?: TagHealth[];
+  CloudFormation?: CloudFormationHealth[] | undefined;
+  Service?: ServiceHealth[] | undefined;
+  NextToken?: string | undefined;
+  Tags?: TagHealth[] | undefined;
 }
 export interface DescribeServiceIntegrationRequest {}
 export type OptInStatus = "ENABLED" | "DISABLED" | (string & {});
 export interface OpsCenterIntegration {
-  OptInStatus?: OptInStatus;
+  OptInStatus?: OptInStatus | undefined;
 }
 export interface LogsAnomalyDetectionIntegration {
-  OptInStatus?: OptInStatus;
+  OptInStatus?: OptInStatus | undefined;
 }
 export type KMSKeyId = string;
 export type ServerSideEncryptionType = "CUSTOMER_MANAGED_KEY" | "AWS_OWNED_KMS_KEY" | (string & {});
 export interface KMSServerSideEncryptionIntegration {
-  KMSKeyId?: string;
-  OptInStatus?: OptInStatus;
-  Type?: ServerSideEncryptionType;
+  KMSKeyId?: string | undefined;
+  OptInStatus?: OptInStatus | undefined;
+  Type?: ServerSideEncryptionType | undefined;
 }
 export interface ServiceIntegrationConfig {
-  OpsCenter?: OpsCenterIntegration;
-  LogsAnomalyDetection?: LogsAnomalyDetectionIntegration;
-  KMSServerSideEncryption?: KMSServerSideEncryptionIntegration;
+  OpsCenter?: OpsCenterIntegration | undefined;
+  LogsAnomalyDetection?: LogsAnomalyDetectionIntegration | undefined;
+  KMSServerSideEncryption?: KMSServerSideEncryptionIntegration | undefined;
 }
 export interface DescribeServiceIntegrationResponse {
-  ServiceIntegration?: ServiceIntegrationConfig;
+  ServiceIntegration?: ServiceIntegrationConfig | undefined;
 }
 export interface GetCostEstimationRequest {
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type CostEstimationStackNames = string[];
 export interface CloudFormationCostEstimationResourceCollectionFilter {
-  StackNames?: string[];
+  StackNames?: string[] | undefined;
 }
 export type CostEstimationTagValues = string[];
 export interface TagCostEstimationResourceCollectionFilter {
@@ -642,39 +643,39 @@ export interface TagCostEstimationResourceCollectionFilter {
 export type TagCostEstimationResourceCollectionFilters =
   TagCostEstimationResourceCollectionFilter[];
 export interface CostEstimationResourceCollectionFilter {
-  CloudFormation?: CloudFormationCostEstimationResourceCollectionFilter;
-  Tags?: TagCostEstimationResourceCollectionFilter[];
+  CloudFormation?: CloudFormationCostEstimationResourceCollectionFilter | undefined;
+  Tags?: TagCostEstimationResourceCollectionFilter[] | undefined;
 }
 export type CostEstimationStatus = "ONGOING" | "COMPLETED" | (string & {});
 export type CostEstimationServiceResourceState = "ACTIVE" | "INACTIVE" | (string & {});
 export type CostEstimationServiceResourceCount = number;
 export type Cost = number;
 export interface ServiceResourceCost {
-  Type?: string;
-  State?: CostEstimationServiceResourceState;
-  Count?: number;
-  UnitCost?: number;
-  Cost?: number;
+  Type?: string | undefined;
+  State?: CostEstimationServiceResourceState | undefined;
+  Count?: number | undefined;
+  UnitCost?: number | undefined;
+  Cost?: number | undefined;
 }
 export type ServiceResourceCosts = ServiceResourceCost[];
 export interface CostEstimationTimeRange {
-  StartTime?: Date;
-  EndTime?: Date;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
 }
 export interface GetCostEstimationResponse {
-  ResourceCollection?: CostEstimationResourceCollectionFilter;
-  Status?: CostEstimationStatus;
-  Costs?: ServiceResourceCost[];
-  TimeRange?: CostEstimationTimeRange;
-  TotalCost?: number;
-  NextToken?: string;
+  ResourceCollection?: CostEstimationResourceCollectionFilter | undefined;
+  Status?: CostEstimationStatus | undefined;
+  Costs?: ServiceResourceCost[] | undefined;
+  TimeRange?: CostEstimationTimeRange | undefined;
+  TotalCost?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetResourceCollectionRequest {
   ResourceCollectionType: ResourceCollectionType;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface CloudFormationCollectionFilter {
-  StackNames?: string[];
+  StackNames?: string[] | undefined;
 }
 export interface TagCollectionFilter {
   AppBoundaryKey: string;
@@ -682,76 +683,76 @@ export interface TagCollectionFilter {
 }
 export type TagCollectionFilters = TagCollectionFilter[];
 export interface ResourceCollectionFilter {
-  CloudFormation?: CloudFormationCollectionFilter;
-  Tags?: TagCollectionFilter[];
+  CloudFormation?: CloudFormationCollectionFilter | undefined;
+  Tags?: TagCollectionFilter[] | undefined;
 }
 export interface GetResourceCollectionResponse {
-  ResourceCollection?: ResourceCollectionFilter;
-  NextToken?: string;
+  ResourceCollection?: ResourceCollectionFilter | undefined;
+  NextToken?: string | undefined;
 }
 export interface StartTimeRange {
-  FromTime?: Date;
-  ToTime?: Date;
+  FromTime?: Date | undefined;
+  ToTime?: Date | undefined;
 }
 export type ListAnomaliesForInsightMaxResults = number;
 export type ServiceNames = ServiceName[];
 export interface ServiceCollection {
-  ServiceNames?: ServiceName[];
+  ServiceNames?: ServiceName[] | undefined;
 }
 export interface ListAnomaliesForInsightFilters {
-  ServiceCollection?: ServiceCollection;
+  ServiceCollection?: ServiceCollection | undefined;
 }
 export interface ListAnomaliesForInsightRequest {
   InsightId: string;
-  StartTimeRange?: StartTimeRange;
-  MaxResults?: number;
-  NextToken?: string;
-  AccountId?: string;
-  Filters?: ListAnomaliesForInsightFilters;
+  StartTimeRange?: StartTimeRange | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  AccountId?: string | undefined;
+  Filters?: ListAnomaliesForInsightFilters | undefined;
 }
 export interface ProactiveAnomalySummary {
-  Id?: string;
-  Severity?: AnomalySeverity;
-  Status?: AnomalyStatus;
-  UpdateTime?: Date;
-  AnomalyTimeRange?: AnomalyTimeRange;
-  AnomalyReportedTimeRange?: AnomalyReportedTimeRange;
-  PredictionTimeRange?: PredictionTimeRange;
-  SourceDetails?: AnomalySourceDetails;
-  AssociatedInsightId?: string;
-  ResourceCollection?: ResourceCollection;
-  Limit?: number;
-  SourceMetadata?: AnomalySourceMetadata;
-  AnomalyResources?: AnomalyResource[];
-  Description?: string;
+  Id?: string | undefined;
+  Severity?: AnomalySeverity | undefined;
+  Status?: AnomalyStatus | undefined;
+  UpdateTime?: Date | undefined;
+  AnomalyTimeRange?: AnomalyTimeRange | undefined;
+  AnomalyReportedTimeRange?: AnomalyReportedTimeRange | undefined;
+  PredictionTimeRange?: PredictionTimeRange | undefined;
+  SourceDetails?: AnomalySourceDetails | undefined;
+  AssociatedInsightId?: string | undefined;
+  ResourceCollection?: ResourceCollection | undefined;
+  Limit?: number | undefined;
+  SourceMetadata?: AnomalySourceMetadata | undefined;
+  AnomalyResources?: AnomalyResource[] | undefined;
+  Description?: string | undefined;
 }
 export type ProactiveAnomalies = ProactiveAnomalySummary[];
 export interface ReactiveAnomalySummary {
-  Id?: string;
-  Severity?: AnomalySeverity;
-  Status?: AnomalyStatus;
-  AnomalyTimeRange?: AnomalyTimeRange;
-  AnomalyReportedTimeRange?: AnomalyReportedTimeRange;
-  SourceDetails?: AnomalySourceDetails;
-  AssociatedInsightId?: string;
-  ResourceCollection?: ResourceCollection;
-  Type?: AnomalyType;
-  Name?: string;
-  Description?: string;
-  CausalAnomalyId?: string;
-  AnomalyResources?: AnomalyResource[];
+  Id?: string | undefined;
+  Severity?: AnomalySeverity | undefined;
+  Status?: AnomalyStatus | undefined;
+  AnomalyTimeRange?: AnomalyTimeRange | undefined;
+  AnomalyReportedTimeRange?: AnomalyReportedTimeRange | undefined;
+  SourceDetails?: AnomalySourceDetails | undefined;
+  AssociatedInsightId?: string | undefined;
+  ResourceCollection?: ResourceCollection | undefined;
+  Type?: AnomalyType | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  CausalAnomalyId?: string | undefined;
+  AnomalyResources?: AnomalyResource[] | undefined;
 }
 export type ReactiveAnomalies = ReactiveAnomalySummary[];
 export interface ListAnomaliesForInsightResponse {
-  ProactiveAnomalies?: ProactiveAnomalySummary[];
-  ReactiveAnomalies?: ReactiveAnomalySummary[];
-  NextToken?: string;
+  ProactiveAnomalies?: ProactiveAnomalySummary[] | undefined;
+  ReactiveAnomalies?: ReactiveAnomalySummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListAnomalousLogGroupsMaxResults = number;
 export interface ListAnomalousLogGroupsRequest {
   InsightId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type LogGroupName = string;
 export type NumberOfLogLinesScanned = number;
@@ -771,31 +772,31 @@ export type LogEventId = string;
 export type Explanation = string;
 export type NumberOfLogLinesOccurrences = number;
 export interface LogAnomalyClass {
-  LogStreamName?: string;
-  LogAnomalyType?: LogAnomalyType;
-  LogAnomalyToken?: string;
-  LogEventId?: string;
-  Explanation?: string;
-  NumberOfLogLinesOccurrences?: number;
-  LogEventTimestamp?: Date;
+  LogStreamName?: string | undefined;
+  LogAnomalyType?: LogAnomalyType | undefined;
+  LogAnomalyToken?: string | undefined;
+  LogEventId?: string | undefined;
+  Explanation?: string | undefined;
+  NumberOfLogLinesOccurrences?: number | undefined;
+  LogEventTimestamp?: Date | undefined;
 }
 export type LogAnomalyClasses = LogAnomalyClass[];
 export interface LogAnomalyShowcase {
-  LogAnomalyClasses?: LogAnomalyClass[];
+  LogAnomalyClasses?: LogAnomalyClass[] | undefined;
 }
 export type LogAnomalyShowcases = LogAnomalyShowcase[];
 export interface AnomalousLogGroup {
-  LogGroupName?: string;
-  ImpactStartTime?: Date;
-  ImpactEndTime?: Date;
-  NumberOfLogLinesScanned?: number;
-  LogAnomalyShowcases?: LogAnomalyShowcase[];
+  LogGroupName?: string | undefined;
+  ImpactStartTime?: Date | undefined;
+  ImpactEndTime?: Date | undefined;
+  NumberOfLogLinesScanned?: number | undefined;
+  LogAnomalyShowcases?: LogAnomalyShowcase[] | undefined;
 }
 export type AnomalousLogGroups = AnomalousLogGroup[];
 export interface ListAnomalousLogGroupsResponse {
   InsightId: string;
   AnomalousLogGroups: AnomalousLogGroup[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface EventTimeRange {
   FromTime: Date;
@@ -811,19 +812,19 @@ export type EventClass =
 export type EventSource = string;
 export type EventDataSource = "AWS_CLOUD_TRAIL" | "AWS_CODE_DEPLOY" | (string & {});
 export interface ListEventsFilters {
-  InsightId?: string;
-  EventTimeRange?: EventTimeRange;
-  EventClass?: EventClass;
-  EventSource?: string;
-  DataSource?: EventDataSource;
-  ResourceCollection?: ResourceCollection;
+  InsightId?: string | undefined;
+  EventTimeRange?: EventTimeRange | undefined;
+  EventClass?: EventClass | undefined;
+  EventSource?: string | undefined;
+  DataSource?: EventDataSource | undefined;
+  ResourceCollection?: ResourceCollection | undefined;
 }
 export type ListEventsMaxResults = number;
 export interface ListEventsRequest {
   Filters: ListEventsFilters;
-  MaxResults?: number;
-  NextToken?: string;
-  AccountId?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  AccountId?: string | undefined;
 }
 export type EventId = string;
 export type EventName = string;
@@ -831,33 +832,33 @@ export type EventResourceType = string;
 export type EventResourceName = string;
 export type EventResourceArn = string;
 export interface EventResource {
-  Type?: string;
-  Name?: string;
-  Arn?: string;
+  Type?: string | undefined;
+  Name?: string | undefined;
+  Arn?: string | undefined;
 }
 export type EventResources = EventResource[];
 export interface Event {
-  ResourceCollection?: ResourceCollection;
-  Id?: string;
-  Time?: Date;
-  EventSource?: string;
-  Name?: string;
-  DataSource?: EventDataSource;
-  EventClass?: EventClass;
-  Resources?: EventResource[];
+  ResourceCollection?: ResourceCollection | undefined;
+  Id?: string | undefined;
+  Time?: Date | undefined;
+  EventSource?: string | undefined;
+  Name?: string | undefined;
+  DataSource?: EventDataSource | undefined;
+  EventClass?: EventClass | undefined;
+  Resources?: EventResource[] | undefined;
 }
 export type Events = Event[];
 export interface ListEventsResponse {
   Events: Event[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type InsightType = "REACTIVE" | "PROACTIVE" | (string & {});
 export interface ListInsightsOngoingStatusFilter {
   Type: InsightType;
 }
 export interface EndTimeRange {
-  FromTime?: Date;
-  ToTime?: Date;
+  FromTime?: Date | undefined;
+  ToTime?: Date | undefined;
 }
 export interface ListInsightsClosedStatusFilter {
   Type: InsightType;
@@ -868,45 +869,45 @@ export interface ListInsightsAnyStatusFilter {
   StartTimeRange: StartTimeRange;
 }
 export interface ListInsightsStatusFilter {
-  Ongoing?: ListInsightsOngoingStatusFilter;
-  Closed?: ListInsightsClosedStatusFilter;
-  Any?: ListInsightsAnyStatusFilter;
+  Ongoing?: ListInsightsOngoingStatusFilter | undefined;
+  Closed?: ListInsightsClosedStatusFilter | undefined;
+  Any?: ListInsightsAnyStatusFilter | undefined;
 }
 export type ListInsightsMaxResults = number;
 export interface ListInsightsRequest {
   StatusFilter: ListInsightsStatusFilter;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ResourceArn = string;
 export type AssociatedResourceArns = string[];
 export interface ProactiveInsightSummary {
-  Id?: string;
-  Name?: string;
-  Severity?: InsightSeverity;
-  Status?: InsightStatus;
-  InsightTimeRange?: InsightTimeRange;
-  PredictionTimeRange?: PredictionTimeRange;
-  ResourceCollection?: ResourceCollection;
-  ServiceCollection?: ServiceCollection;
-  AssociatedResourceArns?: string[];
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Severity?: InsightSeverity | undefined;
+  Status?: InsightStatus | undefined;
+  InsightTimeRange?: InsightTimeRange | undefined;
+  PredictionTimeRange?: PredictionTimeRange | undefined;
+  ResourceCollection?: ResourceCollection | undefined;
+  ServiceCollection?: ServiceCollection | undefined;
+  AssociatedResourceArns?: string[] | undefined;
 }
 export type ProactiveInsights = ProactiveInsightSummary[];
 export interface ReactiveInsightSummary {
-  Id?: string;
-  Name?: string;
-  Severity?: InsightSeverity;
-  Status?: InsightStatus;
-  InsightTimeRange?: InsightTimeRange;
-  ResourceCollection?: ResourceCollection;
-  ServiceCollection?: ServiceCollection;
-  AssociatedResourceArns?: string[];
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Severity?: InsightSeverity | undefined;
+  Status?: InsightStatus | undefined;
+  InsightTimeRange?: InsightTimeRange | undefined;
+  ResourceCollection?: ResourceCollection | undefined;
+  ServiceCollection?: ServiceCollection | undefined;
+  AssociatedResourceArns?: string[] | undefined;
 }
 export type ReactiveInsights = ReactiveInsightSummary[];
 export interface ListInsightsResponse {
-  ProactiveInsights?: ProactiveInsightSummary[];
-  ReactiveInsights?: ReactiveInsightSummary[];
-  NextToken?: string;
+  ProactiveInsights?: ProactiveInsightSummary[] | undefined;
+  ReactiveInsights?: ReactiveInsightSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ResourcePermission = "FULL_PERMISSION" | "MISSING_PERMISSION" | (string & {});
 export type ResourceTypeFilter =
@@ -945,73 +946,73 @@ export interface ListMonitoredResourcesFilters {
 }
 export type ListMonitoredResourcesMaxResults = number;
 export interface ListMonitoredResourcesRequest {
-  Filters?: ListMonitoredResourcesFilters;
-  MaxResults?: number;
-  NextToken?: string;
+  Filters?: ListMonitoredResourcesFilters | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type MonitoredResourceName = string;
 export interface MonitoredResourceIdentifier {
-  MonitoredResourceName?: string;
-  Type?: string;
-  ResourcePermission?: ResourcePermission;
-  LastUpdated?: Date;
-  ResourceCollection?: ResourceCollection;
+  MonitoredResourceName?: string | undefined;
+  Type?: string | undefined;
+  ResourcePermission?: ResourcePermission | undefined;
+  LastUpdated?: Date | undefined;
+  ResourceCollection?: ResourceCollection | undefined;
 }
 export type MonitoredResourceIdentifiers = MonitoredResourceIdentifier[];
 export interface ListMonitoredResourcesResponse {
   MonitoredResourceIdentifiers: MonitoredResourceIdentifier[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListNotificationChannelsRequest {
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface NotificationChannel {
-  Id?: string;
-  Config?: NotificationChannelConfig;
+  Id?: string | undefined;
+  Config?: NotificationChannelConfig | undefined;
 }
 export type Channels = NotificationChannel[];
 export interface ListNotificationChannelsResponse {
-  Channels?: NotificationChannel[];
-  NextToken?: string;
+  Channels?: NotificationChannel[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListInsightsAccountIdList = string[];
 export type ListInsightsOrganizationalUnitIdList = string[];
 export interface ListOrganizationInsightsRequest {
   StatusFilter: ListInsightsStatusFilter;
-  MaxResults?: number;
-  AccountIds?: string[];
-  OrganizationalUnitIds?: string[];
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  AccountIds?: string[] | undefined;
+  OrganizationalUnitIds?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ProactiveOrganizationInsightSummary {
-  Id?: string;
-  AccountId?: string;
-  OrganizationalUnitId?: string;
-  Name?: string;
-  Severity?: InsightSeverity;
-  Status?: InsightStatus;
-  InsightTimeRange?: InsightTimeRange;
-  PredictionTimeRange?: PredictionTimeRange;
-  ResourceCollection?: ResourceCollection;
-  ServiceCollection?: ServiceCollection;
+  Id?: string | undefined;
+  AccountId?: string | undefined;
+  OrganizationalUnitId?: string | undefined;
+  Name?: string | undefined;
+  Severity?: InsightSeverity | undefined;
+  Status?: InsightStatus | undefined;
+  InsightTimeRange?: InsightTimeRange | undefined;
+  PredictionTimeRange?: PredictionTimeRange | undefined;
+  ResourceCollection?: ResourceCollection | undefined;
+  ServiceCollection?: ServiceCollection | undefined;
 }
 export type ProactiveOrganizationInsights = ProactiveOrganizationInsightSummary[];
 export interface ReactiveOrganizationInsightSummary {
-  Id?: string;
-  AccountId?: string;
-  OrganizationalUnitId?: string;
-  Name?: string;
-  Severity?: InsightSeverity;
-  Status?: InsightStatus;
-  InsightTimeRange?: InsightTimeRange;
-  ResourceCollection?: ResourceCollection;
-  ServiceCollection?: ServiceCollection;
+  Id?: string | undefined;
+  AccountId?: string | undefined;
+  OrganizationalUnitId?: string | undefined;
+  Name?: string | undefined;
+  Severity?: InsightSeverity | undefined;
+  Status?: InsightStatus | undefined;
+  InsightTimeRange?: InsightTimeRange | undefined;
+  ResourceCollection?: ResourceCollection | undefined;
+  ServiceCollection?: ServiceCollection | undefined;
 }
 export type ReactiveOrganizationInsights = ReactiveOrganizationInsightSummary[];
 export interface ListOrganizationInsightsResponse {
-  ProactiveInsights?: ProactiveOrganizationInsightSummary[];
-  ReactiveInsights?: ReactiveOrganizationInsightSummary[];
-  NextToken?: string;
+  ProactiveInsights?: ProactiveOrganizationInsightSummary[] | undefined;
+  ReactiveInsights?: ReactiveOrganizationInsightSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type Locale =
   | "DE_DE"
@@ -1028,9 +1029,9 @@ export type Locale =
   | (string & {});
 export interface ListRecommendationsRequest {
   InsightId: string;
-  NextToken?: string;
-  Locale?: Locale;
-  AccountId?: string;
+  NextToken?: string | undefined;
+  Locale?: Locale | undefined;
+  AccountId?: string | undefined;
 }
 export type RecommendationDescription = string;
 export type RecommendationLink = string;
@@ -1040,57 +1041,57 @@ export type RecommendationRelatedEventName = string;
 export type RecommendationRelatedEventResourceName = string;
 export type RecommendationRelatedEventResourceType = string;
 export interface RecommendationRelatedEventResource {
-  Name?: string;
-  Type?: string;
+  Name?: string | undefined;
+  Type?: string | undefined;
 }
 export type RecommendationRelatedEventResources = RecommendationRelatedEventResource[];
 export interface RecommendationRelatedEvent {
-  Name?: string;
-  Resources?: RecommendationRelatedEventResource[];
+  Name?: string | undefined;
+  Resources?: RecommendationRelatedEventResource[] | undefined;
 }
 export type RecommendationRelatedEvents = RecommendationRelatedEvent[];
 export type RecommendationRelatedAnomalyResourceName = string;
 export type RecommendationRelatedAnomalyResourceType = string;
 export interface RecommendationRelatedAnomalyResource {
-  Name?: string;
-  Type?: string;
+  Name?: string | undefined;
+  Type?: string | undefined;
 }
 export type RecommendationRelatedAnomalyResources = RecommendationRelatedAnomalyResource[];
 export type RecommendationRelatedCloudWatchMetricsSourceMetricName = string;
 export type RecommendationRelatedCloudWatchMetricsSourceNamespace = string;
 export interface RecommendationRelatedCloudWatchMetricsSourceDetail {
-  MetricName?: string;
-  Namespace?: string;
+  MetricName?: string | undefined;
+  Namespace?: string | undefined;
 }
 export type RecommendationRelatedCloudWatchMetricsSourceDetails =
   RecommendationRelatedCloudWatchMetricsSourceDetail[];
 export interface RecommendationRelatedAnomalySourceDetail {
-  CloudWatchMetrics?: RecommendationRelatedCloudWatchMetricsSourceDetail[];
+  CloudWatchMetrics?: RecommendationRelatedCloudWatchMetricsSourceDetail[] | undefined;
 }
 export type RelatedAnomalySourceDetails = RecommendationRelatedAnomalySourceDetail[];
 export interface RecommendationRelatedAnomaly {
-  Resources?: RecommendationRelatedAnomalyResource[];
-  SourceDetails?: RecommendationRelatedAnomalySourceDetail[];
-  AnomalyId?: string;
+  Resources?: RecommendationRelatedAnomalyResource[] | undefined;
+  SourceDetails?: RecommendationRelatedAnomalySourceDetail[] | undefined;
+  AnomalyId?: string | undefined;
 }
 export type RecommendationRelatedAnomalies = RecommendationRelatedAnomaly[];
 export type RecommendationCategory = string;
 export interface Recommendation {
-  Description?: string;
-  Link?: string;
-  Name?: string;
-  Reason?: string;
-  RelatedEvents?: RecommendationRelatedEvent[];
-  RelatedAnomalies?: RecommendationRelatedAnomaly[];
-  Category?: string;
+  Description?: string | undefined;
+  Link?: string | undefined;
+  Name?: string | undefined;
+  Reason?: string | undefined;
+  RelatedEvents?: RecommendationRelatedEvent[] | undefined;
+  RelatedAnomalies?: RecommendationRelatedAnomaly[] | undefined;
+  Category?: string | undefined;
 }
 export type Recommendations = Recommendation[];
 export interface ListRecommendationsResponse {
-  Recommendations?: Recommendation[];
-  NextToken?: string;
+  Recommendations?: Recommendation[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface PutFeedbackRequest {
-  InsightFeedback?: InsightFeedback;
+  InsightFeedback?: InsightFeedback | undefined;
 }
 export interface PutFeedbackResponse {}
 export interface RemoveNotificationChannelRequest {
@@ -1099,59 +1100,59 @@ export interface RemoveNotificationChannelRequest {
 export interface RemoveNotificationChannelResponse {}
 export type InsightStatuses = InsightStatus[];
 export interface SearchInsightsFilters {
-  Severities?: InsightSeverity[];
-  Statuses?: InsightStatus[];
-  ResourceCollection?: ResourceCollection;
-  ServiceCollection?: ServiceCollection;
+  Severities?: InsightSeverity[] | undefined;
+  Statuses?: InsightStatus[] | undefined;
+  ResourceCollection?: ResourceCollection | undefined;
+  ServiceCollection?: ServiceCollection | undefined;
 }
 export type SearchInsightsMaxResults = number;
 export interface SearchInsightsRequest {
   StartTimeRange: StartTimeRange;
-  Filters?: SearchInsightsFilters;
-  MaxResults?: number;
-  NextToken?: string;
+  Filters?: SearchInsightsFilters | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   Type: InsightType;
 }
 export interface SearchInsightsResponse {
-  ProactiveInsights?: ProactiveInsightSummary[];
-  ReactiveInsights?: ReactiveInsightSummary[];
-  NextToken?: string;
+  ProactiveInsights?: ProactiveInsightSummary[] | undefined;
+  ReactiveInsights?: ReactiveInsightSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type SearchInsightsAccountIdList = string[];
 export interface SearchOrganizationInsightsFilters {
-  Severities?: InsightSeverity[];
-  Statuses?: InsightStatus[];
-  ResourceCollection?: ResourceCollection;
-  ServiceCollection?: ServiceCollection;
+  Severities?: InsightSeverity[] | undefined;
+  Statuses?: InsightStatus[] | undefined;
+  ResourceCollection?: ResourceCollection | undefined;
+  ServiceCollection?: ServiceCollection | undefined;
 }
 export type SearchOrganizationInsightsMaxResults = number;
 export interface SearchOrganizationInsightsRequest {
   AccountIds: string[];
   StartTimeRange: StartTimeRange;
-  Filters?: SearchOrganizationInsightsFilters;
-  MaxResults?: number;
-  NextToken?: string;
+  Filters?: SearchOrganizationInsightsFilters | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   Type: InsightType;
 }
 export interface SearchOrganizationInsightsResponse {
-  ProactiveInsights?: ProactiveInsightSummary[];
-  ReactiveInsights?: ReactiveInsightSummary[];
-  NextToken?: string;
+  ProactiveInsights?: ProactiveInsightSummary[] | undefined;
+  ReactiveInsights?: ReactiveInsightSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ClientToken = string;
 export interface StartCostEstimationRequest {
   ResourceCollection: CostEstimationResourceCollectionFilter;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface StartCostEstimationResponse {}
 export interface UpdateEventSourcesConfigRequest {
-  EventSources?: EventSourcesConfig;
+  EventSources?: EventSourcesConfig | undefined;
 }
 export interface UpdateEventSourcesConfigResponse {}
 export type UpdateResourceCollectionAction = "ADD" | "REMOVE" | (string & {});
 export type UpdateStackNames = string[];
 export interface UpdateCloudFormationCollectionFilter {
-  StackNames?: string[];
+  StackNames?: string[] | undefined;
 }
 export type UpdateTagValues = string[];
 export interface UpdateTagCollectionFilter {
@@ -1160,8 +1161,8 @@ export interface UpdateTagCollectionFilter {
 }
 export type UpdateTagCollectionFilters = UpdateTagCollectionFilter[];
 export interface UpdateResourceCollectionFilter {
-  CloudFormation?: UpdateCloudFormationCollectionFilter;
-  Tags?: UpdateTagCollectionFilter[];
+  CloudFormation?: UpdateCloudFormationCollectionFilter | undefined;
+  Tags?: UpdateTagCollectionFilter[] | undefined;
 }
 export interface UpdateResourceCollectionRequest {
   Action: UpdateResourceCollectionAction;
@@ -1169,20 +1170,20 @@ export interface UpdateResourceCollectionRequest {
 }
 export interface UpdateResourceCollectionResponse {}
 export interface OpsCenterIntegrationConfig {
-  OptInStatus?: OptInStatus;
+  OptInStatus?: OptInStatus | undefined;
 }
 export interface LogsAnomalyDetectionIntegrationConfig {
-  OptInStatus?: OptInStatus;
+  OptInStatus?: OptInStatus | undefined;
 }
 export interface KMSServerSideEncryptionIntegrationConfig {
-  KMSKeyId?: string;
-  OptInStatus?: OptInStatus;
-  Type?: ServerSideEncryptionType;
+  KMSKeyId?: string | undefined;
+  OptInStatus?: OptInStatus | undefined;
+  Type?: ServerSideEncryptionType | undefined;
 }
 export interface UpdateServiceIntegrationConfig {
-  OpsCenter?: OpsCenterIntegrationConfig;
-  LogsAnomalyDetection?: LogsAnomalyDetectionIntegrationConfig;
-  KMSServerSideEncryption?: KMSServerSideEncryptionIntegrationConfig;
+  OpsCenter?: OpsCenterIntegrationConfig | undefined;
+  LogsAnomalyDetection?: LogsAnomalyDetectionIntegrationConfig | undefined;
+  KMSServerSideEncryption?: KMSServerSideEncryptionIntegrationConfig | undefined;
 }
 export interface UpdateServiceIntegrationRequest {
   ServiceIntegration: UpdateServiceIntegrationConfig;
@@ -1231,7 +1232,7 @@ export type AddNotificationChannelError =
  * Amazon Web Services KMS-encrypted Amazon SNS topics.
  */
 export const addNotificationChannel: API.OperationMethod<
-  AddNotificationChannelRequest,
+  AddNotificationChannelRequest & RegionInput,
   AddNotificationChannelResponse,
   AddNotificationChannelError,
   Credentials | HttpClient.HttpClient
@@ -1266,7 +1267,7 @@ export type DeleteInsightError =
  * Deletes the insight along with the associated anomalies, events and recommendations.
  */
 export const deleteInsight: API.OperationMethod<
-  DeleteInsightRequest,
+  DeleteInsightRequest & RegionInput,
   DeleteInsightResponse,
   DeleteInsightError,
   Credentials | HttpClient.HttpClient
@@ -1300,7 +1301,7 @@ export type DescribeAccountHealthError =
  * health of operations in your Amazon Web Services account.
  */
 export const describeAccountHealth: API.OperationMethod<
-  DescribeAccountHealthRequest,
+  DescribeAccountHealthRequest & RegionInput,
   DescribeAccountHealthResponse,
   DescribeAccountHealthError,
   Credentials | HttpClient.HttpClient
@@ -1332,7 +1333,7 @@ export type DescribeAccountOverviewError =
  * closed reactive insights.
  */
 export const describeAccountOverview: API.OperationMethod<
-  DescribeAccountOverviewRequest,
+  DescribeAccountOverviewRequest & RegionInput,
   DescribeAccountOverviewResponse,
   DescribeAccountOverviewError,
   Credentials | HttpClient.HttpClient
@@ -1363,7 +1364,7 @@ export type DescribeAnomalyError =
  * Returns details about an anomaly that you specify using its ID.
  */
 export const describeAnomaly: API.OperationMethod<
-  DescribeAnomalyRequest,
+  DescribeAnomalyRequest & RegionInput,
   DescribeAnomalyResponse,
   DescribeAnomalyError,
   Credentials | HttpClient.HttpClient
@@ -1397,7 +1398,7 @@ export type DescribeEventSourcesConfigError =
  * DevOps Guru.
  */
 export const describeEventSourcesConfig: API.OperationMethod<
-  DescribeEventSourcesConfigRequest,
+  DescribeEventSourcesConfigRequest & RegionInput,
   DescribeEventSourcesConfigResponse,
   DescribeEventSourcesConfigError,
   Credentials | HttpClient.HttpClient
@@ -1428,7 +1429,7 @@ export type DescribeFeedbackError =
  * Returns the most recent feedback submitted in the current Amazon Web Services account and Region.
  */
 export const describeFeedback: API.OperationMethod<
-  DescribeFeedbackRequest,
+  DescribeFeedbackRequest & RegionInput,
   DescribeFeedbackResponse,
   DescribeFeedbackError,
   Credentials | HttpClient.HttpClient
@@ -1460,7 +1461,7 @@ export type DescribeInsightError =
  * Returns details about an insight that you specify using its ID.
  */
 export const describeInsight: API.OperationMethod<
-  DescribeInsightRequest,
+  DescribeInsightRequest & RegionInput,
   DescribeInsightResponse,
   DescribeInsightError,
   Credentials | HttpClient.HttpClient
@@ -1492,7 +1493,7 @@ export type DescribeOrganizationHealthError =
  * hour.
  */
 export const describeOrganizationHealth: API.OperationMethod<
-  DescribeOrganizationHealthRequest,
+  DescribeOrganizationHealthRequest & RegionInput,
   DescribeOrganizationHealthResponse,
   DescribeOrganizationHealthError,
   Credentials | HttpClient.HttpClient
@@ -1523,7 +1524,7 @@ export type DescribeOrganizationOverviewError =
  * The overview includes the total reactive and proactive insights.
  */
 export const describeOrganizationOverview: API.OperationMethod<
-  DescribeOrganizationOverviewRequest,
+  DescribeOrganizationOverviewRequest & RegionInput,
   DescribeOrganizationOverviewResponse,
   DescribeOrganizationOverviewError,
   Credentials | HttpClient.HttpClient
@@ -1555,7 +1556,7 @@ export type DescribeOrganizationResourceCollectionHealthError =
  * field.
  */
 export const describeOrganizationResourceCollectionHealth: API.PaginatedOperationMethod<
-  DescribeOrganizationResourceCollectionHealthRequest,
+  DescribeOrganizationResourceCollectionHealthRequest & RegionInput,
   DescribeOrganizationResourceCollectionHealthResponse,
   DescribeOrganizationResourceCollectionHealthError,
   Credentials | HttpClient.HttpClient,
@@ -1595,7 +1596,7 @@ export type DescribeResourceCollectionHealthError =
  * the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag *key*. You can specify up to 500 Amazon Web Services CloudFormation stacks.
  */
 export const describeResourceCollectionHealth: API.PaginatedOperationMethod<
-  DescribeResourceCollectionHealthRequest,
+  DescribeResourceCollectionHealthRequest & RegionInput,
   DescribeResourceCollectionHealthResponse,
   DescribeResourceCollectionHealthError,
   Credentials | HttpClient.HttpClient,
@@ -1630,7 +1631,7 @@ export type DescribeServiceIntegrationError =
  * is Amazon Web Services Systems Manager, which can be used to create an OpsItem for each generated insight.
  */
 export const describeServiceIntegration: API.OperationMethod<
-  DescribeServiceIntegrationRequest,
+  DescribeServiceIntegrationRequest & RegionInput,
   DescribeServiceIntegrationResponse,
   DescribeServiceIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -1666,7 +1667,7 @@ export type GetCostEstimationError =
  * Amazon DevOps Guru pricing.
  */
 export const getCostEstimation: API.PaginatedOperationMethod<
-  GetCostEstimationRequest,
+  GetCostEstimationRequest & RegionInput,
   GetCostEstimationResponse,
   GetCostEstimationError,
   Credentials | HttpClient.HttpClient,
@@ -1703,7 +1704,7 @@ export type GetResourceCollectionError =
  * the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag *key*. You can specify up to 500 Amazon Web Services CloudFormation stacks.
  */
 export const getResourceCollection: API.PaginatedOperationMethod<
-  GetResourceCollectionRequest,
+  GetResourceCollectionRequest & RegionInput,
   GetResourceCollectionResponse,
   GetResourceCollectionError,
   Credentials | HttpClient.HttpClient,
@@ -1738,7 +1739,7 @@ export type ListAnomaliesForInsightError =
  * ID.
  */
 export const listAnomaliesForInsight: API.PaginatedOperationMethod<
-  ListAnomaliesForInsightRequest,
+  ListAnomaliesForInsightRequest & RegionInput,
   ListAnomaliesForInsightResponse,
   ListAnomaliesForInsightError,
   Credentials | HttpClient.HttpClient,
@@ -1776,7 +1777,7 @@ export type ListAnomalousLogGroupsError =
  * Returns the list of log groups that contain log anomalies.
  */
 export const listAnomalousLogGroups: API.PaginatedOperationMethod<
-  ListAnomalousLogGroupsRequest,
+  ListAnomalousLogGroupsRequest & RegionInput,
   ListAnomalousLogGroupsResponse,
   ListAnomalousLogGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -1815,7 +1816,7 @@ export type ListEventsError =
  * You can use filters to specify which events are returned.
  */
 export const listEvents: API.PaginatedOperationMethod<
-  ListEventsRequest,
+  ListEventsRequest & RegionInput,
   ListEventsResponse,
   ListEventsError,
   Credentials | HttpClient.HttpClient,
@@ -1855,7 +1856,7 @@ export type ListInsightsError =
  * `ANY`).
  */
 export const listInsights: API.PaginatedOperationMethod<
-  ListInsightsRequest,
+  ListInsightsRequest & RegionInput,
   ListInsightsResponse,
   ListInsightsError,
   Credentials | HttpClient.HttpClient,
@@ -1891,7 +1892,7 @@ export type ListMonitoredResourcesError =
  * Returns the list of all log groups that are being monitored and tagged by DevOps Guru.
  */
 export const listMonitoredResources: API.PaginatedOperationMethod<
-  ListMonitoredResourcesRequest,
+  ListMonitoredResourcesRequest & RegionInput,
   ListMonitoredResourcesResponse,
   ListMonitoredResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -1930,7 +1931,7 @@ export type ListNotificationChannelsError =
  * supported notification channel is Amazon Simple Notification Service (Amazon SNS).
  */
 export const listNotificationChannels: API.PaginatedOperationMethod<
-  ListNotificationChannelsRequest,
+  ListNotificationChannelsRequest & RegionInput,
   ListNotificationChannelsResponse,
   ListNotificationChannelsError,
   Credentials | HttpClient.HttpClient,
@@ -1962,7 +1963,7 @@ export type ListOrganizationInsightsError =
  * Returns a list of insights associated with the account or OU Id.
  */
 export const listOrganizationInsights: API.PaginatedOperationMethod<
-  ListOrganizationInsightsRequest,
+  ListOrganizationInsightsRequest & RegionInput,
   ListOrganizationInsightsResponse,
   ListOrganizationInsightsError,
   Credentials | HttpClient.HttpClient,
@@ -2000,7 +2001,7 @@ export type ListRecommendationsError =
  * a list of related metrics and a list of related events.
  */
 export const listRecommendations: API.PaginatedOperationMethod<
-  ListRecommendationsRequest,
+  ListRecommendationsRequest & RegionInput,
   ListRecommendationsResponse,
   ListRecommendationsError,
   Credentials | HttpClient.HttpClient,
@@ -2039,7 +2040,7 @@ export type PutFeedbackError =
  * Collects customer feedback about the specified insight.
  */
 export const putFeedback: API.OperationMethod<
-  PutFeedbackRequest,
+  PutFeedbackRequest & RegionInput,
   PutFeedbackResponse,
   PutFeedbackError,
   Credentials | HttpClient.HttpClient
@@ -2075,7 +2076,7 @@ export type RemoveNotificationChannelError =
  * operations.
  */
 export const removeNotificationChannel: API.OperationMethod<
-  RemoveNotificationChannelRequest,
+  RemoveNotificationChannelRequest & RegionInput,
   RemoveNotificationChannelResponse,
   RemoveNotificationChannelError,
   Credentials | HttpClient.HttpClient
@@ -2114,7 +2115,7 @@ export type SearchInsightsError =
  * `PROACTIVE` in your search.
  */
 export const searchInsights: API.PaginatedOperationMethod<
-  SearchInsightsRequest,
+  SearchInsightsRequest & RegionInput,
   SearchInsightsResponse,
   SearchInsightsError,
   Credentials | HttpClient.HttpClient,
@@ -2158,7 +2159,7 @@ export type SearchOrganizationInsightsError =
  * `PROACTIVE` in your search.
  */
 export const searchOrganizationInsights: API.PaginatedOperationMethod<
-  SearchOrganizationInsightsRequest,
+  SearchOrganizationInsightsRequest & RegionInput,
   SearchOrganizationInsightsResponse,
   SearchOrganizationInsightsError,
   Credentials | HttpClient.HttpClient,
@@ -2197,7 +2198,7 @@ export type StartCostEstimationError =
  * resources.
  */
 export const startCostEstimation: API.OperationMethod<
-  StartCostEstimationRequest,
+  StartCostEstimationRequest & RegionInput,
   StartCostEstimationResponse,
   StartCostEstimationError,
   Credentials | HttpClient.HttpClient
@@ -2231,7 +2232,7 @@ export type UpdateEventSourcesConfigError =
  * can produce proactive recommendations which can be stored and viewed in DevOps Guru.
  */
 export const updateEventSourcesConfig: API.OperationMethod<
-  UpdateEventSourcesConfigRequest,
+  UpdateEventSourcesConfigRequest & RegionInput,
   UpdateEventSourcesConfigResponse,
   UpdateEventSourcesConfigError,
   Credentials | HttpClient.HttpClient
@@ -2266,7 +2267,7 @@ export type UpdateResourceCollectionError =
  * you to use DevOps Guru.
  */
 export const updateResourceCollection: API.OperationMethod<
-  UpdateResourceCollectionRequest,
+  UpdateResourceCollectionRequest & RegionInput,
   UpdateResourceCollectionResponse,
   UpdateResourceCollectionError,
   Credentials | HttpClient.HttpClient
@@ -2300,7 +2301,7 @@ export type UpdateServiceIntegrationError =
  * an OpsItem for each generated insight.
  */
 export const updateServiceIntegration: API.OperationMethod<
-  UpdateServiceIntegrationRequest,
+  UpdateServiceIntegrationRequest & RegionInput,
   UpdateServiceIntegrationResponse,
   UpdateServiceIntegrationError,
   Credentials | HttpClient.HttpClient

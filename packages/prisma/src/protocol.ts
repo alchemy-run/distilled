@@ -1,6 +1,11 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import {
+  makeRestProtocol,
+  type RestErrorEnvelope,
+  unknownErrorProps,
+} from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * PrismaProtocol -- hand-written.
  *
@@ -9,9 +14,9 @@ import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/
  * `makeRestProtocol` instantiation (see `@distilled.cloud/core/protocol-rest`
  * for the shared request/response machinery). What is Prisma's own:
  *
- *   request:  `Authorization: Bearer <apiToken>` + base URL from the
- *             `Credentials` service (resolved on the calling fiber per
- *             request)
+ *   request:  `Authorization: Bearer <apiToken>` when a token is set, +
+ *             base URL from the `Credentials` service (resolved on the
+ *             calling fiber per request)
  *
  *   response: non-2xx errors arrive as `{ error: { code, message, hint? } }`
  *             -- matched per-op typed errors first, then the core HTTP status
@@ -38,7 +43,8 @@ export type PrismaOpError =
   | DefaultErrors
   | ConfigError
   | HttpClientError.HttpClientError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Prisma operation. */
 export type PrismaOpContext = Credentials | HttpClient.HttpClient;
@@ -70,17 +76,21 @@ export const PrismaProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestP
   // reintroduced for callers by `PrismaOpError`.
   credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
   baseUrl: (creds) => creds.apiBaseUrl,
-  headers: (creds) => ({
-    Authorization: `Bearer ${Redacted.value(creds.apiToken)}`,
-  }),
+  headers: (creds) => {
+    const headers: Record<string, string> = {};
+    if (creds.apiToken !== undefined) {
+      headers.Authorization = `Bearer ${Redacted.value(creds.apiToken)}`;
+    }
+    return headers;
+  },
   errorEnvelope,
   unknownError: (info) => {
     const env = envelopeOf(info.body);
     return new UnknownPrismaError({
+      ...unknownErrorProps(info),
       code: env?.code,
       message: env?.message ?? info.message,
       hint: env?.hint,
-      body: info.body,
     });
   },
   parseError: ({ body, cause }) => new PrismaParseError({ body, cause }),

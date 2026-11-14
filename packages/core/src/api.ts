@@ -1,5 +1,5 @@
 import * as Context from "effect/Context";
-import type * as Duration from "effect/Duration";
+import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import * as HttpClient from "effect/http/HttpClient";
@@ -13,19 +13,24 @@ import * as Ref from "effect/Ref";
 import * as S from "effect/Schema";
 import type * as AST from "effect/SchemaAST";
 import * as Scope from "effect/Scope";
-import type * as Stream from "effect/Stream";
+import * as Stream from "effect/Stream";
 import { SingleShotGen } from "effect/Utils";
 import { getAnn, rawResponseRootSymbol } from "./annotations.ts";
 import { isThrottling } from "./category.ts";
 import * as Pagination from "./pagination.ts";
+import { takeLastRequest } from "./retry-state.ts";
 import {
   type Backoff,
+  BOUNDED_HINT_MAX_EXTRA_MS,
   defaultOptions,
   type Options as RetryOptions,
   type Policy as RetryPolicy,
+  type RetryOverride,
+  defaultWith,
   resolveServerRetryHintCapMs,
-  serverHintMillis,
 } from "./retry.ts";
+import { SdkError } from "./sdk-error.ts";
+import * as Send from "./send.ts";
 import * as Telemetry from "./telemetry.ts";
 
 //#region Protocol
@@ -54,6 +59,20 @@ export interface ProtocolOperationConfig {
    */
   readonly endpointHostPrefix?: string;
   readonly pagination?: Pagination.PaginatedTrait;
+  /**
+   * How a server-streaming operation's body is framed, for protocols that
+   * read it per operation (core/protocol-rest takes a `StreamFraming`, e.g.
+   * `ndjson` from core/ndjson). Set only on the operations that stream, so
+   * programs that call none never bundle the framing.
+   */
+  readonly framing?: unknown;
+  /**
+   * One frame of `.stream()`, for an operation whose plain call has its own
+   * output and streams only when its input asks (see
+   * {@link OperationConfig.streamInput}). Protocols decode each frame
+   * against it instead of an element of the output's `items`.
+   */
+  readonly items?: S.Top;
 }
 
 /**
@@ -94,6 +113,17 @@ export class Protocol
        * produce the same request, result and errors as encode/decode.
        */
       readonly call?: (operation: PreparedOperation, input: unknown) => Effect.Effect<unknown>;
+      /**
+       * Server streaming (see {@link makeStreaming}): each response message
+       * as it arrives, decoded as one element of the output's `items`.
+       * Ending the stream early cancels the call. Protocols that can't
+       * stream leave it out; one that streams only some operations fails
+       * the others with {@link cannotStream}.
+       */
+      readonly stream?: (
+        operation: PreparedOperation,
+        input: unknown,
+      ) => Stream.Stream<unknown, unknown>;
     }
   >()("Protocol") {}
 
@@ -232,6 +262,12 @@ export interface OperationConfig<
    */
   retry?: Context.Key<any, RetryPolicy>;
   /**
+   * The operation's `distilled.retry#policy` trait (the service's, with the
+   * operation's on top): numbers that replace the default policy's when the
+   * caller's context carries no policy. A caller's policy ignores it.
+   */
+  retryPolicy?: RetryOverride;
+  /**
    * The wire operation name for RPC-style protocols (see
    * {@link ProtocolOperationConfig.operationName}).
    */
@@ -249,27 +285,57 @@ export interface OperationConfig<
    * its `op` (a string is just the op).
    */
   span?: Telemetry.SpanConfig | string;
+  /** The body framing of a server-streaming operation (see {@link ProtocolOperationConfig.framing}). */
+  framing?: unknown;
+  /** One frame of `.stream()` (see {@link ProtocolOperationConfig.items}). */
+  items?: S.Top;
+  /**
+   * Input members `.stream()` sets over the caller's, for an operation that
+   * streams only when its input asks (Boat's `executeSandboxCommand` with
+   * `stream: true`). The plain call sends the caller's input as given.
+   */
+  streamInput?: Readonly<Record<string, unknown>>;
 }
 
 /**
  * Wrap one operation call with the caller-provided retry policy, if the
  * operation declares a retry tag and the context carries a policy for it.
  */
-/** Delay before retry `attempt` (0-based) under `b`, in milliseconds. */
-const backoffDelay = (b: Backoff, attempt: number, error: unknown): Effect.Effect<number> => {
-  const base = Math.min(b.baseMs * b.factor ** attempt, b.capMs);
-  const jitter = () => Math.random() * (b.jitterMs ?? 0);
-  if (b.serverHint && (error as { retryAfter?: unknown } | null)?.retryAfter !== undefined) {
-    return Effect.map(resolveServerRetryHintCapMs(), (capMs) => {
-      const hint = serverHintMillis(error, capMs);
-      return (hint ?? base) + jitter();
-    });
+/**
+ * Delay before retry `attempt` (0-based) under `b`, in milliseconds, or
+ * `undefined` when the server asked for a wait over the hint cap.
+ * `boundedHintMs` is the response's `x-amz-retry-after` /
+ * `x-distilled-retry-after`.
+ */
+const backoffDelay = (
+  b: Backoff,
+  attempt: number,
+  error: unknown,
+  boundedHintMs: number | undefined,
+): Effect.Effect<number | undefined> => {
+  const throttling = isThrottling(error);
+  let t: number;
+  if (b.fullJitter) {
+    const base = throttling && b.throttlingBaseMs !== undefined ? b.throttlingBaseMs : b.baseMs;
+    t = Math.random() * Math.min(base * b.factor ** attempt, b.capMs);
+  } else {
+    const base = Math.min(b.baseMs * b.factor ** attempt, b.capMs);
+    const floored =
+      b.minThrottleMs !== undefined && base < b.minThrottleMs && throttling
+        ? b.minThrottleMs
+        : base;
+    t = floored + Math.random() * (b.jitterMs ?? 0);
   }
-  const floored =
-    b.minThrottleMs !== undefined && base < b.minThrottleMs && isThrottling(error)
-      ? b.minThrottleMs
-      : base;
-  return Effect.succeed(floored + jitter());
+  if (!b.serverHint) return Effect.succeed(t);
+  if (boundedHintMs !== undefined) {
+    return Effect.succeed(Math.min(Math.max(boundedHintMs, t), t + BOUNDED_HINT_MAX_EXTRA_MS));
+  }
+  const hint = (error as { retryAfter?: unknown } | null)?.retryAfter;
+  if (!Duration.isDuration(hint)) return Effect.succeed(t);
+  const hintMs = Duration.toMillis(hint);
+  return Effect.map(resolveServerRetryHintCapMs(), (capMs) =>
+    hintMs > capMs ? undefined : Math.max(t, hintMs),
+  );
 };
 
 const NO_BACKOFF: Backoff = { baseMs: 0, factor: 1, capMs: 0 };
@@ -306,15 +372,20 @@ const backoffSleep = (
  */
 const applyRetry = (
   base: Effect.Effect<any, any, any>,
-  retryKey: Context.Key<any, RetryPolicy> | undefined,
+  cfg: OperationConfig<any, any, any, any, any>,
   debug: Telemetry.DebugHooks | undefined,
 ): Effect.Effect<any, any, any> => {
+  const retryKey = cfg.retry;
   const first = debug === undefined ? base : debug.attempt(base, 1);
   return retryKey === undefined
     ? first
     : Effect.catch(first, (error) =>
         Effect.flatMap(Effect.serviceOption(retryKey), (opt) => {
-          if (Option.isNone(opt)) return retryWith(base, defaultOptions, error, debug);
+          if (Option.isNone(opt)) {
+            const options =
+              cfg.retryPolicy === undefined ? defaultOptions : defaultWith(cfg.retryPolicy);
+            return retryWith(base, options, error, debug);
+          }
           const policy = opt.value;
           if (typeof policy !== "function") return retryWith(base, policy, error, debug);
           return Effect.flatMap(Ref.make<unknown>(error), (lastError) =>
@@ -367,14 +438,34 @@ const retryWith = (
     });
   }
   const b = opts.backoff ?? NO_BACKOFF;
-  const step = (e: unknown, n: number): Effect.Effect<any, any, any> =>
-    !keepGoing(e) || (b.maxRetries !== undefined && n >= b.maxRetries)
-      ? Effect.fail(e)
-      : Effect.flatMap(backoffDelay(b, n, e), (ms) =>
-          Effect.flatMap(backoffSleep(ms, n + 1, e), () =>
-            Effect.catch(again(n + 2), (next) => step(next, n + 1)),
-          ),
-        );
+  const budget = b.budget;
+  const step = (e: unknown, n: number): Effect.Effect<any, any, any> => {
+    if (!keepGoing(e) || (b.maxRetries !== undefined && n >= b.maxRetries)) {
+      return Effect.fail(e);
+    }
+    // Read now, on the fiber that sent the request that failed.
+    const last = takeLastRequest();
+    return Effect.flatMap(backoffDelay(b, n, e, last.hintMs), (ms) => {
+      if (ms === undefined) return Effect.fail(e);
+      // No host: the request went out without `send` (`./send.ts`), so no
+      // success would ever refill a bucket. Such calls are not budgeted.
+      const budgeted = budget !== undefined && last.host !== "";
+      const cost = budgeted ? budget.withdraw(last.host, isThrottling(e)) : undefined;
+      if (budgeted && cost === undefined) {
+        return b.longPoll ? Effect.flatMap(Effect.sleep(ms), () => Effect.fail(e)) : Effect.fail(e);
+      }
+      const next =
+        cost === undefined
+          ? again(n + 2)
+          : Effect.map(again(n + 2), (value) => {
+              budget!.refund(last.host, cost);
+              return value;
+            });
+      return Effect.flatMap(backoffSleep(ms, n + 1, e), () =>
+        Effect.catch(next, (failed) => step(failed, n + 1)),
+      );
+    });
+  };
   return step(error, 0);
 };
 
@@ -429,6 +520,22 @@ const prepare = (state: OperationState): Prepared => {
   });
 };
 
+/**
+ * {@link prepare} for the call paths: a config that can't be built (a
+ * generated config that throws, a lazy service whose module doesn't match
+ * its stub) fails the call with {@link SdkError} instead of crashing it.
+ */
+const prepareOr = (state: OperationState): Prepared | SdkError => {
+  if (state.prepared) return state.prepared;
+  try {
+    return prepare(state);
+  } catch (cause) {
+    return new SdkError({
+      message: `the operation could not be loaded: ${cause instanceof Error ? cause.message : String(cause)}`,
+    });
+  }
+};
+
 const stateOf = (op: unknown): OperationState => (op as Record<symbol, OperationState>)[stateKey]!;
 
 /**
@@ -438,6 +545,31 @@ const stateOf = (op: unknown): OperationState => (op as Record<symbol, Operation
  */
 export const describeOperation = (op: unknown): Telemetry.OperationInfo =>
   infoOf(prepare(stateOf(op)));
+
+/**
+ * The HTTP request a call to `op` with `input` would send, built by the
+ * operation's protocol (`Protocol.encode`) and not sent: no retry, no span,
+ * no response. It fails as the call would before sending (bad input,
+ * credentials, endpoint), or with {@link SdkError} when the operation can't
+ * be loaded; the Protocol seam does not type those failures, so the error is
+ * `unknown`. Presigning builds on it.
+ */
+export const encodeRequest = <I, O, E, R>(
+  op: OperationMethod<I, O, E, R>,
+  input: I,
+): Effect.Effect<HttpClientRequest.HttpClientRequest, unknown, R> =>
+  Effect.suspend(() => {
+    const state = stateOf(op) as OperationState | undefined;
+    if (state === undefined) return Effect.fail(new SdkError({ message: "not an operation" }));
+    const prepared = prepareOr(state);
+    if (prepared instanceof SdkError) return Effect.fail(prepared);
+    const encode = (service: ProtocolShape) =>
+      service.encode({ input, inputAst: prepared.inputAst, config: prepared.cfg });
+    if (prepared.service !== undefined) return encode(prepared.service);
+    return Effect.flatMap(protocolContext(prepared.cfg.protocol), (protocolCtx) =>
+      encode((prepared.service = Context.get(protocolCtx, Protocol))),
+    );
+  });
 
 const defineState = (op: unknown, state: OperationState): OperationState => {
   Object.defineProperty(op, stateKey, { value: state });
@@ -455,7 +587,7 @@ const runWith = (
     const context = fiber.context as Context.Context<any>;
     const client = Context.get(context, HttpClient.HttpClient);
     return Effect.flatMap(protocol.encode({ input, inputAst, config: cfg }), (request) =>
-      Effect.flatMap(Telemetry.execute(context, client, request), (response) =>
+      Effect.flatMap(Send.send(context, client, request), (response) =>
         protocol.decode({ response, outputAst, errors, config: cfg }),
       ),
     );
@@ -470,9 +602,10 @@ const callUntraced = (
   // Warm path: the operation is prepared and its protocol built, so the call
   // is whatever the protocol returns, with no wrapper effects around it.
   const p = state.prepared;
-  if (p?.service !== undefined) return applyRetry(runWith(p, p.service, input), p.cfg.retry, debug);
+  if (p?.service !== undefined) return applyRetry(runWith(p, p.service, input), p.cfg, debug);
   return Effect.suspend(() => {
-    const prepared = prepare(state);
+    const prepared = prepareOr(state);
+    if (prepared instanceof SdkError) return Effect.fail(prepared);
     const call = Effect.flatMap(
       debug === undefined
         ? protocolContext(prepared.cfg.protocol)
@@ -484,7 +617,7 @@ const callUntraced = (
         return runWith(prepared, service, input);
       },
     );
-    return applyRetry(call, prepared.cfg.retry, debug);
+    return applyRetry(call, prepared.cfg, debug);
   });
 };
 
@@ -501,8 +634,16 @@ const callOperation = (
   const callSite = Telemetry.captureCallSite(entry);
   return Effect.withFiber((fiber) => {
     const debug = fiber.getRef(Telemetry.Debug);
-    return Telemetry.operationSpan(fiber, debug, infoOf(prepare(state)), callSite, input, (sent) =>
-      callUntraced(state, sent, debug),
+    const prepared = prepareOr(state);
+    if (prepared instanceof SdkError) return Effect.fail(prepared);
+    return Telemetry.operationSpan(
+      fiber,
+      debug,
+      infoOf(prepared),
+      callSite,
+      input,
+      (sent) => callUntraced(state, sent, debug),
+      debug === undefined ? undefined : { input: prepared.inputAst, output: prepared.outputAst },
     );
   });
 };
@@ -656,21 +797,28 @@ export interface PaginatedOperationConfig<
 
 /** `.pages` / `.items` over any call function (the operation itself or a context-bound one). */
 const streamsOf = (state: OperationState, call: (input: any) => Effect.Effect<any, any, any>) => {
-  const pag = () => (prepare(state).cfg as PaginatedOperationConfig<any, any, any, any>).pagination;
-  // Data operations carry their strategy in the config.
-  const paginate =
-    state.strategy ??
-    (prepare(state).cfg as { strategy?: Pagination.PaginationStrategy }).strategy ??
-    Pagination.paginateWithDefaults;
-  const pages = (input: Record<string, unknown>) => paginate(call, input, pag());
-  const items = (input: Record<string, unknown>) => {
-    const p = pag();
-    if (!p.items) return pages(input);
+  const pagesOf = (prepared: Prepared, input: Record<string, unknown>) => {
+    const cfg = prepared.cfg as PaginatedOperationConfig<any, any, any, any> & {
+      strategy?: Pagination.PaginationStrategy;
+    };
+    // Data operations carry their strategy in the config.
+    const paginate = state.strategy ?? cfg.strategy ?? Pagination.paginateWithDefaults;
+    return paginate(call, input, cfg.pagination);
+  };
+  const pages = (input: Record<string, unknown>): Stream.Stream<any, any, any> => {
+    const prepared = prepareOr(state);
+    return prepared instanceof SdkError ? Stream.fail(prepared) : pagesOf(prepared, input);
+  };
+  const items = (input: Record<string, unknown>): Stream.Stream<any, any, any> => {
+    const prepared = prepareOr(state);
+    if (prepared instanceof SdkError) return Stream.fail(prepared);
+    const p = (prepared.cfg as PaginatedOperationConfig<any, any, any, any>).pagination;
+    if (!p.items) return pagesOf(prepared, input);
     // A bare-array response's schema is its sole member's value
     // (`RawResponseRoot`), so the member `items` names is the page itself.
-    return getAnn(prepare(state).outputAst, rawResponseRootSymbol) !== undefined
-      ? Pagination.extractArrayItems(pages(input))
-      : Pagination.extractItems(pages(input), p.items);
+    return getAnn(prepared.outputAst, rawResponseRootSymbol) !== undefined
+      ? Pagination.extractArrayItems(pagesOf(prepared, input))
+      : Pagination.extractItems(pagesOf(prepared, input), p.items);
   };
   return { pages, items };
 };
@@ -729,6 +877,122 @@ export function makePaginated<
   PR | HttpClient.HttpClient
 > {
   return makeOperation(strategy ? { configFn, strategy } : { configFn }, PaginatedOperationProto);
+}
+
+//#endregion
+
+//#region MakeStreaming
+
+/** The message type of a server-streaming output, `{ items: Message[] }`. */
+export type StreamedItem<O> = O extends { readonly items: ReadonlyArray<infer Item> }
+  ? Item
+  : O extends { readonly items?: ReadonlyArray<infer Item> | undefined }
+    ? Item
+    : unknown;
+
+/**
+ * The callable half of a server-streaming operation: the call, which
+ * collects the whole stream into `{ items }`, plus `.stream(input)`, which
+ * emits each message as it arrives.
+ */
+export interface StreamingCall<I, O, E, R, Item> {
+  (input: I): Effect.Effect<O, E, R>;
+  readonly stream: (input: I) => Stream.Stream<Item, E, R>;
+}
+
+/**
+ * A server-streaming operation: usable both ways an {@link OperationMethod}
+ * is, with `.stream` on both the operation and the requirement-free call
+ * function `yield* operation` returns.
+ */
+export type StreamingOperationMethod<I, O, E, R, Item = StreamedItem<O>> = Effect.Effect<
+  StreamingCall<I, O, E, never, Item>,
+  never,
+  R
+> &
+  StreamingCall<I, O, E, R, Item> &
+  OperationSchemas<I, O>;
+
+/** The `.stream()` of an operation its protocol can't stream: fails with {@link SdkError}. */
+export const cannotStream = (operation: PreparedOperation): Stream.Stream<never, SdkError> =>
+  Stream.fail(
+    new SdkError({
+      message: `${operation.config.operationName ?? "this operation"}: its protocol can't stream`,
+    }),
+  );
+
+/** `.stream(input)` over an operation's protocol. */
+const streamCall =
+  (state: OperationState) =>
+  (input: unknown): Stream.Stream<any, any, any> =>
+    Stream.unwrap(
+      Effect.suspend(() => {
+        const prepared = prepareOr(state);
+        if (prepared instanceof SdkError) return Effect.succeed(Stream.fail(prepared));
+        const fixed = prepared.cfg.streamInput;
+        const sent = fixed === undefined ? input : { ...(input as object), ...fixed };
+        const run = (service: ProtocolShape) =>
+          service.stream === undefined ? cannotStream(prepared) : service.stream(prepared, sent);
+        return prepared.service !== undefined
+          ? Effect.succeed(run(prepared.service))
+          : Effect.map(protocolContext(prepared.cfg.protocol), (ctx) =>
+              run((prepared.service = Context.get(ctx, Protocol))),
+            );
+      }),
+    );
+
+const StreamingOperationProto: object = /*@__PURE__*/ Object.create(OperationProto, {
+  stream: {
+    get(this: any) {
+      const fn = streamCall(stateOf(this));
+      Object.defineProperty(this, "stream", { value: fn, configurable: true });
+      return fn;
+    },
+    configurable: true,
+  },
+  // `yield* operation` returns a context-bound call; its `.stream` gets the
+  // same fallback (not snapshot) context.
+  asEffect: {
+    value(this: any) {
+      const state = stateOf(this);
+      return Effect.map(Effect.context(), (context) => {
+        const merge = (current: Context.Context<any>): Context.Context<any> =>
+          Context.merge(context, current);
+        const call = (input: unknown) => Effect.updateContext(this(input), merge);
+        return Object.assign(call, {
+          stream: (input: unknown) => Stream.updateContext(streamCall(state)(input), merge),
+        });
+      });
+    },
+    configurable: true,
+    writable: true,
+  },
+});
+
+/**
+ * Like {@link make}, for a server-streaming RPC whose output is `{ items }`:
+ * calling it collects the stream, and `.stream(input)` emits each message as
+ * the protocol receives it (see {@link ProtocolShape.stream}).
+ *
+ * An operation that streams only when its input asks keeps its own output:
+ * its config sets `items` (one frame) and `streamInput` (what `.stream()`
+ * sends), and the plain call is a normal call.
+ */
+export function makeStreaming<
+  I extends S.Top,
+  O extends S.Top,
+  PE,
+  PR,
+  const E extends readonly ApiErrorClass[] = readonly [],
+>(
+  configFn: () => OperationConfig<I, O, PE, PR, E>,
+): StreamingOperationMethod<
+  S.Schema.Type<I>,
+  S.Schema.Type<O>,
+  InstanceType<E[number]> | PE | HttpClientError.HttpClientError,
+  PR | HttpClient.HttpClient
+> {
+  return makeOperation({ configFn }, StreamingOperationProto);
 }
 
 //#endregion
@@ -879,11 +1143,13 @@ const dataState = function (this: DataFn): OperationState {
 };
 let dataProto: object | undefined;
 let dataPaginatedProto: object | undefined;
+let dataStreamingProto: object | undefined;
 /**
  * While a lazy service loads its full module (see {@link lazyService}), the module's
- * definitions go to it instead (kind 0 operation, 1 paginated, 2 error class).
+ * definitions go to it instead (kind 0 operation, 1 paginated, 2 error class,
+ * 3 streaming).
  */
-let definer: ((fn: DataFn, kind: 0 | 1 | 2) => unknown) | undefined;
+let definer: ((fn: DataFn, kind: 0 | 1 | 2 | 3) => unknown) | undefined;
 
 /** Runs `f` with `d` receiving the definitions it evaluates. */
 const defining = (d: typeof definer, f: () => void): void => {
@@ -921,11 +1187,22 @@ const asOpPaginated = (fn: DataFn): any =>
     })),
   );
 
+const asOpStreaming = (fn: DataFn): any =>
+  Object.setPrototypeOf(
+    fn,
+    (dataStreamingProto ??= Object.create(StreamingOperationProto, {
+      [stateKey]: { get: dataState, configurable: true },
+    })),
+  );
+
 /** An operation described by data (see the region header). */
 export const op = (fn: DataFn): any => (definer ? definer(fn, 0) : asOp(fn));
 
 /** A paginated operation described by data; its config may name a `strategy`. */
 export const opPaginated = (fn: DataFn): any => (definer ? definer(fn, 1) : asOpPaginated(fn));
+
+/** A server-streaming operation described by data. */
+export const opStreaming = (fn: DataFn): any => (definer ? definer(fn, 3) : asOpStreaming(fn));
 
 /** The call path of a data operation. */
 export const call = (op: unknown, input: unknown): Effect.Effect<any, any, any> =>
@@ -1007,7 +1284,7 @@ export const newError = (props: unknown, newTarget: Function | undefined, data: 
  * which passes its own URL and the namespaces every stub imports.
  *
  * `kinds` has one letter per operation definition of the full module: `o`
- * plain, `p` paginated. While the stub's load evaluates the full module,
+ * plain, `p` paginated, `s` server-streaming. While the stub's load evaluates the full module,
  * `op` / `opPaginated` / `error` hand back the stub's placeholders in
  * definition order instead of new values, and each placeholder takes the
  * data function it stands for: the full module's operations, error lists
@@ -1039,7 +1316,10 @@ interface LazyService {
   ei: number;
 }
 
-const define = (svc: LazyService, fn: DataFn, kind: 0 | 1 | 2): any => {
+/** The stub letter of each operation kind (see {@link lazyService}). */
+const KIND_LETTERS = ["o", "p", "", "s"] as const;
+
+const define = (svc: LazyService, fn: DataFn, kind: 0 | 1 | 2 | 3): any => {
   if (kind === 2) {
     const i = svc.ei++;
     if (i >= svc.e.length) throw new Error(`distilled: ${svc.spec}: error ${i} has no stub`);
@@ -1047,7 +1327,7 @@ const define = (svc: LazyService, fn: DataFn, kind: 0 | 1 | 2): any => {
     return svc.e[i];
   }
   const i = svc.oi++;
-  if (i >= svc.o.length || (svc.kinds[i] === "p") !== (kind === 1))
+  if (i >= svc.o.length || svc.kinds[i] !== KIND_LETTERS[kind])
     throw new Error(`distilled: ${svc.spec}: operation ${i} does not match its stub`);
   svc.od![i] = fn;
   return svc.o[i];
@@ -1150,12 +1430,17 @@ const sliced = (svc: LazyService): SliceIndex | false => {
   svc.ix = false;
   if (svc.at === undefined || svc.od) return false;
   try {
+    // oxlint-disable-next-line distilled/no-function-constructor -- probes whether the host allows it (a CSP may not)
     Function("");
     const file = fileOf(svc);
     svc.ix = indexOf(file, read({ file }, svc.at, svc.len!));
     svc.od = [];
     svc.ed = [];
-  } catch {}
+  } catch {
+    // Code from strings is blocked, or the slice can't be read: load the
+    // whole module instead (`svc.ix` stays `false`).
+    svc.ix = false;
+  }
   return svc.ix;
 };
 
@@ -1259,6 +1544,7 @@ const evaluate = (svc: LazyService, ix: SliceIndex, k: number): any => {
     });
     text += read(ix, at, end! - at);
   } else text = read(ix, start!, end! - start!);
+  // oxlint-disable-next-line distilled/no-function-constructor -- the distilled-lazy loader compiles one declaration of a bundled service
   return Function(...names, `"use strict";return(${text}\n)${url}`)(...values);
 };
 
@@ -1278,6 +1564,7 @@ const compileBody = (
 ): Function => {
   const text = read(ix, start, end - start);
   const keep = names.map((n) => !own.includes(n));
+  // oxlint-disable-next-line distilled/no-function-constructor -- the distilled-lazy loader compiles one declaration of a bundled service
   return Function(
     ...names.filter((_, i) => keep[i]),
     ...own,
@@ -1374,11 +1661,11 @@ export const lazyService = (
   if (!primed && at !== undefined) prime(svc);
   return {
     o: () => {
-      const paginated = kinds[svc.o.length] === "p";
+      const kind = kinds[svc.o.length];
       const f: DataFn = function op(x) {
         return x === D ? dataOf(svc, 0, svc.o.indexOf(op))(D) : call(op, x);
       };
-      svc.o.push(paginated ? asOpPaginated(f) : asOp(f));
+      svc.o.push(kind === "p" ? asOpPaginated(f) : kind === "s" ? asOpStreaming(f) : asOp(f));
       return f;
     },
     e: (name: string) => {

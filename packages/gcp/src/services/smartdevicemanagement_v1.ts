@@ -87,20 +87,18 @@ export type DocumentMap = { [key: string]: unknown | undefined };
 /** Request message for SmartDeviceManagementService.ExecuteDeviceCommand */
 export interface GoogleHomeEnterpriseSdmV1ExecuteDeviceCommandRequest {
   /** The command name to execute, represented by the fully qualified protobuf message name. */
-  command?: string;
+  command?: string | undefined;
   /** The command message to execute, represented as a Struct. */
-  params?: DocumentMap;
+  params?: DocumentMap | undefined;
 }
-export interface ExecuteCommandEnterprisesDevicesRequest {
+export interface ExecuteCommandEnterprisesDevicesRequest extends GoogleHomeEnterpriseSdmV1ExecuteDeviceCommandRequest {
   /** The name of the device requested. For example: "enterprises/XYZ/devices/123" */
   name: string;
-  /** Request body */
-  body?: GoogleHomeEnterpriseSdmV1ExecuteDeviceCommandRequest;
 }
 /** Response message for SmartDeviceManagementService.ExecuteDeviceCommand */
 export interface GoogleHomeEnterpriseSdmV1ExecuteDeviceCommandResponse {
   /** The results of executing the command. */
-  results?: DocumentMap;
+  results?: DocumentMap | undefined;
 }
 export interface GetEnterprisesDevicesRequest {
   /** The name of the device requested. For example: "enterprises/XYZ/devices/123" */
@@ -108,23 +106,23 @@ export interface GetEnterprisesDevicesRequest {
 }
 /** Represents device relationships, for instance, structure/room to which the device is assigned to. */
 export interface GoogleHomeEnterpriseSdmV1ParentRelation {
-  /** Output only. The custom name of the relation -- e.g., structure/room where the device is assigned to. */
-  displayName?: string;
   /** Output only. The name of the relation -- e.g., structure/room where the device is assigned to. For example: "enterprises/XYZ/structures/ABC" or "enterprises/XYZ/structures/ABC/rooms/123" */
-  parent?: string;
+  parent?: string | undefined;
+  /** Output only. The custom name of the relation -- e.g., structure/room where the device is assigned to. */
+  displayName?: string | undefined;
 }
 export type GoogleHomeEnterpriseSdmV1ParentRelationList =
   Array<GoogleHomeEnterpriseSdmV1ParentRelation>;
 /** Device resource represents an instance of enterprise managed device in the property. */
 export interface GoogleHomeEnterpriseSdmV1Device {
-  /** Output only. Device traits. */
-  traits?: DocumentMap;
-  /** Required. The resource name of the device. For example: "enterprises/XYZ/devices/123". */
-  name?: string;
   /** Output only. Type of the device for general display purposes. For example: "THERMOSTAT". The device type should not be used to deduce or infer functionality of the actual device it is assigned to. Instead, use the returned traits for the device. */
-  type?: string;
+  type?: string | undefined;
+  /** Output only. Device traits. */
+  traits?: DocumentMap | undefined;
   /** Assignee details of the device. */
-  parentRelations?: GoogleHomeEnterpriseSdmV1ParentRelationList;
+  parentRelations?: GoogleHomeEnterpriseSdmV1ParentRelationList | undefined;
+  /** Required. The resource name of the device. For example: "enterprises/XYZ/devices/123". */
+  name?: string | undefined;
 }
 export interface GetEnterprisesStructuresRequest {
   /** The name of the structure requested. For example: "enterprises/XYZ/structures/ABC". */
@@ -133,9 +131,9 @@ export interface GetEnterprisesStructuresRequest {
 /** Structure resource represents an instance of enterprise managed home or hotel room. */
 export interface GoogleHomeEnterpriseSdmV1Structure {
   /** Output only. The resource name of the structure. For example: "enterprises/XYZ/structures/ABC". */
-  name?: string;
+  name?: string | undefined;
   /** Structure traits. */
-  traits?: DocumentMap;
+  traits?: DocumentMap | undefined;
 }
 export interface GetEnterprisesStructuresRoomsRequest {
   /** The name of the room requested. For example: "enterprises/XYZ/structures/ABC/rooms/123". */
@@ -144,33 +142,33 @@ export interface GetEnterprisesStructuresRoomsRequest {
 /** Room resource represents an instance of sub-space within a structure such as rooms in a hotel suite or rental apartment. */
 export interface GoogleHomeEnterpriseSdmV1Room {
   /** Output only. The resource name of the room. For example: "enterprises/XYZ/structures/ABC/rooms/123". */
-  name?: string;
+  name?: string | undefined;
   /** Room traits. */
-  traits?: DocumentMap;
+  traits?: DocumentMap | undefined;
 }
 export interface ListEnterprisesDevicesRequest {
   /** The parent enterprise to list devices under. E.g. "enterprises/XYZ". */
   parent: string;
   /** Optional filter to list devices. Filters can be done on: Device custom name (substring match): 'customName=wing' */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type GoogleHomeEnterpriseSdmV1DeviceList = Array<GoogleHomeEnterpriseSdmV1Device>;
 /** Response message for SmartDeviceManagementService.ListDevices */
 export interface GoogleHomeEnterpriseSdmV1ListDevicesResponse {
   /** The list of devices. */
-  devices?: GoogleHomeEnterpriseSdmV1DeviceList;
+  devices?: GoogleHomeEnterpriseSdmV1DeviceList | undefined;
 }
 export interface ListEnterprisesStructuresRequest {
   /** The parent enterprise to list structures under. E.g. "enterprises/XYZ". */
   parent: string;
   /** Optional filter to list structures. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type GoogleHomeEnterpriseSdmV1StructureList = Array<GoogleHomeEnterpriseSdmV1Structure>;
 /** Response message for SmartDeviceManagementService.ListStructures */
 export interface GoogleHomeEnterpriseSdmV1ListStructuresResponse {
   /** The list of structures. */
-  structures?: GoogleHomeEnterpriseSdmV1StructureList;
+  structures?: GoogleHomeEnterpriseSdmV1StructureList | undefined;
 }
 export interface ListEnterprisesStructuresRoomsRequest {
   /** The parent resource name of the rooms requested. For example: "enterprises/XYZ/structures/ABC". */
@@ -180,7 +178,7 @@ export type GoogleHomeEnterpriseSdmV1RoomList = Array<GoogleHomeEnterpriseSdmV1R
 /** Response message for SmartDeviceManagementService.ListRooms */
 export interface GoogleHomeEnterpriseSdmV1ListRoomsResponse {
   /** The list of rooms. */
-  rooms?: GoogleHomeEnterpriseSdmV1RoomList;
+  rooms?: GoogleHomeEnterpriseSdmV1RoomList | undefined;
 }
 export type ExecuteCommandEnterprisesDevicesError =
   | NotFound
@@ -340,10 +338,12 @@ function __c1(j: number): any {
       ).annotate({ identifier: "GoogleHomeEnterpriseSdmV1ExecuteDeviceCommandRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4, __c1, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:executeCommand",
@@ -386,8 +386,8 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
           parent: S.optional(S.String),
+          displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleHomeEnterpriseSdmV1ParentRelation" });
     case 1:
@@ -395,10 +395,10 @@ function __c4(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          traits: S.optional(__S(8, __c2, 0)),
-          name: S.optional(S.String),
           type: S.optional(S.String),
+          traits: S.optional(__S(8, __c2, 0)),
           parentRelations: S.optional(__S(17, __c4, 1)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleHomeEnterpriseSdmV1Device" });
   }

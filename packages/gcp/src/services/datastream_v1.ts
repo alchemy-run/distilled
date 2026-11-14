@@ -89,437 +89,435 @@ export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
+/** Profile for connecting to a Spanner source. */
+export interface SpannerProfile {
+  /** Required. Immutable. Cloud Spanner database resource. This field is immutable. Must be in the format: projects/{project}/instances/{instance}/databases/{database_id}. */
+  database?: string | undefined;
+  /** Optional. The Spanner endpoint to connect to. Defaults to the global endpoint (https://spanner.googleapis.com). Must be in the format: https://spanner.{region}.rep.googleapis.com. */
+  host?: string | undefined;
+}
 /** A confidential piece of information where the actual value is either directly specified in the message as a raw string or stored in GCP secret manager. */
 export interface Secret {
   /** Optional. Input only. The actual raw value of the secret as plain text. */
-  rawValue?: string;
+  rawValue?: string | undefined;
   /** Optional. A Secret Manager resource name storing the actual value of the secret. Supported formats: * projects/{project}/locations/{location}/secrets/{secret}/versions/{version} * projects/{project}/secrets/{secret}/versions/{version} */
-  secretVersion?: string;
+  secretVersion?: string | undefined;
 }
 /** OAuth Client Credentials. */
 export interface OauthClientCredentials {
-  /** Required. Client secret for OAuth Client Credentials. */
-  clientSecret?: Secret;
   /** Required. Client ID for OAuth Client Credentials. */
-  clientId?: string;
+  clientId?: string | undefined;
+  /** Required. Client secret for OAuth Client Credentials. */
+  clientSecret?: Secret | undefined;
 }
 /** OAuth Refresh Token Credentials. */
 export interface OauthRefreshTokenCredentials {
-  /** Required. Specifies the OAuth Refresh Token. */
-  refreshToken?: Secret;
   /** Required. Specifies the OAuth Client Credentials. */
-  oauthClientCredentials?: OauthClientCredentials;
+  oauthClientCredentials?: OauthClientCredentials | undefined;
+  /** Required. Specifies the OAuth Refresh Token. */
+  refreshToken?: Secret | undefined;
 }
 /** Profile for connecting to a Workday source. */
 export interface WorkdayProfile {
-  /** Required. Tenant for the Workday connection (e.g., `google12`). */
-  tenant?: string;
-  /** Required. Host for the Workday connection. Must be a valid hostname (e.g., `wd3-impl-services1.workday.com`). */
-  host?: string;
   /** Required. Credentials for authenticating with the Workday API. OAuth Refresh Token credentials for authenticating with the Workday API. */
-  oauthRefreshTokenCredentials?: OauthRefreshTokenCredentials;
-}
-/** Forward SSH Tunnel connectivity. */
-export interface ForwardSshTunnelConnectivity {
-  /** Input only. SSH password. */
-  password?: string;
-  /** Port for the SSH tunnel, default value is 22. */
-  port?: number;
-  /** Input only. SSH private key. */
-  privateKey?: string;
-  /** Required. Hostname for the SSH tunnel. */
-  hostname?: string;
-  /** Required. Username for the SSH tunnel. */
-  username?: string;
-}
-/** Message to represent the option where encryption is not enforced. An empty message right now to allow future extensibility. */
-export type EncryptionNotEnforced = CancelOperationRequest;
-/** Message to represent the option where Datastream will enforce encryption without authenticating server identity. Server certificates will be trusted by default. */
-export type BasicEncryption = CancelOperationRequest;
-/** Message to represent the option where Datastream will enforce encryption and authenticate server identity. ca_certificate must be set if user selects this option. */
-export interface EncryptionAndServerValidation {
-  /** Optional. The hostname mentioned in the Subject or SAN extension of the server certificate. This field is used for bypassing the hostname validation while verifying server certificate. This is required for scenarios where the host name that datastream connects to is different from the certificate's subject. This specifically happens for private connectivity. It could also happen when the customer provides a public IP in connection profile but the same is not present in the server certificate. */
-  serverCertificateHostname?: string;
-  /** Optional. Input only. PEM-encoded certificate of the CA that signed the source database server's certificate. */
-  caCertificate?: string;
-}
-/** SQL Server SSL configuration information. */
-export interface SqlServerSslConfig {
-  /** If set, Datastream will not enforce encryption. If the DB server mandates encryption, then connection will be encrypted but server identity will not be authenticated. */
-  encryptionNotEnforced?: CancelOperationRequest;
-  /** If set, Datastream will enforce encryption without authenticating server identity. Server certificates will be trusted by default. */
-  basicEncryption?: CancelOperationRequest;
-  /** If set, Datastream will enforce encryption and authenticate server identity. */
-  encryptionAndServerValidation?: EncryptionAndServerValidation;
-}
-/** Profile for connecting to a SQLServer source. */
-export interface SqlServerProfile {
-  /** Optional. A reference to a Secret Manager resource name storing the SQLServer connection password. Mutually exclusive with the `password` field. */
-  secretManagerStoredPassword?: string;
-  /** Required. Username for the SQLServer connection. */
-  username?: string;
-  /** Optional. SSL configuration for the SQLServer connection. */
-  sslConfig?: SqlServerSslConfig;
-  /** Optional. Password for the SQLServer connection. Mutually exclusive with the `secret_manager_stored_password` field. */
-  password?: string;
-  /** Required. Database for the SQLServer connection. */
-  database?: string;
-  /** Port for the SQLServer connection, default value is 1433. */
-  port?: number;
-  /** Required. Hostname for the SQLServer connection. */
-  hostname?: string;
-}
-/** Private Connectivity */
-export interface PrivateConnectivity {
-  /** Required. A reference to a private connection resource. Format: `projects/{project}/locations/{location}/privateConnections/{name}` */
-  privateConnection?: string;
-}
-/** A HostAddress represents a transport end point, which is the combination of an IP address or hostname and a port number. */
-export interface HostAddress {
-  /** Optional. Port for the connection. */
-  port?: number;
-  /** Required. Hostname for the connection. */
-  hostname?: string;
-}
-export type HostAddressList = Array<HostAddress>;
-/** Standard connection format. */
-export interface StandardConnectionFormat {
-  /** Optional. Deprecated: Use the `additional_options` map to specify the `directConnection` parameter instead. For example: `additional_options = {"directConnection": "true"}`. Specifies whether the client connects directly to the host[:port] in the connection URI. */
-  directConnection?: boolean;
-}
-/** MongoDB SSL configuration information. */
-export interface MongodbSslConfig {
-  /** Output only. Indicates whether the client_certificate field is set. */
-  clientCertificateSet?: boolean;
-  /** Output only. Indicates whether the client_key field is set. */
-  clientKeySet?: boolean;
-  /** Output only. Indicates whether the ca_certificate field is set. */
-  caCertificateSet?: boolean;
-  /** Optional. Input only. PEM-encoded certificate that will be used by the replica to authenticate against the source database server. If this field is used then the 'client_key' and the 'ca_certificate' fields are mandatory. */
-  clientCertificate?: string;
-  /** Optional. Input only. PEM-encoded certificate of the CA that signed the source database server's certificate. */
-  caCertificate?: string;
-  /** Optional. Input only. PEM-encoded private key associated with the Client Certificate. If this field is used then the 'client_certificate' and the 'ca_certificate' fields are mandatory. */
-  clientKey?: string;
-  /** Optional. Input only. A reference to a Secret Manager resource name storing the PEM-encoded private key associated with the Client Certificate. If this field is used then the 'client_certificate' and the 'ca_certificate' fields are mandatory. Mutually exclusive with the `client_key` field. */
-  secretManagerStoredClientKey?: string;
-}
-export type StringMap = { [key: string]: string | undefined };
-/** Srv connection format. */
-export type SrvConnectionFormat = CancelOperationRequest;
-/** Profile for connecting to a MongoDB source. */
-export interface MongodbProfile {
-  /** Optional. Password for the MongoDB connection. Mutually exclusive with the `secret_manager_stored_password` field. */
-  password?: string;
-  /** Required. List of host addresses for a MongoDB cluster. For SRV connection format, this list must contain exactly one DNS host without a port. For Standard connection format, this list must contain all the required hosts in the cluster with their respective ports. */
-  hostAddresses?: HostAddressList;
-  /** Standard connection format. */
-  standardConnectionFormat?: StandardConnectionFormat;
-  /** Optional. SSL configuration for the MongoDB connection. */
-  sslConfig?: MongodbSslConfig;
-  /** Optional. Specifies additional options for the MongoDB connection. The options should be sent as key-value pairs, for example: `additional_options = {"serverSelectionTimeoutMS": "10000", "directConnection": "true"}`. Keys are case-sensitive and should match the official MongoDB connection string options: https://www.mongodb.com/docs/manual/reference/connection-string-options/ The server will not modify the values provided by the user. */
-  additionalOptions?: StringMap;
-  /** Srv connection format. */
-  srvConnectionFormat?: CancelOperationRequest;
-  /** Optional. Name of the replica set. Only needed for self hosted replica set type MongoDB cluster. For SRV connection format, this field must be empty. For Standard connection format, this field must be specified. */
-  replicaSet?: string;
-  /** Optional. A reference to a Secret Manager resource name storing the SQLServer connection password. Mutually exclusive with the `password` field. */
-  secretManagerStoredPassword?: string;
-  /** Required. Username for the MongoDB connection. */
-  username?: string;
-}
-/** Profile for connecting to a BigQuery destination. */
-export type BigQueryProfile = CancelOperationRequest;
-/** User-password credentials. */
-export interface UserPasswordCredentials {
-  /** Required. Username for the connection. */
-  username?: string;
-  /** Required. Password for the connection. */
-  password?: Secret;
-}
-/** Profile for connecting to a ServiceNow source. */
-export interface ServiceNowProfile {
-  /** Required. The instance of the ServiceNow account. This is the `` part of the URL `https://.service-now.com`. */
-  instance?: string;
-  /** Credentials for authenticating with the ServiceNow API. */
-  oauthClientCredentials?: OauthClientCredentials;
-  /** User-password authentication. */
-  userPasswordCredentials?: UserPasswordCredentials;
-}
-/** Oracle SSL configuration information. */
-export interface OracleSslConfig {
-  /** Input only. PEM-encoded certificate of the CA that signed the source database server's certificate. */
-  caCertificate?: string;
-  /** Optional. The distinguished name (DN) mentioned in the server certificate. This corresponds to SSL_SERVER_CERT_DN sqlnet parameter. Refer https://docs.oracle.com/en/database/oracle/oracle-database/19/netrf/local-naming-parameters-in-tns-ora-file.html#GUID-70AB0695-A9AA-4A94-B141-4C605236EEB7 If this field is not provided, the DN matching is not enforced. */
-  serverCertificateDistinguishedName?: string;
-  /** Output only. Indicates whether the ca_certificate field has been set for this Connection-Profile. */
-  caCertificateSet?: boolean;
-}
-/** Configuration for Oracle Automatic Storage Management (ASM) connection. */
-export interface OracleAsmConfig {
-  /** Optional. Password for the Oracle ASM connection. Mutually exclusive with the `secret_manager_stored_password` field. */
-  password?: string;
-  /** Required. ASM service name for the Oracle ASM connection. */
-  asmService?: string;
-  /** Optional. Connection string attributes */
-  connectionAttributes?: StringMap;
-  /** Optional. A reference to a Secret Manager resource name storing the Oracle ASM connection password. Mutually exclusive with the `password` field. */
-  secretManagerStoredPassword?: string;
-  /** Required. Hostname for the Oracle ASM connection. */
-  hostname?: string;
-  /** Optional. SSL configuration for the Oracle connection. */
-  oracleSslConfig?: OracleSslConfig;
-  /** Required. Username for the Oracle ASM connection. */
-  username?: string;
-  /** Required. Port for the Oracle ASM connection. */
-  port?: number;
-}
-/** Profile for connecting to an Oracle source. */
-export interface OracleProfile {
-  /** Required. Hostname for the Oracle connection. */
-  hostname?: string;
-  /** Required. Username for the Oracle connection. */
-  username?: string;
-  /** Optional. A reference to a Secret Manager resource name storing the Oracle connection password. Mutually exclusive with the `password` field. */
-  secretManagerStoredPassword?: string;
-  /** Optional. SSL configuration for the Oracle connection. */
-  oracleSslConfig?: OracleSslConfig;
-  /** Optional. Password for the Oracle connection. Mutually exclusive with the `secret_manager_stored_password` field. */
-  password?: string;
-  /** Port for the Oracle connection, default value is 1521. */
-  port?: number;
-  /** Required. Database for the Oracle connection. */
-  databaseService?: string;
-  /** Connection string attributes */
-  connectionAttributes?: StringMap;
-  /** Optional. Configuration for Oracle ASM connection. */
-  oracleAsmConfig?: OracleAsmConfig;
-}
-/** MySQL SSL configuration information. */
-export interface MysqlSslConfig {
-  /** Input only. PEM-encoded certificate of the CA that signed the source database server's certificate. */
-  caCertificate?: string;
-  /** Optional. Input only. PEM-encoded certificate that will be used by the replica to authenticate against the source database server. If this field is used then the 'client_key' and the 'ca_certificate' fields are mandatory. */
-  clientCertificate?: string;
-  /** Output only. Indicates whether the client_certificate field is set. */
-  clientCertificateSet?: boolean;
-  /** Output only. Indicates whether the client_key field is set. */
-  clientKeySet?: boolean;
-  /** Optional. Input only. PEM-encoded private key associated with the Client Certificate. If this field is used then the 'client_certificate' and the 'ca_certificate' fields are mandatory. */
-  clientKey?: string;
-  /** Output only. Indicates whether the ca_certificate field is set. */
-  caCertificateSet?: boolean;
-}
-/** Profile for connecting to a MySQL source. */
-export interface MysqlProfile {
-  /** Required. Hostname for the MySQL connection. */
-  hostname?: string;
-  /** SSL configuration for the MySQL connection. */
-  sslConfig?: MysqlSslConfig;
-  /** Optional. Input only. Password for the MySQL connection. Mutually exclusive with the `secret_manager_stored_password` field. */
-  password?: string;
-  /** Port for the MySQL connection, default value is 3306. */
-  port?: number;
-  /** Required. Username for the MySQL connection. */
-  username?: string;
-  /** Optional. A reference to a Secret Manager resource name storing the MySQL connection password. Mutually exclusive with the `password` field. */
-  secretManagerStoredPassword?: string;
-}
-/** Static IP address connectivity. Used when the source database is configured to allow incoming connections from the Datastream public IP addresses for the region specified in the connection profile. */
-export type StaticServiceIpConnectivity = CancelOperationRequest;
-/** OAuth2 Client Credentials. */
-export interface Oauth2ClientCredentials {
-  /** Required. Client ID for Salesforce OAuth2 Client Credentials. */
-  clientId?: string;
-  /** Optional. A reference to a Secret Manager resource name storing the Salesforce OAuth2 client_secret. Mutually exclusive with the `client_secret` field. */
-  secretManagerStoredClientSecret?: string;
-  /** Optional. Client secret for Salesforce OAuth2 Client Credentials. Mutually exclusive with the `secret_manager_stored_client_secret` field. */
-  clientSecret?: string;
-}
-/** Deprecated: Salesforce is retiring Username-Password authentication. Use `Oauth2ClientCredentials` instead. */
-export interface UserCredentials {
-  /** Optional. A reference to a Secret Manager resource name storing the Salesforce connection's password. Mutually exclusive with the `password` field. */
-  secretManagerStoredPassword?: string;
-  /** Required. Username for the Salesforce connection. */
-  username?: string;
-  /** Optional. Security token for the Salesforce connection. Mutually exclusive with the `secret_manager_stored_security_token` field. */
-  securityToken?: string;
-  /** Optional. A reference to a Secret Manager resource name storing the Salesforce connection's security token. Mutually exclusive with the `security_token` field. */
-  secretManagerStoredSecurityToken?: string;
-  /** Optional. Password for the Salesforce connection. Mutually exclusive with the `secret_manager_stored_password` field. */
-  password?: string;
-}
-/** Profile for connecting to a Salesforce source. */
-export interface SalesforceProfile {
-  /** Connected app authentication. */
-  oauth2ClientCredentials?: Oauth2ClientCredentials;
-  /** Deprecated: Salesforce is retiring Username-Password authentication. Use `oauth2_client_credentials` instead. */
-  userCredentials?: UserCredentials;
-  /** Required. Domain endpoint for the Salesforce connection. */
-  domain?: string;
-}
-/** Profile for connecting to a Cloud Storage destination. */
-export interface GcsProfile {
-  /** Required. The Cloud Storage bucket name. */
-  bucket?: string;
-  /** Optional. The root path inside the Cloud Storage bucket. */
-  rootPath?: string;
+  oauthRefreshTokenCredentials?: OauthRefreshTokenCredentials | undefined;
+  /** Required. Host for the Workday connection. Must be a valid hostname (e.g., `wd3-impl-services1.workday.com`). */
+  host?: string | undefined;
+  /** Required. Tenant for the Workday connection (e.g., `google12`). */
+  tenant?: string | undefined;
 }
 /** Message represents the option where Datastream will enforce the encryption and authenticate the server identity. ca_certificate must be set if user selects this option. */
 export interface ServerVerification {
-  /** Optional. The hostname mentioned in the Subject or SAN extension of the server certificate. If this field is not provided, the hostname in the server certificate is not validated. */
-  serverCertificateHostname?: string;
   /** Required. Input only. PEM-encoded server root CA certificate. */
-  caCertificate?: string;
+  caCertificate?: string | undefined;
+  /** Optional. The hostname mentioned in the Subject or SAN extension of the server certificate. If this field is not provided, the hostname in the server certificate is not validated. */
+  serverCertificateHostname?: string | undefined;
 }
 /** Message represents the option where Datastream will enforce the encryption and authenticate the server identity as well as the client identity. ca_certificate, client_certificate and client_key must be set if user selects this option. */
 export interface ServerAndClientVerification {
-  /** Optional. The hostname mentioned in the Subject or SAN extension of the server certificate. If this field is not provided, the hostname in the server certificate is not validated. */
-  serverCertificateHostname?: string;
-  /** Optional. Input only. PEM-encoded private key associated with the client certificate. This value will be used during the SSL/TLS handshake, allowing the PostgreSQL server to authenticate the client's identity, i.e. identity of the Datastream. */
-  clientKey?: string;
   /** Required. Input only. PEM-encoded certificate used by the source database to authenticate the client identity (i.e., the Datastream's identity). This certificate is signed by either a root certificate trusted by the server or one or more intermediate certificates (which is stored with the leaf certificate) to link the this certificate to the trusted root certificate. */
-  clientCertificate?: string;
+  clientCertificate?: string | undefined;
+  /** Optional. The hostname mentioned in the Subject or SAN extension of the server certificate. If this field is not provided, the hostname in the server certificate is not validated. */
+  serverCertificateHostname?: string | undefined;
+  /** Optional. Input only. PEM-encoded private key associated with the client certificate. This value will be used during the SSL/TLS handshake, allowing the PostgreSQL server to authenticate the client's identity, i.e. identity of the Datastream. */
+  clientKey?: string | undefined;
   /** Required. Input only. PEM-encoded server root CA certificate. */
-  caCertificate?: string;
+  caCertificate?: string | undefined;
 }
 /** PostgreSQL SSL configuration information. */
 export interface PostgresqlSslConfig {
   /** If this field is set, the communication will be encrypted with TLS encryption and the server identity will be authenticated. */
-  serverVerification?: ServerVerification;
+  serverVerification?: ServerVerification | undefined;
   /** If this field is set, the communication will be encrypted with TLS encryption and both the server identity and the client identity will be authenticated. */
-  serverAndClientVerification?: ServerAndClientVerification;
+  serverAndClientVerification?: ServerAndClientVerification | undefined;
 }
-/** Profile for connecting to a PostgreSQL source. */
+/** Profile for connecting to a PostgreSQL source or destination. */
 export interface PostgresqlProfile {
-  /** Optional. Password for the PostgreSQL connection. Mutually exclusive with the `secret_manager_stored_password` field. */
-  password?: string;
-  /** Required. Database for the PostgreSQL connection. */
-  database?: string;
-  /** Required. Hostname for the PostgreSQL connection. */
-  hostname?: string;
   /** Port for the PostgreSQL connection, default value is 5432. */
-  port?: number;
-  /** Required. Username for the PostgreSQL connection. */
-  username?: string;
+  port?: number | undefined;
+  /** Optional. Password for the PostgreSQL connection. Mutually exclusive with the `secret_manager_stored_password` field. */
+  password?: string | undefined;
   /** Optional. SSL configuration for the PostgreSQL connection. In case PostgresqlSslConfig is not set, the connection will use the default SSL mode, which is `prefer` (i.e. this mode will only use encryption if enabled from database side, otherwise will use unencrypted communication) */
-  sslConfig?: PostgresqlSslConfig;
+  sslConfig?: PostgresqlSslConfig | undefined;
+  /** Required. Username for the PostgreSQL connection. */
+  username?: string | undefined;
+  /** Required. Hostname for the PostgreSQL connection. */
+  hostname?: string | undefined;
   /** Optional. A reference to a Secret Manager resource name storing the PostgreSQL connection password. Mutually exclusive with the `password` field. */
-  secretManagerStoredPassword?: string;
+  secretManagerStoredPassword?: string | undefined;
+  /** Required. Database for the PostgreSQL connection. */
+  database?: string | undefined;
+}
+/** Profile for connecting to a BigQuery destination. */
+export type BigQueryProfile = CancelOperationRequest;
+/** Deprecated: Salesforce is retiring Username-Password authentication. Use `Oauth2ClientCredentials` instead. */
+export interface UserCredentials {
+  /** Optional. A reference to a Secret Manager resource name storing the Salesforce connection's security token. Mutually exclusive with the `security_token` field. */
+  secretManagerStoredSecurityToken?: string | undefined;
+  /** Optional. A reference to a Secret Manager resource name storing the Salesforce connection's password. Mutually exclusive with the `password` field. */
+  secretManagerStoredPassword?: string | undefined;
+  /** Optional. Security token for the Salesforce connection. Mutually exclusive with the `secret_manager_stored_security_token` field. */
+  securityToken?: string | undefined;
+  /** Required. Username for the Salesforce connection. */
+  username?: string | undefined;
+  /** Optional. Password for the Salesforce connection. Mutually exclusive with the `secret_manager_stored_password` field. */
+  password?: string | undefined;
+}
+/** OAuth2 Client Credentials. */
+export interface Oauth2ClientCredentials {
+  /** Optional. A reference to a Secret Manager resource name storing the Salesforce OAuth2 client_secret. Mutually exclusive with the `client_secret` field. */
+  secretManagerStoredClientSecret?: string | undefined;
+  /** Required. Client ID for Salesforce OAuth2 Client Credentials. */
+  clientId?: string | undefined;
+  /** Optional. Client secret for Salesforce OAuth2 Client Credentials. Mutually exclusive with the `secret_manager_stored_client_secret` field. */
+  clientSecret?: string | undefined;
+}
+/** Profile for connecting to a Salesforce source. */
+export interface SalesforceProfile {
+  /** Deprecated: Salesforce is retiring Username-Password authentication. Use `oauth2_client_credentials` instead. */
+  userCredentials?: UserCredentials | undefined;
+  /** Connected app authentication. */
+  oauth2ClientCredentials?: Oauth2ClientCredentials | undefined;
+  /** Required. Domain endpoint for the Salesforce connection. */
+  domain?: string | undefined;
+}
+/** User-password credentials. */
+export interface UserPasswordCredentials {
+  /** Required. Username for the connection. */
+  username?: string | undefined;
+  /** Required. Password for the connection. */
+  password?: Secret | undefined;
+}
+/** Profile for connecting to a ServiceNow source. */
+export interface ServiceNowProfile {
+  /** User-password authentication. */
+  userPasswordCredentials?: UserPasswordCredentials | undefined;
+  /** Credentials for authenticating with the ServiceNow API. */
+  oauthClientCredentials?: OauthClientCredentials | undefined;
+  /** Required. The instance of the ServiceNow account. This is the `` part of the URL `https://.service-now.com`. */
+  instance?: string | undefined;
 }
 /** Profile for connecting to a Dataverse source. */
 export interface DataverseProfile {
-  /** Required. Tenant id of the Microsoft Dataverse instance. */
-  tenantId?: string;
   /** Required. Environment URL of the Microsoft Dataverse instance. Example: `.crm.dynamics.com` */
-  environmentUrl?: string;
+  environmentUrl?: string | undefined;
   /** Required. Credentials for authenticating with the Dataverse API. */
-  oauthClientCredentials?: OauthClientCredentials;
+  oauthClientCredentials?: OauthClientCredentials | undefined;
+  /** Required. Tenant id of the Microsoft Dataverse instance. */
+  tenantId?: string | undefined;
 }
-/** Profile for connecting to a Spanner source. */
-export interface SpannerProfile {
-  /** Required. Immutable. Cloud Spanner database resource. This field is immutable. Must be in the format: projects/{project}/instances/{instance}/databases/{database_id}. */
-  database?: string;
-  /** Optional. The Spanner endpoint to connect to. Defaults to the global endpoint (https://spanner.googleapis.com). Must be in the format: https://spanner.{region}.rep.googleapis.com. */
-  host?: string;
+export type StringMap = { [key: string]: string | undefined };
+/** Oracle SSL configuration information. */
+export interface OracleSslConfig {
+  /** Output only. Indicates whether the ca_certificate field has been set for this Connection-Profile. */
+  caCertificateSet?: boolean | undefined;
+  /** Optional. The distinguished name (DN) mentioned in the server certificate. This corresponds to SSL_SERVER_CERT_DN sqlnet parameter. Refer https://docs.oracle.com/en/database/oracle/oracle-database/19/netrf/local-naming-parameters-in-tns-ora-file.html#GUID-70AB0695-A9AA-4A94-B141-4C605236EEB7 If this field is not provided, the DN matching is not enforced. */
+  serverCertificateDistinguishedName?: string | undefined;
+  /** Input only. PEM-encoded certificate of the CA that signed the source database server's certificate. */
+  caCertificate?: string | undefined;
+}
+/** Configuration for Oracle Automatic Storage Management (ASM) connection. */
+export interface OracleAsmConfig {
+  /** Required. Username for the Oracle ASM connection. */
+  username?: string | undefined;
+  /** Optional. Connection string attributes */
+  connectionAttributes?: StringMap | undefined;
+  /** Optional. Password for the Oracle ASM connection. Mutually exclusive with the `secret_manager_stored_password` field. */
+  password?: string | undefined;
+  /** Optional. SSL configuration for the Oracle connection. */
+  oracleSslConfig?: OracleSslConfig | undefined;
+  /** Optional. A reference to a Secret Manager resource name storing the Oracle ASM connection password. Mutually exclusive with the `password` field. */
+  secretManagerStoredPassword?: string | undefined;
+  /** Required. ASM service name for the Oracle ASM connection. */
+  asmService?: string | undefined;
+  /** Required. Hostname for the Oracle ASM connection. */
+  hostname?: string | undefined;
+  /** Required. Port for the Oracle ASM connection. */
+  port?: number | undefined;
+}
+/** Profile for connecting to an Oracle source. */
+export interface OracleProfile {
+  /** Connection string attributes */
+  connectionAttributes?: StringMap | undefined;
+  /** Optional. Password for the Oracle connection. Mutually exclusive with the `secret_manager_stored_password` field. */
+  password?: string | undefined;
+  /** Optional. SSL configuration for the Oracle connection. */
+  oracleSslConfig?: OracleSslConfig | undefined;
+  /** Required. Username for the Oracle connection. */
+  username?: string | undefined;
+  /** Port for the Oracle connection, default value is 1521. */
+  port?: number | undefined;
+  /** Required. Hostname for the Oracle connection. */
+  hostname?: string | undefined;
+  /** Optional. A reference to a Secret Manager resource name storing the Oracle connection password. Mutually exclusive with the `password` field. */
+  secretManagerStoredPassword?: string | undefined;
+  /** Required. Database for the Oracle connection. */
+  databaseService?: string | undefined;
+  /** Optional. Configuration for Oracle ASM connection. */
+  oracleAsmConfig?: OracleAsmConfig | undefined;
+}
+/** MySQL SSL configuration information. */
+export interface MysqlSslConfig {
+  /** Input only. PEM-encoded certificate of the CA that signed the source database server's certificate. */
+  caCertificate?: string | undefined;
+  /** Optional. Input only. PEM-encoded certificate that will be used by the replica to authenticate against the source database server. If this field is used then the 'client_key' and the 'ca_certificate' fields are mandatory. */
+  clientCertificate?: string | undefined;
+  /** Optional. Input only. PEM-encoded private key associated with the Client Certificate. If this field is used then the 'client_certificate' and the 'ca_certificate' fields are mandatory. */
+  clientKey?: string | undefined;
+  /** Output only. Indicates whether the client_key field is set. */
+  clientKeySet?: boolean | undefined;
+  /** Output only. Indicates whether the client_certificate field is set. */
+  clientCertificateSet?: boolean | undefined;
+  /** Output only. Indicates whether the ca_certificate field is set. */
+  caCertificateSet?: boolean | undefined;
+}
+/** Profile for connecting to a MySQL source. */
+export interface MysqlProfile {
+  /** Required. Hostname for the MySQL connection. */
+  hostname?: string | undefined;
+  /** Port for the MySQL connection, default value is 3306. */
+  port?: number | undefined;
+  /** SSL configuration for the MySQL connection. */
+  sslConfig?: MysqlSslConfig | undefined;
+  /** Optional. A reference to a Secret Manager resource name storing the MySQL connection password. Mutually exclusive with the `password` field. */
+  secretManagerStoredPassword?: string | undefined;
+  /** Optional. Input only. Password for the MySQL connection. Mutually exclusive with the `secret_manager_stored_password` field. */
+  password?: string | undefined;
+  /** Required. Username for the MySQL connection. */
+  username?: string | undefined;
+}
+/** Message to represent the option where Datastream will enforce encryption without authenticating server identity. Server certificates will be trusted by default. */
+export type BasicEncryption = CancelOperationRequest;
+/** Message to represent the option where encryption is not enforced. An empty message right now to allow future extensibility. */
+export type EncryptionNotEnforced = CancelOperationRequest;
+/** Message to represent the option where Datastream will enforce encryption and authenticate server identity. ca_certificate must be set if user selects this option. */
+export interface EncryptionAndServerValidation {
+  /** Optional. The hostname mentioned in the Subject or SAN extension of the server certificate. This field is used for bypassing the hostname validation while verifying server certificate. This is required for scenarios where the host name that datastream connects to is different from the certificate's subject. This specifically happens for private connectivity. It could also happen when the customer provides a public IP in connection profile but the same is not present in the server certificate. */
+  serverCertificateHostname?: string | undefined;
+  /** Optional. Input only. PEM-encoded certificate of the CA that signed the source database server's certificate. */
+  caCertificate?: string | undefined;
+}
+/** SQL Server SSL configuration information. */
+export interface SqlServerSslConfig {
+  /** If set, Datastream will enforce encryption without authenticating server identity. Server certificates will be trusted by default. */
+  basicEncryption?: CancelOperationRequest | undefined;
+  /** If set, Datastream will not enforce encryption. If the DB server mandates encryption, then connection will be encrypted but server identity will not be authenticated. */
+  encryptionNotEnforced?: CancelOperationRequest | undefined;
+  /** If set, Datastream will enforce encryption and authenticate server identity. */
+  encryptionAndServerValidation?: EncryptionAndServerValidation | undefined;
+}
+/** Profile for connecting to a SQLServer source. */
+export interface SqlServerProfile {
+  /** Optional. SSL configuration for the SQLServer connection. */
+  sslConfig?: SqlServerSslConfig | undefined;
+  /** Required. Hostname for the SQLServer connection. */
+  hostname?: string | undefined;
+  /** Port for the SQLServer connection, default value is 1433. */
+  port?: number | undefined;
+  /** Optional. A reference to a Secret Manager resource name storing the SQLServer connection password. Mutually exclusive with the `password` field. */
+  secretManagerStoredPassword?: string | undefined;
+  /** Required. Database for the SQLServer connection. */
+  database?: string | undefined;
+  /** Optional. Password for the SQLServer connection. Mutually exclusive with the `secret_manager_stored_password` field. */
+  password?: string | undefined;
+  /** Required. Username for the SQLServer connection. */
+  username?: string | undefined;
+}
+/** Forward SSH Tunnel connectivity. */
+export interface ForwardSshTunnelConnectivity {
+  /** Input only. SSH password. */
+  password?: string | undefined;
+  /** Input only. SSH private key. */
+  privateKey?: string | undefined;
+  /** Required. Username for the SSH tunnel. */
+  username?: string | undefined;
+  /** Required. Hostname for the SSH tunnel. */
+  hostname?: string | undefined;
+  /** Port for the SSH tunnel, default value is 22. */
+  port?: number | undefined;
 }
 /** Profile for connecting to a Salesforce Marketing Cloud source. */
 export interface SalesforceMarketingCloudProfile {
-  /** Required. Input only. Credentials for authenticating with the Salesforce Marketing Cloud API. */
-  oauthClientCredentials?: OauthClientCredentials;
   /** Required. Subdomain for the Salesforce Marketing Cloud connection. Example: if your specific endpoint is `https://{your-specific-subdomain}.rest.marketingcloudapis.com/`, the subdomain is `{your-specific-subdomain}`. Must be 1-63 characters, start and end with an alphanumeric character, and contain only lowercase letters, numbers, and hyphens (-). */
-  subdomain?: string;
+  subdomain?: string | undefined;
+  /** Required. Input only. Credentials for authenticating with the Salesforce Marketing Cloud API. */
+  oauthClientCredentials?: OauthClientCredentials | undefined;
+}
+/** A HostAddress represents a transport end point, which is the combination of an IP address or hostname and a port number. */
+export interface HostAddress {
+  /** Required. Hostname for the connection. */
+  hostname?: string | undefined;
+  /** Optional. Port for the connection. */
+  port?: number | undefined;
+}
+export type HostAddressList = Array<HostAddress>;
+/** MongoDB SSL configuration information. */
+export interface MongodbSslConfig {
+  /** Output only. Indicates whether the client_certificate field is set. */
+  clientCertificateSet?: boolean | undefined;
+  /** Optional. Input only. PEM-encoded certificate that will be used by the replica to authenticate against the source database server. If this field is used then the 'client_key' and the 'ca_certificate' fields are mandatory. */
+  clientCertificate?: string | undefined;
+  /** Optional. Input only. PEM-encoded private key associated with the Client Certificate. If this field is used then the 'client_certificate' and the 'ca_certificate' fields are mandatory. */
+  clientKey?: string | undefined;
+  /** Output only. Indicates whether the client_key field is set. */
+  clientKeySet?: boolean | undefined;
+  /** Optional. Input only. PEM-encoded certificate of the CA that signed the source database server's certificate. */
+  caCertificate?: string | undefined;
+  /** Output only. Indicates whether the ca_certificate field is set. */
+  caCertificateSet?: boolean | undefined;
+  /** Optional. Input only. A reference to a Secret Manager resource name storing the PEM-encoded private key associated with the Client Certificate. If this field is used then the 'client_certificate' and the 'ca_certificate' fields are mandatory. Mutually exclusive with the `client_key` field. */
+  secretManagerStoredClientKey?: string | undefined;
+}
+/** Standard connection format. */
+export interface StandardConnectionFormat {
+  /** Optional. Deprecated: Use the `additional_options` map to specify the `directConnection` parameter instead. For example: `additional_options = {"directConnection": "true"}`. Specifies whether the client connects directly to the host[:port] in the connection URI. */
+  directConnection?: boolean | undefined;
+}
+/** Srv connection format. */
+export type SrvConnectionFormat = CancelOperationRequest;
+/** Profile for connecting to a MongoDB source. */
+export interface MongodbProfile {
+  /** Optional. A reference to a Secret Manager resource name storing the SQLServer connection password. Mutually exclusive with the `password` field. */
+  secretManagerStoredPassword?: string | undefined;
+  /** Required. List of host addresses for a MongoDB cluster. For SRV connection format, this list must contain exactly one DNS host without a port. For Standard connection format, this list must contain all the required hosts in the cluster with their respective ports. */
+  hostAddresses?: HostAddressList | undefined;
+  /** Optional. Name of the replica set. Only needed for self hosted replica set type MongoDB cluster. For SRV connection format, this field must be empty. For Standard connection format, this field must be specified. */
+  replicaSet?: string | undefined;
+  /** Optional. Specifies additional options for the MongoDB connection. The options should be sent as key-value pairs, for example: `additional_options = {"serverSelectionTimeoutMS": "10000", "directConnection": "true"}`. Keys are case-sensitive and should match the official MongoDB connection string options: https://www.mongodb.com/docs/manual/reference/connection-string-options/ The server will not modify the values provided by the user. */
+  additionalOptions?: StringMap | undefined;
+  /** Optional. SSL configuration for the MongoDB connection. */
+  sslConfig?: MongodbSslConfig | undefined;
+  /** Optional. Password for the MongoDB connection. Mutually exclusive with the `secret_manager_stored_password` field. */
+  password?: string | undefined;
+  /** Standard connection format. */
+  standardConnectionFormat?: StandardConnectionFormat | undefined;
+  /** Srv connection format. */
+  srvConnectionFormat?: CancelOperationRequest | undefined;
+  /** Required. Username for the MongoDB connection. */
+  username?: string | undefined;
+}
+/** Static IP address connectivity. Used when the source database is configured to allow incoming connections from the Datastream public IP addresses for the region specified in the connection profile. */
+export type StaticServiceIpConnectivity = CancelOperationRequest;
+/** Profile for connecting to a Cloud Storage destination. */
+export interface GcsProfile {
+  /** Required. The Cloud Storage bucket name. */
+  bucket?: string | undefined;
+  /** Optional. The root path inside the Cloud Storage bucket. */
+  rootPath?: string | undefined;
+}
+/** Private Connectivity */
+export interface PrivateConnectivity {
+  /** Required. A reference to a private connection resource. Format: `projects/{project}/locations/{location}/privateConnections/{name}` */
+  privateConnection?: string | undefined;
 }
 /** A set of reusable connection configurations to be used as a source or destination for a stream. */
 export interface ConnectionProfile {
-  /** Optional. Profile for connecting to a Workday source. */
-  workdayProfile?: WorkdayProfile;
-  /** Forward SSH tunnel connectivity. */
-  forwardSshConnectivity?: ForwardSshTunnelConnectivity;
-  /** Profile for connecting to a SQLServer source. */
-  sqlServerProfile?: SqlServerProfile;
-  /** Private connectivity. */
-  privateConnectivity?: PrivateConnectivity;
-  /** Profile for connecting to a MongoDB source. */
-  mongodbProfile?: MongodbProfile;
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean;
-  /** Profile for connecting to a BigQuery destination. */
-  bigqueryProfile?: CancelOperationRequest;
-  /** Profile for connecting to a ServiceNow source. */
-  serviceNowProfile?: ServiceNowProfile;
-  /** Profile for connecting to an Oracle source. */
-  oracleProfile?: OracleProfile;
-  /** Profile for connecting to a MySQL source. */
-  mysqlProfile?: MysqlProfile;
-  /** Static Service IP connectivity. */
-  staticServiceIpConnectivity?: CancelOperationRequest;
-  /** Profile for connecting to a Salesforce source. */
-  salesforceProfile?: SalesforceProfile;
-  /** Profile for connecting to a Cloud Storage destination. */
-  gcsProfile?: GcsProfile;
-  /** Profile for connecting to a PostgreSQL source. */
-  postgresqlProfile?: PostgresqlProfile;
-  /** Required. Display name. */
-  displayName?: string;
-  /** Output only. Identifier. The resource's name. */
-  name?: string;
-  /** Output only. The create time of the resource. */
-  createTime?: string;
-  /** Profile for connecting to a Dataverse source. */
-  dataverseProfile?: DataverseProfile;
-  /** Output only. The update time of the resource. */
-  updateTime?: string;
   /** Profile for connecting to a Spanner source. */
-  spannerProfile?: SpannerProfile;
+  spannerProfile?: SpannerProfile | undefined;
+  /** Optional. Profile for connecting to a Workday source. */
+  workdayProfile?: WorkdayProfile | undefined;
+  /** Profile for connecting to a PostgreSQL source or destination. */
+  postgresqlProfile?: PostgresqlProfile | undefined;
+  /** Profile for connecting to a BigQuery destination. */
+  bigqueryProfile?: CancelOperationRequest | undefined;
+  /** Output only. Reserved for future use. */
+  satisfiesPzs?: boolean | undefined;
+  /** Output only. The create time of the resource. */
+  createTime?: string | undefined;
+  /** Profile for connecting to a Salesforce source. */
+  salesforceProfile?: SalesforceProfile | undefined;
+  /** Output only. Reserved for future use. */
+  satisfiesPzi?: boolean | undefined;
+  /** Profile for connecting to a ServiceNow source. */
+  serviceNowProfile?: ServiceNowProfile | undefined;
+  /** Required. Display name. */
+  displayName?: string | undefined;
+  /** Profile for connecting to a Dataverse source. */
+  dataverseProfile?: DataverseProfile | undefined;
+  /** Profile for connecting to an Oracle source. */
+  oracleProfile?: OracleProfile | undefined;
+  /** Output only. Identifier. The resource's name. */
+  name?: string | undefined;
+  /** Profile for connecting to a MySQL source. */
+  mysqlProfile?: MysqlProfile | undefined;
+  /** Profile for connecting to a SQLServer source. */
+  sqlServerProfile?: SqlServerProfile | undefined;
+  /** Forward SSH tunnel connectivity. */
+  forwardSshConnectivity?: ForwardSshTunnelConnectivity | undefined;
   /** Profile for connecting to a Salesforce Marketing Cloud source. */
-  salesforceMarketingCloudProfile?: SalesforceMarketingCloudProfile;
+  salesforceMarketingCloudProfile?: SalesforceMarketingCloudProfile | undefined;
+  /** Output only. The update time of the resource. */
+  updateTime?: string | undefined;
+  /** Profile for connecting to a MongoDB source. */
+  mongodbProfile?: MongodbProfile | undefined;
+  /** Static Service IP connectivity. */
+  staticServiceIpConnectivity?: CancelOperationRequest | undefined;
   /** Labels. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
+  /** Profile for connecting to a Cloud Storage destination. */
+  gcsProfile?: GcsProfile | undefined;
+  /** Private connectivity. */
+  privateConnectivity?: PrivateConnectivity | undefined;
 }
-export interface CreateProjectsLocationsConnectionProfilesRequest {
+export interface CreateProjectsLocationsConnectionProfilesRequest extends ConnectionProfile {
+  /** Optional. Create the connection profile without validating it. */
+  force?: boolean | undefined;
+  /** Optional. Only validate the connection profile, but don't create any resources. The default is false. */
+  validateOnly?: boolean | undefined;
+  /** Required. The connection profile identifier. */
+  connectionProfileId?: string | undefined;
   /** Required. The parent that owns the collection of ConnectionProfiles. */
   parent: string;
-  /** Optional. Create the connection profile without validating it. */
-  force?: boolean;
-  /** Optional. Only validate the connection profile, but don't create any resources. The default is false. */
-  validateOnly?: boolean;
-  /** Required. The connection profile identifier. */
-  connectionProfileId?: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
-  /** Request body */
-  body?: ConnectionProfile;
+  requestId?: string | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  response?: DocumentMap | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean | undefined;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap | undefined;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string | undefined;
 }
 export type PrivateConnectionStateEnum =
   | "STATE_UNSPECIFIED"
@@ -528,425 +526,635 @@ export type PrivateConnectionStateEnum =
   | "FAILED"
   | "DELETING"
   | "FAILED_TO_DELETE";
-/** The VPC Peering configuration is used to create VPC peering between Datastream and the consumer's VPC. */
-export interface VpcPeeringConfig {
-  /** Required. A free subnet for peering. (CIDR of /29) */
-  subnet?: string;
-  /** Required. Fully qualified name of the VPC that Datastream will peer to. Format: `projects/{project}/global/{networks}/{name}` */
-  vpc?: string;
-}
-/** Represent a user-facing Error. */
-export interface Datastream_Error {
-  /** A message containing more information about the error that occurred. */
-  message?: string;
-  /** A title that explains the reason for the error. */
-  reason?: string;
-  /** A unique identifier for this specific error, allowing it to be traced throughout the system in logs and API responses. */
-  errorUuid?: string;
-  /** The time when the error occurred. */
-  errorTime?: string;
-  /** Additional information about the error. */
-  details?: StringMap;
-}
 /** The PSC Interface configuration is used to create PSC Interface between Datastream and the consumer's PSC. */
 export interface PscInterfaceConfig {
   /** Required. Fully qualified name of the Network Attachment that Datastream will connect to. Format: `projects/{project}/regions/{region}/networkAttachments/{name}` */
-  networkAttachment?: string;
+  networkAttachment?: string | undefined;
+}
+/** The VPC Peering configuration is used to create VPC peering between Datastream and the consumer's VPC. */
+export interface VpcPeeringConfig {
+  /** Required. Fully qualified name of the VPC that Datastream will peer to. Format: `projects/{project}/global/{networks}/{name}` */
+  vpc?: string | undefined;
+  /** Required. A free subnet for peering. (CIDR of /29) */
+  subnet?: string | undefined;
+}
+/** Represent a user-facing Error. */
+export interface Datastream_Error {
+  /** A title that explains the reason for the error. */
+  reason?: string | undefined;
+  /** The time when the error occurred. */
+  errorTime?: string | undefined;
+  /** A message containing more information about the error that occurred. */
+  message?: string | undefined;
+  /** Additional information about the error. */
+  details?: StringMap | undefined;
+  /** A unique identifier for this specific error, allowing it to be traced throughout the system in logs and API responses. */
+  errorUuid?: string | undefined;
 }
 /** The PrivateConnection resource is used to establish private connectivity between Datastream and a customer's network. */
 export interface PrivateConnection {
-  /** Output only. The state of the Private Connection. */
-  state?: PrivateConnectionStateEnum | (string & {});
+  /** Output only. Reserved for future use. */
+  satisfiesPzs?: boolean | undefined;
   /** Required. Display name. */
-  displayName?: string;
-  /** VPC Peering Config. */
-  vpcPeeringConfig?: VpcPeeringConfig;
+  displayName?: string | undefined;
+  /** Output only. The state of the Private Connection. */
+  state?: PrivateConnectionStateEnum | (string & {}) | undefined;
   /** Labels. */
-  labels?: StringMap;
-  /** Output only. In case of error, the details of the error in a user-friendly format. */
-  error?: Datastream_Error;
-  /** Output only. The create time of the resource. */
-  createTime?: string;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean;
-  /** Output only. Identifier. The resource's name. */
-  name?: string;
-  /** Output only. The update time of the resource. */
-  updateTime?: string;
+  labels?: StringMap | undefined;
   /** PSC Interface Config. */
-  pscInterfaceConfig?: PscInterfaceConfig;
+  pscInterfaceConfig?: PscInterfaceConfig | undefined;
+  /** VPC Peering Config. */
+  vpcPeeringConfig?: VpcPeeringConfig | undefined;
   /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean;
+  satisfiesPzi?: boolean | undefined;
+  /** Output only. In case of error, the details of the error in a user-friendly format. */
+  error?: Datastream_Error | undefined;
+  /** Output only. The create time of the resource. */
+  createTime?: string | undefined;
+  /** Output only. The update time of the resource. */
+  updateTime?: string | undefined;
+  /** Output only. Identifier. The resource's name. */
+  name?: string | undefined;
 }
-export interface CreateProjectsLocationsPrivateConnectionsRequest {
-  /** Optional. When supplied with PSC Interface config, will get/create the tenant project required for the customer to allow list and won't actually create the private connection. */
-  validateOnly?: boolean;
-  /** Optional. If set to true, will skip validations. */
-  force?: boolean;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+export interface CreateProjectsLocationsPrivateConnectionsRequest extends PrivateConnection {
   /** Required. The private connectivity identifier. */
-  privateConnectionId?: string;
+  privateConnectionId?: string | undefined;
+  /** Optional. If set to true, will skip validations. */
+  force?: boolean | undefined;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Required. The parent that owns the collection of PrivateConnections. */
   parent: string;
-  /** Request body */
-  body?: PrivateConnection;
+  /** Optional. When supplied with PSC Interface config, will get/create the tenant project required for the customer to allow list and won't actually create the private connection. */
+  validateOnly?: boolean | undefined;
 }
 /** The route resource is the child of the private connection resource, used for defining a route for a private connection. */
 export interface Route {
-  /** Destination port for connection */
-  destinationPort?: number;
-  /** Required. Display name. */
-  displayName?: string;
   /** Required. Destination address for connection */
-  destinationAddress?: string;
-  /** Output only. The update time of the resource. */
-  updateTime?: string;
+  destinationAddress?: string | undefined;
   /** Output only. The create time of the resource. */
-  createTime?: string;
-  /** Labels. */
-  labels?: StringMap;
+  createTime?: string | undefined;
+  /** Output only. The update time of the resource. */
+  updateTime?: string | undefined;
+  /** Required. Display name. */
+  displayName?: string | undefined;
   /** Output only. Identifier. The resource's name. */
-  name?: string;
+  name?: string | undefined;
+  /** Labels. */
+  labels?: StringMap | undefined;
+  /** Destination port for connection */
+  destinationPort?: number | undefined;
 }
-export interface CreateProjectsLocationsPrivateConnectionsRoutesRequest {
+export interface CreateProjectsLocationsPrivateConnectionsRoutesRequest extends Route {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The parent that owns the collection of Routes. */
   parent: string;
   /** Required. The Route identifier. */
-  routeId?: string;
-  /** Request body */
-  body?: Route;
+  routeId?: string | undefined;
 }
-export type StreamStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "NOT_STARTED"
-  | "RUNNING"
-  | "PAUSED"
-  | "MAINTENANCE"
-  | "FAILED"
-  | "FAILED_PERMANENTLY"
-  | "STARTING"
-  | "DRAINING";
-/** Salesforce field. */
-export interface SalesforceField {
-  /** The data type. */
-  dataType?: string;
-  /** The field name. */
-  name?: string;
-  /** Indicates whether the field can accept nil values. */
-  nillable?: boolean;
+/** Backfill strategy to disable automatic backfill for the Stream's objects. */
+export type BackfillNoneStrategy = CancelOperationRequest;
+export type JsonFileFormatSchemaFileFormatEnum =
+  | "SCHEMA_FILE_FORMAT_UNSPECIFIED"
+  | "NO_SCHEMA_FILE"
+  | "AVRO_SCHEMA_FILE";
+export type JsonFileFormatCompressionEnum =
+  | "JSON_COMPRESSION_UNSPECIFIED"
+  | "NO_COMPRESSION"
+  | "GZIP";
+/** JSON file format configuration. */
+export interface JsonFileFormat {
+  /** The schema file format along JSON data files. */
+  schemaFileFormat?: JsonFileFormatSchemaFileFormatEnum | (string & {}) | undefined;
+  /** Compression of the loaded JSON file. */
+  compression?: JsonFileFormatCompressionEnum | (string & {}) | undefined;
 }
-export type SalesforceFieldList = Array<SalesforceField>;
-/** Salesforce object. */
-export interface SalesforceObject {
-  /** The object name. */
-  objectName?: string;
-  /** Salesforce fields. When unspecified as part of include objects, includes everything, when unspecified as part of exclude objects, excludes nothing. */
-  fields?: SalesforceFieldList;
+/** AVRO file format configuration. */
+export type AvroFileFormat = CancelOperationRequest;
+/** Google Cloud Storage destination configuration */
+export interface GcsDestinationConfig {
+  /** The maximum file size to be saved in the bucket. */
+  fileRotationMb?: number | undefined;
+  /** JSON file format configuration. */
+  jsonFileFormat?: JsonFileFormat | undefined;
+  /** The maximum duration for which new events are added before a file is closed and a new file is created. Values within the range of 15-60 seconds are allowed. */
+  fileRotationInterval?: string | undefined;
+  /** Path inside the Cloud Storage bucket to write data to. */
+  path?: string | undefined;
+  /** AVRO file format configuration. */
+  avroFileFormat?: CancelOperationRequest | undefined;
 }
-export type SalesforceObjectList = Array<SalesforceObject>;
-/** Salesforce organization structure. */
-export interface SalesforceOrg {
-  /** Salesforce objects in the database server. */
-  objects?: SalesforceObjectList;
+/** AppendOnly mode defines that all changes to a table will be written to the destination table. */
+export type AppendOnly = CancelOperationRequest;
+/** Merge mode defines that all changes to a table will be merged at the destination table. */
+export type Merge = CancelOperationRequest;
+export type BlmtConfigTableFormatEnum = "TABLE_FORMAT_UNSPECIFIED" | "ICEBERG";
+export type BlmtConfigFileFormatEnum = "FILE_FORMAT_UNSPECIFIED" | "PARQUET";
+/** The configuration for BLMT. */
+export interface BlmtConfig {
+  /** The root path inside the Cloud Storage bucket. */
+  rootPath?: string | undefined;
+  /** Required. The table format. */
+  tableFormat?: BlmtConfigTableFormatEnum | (string & {}) | undefined;
+  /** Required. The bigquery connection. Format: `{project}.{location}.{name}` */
+  connectionName?: string | undefined;
+  /** Required. The file format. */
+  fileFormat?: BlmtConfigFileFormatEnum | (string & {}) | undefined;
+  /** Required. The Cloud Storage bucket name. */
+  bucket?: string | undefined;
 }
-/** Configuration for syncing data from a Salesforce source. */
-export interface SalesforceSourceConfig {
-  /** Required. Salesforce objects polling interval. The interval at which new changes will be polled for each object. The duration must be from `5 minutes` to `24 hours`, inclusive. */
-  pollingInterval?: string;
-  /** The Salesforce objects to exclude from the stream. */
-  excludeObjects?: SalesforceOrg;
-  /** The Salesforce objects to retrieve from the source. */
-  includeObjects?: SalesforceOrg;
+/** Dataset template used for dynamic dataset creation. */
+export interface DatasetTemplate {
+  /** Required. The geographic location where the dataset should reside. See https://cloud.google.com/bigquery/docs/locations for supported locations. */
+  location?: string | undefined;
+  /** Describes the Cloud KMS encryption key that will be used to protect destination BigQuery table. The BigQuery Service Account associated with your project requires access to this encryption key. i.e. projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{cryptoKey}. See https://cloud.google.com/bigquery/docs/customer-managed-encryption for more information. */
+  kmsKeyName?: string | undefined;
+  /** If supplied, every created dataset will have its name prefixed by the provided value. The prefix and name will be separated by an underscore. i.e. _. */
+  datasetIdPrefix?: string | undefined;
+}
+/** Destination datasets are created so that hierarchy of the destination data objects matches the source hierarchy. */
+export interface SourceHierarchyDatasets {
+  /** The dataset template to use for dynamic dataset creation. */
+  datasetTemplate?: DatasetTemplate | undefined;
+  /** Optional. The project id of the BigQuery dataset. If not specified, the project will be inferred from the stream resource. */
+  projectId?: string | undefined;
+}
+/** A single target dataset to which all data will be streamed. */
+export interface SingleTargetDataset {
+  /** The dataset ID of the target dataset. DatasetIds allowed characters: https://cloud.google.com/bigquery/docs/reference/rest/v2/datasets#datasetreference. */
+  datasetId?: string | undefined;
+}
+/** BigQuery destination configuration */
+export interface BigQueryDestinationConfig {
+  /** The guaranteed data freshness (in seconds) when querying tables created by the stream. Editing this field will only affect new tables created in the future, but existing tables will not be impacted. Lower values mean that queries will return fresher data, but may result in higher cost. */
+  dataFreshness?: string | undefined;
+  /** Append only mode */
+  appendOnly?: CancelOperationRequest | undefined;
+  /** The standard mode */
+  merge?: CancelOperationRequest | undefined;
+  /** Optional. Big Lake Managed Tables (BLMT) configuration. */
+  blmtConfig?: BlmtConfig | undefined;
+  /** Source hierarchy datasets. */
+  sourceHierarchyDatasets?: SourceHierarchyDatasets | undefined;
+  /** Single destination dataset. */
+  singleTargetDataset?: SingleTargetDataset | undefined;
+}
+/** The configuration of the stream destination. */
+export interface DestinationConfig {
+  /** A configuration for how data should be loaded to Cloud Storage. */
+  gcsDestinationConfig?: GcsDestinationConfig | undefined;
+  /** Required. Destination connection profile resource. Format: `projects/{project}/locations/{location}/connectionProfiles/{name}` */
+  destinationConnectionProfile?: string | undefined;
+  /** BigQuery destination configuration. */
+  bigqueryDestinationConfig?: BigQueryDestinationConfig | undefined;
 }
 /** Source property. */
 export interface SourceProperty {
-  /** Required. The property name. */
-  propertyName?: string;
-  /** Optional. Source properties. When specified, it means that the current property contains nested properties of its own. When unspecified as part of include objects, includes everything, when unspecified as part of exclude objects, excludes nothing. */
-  properties?: SourcePropertyList;
   /** Optional. Whether or not the property is a primary key. */
-  primaryKey?: boolean;
+  primaryKey?: boolean | undefined;
+  /** Required. The property name. */
+  propertyName?: string | undefined;
+  /** Optional. Source properties. When specified, it means that the current property contains nested properties of its own. When unspecified as part of include objects, includes everything, when unspecified as part of exclude objects, excludes nothing. */
+  properties?: SourcePropertyList | undefined;
 }
 export type SourcePropertyList = Array<SourceProperty>;
 /** Source object. */
 export interface SourceObject {
   /** Required. The object name. */
-  objectName?: string;
+  objectName?: string | undefined;
   /** Optional. Source properties. When unspecified as part of include objects, includes everything, when unspecified as part of exclude objects, excludes nothing. */
-  properties?: SourcePropertyList;
+  properties?: SourcePropertyList | undefined;
 }
 export type SourceObjectList = Array<SourceObject>;
 /** Source catalog. */
 export interface SourceCatalog {
   /** Optional. Source objects in the catalog. */
-  objects?: SourceObjectList;
-}
-/** Configuration for syncing data from a Workday source. */
-export interface WorkdaySourceConfig {
-  /** Optional. The objects to retrieve from the source. */
-  includeObjects?: SourceCatalog;
-  /** Optional. The objects to exclude from the stream. */
-  excludeObjects?: SourceCatalog;
-  /** Required. Incremental sync polling interval for all objects. If not set, a default value of `5 minutes` is used. The duration must be from `5 minutes` to `24 hours`, inclusive. */
-  pollingInterval?: string;
+  objects?: SourceObjectList | undefined;
 }
 /** Configuration for syncing data from a Salesforce Marketing Cloud source. */
 export interface SalesforceMarketingCloudSourceConfig {
   /** Required. Incremental sync polling interval for all objects. If not set, a default value of `5 minutes` is used. The duration must be from `5 minutes` to `24 hours`, inclusive. */
-  pollingInterval?: string;
-  /** Optional. The objects to retrieve from the source. */
-  includeObjects?: SourceCatalog;
+  pollingInterval?: string | undefined;
   /** Optional. The objects to exclude from the stream. */
-  excludeObjects?: SourceCatalog;
+  excludeObjects?: SourceCatalog | undefined;
   /** Required. Specifies the polling interval for a full refresh of objects that do not support incremental sync. If not set, a default value of 24 hours is used. The duration must be between 1 and 24 hours, inclusive. */
-  fullRefreshPollingInterval?: string;
+  fullRefreshPollingInterval?: string | undefined;
+  /** Optional. The objects to retrieve from the source. */
+  includeObjects?: SourceCatalog | undefined;
 }
 /** Configuration to stream large object values. */
 export type StreamLargeObjects = CancelOperationRequest;
-/** Configuration to drop large object values. */
-export type DropLargeObjects = CancelOperationRequest;
 /** Oracle Column. */
 export interface OracleColumn {
-  /** The ordinal position of the column in the table. */
-  ordinalPosition?: number;
-  /** Whether or not the column can accept a null value. */
-  nullable?: boolean;
-  /** Whether or not the column represents a primary key. */
-  primaryKey?: boolean;
-  /** The column name. */
-  column?: string;
   /** Column encoding. */
-  encoding?: string;
-  /** Column length. */
-  length?: number;
-  /** The Oracle data type. */
-  dataType?: string;
-  /** Column scale. */
-  scale?: number;
+  encoding?: string | undefined;
   /** Column precision. */
-  precision?: number;
+  precision?: number | undefined;
+  /** Column length. */
+  length?: number | undefined;
+  /** The ordinal position of the column in the table. */
+  ordinalPosition?: number | undefined;
+  /** The Oracle data type. */
+  dataType?: string | undefined;
+  /** Whether or not the column can accept a null value. */
+  nullable?: boolean | undefined;
+  /** Column scale. */
+  scale?: number | undefined;
+  /** The column name. */
+  column?: string | undefined;
+  /** Whether or not the column represents a primary key. */
+  primaryKey?: boolean | undefined;
 }
 export type OracleColumnList = Array<OracleColumn>;
 /** Oracle table. */
 export interface OracleTable {
-  /** Oracle columns in the schema. When unspecified as part of include/exclude objects, includes/excludes everything. */
-  oracleColumns?: OracleColumnList;
   /** The table name. */
-  table?: string;
+  table?: string | undefined;
+  /** Oracle columns in the schema. When unspecified as part of include/exclude objects, includes/excludes everything. */
+  oracleColumns?: OracleColumnList | undefined;
 }
 export type OracleTableList = Array<OracleTable>;
 /** Oracle schema. */
 export interface OracleSchema {
-  /** The schema name. */
-  schema?: string;
   /** Tables in the schema. */
-  oracleTables?: OracleTableList;
+  oracleTables?: OracleTableList | undefined;
+  /** The schema name. */
+  schema?: string | undefined;
 }
 export type OracleSchemaList = Array<OracleSchema>;
 /** Oracle database structure. */
 export interface OracleRdbms {
   /** Oracle schemas/databases in the database server. */
-  oracleSchemas?: OracleSchemaList;
+  oracleSchemas?: OracleSchemaList | undefined;
 }
 /** Configuration to use LogMiner CDC method. */
 export type LogMiner = CancelOperationRequest;
+/** Configuration to drop large object values. */
+export type DropLargeObjects = CancelOperationRequest;
 /** Configuration to use Oracle ASM to access the log files. */
 export type OracleAsmLogFileAccess = CancelOperationRequest;
 /** Configuration to specify the Oracle directories to access the log files. */
 export interface LogFileDirectories {
   /** Required. Oracle directory for archived logs. */
-  archivedLogDirectory?: string;
+  archivedLogDirectory?: string | undefined;
   /** Required. Oracle directory for online logs. */
-  onlineLogDirectory?: string;
+  onlineLogDirectory?: string | undefined;
 }
 /** Configuration to use Binary Log Parser CDC technique. */
 export interface BinaryLogParser {
   /** Use Oracle ASM. */
-  oracleAsmLogFileAccess?: CancelOperationRequest;
+  oracleAsmLogFileAccess?: CancelOperationRequest | undefined;
   /** Use Oracle directories. */
-  logFileDirectories?: LogFileDirectories;
+  logFileDirectories?: LogFileDirectories | undefined;
 }
 /** Configuration for syncing data from an Oracle source. */
 export interface OracleSourceConfig {
-  /** Stream large object values. */
-  streamLargeObjects?: CancelOperationRequest;
   /** Maximum number of concurrent backfill tasks. The number should be non-negative. If not set (or set to 0), the system's default value is used. */
-  maxConcurrentBackfillTasks?: number;
-  /** Drop large object values. */
-  dropLargeObjects?: CancelOperationRequest;
+  maxConcurrentBackfillTasks?: number | undefined;
+  /** Stream large object values. */
+  streamLargeObjects?: CancelOperationRequest | undefined;
   /** The Oracle objects to exclude from the stream. */
-  excludeObjects?: OracleRdbms;
+  excludeObjects?: OracleRdbms | undefined;
   /** Maximum number of concurrent CDC tasks. The number should be non-negative. If not set (or set to 0), the system's default value is used. */
-  maxConcurrentCdcTasks?: number;
+  maxConcurrentCdcTasks?: number | undefined;
   /** Use LogMiner. */
-  logMiner?: CancelOperationRequest;
+  logMiner?: CancelOperationRequest | undefined;
+  /** Drop large object values. */
+  dropLargeObjects?: CancelOperationRequest | undefined;
   /** The Oracle objects to include in the stream. */
-  includeObjects?: OracleRdbms;
+  includeObjects?: OracleRdbms | undefined;
   /** Use Binary Log Parser. */
-  binaryLogParser?: BinaryLogParser;
+  binaryLogParser?: BinaryLogParser | undefined;
 }
+/** Configuration for syncing data from a Workday source. */
+export interface WorkdaySourceConfig {
+  /** Optional. The objects to exclude from the stream. */
+  excludeObjects?: SourceCatalog | undefined;
+  /** Optional. The objects to retrieve from the source. */
+  includeObjects?: SourceCatalog | undefined;
+  /** Required. Incremental sync polling interval for all objects. If not set, a default value of `5 minutes` is used. The duration must be from `5 minutes` to `24 hours`, inclusive. */
+  pollingInterval?: string | undefined;
+}
+/** DDL configuration for change tables. */
+export interface SqlServerDdlConfig {
+  /** Optional. If set to true, Datastream will automatically delete the old capture instance after creating a new one to support a DDL change. The default is false and means that the customer has to delete the old capture instance manually. */
+  autoDeleteOldCaptureInstance?: boolean | undefined;
+  /** Optional. If set to true, Datastream will automatically create a new capture instance when DDL is detected on a table.The customer will be responsible for deleting it so that the next set of DDLs can be handled. The default is false and it means that DDL's will not be handled . */
+  autoCreateNewCaptureInstanceOnDdl?: boolean | undefined;
+}
+/** Configuration to use Change Tables CDC read method. */
+export interface SqlServerChangeTables {
+  /** Optional. DDL configuration for change tables. */
+  ddlConfig?: SqlServerDdlConfig | undefined;
+}
+/** Configuration to use Transaction Logs CDC read method. */
+export type SqlServerTransactionLogs = CancelOperationRequest;
 /** SQLServer Column. */
 export interface SqlServerColumn {
-  /** Column length. */
-  length?: number;
-  /** Column scale. */
-  scale?: number;
-  /** Whether or not the column represents a primary key. */
-  primaryKey?: boolean;
-  /** The SQLServer data type. */
-  dataType?: string;
-  /** Whether or not the column can accept a null value. */
-  nullable?: boolean;
   /** The column name. */
-  column?: string;
-  /** Column precision. */
-  precision?: number;
+  column?: string | undefined;
+  /** Whether or not the column represents a primary key. */
+  primaryKey?: boolean | undefined;
+  /** Column length. */
+  length?: number | undefined;
+  /** The SQLServer data type. */
+  dataType?: string | undefined;
+  /** Whether or not the column can accept a null value. */
+  nullable?: boolean | undefined;
   /** The ordinal position of the column in the table. */
-  ordinalPosition?: number;
+  ordinalPosition?: number | undefined;
+  /** Column scale. */
+  scale?: number | undefined;
+  /** Column precision. */
+  precision?: number | undefined;
 }
 export type SqlServerColumnList = Array<SqlServerColumn>;
 /** SQLServer table. */
 export interface SqlServerTable {
-  /** The table name. */
-  table?: string;
   /** SQLServer columns in the schema. When unspecified as part of include/exclude objects, includes/excludes everything. */
-  columns?: SqlServerColumnList;
+  columns?: SqlServerColumnList | undefined;
+  /** The table name. */
+  table?: string | undefined;
 }
 export type SqlServerTableList = Array<SqlServerTable>;
 /** SQLServer schema. */
 export interface SqlServerSchema {
   /** Tables in the schema. */
-  tables?: SqlServerTableList;
+  tables?: SqlServerTableList | undefined;
   /** The schema name. */
-  schema?: string;
+  schema?: string | undefined;
 }
 export type SqlServerSchemaList = Array<SqlServerSchema>;
 /** SQLServer database structure. */
 export interface SqlServerRdbms {
   /** SQLServer schemas in the database server. */
-  schemas?: SqlServerSchemaList;
-}
-/** Configuration to use Transaction Logs CDC read method. */
-export type SqlServerTransactionLogs = CancelOperationRequest;
-/** DDL configuration for change tables. */
-export interface SqlServerDdlConfig {
-  /** Optional. If set to true, Datastream will automatically delete the old capture instance after creating a new one to support a DDL change. The default is false and means that the customer has to delete the old capture instance manually. */
-  autoDeleteOldCaptureInstance?: boolean;
-  /** Optional. If set to true, Datastream will automatically create a new capture instance when DDL is detected on a table.The customer will be responsible for deleting it so that the next set of DDLs can be handled. The default is false and it means that DDL's will not be handled . */
-  autoCreateNewCaptureInstanceOnDdl?: boolean;
-}
-/** Configuration to use Change Tables CDC read method. */
-export interface SqlServerChangeTables {
-  /** Optional. DDL configuration for change tables. */
-  ddlConfig?: SqlServerDdlConfig;
+  schemas?: SqlServerSchemaList | undefined;
 }
 /** Configuration for syncing data from a SQLServer source. */
 export interface SqlServerSourceConfig {
-  /** Max concurrent backfill tasks. */
-  maxConcurrentBackfillTasks?: number;
-  /** The SQLServer objects to exclude from the stream. */
-  excludeObjects?: SqlServerRdbms;
-  /** The SQLServer objects to include in the stream. */
-  includeObjects?: SqlServerRdbms;
-  /** CDC reader reads from transaction logs. */
-  transactionLogs?: CancelOperationRequest;
   /** CDC reader reads from change tables. */
-  changeTables?: SqlServerChangeTables;
+  changeTables?: SqlServerChangeTables | undefined;
+  /** Max concurrent backfill tasks. */
+  maxConcurrentBackfillTasks?: number | undefined;
+  /** CDC reader reads from transaction logs. */
+  transactionLogs?: CancelOperationRequest | undefined;
   /** Max concurrent CDC tasks. */
-  maxConcurrentCdcTasks?: number;
+  maxConcurrentCdcTasks?: number | undefined;
+  /** The SQLServer objects to exclude from the stream. */
+  excludeObjects?: SqlServerRdbms | undefined;
+  /** The SQLServer objects to include in the stream. */
+  includeObjects?: SqlServerRdbms | undefined;
+}
+/** Use Binary log position based replication. */
+export type BinaryLogPosition = CancelOperationRequest;
+/** Use GTID based replication. */
+export type Gtid = CancelOperationRequest;
+/** MySQL Column. */
+export interface MysqlColumn {
+  /** The ordinal position of the column in the table. */
+  ordinalPosition?: number | undefined;
+  /** Column collation. */
+  collation?: string | undefined;
+  /** Whether or not the column represents a primary key. */
+  primaryKey?: boolean | undefined;
+  /** The column name. */
+  column?: string | undefined;
+  /** Column precision. */
+  precision?: number | undefined;
+  /** Column scale. */
+  scale?: number | undefined;
+  /** Column length. */
+  length?: number | undefined;
+  /** The MySQL data type. Full data types list can be found here: https://dev.mysql.com/doc/refman/8.0/en/data-types.html */
+  dataType?: string | undefined;
+  /** Whether or not the column can accept a null value. */
+  nullable?: boolean | undefined;
+}
+export type MysqlColumnList = Array<MysqlColumn>;
+/** MySQL table. */
+export interface MysqlTable {
+  /** MySQL columns in the database. When unspecified as part of include/exclude objects, includes/excludes everything. */
+  mysqlColumns?: MysqlColumnList | undefined;
+  /** The table name. */
+  table?: string | undefined;
+}
+export type MysqlTableList = Array<MysqlTable>;
+/** MySQL database. */
+export interface MysqlDatabase {
+  /** Tables in the database. */
+  mysqlTables?: MysqlTableList | undefined;
+  /** The database name. */
+  database?: string | undefined;
+}
+export type MysqlDatabaseList = Array<MysqlDatabase>;
+/** MySQL database structure */
+export interface MysqlRdbms {
+  /** Mysql databases on the server */
+  mysqlDatabases?: MysqlDatabaseList | undefined;
+}
+/** Configuration for syncing data from a MySQL source. */
+export interface MysqlSourceConfig {
+  /** Use Binary log position based replication. */
+  binaryLogPosition?: CancelOperationRequest | undefined;
+  /** Maximum number of concurrent CDC tasks. The number should be non negative. If not set (or set to 0), the system's default value will be used. */
+  maxConcurrentCdcTasks?: number | undefined;
+  /** Use GTID based replication. */
+  gtid?: CancelOperationRequest | undefined;
+  /** Maximum number of concurrent backfill tasks. The number should be non negative. If not set (or set to 0), the system's default value will be used. */
+  maxConcurrentBackfillTasks?: number | undefined;
+  /** The MySQL objects to retrieve from the source. */
+  includeObjects?: MysqlRdbms | undefined;
+  /** The MySQL objects to exclude from the stream. */
+  excludeObjects?: MysqlRdbms | undefined;
+}
+/** Configuration for syncing data from a ServiceNow source. */
+export interface ServiceNowSourceConfig {
+  /** Optional. The objects to retrieve from the source. */
+  includeObjects?: SourceCatalog | undefined;
+  /** Optional. The objects to exclude from the stream. */
+  excludeObjects?: SourceCatalog | undefined;
+  /** Required. Incremental sync polling interval for all objects. If not set, a default value of `5 minutes` is used. The duration must be from `5 minutes` to `24 hours`, inclusive. */
+  pollingInterval?: string | undefined;
+}
+/** Spanner column. */
+export interface SpannerColumn {
+  /** Required. The column name. */
+  column?: string | undefined;
+  /** Optional. Spanner data type. */
+  dataType?: string | undefined;
+  /** Optional. Whether or not the column is a primary key. */
+  isPrimaryKey?: boolean | undefined;
+  /** Optional. The ordinal position of the column in the table. */
+  ordinalPosition?: string | undefined;
+}
+export type SpannerColumnList = Array<SpannerColumn>;
+/** Spanner table. */
+export interface SpannerTable {
+  /** Required. The table name. */
+  table?: string | undefined;
+  /** Optional. Spanner columns in the table. */
+  columns?: SpannerColumnList | undefined;
+}
+export type SpannerTableList = Array<SpannerTable>;
+/** Spanner schema. */
+export interface SpannerSchema {
+  /** Required. The schema name. */
+  schema?: string | undefined;
+  /** Optional. Spanner tables in the schema. */
+  tables?: SpannerTableList | undefined;
+}
+export type SpannerSchemaList = Array<SpannerSchema>;
+/** Spanner database structure. */
+export interface SpannerDatabase {
+  /** Optional. Spanner schemas in the database. */
+  schemas?: SpannerSchemaList | undefined;
+}
+export type SpannerSourceConfigSpannerRpcPriorityEnum =
+  | "SPANNER_RPC_PRIORITY_UNSPECIFIED"
+  | "LOW"
+  | "MEDIUM"
+  | "HIGH";
+/** Configuration for syncing data from a Spanner source. */
+export interface SpannerSourceConfig {
+  /** Optional. The FGAC role to use for the stream. */
+  fgacRole?: string | undefined;
+  /** Required. Immutable. The change stream name to use for the stream. */
+  changeStreamName?: string | undefined;
+  /** Optional. Maximum number of concurrent CDC tasks. */
+  maxConcurrentCdcTasks?: number | undefined;
+  /** Optional. The Spanner objects to avoid retrieving. If some objects are both included and excluded, an error will be thrown. */
+  excludeObjects?: SpannerDatabase | undefined;
+  /** Optional. Whether to use Data Boost for Spanner backfills. Defaults to false if not set. */
+  backfillDataBoostEnabled?: boolean | undefined;
+  /** Optional. Maximum number of concurrent backfill tasks. */
+  maxConcurrentBackfillTasks?: number | undefined;
+  /** Optional. The RPC priority to use for the stream. */
+  spannerRpcPriority?: SpannerSourceConfigSpannerRpcPriorityEnum | (string & {}) | undefined;
+  /** Optional. The Spanner objects to retrieve from the data source. If some objects are both included and excluded, an error will be thrown. */
+  includeObjects?: SpannerDatabase | undefined;
+}
+/** Salesforce field. */
+export interface SalesforceField {
+  /** The data type. */
+  dataType?: string | undefined;
+  /** Indicates whether the field can accept nil values. */
+  nillable?: boolean | undefined;
+  /** The field name. */
+  name?: string | undefined;
+}
+export type SalesforceFieldList = Array<SalesforceField>;
+/** Salesforce object. */
+export interface SalesforceObject {
+  /** The object name. */
+  objectName?: string | undefined;
+  /** Salesforce fields. When unspecified as part of include objects, includes everything, when unspecified as part of exclude objects, excludes nothing. */
+  fields?: SalesforceFieldList | undefined;
+}
+export type SalesforceObjectList = Array<SalesforceObject>;
+/** Salesforce organization structure. */
+export interface SalesforceOrg {
+  /** Salesforce objects in the database server. */
+  objects?: SalesforceObjectList | undefined;
+}
+/** Configuration for syncing data from a Salesforce source. */
+export interface SalesforceSourceConfig {
+  /** The Salesforce objects to retrieve from the source. */
+  includeObjects?: SalesforceOrg | undefined;
+  /** The Salesforce objects to exclude from the stream. */
+  excludeObjects?: SalesforceOrg | undefined;
+  /** Required. Salesforce objects polling interval. The interval at which new changes will be polled for each object. The duration must be from `5 minutes` to `24 hours`, inclusive. */
+  pollingInterval?: string | undefined;
 }
 /** PostgreSQL Column. */
 export interface PostgresqlColumn {
-  /** Column precision. */
-  precision?: number;
-  /** The ordinal position of the column in the table. */
-  ordinalPosition?: number;
   /** The column name. */
-  column?: string;
-  /** Whether or not the column represents a primary key. */
-  primaryKey?: boolean;
-  /** The PostgreSQL data type. */
-  dataType?: string;
-  /** Whether or not the column can accept a null value. */
-  nullable?: boolean;
-  /** Column scale. */
-  scale?: number;
+  column?: string | undefined;
+  /** The ordinal position of the column in the table. */
+  ordinalPosition?: number | undefined;
   /** Column length. */
-  length?: number;
+  length?: number | undefined;
+  /** Column scale. */
+  scale?: number | undefined;
+  /** Whether or not the column represents a primary key. */
+  primaryKey?: boolean | undefined;
+  /** The PostgreSQL data type. */
+  dataType?: string | undefined;
+  /** Whether or not the column can accept a null value. */
+  nullable?: boolean | undefined;
+  /** Column precision. */
+  precision?: number | undefined;
 }
 export type PostgresqlColumnList = Array<PostgresqlColumn>;
 /** PostgreSQL table. */
 export interface PostgresqlTable {
   /** PostgreSQL columns in the schema. When unspecified as part of include/exclude objects, includes/excludes everything. */
-  postgresqlColumns?: PostgresqlColumnList;
+  postgresqlColumns?: PostgresqlColumnList | undefined;
   /** The table name. */
-  table?: string;
+  table?: string | undefined;
 }
 export type PostgresqlTableList = Array<PostgresqlTable>;
 /** PostgreSQL schema. */
 export interface PostgresqlSchema {
-  /** Tables in the schema. */
-  postgresqlTables?: PostgresqlTableList;
   /** The schema name. */
-  schema?: string;
+  schema?: string | undefined;
+  /** Tables in the schema. */
+  postgresqlTables?: PostgresqlTableList | undefined;
 }
 export type PostgresqlSchemaList = Array<PostgresqlSchema>;
 /** PostgreSQL database structure. */
 export interface PostgresqlRdbms {
   /** PostgreSQL schemas in the database server. */
-  postgresqlSchemas?: PostgresqlSchemaList;
+  postgresqlSchemas?: PostgresqlSchemaList | undefined;
 }
 /** Configuration for syncing data from a PostgreSQL source. */
 export interface PostgresqlSourceConfig {
-  /** Required. Immutable. The name of the logical replication slot that's configured with the pgoutput plugin. */
-  replicationSlot?: string;
-  /** Required. The name of the publication that includes the set of all tables that are defined in the stream's include_objects. */
-  publication?: string;
-  /** The PostgreSQL objects to include in the stream. */
-  includeObjects?: PostgresqlRdbms;
   /** The PostgreSQL objects to exclude from the stream. */
-  excludeObjects?: PostgresqlRdbms;
+  excludeObjects?: PostgresqlRdbms | undefined;
+  /** The PostgreSQL objects to include in the stream. */
+  includeObjects?: PostgresqlRdbms | undefined;
+  /** Required. Immutable. The name of the logical replication slot that's configured with the pgoutput plugin. */
+  replicationSlot?: string | undefined;
+  /** Required. The name of the publication that includes the set of all tables that are defined in the stream's include_objects. */
+  publication?: string | undefined;
   /** Maximum number of concurrent backfill tasks. The number should be non negative. If not set (or set to 0), the system's default value will be used. */
-  maxConcurrentBackfillTasks?: number;
+  maxConcurrentBackfillTasks?: number | undefined;
 }
 /** Configuration for syncing data from a Dataverse source. */
 export interface DataverseSourceConfig {
-  /** Optional. The objects to retrieve from the source. */
-  includeObjects?: SourceCatalog;
   /** Required. Incremental sync polling interval for all objects. If not set, a default value of `5 minutes` is used. The duration must be from `5 minutes` to `24 hours`, inclusive. */
-  pollingInterval?: string;
+  pollingInterval?: string | undefined;
   /** Optional. The objects to exclude from the stream. */
-  excludeObjects?: SourceCatalog;
+  excludeObjects?: SourceCatalog | undefined;
+  /** Optional. The objects to retrieve from the source. */
+  includeObjects?: SourceCatalog | undefined;
 }
 /** MongoDB Field. */
 export interface MongodbField {
   /** The field name. */
-  field?: string;
+  field?: string | undefined;
 }
 export type MongodbFieldList = Array<MongodbField>;
 /** MongoDB Collection. */
 export interface MongodbCollection {
   /** The collection name. */
-  collection?: string;
+  collection?: string | undefined;
   /** Fields in the collection. */
-  fields?: MongodbFieldList;
+  fields?: MongodbFieldList | undefined;
 }
 export type MongodbCollectionList = Array<MongodbCollection>;
 /** MongoDB Database. */
 export interface MongodbDatabase {
-  /** Collections in the database. */
-  collections?: MongodbCollectionList;
   /** The database name. */
-  database?: string;
+  database?: string | undefined;
+  /** Collections in the database. */
+  collections?: MongodbCollectionList | undefined;
 }
 export type MongodbDatabaseList = Array<MongodbDatabase>;
 /** MongoDB Cluster structure. */
 export interface MongodbCluster {
   /** MongoDB databases in the cluster. */
-  databases?: MongodbDatabaseList;
+  databases?: MongodbDatabaseList | undefined;
 }
 export type MongodbSourceConfigJsonModeEnum =
   | "MONGODB_JSON_MODE_UNSPECIFIED"
@@ -955,206 +1163,105 @@ export type MongodbSourceConfigJsonModeEnum =
 /** Configuration for syncing data from a MongoDB source. */
 export interface MongodbSourceConfig {
   /** The MongoDB collections to include in the stream. */
-  includeObjects?: MongodbCluster;
-  /** Optional. MongoDB JSON mode to use for the stream. */
-  jsonMode?: MongodbSourceConfigJsonModeEnum | (string & {});
+  includeObjects?: MongodbCluster | undefined;
   /** Optional. Maximum number of concurrent backfill tasks. The number should be non-negative and less than or equal to 50. If not set (or set to 0), the system's default value is used */
-  maxConcurrentBackfillTasks?: number;
+  maxConcurrentBackfillTasks?: number | undefined;
+  /** Optional. MongoDB JSON mode to use for the stream. */
+  jsonMode?: MongodbSourceConfigJsonModeEnum | (string & {}) | undefined;
   /** The MongoDB collections to exclude from the stream. */
-  excludeObjects?: MongodbCluster;
-}
-/** Configuration for syncing data from a ServiceNow source. */
-export interface ServiceNowSourceConfig {
-  /** Required. Incremental sync polling interval for all objects. If not set, a default value of `5 minutes` is used. The duration must be from `5 minutes` to `24 hours`, inclusive. */
-  pollingInterval?: string;
-  /** Optional. The objects to retrieve from the source. */
-  includeObjects?: SourceCatalog;
-  /** Optional. The objects to exclude from the stream. */
-  excludeObjects?: SourceCatalog;
-}
-/** MySQL Column. */
-export interface MysqlColumn {
-  /** Column length. */
-  length?: number;
-  /** Column scale. */
-  scale?: number;
-  /** The MySQL data type. Full data types list can be found here: https://dev.mysql.com/doc/refman/8.0/en/data-types.html */
-  dataType?: string;
-  /** The ordinal position of the column in the table. */
-  ordinalPosition?: number;
-  /** Column precision. */
-  precision?: number;
-  /** Whether or not the column can accept a null value. */
-  nullable?: boolean;
-  /** The column name. */
-  column?: string;
-  /** Whether or not the column represents a primary key. */
-  primaryKey?: boolean;
-  /** Column collation. */
-  collation?: string;
-}
-export type MysqlColumnList = Array<MysqlColumn>;
-/** MySQL table. */
-export interface MysqlTable {
-  /** The table name. */
-  table?: string;
-  /** MySQL columns in the database. When unspecified as part of include/exclude objects, includes/excludes everything. */
-  mysqlColumns?: MysqlColumnList;
-}
-export type MysqlTableList = Array<MysqlTable>;
-/** MySQL database. */
-export interface MysqlDatabase {
-  /** Tables in the database. */
-  mysqlTables?: MysqlTableList;
-  /** The database name. */
-  database?: string;
-}
-export type MysqlDatabaseList = Array<MysqlDatabase>;
-/** MySQL database structure */
-export interface MysqlRdbms {
-  /** Mysql databases on the server */
-  mysqlDatabases?: MysqlDatabaseList;
-}
-/** Use GTID based replication. */
-export type Gtid = CancelOperationRequest;
-/** Use Binary log position based replication. */
-export type BinaryLogPosition = CancelOperationRequest;
-/** Configuration for syncing data from a MySQL source. */
-export interface MysqlSourceConfig {
-  /** The MySQL objects to retrieve from the source. */
-  includeObjects?: MysqlRdbms;
-  /** Maximum number of concurrent CDC tasks. The number should be non negative. If not set (or set to 0), the system's default value will be used. */
-  maxConcurrentCdcTasks?: number;
-  /** The MySQL objects to exclude from the stream. */
-  excludeObjects?: MysqlRdbms;
-  /** Use GTID based replication. */
-  gtid?: CancelOperationRequest;
-  /** Maximum number of concurrent backfill tasks. The number should be non negative. If not set (or set to 0), the system's default value will be used. */
-  maxConcurrentBackfillTasks?: number;
-  /** Use Binary log position based replication. */
-  binaryLogPosition?: CancelOperationRequest;
-}
-export type SpannerSourceConfigSpannerRpcPriorityEnum =
-  | "SPANNER_RPC_PRIORITY_UNSPECIFIED"
-  | "LOW"
-  | "MEDIUM"
-  | "HIGH";
-/** Spanner column. */
-export interface SpannerColumn {
-  /** Required. The column name. */
-  column?: string;
-  /** Optional. Spanner data type. */
-  dataType?: string;
-  /** Optional. Whether or not the column is a primary key. */
-  isPrimaryKey?: boolean;
-  /** Optional. The ordinal position of the column in the table. */
-  ordinalPosition?: string;
-}
-export type SpannerColumnList = Array<SpannerColumn>;
-/** Spanner table. */
-export interface SpannerTable {
-  /** Required. The table name. */
-  table?: string;
-  /** Optional. Spanner columns in the table. */
-  columns?: SpannerColumnList;
-}
-export type SpannerTableList = Array<SpannerTable>;
-/** Spanner schema. */
-export interface SpannerSchema {
-  /** Required. The schema name. */
-  schema?: string;
-  /** Optional. Spanner tables in the schema. */
-  tables?: SpannerTableList;
-}
-export type SpannerSchemaList = Array<SpannerSchema>;
-/** Spanner database structure. */
-export interface SpannerDatabase {
-  /** Optional. Spanner schemas in the database. */
-  schemas?: SpannerSchemaList;
-}
-/** Configuration for syncing data from a Spanner source. */
-export interface SpannerSourceConfig {
-  /** Optional. Maximum number of concurrent backfill tasks. */
-  maxConcurrentBackfillTasks?: number;
-  /** Optional. Maximum number of concurrent CDC tasks. */
-  maxConcurrentCdcTasks?: number;
-  /** Optional. The RPC priority to use for the stream. */
-  spannerRpcPriority?: SpannerSourceConfigSpannerRpcPriorityEnum | (string & {});
-  /** Required. Immutable. The change stream name to use for the stream. */
-  changeStreamName?: string;
-  /** Optional. The Spanner objects to avoid retrieving. If some objects are both included and excluded, an error will be thrown. */
-  excludeObjects?: SpannerDatabase;
-  /** Optional. The FGAC role to use for the stream. */
-  fgacRole?: string;
-  /** Optional. The Spanner objects to retrieve from the data source. If some objects are both included and excluded, an error will be thrown. */
-  includeObjects?: SpannerDatabase;
-  /** Optional. Whether to use Data Boost for Spanner backfills. Defaults to false if not set. */
-  backfillDataBoostEnabled?: boolean;
+  excludeObjects?: MongodbCluster | undefined;
 }
 /** The configuration of the stream source. */
 export interface SourceConfig {
-  /** Required. Source connection profile resource. Format: `projects/{project}/locations/{location}/connectionProfiles/{name}` */
-  sourceConnectionProfile?: string;
-  /** Salesforce data source configuration. */
-  salesforceSourceConfig?: SalesforceSourceConfig;
-  /** Optional. Workday data source configuration. */
-  workdaySourceConfig?: WorkdaySourceConfig;
   /** Salesforce Marketing Cloud data source configuration. */
-  salesforceMarketingCloudSourceConfig?: SalesforceMarketingCloudSourceConfig;
+  salesforceMarketingCloudSourceConfig?: SalesforceMarketingCloudSourceConfig | undefined;
   /** Oracle data source configuration. */
-  oracleSourceConfig?: OracleSourceConfig;
+  oracleSourceConfig?: OracleSourceConfig | undefined;
+  /** Optional. Workday data source configuration. */
+  workdaySourceConfig?: WorkdaySourceConfig | undefined;
+  /** Required. Source connection profile resource. Format: `projects/{project}/locations/{location}/connectionProfiles/{name}` */
+  sourceConnectionProfile?: string | undefined;
   /** SQLServer data source configuration. */
-  sqlServerSourceConfig?: SqlServerSourceConfig;
-  /** PostgreSQL data source configuration. */
-  postgresqlSourceConfig?: PostgresqlSourceConfig;
-  /** Dataverse data source configuration. */
-  dataverseSourceConfig?: DataverseSourceConfig;
-  /** MongoDB data source configuration. */
-  mongodbSourceConfig?: MongodbSourceConfig;
-  /** ServiceNow data source configuration. */
-  serviceNowSourceConfig?: ServiceNowSourceConfig;
+  sqlServerSourceConfig?: SqlServerSourceConfig | undefined;
   /** MySQL data source configuration. */
-  mysqlSourceConfig?: MysqlSourceConfig;
+  mysqlSourceConfig?: MysqlSourceConfig | undefined;
+  /** ServiceNow data source configuration. */
+  serviceNowSourceConfig?: ServiceNowSourceConfig | undefined;
   /** Spanner data source configuration. */
-  spannerSourceConfig?: SpannerSourceConfig;
+  spannerSourceConfig?: SpannerSourceConfig | undefined;
+  /** Salesforce data source configuration. */
+  salesforceSourceConfig?: SalesforceSourceConfig | undefined;
+  /** PostgreSQL data source configuration. */
+  postgresqlSourceConfig?: PostgresqlSourceConfig | undefined;
+  /** Dataverse data source configuration. */
+  dataverseSourceConfig?: DataverseSourceConfig | undefined;
+  /** MongoDB data source configuration. */
+  mongodbSourceConfig?: MongodbSourceConfig | undefined;
 }
-/** Backfill strategy to automatically backfill the Stream's objects. Specific objects can be excluded. */
-export interface BackfillAllStrategy {
-  /** PostgreSQL data source objects to avoid backfilling. */
-  postgresqlExcludedObjects?: PostgresqlRdbms;
-  /** MongoDB data source objects to avoid backfilling */
-  mongodbExcludedObjects?: MongodbCluster;
-  /** Oracle data source objects to avoid backfilling. */
-  oracleExcludedObjects?: OracleRdbms;
-  /** Salesforce data source objects to avoid backfilling */
-  salesforceExcludedObjects?: SalesforceOrg;
-  /** MySQL data source objects to avoid backfilling. */
-  mysqlExcludedObjects?: MysqlRdbms;
-  /** Spanner data source objects to avoid backfilling. */
-  spannerExcludedObjects?: SpannerDatabase;
-  /** Source catalog data source objects to avoid backfilling. This is mainly used to represent SaaS applications objects. */
-  saasExcludedObjects?: SourceCatalog;
-  /** SQLServer data source objects to avoid backfilling */
-  sqlServerExcludedObjects?: SqlServerRdbms;
+/** MongoDB data source object identifier. */
+export interface MongodbObjectIdentifier {
+  /** Required. The database name. */
+  database?: string | undefined;
+  /** Required. The collection name. */
+  collection?: string | undefined;
+}
+/** PostgreSQL data source object identifier. */
+export interface PostgresqlObjectIdentifier {
+  /** Required. The schema name. */
+  schema?: string | undefined;
+  /** Required. The table name. */
+  table?: string | undefined;
+}
+/** Oracle data source object identifier. */
+export type OracleObjectIdentifier = PostgresqlObjectIdentifier;
+/** Spanner data source object identifier. */
+export interface SpannerObjectIdentifier {
+  /** Optional. The schema name. */
+  schema?: string | undefined;
+  /** Required. The table name. */
+  table?: string | undefined;
+}
+/** Mysql data source object identifier. */
+export interface MysqlObjectIdentifier {
+  /** Required. The table name. */
+  table?: string | undefined;
+  /** Required. The database name. */
+  database?: string | undefined;
+}
+/** SQLServer data source object identifier. */
+export type SqlServerObjectIdentifier = PostgresqlObjectIdentifier;
+/** Salesforce data source object identifier. */
+export interface SalesforceObjectIdentifier {
+  /** Required. The object name. */
+  objectName?: string | undefined;
+}
+/** Represents an identifier of an object in the data source. */
+export interface SourceObjectIdentifier {
+  /** MongoDB data source object identifier. */
+  mongodbIdentifier?: MongodbObjectIdentifier | undefined;
+  /** PostgreSQL data source object identifier. */
+  postgresqlIdentifier?: PostgresqlObjectIdentifier | undefined;
+  /** Oracle data source object identifier. */
+  oracleIdentifier?: PostgresqlObjectIdentifier | undefined;
+  /** Spanner data source object identifier. */
+  spannerIdentifier?: SpannerObjectIdentifier | undefined;
+  /** Mysql data source object identifier. */
+  mysqlIdentifier?: MysqlObjectIdentifier | undefined;
+  /** SQLServer data source object identifier. */
+  sqlServerIdentifier?: PostgresqlObjectIdentifier | undefined;
+  /** Salesforce data source object identifier. */
+  salesforceIdentifier?: SalesforceObjectIdentifier | undefined;
+}
+/** Object filter to apply the rules to. */
+export interface ObjectFilter {
+  /** Specific source object identifier. */
+  sourceObjectIdentifier?: SourceObjectIdentifier | undefined;
 }
 export type StringList = Array<string>;
 /** BigQuery clustering configuration. */
 export interface BigQueryClustering {
   /** Required. Column names to set as clustering columns. */
-  columns?: StringList;
-}
-export type TimeUnitPartitionPartitioningTimeGranularityEnum =
-  | "PARTITIONING_TIME_GRANULARITY_UNSPECIFIED"
-  | "PARTITIONING_TIME_GRANULARITY_HOUR"
-  | "PARTITIONING_TIME_GRANULARITY_DAY"
-  | "PARTITIONING_TIME_GRANULARITY_MONTH"
-  | "PARTITIONING_TIME_GRANULARITY_YEAR";
-/** Time unit column partitioning. see https://cloud.google.com/bigquery/docs/partitioned-tables#date_timestamp_partitioned_tables */
-export interface TimeUnitPartition {
-  /** Required. The partitioning column. */
-  column?: string;
-  /** Optional. Partition granularity. */
-  partitioningTimeGranularity?: TimeUnitPartitionPartitioningTimeGranularityEnum | (string & {});
+  columns?: StringList | undefined;
 }
 export type IngestionTimePartitionPartitioningTimeGranularityEnum =
   | "PARTITIONING_TIME_GRANULARITY_UNSPECIFIED"
@@ -1167,261 +1274,145 @@ export interface IngestionTimePartition {
   /** Optional. Partition granularity */
   partitioningTimeGranularity?:
     | IngestionTimePartitionPartitioningTimeGranularityEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** Integer range partitioning. see https://cloud.google.com/bigquery/docs/partitioned-tables#integer_range */
 export interface IntegerRangePartition {
-  /** Required. The interval of each range within the partition. */
-  interval?: string;
   /** Required. The starting value for range partitioning (inclusive). */
-  start?: string;
+  start?: string | undefined;
   /** Required. The partitioning column. */
-  column?: string;
+  column?: string | undefined;
+  /** Required. The interval of each range within the partition. */
+  interval?: string | undefined;
   /** Required. The ending value for range partitioning (exclusive). */
-  end?: string;
+  end?: string | undefined;
+}
+export type TimeUnitPartitionPartitioningTimeGranularityEnum =
+  | "PARTITIONING_TIME_GRANULARITY_UNSPECIFIED"
+  | "PARTITIONING_TIME_GRANULARITY_HOUR"
+  | "PARTITIONING_TIME_GRANULARITY_DAY"
+  | "PARTITIONING_TIME_GRANULARITY_MONTH"
+  | "PARTITIONING_TIME_GRANULARITY_YEAR";
+/** Time unit column partitioning. see https://cloud.google.com/bigquery/docs/partitioned-tables#date_timestamp_partitioned_tables */
+export interface TimeUnitPartition {
+  /** Required. The partitioning column. */
+  column?: string | undefined;
+  /** Optional. Partition granularity. */
+  partitioningTimeGranularity?:
+    | TimeUnitPartitionPartitioningTimeGranularityEnum
+    | (string & {})
+    | undefined;
 }
 /** BigQuery partitioning configuration. */
 export interface BigQueryPartitioning {
-  /** Time unit column partitioning. */
-  timeUnitPartition?: TimeUnitPartition;
   /** Ingestion time partitioning. */
-  ingestionTimePartition?: IngestionTimePartition;
-  /** Integer range partitioning. */
-  integerRangePartition?: IntegerRangePartition;
+  ingestionTimePartition?: IngestionTimePartition | undefined;
   /** Optional. If true, queries over the table require a partition filter. */
-  requirePartitionFilter?: boolean;
+  requirePartitionFilter?: boolean | undefined;
+  /** Integer range partitioning. */
+  integerRangePartition?: IntegerRangePartition | undefined;
+  /** Time unit column partitioning. */
+  timeUnitPartition?: TimeUnitPartition | undefined;
 }
 /** A customization rule to apply to a set of objects. */
 export interface CustomizationRule {
   /** BigQuery clustering rule. */
-  bigqueryClustering?: BigQueryClustering;
+  bigqueryClustering?: BigQueryClustering | undefined;
   /** BigQuery partitioning rule. */
-  bigqueryPartitioning?: BigQueryPartitioning;
+  bigqueryPartitioning?: BigQueryPartitioning | undefined;
 }
 export type CustomizationRuleList = Array<CustomizationRule>;
-/** Spanner data source object identifier. */
-export interface SpannerObjectIdentifier {
-  /** Required. The table name. */
-  table?: string;
-  /** Optional. The schema name. */
-  schema?: string;
-}
-/** MongoDB data source object identifier. */
-export interface MongodbObjectIdentifier {
-  /** Required. The database name. */
-  database?: string;
-  /** Required. The collection name. */
-  collection?: string;
-}
-/** PostgreSQL data source object identifier. */
-export interface PostgresqlObjectIdentifier {
-  /** Required. The table name. */
-  table?: string;
-  /** Required. The schema name. */
-  schema?: string;
-}
-/** SQLServer data source object identifier. */
-export type SqlServerObjectIdentifier = PostgresqlObjectIdentifier;
-/** Salesforce data source object identifier. */
-export interface SalesforceObjectIdentifier {
-  /** Required. The object name. */
-  objectName?: string;
-}
-/** Mysql data source object identifier. */
-export interface MysqlObjectIdentifier {
-  /** Required. The table name. */
-  table?: string;
-  /** Required. The database name. */
-  database?: string;
-}
-/** Oracle data source object identifier. */
-export interface OracleObjectIdentifier {
-  /** Required. The schema name. */
-  schema?: string;
-  /** Required. The table name. */
-  table?: string;
-}
-/** Represents an identifier of an object in the data source. */
-export interface SourceObjectIdentifier {
-  /** Spanner data source object identifier. */
-  spannerIdentifier?: SpannerObjectIdentifier;
-  /** MongoDB data source object identifier. */
-  mongodbIdentifier?: MongodbObjectIdentifier;
-  /** PostgreSQL data source object identifier. */
-  postgresqlIdentifier?: PostgresqlObjectIdentifier;
-  /** SQLServer data source object identifier. */
-  sqlServerIdentifier?: PostgresqlObjectIdentifier;
-  /** Salesforce data source object identifier. */
-  salesforceIdentifier?: SalesforceObjectIdentifier;
-  /** Mysql data source object identifier. */
-  mysqlIdentifier?: MysqlObjectIdentifier;
-  /** Oracle data source object identifier. */
-  oracleIdentifier?: OracleObjectIdentifier;
-}
-/** Object filter to apply the rules to. */
-export interface ObjectFilter {
-  /** Specific source object identifier. */
-  sourceObjectIdentifier?: SourceObjectIdentifier;
-}
 /** A set of rules to apply to a set of objects. */
 export interface RuleSet {
-  /** Required. List of customization rules to apply. */
-  customizationRules?: CustomizationRuleList;
   /** Required. Object filter to apply the customization rules to. */
-  objectFilter?: ObjectFilter;
+  objectFilter?: ObjectFilter | undefined;
+  /** Required. List of customization rules to apply. */
+  customizationRules?: CustomizationRuleList | undefined;
 }
 export type RuleSetList = Array<RuleSet>;
-/** Backfill strategy to disable automatic backfill for the Stream's objects. */
-export type BackfillNoneStrategy = CancelOperationRequest;
-/** AppendOnly mode defines that all changes to a table will be written to the destination table. */
-export type AppendOnly = CancelOperationRequest;
-export type BlmtConfigTableFormatEnum = "TABLE_FORMAT_UNSPECIFIED" | "ICEBERG";
-export type BlmtConfigFileFormatEnum = "FILE_FORMAT_UNSPECIFIED" | "PARQUET";
-/** The configuration for BLMT. */
-export interface BlmtConfig {
-  /** Required. The table format. */
-  tableFormat?: BlmtConfigTableFormatEnum | (string & {});
-  /** Required. The Cloud Storage bucket name. */
-  bucket?: string;
-  /** Required. The bigquery connection. Format: `{project}.{location}.{name}` */
-  connectionName?: string;
-  /** The root path inside the Cloud Storage bucket. */
-  rootPath?: string;
-  /** Required. The file format. */
-  fileFormat?: BlmtConfigFileFormatEnum | (string & {});
-}
-/** Merge mode defines that all changes to a table will be merged at the destination table. */
-export type Merge = CancelOperationRequest;
-/** A single target dataset to which all data will be streamed. */
-export interface SingleTargetDataset {
-  /** The dataset ID of the target dataset. DatasetIds allowed characters: https://cloud.google.com/bigquery/docs/reference/rest/v2/datasets#datasetreference. */
-  datasetId?: string;
-}
-/** Dataset template used for dynamic dataset creation. */
-export interface DatasetTemplate {
-  /** Required. The geographic location where the dataset should reside. See https://cloud.google.com/bigquery/docs/locations for supported locations. */
-  location?: string;
-  /** If supplied, every created dataset will have its name prefixed by the provided value. The prefix and name will be separated by an underscore. i.e. _. */
-  datasetIdPrefix?: string;
-  /** Describes the Cloud KMS encryption key that will be used to protect destination BigQuery table. The BigQuery Service Account associated with your project requires access to this encryption key. i.e. projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{cryptoKey}. See https://cloud.google.com/bigquery/docs/customer-managed-encryption for more information. */
-  kmsKeyName?: string;
-}
-/** Destination datasets are created so that hierarchy of the destination data objects matches the source hierarchy. */
-export interface SourceHierarchyDatasets {
-  /** Optional. The project id of the BigQuery dataset. If not specified, the project will be inferred from the stream resource. */
-  projectId?: string;
-  /** The dataset template to use for dynamic dataset creation. */
-  datasetTemplate?: DatasetTemplate;
-}
-/** BigQuery destination configuration */
-export interface BigQueryDestinationConfig {
-  /** Append only mode */
-  appendOnly?: CancelOperationRequest;
-  /** Optional. Big Lake Managed Tables (BLMT) configuration. */
-  blmtConfig?: BlmtConfig;
-  /** The standard mode */
-  merge?: CancelOperationRequest;
-  /** Single destination dataset. */
-  singleTargetDataset?: SingleTargetDataset;
-  /** The guaranteed data freshness (in seconds) when querying tables created by the stream. Editing this field will only affect new tables created in the future, but existing tables will not be impacted. Lower values mean that queries will return fresher data, but may result in higher cost. */
-  dataFreshness?: string;
-  /** Source hierarchy datasets. */
-  sourceHierarchyDatasets?: SourceHierarchyDatasets;
-}
-/** AVRO file format configuration. */
-export type AvroFileFormat = CancelOperationRequest;
-export type JsonFileFormatCompressionEnum =
-  | "JSON_COMPRESSION_UNSPECIFIED"
-  | "NO_COMPRESSION"
-  | "GZIP";
-export type JsonFileFormatSchemaFileFormatEnum =
-  | "SCHEMA_FILE_FORMAT_UNSPECIFIED"
-  | "NO_SCHEMA_FILE"
-  | "AVRO_SCHEMA_FILE";
-/** JSON file format configuration. */
-export interface JsonFileFormat {
-  /** Compression of the loaded JSON file. */
-  compression?: JsonFileFormatCompressionEnum | (string & {});
-  /** The schema file format along JSON data files. */
-  schemaFileFormat?: JsonFileFormatSchemaFileFormatEnum | (string & {});
-}
-/** Google Cloud Storage destination configuration */
-export interface GcsDestinationConfig {
-  /** AVRO file format configuration. */
-  avroFileFormat?: CancelOperationRequest;
-  /** The maximum file size to be saved in the bucket. */
-  fileRotationMb?: number;
-  /** Path inside the Cloud Storage bucket to write data to. */
-  path?: string;
-  /** The maximum duration for which new events are added before a file is closed and a new file is created. Values within the range of 15-60 seconds are allowed. */
-  fileRotationInterval?: string;
-  /** JSON file format configuration. */
-  jsonFileFormat?: JsonFileFormat;
-}
-/** The configuration of the stream destination. */
-export interface DestinationConfig {
-  /** Required. Destination connection profile resource. Format: `projects/{project}/locations/{location}/connectionProfiles/{name}` */
-  destinationConnectionProfile?: string;
-  /** BigQuery destination configuration. */
-  bigqueryDestinationConfig?: BigQueryDestinationConfig;
-  /** A configuration for how data should be loaded to Cloud Storage. */
-  gcsDestinationConfig?: GcsDestinationConfig;
+export type StreamStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "NOT_STARTED"
+  | "RUNNING"
+  | "PAUSED"
+  | "MAINTENANCE"
+  | "FAILED"
+  | "FAILED_PERMANENTLY"
+  | "STARTING"
+  | "DRAINING";
+/** Backfill strategy to automatically backfill the Stream's objects. Specific objects can be excluded. */
+export interface BackfillAllStrategy {
+  /** MongoDB data source objects to avoid backfilling */
+  mongodbExcludedObjects?: MongodbCluster | undefined;
+  /** Oracle data source objects to avoid backfilling. */
+  oracleExcludedObjects?: OracleRdbms | undefined;
+  /** PostgreSQL data source objects to avoid backfilling. */
+  postgresqlExcludedObjects?: PostgresqlRdbms | undefined;
+  /** MySQL data source objects to avoid backfilling. */
+  mysqlExcludedObjects?: MysqlRdbms | undefined;
+  /** Spanner data source objects to avoid backfilling. */
+  spannerExcludedObjects?: SpannerDatabase | undefined;
+  /** SQLServer data source objects to avoid backfilling */
+  sqlServerExcludedObjects?: SqlServerRdbms | undefined;
+  /** Source catalog data source objects to avoid backfilling. This is mainly used to represent SaaS applications objects. */
+  saasExcludedObjects?: SourceCatalog | undefined;
+  /** Salesforce data source objects to avoid backfilling */
+  salesforceExcludedObjects?: SalesforceOrg | undefined;
 }
 export type Datastream_ErrorList = Array<Datastream_Error>;
 /** A resource representing streaming data from a source to a destination. */
 export interface Stream {
-  /** The state of the stream. */
-  state?: StreamStateEnum | (string & {});
-  /** Output only. If the stream was recovered, the time of the last recovery. Note: This field is currently experimental. */
-  lastRecoveryTime?: string;
-  /** Required. Source connection profile configuration. */
-  sourceConfig?: SourceConfig;
-  /** Automatically backfill objects included in the stream source configuration. Specific objects can be excluded. */
-  backfillAll?: BackfillAllStrategy;
   /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean;
-  /** Optional. Rule sets to apply to the stream. */
-  ruleSets?: RuleSetList;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean;
-  /** Immutable. A reference to a KMS encryption key. If provided, it will be used to encrypt the data. If left blank, data will be encrypted using an internal Stream-specific encryption key provisioned through KMS. */
-  customerManagedEncryptionKey?: string;
+  satisfiesPzi?: boolean | undefined;
   /** Do not automatically backfill any objects. */
-  backfillNone?: CancelOperationRequest;
-  /** Output only. The creation time of the stream. */
-  createTime?: string;
-  /** Output only. The last update time of the stream. */
-  updateTime?: string;
-  /** Required. Display name. */
-  displayName?: string;
+  backfillNone?: CancelOperationRequest | undefined;
+  /** Immutable. A reference to a KMS encryption key. If provided, it will be used to encrypt the data. If left blank, data will be encrypted using an internal Stream-specific encryption key provisioned through KMS. */
+  customerManagedEncryptionKey?: string | undefined;
   /** Required. Destination connection profile configuration. */
-  destinationConfig?: DestinationConfig;
+  destinationConfig?: DestinationConfig | undefined;
+  /** Required. Source connection profile configuration. */
+  sourceConfig?: SourceConfig | undefined;
   /** Output only. Identifier. The stream's name. */
-  name?: string;
-  /** Output only. Errors on the Stream. */
-  errors?: Datastream_ErrorList;
+  name?: string | undefined;
+  /** Output only. Reserved for future use. */
+  satisfiesPzs?: boolean | undefined;
+  /** Output only. The last update time of the stream. */
+  updateTime?: string | undefined;
+  /** Optional. Rule sets to apply to the stream. */
+  ruleSets?: RuleSetList | undefined;
+  /** Output only. If the stream was recovered, the time of the last recovery. Note: This field is currently experimental. */
+  lastRecoveryTime?: string | undefined;
+  /** The state of the stream. */
+  state?: StreamStateEnum | (string & {}) | undefined;
+  /** Automatically backfill objects included in the stream source configuration. Specific objects can be excluded. */
+  backfillAll?: BackfillAllStrategy | undefined;
+  /** Required. Display name. */
+  displayName?: string | undefined;
+  /** Output only. The creation time of the stream. */
+  createTime?: string | undefined;
   /** Labels. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
+  /** Output only. Errors on the Stream. */
+  errors?: Datastream_ErrorList | undefined;
 }
-export interface CreateProjectsLocationsStreamsRequest {
-  /** Required. The stream identifier. */
-  streamId?: string;
+export interface CreateProjectsLocationsStreamsRequest extends Stream {
   /** Optional. Only validate the stream, but don't create any resources. The default is false. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Optional. Create the stream without validating it. */
+  force?: boolean | undefined;
   /** Required. The parent that owns the collection of streams. */
   parent: string;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
-  /** Optional. Create the stream without validating it. */
-  force?: boolean;
-  /** Request body */
-  body?: Stream;
+  /** Required. The stream identifier. */
+  streamId?: string | undefined;
 }
 export interface DeleteProjectsLocationsConnectionProfilesRequest {
   /** Required. The name of the connection profile resource to delete. */
   name: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -1429,90 +1420,88 @@ export interface DeleteProjectsLocationsOperationsRequest {
 }
 export interface DeleteProjectsLocationsPrivateConnectionsRequest {
   /** Optional. If set to true, any child routes that belong to this PrivateConnection will also be deleted. */
-  force?: boolean;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  force?: boolean | undefined;
   /** Required. The name of the private connectivity configuration to delete. */
   name: string;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsPrivateConnectionsRoutesRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The name of the Route resource to delete. */
   name: string;
 }
 export interface DeleteProjectsLocationsStreamsRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The name of the stream resource to delete. */
   name: string;
 }
 /** Request message for 'discover' ConnectionProfile request. */
 export interface DiscoverConnectionProfileRequest {
-  /** Optional. Salesforce organization to enrich with child data objects and metadata. */
-  salesforceOrg?: SalesforceOrg;
-  /** Optional. A reference to an existing connection profile. */
-  connectionProfileName?: string;
-  /** Optional. Whether to retrieve the full hierarchy of data objects (TRUE) or only the current level (FALSE). */
-  fullHierarchy?: boolean;
   /** Optional. Source catalog to enrich with child data objects and metadata. This is mainly used to represent SaaS sources databases. */
-  sourceCatalog?: SourceCatalog;
-  /** Optional. SQLServer RDBMS to enrich with child data objects and metadata. */
-  sqlServerRdbms?: SqlServerRdbms;
-  /** Optional. An ad-hoc connection profile configuration. */
-  connectionProfile?: ConnectionProfile;
-  /** Optional. MySQL RDBMS to enrich with child data objects and metadata. */
-  mysqlRdbms?: MysqlRdbms;
-  /** Optional. The number of hierarchy levels below the current level to be retrieved. */
-  hierarchyDepth?: number;
-  /** Optional. Spanner database to enrich with child data objects and metadata. */
-  spannerDatabase?: SpannerDatabase;
-  /** Optional. Oracle RDBMS to enrich with child data objects and metadata. */
-  oracleRdbms?: OracleRdbms;
+  sourceCatalog?: SourceCatalog | undefined;
+  /** Optional. Salesforce organization to enrich with child data objects and metadata. */
+  salesforceOrg?: SalesforceOrg | undefined;
   /** Optional. PostgreSQL RDBMS to enrich with child data objects and metadata. */
-  postgresqlRdbms?: PostgresqlRdbms;
+  postgresqlRdbms?: PostgresqlRdbms | undefined;
+  /** Optional. Spanner database to enrich with child data objects and metadata. */
+  spannerDatabase?: SpannerDatabase | undefined;
+  /** Optional. SQLServer RDBMS to enrich with child data objects and metadata. */
+  sqlServerRdbms?: SqlServerRdbms | undefined;
+  /** Optional. MySQL RDBMS to enrich with child data objects and metadata. */
+  mysqlRdbms?: MysqlRdbms | undefined;
+  /** Optional. A reference to an existing connection profile. */
+  connectionProfileName?: string | undefined;
+  /** Optional. The number of hierarchy levels below the current level to be retrieved. */
+  hierarchyDepth?: number | undefined;
+  /** Optional. Oracle RDBMS to enrich with child data objects and metadata. */
+  oracleRdbms?: OracleRdbms | undefined;
+  /** Optional. Whether to retrieve the full hierarchy of data objects (TRUE) or only the current level (FALSE). */
+  fullHierarchy?: boolean | undefined;
   /** Optional. MongoDB cluster to enrich with child data objects and metadata. */
-  mongodbCluster?: MongodbCluster;
+  mongodbCluster?: MongodbCluster | undefined;
+  /** Optional. An ad-hoc connection profile configuration. */
+  connectionProfile?: ConnectionProfile | undefined;
 }
-export interface DiscoverProjectsLocationsConnectionProfilesRequest {
+export interface DiscoverProjectsLocationsConnectionProfilesRequest extends DiscoverConnectionProfileRequest {
   /** Required. The parent resource of the connection profile type. Must be in the format `projects/*\/locations/*`. */
   parent: string;
-  /** Request body */
-  body?: DiscoverConnectionProfileRequest;
 }
 /** Response from a discover request. */
 export interface DiscoverConnectionProfileResponse {
-  /** Enriched Spanner database. */
-  spannerDatabase?: SpannerDatabase;
-  /** Enriched MySQL RDBMS object. */
-  mysqlRdbms?: MysqlRdbms;
   /** Enriched MongoDB cluster. */
-  mongodbCluster?: MongodbCluster;
-  /** Enriched Salesforce organization. */
-  salesforceOrg?: SalesforceOrg;
-  /** Enriched Oracle RDBMS object. */
-  oracleRdbms?: OracleRdbms;
-  /** Enriched SQLServer RDBMS object. */
-  sqlServerRdbms?: SqlServerRdbms;
+  mongodbCluster?: MongodbCluster | undefined;
   /** Enriched PostgreSQL RDBMS object. */
-  postgresqlRdbms?: PostgresqlRdbms;
+  postgresqlRdbms?: PostgresqlRdbms | undefined;
+  /** Enriched Spanner database. */
+  spannerDatabase?: SpannerDatabase | undefined;
+  /** Enriched MySQL RDBMS object. */
+  mysqlRdbms?: MysqlRdbms | undefined;
   /** Enriched source catalog. This is mainly used to represent SaaS sources databases. */
-  sourceCatalog?: SourceCatalog;
+  sourceCatalog?: SourceCatalog | undefined;
+  /** Enriched Oracle RDBMS object. */
+  oracleRdbms?: OracleRdbms | undefined;
+  /** Enriched Salesforce organization. */
+  salesforceOrg?: SalesforceOrg | undefined;
+  /** Enriched SQLServer RDBMS object. */
+  sqlServerRdbms?: SqlServerRdbms | undefined;
 }
 export interface FetchStaticIpsProjectsLocationsRequest {
+  /** Optional. Maximum number of Ips to return, will likely not be specified. */
+  pageSize?: number | undefined;
+  /** Optional. A page token, received from a previous `ListStaticIps` call. will likely not be specified. */
+  pageToken?: string | undefined;
   /** Required. The resource name for the location for which static IPs should be returned. Must be in the format `projects/*\/locations/*`. */
   name: string;
-  /** Optional. Maximum number of Ips to return, will likely not be specified. */
-  pageSize?: number;
-  /** Optional. A page token, received from a previous `ListStaticIps` call. will likely not be specified. */
-  pageToken?: string;
 }
 /** Response message for a 'FetchStaticIps' response. */
 export interface FetchStaticIpsResponse {
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** list of static ips by account */
-  staticIps?: StringList;
+  staticIps?: StringList | undefined;
 }
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -1521,15 +1510,15 @@ export interface GetProjectsLocationsRequest {
 /** A resource that represents a Google Cloud location. */
 export interface Location {
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
-  /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
+  displayName?: string | undefined;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string | undefined;
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: DocumentMap | undefined;
+  /** The canonical id for this location. For example: `"us-east1"`. */
+  locationId?: string | undefined;
 }
 export interface GetProjectsLocationsConnectionProfilesRequest {
   /** Required. The name of the connection profile resource to get. */
@@ -1555,11 +1544,6 @@ export interface GetProjectsLocationsStreamsObjectsRequest {
   /** Required. The name of the stream object resource to get. */
   name: string;
 }
-/** Represents a filter for included data on a stream object. */
-export interface EventFilter {
-  /** An SQL-query Where clause selecting which data should be included, not including the "WHERE" keyword. e.g., `t.key1 = 'value1' AND t.key2 = 'value2'` */
-  sqlWhereClause?: string;
-}
 export type BackfillJobStateEnum =
   | "STATE_UNSPECIFIED"
   | "NOT_STARTED"
@@ -1569,314 +1553,312 @@ export type BackfillJobStateEnum =
   | "FAILED"
   | "COMPLETED"
   | "UNSUPPORTED";
+/** Represents a filter for included data on a stream object. */
+export interface EventFilter {
+  /** An SQL-query Where clause selecting which data should be included, not including the "WHERE" keyword. e.g., `t.key1 = 'value1' AND t.key2 = 'value2'` */
+  sqlWhereClause?: string | undefined;
+}
 export type BackfillJobTriggerEnum = "TRIGGER_UNSPECIFIED" | "AUTOMATIC" | "MANUAL";
 /** Represents a backfill job on a specific stream object. */
 export interface BackfillJob {
-  /** Output only. The filter for performing a partial backfill. */
-  eventFilter?: EventFilter;
   /** Output only. Backfill job's start time. */
-  lastStartTime?: string;
-  /** Output only. Backfill job's end time. */
-  lastEndTime?: string;
+  lastStartTime?: string | undefined;
   /** Output only. Backfill job state. */
-  state?: BackfillJobStateEnum;
+  state?: BackfillJobStateEnum | undefined;
+  /** Output only. The filter for performing a partial backfill. */
+  eventFilter?: EventFilter | undefined;
   /** Backfill job's triggering reason. */
-  trigger?: BackfillJobTriggerEnum;
+  trigger?: BackfillJobTriggerEnum | undefined;
+  /** Output only. Backfill job's end time. */
+  lastEndTime?: string | undefined;
   /** Output only. Errors which caused the backfill job to fail. */
-  errors?: Datastream_ErrorList;
+  errors?: Datastream_ErrorList | undefined;
 }
 /** A specific stream object (e.g a specific DB table). */
 export interface StreamObject {
-  /** The object identifier in the data source. */
-  sourceObject?: SourceObjectIdentifier;
-  /** Output only. Active errors on the object. */
-  errors?: Datastream_ErrorList;
-  /** Output only. The last update time of the object. */
-  updateTime?: string;
-  /** Required. Display name. */
-  displayName?: string;
-  /** Output only. The customization rules for the object. These rules are derived from the parent Stream's `rule_sets` and represent the intended configuration for the object. */
-  customizationRules?: CustomizationRuleList;
   /** Output only. Identifier. The object resource's name. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The creation time of the object. */
-  createTime?: string;
+  createTime?: string | undefined;
+  /** Output only. The last update time of the object. */
+  updateTime?: string | undefined;
+  /** Required. Display name. */
+  displayName?: string | undefined;
+  /** Output only. The customization rules for the object. These rules are derived from the parent Stream's `rule_sets` and represent the intended configuration for the object. */
+  customizationRules?: CustomizationRuleList | undefined;
   /** The latest backfill job that was initiated for the stream object. */
-  backfillJob?: BackfillJob;
+  backfillJob?: BackfillJob | undefined;
+  /** The object identifier in the data source. */
+  sourceObject?: SourceObjectIdentifier | undefined;
+  /** Output only. Active errors on the object. */
+  errors?: Datastream_ErrorList | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
-  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
+  pageToken?: string | undefined;
+  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
+  filter?: string | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
-  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number | undefined;
+  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
+  extraLocationTypes?: StringList | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
-  /** The standard List next-page token. */
-  nextPageToken?: string;
   /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
+  locations?: LocationList | undefined;
+  /** The standard List next-page token. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsConnectionProfilesRequest {
-  /** Optional. Page token received from a previous `ListConnectionProfiles` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListConnectionProfiles` must match the call that provided the page token. */
-  pageToken?: string;
-  /** Optional. Order by fields for the result. */
-  orderBy?: string;
   /** Required. The parent that owns the collection of connection profiles. */
   parent: string;
   /** Optional. Maximum number of connection profiles to return. If unspecified, at most 50 connection profiles will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
+  /** Optional. Page token received from a previous `ListConnectionProfiles` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListConnectionProfiles` must match the call that provided the page token. */
+  pageToken?: string | undefined;
   /** Optional. Filter request. */
-  filter?: string;
+  filter?: string | undefined;
+  /** Optional. Order by fields for the result. */
+  orderBy?: string | undefined;
 }
 export type ConnectionProfileList = Array<ConnectionProfile>;
 /** Response message for listing connection profiles. */
 export interface ListConnectionProfilesResponse {
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** List of connection profiles. */
-  connectionProfiles?: ConnectionProfileList;
+  connectionProfiles?: ConnectionProfileList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
-  /** The standard list page token. */
-  pageToken?: string;
-  /** The standard list filter. */
-  filter?: string;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
+  /** The standard list page token. */
+  pageToken?: string | undefined;
+  /** The standard list filter. */
+  filter?: string | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
+  operations?: OperationList | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsPrivateConnectionsRequest {
-  /** Optional. Filter request. */
-  filter?: string;
   /** Optional. Page token received from a previous `ListPrivateConnections` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListPrivateConnections` must match the call that provided the page token. */
-  pageToken?: string;
-  /** Maximum number of private connectivity configurations to return. If unspecified, at most 50 private connectivity configurations that will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageToken?: string | undefined;
   /** Required. The parent that owns the collection of private connectivity configurations. */
   parent: string;
+  /** Maximum number of private connectivity configurations to return. If unspecified, at most 50 private connectivity configurations that will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number | undefined;
+  /** Optional. Filter request. */
+  filter?: string | undefined;
   /** Optional. Order by fields for the result. */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 export type PrivateConnectionList = Array<PrivateConnection>;
 /** Response containing a list of private connection configurations. */
 export interface ListPrivateConnectionsResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** List of private connectivity configurations. */
-  privateConnections?: PrivateConnectionList;
+  privateConnections?: PrivateConnectionList | undefined;
 }
 export interface ListProjectsLocationsPrivateConnectionsRoutesRequest {
-  /** Optional. Order by fields for the result. */
-  orderBy?: string;
-  /** Optional. Filter request. */
-  filter?: string;
-  /** Optional. Page token received from a previous `ListRoutes` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListRoutes` must match the call that provided the page token. */
-  pageToken?: string;
-  /** Optional. Maximum number of Routes to return. The service may return fewer than this value. If unspecified, at most 50 Routes will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
   /** Required. The parent that owns the collection of Routess. */
   parent: string;
+  /** Optional. Page token received from a previous `ListRoutes` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListRoutes` must match the call that provided the page token. */
+  pageToken?: string | undefined;
+  /** Optional. Maximum number of Routes to return. The service may return fewer than this value. If unspecified, at most 50 Routes will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number | undefined;
+  /** Optional. Filter request. */
+  filter?: string | undefined;
+  /** Optional. Order by fields for the result. */
+  orderBy?: string | undefined;
 }
 export type RouteList = Array<Route>;
 /** Route list response. */
 export interface ListRoutesResponse {
-  /** List of Routes. */
-  routes?: RouteList;
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
+  /** Locations that could not be reached. */
+  unreachable?: StringList | undefined;
+  /** List of Routes. */
+  routes?: RouteList | undefined;
 }
 export interface ListProjectsLocationsStreamsRequest {
-  /** Optional. Page token received from a previous `ListStreams` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListStreams` must match the call that provided the page token. */
-  pageToken?: string;
+  /** Optional. Order by fields for the result. */
+  orderBy?: string | undefined;
+  /** Optional. Maximum number of streams to return. If unspecified, at most 50 streams will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number | undefined;
+  /** Optional. Filter request. */
+  filter?: string | undefined;
   /** Required. The parent that owns the collection of streams. */
   parent: string;
-  /** Optional. Maximum number of streams to return. If unspecified, at most 50 streams will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
-  /** Optional. Filter request. */
-  filter?: string;
-  /** Optional. Order by fields for the result. */
-  orderBy?: string;
+  /** Optional. Page token received from a previous `ListStreams` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListStreams` must match the call that provided the page token. */
+  pageToken?: string | undefined;
 }
 export type StreamList = Array<Stream>;
 /** Response message for listing streams. */
 export interface ListStreamsResponse {
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** List of streams */
-  streams?: StreamList;
+  streams?: StreamList | undefined;
+  /** Locations that could not be reached. */
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsStreamsObjectsRequest {
-  /** Optional. Maximum number of objects to return. Default is 50. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
   /** Required. The parent stream that owns the collection of objects. */
   parent: string;
+  /** Optional. Maximum number of objects to return. Default is 50. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number | undefined;
   /** Optional. Page token received from a previous `ListStreamObjectsRequest` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListStreamObjectsRequest` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type StreamObjectList = Array<StreamObject>;
 /** Response containing the objects for a stream. */
 export interface ListStreamObjectsResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. */
-  nextPageToken?: string;
   /** List of stream objects. */
-  streamObjects?: StreamObjectList;
+  streamObjects?: StreamObjectList | undefined;
+  /** A token, which can be sent as `page_token` to retrieve the next page. */
+  nextPageToken?: string | undefined;
 }
 /** Request for looking up a specific stream object by its source object identifier. */
 export interface LookupStreamObjectRequest {
   /** Required. The source object identifier which maps to the stream object. */
-  sourceObjectIdentifier?: SourceObjectIdentifier;
+  sourceObjectIdentifier?: SourceObjectIdentifier | undefined;
 }
-export interface LookupProjectsLocationsStreamsObjectsRequest {
+export interface LookupProjectsLocationsStreamsObjectsRequest extends LookupStreamObjectRequest {
   /** Required. The parent stream that owns the collection of objects. */
   parent: string;
-  /** Request body */
-  body?: LookupStreamObjectRequest;
 }
-export interface PatchProjectsLocationsConnectionProfilesRequest {
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+export interface PatchProjectsLocationsConnectionProfilesRequest extends Omit<
+  ConnectionProfile,
+  "name"
+> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the ConnectionProfile resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
-  /** Optional. Only validate the connection profile, but don't update any resources. The default is false. */
-  validateOnly?: boolean;
+  updateMask?: string | undefined;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Optional. Update the connection profile without validating it. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Output only. Identifier. The resource's name. */
   name: string;
-  /** Request body */
-  body?: ConnectionProfile;
+  /** Optional. Only validate the connection profile, but don't update any resources. The default is false. */
+  validateOnly?: boolean | undefined;
 }
-export interface PatchProjectsLocationsStreamsRequest {
-  /** Optional. Field mask is used to specify the fields to be overwritten in the stream resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
-  /** Optional. Only validate the stream with the changes, without actually updating it. The default is false. */
-  validateOnly?: boolean;
+export interface PatchProjectsLocationsStreamsRequest extends Omit<Stream, "name"> {
   /** Optional. Update the stream without validating it. */
-  force?: boolean;
+  force?: boolean | undefined;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Optional. Only validate the stream with the changes, without actually updating it. The default is false. */
+  validateOnly?: boolean | undefined;
+  /** Optional. Field mask is used to specify the fields to be overwritten in the stream resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
+  updateMask?: string | undefined;
   /** Output only. Identifier. The stream's name. */
   name: string;
-  /** Request body */
-  body?: Stream;
 }
+/** CDC strategy to start replicating from the most recent position in the source. */
+export type MostRecentStartPosition = CancelOperationRequest;
 /** CDC strategy to resume replication from the next available position in the source. */
 export type NextAvailableStartPosition = CancelOperationRequest;
-/** Represents a position in a Spanner change stream from which to start replicating. */
-export interface SpannerChangeStreamPosition {
-  /** Required. The timestamp to start change stream queries from. The timestamp must be a positive value. */
-  startTime?: string;
-}
-/** MySQL GTID position */
-export interface MysqlGtidPosition {
-  /** Required. The gtid set to start replication from. */
-  gtidSet?: string;
-}
 /** Oracle SCN position */
 export interface OracleScnPosition {
   /** Required. SCN number from where Logs will be read */
-  scn?: string;
+  scn?: string | undefined;
 }
-/** MongoDB change stream position */
-export interface MongodbChangeStreamPosition {
-  /** Required. The timestamp to start change stream from. */
-  startTime?: string;
-}
-/** MySQL log position */
-export interface MysqlLogPosition {
-  /** Required. The binary log file name. */
-  logFile?: string;
-  /** Optional. The position within the binary log file. Default is head of file. */
-  logPosition?: number;
+/** Represents a position in a Spanner change stream from which to start replicating. */
+export interface SpannerChangeStreamPosition {
+  /** Required. The timestamp to start change stream queries from. The timestamp must be a positive value. */
+  startTime?: string | undefined;
 }
 /** SQL Server LSN position */
 export interface SqlServerLsnPosition {
   /** Required. Log sequence number (LSN) from where Logs will be read */
-  lsn?: string;
+  lsn?: string | undefined;
+}
+/** MySQL log position */
+export interface MysqlLogPosition {
+  /** Optional. The position within the binary log file. Default is head of file. */
+  logPosition?: number | undefined;
+  /** Required. The binary log file name. */
+  logFile?: string | undefined;
+}
+/** MySQL GTID position */
+export interface MysqlGtidPosition {
+  /** Required. The gtid set to start replication from. */
+  gtidSet?: string | undefined;
+}
+/** MongoDB change stream position */
+export interface MongodbChangeStreamPosition {
+  /** Required. The timestamp to start change stream from. */
+  startTime?: string | undefined;
 }
 /** CDC strategy to start replicating from a specific position in the source. */
 export interface SpecificStartPosition {
-  /** Optional. Spanner change stream position to start replicating from. */
-  spannerChangeStreamPosition?: SpannerChangeStreamPosition;
-  /** MySQL GTID set to start replicating from. */
-  mysqlGtidPosition?: MysqlGtidPosition;
   /** Oracle SCN to start replicating from. */
-  oracleScnPosition?: OracleScnPosition;
-  /** MongoDB change stream position to start replicating from. */
-  mongodbChangeStreamPosition?: MongodbChangeStreamPosition;
-  /** MySQL specific log position to start replicating from. */
-  mysqlLogPosition?: MysqlLogPosition;
+  oracleScnPosition?: OracleScnPosition | undefined;
+  /** Optional. Spanner change stream position to start replicating from. */
+  spannerChangeStreamPosition?: SpannerChangeStreamPosition | undefined;
   /** SqlServer LSN to start replicating from. */
-  sqlServerLsnPosition?: SqlServerLsnPosition;
+  sqlServerLsnPosition?: SqlServerLsnPosition | undefined;
+  /** MySQL specific log position to start replicating from. */
+  mysqlLogPosition?: MysqlLogPosition | undefined;
+  /** MySQL GTID set to start replicating from. */
+  mysqlGtidPosition?: MysqlGtidPosition | undefined;
+  /** MongoDB change stream position to start replicating from. */
+  mongodbChangeStreamPosition?: MongodbChangeStreamPosition | undefined;
 }
-/** CDC strategy to start replicating from the most recent position in the source. */
-export type MostRecentStartPosition = CancelOperationRequest;
 /** The strategy that the stream uses for CDC replication. */
 export interface CdcStrategy {
-  /** Optional. Resume replication from the next available position in the source. */
-  nextAvailableStartPosition?: CancelOperationRequest;
-  /** Optional. Start replicating from a specific position in the source. */
-  specificStartPosition?: SpecificStartPosition;
   /** Optional. Start replicating from the most recent position in the source. */
-  mostRecentStartPosition?: CancelOperationRequest;
+  mostRecentStartPosition?: CancelOperationRequest | undefined;
+  /** Optional. Resume replication from the next available position in the source. */
+  nextAvailableStartPosition?: CancelOperationRequest | undefined;
+  /** Optional. Start replicating from a specific position in the source. */
+  specificStartPosition?: SpecificStartPosition | undefined;
 }
 /** Request message for running a stream. */
 export interface RunStreamRequest {
   /** Optional. The CDC strategy of the stream. If not set, the system's default value will be used. */
-  cdcStrategy?: CdcStrategy;
+  cdcStrategy?: CdcStrategy | undefined;
   /** Optional. Update the stream without validating it. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
-export interface RunProjectsLocationsStreamsRequest {
+export interface RunProjectsLocationsStreamsRequest extends RunStreamRequest {
   /** Required. Name of the stream resource to start, in the format: projects/{project_id}/locations/{location}/streams/{stream_name} */
   name: string;
-  /** Request body */
-  body?: RunStreamRequest;
 }
 /** Request for manually initiating a backfill job for a specific stream object. */
 export interface StartBackfillJobRequest {
   /** Optional. Optional event filter. If not set, or empty, the backfill will be performed on the entire object. This is currently used for partial backfill and only supported for SQL sources. */
-  eventFilter?: EventFilter;
+  eventFilter?: EventFilter | undefined;
 }
-export interface StartBackfillJobProjectsLocationsStreamsObjectsRequest {
+export interface StartBackfillJobProjectsLocationsStreamsObjectsRequest extends StartBackfillJobRequest {
   /** Required. The name of the stream object resource to start a backfill job for. */
   object: string;
-  /** Request body */
-  body?: StartBackfillJobRequest;
 }
 /** Response for manually initiating a backfill job for a specific stream object. */
 export interface StartBackfillJobResponse {
   /** The stream object resource a backfill job was started for. */
-  object?: StreamObject;
+  object?: StreamObject | undefined;
 }
 /** Request for manually stopping a running backfill job for a specific stream object. */
 export type StopBackfillJobRequest = CancelOperationRequest;
@@ -1884,12 +1866,12 @@ export interface StopBackfillJobProjectsLocationsStreamsObjectsRequest {
   /** Required. The name of the stream object resource to stop the backfill job for. */
   object: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** Response for manually stop a backfill job for a specific stream object. */
 export interface StopBackfillJobResponse {
   /** The stream object resource the backfill job was stopped for. */
-  object?: StreamObject;
+  object?: StreamObject | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -1927,7 +1909,7 @@ export const createProjectsLocationsConnectionProfiles: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<CreateProjectsLocationsConnectionProfilesRequest>,
-  output: __S(1122, __c35, 2) as any as S.Schema<Operation>,
+  output: __S(1154, __c36, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1948,8 +1930,8 @@ export const createProjectsLocationsPrivateConnections: API.OperationMethod<
   CreateProjectsLocationsPrivateConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<CreateProjectsLocationsPrivateConnectionsRequest>,
-  output: __S(1122, __c35, 2) as any as S.Schema<Operation>,
+  input: __S(1184, __c37, 0) as any as S.Schema<CreateProjectsLocationsPrivateConnectionsRequest>,
+  output: __S(1154, __c36, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1971,11 +1953,11 @@ export const createProjectsLocationsPrivateConnectionsRoutes: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1248,
-    __c39,
+    1280,
+    __c40,
     0,
   ) as any as S.Schema<CreateProjectsLocationsPrivateConnectionsRoutesRequest>,
-  output: __S(1122, __c35, 2) as any as S.Schema<Operation>,
+  output: __S(1154, __c36, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1996,8 +1978,8 @@ export const createProjectsLocationsStreams: API.OperationMethod<
   CreateProjectsLocationsStreamsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<CreateProjectsLocationsStreamsRequest>,
-  output: __S(1122, __c35, 2) as any as S.Schema<Operation>,
+  input: __S(1344, __c42, 0) as any as S.Schema<CreateProjectsLocationsStreamsRequest>,
+  output: __S(1154, __c36, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2018,8 +2000,8 @@ export const deleteProjectsLocationsConnectionProfiles: API.OperationMethod<
   DeleteProjectsLocationsConnectionProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<DeleteProjectsLocationsConnectionProfilesRequest>,
-  output: __S(1122, __c35, 2) as any as S.Schema<Operation>,
+  input: __S(1568, __c49, 0) as any as S.Schema<DeleteProjectsLocationsConnectionProfilesRequest>,
+  output: __S(1154, __c36, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2063,7 +2045,7 @@ export const deleteProjectsLocationsPrivateConnections: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c1, 0) as any as S.Schema<DeleteProjectsLocationsPrivateConnectionsRequest>,
-  output: __S(1122, __c35, 2) as any as S.Schema<Operation>,
+  output: __S(1154, __c36, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2089,7 +2071,7 @@ export const deleteProjectsLocationsPrivateConnectionsRoutes: API.OperationMetho
     __c2,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsPrivateConnectionsRoutesRequest>,
-  output: __S(1122, __c35, 2) as any as S.Schema<Operation>,
+  output: __S(1154, __c36, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2111,7 +2093,7 @@ export const deleteProjectsLocationsStreams: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<DeleteProjectsLocationsStreamsRequest>,
-  output: __S(1122, __c35, 2) as any as S.Schema<Operation>,
+  output: __S(1154, __c36, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2186,7 +2168,7 @@ export const getProjectsLocationsConnectionProfiles: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<GetProjectsLocationsConnectionProfilesRequest>,
-  output: __S(1055, __c32, 31) as any as S.Schema<ConnectionProfile>,
+  output: __S(1056, __c33, 0) as any as S.Schema<ConnectionProfile>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2203,7 +2185,7 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(1122, __c35, 2) as any as S.Schema<Operation>,
+  output: __S(1154, __c36, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2220,7 +2202,7 @@ export const getProjectsLocationsPrivateConnections: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<GetProjectsLocationsPrivateConnectionsRequest>,
-  output: __S(1186, __c37, 2) as any as S.Schema<PrivateConnection>,
+  output: __S(1218, __c38, 2) as any as S.Schema<PrivateConnection>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2237,7 +2219,7 @@ export const getProjectsLocationsPrivateConnectionsRoutes: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<GetProjectsLocationsPrivateConnectionsRoutesRequest>,
-  output: __S(1280, __c40, 0) as any as S.Schema<Route>,
+  output: __S(1312, __c41, 0) as any as S.Schema<Route>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2254,7 +2236,7 @@ export const getProjectsLocationsStreams: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<GetProjectsLocationsStreamsRequest>,
-  output: __S(1531, __c47, 27) as any as S.Schema<Stream>,
+  output: __S(1563, __c48, 27) as any as S.Schema<Stream>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2452,7 +2434,7 @@ export const patchProjectsLocationsConnectionProfiles: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<PatchProjectsLocationsConnectionProfilesRequest>,
-  output: __S(1122, __c35, 2) as any as S.Schema<Operation>,
+  output: __S(1154, __c36, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2474,7 +2456,7 @@ export const patchProjectsLocationsStreams: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<PatchProjectsLocationsStreamsRequest>,
-  output: __S(1122, __c35, 2) as any as S.Schema<Operation>,
+  output: __S(1154, __c36, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2496,7 +2478,7 @@ export const runProjectsLocationsStreams: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(808, __c25, 8) as any as S.Schema<RunProjectsLocationsStreamsRequest>,
-  output: __S(1122, __c35, 2) as any as S.Schema<Operation>,
+  output: __S(1154, __c36, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2579,8 +2561,8 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           force: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          requestId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -2630,26 +2612,28 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          salesforceOrg: S.optional(__S(1348, __c42, 4)),
+          sourceCatalog: S.optional(__S(1380, __c43, 4)),
+          salesforceOrg: S.optional(__S(1413, __c44, 5)),
+          postgresqlRdbms: S.optional(__S(1420, __c44, 12)),
+          spannerDatabase: S.optional(__S(1408, __c44, 0)),
+          sqlServerRdbms: S.optional(__S(1394, __c43, 18)),
+          mysqlRdbms: S.optional(__S(1401, __c43, 25)),
           connectionProfileName: S.optional(S.String),
-          fullHierarchy: S.optional(S.Boolean),
-          sourceCatalog: S.optional(__S(1353, __c42, 9)),
-          sqlServerRdbms: S.optional(__S(1367, __c42, 23)),
-          connectionProfile: S.optional(__S(1055, __c32, 31)),
-          mysqlRdbms: S.optional(__S(1388, __c43, 12)),
           hierarchyDepth: S.optional(S.Number),
-          spannerDatabase: S.optional(__S(1395, __c43, 19)),
-          oracleRdbms: S.optional(__S(1360, __c42, 16)),
-          postgresqlRdbms: S.optional(__S(1374, __c42, 30)),
-          mongodbCluster: S.optional(__S(1381, __c43, 5)),
+          oracleRdbms: S.optional(__S(1387, __c43, 11)),
+          fullHierarchy: S.optional(S.Boolean),
+          mongodbCluster: S.optional(__S(1427, __c44, 19)),
+          connectionProfile: S.optional(__S(1056, __c33, 0)),
         }),
       ).annotate({ identifier: "DiscoverConnectionProfileRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(128, __c4, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(128, __c4, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/connectionProfiles:discover",
@@ -2660,14 +2644,14 @@ function __c4(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          spannerDatabase: S.optional(__S(1395, __c43, 19)),
-          mysqlRdbms: S.optional(__S(1388, __c43, 12)),
-          mongodbCluster: S.optional(__S(1381, __c43, 5)),
-          salesforceOrg: S.optional(__S(1348, __c42, 4)),
-          oracleRdbms: S.optional(__S(1360, __c42, 16)),
-          sqlServerRdbms: S.optional(__S(1367, __c42, 23)),
-          postgresqlRdbms: S.optional(__S(1374, __c42, 30)),
-          sourceCatalog: S.optional(__S(1353, __c42, 9)),
+          mongodbCluster: S.optional(__S(1427, __c44, 19)),
+          postgresqlRdbms: S.optional(__S(1420, __c44, 12)),
+          spannerDatabase: S.optional(__S(1408, __c44, 0)),
+          mysqlRdbms: S.optional(__S(1401, __c43, 25)),
+          sourceCatalog: S.optional(__S(1380, __c43, 4)),
+          oracleRdbms: S.optional(__S(1387, __c43, 11)),
+          salesforceOrg: S.optional(__S(1413, __c44, 5)),
+          sqlServerRdbms: S.optional(__S(1394, __c43, 18)),
         }),
       ).annotate({ identifier: "DiscoverConnectionProfileResponse" });
   }
@@ -2677,9 +2661,9 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2692,7 +2676,7 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          staticIps: S.optional(__S(1408, __c44, 0)),
+          staticIps: S.optional(__S(1440, __c45, 0)),
         }),
       ).annotate({ identifier: "FetchStaticIpsResponse" });
   }
@@ -2719,10 +2703,10 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           displayName: S.optional(S.String),
+          labels: S.optional(__S(1088, __c34, 0)),
           name: S.optional(S.String),
+          metadata: S.optional(__S(1120, __c35, 0)),
           locationId: S.optional(S.String),
-          metadata: S.optional(__S(1088, __c34, 0)),
-          labels: S.optional(__S(1056, __c33, 0)),
         }),
       ).annotate({ identifier: "Location" });
   }
@@ -2834,25 +2818,25 @@ function __c14(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          eventFilter: S.optional(__S(448, __c14, 0)),
           lastStartTime: S.optional(S.String),
-          lastEndTime: S.optional(S.String),
           state: S.optional(S.String),
+          eventFilter: S.optional(__S(448, __c14, 0)),
           trigger: S.optional(S.String),
-          errors: S.optional(__S(1453, __c45, 13)),
+          lastEndTime: S.optional(S.String),
+          errors: S.optional(__S(1484, __c46, 12)),
         }),
       ).annotate({ identifier: "BackfillJob" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          sourceObject: S.optional(__S(1452, __c45, 12)),
-          errors: S.optional(__S(1453, __c45, 13)),
-          updateTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          customizationRules: S.optional(__S(1446, __c45, 6)),
           name: S.optional(S.String),
           createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          customizationRules: S.optional(__S(1483, __c46, 11)),
           backfillJob: S.optional(__S(449, __c14, 1)),
+          sourceObject: S.optional(__S(1476, __c46, 4)),
+          errors: S.optional(__S(1484, __c46, 12)),
         }),
       ).annotate({ identifier: "StreamObject" });
   }
@@ -2863,10 +2847,10 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(1408, __c44, 0).pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(1440, __c45, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2880,8 +2864,8 @@ function __c15(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           locations: S.optional(__S(481, __c15, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
@@ -2891,11 +2875,11 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2905,11 +2889,11 @@ function __c16(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsConnectionProfilesRequest" });
     case 1:
-      return S.Array(__S(1055, __c32, 31));
+      return S.Array(__S(1056, __c33, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(1408, __c44, 0)),
+          unreachable: S.optional(__S(1440, __c45, 0)),
           connectionProfiles: S.optional(__S(513, __c16, 1)),
           nextPageToken: S.optional(S.String),
         }),
@@ -2922,10 +2906,10 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2935,13 +2919,13 @@ function __c17(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
     case 1:
-      return S.Array(__S(1122, __c35, 2));
+      return S.Array(__S(1154, __c36, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
           operations: S.optional(__S(545, __c17, 1)),
-          unreachable: S.optional(__S(1408, __c44, 0)),
+          unreachable: S.optional(__S(1440, __c45, 0)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
@@ -2951,10 +2935,10 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -2965,12 +2949,12 @@ function __c18(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsPrivateConnectionsRequest" });
     case 1:
-      return S.Array(__S(1186, __c37, 2));
+      return S.Array(__S(1218, __c38, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(1408, __c44, 0)),
+          unreachable: S.optional(__S(1440, __c45, 0)),
           privateConnections: S.optional(__S(577, __c18, 1)),
         }),
       ).annotate({ identifier: "ListPrivateConnectionsResponse" });
@@ -2981,11 +2965,11 @@ function __c19(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2995,13 +2979,13 @@ function __c19(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsPrivateConnectionsRoutesRequest" });
     case 1:
-      return S.Array(__S(1280, __c40, 0));
+      return S.Array(__S(1312, __c41, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          routes: S.optional(__S(609, __c19, 1)),
-          unreachable: S.optional(__S(1408, __c44, 0)),
           nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(1440, __c45, 0)),
+          routes: S.optional(__S(609, __c19, 1)),
         }),
       ).annotate({ identifier: "ListRoutesResponse" });
   }
@@ -3011,11 +2995,11 @@ function __c20(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
+          orderBy: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3025,13 +3009,13 @@ function __c20(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsStreamsRequest" });
     case 1:
-      return S.Array(__S(1531, __c47, 27));
+      return S.Array(__S(1563, __c48, 27));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(1408, __c44, 0)),
           nextPageToken: S.optional(S.String),
           streams: S.optional(__S(641, __c20, 1)),
+          unreachable: S.optional(__S(1440, __c45, 0)),
         }),
       ).annotate({ identifier: "ListStreamsResponse" });
   }
@@ -3041,8 +3025,8 @@ function __c21(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -3057,8 +3041,8 @@ function __c21(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           streamObjects: S.optional(__S(673, __c21, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListStreamObjectsResponse" });
   }
@@ -3067,10 +3051,12 @@ function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1472, __c46, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1504, __c47, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/objects:lookup",
@@ -3084,14 +3070,16 @@ function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1055, __c32, 31).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1056, __c33, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            force: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3105,14 +3093,16 @@ function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1531, __c47, 27).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1563, __c48, 27),
+          S.Struct({
+            force: S.optional(S.Boolean.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3127,51 +3117,51 @@ function __c25(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          startTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SpannerChangeStreamPosition" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          gtidSet: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MysqlGtidPosition" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
           scn: S.optional(S.String),
         }),
       ).annotate({ identifier: "OracleScnPosition" });
-    case 3:
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          logFile: S.optional(S.String),
-          logPosition: S.optional(S.Number),
+          startTime: S.optional(S.String),
         }),
-      ).annotate({ identifier: "MysqlLogPosition" });
-    case 4:
+      ).annotate({ identifier: "SpannerChangeStreamPosition" });
+    case 2:
       return S.suspend(() =>
         S.Struct({
           lsn: S.optional(S.String),
         }),
       ).annotate({ identifier: "SqlServerLsnPosition" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          logPosition: S.optional(S.Number),
+          logFile: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MysqlLogPosition" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          gtidSet: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MysqlGtidPosition" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          spannerChangeStreamPosition: S.optional(__S(800, __c25, 0)),
-          mysqlGtidPosition: S.optional(__S(801, __c25, 1)),
-          oracleScnPosition: S.optional(__S(802, __c25, 2)),
-          mongodbChangeStreamPosition: S.optional(__S(800, __c25, 0)),
+          oracleScnPosition: S.optional(__S(800, __c25, 0)),
+          spannerChangeStreamPosition: S.optional(__S(801, __c25, 1)),
+          sqlServerLsnPosition: S.optional(__S(802, __c25, 2)),
           mysqlLogPosition: S.optional(__S(803, __c25, 3)),
-          sqlServerLsnPosition: S.optional(__S(804, __c25, 4)),
+          mysqlGtidPosition: S.optional(__S(804, __c25, 4)),
+          mongodbChangeStreamPosition: S.optional(__S(801, __c25, 1)),
         }),
       ).annotate({ identifier: "SpecificStartPosition" });
     case 6:
       return S.suspend(() =>
         S.Struct({
+          mostRecentStartPosition: S.optional(__S(960, __c30, 0)),
           nextAvailableStartPosition: S.optional(__S(960, __c30, 0)),
           specificStartPosition: S.optional(__S(805, __c25, 5)),
-          mostRecentStartPosition: S.optional(__S(960, __c30, 0)),
         }),
       ).annotate({ identifier: "CdcStrategy" });
     case 7:
@@ -3183,10 +3173,12 @@ function __c25(j: number): any {
       ).annotate({ identifier: "RunStreamRequest" });
     case 8:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(807, __c25, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(807, __c25, 7),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:run",
@@ -3206,10 +3198,12 @@ function __c26(j: number): any {
       ).annotate({ identifier: "StartBackfillJobRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          object: S.String.pipe(T.Label()),
-          body: S.optional(__S(832, __c26, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(832, __c26, 0),
+          S.Struct({
+            object: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+object}:startBackfillJob",
@@ -3273,14 +3267,16 @@ function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          connectionProfileId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1055, __c32, 31).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1056, __c33, 0),
+          S.Struct({
+            force: S.optional(S.Boolean.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            connectionProfileId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/connectionProfiles",
@@ -3295,349 +3291,362 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          database: S.optional(S.String),
+          host: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SpannerProfile" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           rawValue: S.optional(S.String),
           secretVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "Secret" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          clientSecret: S.optional(__S(1024, __c32, 0)),
-          clientId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "OauthClientCredentials" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          refreshToken: S.optional(__S(1024, __c32, 0)),
-          oauthClientCredentials: S.optional(__S(1025, __c32, 1)),
+          clientId: S.optional(S.String),
+          clientSecret: S.optional(__S(1025, __c32, 1)),
         }),
-      ).annotate({ identifier: "OauthRefreshTokenCredentials" });
+      ).annotate({ identifier: "OauthClientCredentials" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          tenant: S.optional(S.String),
-          host: S.optional(S.String),
-          oauthRefreshTokenCredentials: S.optional(__S(1026, __c32, 2)),
+          oauthClientCredentials: S.optional(__S(1026, __c32, 2)),
+          refreshToken: S.optional(__S(1025, __c32, 1)),
         }),
-      ).annotate({ identifier: "WorkdayProfile" });
+      ).annotate({ identifier: "OauthRefreshTokenCredentials" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          password: S.optional(S.String),
+          oauthRefreshTokenCredentials: S.optional(__S(1027, __c32, 3)),
+          host: S.optional(S.String),
+          tenant: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WorkdayProfile" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          caCertificate: S.optional(S.String),
+          serverCertificateHostname: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ServerVerification" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          clientCertificate: S.optional(S.String),
+          serverCertificateHostname: S.optional(S.String),
+          clientKey: S.optional(S.String),
+          caCertificate: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ServerAndClientVerification" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          serverVerification: S.optional(__S(1029, __c32, 5)),
+          serverAndClientVerification: S.optional(__S(1030, __c32, 6)),
+        }),
+      ).annotate({ identifier: "PostgresqlSslConfig" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
           port: S.optional(S.Number),
-          privateKey: S.optional(S.String),
+          password: S.optional(S.String),
+          sslConfig: S.optional(__S(1031, __c32, 7)),
+          username: S.optional(S.String),
           hostname: S.optional(S.String),
+          secretManagerStoredPassword: S.optional(S.String),
+          database: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PostgresqlProfile" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          secretManagerStoredSecurityToken: S.optional(S.String),
+          secretManagerStoredPassword: S.optional(S.String),
+          securityToken: S.optional(S.String),
+          username: S.optional(S.String),
+          password: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UserCredentials" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          secretManagerStoredClientSecret: S.optional(S.String),
+          clientId: S.optional(S.String),
+          clientSecret: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Oauth2ClientCredentials" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          userCredentials: S.optional(__S(1033, __c32, 9)),
+          oauth2ClientCredentials: S.optional(__S(1034, __c32, 10)),
+          domain: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SalesforceProfile" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          username: S.optional(S.String),
+          password: S.optional(__S(1025, __c32, 1)),
+        }),
+      ).annotate({ identifier: "UserPasswordCredentials" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          userPasswordCredentials: S.optional(__S(1036, __c32, 12)),
+          oauthClientCredentials: S.optional(__S(1026, __c32, 2)),
+          instance: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ServiceNowProfile" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          environmentUrl: S.optional(S.String),
+          oauthClientCredentials: S.optional(__S(1026, __c32, 2)),
+          tenantId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DataverseProfile" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          caCertificateSet: S.optional(S.Boolean),
+          serverCertificateDistinguishedName: S.optional(S.String),
+          caCertificate: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OracleSslConfig" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          username: S.optional(S.String),
+          connectionAttributes: S.optional(__S(1088, __c34, 0)),
+          password: S.optional(S.String),
+          oracleSslConfig: S.optional(__S(1039, __c32, 15)),
+          secretManagerStoredPassword: S.optional(S.String),
+          asmService: S.optional(S.String),
+          hostname: S.optional(S.String),
+          port: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "OracleAsmConfig" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          connectionAttributes: S.optional(__S(1088, __c34, 0)),
+          password: S.optional(S.String),
+          oracleSslConfig: S.optional(__S(1039, __c32, 15)),
+          username: S.optional(S.String),
+          port: S.optional(S.Number),
+          hostname: S.optional(S.String),
+          secretManagerStoredPassword: S.optional(S.String),
+          databaseService: S.optional(S.String),
+          oracleAsmConfig: S.optional(__S(1040, __c32, 16)),
+        }),
+      ).annotate({ identifier: "OracleProfile" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          caCertificate: S.optional(S.String),
+          clientCertificate: S.optional(S.String),
+          clientKey: S.optional(S.String),
+          clientKeySet: S.optional(S.Boolean),
+          clientCertificateSet: S.optional(S.Boolean),
+          caCertificateSet: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "MysqlSslConfig" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          hostname: S.optional(S.String),
+          port: S.optional(S.Number),
+          sslConfig: S.optional(__S(1042, __c32, 18)),
+          secretManagerStoredPassword: S.optional(S.String),
+          password: S.optional(S.String),
           username: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ForwardSshTunnelConnectivity" });
-    case 5:
+      ).annotate({ identifier: "MysqlProfile" });
+    case 20:
       return S.suspend(() =>
         S.Struct({
           serverCertificateHostname: S.optional(S.String),
           caCertificate: S.optional(S.String),
         }),
       ).annotate({ identifier: "EncryptionAndServerValidation" });
-    case 6:
+    case 21:
       return S.suspend(() =>
         S.Struct({
-          encryptionNotEnforced: S.optional(__S(960, __c30, 0)),
           basicEncryption: S.optional(__S(960, __c30, 0)),
-          encryptionAndServerValidation: S.optional(__S(1029, __c32, 5)),
+          encryptionNotEnforced: S.optional(__S(960, __c30, 0)),
+          encryptionAndServerValidation: S.optional(__S(1044, __c32, 20)),
         }),
       ).annotate({ identifier: "SqlServerSslConfig" });
-    case 7:
+    case 22:
       return S.suspend(() =>
         S.Struct({
-          secretManagerStoredPassword: S.optional(S.String),
-          username: S.optional(S.String),
-          sslConfig: S.optional(__S(1030, __c32, 6)),
-          password: S.optional(S.String),
-          database: S.optional(S.String),
-          port: S.optional(S.Number),
+          sslConfig: S.optional(__S(1045, __c32, 21)),
           hostname: S.optional(S.String),
+          port: S.optional(S.Number),
+          secretManagerStoredPassword: S.optional(S.String),
+          database: S.optional(S.String),
+          password: S.optional(S.String),
+          username: S.optional(S.String),
         }),
       ).annotate({ identifier: "SqlServerProfile" });
-    case 8:
+    case 23:
       return S.suspend(() =>
         S.Struct({
-          privateConnection: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PrivateConnectivity" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          port: S.optional(S.Number),
+          password: S.optional(S.String),
+          privateKey: S.optional(S.String),
+          username: S.optional(S.String),
           hostname: S.optional(S.String),
+          port: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ForwardSshTunnelConnectivity" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          subdomain: S.optional(S.String),
+          oauthClientCredentials: S.optional(__S(1026, __c32, 2)),
+        }),
+      ).annotate({ identifier: "SalesforceMarketingCloudProfile" });
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          hostname: S.optional(S.String),
+          port: S.optional(S.Number),
         }),
       ).annotate({ identifier: "HostAddress" });
-    case 10:
-      return S.Array(__S(1033, __c32, 9));
-    case 11:
+    case 26:
+      return S.Array(__S(1049, __c32, 25));
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          clientCertificateSet: S.optional(S.Boolean),
+          clientCertificate: S.optional(S.String),
+          clientKey: S.optional(S.String),
+          clientKeySet: S.optional(S.Boolean),
+          caCertificate: S.optional(S.String),
+          caCertificateSet: S.optional(S.Boolean),
+          secretManagerStoredClientKey: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MongodbSslConfig" });
+    case 28:
       return S.suspend(() =>
         S.Struct({
           directConnection: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "StandardConnectionFormat" });
-    case 12:
+    case 29:
       return S.suspend(() =>
         S.Struct({
-          clientCertificateSet: S.optional(S.Boolean),
-          clientKeySet: S.optional(S.Boolean),
-          caCertificateSet: S.optional(S.Boolean),
-          clientCertificate: S.optional(S.String),
-          caCertificate: S.optional(S.String),
-          clientKey: S.optional(S.String),
-          secretManagerStoredClientKey: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MongodbSslConfig" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          password: S.optional(S.String),
-          hostAddresses: S.optional(__S(1034, __c32, 10)),
-          standardConnectionFormat: S.optional(__S(1035, __c32, 11)),
-          sslConfig: S.optional(__S(1036, __c32, 12)),
-          additionalOptions: S.optional(__S(1056, __c33, 0)),
-          srvConnectionFormat: S.optional(__S(960, __c30, 0)),
-          replicaSet: S.optional(S.String),
           secretManagerStoredPassword: S.optional(S.String),
+          hostAddresses: S.optional(__S(1050, __c32, 26)),
+          replicaSet: S.optional(S.String),
+          additionalOptions: S.optional(__S(1088, __c34, 0)),
+          sslConfig: S.optional(__S(1051, __c32, 27)),
+          password: S.optional(S.String),
+          standardConnectionFormat: S.optional(__S(1052, __c32, 28)),
+          srvConnectionFormat: S.optional(__S(960, __c30, 0)),
           username: S.optional(S.String),
         }),
       ).annotate({ identifier: "MongodbProfile" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          username: S.optional(S.String),
-          password: S.optional(__S(1024, __c32, 0)),
-        }),
-      ).annotate({ identifier: "UserPasswordCredentials" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          instance: S.optional(S.String),
-          oauthClientCredentials: S.optional(__S(1025, __c32, 1)),
-          userPasswordCredentials: S.optional(__S(1038, __c32, 14)),
-        }),
-      ).annotate({ identifier: "ServiceNowProfile" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          caCertificate: S.optional(S.String),
-          serverCertificateDistinguishedName: S.optional(S.String),
-          caCertificateSet: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "OracleSslConfig" });
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          password: S.optional(S.String),
-          asmService: S.optional(S.String),
-          connectionAttributes: S.optional(__S(1056, __c33, 0)),
-          secretManagerStoredPassword: S.optional(S.String),
-          hostname: S.optional(S.String),
-          oracleSslConfig: S.optional(__S(1040, __c32, 16)),
-          username: S.optional(S.String),
-          port: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "OracleAsmConfig" });
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          hostname: S.optional(S.String),
-          username: S.optional(S.String),
-          secretManagerStoredPassword: S.optional(S.String),
-          oracleSslConfig: S.optional(__S(1040, __c32, 16)),
-          password: S.optional(S.String),
-          port: S.optional(S.Number),
-          databaseService: S.optional(S.String),
-          connectionAttributes: S.optional(__S(1056, __c33, 0)),
-          oracleAsmConfig: S.optional(__S(1041, __c32, 17)),
-        }),
-      ).annotate({ identifier: "OracleProfile" });
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          caCertificate: S.optional(S.String),
-          clientCertificate: S.optional(S.String),
-          clientCertificateSet: S.optional(S.Boolean),
-          clientKeySet: S.optional(S.Boolean),
-          clientKey: S.optional(S.String),
-          caCertificateSet: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "MysqlSslConfig" });
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          hostname: S.optional(S.String),
-          sslConfig: S.optional(__S(1043, __c32, 19)),
-          password: S.optional(S.String),
-          port: S.optional(S.Number),
-          username: S.optional(S.String),
-          secretManagerStoredPassword: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MysqlProfile" });
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          clientId: S.optional(S.String),
-          secretManagerStoredClientSecret: S.optional(S.String),
-          clientSecret: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Oauth2ClientCredentials" });
-    case 22:
-      return S.suspend(() =>
-        S.Struct({
-          secretManagerStoredPassword: S.optional(S.String),
-          username: S.optional(S.String),
-          securityToken: S.optional(S.String),
-          secretManagerStoredSecurityToken: S.optional(S.String),
-          password: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UserCredentials" });
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          oauth2ClientCredentials: S.optional(__S(1045, __c32, 21)),
-          userCredentials: S.optional(__S(1046, __c32, 22)),
-          domain: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SalesforceProfile" });
-    case 24:
+    case 30:
       return S.suspend(() =>
         S.Struct({
           bucket: S.optional(S.String),
           rootPath: S.optional(S.String),
         }),
       ).annotate({ identifier: "GcsProfile" });
-    case 25:
-      return S.suspend(() =>
-        S.Struct({
-          serverCertificateHostname: S.optional(S.String),
-          clientKey: S.optional(S.String),
-          clientCertificate: S.optional(S.String),
-          caCertificate: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ServerAndClientVerification" });
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
-          serverVerification: S.optional(__S(1029, __c32, 5)),
-          serverAndClientVerification: S.optional(__S(1049, __c32, 25)),
-        }),
-      ).annotate({ identifier: "PostgresqlSslConfig" });
-    case 27:
-      return S.suspend(() =>
-        S.Struct({
-          password: S.optional(S.String),
-          database: S.optional(S.String),
-          hostname: S.optional(S.String),
-          port: S.optional(S.Number),
-          username: S.optional(S.String),
-          sslConfig: S.optional(__S(1050, __c32, 26)),
-          secretManagerStoredPassword: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PostgresqlProfile" });
-    case 28:
-      return S.suspend(() =>
-        S.Struct({
-          tenantId: S.optional(S.String),
-          environmentUrl: S.optional(S.String),
-          oauthClientCredentials: S.optional(__S(1025, __c32, 1)),
-        }),
-      ).annotate({ identifier: "DataverseProfile" });
-    case 29:
-      return S.suspend(() =>
-        S.Struct({
-          database: S.optional(S.String),
-          host: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SpannerProfile" });
-    case 30:
-      return S.suspend(() =>
-        S.Struct({
-          oauthClientCredentials: S.optional(__S(1025, __c32, 1)),
-          subdomain: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SalesforceMarketingCloudProfile" });
     case 31:
       return S.suspend(() =>
         S.Struct({
-          workdayProfile: S.optional(__S(1027, __c32, 3)),
-          forwardSshConnectivity: S.optional(__S(1028, __c32, 4)),
-          sqlServerProfile: S.optional(__S(1031, __c32, 7)),
-          privateConnectivity: S.optional(__S(1032, __c32, 8)),
-          mongodbProfile: S.optional(__S(1037, __c32, 13)),
-          satisfiesPzs: S.optional(S.Boolean),
-          satisfiesPzi: S.optional(S.Boolean),
-          bigqueryProfile: S.optional(__S(960, __c30, 0)),
-          serviceNowProfile: S.optional(__S(1039, __c32, 15)),
-          oracleProfile: S.optional(__S(1042, __c32, 18)),
-          mysqlProfile: S.optional(__S(1044, __c32, 20)),
-          staticServiceIpConnectivity: S.optional(__S(960, __c30, 0)),
-          salesforceProfile: S.optional(__S(1047, __c32, 23)),
-          gcsProfile: S.optional(__S(1048, __c32, 24)),
-          postgresqlProfile: S.optional(__S(1051, __c32, 27)),
-          displayName: S.optional(S.String),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          dataverseProfile: S.optional(__S(1052, __c32, 28)),
-          updateTime: S.optional(S.String),
-          spannerProfile: S.optional(__S(1053, __c32, 29)),
-          salesforceMarketingCloudProfile: S.optional(__S(1054, __c32, 30)),
-          labels: S.optional(__S(1056, __c33, 0)),
+          privateConnection: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ConnectionProfile" });
+      ).annotate({ identifier: "PrivateConnectivity" });
   }
 }
 function __c33(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.String);
+      return S.suspend(() =>
+        S.Struct({
+          spannerProfile: S.optional(__S(1024, __c32, 0)),
+          workdayProfile: S.optional(__S(1028, __c32, 4)),
+          postgresqlProfile: S.optional(__S(1032, __c32, 8)),
+          bigqueryProfile: S.optional(__S(960, __c30, 0)),
+          satisfiesPzs: S.optional(S.Boolean),
+          createTime: S.optional(S.String),
+          salesforceProfile: S.optional(__S(1035, __c32, 11)),
+          satisfiesPzi: S.optional(S.Boolean),
+          serviceNowProfile: S.optional(__S(1037, __c32, 13)),
+          displayName: S.optional(S.String),
+          dataverseProfile: S.optional(__S(1038, __c32, 14)),
+          oracleProfile: S.optional(__S(1041, __c32, 17)),
+          name: S.optional(S.String),
+          mysqlProfile: S.optional(__S(1043, __c32, 19)),
+          sqlServerProfile: S.optional(__S(1046, __c32, 22)),
+          forwardSshConnectivity: S.optional(__S(1047, __c32, 23)),
+          salesforceMarketingCloudProfile: S.optional(__S(1048, __c32, 24)),
+          updateTime: S.optional(S.String),
+          mongodbProfile: S.optional(__S(1053, __c32, 29)),
+          staticServiceIpConnectivity: S.optional(__S(960, __c30, 0)),
+          labels: S.optional(__S(1088, __c34, 0)),
+          gcsProfile: S.optional(__S(1054, __c32, 30)),
+          privateConnectivity: S.optional(__S(1055, __c32, 31)),
+        }),
+      ).annotate({ identifier: "ConnectionProfile" });
   }
 }
 function __c34(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.Unknown);
+      return S.Record(S.String, S.String);
   }
 }
 function __c35(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1088, __c34, 0));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          details: S.optional(__S(1120, __c35, 0)),
-          code: S.optional(S.Number),
-          message: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Status" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          response: S.optional(__S(1088, __c34, 0)),
-          metadata: S.optional(__S(1088, __c34, 0)),
-          done: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          error: S.optional(__S(1121, __c35, 1)),
-        }),
-      ).annotate({ identifier: "Operation" });
+      return S.Record(S.String, S.Unknown);
   }
 }
 function __c36(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(__S(1120, __c35, 0));
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          privateConnectionId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1186, __c37, 2).pipe(T.HttpBody())),
-        }).pipe(
+          code: S.optional(S.Number),
+          message: S.optional(S.String),
+          details: S.optional(__S(1152, __c36, 0)),
+        }),
+      ).annotate({ identifier: "Status" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          response: S.optional(__S(1120, __c35, 0)),
+          error: S.optional(__S(1153, __c36, 1)),
+          done: S.optional(S.Boolean),
+          metadata: S.optional(__S(1120, __c35, 0)),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Operation" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1218, __c38, 2),
+          S.Struct({
+            privateConnectionId: S.optional(S.String.pipe(T.Query())),
+            force: S.optional(S.Boolean.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/privateConnections",
@@ -3647,51 +3656,37 @@ function __c36(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsPrivateConnectionsRequest" });
   }
 }
-function __c37(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subnet: S.optional(S.String),
-          vpc: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "VpcPeeringConfig" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          networkAttachment: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PscInterfaceConfig" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          state: S.optional(S.String),
-          displayName: S.optional(S.String),
-          vpcPeeringConfig: S.optional(__S(1184, __c37, 0)),
-          labels: S.optional(__S(1056, __c33, 0)),
-          error: S.optional(__S(1216, __c38, 0)),
-          createTime: S.optional(S.String),
-          satisfiesPzi: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          pscInterfaceConfig: S.optional(__S(1185, __c37, 1)),
-          satisfiesPzs: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "PrivateConnection" });
-  }
-}
 function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          message: S.optional(S.String),
-          reason: S.optional(S.String),
-          errorUuid: S.optional(S.String),
-          errorTime: S.optional(S.String),
-          details: S.optional(__S(1056, __c33, 0)),
+          networkAttachment: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Datastream_Error" });
+      ).annotate({ identifier: "PscInterfaceConfig" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          vpc: S.optional(S.String),
+          subnet: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VpcPeeringConfig" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          satisfiesPzs: S.optional(S.Boolean),
+          displayName: S.optional(S.String),
+          state: S.optional(S.String),
+          labels: S.optional(__S(1088, __c34, 0)),
+          pscInterfaceConfig: S.optional(__S(1216, __c38, 0)),
+          vpcPeeringConfig: S.optional(__S(1217, __c38, 1)),
+          satisfiesPzi: S.optional(S.Boolean),
+          error: S.optional(__S(1248, __c39, 0)),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PrivateConnection" });
   }
 }
 function __c39(j: number): any {
@@ -3699,11 +3694,27 @@ function __c39(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          routeId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1280, __c40, 0).pipe(T.HttpBody())),
-        }).pipe(
+          reason: S.optional(S.String),
+          errorTime: S.optional(S.String),
+          message: S.optional(S.String),
+          details: S.optional(__S(1088, __c34, 0)),
+          errorUuid: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Datastream_Error" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1312, __c41, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            routeId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/routes",
@@ -3713,34 +3724,36 @@ function __c39(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsPrivateConnectionsRoutesRequest" });
   }
 }
-function __c40(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          destinationPort: S.optional(S.Number),
-          displayName: S.optional(S.String),
-          destinationAddress: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(1056, __c33, 0)),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Route" });
-  }
-}
 function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          streamId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(1531, __c47, 27).pipe(T.HttpBody())),
-        }).pipe(
+          destinationAddress: S.optional(S.String),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          name: S.optional(S.String),
+          labels: S.optional(__S(1088, __c34, 0)),
+          destinationPort: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "Route" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1563, __c48, 27),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            force: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            streamId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/streams",
@@ -3750,253 +3763,153 @@ function __c41(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsStreamsRequest" });
   }
 }
-function __c42(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          dataType: S.optional(S.String),
-          name: S.optional(S.String),
-          nillable: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "SalesforceField" });
-    case 1:
-      return S.Array(__S(1344, __c42, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          objectName: S.optional(S.String),
-          fields: S.optional(__S(1345, __c42, 1)),
-        }),
-      ).annotate({ identifier: "SalesforceObject" });
-    case 3:
-      return S.Array(__S(1346, __c42, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          objects: S.optional(__S(1347, __c42, 3)),
-        }),
-      ).annotate({ identifier: "SalesforceOrg" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          propertyName: S.optional(S.String),
-          properties: S.optional(S.suspend(() => __S(1350, __c42, 6))),
-          primaryKey: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "SourceProperty" });
-    case 6:
-      return S.Array(__S(1349, __c42, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          objectName: S.optional(S.String),
-          properties: S.optional(__S(1350, __c42, 6)),
-        }),
-      ).annotate({ identifier: "SourceObject" });
-    case 8:
-      return S.Array(__S(1351, __c42, 7));
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          objects: S.optional(__S(1352, __c42, 8)),
-        }),
-      ).annotate({ identifier: "SourceCatalog" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          ordinalPosition: S.optional(S.Number),
-          nullable: S.optional(S.Boolean),
-          primaryKey: S.optional(S.Boolean),
-          column: S.optional(S.String),
-          encoding: S.optional(S.String),
-          length: S.optional(S.Number),
-          dataType: S.optional(S.String),
-          scale: S.optional(S.Number),
-          precision: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "OracleColumn" });
-    case 11:
-      return S.Array(__S(1354, __c42, 10));
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          oracleColumns: S.optional(__S(1355, __c42, 11)),
-          table: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "OracleTable" });
-    case 13:
-      return S.Array(__S(1356, __c42, 12));
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          schema: S.optional(S.String),
-          oracleTables: S.optional(__S(1357, __c42, 13)),
-        }),
-      ).annotate({ identifier: "OracleSchema" });
-    case 15:
-      return S.Array(__S(1358, __c42, 14));
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          oracleSchemas: S.optional(__S(1359, __c42, 15)),
-        }),
-      ).annotate({ identifier: "OracleRdbms" });
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          length: S.optional(S.Number),
-          scale: S.optional(S.Number),
-          primaryKey: S.optional(S.Boolean),
-          dataType: S.optional(S.String),
-          nullable: S.optional(S.Boolean),
-          column: S.optional(S.String),
-          precision: S.optional(S.Number),
-          ordinalPosition: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "SqlServerColumn" });
-    case 18:
-      return S.Array(__S(1361, __c42, 17));
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          table: S.optional(S.String),
-          columns: S.optional(__S(1362, __c42, 18)),
-        }),
-      ).annotate({ identifier: "SqlServerTable" });
-    case 20:
-      return S.Array(__S(1363, __c42, 19));
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          tables: S.optional(__S(1364, __c42, 20)),
-          schema: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SqlServerSchema" });
-    case 22:
-      return S.Array(__S(1365, __c42, 21));
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          schemas: S.optional(__S(1366, __c42, 22)),
-        }),
-      ).annotate({ identifier: "SqlServerRdbms" });
-    case 24:
-      return S.suspend(() =>
-        S.Struct({
-          precision: S.optional(S.Number),
-          ordinalPosition: S.optional(S.Number),
-          column: S.optional(S.String),
-          primaryKey: S.optional(S.Boolean),
-          dataType: S.optional(S.String),
-          nullable: S.optional(S.Boolean),
-          scale: S.optional(S.Number),
-          length: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "PostgresqlColumn" });
-    case 25:
-      return S.Array(__S(1368, __c42, 24));
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
-          postgresqlColumns: S.optional(__S(1369, __c42, 25)),
-          table: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PostgresqlTable" });
-    case 27:
-      return S.Array(__S(1370, __c42, 26));
-    case 28:
-      return S.suspend(() =>
-        S.Struct({
-          postgresqlTables: S.optional(__S(1371, __c42, 27)),
-          schema: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PostgresqlSchema" });
-    case 29:
-      return S.Array(__S(1372, __c42, 28));
-    case 30:
-      return S.suspend(() =>
-        S.Struct({
-          postgresqlSchemas: S.optional(__S(1373, __c42, 29)),
-        }),
-      ).annotate({ identifier: "PostgresqlRdbms" });
-    case 31:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MongodbField" });
-  }
-}
 function __c43(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1375, __c42, 31));
+      return S.suspend(() =>
+        S.Struct({
+          primaryKey: S.optional(S.Boolean),
+          propertyName: S.optional(S.String),
+          properties: S.optional(S.suspend(() => __S(1377, __c43, 1))),
+        }),
+      ).annotate({ identifier: "SourceProperty" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          collection: S.optional(S.String),
-          fields: S.optional(__S(1376, __c43, 0)),
-        }),
-      ).annotate({ identifier: "MongodbCollection" });
+      return S.Array(__S(1376, __c43, 0));
     case 2:
-      return S.Array(__S(1377, __c43, 1));
-    case 3:
       return S.suspend(() =>
         S.Struct({
-          collections: S.optional(__S(1378, __c43, 2)),
-          database: S.optional(S.String),
+          objectName: S.optional(S.String),
+          properties: S.optional(__S(1377, __c43, 1)),
         }),
-      ).annotate({ identifier: "MongodbDatabase" });
+      ).annotate({ identifier: "SourceObject" });
+    case 3:
+      return S.Array(__S(1378, __c43, 2));
     case 4:
-      return S.Array(__S(1379, __c43, 3));
+      return S.suspend(() =>
+        S.Struct({
+          objects: S.optional(__S(1379, __c43, 3)),
+        }),
+      ).annotate({ identifier: "SourceCatalog" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          databases: S.optional(__S(1380, __c43, 4)),
-        }),
-      ).annotate({ identifier: "MongodbCluster" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          length: S.optional(S.Number),
-          scale: S.optional(S.Number),
-          dataType: S.optional(S.String),
-          ordinalPosition: S.optional(S.Number),
+          encoding: S.optional(S.String),
           precision: S.optional(S.Number),
+          length: S.optional(S.Number),
+          ordinalPosition: S.optional(S.Number),
+          dataType: S.optional(S.String),
           nullable: S.optional(S.Boolean),
+          scale: S.optional(S.Number),
           column: S.optional(S.String),
           primaryKey: S.optional(S.Boolean),
-          collation: S.optional(S.String),
         }),
-      ).annotate({ identifier: "MysqlColumn" });
+      ).annotate({ identifier: "OracleColumn" });
+    case 6:
+      return S.Array(__S(1381, __c43, 5));
     case 7:
-      return S.Array(__S(1382, __c43, 6));
-    case 8:
       return S.suspend(() =>
         S.Struct({
           table: S.optional(S.String),
-          mysqlColumns: S.optional(__S(1383, __c43, 7)),
+          oracleColumns: S.optional(__S(1382, __c43, 6)),
         }),
-      ).annotate({ identifier: "MysqlTable" });
+      ).annotate({ identifier: "OracleTable" });
+    case 8:
+      return S.Array(__S(1383, __c43, 7));
     case 9:
-      return S.Array(__S(1384, __c43, 8));
-    case 10:
       return S.suspend(() =>
         S.Struct({
-          mysqlTables: S.optional(__S(1385, __c43, 9)),
-          database: S.optional(S.String),
+          oracleTables: S.optional(__S(1384, __c43, 8)),
+          schema: S.optional(S.String),
         }),
-      ).annotate({ identifier: "MysqlDatabase" });
+      ).annotate({ identifier: "OracleSchema" });
+    case 10:
+      return S.Array(__S(1385, __c43, 9));
     case 11:
-      return S.Array(__S(1386, __c43, 10));
+      return S.suspend(() =>
+        S.Struct({
+          oracleSchemas: S.optional(__S(1386, __c43, 10)),
+        }),
+      ).annotate({ identifier: "OracleRdbms" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          mysqlDatabases: S.optional(__S(1387, __c43, 11)),
+          column: S.optional(S.String),
+          primaryKey: S.optional(S.Boolean),
+          length: S.optional(S.Number),
+          dataType: S.optional(S.String),
+          nullable: S.optional(S.Boolean),
+          ordinalPosition: S.optional(S.Number),
+          scale: S.optional(S.Number),
+          precision: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "SqlServerColumn" });
+    case 13:
+      return S.Array(__S(1388, __c43, 12));
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          columns: S.optional(__S(1389, __c43, 13)),
+          table: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SqlServerTable" });
+    case 15:
+      return S.Array(__S(1390, __c43, 14));
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          tables: S.optional(__S(1391, __c43, 15)),
+          schema: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SqlServerSchema" });
+    case 17:
+      return S.Array(__S(1392, __c43, 16));
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          schemas: S.optional(__S(1393, __c43, 17)),
+        }),
+      ).annotate({ identifier: "SqlServerRdbms" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          ordinalPosition: S.optional(S.Number),
+          collation: S.optional(S.String),
+          primaryKey: S.optional(S.Boolean),
+          column: S.optional(S.String),
+          precision: S.optional(S.Number),
+          scale: S.optional(S.Number),
+          length: S.optional(S.Number),
+          dataType: S.optional(S.String),
+          nullable: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "MysqlColumn" });
+    case 20:
+      return S.Array(__S(1395, __c43, 19));
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          mysqlColumns: S.optional(__S(1396, __c43, 20)),
+          table: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MysqlTable" });
+    case 22:
+      return S.Array(__S(1397, __c43, 21));
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          mysqlTables: S.optional(__S(1398, __c43, 22)),
+          database: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MysqlDatabase" });
+    case 24:
+      return S.Array(__S(1399, __c43, 23));
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          mysqlDatabases: S.optional(__S(1400, __c43, 24)),
         }),
       ).annotate({ identifier: "MysqlRdbms" });
-    case 13:
+    case 26:
       return S.suspend(() =>
         S.Struct({
           column: S.optional(S.String),
@@ -4005,136 +3918,138 @@ function __c43(j: number): any {
           ordinalPosition: S.optional(S.String),
         }),
       ).annotate({ identifier: "SpannerColumn" });
-    case 14:
-      return S.Array(__S(1389, __c43, 13));
-    case 15:
+    case 27:
+      return S.Array(__S(1402, __c43, 26));
+    case 28:
       return S.suspend(() =>
         S.Struct({
           table: S.optional(S.String),
-          columns: S.optional(__S(1390, __c43, 14)),
+          columns: S.optional(__S(1403, __c43, 27)),
         }),
       ).annotate({ identifier: "SpannerTable" });
-    case 16:
-      return S.Array(__S(1391, __c43, 15));
-    case 17:
+    case 29:
+      return S.Array(__S(1404, __c43, 28));
+    case 30:
       return S.suspend(() =>
         S.Struct({
           schema: S.optional(S.String),
-          tables: S.optional(__S(1392, __c43, 16)),
+          tables: S.optional(__S(1405, __c43, 29)),
         }),
       ).annotate({ identifier: "SpannerSchema" });
-    case 18:
-      return S.Array(__S(1393, __c43, 17));
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          schemas: S.optional(__S(1394, __c43, 18)),
-        }),
-      ).annotate({ identifier: "SpannerDatabase" });
+    case 31:
+      return S.Array(__S(1406, __c43, 30));
   }
 }
 function __c44(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
+      return S.suspend(() =>
+        S.Struct({
+          schemas: S.optional(__S(1407, __c43, 31)),
+        }),
+      ).annotate({ identifier: "SpannerDatabase" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          dataType: S.optional(S.String),
+          nillable: S.optional(S.Boolean),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SalesforceField" });
+    case 2:
+      return S.Array(__S(1409, __c44, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          objectName: S.optional(S.String),
+          fields: S.optional(__S(1410, __c44, 2)),
+        }),
+      ).annotate({ identifier: "SalesforceObject" });
+    case 4:
+      return S.Array(__S(1411, __c44, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          objects: S.optional(__S(1412, __c44, 4)),
+        }),
+      ).annotate({ identifier: "SalesforceOrg" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          column: S.optional(S.String),
+          ordinalPosition: S.optional(S.Number),
+          length: S.optional(S.Number),
+          scale: S.optional(S.Number),
+          primaryKey: S.optional(S.Boolean),
+          dataType: S.optional(S.String),
+          nullable: S.optional(S.Boolean),
+          precision: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "PostgresqlColumn" });
+    case 7:
+      return S.Array(__S(1414, __c44, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          postgresqlColumns: S.optional(__S(1415, __c44, 7)),
+          table: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PostgresqlTable" });
+    case 9:
+      return S.Array(__S(1416, __c44, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          schema: S.optional(S.String),
+          postgresqlTables: S.optional(__S(1417, __c44, 9)),
+        }),
+      ).annotate({ identifier: "PostgresqlSchema" });
+    case 11:
+      return S.Array(__S(1418, __c44, 10));
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          postgresqlSchemas: S.optional(__S(1419, __c44, 11)),
+        }),
+      ).annotate({ identifier: "PostgresqlRdbms" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MongodbField" });
+    case 14:
+      return S.Array(__S(1421, __c44, 13));
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          collection: S.optional(S.String),
+          fields: S.optional(__S(1422, __c44, 14)),
+        }),
+      ).annotate({ identifier: "MongodbCollection" });
+    case 16:
+      return S.Array(__S(1423, __c44, 15));
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          database: S.optional(S.String),
+          collections: S.optional(__S(1424, __c44, 16)),
+        }),
+      ).annotate({ identifier: "MongodbDatabase" });
+    case 18:
+      return S.Array(__S(1425, __c44, 17));
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          databases: S.optional(__S(1426, __c44, 18)),
+        }),
+      ).annotate({ identifier: "MongodbCluster" });
   }
 }
 function __c45(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          columns: S.optional(__S(1408, __c44, 0)),
-        }),
-      ).annotate({ identifier: "BigQueryClustering" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          column: S.optional(S.String),
-          partitioningTimeGranularity: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TimeUnitPartition" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          partitioningTimeGranularity: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IngestionTimePartition" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          interval: S.optional(S.String),
-          start: S.optional(S.String),
-          column: S.optional(S.String),
-          end: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IntegerRangePartition" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          timeUnitPartition: S.optional(__S(1441, __c45, 1)),
-          ingestionTimePartition: S.optional(__S(1442, __c45, 2)),
-          integerRangePartition: S.optional(__S(1443, __c45, 3)),
-          requirePartitionFilter: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "BigQueryPartitioning" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          bigqueryClustering: S.optional(__S(1440, __c45, 0)),
-          bigqueryPartitioning: S.optional(__S(1444, __c45, 4)),
-        }),
-      ).annotate({ identifier: "CustomizationRule" });
-    case 6:
-      return S.Array(__S(1445, __c45, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          table: S.optional(S.String),
-          schema: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SpannerObjectIdentifier" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          database: S.optional(S.String),
-          collection: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MongodbObjectIdentifier" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          objectName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SalesforceObjectIdentifier" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          table: S.optional(S.String),
-          database: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MysqlObjectIdentifier" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          schema: S.optional(S.String),
-          table: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "OracleObjectIdentifier" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          spannerIdentifier: S.optional(__S(1447, __c45, 7)),
-          mongodbIdentifier: S.optional(__S(1448, __c45, 8)),
-          postgresqlIdentifier: S.optional(__S(1447, __c45, 7)),
-          sqlServerIdentifier: S.optional(__S(1447, __c45, 7)),
-          salesforceIdentifier: S.optional(__S(1449, __c45, 9)),
-          mysqlIdentifier: S.optional(__S(1450, __c45, 10)),
-          oracleIdentifier: S.optional(__S(1451, __c45, 11)),
-        }),
-      ).annotate({ identifier: "SourceObjectIdentifier" });
-    case 13:
-      return S.Array(__S(1216, __c38, 0));
+      return S.Array(S.String);
   }
 }
 function __c46(j: number): any {
@@ -4142,9 +4057,90 @@ function __c46(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sourceObjectIdentifier: S.optional(__S(1452, __c45, 12)),
+          database: S.optional(S.String),
+          collection: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ObjectFilter" });
+      ).annotate({ identifier: "MongodbObjectIdentifier" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          schema: S.optional(S.String),
+          table: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PostgresqlObjectIdentifier" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          table: S.optional(S.String),
+          database: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MysqlObjectIdentifier" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          objectName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SalesforceObjectIdentifier" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          mongodbIdentifier: S.optional(__S(1472, __c46, 0)),
+          postgresqlIdentifier: S.optional(__S(1473, __c46, 1)),
+          oracleIdentifier: S.optional(__S(1473, __c46, 1)),
+          spannerIdentifier: S.optional(__S(1473, __c46, 1)),
+          mysqlIdentifier: S.optional(__S(1474, __c46, 2)),
+          sqlServerIdentifier: S.optional(__S(1473, __c46, 1)),
+          salesforceIdentifier: S.optional(__S(1475, __c46, 3)),
+        }),
+      ).annotate({ identifier: "SourceObjectIdentifier" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          columns: S.optional(__S(1440, __c45, 0)),
+        }),
+      ).annotate({ identifier: "BigQueryClustering" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          partitioningTimeGranularity: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IngestionTimePartition" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          start: S.optional(S.String),
+          column: S.optional(S.String),
+          interval: S.optional(S.String),
+          end: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IntegerRangePartition" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          column: S.optional(S.String),
+          partitioningTimeGranularity: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TimeUnitPartition" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          ingestionTimePartition: S.optional(__S(1478, __c46, 6)),
+          requirePartitionFilter: S.optional(S.Boolean),
+          integerRangePartition: S.optional(__S(1479, __c46, 7)),
+          timeUnitPartition: S.optional(__S(1480, __c46, 8)),
+        }),
+      ).annotate({ identifier: "BigQueryPartitioning" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          bigqueryClustering: S.optional(__S(1477, __c46, 5)),
+          bigqueryPartitioning: S.optional(__S(1481, __c46, 9)),
+        }),
+      ).annotate({ identifier: "CustomizationRule" });
+    case 11:
+      return S.Array(__S(1482, __c46, 10));
+    case 12:
+      return S.Array(__S(1248, __c39, 0));
   }
 }
 function __c47(j: number): any {
@@ -4152,268 +4148,278 @@ function __c47(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pollingInterval: S.optional(S.String),
-          excludeObjects: S.optional(__S(1348, __c42, 4)),
-          includeObjects: S.optional(__S(1348, __c42, 4)),
+          sourceObjectIdentifier: S.optional(__S(1476, __c46, 4)),
         }),
-      ).annotate({ identifier: "SalesforceSourceConfig" });
+      ).annotate({ identifier: "ObjectFilter" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          schemaFileFormat: S.optional(S.String),
+          compression: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "JsonFileFormat" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          includeObjects: S.optional(__S(1353, __c42, 9)),
-          excludeObjects: S.optional(__S(1353, __c42, 9)),
-          pollingInterval: S.optional(S.String),
+          fileRotationMb: S.optional(S.Number),
+          jsonFileFormat: S.optional(__S(1536, __c48, 0)),
+          fileRotationInterval: S.optional(S.String),
+          path: S.optional(S.String),
+          avroFileFormat: S.optional(__S(960, __c30, 0)),
         }),
-      ).annotate({ identifier: "WorkdaySourceConfig" });
+      ).annotate({ identifier: "GcsDestinationConfig" });
     case 2:
       return S.suspend(() =>
         S.Struct({
+          rootPath: S.optional(S.String),
+          tableFormat: S.optional(S.String),
+          connectionName: S.optional(S.String),
+          fileFormat: S.optional(S.String),
+          bucket: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BlmtConfig" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(S.String),
+          kmsKeyName: S.optional(S.String),
+          datasetIdPrefix: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DatasetTemplate" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          datasetTemplate: S.optional(__S(1539, __c48, 3)),
+          projectId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SourceHierarchyDatasets" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          datasetId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SingleTargetDataset" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          dataFreshness: S.optional(S.String),
+          appendOnly: S.optional(__S(960, __c30, 0)),
+          merge: S.optional(__S(960, __c30, 0)),
+          blmtConfig: S.optional(__S(1538, __c48, 2)),
+          sourceHierarchyDatasets: S.optional(__S(1540, __c48, 4)),
+          singleTargetDataset: S.optional(__S(1541, __c48, 5)),
+        }),
+      ).annotate({ identifier: "BigQueryDestinationConfig" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          gcsDestinationConfig: S.optional(__S(1537, __c48, 1)),
+          destinationConnectionProfile: S.optional(S.String),
+          bigqueryDestinationConfig: S.optional(__S(1542, __c48, 6)),
+        }),
+      ).annotate({ identifier: "DestinationConfig" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
           pollingInterval: S.optional(S.String),
-          includeObjects: S.optional(__S(1353, __c42, 9)),
-          excludeObjects: S.optional(__S(1353, __c42, 9)),
+          excludeObjects: S.optional(__S(1380, __c43, 4)),
           fullRefreshPollingInterval: S.optional(S.String),
+          includeObjects: S.optional(__S(1380, __c43, 4)),
         }),
       ).annotate({ identifier: "SalesforceMarketingCloudSourceConfig" });
-    case 3:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           archivedLogDirectory: S.optional(S.String),
           onlineLogDirectory: S.optional(S.String),
         }),
       ).annotate({ identifier: "LogFileDirectories" });
-    case 4:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           oracleAsmLogFileAccess: S.optional(__S(960, __c30, 0)),
-          logFileDirectories: S.optional(__S(1507, __c47, 3)),
+          logFileDirectories: S.optional(__S(1545, __c48, 9)),
         }),
       ).annotate({ identifier: "BinaryLogParser" });
-    case 5:
+    case 11:
       return S.suspend(() =>
         S.Struct({
-          streamLargeObjects: S.optional(__S(960, __c30, 0)),
           maxConcurrentBackfillTasks: S.optional(S.Number),
-          dropLargeObjects: S.optional(__S(960, __c30, 0)),
-          excludeObjects: S.optional(__S(1360, __c42, 16)),
+          streamLargeObjects: S.optional(__S(960, __c30, 0)),
+          excludeObjects: S.optional(__S(1387, __c43, 11)),
           maxConcurrentCdcTasks: S.optional(S.Number),
           logMiner: S.optional(__S(960, __c30, 0)),
-          includeObjects: S.optional(__S(1360, __c42, 16)),
-          binaryLogParser: S.optional(__S(1508, __c47, 4)),
+          dropLargeObjects: S.optional(__S(960, __c30, 0)),
+          includeObjects: S.optional(__S(1387, __c43, 11)),
+          binaryLogParser: S.optional(__S(1546, __c48, 10)),
         }),
       ).annotate({ identifier: "OracleSourceConfig" });
-    case 6:
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          excludeObjects: S.optional(__S(1380, __c43, 4)),
+          includeObjects: S.optional(__S(1380, __c43, 4)),
+          pollingInterval: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WorkdaySourceConfig" });
+    case 13:
       return S.suspend(() =>
         S.Struct({
           autoDeleteOldCaptureInstance: S.optional(S.Boolean),
           autoCreateNewCaptureInstanceOnDdl: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "SqlServerDdlConfig" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          ddlConfig: S.optional(__S(1510, __c47, 6)),
-        }),
-      ).annotate({ identifier: "SqlServerChangeTables" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          maxConcurrentBackfillTasks: S.optional(S.Number),
-          excludeObjects: S.optional(__S(1367, __c42, 23)),
-          includeObjects: S.optional(__S(1367, __c42, 23)),
-          transactionLogs: S.optional(__S(960, __c30, 0)),
-          changeTables: S.optional(__S(1511, __c47, 7)),
-          maxConcurrentCdcTasks: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "SqlServerSourceConfig" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          replicationSlot: S.optional(S.String),
-          publication: S.optional(S.String),
-          includeObjects: S.optional(__S(1374, __c42, 30)),
-          excludeObjects: S.optional(__S(1374, __c42, 30)),
-          maxConcurrentBackfillTasks: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "PostgresqlSourceConfig" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          includeObjects: S.optional(__S(1353, __c42, 9)),
-          pollingInterval: S.optional(S.String),
-          excludeObjects: S.optional(__S(1353, __c42, 9)),
-        }),
-      ).annotate({ identifier: "DataverseSourceConfig" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          includeObjects: S.optional(__S(1381, __c43, 5)),
-          jsonMode: S.optional(S.String),
-          maxConcurrentBackfillTasks: S.optional(S.Number),
-          excludeObjects: S.optional(__S(1381, __c43, 5)),
-        }),
-      ).annotate({ identifier: "MongodbSourceConfig" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          pollingInterval: S.optional(S.String),
-          includeObjects: S.optional(__S(1353, __c42, 9)),
-          excludeObjects: S.optional(__S(1353, __c42, 9)),
-        }),
-      ).annotate({ identifier: "ServiceNowSourceConfig" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          includeObjects: S.optional(__S(1388, __c43, 12)),
-          maxConcurrentCdcTasks: S.optional(S.Number),
-          excludeObjects: S.optional(__S(1388, __c43, 12)),
-          gtid: S.optional(__S(960, __c30, 0)),
-          maxConcurrentBackfillTasks: S.optional(S.Number),
-          binaryLogPosition: S.optional(__S(960, __c30, 0)),
-        }),
-      ).annotate({ identifier: "MysqlSourceConfig" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          maxConcurrentBackfillTasks: S.optional(S.Number),
-          maxConcurrentCdcTasks: S.optional(S.Number),
-          spannerRpcPriority: S.optional(S.String),
-          changeStreamName: S.optional(S.String),
-          excludeObjects: S.optional(__S(1395, __c43, 19)),
-          fgacRole: S.optional(S.String),
-          includeObjects: S.optional(__S(1395, __c43, 19)),
-          backfillDataBoostEnabled: S.optional(S.Boolean),
+          ddlConfig: S.optional(__S(1549, __c48, 13)),
         }),
-      ).annotate({ identifier: "SpannerSourceConfig" });
+      ).annotate({ identifier: "SqlServerChangeTables" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          sourceConnectionProfile: S.optional(S.String),
-          salesforceSourceConfig: S.optional(__S(1504, __c47, 0)),
-          workdaySourceConfig: S.optional(__S(1505, __c47, 1)),
-          salesforceMarketingCloudSourceConfig: S.optional(__S(1506, __c47, 2)),
-          oracleSourceConfig: S.optional(__S(1509, __c47, 5)),
-          sqlServerSourceConfig: S.optional(__S(1512, __c47, 8)),
-          postgresqlSourceConfig: S.optional(__S(1513, __c47, 9)),
-          dataverseSourceConfig: S.optional(__S(1514, __c47, 10)),
-          mongodbSourceConfig: S.optional(__S(1515, __c47, 11)),
-          serviceNowSourceConfig: S.optional(__S(1516, __c47, 12)),
-          mysqlSourceConfig: S.optional(__S(1517, __c47, 13)),
-          spannerSourceConfig: S.optional(__S(1518, __c47, 14)),
+          changeTables: S.optional(__S(1550, __c48, 14)),
+          maxConcurrentBackfillTasks: S.optional(S.Number),
+          transactionLogs: S.optional(__S(960, __c30, 0)),
+          maxConcurrentCdcTasks: S.optional(S.Number),
+          excludeObjects: S.optional(__S(1394, __c43, 18)),
+          includeObjects: S.optional(__S(1394, __c43, 18)),
         }),
-      ).annotate({ identifier: "SourceConfig" });
+      ).annotate({ identifier: "SqlServerSourceConfig" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          postgresqlExcludedObjects: S.optional(__S(1374, __c42, 30)),
-          mongodbExcludedObjects: S.optional(__S(1381, __c43, 5)),
-          oracleExcludedObjects: S.optional(__S(1360, __c42, 16)),
-          salesforceExcludedObjects: S.optional(__S(1348, __c42, 4)),
-          mysqlExcludedObjects: S.optional(__S(1388, __c43, 12)),
-          spannerExcludedObjects: S.optional(__S(1395, __c43, 19)),
-          saasExcludedObjects: S.optional(__S(1353, __c42, 9)),
-          sqlServerExcludedObjects: S.optional(__S(1367, __c42, 23)),
+          binaryLogPosition: S.optional(__S(960, __c30, 0)),
+          maxConcurrentCdcTasks: S.optional(S.Number),
+          gtid: S.optional(__S(960, __c30, 0)),
+          maxConcurrentBackfillTasks: S.optional(S.Number),
+          includeObjects: S.optional(__S(1401, __c43, 25)),
+          excludeObjects: S.optional(__S(1401, __c43, 25)),
         }),
-      ).annotate({ identifier: "BackfillAllStrategy" });
+      ).annotate({ identifier: "MysqlSourceConfig" });
     case 17:
       return S.suspend(() =>
         S.Struct({
-          customizationRules: S.optional(__S(1446, __c45, 6)),
-          objectFilter: S.optional(__S(1472, __c46, 0)),
+          includeObjects: S.optional(__S(1380, __c43, 4)),
+          excludeObjects: S.optional(__S(1380, __c43, 4)),
+          pollingInterval: S.optional(S.String),
         }),
-      ).annotate({ identifier: "RuleSet" });
+      ).annotate({ identifier: "ServiceNowSourceConfig" });
     case 18:
-      return S.Array(__S(1521, __c47, 17));
+      return S.suspend(() =>
+        S.Struct({
+          fgacRole: S.optional(S.String),
+          changeStreamName: S.optional(S.String),
+          maxConcurrentCdcTasks: S.optional(S.Number),
+          excludeObjects: S.optional(__S(1408, __c44, 0)),
+          backfillDataBoostEnabled: S.optional(S.Boolean),
+          maxConcurrentBackfillTasks: S.optional(S.Number),
+          spannerRpcPriority: S.optional(S.String),
+          includeObjects: S.optional(__S(1408, __c44, 0)),
+        }),
+      ).annotate({ identifier: "SpannerSourceConfig" });
     case 19:
       return S.suspend(() =>
         S.Struct({
-          tableFormat: S.optional(S.String),
-          bucket: S.optional(S.String),
-          connectionName: S.optional(S.String),
-          rootPath: S.optional(S.String),
-          fileFormat: S.optional(S.String),
+          includeObjects: S.optional(__S(1413, __c44, 5)),
+          excludeObjects: S.optional(__S(1413, __c44, 5)),
+          pollingInterval: S.optional(S.String),
         }),
-      ).annotate({ identifier: "BlmtConfig" });
+      ).annotate({ identifier: "SalesforceSourceConfig" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          datasetId: S.optional(S.String),
+          excludeObjects: S.optional(__S(1420, __c44, 12)),
+          includeObjects: S.optional(__S(1420, __c44, 12)),
+          replicationSlot: S.optional(S.String),
+          publication: S.optional(S.String),
+          maxConcurrentBackfillTasks: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "SingleTargetDataset" });
+      ).annotate({ identifier: "PostgresqlSourceConfig" });
     case 21:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(S.String),
-          datasetIdPrefix: S.optional(S.String),
-          kmsKeyName: S.optional(S.String),
+          pollingInterval: S.optional(S.String),
+          excludeObjects: S.optional(__S(1380, __c43, 4)),
+          includeObjects: S.optional(__S(1380, __c43, 4)),
         }),
-      ).annotate({ identifier: "DatasetTemplate" });
+      ).annotate({ identifier: "DataverseSourceConfig" });
     case 22:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.optional(S.String),
-          datasetTemplate: S.optional(__S(1525, __c47, 21)),
+          includeObjects: S.optional(__S(1427, __c44, 19)),
+          maxConcurrentBackfillTasks: S.optional(S.Number),
+          jsonMode: S.optional(S.String),
+          excludeObjects: S.optional(__S(1427, __c44, 19)),
         }),
-      ).annotate({ identifier: "SourceHierarchyDatasets" });
+      ).annotate({ identifier: "MongodbSourceConfig" });
     case 23:
       return S.suspend(() =>
         S.Struct({
-          appendOnly: S.optional(__S(960, __c30, 0)),
-          blmtConfig: S.optional(__S(1523, __c47, 19)),
-          merge: S.optional(__S(960, __c30, 0)),
-          singleTargetDataset: S.optional(__S(1524, __c47, 20)),
-          dataFreshness: S.optional(S.String),
-          sourceHierarchyDatasets: S.optional(__S(1526, __c47, 22)),
+          salesforceMarketingCloudSourceConfig: S.optional(__S(1544, __c48, 8)),
+          oracleSourceConfig: S.optional(__S(1547, __c48, 11)),
+          workdaySourceConfig: S.optional(__S(1548, __c48, 12)),
+          sourceConnectionProfile: S.optional(S.String),
+          sqlServerSourceConfig: S.optional(__S(1551, __c48, 15)),
+          mysqlSourceConfig: S.optional(__S(1552, __c48, 16)),
+          serviceNowSourceConfig: S.optional(__S(1553, __c48, 17)),
+          spannerSourceConfig: S.optional(__S(1554, __c48, 18)),
+          salesforceSourceConfig: S.optional(__S(1555, __c48, 19)),
+          postgresqlSourceConfig: S.optional(__S(1556, __c48, 20)),
+          dataverseSourceConfig: S.optional(__S(1557, __c48, 21)),
+          mongodbSourceConfig: S.optional(__S(1558, __c48, 22)),
         }),
-      ).annotate({ identifier: "BigQueryDestinationConfig" });
+      ).annotate({ identifier: "SourceConfig" });
     case 24:
       return S.suspend(() =>
         S.Struct({
-          compression: S.optional(S.String),
-          schemaFileFormat: S.optional(S.String),
+          objectFilter: S.optional(__S(1504, __c47, 0)),
+          customizationRules: S.optional(__S(1483, __c46, 11)),
         }),
-      ).annotate({ identifier: "JsonFileFormat" });
+      ).annotate({ identifier: "RuleSet" });
     case 25:
-      return S.suspend(() =>
-        S.Struct({
-          avroFileFormat: S.optional(__S(960, __c30, 0)),
-          fileRotationMb: S.optional(S.Number),
-          path: S.optional(S.String),
-          fileRotationInterval: S.optional(S.String),
-          jsonFileFormat: S.optional(__S(1528, __c47, 24)),
-        }),
-      ).annotate({ identifier: "GcsDestinationConfig" });
+      return S.Array(__S(1560, __c48, 24));
     case 26:
       return S.suspend(() =>
         S.Struct({
-          destinationConnectionProfile: S.optional(S.String),
-          bigqueryDestinationConfig: S.optional(__S(1527, __c47, 23)),
-          gcsDestinationConfig: S.optional(__S(1529, __c47, 25)),
+          mongodbExcludedObjects: S.optional(__S(1427, __c44, 19)),
+          oracleExcludedObjects: S.optional(__S(1387, __c43, 11)),
+          postgresqlExcludedObjects: S.optional(__S(1420, __c44, 12)),
+          mysqlExcludedObjects: S.optional(__S(1401, __c43, 25)),
+          spannerExcludedObjects: S.optional(__S(1408, __c44, 0)),
+          sqlServerExcludedObjects: S.optional(__S(1394, __c43, 18)),
+          saasExcludedObjects: S.optional(__S(1380, __c43, 4)),
+          salesforceExcludedObjects: S.optional(__S(1413, __c44, 5)),
         }),
-      ).annotate({ identifier: "DestinationConfig" });
+      ).annotate({ identifier: "BackfillAllStrategy" });
     case 27:
       return S.suspend(() =>
         S.Struct({
-          state: S.optional(S.String),
-          lastRecoveryTime: S.optional(S.String),
-          sourceConfig: S.optional(__S(1519, __c47, 15)),
-          backfillAll: S.optional(__S(1520, __c47, 16)),
-          satisfiesPzs: S.optional(S.Boolean),
-          ruleSets: S.optional(__S(1522, __c47, 18)),
           satisfiesPzi: S.optional(S.Boolean),
-          customerManagedEncryptionKey: S.optional(S.String),
           backfillNone: S.optional(__S(960, __c30, 0)),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          destinationConfig: S.optional(__S(1530, __c47, 26)),
+          customerManagedEncryptionKey: S.optional(S.String),
+          destinationConfig: S.optional(__S(1543, __c48, 7)),
+          sourceConfig: S.optional(__S(1559, __c48, 23)),
           name: S.optional(S.String),
-          errors: S.optional(__S(1453, __c45, 13)),
-          labels: S.optional(__S(1056, __c33, 0)),
+          satisfiesPzs: S.optional(S.Boolean),
+          updateTime: S.optional(S.String),
+          ruleSets: S.optional(__S(1561, __c48, 25)),
+          lastRecoveryTime: S.optional(S.String),
+          state: S.optional(S.String),
+          backfillAll: S.optional(__S(1562, __c48, 26)),
+          displayName: S.optional(S.String),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(1088, __c34, 0)),
+          errors: S.optional(__S(1484, __c46, 12)),
         }),
       ).annotate({ identifier: "Stream" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

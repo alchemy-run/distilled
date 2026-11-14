@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -112,7 +113,7 @@ export class InternalServerException
       code: /*@__PURE__*/ S.optional(S.Number),
     },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InvalidInputException
   extends /*@__PURE__*/ S.TaggedError<InvalidInputException>()(
     "InvalidInputException",
@@ -134,7 +135,7 @@ export class LimitExceededException
       code: /*@__PURE__*/ S.optional(S.Number),
     },
     /*@__PURE__*/ T.HttpError(417),
-  ) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class PredictorNotMountedException
   extends /*@__PURE__*/ S.TaggedError<PredictorNotMountedException>()(
     "PredictorNotMountedException",
@@ -157,8 +158,8 @@ export class TagLimitExceededException
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type TagList = Tag[];
 export type EntityId = string;
@@ -174,20 +175,20 @@ export interface AddTagsInput {
   ResourceType: TaggableResourceType;
 }
 export interface AddTagsOutput {
-  ResourceId?: string;
-  ResourceType?: TaggableResourceType;
+  ResourceId?: string | undefined;
+  ResourceType?: TaggableResourceType | undefined;
 }
 export type EntityName = string;
 export type S3Url = string;
 export interface CreateBatchPredictionInput {
   BatchPredictionId: string;
-  BatchPredictionName?: string;
+  BatchPredictionName?: string | undefined;
   MLModelId: string;
   BatchPredictionDataSourceId: string;
   OutputUri: string;
 }
 export interface CreateBatchPredictionOutput {
-  BatchPredictionId?: string;
+  BatchPredictionId?: string | undefined;
 }
 export type RDSInstanceIdentifier = string;
 export type RDSDatabaseName = string;
@@ -214,9 +215,9 @@ export interface RDSDataSpec {
   SelectSqlQuery: string;
   DatabaseCredentials: RDSDatabaseCredentials;
   S3StagingLocation: string;
-  DataRearrangement?: string;
-  DataSchema?: string;
-  DataSchemaUri?: string;
+  DataRearrangement?: string | undefined;
+  DataSchema?: string | undefined;
+  DataSchemaUri?: string | undefined;
   ResourceRole: string;
   ServiceRole: string;
   SubnetId: string;
@@ -226,13 +227,13 @@ export type RoleARN = string;
 export type ComputeStatistics = boolean;
 export interface CreateDataSourceFromRDSInput {
   DataSourceId: string;
-  DataSourceName?: string;
+  DataSourceName?: string | undefined;
   RDSData: RDSDataSpec;
   RoleARN: string;
-  ComputeStatistics?: boolean;
+  ComputeStatistics?: boolean | undefined;
 }
 export interface CreateDataSourceFromRDSOutput {
-  DataSourceId?: string;
+  DataSourceId?: string | undefined;
 }
 export type RedshiftDatabaseName = string;
 export type RedshiftClusterIdentifier = string;
@@ -252,43 +253,43 @@ export interface RedshiftDataSpec {
   SelectSqlQuery: string;
   DatabaseCredentials: RedshiftDatabaseCredentials;
   S3StagingLocation: string;
-  DataRearrangement?: string;
-  DataSchema?: string;
-  DataSchemaUri?: string;
+  DataRearrangement?: string | undefined;
+  DataSchema?: string | undefined;
+  DataSchemaUri?: string | undefined;
 }
 export interface CreateDataSourceFromRedshiftInput {
   DataSourceId: string;
-  DataSourceName?: string;
+  DataSourceName?: string | undefined;
   DataSpec: RedshiftDataSpec;
   RoleARN: string;
-  ComputeStatistics?: boolean;
+  ComputeStatistics?: boolean | undefined;
 }
 export interface CreateDataSourceFromRedshiftOutput {
-  DataSourceId?: string;
+  DataSourceId?: string | undefined;
 }
 export interface S3DataSpec {
   DataLocationS3: string;
-  DataRearrangement?: string;
-  DataSchema?: string;
-  DataSchemaLocationS3?: string;
+  DataRearrangement?: string | undefined;
+  DataSchema?: string | undefined;
+  DataSchemaLocationS3?: string | undefined;
 }
 export interface CreateDataSourceFromS3Input {
   DataSourceId: string;
-  DataSourceName?: string;
+  DataSourceName?: string | undefined;
   DataSpec: S3DataSpec;
-  ComputeStatistics?: boolean;
+  ComputeStatistics?: boolean | undefined;
 }
 export interface CreateDataSourceFromS3Output {
-  DataSourceId?: string;
+  DataSourceId?: string | undefined;
 }
 export interface CreateEvaluationInput {
   EvaluationId: string;
-  EvaluationName?: string;
+  EvaluationName?: string | undefined;
   MLModelId: string;
   EvaluationDataSourceId: string;
 }
 export interface CreateEvaluationOutput {
-  EvaluationId?: string;
+  EvaluationId?: string | undefined;
 }
 export type MLModelType = "REGRESSION" | "BINARY" | "MULTICLASS" | (string & {});
 export type StringType = string;
@@ -296,15 +297,15 @@ export type TrainingParameters = { [key: string]: string | undefined };
 export type Recipe = string;
 export interface CreateMLModelInput {
   MLModelId: string;
-  MLModelName?: string;
+  MLModelName?: string | undefined;
   MLModelType: MLModelType;
-  Parameters?: { [key: string]: string | undefined };
+  Parameters?: { [key: string]: string | undefined } | undefined;
   TrainingDataSourceId: string;
-  Recipe?: string;
-  RecipeUri?: string;
+  Recipe?: string | undefined;
+  RecipeUri?: string | undefined;
 }
 export interface CreateMLModelOutput {
-  MLModelId?: string;
+  MLModelId?: string | undefined;
 }
 export interface CreateRealtimeEndpointInput {
   MLModelId: string;
@@ -314,45 +315,45 @@ export type EpochTime = Date;
 export type VipURL = string;
 export type RealtimeEndpointStatus = "NONE" | "READY" | "UPDATING" | "FAILED" | (string & {});
 export interface RealtimeEndpointInfo {
-  PeakRequestsPerSecond?: number;
-  CreatedAt?: Date;
-  EndpointUrl?: string;
-  EndpointStatus?: RealtimeEndpointStatus;
+  PeakRequestsPerSecond?: number | undefined;
+  CreatedAt?: Date | undefined;
+  EndpointUrl?: string | undefined;
+  EndpointStatus?: RealtimeEndpointStatus | undefined;
 }
 export interface CreateRealtimeEndpointOutput {
-  MLModelId?: string;
-  RealtimeEndpointInfo?: RealtimeEndpointInfo;
+  MLModelId?: string | undefined;
+  RealtimeEndpointInfo?: RealtimeEndpointInfo | undefined;
 }
 export interface DeleteBatchPredictionInput {
   BatchPredictionId: string;
 }
 export interface DeleteBatchPredictionOutput {
-  BatchPredictionId?: string;
+  BatchPredictionId?: string | undefined;
 }
 export interface DeleteDataSourceInput {
   DataSourceId: string;
 }
 export interface DeleteDataSourceOutput {
-  DataSourceId?: string;
+  DataSourceId?: string | undefined;
 }
 export interface DeleteEvaluationInput {
   EvaluationId: string;
 }
 export interface DeleteEvaluationOutput {
-  EvaluationId?: string;
+  EvaluationId?: string | undefined;
 }
 export interface DeleteMLModelInput {
   MLModelId: string;
 }
 export interface DeleteMLModelOutput {
-  MLModelId?: string;
+  MLModelId?: string | undefined;
 }
 export interface DeleteRealtimeEndpointInput {
   MLModelId: string;
 }
 export interface DeleteRealtimeEndpointOutput {
-  MLModelId?: string;
-  RealtimeEndpointInfo?: RealtimeEndpointInfo;
+  MLModelId?: string | undefined;
+  RealtimeEndpointInfo?: RealtimeEndpointInfo | undefined;
 }
 export type TagKeyList = string[];
 export interface DeleteTagsInput {
@@ -361,8 +362,8 @@ export interface DeleteTagsInput {
   ResourceType: TaggableResourceType;
 }
 export interface DeleteTagsOutput {
-  ResourceId?: string;
-  ResourceType?: TaggableResourceType;
+  ResourceId?: string | undefined;
+  ResourceType?: TaggableResourceType | undefined;
 }
 export type BatchPredictionFilterVariable =
   | "CreatedAt"
@@ -378,17 +379,17 @@ export type ComparatorValue = string;
 export type SortOrder = "asc" | "dsc" | (string & {});
 export type PageLimit = number;
 export interface DescribeBatchPredictionsInput {
-  FilterVariable?: BatchPredictionFilterVariable;
-  EQ?: string;
-  GT?: string;
-  LT?: string;
-  GE?: string;
-  LE?: string;
-  NE?: string;
-  Prefix?: string;
-  SortOrder?: SortOrder;
-  NextToken?: string;
-  Limit?: number;
+  FilterVariable?: BatchPredictionFilterVariable | undefined;
+  EQ?: string | undefined;
+  GT?: string | undefined;
+  LT?: string | undefined;
+  GE?: string | undefined;
+  LE?: string | undefined;
+  NE?: string | undefined;
+  Prefix?: string | undefined;
+  SortOrder?: SortOrder | undefined;
+  NextToken?: string | undefined;
+  Limit?: number | undefined;
 }
 export type AwsUserArn = string;
 export type EntityStatus =
@@ -401,27 +402,27 @@ export type EntityStatus =
 export type Message = string;
 export type LongType = number;
 export interface BatchPrediction {
-  BatchPredictionId?: string;
-  MLModelId?: string;
-  BatchPredictionDataSourceId?: string;
-  InputDataLocationS3?: string;
-  CreatedByIamUser?: string;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  Name?: string;
-  Status?: EntityStatus;
-  OutputUri?: string;
-  Message?: string;
-  ComputeTime?: number;
-  FinishedAt?: Date;
-  StartedAt?: Date;
-  TotalRecordCount?: number;
-  InvalidRecordCount?: number;
+  BatchPredictionId?: string | undefined;
+  MLModelId?: string | undefined;
+  BatchPredictionDataSourceId?: string | undefined;
+  InputDataLocationS3?: string | undefined;
+  CreatedByIamUser?: string | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  Name?: string | undefined;
+  Status?: EntityStatus | undefined;
+  OutputUri?: string | undefined;
+  Message?: string | undefined;
+  ComputeTime?: number | undefined;
+  FinishedAt?: Date | undefined;
+  StartedAt?: Date | undefined;
+  TotalRecordCount?: number | undefined;
+  InvalidRecordCount?: number | undefined;
 }
 export type BatchPredictions = BatchPrediction[];
 export interface DescribeBatchPredictionsOutput {
-  Results?: BatchPrediction[];
-  NextToken?: string;
+  Results?: BatchPrediction[] | undefined;
+  NextToken?: string | undefined;
 }
 export type DataSourceFilterVariable =
   | "CreatedAt"
@@ -432,56 +433,56 @@ export type DataSourceFilterVariable =
   | "IAMUser"
   | (string & {});
 export interface DescribeDataSourcesInput {
-  FilterVariable?: DataSourceFilterVariable;
-  EQ?: string;
-  GT?: string;
-  LT?: string;
-  GE?: string;
-  LE?: string;
-  NE?: string;
-  Prefix?: string;
-  SortOrder?: SortOrder;
-  NextToken?: string;
-  Limit?: number;
+  FilterVariable?: DataSourceFilterVariable | undefined;
+  EQ?: string | undefined;
+  GT?: string | undefined;
+  LT?: string | undefined;
+  GE?: string | undefined;
+  LE?: string | undefined;
+  NE?: string | undefined;
+  Prefix?: string | undefined;
+  SortOrder?: SortOrder | undefined;
+  NextToken?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface RedshiftMetadata {
-  RedshiftDatabase?: RedshiftDatabase;
-  DatabaseUserName?: string;
-  SelectSqlQuery?: string;
+  RedshiftDatabase?: RedshiftDatabase | undefined;
+  DatabaseUserName?: string | undefined;
+  SelectSqlQuery?: string | undefined;
 }
 export type EDPPipelineId = string;
 export interface RDSMetadata {
-  Database?: RDSDatabase;
-  DatabaseUserName?: string;
-  SelectSqlQuery?: string;
-  ResourceRole?: string;
-  ServiceRole?: string;
-  DataPipelineId?: string;
+  Database?: RDSDatabase | undefined;
+  DatabaseUserName?: string | undefined;
+  SelectSqlQuery?: string | undefined;
+  ResourceRole?: string | undefined;
+  ServiceRole?: string | undefined;
+  DataPipelineId?: string | undefined;
 }
 export interface DataSource {
-  DataSourceId?: string;
-  DataLocationS3?: string;
-  DataRearrangement?: string;
-  CreatedByIamUser?: string;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  DataSizeInBytes?: number;
-  NumberOfFiles?: number;
-  Name?: string;
-  Status?: EntityStatus;
-  Message?: string;
-  RedshiftMetadata?: RedshiftMetadata;
-  RDSMetadata?: RDSMetadata;
-  RoleARN?: string;
-  ComputeStatistics?: boolean;
-  ComputeTime?: number;
-  FinishedAt?: Date;
-  StartedAt?: Date;
+  DataSourceId?: string | undefined;
+  DataLocationS3?: string | undefined;
+  DataRearrangement?: string | undefined;
+  CreatedByIamUser?: string | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  DataSizeInBytes?: number | undefined;
+  NumberOfFiles?: number | undefined;
+  Name?: string | undefined;
+  Status?: EntityStatus | undefined;
+  Message?: string | undefined;
+  RedshiftMetadata?: RedshiftMetadata | undefined;
+  RDSMetadata?: RDSMetadata | undefined;
+  RoleARN?: string | undefined;
+  ComputeStatistics?: boolean | undefined;
+  ComputeTime?: number | undefined;
+  FinishedAt?: Date | undefined;
+  StartedAt?: Date | undefined;
 }
 export type DataSources = DataSource[];
 export interface DescribeDataSourcesOutput {
-  Results?: DataSource[];
-  NextToken?: string;
+  Results?: DataSource[] | undefined;
+  NextToken?: string | undefined;
 }
 export type EvaluationFilterVariable =
   | "CreatedAt"
@@ -494,44 +495,44 @@ export type EvaluationFilterVariable =
   | "DataURI"
   | (string & {});
 export interface DescribeEvaluationsInput {
-  FilterVariable?: EvaluationFilterVariable;
-  EQ?: string;
-  GT?: string;
-  LT?: string;
-  GE?: string;
-  LE?: string;
-  NE?: string;
-  Prefix?: string;
-  SortOrder?: SortOrder;
-  NextToken?: string;
-  Limit?: number;
+  FilterVariable?: EvaluationFilterVariable | undefined;
+  EQ?: string | undefined;
+  GT?: string | undefined;
+  LT?: string | undefined;
+  GE?: string | undefined;
+  LE?: string | undefined;
+  NE?: string | undefined;
+  Prefix?: string | undefined;
+  SortOrder?: SortOrder | undefined;
+  NextToken?: string | undefined;
+  Limit?: number | undefined;
 }
 export type PerformanceMetricsPropertyKey = string;
 export type PerformanceMetricsPropertyValue = string;
 export type PerformanceMetricsProperties = { [key: string]: string | undefined };
 export interface PerformanceMetrics {
-  Properties?: { [key: string]: string | undefined };
+  Properties?: { [key: string]: string | undefined } | undefined;
 }
 export interface Evaluation {
-  EvaluationId?: string;
-  MLModelId?: string;
-  EvaluationDataSourceId?: string;
-  InputDataLocationS3?: string;
-  CreatedByIamUser?: string;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  Name?: string;
-  Status?: EntityStatus;
-  PerformanceMetrics?: PerformanceMetrics;
-  Message?: string;
-  ComputeTime?: number;
-  FinishedAt?: Date;
-  StartedAt?: Date;
+  EvaluationId?: string | undefined;
+  MLModelId?: string | undefined;
+  EvaluationDataSourceId?: string | undefined;
+  InputDataLocationS3?: string | undefined;
+  CreatedByIamUser?: string | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  Name?: string | undefined;
+  Status?: EntityStatus | undefined;
+  PerformanceMetrics?: PerformanceMetrics | undefined;
+  Message?: string | undefined;
+  ComputeTime?: number | undefined;
+  FinishedAt?: Date | undefined;
+  StartedAt?: Date | undefined;
 }
 export type Evaluations = Evaluation[];
 export interface DescribeEvaluationsOutput {
-  Results?: Evaluation[];
-  NextToken?: string;
+  Results?: Evaluation[] | undefined;
+  NextToken?: string | undefined;
 }
 export type MLModelFilterVariable =
   | "CreatedAt"
@@ -546,152 +547,152 @@ export type MLModelFilterVariable =
   | "TrainingDataURI"
   | (string & {});
 export interface DescribeMLModelsInput {
-  FilterVariable?: MLModelFilterVariable;
-  EQ?: string;
-  GT?: string;
-  LT?: string;
-  GE?: string;
-  LE?: string;
-  NE?: string;
-  Prefix?: string;
-  SortOrder?: SortOrder;
-  NextToken?: string;
-  Limit?: number;
+  FilterVariable?: MLModelFilterVariable | undefined;
+  EQ?: string | undefined;
+  GT?: string | undefined;
+  LT?: string | undefined;
+  GE?: string | undefined;
+  LE?: string | undefined;
+  NE?: string | undefined;
+  Prefix?: string | undefined;
+  SortOrder?: SortOrder | undefined;
+  NextToken?: string | undefined;
+  Limit?: number | undefined;
 }
 export type MLModelName = string;
 export type Algorithm = "sgd" | (string & {});
 export type ScoreThreshold = number;
 export interface MLModel {
-  MLModelId?: string;
-  TrainingDataSourceId?: string;
-  CreatedByIamUser?: string;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  Name?: string;
-  Status?: EntityStatus;
-  SizeInBytes?: number;
-  EndpointInfo?: RealtimeEndpointInfo;
-  TrainingParameters?: { [key: string]: string | undefined };
-  InputDataLocationS3?: string;
-  Algorithm?: Algorithm;
-  MLModelType?: MLModelType;
-  ScoreThreshold?: number;
-  ScoreThresholdLastUpdatedAt?: Date;
-  Message?: string;
-  ComputeTime?: number;
-  FinishedAt?: Date;
-  StartedAt?: Date;
+  MLModelId?: string | undefined;
+  TrainingDataSourceId?: string | undefined;
+  CreatedByIamUser?: string | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  Name?: string | undefined;
+  Status?: EntityStatus | undefined;
+  SizeInBytes?: number | undefined;
+  EndpointInfo?: RealtimeEndpointInfo | undefined;
+  TrainingParameters?: { [key: string]: string | undefined } | undefined;
+  InputDataLocationS3?: string | undefined;
+  Algorithm?: Algorithm | undefined;
+  MLModelType?: MLModelType | undefined;
+  ScoreThreshold?: number | undefined;
+  ScoreThresholdLastUpdatedAt?: Date | undefined;
+  Message?: string | undefined;
+  ComputeTime?: number | undefined;
+  FinishedAt?: Date | undefined;
+  StartedAt?: Date | undefined;
 }
 export type MLModels = MLModel[];
 export interface DescribeMLModelsOutput {
-  Results?: MLModel[];
-  NextToken?: string;
+  Results?: MLModel[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeTagsInput {
   ResourceId: string;
   ResourceType: TaggableResourceType;
 }
 export interface DescribeTagsOutput {
-  ResourceId?: string;
-  ResourceType?: TaggableResourceType;
-  Tags?: Tag[];
+  ResourceId?: string | undefined;
+  ResourceType?: TaggableResourceType | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface GetBatchPredictionInput {
   BatchPredictionId: string;
 }
 export type PresignedS3Url = string;
 export interface GetBatchPredictionOutput {
-  BatchPredictionId?: string;
-  MLModelId?: string;
-  BatchPredictionDataSourceId?: string;
-  InputDataLocationS3?: string;
-  CreatedByIamUser?: string;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  Name?: string;
-  Status?: EntityStatus;
-  OutputUri?: string;
-  LogUri?: string;
-  Message?: string;
-  ComputeTime?: number;
-  FinishedAt?: Date;
-  StartedAt?: Date;
-  TotalRecordCount?: number;
-  InvalidRecordCount?: number;
+  BatchPredictionId?: string | undefined;
+  MLModelId?: string | undefined;
+  BatchPredictionDataSourceId?: string | undefined;
+  InputDataLocationS3?: string | undefined;
+  CreatedByIamUser?: string | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  Name?: string | undefined;
+  Status?: EntityStatus | undefined;
+  OutputUri?: string | undefined;
+  LogUri?: string | undefined;
+  Message?: string | undefined;
+  ComputeTime?: number | undefined;
+  FinishedAt?: Date | undefined;
+  StartedAt?: Date | undefined;
+  TotalRecordCount?: number | undefined;
+  InvalidRecordCount?: number | undefined;
 }
 export type Verbose = boolean;
 export interface GetDataSourceInput {
   DataSourceId: string;
-  Verbose?: boolean;
+  Verbose?: boolean | undefined;
 }
 export interface GetDataSourceOutput {
-  DataSourceId?: string;
-  DataLocationS3?: string;
-  DataRearrangement?: string;
-  CreatedByIamUser?: string;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  DataSizeInBytes?: number;
-  NumberOfFiles?: number;
-  Name?: string;
-  Status?: EntityStatus;
-  LogUri?: string;
-  Message?: string;
-  RedshiftMetadata?: RedshiftMetadata;
-  RDSMetadata?: RDSMetadata;
-  RoleARN?: string;
-  ComputeStatistics?: boolean;
-  ComputeTime?: number;
-  FinishedAt?: Date;
-  StartedAt?: Date;
-  DataSourceSchema?: string;
+  DataSourceId?: string | undefined;
+  DataLocationS3?: string | undefined;
+  DataRearrangement?: string | undefined;
+  CreatedByIamUser?: string | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  DataSizeInBytes?: number | undefined;
+  NumberOfFiles?: number | undefined;
+  Name?: string | undefined;
+  Status?: EntityStatus | undefined;
+  LogUri?: string | undefined;
+  Message?: string | undefined;
+  RedshiftMetadata?: RedshiftMetadata | undefined;
+  RDSMetadata?: RDSMetadata | undefined;
+  RoleARN?: string | undefined;
+  ComputeStatistics?: boolean | undefined;
+  ComputeTime?: number | undefined;
+  FinishedAt?: Date | undefined;
+  StartedAt?: Date | undefined;
+  DataSourceSchema?: string | undefined;
 }
 export interface GetEvaluationInput {
   EvaluationId: string;
 }
 export interface GetEvaluationOutput {
-  EvaluationId?: string;
-  MLModelId?: string;
-  EvaluationDataSourceId?: string;
-  InputDataLocationS3?: string;
-  CreatedByIamUser?: string;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  Name?: string;
-  Status?: EntityStatus;
-  PerformanceMetrics?: PerformanceMetrics;
-  LogUri?: string;
-  Message?: string;
-  ComputeTime?: number;
-  FinishedAt?: Date;
-  StartedAt?: Date;
+  EvaluationId?: string | undefined;
+  MLModelId?: string | undefined;
+  EvaluationDataSourceId?: string | undefined;
+  InputDataLocationS3?: string | undefined;
+  CreatedByIamUser?: string | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  Name?: string | undefined;
+  Status?: EntityStatus | undefined;
+  PerformanceMetrics?: PerformanceMetrics | undefined;
+  LogUri?: string | undefined;
+  Message?: string | undefined;
+  ComputeTime?: number | undefined;
+  FinishedAt?: Date | undefined;
+  StartedAt?: Date | undefined;
 }
 export interface GetMLModelInput {
   MLModelId: string;
-  Verbose?: boolean;
+  Verbose?: boolean | undefined;
 }
 export interface GetMLModelOutput {
-  MLModelId?: string;
-  TrainingDataSourceId?: string;
-  CreatedByIamUser?: string;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  Name?: string;
-  Status?: EntityStatus;
-  SizeInBytes?: number;
-  EndpointInfo?: RealtimeEndpointInfo;
-  TrainingParameters?: { [key: string]: string | undefined };
-  InputDataLocationS3?: string;
-  MLModelType?: MLModelType;
-  ScoreThreshold?: number;
-  ScoreThresholdLastUpdatedAt?: Date;
-  LogUri?: string;
-  Message?: string;
-  ComputeTime?: number;
-  FinishedAt?: Date;
-  StartedAt?: Date;
-  Recipe?: string;
-  Schema?: string;
+  MLModelId?: string | undefined;
+  TrainingDataSourceId?: string | undefined;
+  CreatedByIamUser?: string | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  Name?: string | undefined;
+  Status?: EntityStatus | undefined;
+  SizeInBytes?: number | undefined;
+  EndpointInfo?: RealtimeEndpointInfo | undefined;
+  TrainingParameters?: { [key: string]: string | undefined } | undefined;
+  InputDataLocationS3?: string | undefined;
+  MLModelType?: MLModelType | undefined;
+  ScoreThreshold?: number | undefined;
+  ScoreThresholdLastUpdatedAt?: Date | undefined;
+  LogUri?: string | undefined;
+  Message?: string | undefined;
+  ComputeTime?: number | undefined;
+  FinishedAt?: Date | undefined;
+  StartedAt?: Date | undefined;
+  Recipe?: string | undefined;
+  Schema?: string | undefined;
 }
 export type VariableName = string;
 export type VariableValue = string;
@@ -707,44 +708,44 @@ export type ScoreValue = number;
 export type ScoreValuePerLabelMap = { [key: string]: number | undefined };
 export type DetailsAttributes = "PredictiveModelType" | "Algorithm" | (string & {});
 export type DetailsValue = string;
-export type DetailsMap = { [key in DetailsAttributes]?: string };
+export type DetailsMap = { [key in DetailsAttributes]?: string | undefined };
 export interface Prediction {
-  predictedLabel?: string;
-  predictedValue?: number;
-  predictedScores?: { [key: string]: number | undefined };
-  details?: { [key: string]: string | undefined };
+  predictedLabel?: string | undefined;
+  predictedValue?: number | undefined;
+  predictedScores?: { [key: string]: number | undefined } | undefined;
+  details?: { [key: string]: string | undefined } | undefined;
 }
 export interface PredictOutput {
-  Prediction?: Prediction;
+  Prediction?: Prediction | undefined;
 }
 export interface UpdateBatchPredictionInput {
   BatchPredictionId: string;
   BatchPredictionName: string;
 }
 export interface UpdateBatchPredictionOutput {
-  BatchPredictionId?: string;
+  BatchPredictionId?: string | undefined;
 }
 export interface UpdateDataSourceInput {
   DataSourceId: string;
   DataSourceName: string;
 }
 export interface UpdateDataSourceOutput {
-  DataSourceId?: string;
+  DataSourceId?: string | undefined;
 }
 export interface UpdateEvaluationInput {
   EvaluationId: string;
   EvaluationName: string;
 }
 export interface UpdateEvaluationOutput {
-  EvaluationId?: string;
+  EvaluationId?: string | undefined;
 }
 export interface UpdateMLModelInput {
   MLModelId: string;
-  MLModelName?: string;
-  ScoreThreshold?: number;
+  MLModelName?: string | undefined;
+  ScoreThreshold?: number | undefined;
 }
 export interface UpdateMLModelOutput {
-  MLModelId?: string;
+  MLModelId?: string | undefined;
 }
 export type ErrorMessage = string;
 export type ErrorCode = number;
@@ -761,7 +762,7 @@ export type AddTagsError =
  * `AddTags` updates the tag's value.
  */
 export const addTags: API.OperationMethod<
-  AddTagsInput,
+  AddTagsInput & RegionInput,
   AddTagsOutput,
   AddTagsError,
   Credentials | HttpClient.HttpClient
@@ -800,7 +801,7 @@ export type CreateBatchPredictionError =
  * the results are available in the location specified by the `OutputUri` parameter.
  */
 export const createBatchPrediction: API.OperationMethod<
-  CreateBatchPredictionInput,
+  CreateBatchPredictionInput & RegionInput,
   CreateBatchPredictionOutput,
   CreateBatchPredictionError,
   Credentials | HttpClient.HttpClient
@@ -832,7 +833,7 @@ export type CreateDataSourceFromRDSError =
  * If Amazon ML cannot accept the input source, it sets the `Status` parameter to `FAILED` and includes an error message in the `Message` attribute of the `GetDataSource` operation response.
  */
 export const createDataSourceFromRDS: API.OperationMethod<
-  CreateDataSourceFromRDSInput,
+  CreateDataSourceFromRDSInput & RegionInput,
   CreateDataSourceFromRDSOutput,
   CreateDataSourceFromRDSError,
   Credentials | HttpClient.HttpClient
@@ -885,7 +886,7 @@ export type CreateDataSourceFromRedshiftError =
  * make sure that all required fields have the appropriate values.
  */
 export const createDataSourceFromRedshift: API.OperationMethod<
-  CreateDataSourceFromRedshiftInput,
+  CreateDataSourceFromRedshiftInput & RegionInput,
   CreateDataSourceFromRedshiftOutput,
   CreateDataSourceFromRedshiftError,
   Credentials | HttpClient.HttpClient
@@ -939,7 +940,7 @@ export type CreateDataSourceFromS3Error =
  * word combinations? The recipe provides answers to these questions.
  */
 export const createDataSourceFromS3: API.OperationMethod<
-  CreateDataSourceFromS3Input,
+  CreateDataSourceFromS3Input & RegionInput,
   CreateDataSourceFromS3Output,
   CreateDataSourceFromS3Error,
   Credentials | HttpClient.HttpClient
@@ -972,7 +973,7 @@ export type CreateEvaluationError =
  * You can use the `GetEvaluation` operation to check progress of the evaluation during the creation operation.
  */
 export const createEvaluation: API.OperationMethod<
-  CreateEvaluationInput,
+  CreateEvaluationInput & RegionInput,
   CreateEvaluationOutput,
   CreateEvaluationError,
   Credentials | HttpClient.HttpClient
@@ -1015,7 +1016,7 @@ export type CreateMLModelError =
  * `CreateDataSourceFromRedshift` operations.
  */
 export const createMLModel: API.OperationMethod<
-  CreateMLModelInput,
+  CreateMLModelInput & RegionInput,
   CreateMLModelOutput,
   CreateMLModelError,
   Credentials | HttpClient.HttpClient
@@ -1039,7 +1040,7 @@ export type CreateRealtimeEndpointError =
  * Creates a real-time endpoint for the `MLModel`. The endpoint contains the URI of the `MLModel`; that is, the location to send real-time prediction requests for the specified `MLModel`.
  */
 export const createRealtimeEndpoint: API.OperationMethod<
-  CreateRealtimeEndpointInput,
+  CreateRealtimeEndpointInput & RegionInput,
   CreateRealtimeEndpointOutput,
   CreateRealtimeEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1068,7 +1069,7 @@ export type DeleteBatchPredictionError =
  * **Caution:** The result of the `DeleteBatchPrediction` operation is irreversible.
  */
 export const deleteBatchPrediction: API.OperationMethod<
-  DeleteBatchPredictionInput,
+  DeleteBatchPredictionInput & RegionInput,
   DeleteBatchPredictionOutput,
   DeleteBatchPredictionError,
   Credentials | HttpClient.HttpClient
@@ -1096,7 +1097,7 @@ export type DeleteDataSourceError =
  * **Caution:** The results of the `DeleteDataSource` operation are irreversible.
  */
 export const deleteDataSource: API.OperationMethod<
-  DeleteDataSourceInput,
+  DeleteDataSourceInput & RegionInput,
   DeleteDataSourceOutput,
   DeleteDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -1125,7 +1126,7 @@ export type DeleteEvaluationError =
  * **Caution:** The results of the `DeleteEvaluation` operation are irreversible.
  */
 export const deleteEvaluation: API.OperationMethod<
-  DeleteEvaluationInput,
+  DeleteEvaluationInput & RegionInput,
   DeleteEvaluationOutput,
   DeleteEvaluationError,
   Credentials | HttpClient.HttpClient
@@ -1154,7 +1155,7 @@ export type DeleteMLModelError =
  * **Caution:** The result of the `DeleteMLModel` operation is irreversible.
  */
 export const deleteMLModel: API.OperationMethod<
-  DeleteMLModelInput,
+  DeleteMLModelInput & RegionInput,
   DeleteMLModelOutput,
   DeleteMLModelError,
   Credentials | HttpClient.HttpClient
@@ -1178,7 +1179,7 @@ export type DeleteRealtimeEndpointError =
  * Deletes a real time endpoint of an `MLModel`.
  */
 export const deleteRealtimeEndpoint: API.OperationMethod<
-  DeleteRealtimeEndpointInput,
+  DeleteRealtimeEndpointInput & RegionInput,
   DeleteRealtimeEndpointOutput,
   DeleteRealtimeEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1205,7 +1206,7 @@ export type DeleteTagsError =
  * If you specify a tag that doesn't exist, Amazon ML ignores it.
  */
 export const deleteTags: API.OperationMethod<
-  DeleteTagsInput,
+  DeleteTagsInput & RegionInput,
   DeleteTagsOutput,
   DeleteTagsError,
   Credentials | HttpClient.HttpClient
@@ -1233,7 +1234,7 @@ export type DescribeBatchPredictionsError =
  * Returns a list of `BatchPrediction` operations that match the search criteria in the request.
  */
 export const describeBatchPredictions: API.PaginatedOperationMethod<
-  DescribeBatchPredictionsInput,
+  DescribeBatchPredictionsInput & RegionInput,
   DescribeBatchPredictionsOutput,
   DescribeBatchPredictionsError,
   Credentials | HttpClient.HttpClient,
@@ -1263,7 +1264,7 @@ export type DescribeDataSourcesError =
  * Returns a list of `DataSource` that match the search criteria in the request.
  */
 export const describeDataSources: API.PaginatedOperationMethod<
-  DescribeDataSourcesInput,
+  DescribeDataSourcesInput & RegionInput,
   DescribeDataSourcesOutput,
   DescribeDataSourcesError,
   Credentials | HttpClient.HttpClient,
@@ -1293,7 +1294,7 @@ export type DescribeEvaluationsError =
  * Returns a list of `DescribeEvaluations` that match the search criteria in the request.
  */
 export const describeEvaluations: API.PaginatedOperationMethod<
-  DescribeEvaluationsInput,
+  DescribeEvaluationsInput & RegionInput,
   DescribeEvaluationsOutput,
   DescribeEvaluationsError,
   Credentials | HttpClient.HttpClient,
@@ -1320,7 +1321,7 @@ export type DescribeMLModelsError = InternalServerException | InvalidInputExcept
  * Returns a list of `MLModel` that match the search criteria in the request.
  */
 export const describeMLModels: API.PaginatedOperationMethod<
-  DescribeMLModelsInput,
+  DescribeMLModelsInput & RegionInput,
   DescribeMLModelsOutput,
   DescribeMLModelsError,
   Credentials | HttpClient.HttpClient,
@@ -1351,7 +1352,7 @@ export type DescribeTagsError =
  * Describes one or more of the tags for your Amazon ML object.
  */
 export const describeTags: API.OperationMethod<
-  DescribeTagsInput,
+  DescribeTagsInput & RegionInput,
   DescribeTagsOutput,
   DescribeTagsError,
   Credentials | HttpClient.HttpClient
@@ -1376,7 +1377,7 @@ export type GetBatchPredictionError =
  * `Batch Prediction` request.
  */
 export const getBatchPrediction: API.OperationMethod<
-  GetBatchPredictionInput,
+  GetBatchPredictionInput & RegionInput,
   GetBatchPredictionOutput,
   GetBatchPredictionError,
   Credentials | HttpClient.HttpClient
@@ -1403,7 +1404,7 @@ export type GetDataSourceError =
  * adds the schema description and the list of files pointed to by the DataSource to the normal format.
  */
 export const getDataSource: API.OperationMethod<
-  GetDataSourceInput,
+  GetDataSourceInput & RegionInput,
   GetDataSourceOutput,
   GetDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -1427,7 +1428,7 @@ export type GetEvaluationError =
  * Returns an `Evaluation` that includes metadata as well as the current status of the `Evaluation`.
  */
 export const getEvaluation: API.OperationMethod<
-  GetEvaluationInput,
+  GetEvaluationInput & RegionInput,
   GetEvaluationOutput,
   GetEvaluationError,
   Credentials | HttpClient.HttpClient
@@ -1453,7 +1454,7 @@ export type GetMLModelError =
  * `GetMLModel` provides results in normal or verbose format.
  */
 export const getMLModel: API.OperationMethod<
-  GetMLModelInput,
+  GetMLModelInput & RegionInput,
   GetMLModelOutput,
   GetMLModelError,
   Credentials | HttpClient.HttpClient
@@ -1482,7 +1483,7 @@ export type PredictError =
  * response parameter is populated depends on the type of model requested.
  */
 export const predict: API.OperationMethod<
-  PredictInput,
+  PredictInput & RegionInput,
   PredictOutput,
   PredictError,
   Credentials | HttpClient.HttpClient
@@ -1514,7 +1515,7 @@ export type UpdateBatchPredictionError =
  * You can use the `GetBatchPrediction` operation to view the contents of the updated data element.
  */
 export const updateBatchPrediction: API.OperationMethod<
-  UpdateBatchPredictionInput,
+  UpdateBatchPredictionInput & RegionInput,
   UpdateBatchPredictionOutput,
   UpdateBatchPredictionError,
   Credentials | HttpClient.HttpClient
@@ -1540,7 +1541,7 @@ export type UpdateDataSourceError =
  * You can use the `GetDataSource` operation to view the contents of the updated data element.
  */
 export const updateDataSource: API.OperationMethod<
-  UpdateDataSourceInput,
+  UpdateDataSourceInput & RegionInput,
   UpdateDataSourceOutput,
   UpdateDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -1566,7 +1567,7 @@ export type UpdateEvaluationError =
  * You can use the `GetEvaluation` operation to view the contents of the updated data element.
  */
 export const updateEvaluation: API.OperationMethod<
-  UpdateEvaluationInput,
+  UpdateEvaluationInput & RegionInput,
   UpdateEvaluationOutput,
   UpdateEvaluationError,
   Credentials | HttpClient.HttpClient
@@ -1592,7 +1593,7 @@ export type UpdateMLModelError =
  * You can use the `GetMLModel` operation to view the contents of the updated data element.
  */
 export const updateMLModel: API.OperationMethod<
-  UpdateMLModelInput,
+  UpdateMLModelInput & RegionInput,
   UpdateMLModelOutput,
   UpdateMLModelError,
   Credentials | HttpClient.HttpClient

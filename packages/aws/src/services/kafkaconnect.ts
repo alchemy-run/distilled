@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -132,7 +133,7 @@ export class InternalServerErrorException
     "InternalServerErrorException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class NotFoundException
   extends /*@__PURE__*/ S.TaggedError<NotFoundException>()(
     "NotFoundException",
@@ -144,13 +145,13 @@ export class ServiceUnavailableException
     "ServiceUnavailableException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(503),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class TooManyRequestsException
   extends /*@__PURE__*/ S.TaggedError<TooManyRequestsException>()(
     "TooManyRequestsException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class UnauthorizedException
   extends /*@__PURE__*/ S.TaggedError<UnauthorizedException>()(
     "UnauthorizedException",
@@ -169,25 +170,25 @@ export interface AutoScaling {
   maxWorkerCount: number;
   mcuCount: number;
   minWorkerCount: number;
-  scaleInPolicy?: ScaleInPolicy;
-  scaleOutPolicy?: ScaleOutPolicy;
-  maxAutoscalingTaskCount?: number;
+  scaleInPolicy?: ScaleInPolicy | undefined;
+  scaleOutPolicy?: ScaleOutPolicy | undefined;
+  maxAutoscalingTaskCount?: number | undefined;
 }
 export interface ProvisionedCapacity {
   mcuCount: number;
   workerCount: number;
 }
 export interface Capacity {
-  autoScaling?: AutoScaling;
-  provisionedCapacity?: ProvisionedCapacity;
+  autoScaling?: AutoScaling | undefined;
+  provisionedCapacity?: ProvisionedCapacity | undefined;
 }
 export type ConnectorConfiguration = { [key: string]: string | undefined };
 export type __stringMax1024 = string;
 export type __stringMin1Max128 = string;
 export type __listOf__string = string[];
-const __listOf__string = /*@__PURE__*/ __L.at(__c24, 0);
+const __listOf__string = /*@__PURE__*/ __L.at(__c27, 0);
 export interface Vpc {
-  securityGroups?: string[];
+  securityGroups?: string[] | undefined;
   subnets: string[];
 }
 export interface ApacheKafkaCluster {
@@ -207,21 +208,21 @@ export interface KafkaClusterEncryptionInTransit {
 }
 export interface CloudWatchLogsLogDelivery {
   enabled: boolean;
-  logGroup?: string;
+  logGroup?: string | undefined;
 }
 export interface FirehoseLogDelivery {
-  deliveryStream?: string;
+  deliveryStream?: string | undefined;
   enabled: boolean;
 }
 export interface S3LogDelivery {
-  bucket?: string;
+  bucket?: string | undefined;
   enabled: boolean;
-  prefix?: string;
+  prefix?: string | undefined;
 }
 export interface WorkerLogDelivery {
-  cloudWatchLogs?: CloudWatchLogsLogDelivery;
-  firehose?: FirehoseLogDelivery;
-  s3?: S3LogDelivery;
+  cloudWatchLogs?: CloudWatchLogsLogDelivery | undefined;
+  firehose?: FirehoseLogDelivery | undefined;
+  s3?: S3LogDelivery | undefined;
 }
 export interface LogDelivery {
   workerLogDelivery: WorkerLogDelivery;
@@ -236,7 +237,7 @@ export interface Plugin {
   customPlugin: CustomPlugin;
 }
 export type __listOfPlugin = Plugin[];
-const __listOfPlugin = /*@__PURE__*/ __L.at(__c23, 14);
+const __listOfPlugin = /*@__PURE__*/ __L.at(__c28, 4);
 export interface WorkerConfiguration {
   revision: number;
   workerConfigurationArn: string;
@@ -247,190 +248,190 @@ export type Tags = { [key: string]: string | undefined };
 export interface CreateConnectorRequest {
   capacity: Capacity;
   connectorConfiguration: { [key: string]: string | undefined };
-  connectorDescription?: string;
+  connectorDescription?: string | undefined;
   connectorName: string;
   kafkaCluster: KafkaCluster;
   kafkaClusterClientAuthentication: KafkaClusterClientAuthentication;
   kafkaClusterEncryptionInTransit: KafkaClusterEncryptionInTransit;
   kafkaConnectVersion: string;
-  logDelivery?: LogDelivery;
-  networkType?: string;
+  logDelivery?: LogDelivery | undefined;
+  networkType?: string | undefined;
   plugins: Plugin[];
   serviceExecutionRoleArn: string;
-  workerConfiguration?: WorkerConfiguration;
-  tags?: { [key: string]: string | undefined };
+  workerConfiguration?: WorkerConfiguration | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ConnectorState = string;
 export interface CreateConnectorResponse {
-  connectorArn?: string;
-  connectorName?: string;
-  connectorState?: string;
+  connectorArn?: string | undefined;
+  connectorName?: string | undefined;
+  connectorState?: string | undefined;
 }
 export type CustomPluginContentType = string;
 export interface S3Location {
   bucketArn: string;
   fileKey: string;
-  objectVersion?: string;
+  objectVersion?: string | undefined;
 }
 export interface CustomPluginLocation {
   s3Location: S3Location;
 }
 export interface CreateCustomPluginRequest {
   contentType: string;
-  description?: string;
+  description?: string | undefined;
   location: CustomPluginLocation;
   name: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type CustomPluginState = string;
 export interface CreateCustomPluginResponse {
-  customPluginArn?: string;
-  customPluginState?: string;
-  name?: string;
-  revision?: number;
+  customPluginArn?: string | undefined;
+  customPluginState?: string | undefined;
+  name?: string | undefined;
+  revision?: number | undefined;
 }
 export type __sensitiveString = string | redacted.Redacted<string>;
 export interface CreateWorkerConfigurationRequest {
-  description?: string;
+  description?: string | undefined;
   name: string;
   propertiesFileContent: string | redacted.Redacted<string>;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type __timestampIso8601 = Date;
 export interface WorkerConfigurationRevisionSummary {
-  creationTime?: Date;
-  description?: string;
-  revision?: number;
+  creationTime?: Date | undefined;
+  description?: string | undefined;
+  revision?: number | undefined;
 }
 export type WorkerConfigurationState = string;
 export interface CreateWorkerConfigurationResponse {
-  creationTime?: Date;
-  latestRevision?: WorkerConfigurationRevisionSummary;
-  name?: string;
-  workerConfigurationArn?: string;
-  workerConfigurationState?: string;
+  creationTime?: Date | undefined;
+  latestRevision?: WorkerConfigurationRevisionSummary | undefined;
+  name?: string | undefined;
+  workerConfigurationArn?: string | undefined;
+  workerConfigurationState?: string | undefined;
 }
 export interface DeleteConnectorRequest {
   connectorArn: string;
-  currentVersion?: string;
+  currentVersion?: string | undefined;
 }
 export interface DeleteConnectorResponse {
-  connectorArn?: string;
-  connectorState?: string;
+  connectorArn?: string | undefined;
+  connectorState?: string | undefined;
 }
 export interface DeleteCustomPluginRequest {
   customPluginArn: string;
 }
 export interface DeleteCustomPluginResponse {
-  customPluginArn?: string;
-  customPluginState?: string;
+  customPluginArn?: string | undefined;
+  customPluginState?: string | undefined;
 }
 export interface DeleteWorkerConfigurationRequest {
   workerConfigurationArn: string;
 }
 export interface DeleteWorkerConfigurationResponse {
-  workerConfigurationArn?: string;
-  workerConfigurationState?: string;
+  workerConfigurationArn?: string | undefined;
+  workerConfigurationState?: string | undefined;
 }
 export interface DescribeConnectorRequest {
   connectorArn: string;
 }
 export interface ScaleInPolicyDescription {
-  cpuUtilizationPercentage?: number;
+  cpuUtilizationPercentage?: number | undefined;
 }
 export interface ScaleOutPolicyDescription {
-  cpuUtilizationPercentage?: number;
+  cpuUtilizationPercentage?: number | undefined;
 }
 export interface AutoScalingDescription {
-  maxWorkerCount?: number;
-  mcuCount?: number;
-  minWorkerCount?: number;
-  scaleInPolicy?: ScaleInPolicyDescription;
-  scaleOutPolicy?: ScaleOutPolicyDescription;
-  maxAutoscalingTaskCount?: number;
+  maxWorkerCount?: number | undefined;
+  mcuCount?: number | undefined;
+  minWorkerCount?: number | undefined;
+  scaleInPolicy?: ScaleInPolicyDescription | undefined;
+  scaleOutPolicy?: ScaleOutPolicyDescription | undefined;
+  maxAutoscalingTaskCount?: number | undefined;
 }
 export interface ProvisionedCapacityDescription {
-  mcuCount?: number;
-  workerCount?: number;
+  mcuCount?: number | undefined;
+  workerCount?: number | undefined;
 }
 export interface CapacityDescription {
-  autoScaling?: AutoScalingDescription;
-  provisionedCapacity?: ProvisionedCapacityDescription;
+  autoScaling?: AutoScalingDescription | undefined;
+  provisionedCapacity?: ProvisionedCapacityDescription | undefined;
 }
 export interface VpcDescription {
-  securityGroups?: string[];
-  subnets?: string[];
+  securityGroups?: string[] | undefined;
+  subnets?: string[] | undefined;
 }
 export interface ApacheKafkaClusterDescription {
-  bootstrapServers?: string;
-  vpc?: VpcDescription;
+  bootstrapServers?: string | undefined;
+  vpc?: VpcDescription | undefined;
 }
 export interface KafkaClusterDescription {
-  apacheKafkaCluster?: ApacheKafkaClusterDescription;
+  apacheKafkaCluster?: ApacheKafkaClusterDescription | undefined;
 }
 export interface KafkaClusterClientAuthenticationDescription {
-  authenticationType?: string;
+  authenticationType?: string | undefined;
 }
 export interface KafkaClusterEncryptionInTransitDescription {
-  encryptionType?: string;
+  encryptionType?: string | undefined;
 }
 export interface CloudWatchLogsLogDeliveryDescription {
-  enabled?: boolean;
-  logGroup?: string;
+  enabled?: boolean | undefined;
+  logGroup?: string | undefined;
 }
 export interface FirehoseLogDeliveryDescription {
-  deliveryStream?: string;
-  enabled?: boolean;
+  deliveryStream?: string | undefined;
+  enabled?: boolean | undefined;
 }
 export interface S3LogDeliveryDescription {
-  bucket?: string;
-  enabled?: boolean;
-  prefix?: string;
+  bucket?: string | undefined;
+  enabled?: boolean | undefined;
+  prefix?: string | undefined;
 }
 export interface WorkerLogDeliveryDescription {
-  cloudWatchLogs?: CloudWatchLogsLogDeliveryDescription;
-  firehose?: FirehoseLogDeliveryDescription;
-  s3?: S3LogDeliveryDescription;
+  cloudWatchLogs?: CloudWatchLogsLogDeliveryDescription | undefined;
+  firehose?: FirehoseLogDeliveryDescription | undefined;
+  s3?: S3LogDeliveryDescription | undefined;
 }
 export interface LogDeliveryDescription {
-  workerLogDelivery?: WorkerLogDeliveryDescription;
+  workerLogDelivery?: WorkerLogDeliveryDescription | undefined;
 }
 export interface CustomPluginDescription {
-  customPluginArn?: string;
-  revision?: number;
+  customPluginArn?: string | undefined;
+  revision?: number | undefined;
 }
 export interface PluginDescription {
-  customPlugin?: CustomPluginDescription;
+  customPlugin?: CustomPluginDescription | undefined;
 }
 export type __listOfPluginDescription = PluginDescription[];
-const __listOfPluginDescription = /*@__PURE__*/ __L.at(__c8, 12);
+const __listOfPluginDescription = /*@__PURE__*/ __L.at(__c7, 6);
 export interface WorkerConfigurationDescription {
-  revision?: number;
-  workerConfigurationArn?: string;
+  revision?: number | undefined;
+  workerConfigurationArn?: string | undefined;
 }
 export interface StateDescription {
-  code?: string;
-  message?: string;
+  code?: string | undefined;
+  message?: string | undefined;
 }
 export interface DescribeConnectorResponse {
-  capacity?: CapacityDescription;
-  connectorArn?: string;
-  connectorConfiguration?: { [key: string]: string | undefined };
-  connectorDescription?: string;
-  connectorName?: string;
-  connectorState?: string;
-  creationTime?: Date;
-  currentVersion?: string;
-  kafkaCluster?: KafkaClusterDescription;
-  kafkaClusterClientAuthentication?: KafkaClusterClientAuthenticationDescription;
-  kafkaClusterEncryptionInTransit?: KafkaClusterEncryptionInTransitDescription;
-  kafkaConnectVersion?: string;
-  logDelivery?: LogDeliveryDescription;
-  networkType?: string;
-  plugins?: PluginDescription[];
-  serviceExecutionRoleArn?: string;
-  workerConfiguration?: WorkerConfigurationDescription;
-  stateDescription?: StateDescription;
+  capacity?: CapacityDescription | undefined;
+  connectorArn?: string | undefined;
+  connectorConfiguration?: { [key: string]: string | undefined } | undefined;
+  connectorDescription?: string | undefined;
+  connectorName?: string | undefined;
+  connectorState?: string | undefined;
+  creationTime?: Date | undefined;
+  currentVersion?: string | undefined;
+  kafkaCluster?: KafkaClusterDescription | undefined;
+  kafkaClusterClientAuthentication?: KafkaClusterClientAuthenticationDescription | undefined;
+  kafkaClusterEncryptionInTransit?: KafkaClusterEncryptionInTransitDescription | undefined;
+  kafkaConnectVersion?: string | undefined;
+  logDelivery?: LogDeliveryDescription | undefined;
+  networkType?: string | undefined;
+  plugins?: PluginDescription[] | undefined;
+  serviceExecutionRoleArn?: string | undefined;
+  workerConfiguration?: WorkerConfigurationDescription | undefined;
+  stateDescription?: StateDescription | undefined;
 }
 export interface DescribeConnectorOperationRequest {
   connectorOperationArn: string;
@@ -440,176 +441,193 @@ export type ConnectorOperationType = string;
 export type ConnectorOperationStepType = string;
 export type ConnectorOperationStepState = string;
 export interface ConnectorOperationStep {
-  stepType?: string;
-  stepState?: string;
+  stepType?: string | undefined;
+  stepState?: string | undefined;
 }
 export type __listOfConnectorOperationStep = ConnectorOperationStep[];
 const __listOfConnectorOperationStep = /*@__PURE__*/ __L.at(__c9, 2);
 export interface WorkerSetting {
-  capacity?: CapacityDescription;
+  capacity?: CapacityDescription | undefined;
+  plugins?: PluginDescription[] | undefined;
+  workerConfiguration?: WorkerConfigurationDescription | undefined;
+  useDefaultWorkerConfiguration?: boolean | undefined;
 }
 export interface DescribeConnectorOperationResponse {
-  connectorArn?: string;
-  connectorOperationArn?: string;
-  connectorOperationState?: string;
-  connectorOperationType?: string;
-  operationSteps?: ConnectorOperationStep[];
-  originWorkerSetting?: WorkerSetting;
-  originConnectorConfiguration?: { [key: string]: string | undefined };
-  targetWorkerSetting?: WorkerSetting;
-  targetConnectorConfiguration?: { [key: string]: string | undefined };
-  errorInfo?: StateDescription;
-  creationTime?: Date;
-  endTime?: Date;
+  connectorArn?: string | undefined;
+  connectorOperationArn?: string | undefined;
+  connectorOperationState?: string | undefined;
+  connectorOperationType?: string | undefined;
+  operationSteps?: ConnectorOperationStep[] | undefined;
+  originWorkerSetting?: WorkerSetting | undefined;
+  originConnectorConfiguration?: { [key: string]: string | undefined } | undefined;
+  targetWorkerSetting?: WorkerSetting | undefined;
+  targetConnectorConfiguration?: { [key: string]: string | undefined } | undefined;
+  errorInfo?: StateDescription | undefined;
+  creationTime?: Date | undefined;
+  endTime?: Date | undefined;
 }
 export interface DescribeCustomPluginRequest {
   customPluginArn: string;
 }
 export interface CustomPluginFileDescription {
-  fileMd5?: string;
-  fileSize?: number;
+  fileMd5?: string | undefined;
+  fileSize?: number | undefined;
 }
 export interface S3LocationDescription {
-  bucketArn?: string;
-  fileKey?: string;
-  objectVersion?: string;
+  bucketArn?: string | undefined;
+  fileKey?: string | undefined;
+  objectVersion?: string | undefined;
 }
 export interface CustomPluginLocationDescription {
-  s3Location?: S3LocationDescription;
+  s3Location?: S3LocationDescription | undefined;
 }
 export interface CustomPluginRevisionSummary {
-  contentType?: string;
-  creationTime?: Date;
-  description?: string;
-  fileDescription?: CustomPluginFileDescription;
-  location?: CustomPluginLocationDescription;
-  revision?: number;
+  contentType?: string | undefined;
+  creationTime?: Date | undefined;
+  description?: string | undefined;
+  fileDescription?: CustomPluginFileDescription | undefined;
+  location?: CustomPluginLocationDescription | undefined;
+  revision?: number | undefined;
 }
 export interface DescribeCustomPluginResponse {
-  creationTime?: Date;
-  customPluginArn?: string;
-  customPluginState?: string;
-  description?: string;
-  latestRevision?: CustomPluginRevisionSummary;
-  name?: string;
-  stateDescription?: StateDescription;
+  creationTime?: Date | undefined;
+  customPluginArn?: string | undefined;
+  customPluginState?: string | undefined;
+  description?: string | undefined;
+  latestRevision?: CustomPluginRevisionSummary | undefined;
+  name?: string | undefined;
+  stateDescription?: StateDescription | undefined;
 }
 export interface DescribeWorkerConfigurationRequest {
   workerConfigurationArn: string;
 }
 export interface WorkerConfigurationRevisionDescription {
-  creationTime?: Date;
-  description?: string;
-  propertiesFileContent?: string | redacted.Redacted<string>;
-  revision?: number;
+  creationTime?: Date | undefined;
+  description?: string | undefined;
+  propertiesFileContent?: string | redacted.Redacted<string> | undefined;
+  revision?: number | undefined;
 }
 export interface DescribeWorkerConfigurationResponse {
-  creationTime?: Date;
-  description?: string;
-  latestRevision?: WorkerConfigurationRevisionDescription;
-  name?: string;
-  workerConfigurationArn?: string;
-  workerConfigurationState?: string;
+  creationTime?: Date | undefined;
+  description?: string | undefined;
+  latestRevision?: WorkerConfigurationRevisionDescription | undefined;
+  name?: string | undefined;
+  workerConfigurationArn?: string | undefined;
+  workerConfigurationState?: string | undefined;
 }
 export type MaxResults = number;
 export interface ListConnectorOperationsRequest {
   connectorArn: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ConnectorOperationSummary {
-  connectorOperationArn?: string;
-  connectorOperationType?: string;
-  connectorOperationState?: string;
-  creationTime?: Date;
-  endTime?: Date;
+  connectorOperationArn?: string | undefined;
+  connectorOperationType?: string | undefined;
+  connectorOperationState?: string | undefined;
+  creationTime?: Date | undefined;
+  endTime?: Date | undefined;
 }
 export type __listOfConnectorOperationSummary = ConnectorOperationSummary[];
 const __listOfConnectorOperationSummary = /*@__PURE__*/ __L.at(__c13, 2);
 export interface ListConnectorOperationsResponse {
-  connectorOperations?: ConnectorOperationSummary[];
-  nextToken?: string;
+  connectorOperations?: ConnectorOperationSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListConnectorsRequest {
-  connectorNamePrefix?: string;
-  maxResults?: number;
-  nextToken?: string;
+  connectorNamePrefix?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ConnectorSummary {
-  capacity?: CapacityDescription;
-  connectorArn?: string;
-  connectorDescription?: string;
-  connectorName?: string;
-  connectorState?: string;
-  creationTime?: Date;
-  currentVersion?: string;
-  kafkaCluster?: KafkaClusterDescription;
-  kafkaClusterClientAuthentication?: KafkaClusterClientAuthenticationDescription;
-  kafkaClusterEncryptionInTransit?: KafkaClusterEncryptionInTransitDescription;
-  kafkaConnectVersion?: string;
-  logDelivery?: LogDeliveryDescription;
-  networkType?: string;
-  plugins?: PluginDescription[];
-  serviceExecutionRoleArn?: string;
-  workerConfiguration?: WorkerConfigurationDescription;
+  capacity?: CapacityDescription | undefined;
+  connectorArn?: string | undefined;
+  connectorDescription?: string | undefined;
+  connectorName?: string | undefined;
+  connectorState?: string | undefined;
+  creationTime?: Date | undefined;
+  currentVersion?: string | undefined;
+  kafkaCluster?: KafkaClusterDescription | undefined;
+  kafkaClusterClientAuthentication?: KafkaClusterClientAuthenticationDescription | undefined;
+  kafkaClusterEncryptionInTransit?: KafkaClusterEncryptionInTransitDescription | undefined;
+  kafkaConnectVersion?: string | undefined;
+  logDelivery?: LogDeliveryDescription | undefined;
+  networkType?: string | undefined;
+  plugins?: PluginDescription[] | undefined;
+  serviceExecutionRoleArn?: string | undefined;
+  workerConfiguration?: WorkerConfigurationDescription | undefined;
 }
 export type __listOfConnectorSummary = ConnectorSummary[];
 const __listOfConnectorSummary = /*@__PURE__*/ __L.at(__c14, 2);
 export interface ListConnectorsResponse {
-  connectors?: ConnectorSummary[];
-  nextToken?: string;
+  connectors?: ConnectorSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListCustomPluginsRequest {
-  maxResults?: number;
-  nextToken?: string;
-  namePrefix?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  namePrefix?: string | undefined;
 }
 export interface CustomPluginSummary {
-  creationTime?: Date;
-  customPluginArn?: string;
-  customPluginState?: string;
-  description?: string;
-  latestRevision?: CustomPluginRevisionSummary;
-  name?: string;
+  creationTime?: Date | undefined;
+  customPluginArn?: string | undefined;
+  customPluginState?: string | undefined;
+  description?: string | undefined;
+  latestRevision?: CustomPluginRevisionSummary | undefined;
+  name?: string | undefined;
 }
 export type __listOfCustomPluginSummary = CustomPluginSummary[];
 const __listOfCustomPluginSummary = /*@__PURE__*/ __L.at(__c15, 2);
 export interface ListCustomPluginsResponse {
-  customPlugins?: CustomPluginSummary[];
-  nextToken?: string;
+  customPlugins?: CustomPluginSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListWorkerConfigurationsRequest {
-  maxResults?: number;
-  nextToken?: string;
-  namePrefix?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  namePrefix?: string | undefined;
 }
 export interface WorkerConfigurationSummary {
-  creationTime?: Date;
-  description?: string;
-  latestRevision?: WorkerConfigurationRevisionSummary;
-  name?: string;
-  workerConfigurationArn?: string;
-  workerConfigurationState?: string;
+  creationTime?: Date | undefined;
+  description?: string | undefined;
+  latestRevision?: WorkerConfigurationRevisionSummary | undefined;
+  name?: string | undefined;
+  workerConfigurationArn?: string | undefined;
+  workerConfigurationState?: string | undefined;
 }
 export type __listOfWorkerConfigurationSummary = WorkerConfigurationSummary[];
 const __listOfWorkerConfigurationSummary = /*@__PURE__*/ __L.at(__c17, 2);
 export interface ListWorkerConfigurationsResponse {
-  nextToken?: string;
-  workerConfigurations?: WorkerConfigurationSummary[];
+  nextToken?: string | undefined;
+  workerConfigurations?: WorkerConfigurationSummary[] | undefined;
+}
+export interface PauseConnectorRequest {
+  connectorArn: string;
+}
+export interface PauseConnectorResponse {
+  connectorArn?: string | undefined;
+  connectorOperationArn?: string | undefined;
 }
 export interface RestartConnectorRequest {
   connectorArn: string;
-  onlyFailedTasks?: boolean;
+  onlyFailedTasks?: boolean | undefined;
 }
 export interface RestartConnectorResponse {
-  connectorArn?: string;
-  connectorOperationArn?: string;
+  connectorArn?: string | undefined;
+  connectorOperationArn?: string | undefined;
+}
+export interface ResumeConnectorRequest {
+  connectorArn: string;
+}
+export interface ResumeConnectorResponse {
+  connectorArn?: string | undefined;
+  connectorOperationArn?: string | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -635,27 +653,44 @@ export interface AutoScalingUpdate {
   minWorkerCount: number;
   scaleInPolicy: ScaleInPolicyUpdate;
   scaleOutPolicy: ScaleOutPolicyUpdate;
-  maxAutoscalingTaskCount?: number;
+  maxAutoscalingTaskCount?: number | undefined;
 }
 export interface ProvisionedCapacityUpdate {
   mcuCount: number;
   workerCount: number;
 }
 export interface CapacityUpdate {
-  autoScaling?: AutoScalingUpdate;
-  provisionedCapacity?: ProvisionedCapacityUpdate;
+  autoScaling?: AutoScalingUpdate | undefined;
+  provisionedCapacity?: ProvisionedCapacityUpdate | undefined;
 }
 export type ConnectorConfigurationUpdate = { [key: string]: string | undefined };
+export interface CustomPluginUpdate {
+  customPluginArn: string;
+  revision: number;
+}
+export interface PluginUpdate {
+  customPlugin: CustomPluginUpdate;
+}
+export type __listOfPluginUpdate = PluginUpdate[];
+const __listOfPluginUpdate = __listOfPlugin as any as S.Schema<__listOfPluginUpdate>;
+export interface WorkerConfigurationUpdate {
+  revision: number;
+  workerConfigurationArn: string;
+}
 export interface UpdateConnectorRequest {
-  capacity?: CapacityUpdate;
-  connectorConfiguration?: { [key: string]: string | undefined };
+  capacity?: CapacityUpdate | undefined;
+  connectorConfiguration?: { [key: string]: string | undefined } | undefined;
+  skipHealthValidation?: boolean | undefined;
   connectorArn: string;
   currentVersion: string;
+  plugins?: PluginUpdate[] | undefined;
+  workerConfiguration?: WorkerConfigurationUpdate | undefined;
+  useDefaultWorkerConfiguration?: boolean | undefined;
 }
 export interface UpdateConnectorResponse {
-  connectorArn?: string;
-  connectorState?: string;
-  connectorOperationArn?: string;
+  connectorArn?: string | undefined;
+  connectorState?: string | undefined;
+  connectorOperationArn?: string | undefined;
 }
 export type CreateConnectorError =
   | BadRequestException
@@ -671,13 +706,13 @@ export type CreateConnectorError =
  * Creates a connector using the specified properties.
  */
 export const createConnector: API.OperationMethod<
-  CreateConnectorRequest,
+  CreateConnectorRequest & RegionInput,
   CreateConnectorResponse,
   CreateConnectorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c23, 16) as any as S.Schema<CreateConnectorRequest>,
-  output: __S(753, __c23, 17) as any as S.Schema<CreateConnectorResponse>,
+  input: __S(428, __c26, 12) as any as S.Schema<CreateConnectorRequest>,
+  output: __S(429, __c26, 13) as any as S.Schema<CreateConnectorResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -709,13 +744,13 @@ export type CreateCustomPluginError =
  * Creates a custom plugin using the specified properties.
  */
 export const createCustomPlugin: API.OperationMethod<
-  CreateCustomPluginRequest,
+  CreateCustomPluginRequest & RegionInput,
   CreateCustomPluginResponse,
   CreateCustomPluginError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(866, __c27, 2) as any as S.Schema<CreateCustomPluginRequest>,
-  output: __S(867, __c27, 3) as any as S.Schema<CreateCustomPluginResponse>,
+  input: __S(482, __c30, 2) as any as S.Schema<CreateCustomPluginRequest>,
+  output: __S(483, __c30, 3) as any as S.Schema<CreateCustomPluginResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -747,7 +782,7 @@ export type CreateWorkerConfigurationError =
  * Creates a worker configuration using the specified properties.
  */
 export const createWorkerConfiguration: API.OperationMethod<
-  CreateWorkerConfigurationRequest,
+  CreateWorkerConfigurationRequest & RegionInput,
   CreateWorkerConfigurationResponse,
   CreateWorkerConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -784,13 +819,13 @@ export type DeleteConnectorError =
  * Deletes the specified connector.
  */
 export const deleteConnector: API.OperationMethod<
-  DeleteConnectorRequest,
+  DeleteConnectorRequest & RegionInput,
   DeleteConnectorResponse,
   DeleteConnectorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<DeleteConnectorRequest>,
-  output: __S(65, __c2, 1) as any as S.Schema<DeleteConnectorResponse>,
+  input: __S(32, __c2, 0) as any as S.Schema<DeleteConnectorRequest>,
+  output: __S(33, __c2, 1) as any as S.Schema<DeleteConnectorResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -820,13 +855,13 @@ export type DeleteCustomPluginError =
  * Deletes a custom plugin.
  */
 export const deleteCustomPlugin: API.OperationMethod<
-  DeleteCustomPluginRequest,
+  DeleteCustomPluginRequest & RegionInput,
   DeleteCustomPluginResponse,
   DeleteCustomPluginError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<DeleteCustomPluginRequest>,
-  output: __S(97, __c3, 1) as any as S.Schema<DeleteCustomPluginResponse>,
+  input: __S(48, __c3, 0) as any as S.Schema<DeleteCustomPluginRequest>,
+  output: __S(49, __c3, 1) as any as S.Schema<DeleteCustomPluginResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -856,13 +891,13 @@ export type DeleteWorkerConfigurationError =
  * Deletes the specified worker configuration.
  */
 export const deleteWorkerConfiguration: API.OperationMethod<
-  DeleteWorkerConfigurationRequest,
+  DeleteWorkerConfigurationRequest & RegionInput,
   DeleteWorkerConfigurationResponse,
   DeleteWorkerConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<DeleteWorkerConfigurationRequest>,
-  output: __S(129, __c4, 1) as any as S.Schema<DeleteWorkerConfigurationResponse>,
+  input: __S(64, __c4, 0) as any as S.Schema<DeleteWorkerConfigurationRequest>,
+  output: __S(65, __c4, 1) as any as S.Schema<DeleteWorkerConfigurationResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -892,13 +927,13 @@ export type DescribeConnectorError =
  * Returns summary information about the connector.
  */
 export const describeConnector: API.OperationMethod<
-  DescribeConnectorRequest,
+  DescribeConnectorRequest & RegionInput,
   DescribeConnectorResponse,
   DescribeConnectorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<DescribeConnectorRequest>,
-  output: __S(161, __c5, 1) as any as S.Schema<DescribeConnectorResponse>,
+  input: __S(80, __c5, 0) as any as S.Schema<DescribeConnectorRequest>,
+  output: __S(81, __c5, 1) as any as S.Schema<DescribeConnectorResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -928,13 +963,13 @@ export type DescribeConnectorOperationError =
  * Returns information about the specified connector's operations.
  */
 export const describeConnectorOperation: API.OperationMethod<
-  DescribeConnectorOperationRequest,
+  DescribeConnectorOperationRequest & RegionInput,
   DescribeConnectorOperationResponse,
   DescribeConnectorOperationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<DescribeConnectorOperationRequest>,
-  output: __S(292, __c9, 4) as any as S.Schema<DescribeConnectorOperationResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<DescribeConnectorOperationRequest>,
+  output: __S(148, __c9, 4) as any as S.Schema<DescribeConnectorOperationResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -964,13 +999,13 @@ export type DescribeCustomPluginError =
  * A summary description of the custom plugin.
  */
 export const describeCustomPlugin: API.OperationMethod<
-  DescribeCustomPluginRequest,
+  DescribeCustomPluginRequest & RegionInput,
   DescribeCustomPluginResponse,
   DescribeCustomPluginError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<DescribeCustomPluginRequest>,
-  output: __S(321, __c10, 1) as any as S.Schema<DescribeCustomPluginResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<DescribeCustomPluginRequest>,
+  output: __S(161, __c10, 1) as any as S.Schema<DescribeCustomPluginResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1000,13 +1035,13 @@ export type DescribeWorkerConfigurationError =
  * Returns information about a worker configuration.
  */
 export const describeWorkerConfiguration: API.OperationMethod<
-  DescribeWorkerConfigurationRequest,
+  DescribeWorkerConfigurationRequest & RegionInput,
   DescribeWorkerConfigurationResponse,
   DescribeWorkerConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<DescribeWorkerConfigurationRequest>,
-  output: __S(386, __c12, 2) as any as S.Schema<DescribeWorkerConfigurationResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<DescribeWorkerConfigurationRequest>,
+  output: __S(194, __c12, 2) as any as S.Schema<DescribeWorkerConfigurationResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1036,14 +1071,14 @@ export type ListConnectorOperationsError =
  * Lists information about a connector's operation(s).
  */
 export const listConnectorOperations: API.PaginatedOperationMethod<
-  ListConnectorOperationsRequest,
+  ListConnectorOperationsRequest & RegionInput,
   ListConnectorOperationsResponse,
   ListConnectorOperationsError,
   Credentials | HttpClient.HttpClient,
   ConnectorOperationSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<ListConnectorOperationsRequest>,
-  output: __S(419, __c13, 3) as any as S.Schema<ListConnectorOperationsResponse>,
+  input: __S(208, __c13, 0) as any as S.Schema<ListConnectorOperationsRequest>,
+  output: __S(211, __c13, 3) as any as S.Schema<ListConnectorOperationsResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1079,14 +1114,14 @@ export type ListConnectorsError =
  * Returns a list of all the connectors in this account and Region. The list is limited to connectors whose name starts with the specified prefix. The response also includes a description of each of the listed connectors.
  */
 export const listConnectors: API.PaginatedOperationMethod<
-  ListConnectorsRequest,
+  ListConnectorsRequest & RegionInput,
   ListConnectorsResponse,
   ListConnectorsError,
   Credentials | HttpClient.HttpClient,
   ConnectorSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<ListConnectorsRequest>,
-  output: __S(451, __c14, 3) as any as S.Schema<ListConnectorsResponse>,
+  input: __S(224, __c14, 0) as any as S.Schema<ListConnectorsRequest>,
+  output: __S(227, __c14, 3) as any as S.Schema<ListConnectorsResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1122,14 +1157,14 @@ export type ListCustomPluginsError =
  * Returns a list of all of the custom plugins in this account and Region.
  */
 export const listCustomPlugins: API.PaginatedOperationMethod<
-  ListCustomPluginsRequest,
+  ListCustomPluginsRequest & RegionInput,
   ListCustomPluginsResponse,
   ListCustomPluginsError,
   Credentials | HttpClient.HttpClient,
   CustomPluginSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<ListCustomPluginsRequest>,
-  output: __S(483, __c15, 3) as any as S.Schema<ListCustomPluginsResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<ListCustomPluginsRequest>,
+  output: __S(243, __c15, 3) as any as S.Schema<ListCustomPluginsResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1165,13 +1200,13 @@ export type ListTagsForResourceError =
  * Lists all the tags attached to the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<ListTagsForResourceRequest>,
-  output: __S(513, __c16, 1) as any as S.Schema<ListTagsForResourceResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(257, __c16, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1201,14 +1236,14 @@ export type ListWorkerConfigurationsError =
  * Returns a list of all of the worker configurations in this account and Region.
  */
 export const listWorkerConfigurations: API.PaginatedOperationMethod<
-  ListWorkerConfigurationsRequest,
+  ListWorkerConfigurationsRequest & RegionInput,
   ListWorkerConfigurationsResponse,
   ListWorkerConfigurationsError,
   Credentials | HttpClient.HttpClient,
   WorkerConfigurationSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<ListWorkerConfigurationsRequest>,
-  output: __S(547, __c17, 3) as any as S.Schema<ListWorkerConfigurationsResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<ListWorkerConfigurationsRequest>,
+  output: __S(275, __c17, 3) as any as S.Schema<ListWorkerConfigurationsResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1231,6 +1266,44 @@ export const listWorkerConfigurations: API.PaginatedOperationMethod<
   span: "ListWorkerConfigurations",
 })) as any;
 
+export type PauseConnectorError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
+/**
+ * Pauses the specified connector. The operation runs asynchronously. To track the pause, pass the connector operation ARN from the response to `DescribeConnectorOperation`.
+ */
+export const pauseConnector: API.OperationMethod<
+  PauseConnectorRequest & RegionInput,
+  PauseConnectorResponse,
+  PauseConnectorError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(288, __c18, 0) as any as S.Schema<PauseConnectorRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<PauseConnectorResponse>,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "PauseConnector",
+  telemetry: TELEMETRY,
+  span: "PauseConnector",
+}));
+
 export type RestartConnectorError =
   | BadRequestException
   | ForbiddenException
@@ -1244,13 +1317,13 @@ export type RestartConnectorError =
  * Restarts the specified connector. By default, this operation restarts the connector and all of its tasks. This operation is asynchronous and returns a connector operation ARN that you can pass to `DescribeConnectorOperation` to track the state of the restart.
  */
 export const restartConnector: API.OperationMethod<
-  RestartConnectorRequest,
+  RestartConnectorRequest & RegionInput,
   RestartConnectorResponse,
   RestartConnectorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<RestartConnectorRequest>,
-  output: __S(577, __c18, 1) as any as S.Schema<RestartConnectorResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<RestartConnectorRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<RestartConnectorResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1267,6 +1340,44 @@ export const restartConnector: API.OperationMethod<
   span: "RestartConnector",
 }));
 
+export type ResumeConnectorError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
+/**
+ * Resumes the specified paused connector. The operation runs asynchronously. To track the resume, pass the connector operation ARN from the response to `DescribeConnectorOperation`.
+ */
+export const resumeConnector: API.OperationMethod<
+  ResumeConnectorRequest & RegionInput,
+  ResumeConnectorResponse,
+  ResumeConnectorError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(336, __c21, 0) as any as S.Schema<ResumeConnectorRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<ResumeConnectorResponse>,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ResumeConnector",
+  telemetry: TELEMETRY,
+  span: "ResumeConnector",
+}));
+
 export type TagResourceError =
   | BadRequestException
   | ConflictException
@@ -1281,13 +1392,13 @@ export type TagResourceError =
  * Attaches tags to the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<TagResourceRequest>,
-  output: __S(640, __c20, 0) as any as S.Schema<TagResourceResponse>,
+  input: __S(352, __c22, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -1318,13 +1429,13 @@ export type UntagResourceError =
  * Removes tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<UntagResourceRequest>,
-  output: __S(640, __c20, 0) as any as S.Schema<UntagResourceResponse>,
+  input: __S(384, __c24, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1351,16 +1462,16 @@ export type UpdateConnectorError =
   | UnauthorizedException
   | CommonErrors;
 /**
- * Updates the specified connector. For request body, specify only one parameter: either `capacity` or `connectorConfiguration`.
+ * Updates the specified connector. In the request body, you can update either the connector's worker setting or its connector configuration, but not both in the same request. To update the worker setting, specify one or more of `capacity`, `plugins`, `workerConfiguration`, or `useDefaultWorkerConfiguration`. To update the connector configuration, specify only `connectorConfiguration`.
  */
 export const updateConnector: API.OperationMethod<
-  UpdateConnectorRequest,
+  UpdateConnectorRequest & RegionInput,
   UpdateConnectorResponse,
   UpdateConnectorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(706, __c22, 2) as any as S.Schema<UpdateConnectorRequest>,
-  output: __S(707, __c22, 3) as any as S.Schema<UpdateConnectorResponse>,
+  input: __S(402, __c25, 2) as any as S.Schema<UpdateConnectorRequest>,
+  output: __S(403, __c25, 3) as any as S.Schema<UpdateConnectorResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1386,7 +1497,7 @@ function __c0(j: number): any {
           description: S.optional(S.String),
           name: S.String,
           propertiesFileContent: SensitiveString,
-          tags: S.optional(__S(832, __c26, 0)),
+          tags: S.optional(__S(464, __c29, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/v1/worker-configurations" }),
@@ -1402,7 +1513,7 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          latestRevision: S.optional(__S(32, __c1, 0)),
+          latestRevision: S.optional(__S(16, __c1, 0)),
           name: S.optional(S.String),
           workerConfigurationArn: S.optional(S.String),
           workerConfigurationState: S.optional(S.String),
@@ -1514,24 +1625,24 @@ function __c5(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          capacity: S.optional(__S(227, __c7, 3)),
+          capacity: S.optional(__S(115, __c7, 3)),
           connectorArn: S.optional(S.String),
-          connectorConfiguration: S.optional(__S(832, __c26, 0)),
+          connectorConfiguration: S.optional(__S(464, __c29, 0)),
           connectorDescription: S.optional(S.String),
           connectorName: S.optional(S.String),
           connectorState: S.optional(S.String),
           creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           currentVersion: S.optional(S.String),
-          kafkaCluster: S.optional(__S(258, __c8, 2)),
-          kafkaClusterClientAuthentication: S.optional(__S(259, __c8, 3)),
-          kafkaClusterEncryptionInTransit: S.optional(__S(260, __c8, 4)),
+          kafkaCluster: S.optional(__S(130, __c8, 2)),
+          kafkaClusterClientAuthentication: S.optional(__S(131, __c8, 3)),
+          kafkaClusterEncryptionInTransit: S.optional(__S(132, __c8, 4)),
           kafkaConnectVersion: S.optional(S.String),
-          logDelivery: S.optional(__S(265, __c8, 9)),
+          logDelivery: S.optional(__S(137, __c8, 9)),
           networkType: S.optional(S.String),
           plugins: S.optional(__listOfPluginDescription),
           serviceExecutionRoleArn: S.optional(S.String),
-          workerConfiguration: S.optional(__S(269, __c8, 13)),
-          stateDescription: S.optional(__S(192, __c6, 0)),
+          workerConfiguration: S.optional(__S(119, __c7, 7)),
+          stateDescription: S.optional(__S(96, __c6, 0)),
         }),
       ).annotate({ identifier: "DescribeConnectorResponse" });
   }
@@ -1556,8 +1667,8 @@ function __c7(j: number): any {
           maxWorkerCount: S.optional(S.Number),
           mcuCount: S.optional(S.Number),
           minWorkerCount: S.optional(S.Number),
-          scaleInPolicy: S.optional(__S(224, __c7, 0)),
-          scaleOutPolicy: S.optional(__S(224, __c7, 0)),
+          scaleInPolicy: S.optional(__S(112, __c7, 0)),
+          scaleOutPolicy: S.optional(__S(112, __c7, 0)),
           maxAutoscalingTaskCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AutoScalingDescription" });
@@ -1568,10 +1679,24 @@ function __c7(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          autoScaling: S.optional(__S(225, __c7, 1)),
-          provisionedCapacity: S.optional(__S(226, __c7, 2)),
+          autoScaling: S.optional(__S(113, __c7, 1)),
+          provisionedCapacity: S.optional(__S(114, __c7, 2)),
         }),
       ).annotate({ identifier: "CapacityDescription" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ customPluginArn: S.optional(S.String), revision: S.optional(S.Number) }),
+      ).annotate({ identifier: "CustomPluginDescription" });
+    case 5:
+      return S.suspend(() => S.Struct({ customPlugin: S.optional(__S(116, __c7, 4)) })).annotate({
+        identifier: "PluginDescription",
+      });
+    case 6:
+      return S.Array(__S(117, __c7, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({ revision: S.optional(S.Number), workerConfigurationArn: S.optional(S.String) }),
+      ).annotate({ identifier: "WorkerConfigurationDescription" });
   }
 }
 function __c8(j: number): any {
@@ -1585,11 +1710,11 @@ function __c8(j: number): any {
       ).annotate({ identifier: "VpcDescription" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ bootstrapServers: S.optional(S.String), vpc: S.optional(__S(256, __c8, 0)) }),
+        S.Struct({ bootstrapServers: S.optional(S.String), vpc: S.optional(__S(128, __c8, 0)) }),
       ).annotate({ identifier: "ApacheKafkaClusterDescription" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ apacheKafkaCluster: S.optional(__S(257, __c8, 1)) }),
+        S.Struct({ apacheKafkaCluster: S.optional(__S(129, __c8, 1)) }),
       ).annotate({ identifier: "KafkaClusterDescription" });
     case 3:
       return S.suspend(() => S.Struct({ authenticationType: S.optional(S.String) })).annotate({
@@ -1618,29 +1743,15 @@ function __c8(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          cloudWatchLogs: S.optional(__S(261, __c8, 5)),
-          firehose: S.optional(__S(262, __c8, 6)),
-          s3: S.optional(__S(263, __c8, 7)),
+          cloudWatchLogs: S.optional(__S(133, __c8, 5)),
+          firehose: S.optional(__S(134, __c8, 6)),
+          s3: S.optional(__S(135, __c8, 7)),
         }),
       ).annotate({ identifier: "WorkerLogDeliveryDescription" });
     case 9:
       return S.suspend(() =>
-        S.Struct({ workerLogDelivery: S.optional(__S(264, __c8, 8)) }),
+        S.Struct({ workerLogDelivery: S.optional(__S(136, __c8, 8)) }),
       ).annotate({ identifier: "LogDeliveryDescription" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({ customPluginArn: S.optional(S.String), revision: S.optional(S.Number) }),
-      ).annotate({ identifier: "CustomPluginDescription" });
-    case 11:
-      return S.suspend(() => S.Struct({ customPlugin: S.optional(__S(266, __c8, 10)) })).annotate({
-        identifier: "PluginDescription",
-      });
-    case 12:
-      return S.Array(__S(267, __c8, 11));
-    case 13:
-      return S.suspend(() =>
-        S.Struct({ revision: S.optional(S.Number), workerConfigurationArn: S.optional(S.String) }),
-      ).annotate({ identifier: "WorkerConfigurationDescription" });
   }
 }
 function __c9(j: number): any {
@@ -1665,11 +1776,16 @@ function __c9(j: number): any {
         S.Struct({ stepType: S.optional(S.String), stepState: S.optional(S.String) }),
       ).annotate({ identifier: "ConnectorOperationStep" });
     case 2:
-      return S.Array(__S(289, __c9, 1));
+      return S.Array(__S(145, __c9, 1));
     case 3:
-      return S.suspend(() => S.Struct({ capacity: S.optional(__S(227, __c7, 3)) })).annotate({
-        identifier: "WorkerSetting",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          capacity: S.optional(__S(115, __c7, 3)),
+          plugins: S.optional(__listOfPluginDescription),
+          workerConfiguration: S.optional(__S(119, __c7, 7)),
+          useDefaultWorkerConfiguration: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "WorkerSetting" });
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -1678,11 +1794,11 @@ function __c9(j: number): any {
           connectorOperationState: S.optional(S.String),
           connectorOperationType: S.optional(S.String),
           operationSteps: S.optional(__listOfConnectorOperationStep),
-          originWorkerSetting: S.optional(__S(291, __c9, 3)),
-          originConnectorConfiguration: S.optional(__S(832, __c26, 0)),
-          targetWorkerSetting: S.optional(__S(291, __c9, 3)),
-          targetConnectorConfiguration: S.optional(__S(832, __c26, 0)),
-          errorInfo: S.optional(__S(192, __c6, 0)),
+          originWorkerSetting: S.optional(__S(147, __c9, 3)),
+          originConnectorConfiguration: S.optional(__S(464, __c29, 0)),
+          targetWorkerSetting: S.optional(__S(147, __c9, 3)),
+          targetConnectorConfiguration: S.optional(__S(464, __c29, 0)),
+          errorInfo: S.optional(__S(96, __c6, 0)),
           creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
@@ -1711,9 +1827,9 @@ function __c10(j: number): any {
           customPluginArn: S.optional(S.String),
           customPluginState: S.optional(S.String),
           description: S.optional(S.String),
-          latestRevision: S.optional(__S(355, __c11, 3)),
+          latestRevision: S.optional(__S(179, __c11, 3)),
           name: S.optional(S.String),
-          stateDescription: S.optional(__S(192, __c6, 0)),
+          stateDescription: S.optional(__S(96, __c6, 0)),
         }),
       ).annotate({ identifier: "DescribeCustomPluginResponse" });
   }
@@ -1733,7 +1849,7 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "S3LocationDescription" });
     case 2:
-      return S.suspend(() => S.Struct({ s3Location: S.optional(__S(353, __c11, 1)) })).annotate({
+      return S.suspend(() => S.Struct({ s3Location: S.optional(__S(177, __c11, 1)) })).annotate({
         identifier: "CustomPluginLocationDescription",
       });
     case 3:
@@ -1742,8 +1858,8 @@ function __c11(j: number): any {
           contentType: S.optional(S.String),
           creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           description: S.optional(S.String),
-          fileDescription: S.optional(__S(352, __c11, 0)),
-          location: S.optional(__S(354, __c11, 2)),
+          fileDescription: S.optional(__S(176, __c11, 0)),
+          location: S.optional(__S(178, __c11, 2)),
           revision: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CustomPluginRevisionSummary" });
@@ -1780,7 +1896,7 @@ function __c12(j: number): any {
         S.Struct({
           creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           description: S.optional(S.String),
-          latestRevision: S.optional(__S(385, __c12, 1)),
+          latestRevision: S.optional(__S(193, __c12, 1)),
           name: S.optional(S.String),
           workerConfigurationArn: S.optional(S.String),
           workerConfigurationState: S.optional(S.String),
@@ -1818,7 +1934,7 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "ConnectorOperationSummary" });
     case 2:
-      return S.Array(__S(417, __c13, 1));
+      return S.Array(__S(209, __c13, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1843,26 +1959,26 @@ function __c14(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          capacity: S.optional(__S(227, __c7, 3)),
+          capacity: S.optional(__S(115, __c7, 3)),
           connectorArn: S.optional(S.String),
           connectorDescription: S.optional(S.String),
           connectorName: S.optional(S.String),
           connectorState: S.optional(S.String),
           creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           currentVersion: S.optional(S.String),
-          kafkaCluster: S.optional(__S(258, __c8, 2)),
-          kafkaClusterClientAuthentication: S.optional(__S(259, __c8, 3)),
-          kafkaClusterEncryptionInTransit: S.optional(__S(260, __c8, 4)),
+          kafkaCluster: S.optional(__S(130, __c8, 2)),
+          kafkaClusterClientAuthentication: S.optional(__S(131, __c8, 3)),
+          kafkaClusterEncryptionInTransit: S.optional(__S(132, __c8, 4)),
           kafkaConnectVersion: S.optional(S.String),
-          logDelivery: S.optional(__S(265, __c8, 9)),
+          logDelivery: S.optional(__S(137, __c8, 9)),
           networkType: S.optional(S.String),
           plugins: S.optional(__listOfPluginDescription),
           serviceExecutionRoleArn: S.optional(S.String),
-          workerConfiguration: S.optional(__S(269, __c8, 13)),
+          workerConfiguration: S.optional(__S(119, __c7, 7)),
         }),
       ).annotate({ identifier: "ConnectorSummary" });
     case 2:
-      return S.Array(__S(449, __c14, 1));
+      return S.Array(__S(225, __c14, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1891,12 +2007,12 @@ function __c15(j: number): any {
           customPluginArn: S.optional(S.String),
           customPluginState: S.optional(S.String),
           description: S.optional(S.String),
-          latestRevision: S.optional(__S(355, __c11, 3)),
+          latestRevision: S.optional(__S(179, __c11, 3)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomPluginSummary" });
     case 2:
-      return S.Array(__S(481, __c15, 1));
+      return S.Array(__S(241, __c15, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1922,7 +2038,7 @@ function __c16(j: number): any {
         ),
       ).annotate({ identifier: "ListTagsForResourceRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ tags: S.optional(__S(832, __c26, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ tags: S.optional(__S(464, __c29, 0)) })).annotate({
         identifier: "ListTagsForResourceResponse",
       });
   }
@@ -1951,14 +2067,14 @@ function __c17(j: number): any {
         S.Struct({
           creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           description: S.optional(S.String),
-          latestRevision: S.optional(__S(32, __c1, 0)),
+          latestRevision: S.optional(__S(16, __c1, 0)),
           name: S.optional(S.String),
           workerConfigurationArn: S.optional(S.String),
           workerConfigurationState: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkerConfigurationSummary" });
     case 2:
-      return S.Array(__S(545, __c17, 1));
+      return S.Array(__S(273, __c17, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1969,6 +2085,34 @@ function __c17(j: number): any {
   }
 }
 function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ connectorArn: S.String.pipe(T.HttpLabel("connectorArn")) }).pipe(
+          T.all(
+            T.Http({ method: "PUT", uri: "/v1/connectors/{connectorArn}/pause" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "PauseConnectorRequest" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          connectorArn: S.optional(S.String),
+          connectorOperationArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PauseConnectorResponse" });
+  }
+}
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1986,22 +2130,32 @@ function __c18(j: number): any {
           ),
         ),
       ).annotate({ identifier: "RestartConnectorRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          connectorArn: S.optional(S.String),
-          connectorOperationArn: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RestartConnectorResponse" });
   }
 }
-function __c19(j: number): any {
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ connectorArn: S.String.pipe(T.HttpLabel("connectorArn")) }).pipe(
+          T.all(
+            T.Http({ method: "PUT", uri: "/v1/connectors/{connectorArn}/resume" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ResumeConnectorRequest" });
+  }
+}
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-          tags: __S(832, __c26, 0),
+          tags: __S(464, __c29, 0),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/v1/tags/{resourceArn}" }),
@@ -2015,13 +2169,13 @@ function __c19(j: number): any {
       ).annotate({ identifier: "TagResourceRequest" });
   }
 }
-function __c20(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "TagResourceResponse" });
   }
 }
-function __c21(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2041,7 +2195,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "UntagResourceRequest" });
   }
 }
-function __c22(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2049,25 +2203,29 @@ function __c22(j: number): any {
           maxWorkerCount: S.Number,
           mcuCount: S.Number,
           minWorkerCount: S.Number,
-          scaleInPolicy: __S(800, __c25, 0),
-          scaleOutPolicy: __S(800, __c25, 0),
+          scaleInPolicy: __S(448, __c28, 0),
+          scaleOutPolicy: __S(448, __c28, 0),
           maxAutoscalingTaskCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AutoScalingUpdate" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          autoScaling: S.optional(__S(704, __c22, 0)),
-          provisionedCapacity: S.optional(__S(801, __c25, 1)),
+          autoScaling: S.optional(__S(400, __c25, 0)),
+          provisionedCapacity: S.optional(__S(449, __c28, 1)),
         }),
       ).annotate({ identifier: "CapacityUpdate" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          capacity: S.optional(__S(705, __c22, 1)),
-          connectorConfiguration: S.optional(__S(832, __c26, 0)),
+          capacity: S.optional(__S(401, __c25, 1)),
+          connectorConfiguration: S.optional(__S(464, __c29, 0)),
+          skipHealthValidation: S.optional(S.Boolean),
           connectorArn: S.String.pipe(T.HttpLabel("connectorArn")),
           currentVersion: S.String.pipe(T.HttpQuery("currentVersion")),
+          plugins: S.optional(__listOfPluginUpdate),
+          workerConfiguration: S.optional(__S(453, __c28, 5)),
+          useDefaultWorkerConfiguration: S.optional(S.Boolean),
         }).pipe(
           T.all(
             T.Http({ method: "PUT", uri: "/v1/connectors/{connectorArn}" }),
@@ -2089,7 +2247,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "UpdateConnectorResponse" });
   }
 }
-function __c23(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2097,16 +2255,16 @@ function __c23(j: number): any {
           maxWorkerCount: S.Number,
           mcuCount: S.Number,
           minWorkerCount: S.Number,
-          scaleInPolicy: S.optional(__S(800, __c25, 0)),
-          scaleOutPolicy: S.optional(__S(800, __c25, 0)),
+          scaleInPolicy: S.optional(__S(448, __c28, 0)),
+          scaleOutPolicy: S.optional(__S(448, __c28, 0)),
           maxAutoscalingTaskCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AutoScaling" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          autoScaling: S.optional(__S(736, __c23, 0)),
-          provisionedCapacity: S.optional(__S(801, __c25, 1)),
+          autoScaling: S.optional(__S(416, __c26, 0)),
+          provisionedCapacity: S.optional(__S(449, __c28, 1)),
         }),
       ).annotate({ identifier: "Capacity" });
     case 2:
@@ -2115,10 +2273,10 @@ function __c23(j: number): any {
       ).annotate({ identifier: "Vpc" });
     case 3:
       return S.suspend(() =>
-        S.Struct({ bootstrapServers: S.String, vpc: __S(738, __c23, 2) }),
+        S.Struct({ bootstrapServers: S.String, vpc: __S(418, __c26, 2) }),
       ).annotate({ identifier: "ApacheKafkaCluster" });
     case 4:
-      return S.suspend(() => S.Struct({ apacheKafkaCluster: __S(739, __c23, 3) })).annotate({
+      return S.suspend(() => S.Struct({ apacheKafkaCluster: __S(419, __c26, 3) })).annotate({
         identifier: "KafkaCluster",
       });
     case 5:
@@ -2148,51 +2306,37 @@ function __c23(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          cloudWatchLogs: S.optional(__S(743, __c23, 7)),
-          firehose: S.optional(__S(744, __c23, 8)),
-          s3: S.optional(__S(745, __c23, 9)),
+          cloudWatchLogs: S.optional(__S(423, __c26, 7)),
+          firehose: S.optional(__S(424, __c26, 8)),
+          s3: S.optional(__S(425, __c26, 9)),
         }),
       ).annotate({ identifier: "WorkerLogDelivery" });
     case 11:
-      return S.suspend(() => S.Struct({ workerLogDelivery: __S(746, __c23, 10) })).annotate({
+      return S.suspend(() => S.Struct({ workerLogDelivery: __S(426, __c26, 10) })).annotate({
         identifier: "LogDelivery",
       });
     case 12:
-      return S.suspend(() => S.Struct({ customPluginArn: S.String, revision: S.Number })).annotate({
-        identifier: "CustomPlugin",
-      });
-    case 13:
-      return S.suspend(() => S.Struct({ customPlugin: __S(748, __c23, 12) })).annotate({
-        identifier: "Plugin",
-      });
-    case 14:
-      return S.Array(__S(749, __c23, 13));
-    case 15:
-      return S.suspend(() =>
-        S.Struct({ revision: S.Number, workerConfigurationArn: S.String }),
-      ).annotate({ identifier: "WorkerConfiguration" });
-    case 16:
       return S.suspend(() =>
         S.Struct({
-          capacity: __S(737, __c23, 1),
-          connectorConfiguration: __S(832, __c26, 0),
+          capacity: __S(417, __c26, 1),
+          connectorConfiguration: __S(464, __c29, 0),
           connectorDescription: S.optional(S.String),
           connectorName: S.String,
-          kafkaCluster: __S(740, __c23, 4),
-          kafkaClusterClientAuthentication: __S(741, __c23, 5),
-          kafkaClusterEncryptionInTransit: __S(742, __c23, 6),
+          kafkaCluster: __S(420, __c26, 4),
+          kafkaClusterClientAuthentication: __S(421, __c26, 5),
+          kafkaClusterEncryptionInTransit: __S(422, __c26, 6),
           kafkaConnectVersion: S.String,
-          logDelivery: S.optional(__S(747, __c23, 11)),
+          logDelivery: S.optional(__S(427, __c26, 11)),
           networkType: S.optional(S.String),
           plugins: __listOfPlugin,
           serviceExecutionRoleArn: S.String,
-          workerConfiguration: S.optional(__S(751, __c23, 15)),
-          tags: S.optional(__S(832, __c26, 0)),
+          workerConfiguration: S.optional(__S(453, __c28, 5)),
+          tags: S.optional(__S(464, __c29, 0)),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/v1/connectors" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "CreateConnectorRequest" });
-    case 17:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           connectorArn: S.optional(S.String),
@@ -2202,13 +2346,13 @@ function __c23(j: number): any {
       ).annotate({ identifier: "CreateConnectorResponse" });
   }
 }
-function __c24(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c25(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ cpuUtilizationPercentage: S.Number })).annotate({
@@ -2218,22 +2362,36 @@ function __c25(j: number): any {
       return S.suspend(() => S.Struct({ mcuCount: S.Number, workerCount: S.Number })).annotate({
         identifier: "ProvisionedCapacity",
       });
+    case 2:
+      return S.suspend(() => S.Struct({ customPluginArn: S.String, revision: S.Number })).annotate({
+        identifier: "CustomPlugin",
+      });
+    case 3:
+      return S.suspend(() => S.Struct({ customPlugin: __S(450, __c28, 2) })).annotate({
+        identifier: "Plugin",
+      });
+    case 4:
+      return S.Array(__S(451, __c28, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({ revision: S.Number, workerConfigurationArn: S.String }),
+      ).annotate({ identifier: "WorkerConfiguration" });
   }
 }
-function __c26(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
   }
 }
-function __c27(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ bucketArn: S.String, fileKey: S.String, objectVersion: S.optional(S.String) }),
       ).annotate({ identifier: "S3Location" });
     case 1:
-      return S.suspend(() => S.Struct({ s3Location: __S(864, __c27, 0) })).annotate({
+      return S.suspend(() => S.Struct({ s3Location: __S(480, __c30, 0) })).annotate({
         identifier: "CustomPluginLocation",
       });
     case 2:
@@ -2241,9 +2399,9 @@ function __c27(j: number): any {
         S.Struct({
           contentType: S.String,
           description: S.optional(S.String),
-          location: __S(865, __c27, 1),
+          location: __S(481, __c30, 1),
           name: S.String,
-          tags: S.optional(__S(832, __c26, 0)),
+          tags: S.optional(__S(464, __c29, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/v1/custom-plugins" }),

@@ -122,7 +122,7 @@ describe("GraphQL Query SDK generator", () => {
     expect(output).toContain("readonly name: string | null;");
     expect(output).toContain("readonly email: string;");
     expect(output).toContain("Query<Project | null, RailwayGlobalError>");
-    expect(output).toContain("args?: { readonly first?: number | null }");
+    expect(output).toContain("args?: { readonly first?: number | null | undefined }");
     expect(output).toContain('from "@distilled.cloud/core/graphql"');
     expect(() => stripTypeScriptTypes(output)).not.toThrow();
   });
@@ -296,16 +296,71 @@ describe("GraphQL Query SDK generator", () => {
     expect(() => stripTypeScriptTypes(output)).not.toThrow();
   });
 
+  test("nested object and scalar fields with arguments are typed calls", () => {
+    const model = convertGraphQLClient(fixture);
+    for (const operation of [
+      {
+        op: "add" as const,
+        path: "/types/User/fields/project",
+        value: { type: "Project", args: { id: { type: "String!" } }, errors: [] },
+      },
+      {
+        op: "add" as const,
+        path: "/types/User/fields/avatarUrl",
+        value: { type: "String!", args: { size: { type: "Int" } }, errors: [] },
+      },
+    ])
+      applyOperation(model, operation);
+    validateGraphQLModel(model);
+    const output = generateGraphQLClient(model, options);
+    expect(output).toContain("  type FieldWithArgs,");
+    expect(output).toContain(
+      "readonly project: FieldWithArgs<Project | null, { readonly id: string }>;",
+    );
+    expect(output).toContain(
+      "readonly avatarUrl: FieldWithArgs<string, { readonly size?: number | null | undefined }, false>;",
+    );
+    expect(output).toContain('project: objectField("project", Project, { id: "String!" }),');
+    expect(output).toContain('avatarUrl: scalarField("avatarUrl", { argTypes: { size: "Int" } }),');
+    // List and connection fields keep their untyped call.
+    expect(output).toContain("readonly projects: ReadonlyArray<Project>;");
+    expect(() => stripTypeScriptTypes(output)).not.toThrow();
+  });
+
+  test("a sensitive JSON scalar is typed Redacted of its scalar type", () => {
+    const model = convertGraphQLClient(fixture);
+    for (const operation of [
+      { op: "add" as const, path: "/types/JSON", value: { kind: "SCALAR", scalar: "unknown" } },
+      {
+        op: "add" as const,
+        path: "/types/User/fields/environment",
+        value: { type: "JSON", args: {}, errors: [], sensitive: true },
+      },
+    ])
+      applyOperation(model, operation);
+    validateGraphQLModel(model);
+    const output = generateGraphQLClient(model, options);
+    expect(output).toContain("readonly environment: Redacted.Redacted<unknown> | null;");
+    expect(output).toContain('environment: scalarField("environment", { sensitive: true }),');
+  });
+
+  test("imports only the runtime helpers the module uses", () => {
+    const output = generateGraphQLClient(convertGraphQLClient(fixture), options);
+    expect(output).not.toContain("rootLeaf,");
+    expect(output).not.toContain("type FieldWithArgs,");
+    expect(output).toContain("rootConnection,");
+  });
+
   test("leaves the Redacted import out when no field is sensitive", () => {
     const output = generateGraphQLClient(convertGraphQLClient(fixture), options);
     expect(output).not.toContain("Redacted");
   });
 
-  test("rejects a sensitive mark on a field that is not a string", () => {
+  test("rejects a sensitive mark on a field that is not a scalar", () => {
     const model = convertGraphQLClient(fixture);
     applyOperation(model, { op: "add", path: "/types/Query/fields/me/sensitive", value: true });
     expect(() => validateGraphQLModel(model)).toThrow(
-      "Query.me: only string scalar fields can be sensitive",
+      "Query.me: only scalar fields can be sensitive",
     );
   });
 

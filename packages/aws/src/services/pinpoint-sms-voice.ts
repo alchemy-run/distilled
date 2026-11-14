@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -108,13 +109,13 @@ export class InternalServiceErrorException
     "InternalServiceErrorException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class LimitExceededException
   extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()(
     "LimitExceededException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(412),
-  ) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class NotFoundException
   extends /*@__PURE__*/ S.TaggedError<NotFoundException>()(
     "NotFoundException",
@@ -126,19 +127,19 @@ export class TooManyRequestsException
     "TooManyRequestsException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export type WordCharactersWithDelimiters = string;
 export interface CreateConfigurationSetRequest {
-  ConfigurationSetName?: string;
+  ConfigurationSetName?: string | undefined;
 }
 export interface CreateConfigurationSetResponse {}
 export interface CloudWatchLogsDestination {
-  IamRoleArn?: string;
-  LogGroupArn?: string;
+  IamRoleArn?: string | undefined;
+  LogGroupArn?: string | undefined;
 }
 export interface KinesisFirehoseDestination {
-  DeliveryStreamArn?: string;
-  IamRoleArn?: string;
+  DeliveryStreamArn?: string | undefined;
+  IamRoleArn?: string | undefined;
 }
 export type EventType =
   | "INITIATED_CALL"
@@ -151,20 +152,20 @@ export type EventType =
   | (string & {});
 export type EventTypes = EventType[];
 export interface SnsDestination {
-  TopicArn?: string;
+  TopicArn?: string | undefined;
 }
 export interface EventDestinationDefinition {
-  CloudWatchLogsDestination?: CloudWatchLogsDestination;
-  Enabled?: boolean;
-  KinesisFirehoseDestination?: KinesisFirehoseDestination;
-  MatchingEventTypes?: EventType[];
-  SnsDestination?: SnsDestination;
+  CloudWatchLogsDestination?: CloudWatchLogsDestination | undefined;
+  Enabled?: boolean | undefined;
+  KinesisFirehoseDestination?: KinesisFirehoseDestination | undefined;
+  MatchingEventTypes?: EventType[] | undefined;
+  SnsDestination?: SnsDestination | undefined;
 }
 export type NonEmptyString = string;
 export interface CreateConfigurationSetEventDestinationRequest {
   ConfigurationSetName: string;
-  EventDestination?: EventDestinationDefinition;
-  EventDestinationName?: string;
+  EventDestination?: EventDestinationDefinition | undefined;
+  EventDestinationName?: string | undefined;
 }
 export interface CreateConfigurationSetEventDestinationResponse {}
 export interface DeleteConfigurationSetRequest {
@@ -180,58 +181,58 @@ export interface GetConfigurationSetEventDestinationsRequest {
   ConfigurationSetName: string;
 }
 export interface EventDestination {
-  CloudWatchLogsDestination?: CloudWatchLogsDestination;
-  Enabled?: boolean;
-  KinesisFirehoseDestination?: KinesisFirehoseDestination;
-  MatchingEventTypes?: EventType[];
-  Name?: string;
-  SnsDestination?: SnsDestination;
+  CloudWatchLogsDestination?: CloudWatchLogsDestination | undefined;
+  Enabled?: boolean | undefined;
+  KinesisFirehoseDestination?: KinesisFirehoseDestination | undefined;
+  MatchingEventTypes?: EventType[] | undefined;
+  Name?: string | undefined;
+  SnsDestination?: SnsDestination | undefined;
 }
 export type EventDestinations = EventDestination[];
 export interface GetConfigurationSetEventDestinationsResponse {
-  EventDestinations?: EventDestination[];
+  EventDestinations?: EventDestination[] | undefined;
 }
 export interface ListConfigurationSetsRequest {
-  NextToken?: string;
-  PageSize?: string;
+  NextToken?: string | undefined;
+  PageSize?: string | undefined;
 }
 export type ConfigurationSets = string[];
 export type NextTokenString = string;
 export interface ListConfigurationSetsResponse {
-  ConfigurationSets?: string[];
-  NextToken?: string;
+  ConfigurationSets?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface CallInstructionsMessageType {
-  Text?: string;
+  Text?: string | undefined;
 }
 export interface PlainTextMessageType {
-  LanguageCode?: string;
-  Text?: string;
-  VoiceId?: string;
+  LanguageCode?: string | undefined;
+  Text?: string | undefined;
+  VoiceId?: string | undefined;
 }
 export interface SSMLMessageType {
-  LanguageCode?: string;
-  Text?: string;
-  VoiceId?: string;
+  LanguageCode?: string | undefined;
+  Text?: string | undefined;
+  VoiceId?: string | undefined;
 }
 export interface VoiceMessageContent {
-  CallInstructionsMessage?: CallInstructionsMessageType;
-  PlainTextMessage?: PlainTextMessageType;
-  SSMLMessage?: SSMLMessageType;
+  CallInstructionsMessage?: CallInstructionsMessageType | undefined;
+  PlainTextMessage?: PlainTextMessageType | undefined;
+  SSMLMessage?: SSMLMessageType | undefined;
 }
 export interface SendVoiceMessageRequest {
-  CallerId?: string;
-  ConfigurationSetName?: string;
-  Content?: VoiceMessageContent;
-  DestinationPhoneNumber?: string;
-  OriginationPhoneNumber?: string;
+  CallerId?: string | undefined;
+  ConfigurationSetName?: string | undefined;
+  Content?: VoiceMessageContent | undefined;
+  DestinationPhoneNumber?: string | undefined;
+  OriginationPhoneNumber?: string | undefined;
 }
 export interface SendVoiceMessageResponse {
-  MessageId?: string;
+  MessageId?: string | undefined;
 }
 export interface UpdateConfigurationSetEventDestinationRequest {
   ConfigurationSetName: string;
-  EventDestination?: EventDestinationDefinition;
+  EventDestination?: EventDestinationDefinition | undefined;
   EventDestinationName: string;
 }
 export interface UpdateConfigurationSetEventDestinationResponse {}
@@ -246,7 +247,7 @@ export type CreateConfigurationSetError =
  * Create a new configuration set. After you create the configuration set, you can add one or more event destinations to it.
  */
 export const createConfigurationSet: API.OperationMethod<
-  CreateConfigurationSetRequest,
+  CreateConfigurationSetRequest & RegionInput,
   CreateConfigurationSetResponse,
   CreateConfigurationSetError,
   Credentials | HttpClient.HttpClient
@@ -279,7 +280,7 @@ export type CreateConfigurationSetEventDestinationError =
  * Create a new event destination in a configuration set.
  */
 export const createConfigurationSetEventDestination: API.OperationMethod<
-  CreateConfigurationSetEventDestinationRequest,
+  CreateConfigurationSetEventDestinationRequest & RegionInput,
   CreateConfigurationSetEventDestinationResponse,
   CreateConfigurationSetEventDestinationError,
   Credentials | HttpClient.HttpClient
@@ -311,7 +312,7 @@ export type DeleteConfigurationSetError =
  * Deletes an existing configuration set.
  */
 export const deleteConfigurationSet: API.OperationMethod<
-  DeleteConfigurationSetRequest,
+  DeleteConfigurationSetRequest & RegionInput,
   DeleteConfigurationSetResponse,
   DeleteConfigurationSetError,
   Credentials | HttpClient.HttpClient
@@ -341,7 +342,7 @@ export type DeleteConfigurationSetEventDestinationError =
  * Deletes an event destination in a configuration set.
  */
 export const deleteConfigurationSetEventDestination: API.OperationMethod<
-  DeleteConfigurationSetEventDestinationRequest,
+  DeleteConfigurationSetEventDestinationRequest & RegionInput,
   DeleteConfigurationSetEventDestinationResponse,
   DeleteConfigurationSetEventDestinationError,
   Credentials | HttpClient.HttpClient
@@ -371,7 +372,7 @@ export type GetConfigurationSetEventDestinationsError =
  * Obtain information about an event destination, including the types of events it reports, the Amazon Resource Name (ARN) of the destination, and the name of the event destination.
  */
 export const getConfigurationSetEventDestinations: API.OperationMethod<
-  GetConfigurationSetEventDestinationsRequest,
+  GetConfigurationSetEventDestinationsRequest & RegionInput,
   GetConfigurationSetEventDestinationsResponse,
   GetConfigurationSetEventDestinationsError,
   Credentials | HttpClient.HttpClient
@@ -400,7 +401,7 @@ export type ListConfigurationSetsError =
  * List all of the configuration sets associated with your Amazon Pinpoint account in the current region.
  */
 export const listConfigurationSets: API.OperationMethod<
-  ListConfigurationSetsRequest,
+  ListConfigurationSetsRequest & RegionInput,
   ListConfigurationSetsResponse,
   ListConfigurationSetsError,
   Credentials | HttpClient.HttpClient
@@ -424,7 +425,7 @@ export type SendVoiceMessageError =
  * Create a new voice message and send it to a recipient's phone number.
  */
 export const sendVoiceMessage: API.OperationMethod<
-  SendVoiceMessageRequest,
+  SendVoiceMessageRequest & RegionInput,
   SendVoiceMessageResponse,
   SendVoiceMessageError,
   Credentials | HttpClient.HttpClient
@@ -449,7 +450,7 @@ export type UpdateConfigurationSetEventDestinationError =
  * Update an event destination in a configuration set. An event destination is a location that you publish information about your voice calls to. For example, you can log an event to an Amazon CloudWatch destination when a call fails.
  */
 export const updateConfigurationSetEventDestination: API.OperationMethod<
-  UpdateConfigurationSetEventDestinationRequest,
+  UpdateConfigurationSetEventDestinationRequest & RegionInput,
   UpdateConfigurationSetEventDestinationResponse,
   UpdateConfigurationSetEventDestinationError,
   Credentials | HttpClient.HttpClient

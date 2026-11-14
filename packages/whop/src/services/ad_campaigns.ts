@@ -78,33 +78,33 @@ export type CreateAdCampaignRequestSpecialAdCategoriesList = Array<
 >;
 export interface CreateAdCampaignRequest {
   /** The account to create the campaign under. Defaults to the account-scoped key's own account. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** How delivery bids in the ad auction: `minimum_cost` gets the most results for the budget, `average_target` holds an average cost per result, `maximum_target` never bids above a cap. Only for campaigns that own the budget. */
-  bid_type?: CreateAdCampaignRequestBidType | (string & {});
+  bid_type?: CreateAdCampaignRequestBidType | (string & {}) | undefined;
   /** The campaign's budget in USD, which is what it is stored and billed in. Required when budget_optimization is `ad_campaign` (or send budget_amount_local instead); omit when each ad group sets its own budget. */
-  budget_amount?: number;
+  budget_amount?: number | undefined;
   /** The campaign's budget stated in the account's ads reporting currency (`budget_currency` on the response) instead of USD. Converted to USD at the current exchange rate and stored as budget_amount. Provide this or budget_amount, not both. */
-  budget_amount_local?: number;
+  budget_amount_local?: number | undefined;
   /** Which level owns the budget: the whole campaign (`ad_campaign`) or each ad group individually (`ad_group`). Defaults to `ad_group`. */
-  budget_optimization?: CreateAdCampaignRequestBudgetOptimization | (string & {});
+  budget_optimization?: CreateAdCampaignRequestBudgetOptimization | (string & {}) | undefined;
   /** Whether the budget is spent per day (`daily`) or over the campaign's full run (`lifetime`). Defaults to `daily`. */
-  budget_type?: CreateAdCampaignRequestBudgetType | (string & {});
+  budget_type?: CreateAdCampaignRequestBudgetType | (string & {}) | undefined;
   /** Cost per result to aim for (`average_target`) or never exceed (`maximum_target`). Only for campaigns that own the budget. */
-  desired_cost_per_result?: number;
+  desired_cost_per_result?: number | undefined;
   /** When the campaign stops delivering, as an ISO 8601 timestamp. Only for campaigns that own the budget. */
-  ends_at?: string;
+  ends_at?: string | undefined;
   /** The goal the campaign optimizes toward. */
   objective: CreateAdCampaignRequestObjective | (string & {});
   /** The ad network the campaign runs on. */
   platform: CreateAdCampaignRequestPlatform | (string & {});
   /** Regulated categories the campaign falls under. Ads in these categories are subject to extra targeting restrictions. */
-  special_ad_categories?: CreateAdCampaignRequestSpecialAdCategoriesList;
+  special_ad_categories?: CreateAdCampaignRequestSpecialAdCategoriesList | undefined;
   /** When the campaign starts delivering, as an ISO 8601 timestamp. Only for campaigns that own the budget. */
-  starts_at?: string;
+  starts_at?: string | undefined;
   /** The title of the campaign. */
   title: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** How delivery bids in the ad auction: `minimum_cost` gets the most results for the budget, `average_target` holds an average cost per result, and `maximum_target` never bids above a cap. */
 export type AdCampaignBidType = "minimum_cost" | "average_target" | "maximum_target";
@@ -183,7 +183,7 @@ export interface AdCampaign {
   /** Whop pixel-attributed add-to-cart events, last-click. */
   added_to_carts: number;
   /** How delivery bids in the ad auction: `minimum_cost` gets the most results for the budget, `average_target` holds an average cost per result, and `maximum_target` never bids above a cap. */
-  bid_type?: AdCampaignBidType | null;
+  bid_type?: AdCampaignBidType | null | undefined;
   /** The campaign's budget in USD, which is what it is stored and billed in. `null` when each ad group sets its own budget instead. */
   budget_amount: number | null;
   /** The same budget stated in `budget_currency` at today's exchange rate, for display in the account's ads reporting currency. `null` when `budget_amount` is. */
@@ -241,9 +241,9 @@ export interface AdCampaign {
   /** Whether the campaign's ads are delivering right now, and if not, why. Account billing failures set payment_failed without changing the configured status. Successful payment retry clears that block and recalculates delivery. When several states apply at once, the highest-precedence one is returned. */
   delivery_status: AdCampaignDeliveryStatus;
   /** Google only: the target cost per conversion in USD when `bid_type` is `average_target`. `null` otherwise. */
-  desired_cost_per_result?: number | null;
+  desired_cost_per_result?: number | null | undefined;
   /** Google only: when the campaign stops delivering, as an ISO 8601 timestamp. `null` runs it until paused. */
-  ends_at?: string | null;
+  ends_at?: string | null | undefined;
   /** Platform-reported impressions divided by reach. */
   frequency: number | null;
   /** Unique identifier for the ad campaign, prefixed `adcamp_`. */
@@ -287,7 +287,7 @@ export interface AdCampaign {
   /** The ISO 4217 currency code of all monetary metrics. */
   spend_currency: string | null;
   /** Google only: when the campaign starts delivering, as an ISO 8601 timestamp. `null` starts it as soon as it launches. */
-  starts_at?: string | null;
+  starts_at?: string | null | undefined;
   /** The configured lifecycle status of the ad campaign. Billing failures preserve active or paused here and set delivery_status to payment_failed. */
   status: AdCampaignStatus;
   /** USD value attributed to submit-application events. Sums the value sent with each event, normalized to USD; events without a value contribute 0. */
@@ -321,11 +321,11 @@ export interface DuplicateAdCampaignRequest {
   /** The ad campaign ID. */
   id: string;
   /** Number of copies to create (1-10). Defaults to 1. */
-  count?: number;
+  count?: number | undefined;
   /** Whether the copied ads keep the original posts' engagement (likes, comments, shares). Defaults to false. */
-  preserve_engagement?: boolean;
+  preserve_engagement?: boolean | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export type DuplicateAdCampaignResponseDataList = Array<AdCampaign>;
 export interface DuplicateAdCampaignResponse {
@@ -336,13 +336,13 @@ export interface GetAdCampaignRequest {
   /** The ad campaign ID. */
   id: string;
   /** Start of the stats window. */
-  stats_from?: string;
+  stats_from?: string | undefined;
   /** End of the stats window. */
-  stats_to?: string;
+  stats_to?: string | undefined;
   /** IANA timezone the stats window is interpreted in. Defaults to UTC. */
-  time_zone?: string;
+  time_zone?: string | undefined;
   /** Attribution model the conversion stats count under (defaults to last_touch). Under both models a journey with any whop ad touch attributes to whop; the model picks which whop touch credits the entity and which non-whop source wins otherwise. */
-  attribution_model?: GetAdCampaignRequestAttributionModel | (string & {});
+  attribution_model?: GetAdCampaignRequestAttributionModel | (string & {}) | undefined;
 }
 export type ListAdCampaignsRequestStatus = "draft" | "active" | "paused" | "payment_failed";
 export type ListAdCampaignsRequestOrder =
@@ -365,35 +365,35 @@ export type ListAdCampaignsRequestDirection = "asc" | "desc";
 export type ListAdCampaignsRequestAttributionModel = "last_touch" | "first_touch";
 export interface ListAdCampaignsRequest {
   /** The account the campaigns belong to. Defaults to the account-scoped key's own account. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Only return campaigns with this status. */
-  status?: ListAdCampaignsRequestStatus | (string & {});
+  status?: ListAdCampaignsRequestStatus | (string & {}) | undefined;
   /** Filter campaigns by a title or ID substring. */
-  query?: string;
+  query?: string | undefined;
   /** The field to sort by. Defaults to created_at. Stat columns (spend, impressions, ...) rank over the stats_from/stats_to window across the whole list, not just the current page. results, cost_per_result and return_on_ad_spend rank by the same Whop pixel-attributed values the response reports. */
-  order?: ListAdCampaignsRequestOrder | (string & {});
+  order?: ListAdCampaignsRequestOrder | (string & {}) | undefined;
   /** The sort direction. Defaults to desc. */
-  direction?: ListAdCampaignsRequestDirection | (string & {});
+  direction?: ListAdCampaignsRequestDirection | (string & {}) | undefined;
   /** Only return campaigns created before this timestamp. */
-  created_before?: string;
+  created_before?: string | undefined;
   /** Only return campaigns created after this timestamp. */
-  created_after?: string;
+  created_after?: string | undefined;
   /** Start of the stats window. Defaults to all-time. */
-  stats_from?: string;
+  stats_from?: string | undefined;
   /** End of the stats window. Defaults to now. */
-  stats_to?: string;
+  stats_to?: string | undefined;
   /** IANA timezone (e.g. America/New_York) the stats window is interpreted in. Bare stats_from/stats_to dates resolve to day boundaries on this clock. Defaults to UTC. */
-  time_zone?: string;
+  time_zone?: string | undefined;
   /** Attribution model the conversion stats count under (defaults to last_touch). Under both models a journey with any whop ad touch attributes to whop; the model picks which whop touch credits the entity and which non-whop source wins otherwise. */
-  attribution_model?: ListAdCampaignsRequestAttributionModel | (string & {});
+  attribution_model?: ListAdCampaignsRequestAttributionModel | (string & {}) | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 export type ListAdCampaignsResponseDataList = Array<AdCampaign>;
 export interface ListAdCampaignsResponsePageInfo {
@@ -410,13 +410,13 @@ export interface PauseAdCampaignRequest {
   /** The ad campaign ID. */
   id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface UnpauseAdCampaignRequest {
   /** The ad campaign ID. */
   id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** How delivery bids in the ad auction: `minimum_cost` gets the most results for the budget, `average_target` holds an average cost per result, `maximum_target` never bids above a cap. Switching to `minimum_cost` clears the cap amounts stored on the campaign's ad groups. Only for campaigns that own the budget. */
 export type UpdateAdCampaignRequestBidType = "minimum_cost" | "average_target" | "maximum_target";
@@ -439,25 +439,25 @@ export interface UpdateAdCampaignRequest {
   /** The ad campaign ID. */
   id: string;
   /** How delivery bids in the ad auction: `minimum_cost` gets the most results for the budget, `average_target` holds an average cost per result, `maximum_target` never bids above a cap. Switching to `minimum_cost` clears the cap amounts stored on the campaign's ad groups. Only for campaigns that own the budget. */
-  bid_type?: UpdateAdCampaignRequestBidType | (string & {});
+  bid_type?: UpdateAdCampaignRequestBidType | (string & {}) | undefined;
   /** The campaign budget in USD, which is what it is stored and billed in. Interpreted as daily or lifetime per the campaign's budget type, including a budget_type sent in the same request. */
-  budget_amount?: number;
+  budget_amount?: number | undefined;
   /** The campaign budget stated in the account's ads reporting currency (`budget_currency` on the response) instead of USD. Converted to USD at the current exchange rate and stored as budget_amount; an amount equal to the current budget_amount_local keeps the stored USD budget as is. Provide this or budget_amount, not both. */
-  budget_amount_local?: number;
+  budget_amount_local?: number | undefined;
   /** Which level owns the budget: the whole campaign (`ad_campaign`) or each ad group individually (`ad_group`). Only changeable before the campaign is live on the ad network; switching to `ad_campaign` requires budget_amount in the same request, and switching to `ad_group` clears the campaign budget. */
-  budget_optimization?: UpdateAdCampaignRequestBudgetOptimization | (string & {});
+  budget_optimization?: UpdateAdCampaignRequestBudgetOptimization | (string & {}) | undefined;
   /** Whether `budget_amount` is spent per day (`daily`) or over the campaign's full run (`lifetime`). Only changeable while the campaign is a draft; send budget_amount in the same request so the amount lands on the new type. */
-  budget_type?: UpdateAdCampaignRequestBudgetType | (string & {});
+  budget_type?: UpdateAdCampaignRequestBudgetType | (string & {}) | undefined;
   /** When the campaign stops delivering, as an ISO 8601 timestamp. Only for campaigns that own the budget. */
-  ends_at?: string;
+  ends_at?: string | undefined;
   /** Regulated categories the campaign falls under. Editable on any campaign, draft or launched; pass an empty array to clear. */
-  special_ad_categories?: UpdateAdCampaignRequestSpecialAdCategoriesList;
+  special_ad_categories?: UpdateAdCampaignRequestSpecialAdCategoriesList | undefined;
   /** When the campaign starts delivering, as an ISO 8601 timestamp. Only for campaigns that own the budget. */
-  starts_at?: string;
+  starts_at?: string | undefined;
   /** Set to active to launch a draft campaign (moderates and pushes it live). Live-campaign pause and resume use the pause and unpause actions. */
-  status?: UpdateAdCampaignRequestStatus | (string & {});
+  status?: UpdateAdCampaignRequestStatus | (string & {}) | undefined;
   /** The name of the campaign. */
-  title?: string;
+  title?: string | undefined;
 }
 export type CreateAdCampaignError = BadRequest | Conflict | WhopOpError;
 /** Create an Ad Campaign Creates an ad campaign for an account. */

@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -124,7 +125,7 @@ export class DatabaseUnavailableException
     "DatabaseUnavailableException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(504),
-  ).pipe(C.withTimeoutError) {}
+  ).pipe(C.withTimeoutError, C.withRetryableError) {}
 export class ForbiddenException
   extends /*@__PURE__*/ S.TaggedError<ForbiddenException>()(
     "ForbiddenException",
@@ -142,7 +143,7 @@ export class InternalServerErrorException
     "InternalServerErrorException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InvalidResourceStateException
   extends /*@__PURE__*/ S.TaggedError<InvalidResourceStateException>()(
     "InvalidResourceStateException",
@@ -172,7 +173,7 @@ export class ServiceUnavailableError
     "ServiceUnavailableError",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(503),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class StatementTimeoutException
   extends /*@__PURE__*/ S.TaggedError<StatementTimeoutException>()(
     "StatementTimeoutException",
@@ -209,108 +210,108 @@ export type ArrayOfArray = ArrayValue[];
 export type ArrayValue =
   | {
       booleanValues: boolean[];
-      longValues?: never;
-      doubleValues?: never;
-      stringValues?: never;
-      arrayValues?: never;
+      longValues?: undefined;
+      doubleValues?: undefined;
+      stringValues?: undefined;
+      arrayValues?: undefined;
     }
   | {
-      booleanValues?: never;
+      booleanValues?: undefined;
       longValues: number[];
-      doubleValues?: never;
-      stringValues?: never;
-      arrayValues?: never;
+      doubleValues?: undefined;
+      stringValues?: undefined;
+      arrayValues?: undefined;
     }
   | {
-      booleanValues?: never;
-      longValues?: never;
+      booleanValues?: undefined;
+      longValues?: undefined;
       doubleValues: number[];
-      stringValues?: never;
-      arrayValues?: never;
+      stringValues?: undefined;
+      arrayValues?: undefined;
     }
   | {
-      booleanValues?: never;
-      longValues?: never;
-      doubleValues?: never;
+      booleanValues?: undefined;
+      longValues?: undefined;
+      doubleValues?: undefined;
       stringValues: string[];
-      arrayValues?: never;
+      arrayValues?: undefined;
     }
   | {
-      booleanValues?: never;
-      longValues?: never;
-      doubleValues?: never;
-      stringValues?: never;
+      booleanValues?: undefined;
+      longValues?: undefined;
+      doubleValues?: undefined;
+      stringValues?: undefined;
       arrayValues: ArrayValue[];
     };
 export type Field =
   | {
       isNull: boolean;
-      booleanValue?: never;
-      longValue?: never;
-      doubleValue?: never;
-      stringValue?: never;
-      blobValue?: never;
-      arrayValue?: never;
+      booleanValue?: undefined;
+      longValue?: undefined;
+      doubleValue?: undefined;
+      stringValue?: undefined;
+      blobValue?: undefined;
+      arrayValue?: undefined;
     }
   | {
-      isNull?: never;
+      isNull?: undefined;
       booleanValue: boolean;
-      longValue?: never;
-      doubleValue?: never;
-      stringValue?: never;
-      blobValue?: never;
-      arrayValue?: never;
+      longValue?: undefined;
+      doubleValue?: undefined;
+      stringValue?: undefined;
+      blobValue?: undefined;
+      arrayValue?: undefined;
     }
   | {
-      isNull?: never;
-      booleanValue?: never;
+      isNull?: undefined;
+      booleanValue?: undefined;
       longValue: number;
-      doubleValue?: never;
-      stringValue?: never;
-      blobValue?: never;
-      arrayValue?: never;
+      doubleValue?: undefined;
+      stringValue?: undefined;
+      blobValue?: undefined;
+      arrayValue?: undefined;
     }
   | {
-      isNull?: never;
-      booleanValue?: never;
-      longValue?: never;
+      isNull?: undefined;
+      booleanValue?: undefined;
+      longValue?: undefined;
       doubleValue: number;
-      stringValue?: never;
-      blobValue?: never;
-      arrayValue?: never;
+      stringValue?: undefined;
+      blobValue?: undefined;
+      arrayValue?: undefined;
     }
   | {
-      isNull?: never;
-      booleanValue?: never;
-      longValue?: never;
-      doubleValue?: never;
+      isNull?: undefined;
+      booleanValue?: undefined;
+      longValue?: undefined;
+      doubleValue?: undefined;
       stringValue: string;
-      blobValue?: never;
-      arrayValue?: never;
+      blobValue?: undefined;
+      arrayValue?: undefined;
     }
   | {
-      isNull?: never;
-      booleanValue?: never;
-      longValue?: never;
-      doubleValue?: never;
-      stringValue?: never;
+      isNull?: undefined;
+      booleanValue?: undefined;
+      longValue?: undefined;
+      doubleValue?: undefined;
+      stringValue?: undefined;
       blobValue: Uint8Array;
-      arrayValue?: never;
+      arrayValue?: undefined;
     }
   | {
-      isNull?: never;
-      booleanValue?: never;
-      longValue?: never;
-      doubleValue?: never;
-      stringValue?: never;
-      blobValue?: never;
+      isNull?: undefined;
+      booleanValue?: undefined;
+      longValue?: undefined;
+      doubleValue?: undefined;
+      stringValue?: undefined;
+      blobValue?: undefined;
       arrayValue: ArrayValue;
     };
 export type TypeHint = "JSON" | "UUID" | "TIMESTAMP" | "DATE" | "TIME" | "DECIMAL" | (string & {});
 export interface SqlParameter {
-  name?: string;
-  value?: Field;
-  typeHint?: TypeHint;
+  name?: string | undefined;
+  value?: Field | undefined;
+  typeHint?: TypeHint | undefined;
 }
 export type SqlParametersList = SqlParameter[];
 export type SqlParameterSets = SqlParameter[][];
@@ -319,27 +320,27 @@ export interface BatchExecuteStatementRequest {
   resourceArn: string;
   secretArn: string;
   sql: string;
-  database?: string;
-  schema?: string;
-  parameterSets?: SqlParameter[][];
-  transactionId?: string;
+  database?: string | undefined;
+  schema?: string | undefined;
+  parameterSets?: SqlParameter[][] | undefined;
+  transactionId?: string | undefined;
 }
 export type FieldList = Field[];
 export interface UpdateResult {
-  generatedFields?: Field[];
+  generatedFields?: Field[] | undefined;
 }
 export type UpdateResults = UpdateResult[];
 export interface BatchExecuteStatementResponse {
-  updateResults?: UpdateResult[];
+  updateResults?: UpdateResult[] | undefined;
 }
 export interface BeginTransactionRequest {
   resourceArn: string;
   secretArn: string;
-  database?: string;
-  schema?: string;
+  database?: string | undefined;
+  schema?: string | undefined;
 }
 export interface BeginTransactionResponse {
-  transactionId?: string;
+  transactionId?: string | undefined;
 }
 export interface CommitTransactionRequest {
   resourceArn: string;
@@ -348,209 +349,209 @@ export interface CommitTransactionRequest {
 }
 export type TransactionStatus = string;
 export interface CommitTransactionResponse {
-  transactionStatus?: string;
+  transactionStatus?: string | undefined;
 }
 export interface ExecuteSqlRequest {
   dbClusterOrInstanceArn: string;
   awsSecretStoreArn: string;
   sqlStatements: string;
-  database?: string;
-  schema?: string;
+  database?: string | undefined;
+  schema?: string | undefined;
 }
 export interface ColumnMetadata {
-  name?: string;
-  type?: number;
-  typeName?: string;
-  label?: string;
-  schemaName?: string;
-  tableName?: string;
-  isAutoIncrement?: boolean;
-  isSigned?: boolean;
-  isCurrency?: boolean;
-  isCaseSensitive?: boolean;
-  nullable?: number;
-  precision?: number;
-  scale?: number;
-  arrayBaseColumnType?: number;
+  name?: string | undefined;
+  type?: number | undefined;
+  typeName?: string | undefined;
+  label?: string | undefined;
+  schemaName?: string | undefined;
+  tableName?: string | undefined;
+  isAutoIncrement?: boolean | undefined;
+  isSigned?: boolean | undefined;
+  isCurrency?: boolean | undefined;
+  isCaseSensitive?: boolean | undefined;
+  nullable?: number | undefined;
+  precision?: number | undefined;
+  scale?: number | undefined;
+  arrayBaseColumnType?: number | undefined;
 }
 export type Metadata = ColumnMetadata[];
 export interface ResultSetMetadata {
-  columnCount?: number;
-  columnMetadata?: ColumnMetadata[];
+  columnCount?: number | undefined;
+  columnMetadata?: ColumnMetadata[] | undefined;
 }
 export type BoxedInteger = number;
 export type BoxedFloat = number;
 export type ArrayValueList = Value[];
 export interface StructValue {
-  attributes?: Value[];
+  attributes?: Value[] | undefined;
 }
 export type Value =
   | {
       isNull: boolean;
-      bitValue?: never;
-      bigIntValue?: never;
-      intValue?: never;
-      doubleValue?: never;
-      realValue?: never;
-      stringValue?: never;
-      blobValue?: never;
-      arrayValues?: never;
-      structValue?: never;
+      bitValue?: undefined;
+      bigIntValue?: undefined;
+      intValue?: undefined;
+      doubleValue?: undefined;
+      realValue?: undefined;
+      stringValue?: undefined;
+      blobValue?: undefined;
+      arrayValues?: undefined;
+      structValue?: undefined;
     }
   | {
-      isNull?: never;
+      isNull?: undefined;
       bitValue: boolean;
-      bigIntValue?: never;
-      intValue?: never;
-      doubleValue?: never;
-      realValue?: never;
-      stringValue?: never;
-      blobValue?: never;
-      arrayValues?: never;
-      structValue?: never;
+      bigIntValue?: undefined;
+      intValue?: undefined;
+      doubleValue?: undefined;
+      realValue?: undefined;
+      stringValue?: undefined;
+      blobValue?: undefined;
+      arrayValues?: undefined;
+      structValue?: undefined;
     }
   | {
-      isNull?: never;
-      bitValue?: never;
+      isNull?: undefined;
+      bitValue?: undefined;
       bigIntValue: number;
-      intValue?: never;
-      doubleValue?: never;
-      realValue?: never;
-      stringValue?: never;
-      blobValue?: never;
-      arrayValues?: never;
-      structValue?: never;
+      intValue?: undefined;
+      doubleValue?: undefined;
+      realValue?: undefined;
+      stringValue?: undefined;
+      blobValue?: undefined;
+      arrayValues?: undefined;
+      structValue?: undefined;
     }
   | {
-      isNull?: never;
-      bitValue?: never;
-      bigIntValue?: never;
+      isNull?: undefined;
+      bitValue?: undefined;
+      bigIntValue?: undefined;
       intValue: number;
-      doubleValue?: never;
-      realValue?: never;
-      stringValue?: never;
-      blobValue?: never;
-      arrayValues?: never;
-      structValue?: never;
+      doubleValue?: undefined;
+      realValue?: undefined;
+      stringValue?: undefined;
+      blobValue?: undefined;
+      arrayValues?: undefined;
+      structValue?: undefined;
     }
   | {
-      isNull?: never;
-      bitValue?: never;
-      bigIntValue?: never;
-      intValue?: never;
+      isNull?: undefined;
+      bitValue?: undefined;
+      bigIntValue?: undefined;
+      intValue?: undefined;
       doubleValue: number;
-      realValue?: never;
-      stringValue?: never;
-      blobValue?: never;
-      arrayValues?: never;
-      structValue?: never;
+      realValue?: undefined;
+      stringValue?: undefined;
+      blobValue?: undefined;
+      arrayValues?: undefined;
+      structValue?: undefined;
     }
   | {
-      isNull?: never;
-      bitValue?: never;
-      bigIntValue?: never;
-      intValue?: never;
-      doubleValue?: never;
+      isNull?: undefined;
+      bitValue?: undefined;
+      bigIntValue?: undefined;
+      intValue?: undefined;
+      doubleValue?: undefined;
       realValue: number;
-      stringValue?: never;
-      blobValue?: never;
-      arrayValues?: never;
-      structValue?: never;
+      stringValue?: undefined;
+      blobValue?: undefined;
+      arrayValues?: undefined;
+      structValue?: undefined;
     }
   | {
-      isNull?: never;
-      bitValue?: never;
-      bigIntValue?: never;
-      intValue?: never;
-      doubleValue?: never;
-      realValue?: never;
+      isNull?: undefined;
+      bitValue?: undefined;
+      bigIntValue?: undefined;
+      intValue?: undefined;
+      doubleValue?: undefined;
+      realValue?: undefined;
       stringValue: string;
-      blobValue?: never;
-      arrayValues?: never;
-      structValue?: never;
+      blobValue?: undefined;
+      arrayValues?: undefined;
+      structValue?: undefined;
     }
   | {
-      isNull?: never;
-      bitValue?: never;
-      bigIntValue?: never;
-      intValue?: never;
-      doubleValue?: never;
-      realValue?: never;
-      stringValue?: never;
+      isNull?: undefined;
+      bitValue?: undefined;
+      bigIntValue?: undefined;
+      intValue?: undefined;
+      doubleValue?: undefined;
+      realValue?: undefined;
+      stringValue?: undefined;
       blobValue: Uint8Array;
-      arrayValues?: never;
-      structValue?: never;
+      arrayValues?: undefined;
+      structValue?: undefined;
     }
   | {
-      isNull?: never;
-      bitValue?: never;
-      bigIntValue?: never;
-      intValue?: never;
-      doubleValue?: never;
-      realValue?: never;
-      stringValue?: never;
-      blobValue?: never;
+      isNull?: undefined;
+      bitValue?: undefined;
+      bigIntValue?: undefined;
+      intValue?: undefined;
+      doubleValue?: undefined;
+      realValue?: undefined;
+      stringValue?: undefined;
+      blobValue?: undefined;
       arrayValues: Value[];
-      structValue?: never;
+      structValue?: undefined;
     }
   | {
-      isNull?: never;
-      bitValue?: never;
-      bigIntValue?: never;
-      intValue?: never;
-      doubleValue?: never;
-      realValue?: never;
-      stringValue?: never;
-      blobValue?: never;
-      arrayValues?: never;
+      isNull?: undefined;
+      bitValue?: undefined;
+      bigIntValue?: undefined;
+      intValue?: undefined;
+      doubleValue?: undefined;
+      realValue?: undefined;
+      stringValue?: undefined;
+      blobValue?: undefined;
+      arrayValues?: undefined;
       structValue: StructValue;
     };
 export type Row = Value[];
 export interface Record {
-  values?: Value[];
+  values?: Value[] | undefined;
 }
 export type Records = Record[];
 export interface ResultFrame {
-  resultSetMetadata?: ResultSetMetadata;
-  records?: Record[];
+  resultSetMetadata?: ResultSetMetadata | undefined;
+  records?: Record[] | undefined;
 }
 export type RecordsUpdated = number;
 export interface SqlStatementResult {
-  resultFrame?: ResultFrame;
-  numberOfRecordsUpdated?: number;
+  resultFrame?: ResultFrame | undefined;
+  numberOfRecordsUpdated?: number | undefined;
 }
 export type SqlStatementResults = SqlStatementResult[];
 export interface ExecuteSqlResponse {
-  sqlStatementResults?: SqlStatementResult[];
+  sqlStatementResults?: SqlStatementResult[] | undefined;
 }
 export type DecimalReturnType = "STRING" | "DOUBLE_OR_LONG" | (string & {});
 export type LongReturnType = "STRING" | "LONG" | (string & {});
 export interface ResultSetOptions {
-  decimalReturnType?: DecimalReturnType;
-  longReturnType?: LongReturnType;
+  decimalReturnType?: DecimalReturnType | undefined;
+  longReturnType?: LongReturnType | undefined;
 }
 export type RecordsFormatType = "NONE" | "JSON" | (string & {});
 export interface ExecuteStatementRequest {
   resourceArn: string;
   secretArn: string;
   sql: string;
-  database?: string;
-  schema?: string;
-  parameters?: SqlParameter[];
-  transactionId?: string;
-  includeResultMetadata?: boolean;
-  continueAfterTimeout?: boolean;
-  resultSetOptions?: ResultSetOptions;
-  formatRecordsAs?: RecordsFormatType;
+  database?: string | undefined;
+  schema?: string | undefined;
+  parameters?: SqlParameter[] | undefined;
+  transactionId?: string | undefined;
+  includeResultMetadata?: boolean | undefined;
+  continueAfterTimeout?: boolean | undefined;
+  resultSetOptions?: ResultSetOptions | undefined;
+  formatRecordsAs?: RecordsFormatType | undefined;
 }
 export type SqlRecords = Field[][];
 export type FormattedSqlRecords = string;
 export interface ExecuteStatementResponse {
-  records?: Field[][];
-  columnMetadata?: ColumnMetadata[];
-  numberOfRecordsUpdated?: number;
-  generatedFields?: Field[];
-  formattedRecords?: string;
+  records?: Field[][] | undefined;
+  columnMetadata?: ColumnMetadata[] | undefined;
+  numberOfRecordsUpdated?: number | undefined;
+  generatedFields?: Field[] | undefined;
+  formattedRecords?: string | undefined;
 }
 export interface RollbackTransactionRequest {
   resourceArn: string;
@@ -558,7 +559,7 @@ export interface RollbackTransactionRequest {
   transactionId: string;
 }
 export interface RollbackTransactionResponse {
-  transactionStatus?: string;
+  transactionStatus?: string | undefined;
 }
 export type ErrorMessage = string;
 export type BatchExecuteStatementError =
@@ -590,7 +591,7 @@ export type BatchExecuteStatementError =
  * The response size limit is 1 MiB. If the call returns more than 1 MiB of response data, the call is terminated.
  */
 export const batchExecuteStatement: API.OperationMethod<
-  BatchExecuteStatementRequest,
+  BatchExecuteStatementRequest & RegionInput,
   BatchExecuteStatementResponse,
   BatchExecuteStatementError,
   Credentials | HttpClient.HttpClient
@@ -648,7 +649,7 @@ export type BeginTransactionError =
  * For Aurora MySQL, DDL statements inside a transaction cause an implicit commit. We recommend that you run each MySQL DDL statement in a separate `ExecuteStatement` call with `continueAfterTimeout` enabled.
  */
 export const beginTransaction: API.OperationMethod<
-  BeginTransactionRequest,
+  BeginTransactionRequest & RegionInput,
   BeginTransactionResponse,
   BeginTransactionError,
   Credentials | HttpClient.HttpClient
@@ -700,7 +701,7 @@ export type CommitTransactionError =
  * Ends a SQL transaction started with the `BeginTransaction` operation and commits the changes.
  */
 export const commitTransaction: API.OperationMethod<
-  CommitTransactionRequest,
+  CommitTransactionRequest & RegionInput,
   CommitTransactionResponse,
   CommitTransactionError,
   Credentials | HttpClient.HttpClient
@@ -744,7 +745,7 @@ export type ExecuteSqlError =
  * This operation is deprecated. Please use the `BatchExecuteStatement` or `ExecuteStatement` operation.
  */
 export const executeSql: API.OperationMethod<
-  ExecuteSqlRequest,
+  ExecuteSqlRequest & RegionInput,
   ExecuteSqlResponse,
   ExecuteSqlError,
   Credentials | HttpClient.HttpClient
@@ -791,7 +792,7 @@ export type ExecuteStatementError =
  * If the binary response data from the database is more than 1 MB, the call is terminated.
  */
 export const executeStatement: API.OperationMethod<
-  ExecuteStatementRequest,
+  ExecuteStatementRequest & RegionInput,
   ExecuteStatementResponse,
   ExecuteStatementError,
   Credentials | HttpClient.HttpClient
@@ -844,7 +845,7 @@ export type RollbackTransactionError =
  * Performs a rollback of a transaction. Rolling back a transaction cancels its changes.
  */
 export const rollbackTransaction: API.OperationMethod<
-  RollbackTransactionRequest,
+  RollbackTransactionRequest & RegionInput,
   RollbackTransactionResponse,
   RollbackTransactionError,
   Credentials | HttpClient.HttpClient

@@ -62,6 +62,7 @@ const resendSpec: SdkSpec = {
   paginationProfiles: {
     cursor: {
       strategy: "paginateResend",
+      requires: () => ["inputToken"],
       itemsFallback: "data",
     },
   },

@@ -86,6 +86,14 @@ export interface HttpTrait {
    * 406). Protocols that don't read it fall back to their own default.
    */
   readonly accept?: string;
+  /**
+   * Name of the host the operation runs on, when the API serves it from a
+   * host other than the service's main one (DigitalOcean's `"inference"`
+   * for `inference.do-ai.run`). It names a host and is never a URL: the
+   * protocol maps it to a base URL from its credentials, so the caller's
+   * configuration decides where the request and its credentials go.
+   */
+  readonly server?: string;
 }
 
 export const httpSymbol = /*@__PURE__*/ Symbol.for("@distilled.cloud/core/http");
@@ -124,6 +132,16 @@ export const Body = (name?: string) => makeAnnotation(bodySymbol, name ?? true);
 
 export const querySymbol = /*@__PURE__*/ Symbol.for("@distilled.cloud/core/http/query");
 export const Query = (name?: string) => makeAnnotation(querySymbol, name ?? true);
+
+export const commaDelimitedSymbol = /*@__PURE__*/ Symbol.for(
+  "@distilled.cloud/core/http/comma-delimited",
+);
+/**
+ * Sends a list-valued `Query` member as ONE comma-separated parameter
+ * (`?state=running,paused`) instead of one parameter per item -- OpenAPI's
+ * `style: form, explode: false`. Takes the trait value the codegen inlines.
+ */
+export const CommaDelimited = (_trait?: unknown) => makeAnnotation(commaDelimitedSymbol, true);
 
 export const deepQuerySymbol = /*@__PURE__*/ Symbol.for("@distilled.cloud/core/http/deep-query");
 /**
@@ -210,11 +228,23 @@ export interface UnionDiscriminator {
  * kinds of `resource_tagging`, the 34 page-rule actions -- so when the union
  * has a discriminator the protocol reads the case off it and only falls back
  * to key-set scoring for a value whose tag is missing or unknown.
+ *
+ * `dictionaries[i]` holds case `i`'s member-level `T.KeyDictionary`s by TS
+ * member name, which the opaque schema cannot carry on the members
+ * themselves. An empty one (`{}`) keeps a member's content keys as written:
+ * a Worker binding's `json` or `props` is the caller's own JSON. A union
+ * with dictionaries is mapped per case in both directions.
  */
 export const UnionCases = (
   cases: ReadonlyArray<ReadonlyArray<string>>,
   discriminator?: UnionDiscriminator,
-) => makeAnnotation(unionCasesSymbol, discriminator ? { cases, discriminator } : { cases });
+  dictionaries?: ReadonlyArray<Readonly<Record<string, KeyDictionaryEntries>>>,
+) =>
+  makeAnnotation(unionCasesSymbol, {
+    cases,
+    ...(discriminator ? { discriminator } : {}),
+    ...(dictionaries ? { dictionaries } : {}),
+  });
 //#endregion
 
 //#region Error matcher traits

@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -125,30 +126,30 @@ export class ThrottlingException
       ),
     },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export type HomeRegion = string;
 export type TargetType = "ACCOUNT" | (string & {});
 export type TargetId = string;
 export interface Target {
   Type: TargetType;
-  Id?: string;
+  Id?: string | undefined;
 }
 export type DryRun = boolean;
 export interface CreateHomeRegionControlRequest {
   HomeRegion: string;
   Target: Target;
-  DryRun?: boolean;
+  DryRun?: boolean | undefined;
 }
 export type ControlId = string;
 export type RequestedTime = Date;
 export interface HomeRegionControl {
-  ControlId?: string;
-  HomeRegion?: string;
-  Target?: Target;
-  RequestedTime?: Date;
+  ControlId?: string | undefined;
+  HomeRegion?: string | undefined;
+  Target?: Target | undefined;
+  RequestedTime?: Date | undefined;
 }
 export interface CreateHomeRegionControlResult {
-  HomeRegionControl?: HomeRegionControl;
+  HomeRegionControl?: HomeRegionControl | undefined;
 }
 export interface DeleteHomeRegionControlRequest {
   ControlId: string;
@@ -157,20 +158,20 @@ export interface DeleteHomeRegionControlResult {}
 export type DescribeHomeRegionControlsMaxResults = number;
 export type Token = string;
 export interface DescribeHomeRegionControlsRequest {
-  ControlId?: string;
-  HomeRegion?: string;
-  Target?: Target;
-  MaxResults?: number;
-  NextToken?: string;
+  ControlId?: string | undefined;
+  HomeRegion?: string | undefined;
+  Target?: Target | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type HomeRegionControls = HomeRegionControl[];
 export interface DescribeHomeRegionControlsResult {
-  HomeRegionControls?: HomeRegionControl[];
-  NextToken?: string;
+  HomeRegionControls?: HomeRegionControl[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetHomeRegionRequest {}
 export interface GetHomeRegionResult {
-  HomeRegion?: string;
+  HomeRegion?: string | undefined;
 }
 export type ErrorMessage = string;
 export type RetryAfterSeconds = number;
@@ -186,7 +187,7 @@ export type CreateHomeRegionControlError =
  * This API sets up the home region for the calling account only.
  */
 export const createHomeRegionControl: API.OperationMethod<
-  CreateHomeRegionControlRequest,
+  CreateHomeRegionControlRequest & RegionInput,
   CreateHomeRegionControlResult,
   CreateHomeRegionControlError,
   Credentials | HttpClient.HttpClient
@@ -219,7 +220,7 @@ export type DeleteHomeRegionControlError =
  * This operation deletes the home region configuration for the calling account. The operation does not delete discovery or migration tracking data in the home region.
  */
 export const deleteHomeRegionControl: API.OperationMethod<
-  DeleteHomeRegionControlRequest,
+  DeleteHomeRegionControlRequest & RegionInput,
   DeleteHomeRegionControlResult,
   DeleteHomeRegionControlError,
   Credentials | HttpClient.HttpClient
@@ -252,7 +253,7 @@ export type DescribeHomeRegionControlsError =
  * fields.
  */
 export const describeHomeRegionControls: API.PaginatedOperationMethod<
-  DescribeHomeRegionControlsRequest,
+  DescribeHomeRegionControlsRequest & RegionInput,
   DescribeHomeRegionControlsResult,
   DescribeHomeRegionControlsError,
   Credentials | HttpClient.HttpClient,
@@ -294,7 +295,7 @@ export type GetHomeRegionError =
  * Migration Hub home region.
  */
 export const getHomeRegion: API.OperationMethod<
-  GetHomeRegionRequest,
+  GetHomeRegionRequest & RegionInput,
   GetHomeRegionResult,
   GetHomeRegionError,
   Credentials | HttpClient.HttpClient

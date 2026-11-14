@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -104,7 +105,7 @@ export class InternalServerException
     "InternalServerException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ServiceQuotaExceededException
   extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
     "ServiceQuotaExceededException",
@@ -116,7 +117,7 @@ export class ThrottlingException
     "ThrottlingException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
@@ -128,7 +129,7 @@ export interface DeleteReportDefinitionRequest {
   reportId: string;
 }
 export interface DeleteReportDefinitionResult {
-  reportId?: string;
+  reportId?: string | undefined;
 }
 export interface GetReportDefinitionRequest {
   reportId: string;
@@ -161,7 +162,7 @@ export type S3BucketRegion =
 export interface SourceS3Location {
   bucket: string;
   key: string;
-  region?: S3BucketRegion;
+  region?: S3BucketRegion | undefined;
 }
 export interface ImportApplicationUsageRequest {
   sourceS3Location: SourceS3Location;
@@ -172,22 +173,22 @@ export interface ImportApplicationUsageResult {
 }
 export type Token = string;
 export interface ListReportDefinitionsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ReportDefinition {
-  reportId?: string;
-  reportDescription?: string;
-  reportFrequency?: ReportFrequency;
-  format?: Format;
-  destinationS3Location?: S3Location;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
+  reportId?: string | undefined;
+  reportDescription?: string | undefined;
+  reportFrequency?: ReportFrequency | undefined;
+  format?: Format | undefined;
+  destinationS3Location?: S3Location | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
 }
 export type ReportDefinitionList = ReportDefinition[];
 export interface ListReportDefinitionsResult {
-  reportDefinitions?: ReportDefinition[];
-  nextToken?: string;
+  reportDefinitions?: ReportDefinition[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface PutReportDefinitionRequest {
   reportId: string;
@@ -197,7 +198,7 @@ export interface PutReportDefinitionRequest {
   destinationS3Location: S3Location;
 }
 export interface PutReportDefinitionResult {
-  reportId?: string;
+  reportId?: string | undefined;
 }
 export interface UpdateReportDefinitionRequest {
   reportId: string;
@@ -207,7 +208,7 @@ export interface UpdateReportDefinitionRequest {
   destinationS3Location: S3Location;
 }
 export interface UpdateReportDefinitionResult {
-  reportId?: string;
+  reportId?: string | undefined;
 }
 export type ErrorMessage = string;
 export type DeleteReportDefinitionError =
@@ -221,7 +222,7 @@ export type DeleteReportDefinitionError =
  * generated.
  */
 export const deleteReportDefinition: API.OperationMethod<
-  DeleteReportDefinitionRequest,
+  DeleteReportDefinitionRequest & RegionInput,
   DeleteReportDefinitionResult,
   DeleteReportDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -251,7 +252,7 @@ export type GetReportDefinitionError =
  * Retrieves the definition of a report already configured in AWS Application Cost Profiler.
  */
 export const getReportDefinition: API.OperationMethod<
-  GetReportDefinitionRequest,
+  GetReportDefinitionRequest & RegionInput,
   GetReportDefinitionResult,
   GetReportDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -285,7 +286,7 @@ export type ImportApplicationUsageError =
  * asynchronously.
  */
 export const importApplicationUsage: API.OperationMethod<
-  ImportApplicationUsageRequest,
+  ImportApplicationUsageRequest & RegionInput,
   ImportApplicationUsageResult,
   ImportApplicationUsageError,
   Credentials | HttpClient.HttpClient
@@ -317,7 +318,7 @@ export type ListReportDefinitionsError =
  * The maximum number of reports is one.
  */
 export const listReportDefinitions: API.PaginatedOperationMethod<
-  ListReportDefinitionsRequest,
+  ListReportDefinitionsRequest & RegionInput,
   ListReportDefinitionsResult,
   ListReportDefinitionsError,
   Credentials | HttpClient.HttpClient,
@@ -355,7 +356,7 @@ export type PutReportDefinitionError =
  * Creates the report definition for a report in Application Cost Profiler.
  */
 export const putReportDefinition: API.OperationMethod<
-  PutReportDefinitionRequest,
+  PutReportDefinitionRequest & RegionInput,
   PutReportDefinitionResult,
   PutReportDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -386,7 +387,7 @@ export type UpdateReportDefinitionError =
  * Updates existing report in AWS Application Cost Profiler.
  */
 export const updateReportDefinition: API.OperationMethod<
-  UpdateReportDefinitionRequest,
+  UpdateReportDefinitionRequest & RegionInput,
   UpdateReportDefinitionResult,
   UpdateReportDefinitionError,
   Credentials | HttpClient.HttpClient

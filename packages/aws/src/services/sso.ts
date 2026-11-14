@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -110,7 +111,7 @@ export class TooManyRequestsException
     "TooManyRequestsException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class UnauthorizedException
   extends /*@__PURE__*/ S.TaggedError<UnauthorizedException>()(
     "UnauthorizedException",
@@ -130,47 +131,47 @@ export type SecretAccessKeyType = string | redacted.Redacted<string>;
 export type SessionTokenType = string | redacted.Redacted<string>;
 export type ExpirationTimestampType = number;
 export interface RoleCredentials {
-  accessKeyId?: string;
-  secretAccessKey?: string | redacted.Redacted<string>;
-  sessionToken?: string | redacted.Redacted<string>;
-  expiration?: number;
+  accessKeyId?: string | undefined;
+  secretAccessKey?: string | redacted.Redacted<string> | undefined;
+  sessionToken?: string | redacted.Redacted<string> | undefined;
+  expiration?: number | undefined;
 }
 export interface GetRoleCredentialsResponse {
-  roleCredentials?: RoleCredentials;
+  roleCredentials?: RoleCredentials | undefined;
 }
 export type NextTokenType = string;
 export type MaxResultType = number;
 export interface ListAccountRolesRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   accessToken: string | redacted.Redacted<string>;
   accountId: string;
 }
 export interface RoleInfo {
-  roleName?: string;
-  accountId?: string;
+  roleName?: string | undefined;
+  accountId?: string | undefined;
 }
 export type RoleListType = RoleInfo[];
 export interface ListAccountRolesResponse {
-  nextToken?: string;
-  roleList?: RoleInfo[];
+  nextToken?: string | undefined;
+  roleList?: RoleInfo[] | undefined;
 }
 export interface ListAccountsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   accessToken: string | redacted.Redacted<string>;
 }
 export type AccountNameType = string;
 export type EmailAddressType = string;
 export interface AccountInfo {
-  accountId?: string;
-  accountName?: string;
-  emailAddress?: string;
+  accountId?: string | undefined;
+  accountName?: string | undefined;
+  emailAddress?: string | undefined;
 }
 export type AccountListType = AccountInfo[];
 export interface ListAccountsResponse {
-  nextToken?: string;
-  accountList?: AccountInfo[];
+  nextToken?: string | undefined;
+  accountList?: AccountInfo[] | undefined;
 }
 export interface LogoutRequest {
   accessToken: string | redacted.Redacted<string>;
@@ -188,7 +189,7 @@ export type GetRoleCredentialsError =
  * user.
  */
 export const getRoleCredentials: API.OperationMethod<
-  GetRoleCredentialsRequest,
+  GetRoleCredentialsRequest & RegionInput,
   GetRoleCredentialsResponse,
   GetRoleCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -218,7 +219,7 @@ export type ListAccountRolesError =
  * Lists all roles that are assigned to the user for a given AWS account.
  */
 export const listAccountRoles: API.PaginatedOperationMethod<
-  ListAccountRolesRequest,
+  ListAccountRolesRequest & RegionInput,
   ListAccountRolesResponse,
   ListAccountRolesError,
   Credentials | HttpClient.HttpClient,
@@ -257,7 +258,7 @@ export type ListAccountsError =
  * returns a paginated response.
  */
 export const listAccounts: API.PaginatedOperationMethod<
-  ListAccountsRequest,
+  ListAccountsRequest & RegionInput,
   ListAccountsResponse,
   ListAccountsError,
   Credentials | HttpClient.HttpClient,
@@ -306,7 +307,7 @@ export type LogoutError =
  * Guide.
  */
 export const logout: API.OperationMethod<
-  LogoutRequest,
+  LogoutRequest & RegionInput,
   LogoutResponse,
   LogoutError,
   Credentials | HttpClient.HttpClient

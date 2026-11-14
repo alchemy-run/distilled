@@ -89,70 +89,68 @@ export interface ClosePlatformsAccountsRequest {
   /** Required. Account to close. Format: platforms/{platform}/accounts/{account_id} */
   name: string;
   /** Request body */
-  body?: CloseAccountRequest;
+  body?: CloseAccountRequest | undefined;
 }
 /** Response definition for the account close rpc. */
 export interface CloseAccountResponse {}
-export type AccountStateEnum = "STATE_UNSPECIFIED" | "UNCHECKED" | "APPROVED" | "DISAPPROVED";
 /** Represents a time zone from the [IANA Time Zone Database](https://www.iana.org/time-zones). */
 export interface TimeZone {
   /** IANA Time Zone Database time zone. For example "America/New_York". */
-  id?: string;
+  id?: string | undefined;
   /** Optional. IANA Time Zone Database version number. For example "2019a". */
-  version?: string;
+  version?: string | undefined;
 }
+export type AccountStateEnum = "STATE_UNSPECIFIED" | "UNCHECKED" | "APPROVED" | "DISAPPROVED";
 /** Representation of an Account. */
 export interface Account {
-  /** Required. Input only. CLDR region code of the country/region of the address. Set this to country code of the child account if known, otherwise to your own country code. */
-  regionCode?: string;
-  /** Required. An opaque token that uniquely identifies the account among all the platform's accounts. This string may contain at most 64 non-whitespace ASCII characters, but otherwise has no predefined structure. However, it is expected to be a platform-specific identifier for the user creating the account, so that only a single account can be created for any given user. This field must not contain any information that is recognizable as personally identifiable information. e.g. it should not be an email address or login name. Once an account has been created, a second attempt to create an account using the same creation_request_id will result in an ALREADY_EXISTS error. */
-  creationRequestId?: string;
-  /** Output only. Approval state of the account. */
-  state?: AccountStateEnum | (string & {});
-  /** Output only. Resource name of the account. Format: platforms/pub-[0-9]+/accounts/pub-[0-9]+ */
-  name?: string;
   /** Output only. Creation time of the account. */
-  createTime?: string;
-  /** Display name of this account. */
-  displayName?: string;
+  createTime?: string | undefined;
   /** Required. The IANA TZ timezone code of this account. For more information, see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones. This field is used for reporting. It is recommended to set it to the same value for all child accounts. */
-  timeZone?: TimeZone;
+  timeZone?: TimeZone | undefined;
+  /** Output only. Approval state of the account. */
+  state?: AccountStateEnum | (string & {}) | undefined;
+  /** Display name of this account. */
+  displayName?: string | undefined;
+  /** Required. An opaque token that uniquely identifies the account among all the platform's accounts. This string may contain at most 64 non-whitespace ASCII characters, but otherwise has no predefined structure. However, it is expected to be a platform-specific identifier for the user creating the account, so that only a single account can be created for any given user. This field must not contain any information that is recognizable as personally identifiable information. e.g. it should not be an email address or login name. Once an account has been created, a second attempt to create an account using the same creation_request_id will result in an ALREADY_EXISTS error. */
+  creationRequestId?: string | undefined;
+  /** Output only. Resource name of the account. Format: platforms/pub-[0-9]+/accounts/pub-[0-9]+ */
+  name?: string | undefined;
+  /** Required. Input only. CLDR region code of the country/region of the address. Set this to country code of the child account if known, otherwise to your own country code. */
+  regionCode?: string | undefined;
 }
-export interface CreatePlatformsAccountsRequest {
+export interface CreatePlatformsAccountsRequest extends Account {
   /** Required. Platform to create an account for. Format: platforms/{platform} */
   parent: string;
-  /** Request body */
-  body?: Account;
 }
 /** Address data. */
 export interface Address {
-  /** Second line of address. Max length 64 bytes or 30 characters. */
-  address2?: string;
-  /** Fax number with international code (i.e. +441234567890). */
-  fax?: string;
-  /** Contact name of the company. Max length 128 bytes or 34 characters. */
-  contact?: string;
-  /** State. Max length 60 bytes or 30 characters. */
-  state?: string;
-  /** Country/Region code. The region is specified as a CLDR region code (e.g. "US", "FR"). */
-  regionCode?: string;
-  /** City. Max length 60 bytes or 30 characters. */
-  city?: string;
-  /** Phone number with international code (i.e. +441234567890). */
-  phone?: string;
-  /** First line of address. Max length 64 bytes or 30 characters. */
-  address1?: string;
   /** Name of the company. Max length 255 bytes or 34 characters. */
-  company?: string;
+  company?: string | undefined;
+  /** Contact name of the company. Max length 128 bytes or 34 characters. */
+  contact?: string | undefined;
+  /** State. Max length 60 bytes or 30 characters. */
+  state?: string | undefined;
+  /** City. Max length 60 bytes or 30 characters. */
+  city?: string | undefined;
+  /** Country/Region code. The region is specified as a CLDR region code (e.g. "US", "FR"). */
+  regionCode?: string | undefined;
+  /** Fax number with international code (i.e. +441234567890). */
+  fax?: string | undefined;
+  /** First line of address. Max length 64 bytes or 30 characters. */
+  address1?: string | undefined;
+  /** Phone number with international code (i.e. +441234567890). */
+  phone?: string | undefined;
+  /** Second line of address. Max length 64 bytes or 30 characters. */
+  address2?: string | undefined;
   /** Zip/post code. Max length 10 bytes or 10 characters. */
-  zip?: string;
+  zip?: string | undefined;
 }
 /** Private information for partner recorded events (PII). */
 export interface EventInfo {
-  /** Required. The email address that is associated with the publisher when performing the event. */
-  email?: string;
   /** The billing address of the publisher associated with this event, if available. */
-  billingAddress?: Address;
+  billingAddress?: Address | undefined;
+  /** Required. The email address that is associated with the publisher when performing the event. */
+  email?: string | undefined;
 }
 export type EventEventTypeEnum =
   | "EVENT_TYPE_UNSPECIFIED"
@@ -161,17 +159,15 @@ export type EventEventTypeEnum =
 /** A platform sub-account event to record spam signals. */
 export interface Event {
   /** Required. Information associated with the event. */
-  eventInfo?: EventInfo;
-  /** Required. Event type. */
-  eventType?: EventEventTypeEnum | (string & {});
+  eventInfo?: EventInfo | undefined;
   /** Required. Event timestamp. */
-  eventTime?: string;
+  eventTime?: string | undefined;
+  /** Required. Event type. */
+  eventType?: EventEventTypeEnum | (string & {}) | undefined;
 }
-export interface CreatePlatformsAccountsEventsRequest {
+export interface CreatePlatformsAccountsEventsRequest extends Event {
   /** Required. Account to log events about. Format: platforms/{platform}/accounts/{account} */
   parent: string;
-  /** Request body */
-  body?: Event;
 }
 export type SiteStateEnum =
   | "STATE_UNSPECIFIED"
@@ -181,18 +177,16 @@ export type SiteStateEnum =
   | "NEEDS_ATTENTION";
 /** Representation of a Site. */
 export interface Site {
-  /** Domain/sub-domain of the site. Must be a valid domain complying with [RFC 1035](https://www.ietf.org/rfc/rfc1035.txt) and formatted as punycode [RFC 3492](https://www.ietf.org/rfc/rfc3492.txt) in case the domain contains unicode characters. */
-  domain?: string;
   /** Output only. State of a site. */
-  state?: SiteStateEnum | (string & {});
+  state?: SiteStateEnum | (string & {}) | undefined;
+  /** Domain/sub-domain of the site. Must be a valid domain complying with [RFC 1035](https://www.ietf.org/rfc/rfc1035.txt) and formatted as punycode [RFC 3492](https://www.ietf.org/rfc/rfc3492.txt) in case the domain contains unicode characters. */
+  domain?: string | undefined;
   /** Output only. Resource name of a site. Format: platforms/{platform}/accounts/{account}/sites/{site} */
-  name?: string;
+  name?: string | undefined;
 }
-export interface CreatePlatformsAccountsSitesRequest {
+export interface CreatePlatformsAccountsSitesRequest extends Site {
   /** Required. Account to create site. Format: platforms/{platform}/accounts/{account_id} */
   parent: string;
-  /** Request body */
-  body?: Site;
 }
 export interface DeletePlatformsAccountsSitesRequest {
   /** Required. The name of the site to delete. Format: platforms/{platform}/accounts/{account}/sites/{site} */
@@ -206,12 +200,12 @@ export interface GetAccountsPlatformsRequest {
 }
 /** Representation of a Transparent Platform. */
 export interface Platform {
-  /** Output only. Description of the platform. */
-  description?: string;
   /** Default platform group for the platform. */
-  defaultPlatformGroup?: string;
+  defaultPlatformGroup?: string | undefined;
   /** Identifier. Resource name of a platform. Format: accounts/{account}/platforms/{platform} */
-  name?: string;
+  name?: string | undefined;
+  /** Output only. Description of the platform. */
+  description?: string | undefined;
 }
 export interface GetAccountsPlatformsChildAccountsSitesRequest {
   /** Required. The name of the platform child site to retrieve. Format: accounts/{account}/platforms/{platform}/childAccounts/{child_account}/sites/{platform_child_site} */
@@ -219,12 +213,12 @@ export interface GetAccountsPlatformsChildAccountsSitesRequest {
 }
 /** Representation of a Transparent Platform Child Site. */
 export interface PlatformChildSite {
-  /** Output only. Domain URL of the Platform Child Site. Part of the PlatformChildSite name. */
-  domain?: string;
-  /** Identifier. Format: accounts/{account}/platforms/{platform}/childAccounts/{child_account}/sites/{platform_child_site} */
-  name?: string;
   /** Resource name of the Platform Group of the Platform Child Site. */
-  platformGroup?: string;
+  platformGroup?: string | undefined;
+  /** Output only. Domain URL of the Platform Child Site. Part of the PlatformChildSite name. */
+  domain?: string | undefined;
+  /** Identifier. Format: accounts/{account}/platforms/{platform}/childAccounts/{child_account}/sites/{platform_child_site} */
+  name?: string | undefined;
 }
 export interface GetAccountsPlatformsGroupsRequest {
   /** Required. The name of the platform group to retrieve. Format: accounts/{account}/platforms/{platform}/groups/{group} */
@@ -233,16 +227,16 @@ export interface GetAccountsPlatformsGroupsRequest {
 /** A representation of a decimal value, such as 2.5. Clients may convert values into language-native decimal formats, such as Java's [BigDecimal](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/math/BigDecimal.html) or Python's [decimal.Decimal](https://docs.python.org/3/library/decimal.html). */
 export interface Decimal {
   /** The decimal value, as a string. The string representation consists of an optional sign, `+` (`U+002B`) or `-` (`U+002D`), followed by a sequence of zero or more decimal digits ("the integer"), optionally followed by a fraction, optionally followed by an exponent. An empty string **should** be interpreted as `0`. The fraction consists of a decimal point followed by zero or more decimal digits. The string must contain at least one digit in either the integer or the fraction. The number formed by the sign, the integer and the fraction is referred to as the significand. The exponent consists of the character `e` (`U+0065`) or `E` (`U+0045`) followed by one or more decimal digits. Services **should** normalize decimal values before storing them by: - Removing an explicitly-provided `+` sign (`+2.5` -> `2.5`). - Replacing a zero-length integer value with `0` (`.5` -> `0.5`). - Coercing the exponent character to upper-case, with explicit sign (`2.5e8` -> `2.5E+8`). - Removing an explicitly-provided zero exponent (`2.5E0` -> `2.5`). Services **may** perform additional normalization based on its own needs and the internal decimal implementation selected, such as shifting the decimal point and exponent value together (example: `2.5E-1` <-> `0.25`). Additionally, services **may** preserve trailing zeroes in the fraction to indicate increased precision, but are not required to do so. Note that only the `.` character is supported to divide the integer and the fraction; `,` **should not** be supported regardless of locale. Additionally, thousand separators **should not** be supported. If a service does support them, values **must** be normalized. The ENBF grammar is: DecimalString = '' | [Sign] Significand [Exponent]; Sign = '+' | '-'; Significand = Digits '.' | [Digits] '.' Digits; Exponent = ('e' | 'E') [Sign] Digits; Digits = { '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' }; Services **should** clearly document the range of supported values, the maximum supported precision (total number of digits), and, if applicable, the scale (number of digits after the decimal point), as well as how it behaves when receiving out-of-bounds values. Services **may** choose to accept values passed as input even when the value has a higher precision or scale than the service supports, and **should** round the value to fit the supported scale. Alternatively, the service **may** error with `400 Bad Request` (`INVALID_ARGUMENT` in gRPC) if precision would be lost. Services **should** error with `400 Bad Request` (`INVALID_ARGUMENT` in gRPC) if the service receives a value outside of the supported range. */
-  value?: string;
+  value?: string | undefined;
 }
 /** Representation of a Transparent Platform Group. */
 export interface PlatformGroup {
-  /** Identifier. Format: accounts/{account}/platforms/{platform}/groups/{platform_group} */
-  name?: string;
   /** Output only. The revenue share of the PlatformGroup, in millipercent (e.g. 15000 = 15%). */
-  revshareMillipercent?: Decimal;
+  revshareMillipercent?: Decimal | undefined;
   /** Required. Description of the PlatformGroup. */
-  description?: string;
+  description?: string | undefined;
+  /** Identifier. Format: accounts/{account}/platforms/{platform}/groups/{platform_group} */
+  name?: string | undefined;
 }
 export interface GetPlatformsAccountsRequest {
   /** Required. Account to get information about. Format: platforms/{platform}/accounts/{account_id} */
@@ -253,74 +247,74 @@ export interface GetPlatformsAccountsSitesRequest {
   name: string;
 }
 export interface ListAccountsPlatformsRequest {
-  /** Optional. The maximum number of platforms to include in the response, used for paging. If unspecified, at most 10000 platforms will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
-  pageSize?: number;
+  /** Optional. A page token, received from a previous `ListPlatforms` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListPlatforms` must match the call that provided the page token. */
+  pageToken?: string | undefined;
   /** Required. The account which owns the platforms. Format: accounts/{account} */
   parent: string;
-  /** Optional. A page token, received from a previous `ListPlatforms` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListPlatforms` must match the call that provided the page token. */
-  pageToken?: string;
+  /** Optional. The maximum number of platforms to include in the response, used for paging. If unspecified, at most 10000 platforms will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
+  pageSize?: number | undefined;
 }
 export type PlatformList = Array<Platform>;
 /** Response definition for the platform list rpc. */
 export interface ListPlatformsResponse {
   /** The platforms returned in this list response. */
-  platforms?: PlatformList;
+  platforms?: PlatformList | undefined;
   /** Continuation token used to page through platforms. To retrieve the next page of the results, set the next request's "page_token" value to this. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListAccountsPlatformsChildAccountsSitesRequest {
-  /** Optional. A page token, received from a previous `ListPlatformChildSites` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListPlatformChildSites` must match the call that provided the page token. */
-  pageToken?: string;
   /** Required. The name of the child account under the given platform which owns the platform child sites. Format: accounts/{account}/platforms/{platform}/childAccounts/{child_account} */
   parent: string;
+  /** Optional. A page token, received from a previous `ListPlatformChildSites` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListPlatformChildSites` must match the call that provided the page token. */
+  pageToken?: string | undefined;
   /** Optional. The maximum number of children to include in the response, used for paging. If unspecified, at most 10000 platforms will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type PlatformChildSiteList = Array<PlatformChildSite>;
 /** Response definition for the list platform child sites rpc. */
 export interface ListPlatformChildSitesResponse {
-  /** Continuation token used to page through platforms. To retrieve the next page of the results, set the next request's "page_token" value to this. */
-  nextPageToken?: string;
   /** The platform child sites returned in this list response. */
-  platformChildSites?: PlatformChildSiteList;
+  platformChildSites?: PlatformChildSiteList | undefined;
+  /** Continuation token used to page through platforms. To retrieve the next page of the results, set the next request's "page_token" value to this. */
+  nextPageToken?: string | undefined;
 }
 export interface ListAccountsPlatformsGroupsRequest {
   /** Optional. The maximum number of groups to include in the response, used for paging. If unspecified, at most 10000 groups will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The name of the platform to retrieve. Format: accounts/{account}/platforms/{platform} */
   parent: string;
   /** Optional. A page token, received from a previous `ListPlatformGroups` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListPlatformGroups` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type PlatformGroupList = Array<PlatformGroup>;
 /** Response definition for the platform groups list rpc. */
 export interface ListPlatformGroupsResponse {
   /** The platform groups returned in this list response. */
-  platformGroups?: PlatformGroupList;
+  platformGroups?: PlatformGroupList | undefined;
   /** Continuation token used to page through platforms. To retrieve the next page of the results, set the next request's "page_token" value to this. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListPlatformsAccountsRequest {
-  /** Optional. The maximum number of accounts to include in the response, used for paging. If unspecified, at most 10000 accounts will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
-  pageSize?: number;
-  /** Optional. A page token, received from a previous `ListAccounts` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
   /** Required. Platform who parents the accounts. Format: platforms/{platform} */
   parent: string;
+  /** Optional. A page token, received from a previous `ListAccounts` call. Provide this to retrieve the subsequent page. */
+  pageToken?: string | undefined;
+  /** Optional. The maximum number of accounts to include in the response, used for paging. If unspecified, at most 10000 accounts will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
+  pageSize?: number | undefined;
 }
 export type AccountList = Array<Account>;
 /** Response definition for the list accounts rpc. */
 export interface ListAccountsResponse {
-  /** The Accounts returned in the list response. Represented by a partial view of the Account resource, populating `name` and `creation_request_id`. */
-  accounts?: AccountList;
   /** Continuation token used to page through accounts. To retrieve the next page of the results, set the next request's "page_token" value to this. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
+  /** The Accounts returned in the list response. Represented by a partial view of the Account resource, populating `name` and `creation_request_id`. */
+  accounts?: AccountList | undefined;
 }
 export interface ListPlatformsAccountsSitesRequest {
   /** A page token, received from a previous `ListSites` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListSites` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The maximum number of sites to include in the response, used for paging. If unspecified, at most 10000 sites will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The account which owns the sites. Format: platforms/{platform}/accounts/{account} */
   parent: string;
 }
@@ -328,36 +322,35 @@ export type SiteList = Array<Site>;
 /** Response definition for the site list rpc. */
 export interface ListSitesResponse {
   /** The sites returned in this list response. */
-  sites?: SiteList;
+  sites?: SiteList | undefined;
   /** Continuation token used to page through sites. To retrieve the next page of the results, set the next request's "page_token" value to this. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface LookupPlatformsAccountsRequest {
   /** Optional. The creation_request_id provided when calling createAccount. */
-  creationRequestId?: string;
+  creationRequestId?: string | undefined;
   /** Required. Platform who parents the account. Format: platforms/{platform} */
   parent: string;
 }
 /** Response definition for the lookup account rpc. */
 export interface LookupAccountResponse {
   /** The name of the Account Format: platforms/{platform}/accounts/{account_id} */
-  name?: string;
+  name?: string | undefined;
 }
-export interface PatchAccountsPlatformsChildAccountsSitesRequest {
-  /** Optional. The list of fields to update - currently only supports updating the `platform_group` field. */
-  updateMask?: string;
+export interface PatchAccountsPlatformsChildAccountsSitesRequest extends Omit<
+  PlatformChildSite,
+  "name"
+> {
   /** Identifier. Format: accounts/{account}/platforms/{platform}/childAccounts/{child_account}/sites/{platform_child_site} */
   name: string;
-  /** Request body */
-  body?: PlatformChildSite;
+  /** Optional. The list of fields to update - currently only supports updating the `platform_group` field. */
+  updateMask?: string | undefined;
 }
-export interface PatchAccountsPlatformsGroupsRequest {
-  /** Optional. The list of fields to update - currently only supports updating the `description` field. */
-  updateMask?: string;
+export interface PatchAccountsPlatformsGroupsRequest extends Omit<PlatformGroup, "name"> {
   /** Identifier. Format: accounts/{account}/platforms/{platform}/groups/{platform_group} */
   name: string;
-  /** Request body */
-  body?: PlatformGroup;
+  /** Optional. The list of fields to update - currently only supports updating the `description` field. */
+  updateMask?: string | undefined;
 }
 export interface RequestReviewPlatformsAccountsSitesRequest {
   /** Required. The name of the site to submit for review. Format: platforms/{platform}/accounts/{account}/sites/{site} */
@@ -755,9 +748,9 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          platformGroup: S.optional(S.String),
           domain: S.optional(S.String),
           name: S.optional(S.String),
-          platformGroup: S.optional(S.String),
         }),
       ).annotate({ identifier: "PlatformChildSite" });
   }
@@ -789,9 +782,9 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           revshareMillipercent: S.optional(__S(12, __c3, 0)),
           description: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "PlatformGroup" });
   }
@@ -833,9 +826,9 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -860,8 +853,8 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -876,8 +869,8 @@ function __c7(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           platformChildSites: S.optional(__S(29, __c7, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListPlatformChildSitesResponse" });
   }
@@ -914,9 +907,9 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -930,8 +923,8 @@ function __c9(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          accounts: S.optional(__S(37, __c9, 1)),
           nextPageToken: S.optional(S.String),
+          accounts: S.optional(__S(37, __c9, 1)),
         }),
       ).annotate({ identifier: "ListAccountsResponse" });
   }
@@ -990,11 +983,13 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4, __c1, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -1008,11 +1003,13 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(13, __c3, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13, __c3, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -1065,10 +1062,12 @@ function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(73, __c18, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(73, __c18, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/accounts",
@@ -1090,13 +1089,13 @@ function __c18(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          regionCode: S.optional(S.String),
-          creationRequestId: S.optional(S.String),
-          state: S.optional(S.String),
-          name: S.optional(S.String),
           createTime: S.optional(S.String),
-          displayName: S.optional(S.String),
           timeZone: S.optional(__S(72, __c18, 0)),
+          state: S.optional(S.String),
+          displayName: S.optional(S.String),
+          creationRequestId: S.optional(S.String),
+          name: S.optional(S.String),
+          regionCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "Account" });
   }
@@ -1106,39 +1105,41 @@ function __c19(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          address2: S.optional(S.String),
-          fax: S.optional(S.String),
+          company: S.optional(S.String),
           contact: S.optional(S.String),
           state: S.optional(S.String),
-          regionCode: S.optional(S.String),
           city: S.optional(S.String),
-          phone: S.optional(S.String),
+          regionCode: S.optional(S.String),
+          fax: S.optional(S.String),
           address1: S.optional(S.String),
-          company: S.optional(S.String),
+          phone: S.optional(S.String),
+          address2: S.optional(S.String),
           zip: S.optional(S.String),
         }),
       ).annotate({ identifier: "Address" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          email: S.optional(S.String),
           billingAddress: S.optional(__S(76, __c19, 0)),
+          email: S.optional(S.String),
         }),
       ).annotate({ identifier: "EventInfo" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           eventInfo: S.optional(__S(77, __c19, 1)),
-          eventType: S.optional(S.String),
           eventTime: S.optional(S.String),
+          eventType: S.optional(S.String),
         }),
       ).annotate({ identifier: "Event" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(78, __c19, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(78, __c19, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/events",
@@ -1152,10 +1153,12 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(84, __c21, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(84, __c21, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/sites",
@@ -1170,8 +1173,8 @@ function __c21(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          domain: S.optional(S.String),
           state: S.optional(S.String),
+          domain: S.optional(S.String),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Site" });
@@ -1214,9 +1217,9 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.String),
           defaultPlatformGroup: S.optional(S.String),
           name: S.optional(S.String),
+          description: S.optional(S.String),
         }),
       ).annotate({ identifier: "Platform" });
   }

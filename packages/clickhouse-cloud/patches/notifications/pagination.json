@@ -1,0 +1,27 @@
+{
+  "description": "Page listNotifications and listMemberNotificationSettings by cursor. Each operation takes `cursor` and `limit` query parameters and answers { status, requestId, result: [...], limit, nextCursor } (the spec describes nextCursor as 'Cursor for the next page, to be sent as the `cursor` query parameter. Null on the last page.'). The converter's cursor detection does not recognise `nextCursor`, so the list was a single-page call. Observed live 2026-11-12: GET .../notifications with limit=1 answered 200 with one item and no next page (request id bb8f94ee-336b-4a66-b6b9-2af1df4ab507); GET .../members/{userId}/notificationSettings answered 200 with an empty result (0ecf78ac-094a-4419-b31e-a1e6f202146d). The multi-page traversal was captured on listApiKeys, which answers the same envelope.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.notifications#NotificationGetList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "cursor",
+        "outputToken": "nextCursor",
+        "items": "result",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.notifications#MemberNotificationSettingsGetList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "cursor",
+        "outputToken": "nextCursor",
+        "items": "result",
+        "pageSize": "limit"
+      }
+    }
+  ]
+}

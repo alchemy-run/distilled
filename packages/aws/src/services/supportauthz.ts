@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -158,21 +159,21 @@ export class ValidationException
 export type Action = string;
 export type Actions = string[];
 export type ActionSet =
-  | { allActions: Record<string, never>; actions?: never }
-  | { allActions?: never; actions: string[] };
+  | { allActions: Record<string, never>; actions?: undefined }
+  | { allActions?: undefined; actions: string[] };
 export type Resource = string;
 export type Resources = string[];
 export type ResourceSet =
-  | { allResourcesInRegion: Record<string, never>; resources?: never }
-  | { allResourcesInRegion?: never; resources: string[] };
+  | { allResourcesInRegion: Record<string, never>; resources?: undefined }
+  | { allResourcesInRegion?: undefined; resources: string[] };
 export type Condition =
-  | { allowAfter: Date; allowBefore?: never }
-  | { allowAfter?: never; allowBefore: Date };
+  | { allowAfter: Date; allowBefore?: undefined }
+  | { allowAfter?: undefined; allowBefore: Date };
 export type Conditions = Condition[];
 export interface Permit {
   actions: ActionSet;
   resources: ResourceSet;
-  conditions?: Condition[];
+  conditions?: Condition[] | undefined;
 }
 export type Name = string;
 export type Description = string;
@@ -186,24 +187,24 @@ export type Tags = { [key: string]: string | undefined };
 export interface CreateSupportPermitInput {
   permit: Permit;
   name: string;
-  description?: string;
+  description?: string | undefined;
   signingKeyInfo: SigningKeyInfo;
-  supportCaseDisplayId?: string;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  supportCaseDisplayId?: string | undefined;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type Arn = string;
 export type SupportPermitStatus = "ACTIVE" | "INACTIVE" | "DELETING" | (string & {});
 export interface CreateSupportPermitOutput {
   name: string;
   arn: string;
-  description?: string;
+  description?: string | undefined;
   permit: Permit;
   status: SupportPermitStatus;
   signingKeyInfo: SigningKeyInfo;
   createdAt: Date;
-  supportCaseDisplayId?: string;
-  tags?: { [key: string]: string | undefined };
+  supportCaseDisplayId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DeleteSupportPermitInput {
   supportPermitIdentifier: string;
@@ -211,12 +212,12 @@ export interface DeleteSupportPermitInput {
 export interface DeleteSupportPermitOutput {
   name: string;
   arn: string;
-  description?: string;
+  description?: string | undefined;
   permit: Permit;
   status: SupportPermitStatus;
   signingKeyInfo: SigningKeyInfo;
   createdAt: Date;
-  supportCaseDisplayId?: string;
+  supportCaseDisplayId?: string | undefined;
 }
 export interface GetActionInput {
   action: string;
@@ -235,19 +236,19 @@ export interface GetSupportPermitInput {
 export interface GetSupportPermitOutput {
   name: string;
   arn: string;
-  description?: string;
+  description?: string | undefined;
   permit: Permit;
   status: SupportPermitStatus;
   signingKeyInfo: SigningKeyInfo;
   createdAt: Date;
-  supportCaseDisplayId?: string;
-  tags?: { [key: string]: string | undefined };
+  supportCaseDisplayId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type NextToken = string;
 export type MaxResults = number;
 export interface ListActionsInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   service: string;
 }
 export interface ActionSummary {
@@ -258,12 +259,12 @@ export interface ActionSummary {
 export type ActionSummaries = ActionSummary[];
 export interface ListActionsOutput {
   actionSummaries: ActionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListSupportPermitRequestsInput {
-  nextToken?: string;
-  maxResults?: number;
-  supportCaseDisplayId?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  supportCaseDisplayId?: string | undefined;
 }
 export type RequestArn = string;
 export type SupportPermitRequestStatus =
@@ -283,13 +284,13 @@ export interface SupportPermitRequest {
 export type SupportPermitRequests = SupportPermitRequest[];
 export interface ListSupportPermitRequestsOutput {
   supportPermitRequests: SupportPermitRequest[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type SupportPermitStatuses = SupportPermitStatus[];
 export interface ListSupportPermitsInput {
-  nextToken?: string;
-  maxResults?: number;
-  supportPermitStatuses?: SupportPermitStatus[];
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  supportPermitStatuses?: SupportPermitStatus[] | undefined;
 }
 export interface SupportPermitSummary {
   name: string;
@@ -298,18 +299,18 @@ export interface SupportPermitSummary {
   status: SupportPermitStatus;
   signingKeyInfo: SigningKeyInfo;
   createdAt: Date;
-  supportCaseDisplayId?: string;
+  supportCaseDisplayId?: string | undefined;
 }
 export type SupportPermitSummaries = SupportPermitSummary[];
 export interface ListSupportPermitsOutput {
   supportPermits: SupportPermitSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceInput {
   resourceArn: string;
 }
 export interface ListTagsForResourceOutput {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface RejectSupportPermitRequestInput {
   requestArn: string;
@@ -345,7 +346,7 @@ export type CreateSupportPermitError =
  * Creates a support permit that authorizes an AWS support operator to perform specified actions on specified resources. The permit is cryptographically signed using a customer-managed AWS KMS key (ECC_NIST_P384, SIGN_VERIFY) to ensure non-repudiation.
  */
 export const createSupportPermit: API.OperationMethod<
-  CreateSupportPermitInput,
+  CreateSupportPermitInput & RegionInput,
   CreateSupportPermitOutput,
   CreateSupportPermitError,
   Credentials | HttpClient.HttpClient
@@ -378,7 +379,7 @@ export type DeleteSupportPermitError =
  * Deletes a support permit, revoking the authorization previously granted to the AWS support operator.
  */
 export const deleteSupportPermit: API.OperationMethod<
-  DeleteSupportPermitInput,
+  DeleteSupportPermitInput & RegionInput,
   DeleteSupportPermitOutput,
   DeleteSupportPermitError,
   Credentials | HttpClient.HttpClient
@@ -410,7 +411,7 @@ export type GetActionError =
  * Retrieves the description of a specific support action.
  */
 export const getAction: API.OperationMethod<
-  GetActionInput,
+  GetActionInput & RegionInput,
   GetActionOutput,
   GetActionError,
   Credentials | HttpClient.HttpClient
@@ -442,7 +443,7 @@ export type GetSupportPermitError =
  * Retrieves the details of a support permit by its ARN or name.
  */
 export const getSupportPermit: API.OperationMethod<
-  GetSupportPermitInput,
+  GetSupportPermitInput & RegionInput,
   GetSupportPermitOutput,
   GetSupportPermitError,
   Credentials | HttpClient.HttpClient
@@ -473,7 +474,7 @@ export type ListActionsError =
  * Lists available support actions for a specified AWS service. Use pagination to ensure that the operation returns quickly and successfully.
  */
 export const listActions: API.PaginatedOperationMethod<
-  ListActionsInput,
+  ListActionsInput & RegionInput,
   ListActionsOutput,
   ListActionsError,
   Credentials | HttpClient.HttpClient,
@@ -510,7 +511,7 @@ export type ListSupportPermitRequestsError =
  * Lists permit requests from AWS support operators. Use pagination to ensure that the operation returns quickly and successfully.
  */
 export const listSupportPermitRequests: API.PaginatedOperationMethod<
-  ListSupportPermitRequestsInput,
+  ListSupportPermitRequestsInput & RegionInput,
   ListSupportPermitRequestsOutput,
   ListSupportPermitRequestsError,
   Credentials | HttpClient.HttpClient,
@@ -547,7 +548,7 @@ export type ListSupportPermitsError =
  * Lists all support permits in the caller's account. Use pagination to ensure that the operation returns quickly and successfully.
  */
 export const listSupportPermits: API.PaginatedOperationMethod<
-  ListSupportPermitsInput,
+  ListSupportPermitsInput & RegionInput,
   ListSupportPermitsOutput,
   ListSupportPermitsError,
   Credentials | HttpClient.HttpClient,
@@ -585,7 +586,7 @@ export type ListTagsForResourceError =
  * Lists the tags associated with a support permit resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -618,7 +619,7 @@ export type RejectSupportPermitRequestError =
  * Rejects a permit request from an AWS support operator. The operator cannot proceed with the requested action.
  */
 export const rejectSupportPermitRequest: API.OperationMethod<
-  RejectSupportPermitRequestInput,
+  RejectSupportPermitRequestInput & RegionInput,
   RejectSupportPermitRequestOutput,
   RejectSupportPermitRequestError,
   Credentials | HttpClient.HttpClient
@@ -651,7 +652,7 @@ export type TagResourceError =
  * Adds or overwrites one or more tags for a support permit resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -683,7 +684,7 @@ export type UntagResourceError =
  * Removes one or more tags from a support permit resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient

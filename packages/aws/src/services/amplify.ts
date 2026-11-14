@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -100,19 +101,19 @@ export class DependentServiceFailureException
     "DependentServiceFailureException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(503),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InternalFailureException
   extends /*@__PURE__*/ S.TaggedError<InternalFailureException>()(
     "InternalFailureException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class LimitExceededException
   extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()(
     "LimitExceededException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class NotFoundException
   extends /*@__PURE__*/ S.TaggedError<NotFoundException>()(
     "NotFoundException",
@@ -157,8 +158,8 @@ export type Condition = string;
 export interface CustomRule {
   source: string;
   target: string;
-  status?: string;
-  condition?: string;
+  status?: string | undefined;
+  condition?: string | undefined;
 }
 export type CustomRules = CustomRule[];
 export type TagKey = string;
@@ -182,16 +183,16 @@ export type EnablePerformanceMode = boolean;
 export type EnablePullRequestPreview = boolean;
 export type PullRequestEnvironmentName = string;
 export interface AutoBranchCreationConfig {
-  stage?: Stage;
-  framework?: string;
-  enableAutoBuild?: boolean;
-  environmentVariables?: { [key: string]: string | undefined };
-  basicAuthCredentials?: string | redacted.Redacted<string>;
-  enableBasicAuth?: boolean;
-  enablePerformanceMode?: boolean;
-  buildSpec?: string | redacted.Redacted<string>;
-  enablePullRequestPreview?: boolean;
-  pullRequestEnvironmentName?: string;
+  stage?: Stage | undefined;
+  framework?: string | undefined;
+  enableAutoBuild?: boolean | undefined;
+  environmentVariables?: { [key: string]: string | undefined } | undefined;
+  basicAuthCredentials?: string | redacted.Redacted<string> | undefined;
+  enableBasicAuth?: boolean | undefined;
+  enablePerformanceMode?: boolean | undefined;
+  buildSpec?: string | redacted.Redacted<string> | undefined;
+  enablePullRequestPreview?: boolean | undefined;
+  pullRequestEnvironmentName?: string | undefined;
 }
 export type BuildComputeType = "STANDARD_8GB" | "LARGE_16GB" | "XLARGE_72GB" | (string & {});
 export interface JobConfig {
@@ -203,27 +204,27 @@ export interface CacheConfig {
 }
 export interface CreateAppRequest {
   name: string;
-  description?: string;
-  repository?: string;
-  platform?: Platform;
-  computeRoleArn?: string;
-  iamServiceRoleArn?: string;
-  oauthToken?: string | redacted.Redacted<string>;
-  accessToken?: string | redacted.Redacted<string>;
-  environmentVariables?: { [key: string]: string | undefined };
-  enableBranchAutoBuild?: boolean;
-  enableBranchAutoDeletion?: boolean;
-  enableBasicAuth?: boolean;
-  basicAuthCredentials?: string | redacted.Redacted<string>;
-  customRules?: CustomRule[];
-  tags?: { [key: string]: string | undefined };
-  buildSpec?: string | redacted.Redacted<string>;
-  customHeaders?: string;
-  enableAutoBranchCreation?: boolean;
-  autoBranchCreationPatterns?: string[];
-  autoBranchCreationConfig?: AutoBranchCreationConfig;
-  jobConfig?: JobConfig;
-  cacheConfig?: CacheConfig;
+  description?: string | undefined;
+  repository?: string | undefined;
+  platform?: Platform | undefined;
+  computeRoleArn?: string | undefined;
+  iamServiceRoleArn?: string | undefined;
+  oauthToken?: string | redacted.Redacted<string> | undefined;
+  accessToken?: string | redacted.Redacted<string> | undefined;
+  environmentVariables?: { [key: string]: string | undefined } | undefined;
+  enableBranchAutoBuild?: boolean | undefined;
+  enableBranchAutoDeletion?: boolean | undefined;
+  enableBasicAuth?: boolean | undefined;
+  basicAuthCredentials?: string | redacted.Redacted<string> | undefined;
+  customRules?: CustomRule[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  buildSpec?: string | redacted.Redacted<string> | undefined;
+  customHeaders?: string | undefined;
+  enableAutoBranchCreation?: boolean | undefined;
+  autoBranchCreationPatterns?: string[] | undefined;
+  autoBranchCreationConfig?: AutoBranchCreationConfig | undefined;
+  jobConfig?: JobConfig | undefined;
+  cacheConfig?: CacheConfig | undefined;
 }
 export type AppId = string;
 export type AppArn = string;
@@ -234,10 +235,10 @@ export type LastDeployTime = Date;
 export type ThumbnailUrl = string;
 export type BranchName = string;
 export interface ProductionBranch {
-  lastDeployTime?: Date;
-  status?: string;
-  thumbnailUrl?: string;
-  branchName?: string;
+  lastDeployTime?: Date | undefined;
+  status?: string | undefined;
+  thumbnailUrl?: string | undefined;
+  branchName?: string | undefined;
 }
 export type RepositoryCloneMethod = "SSH" | "TOKEN" | "SIGV4" | (string & {});
 export type WebhookCreateTime = Date;
@@ -251,40 +252,40 @@ export type WafStatus =
   | (string & {});
 export type StatusReason = string;
 export interface WafConfiguration {
-  webAclArn?: string;
-  wafStatus?: WafStatus;
-  statusReason?: string;
+  webAclArn?: string | undefined;
+  wafStatus?: WafStatus | undefined;
+  statusReason?: string | undefined;
 }
 export interface App {
   appId: string;
   appArn: string;
   name: string;
-  tags?: { [key: string]: string | undefined };
-  description?: string;
-  repository?: string;
-  platform?: Platform;
+  tags?: { [key: string]: string | undefined } | undefined;
+  description?: string | undefined;
+  repository?: string | undefined;
+  platform?: Platform | undefined;
   createTime: Date;
   updateTime: Date;
-  computeRoleArn?: string;
-  iamServiceRoleArn?: string;
-  environmentVariables?: { [key: string]: string | undefined };
-  defaultDomain?: string;
-  enableBranchAutoBuild?: boolean;
-  enableBranchAutoDeletion?: boolean;
-  enableBasicAuth?: boolean;
-  basicAuthCredentials?: string | redacted.Redacted<string>;
-  customRules?: CustomRule[];
-  productionBranch?: ProductionBranch;
-  buildSpec?: string | redacted.Redacted<string>;
-  customHeaders?: string;
-  enableAutoBranchCreation?: boolean;
-  autoBranchCreationPatterns?: string[];
-  autoBranchCreationConfig?: AutoBranchCreationConfig;
-  repositoryCloneMethod?: RepositoryCloneMethod;
-  cacheConfig?: CacheConfig;
-  webhookCreateTime?: Date;
-  wafConfiguration?: WafConfiguration;
-  jobConfig?: JobConfig;
+  computeRoleArn?: string | undefined;
+  iamServiceRoleArn?: string | undefined;
+  environmentVariables?: { [key: string]: string | undefined } | undefined;
+  defaultDomain?: string | undefined;
+  enableBranchAutoBuild?: boolean | undefined;
+  enableBranchAutoDeletion?: boolean | undefined;
+  enableBasicAuth?: boolean | undefined;
+  basicAuthCredentials?: string | redacted.Redacted<string> | undefined;
+  customRules?: CustomRule[] | undefined;
+  productionBranch?: ProductionBranch | undefined;
+  buildSpec?: string | redacted.Redacted<string> | undefined;
+  customHeaders?: string | undefined;
+  enableAutoBranchCreation?: boolean | undefined;
+  autoBranchCreationPatterns?: string[] | undefined;
+  autoBranchCreationConfig?: AutoBranchCreationConfig | undefined;
+  repositoryCloneMethod?: RepositoryCloneMethod | undefined;
+  cacheConfig?: CacheConfig | undefined;
+  webhookCreateTime?: Date | undefined;
+  wafConfiguration?: WafConfiguration | undefined;
+  jobConfig?: JobConfig | undefined;
 }
 export interface CreateAppResult {
   app: App;
@@ -295,15 +296,15 @@ export type DeploymentArtifacts = string;
 export interface CreateBackendEnvironmentRequest {
   appId: string;
   environmentName: string;
-  stackName?: string;
-  deploymentArtifacts?: string;
+  stackName?: string | undefined;
+  deploymentArtifacts?: string | undefined;
 }
 export type BackendEnvironmentArn = string;
 export interface BackendEnvironment {
   backendEnvironmentArn: string;
   environmentName: string;
-  stackName?: string;
-  deploymentArtifacts?: string;
+  stackName?: string | undefined;
+  deploymentArtifacts?: string | undefined;
   createTime: Date;
   updateTime: Date;
 }
@@ -316,30 +317,30 @@ export type TTL = string;
 export type DisplayName = string;
 export type StackArn = string;
 export interface Backend {
-  stackArn?: string;
+  stackArn?: string | undefined;
 }
 export interface CreateBranchRequest {
   appId: string;
   branchName: string;
-  description?: string;
-  stage?: Stage;
-  framework?: string;
-  enableNotification?: boolean;
-  enableAutoBuild?: boolean;
-  enableSkewProtection?: boolean;
-  environmentVariables?: { [key: string]: string | undefined };
-  basicAuthCredentials?: string | redacted.Redacted<string>;
-  enableBasicAuth?: boolean;
-  enablePerformanceMode?: boolean;
-  tags?: { [key: string]: string | undefined };
-  buildSpec?: string | redacted.Redacted<string>;
-  ttl?: string;
-  displayName?: string;
-  enablePullRequestPreview?: boolean;
-  pullRequestEnvironmentName?: string;
-  backendEnvironmentArn?: string;
-  backend?: Backend;
-  computeRoleArn?: string;
+  description?: string | undefined;
+  stage?: Stage | undefined;
+  framework?: string | undefined;
+  enableNotification?: boolean | undefined;
+  enableAutoBuild?: boolean | undefined;
+  enableSkewProtection?: boolean | undefined;
+  environmentVariables?: { [key: string]: string | undefined } | undefined;
+  basicAuthCredentials?: string | redacted.Redacted<string> | undefined;
+  enableBasicAuth?: boolean | undefined;
+  enablePerformanceMode?: boolean | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  buildSpec?: string | redacted.Redacted<string> | undefined;
+  ttl?: string | undefined;
+  displayName?: string | undefined;
+  enablePullRequestPreview?: boolean | undefined;
+  pullRequestEnvironmentName?: string | undefined;
+  backendEnvironmentArn?: string | undefined;
+  backend?: Backend | undefined;
+  computeRoleArn?: string | undefined;
 }
 export type BranchArn = string;
 export type CustomDomain = string;
@@ -351,34 +352,34 @@ export type AssociatedResources = string[];
 export interface Branch {
   branchArn: string;
   branchName: string;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
-  stage?: Stage;
-  displayName?: string;
-  enableNotification?: boolean;
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  stage?: Stage | undefined;
+  displayName?: string | undefined;
+  enableNotification?: boolean | undefined;
   createTime: Date;
   updateTime: Date;
-  environmentVariables?: { [key: string]: string | undefined };
-  enableAutoBuild?: boolean;
-  enableSkewProtection?: boolean;
-  customDomains?: string[];
-  framework?: string;
-  activeJobId?: string;
-  totalNumberOfJobs?: string;
-  enableBasicAuth?: boolean;
-  enablePerformanceMode?: boolean;
-  thumbnailUrl?: string;
-  basicAuthCredentials?: string | redacted.Redacted<string>;
-  buildSpec?: string | redacted.Redacted<string>;
-  ttl?: string;
-  associatedResources?: string[];
-  enablePullRequestPreview?: boolean;
-  pullRequestEnvironmentName?: string;
-  destinationBranch?: string;
-  sourceBranch?: string;
-  backendEnvironmentArn?: string;
-  backend?: Backend;
-  computeRoleArn?: string;
+  environmentVariables?: { [key: string]: string | undefined } | undefined;
+  enableAutoBuild?: boolean | undefined;
+  enableSkewProtection?: boolean | undefined;
+  customDomains?: string[] | undefined;
+  framework?: string | undefined;
+  activeJobId?: string | undefined;
+  totalNumberOfJobs?: string | undefined;
+  enableBasicAuth?: boolean | undefined;
+  enablePerformanceMode?: boolean | undefined;
+  thumbnailUrl?: string | undefined;
+  basicAuthCredentials?: string | redacted.Redacted<string> | undefined;
+  buildSpec?: string | redacted.Redacted<string> | undefined;
+  ttl?: string | undefined;
+  associatedResources?: string[] | undefined;
+  enablePullRequestPreview?: boolean | undefined;
+  pullRequestEnvironmentName?: string | undefined;
+  destinationBranch?: string | undefined;
+  sourceBranch?: string | undefined;
+  backendEnvironmentArn?: string | undefined;
+  backend?: Backend | undefined;
+  computeRoleArn?: string | undefined;
 }
 export interface CreateBranchResult {
   branch: Branch;
@@ -389,14 +390,14 @@ export type FileMap = { [key: string]: string | undefined };
 export interface CreateDeploymentRequest {
   appId: string;
   branchName: string;
-  fileMap?: { [key: string]: string | undefined };
+  fileMap?: { [key: string]: string | undefined } | undefined;
 }
 export type JobId = string;
 export type UploadUrl = string;
 export type FileUploadUrls = { [key: string]: string | undefined };
 export interface CreateDeploymentResult {
-  jobId?: string;
-  fileUploadUrls?: { [key: string]: string | undefined };
+  jobId?: string | undefined;
+  fileUploadUrls?: { [key: string]: string | undefined } | undefined;
   zipUploadUrl: string;
 }
 export type DomainName = string;
@@ -414,16 +415,16 @@ export type CertificateType = "AMPLIFY_MANAGED" | "CUSTOM" | (string & {});
 export type CertificateArn = string;
 export interface CertificateSettings {
   type: CertificateType;
-  customCertificateArn?: string;
+  customCertificateArn?: string | undefined;
 }
 export interface CreateDomainAssociationRequest {
   appId: string;
   domainName: string;
-  enableAutoSubDomain?: boolean;
+  enableAutoSubDomain?: boolean | undefined;
   subDomainSettings: SubDomainSetting[];
-  autoSubDomainCreationPatterns?: string[];
-  autoSubDomainIAMRole?: string;
-  certificateSettings?: CertificateSettings;
+  autoSubDomainCreationPatterns?: string[] | undefined;
+  autoSubDomainIAMRole?: string | undefined;
+  certificateSettings?: CertificateSettings | undefined;
 }
 export type DomainAssociationArn = string;
 export type DomainStatus =
@@ -458,21 +459,21 @@ export interface SubDomain {
 export type SubDomains = SubDomain[];
 export interface Certificate {
   type: CertificateType;
-  customCertificateArn?: string;
-  certificateVerificationDNSRecord?: string;
+  customCertificateArn?: string | undefined;
+  certificateVerificationDNSRecord?: string | undefined;
 }
 export interface DomainAssociation {
   domainAssociationArn: string;
   domainName: string;
   enableAutoSubDomain: boolean;
-  autoSubDomainCreationPatterns?: string[];
-  autoSubDomainIAMRole?: string;
+  autoSubDomainCreationPatterns?: string[] | undefined;
+  autoSubDomainIAMRole?: string | undefined;
   domainStatus: DomainStatus;
-  updateStatus?: UpdateStatus;
+  updateStatus?: UpdateStatus | undefined;
   statusReason: string;
-  certificateVerificationDNSRecord?: string;
+  certificateVerificationDNSRecord?: string | undefined;
   subDomains: SubDomain[];
-  certificate?: Certificate;
+  certificate?: Certificate | undefined;
 }
 export interface CreateDomainAssociationResult {
   domainAssociation: DomainAssociation;
@@ -480,7 +481,7 @@ export interface CreateDomainAssociationResult {
 export interface CreateWebhookRequest {
   appId: string;
   branchName: string;
-  description?: string;
+  description?: string | undefined;
 }
 export type WebhookArn = string;
 export type WebhookId = string;
@@ -489,7 +490,7 @@ export interface Webhook {
   webhookArn: string;
   webhookId: string;
   webhookUrl: string;
-  appId?: string;
+  appId?: string | undefined;
   branchName: string;
   description: string;
   createTime: Date;
@@ -552,15 +553,15 @@ export type SourceUrlType = "ZIP" | "BUCKET_PREFIX" | (string & {});
 export interface JobSummary {
   jobArn: string;
   jobId: string;
-  commitId?: string;
-  commitMessage?: string;
-  commitTime?: Date;
+  commitId?: string | undefined;
+  commitMessage?: string | undefined;
+  commitTime?: Date | undefined;
   startTime: Date;
   status: JobStatus;
-  endTime?: Date;
-  jobType?: JobType;
-  sourceUrl?: string;
-  sourceUrlType?: SourceUrlType;
+  endTime?: Date | undefined;
+  jobType?: JobType | undefined;
+  sourceUrl?: string | undefined;
+  sourceUrlType?: SourceUrlType | undefined;
 }
 export interface DeleteJobResult {
   jobSummary: JobSummary;
@@ -572,14 +573,14 @@ export interface DeleteWebhookResult {
   webhook: Webhook;
 }
 export interface GenerateAccessLogsRequest {
-  startTime?: Date;
-  endTime?: Date;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
   domainName: string;
   appId: string;
 }
 export type LogUrl = string;
 export interface GenerateAccessLogsResult {
-  logUrl?: string;
+  logUrl?: string | undefined;
 }
 export interface GetAppRequest {
   appId: string;
@@ -633,14 +634,14 @@ export interface Step {
   stepName: string;
   startTime: Date;
   status: JobStatus;
-  endTime?: Date;
-  logUrl?: string;
-  artifactsUrl?: string;
-  testArtifactsUrl?: string;
-  testConfigUrl?: string;
-  screenshots?: { [key: string]: string | undefined };
-  statusReason?: string;
-  context?: string;
+  endTime?: Date | undefined;
+  logUrl?: string | undefined;
+  artifactsUrl?: string | undefined;
+  testArtifactsUrl?: string | undefined;
+  testConfigUrl?: string | undefined;
+  screenshots?: { [key: string]: string | undefined } | undefined;
+  statusReason?: string | undefined;
+  context?: string | undefined;
 }
 export type Steps = Step[];
 export interface Job {
@@ -659,21 +660,21 @@ export interface GetWebhookResult {
 export type NextToken = string;
 export type MaxResultsForListApps = number;
 export interface ListAppsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type Apps = App[];
 export interface ListAppsResult {
   apps: App[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type MaxResults = number;
 export interface ListArtifactsRequest {
   appId: string;
   branchName: string;
   jobId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type ArtifactFileName = string;
 export interface Artifact {
@@ -683,73 +684,73 @@ export interface Artifact {
 export type Artifacts = Artifact[];
 export interface ListArtifactsResult {
   artifacts: Artifact[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListBackendEnvironmentsRequest {
   appId: string;
-  environmentName?: string;
-  nextToken?: string;
-  maxResults?: number;
+  environmentName?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type BackendEnvironments = BackendEnvironment[];
 export interface ListBackendEnvironmentsResult {
   backendEnvironments: BackendEnvironment[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListBranchesRequest {
   appId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type Branches = Branch[];
 export interface ListBranchesResult {
   branches: Branch[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListDomainAssociationsRequest {
   appId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type DomainAssociations = DomainAssociation[];
 export interface ListDomainAssociationsResult {
   domainAssociations: DomainAssociation[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListJobsRequest {
   appId: string;
   branchName: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type JobSummaries = JobSummary[];
 export interface ListJobsResult {
   jobSummaries: JobSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ResourceArn = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListWebhooksRequest {
   appId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type Webhooks = Webhook[];
 export interface ListWebhooksResult {
   webhooks: Webhook[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface StartDeploymentRequest {
   appId: string;
   branchName: string;
-  jobId?: string;
-  sourceUrl?: string;
-  sourceUrlType?: SourceUrlType;
+  jobId?: string | undefined;
+  sourceUrl?: string | undefined;
+  sourceUrlType?: SourceUrlType | undefined;
 }
 export interface StartDeploymentResult {
   jobSummary: JobSummary;
@@ -758,12 +759,12 @@ export type JobReason = string;
 export interface StartJobRequest {
   appId: string;
   branchName: string;
-  jobId?: string;
+  jobId?: string | undefined;
   jobType: JobType;
-  jobReason?: string;
-  commitId?: string;
-  commitMessage?: string;
-  commitTime?: Date;
+  jobReason?: string | undefined;
+  commitId?: string | undefined;
+  commitMessage?: string | undefined;
+  commitTime?: Date | undefined;
 }
 export interface StartJobResult {
   jobSummary: JobSummary;
@@ -789,27 +790,27 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateAppRequest {
   appId: string;
-  name?: string;
-  description?: string;
-  platform?: Platform;
-  computeRoleArn?: string;
-  iamServiceRoleArn?: string;
-  environmentVariables?: { [key: string]: string | undefined };
-  enableBranchAutoBuild?: boolean;
-  enableBranchAutoDeletion?: boolean;
-  enableBasicAuth?: boolean;
-  basicAuthCredentials?: string | redacted.Redacted<string>;
-  customRules?: CustomRule[];
-  buildSpec?: string | redacted.Redacted<string>;
-  customHeaders?: string;
-  enableAutoBranchCreation?: boolean;
-  autoBranchCreationPatterns?: string[];
-  autoBranchCreationConfig?: AutoBranchCreationConfig;
-  repository?: string;
-  oauthToken?: string | redacted.Redacted<string>;
-  accessToken?: string | redacted.Redacted<string>;
-  jobConfig?: JobConfig;
-  cacheConfig?: CacheConfig;
+  name?: string | undefined;
+  description?: string | undefined;
+  platform?: Platform | undefined;
+  computeRoleArn?: string | undefined;
+  iamServiceRoleArn?: string | undefined;
+  environmentVariables?: { [key: string]: string | undefined } | undefined;
+  enableBranchAutoBuild?: boolean | undefined;
+  enableBranchAutoDeletion?: boolean | undefined;
+  enableBasicAuth?: boolean | undefined;
+  basicAuthCredentials?: string | redacted.Redacted<string> | undefined;
+  customRules?: CustomRule[] | undefined;
+  buildSpec?: string | redacted.Redacted<string> | undefined;
+  customHeaders?: string | undefined;
+  enableAutoBranchCreation?: boolean | undefined;
+  autoBranchCreationPatterns?: string[] | undefined;
+  autoBranchCreationConfig?: AutoBranchCreationConfig | undefined;
+  repository?: string | undefined;
+  oauthToken?: string | redacted.Redacted<string> | undefined;
+  accessToken?: string | redacted.Redacted<string> | undefined;
+  jobConfig?: JobConfig | undefined;
+  cacheConfig?: CacheConfig | undefined;
 }
 export interface UpdateAppResult {
   app: App;
@@ -817,24 +818,24 @@ export interface UpdateAppResult {
 export interface UpdateBranchRequest {
   appId: string;
   branchName: string;
-  description?: string;
-  framework?: string;
-  stage?: Stage;
-  enableNotification?: boolean;
-  enableAutoBuild?: boolean;
-  enableSkewProtection?: boolean;
-  environmentVariables?: { [key: string]: string | undefined };
-  basicAuthCredentials?: string | redacted.Redacted<string>;
-  enableBasicAuth?: boolean;
-  enablePerformanceMode?: boolean;
-  buildSpec?: string | redacted.Redacted<string>;
-  ttl?: string;
-  displayName?: string;
-  enablePullRequestPreview?: boolean;
-  pullRequestEnvironmentName?: string;
-  backendEnvironmentArn?: string;
-  backend?: Backend;
-  computeRoleArn?: string;
+  description?: string | undefined;
+  framework?: string | undefined;
+  stage?: Stage | undefined;
+  enableNotification?: boolean | undefined;
+  enableAutoBuild?: boolean | undefined;
+  enableSkewProtection?: boolean | undefined;
+  environmentVariables?: { [key: string]: string | undefined } | undefined;
+  basicAuthCredentials?: string | redacted.Redacted<string> | undefined;
+  enableBasicAuth?: boolean | undefined;
+  enablePerformanceMode?: boolean | undefined;
+  buildSpec?: string | redacted.Redacted<string> | undefined;
+  ttl?: string | undefined;
+  displayName?: string | undefined;
+  enablePullRequestPreview?: boolean | undefined;
+  pullRequestEnvironmentName?: string | undefined;
+  backendEnvironmentArn?: string | undefined;
+  backend?: Backend | undefined;
+  computeRoleArn?: string | undefined;
 }
 export interface UpdateBranchResult {
   branch: Branch;
@@ -842,19 +843,19 @@ export interface UpdateBranchResult {
 export interface UpdateDomainAssociationRequest {
   appId: string;
   domainName: string;
-  enableAutoSubDomain?: boolean;
-  subDomainSettings?: SubDomainSetting[];
-  autoSubDomainCreationPatterns?: string[];
-  autoSubDomainIAMRole?: string;
-  certificateSettings?: CertificateSettings;
+  enableAutoSubDomain?: boolean | undefined;
+  subDomainSettings?: SubDomainSetting[] | undefined;
+  autoSubDomainCreationPatterns?: string[] | undefined;
+  autoSubDomainIAMRole?: string | undefined;
+  certificateSettings?: CertificateSettings | undefined;
 }
 export interface UpdateDomainAssociationResult {
   domainAssociation: DomainAssociation;
 }
 export interface UpdateWebhookRequest {
   webhookId: string;
-  branchName?: string;
-  description?: string;
+  branchName?: string | undefined;
+  description?: string | undefined;
 }
 export interface UpdateWebhookResult {
   webhook: Webhook;
@@ -873,7 +874,7 @@ export type CreateAppError =
  * Creates a new Amplify app.
  */
 export const createApp: API.OperationMethod<
-  CreateAppRequest,
+  CreateAppRequest & RegionInput,
   CreateAppResult,
   CreateAppError,
   Credentials | HttpClient.HttpClient
@@ -913,7 +914,7 @@ export type CreateBackendEnvironmentError =
  * backend infrastructure using Typescript code.
  */
 export const createBackendEnvironment: API.OperationMethod<
-  CreateBackendEnvironmentRequest,
+  CreateBackendEnvironmentRequest & RegionInput,
   CreateBackendEnvironmentResult,
   CreateBackendEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -948,7 +949,7 @@ export type CreateBranchError =
  * Creates a new branch for an Amplify app.
  */
 export const createBranch: API.OperationMethod<
-  CreateBranchRequest,
+  CreateBranchRequest & RegionInput,
   CreateBranchResult,
   CreateBranchError,
   Credentials | HttpClient.HttpClient
@@ -988,7 +989,7 @@ export type CreateDeploymentError =
  * fail.
  */
 export const createDeployment: API.OperationMethod<
-  CreateDeploymentRequest,
+  CreateDeploymentRequest & RegionInput,
   CreateDeploymentResult,
   CreateDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1023,7 +1024,7 @@ export type CreateDomainAssociationError =
  * domain with the Amplify app
  */
 export const createDomainAssociation: API.OperationMethod<
-  CreateDomainAssociationRequest,
+  CreateDomainAssociationRequest & RegionInput,
   CreateDomainAssociationResult,
   CreateDomainAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1059,7 +1060,7 @@ export type CreateWebhookError =
  * Creates a new webhook on an Amplify app.
  */
 export const createWebhook: API.OperationMethod<
-  CreateWebhookRequest,
+  CreateWebhookRequest & RegionInput,
   CreateWebhookResult,
   CreateWebhookError,
   Credentials | HttpClient.HttpClient
@@ -1094,7 +1095,7 @@ export type DeleteAppError =
  * Deletes an existing Amplify app specified by an app ID.
  */
 export const deleteApp: API.OperationMethod<
-  DeleteAppRequest,
+  DeleteAppRequest & RegionInput,
   DeleteAppResult,
   DeleteAppError,
   Credentials | HttpClient.HttpClient
@@ -1134,7 +1135,7 @@ export type DeleteBackendEnvironmentError =
  * backend infrastructure using Typescript code.
  */
 export const deleteBackendEnvironment: API.OperationMethod<
-  DeleteBackendEnvironmentRequest,
+  DeleteBackendEnvironmentRequest & RegionInput,
   DeleteBackendEnvironmentResult,
   DeleteBackendEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1168,7 +1169,7 @@ export type DeleteBranchError =
  * Deletes a branch for an Amplify app.
  */
 export const deleteBranch: API.OperationMethod<
-  DeleteBranchRequest,
+  DeleteBranchRequest & RegionInput,
   DeleteBranchResult,
   DeleteBranchError,
   Credentials | HttpClient.HttpClient
@@ -1202,7 +1203,7 @@ export type DeleteDomainAssociationError =
  * Deletes a domain association for an Amplify app.
  */
 export const deleteDomainAssociation: API.OperationMethod<
-  DeleteDomainAssociationRequest,
+  DeleteDomainAssociationRequest & RegionInput,
   DeleteDomainAssociationResult,
   DeleteDomainAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1236,7 +1237,7 @@ export type DeleteJobError =
  * Deletes a job for a branch of an Amplify app.
  */
 export const deleteJob: API.OperationMethod<
-  DeleteJobRequest,
+  DeleteJobRequest & RegionInput,
   DeleteJobResult,
   DeleteJobError,
   Credentials | HttpClient.HttpClient
@@ -1270,7 +1271,7 @@ export type DeleteWebhookError =
  * Deletes a webhook.
  */
 export const deleteWebhook: API.OperationMethod<
-  DeleteWebhookRequest,
+  DeleteWebhookRequest & RegionInput,
   DeleteWebhookResult,
   DeleteWebhookError,
   Credentials | HttpClient.HttpClient
@@ -1303,7 +1304,7 @@ export type GenerateAccessLogsError =
  * Returns the website access logs for a specific time range using a presigned URL.
  */
 export const generateAccessLogs: API.OperationMethod<
-  GenerateAccessLogsRequest,
+  GenerateAccessLogsRequest & RegionInput,
   GenerateAccessLogsResult,
   GenerateAccessLogsError,
   Credentials | HttpClient.HttpClient
@@ -1335,7 +1336,7 @@ export type GetAppError =
  * Returns an existing Amplify app specified by an app ID.
  */
 export const getApp: API.OperationMethod<
-  GetAppRequest,
+  GetAppRequest & RegionInput,
   GetAppResult,
   GetAppError,
   Credentials | HttpClient.HttpClient
@@ -1368,7 +1369,7 @@ export type GetArtifactUrlError =
  * Returns the artifact info that corresponds to an artifact id.
  */
 export const getArtifactUrl: API.OperationMethod<
-  GetArtifactUrlRequest,
+  GetArtifactUrlRequest & RegionInput,
   GetArtifactUrlResult,
   GetArtifactUrlError,
   Credentials | HttpClient.HttpClient
@@ -1407,7 +1408,7 @@ export type GetBackendEnvironmentError =
  * backend infrastructure using Typescript code.
  */
 export const getBackendEnvironment: API.OperationMethod<
-  GetBackendEnvironmentRequest,
+  GetBackendEnvironmentRequest & RegionInput,
   GetBackendEnvironmentResult,
   GetBackendEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1439,7 +1440,7 @@ export type GetBranchError =
  * Returns a branch for an Amplify app.
  */
 export const getBranch: API.OperationMethod<
-  GetBranchRequest,
+  GetBranchRequest & RegionInput,
   GetBranchResult,
   GetBranchError,
   Credentials | HttpClient.HttpClient
@@ -1471,7 +1472,7 @@ export type GetDomainAssociationError =
  * Returns the domain information for an Amplify app.
  */
 export const getDomainAssociation: API.OperationMethod<
-  GetDomainAssociationRequest,
+  GetDomainAssociationRequest & RegionInput,
   GetDomainAssociationResult,
   GetDomainAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1504,7 +1505,7 @@ export type GetJobError =
  * Returns a job for a branch of an Amplify app.
  */
 export const getJob: API.OperationMethod<
-  GetJobRequest,
+  GetJobRequest & RegionInput,
   GetJobResult,
   GetJobError,
   Credentials | HttpClient.HttpClient
@@ -1538,7 +1539,7 @@ export type GetWebhookError =
  * Returns the webhook information that corresponds to a specified webhook ID.
  */
 export const getWebhook: API.OperationMethod<
-  GetWebhookRequest,
+  GetWebhookRequest & RegionInput,
   GetWebhookResult,
   GetWebhookError,
   Credentials | HttpClient.HttpClient
@@ -1570,7 +1571,7 @@ export type ListAppsError =
  * Returns a list of the existing Amplify apps.
  */
 export const listApps: API.PaginatedOperationMethod<
-  ListAppsRequest,
+  ListAppsRequest & RegionInput,
   ListAppsResult,
   ListAppsError,
   Credentials | HttpClient.HttpClient,
@@ -1607,10 +1608,11 @@ export type ListArtifactsError =
  *
  * For more information about Amplify testing support, see Setting up
  * end-to-end Cypress tests for your Amplify application in the
- * *Amplify Hosting User Guide*.
+ *
+ * Amplify Hosting User Guide.
  */
 export const listArtifacts: API.OperationMethod<
-  ListArtifactsRequest,
+  ListArtifactsRequest & RegionInput,
   ListArtifactsResult,
   ListArtifactsError,
   Credentials | HttpClient.HttpClient
@@ -1647,7 +1649,7 @@ export type ListBackendEnvironmentsError =
  * backend infrastructure using Typescript code.
  */
 export const listBackendEnvironments: API.OperationMethod<
-  ListBackendEnvironmentsRequest,
+  ListBackendEnvironmentsRequest & RegionInput,
   ListBackendEnvironmentsResult,
   ListBackendEnvironmentsError,
   Credentials | HttpClient.HttpClient
@@ -1672,7 +1674,7 @@ export type ListBranchesError =
  * Lists the branches of an Amplify app.
  */
 export const listBranches: API.PaginatedOperationMethod<
-  ListBranchesRequest,
+  ListBranchesRequest & RegionInput,
   ListBranchesResult,
   ListBranchesError,
   Credentials | HttpClient.HttpClient,
@@ -1704,7 +1706,7 @@ export type ListDomainAssociationsError =
  * Returns the domain associations for an Amplify app.
  */
 export const listDomainAssociations: API.PaginatedOperationMethod<
-  ListDomainAssociationsRequest,
+  ListDomainAssociationsRequest & RegionInput,
   ListDomainAssociationsResult,
   ListDomainAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -1737,7 +1739,7 @@ export type ListJobsError =
  * Lists the jobs for a branch of an Amplify app.
  */
 export const listJobs: API.PaginatedOperationMethod<
-  ListJobsRequest,
+  ListJobsRequest & RegionInput,
   ListJobsResult,
   ListJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1775,7 +1777,7 @@ export type ListTagsForResourceError =
  * Returns a list of tags for a specified Amazon Resource Name (ARN).
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1806,7 +1808,7 @@ export type ListWebhooksError =
  * Returns a list of webhooks for an Amplify app.
  */
 export const listWebhooks: API.OperationMethod<
-  ListWebhooksRequest,
+  ListWebhooksRequest & RegionInput,
   ListWebhooksResult,
   ListWebhooksError,
   Credentials | HttpClient.HttpClient
@@ -1845,7 +1847,7 @@ export type StartDeploymentError =
  * fail.
  */
 export const startDeployment: API.OperationMethod<
-  StartDeploymentRequest,
+  StartDeploymentRequest & RegionInput,
   StartDeploymentResult,
   StartDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1879,7 +1881,7 @@ export type StartJobError =
  * Starts a new job for a branch of an Amplify app.
  */
 export const startJob: API.OperationMethod<
-  StartJobRequest,
+  StartJobRequest & RegionInput,
   StartJobResult,
   StartJobError,
   Credentials | HttpClient.HttpClient
@@ -1913,7 +1915,7 @@ export type StopJobError =
  * Stops a job that is in progress for a branch of an Amplify app.
  */
 export const stopJob: API.OperationMethod<
-  StopJobRequest,
+  StopJobRequest & RegionInput,
   StopJobResult,
   StopJobError,
   Credentials | HttpClient.HttpClient
@@ -1945,7 +1947,7 @@ export type TagResourceError =
  * Tags the resource with a tag key and value.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1975,7 +1977,7 @@ export type UntagResourceError =
  * Untags a resource with a specified Amazon Resource Name (ARN).
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2006,7 +2008,7 @@ export type UpdateAppError =
  * Updates an existing Amplify app.
  */
 export const updateApp: API.OperationMethod<
-  UpdateAppRequest,
+  UpdateAppRequest & RegionInput,
   UpdateAppResult,
   UpdateAppError,
   Credentials | HttpClient.HttpClient
@@ -2039,7 +2041,7 @@ export type UpdateBranchError =
  * Updates a branch for an Amplify app.
  */
 export const updateBranch: API.OperationMethod<
-  UpdateBranchRequest,
+  UpdateBranchRequest & RegionInput,
   UpdateBranchResult,
   UpdateBranchError,
   Credentials | HttpClient.HttpClient
@@ -2073,7 +2075,7 @@ export type UpdateDomainAssociationError =
  * Creates a new domain association for an Amplify app.
  */
 export const updateDomainAssociation: API.OperationMethod<
-  UpdateDomainAssociationRequest,
+  UpdateDomainAssociationRequest & RegionInput,
   UpdateDomainAssociationResult,
   UpdateDomainAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2107,7 +2109,7 @@ export type UpdateWebhookError =
  * Updates a webhook.
  */
 export const updateWebhook: API.OperationMethod<
-  UpdateWebhookRequest,
+  UpdateWebhookRequest & RegionInput,
   UpdateWebhookResult,
   UpdateWebhookError,
   Credentials | HttpClient.HttpClient

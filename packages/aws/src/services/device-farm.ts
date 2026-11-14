@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -114,7 +115,7 @@ export class InternalServiceException
     "InternalServiceException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InvalidOperationException
   extends /*@__PURE__*/ S.TaggedError<InvalidOperationException>()("InvalidOperationException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
@@ -122,7 +123,7 @@ export class InvalidOperationException
 export class LimitExceededException
   extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()("LimitExceededException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
-  }) {}
+  }).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class NotEligibleException
   extends /*@__PURE__*/ S.TaggedError<NotEligibleException>()("NotEligibleException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
@@ -191,81 +192,81 @@ export type RuleOperator =
   | "CONTAINS"
   | (string & {});
 export interface Rule {
-  attribute?: DeviceAttribute;
-  operator?: RuleOperator;
-  value?: string;
+  attribute?: DeviceAttribute | undefined;
+  operator?: RuleOperator | undefined;
+  value?: string | undefined;
 }
 export type Rules = Rule[];
 export interface CreateDevicePoolRequest {
   projectArn: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   rules: Rule[];
-  maxDevices?: number;
+  maxDevices?: number | undefined;
 }
 export type DevicePoolType = "CURATED" | "PRIVATE" | (string & {});
 export interface DevicePool {
-  arn?: string;
-  name?: string;
-  description?: string;
-  type?: DevicePoolType;
-  rules?: Rule[];
-  maxDevices?: number;
+  arn?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  type?: DevicePoolType | undefined;
+  rules?: Rule[] | undefined;
+  maxDevices?: number | undefined;
 }
 export interface CreateDevicePoolResult {
-  devicePool?: DevicePool;
+  devicePool?: DevicePool | undefined;
 }
 export type PackageIds = string[];
 export interface CreateInstanceProfileRequest {
   name: string;
-  description?: string;
-  packageCleanup?: boolean;
-  excludeAppPackagesFromCleanup?: string[];
-  rebootAfterUse?: boolean;
+  description?: string | undefined;
+  packageCleanup?: boolean | undefined;
+  excludeAppPackagesFromCleanup?: string[] | undefined;
+  rebootAfterUse?: boolean | undefined;
 }
 export interface InstanceProfile {
-  arn?: string;
-  packageCleanup?: boolean;
-  excludeAppPackagesFromCleanup?: string[];
-  rebootAfterUse?: boolean;
-  name?: string;
-  description?: string;
+  arn?: string | undefined;
+  packageCleanup?: boolean | undefined;
+  excludeAppPackagesFromCleanup?: string[] | undefined;
+  rebootAfterUse?: boolean | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
 }
 export interface CreateInstanceProfileResult {
-  instanceProfile?: InstanceProfile;
+  instanceProfile?: InstanceProfile | undefined;
 }
 export type NetworkProfileType = "CURATED" | "PRIVATE" | (string & {});
 export type PercentInteger = number;
 export interface CreateNetworkProfileRequest {
   projectArn: string;
   name: string;
-  description?: string;
-  type?: NetworkProfileType;
-  uplinkBandwidthBits?: number;
-  downlinkBandwidthBits?: number;
-  uplinkDelayMs?: number;
-  downlinkDelayMs?: number;
-  uplinkJitterMs?: number;
-  downlinkJitterMs?: number;
-  uplinkLossPercent?: number;
-  downlinkLossPercent?: number;
+  description?: string | undefined;
+  type?: NetworkProfileType | undefined;
+  uplinkBandwidthBits?: number | undefined;
+  downlinkBandwidthBits?: number | undefined;
+  uplinkDelayMs?: number | undefined;
+  downlinkDelayMs?: number | undefined;
+  uplinkJitterMs?: number | undefined;
+  downlinkJitterMs?: number | undefined;
+  uplinkLossPercent?: number | undefined;
+  downlinkLossPercent?: number | undefined;
 }
 export interface NetworkProfile {
-  arn?: string;
-  name?: string;
-  description?: string;
-  type?: NetworkProfileType;
-  uplinkBandwidthBits?: number;
-  downlinkBandwidthBits?: number;
-  uplinkDelayMs?: number;
-  downlinkDelayMs?: number;
-  uplinkJitterMs?: number;
-  downlinkJitterMs?: number;
-  uplinkLossPercent?: number;
-  downlinkLossPercent?: number;
+  arn?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  type?: NetworkProfileType | undefined;
+  uplinkBandwidthBits?: number | undefined;
+  downlinkBandwidthBits?: number | undefined;
+  uplinkDelayMs?: number | undefined;
+  downlinkDelayMs?: number | undefined;
+  uplinkJitterMs?: number | undefined;
+  downlinkJitterMs?: number | undefined;
+  uplinkLossPercent?: number | undefined;
+  downlinkLossPercent?: number | undefined;
 }
 export interface CreateNetworkProfileResult {
-  networkProfile?: NetworkProfile;
+  networkProfile?: NetworkProfile | undefined;
 }
 export type JobTimeoutMinutes = number;
 export type SecurityGroupId = string;
@@ -288,22 +289,22 @@ export type EnvironmentVariables = EnvironmentVariable[];
 export type AmazonRoleResourceName = string;
 export interface CreateProjectRequest {
   name: string;
-  defaultJobTimeoutMinutes?: number;
-  vpcConfig?: VpcConfig;
-  environmentVariables?: EnvironmentVariable[];
-  executionRoleArn?: string;
+  defaultJobTimeoutMinutes?: number | undefined;
+  vpcConfig?: VpcConfig | undefined;
+  environmentVariables?: EnvironmentVariable[] | undefined;
+  executionRoleArn?: string | undefined;
 }
 export interface Project {
-  arn?: string;
-  name?: string;
-  defaultJobTimeoutMinutes?: number;
-  created?: Date;
-  vpcConfig?: VpcConfig;
-  environmentVariables?: EnvironmentVariable[];
-  executionRoleArn?: string;
+  arn?: string | undefined;
+  name?: string | undefined;
+  defaultJobTimeoutMinutes?: number | undefined;
+  created?: Date | undefined;
+  vpcConfig?: VpcConfig | undefined;
+  environmentVariables?: EnvironmentVariable[] | undefined;
+  executionRoleArn?: string | undefined;
 }
 export interface CreateProjectResult {
-  project?: Project;
+  project?: Project | undefined;
 }
 export type AuxiliaryAppArnList = string[];
 export type BillingMethod = "METERED" | "UNMETERED" | (string & {});
@@ -318,22 +319,22 @@ export type RemoteAccessParameterKey = string;
 export type RemoteAccessParameterValue = string;
 export type RemoteAccessParameters = { [key: string]: string | undefined };
 export interface CreateRemoteAccessSessionConfiguration {
-  auxiliaryApps?: string[];
-  billingMethod?: BillingMethod;
-  vpceConfigurationArns?: string[];
-  deviceProxy?: DeviceProxy;
-  parameters?: { [key: string]: string | undefined };
+  auxiliaryApps?: string[] | undefined;
+  billingMethod?: BillingMethod | undefined;
+  vpceConfigurationArns?: string[] | undefined;
+  deviceProxy?: DeviceProxy | undefined;
+  parameters?: { [key: string]: string | undefined } | undefined;
 }
 export type InteractionMode = "INTERACTIVE" | "NO_VIDEO" | "VIDEO_ONLY" | (string & {});
 export interface CreateRemoteAccessSessionRequest {
   projectArn: string;
   deviceArn: string;
-  appArn?: string;
-  instanceArn?: string;
-  name?: string;
-  configuration?: CreateRemoteAccessSessionConfiguration;
-  interactionMode?: InteractionMode;
-  skipAppResign?: boolean;
+  appArn?: string | undefined;
+  instanceArn?: string | undefined;
+  name?: string | undefined;
+  configuration?: CreateRemoteAccessSessionConfiguration | undefined;
+  interactionMode?: InteractionMode | undefined;
+  skipAppResign?: boolean | undefined;
 }
 export type ExecutionStatus =
   | "PENDING"
@@ -358,23 +359,23 @@ export type ExecutionResult =
 export type DeviceFormFactor = "PHONE" | "TABLET" | (string & {});
 export type DevicePlatform = "ANDROID" | "IOS" | (string & {});
 export interface CPU {
-  frequency?: string;
-  architecture?: string;
-  clock?: number;
+  frequency?: string | undefined;
+  architecture?: string | undefined;
+  clock?: number | undefined;
 }
 export interface Resolution {
-  width?: number;
-  height?: number;
+  width?: number | undefined;
+  height?: number | undefined;
 }
 export type InstanceLabels = string[];
 export type InstanceStatus = "IN_USE" | "PREPARING" | "AVAILABLE" | "NOT_AVAILABLE" | (string & {});
 export interface DeviceInstance {
-  arn?: string;
-  deviceArn?: string;
-  labels?: string[];
-  status?: InstanceStatus;
-  udid?: string;
-  instanceProfile?: InstanceProfile;
+  arn?: string | undefined;
+  deviceArn?: string | undefined;
+  labels?: string[] | undefined;
+  status?: InstanceStatus | undefined;
+  udid?: string | undefined;
+  instanceProfile?: InstanceProfile | undefined;
 }
 export type DeviceInstances = DeviceInstance[];
 export type DeviceAvailability =
@@ -384,63 +385,63 @@ export type DeviceAvailability =
   | "HIGHLY_AVAILABLE"
   | (string & {});
 export interface Device {
-  arn?: string;
-  name?: string;
-  manufacturer?: string;
-  model?: string;
-  modelId?: string;
-  formFactor?: DeviceFormFactor;
-  platform?: DevicePlatform;
-  os?: string;
-  cpu?: CPU;
-  resolution?: Resolution;
-  heapSize?: number;
-  memory?: number;
-  image?: string;
-  carrier?: string;
-  radio?: string;
-  remoteAccessEnabled?: boolean;
-  remoteDebugEnabled?: boolean;
-  fleetType?: string;
-  fleetName?: string;
-  instances?: DeviceInstance[];
-  availability?: DeviceAvailability;
+  arn?: string | undefined;
+  name?: string | undefined;
+  manufacturer?: string | undefined;
+  model?: string | undefined;
+  modelId?: string | undefined;
+  formFactor?: DeviceFormFactor | undefined;
+  platform?: DevicePlatform | undefined;
+  os?: string | undefined;
+  cpu?: CPU | undefined;
+  resolution?: Resolution | undefined;
+  heapSize?: number | undefined;
+  memory?: number | undefined;
+  image?: string | undefined;
+  carrier?: string | undefined;
+  radio?: string | undefined;
+  remoteAccessEnabled?: boolean | undefined;
+  remoteDebugEnabled?: boolean | undefined;
+  fleetType?: string | undefined;
+  fleetName?: string | undefined;
+  instances?: DeviceInstance[] | undefined;
+  availability?: DeviceAvailability | undefined;
 }
 export interface DeviceMinutes {
-  total?: number;
-  metered?: number;
-  unmetered?: number;
+  total?: number | undefined;
+  metered?: number | undefined;
+  unmetered?: number | undefined;
 }
 export type SkipAppResign = boolean;
 export type SensitiveURL = string | redacted.Redacted<string>;
 export interface RemoteAccessEndpoints {
-  remoteDriverEndpoint?: string | redacted.Redacted<string>;
-  interactiveEndpoint?: string | redacted.Redacted<string>;
+  remoteDriverEndpoint?: string | redacted.Redacted<string> | undefined;
+  interactiveEndpoint?: string | redacted.Redacted<string> | undefined;
 }
 export interface RemoteAccessSession {
-  arn?: string;
-  name?: string;
-  created?: Date;
-  status?: ExecutionStatus;
-  result?: ExecutionResult;
-  message?: string;
-  started?: Date;
-  stopped?: Date;
-  device?: Device;
-  instanceArn?: string;
-  billingMethod?: BillingMethod;
-  deviceMinutes?: DeviceMinutes;
-  endpoint?: string;
-  deviceUdid?: string;
-  interactionMode?: InteractionMode;
-  skipAppResign?: boolean;
-  vpcConfig?: VpcConfig;
-  deviceProxy?: DeviceProxy;
-  appUpload?: string;
-  endpoints?: RemoteAccessEndpoints;
+  arn?: string | undefined;
+  name?: string | undefined;
+  created?: Date | undefined;
+  status?: ExecutionStatus | undefined;
+  result?: ExecutionResult | undefined;
+  message?: string | undefined;
+  started?: Date | undefined;
+  stopped?: Date | undefined;
+  device?: Device | undefined;
+  instanceArn?: string | undefined;
+  billingMethod?: BillingMethod | undefined;
+  deviceMinutes?: DeviceMinutes | undefined;
+  endpoint?: string | undefined;
+  deviceUdid?: string | undefined;
+  interactionMode?: InteractionMode | undefined;
+  skipAppResign?: boolean | undefined;
+  vpcConfig?: VpcConfig | undefined;
+  deviceProxy?: DeviceProxy | undefined;
+  appUpload?: string | undefined;
+  endpoints?: RemoteAccessEndpoints | undefined;
 }
 export interface CreateRemoteAccessSessionResult {
-  remoteAccessSession?: RemoteAccessSession;
+  remoteAccessSession?: RemoteAccessSession | undefined;
 }
 export type ResourceName = string;
 export type ResourceDescription = string;
@@ -453,19 +454,19 @@ export interface TestGridVpcConfig {
 }
 export interface CreateTestGridProjectRequest {
   name: string;
-  description?: string;
-  vpcConfig?: TestGridVpcConfig;
+  description?: string | undefined;
+  vpcConfig?: TestGridVpcConfig | undefined;
 }
 export type DeviceFarmArn = string;
 export interface TestGridProject {
-  arn?: string;
-  name?: string;
-  description?: string;
-  vpcConfig?: TestGridVpcConfig;
-  created?: Date;
+  arn?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  vpcConfig?: TestGridVpcConfig | undefined;
+  created?: Date | undefined;
 }
 export interface CreateTestGridProjectResult {
-  testGridProject?: TestGridProject;
+  testGridProject?: TestGridProject | undefined;
 }
 export type TestGridUrlExpiresInSecondsInput = number;
 export interface CreateTestGridUrlRequest {
@@ -474,8 +475,8 @@ export interface CreateTestGridUrlRequest {
 }
 export type SensitiveString = string | redacted.Redacted<string>;
 export interface CreateTestGridUrlResult {
-  url?: string | redacted.Redacted<string>;
-  expires?: Date;
+  url?: string | redacted.Redacted<string> | undefined;
+  expires?: Date | undefined;
 }
 export type UploadType =
   | "ANDROID_APP"
@@ -516,25 +517,25 @@ export interface CreateUploadRequest {
   projectArn: string;
   name: string;
   type: UploadType;
-  contentType?: string;
+  contentType?: string | undefined;
 }
 export type UploadStatus = "INITIALIZED" | "PROCESSING" | "SUCCEEDED" | "FAILED" | (string & {});
 export type Metadata = string;
 export type UploadCategory = "CURATED" | "PRIVATE" | (string & {});
 export interface Upload {
-  arn?: string;
-  name?: string;
-  created?: Date;
-  type?: UploadType;
-  status?: UploadStatus;
-  url?: string | redacted.Redacted<string>;
-  metadata?: string;
-  contentType?: string;
-  message?: string;
-  category?: UploadCategory;
+  arn?: string | undefined;
+  name?: string | undefined;
+  created?: Date | undefined;
+  type?: UploadType | undefined;
+  status?: UploadStatus | undefined;
+  url?: string | redacted.Redacted<string> | undefined;
+  metadata?: string | undefined;
+  contentType?: string | undefined;
+  message?: string | undefined;
+  category?: UploadCategory | undefined;
 }
 export interface CreateUploadResult {
-  upload?: Upload;
+  upload?: Upload | undefined;
 }
 export type VPCEConfigurationName = string;
 export type VPCEServiceName = string;
@@ -544,17 +545,17 @@ export interface CreateVPCEConfigurationRequest {
   vpceConfigurationName: string;
   vpceServiceName: string;
   serviceDnsName: string;
-  vpceConfigurationDescription?: string;
+  vpceConfigurationDescription?: string | undefined;
 }
 export interface VPCEConfiguration {
-  arn?: string;
-  vpceConfigurationName?: string;
-  vpceServiceName?: string;
-  serviceDnsName?: string;
-  vpceConfigurationDescription?: string;
+  arn?: string | undefined;
+  vpceConfigurationName?: string | undefined;
+  vpceServiceName?: string | undefined;
+  serviceDnsName?: string | undefined;
+  vpceConfigurationDescription?: string | undefined;
 }
 export interface CreateVPCEConfigurationResult {
-  vpceConfiguration?: VPCEConfiguration;
+  vpceConfiguration?: VPCEConfiguration | undefined;
 }
 export interface DeleteDevicePoolRequest {
   arn: string;
@@ -594,42 +595,42 @@ export interface DeleteVPCEConfigurationRequest {
 export interface DeleteVPCEConfigurationResult {}
 export interface GetAccountSettingsRequest {}
 export type AWSAccountNumber = string;
-export type PurchasedDevicesMap = { [key in DevicePlatform]?: number };
+export type PurchasedDevicesMap = { [key in DevicePlatform]?: number | undefined };
 export interface TrialMinutes {
-  total?: number;
-  remaining?: number;
+  total?: number | undefined;
+  remaining?: number | undefined;
 }
 export type MaxSlotMap = { [key: string]: number | undefined };
 export interface AccountSettings {
-  awsAccountNumber?: string;
-  unmeteredDevices?: { [key: string]: number | undefined };
-  unmeteredRemoteAccessDevices?: { [key: string]: number | undefined };
-  maxJobTimeoutMinutes?: number;
-  trialMinutes?: TrialMinutes;
-  maxSlots?: { [key: string]: number | undefined };
-  defaultJobTimeoutMinutes?: number;
-  skipAppResign?: boolean;
+  awsAccountNumber?: string | undefined;
+  unmeteredDevices?: { [key: string]: number | undefined } | undefined;
+  unmeteredRemoteAccessDevices?: { [key: string]: number | undefined } | undefined;
+  maxJobTimeoutMinutes?: number | undefined;
+  trialMinutes?: TrialMinutes | undefined;
+  maxSlots?: { [key: string]: number | undefined } | undefined;
+  defaultJobTimeoutMinutes?: number | undefined;
+  skipAppResign?: boolean | undefined;
 }
 export interface GetAccountSettingsResult {
-  accountSettings?: AccountSettings;
+  accountSettings?: AccountSettings | undefined;
 }
 export interface GetDeviceRequest {
   arn: string;
 }
 export interface GetDeviceResult {
-  device?: Device;
+  device?: Device | undefined;
 }
 export interface GetDeviceInstanceRequest {
   arn: string;
 }
 export interface GetDeviceInstanceResult {
-  deviceInstance?: DeviceInstance;
+  deviceInstance?: DeviceInstance | undefined;
 }
 export interface GetDevicePoolRequest {
   arn: string;
 }
 export interface GetDevicePoolResult {
-  devicePool?: DevicePool;
+  devicePool?: DevicePool | undefined;
 }
 export type TestType =
   | "BUILTIN_FUZZ"
@@ -651,10 +652,10 @@ export type Filter = string;
 export type TestParameters = { [key: string]: string | undefined };
 export interface ScheduleRunTest {
   type: TestType;
-  testPackageArn?: string;
-  testSpecArn?: string;
-  filter?: string;
-  parameters?: { [key: string]: string | undefined };
+  testPackageArn?: string | undefined;
+  testSpecArn?: string | undefined;
+  filter?: string | undefined;
+  parameters?: { [key: string]: string | undefined } | undefined;
 }
 export interface Location {
   latitude: number;
@@ -664,73 +665,73 @@ export type IosPaths = string[];
 export type AndroidPaths = string[];
 export type DeviceHostPaths = string[];
 export interface CustomerArtifactPaths {
-  iosPaths?: string[];
-  androidPaths?: string[];
-  deviceHostPaths?: string[];
+  iosPaths?: string[] | undefined;
+  androidPaths?: string[] | undefined;
+  deviceHostPaths?: string[] | undefined;
 }
 export interface Radios {
-  wifi?: boolean;
-  bluetooth?: boolean;
-  nfc?: boolean;
-  gps?: boolean;
+  wifi?: boolean | undefined;
+  bluetooth?: boolean | undefined;
+  nfc?: boolean | undefined;
+  gps?: boolean | undefined;
 }
 export type InsightsType = "TEST_REPORT" | (string & {});
 export type InsightsTypes = InsightsType[];
 export interface ScheduleRunConfiguration {
-  extraDataPackageArn?: string;
-  networkProfileArn?: string;
-  locale?: string;
-  location?: Location;
-  vpceConfigurationArns?: string[];
-  deviceProxy?: DeviceProxy;
-  customerArtifactPaths?: CustomerArtifactPaths;
-  radios?: Radios;
-  auxiliaryApps?: string[];
-  billingMethod?: BillingMethod;
-  environmentVariables?: EnvironmentVariable[];
-  executionRoleArn?: string;
-  insightsTypes?: InsightsType[];
+  extraDataPackageArn?: string | undefined;
+  networkProfileArn?: string | undefined;
+  locale?: string | undefined;
+  location?: Location | undefined;
+  vpceConfigurationArns?: string[] | undefined;
+  deviceProxy?: DeviceProxy | undefined;
+  customerArtifactPaths?: CustomerArtifactPaths | undefined;
+  radios?: Radios | undefined;
+  auxiliaryApps?: string[] | undefined;
+  billingMethod?: BillingMethod | undefined;
+  environmentVariables?: EnvironmentVariable[] | undefined;
+  executionRoleArn?: string | undefined;
+  insightsTypes?: InsightsType[] | undefined;
 }
 export interface GetDevicePoolCompatibilityRequest {
   devicePoolArn: string;
-  appArn?: string;
-  testType?: TestType;
-  test?: ScheduleRunTest;
-  configuration?: ScheduleRunConfiguration;
-  projectArn?: string;
+  appArn?: string | undefined;
+  testType?: TestType | undefined;
+  test?: ScheduleRunTest | undefined;
+  configuration?: ScheduleRunConfiguration | undefined;
+  projectArn?: string | undefined;
 }
 export interface IncompatibilityMessage {
-  message?: string;
-  type?: DeviceAttribute;
+  message?: string | undefined;
+  type?: DeviceAttribute | undefined;
 }
 export type IncompatibilityMessages = IncompatibilityMessage[];
 export interface DevicePoolCompatibilityResult {
-  device?: Device;
-  compatible?: boolean;
-  incompatibilityMessages?: IncompatibilityMessage[];
+  device?: Device | undefined;
+  compatible?: boolean | undefined;
+  incompatibilityMessages?: IncompatibilityMessage[] | undefined;
 }
 export type DevicePoolCompatibilityResults = DevicePoolCompatibilityResult[];
 export interface GetDevicePoolCompatibilityResult {
-  compatibleDevices?: DevicePoolCompatibilityResult[];
-  incompatibleDevices?: DevicePoolCompatibilityResult[];
+  compatibleDevices?: DevicePoolCompatibilityResult[] | undefined;
+  incompatibleDevices?: DevicePoolCompatibilityResult[] | undefined;
 }
 export interface GetInstanceProfileRequest {
   arn: string;
 }
 export interface GetInstanceProfileResult {
-  instanceProfile?: InstanceProfile;
+  instanceProfile?: InstanceProfile | undefined;
 }
 export interface GetJobRequest {
   arn: string;
 }
 export interface Counters {
-  total?: number;
-  passed?: number;
-  failed?: number;
-  warned?: number;
-  errored?: number;
-  stopped?: number;
-  skipped?: number;
+  total?: number | undefined;
+  passed?: number | undefined;
+  failed?: number | undefined;
+  warned?: number | undefined;
+  errored?: number | undefined;
+  stopped?: number | undefined;
+  skipped?: number | undefined;
 }
 export type VideoCapture = boolean;
 export type ReportStatus =
@@ -742,100 +743,100 @@ export type ReportStatus =
   | (string & {});
 export type ReportMessage = string;
 export interface TestReportMetrics {
-  testsTotal?: number;
-  testsPassed?: number;
-  testsFailed?: number;
-  testsSkipped?: number;
-  testsErrored?: number;
-  testsOther?: number;
-  testsPassedPercentage?: number;
-  totalTestExecutionDurationSeconds?: number;
-  medianTestExecutionDurationSeconds?: number;
+  testsTotal?: number | undefined;
+  testsPassed?: number | undefined;
+  testsFailed?: number | undefined;
+  testsSkipped?: number | undefined;
+  testsErrored?: number | undefined;
+  testsOther?: number | undefined;
+  testsPassedPercentage?: number | undefined;
+  totalTestExecutionDurationSeconds?: number | undefined;
+  medianTestExecutionDurationSeconds?: number | undefined;
 }
 export interface TestReport {
-  message?: string;
-  metrics?: TestReportMetrics;
-  testDetailsUrl?: string | redacted.Redacted<string>;
+  message?: string | undefined;
+  metrics?: TestReportMetrics | undefined;
+  testDetailsUrl?: string | redacted.Redacted<string> | undefined;
 }
 export interface JobInsights {
-  status?: ReportStatus;
-  testReport?: TestReport;
+  status?: ReportStatus | undefined;
+  testReport?: TestReport | undefined;
 }
 export interface Job {
-  arn?: string;
-  name?: string;
-  type?: TestType;
-  created?: Date;
-  status?: ExecutionStatus;
-  result?: ExecutionResult;
-  started?: Date;
-  stopped?: Date;
-  counters?: Counters;
-  message?: string;
-  device?: Device;
-  instanceArn?: string;
-  deviceMinutes?: DeviceMinutes;
-  videoEndpoint?: string;
-  videoCapture?: boolean;
-  insights?: JobInsights;
+  arn?: string | undefined;
+  name?: string | undefined;
+  type?: TestType | undefined;
+  created?: Date | undefined;
+  status?: ExecutionStatus | undefined;
+  result?: ExecutionResult | undefined;
+  started?: Date | undefined;
+  stopped?: Date | undefined;
+  counters?: Counters | undefined;
+  message?: string | undefined;
+  device?: Device | undefined;
+  instanceArn?: string | undefined;
+  deviceMinutes?: DeviceMinutes | undefined;
+  videoEndpoint?: string | undefined;
+  videoCapture?: boolean | undefined;
+  insights?: JobInsights | undefined;
 }
 export interface GetJobResult {
-  job?: Job;
+  job?: Job | undefined;
 }
 export interface GetNetworkProfileRequest {
   arn: string;
 }
 export interface GetNetworkProfileResult {
-  networkProfile?: NetworkProfile;
+  networkProfile?: NetworkProfile | undefined;
 }
 export type PaginationToken = string;
 export interface GetOfferingStatusRequest {
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type OfferingIdentifier = string;
 export type OfferingTransactionType = "PURCHASE" | "RENEW" | "SYSTEM" | (string & {});
 export type OfferingType = "RECURRING" | (string & {});
 export type CurrencyCode = "USD" | (string & {});
 export interface MonetaryAmount {
-  amount?: number;
-  currencyCode?: CurrencyCode;
+  amount?: number | undefined;
+  currencyCode?: CurrencyCode | undefined;
 }
 export type RecurringChargeFrequency = "MONTHLY" | (string & {});
 export interface RecurringCharge {
-  cost?: MonetaryAmount;
-  frequency?: RecurringChargeFrequency;
+  cost?: MonetaryAmount | undefined;
+  frequency?: RecurringChargeFrequency | undefined;
 }
 export type RecurringCharges = RecurringCharge[];
 export interface Offering {
-  id?: string;
-  description?: string;
-  type?: OfferingType;
-  platform?: DevicePlatform;
-  recurringCharges?: RecurringCharge[];
+  id?: string | undefined;
+  description?: string | undefined;
+  type?: OfferingType | undefined;
+  platform?: DevicePlatform | undefined;
+  recurringCharges?: RecurringCharge[] | undefined;
 }
 export interface OfferingStatus {
-  type?: OfferingTransactionType;
-  offering?: Offering;
-  quantity?: number;
-  effectiveOn?: Date;
+  type?: OfferingTransactionType | undefined;
+  offering?: Offering | undefined;
+  quantity?: number | undefined;
+  effectiveOn?: Date | undefined;
 }
 export type OfferingStatusMap = { [key: string]: OfferingStatus | undefined };
 export interface GetOfferingStatusResult {
-  current?: { [key: string]: OfferingStatus | undefined };
-  nextPeriod?: { [key: string]: OfferingStatus | undefined };
-  nextToken?: string;
+  current?: { [key: string]: OfferingStatus | undefined } | undefined;
+  nextPeriod?: { [key: string]: OfferingStatus | undefined } | undefined;
+  nextToken?: string | undefined;
 }
 export interface GetProjectRequest {
   arn: string;
 }
 export interface GetProjectResult {
-  project?: Project;
+  project?: Project | undefined;
 }
 export interface GetRemoteAccessSessionRequest {
   arn: string;
 }
 export interface GetRemoteAccessSessionResult {
-  remoteAccessSession?: RemoteAccessSession;
+  remoteAccessSession?: RemoteAccessSession | undefined;
 }
 export interface GetRunRequest {
   arn: string;
@@ -863,159 +864,159 @@ export interface DeviceFilter {
 }
 export type DeviceFilters = DeviceFilter[];
 export interface DeviceSelectionResult {
-  filters?: DeviceFilter[];
-  matchedDevicesCount?: number;
-  maxDevices?: number;
+  filters?: DeviceFilter[] | undefined;
+  matchedDevicesCount?: number | undefined;
+  maxDevices?: number | undefined;
 }
 export interface JobReportMetrics {
-  jobsTotal?: number;
-  jobsPassed?: number;
-  jobsFailed?: number;
-  jobsSkipped?: number;
-  jobsErrored?: number;
-  jobsStopped?: number;
-  jobsPassedPercentage?: number;
-  totalJobExecutionDurationSeconds?: number;
-  averageJobExecutionDurationSeconds?: number;
-  medianJobExecutionDurationSeconds?: number;
+  jobsTotal?: number | undefined;
+  jobsPassed?: number | undefined;
+  jobsFailed?: number | undefined;
+  jobsSkipped?: number | undefined;
+  jobsErrored?: number | undefined;
+  jobsStopped?: number | undefined;
+  jobsPassedPercentage?: number | undefined;
+  totalJobExecutionDurationSeconds?: number | undefined;
+  averageJobExecutionDurationSeconds?: number | undefined;
+  medianJobExecutionDurationSeconds?: number | undefined;
 }
 export interface JobReport {
-  message?: string;
-  metrics?: JobReportMetrics;
-  jobDetailsUrl?: string | redacted.Redacted<string>;
+  message?: string | undefined;
+  metrics?: JobReportMetrics | undefined;
+  jobDetailsUrl?: string | redacted.Redacted<string> | undefined;
 }
 export interface RunInsights {
-  status?: ReportStatus;
-  jobReport?: JobReport;
+  status?: ReportStatus | undefined;
+  jobReport?: JobReport | undefined;
 }
 export interface Run {
-  arn?: string;
-  name?: string;
-  type?: TestType;
-  platform?: DevicePlatform;
-  created?: Date;
-  status?: ExecutionStatus;
-  result?: ExecutionResult;
-  started?: Date;
-  stopped?: Date;
-  counters?: Counters;
-  message?: string;
-  totalJobs?: number;
-  completedJobs?: number;
-  billingMethod?: BillingMethod;
-  deviceMinutes?: DeviceMinutes;
-  networkProfile?: NetworkProfile;
-  deviceProxy?: DeviceProxy;
-  parsingResultUrl?: string;
-  resultCode?: ExecutionResultCode;
-  seed?: number;
-  appUpload?: string;
-  eventCount?: number;
-  jobTimeoutMinutes?: number;
-  devicePoolArn?: string;
-  locale?: string;
-  radios?: Radios;
-  location?: Location;
-  customerArtifactPaths?: CustomerArtifactPaths;
-  webUrl?: string;
-  skipAppResign?: boolean;
-  testSpecArn?: string;
-  deviceSelectionResult?: DeviceSelectionResult;
-  vpcConfig?: VpcConfig;
-  executionRoleArn?: string;
-  environmentVariables?: EnvironmentVariable[];
-  insightsTypes?: InsightsType[];
-  insights?: RunInsights;
+  arn?: string | undefined;
+  name?: string | undefined;
+  type?: TestType | undefined;
+  platform?: DevicePlatform | undefined;
+  created?: Date | undefined;
+  status?: ExecutionStatus | undefined;
+  result?: ExecutionResult | undefined;
+  started?: Date | undefined;
+  stopped?: Date | undefined;
+  counters?: Counters | undefined;
+  message?: string | undefined;
+  totalJobs?: number | undefined;
+  completedJobs?: number | undefined;
+  billingMethod?: BillingMethod | undefined;
+  deviceMinutes?: DeviceMinutes | undefined;
+  networkProfile?: NetworkProfile | undefined;
+  deviceProxy?: DeviceProxy | undefined;
+  parsingResultUrl?: string | undefined;
+  resultCode?: ExecutionResultCode | undefined;
+  seed?: number | undefined;
+  appUpload?: string | undefined;
+  eventCount?: number | undefined;
+  jobTimeoutMinutes?: number | undefined;
+  devicePoolArn?: string | undefined;
+  locale?: string | undefined;
+  radios?: Radios | undefined;
+  location?: Location | undefined;
+  customerArtifactPaths?: CustomerArtifactPaths | undefined;
+  webUrl?: string | undefined;
+  skipAppResign?: boolean | undefined;
+  testSpecArn?: string | undefined;
+  deviceSelectionResult?: DeviceSelectionResult | undefined;
+  vpcConfig?: VpcConfig | undefined;
+  executionRoleArn?: string | undefined;
+  environmentVariables?: EnvironmentVariable[] | undefined;
+  insightsTypes?: InsightsType[] | undefined;
+  insights?: RunInsights | undefined;
 }
 export interface GetRunResult {
-  run?: Run;
+  run?: Run | undefined;
 }
 export interface GetSuiteRequest {
   arn: string;
 }
 export interface Suite {
-  arn?: string;
-  name?: string;
-  type?: TestType;
-  created?: Date;
-  status?: ExecutionStatus;
-  result?: ExecutionResult;
-  started?: Date;
-  stopped?: Date;
-  counters?: Counters;
-  message?: string;
-  deviceMinutes?: DeviceMinutes;
+  arn?: string | undefined;
+  name?: string | undefined;
+  type?: TestType | undefined;
+  created?: Date | undefined;
+  status?: ExecutionStatus | undefined;
+  result?: ExecutionResult | undefined;
+  started?: Date | undefined;
+  stopped?: Date | undefined;
+  counters?: Counters | undefined;
+  message?: string | undefined;
+  deviceMinutes?: DeviceMinutes | undefined;
 }
 export interface GetSuiteResult {
-  suite?: Suite;
+  suite?: Suite | undefined;
 }
 export interface GetTestRequest {
   arn: string;
 }
 export interface Test {
-  arn?: string;
-  name?: string;
-  type?: TestType;
-  created?: Date;
-  status?: ExecutionStatus;
-  result?: ExecutionResult;
-  started?: Date;
-  stopped?: Date;
-  counters?: Counters;
-  message?: string;
-  deviceMinutes?: DeviceMinutes;
+  arn?: string | undefined;
+  name?: string | undefined;
+  type?: TestType | undefined;
+  created?: Date | undefined;
+  status?: ExecutionStatus | undefined;
+  result?: ExecutionResult | undefined;
+  started?: Date | undefined;
+  stopped?: Date | undefined;
+  counters?: Counters | undefined;
+  message?: string | undefined;
+  deviceMinutes?: DeviceMinutes | undefined;
 }
 export interface GetTestResult {
-  test?: Test;
+  test?: Test | undefined;
 }
 export interface GetTestGridProjectRequest {
   projectArn: string;
 }
 export interface GetTestGridProjectResult {
-  testGridProject?: TestGridProject;
+  testGridProject?: TestGridProject | undefined;
 }
 export type ResourceId = string;
 export interface GetTestGridSessionRequest {
-  projectArn?: string;
-  sessionId?: string;
-  sessionArn?: string;
+  projectArn?: string | undefined;
+  sessionId?: string | undefined;
+  sessionArn?: string | undefined;
 }
 export type TestGridSessionStatus = "ACTIVE" | "CLOSED" | "ERRORED" | (string & {});
 export interface TestGridSession {
-  arn?: string;
-  status?: TestGridSessionStatus;
-  created?: Date;
-  ended?: Date;
-  billingMinutes?: number;
-  seleniumProperties?: string;
+  arn?: string | undefined;
+  status?: TestGridSessionStatus | undefined;
+  created?: Date | undefined;
+  ended?: Date | undefined;
+  billingMinutes?: number | undefined;
+  seleniumProperties?: string | undefined;
 }
 export interface GetTestGridSessionResult {
-  testGridSession?: TestGridSession;
+  testGridSession?: TestGridSession | undefined;
 }
 export interface GetUploadRequest {
   arn: string;
 }
 export interface GetUploadResult {
-  upload?: Upload;
+  upload?: Upload | undefined;
 }
 export interface GetVPCEConfigurationRequest {
   arn: string;
 }
 export interface GetVPCEConfigurationResult {
-  vpceConfiguration?: VPCEConfiguration;
+  vpceConfiguration?: VPCEConfiguration | undefined;
 }
 export interface InstallToRemoteAccessSessionRequest {
   remoteAccessSessionArn: string;
   appArn: string;
 }
 export interface InstallToRemoteAccessSessionResult {
-  appUpload?: Upload;
+  appUpload?: Upload | undefined;
 }
 export type ArtifactCategory = "SCREENSHOT" | "FILE" | "LOG" | (string & {});
 export interface ListArtifactsRequest {
   arn: string;
   type: ArtifactCategory;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ArtifactType =
   | "UNKNOWN"
@@ -1049,140 +1050,140 @@ export type ArtifactType =
   | (string & {});
 export type URL = string;
 export interface Artifact {
-  arn?: string;
-  name?: string;
-  type?: ArtifactType;
-  extension?: string;
-  url?: string;
+  arn?: string | undefined;
+  name?: string | undefined;
+  type?: ArtifactType | undefined;
+  extension?: string | undefined;
+  url?: string | undefined;
 }
 export type Artifacts = Artifact[];
 export interface ListArtifactsResult {
-  artifacts?: Artifact[];
-  nextToken?: string;
+  artifacts?: Artifact[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListDeviceInstancesRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListDeviceInstancesResult {
-  deviceInstances?: DeviceInstance[];
-  nextToken?: string;
+  deviceInstances?: DeviceInstance[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListDevicePoolsRequest {
   arn: string;
-  type?: DevicePoolType;
-  nextToken?: string;
+  type?: DevicePoolType | undefined;
+  nextToken?: string | undefined;
 }
 export type DevicePools = DevicePool[];
 export interface ListDevicePoolsResult {
-  devicePools?: DevicePool[];
-  nextToken?: string;
+  devicePools?: DevicePool[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListDevicesRequest {
-  arn?: string;
-  nextToken?: string;
-  filters?: DeviceFilter[];
+  arn?: string | undefined;
+  nextToken?: string | undefined;
+  filters?: DeviceFilter[] | undefined;
 }
 export type Devices = Device[];
 export interface ListDevicesResult {
-  devices?: Device[];
-  nextToken?: string;
+  devices?: Device[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListInstanceProfilesRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type InstanceProfiles = InstanceProfile[];
 export interface ListInstanceProfilesResult {
-  instanceProfiles?: InstanceProfile[];
-  nextToken?: string;
+  instanceProfiles?: InstanceProfile[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListJobsRequest {
   arn: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type Jobs = Job[];
 export interface ListJobsResult {
-  jobs?: Job[];
-  nextToken?: string;
+  jobs?: Job[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListNetworkProfilesRequest {
   arn: string;
-  type?: NetworkProfileType;
-  nextToken?: string;
+  type?: NetworkProfileType | undefined;
+  nextToken?: string | undefined;
 }
 export type NetworkProfiles = NetworkProfile[];
 export interface ListNetworkProfilesResult {
-  networkProfiles?: NetworkProfile[];
-  nextToken?: string;
+  networkProfiles?: NetworkProfile[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListOfferingPromotionsRequest {
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type OfferingPromotionIdentifier = string;
 export interface OfferingPromotion {
-  id?: string;
-  description?: string;
+  id?: string | undefined;
+  description?: string | undefined;
 }
 export type OfferingPromotions = OfferingPromotion[];
 export interface ListOfferingPromotionsResult {
-  offeringPromotions?: OfferingPromotion[];
-  nextToken?: string;
+  offeringPromotions?: OfferingPromotion[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListOfferingsRequest {
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type Offerings = Offering[];
 export interface ListOfferingsResult {
-  offerings?: Offering[];
-  nextToken?: string;
+  offerings?: Offering[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListOfferingTransactionsRequest {
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type TransactionIdentifier = string;
 export interface OfferingTransaction {
-  offeringStatus?: OfferingStatus;
-  transactionId?: string;
-  offeringPromotionId?: string;
-  createdOn?: Date;
-  cost?: MonetaryAmount;
+  offeringStatus?: OfferingStatus | undefined;
+  transactionId?: string | undefined;
+  offeringPromotionId?: string | undefined;
+  createdOn?: Date | undefined;
+  cost?: MonetaryAmount | undefined;
 }
 export type OfferingTransactions = OfferingTransaction[];
 export interface ListOfferingTransactionsResult {
-  offeringTransactions?: OfferingTransaction[];
-  nextToken?: string;
+  offeringTransactions?: OfferingTransaction[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListProjectsRequest {
-  arn?: string;
-  nextToken?: string;
+  arn?: string | undefined;
+  nextToken?: string | undefined;
 }
 export type Projects = Project[];
 export interface ListProjectsResult {
-  projects?: Project[];
-  nextToken?: string;
+  projects?: Project[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListRemoteAccessSessionsRequest {
   arn: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type RemoteAccessSessions = RemoteAccessSession[];
 export interface ListRemoteAccessSessionsResult {
-  remoteAccessSessions?: RemoteAccessSession[];
-  nextToken?: string;
+  remoteAccessSessions?: RemoteAccessSession[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListRunsRequest {
   arn: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type Runs = Run[];
 export interface ListRunsResult {
-  runs?: Run[];
-  nextToken?: string;
+  runs?: Run[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListSamplesRequest {
   arn: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type SampleType =
   | "CPU"
@@ -1204,23 +1205,23 @@ export type SampleType =
   | "OPENGL_MAX_DRAWTIME"
   | (string & {});
 export interface Sample {
-  arn?: string;
-  type?: SampleType;
-  url?: string;
+  arn?: string | undefined;
+  type?: SampleType | undefined;
+  url?: string | undefined;
 }
 export type Samples = Sample[];
 export interface ListSamplesResult {
-  samples?: Sample[];
-  nextToken?: string;
+  samples?: Sample[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListSuitesRequest {
   arn: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type Suites = Suite[];
 export interface ListSuitesResult {
-  suites?: Suite[];
-  nextToken?: string;
+  suites?: Suite[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
@@ -1233,138 +1234,140 @@ export interface Tag {
 }
 export type TagList = Tag[];
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type MaxPageSize = number;
 export interface ListTestGridProjectsRequest {
-  maxResult?: number;
-  nextToken?: string;
+  maxResult?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type TestGridProjects = TestGridProject[];
 export interface ListTestGridProjectsResult {
-  testGridProjects?: TestGridProject[];
-  nextToken?: string;
+  testGridProjects?: TestGridProject[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListTestGridSessionActionsRequest {
   sessionArn: string;
-  maxResult?: number;
-  nextToken?: string;
+  maxResult?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface TestGridSessionAction {
-  action?: string;
-  started?: Date;
-  duration?: number;
-  statusCode?: string;
-  requestMethod?: string;
+  action?: string | undefined;
+  started?: Date | undefined;
+  duration?: number | undefined;
+  statusCode?: string | undefined;
+  requestMethod?: string | undefined;
 }
 export type TestGridSessionActions = TestGridSessionAction[];
 export interface ListTestGridSessionActionsResult {
-  actions?: TestGridSessionAction[];
-  nextToken?: string;
+  actions?: TestGridSessionAction[] | undefined;
+  nextToken?: string | undefined;
 }
 export type TestGridSessionArtifactCategory = "VIDEO" | "LOG" | (string & {});
 export interface ListTestGridSessionArtifactsRequest {
   sessionArn: string;
-  type?: TestGridSessionArtifactCategory;
-  maxResult?: number;
-  nextToken?: string;
+  type?: TestGridSessionArtifactCategory | undefined;
+  maxResult?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type TestGridSessionArtifactType = "UNKNOWN" | "VIDEO" | "SELENIUM_LOG" | (string & {});
 export interface TestGridSessionArtifact {
-  filename?: string;
-  type?: TestGridSessionArtifactType;
-  url?: string | redacted.Redacted<string>;
+  filename?: string | undefined;
+  type?: TestGridSessionArtifactType | undefined;
+  url?: string | redacted.Redacted<string> | undefined;
 }
 export type TestGridSessionArtifacts = TestGridSessionArtifact[];
 export interface ListTestGridSessionArtifactsResult {
-  artifacts?: TestGridSessionArtifact[];
-  nextToken?: string;
+  artifacts?: TestGridSessionArtifact[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListTestGridSessionsRequest {
   projectArn: string;
-  status?: TestGridSessionStatus;
-  creationTimeAfter?: Date;
-  creationTimeBefore?: Date;
-  endTimeAfter?: Date;
-  endTimeBefore?: Date;
-  maxResult?: number;
-  nextToken?: string;
+  status?: TestGridSessionStatus | undefined;
+  creationTimeAfter?: Date | undefined;
+  creationTimeBefore?: Date | undefined;
+  endTimeAfter?: Date | undefined;
+  endTimeBefore?: Date | undefined;
+  maxResult?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type TestGridSessions = TestGridSession[];
 export interface ListTestGridSessionsResult {
-  testGridSessions?: TestGridSession[];
-  nextToken?: string;
+  testGridSessions?: TestGridSession[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListTestsRequest {
   arn: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type Tests = Test[];
 export interface ListTestsResult {
-  tests?: Test[];
-  nextToken?: string;
+  tests?: Test[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListUniqueProblemsRequest {
   arn: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ProblemDetail {
-  arn?: string;
-  name?: string;
+  arn?: string | undefined;
+  name?: string | undefined;
 }
 export interface Problem {
-  run?: ProblemDetail;
-  job?: ProblemDetail;
-  suite?: ProblemDetail;
-  test?: ProblemDetail;
-  device?: Device;
-  result?: ExecutionResult;
-  message?: string;
+  run?: ProblemDetail | undefined;
+  job?: ProblemDetail | undefined;
+  suite?: ProblemDetail | undefined;
+  test?: ProblemDetail | undefined;
+  device?: Device | undefined;
+  result?: ExecutionResult | undefined;
+  message?: string | undefined;
 }
 export type Problems = Problem[];
 export interface UniqueProblem {
-  message?: string;
-  problems?: Problem[];
+  message?: string | undefined;
+  problems?: Problem[] | undefined;
 }
 export type UniqueProblems = UniqueProblem[];
-export type UniqueProblemsByExecutionResultMap = { [key in ExecutionResult]?: UniqueProblem[] };
+export type UniqueProblemsByExecutionResultMap = {
+  [key in ExecutionResult]?: UniqueProblem[] | undefined;
+};
 export interface ListUniqueProblemsResult {
-  uniqueProblems?: { [key: string]: UniqueProblem[] | undefined };
-  nextToken?: string;
+  uniqueProblems?: { [key: string]: UniqueProblem[] | undefined } | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListUploadsRequest {
   arn: string;
-  type?: UploadType;
-  nextToken?: string;
+  type?: UploadType | undefined;
+  nextToken?: string | undefined;
 }
 export type Uploads = Upload[];
 export interface ListUploadsResult {
-  uploads?: Upload[];
-  nextToken?: string;
+  uploads?: Upload[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListVPCEConfigurationsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type VPCEConfigurations = VPCEConfiguration[];
 export interface ListVPCEConfigurationsResult {
-  vpceConfigurations?: VPCEConfiguration[];
-  nextToken?: string;
+  vpceConfigurations?: VPCEConfiguration[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface PurchaseOfferingRequest {
   offeringId: string;
   quantity: number;
-  offeringPromotionId?: string;
+  offeringPromotionId?: string | undefined;
 }
 export interface PurchaseOfferingResult {
-  offeringTransaction?: OfferingTransaction;
+  offeringTransaction?: OfferingTransaction | undefined;
 }
 export interface RenewOfferingRequest {
   offeringId: string;
   quantity: number;
 }
 export interface RenewOfferingResult {
-  offeringTransaction?: OfferingTransaction;
+  offeringTransaction?: OfferingTransaction | undefined;
 }
 export interface DeviceSelectionConfiguration {
   filters: DeviceFilter[];
@@ -1373,42 +1376,42 @@ export interface DeviceSelectionConfiguration {
 export type AccountsCleanup = boolean;
 export type AppPackagesCleanup = boolean;
 export interface ExecutionConfiguration {
-  jobTimeoutMinutes?: number;
-  accountsCleanup?: boolean;
-  appPackagesCleanup?: boolean;
-  videoCapture?: boolean;
-  skipAppResign?: boolean;
+  jobTimeoutMinutes?: number | undefined;
+  accountsCleanup?: boolean | undefined;
+  appPackagesCleanup?: boolean | undefined;
+  videoCapture?: boolean | undefined;
+  skipAppResign?: boolean | undefined;
 }
 export interface ScheduleRunRequest {
   projectArn: string;
-  appArn?: string;
-  devicePoolArn?: string;
-  deviceSelectionConfiguration?: DeviceSelectionConfiguration;
-  name?: string;
+  appArn?: string | undefined;
+  devicePoolArn?: string | undefined;
+  deviceSelectionConfiguration?: DeviceSelectionConfiguration | undefined;
+  name?: string | undefined;
   test: ScheduleRunTest;
-  configuration?: ScheduleRunConfiguration;
-  executionConfiguration?: ExecutionConfiguration;
+  configuration?: ScheduleRunConfiguration | undefined;
+  executionConfiguration?: ExecutionConfiguration | undefined;
 }
 export interface ScheduleRunResult {
-  run?: Run;
+  run?: Run | undefined;
 }
 export interface StopJobRequest {
   arn: string;
 }
 export interface StopJobResult {
-  job?: Job;
+  job?: Job | undefined;
 }
 export interface StopRemoteAccessSessionRequest {
   arn: string;
 }
 export interface StopRemoteAccessSessionResult {
-  remoteAccessSession?: RemoteAccessSession;
+  remoteAccessSession?: RemoteAccessSession | undefined;
 }
 export interface StopRunRequest {
   arn: string;
 }
 export interface StopRunResult {
-  run?: Run;
+  run?: Run | undefined;
 }
 export interface TagResourceRequest {
   ResourceARN: string;
@@ -1423,89 +1426,89 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateDeviceInstanceRequest {
   arn: string;
-  profileArn?: string;
-  labels?: string[];
+  profileArn?: string | undefined;
+  labels?: string[] | undefined;
 }
 export interface UpdateDeviceInstanceResult {
-  deviceInstance?: DeviceInstance;
+  deviceInstance?: DeviceInstance | undefined;
 }
 export interface UpdateDevicePoolRequest {
   arn: string;
-  name?: string;
-  description?: string;
-  rules?: Rule[];
-  maxDevices?: number;
-  clearMaxDevices?: boolean;
+  name?: string | undefined;
+  description?: string | undefined;
+  rules?: Rule[] | undefined;
+  maxDevices?: number | undefined;
+  clearMaxDevices?: boolean | undefined;
 }
 export interface UpdateDevicePoolResult {
-  devicePool?: DevicePool;
+  devicePool?: DevicePool | undefined;
 }
 export interface UpdateInstanceProfileRequest {
   arn: string;
-  name?: string;
-  description?: string;
-  packageCleanup?: boolean;
-  excludeAppPackagesFromCleanup?: string[];
-  rebootAfterUse?: boolean;
+  name?: string | undefined;
+  description?: string | undefined;
+  packageCleanup?: boolean | undefined;
+  excludeAppPackagesFromCleanup?: string[] | undefined;
+  rebootAfterUse?: boolean | undefined;
 }
 export interface UpdateInstanceProfileResult {
-  instanceProfile?: InstanceProfile;
+  instanceProfile?: InstanceProfile | undefined;
 }
 export interface UpdateNetworkProfileRequest {
   arn: string;
-  name?: string;
-  description?: string;
-  type?: NetworkProfileType;
-  uplinkBandwidthBits?: number;
-  downlinkBandwidthBits?: number;
-  uplinkDelayMs?: number;
-  downlinkDelayMs?: number;
-  uplinkJitterMs?: number;
-  downlinkJitterMs?: number;
-  uplinkLossPercent?: number;
-  downlinkLossPercent?: number;
+  name?: string | undefined;
+  description?: string | undefined;
+  type?: NetworkProfileType | undefined;
+  uplinkBandwidthBits?: number | undefined;
+  downlinkBandwidthBits?: number | undefined;
+  uplinkDelayMs?: number | undefined;
+  downlinkDelayMs?: number | undefined;
+  uplinkJitterMs?: number | undefined;
+  downlinkJitterMs?: number | undefined;
+  uplinkLossPercent?: number | undefined;
+  downlinkLossPercent?: number | undefined;
 }
 export interface UpdateNetworkProfileResult {
-  networkProfile?: NetworkProfile;
+  networkProfile?: NetworkProfile | undefined;
 }
 export interface UpdateProjectRequest {
   arn: string;
-  name?: string;
-  defaultJobTimeoutMinutes?: number;
-  vpcConfig?: VpcConfig;
-  environmentVariables?: EnvironmentVariable[];
-  executionRoleArn?: string;
+  name?: string | undefined;
+  defaultJobTimeoutMinutes?: number | undefined;
+  vpcConfig?: VpcConfig | undefined;
+  environmentVariables?: EnvironmentVariable[] | undefined;
+  executionRoleArn?: string | undefined;
 }
 export interface UpdateProjectResult {
-  project?: Project;
+  project?: Project | undefined;
 }
 export interface UpdateTestGridProjectRequest {
   projectArn: string;
-  name?: string;
-  description?: string;
-  vpcConfig?: TestGridVpcConfig;
+  name?: string | undefined;
+  description?: string | undefined;
+  vpcConfig?: TestGridVpcConfig | undefined;
 }
 export interface UpdateTestGridProjectResult {
-  testGridProject?: TestGridProject;
+  testGridProject?: TestGridProject | undefined;
 }
 export interface UpdateUploadRequest {
   arn: string;
-  name?: string;
-  contentType?: string;
-  editContent?: boolean;
+  name?: string | undefined;
+  contentType?: string | undefined;
+  editContent?: boolean | undefined;
 }
 export interface UpdateUploadResult {
-  upload?: Upload;
+  upload?: Upload | undefined;
 }
 export interface UpdateVPCEConfigurationRequest {
   arn: string;
-  vpceConfigurationName?: string;
-  vpceServiceName?: string;
-  serviceDnsName?: string;
-  vpceConfigurationDescription?: string;
+  vpceConfigurationName?: string | undefined;
+  vpceServiceName?: string | undefined;
+  serviceDnsName?: string | undefined;
+  vpceConfigurationDescription?: string | undefined;
 }
 export interface UpdateVPCEConfigurationResult {
-  vpceConfiguration?: VPCEConfiguration;
+  vpceConfiguration?: VPCEConfiguration | undefined;
 }
 export type ExceptionMessage = string;
 export type CreateDevicePoolError =
@@ -1518,7 +1521,7 @@ export type CreateDevicePoolError =
  * Creates a device pool.
  */
 export const createDevicePool: API.OperationMethod<
-  CreateDevicePoolRequest,
+  CreateDevicePoolRequest & RegionInput,
   CreateDevicePoolResult,
   CreateDevicePoolError,
   Credentials | HttpClient.HttpClient
@@ -1544,7 +1547,7 @@ export type CreateInstanceProfileError =
  * instances.
  */
 export const createInstanceProfile: API.OperationMethod<
-  CreateInstanceProfileRequest,
+  CreateInstanceProfileRequest & RegionInput,
   CreateInstanceProfileResult,
   CreateInstanceProfileError,
   Credentials | HttpClient.HttpClient
@@ -1569,7 +1572,7 @@ export type CreateNetworkProfileError =
  * Creates a network profile.
  */
 export const createNetworkProfile: API.OperationMethod<
-  CreateNetworkProfileRequest,
+  CreateNetworkProfileRequest & RegionInput,
   CreateNetworkProfileResult,
   CreateNetworkProfileError,
   Credentials | HttpClient.HttpClient
@@ -1595,7 +1598,7 @@ export type CreateProjectError =
  * Creates a project.
  */
 export const createProject: API.OperationMethod<
-  CreateProjectRequest,
+  CreateProjectRequest & RegionInput,
   CreateProjectResult,
   CreateProjectError,
   Credentials | HttpClient.HttpClient
@@ -1626,7 +1629,7 @@ export type CreateRemoteAccessSessionError =
  * Specifies and starts a remote access session.
  */
 export const createRemoteAccessSession: API.OperationMethod<
-  CreateRemoteAccessSessionRequest,
+  CreateRemoteAccessSessionRequest & RegionInput,
   CreateRemoteAccessSessionResult,
   CreateRemoteAccessSessionError,
   Credentials | HttpClient.HttpClient
@@ -1651,7 +1654,7 @@ export type CreateTestGridProjectError =
  * instances.
  */
 export const createTestGridProject: API.OperationMethod<
-  CreateTestGridProjectRequest,
+  CreateTestGridProjectRequest & RegionInput,
   CreateTestGridProjectResult,
   CreateTestGridProjectError,
   Credentials | HttpClient.HttpClient
@@ -1676,7 +1679,7 @@ export type CreateTestGridUrlError =
  * constructor.
  */
 export const createTestGridUrl: API.OperationMethod<
-  CreateTestGridUrlRequest,
+  CreateTestGridUrlRequest & RegionInput,
   CreateTestGridUrlResult,
   CreateTestGridUrlError,
   Credentials | HttpClient.HttpClient
@@ -1701,7 +1704,7 @@ export type CreateUploadError =
  * Uploads an app or test scripts.
  */
 export const createUpload: API.OperationMethod<
-  CreateUploadRequest,
+  CreateUploadRequest & RegionInput,
   CreateUploadResult,
   CreateUploadError,
   Credentials | HttpClient.HttpClient
@@ -1726,7 +1729,7 @@ export type CreateVPCEConfigurationError =
  * (VPC) endpoint.
  */
 export const createVPCEConfiguration: API.OperationMethod<
-  CreateVPCEConfigurationRequest,
+  CreateVPCEConfigurationRequest & RegionInput,
   CreateVPCEConfigurationResult,
   CreateVPCEConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1752,7 +1755,7 @@ export type DeleteDevicePoolError =
  * owned by the system.
  */
 export const deleteDevicePool: API.OperationMethod<
-  DeleteDevicePoolRequest,
+  DeleteDevicePoolRequest & RegionInput,
   DeleteDevicePoolResult,
   DeleteDevicePoolError,
   Credentials | HttpClient.HttpClient
@@ -1777,7 +1780,7 @@ export type DeleteInstanceProfileError =
  * Deletes a profile that can be applied to one or more private device instances.
  */
 export const deleteInstanceProfile: API.OperationMethod<
-  DeleteInstanceProfileRequest,
+  DeleteInstanceProfileRequest & RegionInput,
   DeleteInstanceProfileResult,
   DeleteInstanceProfileError,
   Credentials | HttpClient.HttpClient
@@ -1802,7 +1805,7 @@ export type DeleteNetworkProfileError =
  * Deletes a network profile.
  */
 export const deleteNetworkProfile: API.OperationMethod<
-  DeleteNetworkProfileRequest,
+  DeleteNetworkProfileRequest & RegionInput,
   DeleteNetworkProfileResult,
   DeleteNetworkProfileError,
   Credentials | HttpClient.HttpClient
@@ -1829,7 +1832,7 @@ export type DeleteProjectError =
  * You cannot undo this operation.
  */
 export const deleteProject: API.OperationMethod<
-  DeleteProjectRequest,
+  DeleteProjectRequest & RegionInput,
   DeleteProjectResult,
   DeleteProjectError,
   Credentials | HttpClient.HttpClient
@@ -1856,7 +1859,7 @@ export type DeleteRemoteAccessSessionError =
  * You cannot undo this operation.
  */
 export const deleteRemoteAccessSession: API.OperationMethod<
-  DeleteRemoteAccessSessionRequest,
+  DeleteRemoteAccessSessionRequest & RegionInput,
   DeleteRemoteAccessSessionResult,
   DeleteRemoteAccessSessionError,
   Credentials | HttpClient.HttpClient
@@ -1883,7 +1886,7 @@ export type DeleteRunError =
  * You cannot undo this operation.
  */
 export const deleteRun: API.OperationMethod<
-  DeleteRunRequest,
+  DeleteRunRequest & RegionInput,
   DeleteRunResult,
   DeleteRunError,
   Credentials | HttpClient.HttpClient
@@ -1910,7 +1913,7 @@ export type DeleteTestGridProjectError =
  * You cannot undo this operation.
  */
 export const deleteTestGridProject: API.OperationMethod<
-  DeleteTestGridProjectRequest,
+  DeleteTestGridProjectRequest & RegionInput,
   DeleteTestGridProjectResult,
   DeleteTestGridProjectError,
   Credentials | HttpClient.HttpClient
@@ -1935,7 +1938,7 @@ export type DeleteUploadError =
  * Deletes an upload given the upload ARN.
  */
 export const deleteUpload: API.OperationMethod<
-  DeleteUploadRequest,
+  DeleteUploadRequest & RegionInput,
   DeleteUploadResult,
   DeleteUploadError,
   Credentials | HttpClient.HttpClient
@@ -1960,7 +1963,7 @@ export type DeleteVPCEConfigurationError =
  * Deletes a configuration for your Amazon Virtual Private Cloud (VPC) endpoint.
  */
 export const deleteVPCEConfiguration: API.OperationMethod<
-  DeleteVPCEConfigurationRequest,
+  DeleteVPCEConfigurationRequest & RegionInput,
   DeleteVPCEConfigurationResult,
   DeleteVPCEConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1991,7 +1994,7 @@ export type GetAccountSettingsError =
  * account.
  */
 export const getAccountSettings: API.OperationMethod<
-  GetAccountSettingsRequest,
+  GetAccountSettingsRequest & RegionInput,
   GetAccountSettingsResult,
   GetAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2016,7 +2019,7 @@ export type GetDeviceError =
  * Gets information about a unique device type.
  */
 export const getDevice: API.OperationMethod<
-  GetDeviceRequest,
+  GetDeviceRequest & RegionInput,
   GetDeviceResult,
   GetDeviceError,
   Credentials | HttpClient.HttpClient
@@ -2041,7 +2044,7 @@ export type GetDeviceInstanceError =
  * Returns information about a device instance that belongs to a private device fleet.
  */
 export const getDeviceInstance: API.OperationMethod<
-  GetDeviceInstanceRequest,
+  GetDeviceInstanceRequest & RegionInput,
   GetDeviceInstanceResult,
   GetDeviceInstanceError,
   Credentials | HttpClient.HttpClient
@@ -2066,7 +2069,7 @@ export type GetDevicePoolError =
  * Gets information about a device pool.
  */
 export const getDevicePool: API.OperationMethod<
-  GetDevicePoolRequest,
+  GetDevicePoolRequest & RegionInput,
   GetDevicePoolResult,
   GetDevicePoolError,
   Credentials | HttpClient.HttpClient
@@ -2091,7 +2094,7 @@ export type GetDevicePoolCompatibilityError =
  * Gets information about compatibility with a device pool.
  */
 export const getDevicePoolCompatibility: API.OperationMethod<
-  GetDevicePoolCompatibilityRequest,
+  GetDevicePoolCompatibilityRequest & RegionInput,
   GetDevicePoolCompatibilityResult,
   GetDevicePoolCompatibilityError,
   Credentials | HttpClient.HttpClient
@@ -2116,7 +2119,7 @@ export type GetInstanceProfileError =
  * Returns information about the specified instance profile.
  */
 export const getInstanceProfile: API.OperationMethod<
-  GetInstanceProfileRequest,
+  GetInstanceProfileRequest & RegionInput,
   GetInstanceProfileResult,
   GetInstanceProfileError,
   Credentials | HttpClient.HttpClient
@@ -2141,7 +2144,7 @@ export type GetJobError =
  * Gets information about a job.
  */
 export const getJob: API.OperationMethod<
-  GetJobRequest,
+  GetJobRequest & RegionInput,
   GetJobResult,
   GetJobError,
   Credentials | HttpClient.HttpClient
@@ -2166,7 +2169,7 @@ export type GetNetworkProfileError =
  * Returns information about a network profile.
  */
 export const getNetworkProfile: API.OperationMethod<
-  GetNetworkProfileRequest,
+  GetNetworkProfileRequest & RegionInput,
   GetNetworkProfileResult,
   GetNetworkProfileError,
   Credentials | HttpClient.HttpClient
@@ -2195,7 +2198,7 @@ export type GetOfferingStatusError =
  * operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com.
  */
 export const getOfferingStatus: API.PaginatedOperationMethod<
-  GetOfferingStatusRequest,
+  GetOfferingStatusRequest & RegionInput,
   GetOfferingStatusResult,
   GetOfferingStatusError,
   Credentials | HttpClient.HttpClient,
@@ -2228,7 +2231,7 @@ export type GetProjectError =
  * Gets information about a project.
  */
 export const getProject: API.OperationMethod<
-  GetProjectRequest,
+  GetProjectRequest & RegionInput,
   GetProjectResult,
   GetProjectError,
   Credentials | HttpClient.HttpClient
@@ -2253,7 +2256,7 @@ export type GetRemoteAccessSessionError =
  * Returns a link to a currently running remote access session.
  */
 export const getRemoteAccessSession: API.OperationMethod<
-  GetRemoteAccessSessionRequest,
+  GetRemoteAccessSessionRequest & RegionInput,
   GetRemoteAccessSessionResult,
   GetRemoteAccessSessionError,
   Credentials | HttpClient.HttpClient
@@ -2278,7 +2281,7 @@ export type GetRunError =
  * Gets information about a run.
  */
 export const getRun: API.OperationMethod<
-  GetRunRequest,
+  GetRunRequest & RegionInput,
   GetRunResult,
   GetRunError,
   Credentials | HttpClient.HttpClient
@@ -2303,7 +2306,7 @@ export type GetSuiteError =
  * Gets information about a suite.
  */
 export const getSuite: API.OperationMethod<
-  GetSuiteRequest,
+  GetSuiteRequest & RegionInput,
   GetSuiteResult,
   GetSuiteError,
   Credentials | HttpClient.HttpClient
@@ -2328,7 +2331,7 @@ export type GetTestError =
  * Gets information about a test.
  */
 export const getTest: API.OperationMethod<
-  GetTestRequest,
+  GetTestRequest & RegionInput,
   GetTestResult,
   GetTestError,
   Credentials | HttpClient.HttpClient
@@ -2352,7 +2355,7 @@ export type GetTestGridProjectError =
  * Retrieves information about a Selenium testing project.
  */
 export const getTestGridProject: API.OperationMethod<
-  GetTestGridProjectRequest,
+  GetTestGridProjectRequest & RegionInput,
   GetTestGridProjectResult,
   GetTestGridProjectError,
   Credentials | HttpClient.HttpClient
@@ -2381,7 +2384,7 @@ export type GetTestGridSessionError =
  * - The project ARN and a session ID.
  */
 export const getTestGridSession: API.OperationMethod<
-  GetTestGridSessionRequest,
+  GetTestGridSessionRequest & RegionInput,
   GetTestGridSessionResult,
   GetTestGridSessionError,
   Credentials | HttpClient.HttpClient
@@ -2406,7 +2409,7 @@ export type GetUploadError =
  * Gets information about an upload.
  */
 export const getUpload: API.OperationMethod<
-  GetUploadRequest,
+  GetUploadRequest & RegionInput,
   GetUploadResult,
   GetUploadError,
   Credentials | HttpClient.HttpClient
@@ -2431,7 +2434,7 @@ export type GetVPCEConfigurationError =
  * Cloud (VPC) endpoint.
  */
 export const getVPCEConfiguration: API.OperationMethod<
-  GetVPCEConfigurationRequest,
+  GetVPCEConfigurationRequest & RegionInput,
   GetVPCEConfigurationResult,
   GetVPCEConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2458,7 +2461,7 @@ export type InstallToRemoteAccessSessionError =
  * .ipa format.
  */
 export const installToRemoteAccessSession: API.OperationMethod<
-  InstallToRemoteAccessSessionRequest,
+  InstallToRemoteAccessSessionRequest & RegionInput,
   InstallToRemoteAccessSessionResult,
   InstallToRemoteAccessSessionError,
   Credentials | HttpClient.HttpClient
@@ -2483,7 +2486,7 @@ export type ListArtifactsError =
  * Gets information about artifacts.
  */
 export const listArtifacts: API.PaginatedOperationMethod<
-  ListArtifactsRequest,
+  ListArtifactsRequest & RegionInput,
   ListArtifactsResult,
   ListArtifactsError,
   Credentials | HttpClient.HttpClient,
@@ -2511,7 +2514,7 @@ export type ListDeviceInstancesError =
  * accounts.
  */
 export const listDeviceInstances: API.OperationMethod<
-  ListDeviceInstancesRequest,
+  ListDeviceInstancesRequest & RegionInput,
   ListDeviceInstancesResult,
   ListDeviceInstancesError,
   Credentials | HttpClient.HttpClient
@@ -2536,7 +2539,7 @@ export type ListDevicePoolsError =
  * Gets information about device pools.
  */
 export const listDevicePools: API.PaginatedOperationMethod<
-  ListDevicePoolsRequest,
+  ListDevicePoolsRequest & RegionInput,
   ListDevicePoolsResult,
   ListDevicePoolsError,
   Credentials | HttpClient.HttpClient,
@@ -2563,7 +2566,7 @@ export type ListDevicesError =
  * Gets information about unique device types.
  */
 export const listDevices: API.PaginatedOperationMethod<
-  ListDevicesRequest,
+  ListDevicesRequest & RegionInput,
   ListDevicesResult,
   ListDevicesError,
   Credentials | HttpClient.HttpClient,
@@ -2590,7 +2593,7 @@ export type ListInstanceProfilesError =
  * Returns information about all the instance profiles in an AWS account.
  */
 export const listInstanceProfiles: API.OperationMethod<
-  ListInstanceProfilesRequest,
+  ListInstanceProfilesRequest & RegionInput,
   ListInstanceProfilesResult,
   ListInstanceProfilesError,
   Credentials | HttpClient.HttpClient
@@ -2615,7 +2618,7 @@ export type ListJobsError =
  * Gets information about jobs for a given test run.
  */
 export const listJobs: API.PaginatedOperationMethod<
-  ListJobsRequest,
+  ListJobsRequest & RegionInput,
   ListJobsResult,
   ListJobsError,
   Credentials | HttpClient.HttpClient,
@@ -2642,7 +2645,7 @@ export type ListNetworkProfilesError =
  * Returns the list of available network profiles.
  */
 export const listNetworkProfiles: API.OperationMethod<
-  ListNetworkProfilesRequest,
+  ListNetworkProfilesRequest & RegionInput,
   ListNetworkProfilesResult,
   ListNetworkProfilesError,
   Credentials | HttpClient.HttpClient
@@ -2670,7 +2673,7 @@ export type ListOfferingPromotionsError =
  * the operation. Contact aws-devicefarm-support@amazon.com if you must be able to invoke this operation.
  */
 export const listOfferingPromotions: API.OperationMethod<
-  ListOfferingPromotionsRequest,
+  ListOfferingPromotionsRequest & RegionInput,
   ListOfferingPromotionsResult,
   ListOfferingPromotionsError,
   Credentials | HttpClient.HttpClient
@@ -2705,7 +2708,7 @@ export type ListOfferingsError =
  * able to invoke this operation, contact aws-devicefarm-support@amazon.com.
  */
 export const listOfferings: API.PaginatedOperationMethod<
-  ListOfferingsRequest,
+  ListOfferingsRequest & RegionInput,
   ListOfferingsResult,
   ListOfferingsError,
   Credentials | HttpClient.HttpClient,
@@ -2742,7 +2745,7 @@ export type ListOfferingTransactionsError =
  * you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com.
  */
 export const listOfferingTransactions: API.PaginatedOperationMethod<
-  ListOfferingTransactionsRequest,
+  ListOfferingTransactionsRequest & RegionInput,
   ListOfferingTransactionsResult,
   ListOfferingTransactionsError,
   Credentials | HttpClient.HttpClient,
@@ -2779,7 +2782,7 @@ export type ListProjectsError =
  * Gets information about projects.
  */
 export const listProjects: API.PaginatedOperationMethod<
-  ListProjectsRequest,
+  ListProjectsRequest & RegionInput,
   ListProjectsResult,
   ListProjectsError,
   Credentials | HttpClient.HttpClient,
@@ -2806,7 +2809,7 @@ export type ListRemoteAccessSessionsError =
  * Returns a list of all currently running remote access sessions.
  */
 export const listRemoteAccessSessions: API.OperationMethod<
-  ListRemoteAccessSessionsRequest,
+  ListRemoteAccessSessionsRequest & RegionInput,
   ListRemoteAccessSessionsResult,
   ListRemoteAccessSessionsError,
   Credentials | HttpClient.HttpClient
@@ -2831,7 +2834,7 @@ export type ListRunsError =
  * Gets information about runs, given an AWS Device Farm project ARN.
  */
 export const listRuns: API.PaginatedOperationMethod<
-  ListRunsRequest,
+  ListRunsRequest & RegionInput,
   ListRunsResult,
   ListRunsError,
   Credentials | HttpClient.HttpClient,
@@ -2860,7 +2863,7 @@ export type ListSamplesError =
  * Device Farm does not support performance data samples during test executions.
  */
 export const listSamples: API.PaginatedOperationMethod<
-  ListSamplesRequest,
+  ListSamplesRequest & RegionInput,
   ListSamplesResult,
   ListSamplesError,
   Credentials | HttpClient.HttpClient,
@@ -2887,7 +2890,7 @@ export type ListSuitesError =
  * Gets information about test suites for a given job.
  */
 export const listSuites: API.PaginatedOperationMethod<
-  ListSuitesRequest,
+  ListSuitesRequest & RegionInput,
   ListSuitesResult,
   ListSuitesError,
   Credentials | HttpClient.HttpClient,
@@ -2913,7 +2916,7 @@ export type ListTagsForResourceError =
  * List the tags for an AWS Device Farm resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2933,7 +2936,7 @@ export type ListTestGridProjectsError = ArgumentException | InternalServiceExcep
  * Gets a list of all Selenium testing projects in your account.
  */
 export const listTestGridProjects: API.PaginatedOperationMethod<
-  ListTestGridProjectsRequest,
+  ListTestGridProjectsRequest & RegionInput,
   ListTestGridProjectsResult,
   ListTestGridProjectsError,
   Credentials | HttpClient.HttpClient,
@@ -2959,7 +2962,7 @@ export type ListTestGridSessionActionsError =
  * Returns a list of the actions taken in a TestGridSession.
  */
 export const listTestGridSessionActions: API.PaginatedOperationMethod<
-  ListTestGridSessionActionsRequest,
+  ListTestGridSessionActionsRequest & RegionInput,
   ListTestGridSessionActionsResult,
   ListTestGridSessionActionsError,
   Credentials | HttpClient.HttpClient,
@@ -2985,7 +2988,7 @@ export type ListTestGridSessionArtifactsError =
  * Retrieves a list of artifacts created during the session.
  */
 export const listTestGridSessionArtifacts: API.PaginatedOperationMethod<
-  ListTestGridSessionArtifactsRequest,
+  ListTestGridSessionArtifactsRequest & RegionInput,
   ListTestGridSessionArtifactsResult,
   ListTestGridSessionArtifactsError,
   Credentials | HttpClient.HttpClient,
@@ -3011,7 +3014,7 @@ export type ListTestGridSessionsError =
  * Retrieves a list of sessions for a TestGridProject.
  */
 export const listTestGridSessions: API.PaginatedOperationMethod<
-  ListTestGridSessionsRequest,
+  ListTestGridSessionsRequest & RegionInput,
   ListTestGridSessionsResult,
   ListTestGridSessionsError,
   Credentials | HttpClient.HttpClient,
@@ -3038,7 +3041,7 @@ export type ListTestsError =
  * Gets information about tests in a given test suite.
  */
 export const listTests: API.PaginatedOperationMethod<
-  ListTestsRequest,
+  ListTestsRequest & RegionInput,
   ListTestsResult,
   ListTestsError,
   Credentials | HttpClient.HttpClient,
@@ -3070,7 +3073,7 @@ export type ListUniqueProblemsError =
  * individual entries for that exception.
  */
 export const listUniqueProblems: API.PaginatedOperationMethod<
-  ListUniqueProblemsRequest,
+  ListUniqueProblemsRequest & RegionInput,
   ListUniqueProblemsResult,
   ListUniqueProblemsError,
   Credentials | HttpClient.HttpClient,
@@ -3101,7 +3104,7 @@ export type ListUploadsError =
  * Gets information about uploads, given an AWS Device Farm project ARN.
  */
 export const listUploads: API.PaginatedOperationMethod<
-  ListUploadsRequest,
+  ListUploadsRequest & RegionInput,
   ListUploadsResult,
   ListUploadsError,
   Credentials | HttpClient.HttpClient,
@@ -3127,7 +3130,7 @@ export type ListVPCEConfigurationsError =
  * configurations in the AWS account.
  */
 export const listVPCEConfigurations: API.OperationMethod<
-  ListVPCEConfigurationsRequest,
+  ListVPCEConfigurationsRequest & RegionInput,
   ListVPCEConfigurationsResult,
   ListVPCEConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -3156,7 +3159,7 @@ export type PurchaseOfferingError =
  * contact aws-devicefarm-support@amazon.com.
  */
 export const purchaseOffering: API.OperationMethod<
-  PurchaseOfferingRequest,
+  PurchaseOfferingRequest & RegionInput,
   PurchaseOfferingResult,
   PurchaseOfferingError,
   Credentials | HttpClient.HttpClient
@@ -3190,7 +3193,7 @@ export type RenewOfferingError =
  * user is not permitted to invoke the operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com.
  */
 export const renewOffering: API.OperationMethod<
-  RenewOfferingRequest,
+  RenewOfferingRequest & RegionInput,
   RenewOfferingResult,
   RenewOfferingError,
   Credentials | HttpClient.HttpClient
@@ -3222,7 +3225,7 @@ export type ScheduleRunError =
  * Schedules a run.
  */
 export const scheduleRun: API.OperationMethod<
-  ScheduleRunRequest,
+  ScheduleRunRequest & RegionInput,
   ScheduleRunResult,
   ScheduleRunError,
   Credentials | HttpClient.HttpClient
@@ -3256,7 +3259,7 @@ export type StopJobError =
  * and any tests that were in progress or already completed.
  */
 export const stopJob: API.OperationMethod<
-  StopJobRequest,
+  StopJobRequest & RegionInput,
   StopJobResult,
   StopJobError,
   Credentials | HttpClient.HttpClient
@@ -3281,7 +3284,7 @@ export type StopRemoteAccessSessionError =
  * Ends a specified remote access session.
  */
 export const stopRemoteAccessSession: API.OperationMethod<
-  StopRemoteAccessSessionRequest,
+  StopRemoteAccessSessionRequest & RegionInput,
   StopRemoteAccessSessionResult,
   StopRemoteAccessSessionError,
   Credentials | HttpClient.HttpClient
@@ -3309,7 +3312,7 @@ export type StopRunError =
  * setup, teardown, and any tests that were in progress or already completed.
  */
 export const stopRun: API.OperationMethod<
-  StopRunRequest,
+  StopRunRequest & RegionInput,
   StopRunResult,
   StopRunError,
   Credentials | HttpClient.HttpClient
@@ -3337,7 +3340,7 @@ export type TagResourceError =
  * the tags associated with that resource are also deleted.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3367,7 +3370,7 @@ export type UntagResourceError =
  * Deletes the specified tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3392,7 +3395,7 @@ export type UpdateDeviceInstanceError =
  * Updates information about a private device instance.
  */
 export const updateDeviceInstance: API.OperationMethod<
-  UpdateDeviceInstanceRequest,
+  UpdateDeviceInstanceRequest & RegionInput,
   UpdateDeviceInstanceResult,
   UpdateDeviceInstanceError,
   Credentials | HttpClient.HttpClient
@@ -3419,7 +3422,7 @@ export type UpdateDevicePoolError =
  * whole (or not at all).
  */
 export const updateDevicePool: API.OperationMethod<
-  UpdateDevicePoolRequest,
+  UpdateDevicePoolRequest & RegionInput,
   UpdateDevicePoolResult,
   UpdateDevicePoolError,
   Credentials | HttpClient.HttpClient
@@ -3444,7 +3447,7 @@ export type UpdateInstanceProfileError =
  * Updates information about an existing private device instance profile.
  */
 export const updateInstanceProfile: API.OperationMethod<
-  UpdateInstanceProfileRequest,
+  UpdateInstanceProfileRequest & RegionInput,
   UpdateInstanceProfileResult,
   UpdateInstanceProfileError,
   Credentials | HttpClient.HttpClient
@@ -3469,7 +3472,7 @@ export type UpdateNetworkProfileError =
  * Updates the network profile.
  */
 export const updateNetworkProfile: API.OperationMethod<
-  UpdateNetworkProfileRequest,
+  UpdateNetworkProfileRequest & RegionInput,
   UpdateNetworkProfileResult,
   UpdateNetworkProfileError,
   Credentials | HttpClient.HttpClient
@@ -3495,7 +3498,7 @@ export type UpdateProjectError =
  * name.
  */
 export const updateProject: API.OperationMethod<
-  UpdateProjectRequest,
+  UpdateProjectRequest & RegionInput,
   UpdateProjectResult,
   UpdateProjectError,
   Credentials | HttpClient.HttpClient
@@ -3520,7 +3523,7 @@ export type UpdateTestGridProjectError =
  * Change details of a project.
  */
 export const updateTestGridProject: API.OperationMethod<
-  UpdateTestGridProjectRequest,
+  UpdateTestGridProjectRequest & RegionInput,
   UpdateTestGridProjectResult,
   UpdateTestGridProjectError,
   Credentials | HttpClient.HttpClient
@@ -3545,7 +3548,7 @@ export type UpdateUploadError =
  * Updates an uploaded test spec.
  */
 export const updateUpload: API.OperationMethod<
-  UpdateUploadRequest,
+  UpdateUploadRequest & RegionInput,
   UpdateUploadResult,
   UpdateUploadError,
   Credentials | HttpClient.HttpClient
@@ -3570,7 +3573,7 @@ export type UpdateVPCEConfigurationError =
  * Updates information about an Amazon Virtual Private Cloud (VPC) endpoint configuration.
  */
 export const updateVPCEConfiguration: API.OperationMethod<
-  UpdateVPCEConfigurationRequest,
+  UpdateVPCEConfigurationRequest & RegionInput,
   UpdateVPCEConfigurationResult,
   UpdateVPCEConfigurationError,
   Credentials | HttpClient.HttpClient

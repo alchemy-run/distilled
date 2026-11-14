@@ -76,7 +76,7 @@ export type Labels = { [key: string]: string | null | undefined };
 /** Configuration settings for the subscription. */
 export interface SubscriptionSettings {
   /** The maximum amount of time the system waits for a message acknowledgment. If a message is not acknowledged within this window, it will be redelivered. **Format:** Must be a duration string consisting of a number (integer or decimal) followed by a unit ('s', 'm', or 'h'). **Constraints:** - **Minimum:** "1s" - **Maximum:** "168h" (7 days) */
-  ackDeadline?: string;
+  ackDeadline?: string | undefined;
 }
 export interface CreateSubscriptionRequest {
   /** The STACKIT portal project UUID the resource is located in. */
@@ -86,11 +86,11 @@ export interface CreateSubscriptionRequest {
   /** The topic UUID. */
   topicId: string;
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
   displayName: string;
-  labels?: Labels;
-  settings?: SubscriptionSettings;
+  labels?: Labels | undefined;
+  settings?: SubscriptionSettings | undefined;
 }
 /** The current state of the resource. */
 export type SubscriptionResponseState = "reconciling" | "active" | "deleting";
@@ -98,13 +98,13 @@ export interface SubscriptionResponse {
   /** The point in time the resource was created. */
   createTime: string;
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
   displayName: string;
   /** An auto generated unique id which identifies the resource. */
   id: string;
-  labels?: Labels;
-  settings?: SubscriptionSettings;
+  labels?: Labels | undefined;
+  settings?: SubscriptionSettings | undefined;
   /** The current state of the resource. */
   state: SubscriptionResponseState;
   /** The id of the topic to which the subscription belongs. */
@@ -116,13 +116,13 @@ export type TopicSettingsAclList = Array<string>;
 /** Configuration settings for the topic. */
 export interface TopicSettings {
   /** Whitelist of IPs in CIDR notation that can access the topic and its underlying subscriptions. */
-  acl?: TopicSettingsAclList;
+  acl?: TopicSettingsAclList | undefined;
   /** Enables or disables metrics collection for the topic. */
-  metrics?: boolean;
+  metrics?: boolean | undefined;
   /** The maximum length of time a message is persisted in storage. Messages older than this duration are automatically discarded/deleted. **Format:** Must be a scalar duration: a number (integer or decimal) followed by a unit ('s', 'm', or 'h'). **Constraints:** - **Minimum:** "1s" - **Maximum:** "168h" (7 days) */
-  retention?: string;
+  retention?: string | undefined;
   /** Enables or disables sending of service logs for the topic. */
-  serviceLogs?: boolean;
+  serviceLogs?: boolean | undefined;
 }
 export interface CreateTopicRequest {
   /** The STACKIT portal project UUID the resource is located in. */
@@ -130,11 +130,11 @@ export interface CreateTopicRequest {
   /** The STACKIT region name the resource is located in. */
   regionId: CreateTopicRequestRegionId | (string & {});
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
   displayName: string;
-  labels?: Labels;
-  settings?: TopicSettings;
+  labels?: Labels | undefined;
+  settings?: TopicSettings | undefined;
 }
 /** The current state of the resource. */
 export type TopicResponseState = "reconciling" | "active" | "deleting";
@@ -142,17 +142,17 @@ export interface TopicResponse {
   /** The point in time the resource was created. */
   createTime: string;
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
   displayName: string;
   /** An auto generated unique id which identifies the resource. */
   id: string;
-  labels?: Labels;
-  settings?: TopicSettings;
+  labels?: Labels | undefined;
+  settings?: TopicSettings | undefined;
   /** The current state of the resource. */
   state: TopicResponseState;
   /** The URI for reaching the resource. */
-  uri?: string;
+  uri?: string | undefined;
 }
 export type DeleteSubscriptionRequestRegionId = "eu01";
 export interface DeleteSubscriptionRequest {
@@ -165,7 +165,7 @@ export interface DeleteSubscriptionRequest {
   /** The subscription UUID. */
   subscriptionId: string;
   /** If true, deletes the topic and all its active subscriptions (cascading delete). If false (default), the operation returns a 409 conflict if active subscriptions exist. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteSubscriptionResponse {}
 export type DeleteTopicRequestRegionId = "eu01";
@@ -177,7 +177,7 @@ export interface DeleteTopicRequest {
   /** The topic UUID. */
   topicId: string;
   /** If true, deletes the topic and all its active subscriptions (cascading delete). If false (default), the operation returns a 409 conflict if active subscriptions exist. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteTopicResponse {}
 export type GetSubscriptionRequestRegionId = "eu01";
@@ -235,16 +235,16 @@ export interface ListSubscriptionsRequest {
   /** The topic UUID. */
   topicId: string;
   /** A token to retrieve the next page of results. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Maximum number of items to return */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Supply a query string to filter the results. */
-  query?: string;
+  query?: string | undefined;
 }
 export type ListSubscriptionsResponseSubscriptionsList = Array<SubscriptionResponse>;
 export interface ListSubscriptionsResponse {
   /** A token to retrieve the next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   subscriptions: ListSubscriptionsResponseSubscriptionsList;
 }
 export type ListSubscriptionSubscribersRequestRegionId = "eu01";
@@ -278,16 +278,16 @@ export interface ListTopicsRequest {
   /** The STACKIT region name the resource is located in. */
   regionId: ListTopicsRequestRegionId | (string & {});
   /** A token to retrieve the next page of results. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Maximum number of items to return */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Supply a query string to filter the results. */
-  query?: string;
+  query?: string | undefined;
 }
 export type ListTopicsResponseTopicsList = Array<TopicResponse>;
 export interface ListTopicsResponse {
   /** A token to retrieve the next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   topics: ListTopicsResponseTopicsList;
 }
 export type RevokeSubscriptionSubscriberAccessRequestRegionId = "eu01";
@@ -337,11 +337,11 @@ export interface UpdateSubscriptionRequest {
   /** The subscription UUID. */
   subscriptionId: string;
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
-  displayName?: string;
-  labels?: Labels;
-  settings?: SubscriptionSettings;
+  displayName?: string | undefined;
+  labels?: Labels | undefined;
+  settings?: SubscriptionSettings | undefined;
 }
 export interface UpdateSubscriptionResponse {}
 export type UpdateSubscriptionSubscriberAccessRequestRegionId = "eu01";
@@ -369,11 +369,11 @@ export interface UpdateTopicRequest {
   /** The topic UUID. */
   topicId: string;
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
-  displayName?: string;
-  labels?: Labels;
-  settings?: TopicSettings;
+  displayName?: string | undefined;
+  labels?: Labels | undefined;
+  settings?: TopicSettings | undefined;
 }
 export interface UpdateTopicResponse {}
 export type CreateSubscriptionError =

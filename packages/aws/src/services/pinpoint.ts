@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -136,7 +137,7 @@ export class InternalServerErrorException
       RequestID: /*@__PURE__*/ S.optional(S.String),
     },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class MethodNotAllowedException
   extends /*@__PURE__*/ S.TaggedError<MethodNotAllowedException>()(
     "MethodNotAllowedException",
@@ -172,21 +173,21 @@ export class TooManyRequestsException
       RequestID: /*@__PURE__*/ S.optional(S.String),
     },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export type MapOf__string = { [key: string]: string | undefined };
 export interface CreateApplicationRequest {
-  Name?: string;
-  tags?: { [key: string]: string | undefined };
+  Name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateAppRequest {
-  CreateApplicationRequest?: CreateApplicationRequest;
+  CreateApplicationRequest?: CreateApplicationRequest | undefined;
 }
 export interface ApplicationResponse {
-  Arn?: string;
-  Id?: string;
-  Name?: string;
-  tags?: { [key: string]: string | undefined };
-  CreationDate?: string;
+  Arn?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  CreationDate?: string | undefined;
 }
 export interface CreateAppResponse {
   ApplicationResponse: ApplicationResponse & { Arn: string; Id: string; Name: string };
@@ -210,85 +211,85 @@ const __EndpointTypesElement = S.String;
 
 export type ListOf__EndpointTypesElement = __EndpointTypesElement[];
 export interface CustomDeliveryConfiguration {
-  DeliveryUri?: string;
-  EndpointTypes?: __EndpointTypesElement[];
+  DeliveryUri?: string | undefined;
+  EndpointTypes?: __EndpointTypesElement[] | undefined;
 }
 export type Action = "OPEN_APP" | "DEEP_LINK" | "URL" | (string & {});
 export interface Message {
-  Action?: Action;
-  Body?: string;
-  ImageIconUrl?: string;
-  ImageSmallIconUrl?: string;
-  ImageUrl?: string;
-  JsonBody?: string;
-  MediaUrl?: string;
-  RawContent?: string;
-  SilentPush?: boolean;
-  TimeToLive?: number;
-  Title?: string;
-  Url?: string;
+  Action?: Action | undefined;
+  Body?: string | undefined;
+  ImageIconUrl?: string | undefined;
+  ImageSmallIconUrl?: string | undefined;
+  ImageUrl?: string | undefined;
+  JsonBody?: string | undefined;
+  MediaUrl?: string | undefined;
+  RawContent?: string | undefined;
+  SilentPush?: boolean | undefined;
+  TimeToLive?: number | undefined;
+  Title?: string | undefined;
+  Url?: string | undefined;
 }
 export interface CampaignCustomMessage {
-  Data?: string;
+  Data?: string | undefined;
 }
 export interface MessageHeader {
-  Name?: string;
-  Value?: string;
+  Name?: string | undefined;
+  Value?: string | undefined;
 }
 export type ListOfMessageHeader = MessageHeader[];
 export interface CampaignEmailMessage {
-  Body?: string;
-  FromAddress?: string;
-  Headers?: MessageHeader[];
-  HtmlBody?: string;
-  Title?: string;
+  Body?: string | undefined;
+  FromAddress?: string | undefined;
+  Headers?: MessageHeader[] | undefined;
+  HtmlBody?: string | undefined;
+  Title?: string | undefined;
 }
 export type MessageType = "TRANSACTIONAL" | "PROMOTIONAL" | (string & {});
 export interface CampaignSmsMessage {
-  Body?: string;
-  MessageType?: MessageType;
-  OriginationNumber?: string;
-  SenderId?: string;
-  EntityId?: string;
-  TemplateId?: string;
+  Body?: string | undefined;
+  MessageType?: MessageType | undefined;
+  OriginationNumber?: string | undefined;
+  SenderId?: string | undefined;
+  EntityId?: string | undefined;
+  TemplateId?: string | undefined;
 }
 export type Alignment = "LEFT" | "CENTER" | "RIGHT" | (string & {});
 export interface InAppMessageBodyConfig {
-  Alignment?: Alignment;
-  Body?: string;
-  TextColor?: string;
+  Alignment?: Alignment | undefined;
+  Body?: string | undefined;
+  TextColor?: string | undefined;
 }
 export interface InAppMessageHeaderConfig {
-  Alignment?: Alignment;
-  Header?: string;
-  TextColor?: string;
+  Alignment?: Alignment | undefined;
+  Header?: string | undefined;
+  TextColor?: string | undefined;
 }
 export type ButtonAction = "LINK" | "DEEP_LINK" | "CLOSE" | (string & {});
 export interface OverrideButtonConfiguration {
-  ButtonAction?: ButtonAction;
-  Link?: string;
+  ButtonAction?: ButtonAction | undefined;
+  Link?: string | undefined;
 }
 export interface DefaultButtonConfiguration {
-  BackgroundColor?: string;
-  BorderRadius?: number;
-  ButtonAction?: ButtonAction;
-  Link?: string;
-  Text?: string;
-  TextColor?: string;
+  BackgroundColor?: string | undefined;
+  BorderRadius?: number | undefined;
+  ButtonAction?: ButtonAction | undefined;
+  Link?: string | undefined;
+  Text?: string | undefined;
+  TextColor?: string | undefined;
 }
 export interface InAppMessageButton {
-  Android?: OverrideButtonConfiguration;
-  DefaultConfig?: DefaultButtonConfiguration;
-  IOS?: OverrideButtonConfiguration;
-  Web?: OverrideButtonConfiguration;
+  Android?: OverrideButtonConfiguration | undefined;
+  DefaultConfig?: DefaultButtonConfiguration | undefined;
+  IOS?: OverrideButtonConfiguration | undefined;
+  Web?: OverrideButtonConfiguration | undefined;
 }
 export interface InAppMessageContent {
-  BackgroundColor?: string;
-  BodyConfig?: InAppMessageBodyConfig;
-  HeaderConfig?: InAppMessageHeaderConfig;
-  ImageUrl?: string;
-  PrimaryBtn?: InAppMessageButton;
-  SecondaryBtn?: InAppMessageButton;
+  BackgroundColor?: string | undefined;
+  BodyConfig?: InAppMessageBodyConfig | undefined;
+  HeaderConfig?: InAppMessageHeaderConfig | undefined;
+  ImageUrl?: string | undefined;
+  PrimaryBtn?: InAppMessageButton | undefined;
+  SecondaryBtn?: InAppMessageButton | undefined;
 }
 export type ListOfInAppMessageContent = InAppMessageContent[];
 export type Layout =
@@ -300,21 +301,21 @@ export type Layout =
   | "CAROUSEL"
   | (string & {});
 export interface CampaignInAppMessage {
-  Body?: string;
-  Content?: InAppMessageContent[];
-  CustomConfig?: { [key: string]: string | undefined };
-  Layout?: Layout;
+  Body?: string | undefined;
+  Content?: InAppMessageContent[] | undefined;
+  CustomConfig?: { [key: string]: string | undefined } | undefined;
+  Layout?: Layout | undefined;
 }
 export interface MessageConfiguration {
-  ADMMessage?: Message;
-  APNSMessage?: Message;
-  BaiduMessage?: Message;
-  CustomMessage?: CampaignCustomMessage;
-  DefaultMessage?: Message;
-  EmailMessage?: CampaignEmailMessage;
-  GCMMessage?: Message;
-  SMSMessage?: CampaignSmsMessage;
-  InAppMessage?: CampaignInAppMessage;
+  ADMMessage?: Message | undefined;
+  APNSMessage?: Message | undefined;
+  BaiduMessage?: Message | undefined;
+  CustomMessage?: CampaignCustomMessage | undefined;
+  DefaultMessage?: Message | undefined;
+  EmailMessage?: CampaignEmailMessage | undefined;
+  GCMMessage?: Message | undefined;
+  SMSMessage?: CampaignSmsMessage | undefined;
+  InAppMessage?: CampaignInAppMessage | undefined;
 }
 export type AttributeType =
   | "INCLUSIVE"
@@ -327,29 +328,29 @@ export type AttributeType =
   | (string & {});
 export type ListOf__string = string[];
 export interface AttributeDimension {
-  AttributeType?: AttributeType;
-  Values?: string[];
+  AttributeType?: AttributeType | undefined;
+  Values?: string[] | undefined;
 }
 export type MapOfAttributeDimension = { [key: string]: AttributeDimension | undefined };
 export type DimensionType = "INCLUSIVE" | "EXCLUSIVE" | (string & {});
 export interface SetDimension {
-  DimensionType?: DimensionType;
-  Values?: string[];
+  DimensionType?: DimensionType | undefined;
+  Values?: string[] | undefined;
 }
 export interface MetricDimension {
-  ComparisonOperator?: string;
-  Value?: number;
+  ComparisonOperator?: string | undefined;
+  Value?: number | undefined;
 }
 export type MapOfMetricDimension = { [key: string]: MetricDimension | undefined };
 export interface EventDimensions {
-  Attributes?: { [key: string]: AttributeDimension | undefined };
-  EventType?: SetDimension;
-  Metrics?: { [key: string]: MetricDimension | undefined };
+  Attributes?: { [key: string]: AttributeDimension | undefined } | undefined;
+  EventType?: SetDimension | undefined;
+  Metrics?: { [key: string]: MetricDimension | undefined } | undefined;
 }
 export type FilterType = "SYSTEM" | "ENDPOINT" | (string & {});
 export interface CampaignEventFilter {
-  Dimensions?: EventDimensions;
-  FilterType?: FilterType;
+  Dimensions?: EventDimensions | undefined;
+  FilterType?: FilterType | undefined;
 }
 export type Frequency =
   | "ONCE"
@@ -361,74 +362,74 @@ export type Frequency =
   | "IN_APP_EVENT"
   | (string & {});
 export interface QuietTime {
-  End?: string;
-  Start?: string;
+  End?: string | undefined;
+  Start?: string | undefined;
 }
 export interface Schedule {
-  EndTime?: string;
-  EventFilter?: CampaignEventFilter;
-  Frequency?: Frequency;
-  IsLocalTime?: boolean;
-  QuietTime?: QuietTime;
-  StartTime?: string;
-  Timezone?: string;
+  EndTime?: string | undefined;
+  EventFilter?: CampaignEventFilter | undefined;
+  Frequency?: Frequency | undefined;
+  IsLocalTime?: boolean | undefined;
+  QuietTime?: QuietTime | undefined;
+  StartTime?: string | undefined;
+  Timezone?: string | undefined;
 }
 export interface Template {
-  Name?: string;
-  Version?: string;
+  Name?: string | undefined;
+  Version?: string | undefined;
 }
 export interface TemplateConfiguration {
-  EmailTemplate?: Template;
-  PushTemplate?: Template;
-  SMSTemplate?: Template;
-  VoiceTemplate?: Template;
-  InAppTemplate?: Template;
+  EmailTemplate?: Template | undefined;
+  PushTemplate?: Template | undefined;
+  SMSTemplate?: Template | undefined;
+  VoiceTemplate?: Template | undefined;
+  InAppTemplate?: Template | undefined;
 }
 export interface WriteTreatmentResource {
-  CustomDeliveryConfiguration?: CustomDeliveryConfiguration;
-  MessageConfiguration?: MessageConfiguration;
-  Schedule?: Schedule;
-  SizePercent?: number;
-  TemplateConfiguration?: TemplateConfiguration;
-  TreatmentDescription?: string;
-  TreatmentName?: string;
+  CustomDeliveryConfiguration?: CustomDeliveryConfiguration | undefined;
+  MessageConfiguration?: MessageConfiguration | undefined;
+  Schedule?: Schedule | undefined;
+  SizePercent?: number | undefined;
+  TemplateConfiguration?: TemplateConfiguration | undefined;
+  TreatmentDescription?: string | undefined;
+  TreatmentName?: string | undefined;
 }
 export type ListOfWriteTreatmentResource = WriteTreatmentResource[];
 export type Mode = "DELIVERY" | "FILTER" | (string & {});
 export interface CampaignHook {
-  LambdaFunctionName?: string;
-  Mode?: Mode;
-  WebUrl?: string;
+  LambdaFunctionName?: string | undefined;
+  Mode?: Mode | undefined;
+  WebUrl?: string | undefined;
 }
 export interface CampaignLimits {
-  Daily?: number;
-  MaximumDuration?: number;
-  MessagesPerSecond?: number;
-  Total?: number;
-  Session?: number;
+  Daily?: number | undefined;
+  MaximumDuration?: number | undefined;
+  MessagesPerSecond?: number | undefined;
+  Total?: number | undefined;
+  Session?: number | undefined;
 }
 export interface WriteCampaignRequest {
-  AdditionalTreatments?: WriteTreatmentResource[];
-  CustomDeliveryConfiguration?: CustomDeliveryConfiguration;
-  Description?: string;
-  HoldoutPercent?: number;
-  Hook?: CampaignHook;
-  IsPaused?: boolean;
-  Limits?: CampaignLimits;
-  MessageConfiguration?: MessageConfiguration;
-  Name?: string;
-  Schedule?: Schedule;
-  SegmentId?: string;
-  SegmentVersion?: number;
-  tags?: { [key: string]: string | undefined };
-  TemplateConfiguration?: TemplateConfiguration;
-  TreatmentDescription?: string;
-  TreatmentName?: string;
-  Priority?: number;
+  AdditionalTreatments?: WriteTreatmentResource[] | undefined;
+  CustomDeliveryConfiguration?: CustomDeliveryConfiguration | undefined;
+  Description?: string | undefined;
+  HoldoutPercent?: number | undefined;
+  Hook?: CampaignHook | undefined;
+  IsPaused?: boolean | undefined;
+  Limits?: CampaignLimits | undefined;
+  MessageConfiguration?: MessageConfiguration | undefined;
+  Name?: string | undefined;
+  Schedule?: Schedule | undefined;
+  SegmentId?: string | undefined;
+  SegmentVersion?: number | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  TemplateConfiguration?: TemplateConfiguration | undefined;
+  TreatmentDescription?: string | undefined;
+  TreatmentName?: string | undefined;
+  Priority?: number | undefined;
 }
 export interface CreateCampaignRequest {
   ApplicationId: string;
-  WriteCampaignRequest?: WriteCampaignRequest;
+  WriteCampaignRequest?: WriteCampaignRequest | undefined;
 }
 export type CampaignStatus =
   | "SCHEDULED"
@@ -440,46 +441,46 @@ export type CampaignStatus =
   | "INVALID"
   | (string & {});
 export interface CampaignState {
-  CampaignStatus?: CampaignStatus;
+  CampaignStatus?: CampaignStatus | undefined;
 }
 export interface TreatmentResource {
-  CustomDeliveryConfiguration?: CustomDeliveryConfiguration;
-  Id?: string;
-  MessageConfiguration?: MessageConfiguration;
-  Schedule?: Schedule;
-  SizePercent?: number;
-  State?: CampaignState;
-  TemplateConfiguration?: TemplateConfiguration;
-  TreatmentDescription?: string;
-  TreatmentName?: string;
+  CustomDeliveryConfiguration?: CustomDeliveryConfiguration | undefined;
+  Id?: string | undefined;
+  MessageConfiguration?: MessageConfiguration | undefined;
+  Schedule?: Schedule | undefined;
+  SizePercent?: number | undefined;
+  State?: CampaignState | undefined;
+  TemplateConfiguration?: TemplateConfiguration | undefined;
+  TreatmentDescription?: string | undefined;
+  TreatmentName?: string | undefined;
 }
 export type ListOfTreatmentResource = TreatmentResource[];
 export interface CampaignResponse {
-  AdditionalTreatments?: TreatmentResource[];
-  ApplicationId?: string;
-  Arn?: string;
-  CreationDate?: string;
-  CustomDeliveryConfiguration?: CustomDeliveryConfiguration;
-  DefaultState?: CampaignState;
-  Description?: string;
-  HoldoutPercent?: number;
-  Hook?: CampaignHook;
-  Id?: string;
-  IsPaused?: boolean;
-  LastModifiedDate?: string;
-  Limits?: CampaignLimits;
-  MessageConfiguration?: MessageConfiguration;
-  Name?: string;
-  Schedule?: Schedule;
-  SegmentId?: string;
-  SegmentVersion?: number;
-  State?: CampaignState;
-  tags?: { [key: string]: string | undefined };
-  TemplateConfiguration?: TemplateConfiguration;
-  TreatmentDescription?: string;
-  TreatmentName?: string;
-  Version?: number;
-  Priority?: number;
+  AdditionalTreatments?: TreatmentResource[] | undefined;
+  ApplicationId?: string | undefined;
+  Arn?: string | undefined;
+  CreationDate?: string | undefined;
+  CustomDeliveryConfiguration?: CustomDeliveryConfiguration | undefined;
+  DefaultState?: CampaignState | undefined;
+  Description?: string | undefined;
+  HoldoutPercent?: number | undefined;
+  Hook?: CampaignHook | undefined;
+  Id?: string | undefined;
+  IsPaused?: boolean | undefined;
+  LastModifiedDate?: string | undefined;
+  Limits?: CampaignLimits | undefined;
+  MessageConfiguration?: MessageConfiguration | undefined;
+  Name?: string | undefined;
+  Schedule?: Schedule | undefined;
+  SegmentId?: string | undefined;
+  SegmentVersion?: number | undefined;
+  State?: CampaignState | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  TemplateConfiguration?: TemplateConfiguration | undefined;
+  TreatmentDescription?: string | undefined;
+  TreatmentName?: string | undefined;
+  Version?: number | undefined;
+  Priority?: number | undefined;
 }
 export interface CreateCampaignResponse {
   CampaignResponse: CampaignResponse & {
@@ -601,42 +602,42 @@ export interface CreateCampaignResponse {
   };
 }
 export interface EmailTemplateRequest {
-  DefaultSubstitutions?: string;
-  HtmlPart?: string;
-  RecommenderId?: string;
-  Subject?: string;
-  Headers?: MessageHeader[];
-  tags?: { [key: string]: string | undefined };
-  TemplateDescription?: string;
-  TextPart?: string;
+  DefaultSubstitutions?: string | undefined;
+  HtmlPart?: string | undefined;
+  RecommenderId?: string | undefined;
+  Subject?: string | undefined;
+  Headers?: MessageHeader[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  TemplateDescription?: string | undefined;
+  TextPart?: string | undefined;
 }
 export interface CreateEmailTemplateRequest {
-  EmailTemplateRequest?: EmailTemplateRequest;
+  EmailTemplateRequest?: EmailTemplateRequest | undefined;
   TemplateName: string;
 }
 export interface CreateTemplateMessageBody {
-  Arn?: string;
-  Message?: string;
-  RequestID?: string;
+  Arn?: string | undefined;
+  Message?: string | undefined;
+  RequestID?: string | undefined;
 }
 export interface CreateEmailTemplateResponse {
   CreateTemplateMessageBody: CreateTemplateMessageBody;
 }
 export interface ExportJobRequest {
-  RoleArn?: string;
-  S3UrlPrefix?: string;
-  SegmentId?: string;
-  SegmentVersion?: number;
+  RoleArn?: string | undefined;
+  S3UrlPrefix?: string | undefined;
+  SegmentId?: string | undefined;
+  SegmentVersion?: number | undefined;
 }
 export interface CreateExportJobRequest {
   ApplicationId: string;
-  ExportJobRequest?: ExportJobRequest;
+  ExportJobRequest?: ExportJobRequest | undefined;
 }
 export interface ExportJobResource {
-  RoleArn?: string;
-  S3UrlPrefix?: string;
-  SegmentId?: string;
-  SegmentVersion?: number;
+  RoleArn?: string | undefined;
+  S3UrlPrefix?: string | undefined;
+  SegmentId?: string | undefined;
+  SegmentVersion?: number | undefined;
 }
 export type JobStatus =
   | "CREATED"
@@ -650,19 +651,19 @@ export type JobStatus =
   | "FAILED"
   | (string & {});
 export interface ExportJobResponse {
-  ApplicationId?: string;
-  CompletedPieces?: number;
-  CompletionDate?: string;
-  CreationDate?: string;
-  Definition?: ExportJobResource;
-  FailedPieces?: number;
-  Failures?: string[];
-  Id?: string;
-  JobStatus?: JobStatus;
-  TotalFailures?: number;
-  TotalPieces?: number;
-  TotalProcessed?: number;
-  Type?: string;
+  ApplicationId?: string | undefined;
+  CompletedPieces?: number | undefined;
+  CompletionDate?: string | undefined;
+  CreationDate?: string | undefined;
+  Definition?: ExportJobResource | undefined;
+  FailedPieces?: number | undefined;
+  Failures?: string[] | undefined;
+  Id?: string | undefined;
+  JobStatus?: JobStatus | undefined;
+  TotalFailures?: number | undefined;
+  TotalPieces?: number | undefined;
+  TotalProcessed?: number | undefined;
+  Type?: string | undefined;
 }
 export interface CreateExportJobResponse {
   ExportJobResponse: ExportJobResponse & {
@@ -676,43 +677,43 @@ export interface CreateExportJobResponse {
 }
 export type Format = "CSV" | "JSON" | (string & {});
 export interface ImportJobRequest {
-  DefineSegment?: boolean;
-  ExternalId?: string;
-  Format?: Format;
-  RegisterEndpoints?: boolean;
-  RoleArn?: string;
-  S3Url?: string;
-  SegmentId?: string;
-  SegmentName?: string;
+  DefineSegment?: boolean | undefined;
+  ExternalId?: string | undefined;
+  Format?: Format | undefined;
+  RegisterEndpoints?: boolean | undefined;
+  RoleArn?: string | undefined;
+  S3Url?: string | undefined;
+  SegmentId?: string | undefined;
+  SegmentName?: string | undefined;
 }
 export interface CreateImportJobRequest {
   ApplicationId: string;
-  ImportJobRequest?: ImportJobRequest;
+  ImportJobRequest?: ImportJobRequest | undefined;
 }
 export interface ImportJobResource {
-  DefineSegment?: boolean;
-  ExternalId?: string;
-  Format?: Format;
-  RegisterEndpoints?: boolean;
-  RoleArn?: string;
-  S3Url?: string;
-  SegmentId?: string;
-  SegmentName?: string;
+  DefineSegment?: boolean | undefined;
+  ExternalId?: string | undefined;
+  Format?: Format | undefined;
+  RegisterEndpoints?: boolean | undefined;
+  RoleArn?: string | undefined;
+  S3Url?: string | undefined;
+  SegmentId?: string | undefined;
+  SegmentName?: string | undefined;
 }
 export interface ImportJobResponse {
-  ApplicationId?: string;
-  CompletedPieces?: number;
-  CompletionDate?: string;
-  CreationDate?: string;
-  Definition?: ImportJobResource;
-  FailedPieces?: number;
-  Failures?: string[];
-  Id?: string;
-  JobStatus?: JobStatus;
-  TotalFailures?: number;
-  TotalPieces?: number;
-  TotalProcessed?: number;
-  Type?: string;
+  ApplicationId?: string | undefined;
+  CompletedPieces?: number | undefined;
+  CompletionDate?: string | undefined;
+  CreationDate?: string | undefined;
+  Definition?: ImportJobResource | undefined;
+  FailedPieces?: number | undefined;
+  Failures?: string[] | undefined;
+  Id?: string | undefined;
+  JobStatus?: JobStatus | undefined;
+  TotalFailures?: number | undefined;
+  TotalPieces?: number | undefined;
+  TotalProcessed?: number | undefined;
+  Type?: string | undefined;
 }
 export interface CreateImportJobResponse {
   ImportJobResponse: ImportJobResponse & {
@@ -725,204 +726,204 @@ export interface CreateImportJobResponse {
   };
 }
 export interface InAppTemplateRequest {
-  Content?: InAppMessageContent[];
-  CustomConfig?: { [key: string]: string | undefined };
-  Layout?: Layout;
-  tags?: { [key: string]: string | undefined };
-  TemplateDescription?: string;
+  Content?: InAppMessageContent[] | undefined;
+  CustomConfig?: { [key: string]: string | undefined } | undefined;
+  Layout?: Layout | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  TemplateDescription?: string | undefined;
 }
 export interface CreateInAppTemplateRequest {
-  InAppTemplateRequest?: InAppTemplateRequest;
+  InAppTemplateRequest?: InAppTemplateRequest | undefined;
   TemplateName: string;
 }
 export interface TemplateCreateMessageBody {
-  Arn?: string;
-  Message?: string;
-  RequestID?: string;
+  Arn?: string | undefined;
+  Message?: string | undefined;
+  RequestID?: string | undefined;
 }
 export interface CreateInAppTemplateResponse {
   TemplateCreateMessageBody: TemplateCreateMessageBody;
 }
 export interface JourneyCustomMessage {
-  Data?: string;
+  Data?: string | undefined;
 }
 export interface CustomMessageActivity {
-  DeliveryUri?: string;
-  EndpointTypes?: __EndpointTypesElement[];
-  MessageConfig?: JourneyCustomMessage;
-  NextActivity?: string;
-  TemplateName?: string;
-  TemplateVersion?: string;
+  DeliveryUri?: string | undefined;
+  EndpointTypes?: __EndpointTypesElement[] | undefined;
+  MessageConfig?: JourneyCustomMessage | undefined;
+  NextActivity?: string | undefined;
+  TemplateName?: string | undefined;
+  TemplateVersion?: string | undefined;
 }
 export interface EventCondition {
-  Dimensions?: EventDimensions;
-  MessageActivity?: string;
+  Dimensions?: EventDimensions | undefined;
+  MessageActivity?: string | undefined;
 }
 export interface SegmentCondition {
-  SegmentId?: string;
+  SegmentId?: string | undefined;
 }
 export type Duration = "HR_24" | "DAY_7" | "DAY_14" | "DAY_30" | (string & {});
 export type RecencyType = "ACTIVE" | "INACTIVE" | (string & {});
 export interface RecencyDimension {
-  Duration?: Duration;
-  RecencyType?: RecencyType;
+  Duration?: Duration | undefined;
+  RecencyType?: RecencyType | undefined;
 }
 export interface SegmentBehaviors {
-  Recency?: RecencyDimension;
+  Recency?: RecencyDimension | undefined;
 }
 export interface SegmentDemographics {
-  AppVersion?: SetDimension;
-  Channel?: SetDimension;
-  DeviceType?: SetDimension;
-  Make?: SetDimension;
-  Model?: SetDimension;
-  Platform?: SetDimension;
+  AppVersion?: SetDimension | undefined;
+  Channel?: SetDimension | undefined;
+  DeviceType?: SetDimension | undefined;
+  Make?: SetDimension | undefined;
+  Model?: SetDimension | undefined;
+  Platform?: SetDimension | undefined;
 }
 export interface GPSCoordinates {
-  Latitude?: number;
-  Longitude?: number;
+  Latitude?: number | undefined;
+  Longitude?: number | undefined;
 }
 export interface GPSPointDimension {
-  Coordinates?: GPSCoordinates;
-  RangeInKilometers?: number;
+  Coordinates?: GPSCoordinates | undefined;
+  RangeInKilometers?: number | undefined;
 }
 export interface SegmentLocation {
-  Country?: SetDimension;
-  GPSPoint?: GPSPointDimension;
+  Country?: SetDimension | undefined;
+  GPSPoint?: GPSPointDimension | undefined;
 }
 export interface SegmentDimensions {
-  Attributes?: { [key: string]: AttributeDimension | undefined };
-  Behavior?: SegmentBehaviors;
-  Demographic?: SegmentDemographics;
-  Location?: SegmentLocation;
-  Metrics?: { [key: string]: MetricDimension | undefined };
-  UserAttributes?: { [key: string]: AttributeDimension | undefined };
+  Attributes?: { [key: string]: AttributeDimension | undefined } | undefined;
+  Behavior?: SegmentBehaviors | undefined;
+  Demographic?: SegmentDemographics | undefined;
+  Location?: SegmentLocation | undefined;
+  Metrics?: { [key: string]: MetricDimension | undefined } | undefined;
+  UserAttributes?: { [key: string]: AttributeDimension | undefined } | undefined;
 }
 export interface SimpleCondition {
-  EventCondition?: EventCondition;
-  SegmentCondition?: SegmentCondition;
-  SegmentDimensions?: SegmentDimensions;
+  EventCondition?: EventCondition | undefined;
+  SegmentCondition?: SegmentCondition | undefined;
+  SegmentDimensions?: SegmentDimensions | undefined;
 }
 export type ListOfSimpleCondition = SimpleCondition[];
 export type Operator = "ALL" | "ANY" | (string & {});
 export interface Condition {
-  Conditions?: SimpleCondition[];
-  Operator?: Operator;
+  Conditions?: SimpleCondition[] | undefined;
+  Operator?: Operator | undefined;
 }
 export interface WaitTime {
-  WaitFor?: string;
-  WaitUntil?: string;
+  WaitFor?: string | undefined;
+  WaitUntil?: string | undefined;
 }
 export interface ConditionalSplitActivity {
-  Condition?: Condition;
-  EvaluationWaitTime?: WaitTime;
-  FalseActivity?: string;
-  TrueActivity?: string;
+  Condition?: Condition | undefined;
+  EvaluationWaitTime?: WaitTime | undefined;
+  FalseActivity?: string | undefined;
+  TrueActivity?: string | undefined;
 }
 export interface JourneyEmailMessage {
-  FromAddress?: string;
+  FromAddress?: string | undefined;
 }
 export interface EmailMessageActivity {
-  MessageConfig?: JourneyEmailMessage;
-  NextActivity?: string;
-  TemplateName?: string;
-  TemplateVersion?: string;
+  MessageConfig?: JourneyEmailMessage | undefined;
+  NextActivity?: string | undefined;
+  TemplateName?: string | undefined;
+  TemplateVersion?: string | undefined;
 }
 export interface HoldoutActivity {
-  NextActivity?: string;
-  Percentage?: number;
+  NextActivity?: string | undefined;
+  Percentage?: number | undefined;
 }
 export interface MultiConditionalBranch {
-  Condition?: SimpleCondition;
-  NextActivity?: string;
+  Condition?: SimpleCondition | undefined;
+  NextActivity?: string | undefined;
 }
 export type ListOfMultiConditionalBranch = MultiConditionalBranch[];
 export interface MultiConditionalSplitActivity {
-  Branches?: MultiConditionalBranch[];
-  DefaultActivity?: string;
-  EvaluationWaitTime?: WaitTime;
+  Branches?: MultiConditionalBranch[] | undefined;
+  DefaultActivity?: string | undefined;
+  EvaluationWaitTime?: WaitTime | undefined;
 }
 export interface JourneyPushMessage {
-  TimeToLive?: string;
+  TimeToLive?: string | undefined;
 }
 export interface PushMessageActivity {
-  MessageConfig?: JourneyPushMessage;
-  NextActivity?: string;
-  TemplateName?: string;
-  TemplateVersion?: string;
+  MessageConfig?: JourneyPushMessage | undefined;
+  NextActivity?: string | undefined;
+  TemplateName?: string | undefined;
+  TemplateVersion?: string | undefined;
 }
 export interface RandomSplitEntry {
-  NextActivity?: string;
-  Percentage?: number;
+  NextActivity?: string | undefined;
+  Percentage?: number | undefined;
 }
 export type ListOfRandomSplitEntry = RandomSplitEntry[];
 export interface RandomSplitActivity {
-  Branches?: RandomSplitEntry[];
+  Branches?: RandomSplitEntry[] | undefined;
 }
 export interface JourneySMSMessage {
-  MessageType?: MessageType;
-  OriginationNumber?: string;
-  SenderId?: string;
-  EntityId?: string;
-  TemplateId?: string;
+  MessageType?: MessageType | undefined;
+  OriginationNumber?: string | undefined;
+  SenderId?: string | undefined;
+  EntityId?: string | undefined;
+  TemplateId?: string | undefined;
 }
 export interface SMSMessageActivity {
-  MessageConfig?: JourneySMSMessage;
-  NextActivity?: string;
-  TemplateName?: string;
-  TemplateVersion?: string;
+  MessageConfig?: JourneySMSMessage | undefined;
+  NextActivity?: string | undefined;
+  TemplateName?: string | undefined;
+  TemplateVersion?: string | undefined;
 }
 export interface WaitActivity {
-  NextActivity?: string;
-  WaitTime?: WaitTime;
+  NextActivity?: string | undefined;
+  WaitTime?: WaitTime | undefined;
 }
 export interface ContactCenterActivity {
-  NextActivity?: string;
+  NextActivity?: string | undefined;
 }
 export interface Activity {
-  CUSTOM?: CustomMessageActivity;
-  ConditionalSplit?: ConditionalSplitActivity;
-  Description?: string;
-  EMAIL?: EmailMessageActivity;
-  Holdout?: HoldoutActivity;
-  MultiCondition?: MultiConditionalSplitActivity;
-  PUSH?: PushMessageActivity;
-  RandomSplit?: RandomSplitActivity;
-  SMS?: SMSMessageActivity;
-  Wait?: WaitActivity;
-  ContactCenter?: ContactCenterActivity;
+  CUSTOM?: CustomMessageActivity | undefined;
+  ConditionalSplit?: ConditionalSplitActivity | undefined;
+  Description?: string | undefined;
+  EMAIL?: EmailMessageActivity | undefined;
+  Holdout?: HoldoutActivity | undefined;
+  MultiCondition?: MultiConditionalSplitActivity | undefined;
+  PUSH?: PushMessageActivity | undefined;
+  RandomSplit?: RandomSplitActivity | undefined;
+  SMS?: SMSMessageActivity | undefined;
+  Wait?: WaitActivity | undefined;
+  ContactCenter?: ContactCenterActivity | undefined;
 }
 export type MapOfActivity = { [key: string]: Activity | undefined };
 export interface JourneyTimeframeCap {
-  Cap?: number;
-  Days?: number;
+  Cap?: number | undefined;
+  Days?: number | undefined;
 }
 export interface JourneyLimits {
-  DailyCap?: number;
-  EndpointReentryCap?: number;
-  MessagesPerSecond?: number;
-  EndpointReentryInterval?: string;
-  TimeframeCap?: JourneyTimeframeCap;
-  TotalCap?: number;
+  DailyCap?: number | undefined;
+  EndpointReentryCap?: number | undefined;
+  MessagesPerSecond?: number | undefined;
+  EndpointReentryInterval?: string | undefined;
+  TimeframeCap?: JourneyTimeframeCap | undefined;
+  TotalCap?: number | undefined;
 }
 export type __timestampIso8601 = Date;
 export interface JourneySchedule {
-  EndTime?: Date;
-  StartTime?: Date;
-  Timezone?: string;
+  EndTime?: Date | undefined;
+  StartTime?: Date | undefined;
+  Timezone?: string | undefined;
 }
 export interface EventFilter {
-  Dimensions?: EventDimensions;
-  FilterType?: FilterType;
+  Dimensions?: EventDimensions | undefined;
+  FilterType?: FilterType | undefined;
 }
 export interface EventStartCondition {
-  EventFilter?: EventFilter;
-  SegmentId?: string;
+  EventFilter?: EventFilter | undefined;
+  SegmentId?: string | undefined;
 }
 export interface StartCondition {
-  Description?: string;
-  EventStartCondition?: EventStartCondition;
-  SegmentStartCondition?: SegmentCondition;
+  Description?: string | undefined;
+  EventStartCondition?: EventStartCondition | undefined;
+  SegmentStartCondition?: SegmentCondition | undefined;
 }
 export type State =
   | "DRAFT"
@@ -933,8 +934,8 @@ export type State =
   | "PAUSED"
   | (string & {});
 export interface JourneyChannelSettings {
-  ConnectCampaignArn?: string;
-  ConnectCampaignExecutionRoleArn?: string;
+  ConnectCampaignArn?: string | undefined;
+  ConnectCampaignExecutionRoleArn?: string | undefined;
 }
 export type DayOfWeek =
   | "MONDAY"
@@ -946,81 +947,81 @@ export type DayOfWeek =
   | "SUNDAY"
   | (string & {});
 export interface OpenHoursRule {
-  StartTime?: string;
-  EndTime?: string;
+  StartTime?: string | undefined;
+  EndTime?: string | undefined;
 }
 export type ListOfOpenHoursRules = OpenHoursRule[];
-export type MapOfListOfOpenHoursRules = { [key in DayOfWeek]?: OpenHoursRule[] };
+export type MapOfListOfOpenHoursRules = { [key in DayOfWeek]?: OpenHoursRule[] | undefined };
 export interface OpenHours {
-  EMAIL?: { [key: string]: OpenHoursRule[] | undefined };
-  SMS?: { [key: string]: OpenHoursRule[] | undefined };
-  PUSH?: { [key: string]: OpenHoursRule[] | undefined };
-  VOICE?: { [key: string]: OpenHoursRule[] | undefined };
-  CUSTOM?: { [key: string]: OpenHoursRule[] | undefined };
+  EMAIL?: { [key: string]: OpenHoursRule[] | undefined } | undefined;
+  SMS?: { [key: string]: OpenHoursRule[] | undefined } | undefined;
+  PUSH?: { [key: string]: OpenHoursRule[] | undefined } | undefined;
+  VOICE?: { [key: string]: OpenHoursRule[] | undefined } | undefined;
+  CUSTOM?: { [key: string]: OpenHoursRule[] | undefined } | undefined;
 }
 export interface ClosedDaysRule {
-  Name?: string;
-  StartDateTime?: string;
-  EndDateTime?: string;
+  Name?: string | undefined;
+  StartDateTime?: string | undefined;
+  EndDateTime?: string | undefined;
 }
 export type ListOfClosedDaysRules = ClosedDaysRule[];
 export interface ClosedDays {
-  EMAIL?: ClosedDaysRule[];
-  SMS?: ClosedDaysRule[];
-  PUSH?: ClosedDaysRule[];
-  VOICE?: ClosedDaysRule[];
-  CUSTOM?: ClosedDaysRule[];
+  EMAIL?: ClosedDaysRule[] | undefined;
+  SMS?: ClosedDaysRule[] | undefined;
+  PUSH?: ClosedDaysRule[] | undefined;
+  VOICE?: ClosedDaysRule[] | undefined;
+  CUSTOM?: ClosedDaysRule[] | undefined;
 }
 export type __TimezoneEstimationMethodsElement = "PHONE_NUMBER" | "POSTAL_CODE" | (string & {});
 export type ListOf__TimezoneEstimationMethodsElement = __TimezoneEstimationMethodsElement[];
 export interface WriteJourneyRequest {
-  Activities?: { [key: string]: Activity | undefined };
-  CreationDate?: string;
-  LastModifiedDate?: string;
-  Limits?: JourneyLimits;
-  LocalTime?: boolean;
-  Name?: string;
-  QuietTime?: QuietTime;
-  RefreshFrequency?: string;
-  Schedule?: JourneySchedule;
-  StartActivity?: string;
-  StartCondition?: StartCondition;
-  State?: State;
-  WaitForQuietTime?: boolean;
-  RefreshOnSegmentUpdate?: boolean;
-  JourneyChannelSettings?: JourneyChannelSettings;
-  SendingSchedule?: boolean;
-  OpenHours?: OpenHours;
-  ClosedDays?: ClosedDays;
-  TimezoneEstimationMethods?: __TimezoneEstimationMethodsElement[];
+  Activities?: { [key: string]: Activity | undefined } | undefined;
+  CreationDate?: string | undefined;
+  LastModifiedDate?: string | undefined;
+  Limits?: JourneyLimits | undefined;
+  LocalTime?: boolean | undefined;
+  Name?: string | undefined;
+  QuietTime?: QuietTime | undefined;
+  RefreshFrequency?: string | undefined;
+  Schedule?: JourneySchedule | undefined;
+  StartActivity?: string | undefined;
+  StartCondition?: StartCondition | undefined;
+  State?: State | undefined;
+  WaitForQuietTime?: boolean | undefined;
+  RefreshOnSegmentUpdate?: boolean | undefined;
+  JourneyChannelSettings?: JourneyChannelSettings | undefined;
+  SendingSchedule?: boolean | undefined;
+  OpenHours?: OpenHours | undefined;
+  ClosedDays?: ClosedDays | undefined;
+  TimezoneEstimationMethods?: __TimezoneEstimationMethodsElement[] | undefined;
 }
 export interface CreateJourneyRequest {
   ApplicationId: string;
-  WriteJourneyRequest?: WriteJourneyRequest;
+  WriteJourneyRequest?: WriteJourneyRequest | undefined;
 }
 export interface JourneyResponse {
-  Activities?: { [key: string]: Activity | undefined };
-  ApplicationId?: string;
-  CreationDate?: string;
-  Id?: string;
-  LastModifiedDate?: string;
-  Limits?: JourneyLimits;
-  LocalTime?: boolean;
-  Name?: string;
-  QuietTime?: QuietTime;
-  RefreshFrequency?: string;
-  Schedule?: JourneySchedule;
-  StartActivity?: string;
-  StartCondition?: StartCondition;
-  State?: State;
-  tags?: { [key: string]: string | undefined };
-  WaitForQuietTime?: boolean;
-  RefreshOnSegmentUpdate?: boolean;
-  JourneyChannelSettings?: JourneyChannelSettings;
-  SendingSchedule?: boolean;
-  OpenHours?: OpenHours;
-  ClosedDays?: ClosedDays;
-  TimezoneEstimationMethods?: __TimezoneEstimationMethodsElement[];
+  Activities?: { [key: string]: Activity | undefined } | undefined;
+  ApplicationId?: string | undefined;
+  CreationDate?: string | undefined;
+  Id?: string | undefined;
+  LastModifiedDate?: string | undefined;
+  Limits?: JourneyLimits | undefined;
+  LocalTime?: boolean | undefined;
+  Name?: string | undefined;
+  QuietTime?: QuietTime | undefined;
+  RefreshFrequency?: string | undefined;
+  Schedule?: JourneySchedule | undefined;
+  StartActivity?: string | undefined;
+  StartCondition?: StartCondition | undefined;
+  State?: State | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  WaitForQuietTime?: boolean | undefined;
+  RefreshOnSegmentUpdate?: boolean | undefined;
+  JourneyChannelSettings?: JourneyChannelSettings | undefined;
+  SendingSchedule?: boolean | undefined;
+  OpenHours?: OpenHours | undefined;
+  ClosedDays?: ClosedDays | undefined;
+  TimezoneEstimationMethods?: __TimezoneEstimationMethodsElement[] | undefined;
 }
 export interface CreateJourneyResponse {
   JourneyResponse: JourneyResponse & {
@@ -1160,77 +1161,77 @@ export interface CreateJourneyResponse {
   };
 }
 export interface AndroidPushNotificationTemplate {
-  Action?: Action;
-  Body?: string;
-  ImageIconUrl?: string;
-  ImageUrl?: string;
-  RawContent?: string;
-  SmallImageIconUrl?: string;
-  Sound?: string;
-  Title?: string;
-  Url?: string;
+  Action?: Action | undefined;
+  Body?: string | undefined;
+  ImageIconUrl?: string | undefined;
+  ImageUrl?: string | undefined;
+  RawContent?: string | undefined;
+  SmallImageIconUrl?: string | undefined;
+  Sound?: string | undefined;
+  Title?: string | undefined;
+  Url?: string | undefined;
 }
 export interface APNSPushNotificationTemplate {
-  Action?: Action;
-  Body?: string;
-  MediaUrl?: string;
-  RawContent?: string;
-  Sound?: string;
-  Title?: string;
-  Url?: string;
+  Action?: Action | undefined;
+  Body?: string | undefined;
+  MediaUrl?: string | undefined;
+  RawContent?: string | undefined;
+  Sound?: string | undefined;
+  Title?: string | undefined;
+  Url?: string | undefined;
 }
 export interface DefaultPushNotificationTemplate {
-  Action?: Action;
-  Body?: string;
-  Sound?: string;
-  Title?: string;
-  Url?: string;
+  Action?: Action | undefined;
+  Body?: string | undefined;
+  Sound?: string | undefined;
+  Title?: string | undefined;
+  Url?: string | undefined;
 }
 export interface PushNotificationTemplateRequest {
-  ADM?: AndroidPushNotificationTemplate;
-  APNS?: APNSPushNotificationTemplate;
-  Baidu?: AndroidPushNotificationTemplate;
-  Default?: DefaultPushNotificationTemplate;
-  DefaultSubstitutions?: string;
-  GCM?: AndroidPushNotificationTemplate;
-  RecommenderId?: string;
-  tags?: { [key: string]: string | undefined };
-  TemplateDescription?: string;
+  ADM?: AndroidPushNotificationTemplate | undefined;
+  APNS?: APNSPushNotificationTemplate | undefined;
+  Baidu?: AndroidPushNotificationTemplate | undefined;
+  Default?: DefaultPushNotificationTemplate | undefined;
+  DefaultSubstitutions?: string | undefined;
+  GCM?: AndroidPushNotificationTemplate | undefined;
+  RecommenderId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  TemplateDescription?: string | undefined;
 }
 export interface CreatePushTemplateRequest {
-  PushNotificationTemplateRequest?: PushNotificationTemplateRequest;
+  PushNotificationTemplateRequest?: PushNotificationTemplateRequest | undefined;
   TemplateName: string;
 }
 export interface CreatePushTemplateResponse {
   CreateTemplateMessageBody: CreateTemplateMessageBody;
 }
 export interface CreateRecommenderConfigurationShape {
-  Attributes?: { [key: string]: string | undefined };
-  Description?: string;
-  Name?: string;
-  RecommendationProviderIdType?: string;
-  RecommendationProviderRoleArn?: string;
-  RecommendationProviderUri?: string;
-  RecommendationTransformerUri?: string;
-  RecommendationsDisplayName?: string;
-  RecommendationsPerMessage?: number;
+  Attributes?: { [key: string]: string | undefined } | undefined;
+  Description?: string | undefined;
+  Name?: string | undefined;
+  RecommendationProviderIdType?: string | undefined;
+  RecommendationProviderRoleArn?: string | undefined;
+  RecommendationProviderUri?: string | undefined;
+  RecommendationTransformerUri?: string | undefined;
+  RecommendationsDisplayName?: string | undefined;
+  RecommendationsPerMessage?: number | undefined;
 }
 export interface CreateRecommenderConfigurationRequest {
-  CreateRecommenderConfiguration?: CreateRecommenderConfigurationShape;
+  CreateRecommenderConfiguration?: CreateRecommenderConfigurationShape | undefined;
 }
 export interface RecommenderConfigurationResponse {
-  Attributes?: { [key: string]: string | undefined };
-  CreationDate?: string;
-  Description?: string;
-  Id?: string;
-  LastModifiedDate?: string;
-  Name?: string;
-  RecommendationProviderIdType?: string;
-  RecommendationProviderRoleArn?: string;
-  RecommendationProviderUri?: string;
-  RecommendationTransformerUri?: string;
-  RecommendationsDisplayName?: string;
-  RecommendationsPerMessage?: number;
+  Attributes?: { [key: string]: string | undefined } | undefined;
+  CreationDate?: string | undefined;
+  Description?: string | undefined;
+  Id?: string | undefined;
+  LastModifiedDate?: string | undefined;
+  Name?: string | undefined;
+  RecommendationProviderIdType?: string | undefined;
+  RecommendationProviderRoleArn?: string | undefined;
+  RecommendationProviderUri?: string | undefined;
+  RecommendationTransformerUri?: string | undefined;
+  RecommendationsDisplayName?: string | undefined;
+  RecommendationsPerMessage?: number | undefined;
 }
 export interface CreateRecommenderConfigurationResponse {
   RecommenderConfigurationResponse: RecommenderConfigurationResponse & {
@@ -1243,57 +1244,57 @@ export interface CreateRecommenderConfigurationResponse {
 }
 export type ListOfSegmentDimensions = SegmentDimensions[];
 export interface SegmentReference {
-  Id?: string;
-  Version?: number;
+  Id?: string | undefined;
+  Version?: number | undefined;
 }
 export type ListOfSegmentReference = SegmentReference[];
 export type SourceType = "ALL" | "ANY" | "NONE" | (string & {});
 export type Type = "ALL" | "ANY" | "NONE" | (string & {});
 export interface SegmentGroup {
-  Dimensions?: SegmentDimensions[];
-  SourceSegments?: SegmentReference[];
-  SourceType?: SourceType;
-  Type?: Type;
+  Dimensions?: SegmentDimensions[] | undefined;
+  SourceSegments?: SegmentReference[] | undefined;
+  SourceType?: SourceType | undefined;
+  Type?: Type | undefined;
 }
 export type ListOfSegmentGroup = SegmentGroup[];
 export type Include = "ALL" | "ANY" | "NONE" | (string & {});
 export interface SegmentGroupList {
-  Groups?: SegmentGroup[];
-  Include?: Include;
+  Groups?: SegmentGroup[] | undefined;
+  Include?: Include | undefined;
 }
 export interface WriteSegmentRequest {
-  Dimensions?: SegmentDimensions;
-  Name?: string;
-  SegmentGroups?: SegmentGroupList;
-  tags?: { [key: string]: string | undefined };
+  Dimensions?: SegmentDimensions | undefined;
+  Name?: string | undefined;
+  SegmentGroups?: SegmentGroupList | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateSegmentRequest {
   ApplicationId: string;
-  WriteSegmentRequest?: WriteSegmentRequest;
+  WriteSegmentRequest?: WriteSegmentRequest | undefined;
 }
 export type MapOf__integer = { [key: string]: number | undefined };
 export interface SegmentImportResource {
-  ChannelCounts?: { [key: string]: number | undefined };
-  ExternalId?: string;
-  Format?: Format;
-  RoleArn?: string;
-  S3Url?: string;
-  Size?: number;
+  ChannelCounts?: { [key: string]: number | undefined } | undefined;
+  ExternalId?: string | undefined;
+  Format?: Format | undefined;
+  RoleArn?: string | undefined;
+  S3Url?: string | undefined;
+  Size?: number | undefined;
 }
 export type SegmentType = "DIMENSIONAL" | "IMPORT" | (string & {});
 export interface SegmentResponse {
-  ApplicationId?: string;
-  Arn?: string;
-  CreationDate?: string;
-  Dimensions?: SegmentDimensions;
-  Id?: string;
-  ImportDefinition?: SegmentImportResource;
-  LastModifiedDate?: string;
-  Name?: string;
-  SegmentGroups?: SegmentGroupList;
-  SegmentType?: SegmentType;
-  tags?: { [key: string]: string | undefined };
-  Version?: number;
+  ApplicationId?: string | undefined;
+  Arn?: string | undefined;
+  CreationDate?: string | undefined;
+  Dimensions?: SegmentDimensions | undefined;
+  Id?: string | undefined;
+  ImportDefinition?: SegmentImportResource | undefined;
+  LastModifiedDate?: string | undefined;
+  Name?: string | undefined;
+  SegmentGroups?: SegmentGroupList | undefined;
+  SegmentType?: SegmentType | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  Version?: number | undefined;
 }
 export interface CreateSegmentResponse {
   SegmentResponse: SegmentResponse & {
@@ -1375,30 +1376,30 @@ export interface CreateSegmentResponse {
   };
 }
 export interface SMSTemplateRequest {
-  Body?: string;
-  DefaultSubstitutions?: string;
-  RecommenderId?: string;
-  tags?: { [key: string]: string | undefined };
-  TemplateDescription?: string;
+  Body?: string | undefined;
+  DefaultSubstitutions?: string | undefined;
+  RecommenderId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  TemplateDescription?: string | undefined;
 }
 export interface CreateSmsTemplateRequest {
-  SMSTemplateRequest?: SMSTemplateRequest;
+  SMSTemplateRequest?: SMSTemplateRequest | undefined;
   TemplateName: string;
 }
 export interface CreateSmsTemplateResponse {
   CreateTemplateMessageBody: CreateTemplateMessageBody;
 }
 export interface VoiceTemplateRequest {
-  Body?: string;
-  DefaultSubstitutions?: string;
-  LanguageCode?: string;
-  tags?: { [key: string]: string | undefined };
-  TemplateDescription?: string;
-  VoiceId?: string;
+  Body?: string | undefined;
+  DefaultSubstitutions?: string | undefined;
+  LanguageCode?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  TemplateDescription?: string | undefined;
+  VoiceId?: string | undefined;
 }
 export interface CreateVoiceTemplateRequest {
   TemplateName: string;
-  VoiceTemplateRequest?: VoiceTemplateRequest;
+  VoiceTemplateRequest?: VoiceTemplateRequest | undefined;
 }
 export interface CreateVoiceTemplateResponse {
   CreateTemplateMessageBody: CreateTemplateMessageBody;
@@ -1407,16 +1408,16 @@ export interface DeleteAdmChannelRequest {
   ApplicationId: string;
 }
 export interface ADMChannelResponse {
-  ApplicationId?: string;
-  CreationDate?: string;
-  Enabled?: boolean;
-  HasCredential?: boolean;
-  Id?: string;
-  IsArchived?: boolean;
-  LastModifiedBy?: string;
-  LastModifiedDate?: string;
-  Platform?: string;
-  Version?: number;
+  ApplicationId?: string | undefined;
+  CreationDate?: string | undefined;
+  Enabled?: boolean | undefined;
+  HasCredential?: boolean | undefined;
+  Id?: string | undefined;
+  IsArchived?: boolean | undefined;
+  LastModifiedBy?: string | undefined;
+  LastModifiedDate?: string | undefined;
+  Platform?: string | undefined;
+  Version?: number | undefined;
 }
 export interface DeleteAdmChannelResponse {
   ADMChannelResponse: ADMChannelResponse & { Platform: string };
@@ -1425,18 +1426,18 @@ export interface DeleteApnsChannelRequest {
   ApplicationId: string;
 }
 export interface APNSChannelResponse {
-  ApplicationId?: string;
-  CreationDate?: string;
-  DefaultAuthenticationMethod?: string;
-  Enabled?: boolean;
-  HasCredential?: boolean;
-  HasTokenKey?: boolean;
-  Id?: string;
-  IsArchived?: boolean;
-  LastModifiedBy?: string;
-  LastModifiedDate?: string;
-  Platform?: string;
-  Version?: number;
+  ApplicationId?: string | undefined;
+  CreationDate?: string | undefined;
+  DefaultAuthenticationMethod?: string | undefined;
+  Enabled?: boolean | undefined;
+  HasCredential?: boolean | undefined;
+  HasTokenKey?: boolean | undefined;
+  Id?: string | undefined;
+  IsArchived?: boolean | undefined;
+  LastModifiedBy?: string | undefined;
+  LastModifiedDate?: string | undefined;
+  Platform?: string | undefined;
+  Version?: number | undefined;
 }
 export interface DeleteApnsChannelResponse {
   APNSChannelResponse: APNSChannelResponse & { Platform: string };
@@ -1445,18 +1446,18 @@ export interface DeleteApnsSandboxChannelRequest {
   ApplicationId: string;
 }
 export interface APNSSandboxChannelResponse {
-  ApplicationId?: string;
-  CreationDate?: string;
-  DefaultAuthenticationMethod?: string;
-  Enabled?: boolean;
-  HasCredential?: boolean;
-  HasTokenKey?: boolean;
-  Id?: string;
-  IsArchived?: boolean;
-  LastModifiedBy?: string;
-  LastModifiedDate?: string;
-  Platform?: string;
-  Version?: number;
+  ApplicationId?: string | undefined;
+  CreationDate?: string | undefined;
+  DefaultAuthenticationMethod?: string | undefined;
+  Enabled?: boolean | undefined;
+  HasCredential?: boolean | undefined;
+  HasTokenKey?: boolean | undefined;
+  Id?: string | undefined;
+  IsArchived?: boolean | undefined;
+  LastModifiedBy?: string | undefined;
+  LastModifiedDate?: string | undefined;
+  Platform?: string | undefined;
+  Version?: number | undefined;
 }
 export interface DeleteApnsSandboxChannelResponse {
   APNSSandboxChannelResponse: APNSSandboxChannelResponse & { Platform: string };
@@ -1465,18 +1466,18 @@ export interface DeleteApnsVoipChannelRequest {
   ApplicationId: string;
 }
 export interface APNSVoipChannelResponse {
-  ApplicationId?: string;
-  CreationDate?: string;
-  DefaultAuthenticationMethod?: string;
-  Enabled?: boolean;
-  HasCredential?: boolean;
-  HasTokenKey?: boolean;
-  Id?: string;
-  IsArchived?: boolean;
-  LastModifiedBy?: string;
-  LastModifiedDate?: string;
-  Platform?: string;
-  Version?: number;
+  ApplicationId?: string | undefined;
+  CreationDate?: string | undefined;
+  DefaultAuthenticationMethod?: string | undefined;
+  Enabled?: boolean | undefined;
+  HasCredential?: boolean | undefined;
+  HasTokenKey?: boolean | undefined;
+  Id?: string | undefined;
+  IsArchived?: boolean | undefined;
+  LastModifiedBy?: string | undefined;
+  LastModifiedDate?: string | undefined;
+  Platform?: string | undefined;
+  Version?: number | undefined;
 }
 export interface DeleteApnsVoipChannelResponse {
   APNSVoipChannelResponse: APNSVoipChannelResponse & { Platform: string };
@@ -1485,18 +1486,18 @@ export interface DeleteApnsVoipSandboxChannelRequest {
   ApplicationId: string;
 }
 export interface APNSVoipSandboxChannelResponse {
-  ApplicationId?: string;
-  CreationDate?: string;
-  DefaultAuthenticationMethod?: string;
-  Enabled?: boolean;
-  HasCredential?: boolean;
-  HasTokenKey?: boolean;
-  Id?: string;
-  IsArchived?: boolean;
-  LastModifiedBy?: string;
-  LastModifiedDate?: string;
-  Platform?: string;
-  Version?: number;
+  ApplicationId?: string | undefined;
+  CreationDate?: string | undefined;
+  DefaultAuthenticationMethod?: string | undefined;
+  Enabled?: boolean | undefined;
+  HasCredential?: boolean | undefined;
+  HasTokenKey?: boolean | undefined;
+  Id?: string | undefined;
+  IsArchived?: boolean | undefined;
+  LastModifiedBy?: string | undefined;
+  LastModifiedDate?: string | undefined;
+  Platform?: string | undefined;
+  Version?: number | undefined;
 }
 export interface DeleteApnsVoipSandboxChannelResponse {
   APNSVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse & { Platform: string };
@@ -1511,17 +1512,17 @@ export interface DeleteBaiduChannelRequest {
   ApplicationId: string;
 }
 export interface BaiduChannelResponse {
-  ApplicationId?: string;
-  CreationDate?: string;
-  Credential?: string;
-  Enabled?: boolean;
-  HasCredential?: boolean;
-  Id?: string;
-  IsArchived?: boolean;
-  LastModifiedBy?: string;
-  LastModifiedDate?: string;
-  Platform?: string;
-  Version?: number;
+  ApplicationId?: string | undefined;
+  CreationDate?: string | undefined;
+  Credential?: string | undefined;
+  Enabled?: boolean | undefined;
+  HasCredential?: boolean | undefined;
+  Id?: string | undefined;
+  IsArchived?: boolean | undefined;
+  LastModifiedBy?: string | undefined;
+  LastModifiedDate?: string | undefined;
+  Platform?: string | undefined;
+  Version?: number | undefined;
 }
 export interface DeleteBaiduChannelResponse {
   BaiduChannelResponse: BaiduChannelResponse & { Credential: string; Platform: string };
@@ -1653,33 +1654,33 @@ export interface DeleteEmailChannelRequest {
   ApplicationId: string;
 }
 export interface EmailChannelResponse {
-  ApplicationId?: string;
-  ConfigurationSet?: string;
-  CreationDate?: string;
-  Enabled?: boolean;
-  FromAddress?: string;
-  HasCredential?: boolean;
-  Id?: string;
-  Identity?: string;
-  IsArchived?: boolean;
-  LastModifiedBy?: string;
-  LastModifiedDate?: string;
-  MessagesPerSecond?: number;
-  Platform?: string;
-  RoleArn?: string;
-  OrchestrationSendingRoleArn?: string;
-  Version?: number;
+  ApplicationId?: string | undefined;
+  ConfigurationSet?: string | undefined;
+  CreationDate?: string | undefined;
+  Enabled?: boolean | undefined;
+  FromAddress?: string | undefined;
+  HasCredential?: boolean | undefined;
+  Id?: string | undefined;
+  Identity?: string | undefined;
+  IsArchived?: boolean | undefined;
+  LastModifiedBy?: string | undefined;
+  LastModifiedDate?: string | undefined;
+  MessagesPerSecond?: number | undefined;
+  Platform?: string | undefined;
+  RoleArn?: string | undefined;
+  OrchestrationSendingRoleArn?: string | undefined;
+  Version?: number | undefined;
 }
 export interface DeleteEmailChannelResponse {
   EmailChannelResponse: EmailChannelResponse & { Platform: string };
 }
 export interface DeleteEmailTemplateRequest {
   TemplateName: string;
-  Version?: string;
+  Version?: string | undefined;
 }
 export interface MessageBody {
-  Message?: string;
-  RequestID?: string;
+  Message?: string | undefined;
+  RequestID?: string | undefined;
 }
 export interface DeleteEmailTemplateResponse {
   MessageBody: MessageBody;
@@ -1705,44 +1706,44 @@ export type ChannelType =
   | "IN_APP"
   | (string & {});
 export interface EndpointDemographic {
-  AppVersion?: string;
-  Locale?: string;
-  Make?: string;
-  Model?: string;
-  ModelVersion?: string;
-  Platform?: string;
-  PlatformVersion?: string;
-  Timezone?: string;
+  AppVersion?: string | undefined;
+  Locale?: string | undefined;
+  Make?: string | undefined;
+  Model?: string | undefined;
+  ModelVersion?: string | undefined;
+  Platform?: string | undefined;
+  PlatformVersion?: string | undefined;
+  Timezone?: string | undefined;
 }
 export interface EndpointLocation {
-  City?: string;
-  Country?: string;
-  Latitude?: number;
-  Longitude?: number;
-  PostalCode?: string;
-  Region?: string;
+  City?: string | undefined;
+  Country?: string | undefined;
+  Latitude?: number | undefined;
+  Longitude?: number | undefined;
+  PostalCode?: string | undefined;
+  Region?: string | undefined;
 }
 export type MapOf__double = { [key: string]: number | undefined };
 export interface EndpointUser {
-  UserAttributes?: { [key: string]: string[] | undefined };
-  UserId?: string;
+  UserAttributes?: { [key: string]: string[] | undefined } | undefined;
+  UserId?: string | undefined;
 }
 export interface EndpointResponse {
-  Address?: string;
-  ApplicationId?: string;
-  Attributes?: { [key: string]: string[] | undefined };
-  ChannelType?: ChannelType;
-  CohortId?: string;
-  CreationDate?: string;
-  Demographic?: EndpointDemographic;
-  EffectiveDate?: string;
-  EndpointStatus?: string;
-  Id?: string;
-  Location?: EndpointLocation;
-  Metrics?: { [key: string]: number | undefined };
-  OptOut?: string;
-  RequestId?: string;
-  User?: EndpointUser;
+  Address?: string | undefined;
+  ApplicationId?: string | undefined;
+  Attributes?: { [key: string]: string[] | undefined } | undefined;
+  ChannelType?: ChannelType | undefined;
+  CohortId?: string | undefined;
+  CreationDate?: string | undefined;
+  Demographic?: EndpointDemographic | undefined;
+  EffectiveDate?: string | undefined;
+  EndpointStatus?: string | undefined;
+  Id?: string | undefined;
+  Location?: EndpointLocation | undefined;
+  Metrics?: { [key: string]: number | undefined } | undefined;
+  OptOut?: string | undefined;
+  RequestId?: string | undefined;
+  User?: EndpointUser | undefined;
 }
 export interface DeleteEndpointResponse {
   EndpointResponse: EndpointResponse;
@@ -1751,12 +1752,12 @@ export interface DeleteEventStreamRequest {
   ApplicationId: string;
 }
 export interface EventStream {
-  ApplicationId?: string;
-  DestinationStreamArn?: string;
-  ExternalId?: string;
-  LastModifiedDate?: string;
-  LastUpdatedBy?: string;
-  RoleArn?: string;
+  ApplicationId?: string | undefined;
+  DestinationStreamArn?: string | undefined;
+  ExternalId?: string | undefined;
+  LastModifiedDate?: string | undefined;
+  LastUpdatedBy?: string | undefined;
+  RoleArn?: string | undefined;
 }
 export interface DeleteEventStreamResponse {
   EventStream: EventStream & {
@@ -1769,26 +1770,26 @@ export interface DeleteGcmChannelRequest {
   ApplicationId: string;
 }
 export interface GCMChannelResponse {
-  ApplicationId?: string;
-  CreationDate?: string;
-  Credential?: string;
-  DefaultAuthenticationMethod?: string;
-  Enabled?: boolean;
-  HasCredential?: boolean;
-  HasFcmServiceCredentials?: boolean;
-  Id?: string;
-  IsArchived?: boolean;
-  LastModifiedBy?: string;
-  LastModifiedDate?: string;
-  Platform?: string;
-  Version?: number;
+  ApplicationId?: string | undefined;
+  CreationDate?: string | undefined;
+  Credential?: string | undefined;
+  DefaultAuthenticationMethod?: string | undefined;
+  Enabled?: boolean | undefined;
+  HasCredential?: boolean | undefined;
+  HasFcmServiceCredentials?: boolean | undefined;
+  Id?: string | undefined;
+  IsArchived?: boolean | undefined;
+  LastModifiedBy?: string | undefined;
+  LastModifiedDate?: string | undefined;
+  Platform?: string | undefined;
+  Version?: number | undefined;
 }
 export interface DeleteGcmChannelResponse {
   GCMChannelResponse: GCMChannelResponse & { Platform: string };
 }
 export interface DeleteInAppTemplateRequest {
   TemplateName: string;
-  Version?: string;
+  Version?: string | undefined;
 }
 export interface DeleteInAppTemplateResponse {
   MessageBody: MessageBody;
@@ -1936,7 +1937,7 @@ export interface DeleteJourneyResponse {
 }
 export interface DeletePushTemplateRequest {
   TemplateName: string;
-  Version?: string;
+  Version?: string | undefined;
 }
 export interface DeletePushTemplateResponse {
   MessageBody: MessageBody;
@@ -2040,27 +2041,27 @@ export interface DeleteSmsChannelRequest {
   ApplicationId: string;
 }
 export interface SMSChannelResponse {
-  ApplicationId?: string;
-  CreationDate?: string;
-  Enabled?: boolean;
-  HasCredential?: boolean;
-  Id?: string;
-  IsArchived?: boolean;
-  LastModifiedBy?: string;
-  LastModifiedDate?: string;
-  Platform?: string;
-  PromotionalMessagesPerSecond?: number;
-  SenderId?: string;
-  ShortCode?: string;
-  TransactionalMessagesPerSecond?: number;
-  Version?: number;
+  ApplicationId?: string | undefined;
+  CreationDate?: string | undefined;
+  Enabled?: boolean | undefined;
+  HasCredential?: boolean | undefined;
+  Id?: string | undefined;
+  IsArchived?: boolean | undefined;
+  LastModifiedBy?: string | undefined;
+  LastModifiedDate?: string | undefined;
+  Platform?: string | undefined;
+  PromotionalMessagesPerSecond?: number | undefined;
+  SenderId?: string | undefined;
+  ShortCode?: string | undefined;
+  TransactionalMessagesPerSecond?: number | undefined;
+  Version?: number | undefined;
 }
 export interface DeleteSmsChannelResponse {
   SMSChannelResponse: SMSChannelResponse & { Platform: string };
 }
 export interface DeleteSmsTemplateRequest {
   TemplateName: string;
-  Version?: string;
+  Version?: string | undefined;
 }
 export interface DeleteSmsTemplateResponse {
   MessageBody: MessageBody;
@@ -2071,7 +2072,7 @@ export interface DeleteUserEndpointsRequest {
 }
 export type ListOfEndpointResponse = EndpointResponse[];
 export interface EndpointsResponse {
-  Item?: EndpointResponse[];
+  Item?: EndpointResponse[] | undefined;
 }
 export interface DeleteUserEndpointsResponse {
   EndpointsResponse: EndpointsResponse & { Item: ListOfEndpointResponse };
@@ -2080,23 +2081,23 @@ export interface DeleteVoiceChannelRequest {
   ApplicationId: string;
 }
 export interface VoiceChannelResponse {
-  ApplicationId?: string;
-  CreationDate?: string;
-  Enabled?: boolean;
-  HasCredential?: boolean;
-  Id?: string;
-  IsArchived?: boolean;
-  LastModifiedBy?: string;
-  LastModifiedDate?: string;
-  Platform?: string;
-  Version?: number;
+  ApplicationId?: string | undefined;
+  CreationDate?: string | undefined;
+  Enabled?: boolean | undefined;
+  HasCredential?: boolean | undefined;
+  Id?: string | undefined;
+  IsArchived?: boolean | undefined;
+  LastModifiedBy?: string | undefined;
+  LastModifiedDate?: string | undefined;
+  Platform?: string | undefined;
+  Version?: number | undefined;
 }
 export interface DeleteVoiceChannelResponse {
   VoiceChannelResponse: VoiceChannelResponse & { Platform: string };
 }
 export interface DeleteVoiceTemplateRequest {
   TemplateName: string;
-  Version?: string;
+  Version?: string | undefined;
 }
 export interface DeleteVoiceTemplateResponse {
   MessageBody: MessageBody;
@@ -2139,33 +2140,33 @@ export interface GetAppResponse {
 }
 export interface GetApplicationDateRangeKpiRequest {
   ApplicationId: string;
-  EndTime?: Date;
+  EndTime?: Date | undefined;
   KpiName: string;
-  NextToken?: string;
-  PageSize?: string;
-  StartTime?: Date;
+  NextToken?: string | undefined;
+  PageSize?: string | undefined;
+  StartTime?: Date | undefined;
 }
 export interface ResultRowValue {
-  Key?: string;
-  Type?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Type?: string | undefined;
+  Value?: string | undefined;
 }
 export type ListOfResultRowValue = ResultRowValue[];
 export interface ResultRow {
-  GroupedBys?: ResultRowValue[];
-  Values?: ResultRowValue[];
+  GroupedBys?: ResultRowValue[] | undefined;
+  Values?: ResultRowValue[] | undefined;
 }
 export type ListOfResultRow = ResultRow[];
 export interface BaseKpiResult {
-  Rows?: ResultRow[];
+  Rows?: ResultRow[] | undefined;
 }
 export interface ApplicationDateRangeKpiResponse {
-  ApplicationId?: string;
-  EndTime?: Date;
-  KpiName?: string;
-  KpiResult?: BaseKpiResult;
-  NextToken?: string;
-  StartTime?: Date;
+  ApplicationId?: string | undefined;
+  EndTime?: Date | undefined;
+  KpiName?: string | undefined;
+  KpiResult?: BaseKpiResult | undefined;
+  NextToken?: string | undefined;
+  StartTime?: Date | undefined;
 }
 export interface GetApplicationDateRangeKpiResponse {
   ApplicationDateRangeKpiResponse: ApplicationDateRangeKpiResponse & {
@@ -2185,29 +2186,29 @@ export interface GetApplicationSettingsRequest {
   ApplicationId: string;
 }
 export interface ApplicationSettingsJourneyLimits {
-  DailyCap?: number;
-  TimeframeCap?: JourneyTimeframeCap;
-  TotalCap?: number;
+  DailyCap?: number | undefined;
+  TimeframeCap?: JourneyTimeframeCap | undefined;
+  TotalCap?: number | undefined;
 }
 export interface ApplicationSettingsResource {
-  ApplicationId?: string;
-  CampaignHook?: CampaignHook;
-  LastModifiedDate?: string;
-  Limits?: CampaignLimits;
-  QuietTime?: QuietTime;
-  JourneyLimits?: ApplicationSettingsJourneyLimits;
+  ApplicationId?: string | undefined;
+  CampaignHook?: CampaignHook | undefined;
+  LastModifiedDate?: string | undefined;
+  Limits?: CampaignLimits | undefined;
+  QuietTime?: QuietTime | undefined;
+  JourneyLimits?: ApplicationSettingsJourneyLimits | undefined;
 }
 export interface GetApplicationSettingsResponse {
   ApplicationSettingsResource: ApplicationSettingsResource & { ApplicationId: string };
 }
 export interface GetAppsRequest {
-  PageSize?: string;
-  Token?: string;
+  PageSize?: string | undefined;
+  Token?: string | undefined;
 }
 export type ListOfApplicationResponse = ApplicationResponse[];
 export interface ApplicationsResponse {
-  Item?: ApplicationResponse[];
-  NextToken?: string;
+  Item?: ApplicationResponse[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetAppsResponse {
   ApplicationsResponse: ApplicationsResponse & {
@@ -2346,29 +2347,29 @@ export interface GetCampaignResponse {
 export interface GetCampaignActivitiesRequest {
   ApplicationId: string;
   CampaignId: string;
-  PageSize?: string;
-  Token?: string;
+  PageSize?: string | undefined;
+  Token?: string | undefined;
 }
 export interface ActivityResponse {
-  ApplicationId?: string;
-  CampaignId?: string;
-  End?: string;
-  Id?: string;
-  Result?: string;
-  ScheduledStart?: string;
-  Start?: string;
-  State?: string;
-  SuccessfulEndpointCount?: number;
-  TimezonesCompletedCount?: number;
-  TimezonesTotalCount?: number;
-  TotalEndpointCount?: number;
-  TreatmentId?: string;
-  ExecutionMetrics?: { [key: string]: string | undefined };
+  ApplicationId?: string | undefined;
+  CampaignId?: string | undefined;
+  End?: string | undefined;
+  Id?: string | undefined;
+  Result?: string | undefined;
+  ScheduledStart?: string | undefined;
+  Start?: string | undefined;
+  State?: string | undefined;
+  SuccessfulEndpointCount?: number | undefined;
+  TimezonesCompletedCount?: number | undefined;
+  TimezonesTotalCount?: number | undefined;
+  TotalEndpointCount?: number | undefined;
+  TreatmentId?: string | undefined;
+  ExecutionMetrics?: { [key: string]: string | undefined } | undefined;
 }
 export type ListOfActivityResponse = ActivityResponse[];
 export interface ActivitiesResponse {
-  Item?: ActivityResponse[];
-  NextToken?: string;
+  Item?: ActivityResponse[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetCampaignActivitiesResponse {
   ActivitiesResponse: ActivitiesResponse & {
@@ -2378,20 +2379,20 @@ export interface GetCampaignActivitiesResponse {
 export interface GetCampaignDateRangeKpiRequest {
   ApplicationId: string;
   CampaignId: string;
-  EndTime?: Date;
+  EndTime?: Date | undefined;
   KpiName: string;
-  NextToken?: string;
-  PageSize?: string;
-  StartTime?: Date;
+  NextToken?: string | undefined;
+  PageSize?: string | undefined;
+  StartTime?: Date | undefined;
 }
 export interface CampaignDateRangeKpiResponse {
-  ApplicationId?: string;
-  CampaignId?: string;
-  EndTime?: Date;
-  KpiName?: string;
-  KpiResult?: BaseKpiResult;
-  NextToken?: string;
-  StartTime?: Date;
+  ApplicationId?: string | undefined;
+  CampaignId?: string | undefined;
+  EndTime?: Date | undefined;
+  KpiName?: string | undefined;
+  KpiResult?: BaseKpiResult | undefined;
+  NextToken?: string | undefined;
+  StartTime?: Date | undefined;
 }
 export interface GetCampaignDateRangeKpiResponse {
   CampaignDateRangeKpiResponse: CampaignDateRangeKpiResponse & {
@@ -2410,13 +2411,13 @@ export interface GetCampaignDateRangeKpiResponse {
 }
 export interface GetCampaignsRequest {
   ApplicationId: string;
-  PageSize?: string;
-  Token?: string;
+  PageSize?: string | undefined;
+  Token?: string | undefined;
 }
 export type ListOfCampaignResponse = CampaignResponse[];
 export interface CampaignsResponse {
-  Item?: CampaignResponse[];
-  NextToken?: string;
+  Item?: CampaignResponse[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetCampaignsResponse {
   CampaignsResponse: CampaignsResponse & {
@@ -2666,8 +2667,8 @@ export interface GetCampaignVersionResponse {
 export interface GetCampaignVersionsRequest {
   ApplicationId: string;
   CampaignId: string;
-  PageSize?: string;
-  Token?: string;
+  PageSize?: string | undefined;
+  Token?: string | undefined;
 }
 export interface GetCampaignVersionsResponse {
   CampaignsResponse: CampaignsResponse & {
@@ -2794,19 +2795,19 @@ export interface GetChannelsRequest {
   ApplicationId: string;
 }
 export interface ChannelResponse {
-  ApplicationId?: string;
-  CreationDate?: string;
-  Enabled?: boolean;
-  HasCredential?: boolean;
-  Id?: string;
-  IsArchived?: boolean;
-  LastModifiedBy?: string;
-  LastModifiedDate?: string;
-  Version?: number;
+  ApplicationId?: string | undefined;
+  CreationDate?: string | undefined;
+  Enabled?: boolean | undefined;
+  HasCredential?: boolean | undefined;
+  Id?: string | undefined;
+  IsArchived?: boolean | undefined;
+  LastModifiedBy?: string | undefined;
+  LastModifiedDate?: string | undefined;
+  Version?: number | undefined;
 }
 export type MapOfChannelResponse = { [key: string]: ChannelResponse | undefined };
 export interface ChannelsResponse {
-  Channels?: { [key: string]: ChannelResponse | undefined };
+  Channels?: { [key: string]: ChannelResponse | undefined } | undefined;
 }
 export interface GetChannelsResponse {
   ChannelsResponse: ChannelsResponse & { Channels: MapOfChannelResponse };
@@ -2819,24 +2820,24 @@ export interface GetEmailChannelResponse {
 }
 export interface GetEmailTemplateRequest {
   TemplateName: string;
-  Version?: string;
+  Version?: string | undefined;
 }
 export type TemplateType = "EMAIL" | "SMS" | "VOICE" | "PUSH" | "INAPP" | (string & {});
 export interface EmailTemplateResponse {
-  Arn?: string;
-  CreationDate?: string;
-  DefaultSubstitutions?: string;
-  HtmlPart?: string;
-  LastModifiedDate?: string;
-  RecommenderId?: string;
-  Subject?: string;
-  Headers?: MessageHeader[];
-  tags?: { [key: string]: string | undefined };
-  TemplateDescription?: string;
-  TemplateName?: string;
-  TemplateType?: TemplateType;
-  TextPart?: string;
-  Version?: string;
+  Arn?: string | undefined;
+  CreationDate?: string | undefined;
+  DefaultSubstitutions?: string | undefined;
+  HtmlPart?: string | undefined;
+  LastModifiedDate?: string | undefined;
+  RecommenderId?: string | undefined;
+  Subject?: string | undefined;
+  Headers?: MessageHeader[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  TemplateDescription?: string | undefined;
+  TemplateName?: string | undefined;
+  TemplateType?: TemplateType | undefined;
+  TextPart?: string | undefined;
+  Version?: string | undefined;
 }
 export interface GetEmailTemplateResponse {
   EmailTemplateResponse: EmailTemplateResponse & {
@@ -2879,13 +2880,13 @@ export interface GetExportJobResponse {
 }
 export interface GetExportJobsRequest {
   ApplicationId: string;
-  PageSize?: string;
-  Token?: string;
+  PageSize?: string | undefined;
+  Token?: string | undefined;
 }
 export type ListOfExportJobResponse = ExportJobResponse[];
 export interface ExportJobsResponse {
-  Item?: ExportJobResponse[];
-  NextToken?: string;
+  Item?: ExportJobResponse[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetExportJobsResponse {
   ExportJobsResponse: ExportJobsResponse & {
@@ -2921,13 +2922,13 @@ export interface GetImportJobResponse {
 }
 export interface GetImportJobsRequest {
   ApplicationId: string;
-  PageSize?: string;
-  Token?: string;
+  PageSize?: string | undefined;
+  Token?: string | undefined;
 }
 export type ListOfImportJobResponse = ImportJobResponse[];
 export interface ImportJobsResponse {
-  Item?: ImportJobResponse[];
-  NextToken?: string;
+  Item?: ImportJobResponse[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetImportJobsResponse {
   ImportJobsResponse: ImportJobsResponse & {
@@ -2946,28 +2947,28 @@ export interface GetInAppMessagesRequest {
   EndpointId: string;
 }
 export interface InAppMessage {
-  Content?: InAppMessageContent[];
-  CustomConfig?: { [key: string]: string | undefined };
-  Layout?: Layout;
+  Content?: InAppMessageContent[] | undefined;
+  CustomConfig?: { [key: string]: string | undefined } | undefined;
+  Layout?: Layout | undefined;
 }
 export interface InAppCampaignSchedule {
-  EndDate?: string;
-  EventFilter?: CampaignEventFilter;
-  QuietTime?: QuietTime;
+  EndDate?: string | undefined;
+  EventFilter?: CampaignEventFilter | undefined;
+  QuietTime?: QuietTime | undefined;
 }
 export interface InAppMessageCampaign {
-  CampaignId?: string;
-  DailyCap?: number;
-  InAppMessage?: InAppMessage;
-  Priority?: number;
-  Schedule?: InAppCampaignSchedule;
-  SessionCap?: number;
-  TotalCap?: number;
-  TreatmentId?: string;
+  CampaignId?: string | undefined;
+  DailyCap?: number | undefined;
+  InAppMessage?: InAppMessage | undefined;
+  Priority?: number | undefined;
+  Schedule?: InAppCampaignSchedule | undefined;
+  SessionCap?: number | undefined;
+  TotalCap?: number | undefined;
+  TreatmentId?: string | undefined;
 }
 export type ListOfInAppMessageCampaign = InAppMessageCampaign[];
 export interface InAppMessagesResponse {
-  InAppMessageCampaigns?: InAppMessageCampaign[];
+  InAppMessageCampaigns?: InAppMessageCampaign[] | undefined;
 }
 export interface GetInAppMessagesResponse {
   InAppMessagesResponse: InAppMessagesResponse & {
@@ -3025,20 +3026,20 @@ export interface GetInAppMessagesResponse {
 }
 export interface GetInAppTemplateRequest {
   TemplateName: string;
-  Version?: string;
+  Version?: string | undefined;
 }
 export interface InAppTemplateResponse {
-  Arn?: string;
-  Content?: InAppMessageContent[];
-  CreationDate?: string;
-  CustomConfig?: { [key: string]: string | undefined };
-  LastModifiedDate?: string;
-  Layout?: Layout;
-  tags?: { [key: string]: string | undefined };
-  TemplateDescription?: string;
-  TemplateName?: string;
-  TemplateType?: TemplateType;
-  Version?: string;
+  Arn?: string | undefined;
+  Content?: InAppMessageContent[] | undefined;
+  CreationDate?: string | undefined;
+  CustomConfig?: { [key: string]: string | undefined } | undefined;
+  LastModifiedDate?: string | undefined;
+  Layout?: Layout | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  TemplateDescription?: string | undefined;
+  TemplateName?: string | undefined;
+  TemplateType?: TemplateType | undefined;
+  Version?: string | undefined;
 }
 export interface GetInAppTemplateResponse {
   InAppTemplateResponse: InAppTemplateResponse & {
@@ -3215,21 +3216,21 @@ export interface GetJourneyResponse {
 }
 export interface GetJourneyDateRangeKpiRequest {
   ApplicationId: string;
-  EndTime?: Date;
+  EndTime?: Date | undefined;
   JourneyId: string;
   KpiName: string;
-  NextToken?: string;
-  PageSize?: string;
-  StartTime?: Date;
+  NextToken?: string | undefined;
+  PageSize?: string | undefined;
+  StartTime?: Date | undefined;
 }
 export interface JourneyDateRangeKpiResponse {
-  ApplicationId?: string;
-  EndTime?: Date;
-  JourneyId?: string;
-  KpiName?: string;
-  KpiResult?: BaseKpiResult;
-  NextToken?: string;
-  StartTime?: Date;
+  ApplicationId?: string | undefined;
+  EndTime?: Date | undefined;
+  JourneyId?: string | undefined;
+  KpiName?: string | undefined;
+  KpiResult?: BaseKpiResult | undefined;
+  NextToken?: string | undefined;
+  StartTime?: Date | undefined;
 }
 export interface GetJourneyDateRangeKpiResponse {
   JourneyDateRangeKpiResponse: JourneyDateRangeKpiResponse & {
@@ -3250,16 +3251,16 @@ export interface GetJourneyExecutionActivityMetricsRequest {
   ApplicationId: string;
   JourneyActivityId: string;
   JourneyId: string;
-  NextToken?: string;
-  PageSize?: string;
+  NextToken?: string | undefined;
+  PageSize?: string | undefined;
 }
 export interface JourneyExecutionActivityMetricsResponse {
-  ActivityType?: string;
-  ApplicationId?: string;
-  JourneyActivityId?: string;
-  JourneyId?: string;
-  LastEvaluatedTime?: string;
-  Metrics?: { [key: string]: string | undefined };
+  ActivityType?: string | undefined;
+  ApplicationId?: string | undefined;
+  JourneyActivityId?: string | undefined;
+  JourneyId?: string | undefined;
+  LastEvaluatedTime?: string | undefined;
+  Metrics?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetJourneyExecutionActivityMetricsResponse {
   JourneyExecutionActivityMetricsResponse: JourneyExecutionActivityMetricsResponse & {
@@ -3274,14 +3275,14 @@ export interface GetJourneyExecutionActivityMetricsResponse {
 export interface GetJourneyExecutionMetricsRequest {
   ApplicationId: string;
   JourneyId: string;
-  NextToken?: string;
-  PageSize?: string;
+  NextToken?: string | undefined;
+  PageSize?: string | undefined;
 }
 export interface JourneyExecutionMetricsResponse {
-  ApplicationId?: string;
-  JourneyId?: string;
-  LastEvaluatedTime?: string;
-  Metrics?: { [key: string]: string | undefined };
+  ApplicationId?: string | undefined;
+  JourneyId?: string | undefined;
+  LastEvaluatedTime?: string | undefined;
+  Metrics?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetJourneyExecutionMetricsResponse {
   JourneyExecutionMetricsResponse: JourneyExecutionMetricsResponse & {
@@ -3295,18 +3296,18 @@ export interface GetJourneyRunExecutionActivityMetricsRequest {
   ApplicationId: string;
   JourneyActivityId: string;
   JourneyId: string;
-  NextToken?: string;
-  PageSize?: string;
+  NextToken?: string | undefined;
+  PageSize?: string | undefined;
   RunId: string;
 }
 export interface JourneyRunExecutionActivityMetricsResponse {
-  ActivityType?: string;
-  ApplicationId?: string;
-  JourneyActivityId?: string;
-  JourneyId?: string;
-  LastEvaluatedTime?: string;
-  Metrics?: { [key: string]: string | undefined };
-  RunId?: string;
+  ActivityType?: string | undefined;
+  ApplicationId?: string | undefined;
+  JourneyActivityId?: string | undefined;
+  JourneyId?: string | undefined;
+  LastEvaluatedTime?: string | undefined;
+  Metrics?: { [key: string]: string | undefined } | undefined;
+  RunId?: string | undefined;
 }
 export interface GetJourneyRunExecutionActivityMetricsResponse {
   JourneyRunExecutionActivityMetricsResponse: JourneyRunExecutionActivityMetricsResponse & {
@@ -3322,16 +3323,16 @@ export interface GetJourneyRunExecutionActivityMetricsResponse {
 export interface GetJourneyRunExecutionMetricsRequest {
   ApplicationId: string;
   JourneyId: string;
-  NextToken?: string;
-  PageSize?: string;
+  NextToken?: string | undefined;
+  PageSize?: string | undefined;
   RunId: string;
 }
 export interface JourneyRunExecutionMetricsResponse {
-  ApplicationId?: string;
-  JourneyId?: string;
-  LastEvaluatedTime?: string;
-  Metrics?: { [key: string]: string | undefined };
-  RunId?: string;
+  ApplicationId?: string | undefined;
+  JourneyId?: string | undefined;
+  LastEvaluatedTime?: string | undefined;
+  Metrics?: { [key: string]: string | undefined } | undefined;
+  RunId?: string | undefined;
 }
 export interface GetJourneyRunExecutionMetricsResponse {
   JourneyRunExecutionMetricsResponse: JourneyRunExecutionMetricsResponse & {
@@ -3345,20 +3346,20 @@ export interface GetJourneyRunExecutionMetricsResponse {
 export interface GetJourneyRunsRequest {
   ApplicationId: string;
   JourneyId: string;
-  PageSize?: string;
-  Token?: string;
+  PageSize?: string | undefined;
+  Token?: string | undefined;
 }
 export type JourneyRunStatus = "SCHEDULED" | "RUNNING" | "COMPLETED" | "CANCELLED" | (string & {});
 export interface JourneyRunResponse {
-  CreationTime?: string;
-  LastUpdateTime?: string;
-  RunId?: string;
-  Status?: JourneyRunStatus;
+  CreationTime?: string | undefined;
+  LastUpdateTime?: string | undefined;
+  RunId?: string | undefined;
+  Status?: JourneyRunStatus | undefined;
 }
 export type ListOfJourneyRunResponse = JourneyRunResponse[];
 export interface JourneyRunsResponse {
-  Item?: JourneyRunResponse[];
-  NextToken?: string;
+  Item?: JourneyRunResponse[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetJourneyRunsResponse {
   JourneyRunsResponse: JourneyRunsResponse & {
@@ -3372,24 +3373,24 @@ export interface GetJourneyRunsResponse {
 }
 export interface GetPushTemplateRequest {
   TemplateName: string;
-  Version?: string;
+  Version?: string | undefined;
 }
 export interface PushNotificationTemplateResponse {
-  ADM?: AndroidPushNotificationTemplate;
-  APNS?: APNSPushNotificationTemplate;
-  Arn?: string;
-  Baidu?: AndroidPushNotificationTemplate;
-  CreationDate?: string;
-  Default?: DefaultPushNotificationTemplate;
-  DefaultSubstitutions?: string;
-  GCM?: AndroidPushNotificationTemplate;
-  LastModifiedDate?: string;
-  RecommenderId?: string;
-  tags?: { [key: string]: string | undefined };
-  TemplateDescription?: string;
-  TemplateName?: string;
-  TemplateType?: TemplateType;
-  Version?: string;
+  ADM?: AndroidPushNotificationTemplate | undefined;
+  APNS?: APNSPushNotificationTemplate | undefined;
+  Arn?: string | undefined;
+  Baidu?: AndroidPushNotificationTemplate | undefined;
+  CreationDate?: string | undefined;
+  Default?: DefaultPushNotificationTemplate | undefined;
+  DefaultSubstitutions?: string | undefined;
+  GCM?: AndroidPushNotificationTemplate | undefined;
+  LastModifiedDate?: string | undefined;
+  RecommenderId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  TemplateDescription?: string | undefined;
+  TemplateName?: string | undefined;
+  TemplateType?: TemplateType | undefined;
+  Version?: string | undefined;
 }
 export interface GetPushTemplateResponse {
   PushNotificationTemplateResponse: PushNotificationTemplateResponse & {
@@ -3412,13 +3413,13 @@ export interface GetRecommenderConfigurationResponse {
   };
 }
 export interface GetRecommenderConfigurationsRequest {
-  PageSize?: string;
-  Token?: string;
+  PageSize?: string | undefined;
+  Token?: string | undefined;
 }
 export type ListOfRecommenderConfigurationResponse = RecommenderConfigurationResponse[];
 export interface ListRecommenderConfigurationsResponse {
-  Item?: RecommenderConfigurationResponse[];
-  NextToken?: string;
+  Item?: RecommenderConfigurationResponse[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetRecommenderConfigurationsResponse {
   ListRecommenderConfigurationsResponse: ListRecommenderConfigurationsResponse & {
@@ -3516,9 +3517,9 @@ export interface GetSegmentResponse {
 }
 export interface GetSegmentExportJobsRequest {
   ApplicationId: string;
-  PageSize?: string;
+  PageSize?: string | undefined;
   SegmentId: string;
-  Token?: string;
+  Token?: string | undefined;
 }
 export interface GetSegmentExportJobsResponse {
   ExportJobsResponse: ExportJobsResponse & {
@@ -3534,9 +3535,9 @@ export interface GetSegmentExportJobsResponse {
 }
 export interface GetSegmentImportJobsRequest {
   ApplicationId: string;
-  PageSize?: string;
+  PageSize?: string | undefined;
   SegmentId: string;
-  Token?: string;
+  Token?: string | undefined;
 }
 export interface GetSegmentImportJobsResponse {
   ImportJobsResponse: ImportJobsResponse & {
@@ -3552,13 +3553,13 @@ export interface GetSegmentImportJobsResponse {
 }
 export interface GetSegmentsRequest {
   ApplicationId: string;
-  PageSize?: string;
-  Token?: string;
+  PageSize?: string | undefined;
+  Token?: string | undefined;
 }
 export type ListOfSegmentResponse = SegmentResponse[];
 export interface SegmentsResponse {
-  Item?: SegmentResponse[];
-  NextToken?: string;
+  Item?: SegmentResponse[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetSegmentsResponse {
   SegmentsResponse: SegmentsResponse & {
@@ -3729,9 +3730,9 @@ export interface GetSegmentVersionResponse {
 }
 export interface GetSegmentVersionsRequest {
   ApplicationId: string;
-  PageSize?: string;
+  PageSize?: string | undefined;
   SegmentId: string;
-  Token?: string;
+  Token?: string | undefined;
 }
 export interface GetSegmentVersionsResponse {
   SegmentsResponse: SegmentsResponse & {
@@ -3824,20 +3825,20 @@ export interface GetSmsChannelResponse {
 }
 export interface GetSmsTemplateRequest {
   TemplateName: string;
-  Version?: string;
+  Version?: string | undefined;
 }
 export interface SMSTemplateResponse {
-  Arn?: string;
-  Body?: string;
-  CreationDate?: string;
-  DefaultSubstitutions?: string;
-  LastModifiedDate?: string;
-  RecommenderId?: string;
-  tags?: { [key: string]: string | undefined };
-  TemplateDescription?: string;
-  TemplateName?: string;
-  TemplateType?: TemplateType;
-  Version?: string;
+  Arn?: string | undefined;
+  Body?: string | undefined;
+  CreationDate?: string | undefined;
+  DefaultSubstitutions?: string | undefined;
+  LastModifiedDate?: string | undefined;
+  RecommenderId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  TemplateDescription?: string | undefined;
+  TemplateName?: string | undefined;
+  TemplateType?: TemplateType | undefined;
+  Version?: string | undefined;
 }
 export interface GetSmsTemplateResponse {
   SMSTemplateResponse: SMSTemplateResponse & {
@@ -3862,21 +3863,21 @@ export interface GetVoiceChannelResponse {
 }
 export interface GetVoiceTemplateRequest {
   TemplateName: string;
-  Version?: string;
+  Version?: string | undefined;
 }
 export interface VoiceTemplateResponse {
-  Arn?: string;
-  Body?: string;
-  CreationDate?: string;
-  DefaultSubstitutions?: string;
-  LanguageCode?: string;
-  LastModifiedDate?: string;
-  tags?: { [key: string]: string | undefined };
-  TemplateDescription?: string;
-  TemplateName?: string;
-  TemplateType?: TemplateType;
-  Version?: string;
-  VoiceId?: string;
+  Arn?: string | undefined;
+  Body?: string | undefined;
+  CreationDate?: string | undefined;
+  DefaultSubstitutions?: string | undefined;
+  LanguageCode?: string | undefined;
+  LastModifiedDate?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  TemplateDescription?: string | undefined;
+  TemplateName?: string | undefined;
+  TemplateType?: TemplateType | undefined;
+  Version?: string | undefined;
+  VoiceId?: string | undefined;
 }
 export interface GetVoiceTemplateResponse {
   VoiceTemplateResponse: VoiceTemplateResponse & {
@@ -3888,13 +3889,13 @@ export interface GetVoiceTemplateResponse {
 }
 export interface ListJourneysRequest {
   ApplicationId: string;
-  PageSize?: string;
-  Token?: string;
+  PageSize?: string | undefined;
+  Token?: string | undefined;
 }
 export type ListOfJourneyResponse = JourneyResponse[];
 export interface JourneysResponse {
-  Item?: JourneyResponse[];
-  NextToken?: string;
+  Item?: JourneyResponse[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListJourneysResponse {
   JourneysResponse: JourneysResponse & {
@@ -4053,32 +4054,32 @@ export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface TagsModel {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListTagsForResourceResponse {
   TagsModel: TagsModel & { tags: MapOf__string };
 }
 export interface ListTemplatesRequest {
-  NextToken?: string;
-  PageSize?: string;
-  Prefix?: string;
-  TemplateType?: string;
+  NextToken?: string | undefined;
+  PageSize?: string | undefined;
+  Prefix?: string | undefined;
+  TemplateType?: string | undefined;
 }
 export interface TemplateResponse {
-  Arn?: string;
-  CreationDate?: string;
-  DefaultSubstitutions?: string;
-  LastModifiedDate?: string;
-  tags?: { [key: string]: string | undefined };
-  TemplateDescription?: string;
-  TemplateName?: string;
-  TemplateType?: TemplateType;
-  Version?: string;
+  Arn?: string | undefined;
+  CreationDate?: string | undefined;
+  DefaultSubstitutions?: string | undefined;
+  LastModifiedDate?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  TemplateDescription?: string | undefined;
+  TemplateName?: string | undefined;
+  TemplateType?: TemplateType | undefined;
+  Version?: string | undefined;
 }
 export type ListOfTemplateResponse = TemplateResponse[];
 export interface TemplatesResponse {
-  Item?: TemplateResponse[];
-  NextToken?: string;
+  Item?: TemplateResponse[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTemplatesResponse {
   TemplatesResponse: TemplatesResponse & {
@@ -4091,26 +4092,26 @@ export interface ListTemplatesResponse {
   };
 }
 export interface ListTemplateVersionsRequest {
-  NextToken?: string;
-  PageSize?: string;
+  NextToken?: string | undefined;
+  PageSize?: string | undefined;
   TemplateName: string;
   TemplateType: string;
 }
 export interface TemplateVersionResponse {
-  CreationDate?: string;
-  DefaultSubstitutions?: string;
-  LastModifiedDate?: string;
-  TemplateDescription?: string;
-  TemplateName?: string;
-  TemplateType?: string;
-  Version?: string;
+  CreationDate?: string | undefined;
+  DefaultSubstitutions?: string | undefined;
+  LastModifiedDate?: string | undefined;
+  TemplateDescription?: string | undefined;
+  TemplateName?: string | undefined;
+  TemplateType?: string | undefined;
+  Version?: string | undefined;
 }
 export type ListOfTemplateVersionResponse = TemplateVersionResponse[];
 export interface TemplateVersionsResponse {
-  Item?: TemplateVersionResponse[];
-  Message?: string;
-  NextToken?: string;
-  RequestID?: string;
+  Item?: TemplateVersionResponse[] | undefined;
+  Message?: string | undefined;
+  NextToken?: string | undefined;
+  RequestID?: string | undefined;
 }
 export interface ListTemplateVersionsResponse {
   TemplateVersionsResponse: TemplateVersionsResponse & {
@@ -4123,102 +4124,102 @@ export interface ListTemplateVersionsResponse {
   };
 }
 export interface NumberValidateRequest {
-  IsoCountryCode?: string;
-  PhoneNumber?: string;
+  IsoCountryCode?: string | undefined;
+  PhoneNumber?: string | undefined;
 }
 export interface PhoneNumberValidateRequest {
-  NumberValidateRequest?: NumberValidateRequest;
+  NumberValidateRequest?: NumberValidateRequest | undefined;
 }
 export interface NumberValidateResponse {
-  Carrier?: string;
-  City?: string;
-  CleansedPhoneNumberE164?: string;
-  CleansedPhoneNumberNational?: string;
-  Country?: string;
-  CountryCodeIso2?: string;
-  CountryCodeNumeric?: string;
-  County?: string;
-  OriginalCountryCodeIso2?: string;
-  OriginalPhoneNumber?: string;
-  PhoneType?: string;
-  PhoneTypeCode?: number;
-  Timezone?: string;
-  ZipCode?: string;
+  Carrier?: string | undefined;
+  City?: string | undefined;
+  CleansedPhoneNumberE164?: string | undefined;
+  CleansedPhoneNumberNational?: string | undefined;
+  Country?: string | undefined;
+  CountryCodeIso2?: string | undefined;
+  CountryCodeNumeric?: string | undefined;
+  County?: string | undefined;
+  OriginalCountryCodeIso2?: string | undefined;
+  OriginalPhoneNumber?: string | undefined;
+  PhoneType?: string | undefined;
+  PhoneTypeCode?: number | undefined;
+  Timezone?: string | undefined;
+  ZipCode?: string | undefined;
 }
 export interface PhoneNumberValidateResponse {
   NumberValidateResponse: NumberValidateResponse;
 }
 export interface PublicEndpoint {
-  Address?: string;
-  Attributes?: { [key: string]: string[] | undefined };
-  ChannelType?: ChannelType;
-  Demographic?: EndpointDemographic;
-  EffectiveDate?: string;
-  EndpointStatus?: string;
-  Location?: EndpointLocation;
-  Metrics?: { [key: string]: number | undefined };
-  OptOut?: string;
-  RequestId?: string;
-  User?: EndpointUser;
+  Address?: string | undefined;
+  Attributes?: { [key: string]: string[] | undefined } | undefined;
+  ChannelType?: ChannelType | undefined;
+  Demographic?: EndpointDemographic | undefined;
+  EffectiveDate?: string | undefined;
+  EndpointStatus?: string | undefined;
+  Location?: EndpointLocation | undefined;
+  Metrics?: { [key: string]: number | undefined } | undefined;
+  OptOut?: string | undefined;
+  RequestId?: string | undefined;
+  User?: EndpointUser | undefined;
 }
 export interface Session {
-  Duration?: number;
-  Id?: string;
-  StartTimestamp?: string;
-  StopTimestamp?: string;
+  Duration?: number | undefined;
+  Id?: string | undefined;
+  StartTimestamp?: string | undefined;
+  StopTimestamp?: string | undefined;
 }
 export interface Event {
-  AppPackageName?: string;
-  AppTitle?: string;
-  AppVersionCode?: string;
-  Attributes?: { [key: string]: string | undefined };
-  ClientSdkVersion?: string;
-  EventType?: string;
-  Metrics?: { [key: string]: number | undefined };
-  SdkName?: string;
-  Session?: Session;
-  Timestamp?: string;
+  AppPackageName?: string | undefined;
+  AppTitle?: string | undefined;
+  AppVersionCode?: string | undefined;
+  Attributes?: { [key: string]: string | undefined } | undefined;
+  ClientSdkVersion?: string | undefined;
+  EventType?: string | undefined;
+  Metrics?: { [key: string]: number | undefined } | undefined;
+  SdkName?: string | undefined;
+  Session?: Session | undefined;
+  Timestamp?: string | undefined;
 }
 export type MapOfEvent = { [key: string]: Event | undefined };
 export interface EventsBatch {
-  Endpoint?: PublicEndpoint;
-  Events?: { [key: string]: Event | undefined };
+  Endpoint?: PublicEndpoint | undefined;
+  Events?: { [key: string]: Event | undefined } | undefined;
 }
 export type MapOfEventsBatch = { [key: string]: EventsBatch | undefined };
 export interface EventsRequest {
-  BatchItem?: { [key: string]: EventsBatch | undefined };
+  BatchItem?: { [key: string]: EventsBatch | undefined } | undefined;
 }
 export interface PutEventsRequest {
   ApplicationId: string;
-  EventsRequest?: EventsRequest;
+  EventsRequest?: EventsRequest | undefined;
 }
 export interface EndpointItemResponse {
-  Message?: string;
-  StatusCode?: number;
+  Message?: string | undefined;
+  StatusCode?: number | undefined;
 }
 export interface EventItemResponse {
-  Message?: string;
-  StatusCode?: number;
+  Message?: string | undefined;
+  StatusCode?: number | undefined;
 }
 export type MapOfEventItemResponse = { [key: string]: EventItemResponse | undefined };
 export interface ItemResponse {
-  EndpointItemResponse?: EndpointItemResponse;
-  EventsItemResponse?: { [key: string]: EventItemResponse | undefined };
+  EndpointItemResponse?: EndpointItemResponse | undefined;
+  EventsItemResponse?: { [key: string]: EventItemResponse | undefined } | undefined;
 }
 export type MapOfItemResponse = { [key: string]: ItemResponse | undefined };
 export interface EventsResponse {
-  Results?: { [key: string]: ItemResponse | undefined };
+  Results?: { [key: string]: ItemResponse | undefined } | undefined;
 }
 export interface PutEventsResponse {
   EventsResponse: EventsResponse;
 }
 export interface WriteEventStream {
-  DestinationStreamArn?: string;
-  RoleArn?: string;
+  DestinationStreamArn?: string | undefined;
+  RoleArn?: string | undefined;
 }
 export interface PutEventStreamRequest {
   ApplicationId: string;
-  WriteEventStream?: WriteEventStream;
+  WriteEventStream?: WriteEventStream | undefined;
 }
 export interface PutEventStreamResponse {
   EventStream: EventStream & {
@@ -4228,190 +4229,190 @@ export interface PutEventStreamResponse {
   };
 }
 export interface UpdateAttributesRequest {
-  Blacklist?: string[];
+  Blacklist?: string[] | undefined;
 }
 export interface RemoveAttributesRequest {
   ApplicationId: string;
   AttributeType: string;
-  UpdateAttributesRequest?: UpdateAttributesRequest;
+  UpdateAttributesRequest?: UpdateAttributesRequest | undefined;
 }
 export interface AttributesResource {
-  ApplicationId?: string;
-  AttributeType?: string;
-  Attributes?: string[];
+  ApplicationId?: string | undefined;
+  AttributeType?: string | undefined;
+  Attributes?: string[] | undefined;
 }
 export interface RemoveAttributesResponse {
   AttributesResource: AttributesResource & { ApplicationId: string; AttributeType: string };
 }
 export interface AddressConfiguration {
-  BodyOverride?: string;
-  ChannelType?: ChannelType;
-  Context?: { [key: string]: string | undefined };
-  RawContent?: string;
-  Substitutions?: { [key: string]: string[] | undefined };
-  TitleOverride?: string;
+  BodyOverride?: string | undefined;
+  ChannelType?: ChannelType | undefined;
+  Context?: { [key: string]: string | undefined } | undefined;
+  RawContent?: string | undefined;
+  Substitutions?: { [key: string]: string[] | undefined } | undefined;
+  TitleOverride?: string | undefined;
 }
 export type MapOfAddressConfiguration = { [key: string]: AddressConfiguration | undefined };
 export interface EndpointSendConfiguration {
-  BodyOverride?: string;
-  Context?: { [key: string]: string | undefined };
-  RawContent?: string;
-  Substitutions?: { [key: string]: string[] | undefined };
-  TitleOverride?: string;
+  BodyOverride?: string | undefined;
+  Context?: { [key: string]: string | undefined } | undefined;
+  RawContent?: string | undefined;
+  Substitutions?: { [key: string]: string[] | undefined } | undefined;
+  TitleOverride?: string | undefined;
 }
 export type MapOfEndpointSendConfiguration = {
   [key: string]: EndpointSendConfiguration | undefined;
 };
 export interface ADMMessage {
-  Action?: Action;
-  Body?: string;
-  ConsolidationKey?: string;
-  Data?: { [key: string]: string | undefined };
-  ExpiresAfter?: string;
-  IconReference?: string;
-  ImageIconUrl?: string;
-  ImageUrl?: string;
-  MD5?: string;
-  RawContent?: string;
-  SilentPush?: boolean;
-  SmallImageIconUrl?: string;
-  Sound?: string;
-  Substitutions?: { [key: string]: string[] | undefined };
-  Title?: string;
-  Url?: string;
+  Action?: Action | undefined;
+  Body?: string | undefined;
+  ConsolidationKey?: string | undefined;
+  Data?: { [key: string]: string | undefined } | undefined;
+  ExpiresAfter?: string | undefined;
+  IconReference?: string | undefined;
+  ImageIconUrl?: string | undefined;
+  ImageUrl?: string | undefined;
+  MD5?: string | undefined;
+  RawContent?: string | undefined;
+  SilentPush?: boolean | undefined;
+  SmallImageIconUrl?: string | undefined;
+  Sound?: string | undefined;
+  Substitutions?: { [key: string]: string[] | undefined } | undefined;
+  Title?: string | undefined;
+  Url?: string | undefined;
 }
 export interface APNSMessage {
-  APNSPushType?: string;
-  Action?: Action;
-  Badge?: number;
-  Body?: string;
-  Category?: string;
-  CollapseId?: string;
-  Data?: { [key: string]: string | undefined };
-  MediaUrl?: string;
-  PreferredAuthenticationMethod?: string;
-  Priority?: string;
-  RawContent?: string;
-  SilentPush?: boolean;
-  Sound?: string;
-  Substitutions?: { [key: string]: string[] | undefined };
-  ThreadId?: string;
-  TimeToLive?: number;
-  Title?: string;
-  Url?: string;
+  APNSPushType?: string | undefined;
+  Action?: Action | undefined;
+  Badge?: number | undefined;
+  Body?: string | undefined;
+  Category?: string | undefined;
+  CollapseId?: string | undefined;
+  Data?: { [key: string]: string | undefined } | undefined;
+  MediaUrl?: string | undefined;
+  PreferredAuthenticationMethod?: string | undefined;
+  Priority?: string | undefined;
+  RawContent?: string | undefined;
+  SilentPush?: boolean | undefined;
+  Sound?: string | undefined;
+  Substitutions?: { [key: string]: string[] | undefined } | undefined;
+  ThreadId?: string | undefined;
+  TimeToLive?: number | undefined;
+  Title?: string | undefined;
+  Url?: string | undefined;
 }
 export interface BaiduMessage {
-  Action?: Action;
-  Body?: string;
-  Data?: { [key: string]: string | undefined };
-  IconReference?: string;
-  ImageIconUrl?: string;
-  ImageUrl?: string;
-  RawContent?: string;
-  SilentPush?: boolean;
-  SmallImageIconUrl?: string;
-  Sound?: string;
-  Substitutions?: { [key: string]: string[] | undefined };
-  TimeToLive?: number;
-  Title?: string;
-  Url?: string;
+  Action?: Action | undefined;
+  Body?: string | undefined;
+  Data?: { [key: string]: string | undefined } | undefined;
+  IconReference?: string | undefined;
+  ImageIconUrl?: string | undefined;
+  ImageUrl?: string | undefined;
+  RawContent?: string | undefined;
+  SilentPush?: boolean | undefined;
+  SmallImageIconUrl?: string | undefined;
+  Sound?: string | undefined;
+  Substitutions?: { [key: string]: string[] | undefined } | undefined;
+  TimeToLive?: number | undefined;
+  Title?: string | undefined;
+  Url?: string | undefined;
 }
 export interface DefaultMessage {
-  Body?: string;
-  Substitutions?: { [key: string]: string[] | undefined };
+  Body?: string | undefined;
+  Substitutions?: { [key: string]: string[] | undefined } | undefined;
 }
 export interface DefaultPushNotificationMessage {
-  Action?: Action;
-  Body?: string;
-  Data?: { [key: string]: string | undefined };
-  SilentPush?: boolean;
-  Substitutions?: { [key: string]: string[] | undefined };
-  Title?: string;
-  Url?: string;
+  Action?: Action | undefined;
+  Body?: string | undefined;
+  Data?: { [key: string]: string | undefined } | undefined;
+  SilentPush?: boolean | undefined;
+  Substitutions?: { [key: string]: string[] | undefined } | undefined;
+  Title?: string | undefined;
+  Url?: string | undefined;
 }
 export type __blob = Uint8Array;
 export interface RawEmail {
-  Data?: Uint8Array;
+  Data?: Uint8Array | undefined;
 }
 export interface SimpleEmailPart {
-  Charset?: string;
-  Data?: string;
+  Charset?: string | undefined;
+  Data?: string | undefined;
 }
 export interface SimpleEmail {
-  HtmlPart?: SimpleEmailPart;
-  Subject?: SimpleEmailPart;
-  TextPart?: SimpleEmailPart;
-  Headers?: MessageHeader[];
+  HtmlPart?: SimpleEmailPart | undefined;
+  Subject?: SimpleEmailPart | undefined;
+  TextPart?: SimpleEmailPart | undefined;
+  Headers?: MessageHeader[] | undefined;
 }
 export interface EmailMessage {
-  Body?: string;
-  FeedbackForwardingAddress?: string;
-  FromAddress?: string;
-  RawEmail?: RawEmail;
-  ReplyToAddresses?: string[];
-  SimpleEmail?: SimpleEmail;
-  Substitutions?: { [key: string]: string[] | undefined };
+  Body?: string | undefined;
+  FeedbackForwardingAddress?: string | undefined;
+  FromAddress?: string | undefined;
+  RawEmail?: RawEmail | undefined;
+  ReplyToAddresses?: string[] | undefined;
+  SimpleEmail?: SimpleEmail | undefined;
+  Substitutions?: { [key: string]: string[] | undefined } | undefined;
 }
 export interface GCMMessage {
-  Action?: Action;
-  Body?: string;
-  CollapseKey?: string;
-  Data?: { [key: string]: string | undefined };
-  IconReference?: string;
-  ImageIconUrl?: string;
-  ImageUrl?: string;
-  PreferredAuthenticationMethod?: string;
-  Priority?: string;
-  RawContent?: string;
-  RestrictedPackageName?: string;
-  SilentPush?: boolean;
-  SmallImageIconUrl?: string;
-  Sound?: string;
-  Substitutions?: { [key: string]: string[] | undefined };
-  TimeToLive?: number;
-  Title?: string;
-  Url?: string;
+  Action?: Action | undefined;
+  Body?: string | undefined;
+  CollapseKey?: string | undefined;
+  Data?: { [key: string]: string | undefined } | undefined;
+  IconReference?: string | undefined;
+  ImageIconUrl?: string | undefined;
+  ImageUrl?: string | undefined;
+  PreferredAuthenticationMethod?: string | undefined;
+  Priority?: string | undefined;
+  RawContent?: string | undefined;
+  RestrictedPackageName?: string | undefined;
+  SilentPush?: boolean | undefined;
+  SmallImageIconUrl?: string | undefined;
+  Sound?: string | undefined;
+  Substitutions?: { [key: string]: string[] | undefined } | undefined;
+  TimeToLive?: number | undefined;
+  Title?: string | undefined;
+  Url?: string | undefined;
 }
 export interface SMSMessage {
-  Body?: string;
-  Keyword?: string;
-  MediaUrl?: string;
-  MessageType?: MessageType;
-  OriginationNumber?: string;
-  SenderId?: string;
-  Substitutions?: { [key: string]: string[] | undefined };
-  EntityId?: string;
-  TemplateId?: string;
+  Body?: string | undefined;
+  Keyword?: string | undefined;
+  MediaUrl?: string | undefined;
+  MessageType?: MessageType | undefined;
+  OriginationNumber?: string | undefined;
+  SenderId?: string | undefined;
+  Substitutions?: { [key: string]: string[] | undefined } | undefined;
+  EntityId?: string | undefined;
+  TemplateId?: string | undefined;
 }
 export interface VoiceMessage {
-  Body?: string;
-  LanguageCode?: string;
-  OriginationNumber?: string;
-  Substitutions?: { [key: string]: string[] | undefined };
-  VoiceId?: string;
+  Body?: string | undefined;
+  LanguageCode?: string | undefined;
+  OriginationNumber?: string | undefined;
+  Substitutions?: { [key: string]: string[] | undefined } | undefined;
+  VoiceId?: string | undefined;
 }
 export interface DirectMessageConfiguration {
-  ADMMessage?: ADMMessage;
-  APNSMessage?: APNSMessage;
-  BaiduMessage?: BaiduMessage;
-  DefaultMessage?: DefaultMessage;
-  DefaultPushNotificationMessage?: DefaultPushNotificationMessage;
-  EmailMessage?: EmailMessage;
-  GCMMessage?: GCMMessage;
-  SMSMessage?: SMSMessage;
-  VoiceMessage?: VoiceMessage;
+  ADMMessage?: ADMMessage | undefined;
+  APNSMessage?: APNSMessage | undefined;
+  BaiduMessage?: BaiduMessage | undefined;
+  DefaultMessage?: DefaultMessage | undefined;
+  DefaultPushNotificationMessage?: DefaultPushNotificationMessage | undefined;
+  EmailMessage?: EmailMessage | undefined;
+  GCMMessage?: GCMMessage | undefined;
+  SMSMessage?: SMSMessage | undefined;
+  VoiceMessage?: VoiceMessage | undefined;
 }
 export interface MessageRequest {
-  Addresses?: { [key: string]: AddressConfiguration | undefined };
-  Context?: { [key: string]: string | undefined };
-  Endpoints?: { [key: string]: EndpointSendConfiguration | undefined };
-  MessageConfiguration?: DirectMessageConfiguration;
-  TemplateConfiguration?: TemplateConfiguration;
-  TraceId?: string;
+  Addresses?: { [key: string]: AddressConfiguration | undefined } | undefined;
+  Context?: { [key: string]: string | undefined } | undefined;
+  Endpoints?: { [key: string]: EndpointSendConfiguration | undefined } | undefined;
+  MessageConfiguration?: DirectMessageConfiguration | undefined;
+  TemplateConfiguration?: TemplateConfiguration | undefined;
+  TraceId?: string | undefined;
 }
 export interface SendMessagesRequest {
   ApplicationId: string;
-  MessageRequest?: MessageRequest;
+  MessageRequest?: MessageRequest | undefined;
 }
 export type DeliveryStatus =
   | "SUCCESSFUL"
@@ -4423,27 +4424,27 @@ export type DeliveryStatus =
   | "DUPLICATE"
   | (string & {});
 export interface EndpointMessageResult {
-  Address?: string;
-  DeliveryStatus?: DeliveryStatus;
-  MessageId?: string;
-  StatusCode?: number;
-  StatusMessage?: string;
-  UpdatedToken?: string;
+  Address?: string | undefined;
+  DeliveryStatus?: DeliveryStatus | undefined;
+  MessageId?: string | undefined;
+  StatusCode?: number | undefined;
+  StatusMessage?: string | undefined;
+  UpdatedToken?: string | undefined;
 }
 export type MapOfEndpointMessageResult = { [key: string]: EndpointMessageResult | undefined };
 export interface MessageResult {
-  DeliveryStatus?: DeliveryStatus;
-  MessageId?: string;
-  StatusCode?: number;
-  StatusMessage?: string;
-  UpdatedToken?: string;
+  DeliveryStatus?: DeliveryStatus | undefined;
+  MessageId?: string | undefined;
+  StatusCode?: number | undefined;
+  StatusMessage?: string | undefined;
+  UpdatedToken?: string | undefined;
 }
 export type MapOfMessageResult = { [key: string]: MessageResult | undefined };
 export interface MessageResponse {
-  ApplicationId?: string;
-  EndpointResult?: { [key: string]: EndpointMessageResult | undefined };
-  RequestId?: string;
-  Result?: { [key: string]: MessageResult | undefined };
+  ApplicationId?: string | undefined;
+  EndpointResult?: { [key: string]: EndpointMessageResult | undefined } | undefined;
+  RequestId?: string | undefined;
+  Result?: { [key: string]: MessageResult | undefined } | undefined;
 }
 export interface SendMessagesResponse {
   MessageResponse: MessageResponse & {
@@ -4461,21 +4462,21 @@ export interface SendMessagesResponse {
   };
 }
 export interface SendOTPMessageRequestParameters {
-  AllowedAttempts?: number;
-  BrandName?: string;
-  Channel?: string;
-  CodeLength?: number;
-  DestinationIdentity?: string;
-  EntityId?: string;
-  Language?: string;
-  OriginationIdentity?: string;
-  ReferenceId?: string;
-  TemplateId?: string;
-  ValidityPeriod?: number;
+  AllowedAttempts?: number | undefined;
+  BrandName?: string | undefined;
+  Channel?: string | undefined;
+  CodeLength?: number | undefined;
+  DestinationIdentity?: string | undefined;
+  EntityId?: string | undefined;
+  Language?: string | undefined;
+  OriginationIdentity?: string | undefined;
+  ReferenceId?: string | undefined;
+  TemplateId?: string | undefined;
+  ValidityPeriod?: number | undefined;
 }
 export interface SendOTPMessageRequest {
   ApplicationId: string;
-  SendOTPMessageRequestParameters?: SendOTPMessageRequestParameters;
+  SendOTPMessageRequestParameters?: SendOTPMessageRequestParameters | undefined;
 }
 export interface SendOTPMessageResponse {
   MessageResponse: MessageResponse & {
@@ -4493,23 +4494,25 @@ export interface SendOTPMessageResponse {
   };
 }
 export interface SendUsersMessageRequest {
-  Context?: { [key: string]: string | undefined };
-  MessageConfiguration?: DirectMessageConfiguration;
-  TemplateConfiguration?: TemplateConfiguration;
-  TraceId?: string;
-  Users?: { [key: string]: EndpointSendConfiguration | undefined };
+  Context?: { [key: string]: string | undefined } | undefined;
+  MessageConfiguration?: DirectMessageConfiguration | undefined;
+  TemplateConfiguration?: TemplateConfiguration | undefined;
+  TraceId?: string | undefined;
+  Users?: { [key: string]: EndpointSendConfiguration | undefined } | undefined;
 }
 export interface SendUsersMessagesRequest {
   ApplicationId: string;
-  SendUsersMessageRequest?: SendUsersMessageRequest;
+  SendUsersMessageRequest?: SendUsersMessageRequest | undefined;
 }
 export type MapOfMapOfEndpointMessageResult = {
   [key: string]: { [key: string]: EndpointMessageResult | undefined } | undefined;
 };
 export interface SendUsersMessageResponse {
-  ApplicationId?: string;
-  RequestId?: string;
-  Result?: { [key: string]: { [key: string]: EndpointMessageResult | undefined } | undefined };
+  ApplicationId?: string | undefined;
+  RequestId?: string | undefined;
+  Result?:
+    | { [key: string]: { [key: string]: EndpointMessageResult | undefined } | undefined }
+    | undefined;
 }
 export interface SendUsersMessagesResponse {
   SendUsersMessageResponse: SendUsersMessageResponse & {
@@ -4527,117 +4530,117 @@ export interface SendUsersMessagesResponse {
 }
 export interface TagResourceRequest {
   ResourceArn: string;
-  TagsModel?: TagsModel;
+  TagsModel?: TagsModel | undefined;
 }
 export interface TagResourceResponse {}
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys?: string[];
+  TagKeys?: string[] | undefined;
 }
 export interface UntagResourceResponse {}
 export interface ADMChannelRequest {
-  ClientId?: string;
-  ClientSecret?: string;
-  Enabled?: boolean;
+  ClientId?: string | undefined;
+  ClientSecret?: string | undefined;
+  Enabled?: boolean | undefined;
 }
 export interface UpdateAdmChannelRequest {
-  ADMChannelRequest?: ADMChannelRequest;
+  ADMChannelRequest?: ADMChannelRequest | undefined;
   ApplicationId: string;
 }
 export interface UpdateAdmChannelResponse {
   ADMChannelResponse: ADMChannelResponse & { Platform: string };
 }
 export interface APNSChannelRequest {
-  BundleId?: string;
-  Certificate?: string;
-  DefaultAuthenticationMethod?: string;
-  Enabled?: boolean;
-  PrivateKey?: string;
-  TeamId?: string;
-  TokenKey?: string;
-  TokenKeyId?: string;
+  BundleId?: string | undefined;
+  Certificate?: string | undefined;
+  DefaultAuthenticationMethod?: string | undefined;
+  Enabled?: boolean | undefined;
+  PrivateKey?: string | undefined;
+  TeamId?: string | undefined;
+  TokenKey?: string | undefined;
+  TokenKeyId?: string | undefined;
 }
 export interface UpdateApnsChannelRequest {
-  APNSChannelRequest?: APNSChannelRequest;
+  APNSChannelRequest?: APNSChannelRequest | undefined;
   ApplicationId: string;
 }
 export interface UpdateApnsChannelResponse {
   APNSChannelResponse: APNSChannelResponse & { Platform: string };
 }
 export interface APNSSandboxChannelRequest {
-  BundleId?: string;
-  Certificate?: string;
-  DefaultAuthenticationMethod?: string;
-  Enabled?: boolean;
-  PrivateKey?: string;
-  TeamId?: string;
-  TokenKey?: string;
-  TokenKeyId?: string;
+  BundleId?: string | undefined;
+  Certificate?: string | undefined;
+  DefaultAuthenticationMethod?: string | undefined;
+  Enabled?: boolean | undefined;
+  PrivateKey?: string | undefined;
+  TeamId?: string | undefined;
+  TokenKey?: string | undefined;
+  TokenKeyId?: string | undefined;
 }
 export interface UpdateApnsSandboxChannelRequest {
-  APNSSandboxChannelRequest?: APNSSandboxChannelRequest;
+  APNSSandboxChannelRequest?: APNSSandboxChannelRequest | undefined;
   ApplicationId: string;
 }
 export interface UpdateApnsSandboxChannelResponse {
   APNSSandboxChannelResponse: APNSSandboxChannelResponse & { Platform: string };
 }
 export interface APNSVoipChannelRequest {
-  BundleId?: string;
-  Certificate?: string;
-  DefaultAuthenticationMethod?: string;
-  Enabled?: boolean;
-  PrivateKey?: string;
-  TeamId?: string;
-  TokenKey?: string;
-  TokenKeyId?: string;
+  BundleId?: string | undefined;
+  Certificate?: string | undefined;
+  DefaultAuthenticationMethod?: string | undefined;
+  Enabled?: boolean | undefined;
+  PrivateKey?: string | undefined;
+  TeamId?: string | undefined;
+  TokenKey?: string | undefined;
+  TokenKeyId?: string | undefined;
 }
 export interface UpdateApnsVoipChannelRequest {
-  APNSVoipChannelRequest?: APNSVoipChannelRequest;
+  APNSVoipChannelRequest?: APNSVoipChannelRequest | undefined;
   ApplicationId: string;
 }
 export interface UpdateApnsVoipChannelResponse {
   APNSVoipChannelResponse: APNSVoipChannelResponse & { Platform: string };
 }
 export interface APNSVoipSandboxChannelRequest {
-  BundleId?: string;
-  Certificate?: string;
-  DefaultAuthenticationMethod?: string;
-  Enabled?: boolean;
-  PrivateKey?: string;
-  TeamId?: string;
-  TokenKey?: string;
-  TokenKeyId?: string;
+  BundleId?: string | undefined;
+  Certificate?: string | undefined;
+  DefaultAuthenticationMethod?: string | undefined;
+  Enabled?: boolean | undefined;
+  PrivateKey?: string | undefined;
+  TeamId?: string | undefined;
+  TokenKey?: string | undefined;
+  TokenKeyId?: string | undefined;
 }
 export interface UpdateApnsVoipSandboxChannelRequest {
-  APNSVoipSandboxChannelRequest?: APNSVoipSandboxChannelRequest;
+  APNSVoipSandboxChannelRequest?: APNSVoipSandboxChannelRequest | undefined;
   ApplicationId: string;
 }
 export interface UpdateApnsVoipSandboxChannelResponse {
   APNSVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse & { Platform: string };
 }
 export interface WriteApplicationSettingsRequest {
-  CampaignHook?: CampaignHook;
-  CloudWatchMetricsEnabled?: boolean;
-  EventTaggingEnabled?: boolean;
-  Limits?: CampaignLimits;
-  QuietTime?: QuietTime;
-  JourneyLimits?: ApplicationSettingsJourneyLimits;
+  CampaignHook?: CampaignHook | undefined;
+  CloudWatchMetricsEnabled?: boolean | undefined;
+  EventTaggingEnabled?: boolean | undefined;
+  Limits?: CampaignLimits | undefined;
+  QuietTime?: QuietTime | undefined;
+  JourneyLimits?: ApplicationSettingsJourneyLimits | undefined;
 }
 export interface UpdateApplicationSettingsRequest {
   ApplicationId: string;
-  WriteApplicationSettingsRequest?: WriteApplicationSettingsRequest;
+  WriteApplicationSettingsRequest?: WriteApplicationSettingsRequest | undefined;
 }
 export interface UpdateApplicationSettingsResponse {
   ApplicationSettingsResource: ApplicationSettingsResource & { ApplicationId: string };
 }
 export interface BaiduChannelRequest {
-  ApiKey?: string;
-  Enabled?: boolean;
-  SecretKey?: string;
+  ApiKey?: string | undefined;
+  Enabled?: boolean | undefined;
+  SecretKey?: string | undefined;
 }
 export interface UpdateBaiduChannelRequest {
   ApplicationId: string;
-  BaiduChannelRequest?: BaiduChannelRequest;
+  BaiduChannelRequest?: BaiduChannelRequest | undefined;
 }
 export interface UpdateBaiduChannelResponse {
   BaiduChannelResponse: BaiduChannelResponse & { Credential: string; Platform: string };
@@ -4645,7 +4648,7 @@ export interface UpdateBaiduChannelResponse {
 export interface UpdateCampaignRequest {
   ApplicationId: string;
   CampaignId: string;
-  WriteCampaignRequest?: WriteCampaignRequest;
+  WriteCampaignRequest?: WriteCampaignRequest | undefined;
 }
 export interface UpdateCampaignResponse {
   CampaignResponse: CampaignResponse & {
@@ -4767,93 +4770,93 @@ export interface UpdateCampaignResponse {
   };
 }
 export interface EmailChannelRequest {
-  ConfigurationSet?: string;
-  Enabled?: boolean;
-  FromAddress?: string;
-  Identity?: string;
-  RoleArn?: string;
-  OrchestrationSendingRoleArn?: string;
+  ConfigurationSet?: string | undefined;
+  Enabled?: boolean | undefined;
+  FromAddress?: string | undefined;
+  Identity?: string | undefined;
+  RoleArn?: string | undefined;
+  OrchestrationSendingRoleArn?: string | undefined;
 }
 export interface UpdateEmailChannelRequest {
   ApplicationId: string;
-  EmailChannelRequest?: EmailChannelRequest;
+  EmailChannelRequest?: EmailChannelRequest | undefined;
 }
 export interface UpdateEmailChannelResponse {
   EmailChannelResponse: EmailChannelResponse & { Platform: string };
 }
 export interface UpdateEmailTemplateRequest {
-  CreateNewVersion?: boolean;
-  EmailTemplateRequest?: EmailTemplateRequest;
+  CreateNewVersion?: boolean | undefined;
+  EmailTemplateRequest?: EmailTemplateRequest | undefined;
   TemplateName: string;
-  Version?: string;
+  Version?: string | undefined;
 }
 export interface UpdateEmailTemplateResponse {
   MessageBody: MessageBody;
 }
 export interface EndpointRequest {
-  Address?: string;
-  Attributes?: { [key: string]: string[] | undefined };
-  ChannelType?: ChannelType;
-  Demographic?: EndpointDemographic;
-  EffectiveDate?: string;
-  EndpointStatus?: string;
-  Location?: EndpointLocation;
-  Metrics?: { [key: string]: number | undefined };
-  OptOut?: string;
-  RequestId?: string;
-  User?: EndpointUser;
+  Address?: string | undefined;
+  Attributes?: { [key: string]: string[] | undefined } | undefined;
+  ChannelType?: ChannelType | undefined;
+  Demographic?: EndpointDemographic | undefined;
+  EffectiveDate?: string | undefined;
+  EndpointStatus?: string | undefined;
+  Location?: EndpointLocation | undefined;
+  Metrics?: { [key: string]: number | undefined } | undefined;
+  OptOut?: string | undefined;
+  RequestId?: string | undefined;
+  User?: EndpointUser | undefined;
 }
 export interface UpdateEndpointRequest {
   ApplicationId: string;
   EndpointId: string;
-  EndpointRequest?: EndpointRequest;
+  EndpointRequest?: EndpointRequest | undefined;
 }
 export interface UpdateEndpointResponse {
   MessageBody: MessageBody;
 }
 export interface EndpointBatchItem {
-  Address?: string;
-  Attributes?: { [key: string]: string[] | undefined };
-  ChannelType?: ChannelType;
-  Demographic?: EndpointDemographic;
-  EffectiveDate?: string;
-  EndpointStatus?: string;
-  Id?: string;
-  Location?: EndpointLocation;
-  Metrics?: { [key: string]: number | undefined };
-  OptOut?: string;
-  RequestId?: string;
-  User?: EndpointUser;
+  Address?: string | undefined;
+  Attributes?: { [key: string]: string[] | undefined } | undefined;
+  ChannelType?: ChannelType | undefined;
+  Demographic?: EndpointDemographic | undefined;
+  EffectiveDate?: string | undefined;
+  EndpointStatus?: string | undefined;
+  Id?: string | undefined;
+  Location?: EndpointLocation | undefined;
+  Metrics?: { [key: string]: number | undefined } | undefined;
+  OptOut?: string | undefined;
+  RequestId?: string | undefined;
+  User?: EndpointUser | undefined;
 }
 export type ListOfEndpointBatchItem = EndpointBatchItem[];
 export interface EndpointBatchRequest {
-  Item?: EndpointBatchItem[];
+  Item?: EndpointBatchItem[] | undefined;
 }
 export interface UpdateEndpointsBatchRequest {
   ApplicationId: string;
-  EndpointBatchRequest?: EndpointBatchRequest;
+  EndpointBatchRequest?: EndpointBatchRequest | undefined;
 }
 export interface UpdateEndpointsBatchResponse {
   MessageBody: MessageBody;
 }
 export interface GCMChannelRequest {
-  ApiKey?: string;
-  DefaultAuthenticationMethod?: string;
-  Enabled?: boolean;
-  ServiceJson?: string;
+  ApiKey?: string | undefined;
+  DefaultAuthenticationMethod?: string | undefined;
+  Enabled?: boolean | undefined;
+  ServiceJson?: string | undefined;
 }
 export interface UpdateGcmChannelRequest {
   ApplicationId: string;
-  GCMChannelRequest?: GCMChannelRequest;
+  GCMChannelRequest?: GCMChannelRequest | undefined;
 }
 export interface UpdateGcmChannelResponse {
   GCMChannelResponse: GCMChannelResponse & { Platform: string };
 }
 export interface UpdateInAppTemplateRequest {
-  CreateNewVersion?: boolean;
-  InAppTemplateRequest?: InAppTemplateRequest;
+  CreateNewVersion?: boolean | undefined;
+  InAppTemplateRequest?: InAppTemplateRequest | undefined;
   TemplateName: string;
-  Version?: string;
+  Version?: string | undefined;
 }
 export interface UpdateInAppTemplateResponse {
   MessageBody: MessageBody;
@@ -4861,7 +4864,7 @@ export interface UpdateInAppTemplateResponse {
 export interface UpdateJourneyRequest {
   ApplicationId: string;
   JourneyId: string;
-  WriteJourneyRequest?: WriteJourneyRequest;
+  WriteJourneyRequest?: WriteJourneyRequest | undefined;
 }
 export interface UpdateJourneyResponse {
   JourneyResponse: JourneyResponse & {
@@ -5001,12 +5004,12 @@ export interface UpdateJourneyResponse {
   };
 }
 export interface JourneyStateRequest {
-  State?: State;
+  State?: State | undefined;
 }
 export interface UpdateJourneyStateRequest {
   ApplicationId: string;
   JourneyId: string;
-  JourneyStateRequest?: JourneyStateRequest;
+  JourneyStateRequest?: JourneyStateRequest | undefined;
 }
 export interface UpdateJourneyStateResponse {
   JourneyResponse: JourneyResponse & {
@@ -5146,28 +5149,28 @@ export interface UpdateJourneyStateResponse {
   };
 }
 export interface UpdatePushTemplateRequest {
-  CreateNewVersion?: boolean;
-  PushNotificationTemplateRequest?: PushNotificationTemplateRequest;
+  CreateNewVersion?: boolean | undefined;
+  PushNotificationTemplateRequest?: PushNotificationTemplateRequest | undefined;
   TemplateName: string;
-  Version?: string;
+  Version?: string | undefined;
 }
 export interface UpdatePushTemplateResponse {
   MessageBody: MessageBody;
 }
 export interface UpdateRecommenderConfigurationShape {
-  Attributes?: { [key: string]: string | undefined };
-  Description?: string;
-  Name?: string;
-  RecommendationProviderIdType?: string;
-  RecommendationProviderRoleArn?: string;
-  RecommendationProviderUri?: string;
-  RecommendationTransformerUri?: string;
-  RecommendationsDisplayName?: string;
-  RecommendationsPerMessage?: number;
+  Attributes?: { [key: string]: string | undefined } | undefined;
+  Description?: string | undefined;
+  Name?: string | undefined;
+  RecommendationProviderIdType?: string | undefined;
+  RecommendationProviderRoleArn?: string | undefined;
+  RecommendationProviderUri?: string | undefined;
+  RecommendationTransformerUri?: string | undefined;
+  RecommendationsDisplayName?: string | undefined;
+  RecommendationsPerMessage?: number | undefined;
 }
 export interface UpdateRecommenderConfigurationRequest {
   RecommenderId: string;
-  UpdateRecommenderConfiguration?: UpdateRecommenderConfigurationShape;
+  UpdateRecommenderConfiguration?: UpdateRecommenderConfigurationShape | undefined;
 }
 export interface UpdateRecommenderConfigurationResponse {
   RecommenderConfigurationResponse: RecommenderConfigurationResponse & {
@@ -5181,7 +5184,7 @@ export interface UpdateRecommenderConfigurationResponse {
 export interface UpdateSegmentRequest {
   ApplicationId: string;
   SegmentId: string;
-  WriteSegmentRequest?: WriteSegmentRequest;
+  WriteSegmentRequest?: WriteSegmentRequest | undefined;
 }
 export interface UpdateSegmentResponse {
   SegmentResponse: SegmentResponse & {
@@ -5263,31 +5266,31 @@ export interface UpdateSegmentResponse {
   };
 }
 export interface SMSChannelRequest {
-  Enabled?: boolean;
-  SenderId?: string;
-  ShortCode?: string;
+  Enabled?: boolean | undefined;
+  SenderId?: string | undefined;
+  ShortCode?: string | undefined;
 }
 export interface UpdateSmsChannelRequest {
   ApplicationId: string;
-  SMSChannelRequest?: SMSChannelRequest;
+  SMSChannelRequest?: SMSChannelRequest | undefined;
 }
 export interface UpdateSmsChannelResponse {
   SMSChannelResponse: SMSChannelResponse & { Platform: string };
 }
 export interface UpdateSmsTemplateRequest {
-  CreateNewVersion?: boolean;
-  SMSTemplateRequest?: SMSTemplateRequest;
+  CreateNewVersion?: boolean | undefined;
+  SMSTemplateRequest?: SMSTemplateRequest | undefined;
   TemplateName: string;
-  Version?: string;
+  Version?: string | undefined;
 }
 export interface UpdateSmsTemplateResponse {
   MessageBody: MessageBody;
 }
 export interface TemplateActiveVersionRequest {
-  Version?: string;
+  Version?: string | undefined;
 }
 export interface UpdateTemplateActiveVersionRequest {
-  TemplateActiveVersionRequest?: TemplateActiveVersionRequest;
+  TemplateActiveVersionRequest?: TemplateActiveVersionRequest | undefined;
   TemplateName: string;
   TemplateType: string;
 }
@@ -5295,35 +5298,35 @@ export interface UpdateTemplateActiveVersionResponse {
   MessageBody: MessageBody;
 }
 export interface VoiceChannelRequest {
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
 export interface UpdateVoiceChannelRequest {
   ApplicationId: string;
-  VoiceChannelRequest?: VoiceChannelRequest;
+  VoiceChannelRequest?: VoiceChannelRequest | undefined;
 }
 export interface UpdateVoiceChannelResponse {
   VoiceChannelResponse: VoiceChannelResponse & { Platform: string };
 }
 export interface UpdateVoiceTemplateRequest {
-  CreateNewVersion?: boolean;
+  CreateNewVersion?: boolean | undefined;
   TemplateName: string;
-  Version?: string;
-  VoiceTemplateRequest?: VoiceTemplateRequest;
+  Version?: string | undefined;
+  VoiceTemplateRequest?: VoiceTemplateRequest | undefined;
 }
 export interface UpdateVoiceTemplateResponse {
   MessageBody: MessageBody;
 }
 export interface VerifyOTPMessageRequestParameters {
-  DestinationIdentity?: string;
-  Otp?: string;
-  ReferenceId?: string;
+  DestinationIdentity?: string | undefined;
+  Otp?: string | undefined;
+  ReferenceId?: string | undefined;
 }
 export interface VerifyOTPMessageRequest {
   ApplicationId: string;
-  VerifyOTPMessageRequestParameters?: VerifyOTPMessageRequestParameters;
+  VerifyOTPMessageRequestParameters?: VerifyOTPMessageRequestParameters | undefined;
 }
 export interface VerificationResponse {
-  Valid?: boolean;
+  Valid?: boolean | undefined;
 }
 export interface VerifyOTPMessageResponse {
   VerificationResponse: VerificationResponse;
@@ -5341,7 +5344,7 @@ export type CreateAppError =
  * Creates an application.
  */
 export const createApp: API.OperationMethod<
-  CreateAppRequest,
+  CreateAppRequest & RegionInput,
   CreateAppResponse,
   CreateAppError,
   Credentials | HttpClient.HttpClient
@@ -5377,7 +5380,7 @@ export type CreateCampaignError =
  * Creates a new campaign for an application or updates the settings of an existing campaign for an application.
  */
 export const createCampaign: API.OperationMethod<
-  CreateCampaignRequest,
+  CreateCampaignRequest & RegionInput,
   CreateCampaignResponse,
   CreateCampaignError,
   Credentials | HttpClient.HttpClient
@@ -5411,7 +5414,7 @@ export type CreateEmailTemplateError =
  * Creates a message template for messages that are sent through the email channel.
  */
 export const createEmailTemplate: API.OperationMethod<
-  CreateEmailTemplateRequest,
+  CreateEmailTemplateRequest & RegionInput,
   CreateEmailTemplateResponse,
   CreateEmailTemplateError,
   Credentials | HttpClient.HttpClient
@@ -5445,7 +5448,7 @@ export type CreateExportJobError =
  * Creates an export job for an application.
  */
 export const createExportJob: API.OperationMethod<
-  CreateExportJobRequest,
+  CreateExportJobRequest & RegionInput,
   CreateExportJobResponse,
   CreateExportJobError,
   Credentials | HttpClient.HttpClient
@@ -5481,7 +5484,7 @@ export type CreateImportJobError =
  * Creates an import job for an application.
  */
 export const createImportJob: API.OperationMethod<
-  CreateImportJobRequest,
+  CreateImportJobRequest & RegionInput,
   CreateImportJobResponse,
   CreateImportJobError,
   Credentials | HttpClient.HttpClient
@@ -5515,7 +5518,7 @@ export type CreateInAppTemplateError =
  * Creates a new message template for messages using the in-app message channel.
  */
 export const createInAppTemplate: API.OperationMethod<
-  CreateInAppTemplateRequest,
+  CreateInAppTemplateRequest & RegionInput,
   CreateInAppTemplateResponse,
   CreateInAppTemplateError,
   Credentials | HttpClient.HttpClient
@@ -5549,7 +5552,7 @@ export type CreateJourneyError =
  * Creates a journey for an application.
  */
 export const createJourney: API.OperationMethod<
-  CreateJourneyRequest,
+  CreateJourneyRequest & RegionInput,
   CreateJourneyResponse,
   CreateJourneyError,
   Credentials | HttpClient.HttpClient
@@ -5583,7 +5586,7 @@ export type CreatePushTemplateError =
  * Creates a message template for messages that are sent through a push notification channel.
  */
 export const createPushTemplate: API.OperationMethod<
-  CreatePushTemplateRequest,
+  CreatePushTemplateRequest & RegionInput,
   CreatePushTemplateResponse,
   CreatePushTemplateError,
   Credentials | HttpClient.HttpClient
@@ -5617,7 +5620,7 @@ export type CreateRecommenderConfigurationError =
  * Creates an Amazon Pinpoint configuration for a recommender model.
  */
 export const createRecommenderConfiguration: API.OperationMethod<
-  CreateRecommenderConfigurationRequest,
+  CreateRecommenderConfigurationRequest & RegionInput,
   CreateRecommenderConfigurationResponse,
   CreateRecommenderConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5653,7 +5656,7 @@ export type CreateSegmentError =
  * Creates a new segment for an application or updates the configuration, dimension, and other settings for an existing segment that's associated with an application.
  */
 export const createSegment: API.OperationMethod<
-  CreateSegmentRequest,
+  CreateSegmentRequest & RegionInput,
   CreateSegmentResponse,
   CreateSegmentError,
   Credentials | HttpClient.HttpClient
@@ -5687,7 +5690,7 @@ export type CreateSmsTemplateError =
  * Creates a message template for messages that are sent through the SMS channel.
  */
 export const createSmsTemplate: API.OperationMethod<
-  CreateSmsTemplateRequest,
+  CreateSmsTemplateRequest & RegionInput,
   CreateSmsTemplateResponse,
   CreateSmsTemplateError,
   Credentials | HttpClient.HttpClient
@@ -5719,7 +5722,7 @@ export type CreateVoiceTemplateError =
  * Creates a message template for messages that are sent through the voice channel.
  */
 export const createVoiceTemplate: API.OperationMethod<
-  CreateVoiceTemplateRequest,
+  CreateVoiceTemplateRequest & RegionInput,
   CreateVoiceTemplateResponse,
   CreateVoiceTemplateError,
   Credentials | HttpClient.HttpClient
@@ -5753,7 +5756,7 @@ export type DeleteAdmChannelError =
  * Disables the ADM channel for an application and deletes any existing settings for the channel.
  */
 export const deleteAdmChannel: API.OperationMethod<
-  DeleteAdmChannelRequest,
+  DeleteAdmChannelRequest & RegionInput,
   DeleteAdmChannelResponse,
   DeleteAdmChannelError,
   Credentials | HttpClient.HttpClient
@@ -5789,7 +5792,7 @@ export type DeleteApnsChannelError =
  * Disables the APNs channel for an application and deletes any existing settings for the channel.
  */
 export const deleteApnsChannel: API.OperationMethod<
-  DeleteApnsChannelRequest,
+  DeleteApnsChannelRequest & RegionInput,
   DeleteApnsChannelResponse,
   DeleteApnsChannelError,
   Credentials | HttpClient.HttpClient
@@ -5825,7 +5828,7 @@ export type DeleteApnsSandboxChannelError =
  * Disables the APNs sandbox channel for an application and deletes any existing settings for the channel.
  */
 export const deleteApnsSandboxChannel: API.OperationMethod<
-  DeleteApnsSandboxChannelRequest,
+  DeleteApnsSandboxChannelRequest & RegionInput,
   DeleteApnsSandboxChannelResponse,
   DeleteApnsSandboxChannelError,
   Credentials | HttpClient.HttpClient
@@ -5861,7 +5864,7 @@ export type DeleteApnsVoipChannelError =
  * Disables the APNs VoIP channel for an application and deletes any existing settings for the channel.
  */
 export const deleteApnsVoipChannel: API.OperationMethod<
-  DeleteApnsVoipChannelRequest,
+  DeleteApnsVoipChannelRequest & RegionInput,
   DeleteApnsVoipChannelResponse,
   DeleteApnsVoipChannelError,
   Credentials | HttpClient.HttpClient
@@ -5897,7 +5900,7 @@ export type DeleteApnsVoipSandboxChannelError =
  * Disables the APNs VoIP sandbox channel for an application and deletes any existing settings for the channel.
  */
 export const deleteApnsVoipSandboxChannel: API.OperationMethod<
-  DeleteApnsVoipSandboxChannelRequest,
+  DeleteApnsVoipSandboxChannelRequest & RegionInput,
   DeleteApnsVoipSandboxChannelResponse,
   DeleteApnsVoipSandboxChannelError,
   Credentials | HttpClient.HttpClient
@@ -5933,7 +5936,7 @@ export type DeleteAppError =
  * Deletes an application.
  */
 export const deleteApp: API.OperationMethod<
-  DeleteAppRequest,
+  DeleteAppRequest & RegionInput,
   DeleteAppResponse,
   DeleteAppError,
   Credentials | HttpClient.HttpClient
@@ -5969,7 +5972,7 @@ export type DeleteBaiduChannelError =
  * Disables the Baidu channel for an application and deletes any existing settings for the channel.
  */
 export const deleteBaiduChannel: API.OperationMethod<
-  DeleteBaiduChannelRequest,
+  DeleteBaiduChannelRequest & RegionInput,
   DeleteBaiduChannelResponse,
   DeleteBaiduChannelError,
   Credentials | HttpClient.HttpClient
@@ -6005,7 +6008,7 @@ export type DeleteCampaignError =
  * Deletes a campaign from an application.
  */
 export const deleteCampaign: API.OperationMethod<
-  DeleteCampaignRequest,
+  DeleteCampaignRequest & RegionInput,
   DeleteCampaignResponse,
   DeleteCampaignError,
   Credentials | HttpClient.HttpClient
@@ -6041,7 +6044,7 @@ export type DeleteEmailChannelError =
  * Disables the email channel for an application and deletes any existing settings for the channel.
  */
 export const deleteEmailChannel: API.OperationMethod<
-  DeleteEmailChannelRequest,
+  DeleteEmailChannelRequest & RegionInput,
   DeleteEmailChannelResponse,
   DeleteEmailChannelError,
   Credentials | HttpClient.HttpClient
@@ -6077,7 +6080,7 @@ export type DeleteEmailTemplateError =
  * Deletes a message template for messages that were sent through the email channel.
  */
 export const deleteEmailTemplate: API.OperationMethod<
-  DeleteEmailTemplateRequest,
+  DeleteEmailTemplateRequest & RegionInput,
   DeleteEmailTemplateResponse,
   DeleteEmailTemplateError,
   Credentials | HttpClient.HttpClient
@@ -6113,7 +6116,7 @@ export type DeleteEndpointError =
  * Deletes an endpoint from an application.
  */
 export const deleteEndpoint: API.OperationMethod<
-  DeleteEndpointRequest,
+  DeleteEndpointRequest & RegionInput,
   DeleteEndpointResponse,
   DeleteEndpointError,
   Credentials | HttpClient.HttpClient
@@ -6149,7 +6152,7 @@ export type DeleteEventStreamError =
  * Deletes the event stream for an application.
  */
 export const deleteEventStream: API.OperationMethod<
-  DeleteEventStreamRequest,
+  DeleteEventStreamRequest & RegionInput,
   DeleteEventStreamResponse,
   DeleteEventStreamError,
   Credentials | HttpClient.HttpClient
@@ -6185,7 +6188,7 @@ export type DeleteGcmChannelError =
  * Disables the GCM channel for an application and deletes any existing settings for the channel.
  */
 export const deleteGcmChannel: API.OperationMethod<
-  DeleteGcmChannelRequest,
+  DeleteGcmChannelRequest & RegionInput,
   DeleteGcmChannelResponse,
   DeleteGcmChannelError,
   Credentials | HttpClient.HttpClient
@@ -6221,7 +6224,7 @@ export type DeleteInAppTemplateError =
  * Deletes a message template for messages sent using the in-app message channel.
  */
 export const deleteInAppTemplate: API.OperationMethod<
-  DeleteInAppTemplateRequest,
+  DeleteInAppTemplateRequest & RegionInput,
   DeleteInAppTemplateResponse,
   DeleteInAppTemplateError,
   Credentials | HttpClient.HttpClient
@@ -6257,7 +6260,7 @@ export type DeleteJourneyError =
  * Deletes a journey from an application.
  */
 export const deleteJourney: API.OperationMethod<
-  DeleteJourneyRequest,
+  DeleteJourneyRequest & RegionInput,
   DeleteJourneyResponse,
   DeleteJourneyError,
   Credentials | HttpClient.HttpClient
@@ -6293,7 +6296,7 @@ export type DeletePushTemplateError =
  * Deletes a message template for messages that were sent through a push notification channel.
  */
 export const deletePushTemplate: API.OperationMethod<
-  DeletePushTemplateRequest,
+  DeletePushTemplateRequest & RegionInput,
   DeletePushTemplateResponse,
   DeletePushTemplateError,
   Credentials | HttpClient.HttpClient
@@ -6329,7 +6332,7 @@ export type DeleteRecommenderConfigurationError =
  * Deletes an Amazon Pinpoint configuration for a recommender model.
  */
 export const deleteRecommenderConfiguration: API.OperationMethod<
-  DeleteRecommenderConfigurationRequest,
+  DeleteRecommenderConfigurationRequest & RegionInput,
   DeleteRecommenderConfigurationResponse,
   DeleteRecommenderConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -6365,7 +6368,7 @@ export type DeleteSegmentError =
  * Deletes a segment from an application.
  */
 export const deleteSegment: API.OperationMethod<
-  DeleteSegmentRequest,
+  DeleteSegmentRequest & RegionInput,
   DeleteSegmentResponse,
   DeleteSegmentError,
   Credentials | HttpClient.HttpClient
@@ -6401,7 +6404,7 @@ export type DeleteSmsChannelError =
  * Disables the SMS channel for an application and deletes any existing settings for the channel.
  */
 export const deleteSmsChannel: API.OperationMethod<
-  DeleteSmsChannelRequest,
+  DeleteSmsChannelRequest & RegionInput,
   DeleteSmsChannelResponse,
   DeleteSmsChannelError,
   Credentials | HttpClient.HttpClient
@@ -6437,7 +6440,7 @@ export type DeleteSmsTemplateError =
  * Deletes a message template for messages that were sent through the SMS channel.
  */
 export const deleteSmsTemplate: API.OperationMethod<
-  DeleteSmsTemplateRequest,
+  DeleteSmsTemplateRequest & RegionInput,
   DeleteSmsTemplateResponse,
   DeleteSmsTemplateError,
   Credentials | HttpClient.HttpClient
@@ -6473,7 +6476,7 @@ export type DeleteUserEndpointsError =
  * Deletes all the endpoints that are associated with a specific user ID.
  */
 export const deleteUserEndpoints: API.OperationMethod<
-  DeleteUserEndpointsRequest,
+  DeleteUserEndpointsRequest & RegionInput,
   DeleteUserEndpointsResponse,
   DeleteUserEndpointsError,
   Credentials | HttpClient.HttpClient
@@ -6509,7 +6512,7 @@ export type DeleteVoiceChannelError =
  * Disables the voice channel for an application and deletes any existing settings for the channel.
  */
 export const deleteVoiceChannel: API.OperationMethod<
-  DeleteVoiceChannelRequest,
+  DeleteVoiceChannelRequest & RegionInput,
   DeleteVoiceChannelResponse,
   DeleteVoiceChannelError,
   Credentials | HttpClient.HttpClient
@@ -6545,7 +6548,7 @@ export type DeleteVoiceTemplateError =
  * Deletes a message template for messages that were sent through the voice channel.
  */
 export const deleteVoiceTemplate: API.OperationMethod<
-  DeleteVoiceTemplateRequest,
+  DeleteVoiceTemplateRequest & RegionInput,
   DeleteVoiceTemplateResponse,
   DeleteVoiceTemplateError,
   Credentials | HttpClient.HttpClient
@@ -6581,7 +6584,7 @@ export type GetAdmChannelError =
  * Retrieves information about the status and settings of the ADM channel for an application.
  */
 export const getAdmChannel: API.OperationMethod<
-  GetAdmChannelRequest,
+  GetAdmChannelRequest & RegionInput,
   GetAdmChannelResponse,
   GetAdmChannelError,
   Credentials | HttpClient.HttpClient
@@ -6617,7 +6620,7 @@ export type GetApnsChannelError =
  * Retrieves information about the status and settings of the APNs channel for an application.
  */
 export const getApnsChannel: API.OperationMethod<
-  GetApnsChannelRequest,
+  GetApnsChannelRequest & RegionInput,
   GetApnsChannelResponse,
   GetApnsChannelError,
   Credentials | HttpClient.HttpClient
@@ -6653,7 +6656,7 @@ export type GetApnsSandboxChannelError =
  * Retrieves information about the status and settings of the APNs sandbox channel for an application.
  */
 export const getApnsSandboxChannel: API.OperationMethod<
-  GetApnsSandboxChannelRequest,
+  GetApnsSandboxChannelRequest & RegionInput,
   GetApnsSandboxChannelResponse,
   GetApnsSandboxChannelError,
   Credentials | HttpClient.HttpClient
@@ -6689,7 +6692,7 @@ export type GetApnsVoipChannelError =
  * Retrieves information about the status and settings of the APNs VoIP channel for an application.
  */
 export const getApnsVoipChannel: API.OperationMethod<
-  GetApnsVoipChannelRequest,
+  GetApnsVoipChannelRequest & RegionInput,
   GetApnsVoipChannelResponse,
   GetApnsVoipChannelError,
   Credentials | HttpClient.HttpClient
@@ -6725,7 +6728,7 @@ export type GetApnsVoipSandboxChannelError =
  * Retrieves information about the status and settings of the APNs VoIP sandbox channel for an application.
  */
 export const getApnsVoipSandboxChannel: API.OperationMethod<
-  GetApnsVoipSandboxChannelRequest,
+  GetApnsVoipSandboxChannelRequest & RegionInput,
   GetApnsVoipSandboxChannelResponse,
   GetApnsVoipSandboxChannelError,
   Credentials | HttpClient.HttpClient
@@ -6761,7 +6764,7 @@ export type GetAppError =
  * Retrieves information about an application.
  */
 export const getApp: API.OperationMethod<
-  GetAppRequest,
+  GetAppRequest & RegionInput,
   GetAppResponse,
   GetAppError,
   Credentials | HttpClient.HttpClient
@@ -6797,7 +6800,7 @@ export type GetApplicationDateRangeKpiError =
  * Retrieves (queries) pre-aggregated data for a standard metric that applies to an application.
  */
 export const getApplicationDateRangeKpi: API.OperationMethod<
-  GetApplicationDateRangeKpiRequest,
+  GetApplicationDateRangeKpiRequest & RegionInput,
   GetApplicationDateRangeKpiResponse,
   GetApplicationDateRangeKpiError,
   Credentials | HttpClient.HttpClient
@@ -6833,7 +6836,7 @@ export type GetApplicationSettingsError =
  * Retrieves information about the settings for an application.
  */
 export const getApplicationSettings: API.OperationMethod<
-  GetApplicationSettingsRequest,
+  GetApplicationSettingsRequest & RegionInput,
   GetApplicationSettingsResponse,
   GetApplicationSettingsError,
   Credentials | HttpClient.HttpClient
@@ -6869,7 +6872,7 @@ export type GetAppsError =
  * Retrieves information about all the applications that are associated with your Amazon Pinpoint account.
  */
 export const getApps: API.OperationMethod<
-  GetAppsRequest,
+  GetAppsRequest & RegionInput,
   GetAppsResponse,
   GetAppsError,
   Credentials | HttpClient.HttpClient
@@ -6905,7 +6908,7 @@ export type GetBaiduChannelError =
  * Retrieves information about the status and settings of the Baidu channel for an application.
  */
 export const getBaiduChannel: API.OperationMethod<
-  GetBaiduChannelRequest,
+  GetBaiduChannelRequest & RegionInput,
   GetBaiduChannelResponse,
   GetBaiduChannelError,
   Credentials | HttpClient.HttpClient
@@ -6941,7 +6944,7 @@ export type GetCampaignError =
  * Retrieves information about the status, configuration, and other settings for a campaign.
  */
 export const getCampaign: API.OperationMethod<
-  GetCampaignRequest,
+  GetCampaignRequest & RegionInput,
   GetCampaignResponse,
   GetCampaignError,
   Credentials | HttpClient.HttpClient
@@ -6977,7 +6980,7 @@ export type GetCampaignActivitiesError =
  * Retrieves information about all the activities for a campaign.
  */
 export const getCampaignActivities: API.OperationMethod<
-  GetCampaignActivitiesRequest,
+  GetCampaignActivitiesRequest & RegionInput,
   GetCampaignActivitiesResponse,
   GetCampaignActivitiesError,
   Credentials | HttpClient.HttpClient
@@ -7013,7 +7016,7 @@ export type GetCampaignDateRangeKpiError =
  * Retrieves (queries) pre-aggregated data for a standard metric that applies to a campaign.
  */
 export const getCampaignDateRangeKpi: API.OperationMethod<
-  GetCampaignDateRangeKpiRequest,
+  GetCampaignDateRangeKpiRequest & RegionInput,
   GetCampaignDateRangeKpiResponse,
   GetCampaignDateRangeKpiError,
   Credentials | HttpClient.HttpClient
@@ -7049,7 +7052,7 @@ export type GetCampaignsError =
  * Retrieves information about the status, configuration, and other settings for all the campaigns that are associated with an application.
  */
 export const getCampaigns: API.OperationMethod<
-  GetCampaignsRequest,
+  GetCampaignsRequest & RegionInput,
   GetCampaignsResponse,
   GetCampaignsError,
   Credentials | HttpClient.HttpClient
@@ -7085,7 +7088,7 @@ export type GetCampaignVersionError =
  * Retrieves information about the status, configuration, and other settings for a specific version of a campaign.
  */
 export const getCampaignVersion: API.OperationMethod<
-  GetCampaignVersionRequest,
+  GetCampaignVersionRequest & RegionInput,
   GetCampaignVersionResponse,
   GetCampaignVersionError,
   Credentials | HttpClient.HttpClient
@@ -7121,7 +7124,7 @@ export type GetCampaignVersionsError =
  * Retrieves information about the status, configuration, and other settings for all versions of a campaign.
  */
 export const getCampaignVersions: API.OperationMethod<
-  GetCampaignVersionsRequest,
+  GetCampaignVersionsRequest & RegionInput,
   GetCampaignVersionsResponse,
   GetCampaignVersionsError,
   Credentials | HttpClient.HttpClient
@@ -7157,7 +7160,7 @@ export type GetChannelsError =
  * Retrieves information about the history and status of each channel for an application.
  */
 export const getChannels: API.OperationMethod<
-  GetChannelsRequest,
+  GetChannelsRequest & RegionInput,
   GetChannelsResponse,
   GetChannelsError,
   Credentials | HttpClient.HttpClient
@@ -7193,7 +7196,7 @@ export type GetEmailChannelError =
  * Retrieves information about the status and settings of the email channel for an application.
  */
 export const getEmailChannel: API.OperationMethod<
-  GetEmailChannelRequest,
+  GetEmailChannelRequest & RegionInput,
   GetEmailChannelResponse,
   GetEmailChannelError,
   Credentials | HttpClient.HttpClient
@@ -7229,7 +7232,7 @@ export type GetEmailTemplateError =
  * Retrieves the content and settings of a message template for messages that are sent through the email channel.
  */
 export const getEmailTemplate: API.OperationMethod<
-  GetEmailTemplateRequest,
+  GetEmailTemplateRequest & RegionInput,
   GetEmailTemplateResponse,
   GetEmailTemplateError,
   Credentials | HttpClient.HttpClient
@@ -7265,7 +7268,7 @@ export type GetEndpointError =
  * Retrieves information about the settings and attributes of a specific endpoint for an application.
  */
 export const getEndpoint: API.OperationMethod<
-  GetEndpointRequest,
+  GetEndpointRequest & RegionInput,
   GetEndpointResponse,
   GetEndpointError,
   Credentials | HttpClient.HttpClient
@@ -7301,7 +7304,7 @@ export type GetEventStreamError =
  * Retrieves information about the event stream settings for an application.
  */
 export const getEventStream: API.OperationMethod<
-  GetEventStreamRequest,
+  GetEventStreamRequest & RegionInput,
   GetEventStreamResponse,
   GetEventStreamError,
   Credentials | HttpClient.HttpClient
@@ -7337,7 +7340,7 @@ export type GetExportJobError =
  * Retrieves information about the status and settings of a specific export job for an application.
  */
 export const getExportJob: API.OperationMethod<
-  GetExportJobRequest,
+  GetExportJobRequest & RegionInput,
   GetExportJobResponse,
   GetExportJobError,
   Credentials | HttpClient.HttpClient
@@ -7373,7 +7376,7 @@ export type GetExportJobsError =
  * Retrieves information about the status and settings of all the export jobs for an application.
  */
 export const getExportJobs: API.OperationMethod<
-  GetExportJobsRequest,
+  GetExportJobsRequest & RegionInput,
   GetExportJobsResponse,
   GetExportJobsError,
   Credentials | HttpClient.HttpClient
@@ -7409,7 +7412,7 @@ export type GetGcmChannelError =
  * Retrieves information about the status and settings of the GCM channel for an application.
  */
 export const getGcmChannel: API.OperationMethod<
-  GetGcmChannelRequest,
+  GetGcmChannelRequest & RegionInput,
   GetGcmChannelResponse,
   GetGcmChannelError,
   Credentials | HttpClient.HttpClient
@@ -7445,7 +7448,7 @@ export type GetImportJobError =
  * Retrieves information about the status and settings of a specific import job for an application.
  */
 export const getImportJob: API.OperationMethod<
-  GetImportJobRequest,
+  GetImportJobRequest & RegionInput,
   GetImportJobResponse,
   GetImportJobError,
   Credentials | HttpClient.HttpClient
@@ -7481,7 +7484,7 @@ export type GetImportJobsError =
  * Retrieves information about the status and settings of all the import jobs for an application.
  */
 export const getImportJobs: API.OperationMethod<
-  GetImportJobsRequest,
+  GetImportJobsRequest & RegionInput,
   GetImportJobsResponse,
   GetImportJobsError,
   Credentials | HttpClient.HttpClient
@@ -7517,7 +7520,7 @@ export type GetInAppMessagesError =
  * Retrieves the in-app messages targeted for the provided endpoint ID.
  */
 export const getInAppMessages: API.OperationMethod<
-  GetInAppMessagesRequest,
+  GetInAppMessagesRequest & RegionInput,
   GetInAppMessagesResponse,
   GetInAppMessagesError,
   Credentials | HttpClient.HttpClient
@@ -7553,7 +7556,7 @@ export type GetInAppTemplateError =
  * Retrieves the content and settings of a message template for messages sent through the in-app channel.
  */
 export const getInAppTemplate: API.OperationMethod<
-  GetInAppTemplateRequest,
+  GetInAppTemplateRequest & RegionInput,
   GetInAppTemplateResponse,
   GetInAppTemplateError,
   Credentials | HttpClient.HttpClient
@@ -7589,7 +7592,7 @@ export type GetJourneyError =
  * Retrieves information about the status, configuration, and other settings for a journey.
  */
 export const getJourney: API.OperationMethod<
-  GetJourneyRequest,
+  GetJourneyRequest & RegionInput,
   GetJourneyResponse,
   GetJourneyError,
   Credentials | HttpClient.HttpClient
@@ -7625,7 +7628,7 @@ export type GetJourneyDateRangeKpiError =
  * Retrieves (queries) pre-aggregated data for a standard engagement metric that applies to a journey.
  */
 export const getJourneyDateRangeKpi: API.OperationMethod<
-  GetJourneyDateRangeKpiRequest,
+  GetJourneyDateRangeKpiRequest & RegionInput,
   GetJourneyDateRangeKpiResponse,
   GetJourneyDateRangeKpiError,
   Credentials | HttpClient.HttpClient
@@ -7661,7 +7664,7 @@ export type GetJourneyExecutionActivityMetricsError =
  * Retrieves (queries) pre-aggregated data for a standard execution metric that applies to a journey activity.
  */
 export const getJourneyExecutionActivityMetrics: API.OperationMethod<
-  GetJourneyExecutionActivityMetricsRequest,
+  GetJourneyExecutionActivityMetricsRequest & RegionInput,
   GetJourneyExecutionActivityMetricsResponse,
   GetJourneyExecutionActivityMetricsError,
   Credentials | HttpClient.HttpClient
@@ -7697,7 +7700,7 @@ export type GetJourneyExecutionMetricsError =
  * Retrieves (queries) pre-aggregated data for a standard execution metric that applies to a journey.
  */
 export const getJourneyExecutionMetrics: API.OperationMethod<
-  GetJourneyExecutionMetricsRequest,
+  GetJourneyExecutionMetricsRequest & RegionInput,
   GetJourneyExecutionMetricsResponse,
   GetJourneyExecutionMetricsError,
   Credentials | HttpClient.HttpClient
@@ -7733,7 +7736,7 @@ export type GetJourneyRunExecutionActivityMetricsError =
  * Retrieves (queries) pre-aggregated data for a standard run execution metric that applies to a journey activity.
  */
 export const getJourneyRunExecutionActivityMetrics: API.OperationMethod<
-  GetJourneyRunExecutionActivityMetricsRequest,
+  GetJourneyRunExecutionActivityMetricsRequest & RegionInput,
   GetJourneyRunExecutionActivityMetricsResponse,
   GetJourneyRunExecutionActivityMetricsError,
   Credentials | HttpClient.HttpClient
@@ -7769,7 +7772,7 @@ export type GetJourneyRunExecutionMetricsError =
  * Retrieves (queries) pre-aggregated data for a standard run execution metric that applies to a journey.
  */
 export const getJourneyRunExecutionMetrics: API.OperationMethod<
-  GetJourneyRunExecutionMetricsRequest,
+  GetJourneyRunExecutionMetricsRequest & RegionInput,
   GetJourneyRunExecutionMetricsResponse,
   GetJourneyRunExecutionMetricsError,
   Credentials | HttpClient.HttpClient
@@ -7805,7 +7808,7 @@ export type GetJourneyRunsError =
  * Provides information about the runs of a journey.
  */
 export const getJourneyRuns: API.OperationMethod<
-  GetJourneyRunsRequest,
+  GetJourneyRunsRequest & RegionInput,
   GetJourneyRunsResponse,
   GetJourneyRunsError,
   Credentials | HttpClient.HttpClient
@@ -7841,7 +7844,7 @@ export type GetPushTemplateError =
  * Retrieves the content and settings of a message template for messages that are sent through a push notification channel.
  */
 export const getPushTemplate: API.OperationMethod<
-  GetPushTemplateRequest,
+  GetPushTemplateRequest & RegionInput,
   GetPushTemplateResponse,
   GetPushTemplateError,
   Credentials | HttpClient.HttpClient
@@ -7877,7 +7880,7 @@ export type GetRecommenderConfigurationError =
  * Retrieves information about an Amazon Pinpoint configuration for a recommender model.
  */
 export const getRecommenderConfiguration: API.OperationMethod<
-  GetRecommenderConfigurationRequest,
+  GetRecommenderConfigurationRequest & RegionInput,
   GetRecommenderConfigurationResponse,
   GetRecommenderConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -7913,7 +7916,7 @@ export type GetRecommenderConfigurationsError =
  * Retrieves information about all the recommender model configurations that are associated with your Amazon Pinpoint account.
  */
 export const getRecommenderConfigurations: API.OperationMethod<
-  GetRecommenderConfigurationsRequest,
+  GetRecommenderConfigurationsRequest & RegionInput,
   GetRecommenderConfigurationsResponse,
   GetRecommenderConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -7949,7 +7952,7 @@ export type GetSegmentError =
  * Retrieves information about the configuration, dimension, and other settings for a specific segment that's associated with an application.
  */
 export const getSegment: API.OperationMethod<
-  GetSegmentRequest,
+  GetSegmentRequest & RegionInput,
   GetSegmentResponse,
   GetSegmentError,
   Credentials | HttpClient.HttpClient
@@ -7985,7 +7988,7 @@ export type GetSegmentExportJobsError =
  * Retrieves information about the status and settings of the export jobs for a segment.
  */
 export const getSegmentExportJobs: API.OperationMethod<
-  GetSegmentExportJobsRequest,
+  GetSegmentExportJobsRequest & RegionInput,
   GetSegmentExportJobsResponse,
   GetSegmentExportJobsError,
   Credentials | HttpClient.HttpClient
@@ -8021,7 +8024,7 @@ export type GetSegmentImportJobsError =
  * Retrieves information about the status and settings of the import jobs for a segment.
  */
 export const getSegmentImportJobs: API.OperationMethod<
-  GetSegmentImportJobsRequest,
+  GetSegmentImportJobsRequest & RegionInput,
   GetSegmentImportJobsResponse,
   GetSegmentImportJobsError,
   Credentials | HttpClient.HttpClient
@@ -8057,7 +8060,7 @@ export type GetSegmentsError =
  * Retrieves information about the configuration, dimension, and other settings for all the segments that are associated with an application.
  */
 export const getSegments: API.OperationMethod<
-  GetSegmentsRequest,
+  GetSegmentsRequest & RegionInput,
   GetSegmentsResponse,
   GetSegmentsError,
   Credentials | HttpClient.HttpClient
@@ -8093,7 +8096,7 @@ export type GetSegmentVersionError =
  * Retrieves information about the configuration, dimension, and other settings for a specific version of a segment that's associated with an application.
  */
 export const getSegmentVersion: API.OperationMethod<
-  GetSegmentVersionRequest,
+  GetSegmentVersionRequest & RegionInput,
   GetSegmentVersionResponse,
   GetSegmentVersionError,
   Credentials | HttpClient.HttpClient
@@ -8129,7 +8132,7 @@ export type GetSegmentVersionsError =
  * Retrieves information about the configuration, dimension, and other settings for all the versions of a specific segment that's associated with an application.
  */
 export const getSegmentVersions: API.OperationMethod<
-  GetSegmentVersionsRequest,
+  GetSegmentVersionsRequest & RegionInput,
   GetSegmentVersionsResponse,
   GetSegmentVersionsError,
   Credentials | HttpClient.HttpClient
@@ -8165,7 +8168,7 @@ export type GetSmsChannelError =
  * Retrieves information about the status and settings of the SMS channel for an application.
  */
 export const getSmsChannel: API.OperationMethod<
-  GetSmsChannelRequest,
+  GetSmsChannelRequest & RegionInput,
   GetSmsChannelResponse,
   GetSmsChannelError,
   Credentials | HttpClient.HttpClient
@@ -8201,7 +8204,7 @@ export type GetSmsTemplateError =
  * Retrieves the content and settings of a message template for messages that are sent through the SMS channel.
  */
 export const getSmsTemplate: API.OperationMethod<
-  GetSmsTemplateRequest,
+  GetSmsTemplateRequest & RegionInput,
   GetSmsTemplateResponse,
   GetSmsTemplateError,
   Credentials | HttpClient.HttpClient
@@ -8237,7 +8240,7 @@ export type GetUserEndpointsError =
  * Retrieves information about all the endpoints that are associated with a specific user ID.
  */
 export const getUserEndpoints: API.OperationMethod<
-  GetUserEndpointsRequest,
+  GetUserEndpointsRequest & RegionInput,
   GetUserEndpointsResponse,
   GetUserEndpointsError,
   Credentials | HttpClient.HttpClient
@@ -8273,7 +8276,7 @@ export type GetVoiceChannelError =
  * Retrieves information about the status and settings of the voice channel for an application.
  */
 export const getVoiceChannel: API.OperationMethod<
-  GetVoiceChannelRequest,
+  GetVoiceChannelRequest & RegionInput,
   GetVoiceChannelResponse,
   GetVoiceChannelError,
   Credentials | HttpClient.HttpClient
@@ -8309,7 +8312,7 @@ export type GetVoiceTemplateError =
  * Retrieves the content and settings of a message template for messages that are sent through the voice channel.
  */
 export const getVoiceTemplate: API.OperationMethod<
-  GetVoiceTemplateRequest,
+  GetVoiceTemplateRequest & RegionInput,
   GetVoiceTemplateResponse,
   GetVoiceTemplateError,
   Credentials | HttpClient.HttpClient
@@ -8345,7 +8348,7 @@ export type ListJourneysError =
  * Retrieves information about the status, configuration, and other settings for all the journeys that are associated with an application.
  */
 export const listJourneys: API.OperationMethod<
-  ListJourneysRequest,
+  ListJourneysRequest & RegionInput,
   ListJourneysResponse,
   ListJourneysError,
   Credentials | HttpClient.HttpClient
@@ -8373,7 +8376,7 @@ export type ListTagsForResourceError = CommonErrors;
  * Retrieves all the tags (keys and values) that are associated with an application, campaign, message template, or segment.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -8399,7 +8402,7 @@ export type ListTemplatesError =
  * Retrieves information about all the message templates that are associated with your Amazon Pinpoint account.
  */
 export const listTemplates: API.OperationMethod<
-  ListTemplatesRequest,
+  ListTemplatesRequest & RegionInput,
   ListTemplatesResponse,
   ListTemplatesError,
   Credentials | HttpClient.HttpClient
@@ -8433,7 +8436,7 @@ export type ListTemplateVersionsError =
  * Retrieves information about all the versions of a specific message template.
  */
 export const listTemplateVersions: API.OperationMethod<
-  ListTemplateVersionsRequest,
+  ListTemplateVersionsRequest & RegionInput,
   ListTemplateVersionsResponse,
   ListTemplateVersionsError,
   Credentials | HttpClient.HttpClient
@@ -8469,7 +8472,7 @@ export type PhoneNumberValidateError =
  * Retrieves information about a phone number.
  */
 export const phoneNumberValidate: API.OperationMethod<
-  PhoneNumberValidateRequest,
+  PhoneNumberValidateRequest & RegionInput,
   PhoneNumberValidateResponse,
   PhoneNumberValidateError,
   Credentials | HttpClient.HttpClient
@@ -8505,7 +8508,7 @@ export type PutEventsError =
  * Creates a new event to record for endpoints, or creates or updates endpoint data that existing events are associated with.
  */
 export const putEvents: API.OperationMethod<
-  PutEventsRequest,
+  PutEventsRequest & RegionInput,
   PutEventsResponse,
   PutEventsError,
   Credentials | HttpClient.HttpClient
@@ -8541,7 +8544,7 @@ export type PutEventStreamError =
  * Creates a new event stream for an application or updates the settings of an existing event stream for an application.
  */
 export const putEventStream: API.OperationMethod<
-  PutEventStreamRequest,
+  PutEventStreamRequest & RegionInput,
   PutEventStreamResponse,
   PutEventStreamError,
   Credentials | HttpClient.HttpClient
@@ -8577,7 +8580,7 @@ export type RemoveAttributesError =
  * Removes one or more custom attributes, of the same attribute type, from the application. Existing endpoints still have the attributes but Amazon Pinpoint will stop capturing new or changed values for these attributes.
  */
 export const removeAttributes: API.OperationMethod<
-  RemoveAttributesRequest,
+  RemoveAttributesRequest & RegionInput,
   RemoveAttributesResponse,
   RemoveAttributesError,
   Credentials | HttpClient.HttpClient
@@ -8613,7 +8616,7 @@ export type SendMessagesError =
  * Creates and sends a direct message.
  */
 export const sendMessages: API.OperationMethod<
-  SendMessagesRequest,
+  SendMessagesRequest & RegionInput,
   SendMessagesResponse,
   SendMessagesError,
   Credentials | HttpClient.HttpClient
@@ -8649,7 +8652,7 @@ export type SendOTPMessageError =
  * Send an OTP message
  */
 export const sendOTPMessage: API.OperationMethod<
-  SendOTPMessageRequest,
+  SendOTPMessageRequest & RegionInput,
   SendOTPMessageResponse,
   SendOTPMessageError,
   Credentials | HttpClient.HttpClient
@@ -8685,7 +8688,7 @@ export type SendUsersMessagesError =
  * Creates and sends a message to a list of users.
  */
 export const sendUsersMessages: API.OperationMethod<
-  SendUsersMessagesRequest,
+  SendUsersMessagesRequest & RegionInput,
   SendUsersMessagesResponse,
   SendUsersMessagesError,
   Credentials | HttpClient.HttpClient
@@ -8713,7 +8716,7 @@ export type TagResourceError = CommonErrors;
  * Adds one or more tags (keys and values) to an application, campaign, message template, or segment.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -8733,7 +8736,7 @@ export type UntagResourceError = CommonErrors;
  * Removes one or more tags (keys and values) from an application, campaign, message template, or segment.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -8761,7 +8764,7 @@ export type UpdateAdmChannelError =
  * Enables the ADM channel for an application or updates the status and settings of the ADM channel for an application.
  */
 export const updateAdmChannel: API.OperationMethod<
-  UpdateAdmChannelRequest,
+  UpdateAdmChannelRequest & RegionInput,
   UpdateAdmChannelResponse,
   UpdateAdmChannelError,
   Credentials | HttpClient.HttpClient
@@ -8797,7 +8800,7 @@ export type UpdateApnsChannelError =
  * Enables the APNs channel for an application or updates the status and settings of the APNs channel for an application.
  */
 export const updateApnsChannel: API.OperationMethod<
-  UpdateApnsChannelRequest,
+  UpdateApnsChannelRequest & RegionInput,
   UpdateApnsChannelResponse,
   UpdateApnsChannelError,
   Credentials | HttpClient.HttpClient
@@ -8833,7 +8836,7 @@ export type UpdateApnsSandboxChannelError =
  * Enables the APNs sandbox channel for an application or updates the status and settings of the APNs sandbox channel for an application.
  */
 export const updateApnsSandboxChannel: API.OperationMethod<
-  UpdateApnsSandboxChannelRequest,
+  UpdateApnsSandboxChannelRequest & RegionInput,
   UpdateApnsSandboxChannelResponse,
   UpdateApnsSandboxChannelError,
   Credentials | HttpClient.HttpClient
@@ -8869,7 +8872,7 @@ export type UpdateApnsVoipChannelError =
  * Enables the APNs VoIP channel for an application or updates the status and settings of the APNs VoIP channel for an application.
  */
 export const updateApnsVoipChannel: API.OperationMethod<
-  UpdateApnsVoipChannelRequest,
+  UpdateApnsVoipChannelRequest & RegionInput,
   UpdateApnsVoipChannelResponse,
   UpdateApnsVoipChannelError,
   Credentials | HttpClient.HttpClient
@@ -8905,7 +8908,7 @@ export type UpdateApnsVoipSandboxChannelError =
  * Enables the APNs VoIP sandbox channel for an application or updates the status and settings of the APNs VoIP sandbox channel for an application.
  */
 export const updateApnsVoipSandboxChannel: API.OperationMethod<
-  UpdateApnsVoipSandboxChannelRequest,
+  UpdateApnsVoipSandboxChannelRequest & RegionInput,
   UpdateApnsVoipSandboxChannelResponse,
   UpdateApnsVoipSandboxChannelError,
   Credentials | HttpClient.HttpClient
@@ -8941,7 +8944,7 @@ export type UpdateApplicationSettingsError =
  * Updates the settings for an application.
  */
 export const updateApplicationSettings: API.OperationMethod<
-  UpdateApplicationSettingsRequest,
+  UpdateApplicationSettingsRequest & RegionInput,
   UpdateApplicationSettingsResponse,
   UpdateApplicationSettingsError,
   Credentials | HttpClient.HttpClient
@@ -8977,7 +8980,7 @@ export type UpdateBaiduChannelError =
  * Enables the Baidu channel for an application or updates the status and settings of the Baidu channel for an application.
  */
 export const updateBaiduChannel: API.OperationMethod<
-  UpdateBaiduChannelRequest,
+  UpdateBaiduChannelRequest & RegionInput,
   UpdateBaiduChannelResponse,
   UpdateBaiduChannelError,
   Credentials | HttpClient.HttpClient
@@ -9013,7 +9016,7 @@ export type UpdateCampaignError =
  * Updates the configuration and other settings for a campaign.
  */
 export const updateCampaign: API.OperationMethod<
-  UpdateCampaignRequest,
+  UpdateCampaignRequest & RegionInput,
   UpdateCampaignResponse,
   UpdateCampaignError,
   Credentials | HttpClient.HttpClient
@@ -9049,7 +9052,7 @@ export type UpdateEmailChannelError =
  * Enables the email channel for an application or updates the status and settings of the email channel for an application.
  */
 export const updateEmailChannel: API.OperationMethod<
-  UpdateEmailChannelRequest,
+  UpdateEmailChannelRequest & RegionInput,
   UpdateEmailChannelResponse,
   UpdateEmailChannelError,
   Credentials | HttpClient.HttpClient
@@ -9085,7 +9088,7 @@ export type UpdateEmailTemplateError =
  * Updates an existing message template for messages that are sent through the email channel.
  */
 export const updateEmailTemplate: API.OperationMethod<
-  UpdateEmailTemplateRequest,
+  UpdateEmailTemplateRequest & RegionInput,
   UpdateEmailTemplateResponse,
   UpdateEmailTemplateError,
   Credentials | HttpClient.HttpClient
@@ -9121,7 +9124,7 @@ export type UpdateEndpointError =
  * Creates a new endpoint for an application or updates the settings and attributes of an existing endpoint for an application. You can also use this operation to define custom attributes for an endpoint. If an update includes one or more values for a custom attribute, Amazon Pinpoint replaces (overwrites) any existing values with the new values.
  */
 export const updateEndpoint: API.OperationMethod<
-  UpdateEndpointRequest,
+  UpdateEndpointRequest & RegionInput,
   UpdateEndpointResponse,
   UpdateEndpointError,
   Credentials | HttpClient.HttpClient
@@ -9157,7 +9160,7 @@ export type UpdateEndpointsBatchError =
  * Creates a new batch of endpoints for an application or updates the settings and attributes of a batch of existing endpoints for an application. You can also use this operation to define custom attributes for a batch of endpoints. If an update includes one or more values for a custom attribute, Amazon Pinpoint replaces (overwrites) any existing values with the new values.
  */
 export const updateEndpointsBatch: API.OperationMethod<
-  UpdateEndpointsBatchRequest,
+  UpdateEndpointsBatchRequest & RegionInput,
   UpdateEndpointsBatchResponse,
   UpdateEndpointsBatchError,
   Credentials | HttpClient.HttpClient
@@ -9193,7 +9196,7 @@ export type UpdateGcmChannelError =
  * Enables the GCM channel for an application or updates the status and settings of the GCM channel for an application.
  */
 export const updateGcmChannel: API.OperationMethod<
-  UpdateGcmChannelRequest,
+  UpdateGcmChannelRequest & RegionInput,
   UpdateGcmChannelResponse,
   UpdateGcmChannelError,
   Credentials | HttpClient.HttpClient
@@ -9229,7 +9232,7 @@ export type UpdateInAppTemplateError =
  * Updates an existing message template for messages sent through the in-app message channel.
  */
 export const updateInAppTemplate: API.OperationMethod<
-  UpdateInAppTemplateRequest,
+  UpdateInAppTemplateRequest & RegionInput,
   UpdateInAppTemplateResponse,
   UpdateInAppTemplateError,
   Credentials | HttpClient.HttpClient
@@ -9266,7 +9269,7 @@ export type UpdateJourneyError =
  * Updates the configuration and other settings for a journey.
  */
 export const updateJourney: API.OperationMethod<
-  UpdateJourneyRequest,
+  UpdateJourneyRequest & RegionInput,
   UpdateJourneyResponse,
   UpdateJourneyError,
   Credentials | HttpClient.HttpClient
@@ -9303,7 +9306,7 @@ export type UpdateJourneyStateError =
  * Cancels (stops) an active journey.
  */
 export const updateJourneyState: API.OperationMethod<
-  UpdateJourneyStateRequest,
+  UpdateJourneyStateRequest & RegionInput,
   UpdateJourneyStateResponse,
   UpdateJourneyStateError,
   Credentials | HttpClient.HttpClient
@@ -9339,7 +9342,7 @@ export type UpdatePushTemplateError =
  * Updates an existing message template for messages that are sent through a push notification channel.
  */
 export const updatePushTemplate: API.OperationMethod<
-  UpdatePushTemplateRequest,
+  UpdatePushTemplateRequest & RegionInput,
   UpdatePushTemplateResponse,
   UpdatePushTemplateError,
   Credentials | HttpClient.HttpClient
@@ -9375,7 +9378,7 @@ export type UpdateRecommenderConfigurationError =
  * Updates an Amazon Pinpoint configuration for a recommender model.
  */
 export const updateRecommenderConfiguration: API.OperationMethod<
-  UpdateRecommenderConfigurationRequest,
+  UpdateRecommenderConfigurationRequest & RegionInput,
   UpdateRecommenderConfigurationResponse,
   UpdateRecommenderConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -9411,7 +9414,7 @@ export type UpdateSegmentError =
  * Creates a new segment for an application or updates the configuration, dimension, and other settings for an existing segment that's associated with an application.
  */
 export const updateSegment: API.OperationMethod<
-  UpdateSegmentRequest,
+  UpdateSegmentRequest & RegionInput,
   UpdateSegmentResponse,
   UpdateSegmentError,
   Credentials | HttpClient.HttpClient
@@ -9447,7 +9450,7 @@ export type UpdateSmsChannelError =
  * Enables the SMS channel for an application or updates the status and settings of the SMS channel for an application.
  */
 export const updateSmsChannel: API.OperationMethod<
-  UpdateSmsChannelRequest,
+  UpdateSmsChannelRequest & RegionInput,
   UpdateSmsChannelResponse,
   UpdateSmsChannelError,
   Credentials | HttpClient.HttpClient
@@ -9483,7 +9486,7 @@ export type UpdateSmsTemplateError =
  * Updates an existing message template for messages that are sent through the SMS channel.
  */
 export const updateSmsTemplate: API.OperationMethod<
-  UpdateSmsTemplateRequest,
+  UpdateSmsTemplateRequest & RegionInput,
   UpdateSmsTemplateResponse,
   UpdateSmsTemplateError,
   Credentials | HttpClient.HttpClient
@@ -9519,7 +9522,7 @@ export type UpdateTemplateActiveVersionError =
  * Changes the status of a specific version of a message template to *active*.
  */
 export const updateTemplateActiveVersion: API.OperationMethod<
-  UpdateTemplateActiveVersionRequest,
+  UpdateTemplateActiveVersionRequest & RegionInput,
   UpdateTemplateActiveVersionResponse,
   UpdateTemplateActiveVersionError,
   Credentials | HttpClient.HttpClient
@@ -9555,7 +9558,7 @@ export type UpdateVoiceChannelError =
  * Enables the voice channel for an application or updates the status and settings of the voice channel for an application.
  */
 export const updateVoiceChannel: API.OperationMethod<
-  UpdateVoiceChannelRequest,
+  UpdateVoiceChannelRequest & RegionInput,
   UpdateVoiceChannelResponse,
   UpdateVoiceChannelError,
   Credentials | HttpClient.HttpClient
@@ -9591,7 +9594,7 @@ export type UpdateVoiceTemplateError =
  * Updates an existing message template for messages that are sent through the voice channel.
  */
 export const updateVoiceTemplate: API.OperationMethod<
-  UpdateVoiceTemplateRequest,
+  UpdateVoiceTemplateRequest & RegionInput,
   UpdateVoiceTemplateResponse,
   UpdateVoiceTemplateError,
   Credentials | HttpClient.HttpClient
@@ -9627,7 +9630,7 @@ export type VerifyOTPMessageError =
  * Verify an OTP
  */
 export const verifyOTPMessage: API.OperationMethod<
-  VerifyOTPMessageRequest,
+  VerifyOTPMessageRequest & RegionInput,
   VerifyOTPMessageResponse,
   VerifyOTPMessageError,
   Credentials | HttpClient.HttpClient

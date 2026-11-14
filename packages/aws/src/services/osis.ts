@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -111,7 +112,7 @@ export class InternalException
     "InternalException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InvalidPaginationTokenException
   extends /*@__PURE__*/ S.TaggedError<InvalidPaginationTokenException>()(
     "InvalidPaginationTokenException",
@@ -123,7 +124,7 @@ export class LimitExceededException
     "LimitExceededException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+  ).pipe(C.withConflictError, C.withThrottlingError, C.withRetryableError) {}
 export class ResourceAlreadyExistsException
   extends /*@__PURE__*/ S.TaggedError<ResourceAlreadyExistsException>()(
     "ResourceAlreadyExistsException",
@@ -150,8 +151,8 @@ export interface CloudWatchLogDestination {
   LogGroup: string;
 }
 export interface LogPublishingOptions {
-  IsLoggingEnabled?: boolean;
-  CloudWatchLogDestination?: CloudWatchLogDestination;
+  IsLoggingEnabled?: boolean | undefined;
+  CloudWatchLogDestination?: CloudWatchLogDestination | undefined;
 }
 export type SubnetId = string;
 export type SubnetIds = string[];
@@ -160,14 +161,14 @@ export type SecurityGroupIds = string[];
 export type CidrBlock = string;
 export interface VpcAttachmentOptions {
   AttachToVpc: boolean;
-  CidrBlock?: string;
+  CidrBlock?: string | undefined;
 }
 export type VpcEndpointManagement = "CUSTOMER" | "SERVICE" | (string & {});
 export interface VpcOptions {
   SubnetIds: string[];
-  SecurityGroupIds?: string[];
-  VpcAttachmentOptions?: VpcAttachmentOptions;
-  VpcEndpointManagement?: VpcEndpointManagement;
+  SecurityGroupIds?: string[] | undefined;
+  VpcAttachmentOptions?: VpcAttachmentOptions | undefined;
+  VpcEndpointManagement?: VpcEndpointManagement | undefined;
 }
 export interface BufferOptions {
   PersistentBufferEnabled: boolean;
@@ -189,12 +190,12 @@ export interface CreatePipelineRequest {
   MinUnits: number;
   MaxUnits: number;
   PipelineConfigurationBody: string;
-  LogPublishingOptions?: LogPublishingOptions;
-  VpcOptions?: VpcOptions;
-  BufferOptions?: BufferOptions;
-  EncryptionAtRestOptions?: EncryptionAtRestOptions;
-  Tags?: Tag[];
-  PipelineRoleArn?: string;
+  LogPublishingOptions?: LogPublishingOptions | undefined;
+  VpcOptions?: VpcOptions | undefined;
+  BufferOptions?: BufferOptions | undefined;
+  EncryptionAtRestOptions?: EncryptionAtRestOptions | undefined;
+  Tags?: Tag[] | undefined;
+  PipelineRoleArn?: string | undefined;
 }
 export type PipelineStatus =
   | "CREATING"
@@ -209,54 +210,54 @@ export type PipelineStatus =
   | "STOPPED"
   | (string & {});
 export interface PipelineStatusReason {
-  Description?: string;
+  Description?: string | undefined;
 }
 export type IngestEndpointUrlsList = string[];
 export interface VpcEndpoint {
-  VpcEndpointId?: string;
-  VpcId?: string;
-  VpcOptions?: VpcOptions;
+  VpcEndpointId?: string | undefined;
+  VpcId?: string | undefined;
+  VpcOptions?: VpcOptions | undefined;
 }
 export type VpcEndpointsList = VpcEndpoint[];
 export type VpcEndpointServiceName = "OPENSEARCH_SERVERLESS" | (string & {});
 export interface ServiceVpcEndpoint {
-  ServiceName?: VpcEndpointServiceName;
-  VpcEndpointId?: string;
+  ServiceName?: VpcEndpointServiceName | undefined;
+  VpcEndpointId?: string | undefined;
 }
 export type ServiceVpcEndpointsList = ServiceVpcEndpoint[];
 export interface PipelineDestination {
-  ServiceName?: string;
-  Endpoint?: string;
+  ServiceName?: string | undefined;
+  Endpoint?: string | undefined;
 }
 export type PipelineDestinationList = PipelineDestination[];
 export interface Pipeline {
-  PipelineName?: string;
-  PipelineArn?: string;
-  MinUnits?: number;
-  MaxUnits?: number;
-  Status?: PipelineStatus;
-  StatusReason?: PipelineStatusReason;
-  PipelineConfigurationBody?: string;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  IngestEndpointUrls?: string[];
-  LogPublishingOptions?: LogPublishingOptions;
-  VpcEndpoints?: VpcEndpoint[];
-  BufferOptions?: BufferOptions;
-  EncryptionAtRestOptions?: EncryptionAtRestOptions;
-  VpcEndpointService?: string;
-  ServiceVpcEndpoints?: ServiceVpcEndpoint[];
-  Destinations?: PipelineDestination[];
-  Tags?: Tag[];
-  PipelineRoleArn?: string;
+  PipelineName?: string | undefined;
+  PipelineArn?: string | undefined;
+  MinUnits?: number | undefined;
+  MaxUnits?: number | undefined;
+  Status?: PipelineStatus | undefined;
+  StatusReason?: PipelineStatusReason | undefined;
+  PipelineConfigurationBody?: string | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  IngestEndpointUrls?: string[] | undefined;
+  LogPublishingOptions?: LogPublishingOptions | undefined;
+  VpcEndpoints?: VpcEndpoint[] | undefined;
+  BufferOptions?: BufferOptions | undefined;
+  EncryptionAtRestOptions?: EncryptionAtRestOptions | undefined;
+  VpcEndpointService?: string | undefined;
+  ServiceVpcEndpoints?: ServiceVpcEndpoint[] | undefined;
+  Destinations?: PipelineDestination[] | undefined;
+  Tags?: Tag[] | undefined;
+  PipelineRoleArn?: string | undefined;
 }
 export interface CreatePipelineResponse {
-  Pipeline?: Pipeline;
+  Pipeline?: Pipeline | undefined;
 }
 export type PipelineArn = string;
 export interface PipelineEndpointVpcOptions {
-  SubnetIds?: string[];
-  SecurityGroupIds?: string[];
+  SubnetIds?: string[] | undefined;
+  SecurityGroupIds?: string[] | undefined;
 }
 export interface CreatePipelineEndpointRequest {
   PipelineArn: string;
@@ -272,10 +273,10 @@ export type PipelineEndpointStatus =
   | "REVOKED"
   | (string & {});
 export interface CreatePipelineEndpointResponse {
-  PipelineArn?: string;
-  EndpointId?: string;
-  Status?: PipelineEndpointStatus;
-  VpcId?: string;
+  PipelineArn?: string | undefined;
+  EndpointId?: string | undefined;
+  Status?: PipelineEndpointStatus | undefined;
+  VpcId?: string | undefined;
 }
 export interface DeletePipelineRequest {
   PipelineName: string;
@@ -293,24 +294,24 @@ export interface GetPipelineRequest {
   PipelineName: string;
 }
 export interface GetPipelineResponse {
-  Pipeline?: Pipeline;
+  Pipeline?: Pipeline | undefined;
 }
 export type BlueprintFormat = string;
 export interface GetPipelineBlueprintRequest {
   BlueprintName: string;
-  Format?: string;
+  Format?: string | undefined;
 }
 export interface PipelineBlueprint {
-  BlueprintName?: string;
-  PipelineConfigurationBody?: string;
-  DisplayName?: string;
-  DisplayDescription?: string;
-  Service?: string;
-  UseCase?: string;
+  BlueprintName?: string | undefined;
+  PipelineConfigurationBody?: string | undefined;
+  DisplayName?: string | undefined;
+  DisplayDescription?: string | undefined;
+  Service?: string | undefined;
+  UseCase?: string | undefined;
 }
 export interface GetPipelineBlueprintResponse {
-  Blueprint?: PipelineBlueprint;
-  Format?: string;
+  Blueprint?: PipelineBlueprint | undefined;
+  Format?: string | undefined;
 }
 export interface GetPipelineChangeProgressRequest {
   PipelineName: string;
@@ -328,111 +329,111 @@ export type ChangeProgressStageStatuses =
   | "FAILED"
   | (string & {});
 export interface ChangeProgressStage {
-  Name?: string;
-  Status?: ChangeProgressStageStatuses;
-  Description?: string;
-  LastUpdatedAt?: Date;
+  Name?: string | undefined;
+  Status?: ChangeProgressStageStatuses | undefined;
+  Description?: string | undefined;
+  LastUpdatedAt?: Date | undefined;
 }
 export type ChangeProgressStageList = ChangeProgressStage[];
 export interface ChangeProgressStatus {
-  StartTime?: Date;
-  Status?: ChangeProgressStatuses;
-  TotalNumberOfStages?: number;
-  ChangeProgressStages?: ChangeProgressStage[];
+  StartTime?: Date | undefined;
+  Status?: ChangeProgressStatuses | undefined;
+  TotalNumberOfStages?: number | undefined;
+  ChangeProgressStages?: ChangeProgressStage[] | undefined;
 }
 export type ChangeProgressStatusList = ChangeProgressStatus[];
 export interface GetPipelineChangeProgressResponse {
-  ChangeProgressStatuses?: ChangeProgressStatus[];
+  ChangeProgressStatuses?: ChangeProgressStatus[] | undefined;
 }
 export interface GetResourcePolicyRequest {
   ResourceArn: string;
 }
 export type ResourcePolicy = string;
 export interface GetResourcePolicyResponse {
-  ResourceArn?: string;
-  Policy?: string;
+  ResourceArn?: string | undefined;
+  Policy?: string | undefined;
 }
 export interface ListPipelineBlueprintsRequest {}
 export interface PipelineBlueprintSummary {
-  BlueprintName?: string;
-  DisplayName?: string;
-  DisplayDescription?: string;
-  Service?: string;
-  UseCase?: string;
+  BlueprintName?: string | undefined;
+  DisplayName?: string | undefined;
+  DisplayDescription?: string | undefined;
+  Service?: string | undefined;
+  UseCase?: string | undefined;
 }
 export type PipelineBlueprintsSummaryList = PipelineBlueprintSummary[];
 export interface ListPipelineBlueprintsResponse {
-  Blueprints?: PipelineBlueprintSummary[];
+  Blueprints?: PipelineBlueprintSummary[] | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListPipelineEndpointConnectionsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type AwsAccountId = string;
 export interface PipelineEndpointConnection {
-  PipelineArn?: string;
-  EndpointId?: string;
-  Status?: PipelineEndpointStatus;
-  VpcEndpointOwner?: string;
+  PipelineArn?: string | undefined;
+  EndpointId?: string | undefined;
+  Status?: PipelineEndpointStatus | undefined;
+  VpcEndpointOwner?: string | undefined;
 }
 export type PipelineEndpointConnectionsSummaryList = PipelineEndpointConnection[];
 export interface ListPipelineEndpointConnectionsResponse {
-  NextToken?: string;
-  PipelineEndpointConnections?: PipelineEndpointConnection[];
+  NextToken?: string | undefined;
+  PipelineEndpointConnections?: PipelineEndpointConnection[] | undefined;
 }
 export interface ListPipelineEndpointsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface PipelineEndpoint {
-  PipelineArn?: string;
-  EndpointId?: string;
-  Status?: PipelineEndpointStatus;
-  VpcId?: string;
-  VpcOptions?: PipelineEndpointVpcOptions;
-  IngestEndpointUrl?: string;
+  PipelineArn?: string | undefined;
+  EndpointId?: string | undefined;
+  Status?: PipelineEndpointStatus | undefined;
+  VpcId?: string | undefined;
+  VpcOptions?: PipelineEndpointVpcOptions | undefined;
+  IngestEndpointUrl?: string | undefined;
 }
 export type PipelineEndpointsSummaryList = PipelineEndpoint[];
 export interface ListPipelineEndpointsResponse {
-  NextToken?: string;
-  PipelineEndpoints?: PipelineEndpoint[];
+  NextToken?: string | undefined;
+  PipelineEndpoints?: PipelineEndpoint[] | undefined;
 }
 export interface ListPipelinesRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface PipelineSummary {
-  Status?: PipelineStatus;
-  StatusReason?: PipelineStatusReason;
-  PipelineName?: string;
-  PipelineArn?: string;
-  MinUnits?: number;
-  MaxUnits?: number;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  Destinations?: PipelineDestination[];
-  Tags?: Tag[];
+  Status?: PipelineStatus | undefined;
+  StatusReason?: PipelineStatusReason | undefined;
+  PipelineName?: string | undefined;
+  PipelineArn?: string | undefined;
+  MinUnits?: number | undefined;
+  MaxUnits?: number | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  Destinations?: PipelineDestination[] | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type PipelineSummaryList = PipelineSummary[];
 export interface ListPipelinesResponse {
-  NextToken?: string;
-  Pipelines?: PipelineSummary[];
+  NextToken?: string | undefined;
+  Pipelines?: PipelineSummary[] | undefined;
 }
 export interface ListTagsForResourceRequest {
   Arn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface PutResourcePolicyRequest {
   ResourceArn: string;
   Policy: string;
 }
 export interface PutResourcePolicyResponse {
-  ResourceArn?: string;
-  Policy?: string;
+  ResourceArn?: string | undefined;
+  Policy?: string | undefined;
 }
 export type PipelineEndpointIdsList = string[];
 export interface RevokePipelineEndpointConnectionsRequest {
@@ -440,19 +441,19 @@ export interface RevokePipelineEndpointConnectionsRequest {
   EndpointIds: string[];
 }
 export interface RevokePipelineEndpointConnectionsResponse {
-  PipelineArn?: string;
+  PipelineArn?: string | undefined;
 }
 export interface StartPipelineRequest {
   PipelineName: string;
 }
 export interface StartPipelineResponse {
-  Pipeline?: Pipeline;
+  Pipeline?: Pipeline | undefined;
 }
 export interface StopPipelineRequest {
   PipelineName: string;
 }
 export interface StopPipelineResponse {
-  Pipeline?: Pipeline;
+  Pipeline?: Pipeline | undefined;
 }
 export interface TagResourceRequest {
   Arn: string;
@@ -467,27 +468,27 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdatePipelineRequest {
   PipelineName: string;
-  MinUnits?: number;
-  MaxUnits?: number;
-  PipelineConfigurationBody?: string;
-  LogPublishingOptions?: LogPublishingOptions;
-  BufferOptions?: BufferOptions;
-  EncryptionAtRestOptions?: EncryptionAtRestOptions;
-  PipelineRoleArn?: string;
+  MinUnits?: number | undefined;
+  MaxUnits?: number | undefined;
+  PipelineConfigurationBody?: string | undefined;
+  LogPublishingOptions?: LogPublishingOptions | undefined;
+  BufferOptions?: BufferOptions | undefined;
+  EncryptionAtRestOptions?: EncryptionAtRestOptions | undefined;
+  PipelineRoleArn?: string | undefined;
 }
 export interface UpdatePipelineResponse {
-  Pipeline?: Pipeline;
+  Pipeline?: Pipeline | undefined;
 }
 export interface ValidatePipelineRequest {
   PipelineConfigurationBody: string;
 }
 export interface ValidationMessage {
-  Message?: string;
+  Message?: string | undefined;
 }
 export type ValidationMessageList = ValidationMessage[];
 export interface ValidatePipelineResponse {
-  isValid?: boolean;
-  Errors?: ValidationMessage[];
+  isValid?: boolean | undefined;
+  Errors?: ValidationMessage[] | undefined;
 }
 export type ErrorMessage = string;
 export type CreatePipelineError =
@@ -504,7 +505,7 @@ export type CreatePipelineError =
  * Ingestion pipelines.
  */
 export const createPipeline: API.OperationMethod<
-  CreatePipelineRequest,
+  CreatePipelineRequest & RegionInput,
   CreatePipelineResponse,
   CreatePipelineError,
   Credentials | HttpClient.HttpClient
@@ -540,7 +541,7 @@ export type CreatePipelineEndpointError =
  * ingest data from your VPC into pipelines that you have access to.
  */
 export const createPipelineEndpoint: API.OperationMethod<
-  CreatePipelineEndpointRequest,
+  CreatePipelineEndpointRequest & RegionInput,
   CreatePipelineEndpointResponse,
   CreatePipelineEndpointError,
   Credentials | HttpClient.HttpClient
@@ -575,7 +576,7 @@ export type DeletePipelineError =
  * Ingestion pipelines.
  */
 export const deletePipeline: API.OperationMethod<
-  DeletePipelineRequest,
+  DeletePipelineRequest & RegionInput,
   DeletePipelineResponse,
   DeletePipelineError,
   Credentials | HttpClient.HttpClient
@@ -607,7 +608,7 @@ export type DeletePipelineEndpointError =
  * Deletes a VPC endpoint for an OpenSearch Ingestion pipeline.
  */
 export const deletePipelineEndpoint: API.OperationMethod<
-  DeletePipelineEndpointRequest,
+  DeletePipelineEndpointRequest & RegionInput,
   DeletePipelineEndpointResponse,
   DeletePipelineEndpointError,
   Credentials | HttpClient.HttpClient
@@ -639,7 +640,7 @@ export type DeleteResourcePolicyError =
  * Deletes a resource-based policy from an OpenSearch Ingestion resource.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -672,7 +673,7 @@ export type GetPipelineError =
  * Retrieves information about an OpenSearch Ingestion pipeline.
  */
 export const getPipeline: API.OperationMethod<
-  GetPipelineRequest,
+  GetPipelineRequest & RegionInput,
   GetPipelineResponse,
   GetPipelineError,
   Credentials | HttpClient.HttpClient
@@ -707,7 +708,7 @@ export type GetPipelineBlueprintError =
  * blueprints to create a pipeline.
  */
 export const getPipelineBlueprint: API.OperationMethod<
-  GetPipelineBlueprintRequest,
+  GetPipelineBlueprintRequest & RegionInput,
   GetPipelineBlueprintResponse,
   GetPipelineBlueprintError,
   Credentials | HttpClient.HttpClient
@@ -743,7 +744,7 @@ export type GetPipelineChangeProgressError =
  * For more information, see Tracking the status of pipeline creation.
  */
 export const getPipelineChangeProgress: API.OperationMethod<
-  GetPipelineChangeProgressRequest,
+  GetPipelineChangeProgressRequest & RegionInput,
   GetPipelineChangeProgressResponse,
   GetPipelineChangeProgressError,
   Credentials | HttpClient.HttpClient
@@ -776,7 +777,7 @@ export type GetResourcePolicyError =
  * Retrieves the resource-based policy attached to an OpenSearch Ingestion resource.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResponse,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -811,7 +812,7 @@ export type ListPipelineBlueprintsError =
  * blueprints to create a pipeline.
  */
 export const listPipelineBlueprints: API.OperationMethod<
-  ListPipelineBlueprintsRequest,
+  ListPipelineBlueprintsRequest & RegionInput,
   ListPipelineBlueprintsResponse,
   ListPipelineBlueprintsError,
   Credentials | HttpClient.HttpClient
@@ -843,7 +844,7 @@ export type ListPipelineEndpointConnectionsError =
  * Lists the pipeline endpoints connected to pipelines in your account.
  */
 export const listPipelineEndpointConnections: API.PaginatedOperationMethod<
-  ListPipelineEndpointConnectionsRequest,
+  ListPipelineEndpointConnectionsRequest & RegionInput,
   ListPipelineEndpointConnectionsResponse,
   ListPipelineEndpointConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -882,7 +883,7 @@ export type ListPipelineEndpointsError =
  * Lists all pipeline endpoints in your account.
  */
 export const listPipelineEndpoints: API.PaginatedOperationMethod<
-  ListPipelineEndpointsRequest,
+  ListPipelineEndpointsRequest & RegionInput,
   ListPipelineEndpointsResponse,
   ListPipelineEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -923,7 +924,7 @@ export type ListPipelinesError =
  * Ingestion pipelines.
  */
 export const listPipelines: API.PaginatedOperationMethod<
-  ListPipelinesRequest,
+  ListPipelinesRequest & RegionInput,
   ListPipelinesResponse,
   ListPipelinesError,
   Credentials | HttpClient.HttpClient,
@@ -962,7 +963,7 @@ export type ListTagsForResourceError =
  * see Tagging Amazon OpenSearch Ingestion pipelines.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -996,7 +997,7 @@ export type PutResourcePolicyError =
  * policies grant permissions to principals to perform actions on the resource.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1029,7 +1030,7 @@ export type RevokePipelineEndpointConnectionsError =
  * Revokes pipeline endpoints from specified endpoint IDs.
  */
 export const revokePipelineEndpointConnections: API.OperationMethod<
-  RevokePipelineEndpointConnectionsRequest,
+  RevokePipelineEndpointConnectionsRequest & RegionInput,
   RevokePipelineEndpointConnectionsResponse,
   RevokePipelineEndpointConnectionsError,
   Credentials | HttpClient.HttpClient
@@ -1062,7 +1063,7 @@ export type StartPipelineError =
  * Starts an OpenSearch Ingestion pipeline. For more information, see Starting an OpenSearch Ingestion pipeline.
  */
 export const startPipeline: API.OperationMethod<
-  StartPipelineRequest,
+  StartPipelineRequest & RegionInput,
   StartPipelineResponse,
   StartPipelineError,
   Credentials | HttpClient.HttpClient
@@ -1097,7 +1098,7 @@ export type StopPipelineError =
  * an OpenSearch Ingestion pipeline.
  */
 export const stopPipeline: API.OperationMethod<
-  StopPipelineRequest,
+  StopPipelineRequest & RegionInput,
   StopPipelineResponse,
   StopPipelineError,
   Credentials | HttpClient.HttpClient
@@ -1132,7 +1133,7 @@ export type TagResourceError =
  * Ingestion pipelines.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1166,7 +1167,7 @@ export type UntagResourceError =
  * Amazon OpenSearch Ingestion pipelines.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1200,7 +1201,7 @@ export type UpdatePipelineError =
  * Ingestion pipelines.
  */
 export const updatePipeline: API.OperationMethod<
-  UpdatePipelineRequest,
+  UpdatePipelineRequest & RegionInput,
   UpdatePipelineResponse,
   UpdatePipelineError,
   Credentials | HttpClient.HttpClient
@@ -1234,7 +1235,7 @@ export type ValidatePipelineError =
  * Ingestion pipelines.
  */
 export const validatePipeline: API.OperationMethod<
-  ValidatePipelineRequest,
+  ValidatePipelineRequest & RegionInput,
   ValidatePipelineResponse,
   ValidatePipelineError,
   Credentials | HttpClient.HttpClient

@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -131,7 +132,7 @@ export class ThrottlingException
       ),
     },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class UnauthorizedOperation
   extends /*@__PURE__*/ S.TaggedError<UnauthorizedOperation>()("UnauthorizedOperation", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
@@ -142,27 +143,27 @@ export type CreatedArtifactName = string;
 export type CreatedArtifactDescription = string;
 export interface CreatedArtifact {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
 }
 export type DryRun = boolean;
 export interface AssociateCreatedArtifactRequest {
   ProgressUpdateStream: string;
   MigrationTaskName: string;
   CreatedArtifact: CreatedArtifact;
-  DryRun?: boolean;
+  DryRun?: boolean | undefined;
 }
 export interface AssociateCreatedArtifactResult {}
 export type ConfigurationId = string;
 export type DiscoveredResourceDescription = string;
 export interface DiscoveredResource {
   ConfigurationId: string;
-  Description?: string;
+  Description?: string | undefined;
 }
 export interface AssociateDiscoveredResourceRequest {
   ProgressUpdateStream: string;
   MigrationTaskName: string;
   DiscoveredResource: DiscoveredResource;
-  DryRun?: boolean;
+  DryRun?: boolean | undefined;
 }
 export interface AssociateDiscoveredResourceResult {}
 export type SourceResourceName = string;
@@ -170,24 +171,24 @@ export type SourceResourceDescription = string;
 export type StatusDetail = string;
 export interface SourceResource {
   Name: string;
-  Description?: string;
-  StatusDetail?: string;
+  Description?: string | undefined;
+  StatusDetail?: string | undefined;
 }
 export interface AssociateSourceResourceRequest {
   ProgressUpdateStream: string;
   MigrationTaskName: string;
   SourceResource: SourceResource;
-  DryRun?: boolean;
+  DryRun?: boolean | undefined;
 }
 export interface AssociateSourceResourceResult {}
 export interface CreateProgressUpdateStreamRequest {
   ProgressUpdateStreamName: string;
-  DryRun?: boolean;
+  DryRun?: boolean | undefined;
 }
 export interface CreateProgressUpdateStreamResult {}
 export interface DeleteProgressUpdateStreamRequest {
   ProgressUpdateStreamName: string;
-  DryRun?: boolean;
+  DryRun?: boolean | undefined;
 }
 export interface DeleteProgressUpdateStreamResult {}
 export type ApplicationId = string;
@@ -197,8 +198,8 @@ export interface DescribeApplicationStateRequest {
 export type ApplicationStatus = "NOT_STARTED" | "IN_PROGRESS" | "COMPLETED" | (string & {});
 export type UpdateDateTime = Date;
 export interface DescribeApplicationStateResult {
-  ApplicationStatus?: ApplicationStatus;
-  LastUpdatedTime?: Date;
+  ApplicationStatus?: ApplicationStatus | undefined;
+  LastUpdatedTime?: Date | undefined;
 }
 export interface DescribeMigrationTaskRequest {
   ProgressUpdateStream: string;
@@ -208,8 +209,8 @@ export type Status = "NOT_STARTED" | "IN_PROGRESS" | "FAILED" | "COMPLETED" | (s
 export type ProgressPercent = number;
 export interface Task {
   Status: Status;
-  StatusDetail?: string;
-  ProgressPercent?: number;
+  StatusDetail?: string | undefined;
+  ProgressPercent?: number | undefined;
 }
 export type ResourceAttributeType =
   | "IPV4_ADDRESS"
@@ -230,149 +231,149 @@ export interface ResourceAttribute {
 }
 export type LatestResourceAttributeList = ResourceAttribute[];
 export interface MigrationTask {
-  ProgressUpdateStream?: string;
-  MigrationTaskName?: string;
-  Task?: Task;
-  UpdateDateTime?: Date;
-  ResourceAttributeList?: ResourceAttribute[];
+  ProgressUpdateStream?: string | undefined;
+  MigrationTaskName?: string | undefined;
+  Task?: Task | undefined;
+  UpdateDateTime?: Date | undefined;
+  ResourceAttributeList?: ResourceAttribute[] | undefined;
 }
 export interface DescribeMigrationTaskResult {
-  MigrationTask?: MigrationTask;
+  MigrationTask?: MigrationTask | undefined;
 }
 export interface DisassociateCreatedArtifactRequest {
   ProgressUpdateStream: string;
   MigrationTaskName: string;
   CreatedArtifactName: string;
-  DryRun?: boolean;
+  DryRun?: boolean | undefined;
 }
 export interface DisassociateCreatedArtifactResult {}
 export interface DisassociateDiscoveredResourceRequest {
   ProgressUpdateStream: string;
   MigrationTaskName: string;
   ConfigurationId: string;
-  DryRun?: boolean;
+  DryRun?: boolean | undefined;
 }
 export interface DisassociateDiscoveredResourceResult {}
 export interface DisassociateSourceResourceRequest {
   ProgressUpdateStream: string;
   MigrationTaskName: string;
   SourceResourceName: string;
-  DryRun?: boolean;
+  DryRun?: boolean | undefined;
 }
 export interface DisassociateSourceResourceResult {}
 export interface ImportMigrationTaskRequest {
   ProgressUpdateStream: string;
   MigrationTaskName: string;
-  DryRun?: boolean;
+  DryRun?: boolean | undefined;
 }
 export interface ImportMigrationTaskResult {}
 export type ApplicationIds = string[];
 export type Token = string;
 export type MaxResults = number;
 export interface ListApplicationStatesRequest {
-  ApplicationIds?: string[];
-  NextToken?: string;
-  MaxResults?: number;
+  ApplicationIds?: string[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ApplicationState {
-  ApplicationId?: string;
-  ApplicationStatus?: ApplicationStatus;
-  LastUpdatedTime?: Date;
+  ApplicationId?: string | undefined;
+  ApplicationStatus?: ApplicationStatus | undefined;
+  LastUpdatedTime?: Date | undefined;
 }
 export type ApplicationStateList = ApplicationState[];
 export interface ListApplicationStatesResult {
-  ApplicationStateList?: ApplicationState[];
-  NextToken?: string;
+  ApplicationStateList?: ApplicationState[] | undefined;
+  NextToken?: string | undefined;
 }
 export type MaxResultsCreatedArtifacts = number;
 export interface ListCreatedArtifactsRequest {
   ProgressUpdateStream: string;
   MigrationTaskName: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type CreatedArtifactList = CreatedArtifact[];
 export interface ListCreatedArtifactsResult {
-  NextToken?: string;
-  CreatedArtifactList?: CreatedArtifact[];
+  NextToken?: string | undefined;
+  CreatedArtifactList?: CreatedArtifact[] | undefined;
 }
 export type MaxResultsResources = number;
 export interface ListDiscoveredResourcesRequest {
   ProgressUpdateStream: string;
   MigrationTaskName: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type DiscoveredResourceList = DiscoveredResource[];
 export interface ListDiscoveredResourcesResult {
-  NextToken?: string;
-  DiscoveredResourceList?: DiscoveredResource[];
+  NextToken?: string | undefined;
+  DiscoveredResourceList?: DiscoveredResource[] | undefined;
 }
 export type ResourceName = string;
 export interface ListMigrationTasksRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  ResourceName?: string;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  ResourceName?: string | undefined;
 }
 export interface MigrationTaskSummary {
-  ProgressUpdateStream?: string;
-  MigrationTaskName?: string;
-  Status?: Status;
-  ProgressPercent?: number;
-  StatusDetail?: string;
-  UpdateDateTime?: Date;
+  ProgressUpdateStream?: string | undefined;
+  MigrationTaskName?: string | undefined;
+  Status?: Status | undefined;
+  ProgressPercent?: number | undefined;
+  StatusDetail?: string | undefined;
+  UpdateDateTime?: Date | undefined;
 }
 export type MigrationTaskSummaryList = MigrationTaskSummary[];
 export interface ListMigrationTasksResult {
-  NextToken?: string;
-  MigrationTaskSummaryList?: MigrationTaskSummary[];
+  NextToken?: string | undefined;
+  MigrationTaskSummaryList?: MigrationTaskSummary[] | undefined;
 }
 export interface ListMigrationTaskUpdatesRequest {
   ProgressUpdateStream: string;
   MigrationTaskName: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type UpdateType = "MIGRATION_TASK_STATE_UPDATED" | (string & {});
 export interface MigrationTaskUpdate {
-  UpdateDateTime?: Date;
-  UpdateType?: UpdateType;
-  MigrationTaskState?: Task;
+  UpdateDateTime?: Date | undefined;
+  UpdateType?: UpdateType | undefined;
+  MigrationTaskState?: Task | undefined;
 }
 export type MigrationTaskUpdateList = MigrationTaskUpdate[];
 export interface ListMigrationTaskUpdatesResult {
-  NextToken?: string;
-  MigrationTaskUpdateList?: MigrationTaskUpdate[];
+  NextToken?: string | undefined;
+  MigrationTaskUpdateList?: MigrationTaskUpdate[] | undefined;
 }
 export interface ListProgressUpdateStreamsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ProgressUpdateStreamSummary {
-  ProgressUpdateStreamName?: string;
+  ProgressUpdateStreamName?: string | undefined;
 }
 export type ProgressUpdateStreamSummaryList = ProgressUpdateStreamSummary[];
 export interface ListProgressUpdateStreamsResult {
-  ProgressUpdateStreamSummaryList?: ProgressUpdateStreamSummary[];
-  NextToken?: string;
+  ProgressUpdateStreamSummaryList?: ProgressUpdateStreamSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type MaxResultsSourceResources = number;
 export interface ListSourceResourcesRequest {
   ProgressUpdateStream: string;
   MigrationTaskName: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type SourceResourceList = SourceResource[];
 export interface ListSourceResourcesResult {
-  NextToken?: string;
-  SourceResourceList?: SourceResource[];
+  NextToken?: string | undefined;
+  SourceResourceList?: SourceResource[] | undefined;
 }
 export interface NotifyApplicationStateRequest {
   ApplicationId: string;
   Status: ApplicationStatus;
-  UpdateDateTime?: Date;
-  DryRun?: boolean;
+  UpdateDateTime?: Date | undefined;
+  DryRun?: boolean | undefined;
 }
 export interface NotifyApplicationStateResult {}
 export type NextUpdateSeconds = number;
@@ -382,7 +383,7 @@ export interface NotifyMigrationTaskStateRequest {
   Task: Task;
   UpdateDateTime: Date;
   NextUpdateSeconds: number;
-  DryRun?: boolean;
+  DryRun?: boolean | undefined;
 }
 export interface NotifyMigrationTaskStateResult {}
 export type ResourceAttributeList = ResourceAttribute[];
@@ -390,7 +391,7 @@ export interface PutResourceAttributesRequest {
   ProgressUpdateStream: string;
   MigrationTaskName: string;
   ResourceAttributeList: ResourceAttribute[];
-  DryRun?: boolean;
+  DryRun?: boolean | undefined;
 }
 export interface PutResourceAttributesResult {}
 export type ErrorMessage = string;
@@ -422,7 +423,7 @@ export type AssociateCreatedArtifactError =
  * or DMS endpoint, etc.
  */
 export const associateCreatedArtifact: API.OperationMethod<
-  AssociateCreatedArtifactRequest,
+  AssociateCreatedArtifactRequest & RegionInput,
   AssociateCreatedArtifactResult,
   AssociateCreatedArtifactError,
   Credentials | HttpClient.HttpClient
@@ -464,7 +465,7 @@ export type AssociateDiscoveredResourceError =
  * task.
  */
 export const associateDiscoveredResource: API.OperationMethod<
-  AssociateDiscoveredResourceRequest,
+  AssociateDiscoveredResourceRequest & RegionInput,
   AssociateDiscoveredResourceResult,
   AssociateDiscoveredResourceError,
   Credentials | HttpClient.HttpClient
@@ -505,7 +506,7 @@ export type AssociateSourceResourceError =
  * be a source server, an application, or a migration wave.
  */
 export const associateSourceResource: API.OperationMethod<
-  AssociateSourceResourceRequest,
+  AssociateSourceResourceRequest & RegionInput,
   AssociateSourceResourceResult,
   AssociateSourceResourceError,
   Credentials | HttpClient.HttpClient
@@ -547,7 +548,7 @@ export type CreateProgressUpdateStreamError =
  * the AWS account.
  */
 export const createProgressUpdateStream: API.OperationMethod<
-  CreateProgressUpdateStreamRequest,
+  CreateProgressUpdateStreamRequest & RegionInput,
   CreateProgressUpdateStreamResult,
   CreateProgressUpdateStreamError,
   Credentials | HttpClient.HttpClient
@@ -608,7 +609,7 @@ export type DeleteProgressUpdateStreamError =
  * resources associated with the old stream).
  */
 export const deleteProgressUpdateStream: API.OperationMethod<
-  DeleteProgressUpdateStreamRequest,
+  DeleteProgressUpdateStreamRequest & RegionInput,
   DeleteProgressUpdateStreamResult,
   DeleteProgressUpdateStreamError,
   Credentials | HttpClient.HttpClient
@@ -647,7 +648,7 @@ export type DescribeApplicationStateError =
  * Gets the migration status of an application.
  */
 export const describeApplicationState: API.OperationMethod<
-  DescribeApplicationStateRequest,
+  DescribeApplicationStateRequest & RegionInput,
   DescribeApplicationStateResult,
   DescribeApplicationStateError,
   Credentials | HttpClient.HttpClient
@@ -684,7 +685,7 @@ export type DescribeMigrationTaskError =
  * Retrieves a list of all attributes associated with a specific migration task.
  */
 export const describeMigrationTask: API.OperationMethod<
-  DescribeMigrationTaskRequest,
+  DescribeMigrationTaskRequest & RegionInput,
   DescribeMigrationTaskResult,
   DescribeMigrationTaskError,
   Credentials | HttpClient.HttpClient
@@ -733,7 +734,7 @@ export type DisassociateCreatedArtifactError =
  * or RDS instance, etc.
  */
 export const disassociateCreatedArtifact: API.OperationMethod<
-  DisassociateCreatedArtifactRequest,
+  DisassociateCreatedArtifactRequest & RegionInput,
   DisassociateCreatedArtifactResult,
   DisassociateCreatedArtifactError,
   Credentials | HttpClient.HttpClient
@@ -774,7 +775,7 @@ export type DisassociateDiscoveredResourceError =
  * task.
  */
 export const disassociateDiscoveredResource: API.OperationMethod<
-  DisassociateDiscoveredResourceRequest,
+  DisassociateDiscoveredResourceRequest & RegionInput,
   DisassociateDiscoveredResourceResult,
   DisassociateDiscoveredResourceError,
   Credentials | HttpClient.HttpClient
@@ -813,7 +814,7 @@ export type DisassociateSourceResourceError =
  * Removes the association between a source resource and a migration task.
  */
 export const disassociateSourceResource: API.OperationMethod<
-  DisassociateSourceResourceRequest,
+  DisassociateSourceResourceRequest & RegionInput,
   DisassociateSourceResourceResult,
   DisassociateSourceResourceError,
   Credentials | HttpClient.HttpClient
@@ -856,7 +857,7 @@ export type ImportMigrationTaskError =
  * the migration tool must first register the migration task with Migration Hub.
  */
 export const importMigrationTask: API.OperationMethod<
-  ImportMigrationTaskRequest,
+  ImportMigrationTaskRequest & RegionInput,
   ImportMigrationTaskResult,
   ImportMigrationTaskError,
   Credentials | HttpClient.HttpClient
@@ -895,7 +896,7 @@ export type ListApplicationStatesError =
  * applications will be returned.
  */
 export const listApplicationStates: API.PaginatedOperationMethod<
-  ListApplicationStatesRequest,
+  ListApplicationStatesRequest & RegionInput,
   ListApplicationStatesResult,
   ListApplicationStatesError,
   Credentials | HttpClient.HttpClient,
@@ -946,7 +947,7 @@ export type ListCreatedArtifactsError =
  * - Lists created artifacts in a paginated interface.
  */
 export const listCreatedArtifacts: API.PaginatedOperationMethod<
-  ListCreatedArtifactsRequest,
+  ListCreatedArtifactsRequest & RegionInput,
   ListCreatedArtifactsResult,
   ListCreatedArtifactsError,
   Credentials | HttpClient.HttpClient,
@@ -989,7 +990,7 @@ export type ListDiscoveredResourcesError =
  * Lists discovered resources associated with the given `MigrationTask`.
  */
 export const listDiscoveredResources: API.PaginatedOperationMethod<
-  ListDiscoveredResourcesRequest,
+  ListDiscoveredResourcesRequest & RegionInput,
   ListDiscoveredResourcesResult,
   ListDiscoveredResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -1041,7 +1042,7 @@ export type ListMigrationTasksError =
  * - Lists migration tasks in a paginated interface.
  */
 export const listMigrationTasks: API.PaginatedOperationMethod<
-  ListMigrationTasksRequest,
+  ListMigrationTasksRequest & RegionInput,
   ListMigrationTasksResult,
   ListMigrationTasksError,
   Credentials | HttpClient.HttpClient,
@@ -1085,7 +1086,7 @@ export type ListMigrationTaskUpdatesError =
  * `MigrationTaskName` and `ProgressUpdateStream`.
  */
 export const listMigrationTaskUpdates: API.PaginatedOperationMethod<
-  ListMigrationTaskUpdatesRequest,
+  ListMigrationTaskUpdatesRequest & RegionInput,
   ListMigrationTaskUpdatesResult,
   ListMigrationTaskUpdatesError,
   Credentials | HttpClient.HttpClient,
@@ -1126,7 +1127,7 @@ export type ListProgressUpdateStreamsError =
  * Lists progress update streams associated with the user account making this call.
  */
 export const listProgressUpdateStreams: API.PaginatedOperationMethod<
-  ListProgressUpdateStreamsRequest,
+  ListProgressUpdateStreamsRequest & RegionInput,
   ListProgressUpdateStreamsResult,
   ListProgressUpdateStreamsError,
   Credentials | HttpClient.HttpClient,
@@ -1168,7 +1169,7 @@ export type ListSourceResourcesError =
  * `MigrationTaskName` and `ProgressUpdateStream`.
  */
 export const listSourceResources: API.PaginatedOperationMethod<
-  ListSourceResourcesRequest,
+  ListSourceResourcesRequest & RegionInput,
   ListSourceResourcesResult,
   ListSourceResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -1216,7 +1217,7 @@ export type NotifyApplicationStateError =
  * COMPLETED.
  */
 export const notifyApplicationState: API.OperationMethod<
-  NotifyApplicationStateRequest,
+  NotifyApplicationStateRequest & RegionInput,
   NotifyApplicationStateResult,
   NotifyApplicationStateError,
   Credentials | HttpClient.HttpClient
@@ -1267,7 +1268,7 @@ export type NotifyMigrationTaskStateError =
  * namespace for each migration tool.
  */
 export const notifyMigrationTaskState: API.OperationMethod<
-  NotifyMigrationTaskStateRequest,
+  NotifyMigrationTaskStateRequest & RegionInput,
   NotifyMigrationTaskStateResult,
   NotifyMigrationTaskStateError,
   Credentials | HttpClient.HttpClient
@@ -1324,7 +1325,7 @@ export type PutResourceAttributesError =
  * details, call `ListDiscoveredResources`.
  */
 export const putResourceAttributes: API.OperationMethod<
-  PutResourceAttributesRequest,
+  PutResourceAttributesRequest & RegionInput,
   PutResourceAttributesResult,
   PutResourceAttributesError,
   Credentials | HttpClient.HttpClient

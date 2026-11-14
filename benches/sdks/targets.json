@@ -828,15 +828,16 @@
     }
   },
   "expo-eas": {
-    "ExpoGraphqlProtocol": {
+    "graphql": {
       "pkg": "expo-eas",
       "imports": {
         "Credentials": "pkg:credentials",
-        "Op": "pkg:services/eas"
+        "Eas": "pkg:index",
+        "Query": "core:query"
       },
-      "auth": "Credentials.CredentialsFromEnv",
-      "call": "Op.build({})",
-      "label": "eas.build",
+      "auth": "Layer.provideMerge(Eas.GraphQLLive, Credentials.CredentialsFromEnv)",
+      "call": "Query.Query.fn(() => ({ username: Eas.Eas.me().username }))()",
+      "label": "Eas.me().username",
       "env": {
         "EXPO_TOKEN": "bench-secret"
       },
@@ -845,9 +846,10 @@
         "headers": {
           "content-type": "application/json"
         },
-        "body": "{}"
+        "body": "{\"data\":{\"me\":{\"username\":\"bench\"}}}"
       },
-      "protocol": "ExpoGraphqlProtocol",
+      "pinned": true,
+      "protocol": "graphql",
       "primary": true
     }
   },
@@ -886,29 +888,6 @@
       "auth": "Credentials.CredentialsFromEnv",
       "call": "Op.listUsers({\"id\":\"bench\"})",
       "label": "mpg.listUsers",
-      "env": {
-        "FLY_API_HOSTNAME": "https://bench.example.com",
-        "FLY_API_TOKEN": "bench-secret",
-        "FLY_IO_API_KEY": "bench-secret"
-      },
-      "response": {
-        "status": 200,
-        "headers": {
-          "content-type": "application/json"
-        },
-        "body": "{}"
-      }
-    },
-    "FlyGraphqlProtocol": {
-      "pkg": "fly-io",
-      "protocol": "FlyGraphqlProtocol",
-      "imports": {
-        "Credentials": "pkg:credentials",
-        "Op": "pkg:services/addons"
-      },
-      "auth": "Credentials.CredentialsFromEnv",
-      "call": "Op.addOn({})",
-      "label": "addons.addOn",
       "env": {
         "FLY_API_HOSTNAME": "https://bench.example.com",
         "FLY_API_TOKEN": "bench-secret",

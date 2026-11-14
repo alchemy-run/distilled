@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -126,7 +127,7 @@ export class ConcurrentModificationException
       }),
       /*@__PURE__*/ T.HttpError(500),
     ),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ConcurrentOperationException
   extends /*@__PURE__*/ S.TaggedError<ConcurrentOperationException>()(
     "ConcurrentOperationException",
@@ -156,7 +157,7 @@ export class HandlerFailureException
       /*@__PURE__*/ T.AwsQueryError({ code: "HandlerFailureException", httpResponseCode: 502 }),
       /*@__PURE__*/ T.HttpError(502),
     ),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class HandlerInternalFailureException
   extends /*@__PURE__*/ S.TaggedError<HandlerInternalFailureException>()(
     "HandlerInternalFailureException",
@@ -168,7 +169,7 @@ export class HandlerInternalFailureException
       }),
       /*@__PURE__*/ T.HttpError(502),
     ),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InvalidCredentialsException
   extends /*@__PURE__*/ S.TaggedError<InvalidCredentialsException>()(
     "InvalidCredentialsException",
@@ -195,7 +196,7 @@ export class NetworkFailureException
       /*@__PURE__*/ T.AwsQueryError({ code: "NetworkFailureException", httpResponseCode: 502 }),
       /*@__PURE__*/ T.HttpError(502),
     ),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class NotStabilizedException
   extends /*@__PURE__*/ S.TaggedError<NotStabilizedException>()(
     "NotStabilizedException",
@@ -264,7 +265,7 @@ export class ServiceInternalErrorException
       }),
       /*@__PURE__*/ T.HttpError(502),
     ),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ServiceLimitExceededException
   extends /*@__PURE__*/ S.TaggedError<ServiceLimitExceededException>()(
     "ServiceLimitExceededException",
@@ -285,7 +286,7 @@ export class ThrottlingException
       /*@__PURE__*/ T.AwsQueryError({ code: "ThrottlingException", httpResponseCode: 429 }),
       /*@__PURE__*/ T.HttpError(429),
     ),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class TypeNotFoundException
   extends /*@__PURE__*/ S.TaggedError<TypeNotFoundException>()(
     "TypeNotFoundException",
@@ -316,57 +317,57 @@ export type Properties = string | redacted.Redacted<string>;
 export type StatusMessage = string;
 export type HandlerErrorCode = string;
 export interface ProgressEvent {
-  TypeName?: string;
-  Identifier?: string;
-  RequestToken?: string;
-  HooksRequestToken?: string;
-  Operation?: string;
-  OperationStatus?: string;
-  EventTime?: Date;
-  ResourceModel?: string | redacted.Redacted<string>;
-  StatusMessage?: string;
-  ErrorCode?: string;
-  RetryAfter?: Date;
+  TypeName?: string | undefined;
+  Identifier?: string | undefined;
+  RequestToken?: string | undefined;
+  HooksRequestToken?: string | undefined;
+  Operation?: string | undefined;
+  OperationStatus?: string | undefined;
+  EventTime?: Date | undefined;
+  ResourceModel?: string | redacted.Redacted<string> | undefined;
+  StatusMessage?: string | undefined;
+  ErrorCode?: string | undefined;
+  RetryAfter?: Date | undefined;
 }
 export interface CancelResourceRequestOutput {
-  ProgressEvent?: ProgressEvent;
+  ProgressEvent?: ProgressEvent | undefined;
 }
 export type TypeVersionId = string;
 export type RoleArn = string;
 export type ClientToken = string;
 export interface CreateResourceInput {
   TypeName: string;
-  TypeVersionId?: string;
-  RoleArn?: string;
-  ClientToken?: string;
+  TypeVersionId?: string | undefined;
+  RoleArn?: string | undefined;
+  ClientToken?: string | undefined;
   DesiredState: string | redacted.Redacted<string>;
 }
 export interface CreateResourceOutput {
-  ProgressEvent?: ProgressEvent;
+  ProgressEvent?: ProgressEvent | undefined;
 }
 export interface DeleteResourceInput {
   TypeName: string;
-  TypeVersionId?: string;
-  RoleArn?: string;
-  ClientToken?: string;
+  TypeVersionId?: string | undefined;
+  RoleArn?: string | undefined;
+  ClientToken?: string | undefined;
   Identifier: string;
 }
 export interface DeleteResourceOutput {
-  ProgressEvent?: ProgressEvent;
+  ProgressEvent?: ProgressEvent | undefined;
 }
 export interface GetResourceInput {
   TypeName: string;
-  TypeVersionId?: string;
-  RoleArn?: string;
+  TypeVersionId?: string | undefined;
+  RoleArn?: string | undefined;
   Identifier: string;
 }
 export interface ResourceDescription {
-  Identifier?: string;
-  Properties?: string | redacted.Redacted<string>;
+  Identifier?: string | undefined;
+  Properties?: string | redacted.Redacted<string> | undefined;
 }
 export interface GetResourceOutput {
-  TypeName?: string;
-  ResourceDescription?: ResourceDescription;
+  TypeName?: string | undefined;
+  ResourceDescription?: ResourceDescription | undefined;
 }
 export interface GetResourceRequestStatusInput {
   RequestToken: string;
@@ -376,64 +377,64 @@ export type HookInvocationPoint = string;
 export type HookStatus = string;
 export type HookFailureMode = string;
 export interface HookProgressEvent {
-  HookTypeName?: string;
-  HookTypeVersionId?: string;
-  HookTypeArn?: string;
-  InvocationPoint?: string;
-  HookStatus?: string;
-  HookEventTime?: Date;
-  HookStatusMessage?: string;
-  FailureMode?: string;
+  HookTypeName?: string | undefined;
+  HookTypeVersionId?: string | undefined;
+  HookTypeArn?: string | undefined;
+  InvocationPoint?: string | undefined;
+  HookStatus?: string | undefined;
+  HookEventTime?: Date | undefined;
+  HookStatusMessage?: string | undefined;
+  FailureMode?: string | undefined;
 }
 export type HooksProgressEvent = HookProgressEvent[];
 export interface GetResourceRequestStatusOutput {
-  ProgressEvent?: ProgressEvent;
-  HooksProgressEvent?: HookProgressEvent[];
+  ProgressEvent?: ProgressEvent | undefined;
+  HooksProgressEvent?: HookProgressEvent[] | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string;
 export type Operations = string[];
 export type OperationStatuses = string[];
 export interface ResourceRequestStatusFilter {
-  Operations?: string[];
-  OperationStatuses?: string[];
+  Operations?: string[] | undefined;
+  OperationStatuses?: string[] | undefined;
 }
 export interface ListResourceRequestsInput {
-  MaxResults?: number;
-  NextToken?: string;
-  ResourceRequestStatusFilter?: ResourceRequestStatusFilter;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  ResourceRequestStatusFilter?: ResourceRequestStatusFilter | undefined;
 }
 export type ResourceRequestStatusSummaries = ProgressEvent[];
 export interface ListResourceRequestsOutput {
-  ResourceRequestStatusSummaries?: ProgressEvent[];
-  NextToken?: string;
+  ResourceRequestStatusSummaries?: ProgressEvent[] | undefined;
+  NextToken?: string | undefined;
 }
 export type HandlerNextToken = string;
 export interface ListResourcesInput {
   TypeName: string;
-  TypeVersionId?: string;
-  RoleArn?: string;
-  NextToken?: string;
-  MaxResults?: number;
-  ResourceModel?: string | redacted.Redacted<string>;
+  TypeVersionId?: string | undefined;
+  RoleArn?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  ResourceModel?: string | redacted.Redacted<string> | undefined;
 }
 export type ResourceDescriptions = ResourceDescription[];
 export interface ListResourcesOutput {
-  TypeName?: string;
-  ResourceDescriptions?: ResourceDescription[];
-  NextToken?: string;
+  TypeName?: string | undefined;
+  ResourceDescriptions?: ResourceDescription[] | undefined;
+  NextToken?: string | undefined;
 }
 export type PatchDocument = string | redacted.Redacted<string>;
 export interface UpdateResourceInput {
   TypeName: string;
-  TypeVersionId?: string;
-  RoleArn?: string;
-  ClientToken?: string;
+  TypeVersionId?: string | undefined;
+  RoleArn?: string | undefined;
+  ClientToken?: string | undefined;
   Identifier: string;
   PatchDocument: string | redacted.Redacted<string>;
 }
 export interface UpdateResourceOutput {
-  ProgressEvent?: ProgressEvent;
+  ProgressEvent?: ProgressEvent | undefined;
 }
 export type ErrorMessage = string;
 export type CancelResourceRequestError =
@@ -448,7 +449,7 @@ export type CancelResourceRequestError =
  * `IN_PROGRESS` can be canceled.
  */
 export const cancelResourceRequest: API.OperationMethod<
-  CancelResourceRequestInput,
+  CancelResourceRequestInput & RegionInput,
   CancelResourceRequestOutput,
   CancelResourceRequestError,
   Credentials | HttpClient.HttpClient
@@ -493,7 +494,7 @@ export type CreateResourceError =
  * `ProgressEvent` type returned by `CreateResource`.
  */
 export const createResource: API.OperationMethod<
-  CreateResourceInput,
+  CreateResourceInput & RegionInput,
   CreateResourceOutput,
   CreateResourceError,
   Credentials | HttpClient.HttpClient
@@ -558,7 +559,7 @@ export type DeleteResourceError =
  * `ProgressEvent` returned by `DeleteResource`.
  */
 export const deleteResource: API.OperationMethod<
-  DeleteResourceInput,
+  DeleteResourceInput & RegionInput,
   DeleteResourceOutput,
   DeleteResourceError,
   Credentials | HttpClient.HttpClient
@@ -620,7 +621,7 @@ export type GetResourceError =
  * and Amazon Web Services Region, whether those resources were provisioned using Cloud Control API.
  */
 export const getResource: API.OperationMethod<
-  GetResourceInput,
+  GetResourceInput & RegionInput,
   GetResourceOutput,
   GetResourceError,
   Credentials | HttpClient.HttpClient
@@ -660,7 +661,7 @@ export type GetResourceRequestStatusError = RequestTokenNotFoundException | Comm
  * *Amazon Web Services Cloud Control API User Guide*.
  */
 export const getResourceRequestStatus: API.OperationMethod<
-  GetResourceRequestStatusInput,
+  GetResourceRequestStatusInput & RegionInput,
   GetResourceRequestStatusOutput,
   GetResourceRequestStatusError,
   Credentials | HttpClient.HttpClient
@@ -684,7 +685,7 @@ export type ListResourceRequestsError = CommonErrors;
  * Resource operation requests expire after 7 days.
  */
 export const listResourceRequests: API.PaginatedOperationMethod<
-  ListResourceRequestsInput,
+  ListResourceRequestsInput & RegionInput,
   ListResourceRequestsOutput,
   ListResourceRequestsError,
   Credentials | HttpClient.HttpClient,
@@ -732,7 +733,7 @@ export type ListResourcesError =
  * Amazon Web Services Region, whether those resources were provisioned using Cloud Control API.
  */
 export const listResources: API.PaginatedOperationMethod<
-  ListResourcesInput,
+  ListResourcesInput & RegionInput,
   ListResourcesOutput,
   ListResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -812,7 +813,7 @@ export type UpdateResourceError =
  * topic for the resource in the Resource and property types reference in the *CloudFormation Users Guide*.
  */
 export const updateResource: API.OperationMethod<
-  UpdateResourceInput,
+  UpdateResourceInput & RegionInput,
   UpdateResourceOutput,
   UpdateResourceError,
   Credentials | HttpClient.HttpClient

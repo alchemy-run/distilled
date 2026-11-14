@@ -147,6 +147,14 @@ export { ConfigError } from "./config.ts";
 // with it without importing every class in this module.
 export { InvalidInput } from "./protocol-http.ts";
 
+// Defined in the `base` bundle group (`sdk-error.ts`), with pagination and
+// the operation runtime that fail with it.
+export { SdkError } from "./sdk-error.ts";
+
+// Defined in the `base` bundle group (`unknown-error.ts`), so AWS spreads
+// them without importing the REST modules.
+export { UnknownErrorFields, type UnknownErrorProps } from "./unknown-error.ts";
+
 // ============================================================================
 // Error Maps
 // ============================================================================
@@ -178,8 +186,8 @@ export const DEFAULT_ERROR_STATUSES = /*@__PURE__*/ new Set([401, 429, 500, 502,
 
 /**
  * HTTP status codes whose corresponding error class in {@link HTTP_STATUS_MAP}
- * declares a `retryAfter` field. The retry policy honors `error.retryAfter`
- * with precedence over the default backoff for these.
+ * declares a `retryAfter` field. The retry policy waits at least
+ * `error.retryAfter` for these.
  *
  * `matchError` implementations should only pass `retryAfter` into the
  * constructor when the status is in this set; passing it on non-retryable

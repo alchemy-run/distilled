@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -124,13 +125,13 @@ export interface BatchDeleteBuildsInput {
   ids: string[];
 }
 export interface BuildNotDeleted {
-  id?: string;
-  statusCode?: string;
+  id?: string | undefined;
+  statusCode?: string | undefined;
 }
 export type BuildsNotDeleted = BuildNotDeleted[];
 export interface BatchDeleteBuildsOutput {
-  buildsDeleted?: string[];
-  buildsNotDeleted?: BuildNotDeleted[];
+  buildsDeleted?: string[] | undefined;
+  buildsNotDeleted?: BuildNotDeleted[] | undefined;
 }
 export type BuildBatchIds = string[];
 export interface BatchGetBuildBatchesInput {
@@ -154,17 +155,17 @@ export type BuildBatchPhaseType =
   | "STOPPED"
   | (string & {});
 export interface PhaseContext {
-  statusCode?: string;
-  message?: string;
+  statusCode?: string | undefined;
+  message?: string | undefined;
 }
 export type PhaseContexts = PhaseContext[];
 export interface BuildBatchPhase {
-  phaseType?: BuildBatchPhaseType;
-  phaseStatus?: StatusType;
-  startTime?: Date;
-  endTime?: Date;
-  durationInSeconds?: number;
-  contexts?: PhaseContext[];
+  phaseType?: BuildBatchPhaseType | undefined;
+  phaseStatus?: StatusType | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  durationInSeconds?: number | undefined;
+  contexts?: PhaseContext[] | undefined;
 }
 export type BuildBatchPhases = BuildBatchPhase[];
 export type SourceType =
@@ -185,23 +186,23 @@ export interface GitSubmodulesConfig {
 export type SourceAuthType = "OAUTH" | "CODECONNECTIONS" | "SECRETS_MANAGER" | (string & {});
 export interface SourceAuth {
   type: SourceAuthType;
-  resource?: string;
+  resource?: string | undefined;
 }
 export interface BuildStatusConfig {
-  context?: string;
-  targetUrl?: string;
+  context?: string | undefined;
+  targetUrl?: string | undefined;
 }
 export interface ProjectSource {
   type: SourceType;
-  location?: string;
-  gitCloneDepth?: number;
-  gitSubmodulesConfig?: GitSubmodulesConfig;
-  buildspec?: string;
-  auth?: SourceAuth;
-  reportBuildStatus?: boolean;
-  buildStatusConfig?: BuildStatusConfig;
-  insecureSsl?: boolean;
-  sourceIdentifier?: string;
+  location?: string | undefined;
+  gitCloneDepth?: number | undefined;
+  gitSubmodulesConfig?: GitSubmodulesConfig | undefined;
+  buildspec?: string | undefined;
+  auth?: SourceAuth | undefined;
+  reportBuildStatus?: boolean | undefined;
+  buildStatusConfig?: BuildStatusConfig | undefined;
+  insecureSsl?: boolean | undefined;
+  sourceIdentifier?: string | undefined;
 }
 export type ProjectSources = ProjectSource[];
 export interface ProjectSourceVersion {
@@ -211,13 +212,13 @@ export interface ProjectSourceVersion {
 export type ProjectSecondarySourceVersions = ProjectSourceVersion[];
 export type BucketOwnerAccess = "NONE" | "READ_ONLY" | "FULL" | (string & {});
 export interface BuildArtifacts {
-  location?: string;
-  sha256sum?: string;
-  md5sum?: string;
-  overrideArtifactName?: boolean;
-  encryptionDisabled?: boolean;
-  artifactIdentifier?: string;
-  bucketOwnerAccess?: BucketOwnerAccess;
+  location?: string | undefined;
+  sha256sum?: string | undefined;
+  md5sum?: string | undefined;
+  overrideArtifactName?: boolean | undefined;
+  encryptionDisabled?: boolean | undefined;
+  artifactIdentifier?: string | undefined;
+  bucketOwnerAccess?: BucketOwnerAccess | undefined;
 }
 export type BuildArtifactsList = BuildArtifacts[];
 export type CacheType = "NO_CACHE" | "S3" | "LOCAL" | (string & {});
@@ -229,9 +230,9 @@ export type CacheMode =
 export type ProjectCacheModes = CacheMode[];
 export interface ProjectCache {
   type: CacheType;
-  location?: string;
-  modes?: CacheMode[];
-  cacheNamespace?: string;
+  location?: string | undefined;
+  modes?: CacheMode[] | undefined;
+  cacheNamespace?: string | undefined;
 }
 export type EnvironmentType =
   | "WINDOWS_CONTAINER"
@@ -263,14 +264,14 @@ export type ComputeType =
   | (string & {});
 export type MachineType = "GENERAL" | "NVME" | (string & {});
 export interface ComputeConfiguration {
-  vCpu?: number;
-  memory?: number;
-  disk?: number;
-  machineType?: MachineType;
-  instanceType?: string;
+  vCpu?: number | undefined;
+  memory?: number | undefined;
+  disk?: number | undefined;
+  machineType?: MachineType | undefined;
+  instanceType?: string | undefined;
 }
 export interface ProjectFleet {
-  fleetArn?: string;
+  fleetArn?: string | undefined;
 }
 export type EnvironmentVariableType =
   | "PLAINTEXT"
@@ -280,7 +281,7 @@ export type EnvironmentVariableType =
 export interface EnvironmentVariable {
   name: string;
   value: string;
-  type?: EnvironmentVariableType;
+  type?: EnvironmentVariableType | undefined;
 }
 export type EnvironmentVariables = EnvironmentVariable[];
 export type CredentialProviderType = "SECRETS_MANAGER" | (string & {});
@@ -291,13 +292,13 @@ export interface RegistryCredential {
 export type ImagePullCredentialsType = "CODEBUILD" | "SERVICE_ROLE" | (string & {});
 export type SecurityGroupIds = string[];
 export interface DockerServerStatus {
-  status?: string;
-  message?: string;
+  status?: string | undefined;
+  message?: string | undefined;
 }
 export interface DockerServer {
   computeType: ComputeType;
-  securityGroupIds?: string[];
-  status?: DockerServerStatus;
+  securityGroupIds?: string[] | undefined;
+  status?: DockerServerStatus | undefined;
 }
 export type HostKernel =
   | "LINUX_KERNEL_4"
@@ -308,127 +309,127 @@ export interface ProjectEnvironment {
   type: EnvironmentType;
   image: string;
   computeType: ComputeType;
-  computeConfiguration?: ComputeConfiguration;
-  fleet?: ProjectFleet;
-  environmentVariables?: EnvironmentVariable[];
-  privilegedMode?: boolean;
-  certificate?: string;
-  registryCredential?: RegistryCredential;
-  imagePullCredentialsType?: ImagePullCredentialsType;
-  dockerServer?: DockerServer;
-  hostKernel?: HostKernel;
+  computeConfiguration?: ComputeConfiguration | undefined;
+  fleet?: ProjectFleet | undefined;
+  environmentVariables?: EnvironmentVariable[] | undefined;
+  privilegedMode?: boolean | undefined;
+  certificate?: string | undefined;
+  registryCredential?: RegistryCredential | undefined;
+  imagePullCredentialsType?: ImagePullCredentialsType | undefined;
+  dockerServer?: DockerServer | undefined;
+  hostKernel?: HostKernel | undefined;
 }
 export type LogsConfigStatusType = "ENABLED" | "DISABLED" | (string & {});
 export interface CloudWatchLogsConfig {
   status: LogsConfigStatusType;
-  groupName?: string;
-  streamName?: string;
+  groupName?: string | undefined;
+  streamName?: string | undefined;
 }
 export interface S3LogsConfig {
   status: LogsConfigStatusType;
-  location?: string;
-  encryptionDisabled?: boolean;
-  bucketOwnerAccess?: BucketOwnerAccess;
+  location?: string | undefined;
+  encryptionDisabled?: boolean | undefined;
+  bucketOwnerAccess?: BucketOwnerAccess | undefined;
 }
 export interface LogsConfig {
-  cloudWatchLogs?: CloudWatchLogsConfig;
-  s3Logs?: S3LogsConfig;
+  cloudWatchLogs?: CloudWatchLogsConfig | undefined;
+  s3Logs?: S3LogsConfig | undefined;
 }
 export type Subnets = string[];
 export interface VpcConfig {
-  vpcId?: string;
-  subnets?: string[];
-  securityGroupIds?: string[];
+  vpcId?: string | undefined;
+  subnets?: string[] | undefined;
+  securityGroupIds?: string[] | undefined;
 }
 export type FileSystemType = "EFS" | (string & {});
 export interface ProjectFileSystemLocation {
-  type?: FileSystemType;
-  location?: string;
-  mountPoint?: string;
-  identifier?: string;
-  mountOptions?: string;
+  type?: FileSystemType | undefined;
+  location?: string | undefined;
+  mountPoint?: string | undefined;
+  identifier?: string | undefined;
+  mountOptions?: string | undefined;
 }
 export type ProjectFileSystemLocations = ProjectFileSystemLocation[];
 export type ComputeTypesAllowed = string[];
 export type FleetsAllowed = string[];
 export interface BatchRestrictions {
-  maximumBuildsAllowed?: number;
-  computeTypesAllowed?: string[];
-  fleetsAllowed?: string[];
+  maximumBuildsAllowed?: number | undefined;
+  computeTypesAllowed?: string[] | undefined;
+  fleetsAllowed?: string[] | undefined;
 }
 export type BatchReportModeType =
   | "REPORT_INDIVIDUAL_BUILDS"
   | "REPORT_AGGREGATED_BATCH"
   | (string & {});
 export interface ProjectBuildBatchConfig {
-  serviceRole?: string;
-  combineArtifacts?: boolean;
-  restrictions?: BatchRestrictions;
-  timeoutInMins?: number;
-  batchReportMode?: BatchReportModeType;
+  serviceRole?: string | undefined;
+  combineArtifacts?: boolean | undefined;
+  restrictions?: BatchRestrictions | undefined;
+  timeoutInMins?: number | undefined;
+  batchReportMode?: BatchReportModeType | undefined;
 }
 export type Identifiers = string[];
 export type ArtifactsType = "CODEPIPELINE" | "S3" | "NO_ARTIFACTS" | (string & {});
 export interface ResolvedArtifact {
-  type?: ArtifactsType;
-  location?: string;
-  identifier?: string;
+  type?: ArtifactsType | undefined;
+  location?: string | undefined;
+  identifier?: string | undefined;
 }
 export type ResolvedSecondaryArtifacts = ResolvedArtifact[];
 export interface BuildSummary {
-  arn?: string;
-  requestedOn?: Date;
-  buildStatus?: StatusType;
-  primaryArtifact?: ResolvedArtifact;
-  secondaryArtifacts?: ResolvedArtifact[];
+  arn?: string | undefined;
+  requestedOn?: Date | undefined;
+  buildStatus?: StatusType | undefined;
+  primaryArtifact?: ResolvedArtifact | undefined;
+  secondaryArtifacts?: ResolvedArtifact[] | undefined;
 }
 export type BuildSummaries = BuildSummary[];
 export interface BuildGroup {
-  identifier?: string;
-  dependsOn?: string[];
-  ignoreFailure?: boolean;
-  currentBuildSummary?: BuildSummary;
-  priorBuildSummaryList?: BuildSummary[];
+  identifier?: string | undefined;
+  dependsOn?: string[] | undefined;
+  ignoreFailure?: boolean | undefined;
+  currentBuildSummary?: BuildSummary | undefined;
+  priorBuildSummaryList?: BuildSummary[] | undefined;
 }
 export type BuildGroups = BuildGroup[];
 export type BuildReportArns = string[];
 export interface BuildBatch {
-  id?: string;
-  arn?: string;
-  startTime?: Date;
-  endTime?: Date;
-  currentPhase?: string;
-  buildBatchStatus?: StatusType;
-  sourceVersion?: string;
-  resolvedSourceVersion?: string;
-  projectName?: string;
-  phases?: BuildBatchPhase[];
-  source?: ProjectSource;
-  secondarySources?: ProjectSource[];
-  secondarySourceVersions?: ProjectSourceVersion[];
-  artifacts?: BuildArtifacts;
-  secondaryArtifacts?: BuildArtifacts[];
-  cache?: ProjectCache;
-  environment?: ProjectEnvironment;
-  serviceRole?: string;
-  logConfig?: LogsConfig;
-  buildTimeoutInMinutes?: number;
-  queuedTimeoutInMinutes?: number;
-  complete?: boolean;
-  initiator?: string;
-  vpcConfig?: VpcConfig;
-  encryptionKey?: string;
-  buildBatchNumber?: number;
-  fileSystemLocations?: ProjectFileSystemLocation[];
-  buildBatchConfig?: ProjectBuildBatchConfig;
-  buildGroups?: BuildGroup[];
-  debugSessionEnabled?: boolean;
-  reportArns?: string[];
+  id?: string | undefined;
+  arn?: string | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  currentPhase?: string | undefined;
+  buildBatchStatus?: StatusType | undefined;
+  sourceVersion?: string | undefined;
+  resolvedSourceVersion?: string | undefined;
+  projectName?: string | undefined;
+  phases?: BuildBatchPhase[] | undefined;
+  source?: ProjectSource | undefined;
+  secondarySources?: ProjectSource[] | undefined;
+  secondarySourceVersions?: ProjectSourceVersion[] | undefined;
+  artifacts?: BuildArtifacts | undefined;
+  secondaryArtifacts?: BuildArtifacts[] | undefined;
+  cache?: ProjectCache | undefined;
+  environment?: ProjectEnvironment | undefined;
+  serviceRole?: string | undefined;
+  logConfig?: LogsConfig | undefined;
+  buildTimeoutInMinutes?: number | undefined;
+  queuedTimeoutInMinutes?: number | undefined;
+  complete?: boolean | undefined;
+  initiator?: string | undefined;
+  vpcConfig?: VpcConfig | undefined;
+  encryptionKey?: string | undefined;
+  buildBatchNumber?: number | undefined;
+  fileSystemLocations?: ProjectFileSystemLocation[] | undefined;
+  buildBatchConfig?: ProjectBuildBatchConfig | undefined;
+  buildGroups?: BuildGroup[] | undefined;
+  debugSessionEnabled?: boolean | undefined;
+  reportArns?: string[] | undefined;
 }
 export type BuildBatches = BuildBatch[];
 export interface BatchGetBuildBatchesOutput {
-  buildBatches?: BuildBatch[];
-  buildBatchesNotFound?: string[];
+  buildBatches?: BuildBatch[] | undefined;
+  buildBatchesNotFound?: string[] | undefined;
 }
 export interface BatchGetBuildsInput {
   ids: string[];
@@ -447,82 +448,82 @@ export type BuildPhaseType =
   | "COMPLETED"
   | (string & {});
 export interface BuildPhase {
-  phaseType?: BuildPhaseType;
-  phaseStatus?: StatusType;
-  startTime?: Date;
-  endTime?: Date;
-  durationInSeconds?: number;
-  contexts?: PhaseContext[];
+  phaseType?: BuildPhaseType | undefined;
+  phaseStatus?: StatusType | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  durationInSeconds?: number | undefined;
+  contexts?: PhaseContext[] | undefined;
 }
 export type BuildPhases = BuildPhase[];
 export interface LogsLocation {
-  groupName?: string;
-  streamName?: string;
-  deepLink?: string;
-  s3DeepLink?: string;
-  cloudWatchLogsArn?: string;
-  s3LogsArn?: string;
-  cloudWatchLogs?: CloudWatchLogsConfig;
-  s3Logs?: S3LogsConfig;
+  groupName?: string | undefined;
+  streamName?: string | undefined;
+  deepLink?: string | undefined;
+  s3DeepLink?: string | undefined;
+  cloudWatchLogsArn?: string | undefined;
+  s3LogsArn?: string | undefined;
+  cloudWatchLogs?: CloudWatchLogsConfig | undefined;
+  s3Logs?: S3LogsConfig | undefined;
 }
 export interface NetworkInterface {
-  subnetId?: string;
-  networkInterfaceId?: string;
+  subnetId?: string | undefined;
+  networkInterfaceId?: string | undefined;
 }
 export interface ExportedEnvironmentVariable {
-  name?: string;
-  value?: string;
+  name?: string | undefined;
+  value?: string | undefined;
 }
 export type ExportedEnvironmentVariables = ExportedEnvironmentVariable[];
 export interface DebugSession {
-  sessionEnabled?: boolean;
-  sessionTarget?: string;
+  sessionEnabled?: boolean | undefined;
+  sessionTarget?: string | undefined;
 }
 export interface AutoRetryConfig {
-  autoRetryLimit?: number;
-  autoRetryNumber?: number;
-  nextAutoRetry?: string;
-  previousAutoRetry?: string;
+  autoRetryLimit?: number | undefined;
+  autoRetryNumber?: number | undefined;
+  nextAutoRetry?: string | undefined;
+  previousAutoRetry?: string | undefined;
 }
 export interface Build {
-  id?: string;
-  arn?: string;
-  buildNumber?: number;
-  startTime?: Date;
-  endTime?: Date;
-  currentPhase?: string;
-  buildStatus?: StatusType;
-  sourceVersion?: string;
-  resolvedSourceVersion?: string;
-  projectName?: string;
-  phases?: BuildPhase[];
-  source?: ProjectSource;
-  secondarySources?: ProjectSource[];
-  secondarySourceVersions?: ProjectSourceVersion[];
-  artifacts?: BuildArtifacts;
-  secondaryArtifacts?: BuildArtifacts[];
-  cache?: ProjectCache;
-  environment?: ProjectEnvironment;
-  serviceRole?: string;
-  logs?: LogsLocation;
-  timeoutInMinutes?: number;
-  queuedTimeoutInMinutes?: number;
-  buildComplete?: boolean;
-  initiator?: string;
-  vpcConfig?: VpcConfig;
-  networkInterface?: NetworkInterface;
-  encryptionKey?: string;
-  exportedEnvironmentVariables?: ExportedEnvironmentVariable[];
-  reportArns?: string[];
-  fileSystemLocations?: ProjectFileSystemLocation[];
-  debugSession?: DebugSession;
-  buildBatchArn?: string;
-  autoRetryConfig?: AutoRetryConfig;
+  id?: string | undefined;
+  arn?: string | undefined;
+  buildNumber?: number | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  currentPhase?: string | undefined;
+  buildStatus?: StatusType | undefined;
+  sourceVersion?: string | undefined;
+  resolvedSourceVersion?: string | undefined;
+  projectName?: string | undefined;
+  phases?: BuildPhase[] | undefined;
+  source?: ProjectSource | undefined;
+  secondarySources?: ProjectSource[] | undefined;
+  secondarySourceVersions?: ProjectSourceVersion[] | undefined;
+  artifacts?: BuildArtifacts | undefined;
+  secondaryArtifacts?: BuildArtifacts[] | undefined;
+  cache?: ProjectCache | undefined;
+  environment?: ProjectEnvironment | undefined;
+  serviceRole?: string | undefined;
+  logs?: LogsLocation | undefined;
+  timeoutInMinutes?: number | undefined;
+  queuedTimeoutInMinutes?: number | undefined;
+  buildComplete?: boolean | undefined;
+  initiator?: string | undefined;
+  vpcConfig?: VpcConfig | undefined;
+  networkInterface?: NetworkInterface | undefined;
+  encryptionKey?: string | undefined;
+  exportedEnvironmentVariables?: ExportedEnvironmentVariable[] | undefined;
+  reportArns?: string[] | undefined;
+  fileSystemLocations?: ProjectFileSystemLocation[] | undefined;
+  debugSession?: DebugSession | undefined;
+  buildBatchArn?: string | undefined;
+  autoRetryConfig?: AutoRetryConfig | undefined;
 }
 export type Builds = Build[];
 export interface BatchGetBuildsOutput {
-  builds?: Build[];
-  buildsNotFound?: string[];
+  builds?: Build[] | undefined;
+  buildsNotFound?: string[] | undefined;
 }
 export type CommandExecutionIds = string[];
 export interface BatchGetCommandExecutionsInput {
@@ -532,24 +533,24 @@ export interface BatchGetCommandExecutionsInput {
 export type SensitiveNonEmptyString = string | redacted.Redacted<string>;
 export type CommandType = "SHELL" | (string & {});
 export interface CommandExecution {
-  id?: string;
-  sandboxId?: string;
-  submitTime?: Date;
-  startTime?: Date;
-  endTime?: Date;
-  status?: string;
-  command?: string | redacted.Redacted<string>;
-  type?: CommandType;
-  exitCode?: string;
-  standardOutputContent?: string | redacted.Redacted<string>;
-  standardErrContent?: string | redacted.Redacted<string>;
-  logs?: LogsLocation;
-  sandboxArn?: string;
+  id?: string | undefined;
+  sandboxId?: string | undefined;
+  submitTime?: Date | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  status?: string | undefined;
+  command?: string | redacted.Redacted<string> | undefined;
+  type?: CommandType | undefined;
+  exitCode?: string | undefined;
+  standardOutputContent?: string | redacted.Redacted<string> | undefined;
+  standardErrContent?: string | redacted.Redacted<string> | undefined;
+  logs?: LogsLocation | undefined;
+  sandboxArn?: string | undefined;
 }
 export type CommandExecutions = CommandExecution[];
 export interface BatchGetCommandExecutionsOutput {
-  commandExecutions?: CommandExecution[];
-  commandExecutionsNotFound?: string[];
+  commandExecutions?: CommandExecution[] | undefined;
+  commandExecutionsNotFound?: string[] | undefined;
 }
 export type FleetNames = string[];
 export interface BatchGetFleetsInput {
@@ -574,23 +575,23 @@ export type FleetContextCode =
   | "INSUFFICIENT_CAPACITY"
   | (string & {});
 export interface FleetStatus {
-  statusCode?: FleetStatusCode;
-  context?: FleetContextCode;
-  message?: string;
+  statusCode?: FleetStatusCode | undefined;
+  context?: FleetContextCode | undefined;
+  message?: string | undefined;
 }
 export type FleetCapacity = number;
 export type FleetScalingType = "TARGET_TRACKING_SCALING" | (string & {});
 export type FleetScalingMetricType = "FLEET_UTILIZATION_RATE" | (string & {});
 export interface TargetTrackingScalingConfiguration {
-  metricType?: FleetScalingMetricType;
-  targetValue?: number;
+  metricType?: FleetScalingMetricType | undefined;
+  targetValue?: number | undefined;
 }
 export type TargetTrackingScalingConfigurations = TargetTrackingScalingConfiguration[];
 export interface ScalingConfigurationOutput {
-  scalingType?: FleetScalingType;
-  targetTrackingScalingConfigs?: TargetTrackingScalingConfiguration[];
-  maxCapacity?: number;
-  desiredCapacity?: number;
+  scalingType?: FleetScalingType | undefined;
+  targetTrackingScalingConfigs?: TargetTrackingScalingConfiguration[] | undefined;
+  maxCapacity?: number | undefined;
+  desiredCapacity?: number | undefined;
 }
 export type FleetOverflowBehavior = "QUEUE" | "ON_DEMAND" | (string & {});
 export type FleetProxyRuleBehavior = "ALLOW_ALL" | "DENY_ALL" | (string & {});
@@ -604,39 +605,39 @@ export interface FleetProxyRule {
 }
 export type FleetProxyRules = FleetProxyRule[];
 export interface ProxyConfiguration {
-  defaultBehavior?: FleetProxyRuleBehavior;
-  orderedProxyRules?: FleetProxyRule[];
+  defaultBehavior?: FleetProxyRuleBehavior | undefined;
+  orderedProxyRules?: FleetProxyRule[] | undefined;
 }
 export type KeyInput = string;
 export type ValueInput = string;
 export interface Tag {
-  key?: string;
-  value?: string;
+  key?: string | undefined;
+  value?: string | undefined;
 }
 export type TagList = Tag[];
 export interface Fleet {
-  arn?: string;
-  name?: string;
-  id?: string;
-  created?: Date;
-  lastModified?: Date;
-  status?: FleetStatus;
-  baseCapacity?: number;
-  environmentType?: EnvironmentType;
-  computeType?: ComputeType;
-  computeConfiguration?: ComputeConfiguration;
-  scalingConfiguration?: ScalingConfigurationOutput;
-  overflowBehavior?: FleetOverflowBehavior;
-  vpcConfig?: VpcConfig;
-  proxyConfiguration?: ProxyConfiguration;
-  imageId?: string;
-  fleetServiceRole?: string;
-  tags?: Tag[];
+  arn?: string | undefined;
+  name?: string | undefined;
+  id?: string | undefined;
+  created?: Date | undefined;
+  lastModified?: Date | undefined;
+  status?: FleetStatus | undefined;
+  baseCapacity?: number | undefined;
+  environmentType?: EnvironmentType | undefined;
+  computeType?: ComputeType | undefined;
+  computeConfiguration?: ComputeConfiguration | undefined;
+  scalingConfiguration?: ScalingConfigurationOutput | undefined;
+  overflowBehavior?: FleetOverflowBehavior | undefined;
+  vpcConfig?: VpcConfig | undefined;
+  proxyConfiguration?: ProxyConfiguration | undefined;
+  imageId?: string | undefined;
+  fleetServiceRole?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export type Fleets = Fleet[];
 export interface BatchGetFleetsOutput {
-  fleets?: Fleet[];
-  fleetsNotFound?: string[];
+  fleets?: Fleet[] | undefined;
+  fleetsNotFound?: string[] | undefined;
 }
 export type ProjectNames = string[];
 export interface BatchGetProjectsInput {
@@ -648,15 +649,15 @@ export type ArtifactNamespace = "NONE" | "BUILD_ID" | (string & {});
 export type ArtifactPackaging = "NONE" | "ZIP" | (string & {});
 export interface ProjectArtifacts {
   type: ArtifactsType;
-  location?: string;
-  path?: string;
-  namespaceType?: ArtifactNamespace;
-  name?: string;
-  packaging?: ArtifactPackaging;
-  overrideArtifactName?: boolean;
-  encryptionDisabled?: boolean;
-  artifactIdentifier?: string;
-  bucketOwnerAccess?: BucketOwnerAccess;
+  location?: string | undefined;
+  path?: string | undefined;
+  namespaceType?: ArtifactNamespace | undefined;
+  name?: string | undefined;
+  packaging?: ArtifactPackaging | undefined;
+  overrideArtifactName?: boolean | undefined;
+  encryptionDisabled?: boolean | undefined;
+  artifactIdentifier?: string | undefined;
+  bucketOwnerAccess?: BucketOwnerAccess | undefined;
 }
 export type ProjectArtifactsList = ProjectArtifacts[];
 export type BuildTimeOut = number;
@@ -677,7 +678,7 @@ export type WebhookFilterType =
 export interface WebhookFilter {
   type: WebhookFilterType;
   pattern: string;
-  excludeMatchedPattern?: boolean;
+  excludeMatchedPattern?: boolean | undefined;
 }
 export type FilterGroup = WebhookFilter[];
 export type FilterGroups = WebhookFilter[][];
@@ -689,7 +690,7 @@ export type WebhookScopeType =
   | (string & {});
 export interface ScopeConfiguration {
   name: string;
-  domain?: string;
+  domain?: string | undefined;
   scope: WebhookScopeType;
 }
 export type WebhookStatus = "CREATING" | "CREATE_FAILED" | "ACTIVE" | "DELETING" | (string & {});
@@ -717,62 +718,62 @@ export type PullRequestBuildApproverRole =
 export type PullRequestBuildApproverRoles = PullRequestBuildApproverRole[];
 export interface PullRequestBuildPolicy {
   requiresCommentApproval: PullRequestBuildCommentApproval;
-  approverRoles?: PullRequestBuildApproverRole[];
+  approverRoles?: PullRequestBuildApproverRole[] | undefined;
 }
 export interface Webhook {
-  url?: string;
-  payloadUrl?: string;
-  secret?: string;
-  branchFilter?: string;
-  filterGroups?: WebhookFilter[][];
-  buildType?: WebhookBuildType;
-  manualCreation?: boolean;
-  lastModifiedSecret?: Date;
-  scopeConfiguration?: ScopeConfiguration;
-  status?: WebhookStatus;
-  statusMessage?: string;
-  pullRequestBuildPolicy?: PullRequestBuildPolicy;
+  url?: string | undefined;
+  payloadUrl?: string | undefined;
+  secret?: string | undefined;
+  branchFilter?: string | undefined;
+  filterGroups?: WebhookFilter[][] | undefined;
+  buildType?: WebhookBuildType | undefined;
+  manualCreation?: boolean | undefined;
+  lastModifiedSecret?: Date | undefined;
+  scopeConfiguration?: ScopeConfiguration | undefined;
+  status?: WebhookStatus | undefined;
+  statusMessage?: string | undefined;
+  pullRequestBuildPolicy?: PullRequestBuildPolicy | undefined;
 }
 export interface ProjectBadge {
-  badgeEnabled?: boolean;
-  badgeRequestUrl?: string;
+  badgeEnabled?: boolean | undefined;
+  badgeRequestUrl?: string | undefined;
 }
 export type ProjectVisibilityType = "PUBLIC_READ" | "PRIVATE" | (string & {});
 export interface Project {
-  name?: string;
-  arn?: string;
-  description?: string;
-  source?: ProjectSource;
-  secondarySources?: ProjectSource[];
-  sourceVersion?: string;
-  secondarySourceVersions?: ProjectSourceVersion[];
-  artifacts?: ProjectArtifacts;
-  secondaryArtifacts?: ProjectArtifacts[];
-  cache?: ProjectCache;
-  environment?: ProjectEnvironment;
-  serviceRole?: string;
-  timeoutInMinutes?: number;
-  queuedTimeoutInMinutes?: number;
-  encryptionKey?: string;
-  tags?: Tag[];
-  created?: Date;
-  lastModified?: Date;
-  webhook?: Webhook;
-  vpcConfig?: VpcConfig;
-  badge?: ProjectBadge;
-  logsConfig?: LogsConfig;
-  fileSystemLocations?: ProjectFileSystemLocation[];
-  buildBatchConfig?: ProjectBuildBatchConfig;
-  concurrentBuildLimit?: number;
-  projectVisibility?: ProjectVisibilityType;
-  publicProjectAlias?: string;
-  resourceAccessRole?: string;
-  autoRetryLimit?: number;
+  name?: string | undefined;
+  arn?: string | undefined;
+  description?: string | undefined;
+  source?: ProjectSource | undefined;
+  secondarySources?: ProjectSource[] | undefined;
+  sourceVersion?: string | undefined;
+  secondarySourceVersions?: ProjectSourceVersion[] | undefined;
+  artifacts?: ProjectArtifacts | undefined;
+  secondaryArtifacts?: ProjectArtifacts[] | undefined;
+  cache?: ProjectCache | undefined;
+  environment?: ProjectEnvironment | undefined;
+  serviceRole?: string | undefined;
+  timeoutInMinutes?: number | undefined;
+  queuedTimeoutInMinutes?: number | undefined;
+  encryptionKey?: string | undefined;
+  tags?: Tag[] | undefined;
+  created?: Date | undefined;
+  lastModified?: Date | undefined;
+  webhook?: Webhook | undefined;
+  vpcConfig?: VpcConfig | undefined;
+  badge?: ProjectBadge | undefined;
+  logsConfig?: LogsConfig | undefined;
+  fileSystemLocations?: ProjectFileSystemLocation[] | undefined;
+  buildBatchConfig?: ProjectBuildBatchConfig | undefined;
+  concurrentBuildLimit?: number | undefined;
+  projectVisibility?: ProjectVisibilityType | undefined;
+  publicProjectAlias?: string | undefined;
+  resourceAccessRole?: string | undefined;
+  autoRetryLimit?: number | undefined;
 }
 export type Projects = Project[];
 export interface BatchGetProjectsOutput {
-  projects?: Project[];
-  projectsNotFound?: string[];
+  projects?: Project[] | undefined;
+  projectsNotFound?: string[] | undefined;
 }
 export type ReportGroupArns = string[];
 export interface BatchGetReportGroupsInput {
@@ -783,32 +784,32 @@ export type ReportType = "TEST" | "CODE_COVERAGE" | (string & {});
 export type ReportExportConfigType = "S3" | "NO_EXPORT" | (string & {});
 export type ReportPackagingType = "ZIP" | "NONE" | (string & {});
 export interface S3ReportExportConfig {
-  bucket?: string;
-  bucketOwner?: string;
-  path?: string;
-  packaging?: ReportPackagingType;
-  encryptionKey?: string;
-  encryptionDisabled?: boolean;
+  bucket?: string | undefined;
+  bucketOwner?: string | undefined;
+  path?: string | undefined;
+  packaging?: ReportPackagingType | undefined;
+  encryptionKey?: string | undefined;
+  encryptionDisabled?: boolean | undefined;
 }
 export interface ReportExportConfig {
-  exportConfigType?: ReportExportConfigType;
-  s3Destination?: S3ReportExportConfig;
+  exportConfigType?: ReportExportConfigType | undefined;
+  s3Destination?: S3ReportExportConfig | undefined;
 }
 export type ReportGroupStatusType = "ACTIVE" | "DELETING" | (string & {});
 export interface ReportGroup {
-  arn?: string;
-  name?: string;
-  type?: ReportType;
-  exportConfig?: ReportExportConfig;
-  created?: Date;
-  lastModified?: Date;
-  tags?: Tag[];
-  status?: ReportGroupStatusType;
+  arn?: string | undefined;
+  name?: string | undefined;
+  type?: ReportType | undefined;
+  exportConfig?: ReportExportConfig | undefined;
+  created?: Date | undefined;
+  lastModified?: Date | undefined;
+  tags?: Tag[] | undefined;
+  status?: ReportGroupStatusType | undefined;
 }
 export type ReportGroups = ReportGroup[];
 export interface BatchGetReportGroupsOutput {
-  reportGroups?: ReportGroup[];
-  reportGroupsNotFound?: string[];
+  reportGroups?: ReportGroup[] | undefined;
+  reportGroupsNotFound?: string[] | undefined;
 }
 export type ReportArns = string[];
 export interface BatchGetReportsInput {
@@ -830,160 +831,160 @@ export interface TestReportSummary {
 export type Percentage = number;
 export type NonNegativeInt = number;
 export interface CodeCoverageReportSummary {
-  lineCoveragePercentage?: number;
-  linesCovered?: number;
-  linesMissed?: number;
-  branchCoveragePercentage?: number;
-  branchesCovered?: number;
-  branchesMissed?: number;
+  lineCoveragePercentage?: number | undefined;
+  linesCovered?: number | undefined;
+  linesMissed?: number | undefined;
+  branchCoveragePercentage?: number | undefined;
+  branchesCovered?: number | undefined;
+  branchesMissed?: number | undefined;
 }
 export interface Report {
-  arn?: string;
-  type?: ReportType;
-  name?: string;
-  reportGroupArn?: string;
-  executionId?: string;
-  status?: ReportStatusType;
-  created?: Date;
-  expired?: Date;
-  exportConfig?: ReportExportConfig;
-  truncated?: boolean;
-  testSummary?: TestReportSummary;
-  codeCoverageSummary?: CodeCoverageReportSummary;
+  arn?: string | undefined;
+  type?: ReportType | undefined;
+  name?: string | undefined;
+  reportGroupArn?: string | undefined;
+  executionId?: string | undefined;
+  status?: ReportStatusType | undefined;
+  created?: Date | undefined;
+  expired?: Date | undefined;
+  exportConfig?: ReportExportConfig | undefined;
+  truncated?: boolean | undefined;
+  testSummary?: TestReportSummary | undefined;
+  codeCoverageSummary?: CodeCoverageReportSummary | undefined;
 }
 export type Reports = Report[];
 export interface BatchGetReportsOutput {
-  reports?: Report[];
-  reportsNotFound?: string[];
+  reports?: Report[] | undefined;
+  reportsNotFound?: string[] | undefined;
 }
 export type SandboxIds = string[];
 export interface BatchGetSandboxesInput {
   ids: string[];
 }
 export interface SandboxSessionPhase {
-  phaseType?: string;
-  phaseStatus?: StatusType;
-  startTime?: Date;
-  endTime?: Date;
-  durationInSeconds?: number;
-  contexts?: PhaseContext[];
+  phaseType?: string | undefined;
+  phaseStatus?: StatusType | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  durationInSeconds?: number | undefined;
+  contexts?: PhaseContext[] | undefined;
 }
 export type SandboxSessionPhases = SandboxSessionPhase[];
 export interface SandboxSession {
-  id?: string;
-  status?: string;
-  startTime?: Date;
-  endTime?: Date;
-  currentPhase?: string;
-  phases?: SandboxSessionPhase[];
-  resolvedSourceVersion?: string;
-  logs?: LogsLocation;
-  networkInterface?: NetworkInterface;
+  id?: string | undefined;
+  status?: string | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  currentPhase?: string | undefined;
+  phases?: SandboxSessionPhase[] | undefined;
+  resolvedSourceVersion?: string | undefined;
+  logs?: LogsLocation | undefined;
+  networkInterface?: NetworkInterface | undefined;
 }
 export interface Sandbox {
-  id?: string;
-  arn?: string;
-  projectName?: string;
-  requestTime?: Date;
-  startTime?: Date;
-  endTime?: Date;
-  status?: string;
-  source?: ProjectSource;
-  sourceVersion?: string;
-  secondarySources?: ProjectSource[];
-  secondarySourceVersions?: ProjectSourceVersion[];
-  environment?: ProjectEnvironment;
-  fileSystemLocations?: ProjectFileSystemLocation[];
-  timeoutInMinutes?: number;
-  queuedTimeoutInMinutes?: number;
-  vpcConfig?: VpcConfig;
-  logConfig?: LogsConfig;
-  encryptionKey?: string;
-  serviceRole?: string;
-  currentSession?: SandboxSession;
+  id?: string | undefined;
+  arn?: string | undefined;
+  projectName?: string | undefined;
+  requestTime?: Date | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  status?: string | undefined;
+  source?: ProjectSource | undefined;
+  sourceVersion?: string | undefined;
+  secondarySources?: ProjectSource[] | undefined;
+  secondarySourceVersions?: ProjectSourceVersion[] | undefined;
+  environment?: ProjectEnvironment | undefined;
+  fileSystemLocations?: ProjectFileSystemLocation[] | undefined;
+  timeoutInMinutes?: number | undefined;
+  queuedTimeoutInMinutes?: number | undefined;
+  vpcConfig?: VpcConfig | undefined;
+  logConfig?: LogsConfig | undefined;
+  encryptionKey?: string | undefined;
+  serviceRole?: string | undefined;
+  currentSession?: SandboxSession | undefined;
 }
 export type Sandboxes = Sandbox[];
 export interface BatchGetSandboxesOutput {
-  sandboxes?: Sandbox[];
-  sandboxesNotFound?: string[];
+  sandboxes?: Sandbox[] | undefined;
+  sandboxesNotFound?: string[] | undefined;
 }
 export interface ScalingConfigurationInput {
-  scalingType?: FleetScalingType;
-  targetTrackingScalingConfigs?: TargetTrackingScalingConfiguration[];
-  maxCapacity?: number;
+  scalingType?: FleetScalingType | undefined;
+  targetTrackingScalingConfigs?: TargetTrackingScalingConfiguration[] | undefined;
+  maxCapacity?: number | undefined;
 }
 export interface CreateFleetInput {
   name: string;
   baseCapacity: number;
   environmentType: EnvironmentType;
   computeType: ComputeType;
-  computeConfiguration?: ComputeConfiguration;
-  scalingConfiguration?: ScalingConfigurationInput;
-  overflowBehavior?: FleetOverflowBehavior;
-  vpcConfig?: VpcConfig;
-  proxyConfiguration?: ProxyConfiguration;
-  imageId?: string;
-  fleetServiceRole?: string;
-  tags?: Tag[];
+  computeConfiguration?: ComputeConfiguration | undefined;
+  scalingConfiguration?: ScalingConfigurationInput | undefined;
+  overflowBehavior?: FleetOverflowBehavior | undefined;
+  vpcConfig?: VpcConfig | undefined;
+  proxyConfiguration?: ProxyConfiguration | undefined;
+  imageId?: string | undefined;
+  fleetServiceRole?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface CreateFleetOutput {
-  fleet?: Fleet;
+  fleet?: Fleet | undefined;
 }
 export interface CreateProjectInput {
   name: string;
-  description?: string;
+  description?: string | undefined;
   source: ProjectSource;
-  secondarySources?: ProjectSource[];
-  sourceVersion?: string;
-  secondarySourceVersions?: ProjectSourceVersion[];
+  secondarySources?: ProjectSource[] | undefined;
+  sourceVersion?: string | undefined;
+  secondarySourceVersions?: ProjectSourceVersion[] | undefined;
   artifacts: ProjectArtifacts;
-  secondaryArtifacts?: ProjectArtifacts[];
-  cache?: ProjectCache;
+  secondaryArtifacts?: ProjectArtifacts[] | undefined;
+  cache?: ProjectCache | undefined;
   environment: ProjectEnvironment;
   serviceRole: string;
-  timeoutInMinutes?: number;
-  queuedTimeoutInMinutes?: number;
-  encryptionKey?: string;
-  tags?: Tag[];
-  vpcConfig?: VpcConfig;
-  badgeEnabled?: boolean;
-  logsConfig?: LogsConfig;
-  fileSystemLocations?: ProjectFileSystemLocation[];
-  buildBatchConfig?: ProjectBuildBatchConfig;
-  concurrentBuildLimit?: number;
-  autoRetryLimit?: number;
+  timeoutInMinutes?: number | undefined;
+  queuedTimeoutInMinutes?: number | undefined;
+  encryptionKey?: string | undefined;
+  tags?: Tag[] | undefined;
+  vpcConfig?: VpcConfig | undefined;
+  badgeEnabled?: boolean | undefined;
+  logsConfig?: LogsConfig | undefined;
+  fileSystemLocations?: ProjectFileSystemLocation[] | undefined;
+  buildBatchConfig?: ProjectBuildBatchConfig | undefined;
+  concurrentBuildLimit?: number | undefined;
+  autoRetryLimit?: number | undefined;
 }
 export interface CreateProjectOutput {
-  project?: Project;
+  project?: Project | undefined;
 }
 export interface CreateReportGroupInput {
   name: string;
   type: ReportType;
   exportConfig: ReportExportConfig;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface CreateReportGroupOutput {
-  reportGroup?: ReportGroup;
+  reportGroup?: ReportGroup | undefined;
 }
 export interface CreateWebhookInput {
   projectName: string;
-  branchFilter?: string;
-  filterGroups?: WebhookFilter[][];
-  buildType?: WebhookBuildType;
-  manualCreation?: boolean;
-  scopeConfiguration?: ScopeConfiguration;
-  pullRequestBuildPolicy?: PullRequestBuildPolicy;
+  branchFilter?: string | undefined;
+  filterGroups?: WebhookFilter[][] | undefined;
+  buildType?: WebhookBuildType | undefined;
+  manualCreation?: boolean | undefined;
+  scopeConfiguration?: ScopeConfiguration | undefined;
+  pullRequestBuildPolicy?: PullRequestBuildPolicy | undefined;
 }
 export interface CreateWebhookOutput {
-  webhook?: Webhook;
+  webhook?: Webhook | undefined;
 }
 export interface DeleteBuildBatchInput {
   id: string;
 }
 export interface DeleteBuildBatchOutput {
-  statusCode?: string;
-  buildsDeleted?: string[];
-  buildsNotDeleted?: BuildNotDeleted[];
+  statusCode?: string | undefined;
+  buildsDeleted?: string[] | undefined;
+  buildsNotDeleted?: BuildNotDeleted[] | undefined;
 }
 export interface DeleteFleetInput {
   arn: string;
@@ -999,7 +1000,7 @@ export interface DeleteReportInput {
 export interface DeleteReportOutput {}
 export interface DeleteReportGroupInput {
   arn: string;
-  deleteReports?: boolean;
+  deleteReports?: boolean | undefined;
 }
 export interface DeleteReportGroupOutput {}
 export interface DeleteResourcePolicyInput {
@@ -1010,7 +1011,7 @@ export interface DeleteSourceCredentialsInput {
   arn: string;
 }
 export interface DeleteSourceCredentialsOutput {
-  arn?: string;
+  arn?: string | undefined;
 }
 export interface DeleteWebhookInput {
   projectName: string;
@@ -1021,55 +1022,55 @@ export type SortOrderType = "ASCENDING" | "DESCENDING" | (string & {});
 export type ReportCodeCoverageSortByType = "LINE_COVERAGE_PERCENTAGE" | "FILE_PATH" | (string & {});
 export interface DescribeCodeCoveragesInput {
   reportArn: string;
-  nextToken?: string;
-  maxResults?: number;
-  sortOrder?: SortOrderType;
-  sortBy?: ReportCodeCoverageSortByType;
-  minLineCoveragePercentage?: number;
-  maxLineCoveragePercentage?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  sortOrder?: SortOrderType | undefined;
+  sortBy?: ReportCodeCoverageSortByType | undefined;
+  minLineCoveragePercentage?: number | undefined;
+  maxLineCoveragePercentage?: number | undefined;
 }
 export interface CodeCoverage {
-  id?: string;
-  reportARN?: string;
-  filePath?: string;
-  lineCoveragePercentage?: number;
-  linesCovered?: number;
-  linesMissed?: number;
-  branchCoveragePercentage?: number;
-  branchesCovered?: number;
-  branchesMissed?: number;
-  expired?: Date;
+  id?: string | undefined;
+  reportARN?: string | undefined;
+  filePath?: string | undefined;
+  lineCoveragePercentage?: number | undefined;
+  linesCovered?: number | undefined;
+  linesMissed?: number | undefined;
+  branchCoveragePercentage?: number | undefined;
+  branchesCovered?: number | undefined;
+  branchesMissed?: number | undefined;
+  expired?: Date | undefined;
 }
 export type CodeCoverages = CodeCoverage[];
 export interface DescribeCodeCoveragesOutput {
-  nextToken?: string;
-  codeCoverages?: CodeCoverage[];
+  nextToken?: string | undefined;
+  codeCoverages?: CodeCoverage[] | undefined;
 }
 export interface TestCaseFilter {
-  status?: string;
-  keyword?: string;
+  status?: string | undefined;
+  keyword?: string | undefined;
 }
 export interface DescribeTestCasesInput {
   reportArn: string;
-  nextToken?: string;
-  maxResults?: number;
-  filter?: TestCaseFilter;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  filter?: TestCaseFilter | undefined;
 }
 export interface TestCase {
-  reportArn?: string;
-  testRawDataPath?: string;
-  prefix?: string;
-  name?: string;
-  status?: string;
-  durationInNanoSeconds?: number;
-  message?: string;
-  expired?: Date;
-  testSuiteName?: string;
+  reportArn?: string | undefined;
+  testRawDataPath?: string | undefined;
+  prefix?: string | undefined;
+  name?: string | undefined;
+  status?: string | undefined;
+  durationInNanoSeconds?: number | undefined;
+  message?: string | undefined;
+  expired?: Date | undefined;
+  testSuiteName?: string | undefined;
 }
 export type TestCases = TestCase[];
 export interface DescribeTestCasesOutput {
-  nextToken?: string;
-  testCases?: TestCase[];
+  nextToken?: string | undefined;
+  testCases?: TestCase[] | undefined;
 }
 export type ReportGroupTrendFieldType =
   | "PASS_RATE"
@@ -1084,28 +1085,28 @@ export type ReportGroupTrendFieldType =
   | (string & {});
 export interface GetReportGroupTrendInput {
   reportGroupArn: string;
-  numOfReports?: number;
+  numOfReports?: number | undefined;
   trendField: ReportGroupTrendFieldType;
 }
 export interface ReportGroupTrendStats {
-  average?: string;
-  max?: string;
-  min?: string;
+  average?: string | undefined;
+  max?: string | undefined;
+  min?: string | undefined;
 }
 export interface ReportWithRawData {
-  reportArn?: string;
-  data?: string;
+  reportArn?: string | undefined;
+  data?: string | undefined;
 }
 export type ReportGroupTrendRawDataList = ReportWithRawData[];
 export interface GetReportGroupTrendOutput {
-  stats?: ReportGroupTrendStats;
-  rawData?: ReportWithRawData[];
+  stats?: ReportGroupTrendStats | undefined;
+  rawData?: ReportWithRawData[] | undefined;
 }
 export interface GetResourcePolicyInput {
   resourceArn: string;
 }
 export interface GetResourcePolicyOutput {
-  policy?: string;
+  policy?: string | undefined;
 }
 export type ServerType =
   | "GITHUB"
@@ -1122,70 +1123,70 @@ export type AuthType =
   | "SECRETS_MANAGER"
   | (string & {});
 export interface ImportSourceCredentialsInput {
-  username?: string;
+  username?: string | undefined;
   token: string | redacted.Redacted<string>;
   serverType: ServerType;
   authType: AuthType;
-  shouldOverwrite?: boolean;
+  shouldOverwrite?: boolean | undefined;
 }
 export interface ImportSourceCredentialsOutput {
-  arn?: string;
+  arn?: string | undefined;
 }
 export interface InvalidateProjectCacheInput {
   projectName: string;
 }
 export interface InvalidateProjectCacheOutput {}
 export interface BuildBatchFilter {
-  status?: StatusType;
+  status?: StatusType | undefined;
 }
 export interface ListBuildBatchesInput {
-  filter?: BuildBatchFilter;
-  maxResults?: number;
-  sortOrder?: SortOrderType;
-  nextToken?: string;
+  filter?: BuildBatchFilter | undefined;
+  maxResults?: number | undefined;
+  sortOrder?: SortOrderType | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListBuildBatchesOutput {
-  ids?: string[];
-  nextToken?: string;
+  ids?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListBuildBatchesForProjectInput {
-  projectName?: string;
-  filter?: BuildBatchFilter;
-  maxResults?: number;
-  sortOrder?: SortOrderType;
-  nextToken?: string;
+  projectName?: string | undefined;
+  filter?: BuildBatchFilter | undefined;
+  maxResults?: number | undefined;
+  sortOrder?: SortOrderType | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListBuildBatchesForProjectOutput {
-  ids?: string[];
-  nextToken?: string;
+  ids?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListBuildsInput {
-  sortOrder?: SortOrderType;
-  nextToken?: string;
+  sortOrder?: SortOrderType | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListBuildsOutput {
-  ids?: string[];
-  nextToken?: string;
+  ids?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListBuildsForProjectInput {
   projectName: string;
-  sortOrder?: SortOrderType;
-  nextToken?: string;
+  sortOrder?: SortOrderType | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListBuildsForProjectOutput {
-  ids?: string[];
-  nextToken?: string;
+  ids?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export type SensitiveString = string | redacted.Redacted<string>;
 export interface ListCommandExecutionsForSandboxInput {
   sandboxId: string;
-  maxResults?: number;
-  sortOrder?: SortOrderType;
-  nextToken?: string | redacted.Redacted<string>;
+  maxResults?: number | undefined;
+  sortOrder?: SortOrderType | undefined;
+  nextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface ListCommandExecutionsForSandboxOutput {
-  commandExecutions?: CommandExecution[];
-  nextToken?: string;
+  commandExecutions?: CommandExecution[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListCuratedEnvironmentImagesInput {}
 export type PlatformType = "DEBIAN" | "AMAZON_LINUX" | "UBUNTU" | "WINDOWS_SERVER" | (string & {});
@@ -1203,354 +1204,354 @@ export type LanguageType =
   | (string & {});
 export type ImageVersions = string[];
 export interface EnvironmentImage {
-  name?: string;
-  description?: string;
-  versions?: string[];
+  name?: string | undefined;
+  description?: string | undefined;
+  versions?: string[] | undefined;
 }
 export type EnvironmentImages = EnvironmentImage[];
 export interface EnvironmentLanguage {
-  language?: LanguageType;
-  images?: EnvironmentImage[];
+  language?: LanguageType | undefined;
+  images?: EnvironmentImage[] | undefined;
 }
 export type EnvironmentLanguages = EnvironmentLanguage[];
 export interface EnvironmentPlatform {
-  platform?: PlatformType;
-  languages?: EnvironmentLanguage[];
+  platform?: PlatformType | undefined;
+  languages?: EnvironmentLanguage[] | undefined;
 }
 export type EnvironmentPlatforms = EnvironmentPlatform[];
 export interface ListCuratedEnvironmentImagesOutput {
-  platforms?: EnvironmentPlatform[];
+  platforms?: EnvironmentPlatform[] | undefined;
 }
 export type FleetSortByType = "NAME" | "CREATED_TIME" | "LAST_MODIFIED_TIME" | (string & {});
 export interface ListFleetsInput {
-  nextToken?: string | redacted.Redacted<string>;
-  maxResults?: number;
-  sortOrder?: SortOrderType;
-  sortBy?: FleetSortByType;
+  nextToken?: string | redacted.Redacted<string> | undefined;
+  maxResults?: number | undefined;
+  sortOrder?: SortOrderType | undefined;
+  sortBy?: FleetSortByType | undefined;
 }
 export type FleetArns = string[];
 export interface ListFleetsOutput {
-  nextToken?: string;
-  fleets?: string[];
+  nextToken?: string | undefined;
+  fleets?: string[] | undefined;
 }
 export type ProjectSortByType = "NAME" | "CREATED_TIME" | "LAST_MODIFIED_TIME" | (string & {});
 export interface ListProjectsInput {
-  sortBy?: ProjectSortByType;
-  sortOrder?: SortOrderType;
-  nextToken?: string;
+  sortBy?: ProjectSortByType | undefined;
+  sortOrder?: SortOrderType | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListProjectsOutput {
-  nextToken?: string;
-  projects?: string[];
+  nextToken?: string | undefined;
+  projects?: string[] | undefined;
 }
 export type ReportGroupSortByType = "NAME" | "CREATED_TIME" | "LAST_MODIFIED_TIME" | (string & {});
 export interface ListReportGroupsInput {
-  sortOrder?: SortOrderType;
-  sortBy?: ReportGroupSortByType;
-  nextToken?: string;
-  maxResults?: number;
+  sortOrder?: SortOrderType | undefined;
+  sortBy?: ReportGroupSortByType | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListReportGroupsOutput {
-  nextToken?: string;
-  reportGroups?: string[];
+  nextToken?: string | undefined;
+  reportGroups?: string[] | undefined;
 }
 export interface ReportFilter {
-  status?: ReportStatusType;
+  status?: ReportStatusType | undefined;
 }
 export interface ListReportsInput {
-  sortOrder?: SortOrderType;
-  nextToken?: string;
-  maxResults?: number;
-  filter?: ReportFilter;
+  sortOrder?: SortOrderType | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  filter?: ReportFilter | undefined;
 }
 export interface ListReportsOutput {
-  nextToken?: string;
-  reports?: string[];
+  nextToken?: string | undefined;
+  reports?: string[] | undefined;
 }
 export interface ListReportsForReportGroupInput {
   reportGroupArn: string;
-  nextToken?: string;
-  sortOrder?: SortOrderType;
-  maxResults?: number;
-  filter?: ReportFilter;
+  nextToken?: string | undefined;
+  sortOrder?: SortOrderType | undefined;
+  maxResults?: number | undefined;
+  filter?: ReportFilter | undefined;
 }
 export interface ListReportsForReportGroupOutput {
-  nextToken?: string;
-  reports?: string[];
+  nextToken?: string | undefined;
+  reports?: string[] | undefined;
 }
 export interface ListSandboxesInput {
-  maxResults?: number;
-  sortOrder?: SortOrderType;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  sortOrder?: SortOrderType | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListSandboxesOutput {
-  ids?: string[];
-  nextToken?: string;
+  ids?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListSandboxesForProjectInput {
   projectName: string;
-  maxResults?: number;
-  sortOrder?: SortOrderType;
-  nextToken?: string | redacted.Redacted<string>;
+  maxResults?: number | undefined;
+  sortOrder?: SortOrderType | undefined;
+  nextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface ListSandboxesForProjectOutput {
-  ids?: string[];
-  nextToken?: string;
+  ids?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export type SharedResourceSortByType = "ARN" | "MODIFIED_TIME" | (string & {});
 export interface ListSharedProjectsInput {
-  sortBy?: SharedResourceSortByType;
-  sortOrder?: SortOrderType;
-  maxResults?: number;
-  nextToken?: string;
+  sortBy?: SharedResourceSortByType | undefined;
+  sortOrder?: SortOrderType | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ProjectArns = string[];
 export interface ListSharedProjectsOutput {
-  nextToken?: string;
-  projects?: string[];
+  nextToken?: string | undefined;
+  projects?: string[] | undefined;
 }
 export interface ListSharedReportGroupsInput {
-  sortOrder?: SortOrderType;
-  sortBy?: SharedResourceSortByType;
-  nextToken?: string;
-  maxResults?: number;
+  sortOrder?: SortOrderType | undefined;
+  sortBy?: SharedResourceSortByType | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListSharedReportGroupsOutput {
-  nextToken?: string;
-  reportGroups?: string[];
+  nextToken?: string | undefined;
+  reportGroups?: string[] | undefined;
 }
 export interface ListSourceCredentialsInput {}
 export interface SourceCredentialsInfo {
-  arn?: string;
-  serverType?: ServerType;
-  authType?: AuthType;
-  resource?: string;
+  arn?: string | undefined;
+  serverType?: ServerType | undefined;
+  authType?: AuthType | undefined;
+  resource?: string | undefined;
 }
 export type SourceCredentialsInfos = SourceCredentialsInfo[];
 export interface ListSourceCredentialsOutput {
-  sourceCredentialsInfos?: SourceCredentialsInfo[];
+  sourceCredentialsInfos?: SourceCredentialsInfo[] | undefined;
 }
 export interface PutResourcePolicyInput {
   policy: string;
   resourceArn: string;
 }
 export interface PutResourcePolicyOutput {
-  resourceArn?: string;
+  resourceArn?: string | undefined;
 }
 export interface RetryBuildInput {
-  id?: string;
-  idempotencyToken?: string;
+  id?: string | undefined;
+  idempotencyToken?: string | undefined;
 }
 export interface RetryBuildOutput {
-  build?: Build;
+  build?: Build | undefined;
 }
 export type RetryBuildBatchType = "RETRY_ALL_BUILDS" | "RETRY_FAILED_BUILDS" | (string & {});
 export interface RetryBuildBatchInput {
-  id?: string;
-  idempotencyToken?: string;
-  retryType?: RetryBuildBatchType;
+  id?: string | undefined;
+  idempotencyToken?: string | undefined;
+  retryType?: RetryBuildBatchType | undefined;
 }
 export interface RetryBuildBatchOutput {
-  buildBatch?: BuildBatch;
+  buildBatch?: BuildBatch | undefined;
 }
 export interface StartBuildInput {
   projectName: string;
-  secondarySourcesOverride?: ProjectSource[];
-  secondarySourcesVersionOverride?: ProjectSourceVersion[];
-  sourceVersion?: string;
-  artifactsOverride?: ProjectArtifacts;
-  secondaryArtifactsOverride?: ProjectArtifacts[];
-  environmentVariablesOverride?: EnvironmentVariable[];
-  sourceTypeOverride?: SourceType;
-  sourceLocationOverride?: string;
-  sourceAuthOverride?: SourceAuth;
-  gitCloneDepthOverride?: number;
-  gitSubmodulesConfigOverride?: GitSubmodulesConfig;
-  buildspecOverride?: string;
-  insecureSslOverride?: boolean;
-  reportBuildStatusOverride?: boolean;
-  buildStatusConfigOverride?: BuildStatusConfig;
-  environmentTypeOverride?: EnvironmentType;
-  imageOverride?: string;
-  computeTypeOverride?: ComputeType;
-  certificateOverride?: string;
-  cacheOverride?: ProjectCache;
-  serviceRoleOverride?: string;
-  privilegedModeOverride?: boolean;
-  timeoutInMinutesOverride?: number;
-  queuedTimeoutInMinutesOverride?: number;
-  encryptionKeyOverride?: string;
-  idempotencyToken?: string;
-  logsConfigOverride?: LogsConfig;
-  registryCredentialOverride?: RegistryCredential;
-  imagePullCredentialsTypeOverride?: ImagePullCredentialsType;
-  debugSessionEnabled?: boolean;
-  fleetOverride?: ProjectFleet;
-  autoRetryLimitOverride?: number;
-  hostKernelOverride?: HostKernel;
+  secondarySourcesOverride?: ProjectSource[] | undefined;
+  secondarySourcesVersionOverride?: ProjectSourceVersion[] | undefined;
+  sourceVersion?: string | undefined;
+  artifactsOverride?: ProjectArtifacts | undefined;
+  secondaryArtifactsOverride?: ProjectArtifacts[] | undefined;
+  environmentVariablesOverride?: EnvironmentVariable[] | undefined;
+  sourceTypeOverride?: SourceType | undefined;
+  sourceLocationOverride?: string | undefined;
+  sourceAuthOverride?: SourceAuth | undefined;
+  gitCloneDepthOverride?: number | undefined;
+  gitSubmodulesConfigOverride?: GitSubmodulesConfig | undefined;
+  buildspecOverride?: string | undefined;
+  insecureSslOverride?: boolean | undefined;
+  reportBuildStatusOverride?: boolean | undefined;
+  buildStatusConfigOverride?: BuildStatusConfig | undefined;
+  environmentTypeOverride?: EnvironmentType | undefined;
+  imageOverride?: string | undefined;
+  computeTypeOverride?: ComputeType | undefined;
+  certificateOverride?: string | undefined;
+  cacheOverride?: ProjectCache | undefined;
+  serviceRoleOverride?: string | undefined;
+  privilegedModeOverride?: boolean | undefined;
+  timeoutInMinutesOverride?: number | undefined;
+  queuedTimeoutInMinutesOverride?: number | undefined;
+  encryptionKeyOverride?: string | undefined;
+  idempotencyToken?: string | undefined;
+  logsConfigOverride?: LogsConfig | undefined;
+  registryCredentialOverride?: RegistryCredential | undefined;
+  imagePullCredentialsTypeOverride?: ImagePullCredentialsType | undefined;
+  debugSessionEnabled?: boolean | undefined;
+  fleetOverride?: ProjectFleet | undefined;
+  autoRetryLimitOverride?: number | undefined;
+  hostKernelOverride?: HostKernel | undefined;
 }
 export interface StartBuildOutput {
-  build?: Build;
+  build?: Build | undefined;
 }
 export interface StartBuildBatchInput {
   projectName: string;
-  secondarySourcesOverride?: ProjectSource[];
-  secondarySourcesVersionOverride?: ProjectSourceVersion[];
-  sourceVersion?: string;
-  artifactsOverride?: ProjectArtifacts;
-  secondaryArtifactsOverride?: ProjectArtifacts[];
-  environmentVariablesOverride?: EnvironmentVariable[];
-  sourceTypeOverride?: SourceType;
-  sourceLocationOverride?: string;
-  sourceAuthOverride?: SourceAuth;
-  gitCloneDepthOverride?: number;
-  gitSubmodulesConfigOverride?: GitSubmodulesConfig;
-  buildspecOverride?: string;
-  insecureSslOverride?: boolean;
-  reportBuildBatchStatusOverride?: boolean;
-  environmentTypeOverride?: EnvironmentType;
-  imageOverride?: string;
-  computeTypeOverride?: ComputeType;
-  certificateOverride?: string;
-  cacheOverride?: ProjectCache;
-  serviceRoleOverride?: string;
-  privilegedModeOverride?: boolean;
-  buildTimeoutInMinutesOverride?: number;
-  queuedTimeoutInMinutesOverride?: number;
-  encryptionKeyOverride?: string;
-  idempotencyToken?: string;
-  logsConfigOverride?: LogsConfig;
-  registryCredentialOverride?: RegistryCredential;
-  imagePullCredentialsTypeOverride?: ImagePullCredentialsType;
-  buildBatchConfigOverride?: ProjectBuildBatchConfig;
-  debugSessionEnabled?: boolean;
+  secondarySourcesOverride?: ProjectSource[] | undefined;
+  secondarySourcesVersionOverride?: ProjectSourceVersion[] | undefined;
+  sourceVersion?: string | undefined;
+  artifactsOverride?: ProjectArtifacts | undefined;
+  secondaryArtifactsOverride?: ProjectArtifacts[] | undefined;
+  environmentVariablesOverride?: EnvironmentVariable[] | undefined;
+  sourceTypeOverride?: SourceType | undefined;
+  sourceLocationOverride?: string | undefined;
+  sourceAuthOverride?: SourceAuth | undefined;
+  gitCloneDepthOverride?: number | undefined;
+  gitSubmodulesConfigOverride?: GitSubmodulesConfig | undefined;
+  buildspecOverride?: string | undefined;
+  insecureSslOverride?: boolean | undefined;
+  reportBuildBatchStatusOverride?: boolean | undefined;
+  environmentTypeOverride?: EnvironmentType | undefined;
+  imageOverride?: string | undefined;
+  computeTypeOverride?: ComputeType | undefined;
+  certificateOverride?: string | undefined;
+  cacheOverride?: ProjectCache | undefined;
+  serviceRoleOverride?: string | undefined;
+  privilegedModeOverride?: boolean | undefined;
+  buildTimeoutInMinutesOverride?: number | undefined;
+  queuedTimeoutInMinutesOverride?: number | undefined;
+  encryptionKeyOverride?: string | undefined;
+  idempotencyToken?: string | undefined;
+  logsConfigOverride?: LogsConfig | undefined;
+  registryCredentialOverride?: RegistryCredential | undefined;
+  imagePullCredentialsTypeOverride?: ImagePullCredentialsType | undefined;
+  buildBatchConfigOverride?: ProjectBuildBatchConfig | undefined;
+  debugSessionEnabled?: boolean | undefined;
 }
 export interface StartBuildBatchOutput {
-  buildBatch?: BuildBatch;
+  buildBatch?: BuildBatch | undefined;
 }
 export interface StartCommandExecutionInput {
   sandboxId: string;
   command: string | redacted.Redacted<string>;
-  type?: CommandType;
+  type?: CommandType | undefined;
 }
 export interface StartCommandExecutionOutput {
-  commandExecution?: CommandExecution;
+  commandExecution?: CommandExecution | undefined;
 }
 export interface StartSandboxInput {
-  projectName?: string;
-  idempotencyToken?: string | redacted.Redacted<string>;
+  projectName?: string | undefined;
+  idempotencyToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface StartSandboxOutput {
-  sandbox?: Sandbox;
+  sandbox?: Sandbox | undefined;
 }
 export interface StartSandboxConnectionInput {
   sandboxId: string;
 }
 export interface SSMSession {
-  sessionId?: string;
-  tokenValue?: string;
-  streamUrl?: string;
+  sessionId?: string | undefined;
+  tokenValue?: string | undefined;
+  streamUrl?: string | undefined;
 }
 export interface StartSandboxConnectionOutput {
-  ssmSession?: SSMSession;
+  ssmSession?: SSMSession | undefined;
 }
 export interface StopBuildInput {
   id: string;
 }
 export interface StopBuildOutput {
-  build?: Build;
+  build?: Build | undefined;
 }
 export interface StopBuildBatchInput {
   id: string;
 }
 export interface StopBuildBatchOutput {
-  buildBatch?: BuildBatch;
+  buildBatch?: BuildBatch | undefined;
 }
 export interface StopSandboxInput {
   id: string;
 }
 export interface StopSandboxOutput {
-  sandbox?: Sandbox;
+  sandbox?: Sandbox | undefined;
 }
 export interface UpdateFleetInput {
   arn: string;
-  baseCapacity?: number;
-  environmentType?: EnvironmentType;
-  computeType?: ComputeType;
-  computeConfiguration?: ComputeConfiguration;
-  scalingConfiguration?: ScalingConfigurationInput;
-  overflowBehavior?: FleetOverflowBehavior;
-  vpcConfig?: VpcConfig;
-  proxyConfiguration?: ProxyConfiguration;
-  imageId?: string;
-  fleetServiceRole?: string;
-  tags?: Tag[];
+  baseCapacity?: number | undefined;
+  environmentType?: EnvironmentType | undefined;
+  computeType?: ComputeType | undefined;
+  computeConfiguration?: ComputeConfiguration | undefined;
+  scalingConfiguration?: ScalingConfigurationInput | undefined;
+  overflowBehavior?: FleetOverflowBehavior | undefined;
+  vpcConfig?: VpcConfig | undefined;
+  proxyConfiguration?: ProxyConfiguration | undefined;
+  imageId?: string | undefined;
+  fleetServiceRole?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface UpdateFleetOutput {
-  fleet?: Fleet;
+  fleet?: Fleet | undefined;
 }
 export interface UpdateProjectInput {
   name: string;
-  description?: string;
-  source?: ProjectSource;
-  secondarySources?: ProjectSource[];
-  sourceVersion?: string;
-  secondarySourceVersions?: ProjectSourceVersion[];
-  artifacts?: ProjectArtifacts;
-  secondaryArtifacts?: ProjectArtifacts[];
-  cache?: ProjectCache;
-  environment?: ProjectEnvironment;
-  serviceRole?: string;
-  timeoutInMinutes?: number;
-  queuedTimeoutInMinutes?: number;
-  encryptionKey?: string;
-  tags?: Tag[];
-  vpcConfig?: VpcConfig;
-  badgeEnabled?: boolean;
-  logsConfig?: LogsConfig;
-  fileSystemLocations?: ProjectFileSystemLocation[];
-  buildBatchConfig?: ProjectBuildBatchConfig;
-  concurrentBuildLimit?: number;
-  autoRetryLimit?: number;
+  description?: string | undefined;
+  source?: ProjectSource | undefined;
+  secondarySources?: ProjectSource[] | undefined;
+  sourceVersion?: string | undefined;
+  secondarySourceVersions?: ProjectSourceVersion[] | undefined;
+  artifacts?: ProjectArtifacts | undefined;
+  secondaryArtifacts?: ProjectArtifacts[] | undefined;
+  cache?: ProjectCache | undefined;
+  environment?: ProjectEnvironment | undefined;
+  serviceRole?: string | undefined;
+  timeoutInMinutes?: number | undefined;
+  queuedTimeoutInMinutes?: number | undefined;
+  encryptionKey?: string | undefined;
+  tags?: Tag[] | undefined;
+  vpcConfig?: VpcConfig | undefined;
+  badgeEnabled?: boolean | undefined;
+  logsConfig?: LogsConfig | undefined;
+  fileSystemLocations?: ProjectFileSystemLocation[] | undefined;
+  buildBatchConfig?: ProjectBuildBatchConfig | undefined;
+  concurrentBuildLimit?: number | undefined;
+  autoRetryLimit?: number | undefined;
 }
 export interface UpdateProjectOutput {
-  project?: Project;
+  project?: Project | undefined;
 }
 export interface UpdateProjectVisibilityInput {
   projectArn: string;
   projectVisibility: ProjectVisibilityType;
-  resourceAccessRole?: string;
+  resourceAccessRole?: string | undefined;
 }
 export interface UpdateProjectVisibilityOutput {
-  projectArn?: string;
-  publicProjectAlias?: string;
-  projectVisibility?: ProjectVisibilityType;
+  projectArn?: string | undefined;
+  publicProjectAlias?: string | undefined;
+  projectVisibility?: ProjectVisibilityType | undefined;
 }
 export interface UpdateReportGroupInput {
   arn: string;
-  exportConfig?: ReportExportConfig;
-  tags?: Tag[];
+  exportConfig?: ReportExportConfig | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface UpdateReportGroupOutput {
-  reportGroup?: ReportGroup;
+  reportGroup?: ReportGroup | undefined;
 }
 export interface UpdateWebhookInput {
   projectName: string;
-  branchFilter?: string;
-  rotateSecret?: boolean;
-  filterGroups?: WebhookFilter[][];
-  buildType?: WebhookBuildType;
-  pullRequestBuildPolicy?: PullRequestBuildPolicy;
+  branchFilter?: string | undefined;
+  rotateSecret?: boolean | undefined;
+  filterGroups?: WebhookFilter[][] | undefined;
+  buildType?: WebhookBuildType | undefined;
+  pullRequestBuildPolicy?: PullRequestBuildPolicy | undefined;
 }
 export interface UpdateWebhookOutput {
-  webhook?: Webhook;
+  webhook?: Webhook | undefined;
 }
 export type BatchDeleteBuildsError = InvalidInputException | CommonErrors;
 /**
  * Deletes one or more builds.
  */
 export const batchDeleteBuilds: API.OperationMethod<
-  BatchDeleteBuildsInput,
+  BatchDeleteBuildsInput & RegionInput,
   BatchDeleteBuildsOutput,
   BatchDeleteBuildsError,
   Credentials | HttpClient.HttpClient
@@ -1570,7 +1571,7 @@ export type BatchGetBuildBatchesError = InvalidInputException | CommonErrors;
  * Retrieves information about one or more batch builds.
  */
 export const batchGetBuildBatches: API.OperationMethod<
-  BatchGetBuildBatchesInput,
+  BatchGetBuildBatchesInput & RegionInput,
   BatchGetBuildBatchesOutput,
   BatchGetBuildBatchesError,
   Credentials | HttpClient.HttpClient
@@ -1590,7 +1591,7 @@ export type BatchGetBuildsError = InvalidInputException | CommonErrors;
  * Gets information about one or more builds.
  */
 export const batchGetBuilds: API.OperationMethod<
-  BatchGetBuildsInput,
+  BatchGetBuildsInput & RegionInput,
   BatchGetBuildsOutput,
   BatchGetBuildsError,
   Credentials | HttpClient.HttpClient
@@ -1610,7 +1611,7 @@ export type BatchGetCommandExecutionsError = InvalidInputException | CommonError
  * Gets information about the command executions.
  */
 export const batchGetCommandExecutions: API.OperationMethod<
-  BatchGetCommandExecutionsInput,
+  BatchGetCommandExecutionsInput & RegionInput,
   BatchGetCommandExecutionsOutput,
   BatchGetCommandExecutionsError,
   Credentials | HttpClient.HttpClient
@@ -1630,7 +1631,7 @@ export type BatchGetFleetsError = InvalidInputException | CommonErrors;
  * Gets information about one or more compute fleets.
  */
 export const batchGetFleets: API.OperationMethod<
-  BatchGetFleetsInput,
+  BatchGetFleetsInput & RegionInput,
   BatchGetFleetsOutput,
   BatchGetFleetsError,
   Credentials | HttpClient.HttpClient
@@ -1650,7 +1651,7 @@ export type BatchGetProjectsError = InvalidInputException | CommonErrors;
  * Gets information about one or more build projects.
  */
 export const batchGetProjects: API.OperationMethod<
-  BatchGetProjectsInput,
+  BatchGetProjectsInput & RegionInput,
   BatchGetProjectsOutput,
   BatchGetProjectsError,
   Credentials | HttpClient.HttpClient
@@ -1670,7 +1671,7 @@ export type BatchGetReportGroupsError = InvalidInputException | CommonErrors;
  * Returns an array of report groups.
  */
 export const batchGetReportGroups: API.OperationMethod<
-  BatchGetReportGroupsInput,
+  BatchGetReportGroupsInput & RegionInput,
   BatchGetReportGroupsOutput,
   BatchGetReportGroupsError,
   Credentials | HttpClient.HttpClient
@@ -1690,7 +1691,7 @@ export type BatchGetReportsError = InvalidInputException | CommonErrors;
  * Returns an array of reports.
  */
 export const batchGetReports: API.OperationMethod<
-  BatchGetReportsInput,
+  BatchGetReportsInput & RegionInput,
   BatchGetReportsOutput,
   BatchGetReportsError,
   Credentials | HttpClient.HttpClient
@@ -1710,7 +1711,7 @@ export type BatchGetSandboxesError = InvalidInputException | CommonErrors;
  * Gets information about the sandbox status.
  */
 export const batchGetSandboxes: API.OperationMethod<
-  BatchGetSandboxesInput,
+  BatchGetSandboxesInput & RegionInput,
   BatchGetSandboxesOutput,
   BatchGetSandboxesError,
   Credentials | HttpClient.HttpClient
@@ -1734,7 +1735,7 @@ export type CreateFleetError =
  * Creates a compute fleet.
  */
 export const createFleet: API.OperationMethod<
-  CreateFleetInput,
+  CreateFleetInput & RegionInput,
   CreateFleetOutput,
   CreateFleetError,
   Credentials | HttpClient.HttpClient
@@ -1758,7 +1759,7 @@ export type CreateProjectError =
  * Creates a build project.
  */
 export const createProject: API.OperationMethod<
-  CreateProjectInput,
+  CreateProjectInput & RegionInput,
   CreateProjectOutput,
   CreateProjectError,
   Credentials | HttpClient.HttpClient
@@ -1782,7 +1783,7 @@ export type CreateReportGroupError =
  * Creates a report group. A report group contains a collection of reports.
  */
 export const createReportGroup: API.OperationMethod<
-  CreateReportGroupInput,
+  CreateReportGroupInput & RegionInput,
   CreateReportGroupOutput,
   CreateReportGroupError,
   Credentials | HttpClient.HttpClient
@@ -1816,7 +1817,7 @@ export type CreateWebhookError =
  * Webhook box. For more information, see step 5 in Change a Build Project's Settings.
  */
 export const createWebhook: API.OperationMethod<
-  CreateWebhookInput,
+  CreateWebhookInput & RegionInput,
   CreateWebhookOutput,
   CreateWebhookError,
   Credentials | HttpClient.HttpClient
@@ -1841,7 +1842,7 @@ export type DeleteBuildBatchError = InvalidInputException | CommonErrors;
  * Deletes a batch build.
  */
 export const deleteBuildBatch: API.OperationMethod<
-  DeleteBuildBatchInput,
+  DeleteBuildBatchInput & RegionInput,
   DeleteBuildBatchOutput,
   DeleteBuildBatchError,
   Credentials | HttpClient.HttpClient
@@ -1861,7 +1862,7 @@ export type DeleteFleetError = InvalidInputException | CommonErrors;
  * Deletes a compute fleet. When you delete a compute fleet, its builds are not deleted.
  */
 export const deleteFleet: API.OperationMethod<
-  DeleteFleetInput,
+  DeleteFleetInput & RegionInput,
   DeleteFleetOutput,
   DeleteFleetError,
   Credentials | HttpClient.HttpClient
@@ -1881,7 +1882,7 @@ export type DeleteProjectError = InvalidInputException | CommonErrors;
  * Deletes a build project. When you delete a project, its builds are not deleted.
  */
 export const deleteProject: API.OperationMethod<
-  DeleteProjectInput,
+  DeleteProjectInput & RegionInput,
   DeleteProjectOutput,
   DeleteProjectError,
   Credentials | HttpClient.HttpClient
@@ -1901,7 +1902,7 @@ export type DeleteReportError = InvalidInputException | CommonErrors;
  * Deletes a report.
  */
 export const deleteReport: API.OperationMethod<
-  DeleteReportInput,
+  DeleteReportInput & RegionInput,
   DeleteReportOutput,
   DeleteReportError,
   Credentials | HttpClient.HttpClient
@@ -1921,7 +1922,7 @@ export type DeleteReportGroupError = InvalidInputException | CommonErrors;
  * Deletes a report group. Before you delete a report group, you must delete its reports.
  */
 export const deleteReportGroup: API.OperationMethod<
-  DeleteReportGroupInput,
+  DeleteReportGroupInput & RegionInput,
   DeleteReportGroupOutput,
   DeleteReportGroupError,
   Credentials | HttpClient.HttpClient
@@ -1941,7 +1942,7 @@ export type DeleteResourcePolicyError = InvalidInputException | CommonErrors;
  * Deletes a resource policy that is identified by its resource ARN.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyInput,
+  DeleteResourcePolicyInput & RegionInput,
   DeleteResourcePolicyOutput,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1964,7 +1965,7 @@ export type DeleteSourceCredentialsError =
  * Deletes a set of GitHub, GitHub Enterprise, or Bitbucket source credentials.
  */
 export const deleteSourceCredentials: API.OperationMethod<
-  DeleteSourceCredentialsInput,
+  DeleteSourceCredentialsInput & RegionInput,
   DeleteSourceCredentialsOutput,
   DeleteSourceCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -1990,7 +1991,7 @@ export type DeleteWebhookError =
  * change is pushed to the repository.
  */
 export const deleteWebhook: API.OperationMethod<
-  DeleteWebhookInput,
+  DeleteWebhookInput & RegionInput,
   DeleteWebhookOutput,
   DeleteWebhookError,
   Credentials | HttpClient.HttpClient
@@ -2010,7 +2011,7 @@ export type DescribeCodeCoveragesError = InvalidInputException | CommonErrors;
  * Retrieves one or more code coverage reports.
  */
 export const describeCodeCoverages: API.PaginatedOperationMethod<
-  DescribeCodeCoveragesInput,
+  DescribeCodeCoveragesInput & RegionInput,
   DescribeCodeCoveragesOutput,
   DescribeCodeCoveragesError,
   Credentials | HttpClient.HttpClient,
@@ -2040,7 +2041,7 @@ export type DescribeTestCasesError =
  * Returns a list of details about test cases for a report.
  */
 export const describeTestCases: API.PaginatedOperationMethod<
-  DescribeTestCasesInput,
+  DescribeTestCasesInput & RegionInput,
   DescribeTestCasesOutput,
   DescribeTestCasesError,
   Credentials | HttpClient.HttpClient,
@@ -2070,7 +2071,7 @@ export type GetReportGroupTrendError =
  * Analyzes and accumulates test report values for the specified test reports.
  */
 export const getReportGroupTrend: API.OperationMethod<
-  GetReportGroupTrendInput,
+  GetReportGroupTrendInput & RegionInput,
   GetReportGroupTrendOutput,
   GetReportGroupTrendError,
   Credentials | HttpClient.HttpClient
@@ -2093,7 +2094,7 @@ export type GetResourcePolicyError =
  * Gets a resource policy that is identified by its resource ARN.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyInput,
+  GetResourcePolicyInput & RegionInput,
   GetResourcePolicyOutput,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2118,7 +2119,7 @@ export type ImportSourceCredentialsError =
  * source code stored in a GitHub, GitHub Enterprise, GitLab, GitLab Self Managed, or Bitbucket repository.
  */
 export const importSourceCredentials: API.OperationMethod<
-  ImportSourceCredentialsInput,
+  ImportSourceCredentialsInput & RegionInput,
   ImportSourceCredentialsOutput,
   ImportSourceCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -2141,7 +2142,7 @@ export type InvalidateProjectCacheError =
  * Resets the cache for a project.
  */
 export const invalidateProjectCache: API.OperationMethod<
-  InvalidateProjectCacheInput,
+  InvalidateProjectCacheInput & RegionInput,
   InvalidateProjectCacheOutput,
   InvalidateProjectCacheError,
   Credentials | HttpClient.HttpClient
@@ -2161,7 +2162,7 @@ export type ListBuildBatchesError = InvalidInputException | CommonErrors;
  * Retrieves the identifiers of your build batches in the current region.
  */
 export const listBuildBatches: API.PaginatedOperationMethod<
-  ListBuildBatchesInput,
+  ListBuildBatchesInput & RegionInput,
   ListBuildBatchesOutput,
   ListBuildBatchesError,
   Credentials | HttpClient.HttpClient,
@@ -2191,7 +2192,7 @@ export type ListBuildBatchesForProjectError =
  * Retrieves the identifiers of the build batches for a specific project.
  */
 export const listBuildBatchesForProject: API.PaginatedOperationMethod<
-  ListBuildBatchesForProjectInput,
+  ListBuildBatchesForProjectInput & RegionInput,
   ListBuildBatchesForProjectOutput,
   ListBuildBatchesForProjectError,
   Credentials | HttpClient.HttpClient,
@@ -2218,7 +2219,7 @@ export type ListBuildsError = InvalidInputException | CommonErrors;
  * Gets a list of build IDs, with each build ID representing a single build.
  */
 export const listBuilds: API.PaginatedOperationMethod<
-  ListBuildsInput,
+  ListBuildsInput & RegionInput,
   ListBuildsOutput,
   ListBuildsError,
   Credentials | HttpClient.HttpClient,
@@ -2244,7 +2245,7 @@ export type ListBuildsForProjectError =
  * identifier representing a single build.
  */
 export const listBuildsForProject: API.PaginatedOperationMethod<
-  ListBuildsForProjectInput,
+  ListBuildsForProjectInput & RegionInput,
   ListBuildsForProjectOutput,
   ListBuildsForProjectError,
   Credentials | HttpClient.HttpClient,
@@ -2269,7 +2270,7 @@ export type ListCommandExecutionsForSandboxError =
  * Gets a list of command executions for a sandbox.
  */
 export const listCommandExecutionsForSandbox: API.PaginatedOperationMethod<
-  ListCommandExecutionsForSandboxInput,
+  ListCommandExecutionsForSandboxInput & RegionInput,
   ListCommandExecutionsForSandboxOutput,
   ListCommandExecutionsForSandboxError,
   Credentials | HttpClient.HttpClient,
@@ -2296,7 +2297,7 @@ export type ListCuratedEnvironmentImagesError = CommonErrors;
  * Gets information about Docker images that are managed by CodeBuild.
  */
 export const listCuratedEnvironmentImages: API.OperationMethod<
-  ListCuratedEnvironmentImagesInput,
+  ListCuratedEnvironmentImagesInput & RegionInput,
   ListCuratedEnvironmentImagesOutput,
   ListCuratedEnvironmentImagesError,
   Credentials | HttpClient.HttpClient
@@ -2316,7 +2317,7 @@ export type ListFleetsError = InvalidInputException | CommonErrors;
  * Gets a list of compute fleet names with each compute fleet name representing a single compute fleet.
  */
 export const listFleets: API.PaginatedOperationMethod<
-  ListFleetsInput,
+  ListFleetsInput & RegionInput,
   ListFleetsOutput,
   ListFleetsError,
   Credentials | HttpClient.HttpClient,
@@ -2343,7 +2344,7 @@ export type ListProjectsError = InvalidInputException | CommonErrors;
  * build project.
  */
 export const listProjects: API.PaginatedOperationMethod<
-  ListProjectsInput,
+  ListProjectsInput & RegionInput,
   ListProjectsOutput,
   ListProjectsError,
   Credentials | HttpClient.HttpClient,
@@ -2365,7 +2366,7 @@ export type ListReportGroupsError = InvalidInputException | CommonErrors;
  * Gets a list ARNs for the report groups in the current Amazon Web Services account.
  */
 export const listReportGroups: API.PaginatedOperationMethod<
-  ListReportGroupsInput,
+  ListReportGroupsInput & RegionInput,
   ListReportGroupsOutput,
   ListReportGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2392,7 +2393,7 @@ export type ListReportsError = InvalidInputException | CommonErrors;
  * Returns a list of ARNs for the reports in the current Amazon Web Services account.
  */
 export const listReports: API.PaginatedOperationMethod<
-  ListReportsInput,
+  ListReportsInput & RegionInput,
   ListReportsOutput,
   ListReportsError,
   Credentials | HttpClient.HttpClient,
@@ -2422,7 +2423,7 @@ export type ListReportsForReportGroupError =
  * Returns a list of ARNs for the reports that belong to a `ReportGroup`.
  */
 export const listReportsForReportGroup: API.PaginatedOperationMethod<
-  ListReportsForReportGroupInput,
+  ListReportsForReportGroupInput & RegionInput,
   ListReportsForReportGroupOutput,
   ListReportsForReportGroupError,
   Credentials | HttpClient.HttpClient,
@@ -2449,7 +2450,7 @@ export type ListSandboxesError = InvalidInputException | CommonErrors;
  * Gets a list of sandboxes.
  */
 export const listSandboxes: API.PaginatedOperationMethod<
-  ListSandboxesInput,
+  ListSandboxesInput & RegionInput,
   ListSandboxesOutput,
   ListSandboxesError,
   Credentials | HttpClient.HttpClient,
@@ -2479,7 +2480,7 @@ export type ListSandboxesForProjectError =
  * Gets a list of sandboxes for a given project.
  */
 export const listSandboxesForProject: API.PaginatedOperationMethod<
-  ListSandboxesForProjectInput,
+  ListSandboxesForProjectInput & RegionInput,
   ListSandboxesForProjectOutput,
   ListSandboxesForProjectError,
   Credentials | HttpClient.HttpClient,
@@ -2506,7 +2507,7 @@ export type ListSharedProjectsError = InvalidInputException | CommonErrors;
  * Gets a list of projects that are shared with other Amazon Web Services accounts or users.
  */
 export const listSharedProjects: API.PaginatedOperationMethod<
-  ListSharedProjectsInput,
+  ListSharedProjectsInput & RegionInput,
   ListSharedProjectsOutput,
   ListSharedProjectsError,
   Credentials | HttpClient.HttpClient,
@@ -2533,7 +2534,7 @@ export type ListSharedReportGroupsError = InvalidInputException | CommonErrors;
  * Gets a list of report groups that are shared with other Amazon Web Services accounts or users.
  */
 export const listSharedReportGroups: API.PaginatedOperationMethod<
-  ListSharedReportGroupsInput,
+  ListSharedReportGroupsInput & RegionInput,
   ListSharedReportGroupsOutput,
   ListSharedReportGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2560,7 +2561,7 @@ export type ListSourceCredentialsError = InvalidInputException | CommonErrors;
  * Returns a list of `SourceCredentialsInfo` objects.
  */
 export const listSourceCredentials: API.OperationMethod<
-  ListSourceCredentialsInput,
+  ListSourceCredentialsInput & RegionInput,
   ListSourceCredentialsOutput,
   ListSourceCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -2584,7 +2585,7 @@ export type PutResourcePolicyError =
  * `ReportGroup` object.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyInput,
+  PutResourcePolicyInput & RegionInput,
   PutResourcePolicyOutput,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2608,7 +2609,7 @@ export type RetryBuildError =
  * Restarts a build.
  */
 export const retryBuild: API.OperationMethod<
-  RetryBuildInput,
+  RetryBuildInput & RegionInput,
   RetryBuildOutput,
   RetryBuildError,
   Credentials | HttpClient.HttpClient
@@ -2628,7 +2629,7 @@ export type RetryBuildBatchError = InvalidInputException | ResourceNotFoundExcep
  * Restarts a failed batch build. Only batch builds that have failed can be retried.
  */
 export const retryBuildBatch: API.OperationMethod<
-  RetryBuildBatchInput,
+  RetryBuildBatchInput & RegionInput,
   RetryBuildBatchOutput,
   RetryBuildBatchError,
   Credentials | HttpClient.HttpClient
@@ -2656,7 +2657,7 @@ export type StartBuildError =
  * specific start build request. The settings in the project are unaltered.
  */
 export const startBuild: API.OperationMethod<
-  StartBuildInput,
+  StartBuildInput & RegionInput,
   StartBuildOutput,
   StartBuildError,
   Credentials | HttpClient.HttpClient
@@ -2676,7 +2677,7 @@ export type StartBuildBatchError = InvalidInputException | ResourceNotFoundExcep
  * Starts a batch build for a project.
  */
 export const startBuildBatch: API.OperationMethod<
-  StartBuildBatchInput,
+  StartBuildBatchInput & RegionInput,
   StartBuildBatchOutput,
   StartBuildBatchError,
   Credentials | HttpClient.HttpClient
@@ -2699,7 +2700,7 @@ export type StartCommandExecutionError =
  * Starts a command execution.
  */
 export const startCommandExecution: API.OperationMethod<
-  StartCommandExecutionInput,
+  StartCommandExecutionInput & RegionInput,
   StartCommandExecutionOutput,
   StartCommandExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2723,7 +2724,7 @@ export type StartSandboxError =
  * Starts a sandbox.
  */
 export const startSandbox: API.OperationMethod<
-  StartSandboxInput,
+  StartSandboxInput & RegionInput,
   StartSandboxOutput,
   StartSandboxError,
   Credentials | HttpClient.HttpClient
@@ -2746,7 +2747,7 @@ export type StartSandboxConnectionError =
  * Starts a sandbox connection.
  */
 export const startSandboxConnection: API.OperationMethod<
-  StartSandboxConnectionInput,
+  StartSandboxConnectionInput & RegionInput,
   StartSandboxConnectionOutput,
   StartSandboxConnectionError,
   Credentials | HttpClient.HttpClient
@@ -2766,7 +2767,7 @@ export type StopBuildError = InvalidInputException | ResourceNotFoundException |
  * Attempts to stop running a build.
  */
 export const stopBuild: API.OperationMethod<
-  StopBuildInput,
+  StopBuildInput & RegionInput,
   StopBuildOutput,
   StopBuildError,
   Credentials | HttpClient.HttpClient
@@ -2786,7 +2787,7 @@ export type StopBuildBatchError = InvalidInputException | ResourceNotFoundExcept
  * Stops a running batch build.
  */
 export const stopBuildBatch: API.OperationMethod<
-  StopBuildBatchInput,
+  StopBuildBatchInput & RegionInput,
   StopBuildBatchOutput,
   StopBuildBatchError,
   Credentials | HttpClient.HttpClient
@@ -2806,7 +2807,7 @@ export type StopSandboxError = InvalidInputException | ResourceNotFoundException
  * Stops a sandbox.
  */
 export const stopSandbox: API.OperationMethod<
-  StopSandboxInput,
+  StopSandboxInput & RegionInput,
   StopSandboxOutput,
   StopSandboxError,
   Credentials | HttpClient.HttpClient
@@ -2830,7 +2831,7 @@ export type UpdateFleetError =
  * Updates a compute fleet.
  */
 export const updateFleet: API.OperationMethod<
-  UpdateFleetInput,
+  UpdateFleetInput & RegionInput,
   UpdateFleetOutput,
   UpdateFleetError,
   Credentials | HttpClient.HttpClient
@@ -2850,7 +2851,7 @@ export type UpdateProjectError = InvalidInputException | ResourceNotFoundExcepti
  * Changes the settings of a build project.
  */
 export const updateProject: API.OperationMethod<
-  UpdateProjectInput,
+  UpdateProjectInput & RegionInput,
   UpdateProjectOutput,
   UpdateProjectError,
   Credentials | HttpClient.HttpClient
@@ -2899,7 +2900,7 @@ export type UpdateProjectVisibilityError =
  * correct artifacts are being downloaded.
  */
 export const updateProjectVisibility: API.OperationMethod<
-  UpdateProjectVisibilityInput,
+  UpdateProjectVisibilityInput & RegionInput,
   UpdateProjectVisibilityOutput,
   UpdateProjectVisibilityError,
   Credentials | HttpClient.HttpClient
@@ -2922,7 +2923,7 @@ export type UpdateReportGroupError =
  * Updates a report group.
  */
 export const updateReportGroup: API.OperationMethod<
-  UpdateReportGroupInput,
+  UpdateReportGroupInput & RegionInput,
   UpdateReportGroupOutput,
   UpdateReportGroupError,
   Credentials | HttpClient.HttpClient
@@ -2948,7 +2949,7 @@ export type UpdateWebhookError =
  * If you use Bitbucket for your repository, `rotateSecret` is ignored.
  */
 export const updateWebhook: API.OperationMethod<
-  UpdateWebhookInput,
+  UpdateWebhookInput & RegionInput,
   UpdateWebhookOutput,
   UpdateWebhookError,
   Credentials | HttpClient.HttpClient

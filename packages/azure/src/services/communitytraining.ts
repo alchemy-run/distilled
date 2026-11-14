@@ -40,7 +40,7 @@ export interface IdentityConfigurationProperties {
   /** The identity type of the Community Training Resource */
   identityType: string;
   /** To indicate whether the Community Training Resource has Teams enabled */
-  teamsEnabled?: boolean;
+  teamsEnabled?: boolean | undefined;
   /** The tenantId of the selected identity provider for the Community Training Resource */
   tenantId: string;
   /** The domain name of the selected identity provider for the Community Training Resource */
@@ -50,11 +50,11 @@ export interface IdentityConfigurationProperties {
   /** The client secret of the application registered in the selected identity provider for the Community Training Resource */
   clientSecret: string | Redacted.Redacted<string>;
   /** The name of the authentication policy registered in ADB2C for the Community Training Resource */
-  b2cAuthenticationPolicy?: string;
+  b2cAuthenticationPolicy?: string | undefined;
   /** The name of the password reset policy registered in ADB2C for the Community Training Resource */
-  b2cPasswordResetPolicy?: string | Redacted.Redacted<string>;
+  b2cPasswordResetPolicy?: string | Redacted.Redacted<string> | undefined;
   /** The custom login parameters for the Community Training Resource */
-  customLoginParameters?: string;
+  customLoginParameters?: string | undefined;
 }
 /** The status of the current operation. */
 export type ProvisioningState =
@@ -82,7 +82,7 @@ export interface CommunityTrainingProperties {
   /** To indicate whether the Community Training instance has Disaster Recovery enabled */
   disasterRecoveryEnabled: boolean;
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState | (string & {});
+  provisioningState?: ProvisioningState | (string & {}) | undefined;
 }
 /** This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT. */
 export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
@@ -90,13 +90,13 @@ export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
 export interface CreateCommunityTrainingRequestSku {
   /** The name of the SKU. Ex - P3. It is typically a letter+number code */
   name: string;
-  tier?: SkuTier | (string & {});
+  tier?: SkuTier | (string & {}) | undefined;
   /** The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. */
-  size?: string;
+  size?: string | undefined;
   /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
-  family?: string;
+  family?: string | undefined;
   /** If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted. */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 export interface CreateCommunityTrainingRequest {
   /** The ID of the target subscription. */
@@ -106,13 +106,13 @@ export interface CreateCommunityTrainingRequest {
   /** The name of the Community Training Resource */
   communityTrainingName: string;
   /** Resource tags. */
-  tags?: CreateCommunityTrainingRequestTagsMap;
+  tags?: CreateCommunityTrainingRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CommunityTrainingProperties;
+  properties?: CommunityTrainingProperties | undefined;
   /** The resource model definition representing SKU */
-  sku?: CreateCommunityTrainingRequestSku;
+  sku?: CreateCommunityTrainingRequestSku | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -121,17 +121,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type CreateCommunityTrainingResponseTagsMap = { [key: string]: string | undefined };
@@ -139,33 +139,33 @@ export type CreateCommunityTrainingResponseTagsMap = { [key: string]: string | u
 export interface CreateCommunityTrainingResponseSku {
   /** The name of the SKU. Ex - P3. It is typically a letter+number code */
   name: string;
-  tier?: SkuTier;
+  tier?: SkuTier | undefined;
   /** The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. */
-  size?: string;
+  size?: string | undefined;
   /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
-  family?: string;
+  family?: string | undefined;
   /** If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted. */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 export interface CreateCommunityTrainingResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateCommunityTrainingResponseTagsMap;
+  tags?: CreateCommunityTrainingResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CommunityTrainingProperties;
+  properties?: CommunityTrainingProperties | undefined;
   /** The resource model definition representing SKU */
-  sku?: CreateCommunityTrainingResponseSku;
+  sku?: CreateCommunityTrainingResponseSku | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteCommunityTrainingRequest {
   /** The ID of the target subscription. */
@@ -177,9 +177,9 @@ export interface DeleteCommunityTrainingRequest {
 }
 export interface DeleteCommunityTrainingResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetCommunityTrainingRequest {
   /** The ID of the target subscription. */
@@ -195,21 +195,21 @@ export type GetCommunityTrainingResponseTagsMap = { [key: string]: string | unde
 export type GetCommunityTrainingResponseSku = CreateCommunityTrainingResponseSku;
 export interface GetCommunityTrainingResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetCommunityTrainingResponseTagsMap;
+  tags?: GetCommunityTrainingResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CommunityTrainingProperties;
+  properties?: CommunityTrainingProperties | undefined;
   /** The resource model definition representing SKU */
-  sku?: CreateCommunityTrainingResponseSku;
+  sku?: CreateCommunityTrainingResponseSku | undefined;
 }
 export interface ListCommunityTrainingByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -224,21 +224,21 @@ export type CommunityTrainingSku = CreateCommunityTrainingResponseSku;
 /** A CommunityProviderHub resource */
 export interface CommunityTraining {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CommunityTrainingTagsMap;
+  tags?: CommunityTrainingTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CommunityTrainingProperties;
+  properties?: CommunityTrainingProperties | undefined;
   /** The resource model definition representing SKU */
-  sku?: CreateCommunityTrainingResponseSku;
+  sku?: CreateCommunityTrainingResponseSku | undefined;
 }
 /** The CommunityTraining items on this page */
 export type CommunityTrainingListResultValueList = Array<CommunityTraining>;
@@ -247,7 +247,7 @@ export interface CommunityTrainingListResult {
   /** The CommunityTraining items on this page */
   value: CommunityTrainingListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCommunityTrainingBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -257,13 +257,13 @@ export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -272,23 +272,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** The resource model definition representing SKU */
 export type UpdateCommunityTrainingRequestSku = CreateCommunityTrainingRequestSku;
@@ -297,28 +297,28 @@ export type UpdateCommunityTrainingRequestTagsMap = { [key: string]: string | un
 /** Details of the Community CommunityTraining Identity Configuration */
 export interface IdentityConfigurationPropertiesUpdate {
   /** The identity type of the Community Training Resource */
-  identityType?: string;
+  identityType?: string | undefined;
   /** To indicate whether the Community Training Resource has Teams enabled */
-  teamsEnabled?: boolean;
+  teamsEnabled?: boolean | undefined;
   /** The tenantId of the selected identity provider for the Community Training Resource */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The domain name of the selected identity provider for the Community Training Resource */
-  domainName?: string;
+  domainName?: string | undefined;
   /** The clientId of the application registered in the selected identity provider for the Community Training Resource */
-  clientId?: string;
+  clientId?: string | undefined;
   /** The client secret of the application registered in the selected identity provider for the Community Training Resource */
-  clientSecret?: string | Redacted.Redacted<string>;
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
   /** The name of the authentication policy registered in ADB2C for the Community Training Resource */
-  b2cAuthenticationPolicy?: string;
+  b2cAuthenticationPolicy?: string | undefined;
   /** The name of the password reset policy registered in ADB2C for the Community Training Resource */
-  b2cPasswordResetPolicy?: string | Redacted.Redacted<string>;
+  b2cPasswordResetPolicy?: string | Redacted.Redacted<string> | undefined;
   /** The custom login parameters for the Community Training Resource */
-  customLoginParameters?: string;
+  customLoginParameters?: string | undefined;
 }
 /** The updatable properties of the CommunityTraining. */
 export interface CommunityTrainingUpdateProperties {
   /** The identity configuration of the Community Training resource */
-  identityConfiguration?: IdentityConfigurationPropertiesUpdate;
+  identityConfiguration?: IdentityConfigurationPropertiesUpdate | undefined;
 }
 export interface UpdateCommunityTrainingRequest {
   /** The ID of the target subscription. */
@@ -328,11 +328,11 @@ export interface UpdateCommunityTrainingRequest {
   /** The name of the Community Training Resource */
   communityTrainingName: string;
   /** The resource model definition representing SKU */
-  sku?: CreateCommunityTrainingRequestSku;
+  sku?: CreateCommunityTrainingRequestSku | undefined;
   /** Resource tags. */
-  tags?: UpdateCommunityTrainingRequestTagsMap;
+  tags?: UpdateCommunityTrainingRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: CommunityTrainingUpdateProperties;
+  properties?: CommunityTrainingUpdateProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateCommunityTrainingResponseTagsMap = { [key: string]: string | undefined };
@@ -340,25 +340,25 @@ export type UpdateCommunityTrainingResponseTagsMap = { [key: string]: string | u
 export type UpdateCommunityTrainingResponseSku = CreateCommunityTrainingResponseSku;
 export interface UpdateCommunityTrainingResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateCommunityTrainingResponseTagsMap;
+  tags?: UpdateCommunityTrainingResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CommunityTrainingProperties;
+  properties?: CommunityTrainingProperties | undefined;
   /** The resource model definition representing SKU */
-  sku?: CreateCommunityTrainingResponseSku;
+  sku?: CreateCommunityTrainingResponseSku | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type CreateCommunityTrainingError = AzureOpError;
 /** Create a CommunityTraining */

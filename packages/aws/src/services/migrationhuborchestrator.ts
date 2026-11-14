@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -110,7 +111,7 @@ export class InternalServerException
     "InternalServerException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
@@ -122,7 +123,7 @@ export class ThrottlingException
     "ThrottlingException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
@@ -137,18 +138,18 @@ export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
 export interface CreateTemplateRequest {
   templateName: string;
-  templateDescription?: string;
+  templateDescription?: string | undefined;
   templateSource: TemplateSource;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type StringMapKey = string;
 export type StringMapValue = string;
 export type StringMap = { [key: string]: string | undefined };
 export interface CreateTemplateResponse {
-  templateId?: string;
-  templateArn?: string;
-  tags?: { [key: string]: string | undefined };
+  templateId?: string | undefined;
+  templateArn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type StepInputParametersKey = string;
 export type StringValue = string;
@@ -157,51 +158,51 @@ export type StringList = string[];
 export type StepInput =
   | {
       integerValue: number;
-      stringValue?: never;
-      listOfStringsValue?: never;
-      mapOfStringValue?: never;
+      stringValue?: undefined;
+      listOfStringsValue?: undefined;
+      mapOfStringValue?: undefined;
     }
   | {
-      integerValue?: never;
+      integerValue?: undefined;
       stringValue: string;
-      listOfStringsValue?: never;
-      mapOfStringValue?: never;
+      listOfStringsValue?: undefined;
+      mapOfStringValue?: undefined;
     }
   | {
-      integerValue?: never;
-      stringValue?: never;
+      integerValue?: undefined;
+      stringValue?: undefined;
       listOfStringsValue: string[];
-      mapOfStringValue?: never;
+      mapOfStringValue?: undefined;
     }
   | {
-      integerValue?: never;
-      stringValue?: never;
-      listOfStringsValue?: never;
+      integerValue?: undefined;
+      stringValue?: undefined;
+      listOfStringsValue?: undefined;
       mapOfStringValue: { [key: string]: string | undefined };
     };
 export type StepInputParameters = { [key: string]: StepInput | undefined };
 export interface CreateMigrationWorkflowRequest {
   name: string;
-  description?: string;
+  description?: string | undefined;
   templateId: string;
-  applicationConfigurationId?: string;
+  applicationConfigurationId?: string | undefined;
   inputParameters: { [key: string]: StepInput | undefined };
-  stepTargets?: string[];
-  tags?: { [key: string]: string | undefined };
+  stepTargets?: string[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type MigrationWorkflowStatusEnum = string;
 export interface CreateMigrationWorkflowResponse {
-  id?: string;
-  arn?: string;
-  name?: string;
-  description?: string;
-  templateId?: string;
-  adsApplicationConfigurationId?: string;
-  workflowInputs?: { [key: string]: StepInput | undefined };
-  stepTargets?: string[];
-  status?: string;
-  creationTime?: Date;
-  tags?: { [key: string]: string | undefined };
+  id?: string | undefined;
+  arn?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  templateId?: string | undefined;
+  adsApplicationConfigurationId?: string | undefined;
+  workflowInputs?: { [key: string]: StepInput | undefined } | undefined;
+  stepTargets?: string[] | undefined;
+  status?: string | undefined;
+  creationTime?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type MigrationWorkflowName = string;
 export type StepGroupId = string;
@@ -210,35 +211,35 @@ export type MigrationWorkflowDescription = string;
 export type S3Bucket = string;
 export type S3Key = string;
 export interface PlatformScriptKey {
-  linux?: string;
-  windows?: string;
+  linux?: string | undefined;
+  windows?: string | undefined;
 }
 export interface PlatformCommand {
-  linux?: string;
-  windows?: string;
+  linux?: string | undefined;
+  windows?: string | undefined;
 }
 export type RunEnvironment = string;
 export type TargetType = string;
 export interface WorkflowStepAutomationConfiguration {
-  scriptLocationS3Bucket?: string;
-  scriptLocationS3Key?: PlatformScriptKey;
-  command?: PlatformCommand;
-  runEnvironment?: string;
-  targetType?: string;
+  scriptLocationS3Bucket?: string | undefined;
+  scriptLocationS3Key?: PlatformScriptKey | undefined;
+  command?: PlatformCommand | undefined;
+  runEnvironment?: string | undefined;
+  targetType?: string | undefined;
 }
 export type WorkflowStepOutputName = string;
 export type DataType = string;
 export type MaxStringValue = string;
 export type MaxStringList = string[];
 export type WorkflowStepOutputUnion =
-  | { integerValue: number; stringValue?: never; listOfStringValue?: never }
-  | { integerValue?: never; stringValue: string; listOfStringValue?: never }
-  | { integerValue?: never; stringValue?: never; listOfStringValue: string[] };
+  | { integerValue: number; stringValue?: undefined; listOfStringValue?: undefined }
+  | { integerValue?: undefined; stringValue: string; listOfStringValue?: undefined }
+  | { integerValue?: undefined; stringValue?: undefined; listOfStringValue: string[] };
 export interface WorkflowStepOutput {
-  name?: string;
-  dataType?: string;
-  required?: boolean;
-  value?: WorkflowStepOutputUnion;
+  name?: string | undefined;
+  dataType?: string | undefined;
+  required?: boolean | undefined;
+  value?: WorkflowStepOutputUnion | undefined;
 }
 export type WorkflowStepOutputList = WorkflowStepOutput[];
 export interface CreateWorkflowStepRequest {
@@ -246,42 +247,42 @@ export interface CreateWorkflowStepRequest {
   stepGroupId: string;
   workflowId: string;
   stepActionType: string;
-  description?: string;
-  workflowStepAutomationConfiguration?: WorkflowStepAutomationConfiguration;
-  stepTarget?: string[];
-  outputs?: WorkflowStepOutput[];
-  previous?: string[];
-  next?: string[];
+  description?: string | undefined;
+  workflowStepAutomationConfiguration?: WorkflowStepAutomationConfiguration | undefined;
+  stepTarget?: string[] | undefined;
+  outputs?: WorkflowStepOutput[] | undefined;
+  previous?: string[] | undefined;
+  next?: string[] | undefined;
 }
 export interface CreateWorkflowStepResponse {
-  id?: string;
-  stepGroupId?: string;
-  workflowId?: string;
-  name?: string;
+  id?: string | undefined;
+  stepGroupId?: string | undefined;
+  workflowId?: string | undefined;
+  name?: string | undefined;
 }
 export type StepGroupName = string;
 export type StepGroupDescription = string;
 export interface CreateWorkflowStepGroupRequest {
   workflowId: string;
   name: string;
-  description?: string;
-  next?: string[];
-  previous?: string[];
+  description?: string | undefined;
+  next?: string[] | undefined;
+  previous?: string[] | undefined;
 }
 export interface Tool {
-  name?: string;
-  url?: string;
+  name?: string | undefined;
+  url?: string | undefined;
 }
 export type ToolsList = Tool[];
 export interface CreateWorkflowStepGroupResponse {
-  workflowId?: string;
-  name?: string;
-  id?: string;
-  description?: string;
-  tools?: Tool[];
-  next?: string[];
-  previous?: string[];
-  creationTime?: Date;
+  workflowId?: string | undefined;
+  name?: string | undefined;
+  id?: string | undefined;
+  description?: string | undefined;
+  tools?: Tool[] | undefined;
+  next?: string[] | undefined;
+  previous?: string[] | undefined;
+  creationTime?: Date | undefined;
 }
 export type TemplateId = string;
 export interface DeleteTemplateRequest {
@@ -292,9 +293,9 @@ export interface DeleteMigrationWorkflowRequest {
   id: string;
 }
 export interface DeleteMigrationWorkflowResponse {
-  id?: string;
-  arn?: string;
-  status?: string;
+  id?: string | undefined;
+  arn?: string | undefined;
+  status?: string | undefined;
 }
 export type StepId = string;
 export interface DeleteWorkflowStepRequest {
@@ -313,25 +314,25 @@ export interface GetMigrationWorkflowTemplateRequest {
 }
 export type TemplateInputName = string;
 export interface TemplateInput {
-  inputName?: string;
-  dataType?: string;
-  required?: boolean;
+  inputName?: string | undefined;
+  dataType?: string | undefined;
+  required?: boolean | undefined;
 }
 export type TemplateInputList = TemplateInput[];
 export type TemplateStatus = string;
 export interface GetMigrationWorkflowTemplateResponse {
-  id?: string;
-  templateArn?: string;
-  name?: string;
-  description?: string;
-  inputs?: TemplateInput[];
-  tools?: Tool[];
-  creationTime?: Date;
-  owner?: string;
-  status?: string;
-  statusMessage?: string;
-  templateClass?: string;
-  tags?: { [key: string]: string | undefined };
+  id?: string | undefined;
+  templateArn?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  inputs?: TemplateInput[] | undefined;
+  tools?: Tool[] | undefined;
+  creationTime?: Date | undefined;
+  owner?: string | undefined;
+  status?: string | undefined;
+  statusMessage?: string | undefined;
+  templateClass?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetTemplateStepRequest {
   id: string;
@@ -339,30 +340,30 @@ export interface GetTemplateStepRequest {
   stepGroupId: string;
 }
 export interface StepOutput {
-  name?: string;
-  dataType?: string;
-  required?: boolean;
+  name?: string | undefined;
+  dataType?: string | undefined;
+  required?: boolean | undefined;
 }
 export type StepOutputList = StepOutput[];
 export interface StepAutomationConfiguration {
-  scriptLocationS3Bucket?: string;
-  scriptLocationS3Key?: PlatformScriptKey;
-  command?: PlatformCommand;
-  runEnvironment?: string;
-  targetType?: string;
+  scriptLocationS3Bucket?: string | undefined;
+  scriptLocationS3Key?: PlatformScriptKey | undefined;
+  command?: PlatformCommand | undefined;
+  runEnvironment?: string | undefined;
+  targetType?: string | undefined;
 }
 export interface GetTemplateStepResponse {
-  id?: string;
-  stepGroupId?: string;
-  templateId?: string;
-  name?: string;
-  description?: string;
-  stepActionType?: string;
-  creationTime?: string;
-  previous?: string[];
-  next?: string[];
-  outputs?: StepOutput[];
-  stepAutomationConfiguration?: StepAutomationConfiguration;
+  id?: string | undefined;
+  stepGroupId?: string | undefined;
+  templateId?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  stepActionType?: string | undefined;
+  creationTime?: string | undefined;
+  previous?: string[] | undefined;
+  next?: string[] | undefined;
+  outputs?: StepOutput[] | undefined;
+  stepAutomationConfiguration?: StepAutomationConfiguration | undefined;
 }
 export interface GetTemplateStepGroupRequest {
   templateId: string;
@@ -370,41 +371,41 @@ export interface GetTemplateStepGroupRequest {
 }
 export type StepGroupStatus = string;
 export interface GetTemplateStepGroupResponse {
-  templateId?: string;
-  id?: string;
-  name?: string;
-  description?: string;
-  status?: string;
-  creationTime?: Date;
-  lastModifiedTime?: Date;
-  tools?: Tool[];
-  previous?: string[];
-  next?: string[];
+  templateId?: string | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  status?: string | undefined;
+  creationTime?: Date | undefined;
+  lastModifiedTime?: Date | undefined;
+  tools?: Tool[] | undefined;
+  previous?: string[] | undefined;
+  next?: string[] | undefined;
 }
 export interface GetMigrationWorkflowRequest {
   id: string;
 }
 export interface GetMigrationWorkflowResponse {
-  id?: string;
-  arn?: string;
-  name?: string;
-  description?: string;
-  templateId?: string;
-  adsApplicationConfigurationId?: string;
-  adsApplicationName?: string;
-  status?: string;
-  statusMessage?: string;
-  creationTime?: Date;
-  lastStartTime?: Date;
-  lastStopTime?: Date;
-  lastModifiedTime?: Date;
-  endTime?: Date;
-  tools?: Tool[];
-  totalSteps?: number;
-  completedSteps?: number;
-  workflowInputs?: { [key: string]: StepInput | undefined };
-  tags?: { [key: string]: string | undefined };
-  workflowBucket?: string;
+  id?: string | undefined;
+  arn?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  templateId?: string | undefined;
+  adsApplicationConfigurationId?: string | undefined;
+  adsApplicationName?: string | undefined;
+  status?: string | undefined;
+  statusMessage?: string | undefined;
+  creationTime?: Date | undefined;
+  lastStartTime?: Date | undefined;
+  lastStopTime?: Date | undefined;
+  lastModifiedTime?: Date | undefined;
+  endTime?: Date | undefined;
+  tools?: Tool[] | undefined;
+  totalSteps?: number | undefined;
+  completedSteps?: number | undefined;
+  workflowInputs?: { [key: string]: StepInput | undefined } | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  workflowBucket?: string | undefined;
 }
 export interface GetWorkflowStepRequest {
   workflowId: string;
@@ -414,199 +415,199 @@ export interface GetWorkflowStepRequest {
 export type Owner = string;
 export type StepStatus = string;
 export interface GetWorkflowStepResponse {
-  name?: string;
-  stepGroupId?: string;
-  workflowId?: string;
-  stepId?: string;
-  description?: string;
-  stepActionType?: string;
-  owner?: string;
-  workflowStepAutomationConfiguration?: WorkflowStepAutomationConfiguration;
-  stepTarget?: string[];
-  outputs?: WorkflowStepOutput[];
-  previous?: string[];
-  next?: string[];
-  status?: string;
-  statusMessage?: string;
-  scriptOutputLocation?: string;
-  creationTime?: Date;
-  lastStartTime?: Date;
-  endTime?: Date;
-  noOfSrvCompleted?: number;
-  noOfSrvFailed?: number;
-  totalNoOfSrv?: number;
+  name?: string | undefined;
+  stepGroupId?: string | undefined;
+  workflowId?: string | undefined;
+  stepId?: string | undefined;
+  description?: string | undefined;
+  stepActionType?: string | undefined;
+  owner?: string | undefined;
+  workflowStepAutomationConfiguration?: WorkflowStepAutomationConfiguration | undefined;
+  stepTarget?: string[] | undefined;
+  outputs?: WorkflowStepOutput[] | undefined;
+  previous?: string[] | undefined;
+  next?: string[] | undefined;
+  status?: string | undefined;
+  statusMessage?: string | undefined;
+  scriptOutputLocation?: string | undefined;
+  creationTime?: Date | undefined;
+  lastStartTime?: Date | undefined;
+  endTime?: Date | undefined;
+  noOfSrvCompleted?: number | undefined;
+  noOfSrvFailed?: number | undefined;
+  totalNoOfSrv?: number | undefined;
 }
 export interface GetWorkflowStepGroupRequest {
   id: string;
   workflowId: string;
 }
 export interface GetWorkflowStepGroupResponse {
-  id?: string;
-  workflowId?: string;
-  name?: string;
-  description?: string;
-  status?: string;
-  owner?: string;
-  creationTime?: Date;
-  lastModifiedTime?: Date;
-  endTime?: Date;
-  tools?: Tool[];
-  previous?: string[];
-  next?: string[];
+  id?: string | undefined;
+  workflowId?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  status?: string | undefined;
+  owner?: string | undefined;
+  creationTime?: Date | undefined;
+  lastModifiedTime?: Date | undefined;
+  endTime?: Date | undefined;
+  tools?: Tool[] | undefined;
+  previous?: string[] | undefined;
+  next?: string[] | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListPluginsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type PluginId = string;
 export type PluginHealth = string;
 export type IPAddress = string;
 export type PluginVersion = string;
 export interface PluginSummary {
-  pluginId?: string;
-  hostname?: string;
-  status?: string;
-  ipAddress?: string;
-  version?: string;
-  registeredTime?: string;
+  pluginId?: string | undefined;
+  hostname?: string | undefined;
+  status?: string | undefined;
+  ipAddress?: string | undefined;
+  version?: string | undefined;
+  registeredTime?: string | undefined;
 }
 export type PluginSummaries = PluginSummary[];
 export interface ListPluginsResponse {
-  nextToken?: string;
-  plugins?: PluginSummary[];
+  nextToken?: string | undefined;
+  plugins?: PluginSummary[] | undefined;
 }
 export type ResourceArn = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type TemplateName = string;
 export interface ListMigrationWorkflowTemplatesRequest {
-  maxResults?: number;
-  nextToken?: string;
-  name?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  name?: string | undefined;
 }
 export interface TemplateSummary {
-  id?: string;
-  name?: string;
-  arn?: string;
-  description?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  arn?: string | undefined;
+  description?: string | undefined;
 }
 export type TemplateSummaryList = TemplateSummary[];
 export interface ListMigrationWorkflowTemplatesResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   templateSummary: TemplateSummary[];
 }
 export interface ListTemplateStepGroupsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   templateId: string;
 }
 export interface TemplateStepGroupSummary {
-  id?: string;
-  name?: string;
-  previous?: string[];
-  next?: string[];
+  id?: string | undefined;
+  name?: string | undefined;
+  previous?: string[] | undefined;
+  next?: string[] | undefined;
 }
 export type TemplateStepGroupSummaryList = TemplateStepGroupSummary[];
 export interface ListTemplateStepGroupsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   templateStepGroupSummary: TemplateStepGroupSummary[];
 }
 export interface ListTemplateStepsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   templateId: string;
   stepGroupId: string;
 }
 export interface TemplateStepSummary {
-  id?: string;
-  stepGroupId?: string;
-  templateId?: string;
-  name?: string;
-  stepActionType?: string;
-  targetType?: string;
-  owner?: string;
-  previous?: string[];
-  next?: string[];
+  id?: string | undefined;
+  stepGroupId?: string | undefined;
+  templateId?: string | undefined;
+  name?: string | undefined;
+  stepActionType?: string | undefined;
+  targetType?: string | undefined;
+  owner?: string | undefined;
+  previous?: string[] | undefined;
+  next?: string[] | undefined;
 }
 export type TemplateStepSummaryList = TemplateStepSummary[];
 export interface ListTemplateStepsResponse {
-  nextToken?: string;
-  templateStepSummaryList?: TemplateStepSummary[];
+  nextToken?: string | undefined;
+  templateStepSummaryList?: TemplateStepSummary[] | undefined;
 }
 export type ApplicationConfigurationName = string;
 export interface ListMigrationWorkflowsRequest {
-  maxResults?: number;
-  nextToken?: string;
-  templateId?: string;
-  adsApplicationConfigurationName?: string;
-  status?: string;
-  name?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  templateId?: string | undefined;
+  adsApplicationConfigurationName?: string | undefined;
+  status?: string | undefined;
+  name?: string | undefined;
 }
 export interface MigrationWorkflowSummary {
-  id?: string;
-  name?: string;
-  templateId?: string;
-  adsApplicationConfigurationName?: string;
-  status?: string;
-  creationTime?: Date;
-  endTime?: Date;
-  statusMessage?: string;
-  completedSteps?: number;
-  totalSteps?: number;
+  id?: string | undefined;
+  name?: string | undefined;
+  templateId?: string | undefined;
+  adsApplicationConfigurationName?: string | undefined;
+  status?: string | undefined;
+  creationTime?: Date | undefined;
+  endTime?: Date | undefined;
+  statusMessage?: string | undefined;
+  completedSteps?: number | undefined;
+  totalSteps?: number | undefined;
 }
 export type MigrationWorkflowSummaryList = MigrationWorkflowSummary[];
 export interface ListMigrationWorkflowsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   migrationWorkflowSummary: MigrationWorkflowSummary[];
 }
 export interface ListWorkflowStepGroupsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   workflowId: string;
 }
 export interface WorkflowStepGroupSummary {
-  id?: string;
-  name?: string;
-  owner?: string;
-  status?: string;
-  previous?: string[];
-  next?: string[];
+  id?: string | undefined;
+  name?: string | undefined;
+  owner?: string | undefined;
+  status?: string | undefined;
+  previous?: string[] | undefined;
+  next?: string[] | undefined;
 }
 export type WorkflowStepGroupsSummaryList = WorkflowStepGroupSummary[];
 export interface ListWorkflowStepGroupsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   workflowStepGroupsSummary: WorkflowStepGroupSummary[];
 }
 export interface ListWorkflowStepsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   workflowId: string;
   stepGroupId: string;
 }
 export interface WorkflowStepSummary {
-  stepId?: string;
-  name?: string;
-  stepActionType?: string;
-  owner?: string;
-  previous?: string[];
-  next?: string[];
-  status?: string;
-  statusMessage?: string;
-  noOfSrvCompleted?: number;
-  noOfSrvFailed?: number;
-  totalNoOfSrv?: number;
-  description?: string;
-  scriptLocation?: string;
+  stepId?: string | undefined;
+  name?: string | undefined;
+  stepActionType?: string | undefined;
+  owner?: string | undefined;
+  previous?: string[] | undefined;
+  next?: string[] | undefined;
+  status?: string | undefined;
+  statusMessage?: string | undefined;
+  noOfSrvCompleted?: number | undefined;
+  noOfSrvFailed?: number | undefined;
+  totalNoOfSrv?: number | undefined;
+  description?: string | undefined;
+  scriptLocation?: string | undefined;
 }
 export type WorkflowStepsSummaryList = WorkflowStepSummary[];
 export interface ListWorkflowStepsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   workflowStepsSummary: WorkflowStepSummary[];
 }
 export interface RetryWorkflowStepRequest {
@@ -615,30 +616,30 @@ export interface RetryWorkflowStepRequest {
   id: string;
 }
 export interface RetryWorkflowStepResponse {
-  stepGroupId?: string;
-  workflowId?: string;
-  id?: string;
-  status?: string;
+  stepGroupId?: string | undefined;
+  workflowId?: string | undefined;
+  id?: string | undefined;
+  status?: string | undefined;
 }
 export interface StartMigrationWorkflowRequest {
   id: string;
 }
 export interface StartMigrationWorkflowResponse {
-  id?: string;
-  arn?: string;
-  status?: string;
-  statusMessage?: string;
-  lastStartTime?: Date;
+  id?: string | undefined;
+  arn?: string | undefined;
+  status?: string | undefined;
+  statusMessage?: string | undefined;
+  lastStartTime?: Date | undefined;
 }
 export interface StopMigrationWorkflowRequest {
   id: string;
 }
 export interface StopMigrationWorkflowResponse {
-  id?: string;
-  arn?: string;
-  status?: string;
-  statusMessage?: string;
-  lastStopTime?: Date;
+  id?: string | undefined;
+  arn?: string | undefined;
+  status?: string | undefined;
+  statusMessage?: string | undefined;
+  lastStopTime?: Date | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -653,35 +654,35 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateTemplateRequest {
   id: string;
-  templateName?: string;
-  templateDescription?: string;
-  clientToken?: string;
+  templateName?: string | undefined;
+  templateDescription?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateTemplateResponse {
-  templateId?: string;
-  templateArn?: string;
-  tags?: { [key: string]: string | undefined };
+  templateId?: string | undefined;
+  templateArn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateMigrationWorkflowRequest {
   id: string;
-  name?: string;
-  description?: string;
-  inputParameters?: { [key: string]: StepInput | undefined };
-  stepTargets?: string[];
+  name?: string | undefined;
+  description?: string | undefined;
+  inputParameters?: { [key: string]: StepInput | undefined } | undefined;
+  stepTargets?: string[] | undefined;
 }
 export interface UpdateMigrationWorkflowResponse {
-  id?: string;
-  arn?: string;
-  name?: string;
-  description?: string;
-  templateId?: string;
-  adsApplicationConfigurationId?: string;
-  workflowInputs?: { [key: string]: StepInput | undefined };
-  stepTargets?: string[];
-  status?: string;
-  creationTime?: Date;
-  lastModifiedTime?: Date;
-  tags?: { [key: string]: string | undefined };
+  id?: string | undefined;
+  arn?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  templateId?: string | undefined;
+  adsApplicationConfigurationId?: string | undefined;
+  workflowInputs?: { [key: string]: StepInput | undefined } | undefined;
+  stepTargets?: string[] | undefined;
+  status?: string | undefined;
+  creationTime?: Date | undefined;
+  lastModifiedTime?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type StepName = string;
 export type StepDescription = string;
@@ -689,39 +690,39 @@ export interface UpdateWorkflowStepRequest {
   id: string;
   stepGroupId: string;
   workflowId: string;
-  name?: string;
-  description?: string;
-  stepActionType?: string;
-  workflowStepAutomationConfiguration?: WorkflowStepAutomationConfiguration;
-  stepTarget?: string[];
-  outputs?: WorkflowStepOutput[];
-  previous?: string[];
-  next?: string[];
-  status?: string;
+  name?: string | undefined;
+  description?: string | undefined;
+  stepActionType?: string | undefined;
+  workflowStepAutomationConfiguration?: WorkflowStepAutomationConfiguration | undefined;
+  stepTarget?: string[] | undefined;
+  outputs?: WorkflowStepOutput[] | undefined;
+  previous?: string[] | undefined;
+  next?: string[] | undefined;
+  status?: string | undefined;
 }
 export interface UpdateWorkflowStepResponse {
-  id?: string;
-  stepGroupId?: string;
-  workflowId?: string;
-  name?: string;
+  id?: string | undefined;
+  stepGroupId?: string | undefined;
+  workflowId?: string | undefined;
+  name?: string | undefined;
 }
 export interface UpdateWorkflowStepGroupRequest {
   workflowId: string;
   id: string;
-  name?: string;
-  description?: string;
-  next?: string[];
-  previous?: string[];
+  name?: string | undefined;
+  description?: string | undefined;
+  next?: string[] | undefined;
+  previous?: string[] | undefined;
 }
 export interface UpdateWorkflowStepGroupResponse {
-  workflowId?: string;
-  name?: string;
-  id?: string;
-  description?: string;
-  tools?: Tool[];
-  next?: string[];
-  previous?: string[];
-  lastModifiedTime?: Date;
+  workflowId?: string | undefined;
+  name?: string | undefined;
+  id?: string | undefined;
+  description?: string | undefined;
+  tools?: Tool[] | undefined;
+  next?: string[] | undefined;
+  previous?: string[] | undefined;
+  lastModifiedTime?: Date | undefined;
 }
 export type CreateTemplateError =
   | AccessDeniedException
@@ -734,7 +735,7 @@ export type CreateTemplateError =
  * Creates a migration workflow template.
  */
 export const createTemplate: API.OperationMethod<
-  CreateTemplateRequest,
+  CreateTemplateRequest & RegionInput,
   CreateTemplateResponse,
   CreateTemplateError,
   Credentials | HttpClient.HttpClient
@@ -765,7 +766,7 @@ export type CreateWorkflowError =
  * Create a workflow to orchestrate your migrations.
  */
 export const createWorkflow: API.OperationMethod<
-  CreateMigrationWorkflowRequest,
+  CreateMigrationWorkflowRequest & RegionInput,
   CreateMigrationWorkflowResponse,
   CreateWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -795,7 +796,7 @@ export type CreateWorkflowStepError =
  * Create a step in the migration workflow.
  */
 export const createWorkflowStep: API.OperationMethod<
-  CreateWorkflowStepRequest,
+  CreateWorkflowStepRequest & RegionInput,
   CreateWorkflowStepResponse,
   CreateWorkflowStepError,
   Credentials | HttpClient.HttpClient
@@ -825,7 +826,7 @@ export type CreateWorkflowStepGroupError =
  * Create a step group in a migration workflow.
  */
 export const createWorkflowStepGroup: API.OperationMethod<
-  CreateWorkflowStepGroupRequest,
+  CreateWorkflowStepGroupRequest & RegionInput,
   CreateWorkflowStepGroupResponse,
   CreateWorkflowStepGroupError,
   Credentials | HttpClient.HttpClient
@@ -856,7 +857,7 @@ export type DeleteTemplateError =
  * Deletes a migration workflow template.
  */
 export const deleteTemplate: API.OperationMethod<
-  DeleteTemplateRequest,
+  DeleteTemplateRequest & RegionInput,
   DeleteTemplateResponse,
   DeleteTemplateError,
   Credentials | HttpClient.HttpClient
@@ -889,7 +890,7 @@ export type DeleteWorkflowError =
  * delete it.
  */
 export const deleteWorkflow: API.OperationMethod<
-  DeleteMigrationWorkflowRequest,
+  DeleteMigrationWorkflowRequest & RegionInput,
   DeleteMigrationWorkflowResponse,
   DeleteWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -922,7 +923,7 @@ export type DeleteWorkflowStepError =
  * step.
  */
 export const deleteWorkflowStep: API.OperationMethod<
-  DeleteWorkflowStepRequest,
+  DeleteWorkflowStepRequest & RegionInput,
   DeleteWorkflowStepResponse,
   DeleteWorkflowStepError,
   Credentials | HttpClient.HttpClient
@@ -954,7 +955,7 @@ export type DeleteWorkflowStepGroupError =
  * Delete a step group in a migration workflow.
  */
 export const deleteWorkflowStepGroup: API.OperationMethod<
-  DeleteWorkflowStepGroupRequest,
+  DeleteWorkflowStepGroupRequest & RegionInput,
   DeleteWorkflowStepGroupResponse,
   DeleteWorkflowStepGroupError,
   Credentials | HttpClient.HttpClient
@@ -985,7 +986,7 @@ export type GetTemplateError =
  * Get the template you want to use for creating a migration workflow.
  */
 export const getTemplate: API.OperationMethod<
-  GetMigrationWorkflowTemplateRequest,
+  GetMigrationWorkflowTemplateRequest & RegionInput,
   GetMigrationWorkflowTemplateResponse,
   GetTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1016,7 +1017,7 @@ export type GetTemplateStepError =
  * Get a specific step in a template.
  */
 export const getTemplateStep: API.OperationMethod<
-  GetTemplateStepRequest,
+  GetTemplateStepRequest & RegionInput,
   GetTemplateStepResponse,
   GetTemplateStepError,
   Credentials | HttpClient.HttpClient
@@ -1048,7 +1049,7 @@ export type GetTemplateStepGroupError =
  * Get a step group in a template.
  */
 export const getTemplateStepGroup: API.OperationMethod<
-  GetTemplateStepGroupRequest,
+  GetTemplateStepGroupRequest & RegionInput,
   GetTemplateStepGroupResponse,
   GetTemplateStepGroupError,
   Credentials | HttpClient.HttpClient
@@ -1080,7 +1081,7 @@ export type GetWorkflowError =
  * Get migration workflow.
  */
 export const getWorkflow: API.OperationMethod<
-  GetMigrationWorkflowRequest,
+  GetMigrationWorkflowRequest & RegionInput,
   GetMigrationWorkflowResponse,
   GetWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -1111,7 +1112,7 @@ export type GetWorkflowStepError =
  * Get a step in the migration workflow.
  */
 export const getWorkflowStep: API.OperationMethod<
-  GetWorkflowStepRequest,
+  GetWorkflowStepRequest & RegionInput,
   GetWorkflowStepResponse,
   GetWorkflowStepError,
   Credentials | HttpClient.HttpClient
@@ -1142,7 +1143,7 @@ export type GetWorkflowStepGroupError =
  * Get the step group of a migration workflow.
  */
 export const getWorkflowStepGroup: API.OperationMethod<
-  GetWorkflowStepGroupRequest,
+  GetWorkflowStepGroupRequest & RegionInput,
   GetWorkflowStepGroupResponse,
   GetWorkflowStepGroupError,
   Credentials | HttpClient.HttpClient
@@ -1172,7 +1173,7 @@ export type ListPluginsError =
  * List AWS Migration Hub Orchestrator plugins.
  */
 export const listPlugins: API.PaginatedOperationMethod<
-  ListPluginsRequest,
+  ListPluginsRequest & RegionInput,
   ListPluginsResponse,
   ListPluginsError,
   Credentials | HttpClient.HttpClient,
@@ -1202,7 +1203,7 @@ export type ListTagsForResourceError =
  * List the tags added to a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1226,7 +1227,7 @@ export type ListTemplatesError =
  * List the templates available in Migration Hub Orchestrator to create a migration workflow.
  */
 export const listTemplates: API.PaginatedOperationMethod<
-  ListMigrationWorkflowTemplatesRequest,
+  ListMigrationWorkflowTemplatesRequest & RegionInput,
   ListMigrationWorkflowTemplatesResponse,
   ListTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -1258,7 +1259,7 @@ export type ListTemplateStepGroupsError =
  * List the step groups in a template.
  */
 export const listTemplateStepGroups: API.PaginatedOperationMethod<
-  ListTemplateStepGroupsRequest,
+  ListTemplateStepGroupsRequest & RegionInput,
   ListTemplateStepGroupsResponse,
   ListTemplateStepGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -1296,7 +1297,7 @@ export type ListTemplateStepsError =
  * List the steps in a template.
  */
 export const listTemplateSteps: API.PaginatedOperationMethod<
-  ListTemplateStepsRequest,
+  ListTemplateStepsRequest & RegionInput,
   ListTemplateStepsResponse,
   ListTemplateStepsError,
   Credentials | HttpClient.HttpClient,
@@ -1335,7 +1336,7 @@ export type ListWorkflowsError =
  * List the migration workflows.
  */
 export const listWorkflows: API.PaginatedOperationMethod<
-  ListMigrationWorkflowsRequest,
+  ListMigrationWorkflowsRequest & RegionInput,
   ListMigrationWorkflowsResponse,
   ListWorkflowsError,
   Credentials | HttpClient.HttpClient,
@@ -1374,7 +1375,7 @@ export type ListWorkflowStepGroupsError =
  * List the step groups in a migration workflow.
  */
 export const listWorkflowStepGroups: API.PaginatedOperationMethod<
-  ListWorkflowStepGroupsRequest,
+  ListWorkflowStepGroupsRequest & RegionInput,
   ListWorkflowStepGroupsResponse,
   ListWorkflowStepGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -1412,7 +1413,7 @@ export type ListWorkflowStepsError =
  * List the steps in a workflow.
  */
 export const listWorkflowSteps: API.PaginatedOperationMethod<
-  ListWorkflowStepsRequest,
+  ListWorkflowStepsRequest & RegionInput,
   ListWorkflowStepsResponse,
   ListWorkflowStepsError,
   Credentials | HttpClient.HttpClient,
@@ -1449,7 +1450,7 @@ export type RetryWorkflowStepError =
  * Retry a failed step in a migration workflow.
  */
 export const retryWorkflowStep: API.OperationMethod<
-  RetryWorkflowStepRequest,
+  RetryWorkflowStepRequest & RegionInput,
   RetryWorkflowStepResponse,
   RetryWorkflowStepError,
   Credentials | HttpClient.HttpClient
@@ -1480,7 +1481,7 @@ export type StartWorkflowError =
  * Start a migration workflow.
  */
 export const startWorkflow: API.OperationMethod<
-  StartMigrationWorkflowRequest,
+  StartMigrationWorkflowRequest & RegionInput,
   StartMigrationWorkflowResponse,
   StartWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -1512,7 +1513,7 @@ export type StopWorkflowError =
  * Stop an ongoing migration workflow.
  */
 export const stopWorkflow: API.OperationMethod<
-  StopMigrationWorkflowRequest,
+  StopMigrationWorkflowRequest & RegionInput,
   StopMigrationWorkflowResponse,
   StopWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -1538,7 +1539,7 @@ export type TagResourceError = ResourceNotFoundException | ValidationException |
  * Tag a resource by specifying its Amazon Resource Name (ARN).
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1558,7 +1559,7 @@ export type UntagResourceError = ResourceNotFoundException | ValidationException
  * Deletes the tags for a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1584,7 +1585,7 @@ export type UpdateTemplateError =
  * Updates a migration workflow template.
  */
 export const updateTemplate: API.OperationMethod<
-  UpdateTemplateRequest,
+  UpdateTemplateRequest & RegionInput,
   UpdateTemplateResponse,
   UpdateTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1616,7 +1617,7 @@ export type UpdateWorkflowError =
  * Update a migration workflow.
  */
 export const updateWorkflow: API.OperationMethod<
-  UpdateMigrationWorkflowRequest,
+  UpdateMigrationWorkflowRequest & RegionInput,
   UpdateMigrationWorkflowResponse,
   UpdateWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -1647,7 +1648,7 @@ export type UpdateWorkflowStepError =
  * Update a step in a migration workflow.
  */
 export const updateWorkflowStep: API.OperationMethod<
-  UpdateWorkflowStepRequest,
+  UpdateWorkflowStepRequest & RegionInput,
   UpdateWorkflowStepResponse,
   UpdateWorkflowStepError,
   Credentials | HttpClient.HttpClient
@@ -1678,7 +1679,7 @@ export type UpdateWorkflowStepGroupError =
  * Update the step group in a migration workflow.
  */
 export const updateWorkflowStepGroup: API.OperationMethod<
-  UpdateWorkflowStepGroupRequest,
+  UpdateWorkflowStepGroupRequest & RegionInput,
   UpdateWorkflowStepGroupResponse,
   UpdateWorkflowStepGroupError,
   Credentials | HttpClient.HttpClient

@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -202,7 +203,7 @@ export class DependencyTimeout
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
     /*@__PURE__*/ T.HttpError(504),
-  ).pipe(C.withTimeoutError) {}
+  ).pipe(C.withTimeoutError, C.withRetryableError) {}
 export class FileSystemAlreadyExists
   extends /*@__PURE__*/ S.TaggedError<FileSystemAlreadyExists>()(
     "FileSystemAlreadyExists",
@@ -266,7 +267,7 @@ export class InsufficientThroughputCapacity
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
     /*@__PURE__*/ T.HttpError(503),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InternalServerError
   extends /*@__PURE__*/ S.TaggedError<InternalServerError>()(
     "InternalServerError",
@@ -275,7 +276,7 @@ export class InternalServerError
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InvalidPolicyException
   extends /*@__PURE__*/ S.TaggedError<InvalidPolicyException>()(
     "InvalidPolicyException",
@@ -392,7 +393,7 @@ export class ThrottlingException
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ThroughputLimitExceeded
   extends /*@__PURE__*/ S.TaggedError<ThroughputLimitExceeded>()(
     "ThroughputLimitExceeded",
@@ -444,7 +445,7 @@ export type SecondaryGids = number[];
 export interface PosixUser {
   Uid: number;
   Gid: number;
-  SecondaryGids?: number[];
+  SecondaryGids?: number[] | undefined;
 }
 export type Path = string;
 export type OwnerUid = number;
@@ -456,15 +457,15 @@ export interface CreationInfo {
   Permissions: string;
 }
 export interface RootDirectory {
-  Path?: string;
-  CreationInfo?: CreationInfo;
+  Path?: string | undefined;
+  CreationInfo?: CreationInfo | undefined;
 }
 export interface CreateAccessPointRequest {
   ClientToken: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
   FileSystemId: string;
-  PosixUser?: PosixUser;
-  RootDirectory?: RootDirectory;
+  PosixUser?: PosixUser | undefined;
+  RootDirectory?: RootDirectory | undefined;
 }
 export type Name = string;
 export type AccessPointId = string;
@@ -479,16 +480,16 @@ export type LifeCycleState =
   | "error"
   | (string & {});
 export interface AccessPointDescription {
-  ClientToken?: string;
-  Name?: string;
-  Tags?: Tag[];
-  AccessPointId?: string;
-  AccessPointArn?: string;
-  FileSystemId?: string;
-  PosixUser?: PosixUser;
-  RootDirectory?: RootDirectory;
-  OwnerId?: string;
-  LifeCycleState?: LifeCycleState;
+  ClientToken?: string | undefined;
+  Name?: string | undefined;
+  Tags?: Tag[] | undefined;
+  AccessPointId?: string | undefined;
+  AccessPointArn?: string | undefined;
+  FileSystemId?: string | undefined;
+  PosixUser?: PosixUser | undefined;
+  RootDirectory?: RootDirectory | undefined;
+  OwnerId?: string | undefined;
+  LifeCycleState?: LifeCycleState | undefined;
 }
 export type CreationToken = string;
 export type PerformanceMode = "generalPurpose" | "maxIO" | (string & {});
@@ -500,14 +501,14 @@ export type AvailabilityZoneName = string;
 export type Backup = boolean;
 export interface CreateFileSystemRequest {
   CreationToken: string;
-  PerformanceMode?: PerformanceMode;
-  Encrypted?: boolean;
-  KmsKeyId?: string;
-  ThroughputMode?: ThroughputMode;
-  ProvisionedThroughputInMibps?: number;
-  AvailabilityZoneName?: string;
-  Backup?: boolean;
-  Tags?: Tag[];
+  PerformanceMode?: PerformanceMode | undefined;
+  Encrypted?: boolean | undefined;
+  KmsKeyId?: string | undefined;
+  ThroughputMode?: ThroughputMode | undefined;
+  ProvisionedThroughputInMibps?: number | undefined;
+  AvailabilityZoneName?: string | undefined;
+  Backup?: boolean | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type FileSystemArn = string;
 export type MountTargetCount = number;
@@ -515,35 +516,35 @@ export type FileSystemSizeValue = number;
 export type FileSystemNullableSizeValue = number;
 export interface FileSystemSize {
   Value: number;
-  Timestamp?: Date;
-  ValueInIA?: number;
-  ValueInStandard?: number;
-  ValueInArchive?: number;
+  Timestamp?: Date | undefined;
+  ValueInIA?: number | undefined;
+  ValueInStandard?: number | undefined;
+  ValueInArchive?: number | undefined;
 }
 export type AvailabilityZoneId = string;
 export type ReplicationOverwriteProtection = "ENABLED" | "DISABLED" | "REPLICATING" | (string & {});
 export interface FileSystemProtectionDescription {
-  ReplicationOverwriteProtection?: ReplicationOverwriteProtection;
+  ReplicationOverwriteProtection?: ReplicationOverwriteProtection | undefined;
 }
 export interface FileSystemDescription {
   OwnerId: string;
   CreationToken: string;
   FileSystemId: string;
-  FileSystemArn?: string;
+  FileSystemArn?: string | undefined;
   CreationTime: Date;
   LifeCycleState: LifeCycleState;
-  Name?: string;
+  Name?: string | undefined;
   NumberOfMountTargets: number;
   SizeInBytes: FileSystemSize;
   PerformanceMode: PerformanceMode;
-  Encrypted?: boolean;
-  KmsKeyId?: string;
-  ThroughputMode?: ThroughputMode;
-  ProvisionedThroughputInMibps?: number;
-  AvailabilityZoneName?: string;
-  AvailabilityZoneId?: string;
+  Encrypted?: boolean | undefined;
+  KmsKeyId?: string | undefined;
+  ThroughputMode?: ThroughputMode | undefined;
+  ProvisionedThroughputInMibps?: number | undefined;
+  AvailabilityZoneName?: string | undefined;
+  AvailabilityZoneId?: string | undefined;
   Tags: Tag[];
-  FileSystemProtection?: FileSystemProtectionDescription;
+  FileSystemProtection?: FileSystemProtectionDescription | undefined;
 }
 export type SubnetId = string;
 export type IpAddress = string;
@@ -554,35 +555,35 @@ export type SecurityGroups = string[];
 export interface CreateMountTargetRequest {
   FileSystemId: string;
   SubnetId: string;
-  IpAddress?: string;
-  Ipv6Address?: string;
-  IpAddressType?: IpAddressType;
-  SecurityGroups?: string[];
+  IpAddress?: string | undefined;
+  Ipv6Address?: string | undefined;
+  IpAddressType?: IpAddressType | undefined;
+  SecurityGroups?: string[] | undefined;
 }
 export type MountTargetId = string;
 export type NetworkInterfaceId = string;
 export type VpcId = string;
 export interface MountTargetDescription {
-  OwnerId?: string;
+  OwnerId?: string | undefined;
   MountTargetId: string;
   FileSystemId: string;
   SubnetId: string;
   LifeCycleState: LifeCycleState;
-  IpAddress?: string;
-  Ipv6Address?: string;
-  NetworkInterfaceId?: string;
-  AvailabilityZoneId?: string;
-  AvailabilityZoneName?: string;
-  VpcId?: string;
+  IpAddress?: string | undefined;
+  Ipv6Address?: string | undefined;
+  NetworkInterfaceId?: string | undefined;
+  AvailabilityZoneId?: string | undefined;
+  AvailabilityZoneName?: string | undefined;
+  VpcId?: string | undefined;
 }
 export type RegionName = string;
 export type RoleArn = string;
 export interface DestinationToCreate {
-  Region?: string;
-  AvailabilityZoneName?: string;
-  KmsKeyId?: string;
-  FileSystemId?: string;
-  RoleArn?: string;
+  Region?: string | undefined;
+  AvailabilityZoneName?: string | undefined;
+  KmsKeyId?: string | undefined;
+  FileSystemId?: string | undefined;
+  RoleArn?: string | undefined;
 }
 export type DestinationsToCreate = DestinationToCreate[];
 export interface CreateReplicationConfigurationRequest {
@@ -602,10 +603,10 @@ export interface Destination {
   Status: ReplicationStatus;
   FileSystemId: string;
   Region: string;
-  LastReplicatedTimestamp?: Date;
-  OwnerId?: string;
-  StatusMessage?: string;
-  RoleArn?: string;
+  LastReplicatedTimestamp?: Date | undefined;
+  OwnerId?: string | undefined;
+  StatusMessage?: string | undefined;
+  RoleArn?: string | undefined;
 }
 export type Destinations = Destination[];
 export interface ReplicationConfigurationDescription {
@@ -615,7 +616,7 @@ export interface ReplicationConfigurationDescription {
   OriginalSourceFileSystemArn: string;
   CreationTime: Date;
   Destinations: Destination[];
-  SourceFileSystemOwnerId?: string;
+  SourceFileSystemOwnerId?: string | undefined;
 }
 export interface CreateTagsRequest {
   FileSystemId: string;
@@ -641,7 +642,7 @@ export interface DeleteMountTargetResponse {}
 export type DeletionMode = "ALL_CONFIGURATIONS" | "LOCAL_CONFIGURATION_ONLY" | (string & {});
 export interface DeleteReplicationConfigurationRequest {
   SourceFileSystemId: string;
-  DeletionMode?: DeletionMode;
+  DeletionMode?: DeletionMode | undefined;
 }
 export interface DeleteReplicationConfigurationResponse {}
 export type TagKeys = string[];
@@ -653,30 +654,30 @@ export interface DeleteTagsResponse {}
 export type MaxResults = number;
 export type Token = string;
 export interface DescribeAccessPointsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  AccessPointId?: string;
-  FileSystemId?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  AccessPointId?: string | undefined;
+  FileSystemId?: string | undefined;
 }
 export type AccessPointDescriptions = AccessPointDescription[];
 export interface DescribeAccessPointsResponse {
-  AccessPoints?: AccessPointDescription[];
-  NextToken?: string;
+  AccessPoints?: AccessPointDescription[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeAccountPreferencesRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ResourceIdType = "LONG_ID" | "SHORT_ID" | (string & {});
 export type Resource = "FILE_SYSTEM" | "MOUNT_TARGET" | (string & {});
 export type Resources = Resource[];
 export interface ResourceIdPreference {
-  ResourceIdType?: ResourceIdType;
-  Resources?: Resource[];
+  ResourceIdType?: ResourceIdType | undefined;
+  Resources?: Resource[] | undefined;
 }
 export interface DescribeAccountPreferencesResponse {
-  ResourceIdPreference?: ResourceIdPreference;
-  NextToken?: string;
+  ResourceIdPreference?: ResourceIdPreference | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeBackupPolicyRequest {
   FileSystemId: string;
@@ -686,29 +687,29 @@ export interface BackupPolicy {
   Status: Status;
 }
 export interface BackupPolicyDescription {
-  BackupPolicy?: BackupPolicy;
+  BackupPolicy?: BackupPolicy | undefined;
 }
 export interface DescribeFileSystemPolicyRequest {
   FileSystemId: string;
 }
 export type Policy = string;
 export interface FileSystemPolicyDescription {
-  FileSystemId?: string;
-  Policy?: string;
+  FileSystemId?: string | undefined;
+  Policy?: string | undefined;
 }
 export type MaxItems = number;
 export type Marker = string;
 export interface DescribeFileSystemsRequest {
-  MaxItems?: number;
-  Marker?: string;
-  CreationToken?: string;
-  FileSystemId?: string;
+  MaxItems?: number | undefined;
+  Marker?: string | undefined;
+  CreationToken?: string | undefined;
+  FileSystemId?: string | undefined;
 }
 export type FileSystemDescriptions = FileSystemDescription[];
 export interface DescribeFileSystemsResponse {
-  Marker?: string;
-  FileSystems?: FileSystemDescription[];
-  NextMarker?: string;
+  Marker?: string | undefined;
+  FileSystems?: FileSystemDescription[] | undefined;
+  NextMarker?: string | undefined;
 }
 export interface DescribeLifecycleConfigurationRequest {
   FileSystemId: string;
@@ -737,26 +738,26 @@ export type TransitionToArchiveRules =
   | "AFTER_365_DAYS"
   | (string & {});
 export interface LifecyclePolicy {
-  TransitionToIA?: TransitionToIARules;
-  TransitionToPrimaryStorageClass?: TransitionToPrimaryStorageClassRules;
-  TransitionToArchive?: TransitionToArchiveRules;
+  TransitionToIA?: TransitionToIARules | undefined;
+  TransitionToPrimaryStorageClass?: TransitionToPrimaryStorageClassRules | undefined;
+  TransitionToArchive?: TransitionToArchiveRules | undefined;
 }
 export type LifecyclePolicies = LifecyclePolicy[];
 export interface LifecycleConfigurationDescription {
-  LifecyclePolicies?: LifecyclePolicy[];
+  LifecyclePolicies?: LifecyclePolicy[] | undefined;
 }
 export interface DescribeMountTargetsRequest {
-  MaxItems?: number;
-  Marker?: string;
-  FileSystemId?: string;
-  MountTargetId?: string;
-  AccessPointId?: string;
+  MaxItems?: number | undefined;
+  Marker?: string | undefined;
+  FileSystemId?: string | undefined;
+  MountTargetId?: string | undefined;
+  AccessPointId?: string | undefined;
 }
 export type MountTargetDescriptions = MountTargetDescription[];
 export interface DescribeMountTargetsResponse {
-  Marker?: string;
-  MountTargets?: MountTargetDescription[];
-  NextMarker?: string;
+  Marker?: string | undefined;
+  MountTargets?: MountTargetDescription[] | undefined;
+  NextMarker?: string | undefined;
 }
 export interface DescribeMountTargetSecurityGroupsRequest {
   MountTargetId: string;
@@ -765,45 +766,45 @@ export interface DescribeMountTargetSecurityGroupsResponse {
   SecurityGroups: string[];
 }
 export interface DescribeReplicationConfigurationsRequest {
-  FileSystemId?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  FileSystemId?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ReplicationConfigurationDescriptions = ReplicationConfigurationDescription[];
 export interface DescribeReplicationConfigurationsResponse {
-  Replications?: ReplicationConfigurationDescription[];
-  NextToken?: string;
+  Replications?: ReplicationConfigurationDescription[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeTagsRequest {
-  MaxItems?: number;
-  Marker?: string;
+  MaxItems?: number | undefined;
+  Marker?: string | undefined;
   FileSystemId: string;
 }
 export interface DescribeTagsResponse {
-  Marker?: string;
+  Marker?: string | undefined;
   Tags: Tag[];
-  NextMarker?: string;
+  NextMarker?: string | undefined;
 }
 export type ResourceId = string;
 export interface ListTagsForResourceRequest {
   ResourceId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
-  NextToken?: string;
+  Tags?: Tag[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ModifyMountTargetSecurityGroupsRequest {
   MountTargetId: string;
-  SecurityGroups?: string[];
+  SecurityGroups?: string[] | undefined;
 }
 export interface ModifyMountTargetSecurityGroupsResponse {}
 export interface PutAccountPreferencesRequest {
   ResourceIdType: ResourceIdType;
 }
 export interface PutAccountPreferencesResponse {
-  ResourceIdPreference?: ResourceIdPreference;
+  ResourceIdPreference?: ResourceIdPreference | undefined;
 }
 export interface PutBackupPolicyRequest {
   FileSystemId: string;
@@ -813,7 +814,7 @@ export type BypassPolicyLockoutSafetyCheck = boolean;
 export interface PutFileSystemPolicyRequest {
   FileSystemId: string;
   Policy: string;
-  BypassPolicyLockoutSafetyCheck?: boolean;
+  BypassPolicyLockoutSafetyCheck?: boolean | undefined;
 }
 export interface PutLifecycleConfigurationRequest {
   FileSystemId: string;
@@ -831,12 +832,12 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateFileSystemRequest {
   FileSystemId: string;
-  ThroughputMode?: ThroughputMode;
-  ProvisionedThroughputInMibps?: number;
+  ThroughputMode?: ThroughputMode | undefined;
+  ProvisionedThroughputInMibps?: number | undefined;
 }
 export interface UpdateFileSystemProtectionRequest {
   FileSystemId: string;
-  ReplicationOverwriteProtection?: ReplicationOverwriteProtection;
+  ReplicationOverwriteProtection?: ReplicationOverwriteProtection | undefined;
 }
 export type ErrorCode = string;
 export type ErrorMessage = string;
@@ -875,7 +876,7 @@ export type CreateAccessPointError =
  * permissions to tag resources during creation.
  */
 export const createAccessPoint: API.OperationMethod<
-  CreateAccessPointRequest,
+  CreateAccessPointRequest & RegionInput,
   AccessPointDescription,
   CreateAccessPointError,
   Credentials | HttpClient.HttpClient
@@ -971,7 +972,7 @@ export type CreateFileSystemError =
  * information, see Granting permissions to tag resources during creation.
  */
 export const createFileSystem: API.OperationMethod<
-  CreateFileSystemRequest,
+  CreateFileSystemRequest & RegionInput,
   FileSystemDescription,
   CreateFileSystemError,
   Credentials | HttpClient.HttpClient
@@ -1124,7 +1125,7 @@ export type CreateMountTargetError =
  * - `ec2:CreateNetworkInterface`
  */
 export const createMountTarget: API.OperationMethod<
-  CreateMountTargetRequest,
+  CreateMountTargetRequest & RegionInput,
   MountTargetDescription,
   CreateMountTargetError,
   Credentials | HttpClient.HttpClient
@@ -1191,7 +1192,7 @@ export type CreateReplicationConfigurationError =
  * Guide.
  */
 export const createReplicationConfiguration: API.OperationMethod<
-  CreateReplicationConfigurationRequest,
+  CreateReplicationConfigurationRequest & RegionInput,
   ReplicationConfigurationDescription,
   CreateReplicationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1232,7 +1233,7 @@ export type CreateTagsError = BadRequest | FileSystemNotFound | InternalServerEr
  * action.
  */
 export const createTags: API.OperationMethod<
-  CreateTagsRequest,
+  CreateTagsRequest & RegionInput,
   CreateTagsResponse,
   CreateTagsError,
   Credentials | HttpClient.HttpClient
@@ -1260,7 +1261,7 @@ export type DeleteAccessPointError =
  * This operation requires permissions for the `elasticfilesystem:DeleteAccessPoint` action.
  */
 export const deleteAccessPoint: API.OperationMethod<
-  DeleteAccessPointRequest,
+  DeleteAccessPointRequest & RegionInput,
   DeleteAccessPointResponse,
   DeleteAccessPointError,
   Credentials | HttpClient.HttpClient
@@ -1305,7 +1306,7 @@ export type DeleteFileSystemError =
  * `elasticfilesystem:DeleteFileSystem` action.
  */
 export const deleteFileSystem: API.OperationMethod<
-  DeleteFileSystemRequest,
+  DeleteFileSystemRequest & RegionInput,
   DeleteFileSystemResponse,
   DeleteFileSystemError,
   Credentials | HttpClient.HttpClient
@@ -1334,7 +1335,7 @@ export type DeleteFileSystemPolicyError =
  * This operation requires permissions for the `elasticfilesystem:DeleteFileSystemPolicy` action.
  */
 export const deleteFileSystemPolicy: API.OperationMethod<
-  DeleteFileSystemPolicyRequest,
+  DeleteFileSystemPolicyRequest & RegionInput,
   DeleteFileSystemPolicyResponse,
   DeleteFileSystemPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1381,7 +1382,7 @@ export type DeleteMountTargetError =
  * - `ec2:DeleteNetworkInterface`
  */
 export const deleteMountTarget: API.OperationMethod<
-  DeleteMountTargetRequest,
+  DeleteMountTargetRequest & RegionInput,
   DeleteMountTargetResponse,
   DeleteMountTargetError,
   Credentials | HttpClient.HttpClient
@@ -1412,7 +1413,7 @@ export type DeleteReplicationConfigurationError =
  * `elasticfilesystem:DeleteReplicationConfiguration` action.
  */
 export const deleteReplicationConfiguration: API.OperationMethod<
-  DeleteReplicationConfigurationRequest,
+  DeleteReplicationConfigurationRequest & RegionInput,
   DeleteReplicationConfigurationResponse,
   DeleteReplicationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1441,7 +1442,7 @@ export type DeleteTagsError = BadRequest | FileSystemNotFound | InternalServerEr
  * action.
  */
 export const deleteTags: API.OperationMethod<
-  DeleteTagsRequest,
+  DeleteTagsRequest & RegionInput,
   DeleteTagsResponse,
   DeleteTagsError,
   Credentials | HttpClient.HttpClient
@@ -1472,7 +1473,7 @@ export type DescribeAccessPointsError =
  * This operation requires permissions for the `elasticfilesystem:DescribeAccessPoints` action.
  */
 export const describeAccessPoints: API.PaginatedOperationMethod<
-  DescribeAccessPointsRequest,
+  DescribeAccessPointsRequest & RegionInput,
   DescribeAccessPointsResponse,
   DescribeAccessPointsError,
   Credentials | HttpClient.HttpClient,
@@ -1499,7 +1500,7 @@ export type DescribeAccountPreferencesError = InternalServerError | CommonErrors
  * Returns the account preferences settings for the Amazon Web Services account associated with the user making the request, in the current Amazon Web Services Region.
  */
 export const describeAccountPreferences: API.OperationMethod<
-  DescribeAccountPreferencesRequest,
+  DescribeAccountPreferencesRequest & RegionInput,
   DescribeAccountPreferencesResponse,
   DescribeAccountPreferencesError,
   Credentials | HttpClient.HttpClient
@@ -1525,7 +1526,7 @@ export type DescribeBackupPolicyError =
  * Returns the backup policy for the specified EFS file system.
  */
 export const describeBackupPolicy: API.OperationMethod<
-  DescribeBackupPolicyRequest,
+  DescribeBackupPolicyRequest & RegionInput,
   BackupPolicyDescription,
   DescribeBackupPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1559,7 +1560,7 @@ export type DescribeFileSystemPolicyError =
  * This operation requires permissions for the `elasticfilesystem:DescribeFileSystemPolicy` action.
  */
 export const describeFileSystemPolicy: API.OperationMethod<
-  DescribeFileSystemPolicyRequest,
+  DescribeFileSystemPolicyRequest & RegionInput,
   FileSystemPolicyDescription,
   DescribeFileSystemPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1606,7 +1607,7 @@ export type DescribeFileSystemsError =
  * `elasticfilesystem:DescribeFileSystems` action.
  */
 export const describeFileSystems: API.PaginatedOperationMethod<
-  DescribeFileSystemsRequest,
+  DescribeFileSystemsRequest & RegionInput,
   DescribeFileSystemsResponse,
   DescribeFileSystemsError,
   Credentials | HttpClient.HttpClient,
@@ -1644,7 +1645,7 @@ export type DescribeLifecycleConfigurationError =
  * `elasticfilesystem:DescribeLifecycleConfiguration` operation.
  */
 export const describeLifecycleConfiguration: API.OperationMethod<
-  DescribeLifecycleConfigurationRequest,
+  DescribeLifecycleConfigurationRequest & RegionInput,
   LifecycleConfigurationDescription,
   DescribeLifecycleConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1677,7 +1678,7 @@ export type DescribeMountTargetsError =
  * you specify in `MountTargetId`.
  */
 export const describeMountTargets: API.PaginatedOperationMethod<
-  DescribeMountTargetsRequest,
+  DescribeMountTargetsRequest & RegionInput,
   DescribeMountTargetsResponse,
   DescribeMountTargetsError,
   Credentials | HttpClient.HttpClient,
@@ -1725,7 +1726,7 @@ export type DescribeMountTargetSecurityGroupsError =
  * network interface.
  */
 export const describeMountTargetSecurityGroups: API.OperationMethod<
-  DescribeMountTargetSecurityGroupsRequest,
+  DescribeMountTargetSecurityGroupsRequest & RegionInput,
   DescribeMountTargetSecurityGroupsResponse,
   DescribeMountTargetSecurityGroupsError,
   Credentials | HttpClient.HttpClient
@@ -1753,7 +1754,7 @@ export type DescribeReplicationConfigurationsError =
  * Amazon Web Services Region are retrieved.
  */
 export const describeReplicationConfigurations: API.PaginatedOperationMethod<
-  DescribeReplicationConfigurationsRequest,
+  DescribeReplicationConfigurationsRequest & RegionInput,
   DescribeReplicationConfigurationsResponse,
   DescribeReplicationConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1799,7 +1800,7 @@ export type DescribeTagsError =
  * `elasticfilesystem:DescribeTags` action.
  */
 export const describeTags: API.PaginatedOperationMethod<
-  DescribeTagsRequest,
+  DescribeTagsRequest & RegionInput,
   DescribeTagsResponse,
   DescribeTagsError,
   Credentials | HttpClient.HttpClient,
@@ -1834,7 +1835,7 @@ export type ListTagsForResourceError =
  * This operation requires permissions for the `elasticfilesystem:DescribeAccessPoints` action.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -1882,7 +1883,7 @@ export type ModifyMountTargetSecurityGroupsError =
  * interface.
  */
 export const modifyMountTargetSecurityGroups: API.OperationMethod<
-  ModifyMountTargetSecurityGroupsRequest,
+  ModifyMountTargetSecurityGroupsRequest & RegionInput,
   ModifyMountTargetSecurityGroupsResponse,
   ModifyMountTargetSecurityGroupsError,
   Credentials | HttpClient.HttpClient
@@ -1917,7 +1918,7 @@ export type PutAccountPreferencesError = BadRequest | InternalServerError | Comm
  * receive an error and must use short IDs for file system and mount target resources.
  */
 export const putAccountPreferences: API.OperationMethod<
-  PutAccountPreferencesRequest,
+  PutAccountPreferencesRequest & RegionInput,
   PutAccountPreferencesResponse,
   PutAccountPreferencesError,
   Credentials | HttpClient.HttpClient
@@ -1943,7 +1944,7 @@ export type PutBackupPolicyError =
  * Updates the file system's backup policy. Use this action to start or stop automatic backups of the file system.
  */
 export const putBackupPolicy: API.OperationMethod<
-  PutBackupPolicyRequest,
+  PutBackupPolicyRequest & RegionInput,
   BackupPolicyDescription,
   PutBackupPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1986,7 +1987,7 @@ export type PutFileSystemPolicyError =
  * This operation requires permissions for the `elasticfilesystem:PutFileSystemPolicy` action.
  */
 export const putFileSystemPolicy: API.OperationMethod<
-  PutFileSystemPolicyRequest,
+  PutFileSystemPolicyRequest & RegionInput,
   FileSystemPolicyDescription,
   PutFileSystemPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2069,7 +2070,7 @@ export type PutLifecycleConfigurationError =
  * need the same Key Management Service permissions as when you created the encrypted file system.
  */
 export const putLifecycleConfiguration: API.OperationMethod<
-  PutLifecycleConfigurationRequest,
+  PutLifecycleConfigurationRequest & RegionInput,
   LifecycleConfigurationDescription,
   PutLifecycleConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2097,7 +2098,7 @@ export type TagResourceError =
  * This operation requires permissions for the `elasticfilesystem:TagResource` action.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2125,7 +2126,7 @@ export type UntagResourceError =
  * This operation requires permissions for the `elasticfilesystem:UntagResource` action.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2154,7 +2155,7 @@ export type UpdateFileSystemError =
  * system.
  */
 export const updateFileSystem: API.OperationMethod<
-  UpdateFileSystemRequest,
+  UpdateFileSystemRequest & RegionInput,
   FileSystemDescription,
   UpdateFileSystemError,
   Credentials | HttpClient.HttpClient
@@ -2194,7 +2195,7 @@ export type UpdateFileSystemProtectionError =
  * `elasticfilesystem:UpdateFileSystemProtection` action.
  */
 export const updateFileSystemProtection: API.OperationMethod<
-  UpdateFileSystemProtectionRequest,
+  UpdateFileSystemProtectionRequest & RegionInput,
   FileSystemProtectionDescription,
   UpdateFileSystemProtectionError,
   Credentials | HttpClient.HttpClient

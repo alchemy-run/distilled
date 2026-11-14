@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -103,7 +104,7 @@ export class InternalServerException
     "InternalServerException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
@@ -127,7 +128,7 @@ export class ThrottlingException
     "ThrottlingException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class UnauthorizedException
   extends /*@__PURE__*/ S.TaggedError<UnauthorizedException>()("UnauthorizedException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
@@ -146,8 +147,8 @@ export type EncryptionConfigurationType =
   | (string & {});
 export type KmsKeyId = string;
 export interface EncryptionConfiguration {
-  type?: EncryptionConfigurationType;
-  kmsKeyId?: string;
+  type?: EncryptionConfigurationType | undefined;
+  kmsKeyId?: string | undefined;
 }
 export type Retention = number;
 export type TagKey = string;
@@ -159,23 +160,23 @@ export type ChatConfigurationArn = string;
 export type ChatConfigurationArns = string[];
 export type ChatbotNotificationChannel = { [key: string]: string[] | undefined };
 export interface CrossAccountConfiguration {
-  sourceRoleArn?: string;
+  sourceRoleArn?: string | undefined;
 }
 export type CrossAccountConfigurations = CrossAccountConfiguration[];
 export interface CreateInvestigationGroupInput {
   name: string;
   roleArn: string;
-  encryptionConfiguration?: EncryptionConfiguration;
-  retentionInDays?: number;
-  tags?: { [key: string]: string | undefined };
-  tagKeyBoundaries?: string[];
-  chatbotNotificationChannel?: { [key: string]: string[] | undefined };
-  isCloudTrailEventHistoryEnabled?: boolean;
-  crossAccountConfigurations?: CrossAccountConfiguration[];
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  retentionInDays?: number | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  tagKeyBoundaries?: string[] | undefined;
+  chatbotNotificationChannel?: { [key: string]: string[] | undefined } | undefined;
+  isCloudTrailEventHistoryEnabled?: boolean | undefined;
+  crossAccountConfigurations?: CrossAccountConfiguration[] | undefined;
 }
 export type InvestigationGroupArn = string;
 export interface CreateInvestigationGroupOutput {
-  arn?: string;
+  arn?: string | undefined;
 }
 export type InvestigationGroupIdentifier = string;
 export interface DeleteInvestigationGroupRequest {
@@ -191,54 +192,54 @@ export interface GetInvestigationGroupRequest {
 }
 export type IdentifierStringWithPatternAndLengthLimits = string;
 export interface GetInvestigationGroupResponse {
-  createdBy?: string;
-  createdAt?: number;
-  lastModifiedBy?: string;
-  lastModifiedAt?: number;
-  name?: string;
-  arn?: string;
-  roleArn?: string;
-  encryptionConfiguration?: EncryptionConfiguration;
-  retentionInDays?: number;
-  chatbotNotificationChannel?: { [key: string]: string[] | undefined };
-  tagKeyBoundaries?: string[];
-  isCloudTrailEventHistoryEnabled?: boolean;
-  crossAccountConfigurations?: CrossAccountConfiguration[];
+  createdBy?: string | undefined;
+  createdAt?: number | undefined;
+  lastModifiedBy?: string | undefined;
+  lastModifiedAt?: number | undefined;
+  name?: string | undefined;
+  arn?: string | undefined;
+  roleArn?: string | undefined;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  retentionInDays?: number | undefined;
+  chatbotNotificationChannel?: { [key: string]: string[] | undefined } | undefined;
+  tagKeyBoundaries?: string[] | undefined;
+  isCloudTrailEventHistoryEnabled?: boolean | undefined;
+  crossAccountConfigurations?: CrossAccountConfiguration[] | undefined;
 }
 export interface GetInvestigationGroupPolicyRequest {
   identifier: string;
 }
 export type InvestigationGroupPolicyDocument = string;
 export interface GetInvestigationGroupPolicyResponse {
-  investigationGroupArn?: string;
-  policy?: string;
+  investigationGroupArn?: string | undefined;
+  policy?: string | undefined;
 }
 export type SensitiveStringWithLengthLimits = string | redacted.Redacted<string>;
 export interface ListInvestigationGroupsInput {
-  nextToken?: string | redacted.Redacted<string>;
-  maxResults?: number;
+  nextToken?: string | redacted.Redacted<string> | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListInvestigationGroupsModel {
-  arn?: string;
-  name?: string;
+  arn?: string | undefined;
+  name?: string | undefined;
 }
 export type InvestigationGroups = ListInvestigationGroupsModel[];
 export interface ListInvestigationGroupsOutput {
-  nextToken?: string | redacted.Redacted<string>;
-  investigationGroups?: ListInvestigationGroupsModel[];
+  nextToken?: string | redacted.Redacted<string> | undefined;
+  investigationGroups?: ListInvestigationGroupsModel[] | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceOutput {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutInvestigationGroupPolicyRequest {
   identifier: string;
   policy: string;
 }
 export interface PutInvestigationGroupPolicyResponse {
-  investigationGroupArn?: string;
+  investigationGroupArn?: string | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -253,12 +254,12 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateInvestigationGroupRequest {
   identifier: string;
-  roleArn?: string;
-  encryptionConfiguration?: EncryptionConfiguration;
-  tagKeyBoundaries?: string[];
-  chatbotNotificationChannel?: { [key: string]: string[] | undefined };
-  isCloudTrailEventHistoryEnabled?: boolean;
-  crossAccountConfigurations?: CrossAccountConfiguration[];
+  roleArn?: string | undefined;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  tagKeyBoundaries?: string[] | undefined;
+  chatbotNotificationChannel?: { [key: string]: string[] | undefined } | undefined;
+  isCloudTrailEventHistoryEnabled?: boolean | undefined;
+  crossAccountConfigurations?: CrossAccountConfiguration[] | undefined;
 }
 export interface UpdateInvestigationGroupOutput {}
 export type CreateInvestigationGroupError =
@@ -290,7 +291,7 @@ export type CreateInvestigationGroupError =
  * For more information about configuring CloudWatch alarms, see Using Amazon CloudWatch alarms
  */
 export const createInvestigationGroup: API.OperationMethod<
-  CreateInvestigationGroupInput,
+  CreateInvestigationGroupInput & RegionInput,
   CreateInvestigationGroupOutput,
   CreateInvestigationGroupError,
   Credentials | HttpClient.HttpClient
@@ -324,7 +325,7 @@ export type DeleteInvestigationGroupError =
  * Deletes the specified investigation group from your account. You can currently have one investigation group per Region in your account. After you delete an investigation group, you can later create a new investigation group in the same Region.
  */
 export const deleteInvestigationGroup: API.OperationMethod<
-  DeleteInvestigationGroupRequest,
+  DeleteInvestigationGroupRequest & RegionInput,
   DeleteInvestigationGroupResponse,
   DeleteInvestigationGroupError,
   Credentials | HttpClient.HttpClient
@@ -357,7 +358,7 @@ export type DeleteInvestigationGroupPolicyError =
  * Removes the IAM resource policy from being associated with the investigation group that you specify.
  */
 export const deleteInvestigationGroupPolicy: API.OperationMethod<
-  DeleteInvestigationGroupPolicyRequest,
+  DeleteInvestigationGroupPolicyRequest & RegionInput,
   DeleteInvestigationGroupPolicyOutput,
   DeleteInvestigationGroupPolicyError,
   Credentials | HttpClient.HttpClient
@@ -390,7 +391,7 @@ export type GetInvestigationGroupError =
  * Returns the configuration information for the specified investigation group.
  */
 export const getInvestigationGroup: API.OperationMethod<
-  GetInvestigationGroupRequest,
+  GetInvestigationGroupRequest & RegionInput,
   GetInvestigationGroupResponse,
   GetInvestigationGroupError,
   Credentials | HttpClient.HttpClient
@@ -423,7 +424,7 @@ export type GetInvestigationGroupPolicyError =
  * Returns the JSON of the IAM resource policy associated with the specified investigation group in a string. For example, `{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"aiops.alarms.cloudwatch.amazonaws.com\"},\"Action\":[\"aiops:CreateInvestigation\",\"aiops:CreateInvestigationEvent\"],\"Resource\":\"*\",\"Condition\":{\"StringEquals\":{\"aws:SourceAccount\":\"111122223333\"},\"ArnLike\":{\"aws:SourceArn\":\"arn:aws:cloudwatch:us-east-1:111122223333:alarm:*\"}}}]}`.
  */
 export const getInvestigationGroupPolicy: API.OperationMethod<
-  GetInvestigationGroupPolicyRequest,
+  GetInvestigationGroupPolicyRequest & RegionInput,
   GetInvestigationGroupPolicyResponse,
   GetInvestigationGroupPolicyError,
   Credentials | HttpClient.HttpClient
@@ -454,7 +455,7 @@ export type ListInvestigationGroupsError =
  * Returns the ARN and name of each investigation group in the account.
  */
 export const listInvestigationGroups: API.PaginatedOperationMethod<
-  ListInvestigationGroupsInput,
+  ListInvestigationGroupsInput & RegionInput,
   ListInvestigationGroupsOutput,
   ListInvestigationGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -488,7 +489,7 @@ export type ListTagsForResourceError =
  * Displays the tags associated with a CloudWatch investigations resource. Currently, investigation groups support tagging.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -527,7 +528,7 @@ export type PutInvestigationGroupPolicyError =
  * ` { "Version": "2008-10-17", "Statement": [ { "Effect": "Allow", "Principal": { "Service": "aiops.alarms.cloudwatch.amazonaws.com" }, "Action": [ "aiops:CreateInvestigation", "aiops:CreateInvestigationEvent" ], "Resource": "*", "Condition": { "StringEquals": { "aws:SourceAccount": "account-id" }, "ArnLike": { "aws:SourceArn": "arn:aws:cloudwatch:region:account-id:alarm:*" } } } ] } `
  */
 export const putInvestigationGroupPolicy: API.OperationMethod<
-  PutInvestigationGroupPolicyRequest,
+  PutInvestigationGroupPolicyRequest & RegionInput,
   PutInvestigationGroupPolicyResponse,
   PutInvestigationGroupPolicyError,
   Credentials | HttpClient.HttpClient
@@ -568,7 +569,7 @@ export type TagResourceError =
  * You can associate as many as 50 tags with a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -602,7 +603,7 @@ export type UntagResourceError =
  * Removes one or more tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -637,7 +638,7 @@ export type UpdateInvestigationGroupError =
  * Updates the configuration of the specified investigation group.
  */
 export const updateInvestigationGroup: API.OperationMethod<
-  UpdateInvestigationGroupRequest,
+  UpdateInvestigationGroupRequest & RegionInput,
   UpdateInvestigationGroupOutput,
   UpdateInvestigationGroupError,
   Credentials | HttpClient.HttpClient

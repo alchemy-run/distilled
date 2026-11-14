@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -110,7 +111,7 @@ export class InternalServerException
     "InternalServerException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class UnauthorizedException
   extends /*@__PURE__*/ S.TaggedError<UnauthorizedException>()(
     "UnauthorizedException",
@@ -149,7 +150,7 @@ export type GetBuyerDashboardError =
  * - It has a session lifetime of one hour. The 5-minute validity period runs separately from the session lifetime.
  */
 export const getBuyerDashboard: API.OperationMethod<
-  GetBuyerDashboardInput,
+  GetBuyerDashboardInput & RegionInput,
   GetBuyerDashboardOutput,
   GetBuyerDashboardError,
   Credentials | HttpClient.HttpClient

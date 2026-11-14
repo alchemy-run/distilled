@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -104,7 +105,7 @@ export class InternalServerException
     "InternalServerException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
@@ -122,7 +123,7 @@ export class ThrottlingException
     "ThrottlingException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
@@ -137,7 +138,7 @@ export type IdentitySource = { identityCenter: IdentityCenter };
 export type TagsMap = { [key: string]: string | undefined };
 export interface CreateApplicationRequest {
   identitySource: IdentitySource;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ApplicationArn = string;
 export interface CreateApplicationResponse {
@@ -146,8 +147,8 @@ export interface CreateApplicationResponse {
 export type UserId = string;
 export type GroupId = string;
 export type IdentityCenterPrincipal =
-  | { userId: string; groupId?: never }
-  | { userId?: never; groupId: string };
+  | { userId: string; groupId?: undefined }
+  | { userId?: undefined; groupId: string };
 export type Principal = { identityCenter: IdentityCenterPrincipal };
 export type RoleArn = string;
 export interface PrincipalRoleEntitlement {
@@ -177,7 +178,7 @@ export interface GetApplicationRequest {
 export type IdentityCenterApplicationArn = string;
 export interface IdentityCenterDetails {
   instanceArn: string;
-  applicationArn?: string;
+  applicationArn?: string | undefined;
 }
 export type IdentitySourceDetails = { identityCenter: IdentityCenterDetails };
 export type Status =
@@ -200,11 +201,11 @@ export interface ErrorDetails {
 export interface GetApplicationResponse {
   identitySource: IdentitySourceDetails;
   status: Status;
-  tenantId?: string;
+  tenantId?: string | undefined;
   createdAt: Date;
   updatedAt: Date;
-  tags?: { [key: string]: string | undefined };
-  error?: ErrorDetails;
+  tags?: { [key: string]: string | undefined } | undefined;
+  error?: ErrorDetails | undefined;
 }
 export interface GetEntitlementRequest {
   applicationArn: string;
@@ -215,7 +216,7 @@ export interface PrincipalRoleEntitlementDetails {
   principal: Principal;
   roleArn: string;
   account: string;
-  accountName?: string;
+  accountName?: string | undefined;
 }
 export type EntitlementDetails = { principalRole: PrincipalRoleEntitlementDetails };
 export interface GetEntitlementResponse {
@@ -225,43 +226,43 @@ export interface GetEntitlementResponse {
   createdAt: Date;
 }
 export interface ListApplicationsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ApplicationSummary {
   applicationArn: string;
-  tenantId?: string;
+  tenantId?: string | undefined;
   createdAt: Date;
   updatedAt: Date;
 }
 export type ApplicationList = ApplicationSummary[];
 export interface ListApplicationsResponse {
   applications: ApplicationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type IdentityCenterPrincipalFilter =
-  | { userId: string; groupId?: never }
-  | { userId?: never; groupId: string };
+  | { userId: string; groupId?: undefined }
+  | { userId?: undefined; groupId: string };
 export type PrincipalFilter = { identityCenter: IdentityCenterPrincipalFilter };
 export interface PrincipalRoleEntitlementFilter {
-  principal?: PrincipalFilter;
-  roleArn?: string;
-  account?: string;
+  principal?: PrincipalFilter | undefined;
+  roleArn?: string | undefined;
+  account?: string | undefined;
 }
 export interface EntitlementFilter {
-  principalRole?: PrincipalRoleEntitlementFilter;
+  principalRole?: PrincipalRoleEntitlementFilter | undefined;
 }
 export interface ListEntitlementsRequest {
   applicationArn: string;
   filter: EntitlementFilter;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface PrincipalRoleEntitlementSummary {
   principal: Principal;
   roleArn: string;
   account: string;
-  accountName?: string;
+  accountName?: string | undefined;
 }
 export type EntitlementSummary = { principalRole: PrincipalRoleEntitlementSummary };
 export interface EntitlementsListMember {
@@ -272,13 +273,13 @@ export interface EntitlementsListMember {
 export type EntitlementsList = EntitlementsListMember[];
 export interface ListEntitlementsResponse {
   entitlements: EntitlementsListMember[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -303,7 +304,7 @@ export type CreateApplicationError =
  * Creates an account access manager instance and its Amazon Web Services account access application in the associated IAM Identity Center instance. This operation is idempotent; calling it multiple times with the same parameters returns the existing application.
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationRequest,
+  CreateApplicationRequest & RegionInput,
   CreateApplicationResponse,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -338,7 +339,7 @@ export type CreateEntitlementError =
  * Creates an entitlement (assignment) in account access manager. An entitlement (assignment) grants a principal (IAM Identity Center user or group) permission to assume a specified IAM role in an Amazon Web Services account. This operation is idempotent.
  */
 export const createEntitlement: API.OperationMethod<
-  CreateEntitlementRequest,
+  CreateEntitlementRequest & RegionInput,
   CreateEntitlementResponse,
   CreateEntitlementError,
   Credentials | HttpClient.HttpClient
@@ -373,7 +374,7 @@ export type DeleteApplicationError =
  * Deletes an account access manager application. This operation is idempotent; deleting an application that has already been deleted does not return an error.
  */
 export const deleteApplication: API.OperationMethod<
-  DeleteApplicationRequest,
+  DeleteApplicationRequest & RegionInput,
   DeleteApplicationResponse,
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
@@ -407,7 +408,7 @@ export type DeleteEntitlementError =
  * Deletes an entitlement from an account access manager application. This operation is idempotent; deleting an entitlement that has already been deleted does not return an error.
  */
 export const deleteEntitlement: API.OperationMethod<
-  DeleteEntitlementRequest,
+  DeleteEntitlementRequest & RegionInput,
   DeleteEntitlementResponse,
   DeleteEntitlementError,
   Credentials | HttpClient.HttpClient
@@ -440,7 +441,7 @@ export type GetApplicationError =
  * Retrieves details about an account access manager application, including its status, identity source, and tags.
  */
 export const getApplication: API.OperationMethod<
-  GetApplicationRequest,
+  GetApplicationRequest & RegionInput,
   GetApplicationResponse,
   GetApplicationError,
   Credentials | HttpClient.HttpClient
@@ -472,7 +473,7 @@ export type GetEntitlementError =
  * Retrieves details about a specific entitlement for an account access manager application, including the principal, IAM role, and target account.
  */
 export const getEntitlement: API.OperationMethod<
-  GetEntitlementRequest,
+  GetEntitlementRequest & RegionInput,
   GetEntitlementResponse,
   GetEntitlementError,
   Credentials | HttpClient.HttpClient
@@ -503,7 +504,7 @@ export type ListApplicationsError =
  * Lists the account access manager applications in your account. Use pagination to ensure that the operation returns quickly and successfully.
  */
 export const listApplications: API.PaginatedOperationMethod<
-  ListApplicationsRequest,
+  ListApplicationsRequest & RegionInput,
   ListApplicationsResponse,
   ListApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -536,7 +537,7 @@ export type ListEntitlementsError =
  * Lists the entitlements for a specified account access manager application. You can filter results by principal, IAM role, or account. Use pagination to ensure that the operation returns quickly and successfully.
  */
 export const listEntitlements: API.PaginatedOperationMethod<
-  ListEntitlementsRequest,
+  ListEntitlementsRequest & RegionInput,
   ListEntitlementsResponse,
   ListEntitlementsError,
   Credentials | HttpClient.HttpClient,
@@ -569,7 +570,7 @@ export type ListTagsForResourceError =
  * Lists the tags associated with an account access manager resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -599,7 +600,7 @@ export type TagResourceError =
  * Adds tags to an account access manager resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -629,7 +630,7 @@ export type UntagResourceError =
  * Removes tags from an account access manager resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient

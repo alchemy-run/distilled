@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -148,7 +149,7 @@ export class ServiceException
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class TooManyRequestsException
   extends /*@__PURE__*/ S.TaggedError<TooManyRequestsException>()(
     "TooManyRequestsException",
@@ -163,7 +164,7 @@ export class TooManyRequestsException
       ),
     },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export type NetworkConnectorName = string;
 export type NetworkConnectorSubnetId = string;
 export type NetworkConnectorSubnetIds = string[];
@@ -173,10 +174,10 @@ export type NetworkProtocol = "IPv4" | "DualStack" | (string & {});
 export type ComputeResourceType = "MicroVm" | "WebFunction" | (string & {});
 export type AssociatedComputeResourceTypesList = ComputeResourceType[];
 export interface NetworkConnectorVpcEgressConfiguration {
-  SubnetIds?: string[];
-  SecurityGroupIds?: string[];
-  NetworkProtocol?: NetworkProtocol;
-  AssociatedComputeResourceTypes?: ComputeResourceType[];
+  SubnetIds?: string[] | undefined;
+  SecurityGroupIds?: string[] | undefined;
+  NetworkProtocol?: NetworkProtocol | undefined;
+  AssociatedComputeResourceTypes?: ComputeResourceType[] | undefined;
 }
 export type NetworkConnectorConfiguration = {
   VpcEgressConfiguration: NetworkConnectorVpcEgressConfiguration;
@@ -189,9 +190,9 @@ export type NetworkConnectorTags = { [key: string]: string | undefined };
 export interface CreateNetworkConnectorRequest {
   Name: string;
   Configuration: NetworkConnectorConfiguration;
-  OperatorRole?: string;
-  ClientToken?: string;
-  Tags?: { [key: string]: string | undefined };
+  OperatorRole?: string | undefined;
+  ClientToken?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type NetworkConnectorArn = string;
 export type NetworkConnectorId = string;
@@ -208,11 +209,11 @@ export interface CreateNetworkConnectorResponse {
   Arn: string;
   Name: string;
   Id: string;
-  VersionArn?: string;
-  Version?: number;
-  Configuration?: NetworkConnectorConfiguration;
-  OperatorRole?: string;
-  State?: NetworkConnectorState;
+  VersionArn?: string | undefined;
+  Version?: number | undefined;
+  Configuration?: NetworkConnectorConfiguration | undefined;
+  OperatorRole?: string | undefined;
+  State?: NetworkConnectorState | undefined;
 }
 export type NetworkConnectorIdentifier = string;
 export interface DeleteNetworkConnectorRequest {
@@ -222,11 +223,11 @@ export interface DeleteNetworkConnectorResponse {
   Arn: string;
   Name: string;
   Id: string;
-  VersionArn?: string;
-  Version?: number;
-  Configuration?: NetworkConnectorConfiguration;
-  OperatorRole?: string;
-  State?: NetworkConnectorState;
+  VersionArn?: string | undefined;
+  Version?: number | undefined;
+  Configuration?: NetworkConnectorConfiguration | undefined;
+  OperatorRole?: string | undefined;
+  State?: NetworkConnectorState | undefined;
 }
 export interface GetNetworkConnectorRequest {
   Identifier: string;
@@ -262,25 +263,25 @@ export interface GetNetworkConnectorResponse {
   Arn: string;
   Name: string;
   Id: string;
-  VersionArn?: string;
-  Version?: number;
-  LatestVersionArn?: string;
-  LatestVersion?: number;
-  Configuration?: NetworkConnectorConfiguration;
-  OperatorRole?: string;
-  State?: NetworkConnectorState;
-  StateReason?: string;
-  StateReasonCode?: NetworkConnectorStateReasonCode;
-  LastUpdateStatus?: NetworkConnectorLastUpdateStatus;
-  LastUpdateStatusReason?: string;
-  LastUpdateStatusReasonCode?: NetworkConnectorLastUpdateStatusReasonCode;
-  LastModified?: Date;
+  VersionArn?: string | undefined;
+  Version?: number | undefined;
+  LatestVersionArn?: string | undefined;
+  LatestVersion?: number | undefined;
+  Configuration?: NetworkConnectorConfiguration | undefined;
+  OperatorRole?: string | undefined;
+  State?: NetworkConnectorState | undefined;
+  StateReason?: string | undefined;
+  StateReasonCode?: NetworkConnectorStateReasonCode | undefined;
+  LastUpdateStatus?: NetworkConnectorLastUpdateStatus | undefined;
+  LastUpdateStatusReason?: string | undefined;
+  LastUpdateStatusReasonCode?: NetworkConnectorLastUpdateStatusReasonCode | undefined;
+  LastModified?: Date | undefined;
 }
 export type MaxHundredListItems = number;
 export interface ListNetworkConnectorsRequest {
-  State?: NetworkConnectorState;
-  Marker?: string;
-  MaxItems?: number;
+  State?: NetworkConnectorState | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export type NetworkConnectorType = "VPC_EGRESS" | (string & {});
 export interface NetworkConnectorSummary {
@@ -288,21 +289,21 @@ export interface NetworkConnectorSummary {
   Name: string;
   Id: string;
   Type: NetworkConnectorType;
-  State?: NetworkConnectorState;
-  LastModified?: Date;
-  LatestVersionArn?: string;
-  LatestVersion?: number;
+  State?: NetworkConnectorState | undefined;
+  LastModified?: Date | undefined;
+  LatestVersionArn?: string | undefined;
+  LatestVersion?: number | undefined;
 }
 export type NetworkConnectorsList = NetworkConnectorSummary[];
 export interface ListNetworkConnectorsResponse {
   NetworkConnectors: NetworkConnectorSummary[];
-  NextMarker?: string;
+  NextMarker?: string | undefined;
 }
 export interface ListNetworkConnectorVersionsRequest {
   Identifier: string;
-  State?: NetworkConnectorState;
-  Marker?: string;
-  MaxItems?: number;
+  State?: NetworkConnectorState | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface NetworkConnectorVersionSummary {
   Arn: string;
@@ -311,33 +312,33 @@ export interface NetworkConnectorVersionSummary {
   Id: string;
   Version: number;
   State: NetworkConnectorState;
-  StateReason?: string;
-  StateReasonCode?: NetworkConnectorStateReasonCode;
-  LastModified?: Date;
+  StateReason?: string | undefined;
+  StateReasonCode?: NetworkConnectorStateReasonCode | undefined;
+  LastModified?: Date | undefined;
 }
 export type NetworkConnectorVersionsList = NetworkConnectorVersionSummary[];
 export interface ListNetworkConnectorVersionsResponse {
   NetworkConnectorVersions: NetworkConnectorVersionSummary[];
-  NextMarker?: string;
+  NextMarker?: string | undefined;
 }
 export interface UpdateNetworkConnectorRequest {
   Identifier: string;
-  Configuration?: NetworkConnectorConfiguration;
-  OperatorRole?: string;
-  ClientToken?: string;
+  Configuration?: NetworkConnectorConfiguration | undefined;
+  OperatorRole?: string | undefined;
+  ClientToken?: string | undefined;
 }
 export interface UpdateNetworkConnectorResponse {
   Arn: string;
   Name: string;
   Id: string;
-  VersionArn?: string;
-  Version?: number;
-  OperatorRole?: string;
-  Configuration?: NetworkConnectorConfiguration;
-  State?: NetworkConnectorState;
-  LastUpdateStatus?: NetworkConnectorLastUpdateStatus;
-  LastUpdateStatusReason?: string;
-  LastModified?: Date;
+  VersionArn?: string | undefined;
+  Version?: number | undefined;
+  OperatorRole?: string | undefined;
+  Configuration?: NetworkConnectorConfiguration | undefined;
+  State?: NetworkConnectorState | undefined;
+  LastUpdateStatus?: NetworkConnectorLastUpdateStatus | undefined;
+  LastUpdateStatusReason?: string | undefined;
+  LastModified?: Date | undefined;
 }
 export type ThrottleReason =
   | "ConcurrentInvocationLimitExceeded"
@@ -363,7 +364,7 @@ export type CreateNetworkConnectorError =
  * This operation is idempotent when you provide a `ClientToken` -- if you retry a request that completed successfully using the same client token, the operation returns the existing connector without creating a duplicate.
  */
 export const createNetworkConnector: API.OperationMethod<
-  CreateNetworkConnectorRequest,
+  CreateNetworkConnectorRequest & RegionInput,
   CreateNetworkConnectorResponse,
   CreateNetworkConnectorError,
   Credentials | HttpClient.HttpClient
@@ -400,7 +401,7 @@ export type DeleteNetworkConnectorError =
  * Deleting with an unqualified identifier removes the connector and all of its versions. To remove a single historical version, supply its version-qualified ARN; the connector and its remaining versions are unaffected. You can't delete the latest version on its own -- delete the connector to remove it.
  */
 export const deleteNetworkConnector: API.OperationMethod<
-  DeleteNetworkConnectorRequest,
+  DeleteNetworkConnectorRequest & RegionInput,
   DeleteNetworkConnectorResponse,
   DeleteNetworkConnectorError,
   Credentials | HttpClient.HttpClient
@@ -433,7 +434,7 @@ export type GetNetworkConnectorError =
  * The response includes the full connector configuration, current state, and -- if the connector has been updated -- the `LastUpdateStatus` and `LastUpdateStatusReasonCode` fields that indicate whether the most recent update succeeded or failed.
  */
 export const getNetworkConnector: API.OperationMethod<
-  GetNetworkConnectorRequest,
+  GetNetworkConnectorRequest & RegionInput,
   GetNetworkConnectorResponse,
   GetNetworkConnectorError,
   Credentials | HttpClient.HttpClient
@@ -464,7 +465,7 @@ export type ListNetworkConnectorsError =
  * Each item in the response includes the connector ARN, name, ID, type, current state, and last modified timestamp. To retrieve full configuration details for a specific connector, use `GetNetworkConnector`.
  */
 export const listNetworkConnectors: API.PaginatedOperationMethod<
-  ListNetworkConnectorsRequest,
+  ListNetworkConnectorsRequest & RegionInput,
   ListNetworkConnectorsResponse,
   ListNetworkConnectorsError,
   Credentials | HttpClient.HttpClient,
@@ -498,7 +499,7 @@ export type ListNetworkConnectorVersionsError =
  * Each item in the response includes the version-qualified ARN, version number, current state, and last modified timestamp for that version. To retrieve the current (latest) configuration of the connector, use `GetNetworkConnector`; to inspect a specific version, call `GetNetworkConnector` with a version-qualified identifier.
  */
 export const listNetworkConnectorVersions: API.PaginatedOperationMethod<
-  ListNetworkConnectorVersionsRequest,
+  ListNetworkConnectorVersionsRequest & RegionInput,
   ListNetworkConnectorVersionsResponse,
   ListNetworkConnectorVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -542,7 +543,7 @@ export type UpdateNetworkConnectorError =
  * Each successful configuration change creates a new immutable version. A connector can have a limited number of versions; once that limit is reached, further updates fail with `NetworkConnectorLimitExceededException` until you delete older versions.
  */
 export const updateNetworkConnector: API.OperationMethod<
-  UpdateNetworkConnectorRequest,
+  UpdateNetworkConnectorRequest & RegionInput,
   UpdateNetworkConnectorResponse,
   UpdateNetworkConnectorError,
   Credentials | HttpClient.HttpClient

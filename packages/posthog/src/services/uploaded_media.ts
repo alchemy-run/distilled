@@ -52,27 +52,39 @@ export class NotFound
   ) {}
 
 /** Library to add this image to. Omit to upload without joining a library (as dashboard text cards and notebooks do). */
-export type CreateUploadedMediaRequestPurpose = "email" | "canvas";
+export type CreateUploadedMediaRequestPurpose = "email" | "canvas" | "experiment";
 export interface CreateUploadedMediaRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Image file. Must be under 4MB and a real, decodable image. */
   image: string;
   /** Library to add this image to. Omit to upload without joining a library (as dashboard text cards and notebooks do). */
-  purpose?: CreateUploadedMediaRequestPurpose | (string & {});
+  purpose?: CreateUploadedMediaRequestPurpose | (string & {}) | undefined;
 }
-export type CreateUploadedMediaResponseBodyMap = { [key: string]: unknown | undefined };
-export type CreateUploadedMediaResponse = CreateUploadedMediaResponseBodyMap;
-export type ListUploadedMediaRequestPurpose = "canvas" | "email";
+export interface UploadedMediaCreated {
+  /** Id of the uploaded image. */
+  id: string;
+  /** Permanent, public URL of the image. For emails, put this in an image block's values.src.url. */
+  image_location: string;
+  /** The file's original name. */
+  name: string;
+  /** Width in pixels. */
+  width: number;
+  /** Height in pixels. */
+  height: number;
+}
+export type ListUploadedMediaRequestPurpose = "canvas" | "email" | "experiment";
 export interface ListUploadedMediaRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** The library to list. */
   purpose: ListUploadedMediaRequestPurpose | (string & {});
+  /** Only list images whose name contains this text, ignoring case. */
+  search?: string | undefined;
 }
 export interface UploadedMedia2 {
   id: string;
@@ -81,6 +93,10 @@ export interface UploadedMedia2 {
   purpose: string | null;
   content_type: string | null;
   size_bytes: number | null;
+  /** Width in pixels. Null for images uploaded before it was recorded. */
+  width: number | null;
+  /** Height in pixels. Null for images uploaded before it was recorded. */
+  height: number | null;
   /** Permanent, public URL of the image. For emails, put this in an image block's values.src.url. */
   url: string;
   created_at: string;
@@ -88,8 +104,8 @@ export interface UploadedMedia2 {
 export type PaginatedUploadedMediaListResultsList = Array<UploadedMedia2>;
 export interface PaginatedUploadedMediaList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedUploadedMediaListResultsList;
 }
 export interface UploadedMediaCompleteUploadCreateRequest {
@@ -98,6 +114,13 @@ export interface UploadedMediaCompleteUploadCreateRequest {
   /** A UUID string identifying this uploaded media. */
   id: string;
 }
+export interface UploadedMediaDestroyRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this uploaded media. */
+  id: string;
+}
+export interface UploadedMediaDestroyResponse {}
 export interface UploadedMediaStartUploadCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -122,12 +145,12 @@ export type CreateUploadedMediaError = Forbidden | NotFound | PosthogOpError;
 /** When object storage is available this API allows upload of media which can be used, for example, in text cards on dashboards. Uploaded media must be less than 4MB and decode as a PNG, JPEG, GIF, WebP, AVIF or BMP image -- the formats the download route will serve inline. Pass `purpose` to also add the image to a library, making it visible to `GET ?purpose=...`. */
 export const createUploadedMedia: API.OperationMethod<
   CreateUploadedMediaRequest,
-  CreateUploadedMediaResponse,
+  UploadedMediaCreated,
   CreateUploadedMediaError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateUploadedMediaRequest>,
-  output: __S(2, __c0, 2) as any as S.Schema<CreateUploadedMediaResponse>,
+  output: __S(1, __c0, 1) as any as S.Schema<UploadedMediaCreated>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -169,6 +192,23 @@ export const uploadedMediaCompleteUploadCreate: API.OperationMethod<
   span: "UploadedMediaCompleteUploadCreate",
 }));
 
+export type UploadedMediaDestroyError = NotFound | PosthogOpError;
+/** Remove an image from its media library. It stops appearing in the library list, but its URL keeps working, so content that already uses it (a sent email, a live template) is not broken. */
+export const uploadedMediaDestroy: API.OperationMethod<
+  UploadedMediaDestroyRequest,
+  UploadedMediaDestroyResponse,
+  UploadedMediaDestroyError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(16, __c4, 0) as any as S.Schema<UploadedMediaDestroyRequest>,
+  output: __S(17, __c4, 1) as any as S.Schema<UploadedMediaDestroyResponse>,
+  errors: [NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadedMediaDestroy",
+}));
+
 export type UploadedMediaStartUploadCreateError = BadRequest | PosthogOpError;
 /** Step 1 of the presigned upload flow: reserves a pending image and returns a presigned URL to POST the file to directly, bytes never pass through this API. Call complete_upload with the returned id once the upload finishes. */
 export const uploadedMediaStartUploadCreate: API.OperationMethod<
@@ -177,8 +217,8 @@ export const uploadedMediaStartUploadCreate: API.OperationMethod<
   UploadedMediaStartUploadCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<UploadedMediaStartUploadCreateRequest>,
-  output: __S(18, __c4, 2) as any as S.Schema<UploadedMediaUploadStarted>,
+  input: __S(20, __c5, 0) as any as S.Schema<UploadedMediaStartUploadCreateRequest>,
+  output: __S(22, __c5, 2) as any as S.Schema<UploadedMediaUploadStarted>,
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -205,11 +245,15 @@ function __c0(j: number): any {
         ),
       ).annotate({ identifier: "CreateUploadedMediaRequest" });
     case 1:
-      return S.Record(S.String, S.Unknown);
-    case 2:
-      return S.suspend(() => __S(1, __c0, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "CreateUploadedMediaResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          image_location: S.String,
+          name: S.String,
+          width: S.Number,
+          height: S.Number,
+        }),
+      ).annotate({ identifier: "UploadedMediaCreated" });
   }
 }
 function __c1(j: number): any {
@@ -221,6 +265,7 @@ function __c1(j: number): any {
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
           purpose: S.String.pipe(T.Query()),
+          search: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({ method: "GET", uri: "/api/projects/{project_id}/uploaded_media/", code: 200 }),
         ),
@@ -248,6 +293,8 @@ function __c2(j: number): any {
           purpose: S.NullOr(S.String),
           content_type: S.NullOr(S.String),
           size_bytes: S.NullOr(S.Number),
+          width: S.NullOr(S.Number),
+          height: S.NullOr(S.Number),
           url: S.String,
           created_at: S.String,
         }),
@@ -277,6 +324,25 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/projects/{project_id}/uploaded_media/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UploadedMediaDestroyRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "UploadedMediaDestroyResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
           name: S.String,
           purpose: S.String,
         }).pipe(
@@ -294,7 +360,7 @@ function __c4(j: number): any {
         S.Struct({
           id: S.String,
           upload_url: S.String,
-          form_fields: __S(17, __c4, 1),
+          form_fields: __S(21, __c5, 1),
           expires_in: S.Number,
         }),
       ).annotate({ identifier: "UploadedMediaUploadStarted" });

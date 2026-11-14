@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -102,7 +103,7 @@ export class GatewayTimeoutException
     "GatewayTimeoutException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(504),
-  ).pipe(C.withTimeoutError) {}
+  ).pipe(C.withTimeoutError, C.withRetryableError) {}
 export class NotFoundException
   extends /*@__PURE__*/ S.TaggedError<NotFoundException>()(
     "NotFoundException",
@@ -120,35 +121,35 @@ export class TooManyRequestsException
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export interface CloneBackendRequest {
   AppId: string;
   BackendEnvironmentName: string;
-  TargetEnvironmentName?: string;
+  TargetEnvironmentName?: string | undefined;
 }
 export interface CloneBackendResponse {
-  AppId?: string;
-  BackendEnvironmentName?: string;
-  Error?: string;
-  JobId?: string;
-  Operation?: string;
-  Status?: string;
+  AppId?: string | undefined;
+  BackendEnvironmentName?: string | undefined;
+  Error?: string | undefined;
+  JobId?: string | undefined;
+  Operation?: string | undefined;
+  Status?: string | undefined;
 }
 export interface ResourceConfig {}
 export interface CreateBackendRequest {
-  AppId?: string;
-  AppName?: string;
-  BackendEnvironmentName?: string;
-  ResourceConfig?: ResourceConfig;
-  ResourceName?: string;
+  AppId?: string | undefined;
+  AppName?: string | undefined;
+  BackendEnvironmentName?: string | undefined;
+  ResourceConfig?: ResourceConfig | undefined;
+  ResourceName?: string | undefined;
 }
 export interface CreateBackendResponse {
-  AppId?: string;
-  BackendEnvironmentName?: string;
-  Error?: string;
-  JobId?: string;
-  Operation?: string;
-  Status?: string;
+  AppId?: string | undefined;
+  BackendEnvironmentName?: string | undefined;
+  Error?: string | undefined;
+  JobId?: string | undefined;
+  Operation?: string | undefined;
+  Status?: string | undefined;
 }
 export type Mode =
   | "API_KEY"
@@ -157,18 +158,18 @@ export type Mode =
   | "OPENID_CONNECT"
   | (string & {});
 export interface BackendAPIAppSyncAuthSettings {
-  CognitoUserPoolId?: string;
-  Description?: string;
-  ExpirationTime?: number;
-  OpenIDAuthTTL?: string;
-  OpenIDClientId?: string;
-  OpenIDIatTTL?: string;
-  OpenIDIssueURL?: string;
-  OpenIDProviderName?: string;
+  CognitoUserPoolId?: string | undefined;
+  Description?: string | undefined;
+  ExpirationTime?: number | undefined;
+  OpenIDAuthTTL?: string | undefined;
+  OpenIDClientId?: string | undefined;
+  OpenIDIatTTL?: string | undefined;
+  OpenIDIssueURL?: string | undefined;
+  OpenIDProviderName?: string | undefined;
 }
 export interface BackendAPIAuthType {
-  Mode?: Mode;
-  Settings?: BackendAPIAppSyncAuthSettings;
+  Mode?: Mode | undefined;
+  Settings?: BackendAPIAppSyncAuthSettings | undefined;
 }
 export type ListOfBackendAPIAuthType = BackendAPIAuthType[];
 export type ResolutionStrategy =
@@ -178,59 +179,59 @@ export type ResolutionStrategy =
   | "NONE"
   | (string & {});
 export interface BackendAPIConflictResolution {
-  ResolutionStrategy?: ResolutionStrategy;
+  ResolutionStrategy?: ResolutionStrategy | undefined;
 }
 export interface BackendAPIResourceConfig {
-  AdditionalAuthTypes?: BackendAPIAuthType[];
-  ApiName?: string;
-  ConflictResolution?: BackendAPIConflictResolution;
-  DefaultAuthType?: BackendAPIAuthType;
-  Service?: string;
-  TransformSchema?: string;
+  AdditionalAuthTypes?: BackendAPIAuthType[] | undefined;
+  ApiName?: string | undefined;
+  ConflictResolution?: BackendAPIConflictResolution | undefined;
+  DefaultAuthType?: BackendAPIAuthType | undefined;
+  Service?: string | undefined;
+  TransformSchema?: string | undefined;
 }
 export interface CreateBackendAPIRequest {
   AppId: string;
-  BackendEnvironmentName?: string;
-  ResourceConfig?: BackendAPIResourceConfig;
-  ResourceName?: string;
+  BackendEnvironmentName?: string | undefined;
+  ResourceConfig?: BackendAPIResourceConfig | undefined;
+  ResourceName?: string | undefined;
 }
 export interface CreateBackendAPIResponse {
-  AppId?: string;
-  BackendEnvironmentName?: string;
-  Error?: string;
-  JobId?: string;
-  Operation?: string;
-  Status?: string;
+  AppId?: string | undefined;
+  BackendEnvironmentName?: string | undefined;
+  Error?: string | undefined;
+  JobId?: string | undefined;
+  Operation?: string | undefined;
+  Status?: string | undefined;
 }
 export type AuthResources = "USER_POOL_ONLY" | "IDENTITY_POOL_AND_USER_POOL" | (string & {});
 export interface CreateBackendAuthIdentityPoolConfig {
-  IdentityPoolName?: string;
-  UnauthenticatedLogin?: boolean;
+  IdentityPoolName?: string | undefined;
+  UnauthenticatedLogin?: boolean | undefined;
 }
 export type Service = "COGNITO" | (string & {});
 export type DeliveryMethod = "EMAIL" | "SMS" | (string & {});
 export interface EmailSettings {
-  EmailMessage?: string;
-  EmailSubject?: string;
+  EmailMessage?: string | undefined;
+  EmailSubject?: string | undefined;
 }
 export interface SmsSettings {
-  SmsMessage?: string;
+  SmsMessage?: string | undefined;
 }
 export interface CreateBackendAuthForgotPasswordConfig {
-  DeliveryMethod?: DeliveryMethod;
-  EmailSettings?: EmailSettings;
-  SmsSettings?: SmsSettings;
+  DeliveryMethod?: DeliveryMethod | undefined;
+  EmailSettings?: EmailSettings | undefined;
+  SmsSettings?: SmsSettings | undefined;
 }
 export type MFAMode = "ON" | "OFF" | "OPTIONAL" | (string & {});
 export type MfaTypesElement = "SMS" | "TOTP" | (string & {});
 export type ListOfMfaTypesElement = MfaTypesElement[];
 export interface Settings {
-  MfaTypes?: MfaTypesElement[];
-  SmsMessage?: string;
+  MfaTypes?: MfaTypesElement[] | undefined;
+  SmsMessage?: string | undefined;
 }
 export interface CreateBackendAuthMFAConfig {
-  MFAMode?: MFAMode;
-  Settings?: Settings;
+  MFAMode?: MFAMode | undefined;
+  Settings?: Settings | undefined;
 }
 export type OAuthGrantType = "CODE" | "IMPLICIT" | (string & {});
 export type OAuthScopesElement =
@@ -243,28 +244,28 @@ export type OAuthScopesElement =
 export type ListOfOAuthScopesElement = OAuthScopesElement[];
 export type ListOf__string = string[];
 export interface BackendAuthSocialProviderConfig {
-  ClientId?: string;
-  ClientSecret?: string;
+  ClientId?: string | undefined;
+  ClientSecret?: string | undefined;
 }
 export interface BackendAuthAppleProviderConfig {
-  ClientId?: string;
-  KeyId?: string;
-  PrivateKey?: string;
-  TeamId?: string;
+  ClientId?: string | undefined;
+  KeyId?: string | undefined;
+  PrivateKey?: string | undefined;
+  TeamId?: string | undefined;
 }
 export interface SocialProviderSettings {
-  Facebook?: BackendAuthSocialProviderConfig;
-  Google?: BackendAuthSocialProviderConfig;
-  LoginWithAmazon?: BackendAuthSocialProviderConfig;
-  SignInWithApple?: BackendAuthAppleProviderConfig;
+  Facebook?: BackendAuthSocialProviderConfig | undefined;
+  Google?: BackendAuthSocialProviderConfig | undefined;
+  LoginWithAmazon?: BackendAuthSocialProviderConfig | undefined;
+  SignInWithApple?: BackendAuthAppleProviderConfig | undefined;
 }
 export interface CreateBackendAuthOAuthConfig {
-  DomainPrefix?: string;
-  OAuthGrantType?: OAuthGrantType;
-  OAuthScopes?: OAuthScopesElement[];
-  RedirectSignInURIs?: string[];
-  RedirectSignOutURIs?: string[];
-  SocialProviderSettings?: SocialProviderSettings;
+  DomainPrefix?: string | undefined;
+  OAuthGrantType?: OAuthGrantType | undefined;
+  OAuthScopes?: OAuthScopesElement[] | undefined;
+  RedirectSignInURIs?: string[] | undefined;
+  RedirectSignOutURIs?: string[] | undefined;
+  SocialProviderSettings?: SocialProviderSettings | undefined;
 }
 export type AdditionalConstraintsElement =
   | "REQUIRE_DIGIT"
@@ -274,8 +275,8 @@ export type AdditionalConstraintsElement =
   | (string & {});
 export type ListOfAdditionalConstraintsElement = AdditionalConstraintsElement[];
 export interface CreateBackendAuthPasswordPolicyConfig {
-  AdditionalConstraints?: AdditionalConstraintsElement[];
-  MinimumLength?: number;
+  AdditionalConstraints?: AdditionalConstraintsElement[] | undefined;
+  MinimumLength?: number | undefined;
 }
 export type RequiredSignUpAttributesElement =
   | "ADDRESS"
@@ -304,228 +305,232 @@ export type SignInMethod =
   | "USERNAME"
   | (string & {});
 export interface CreateBackendAuthVerificationMessageConfig {
-  DeliveryMethod?: DeliveryMethod;
-  EmailSettings?: EmailSettings;
-  SmsSettings?: SmsSettings;
+  DeliveryMethod?: DeliveryMethod | undefined;
+  EmailSettings?: EmailSettings | undefined;
+  SmsSettings?: SmsSettings | undefined;
 }
 export interface CreateBackendAuthUserPoolConfig {
-  ForgotPassword?: CreateBackendAuthForgotPasswordConfig;
-  Mfa?: CreateBackendAuthMFAConfig;
-  OAuth?: CreateBackendAuthOAuthConfig;
-  PasswordPolicy?: CreateBackendAuthPasswordPolicyConfig;
-  RequiredSignUpAttributes?: RequiredSignUpAttributesElement[];
-  SignInMethod?: SignInMethod;
-  UserPoolName?: string;
-  VerificationMessage?: CreateBackendAuthVerificationMessageConfig;
+  ForgotPassword?: CreateBackendAuthForgotPasswordConfig | undefined;
+  Mfa?: CreateBackendAuthMFAConfig | undefined;
+  OAuth?: CreateBackendAuthOAuthConfig | undefined;
+  PasswordPolicy?: CreateBackendAuthPasswordPolicyConfig | undefined;
+  RequiredSignUpAttributes?: RequiredSignUpAttributesElement[] | undefined;
+  SignInMethod?: SignInMethod | undefined;
+  UserPoolName?: string | undefined;
+  VerificationMessage?: CreateBackendAuthVerificationMessageConfig | undefined;
 }
 export interface CreateBackendAuthResourceConfig {
-  AuthResources?: AuthResources;
-  IdentityPoolConfigs?: CreateBackendAuthIdentityPoolConfig;
-  Service?: Service;
-  UserPoolConfigs?: CreateBackendAuthUserPoolConfig;
+  AuthResources?: AuthResources | undefined;
+  IdentityPoolConfigs?: CreateBackendAuthIdentityPoolConfig | undefined;
+  Service?: Service | undefined;
+  UserPoolConfigs?: CreateBackendAuthUserPoolConfig | undefined;
 }
 export interface CreateBackendAuthRequest {
   AppId: string;
-  BackendEnvironmentName?: string;
-  ResourceConfig?: CreateBackendAuthResourceConfig;
-  ResourceName?: string;
+  BackendEnvironmentName?: string | undefined;
+  ResourceConfig?: CreateBackendAuthResourceConfig | undefined;
+  ResourceName?: string | undefined;
 }
 export interface CreateBackendAuthResponse {
-  AppId?: string;
-  BackendEnvironmentName?: string;
-  Error?: string;
-  JobId?: string;
-  Operation?: string;
-  Status?: string;
+  AppId?: string | undefined;
+  BackendEnvironmentName?: string | undefined;
+  Error?: string | undefined;
+  JobId?: string | undefined;
+  Operation?: string | undefined;
+  Status?: string | undefined;
 }
 export interface CreateBackendConfigRequest {
   AppId: string;
-  BackendManagerAppId?: string;
+  BackendManagerAppId?: string | undefined;
 }
 export interface CreateBackendConfigResponse {
-  AppId?: string;
-  BackendEnvironmentName?: string;
-  JobId?: string;
-  Status?: string;
+  AppId?: string | undefined;
+  BackendEnvironmentName?: string | undefined;
+  JobId?: string | undefined;
+  Status?: string | undefined;
 }
 export type AuthenticatedElement = "READ" | "CREATE_AND_UPDATE" | "DELETE" | (string & {});
 export type ListOfAuthenticatedElement = AuthenticatedElement[];
 export type UnAuthenticatedElement = "READ" | "CREATE_AND_UPDATE" | "DELETE" | (string & {});
 export type ListOfUnAuthenticatedElement = UnAuthenticatedElement[];
 export interface BackendStoragePermissions {
-  Authenticated?: AuthenticatedElement[];
-  UnAuthenticated?: UnAuthenticatedElement[];
+  Authenticated?: AuthenticatedElement[] | undefined;
+  UnAuthenticated?: UnAuthenticatedElement[] | undefined;
 }
 export type ServiceName = "S3" | (string & {});
 export interface CreateBackendStorageResourceConfig {
-  BucketName?: string;
-  Permissions?: BackendStoragePermissions;
-  ServiceName?: ServiceName;
+  BucketName?: string | undefined;
+  Permissions?: BackendStoragePermissions | undefined;
+  ServiceName?: ServiceName | undefined;
 }
 export interface CreateBackendStorageRequest {
   AppId: string;
-  BackendEnvironmentName?: string;
-  ResourceConfig?: CreateBackendStorageResourceConfig;
-  ResourceName?: string;
+  BackendEnvironmentName?: string | undefined;
+  ResourceConfig?: CreateBackendStorageResourceConfig | undefined;
+  ResourceName?: string | undefined;
 }
 export interface CreateBackendStorageResponse {
-  AppId?: string;
-  BackendEnvironmentName?: string;
-  JobId?: string;
-  Status?: string;
+  AppId?: string | undefined;
+  BackendEnvironmentName?: string | undefined;
+  JobId?: string | undefined;
+  Status?: string | undefined;
 }
 export interface CreateTokenRequest {
   AppId: string;
 }
 export interface CreateTokenResponse {
-  AppId?: string;
-  ChallengeCode?: string;
-  SessionId?: string;
-  Ttl?: string;
+  AppId?: string | undefined;
+  ChallengeCode?: string | undefined;
+  SessionId?: string | undefined;
+  Ttl?: string | undefined;
 }
 export interface DeleteBackendRequest {
   AppId: string;
   BackendEnvironmentName: string;
 }
 export interface DeleteBackendResponse {
-  AppId?: string;
-  BackendEnvironmentName?: string;
-  Error?: string;
-  JobId?: string;
-  Operation?: string;
-  Status?: string;
+  AppId?: string | undefined;
+  BackendEnvironmentName?: string | undefined;
+  Error?: string | undefined;
+  JobId?: string | undefined;
+  Operation?: string | undefined;
+  Status?: string | undefined;
 }
 export interface DeleteBackendAPIRequest {
   AppId: string;
   BackendEnvironmentName: string;
-  ResourceConfig?: BackendAPIResourceConfig;
-  ResourceName?: string;
+  ResourceConfig?: BackendAPIResourceConfig | undefined;
+  ResourceName?: string | undefined;
 }
 export interface DeleteBackendAPIResponse {
-  AppId?: string;
-  BackendEnvironmentName?: string;
-  Error?: string;
-  JobId?: string;
-  Operation?: string;
-  Status?: string;
+  AppId?: string | undefined;
+  BackendEnvironmentName?: string | undefined;
+  Error?: string | undefined;
+  JobId?: string | undefined;
+  Operation?: string | undefined;
+  Status?: string | undefined;
 }
 export interface DeleteBackendAuthRequest {
   AppId: string;
   BackendEnvironmentName: string;
-  ResourceName?: string;
+  ResourceName?: string | undefined;
 }
 export interface DeleteBackendAuthResponse {
-  AppId?: string;
-  BackendEnvironmentName?: string;
-  Error?: string;
-  JobId?: string;
-  Operation?: string;
-  Status?: string;
+  AppId?: string | undefined;
+  BackendEnvironmentName?: string | undefined;
+  Error?: string | undefined;
+  JobId?: string | undefined;
+  Operation?: string | undefined;
+  Status?: string | undefined;
 }
 export interface DeleteBackendStorageRequest {
   AppId: string;
   BackendEnvironmentName: string;
-  ResourceName?: string;
-  ServiceName?: ServiceName;
+  ResourceName?: string | undefined;
+  ServiceName?: ServiceName | undefined;
 }
 export interface DeleteBackendStorageResponse {
-  AppId?: string;
-  BackendEnvironmentName?: string;
-  JobId?: string;
-  Status?: string;
+  AppId?: string | undefined;
+  BackendEnvironmentName?: string | undefined;
+  JobId?: string | undefined;
+  Status?: string | undefined;
 }
 export interface DeleteTokenRequest {
   AppId: string;
   SessionId: string;
 }
 export interface DeleteTokenResponse {
-  IsSuccess?: boolean;
+  IsSuccess?: boolean | undefined;
 }
 export interface GenerateBackendAPIModelsRequest {
   AppId: string;
   BackendEnvironmentName: string;
-  ResourceName?: string;
+  ResourceName?: string | undefined;
 }
 export interface GenerateBackendAPIModelsResponse {
-  AppId?: string;
-  BackendEnvironmentName?: string;
-  Error?: string;
-  JobId?: string;
-  Operation?: string;
-  Status?: string;
+  AppId?: string | undefined;
+  BackendEnvironmentName?: string | undefined;
+  Error?: string | undefined;
+  JobId?: string | undefined;
+  Operation?: string | undefined;
+  Status?: string | undefined;
 }
 export interface GetBackendRequest {
   AppId: string;
-  BackendEnvironmentName?: string;
+  BackendEnvironmentName?: string | undefined;
 }
 export interface GetBackendResponse {
-  AmplifyFeatureFlags?: string;
-  AmplifyMetaConfig?: string;
-  AppId?: string;
-  AppName?: string;
-  BackendEnvironmentList?: string[];
-  BackendEnvironmentName?: string;
-  Error?: string;
+  AmplifyFeatureFlags?: string | undefined;
+  AmplifyMetaConfig?: string | undefined;
+  AppId?: string | undefined;
+  AppName?: string | undefined;
+  BackendEnvironmentList?: string[] | undefined;
+  BackendEnvironmentName?: string | undefined;
+  Error?: string | undefined;
 }
 export interface GetBackendAPIRequest {
   AppId: string;
   BackendEnvironmentName: string;
-  ResourceConfig?: BackendAPIResourceConfig;
-  ResourceName?: string;
+  ResourceConfig?: BackendAPIResourceConfig | undefined;
+  ResourceName?: string | undefined;
 }
 export interface GetBackendAPIResponse {
-  AppId?: string;
-  BackendEnvironmentName?: string;
-  Error?: string;
-  ResourceConfig?: BackendAPIResourceConfig;
-  ResourceName?: string;
+  AppId?: string | undefined;
+  BackendEnvironmentName?: string | undefined;
+  Error?: string | undefined;
+  ResourceConfig?: BackendAPIResourceConfig | undefined;
+  ResourceName?: string | undefined;
 }
 export interface GetBackendAPIModelsRequest {
   AppId: string;
   BackendEnvironmentName: string;
-  ResourceName?: string;
+  ResourceName?: string | undefined;
 }
 export type Status = "LATEST" | "STALE" | (string & {});
 export interface GetBackendAPIModelsResponse {
-  Models?: string;
-  Status?: Status;
-  ModelIntrospectionSchema?: string;
+  Models?: string | undefined;
+  Status?: Status | undefined;
+  ModelIntrospectionSchema?: string | undefined;
 }
 export interface GetBackendAuthRequest {
   AppId: string;
   BackendEnvironmentName: string;
-  ResourceName?: string;
+  ResourceName?: string | undefined;
 }
 export interface GetBackendAuthResponse {
-  AppId?: string;
-  BackendEnvironmentName?: string;
-  Error?: string;
-  ResourceConfig?: CreateBackendAuthResourceConfig & {
-    AuthResources: AuthResources;
-    Service: Service;
-    UserPoolConfigs: CreateBackendAuthUserPoolConfig & {
-      RequiredSignUpAttributes: ListOfRequiredSignUpAttributesElement;
-      SignInMethod: SignInMethod;
-      UserPoolName: string;
-      ForgotPassword: CreateBackendAuthForgotPasswordConfig & { DeliveryMethod: DeliveryMethod };
-      Mfa: CreateBackendAuthMFAConfig & { MFAMode: MFAMode };
-      OAuth: CreateBackendAuthOAuthConfig & {
-        OAuthGrantType: OAuthGrantType;
-        OAuthScopes: ListOfOAuthScopesElement;
-        RedirectSignInURIs: ListOf__string;
-        RedirectSignOutURIs: ListOf__string;
-      };
-      PasswordPolicy: CreateBackendAuthPasswordPolicyConfig & { MinimumLength: number };
-      VerificationMessage: CreateBackendAuthVerificationMessageConfig & {
-        DeliveryMethod: DeliveryMethod;
-      };
-    };
-    IdentityPoolConfigs: CreateBackendAuthIdentityPoolConfig & {
-      IdentityPoolName: string;
-      UnauthenticatedLogin: boolean;
-    };
-  };
-  ResourceName?: string;
+  AppId?: string | undefined;
+  BackendEnvironmentName?: string | undefined;
+  Error?: string | undefined;
+  ResourceConfig?:
+    | (CreateBackendAuthResourceConfig & {
+        AuthResources: AuthResources;
+        Service: Service;
+        UserPoolConfigs: CreateBackendAuthUserPoolConfig & {
+          RequiredSignUpAttributes: ListOfRequiredSignUpAttributesElement;
+          SignInMethod: SignInMethod;
+          UserPoolName: string;
+          ForgotPassword: CreateBackendAuthForgotPasswordConfig & {
+            DeliveryMethod: DeliveryMethod;
+          };
+          Mfa: CreateBackendAuthMFAConfig & { MFAMode: MFAMode };
+          OAuth: CreateBackendAuthOAuthConfig & {
+            OAuthGrantType: OAuthGrantType;
+            OAuthScopes: ListOfOAuthScopesElement;
+            RedirectSignInURIs: ListOf__string;
+            RedirectSignOutURIs: ListOf__string;
+          };
+          PasswordPolicy: CreateBackendAuthPasswordPolicyConfig & { MinimumLength: number };
+          VerificationMessage: CreateBackendAuthVerificationMessageConfig & {
+            DeliveryMethod: DeliveryMethod;
+          };
+        };
+        IdentityPoolConfigs: CreateBackendAuthIdentityPoolConfig & {
+          IdentityPoolName: string;
+          UnauthenticatedLogin: boolean;
+        };
+      })
+    | undefined;
+  ResourceName?: string | undefined;
 }
 export interface GetBackendJobRequest {
   AppId: string;
@@ -533,246 +538,248 @@ export interface GetBackendJobRequest {
   JobId: string;
 }
 export interface GetBackendJobResponse {
-  AppId?: string;
-  BackendEnvironmentName?: string;
-  CreateTime?: string;
-  Error?: string;
-  JobId?: string;
-  Operation?: string;
-  Status?: string;
-  UpdateTime?: string;
+  AppId?: string | undefined;
+  BackendEnvironmentName?: string | undefined;
+  CreateTime?: string | undefined;
+  Error?: string | undefined;
+  JobId?: string | undefined;
+  Operation?: string | undefined;
+  Status?: string | undefined;
+  UpdateTime?: string | undefined;
 }
 export interface GetBackendStorageRequest {
   AppId: string;
   BackendEnvironmentName: string;
-  ResourceName?: string;
+  ResourceName?: string | undefined;
 }
 export interface GetBackendStorageResourceConfig {
-  BucketName?: string;
-  Imported?: boolean;
-  Permissions?: BackendStoragePermissions;
-  ServiceName?: ServiceName;
+  BucketName?: string | undefined;
+  Imported?: boolean | undefined;
+  Permissions?: BackendStoragePermissions | undefined;
+  ServiceName?: ServiceName | undefined;
 }
 export interface GetBackendStorageResponse {
-  AppId?: string;
-  BackendEnvironmentName?: string;
-  ResourceConfig?: GetBackendStorageResourceConfig & {
-    Imported: boolean;
-    ServiceName: ServiceName;
-    Permissions: BackendStoragePermissions & { Authenticated: ListOfAuthenticatedElement };
-  };
-  ResourceName?: string;
+  AppId?: string | undefined;
+  BackendEnvironmentName?: string | undefined;
+  ResourceConfig?:
+    | (GetBackendStorageResourceConfig & {
+        Imported: boolean;
+        ServiceName: ServiceName;
+        Permissions: BackendStoragePermissions & { Authenticated: ListOfAuthenticatedElement };
+      })
+    | undefined;
+  ResourceName?: string | undefined;
 }
 export interface GetTokenRequest {
   AppId: string;
   SessionId: string;
 }
 export interface GetTokenResponse {
-  AppId?: string;
-  ChallengeCode?: string;
-  SessionId?: string;
-  Ttl?: string;
+  AppId?: string | undefined;
+  ChallengeCode?: string | undefined;
+  SessionId?: string | undefined;
+  Ttl?: string | undefined;
 }
 export interface ImportBackendAuthRequest {
   AppId: string;
   BackendEnvironmentName: string;
-  IdentityPoolId?: string;
-  NativeClientId?: string;
-  UserPoolId?: string;
-  WebClientId?: string;
+  IdentityPoolId?: string | undefined;
+  NativeClientId?: string | undefined;
+  UserPoolId?: string | undefined;
+  WebClientId?: string | undefined;
 }
 export interface ImportBackendAuthResponse {
-  AppId?: string;
-  BackendEnvironmentName?: string;
-  Error?: string;
-  JobId?: string;
-  Operation?: string;
-  Status?: string;
+  AppId?: string | undefined;
+  BackendEnvironmentName?: string | undefined;
+  Error?: string | undefined;
+  JobId?: string | undefined;
+  Operation?: string | undefined;
+  Status?: string | undefined;
 }
 export interface ImportBackendStorageRequest {
   AppId: string;
   BackendEnvironmentName: string;
-  BucketName?: string;
-  ServiceName?: ServiceName;
+  BucketName?: string | undefined;
+  ServiceName?: ServiceName | undefined;
 }
 export interface ImportBackendStorageResponse {
-  AppId?: string;
-  BackendEnvironmentName?: string;
-  JobId?: string;
-  Status?: string;
+  AppId?: string | undefined;
+  BackendEnvironmentName?: string | undefined;
+  JobId?: string | undefined;
+  Status?: string | undefined;
 }
 export type __integerMin1Max25 = number;
 export interface ListBackendJobsRequest {
   AppId: string;
   BackendEnvironmentName: string;
-  JobId?: string;
-  MaxResults?: number;
-  NextToken?: string;
-  Operation?: string;
-  Status?: string;
+  JobId?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Operation?: string | undefined;
+  Status?: string | undefined;
 }
 export interface BackendJobRespObj {
-  AppId?: string;
-  BackendEnvironmentName?: string;
-  CreateTime?: string;
-  Error?: string;
-  JobId?: string;
-  Operation?: string;
-  Status?: string;
-  UpdateTime?: string;
+  AppId?: string | undefined;
+  BackendEnvironmentName?: string | undefined;
+  CreateTime?: string | undefined;
+  Error?: string | undefined;
+  JobId?: string | undefined;
+  Operation?: string | undefined;
+  Status?: string | undefined;
+  UpdateTime?: string | undefined;
 }
 export type ListOfBackendJobRespObj = BackendJobRespObj[];
 export interface ListBackendJobsResponse {
-  Jobs?: (BackendJobRespObj & { AppId: string; BackendEnvironmentName: string })[];
-  NextToken?: string;
+  Jobs?: (BackendJobRespObj & { AppId: string; BackendEnvironmentName: string })[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListS3BucketsRequest {
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface S3BucketInfo {
-  CreationDate?: string;
-  Name?: string;
+  CreationDate?: string | undefined;
+  Name?: string | undefined;
 }
 export type ListOfS3BucketInfo = S3BucketInfo[];
 export interface ListS3BucketsResponse {
-  Buckets?: S3BucketInfo[];
-  NextToken?: string;
+  Buckets?: S3BucketInfo[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface RemoveAllBackendsRequest {
   AppId: string;
-  CleanAmplifyApp?: boolean;
+  CleanAmplifyApp?: boolean | undefined;
 }
 export interface RemoveAllBackendsResponse {
-  AppId?: string;
-  Error?: string;
-  JobId?: string;
-  Operation?: string;
-  Status?: string;
+  AppId?: string | undefined;
+  Error?: string | undefined;
+  JobId?: string | undefined;
+  Operation?: string | undefined;
+  Status?: string | undefined;
 }
 export interface RemoveBackendConfigRequest {
   AppId: string;
 }
 export interface RemoveBackendConfigResponse {
-  Error?: string;
+  Error?: string | undefined;
 }
 export interface UpdateBackendAPIRequest {
   AppId: string;
   BackendEnvironmentName: string;
-  ResourceConfig?: BackendAPIResourceConfig;
-  ResourceName?: string;
+  ResourceConfig?: BackendAPIResourceConfig | undefined;
+  ResourceName?: string | undefined;
 }
 export interface UpdateBackendAPIResponse {
-  AppId?: string;
-  BackendEnvironmentName?: string;
-  Error?: string;
-  JobId?: string;
-  Operation?: string;
-  Status?: string;
+  AppId?: string | undefined;
+  BackendEnvironmentName?: string | undefined;
+  Error?: string | undefined;
+  JobId?: string | undefined;
+  Operation?: string | undefined;
+  Status?: string | undefined;
 }
 export interface UpdateBackendAuthIdentityPoolConfig {
-  UnauthenticatedLogin?: boolean;
+  UnauthenticatedLogin?: boolean | undefined;
 }
 export interface UpdateBackendAuthForgotPasswordConfig {
-  DeliveryMethod?: DeliveryMethod;
-  EmailSettings?: EmailSettings;
-  SmsSettings?: SmsSettings;
+  DeliveryMethod?: DeliveryMethod | undefined;
+  EmailSettings?: EmailSettings | undefined;
+  SmsSettings?: SmsSettings | undefined;
 }
 export interface UpdateBackendAuthMFAConfig {
-  MFAMode?: MFAMode;
-  Settings?: Settings;
+  MFAMode?: MFAMode | undefined;
+  Settings?: Settings | undefined;
 }
 export interface UpdateBackendAuthOAuthConfig {
-  DomainPrefix?: string;
-  OAuthGrantType?: OAuthGrantType;
-  OAuthScopes?: OAuthScopesElement[];
-  RedirectSignInURIs?: string[];
-  RedirectSignOutURIs?: string[];
-  SocialProviderSettings?: SocialProviderSettings;
+  DomainPrefix?: string | undefined;
+  OAuthGrantType?: OAuthGrantType | undefined;
+  OAuthScopes?: OAuthScopesElement[] | undefined;
+  RedirectSignInURIs?: string[] | undefined;
+  RedirectSignOutURIs?: string[] | undefined;
+  SocialProviderSettings?: SocialProviderSettings | undefined;
 }
 export interface UpdateBackendAuthPasswordPolicyConfig {
-  AdditionalConstraints?: AdditionalConstraintsElement[];
-  MinimumLength?: number;
+  AdditionalConstraints?: AdditionalConstraintsElement[] | undefined;
+  MinimumLength?: number | undefined;
 }
 export interface UpdateBackendAuthVerificationMessageConfig {
-  DeliveryMethod?: DeliveryMethod;
-  EmailSettings?: EmailSettings;
-  SmsSettings?: SmsSettings;
+  DeliveryMethod?: DeliveryMethod | undefined;
+  EmailSettings?: EmailSettings | undefined;
+  SmsSettings?: SmsSettings | undefined;
 }
 export interface UpdateBackendAuthUserPoolConfig {
-  ForgotPassword?: UpdateBackendAuthForgotPasswordConfig;
-  Mfa?: UpdateBackendAuthMFAConfig;
-  OAuth?: UpdateBackendAuthOAuthConfig;
-  PasswordPolicy?: UpdateBackendAuthPasswordPolicyConfig;
-  VerificationMessage?: UpdateBackendAuthVerificationMessageConfig;
+  ForgotPassword?: UpdateBackendAuthForgotPasswordConfig | undefined;
+  Mfa?: UpdateBackendAuthMFAConfig | undefined;
+  OAuth?: UpdateBackendAuthOAuthConfig | undefined;
+  PasswordPolicy?: UpdateBackendAuthPasswordPolicyConfig | undefined;
+  VerificationMessage?: UpdateBackendAuthVerificationMessageConfig | undefined;
 }
 export interface UpdateBackendAuthResourceConfig {
-  AuthResources?: AuthResources;
-  IdentityPoolConfigs?: UpdateBackendAuthIdentityPoolConfig;
-  Service?: Service;
-  UserPoolConfigs?: UpdateBackendAuthUserPoolConfig;
+  AuthResources?: AuthResources | undefined;
+  IdentityPoolConfigs?: UpdateBackendAuthIdentityPoolConfig | undefined;
+  Service?: Service | undefined;
+  UserPoolConfigs?: UpdateBackendAuthUserPoolConfig | undefined;
 }
 export interface UpdateBackendAuthRequest {
   AppId: string;
   BackendEnvironmentName: string;
-  ResourceConfig?: UpdateBackendAuthResourceConfig;
-  ResourceName?: string;
+  ResourceConfig?: UpdateBackendAuthResourceConfig | undefined;
+  ResourceName?: string | undefined;
 }
 export interface UpdateBackendAuthResponse {
-  AppId?: string;
-  BackendEnvironmentName?: string;
-  Error?: string;
-  JobId?: string;
-  Operation?: string;
-  Status?: string;
+  AppId?: string | undefined;
+  BackendEnvironmentName?: string | undefined;
+  Error?: string | undefined;
+  JobId?: string | undefined;
+  Operation?: string | undefined;
+  Status?: string | undefined;
 }
 export interface LoginAuthConfigReqObj {
-  AwsCognitoIdentityPoolId?: string;
-  AwsCognitoRegion?: string;
-  AwsUserPoolsId?: string;
-  AwsUserPoolsWebClientId?: string;
+  AwsCognitoIdentityPoolId?: string | undefined;
+  AwsCognitoRegion?: string | undefined;
+  AwsUserPoolsId?: string | undefined;
+  AwsUserPoolsWebClientId?: string | undefined;
 }
 export interface UpdateBackendConfigRequest {
   AppId: string;
-  LoginAuthConfig?: LoginAuthConfigReqObj;
+  LoginAuthConfig?: LoginAuthConfigReqObj | undefined;
 }
 export interface UpdateBackendConfigResponse {
-  AppId?: string;
-  BackendManagerAppId?: string;
-  Error?: string;
-  LoginAuthConfig?: LoginAuthConfigReqObj;
+  AppId?: string | undefined;
+  BackendManagerAppId?: string | undefined;
+  Error?: string | undefined;
+  LoginAuthConfig?: LoginAuthConfigReqObj | undefined;
 }
 export interface UpdateBackendJobRequest {
   AppId: string;
   BackendEnvironmentName: string;
   JobId: string;
-  Operation?: string;
-  Status?: string;
+  Operation?: string | undefined;
+  Status?: string | undefined;
 }
 export interface UpdateBackendJobResponse {
-  AppId?: string;
-  BackendEnvironmentName?: string;
-  CreateTime?: string;
-  Error?: string;
-  JobId?: string;
-  Operation?: string;
-  Status?: string;
-  UpdateTime?: string;
+  AppId?: string | undefined;
+  BackendEnvironmentName?: string | undefined;
+  CreateTime?: string | undefined;
+  Error?: string | undefined;
+  JobId?: string | undefined;
+  Operation?: string | undefined;
+  Status?: string | undefined;
+  UpdateTime?: string | undefined;
 }
 export interface UpdateBackendStorageResourceConfig {
-  Permissions?: BackendStoragePermissions;
-  ServiceName?: ServiceName;
+  Permissions?: BackendStoragePermissions | undefined;
+  ServiceName?: ServiceName | undefined;
 }
 export interface UpdateBackendStorageRequest {
   AppId: string;
   BackendEnvironmentName: string;
-  ResourceConfig?: UpdateBackendStorageResourceConfig;
-  ResourceName?: string;
+  ResourceConfig?: UpdateBackendStorageResourceConfig | undefined;
+  ResourceName?: string | undefined;
 }
 export interface UpdateBackendStorageResponse {
-  AppId?: string;
-  BackendEnvironmentName?: string;
-  JobId?: string;
-  Status?: string;
+  AppId?: string | undefined;
+  BackendEnvironmentName?: string | undefined;
+  JobId?: string | undefined;
+  Status?: string | undefined;
 }
 export type CloneBackendError =
   | BadRequestException
@@ -784,7 +791,7 @@ export type CloneBackendError =
  * This operation clones an existing backend.
  */
 export const cloneBackend: API.OperationMethod<
-  CloneBackendRequest,
+  CloneBackendRequest & RegionInput,
   CloneBackendResponse,
   CloneBackendError,
   Credentials | HttpClient.HttpClient
@@ -814,7 +821,7 @@ export type CreateBackendError =
  * This operation creates a backend for an Amplify app. Backends are automatically created at the time of app creation.
  */
 export const createBackend: API.OperationMethod<
-  CreateBackendRequest,
+  CreateBackendRequest & RegionInput,
   CreateBackendResponse,
   CreateBackendError,
   Credentials | HttpClient.HttpClient
@@ -844,7 +851,7 @@ export type CreateBackendAPIError =
  * Creates a new backend API resource.
  */
 export const createBackendAPI: API.OperationMethod<
-  CreateBackendAPIRequest,
+  CreateBackendAPIRequest & RegionInput,
   CreateBackendAPIResponse,
   CreateBackendAPIError,
   Credentials | HttpClient.HttpClient
@@ -874,7 +881,7 @@ export type CreateBackendAuthError =
  * Creates a new backend authentication resource.
  */
 export const createBackendAuth: API.OperationMethod<
-  CreateBackendAuthRequest,
+  CreateBackendAuthRequest & RegionInput,
   CreateBackendAuthResponse,
   CreateBackendAuthError,
   Credentials | HttpClient.HttpClient
@@ -904,7 +911,7 @@ export type CreateBackendConfigError =
  * Creates a config object for a backend.
  */
 export const createBackendConfig: API.OperationMethod<
-  CreateBackendConfigRequest,
+  CreateBackendConfigRequest & RegionInput,
   CreateBackendConfigResponse,
   CreateBackendConfigError,
   Credentials | HttpClient.HttpClient
@@ -934,7 +941,7 @@ export type CreateBackendStorageError =
  * Creates a backend storage resource.
  */
 export const createBackendStorage: API.OperationMethod<
-  CreateBackendStorageRequest,
+  CreateBackendStorageRequest & RegionInput,
   CreateBackendStorageResponse,
   CreateBackendStorageError,
   Credentials | HttpClient.HttpClient
@@ -964,7 +971,7 @@ export type CreateTokenError =
  * Generates a one-time challenge code to authenticate a user into your Amplify Admin UI.
  */
 export const createToken: API.OperationMethod<
-  CreateTokenRequest,
+  CreateTokenRequest & RegionInput,
   CreateTokenResponse,
   CreateTokenError,
   Credentials | HttpClient.HttpClient
@@ -994,7 +1001,7 @@ export type DeleteBackendError =
  * Removes an existing environment from your Amplify project.
  */
 export const deleteBackend: API.OperationMethod<
-  DeleteBackendRequest,
+  DeleteBackendRequest & RegionInput,
   DeleteBackendResponse,
   DeleteBackendError,
   Credentials | HttpClient.HttpClient
@@ -1024,7 +1031,7 @@ export type DeleteBackendAPIError =
  * Deletes an existing backend API resource.
  */
 export const deleteBackendAPI: API.OperationMethod<
-  DeleteBackendAPIRequest,
+  DeleteBackendAPIRequest & RegionInput,
   DeleteBackendAPIResponse,
   DeleteBackendAPIError,
   Credentials | HttpClient.HttpClient
@@ -1054,7 +1061,7 @@ export type DeleteBackendAuthError =
  * Deletes an existing backend authentication resource.
  */
 export const deleteBackendAuth: API.OperationMethod<
-  DeleteBackendAuthRequest,
+  DeleteBackendAuthRequest & RegionInput,
   DeleteBackendAuthResponse,
   DeleteBackendAuthError,
   Credentials | HttpClient.HttpClient
@@ -1084,7 +1091,7 @@ export type DeleteBackendStorageError =
  * Removes the specified backend storage resource.
  */
 export const deleteBackendStorage: API.OperationMethod<
-  DeleteBackendStorageRequest,
+  DeleteBackendStorageRequest & RegionInput,
   DeleteBackendStorageResponse,
   DeleteBackendStorageError,
   Credentials | HttpClient.HttpClient
@@ -1114,7 +1121,7 @@ export type DeleteTokenError =
  * Deletes the challenge token based on the given appId and sessionId.
  */
 export const deleteToken: API.OperationMethod<
-  DeleteTokenRequest,
+  DeleteTokenRequest & RegionInput,
   DeleteTokenResponse,
   DeleteTokenError,
   Credentials | HttpClient.HttpClient
@@ -1144,7 +1151,7 @@ export type GenerateBackendAPIModelsError =
  * Generates a model schema for an existing backend API resource.
  */
 export const generateBackendAPIModels: API.OperationMethod<
-  GenerateBackendAPIModelsRequest,
+  GenerateBackendAPIModelsRequest & RegionInput,
   GenerateBackendAPIModelsResponse,
   GenerateBackendAPIModelsError,
   Credentials | HttpClient.HttpClient
@@ -1174,7 +1181,7 @@ export type GetBackendError =
  * Provides project-level details for your Amplify UI project.
  */
 export const getBackend: API.OperationMethod<
-  GetBackendRequest,
+  GetBackendRequest & RegionInput,
   GetBackendResponse,
   GetBackendError,
   Credentials | HttpClient.HttpClient
@@ -1204,7 +1211,7 @@ export type GetBackendAPIError =
  * Gets the details for a backend API.
  */
 export const getBackendAPI: API.OperationMethod<
-  GetBackendAPIRequest,
+  GetBackendAPIRequest & RegionInput,
   GetBackendAPIResponse,
   GetBackendAPIError,
   Credentials | HttpClient.HttpClient
@@ -1234,7 +1241,7 @@ export type GetBackendAPIModelsError =
  * Gets a model introspection schema for an existing backend API resource.
  */
 export const getBackendAPIModels: API.OperationMethod<
-  GetBackendAPIModelsRequest,
+  GetBackendAPIModelsRequest & RegionInput,
   GetBackendAPIModelsResponse,
   GetBackendAPIModelsError,
   Credentials | HttpClient.HttpClient
@@ -1264,7 +1271,7 @@ export type GetBackendAuthError =
  * Gets a backend auth details.
  */
 export const getBackendAuth: API.OperationMethod<
-  GetBackendAuthRequest,
+  GetBackendAuthRequest & RegionInput,
   GetBackendAuthResponse,
   GetBackendAuthError,
   Credentials | HttpClient.HttpClient
@@ -1294,7 +1301,7 @@ export type GetBackendJobError =
  * Returns information about a specific job.
  */
 export const getBackendJob: API.OperationMethod<
-  GetBackendJobRequest,
+  GetBackendJobRequest & RegionInput,
   GetBackendJobResponse,
   GetBackendJobError,
   Credentials | HttpClient.HttpClient
@@ -1324,7 +1331,7 @@ export type GetBackendStorageError =
  * Gets details for a backend storage resource.
  */
 export const getBackendStorage: API.OperationMethod<
-  GetBackendStorageRequest,
+  GetBackendStorageRequest & RegionInput,
   GetBackendStorageResponse,
   GetBackendStorageError,
   Credentials | HttpClient.HttpClient
@@ -1354,7 +1361,7 @@ export type GetTokenError =
  * Gets the challenge token based on the given appId and sessionId.
  */
 export const getToken: API.OperationMethod<
-  GetTokenRequest,
+  GetTokenRequest & RegionInput,
   GetTokenResponse,
   GetTokenError,
   Credentials | HttpClient.HttpClient
@@ -1384,7 +1391,7 @@ export type ImportBackendAuthError =
  * Imports an existing backend authentication resource.
  */
 export const importBackendAuth: API.OperationMethod<
-  ImportBackendAuthRequest,
+  ImportBackendAuthRequest & RegionInput,
   ImportBackendAuthResponse,
   ImportBackendAuthError,
   Credentials | HttpClient.HttpClient
@@ -1414,7 +1421,7 @@ export type ImportBackendStorageError =
  * Imports an existing backend storage resource.
  */
 export const importBackendStorage: API.OperationMethod<
-  ImportBackendStorageRequest,
+  ImportBackendStorageRequest & RegionInput,
   ImportBackendStorageResponse,
   ImportBackendStorageError,
   Credentials | HttpClient.HttpClient
@@ -1444,7 +1451,7 @@ export type ListBackendJobsError =
  * Lists the jobs for the backend of an Amplify app.
  */
 export const listBackendJobs: API.OperationMethod<
-  ListBackendJobsRequest,
+  ListBackendJobsRequest & RegionInput,
   ListBackendJobsResponse,
   ListBackendJobsError,
   Credentials | HttpClient.HttpClient
@@ -1474,7 +1481,7 @@ export type ListS3BucketsError =
  * The list of S3 buckets in your account.
  */
 export const listS3Buckets: API.OperationMethod<
-  ListS3BucketsRequest,
+  ListS3BucketsRequest & RegionInput,
   ListS3BucketsResponse,
   ListS3BucketsError,
   Credentials | HttpClient.HttpClient
@@ -1504,7 +1511,7 @@ export type RemoveAllBackendsError =
  * Removes all backend environments from your Amplify project.
  */
 export const removeAllBackends: API.OperationMethod<
-  RemoveAllBackendsRequest,
+  RemoveAllBackendsRequest & RegionInput,
   RemoveAllBackendsResponse,
   RemoveAllBackendsError,
   Credentials | HttpClient.HttpClient
@@ -1534,7 +1541,7 @@ export type RemoveBackendConfigError =
  * Removes the AWS resources required to access the Amplify Admin UI.
  */
 export const removeBackendConfig: API.OperationMethod<
-  RemoveBackendConfigRequest,
+  RemoveBackendConfigRequest & RegionInput,
   RemoveBackendConfigResponse,
   RemoveBackendConfigError,
   Credentials | HttpClient.HttpClient
@@ -1564,7 +1571,7 @@ export type UpdateBackendAPIError =
  * Updates an existing backend API resource.
  */
 export const updateBackendAPI: API.OperationMethod<
-  UpdateBackendAPIRequest,
+  UpdateBackendAPIRequest & RegionInput,
   UpdateBackendAPIResponse,
   UpdateBackendAPIError,
   Credentials | HttpClient.HttpClient
@@ -1594,7 +1601,7 @@ export type UpdateBackendAuthError =
  * Updates an existing backend authentication resource.
  */
 export const updateBackendAuth: API.OperationMethod<
-  UpdateBackendAuthRequest,
+  UpdateBackendAuthRequest & RegionInput,
   UpdateBackendAuthResponse,
   UpdateBackendAuthError,
   Credentials | HttpClient.HttpClient
@@ -1624,7 +1631,7 @@ export type UpdateBackendConfigError =
  * Updates the AWS resources required to access the Amplify Admin UI.
  */
 export const updateBackendConfig: API.OperationMethod<
-  UpdateBackendConfigRequest,
+  UpdateBackendConfigRequest & RegionInput,
   UpdateBackendConfigResponse,
   UpdateBackendConfigError,
   Credentials | HttpClient.HttpClient
@@ -1654,7 +1661,7 @@ export type UpdateBackendJobError =
  * Updates a specific job.
  */
 export const updateBackendJob: API.OperationMethod<
-  UpdateBackendJobRequest,
+  UpdateBackendJobRequest & RegionInput,
   UpdateBackendJobResponse,
   UpdateBackendJobError,
   Credentials | HttpClient.HttpClient
@@ -1684,7 +1691,7 @@ export type UpdateBackendStorageError =
  * Updates an existing backend storage resource.
  */
 export const updateBackendStorage: API.OperationMethod<
-  UpdateBackendStorageRequest,
+  UpdateBackendStorageRequest & RegionInput,
   UpdateBackendStorageResponse,
   UpdateBackendStorageError,
   Credentials | HttpClient.HttpClient

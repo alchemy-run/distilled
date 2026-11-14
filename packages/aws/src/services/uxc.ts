@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -92,13 +93,13 @@ export class InternalServerException
     "InternalServerException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()("ValidationException", {
     message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
@@ -126,29 +127,29 @@ export type ServiceList = string[];
 export type Region = string;
 export type RegionsList = string[];
 export interface GetAccountCustomizationsOutput {
-  accountColor?: AccountColor;
-  visibleServices?: string[];
-  visibleRegions?: string[];
+  accountColor?: AccountColor | undefined;
+  visibleServices?: string[] | undefined;
+  visibleRegions?: string[] | undefined;
 }
 export type NextToken = string;
 export type MaxResults = number;
 export interface ListServicesInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListServicesOutput {
-  nextToken?: string;
-  services?: string[];
+  nextToken?: string | undefined;
+  services?: string[] | undefined;
 }
 export interface UpdateAccountCustomizationsInput {
-  accountColor?: AccountColor;
-  visibleServices?: string[];
-  visibleRegions?: string[];
+  accountColor?: AccountColor | undefined;
+  visibleServices?: string[] | undefined;
+  visibleRegions?: string[] | undefined;
 }
 export interface UpdateAccountCustomizationsOutput {
-  accountColor?: AccountColor;
-  visibleServices?: string[];
-  visibleRegions?: string[];
+  accountColor?: AccountColor | undefined;
+  visibleServices?: string[] | undefined;
+  visibleRegions?: string[] | undefined;
 }
 export interface ValidationExceptionField {
   path: string;
@@ -167,7 +168,7 @@ export type GetAccountCustomizationsError =
  * The `visibleServices` and `visibleRegions` settings control only the appearance of services and Regions in the Amazon Web Services Management Console. They do not restrict access through the CLI, SDKs, or other APIs.
  */
 export const getAccountCustomizations: API.OperationMethod<
-  GetAccountCustomizationsInput,
+  GetAccountCustomizationsInput & RegionInput,
   GetAccountCustomizationsOutput,
   GetAccountCustomizationsError,
   Credentials | HttpClient.HttpClient
@@ -199,7 +200,7 @@ export type ListServicesError =
  * The `visibleServices` setting controls only the appearance of services in the Amazon Web Services Management Console. It does not restrict access through the CLI, SDKs, or other APIs.
  */
 export const listServices: API.PaginatedOperationMethod<
-  ListServicesInput,
+  ListServicesInput & RegionInput,
   ListServicesOutput,
   ListServicesError,
   Credentials | HttpClient.HttpClient,
@@ -233,7 +234,7 @@ export type UpdateAccountCustomizationsError =
  * The `visibleServices` and `visibleRegions` settings control only the appearance of services and Regions in the Amazon Web Services Management Console. They do not restrict access through the CLI, SDKs, or other APIs.
  */
 export const updateAccountCustomizations: API.OperationMethod<
-  UpdateAccountCustomizationsInput,
+  UpdateAccountCustomizationsInput & RegionInput,
   UpdateAccountCustomizationsOutput,
   UpdateAccountCustomizationsError,
   Credentials | HttpClient.HttpClient

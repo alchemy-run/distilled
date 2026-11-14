@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -105,7 +106,7 @@ export class InternalServiceFault
       ),
     },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InvalidParameterException
   extends /*@__PURE__*/ S.TaggedError<InvalidParameterException>()(
     "InvalidParameterException",
@@ -190,38 +191,38 @@ export interface MetricConfiguration {
   Filter: string;
 }
 export interface LinkConfiguration {
-  LogGroupConfiguration?: LogGroupConfiguration;
-  MetricConfiguration?: MetricConfiguration;
+  LogGroupConfiguration?: LogGroupConfiguration | undefined;
+  MetricConfiguration?: MetricConfiguration | undefined;
 }
 export interface CreateLinkInput {
   LabelTemplate: string;
   ResourceTypes: ResourceType[];
   SinkIdentifier: string;
-  Tags?: { [key: string]: string | undefined };
-  LinkConfiguration?: LinkConfiguration;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  LinkConfiguration?: LinkConfiguration | undefined;
 }
 export type ResourceTypesOutput = string[];
 export type TagMapOutput = { [key: string]: string | undefined };
 export interface CreateLinkOutput {
-  Arn?: string;
-  Id?: string;
-  Label?: string;
-  LabelTemplate?: string;
-  ResourceTypes?: string[];
-  SinkArn?: string;
-  Tags?: { [key: string]: string | undefined };
-  LinkConfiguration?: LinkConfiguration;
+  Arn?: string | undefined;
+  Id?: string | undefined;
+  Label?: string | undefined;
+  LabelTemplate?: string | undefined;
+  ResourceTypes?: string[] | undefined;
+  SinkArn?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  LinkConfiguration?: LinkConfiguration | undefined;
 }
 export type SinkName = string;
 export interface CreateSinkInput {
   Name: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateSinkOutput {
-  Arn?: string;
-  Id?: string;
-  Name?: string;
-  Tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DeleteLinkInput {
   Identifier: string;
@@ -234,91 +235,91 @@ export interface DeleteSinkOutput {}
 export type IncludeTags = boolean;
 export interface GetLinkInput {
   Identifier: string;
-  IncludeTags?: boolean;
+  IncludeTags?: boolean | undefined;
 }
 export interface GetLinkOutput {
-  Arn?: string;
-  Id?: string;
-  Label?: string;
-  LabelTemplate?: string;
-  ResourceTypes?: string[];
-  SinkArn?: string;
-  Tags?: { [key: string]: string | undefined };
-  LinkConfiguration?: LinkConfiguration;
+  Arn?: string | undefined;
+  Id?: string | undefined;
+  Label?: string | undefined;
+  LabelTemplate?: string | undefined;
+  ResourceTypes?: string[] | undefined;
+  SinkArn?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  LinkConfiguration?: LinkConfiguration | undefined;
 }
 export interface GetSinkInput {
   Identifier: string;
-  IncludeTags?: boolean;
+  IncludeTags?: boolean | undefined;
 }
 export interface GetSinkOutput {
-  Arn?: string;
-  Id?: string;
-  Name?: string;
-  Tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetSinkPolicyInput {
   SinkIdentifier: string;
 }
 export interface GetSinkPolicyOutput {
-  SinkArn?: string;
-  SinkId?: string;
-  Policy?: string;
+  SinkArn?: string | undefined;
+  SinkId?: string | undefined;
+  Policy?: string | undefined;
 }
 export type ListAttachedLinksMaxResults = number;
 export type NextToken = string;
 export interface ListAttachedLinksInput {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   SinkIdentifier: string;
 }
 export interface ListAttachedLinksItem {
-  Label?: string;
-  LinkArn?: string;
-  ResourceTypes?: string[];
+  Label?: string | undefined;
+  LinkArn?: string | undefined;
+  ResourceTypes?: string[] | undefined;
 }
 export type ListAttachedLinksItems = ListAttachedLinksItem[];
 export interface ListAttachedLinksOutput {
   Items: ListAttachedLinksItem[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type ListLinksMaxResults = number;
 export interface ListLinksInput {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListLinksItem {
-  Arn?: string;
-  Id?: string;
-  Label?: string;
-  ResourceTypes?: string[];
-  SinkArn?: string;
+  Arn?: string | undefined;
+  Id?: string | undefined;
+  Label?: string | undefined;
+  ResourceTypes?: string[] | undefined;
+  SinkArn?: string | undefined;
 }
 export type ListLinksItems = ListLinksItem[];
 export interface ListLinksOutput {
   Items: ListLinksItem[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type ListSinksMaxResults = number;
 export interface ListSinksInput {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListSinksItem {
-  Arn?: string;
-  Id?: string;
-  Name?: string;
+  Arn?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
 }
 export type ListSinksItems = ListSinksItem[];
 export interface ListSinksOutput {
   Items: ListSinksItem[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type Arn = string;
 export interface ListTagsForResourceInput {
   ResourceArn: string;
 }
 export interface ListTagsForResourceOutput {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type SinkPolicy = string;
 export interface PutSinkPolicyInput {
@@ -326,9 +327,9 @@ export interface PutSinkPolicyInput {
   Policy: string;
 }
 export interface PutSinkPolicyOutput {
-  SinkArn?: string;
-  SinkId?: string;
-  Policy?: string;
+  SinkArn?: string | undefined;
+  SinkId?: string | undefined;
+  Policy?: string | undefined;
 }
 export interface TagResourceInput {
   ResourceArn: string;
@@ -344,18 +345,18 @@ export interface UntagResourceOutput {}
 export interface UpdateLinkInput {
   Identifier: string;
   ResourceTypes: ResourceType[];
-  LinkConfiguration?: LinkConfiguration;
-  IncludeTags?: boolean;
+  LinkConfiguration?: LinkConfiguration | undefined;
+  IncludeTags?: boolean | undefined;
 }
 export interface UpdateLinkOutput {
-  Arn?: string;
-  Id?: string;
-  Label?: string;
-  LabelTemplate?: string;
-  ResourceTypes?: string[];
-  SinkArn?: string;
-  Tags?: { [key: string]: string | undefined };
-  LinkConfiguration?: LinkConfiguration;
+  Arn?: string | undefined;
+  Id?: string | undefined;
+  Label?: string | undefined;
+  LabelTemplate?: string | undefined;
+  ResourceTypes?: string[] | undefined;
+  SinkArn?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  LinkConfiguration?: LinkConfiguration | undefined;
 }
 export type CreateLinkError =
   | ConflictException
@@ -377,7 +378,7 @@ export type CreateLinkError =
  * Each source account can be linked to as many as five monitoring accounts.
  */
 export const createLink: API.OperationMethod<
-  CreateLinkInput,
+  CreateLinkInput & RegionInput,
   CreateLinkOutput,
   CreateLinkError,
   Credentials | HttpClient.HttpClient
@@ -415,7 +416,7 @@ export type CreateSinkError =
  * Each account can contain one sink per Region. If you delete a sink, you can then create a new one in that Region.
  */
 export const createSink: API.OperationMethod<
-  CreateSinkInput,
+  CreateSinkInput & RegionInput,
   CreateSinkOutput,
   CreateSinkError,
   Credentials | HttpClient.HttpClient
@@ -448,7 +449,7 @@ export type DeleteLinkError =
  * Deletes a link between a monitoring account sink and a source account. You must run this operation in the source account.
  */
 export const deleteLink: API.OperationMethod<
-  DeleteLinkInput,
+  DeleteLinkInput & RegionInput,
   DeleteLinkOutput,
   DeleteLinkError,
   Credentials | HttpClient.HttpClient
@@ -481,7 +482,7 @@ export type DeleteSinkError =
  * Deletes a sink. You must delete all links to a sink before you can delete that sink.
  */
 export const deleteSink: API.OperationMethod<
-  DeleteSinkInput,
+  DeleteSinkInput & RegionInput,
   DeleteSinkOutput,
   DeleteSinkError,
   Credentials | HttpClient.HttpClient
@@ -516,7 +517,7 @@ export type GetLinkError =
  * To use this operation, provide the link ARN. To retrieve a list of link ARNs, use ListLinks.
  */
 export const getLink: API.OperationMethod<
-  GetLinkInput,
+  GetLinkInput & RegionInput,
   GetLinkOutput,
   GetLinkError,
   Credentials | HttpClient.HttpClient
@@ -550,7 +551,7 @@ export type GetSinkError =
  * To use this operation, provide the sink ARN. To retrieve a list of sink ARNs, use ListSinks.
  */
 export const getSink: API.OperationMethod<
-  GetSinkInput,
+  GetSinkInput & RegionInput,
   GetSinkOutput,
   GetSinkError,
   Credentials | HttpClient.HttpClient
@@ -582,7 +583,7 @@ export type GetSinkPolicyError =
  * Returns the current sink policy attached to this sink. The sink policy specifies what accounts can attach to this sink as source accounts, and what types of data they can share.
  */
 export const getSinkPolicy: API.OperationMethod<
-  GetSinkPolicyInput,
+  GetSinkPolicyInput & RegionInput,
   GetSinkPolicyOutput,
   GetSinkPolicyError,
   Credentials | HttpClient.HttpClient
@@ -618,7 +619,7 @@ export type ListAttachedLinksError =
  * To find a list of links for one source account, use ListLinks.
  */
 export const listAttachedLinks: API.PaginatedOperationMethod<
-  ListAttachedLinksInput,
+  ListAttachedLinksInput & RegionInput,
   ListAttachedLinksOutput,
   ListAttachedLinksError,
   Credentials | HttpClient.HttpClient,
@@ -658,7 +659,7 @@ export type ListLinksError =
  * To find a list of links for one monitoring account sink, use ListAttachedLinks from within the monitoring account.
  */
 export const listLinks: API.PaginatedOperationMethod<
-  ListLinksInput,
+  ListLinksInput & RegionInput,
   ListLinksOutput,
   ListLinksError,
   Credentials | HttpClient.HttpClient,
@@ -695,7 +696,7 @@ export type ListSinksError =
  * Use this operation in a monitoring account to return the list of sinks created in that account.
  */
 export const listSinks: API.PaginatedOperationMethod<
-  ListSinksInput,
+  ListSinksInput & RegionInput,
   ListSinksOutput,
   ListSinksError,
   Credentials | HttpClient.HttpClient,
@@ -731,7 +732,7 @@ export type ListTagsForResourceError =
  * Displays the tags associated with a resource. Both sinks and links support tagging.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -773,7 +774,7 @@ export type PutSinkPolicyError =
  * See the examples in this section to see how to specify permitted source accounts and data types.
  */
 export const putSinkPolicy: API.OperationMethod<
-  PutSinkPolicyInput,
+  PutSinkPolicyInput & RegionInput,
   PutSinkPolicyOutput,
   PutSinkPolicyError,
   Credentials | HttpClient.HttpClient
@@ -814,7 +815,7 @@ export type TagResourceError =
  * Unlike tagging permissions in other Amazon Web Services services, to tag or untag links and sinks you must have the `oam:ResourceTag` permission. The `iam:ResourceTag` permission does not allow you to tag and untag links and sinks.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -845,7 +846,7 @@ export type UntagResourceError =
  * Unlike tagging permissions in other Amazon Web Services services, to tag or untag links and sinks you must have the `oam:ResourceTag` permission. The `iam:TagResource` permission does not allow you to tag and untag links and sinks.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -875,7 +876,7 @@ export type UpdateLinkError =
  * To update the list of tags associated with the sink, use TagResource.
  */
 export const updateLink: API.OperationMethod<
-  UpdateLinkInput,
+  UpdateLinkInput & RegionInput,
   UpdateLinkOutput,
   UpdateLinkError,
   Credentials | HttpClient.HttpClient

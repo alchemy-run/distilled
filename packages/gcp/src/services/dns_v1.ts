@@ -90,222 +90,199 @@ export interface CancelOperationsRequest {
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
 export type StringList = Array<string>;
+export type RRSetRoutingPolicyLoadBalancerTargetIpProtocolEnum = "undefined" | "tcp" | "udp";
 export type RRSetRoutingPolicyLoadBalancerTargetLoadBalancerTypeEnum =
   | "none"
   | "globalL7ilb"
   | "regionalL4ilb"
   | "regionalL7ilb";
-export type RRSetRoutingPolicyLoadBalancerTargetIpProtocolEnum = "undefined" | "tcp" | "udp";
 /** The configuration for an individual load balancer to health check. */
 export interface RRSetRoutingPolicyLoadBalancerTarget {
-  /** The configured port of the load balancer. */
-  port?: string;
-  /** The region in which the load balancer is located. */
-  region?: string;
   /** The fully qualified URL of the network that the load balancer is attached to. This should be formatted like `https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}`. */
-  networkUrl?: string;
-  /** The project ID in which the load balancer is located. */
-  project?: string;
-  /** The type of load balancer specified by this target. This value must match the configuration of the load balancer located at the LoadBalancerTarget's IP address, port, and region. Use the following: - *regionalL4ilb*: for a regional internal passthrough Network Load Balancer. - *regionalL7ilb*: for a regional internal Application Load Balancer. - *globalL7ilb*: for a global internal Application Load Balancer. */
-  loadBalancerType?: RRSetRoutingPolicyLoadBalancerTargetLoadBalancerTypeEnum | (string & {});
-  kind?: string;
+  networkUrl?: string | undefined;
+  /** The region in which the load balancer is located. */
+  region?: string | undefined;
+  kind?: string | undefined;
   /** The protocol of the load balancer to health check. */
-  ipProtocol?: RRSetRoutingPolicyLoadBalancerTargetIpProtocolEnum | (string & {});
+  ipProtocol?: RRSetRoutingPolicyLoadBalancerTargetIpProtocolEnum | (string & {}) | undefined;
   /** The frontend IP address of the load balancer to health check. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
+  /** The type of load balancer specified by this target. This value must match the configuration of the load balancer located at the LoadBalancerTarget's IP address, port, and region. Use the following: - *regionalL4ilb*: for a regional internal passthrough Network Load Balancer. - *regionalL7ilb*: for a regional internal Application Load Balancer. - *globalL7ilb*: for a global internal Application Load Balancer. */
+  loadBalancerType?:
+    | RRSetRoutingPolicyLoadBalancerTargetLoadBalancerTypeEnum
+    | (string & {})
+    | undefined;
+  /** The project ID in which the load balancer is located. */
+  project?: string | undefined;
+  /** The configured port of the load balancer. */
+  port?: string | undefined;
 }
 export type RRSetRoutingPolicyLoadBalancerTargetList = Array<RRSetRoutingPolicyLoadBalancerTarget>;
 /** HealthCheckTargets describes endpoints to health-check when responding to Routing Policy queries. Only the healthy endpoints will be included in the response. Set either `internal_load_balancer` or `external_endpoints`. Do not set both. */
 export interface RRSetRoutingPolicyHealthCheckTargets {
   /** The Internet IP addresses to be health checked. The format matches the format of ResourceRecordSet.rrdata as defined in RFC 1035 (section 5) and RFC 1034 (section 3.6.1) */
-  externalEndpoints?: StringList;
+  externalEndpoints?: StringList | undefined;
   /** Configuration for internal load balancers to be health checked. */
-  internalLoadBalancers?: RRSetRoutingPolicyLoadBalancerTargetList;
+  internalLoadBalancers?: RRSetRoutingPolicyLoadBalancerTargetList | undefined;
 }
 /** ResourceRecordSet data for one geo location. */
 export interface RRSetRoutingPolicyGeoPolicyGeoPolicyItem {
-  rrdatas?: StringList;
-  /** DNSSEC generated signatures for all the `rrdata` within this item. When using health-checked targets for DNSSEC-enabled zones, you can only use at most one health-checked IP address per item. */
-  signatureRrdatas?: StringList;
   /** The geo-location granularity is a GCP region. This location string should correspond to a GCP region. e.g. "us-east1", "southamerica-east1", "asia-east1", etc. */
-  location?: string;
-  kind?: string;
+  location?: string | undefined;
   /** For A and AAAA types only. Endpoints to return in the query result only if they are healthy. These can be specified along with `rrdata` within this item. */
-  healthCheckedTargets?: RRSetRoutingPolicyHealthCheckTargets;
+  healthCheckedTargets?: RRSetRoutingPolicyHealthCheckTargets | undefined;
+  /** DNSSEC generated signatures for all the `rrdata` within this item. When using health-checked targets for DNSSEC-enabled zones, you can only use at most one health-checked IP address per item. */
+  signatureRrdatas?: StringList | undefined;
+  rrdatas?: StringList | undefined;
+  kind?: string | undefined;
 }
 export type RRSetRoutingPolicyGeoPolicyGeoPolicyItemList =
   Array<RRSetRoutingPolicyGeoPolicyGeoPolicyItem>;
 /** Configures a `RRSetRoutingPolicy` that routes based on the geo location of the querying user. */
 export interface RRSetRoutingPolicyGeoPolicy {
+  kind?: string | undefined;
   /** The primary geo routing configuration. If there are multiple items with the same location, an error is returned instead. */
-  items?: RRSetRoutingPolicyGeoPolicyGeoPolicyItemList;
-  kind?: string;
+  items?: RRSetRoutingPolicyGeoPolicyGeoPolicyItemList | undefined;
   /** Without fencing, if health check fails for all configured items in the current geo bucket, we failover to the next nearest geo bucket. With fencing, if health checking is enabled, as long as some targets in the current geo bucket are healthy, we return only the healthy targets. However, if all targets are unhealthy, we don't failover to the next nearest bucket; instead, we return all the items in the current bucket even when all targets are unhealthy. */
-  enableFencing?: boolean;
+  enableFencing?: boolean | undefined;
 }
 /** Configures a RRSetRoutingPolicy such that all queries are responded with the primary_targets if they are healthy. And if all of them are unhealthy, then we fallback to a geo localized policy. */
 export interface RRSetRoutingPolicyPrimaryBackupPolicy {
-  /** Endpoints that are health checked before making the routing decision. Unhealthy endpoints are omitted from the results. If all endpoints are unhealthy, we serve a response based on the `backup_geo_targets`. */
-  primaryTargets?: RRSetRoutingPolicyHealthCheckTargets;
-  /** When serving state is `PRIMARY`, this field provides the option of sending a small percentage of the traffic to the backup targets. */
-  trickleTraffic?: number;
-  kind?: string;
   /** Backup targets provide a regional failover policy for the otherwise global primary targets. If serving state is set to `BACKUP`, this policy essentially becomes a geo routing policy. */
-  backupGeoTargets?: RRSetRoutingPolicyGeoPolicy;
+  backupGeoTargets?: RRSetRoutingPolicyGeoPolicy | undefined;
+  /** When serving state is `PRIMARY`, this field provides the option of sending a small percentage of the traffic to the backup targets. */
+  trickleTraffic?: number | undefined;
+  /** Endpoints that are health checked before making the routing decision. Unhealthy endpoints are omitted from the results. If all endpoints are unhealthy, we serve a response based on the `backup_geo_targets`. */
+  primaryTargets?: RRSetRoutingPolicyHealthCheckTargets | undefined;
+  kind?: string | undefined;
 }
 /** A routing block which contains the routing information for one WRR item. */
 export interface RRSetRoutingPolicyWrrPolicyWrrPolicyItem {
-  /** Endpoints that are health checked before making the routing decision. The unhealthy endpoints are omitted from the result. If all endpoints within a bucket are unhealthy, we choose a different bucket (sampled with respect to its weight) for responding. If DNSSEC is enabled for this zone, only one of `rrdata` or `health_checked_targets` can be set. */
-  healthCheckedTargets?: RRSetRoutingPolicyHealthCheckTargets;
-  kind?: string;
+  kind?: string | undefined;
+  rrdatas?: StringList | undefined;
   /** The weight corresponding to this `WrrPolicyItem` object. When multiple `WrrPolicyItem` objects are configured, the probability of returning an `WrrPolicyItem` object's data is proportional to its weight relative to the sum of weights configured for all items. This weight must be non-negative. */
-  weight?: number;
-  rrdatas?: StringList;
+  weight?: number | undefined;
   /** DNSSEC generated signatures for all the `rrdata` within this item. When using health-checked targets for DNSSEC-enabled zones, you can only use at most one health-checked IP address per item. */
-  signatureRrdatas?: StringList;
+  signatureRrdatas?: StringList | undefined;
+  /** Endpoints that are health checked before making the routing decision. The unhealthy endpoints are omitted from the result. If all endpoints within a bucket are unhealthy, we choose a different bucket (sampled with respect to its weight) for responding. If DNSSEC is enabled for this zone, only one of `rrdata` or `health_checked_targets` can be set. */
+  healthCheckedTargets?: RRSetRoutingPolicyHealthCheckTargets | undefined;
 }
 export type RRSetRoutingPolicyWrrPolicyWrrPolicyItemList =
   Array<RRSetRoutingPolicyWrrPolicyWrrPolicyItem>;
 /** Configures a RRSetRoutingPolicy that routes in a weighted round robin fashion. */
 export interface RRSetRoutingPolicyWrrPolicy {
-  items?: RRSetRoutingPolicyWrrPolicyWrrPolicyItemList;
-  kind?: string;
+  kind?: string | undefined;
+  items?: RRSetRoutingPolicyWrrPolicyWrrPolicyItemList | undefined;
 }
 /** A RRSetRoutingPolicy represents ResourceRecordSet data that is returned dynamically with the response varying based on configured properties such as geolocation or by weighted random selection. */
 export interface RRSetRoutingPolicy {
-  primaryBackup?: RRSetRoutingPolicyPrimaryBackupPolicy;
-  wrr?: RRSetRoutingPolicyWrrPolicy;
   /** The fully qualified URL of the HealthCheck to use for this RRSetRoutingPolicy. Format this URL like `https://www.googleapis.com/compute/v1/projects/{project}/global/healthChecks/{healthCheck}`. https://cloud.google.com/compute/docs/reference/rest/v1/healthChecks */
-  healthCheck?: string;
-  kind?: string;
-  geo?: RRSetRoutingPolicyGeoPolicy;
+  healthCheck?: string | undefined;
+  primaryBackup?: RRSetRoutingPolicyPrimaryBackupPolicy | undefined;
+  geo?: RRSetRoutingPolicyGeoPolicy | undefined;
+  kind?: string | undefined;
+  wrr?: RRSetRoutingPolicyWrrPolicy | undefined;
 }
 /** A unit of data that is returned by the DNS servers. */
 export interface ResourceRecordSet {
   /** Number of seconds that this `ResourceRecordSet` can be cached by resolvers. */
-  ttl?: number;
-  /** For example, www.example.com. */
-  name?: string;
-  /** As defined in RFC 1035 (section 5) and RFC 1034 (section 3.6.1) -- see examples. */
-  rrdatas?: StringList;
-  /** The identifier of a supported record type. See the list of Supported DNS record types. */
-  type?: string;
-  kind?: string;
+  ttl?: number | undefined;
+  signatureRrdatas?: StringList | undefined;
   /** Configures dynamic query responses based on either the geo location of the querying user or a weighted round robin based routing policy. A valid `ResourceRecordSet` contains only `rrdata` (for static resolution) or a `routing_policy` (for dynamic resolution). */
-  routingPolicy?: RRSetRoutingPolicy;
-  signatureRrdatas?: StringList;
+  routingPolicy?: RRSetRoutingPolicy | undefined;
+  kind?: string | undefined;
+  /** As defined in RFC 1035 (section 5) and RFC 1034 (section 3.6.1) -- see examples. */
+  rrdatas?: StringList | undefined;
+  /** The identifier of a supported record type. See the list of Supported DNS record types. */
+  type?: string | undefined;
+  /** For example, www.example.com. */
+  name?: string | undefined;
 }
 export type ResourceRecordSetList = Array<ResourceRecordSet>;
 export type ChangeStatusEnum = "pending" | "done";
 /** A Change represents a set of `ResourceRecordSet` additions and deletions applied atomically to a ManagedZone. ResourceRecordSets within a ManagedZone are modified by creating a new Change element in the Changes collection. In turn the Changes collection also records the past modifications to the `ResourceRecordSets` in a `ManagedZone`. The current state of the `ManagedZone` is the sum effect of applying all `Change` elements in the `Changes` collection in sequence. */
 export interface Change {
-  /** Unique identifier for the resource; defined by the server (output only). */
-  id?: string;
-  /** If the DNS queries for the zone will be served. */
-  isServing?: boolean;
-  kind?: string;
-  /** Which ResourceRecordSets to add? */
-  additions?: ResourceRecordSetList;
   /** Which ResourceRecordSets to remove? Must match existing data exactly. */
-  deletions?: ResourceRecordSetList;
+  deletions?: ResourceRecordSetList | undefined;
+  /** Unique identifier for the resource; defined by the server (output only). */
+  id?: string | undefined;
   /** The time that this operation was started by the server (output only). This is in RFC3339 text format. */
-  startTime?: string;
+  startTime?: string | undefined;
+  /** If the DNS queries for the zone will be served. */
+  isServing?: boolean | undefined;
+  kind?: string | undefined;
+  /** Which ResourceRecordSets to add? */
+  additions?: ResourceRecordSetList | undefined;
   /** Status of the operation (output only). A status of "done" means that the request to update the authoritative servers has been sent, but the servers might not be updated yet. */
-  status?: ChangeStatusEnum | (string & {});
+  status?: ChangeStatusEnum | (string & {}) | undefined;
 }
-export interface CreateChangesRequest {
-  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
-  clientOperationId?: string;
+export interface CreateChangesRequest extends Change {
   /** Identifies the managed zone addressed by this request. Can be the managed zone name or ID. */
   managedZone: string;
   /** Identifies the project addressed by this request. */
   project: string;
-  /** Request body */
-  body?: Change;
+  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
+  clientOperationId?: string | undefined;
 }
-export interface ManagedZoneForwardingConfigOutboundEndpoint {
-  /** Specified as a resource path including project and region. This should be formatted like projects/{project}/locations/{location}/outboundEndpoints/{endpoint} */
-  name?: string;
-  kind?: string;
+export type ManagedZoneVisibilityEnum = "public" | "private";
+export interface ManagedZonePeeringConfigTargetNetwork {
+  /** The time at which the zone was deactivated, in RFC 3339 date-time format. An empty string indicates that the peering connection is active. The producer network can deactivate a zone. The zone is automatically deactivated if the producer network that the zone targeted is deleted. Output only. */
+  deactivateTime?: string | undefined;
+  kind?: string | undefined;
+  /** The fully qualified URL of the VPC network to forward queries to. This should be formatted like `https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}` */
+  networkUrl?: string | undefined;
 }
-export type ManagedZoneForwardingConfigOutboundEndpointList =
-  Array<ManagedZoneForwardingConfigOutboundEndpoint>;
-export type ManagedZoneForwardingConfigNameServerTargetForwardingPathEnum = "default" | "private";
-export interface ManagedZoneForwardingConfigNameServerTarget {
-  /** Forwarding path for this NameServerTarget. If unset or set to DEFAULT, Cloud DNS makes forwarding decisions based on IP address ranges; that is, RFC1918 addresses go to the VPC network, non-RFC1918 addresses go to the internet. When set to PRIVATE, Cloud DNS always sends queries through the VPC network for this target. */
-  forwardingPath?: ManagedZoneForwardingConfigNameServerTargetForwardingPathEnum | (string & {});
-  /** Fully qualified domain name for the forwarding target. */
-  domainName?: string;
-  kind?: string;
-  /** IPv4 address of a target name server. */
-  ipv4Address?: string;
-  /** IPv6 address of a target name server. Does not accept both fields (ipv4 & ipv6) being populated. Public preview as of November 2022. */
-  ipv6Address?: string;
-}
-export type ManagedZoneForwardingConfigNameServerTargetList =
-  Array<ManagedZoneForwardingConfigNameServerTarget>;
-export interface ManagedZoneForwardingConfig {
-  kind?: string;
-  /** The list of outbound endpoints to use for queries. */
-  outboundEndpoints?: ManagedZoneForwardingConfigOutboundEndpointList;
-  /** List of target name servers to forward to. Cloud DNS selects the best available name server if more than one target is given. */
-  targetNameServers?: ManagedZoneForwardingConfigNameServerTargetList;
+export interface ManagedZonePeeringConfig {
+  /** The network with which to peer. */
+  targetNetwork?: ManagedZonePeeringConfigTargetNetwork | undefined;
+  kind?: string | undefined;
 }
 export interface ManagedZoneServiceDirectoryConfigNamespace {
   /** The fully qualified URL of the namespace associated with the zone. Format must be `https://servicedirectory.googleapis.com/v1/projects/{project}/locations/{location}/namespaces/{namespace}` */
-  namespaceUrl?: string;
+  namespaceUrl?: string | undefined;
+  kind?: string | undefined;
   /** The time that the namespace backing this zone was deleted; an empty string if it still exists. This is in RFC3339 text format. Output only. */
-  deletionTime?: string;
-  kind?: string;
+  deletionTime?: string | undefined;
 }
 /** Contains information about Service Directory-backed zones. */
 export interface ManagedZoneServiceDirectoryConfig {
   /** Contains information about the namespace associated with the zone. */
-  namespace?: ManagedZoneServiceDirectoryConfigNamespace;
-  kind?: string;
+  namespace?: ManagedZoneServiceDirectoryConfigNamespace | undefined;
+  kind?: string | undefined;
 }
-/** Cloud Logging configurations for publicly visible zones. */
-export interface ManagedZoneCloudLoggingConfig {
-  /** If set, enable query logging for this ManagedZone. False by default, making logging opt-in. */
-  enableLogging?: boolean;
-  kind?: string;
+export type StringMap = { [key: string]: string | undefined };
+export type ManagedZoneForwardingConfigNameServerTargetForwardingPathEnum = "default" | "private";
+export interface ManagedZoneForwardingConfigNameServerTarget {
+  /** IPv6 address of a target name server. Does not accept both fields (ipv4 & ipv6) being populated. Public preview as of November 2022. */
+  ipv6Address?: string | undefined;
+  /** Fully qualified domain name for the forwarding target. */
+  domainName?: string | undefined;
+  /** IPv4 address of a target name server. */
+  ipv4Address?: string | undefined;
+  /** Forwarding path for this NameServerTarget. If unset or set to DEFAULT, Cloud DNS makes forwarding decisions based on IP address ranges; that is, RFC1918 addresses go to the VPC network, non-RFC1918 addresses go to the internet. When set to PRIVATE, Cloud DNS always sends queries through the VPC network for this target. */
+  forwardingPath?:
+    | ManagedZoneForwardingConfigNameServerTargetForwardingPathEnum
+    | (string & {})
+    | undefined;
+  kind?: string | undefined;
 }
-export type ManagedZoneVisibilityEnum = "public" | "private";
-export interface ManagedZonePrivateVisibilityConfigGKECluster {
-  /** The resource name of the cluster to bind this ManagedZone to. This should be specified in the format like: projects/*\/locations/*\/clusters/*. This is referenced from GKE projects.locations.clusters.get API: https://cloud.google.com/kubernetes-engine/docs/reference/rest/v1/projects.locations.clusters/get */
-  gkeClusterName?: string;
-  kind?: string;
+export type ManagedZoneForwardingConfigNameServerTargetList =
+  Array<ManagedZoneForwardingConfigNameServerTarget>;
+export interface ManagedZoneForwardingConfigOutboundEndpoint {
+  /** Specified as a resource path including project and region. This should be formatted like projects/{project}/locations/{location}/outboundEndpoints/{endpoint} */
+  name?: string | undefined;
+  kind?: string | undefined;
 }
-export type ManagedZonePrivateVisibilityConfigGKEClusterList =
-  Array<ManagedZonePrivateVisibilityConfigGKECluster>;
-export interface ManagedZonePrivateVisibilityConfigNetwork {
-  kind?: string;
-  /** The fully qualified URL of the VPC network to bind to. Format this URL like `https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}` */
-  networkUrl?: string;
-}
-export type ManagedZonePrivateVisibilityConfigNetworkList =
-  Array<ManagedZonePrivateVisibilityConfigNetwork>;
-export interface ManagedZonePrivateVisibilityConfig {
-  kind?: string;
-  /** The list of Google Kubernetes Engine clusters that can see this zone. */
-  gkeClusters?: ManagedZonePrivateVisibilityConfigGKEClusterList;
-  /** The list of VPC networks that can see this zone. */
-  networks?: ManagedZonePrivateVisibilityConfigNetworkList;
-}
-export interface ManagedZonePeeringConfigTargetNetwork {
-  /** The fully qualified URL of the VPC network to forward queries to. This should be formatted like `https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}` */
-  networkUrl?: string;
-  kind?: string;
-  /** The time at which the zone was deactivated, in RFC 3339 date-time format. An empty string indicates that the peering connection is active. The producer network can deactivate a zone. The zone is automatically deactivated if the producer network that the zone targeted is deleted. Output only. */
-  deactivateTime?: string;
-}
-export interface ManagedZonePeeringConfig {
-  kind?: string;
-  /** The network with which to peer. */
-  targetNetwork?: ManagedZonePeeringConfigTargetNetwork;
+export type ManagedZoneForwardingConfigOutboundEndpointList =
+  Array<ManagedZoneForwardingConfigOutboundEndpoint>;
+export interface ManagedZoneForwardingConfig {
+  kind?: string | undefined;
+  /** List of target name servers to forward to. Cloud DNS selects the best available name server if more than one target is given. */
+  targetNameServers?: ManagedZoneForwardingConfigNameServerTargetList | undefined;
+  /** The list of outbound endpoints to use for queries. */
+  outboundEndpoints?: ManagedZoneForwardingConfigOutboundEndpointList | undefined;
 }
 export type ManagedZoneDnsSecConfigNonExistenceEnum = "nsec" | "nsec3";
-export type ManagedZoneDnsSecConfigStateEnum = "off" | "on" | "transfer";
 export type DnsKeySpecAlgorithmEnum =
   | "rsasha1"
   | "rsasha256"
@@ -315,282 +292,298 @@ export type DnsKeySpecAlgorithmEnum =
 export type DnsKeySpecKeyTypeEnum = "keySigning" | "zoneSigning";
 /** Parameters for DnsKey key generation. Used for generating initial keys for a new ManagedZone and as default when adding a new DnsKey. */
 export interface DnsKeySpec {
+  kind?: string | undefined;
   /** Length of the keys in bits. */
-  keyLength?: number;
+  keyLength?: number | undefined;
   /** String mnemonic specifying the DNSSEC algorithm of this key. */
-  algorithm?: DnsKeySpecAlgorithmEnum | (string & {});
-  kind?: string;
+  algorithm?: DnsKeySpecAlgorithmEnum | (string & {}) | undefined;
   /** Specifies whether this is a key signing key (KSK) or a zone signing key (ZSK). Key signing keys have the Secure Entry Point flag set and, when active, are only used to sign resource record sets of type DNSKEY. Zone signing keys do not have the Secure Entry Point flag set and are used to sign all other types of resource record sets. */
-  keyType?: DnsKeySpecKeyTypeEnum | (string & {});
+  keyType?: DnsKeySpecKeyTypeEnum | (string & {}) | undefined;
 }
 export type DnsKeySpecList = Array<DnsKeySpec>;
+export type ManagedZoneDnsSecConfigStateEnum = "off" | "on" | "transfer";
 export interface ManagedZoneDnsSecConfig {
-  kind?: string;
   /** Specifies the mechanism for authenticated denial-of-existence responses. Can only be changed while the state is OFF. */
-  nonExistence?: ManagedZoneDnsSecConfigNonExistenceEnum | (string & {});
-  /** Specifies whether DNSSEC is enabled, and what mode it is in. */
-  state?: ManagedZoneDnsSecConfigStateEnum | (string & {});
+  nonExistence?: ManagedZoneDnsSecConfigNonExistenceEnum | (string & {}) | undefined;
+  kind?: string | undefined;
   /** Specifies parameters for generating initial DnsKeys for this ManagedZone. Can only be changed while the state is OFF. */
-  defaultKeySpecs?: DnsKeySpecList;
+  defaultKeySpecs?: DnsKeySpecList | undefined;
+  /** Specifies whether DNSSEC is enabled, and what mode it is in. */
+  state?: ManagedZoneDnsSecConfigStateEnum | (string & {}) | undefined;
+}
+export interface ManagedZonePrivateVisibilityConfigGKECluster {
+  /** The resource name of the cluster to bind this ManagedZone to. This should be specified in the format like: projects/*\/locations/*\/clusters/*. This is referenced from GKE projects.locations.clusters.get API: https://cloud.google.com/kubernetes-engine/docs/reference/rest/v1/projects.locations.clusters/get */
+  gkeClusterName?: string | undefined;
+  kind?: string | undefined;
+}
+export type ManagedZonePrivateVisibilityConfigGKEClusterList =
+  Array<ManagedZonePrivateVisibilityConfigGKECluster>;
+export interface ManagedZonePrivateVisibilityConfigNetwork {
+  /** The fully qualified URL of the VPC network to bind to. Format this URL like `https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}` */
+  networkUrl?: string | undefined;
+  kind?: string | undefined;
+}
+export type ManagedZonePrivateVisibilityConfigNetworkList =
+  Array<ManagedZonePrivateVisibilityConfigNetwork>;
+export interface ManagedZonePrivateVisibilityConfig {
+  /** The list of Google Kubernetes Engine clusters that can see this zone. */
+  gkeClusters?: ManagedZonePrivateVisibilityConfigGKEClusterList | undefined;
+  kind?: string | undefined;
+  /** The list of VPC networks that can see this zone. */
+  networks?: ManagedZonePrivateVisibilityConfigNetworkList | undefined;
+}
+/** Cloud Logging configurations for publicly visible zones. */
+export interface ManagedZoneCloudLoggingConfig {
+  /** If set, enable query logging for this ManagedZone. False by default, making logging opt-in. */
+  enableLogging?: boolean | undefined;
+  kind?: string | undefined;
 }
 export interface ManagedZoneReverseLookupConfig {
-  kind?: string;
+  kind?: string | undefined;
 }
-export type StringMap = { [key: string]: string | undefined };
 /** A zone is a subtree of the DNS namespace under one administrative responsibility. A ManagedZone is a resource that represents a DNS zone hosted by the Cloud DNS service. */
 export interface ManagedZone {
-  /** The DNS name of this managed zone, for instance "example.com.". */
-  dnsName?: string;
-  /** The presence for this field indicates that outbound forwarding is enabled for this zone. The value of this field contains the set of destinations to forward to. */
-  forwardingConfig?: ManagedZoneForwardingConfig;
-  kind?: string;
-  /** This field links to the associated service directory namespace. Do not set this field for public zones or forwarding zones. */
-  serviceDirectoryConfig?: ManagedZoneServiceDirectoryConfig;
   /** Optionally specifies the NameServerSet for this ManagedZone. A NameServerSet is a set of DNS name servers that all host the same ManagedZones. Most users leave this field unset. If you need to use this field, contact your account team. */
-  nameServerSet?: string;
-  cloudLoggingConfig?: ManagedZoneCloudLoggingConfig;
-  /** A mutable string of at most 1024 characters associated with this resource for the user's convenience. Has no effect on the managed zone's function. */
-  description?: string;
-  /** The time that this resource was created on the server. This is in RFC3339 text format. Output only. */
-  creationTime?: string;
-  /** The zone's visibility: public zones are exposed to the Internet, while private zones are visible only to Virtual Private Cloud resources. */
-  visibility?: ManagedZoneVisibilityEnum | (string & {});
-  /** For privately visible zones, the set of Virtual Private Cloud resources that the zone is visible from. */
-  privateVisibilityConfig?: ManagedZonePrivateVisibilityConfig;
-  /** The presence of this field indicates that DNS Peering is enabled for this zone. The value of this field contains the network to peer with. */
-  peeringConfig?: ManagedZonePeeringConfig;
-  /** Delegate your managed_zone to these virtual name servers; defined by the server (output only) */
-  nameServers?: StringList;
-  /** DNSSEC configuration. */
-  dnssecConfig?: ManagedZoneDnsSecConfig;
-  /** The presence of this field indicates that this is a managed reverse lookup zone and Cloud DNS resolves reverse lookup queries using automatically configured records for VPC resources. This only applies to networks listed under private_visibility_config. */
-  reverseLookupConfig?: ManagedZoneReverseLookupConfig;
-  /** User assigned name for this resource. Must be unique within the project. The name must be 1-63 characters long, must begin with a letter, end with a letter or digit, and only contain lowercase letters, digits or dashes. */
-  name?: string;
+  nameServerSet?: string | undefined;
   /** Unique identifier for the resource; defined by the server (output only) */
-  id?: string;
+  id?: string | undefined;
+  /** The zone's visibility: public zones are exposed to the Internet, while private zones are visible only to Virtual Private Cloud resources. */
+  visibility?: ManagedZoneVisibilityEnum | (string & {}) | undefined;
+  /** The presence of this field indicates that DNS Peering is enabled for this zone. The value of this field contains the network to peer with. */
+  peeringConfig?: ManagedZonePeeringConfig | undefined;
+  /** This field links to the associated service directory namespace. Do not set this field for public zones or forwarding zones. */
+  serviceDirectoryConfig?: ManagedZoneServiceDirectoryConfig | undefined;
+  kind?: string | undefined;
+  /** A mutable string of at most 1024 characters associated with this resource for the user's convenience. Has no effect on the managed zone's function. */
+  description?: string | undefined;
+  /** The DNS name of this managed zone, for instance "example.com.". */
+  dnsName?: string | undefined;
   /** User labels. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
+  /** User assigned name for this resource. Must be unique within the project. The name must be 1-63 characters long, must begin with a letter, end with a letter or digit, and only contain lowercase letters, digits or dashes. */
+  name?: string | undefined;
+  /** The presence for this field indicates that outbound forwarding is enabled for this zone. The value of this field contains the set of destinations to forward to. */
+  forwardingConfig?: ManagedZoneForwardingConfig | undefined;
+  /** Delegate your managed_zone to these virtual name servers; defined by the server (output only) */
+  nameServers?: StringList | undefined;
+  /** DNSSEC configuration. */
+  dnssecConfig?: ManagedZoneDnsSecConfig | undefined;
+  /** For privately visible zones, the set of Virtual Private Cloud resources that the zone is visible from. */
+  privateVisibilityConfig?: ManagedZonePrivateVisibilityConfig | undefined;
+  cloudLoggingConfig?: ManagedZoneCloudLoggingConfig | undefined;
+  /** The presence of this field indicates that this is a managed reverse lookup zone and Cloud DNS resolves reverse lookup queries using automatically configured records for VPC resources. This only applies to networks listed under private_visibility_config. */
+  reverseLookupConfig?: ManagedZoneReverseLookupConfig | undefined;
+  /** The time that this resource was created on the server. This is in RFC3339 text format. Output only. */
+  creationTime?: string | undefined;
 }
-export interface CreateManagedZonesRequest {
+export interface CreateManagedZonesRequest extends ManagedZone {
+  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
+  clientOperationId?: string | undefined;
   /** Identifies the project addressed by this request. */
   project: string;
-  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
-  clientOperationId?: string;
-  /** Request body */
-  body?: ManagedZone;
 }
 /** An OutboundEndpoint is a regional resource to enable outbound forwarding from a private IP range in VPCs to on-premise or other networks. */
 export interface OutboundEndpoint {
-  /** Required. Immutable. The subnetwork holding the endpoint_ip, specified as full path. */
-  subnetwork?: string;
-  /** Required. Immutable. The VPC network containing the outbound endpoint, specified as full path. */
-  network?: string;
-  /** Optional. Labels as key value pairs */
-  labels?: StringMap;
-  /** Output only. [Output only] Create time stamp */
-  createTime?: string;
   /** Optional. User provided description. */
-  description?: string;
-  /** Optional. Annotations as key value pairs */
-  annotations?: StringMap;
-  /** Identifier. The resource name of the OutboundEndpoint. Format: `projects/{project}/locations/{location}/outboundEndpoints/{outboundEndpoint}` */
-  name?: string;
-  /** Required. Immutable. User provided IP address to use for outbound DNS forwarding. This address must be a free address on the subnetwork. */
-  endpointIp?: string;
-  /** Output only. [Output only] Update time stamp */
-  updateTime?: string;
+  description?: string | undefined;
+  /** Required. Immutable. The VPC network containing the outbound endpoint, specified as full path. */
+  network?: string | undefined;
   /** Optional. Tag bindings as key value pairs */
-  tags?: StringMap;
+  tags?: StringMap | undefined;
+  /** Optional. Annotations as key value pairs */
+  annotations?: StringMap | undefined;
+  /** Optional. Immutable. User provided IP address to use for outbound DNS forwarding. This address must be a free address on the subnetwork. If omitted, a free IP address from the subnetwork is automatically allocated. */
+  endpointIp?: string | undefined;
+  /** Optional. Labels as key value pairs */
+  labels?: StringMap | undefined;
+  /** Output only. [Output only] Create time stamp */
+  createTime?: string | undefined;
+  /** Required. Immutable. The subnetwork holding the endpoint_ip, specified as full path. */
+  subnetwork?: string | undefined;
+  /** Identifier. The resource name of the OutboundEndpoint. Format: `projects/{project}/locations/{location}/outboundEndpoints/{outboundEndpoint}` */
+  name?: string | undefined;
+  /** Output only. [Output only] Update time stamp */
+  updateTime?: string | undefined;
 }
-export interface CreateOutboundEndpointsRequest {
-  /** Required. The ID to use for the OutboundEndpoint, which will become the final component of the OutboundEndpoint's resource name. */
-  outboundEndpointId?: string;
+export interface CreateOutboundEndpointsRequest extends OutboundEndpoint {
   /** Required. The parent project and location where this OutboundEndpoint will be created. Format: projects/{project}/locations/{location} */
   parent: string;
-  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
-  clientOperationId?: string;
   /** Optional. An optional request ID to identify requests. */
-  requestId?: string;
-  /** Request body */
-  body?: OutboundEndpoint;
+  requestId?: string | undefined;
+  /** Required. The ID to use for the OutboundEndpoint, which will become the final component of the OutboundEndpoint's resource name. */
+  outboundEndpointId?: string | undefined;
+  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
+  clientOperationId?: string | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface GoogleLongrunningOperation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  name?: string | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean | undefined;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status | undefined;
 }
 export interface PolicyDns64ConfigScope {
-  kind?: string;
+  kind?: string | undefined;
   /** Controls whether DNS64 is enabled globally for all networks bound to the policy. */
-  allQueries?: boolean;
+  allQueries?: boolean | undefined;
 }
 /** DNS64 policies */
 export interface PolicyDns64Config {
   /** The scope to which DNS64 config will be applied to. */
-  scope?: PolicyDns64ConfigScope;
-  kind?: string;
+  scope?: PolicyDns64ConfigScope | undefined;
+  kind?: string | undefined;
 }
-export interface PolicyNetwork {
-  /** The fully qualified URL of the VPC network to bind to. This should be formatted like https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network} */
-  networkUrl?: string;
-  kind?: string;
-}
-export type PolicyNetworkList = Array<PolicyNetwork>;
-export type PolicyAlternativeNameServerConfigOutboundEndpoint =
-  ManagedZoneForwardingConfigOutboundEndpoint;
-export type PolicyAlternativeNameServerConfigOutboundEndpointList =
-  Array<ManagedZoneForwardingConfigOutboundEndpoint>;
 export type PolicyAlternativeNameServerConfigTargetNameServerForwardingPathEnum =
   | "default"
   | "private";
 export interface PolicyAlternativeNameServerConfigTargetNameServer {
-  kind?: string;
   /** Forwarding path for this TargetNameServer. If unset or set to DEFAULT, Cloud DNS makes forwarding decisions based on address ranges; that is, RFC1918 addresses go to the VPC network, non-RFC1918 addresses go to the internet. When set to PRIVATE, Cloud DNS always sends queries through the VPC network for this target. */
   forwardingPath?:
     | PolicyAlternativeNameServerConfigTargetNameServerForwardingPathEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
+  kind?: string | undefined;
   /** IPv4 address to forward queries to. */
-  ipv4Address?: string;
+  ipv4Address?: string | undefined;
   /** IPv6 address to forward to. Does not accept both fields (ipv4 & ipv6) being populated. Public preview as of November 2022. */
-  ipv6Address?: string;
+  ipv6Address?: string | undefined;
 }
 export type PolicyAlternativeNameServerConfigTargetNameServerList =
   Array<PolicyAlternativeNameServerConfigTargetNameServer>;
+export type PolicyAlternativeNameServerConfigOutboundEndpoint =
+  ManagedZoneForwardingConfigOutboundEndpoint;
+export type PolicyAlternativeNameServerConfigOutboundEndpointList =
+  Array<ManagedZoneForwardingConfigOutboundEndpoint>;
 export interface PolicyAlternativeNameServerConfig {
-  /** The list of outbound endpoints to use for queries. */
-  outboundEndpoints?: PolicyAlternativeNameServerConfigOutboundEndpointList;
-  kind?: string;
+  kind?: string | undefined;
   /** Sets an alternative name server for the associated networks. When specified, all DNS queries are forwarded to a name server that you choose. Names such as .internal are not available when an alternative name server is specified. */
-  targetNameServers?: PolicyAlternativeNameServerConfigTargetNameServerList;
+  targetNameServers?: PolicyAlternativeNameServerConfigTargetNameServerList | undefined;
+  /** The list of outbound endpoints to use for queries. */
+  outboundEndpoints?: PolicyAlternativeNameServerConfigOutboundEndpointList | undefined;
 }
+export interface PolicyNetwork {
+  /** The fully qualified URL of the VPC network to bind to. This should be formatted like https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network} */
+  networkUrl?: string | undefined;
+  kind?: string | undefined;
+}
+export type PolicyNetworkList = Array<PolicyNetwork>;
 /** A policy is a collection of DNS rules applied to one or more Virtual Private Cloud resources. */
 export interface Policy {
-  /** Configurations related to DNS64 for this policy. */
-  dns64Config?: PolicyDns64Config;
-  kind?: string;
-  /** A mutable string of at most 1024 characters associated with this resource for the user's convenience. Has no effect on the policy's function. */
-  description?: string;
-  /** Unique identifier for the resource; defined by the server (output only). */
-  id?: string;
-  /** List of network names specifying networks to which this policy is applied. */
-  networks?: PolicyNetworkList;
-  /** User-assigned name for this policy. */
-  name?: string;
-  /** Sets an alternative name server for the associated networks. When specified, all DNS queries are forwarded to a name server that you choose. Names such as .internal are not available when an alternative name server is specified. */
-  alternativeNameServerConfig?: PolicyAlternativeNameServerConfig;
-  /** Controls whether logging is enabled for the networks bound to this policy. Defaults to no logging if not set. */
-  enableLogging?: boolean;
   /** Allows networks bound to this policy to receive DNS queries sent by VMs or applications over VPN connections. When enabled, a virtual IP address is allocated from each of the subnetworks that are bound to this policy. */
-  enableInboundForwarding?: boolean;
+  enableInboundForwarding?: boolean | undefined;
+  /** A mutable string of at most 1024 characters associated with this resource for the user's convenience. Has no effect on the policy's function. */
+  description?: string | undefined;
+  /** Configurations related to DNS64 for this policy. */
+  dns64Config?: PolicyDns64Config | undefined;
+  /** Controls whether logging is enabled for the networks bound to this policy. Defaults to no logging if not set. */
+  enableLogging?: boolean | undefined;
+  /** Unique identifier for the resource; defined by the server (output only). */
+  id?: string | undefined;
+  /** Sets an alternative name server for the associated networks. When specified, all DNS queries are forwarded to a name server that you choose. Names such as .internal are not available when an alternative name server is specified. */
+  alternativeNameServerConfig?: PolicyAlternativeNameServerConfig | undefined;
+  /** User-assigned name for this policy. */
+  name?: string | undefined;
+  kind?: string | undefined;
+  /** List of network names specifying networks to which this policy is applied. */
+  networks?: PolicyNetworkList | undefined;
 }
-export interface CreatePoliciesRequest {
+export interface CreatePoliciesRequest extends Policy {
+  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
+  clientOperationId?: string | undefined;
   /** Identifies the project addressed by this request. */
   project: string;
-  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
-  clientOperationId?: string;
-  /** Request body */
-  body?: Policy;
 }
-export interface CreateResourceRecordSetsRequest {
-  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
-  clientOperationId?: string;
+export interface CreateResourceRecordSetsRequest extends ResourceRecordSet {
   /** Identifies the project addressed by this request. */
   project: string;
   /** Identifies the managed zone addressed by this request. Can be the managed zone name or ID. */
   managedZone: string;
-  /** Request body */
-  body?: ResourceRecordSet;
+  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
+  clientOperationId?: string | undefined;
 }
 export interface ResponsePolicyGKECluster {
   /** The resource name of the cluster to bind this response policy to. This should be specified in the format like: projects/*\/locations/*\/clusters/*. This is referenced from GKE projects.locations.clusters.get API: https://cloud.google.com/kubernetes-engine/docs/reference/rest/v1/projects.locations.clusters/get */
-  gkeClusterName?: string;
-  kind?: string;
+  gkeClusterName?: string | undefined;
+  kind?: string | undefined;
 }
 export type ResponsePolicyGKEClusterList = Array<ResponsePolicyGKECluster>;
 export interface ResponsePolicyNetwork {
   /** The fully qualified URL of the VPC network to bind to. This should be formatted like `https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}` */
-  networkUrl?: string;
-  kind?: string;
+  networkUrl?: string | undefined;
+  kind?: string | undefined;
 }
 export type ResponsePolicyNetworkList = Array<ResponsePolicyNetwork>;
 /** A Response Policy is a collection of selectors that apply to queries made against one or more Virtual Private Cloud networks. */
 export interface ResponsePolicy {
-  /** User labels. */
-  labels?: StringMap;
   /** The list of Google Kubernetes Engine clusters to which this response policy is applied. */
-  gkeClusters?: ResponsePolicyGKEClusterList;
-  /** Unique identifier for the resource; defined by the server (output only). */
-  id?: string;
-  kind?: string;
-  /** User assigned name for this Response Policy. */
-  responsePolicyName?: string;
-  /** List of network names specifying networks to which this policy is applied. */
-  networks?: ResponsePolicyNetworkList;
+  gkeClusters?: ResponsePolicyGKEClusterList | undefined;
   /** User-provided description for this Response Policy. */
-  description?: string;
+  description?: string | undefined;
+  /** User labels. */
+  labels?: StringMap | undefined;
+  /** User assigned name for this Response Policy. */
+  responsePolicyName?: string | undefined;
+  /** List of network names specifying networks to which this policy is applied. */
+  networks?: ResponsePolicyNetworkList | undefined;
+  kind?: string | undefined;
+  /** Unique identifier for the resource; defined by the server (output only). */
+  id?: string | undefined;
 }
-export interface CreateResponsePoliciesRequest {
-  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
-  clientOperationId?: string;
+export interface CreateResponsePoliciesRequest extends ResponsePolicy {
   /** Identifies the project addressed by this request. */
   project: string;
-  /** Request body */
-  body?: ResponsePolicy;
+  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
+  clientOperationId?: string | undefined;
 }
 export type ResponsePolicyRuleBehaviorEnum = "behaviorUnspecified" | "bypassResponsePolicy";
 export interface ResponsePolicyRuleLocalData {
   /** All resource record sets for this selector, one per resource record type. The name must match the dns_name. */
-  localDatas?: ResourceRecordSetList;
+  localDatas?: ResourceRecordSetList | undefined;
 }
 /** A Response Policy Rule is a selector that applies its behavior to queries that match the selector. Selectors are DNS names, which may be wildcards or exact matches. Each DNS query subject to a Response Policy matches at most one ResponsePolicyRule, as identified by the dns_name field with the longest matching suffix. */
 export interface ResponsePolicyRule {
+  kind?: string | undefined;
   /** Answer this query with a behavior rather than DNS data. */
-  behavior?: ResponsePolicyRuleBehaviorEnum | (string & {});
-  /** An identifier for this rule. Must be unique with the ResponsePolicy. */
-  ruleName?: string;
+  behavior?: ResponsePolicyRuleBehaviorEnum | (string & {}) | undefined;
   /** The DNS name (wildcard or exact) to apply this rule to. Must be unique within the Response Policy Rule. */
-  dnsName?: string;
-  kind?: string;
+  dnsName?: string | undefined;
+  /** An identifier for this rule. Must be unique with the ResponsePolicy. */
+  ruleName?: string | undefined;
   /** Answer this query directly with DNS data. These ResourceRecordSets override any other DNS behavior for the matched name; in particular they override private zones, the public internet, and GCP internal DNS. No SOA nor NS types are allowed. */
-  localData?: ResponsePolicyRuleLocalData;
+  localData?: ResponsePolicyRuleLocalData | undefined;
 }
-export interface CreateResponsePolicyRulesRequest {
+export interface CreateResponsePolicyRulesRequest extends ResponsePolicyRule {
   /** Identifies the project addressed by this request. */
   project: string;
   /** User assigned name of the Response Policy containing the Response Policy Rule. */
   responsePolicy: string;
   /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
-  clientOperationId?: string;
-  /** Request body */
-  body?: ResponsePolicyRule;
+  clientOperationId?: string | undefined;
 }
 export interface DeleteManagedZonesRequest {
-  /** Identifies the managed zone addressed by this request. Can be the managed zone name or ID. */
-  managedZone: string;
-  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
-  clientOperationId?: string;
   /** Identifies the project addressed by this request. */
   project: string;
+  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
+  clientOperationId?: string | undefined;
+  /** Identifies the managed zone addressed by this request. Can be the managed zone name or ID. */
+  managedZone: string;
 }
 export interface DeleteManagedZonesResponse {}
 export interface DeleteOperationsRequest {
@@ -598,151 +591,149 @@ export interface DeleteOperationsRequest {
   name: string;
 }
 export interface DeleteOutboundEndpointsRequest {
-  /** Optional. An optional request ID to identify requests. */
-  requestId?: string;
+  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
+  clientOperationId?: string | undefined;
   /** Required. The name of the OutboundEndpoint to delete. Format: projects/{project}/locations/{location}/outboundEndpoints/{outboundEndpoint} */
   name: string;
-  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
-  clientOperationId?: string;
+  /** Optional. An optional request ID to identify requests. */
+  requestId?: string | undefined;
 }
 export interface DeletePoliciesRequest {
+  /** User given friendly name of the policy addressed by this request. */
+  policy: string;
   /** Identifies the project addressed by this request. */
   project: string;
   /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
-  clientOperationId?: string;
-  /** User given friendly name of the policy addressed by this request. */
-  policy: string;
+  clientOperationId?: string | undefined;
 }
 export interface DeletePoliciesResponse {}
 export interface DeleteResourceRecordSetsRequest {
-  /** Fully qualified domain name. */
-  name: string;
-  /** Identifies the project addressed by this request. */
-  project: string;
+  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
+  clientOperationId?: string | undefined;
   /** Identifies the managed zone addressed by this request. Can be the managed zone name or ID. */
   managedZone: string;
-  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
-  clientOperationId?: string;
+  /** Fully qualified domain name. */
+  name: string;
   /** RRSet type. */
   type: string;
+  /** Identifies the project addressed by this request. */
+  project: string;
 }
 export interface ResourceRecordSetsDeleteResponse {}
 export interface DeleteResponsePoliciesRequest {
   /** Identifies the project addressed by this request. */
   project: string;
-  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
-  clientOperationId?: string;
   /** User assigned name of the Response Policy addressed by this request. */
   responsePolicy: string;
+  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
+  clientOperationId?: string | undefined;
 }
 export interface DeleteResponsePoliciesResponse {}
 export interface DeleteResponsePolicyRulesRequest {
   /** Identifies the project addressed by this request. */
   project: string;
+  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
+  clientOperationId?: string | undefined;
   /** User assigned name of the Response Policy Rule addressed by this request. */
   responsePolicyRule: string;
   /** User assigned name of the Response Policy containing the Response Policy Rule. */
   responsePolicy: string;
-  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
-  clientOperationId?: string;
 }
 export interface DeleteResponsePolicyRulesResponse {}
 export interface GetChangesRequest {
-  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
-  clientOperationId?: string;
   /** The identifier of the requested change, from a previous ResourceRecordSetsChangeResponse. */
   changeId: string;
+  /** Identifies the managed zone addressed by this request. Can be the managed zone name or ID. */
+  managedZone: string;
+  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
+  clientOperationId?: string | undefined;
   /** Identifies the project addressed by this request. */
   project: string;
-  /** Identifies the managed zone addressed by this request. Can be the managed zone name or ID. */
-  managedZone: string;
 }
 export interface GetDnsKeysRequest {
-  /** Identifies the managed zone addressed by this request. Can be the managed zone name or ID. */
-  managedZone: string;
   /** Identifies the project addressed by this request. */
   project: string;
   /** The identifier of the requested DnsKey. */
   dnsKeyId: string;
+  /** Identifies the managed zone addressed by this request. Can be the managed zone name or ID. */
+  managedZone: string;
   /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
-  clientOperationId?: string;
+  clientOperationId?: string | undefined;
   /** An optional comma-separated list of digest types to compute and display for key signing keys. If omitted, the recommended digest type is computed and displayed. */
-  digestType?: string;
+  digestType?: string | undefined;
 }
-export type DnsKeyDigestTypeEnum = "sha1" | "sha256" | "sha384";
-export interface DnsKeyDigest {
-  /** Specifies the algorithm used to calculate this digest. */
-  type?: DnsKeyDigestTypeEnum;
-  /** The base-16 encoded bytes of this digest. Suitable for use in a DS resource record. */
-  digest?: string;
-}
-export type DnsKeyDigestList = Array<DnsKeyDigest>;
-export type DnsKeyTypeEnum = "keySigning" | "zoneSigning";
 export type DnsKeyAlgorithmEnum =
   | "rsasha1"
   | "rsasha256"
   | "rsasha512"
   | "ecdsap256sha256"
   | "ecdsap384sha384";
+export type DnsKeyDigestTypeEnum = "sha1" | "sha256" | "sha384";
+export interface DnsKeyDigest {
+  /** Specifies the algorithm used to calculate this digest. */
+  type?: DnsKeyDigestTypeEnum | undefined;
+  /** The base-16 encoded bytes of this digest. Suitable for use in a DS resource record. */
+  digest?: string | undefined;
+}
+export type DnsKeyDigestList = Array<DnsKeyDigest>;
+export type DnsKeyTypeEnum = "keySigning" | "zoneSigning";
 /** A DNSSEC key pair. */
 export interface DnsKey {
-  /** Cryptographic hashes of the DNSKEY resource record associated with this DnsKey. These digests are needed to construct a DS record that points at this DNS key. Output only. */
-  digests?: DnsKeyDigestList;
+  kind?: string | undefined;
   /** Unique identifier for the resource; defined by the server (output only). */
-  id?: string;
-  /** Length of the key in bits. Specified at creation time, and then immutable. */
-  keyLength?: number;
-  /** The time that this resource was created in the control plane. This is in RFC3339 text format. Output only. */
-  creationTime?: string;
-  /** One of "KEY_SIGNING" or "ZONE_SIGNING". Keys of type KEY_SIGNING have the Secure Entry Point flag set and, when active, are used to sign only resource record sets of type DNSKEY. Otherwise, the Secure Entry Point flag is cleared, and this key is used to sign only resource record sets of other types. Immutable after creation time. */
-  type?: DnsKeyTypeEnum;
-  kind?: string;
-  /** A mutable string of at most 1024 characters associated with this resource for the user's convenience. Has no effect on the resource's function. */
-  description?: string;
-  /** Base64 encoded public half of this key. Output only. */
-  publicKey?: string;
-  /** The key tag is a non-cryptographic hash of the a DNSKEY resource record associated with this DnsKey. The key tag can be used to identify a DNSKEY more quickly (but it is not a unique identifier). In particular, the key tag is used in a parent zone's DS record to point at the DNSKEY in this child ManagedZone. The key tag is a number in the range [0, 65535] and the algorithm to calculate it is specified in RFC4034 Appendix B. Output only. */
-  keyTag?: number;
-  /** Active keys are used to sign subsequent changes to the ManagedZone. Inactive keys are still present as DNSKEY Resource Records for the use of resolvers validating existing signatures. */
-  isActive?: boolean;
+  id?: string | undefined;
   /** String mnemonic specifying the DNSSEC algorithm of this key. Immutable after creation time. */
-  algorithm?: DnsKeyAlgorithmEnum;
+  algorithm?: DnsKeyAlgorithmEnum | undefined;
+  /** A mutable string of at most 1024 characters associated with this resource for the user's convenience. Has no effect on the resource's function. */
+  description?: string | undefined;
+  /** Cryptographic hashes of the DNSKEY resource record associated with this DnsKey. These digests are needed to construct a DS record that points at this DNS key. Output only. */
+  digests?: DnsKeyDigestList | undefined;
+  /** Length of the key in bits. Specified at creation time, and then immutable. */
+  keyLength?: number | undefined;
+  /** Base64 encoded public half of this key. Output only. */
+  publicKey?: string | undefined;
+  /** The time that this resource was created in the control plane. This is in RFC3339 text format. Output only. */
+  creationTime?: string | undefined;
+  /** One of "KEY_SIGNING" or "ZONE_SIGNING". Keys of type KEY_SIGNING have the Secure Entry Point flag set and, when active, are used to sign only resource record sets of type DNSKEY. Otherwise, the Secure Entry Point flag is cleared, and this key is used to sign only resource record sets of other types. Immutable after creation time. */
+  type?: DnsKeyTypeEnum | undefined;
+  /** Active keys are used to sign subsequent changes to the ManagedZone. Inactive keys are still present as DNSKEY Resource Records for the use of resolvers validating existing signatures. */
+  isActive?: boolean | undefined;
+  /** The key tag is a non-cryptographic hash of the a DNSKEY resource record associated with this DnsKey. The key tag can be used to identify a DNSKEY more quickly (but it is not a unique identifier). In particular, the key tag is used in a parent zone's DS record to point at the DNSKEY in this child ManagedZone. The key tag is a number in the range [0, 65535] and the algorithm to calculate it is specified in RFC4034 Appendix B. Output only. */
+  keyTag?: number | undefined;
 }
 /** Encapsulates settings provided to GetIamPolicy. */
 export interface GoogleIamV1GetPolicyOptions {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  requestedPolicyVersion?: number;
+  requestedPolicyVersion?: number | undefined;
 }
 /** Request message for `GetIamPolicy` method. */
 export interface GoogleIamV1GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
-  options?: GoogleIamV1GetPolicyOptions;
+  options?: GoogleIamV1GetPolicyOptions | undefined;
 }
-export interface GetIamPolicyManagedZonesRequest {
+export interface GetIamPolicyManagedZonesRequest extends GoogleIamV1GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1GetIamPolicyRequest;
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
-  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
   /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
+  expression?: string | undefined;
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string;
+  description?: string | undefined;
   /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
+  location?: string | undefined;
+  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
+  title?: string | undefined;
 }
 /** Associates `members`, or principals, with a `role`. */
 export interface GoogleIamV1Binding {
-  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr;
-  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string;
   /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  members?: StringList;
+  members?: StringList | undefined;
+  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  condition?: Expr | undefined;
+  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
+  role?: string | undefined;
 }
 export type GoogleIamV1BindingList = Array<GoogleIamV1Binding>;
 export type GoogleIamV1AuditLogConfigLogTypeEnum =
@@ -753,29 +744,29 @@ export type GoogleIamV1AuditLogConfigLogTypeEnum =
 /** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
 export interface GoogleIamV1AuditLogConfig {
   /** The log type that this config enables. */
-  logType?: GoogleIamV1AuditLogConfigLogTypeEnum | (string & {});
+  logType?: GoogleIamV1AuditLogConfigLogTypeEnum | (string & {}) | undefined;
   /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
-  exemptedMembers?: StringList;
+  exemptedMembers?: StringList | undefined;
 }
 export type GoogleIamV1AuditLogConfigList = Array<GoogleIamV1AuditLogConfig>;
 /** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
 export interface GoogleIamV1AuditConfig {
-  /** The configuration for logging of each type of permission. */
-  auditLogConfigs?: GoogleIamV1AuditLogConfigList;
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
-  service?: string;
+  service?: string | undefined;
+  /** The configuration for logging of each type of permission. */
+  auditLogConfigs?: GoogleIamV1AuditLogConfigList | undefined;
 }
 export type GoogleIamV1AuditConfigList = Array<GoogleIamV1AuditConfig>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface GoogleIamV1Policy {
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: GoogleIamV1BindingList;
-  /** Specifies cloud audit logging configuration for this policy. */
-  auditConfigs?: GoogleIamV1AuditConfigList;
+  bindings?: GoogleIamV1BindingList | undefined;
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
-  etag?: string;
+  etag?: string | undefined;
+  /** Specifies cloud audit logging configuration for this policy. */
+  auditConfigs?: GoogleIamV1AuditConfigList | undefined;
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number;
+  version?: number | undefined;
 }
 export interface GetLocationsRequest {
   /** Resource name for the location. */
@@ -783,83 +774,83 @@ export interface GetLocationsRequest {
 }
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
   /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
+  locationId?: string | undefined;
+  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
+  displayName?: string | undefined;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetManagedZoneOperationsRequest {
+  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
+  clientOperationId?: string | undefined;
+  /** Identifies the project addressed by this request. */
+  project: string;
   /** Identifies the operation addressed by this request (ID of the operation). */
   operation: string;
   /** Identifies the managed zone addressed by this request. */
   managedZone: string;
-  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
-  clientOperationId?: string;
-  /** Identifies the project addressed by this request. */
-  project: string;
+}
+export interface OperationDnsKeyContext {
+  /** The pre-operation DnsKey resource. */
+  oldValue?: DnsKey | undefined;
+  /** The post-operation DnsKey resource. */
+  newValue?: DnsKey | undefined;
 }
 export interface OperationManagedZoneContext {
   /** The pre-operation ManagedZone resource. */
-  oldValue?: ManagedZone;
+  oldValue?: ManagedZone | undefined;
   /** The post-operation ManagedZone resource. */
-  newValue?: ManagedZone;
+  newValue?: ManagedZone | undefined;
 }
 export type OperationStatusEnum = "pending" | "done";
-export interface OperationDnsKeyContext {
-  /** The pre-operation DnsKey resource. */
-  oldValue?: DnsKey;
-  /** The post-operation DnsKey resource. */
-  newValue?: DnsKey;
-}
 /** An operation represents a successful mutation performed on a Cloud DNS resource. Operations provide: - An audit log of server resource mutations. - A way to recover/retry API calls in the case where the response is never received by the caller. Use the caller specified client_operation_id. */
 export interface Operation {
-  /** Only populated if the operation targeted a ManagedZone (output only). */
-  zoneContext?: OperationManagedZoneContext;
-  /** The time that this operation was started by the server. This is in RFC3339 text format (output only). */
-  startTime?: string;
-  /** Type of the operation. Operations include insert, update, and delete (output only). */
-  type?: string;
-  kind?: string;
-  /** Status of the operation. Can be one of the following: "PENDING" or "DONE" (output only). A status of "DONE" means that the request to update the authoritative servers has been sent, but the servers might not be updated yet. */
-  status?: OperationStatusEnum;
   /** Only populated if the operation targeted a DnsKey (output only). */
-  dnsKeyContext?: OperationDnsKeyContext;
+  dnsKeyContext?: OperationDnsKeyContext | undefined;
   /** Unique identifier for the resource. This is the client_operation_id if the client specified it when the mutation was initiated, otherwise, it is generated by the server. The name must be 1-63 characters long and match the regular expression [-a-z0-9]? (output only) */
-  id?: string;
+  id?: string | undefined;
+  /** The time that this operation was started by the server. This is in RFC3339 text format (output only). */
+  startTime?: string | undefined;
+  /** Type of the operation. Operations include insert, update, and delete (output only). */
+  type?: string | undefined;
+  /** Only populated if the operation targeted a ManagedZone (output only). */
+  zoneContext?: OperationManagedZoneContext | undefined;
+  /** Status of the operation. Can be one of the following: "PENDING" or "DONE" (output only). A status of "DONE" means that the request to update the authoritative servers has been sent, but the servers might not be updated yet. */
+  status?: OperationStatusEnum | undefined;
   /** User who requested the operation, for example: user@example.com. cloud-dns-system for operations automatically done by the system. (output only) */
-  user?: string;
+  user?: string | undefined;
+  kind?: string | undefined;
 }
 export interface GetManagedZonesRequest {
-  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
-  clientOperationId?: string;
-  /** Identifies the project addressed by this request. */
-  project: string;
   /** Identifies the managed zone addressed by this request. Can be the managed zone name or ID. */
   managedZone: string;
+  /** Identifies the project addressed by this request. */
+  project: string;
+  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
+  clientOperationId?: string | undefined;
 }
 export interface GetOperationsRequest {
   /** The name of the operation resource. */
   name: string;
 }
 export interface GetOutboundEndpointsRequest {
+  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
+  clientOperationId?: string | undefined;
   /** Required. The name of the OutboundEndpoint to retrieve. Format: projects/{project}/locations/{location}/outboundEndpoints/{outboundEndpoint} */
   name: string;
-  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
-  clientOperationId?: string;
 }
 export interface GetPoliciesRequest {
-  /** User given friendly name of the policy addressed by this request. */
-  policy: string;
+  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
+  clientOperationId?: string | undefined;
   /** Identifies the project addressed by this request. */
   project: string;
-  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
-  clientOperationId?: string;
+  /** User given friendly name of the policy addressed by this request. */
+  policy: string;
 }
 export interface GetProjectsRequest {
   /** Identifies the project addressed by this request. */
@@ -867,479 +858,455 @@ export interface GetProjectsRequest {
 }
 /** Limits associated with a Project. */
 export interface Quota {
-  /** Maximum allowed number of managed zones which can be attached to a GKE cluster. */
-  managedZonesPerGkeCluster?: number;
-  /** DNSSEC algorithm and key length types that can be used for DnsKeys. */
-  whitelistedKeySpecs?: DnsKeySpecList;
-  /** Maximum allowed number of outbound endpoints per managed zone. */
-  outboundEndpointsPerManagedZone?: number;
-  /** Maximum allowed number of consumer peering zones per target network owned by this producer project */
-  peeringZonesPerTargetNetwork?: number;
   /** Maximum allowed number of ResourceRecordSets to add per ChangesCreateRequest. */
-  rrsetAdditionsPerChange?: number;
-  /** Maximum allowed number of networks per policy. */
-  networksPerPolicy?: number;
-  /** Maximum allowed number of GKE clusters per response policy. */
-  gkeClustersPerResponsePolicy?: number;
-  /** Maximum allowed number of GKE clusters per policy. */
-  gkeClustersPerPolicy?: number;
-  /** Maximum allowed number of ResourceRecordSets to delete per ChangesCreateRequest. */
-  rrsetDeletionsPerChange?: number;
-  /** Maximum allowed number of response policies per project. */
-  responsePolicies?: number;
-  internetHealthChecksPerManagedZone?: number;
-  /** Maximum allowed number of networks to which a privately scoped zone can be attached. */
-  networksPerManagedZone?: number;
-  /** Maximum allowed number of DnsKeys per ManagedZone. */
-  dnsKeysPerManagedZone?: number;
-  /** Maximum allowed number of managed zones which can be attached to a network. */
-  managedZonesPerNetwork?: number;
-  /** Maximum allowed number of policies per project. */
-  policies?: number;
+  rrsetAdditionsPerChange?: number | undefined;
   /** Maximum allowed number of ResourceRecordSets per zone in the project. */
-  rrsetsPerManagedZone?: number;
-  /** Maximum allowed number of ResourceRecords per ResourceRecordSet. */
-  resourceRecordsPerRrset?: number;
-  /** Maximum allowed number of target name servers per managed forwarding zone. */
-  targetNameServersPerManagedZone?: number;
-  /** Maximum allowed number of networks per response policy. */
-  networksPerResponsePolicy?: number;
-  /** Maximum allowed number of GKE clusters to which a privately scoped zone can be attached. */
-  gkeClustersPerManagedZone?: number;
-  /** Maximum allowed number of alternative target name servers per policy. */
-  targetNameServersPerPolicy?: number;
-  /** Maximum allowed number of items per routing policy. */
-  itemsPerRoutingPolicy?: number;
-  /** Maximum allowed number of outbound endpoints per policy. */
-  outboundEndpointsPerPolicy?: number;
-  /** Maximum allowed number of rules per response policy. */
-  responsePolicyRulesPerResponsePolicy?: number;
+  rrsetsPerManagedZone?: number | undefined;
   /** Maximum allowed number of managed zones in the project. */
-  managedZones?: number;
+  managedZones?: number | undefined;
   /** Maximum number of nameservers per delegation, meant to prevent abuse */
-  nameserversPerDelegation?: number;
+  nameserversPerDelegation?: number | undefined;
+  /** Maximum allowed number of outbound endpoints per managed zone. */
+  outboundEndpointsPerManagedZone?: number | undefined;
+  kind?: string | undefined;
+  /** Maximum allowed number of GKE clusters per policy. */
+  gkeClustersPerPolicy?: number | undefined;
+  /** Maximum allowed number of managed zones which can be attached to a network. */
+  managedZonesPerNetwork?: number | undefined;
+  /** Maximum allowed number of managed zones which can be attached to a GKE cluster. */
+  managedZonesPerGkeCluster?: number | undefined;
+  /** Maximum allowed number of networks per response policy. */
+  networksPerResponsePolicy?: number | undefined;
+  /** Maximum allowed number of alternative target name servers per policy. */
+  targetNameServersPerPolicy?: number | undefined;
+  /** DNSSEC algorithm and key length types that can be used for DnsKeys. */
+  whitelistedKeySpecs?: DnsKeySpecList | undefined;
+  /** Maximum allowed number of ResourceRecordSets to delete per ChangesCreateRequest. */
+  rrsetDeletionsPerChange?: number | undefined;
+  /** Maximum allowed number of GKE clusters per response policy. */
+  gkeClustersPerResponsePolicy?: number | undefined;
+  /** Maximum allowed number of DnsKeys per ManagedZone. */
+  dnsKeysPerManagedZone?: number | undefined;
+  /** Maximum allowed number of networks per policy. */
+  networksPerPolicy?: number | undefined;
+  /** Maximum allowed number of response policies per project. */
+  responsePolicies?: number | undefined;
+  /** Maximum allowed number of policies per project. */
+  policies?: number | undefined;
+  internetHealthChecksPerManagedZone?: number | undefined;
+  /** Maximum allowed number of items per routing policy. */
+  itemsPerRoutingPolicy?: number | undefined;
+  /** Maximum allowed number of GKE clusters to which a privately scoped zone can be attached. */
+  gkeClustersPerManagedZone?: number | undefined;
+  /** Maximum allowed number of ResourceRecords per ResourceRecordSet. */
+  resourceRecordsPerRrset?: number | undefined;
+  /** Maximum allowed number of consumer peering zones per target network owned by this producer project */
+  peeringZonesPerTargetNetwork?: number | undefined;
+  /** Maximum allowed number of target name servers per managed forwarding zone. */
+  targetNameServersPerManagedZone?: number | undefined;
+  /** Maximum allowed number of outbound endpoints per policy. */
+  outboundEndpointsPerPolicy?: number | undefined;
+  /** Maximum allowed number of rules per response policy. */
+  responsePolicyRulesPerResponsePolicy?: number | undefined;
   /** Maximum allowed size for total rrdata in one ChangesCreateRequest in bytes. */
-  totalRrdataSizePerChange?: number;
-  kind?: string;
+  totalRrdataSizePerChange?: number | undefined;
+  /** Maximum allowed number of networks to which a privately scoped zone can be attached. */
+  networksPerManagedZone?: number | undefined;
 }
 /** A project resource. The project is a top level container for resources including Cloud DNS ManagedZones. Projects can be created only in the APIs console. */
 export interface Project {
-  /** User assigned unique identifier for the resource (output only). */
-  id?: string;
-  /** Unique numeric identifier for the resource; defined by the server (output only). */
-  number?: string;
-  kind?: string;
   /** Quotas assigned to this project (output only). */
-  quota?: Quota;
+  quota?: Quota | undefined;
+  kind?: string | undefined;
+  /** User assigned unique identifier for the resource (output only). */
+  id?: string | undefined;
+  /** Unique numeric identifier for the resource; defined by the server (output only). */
+  number?: string | undefined;
 }
 export interface GetResourceRecordSetsRequest {
   /** Fully qualified domain name. */
   name: string;
+  /** RRSet type. */
+  type: string;
   /** Identifies the managed zone addressed by this request. Can be the managed zone name or ID. */
   managedZone: string;
   /** Identifies the project addressed by this request. */
   project: string;
-  /** RRSet type. */
-  type: string;
   /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
-  clientOperationId?: string;
+  clientOperationId?: string | undefined;
 }
 export interface GetResponsePoliciesRequest {
-  /** User assigned name of the Response Policy addressed by this request. */
-  responsePolicy: string;
+  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
+  clientOperationId?: string | undefined;
   /** Identifies the project addressed by this request. */
   project: string;
-  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
-  clientOperationId?: string;
+  /** User assigned name of the Response Policy addressed by this request. */
+  responsePolicy: string;
 }
 export interface GetResponsePolicyRulesRequest {
   /** User assigned name of the Response Policy Rule addressed by this request. */
   responsePolicyRule: string;
-  /** Identifies the project addressed by this request. */
-  project: string;
+  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
+  clientOperationId?: string | undefined;
   /** User assigned name of the Response Policy containing the Response Policy Rule. */
   responsePolicy: string;
-  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
-  clientOperationId?: string;
+  /** Identifies the project addressed by this request. */
+  project: string;
 }
 export type ListChangesSortByEnum = "changeSequence";
 export interface ListChangesRequest {
-  /** Optional. A tag returned by a previous list request that was truncated. Use this parameter to continue a previous list request. */
-  pageToken?: string;
-  /** Optional. Maximum number of results to be returned. If unspecified, the server decides how many results to return. */
-  maxResults?: number;
-  /** Sorting order direction: 'ascending' or 'descending'. */
-  sortOrder?: string;
-  /** Identifies the managed zone addressed by this request. Can be the managed zone name or ID. */
-  managedZone: string;
-  /** Sorting criterion. The only supported value is change sequence. */
-  sortBy?: ListChangesSortByEnum | (string & {});
   /** Identifies the project addressed by this request. */
   project: string;
+  /** Optional. A tag returned by a previous list request that was truncated. Use this parameter to continue a previous list request. */
+  pageToken?: string | undefined;
+  /** Optional. Maximum number of results to be returned. If unspecified, the server decides how many results to return. */
+  maxResults?: number | undefined;
+  /** Sorting order direction: 'ascending' or 'descending'. */
+  sortOrder?: string | undefined;
+  /** Sorting criterion. The only supported value is change sequence. */
+  sortBy?: ListChangesSortByEnum | (string & {}) | undefined;
+  /** Identifies the managed zone addressed by this request. Can be the managed zone name or ID. */
+  managedZone: string;
 }
 export type ChangeList = Array<Change>;
 /** The response to a request to enumerate Changes to a ResourceRecordSets collection. */
 export interface ChangesListResponse {
-  /** Output only. Type of resource. */
-  kind?: string;
-  /** The requested changes. */
-  changes?: ChangeList;
   /** This field indicates that more results are available beyond the last page displayed. To fetch the results, make another list request and use this value as your page token. This lets you retrieve the complete contents of a very large collection one page at a time. However, if the contents of the collection change between the first and last paginated list request, the set of all elements returned are an inconsistent view of the collection. You can't retrieve a consistent snapshot of a collection larger than the maximum page size. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
+  /** Output only. Type of resource. */
+  kind?: string | undefined;
+  /** The requested changes. */
+  changes?: ChangeList | undefined;
 }
 export interface ListDnsKeysRequest {
-  /** Optional. Maximum number of results to be returned. If unspecified, the server decides how many results to return. */
-  maxResults?: number;
-  /** Optional. A tag returned by a previous list request that was truncated. Use this parameter to continue a previous list request. */
-  pageToken?: string;
+  /** An optional comma-separated list of digest types to compute and display for key signing keys. If omitted, the recommended digest type is computed and displayed. */
+  digestType?: string | undefined;
   /** Identifies the managed zone addressed by this request. Can be the managed zone name or ID. */
   managedZone: string;
+  /** Optional. A tag returned by a previous list request that was truncated. Use this parameter to continue a previous list request. */
+  pageToken?: string | undefined;
   /** Identifies the project addressed by this request. */
   project: string;
-  /** An optional comma-separated list of digest types to compute and display for key signing keys. If omitted, the recommended digest type is computed and displayed. */
-  digestType?: string;
+  /** Optional. Maximum number of results to be returned. If unspecified, the server decides how many results to return. */
+  maxResults?: number | undefined;
 }
 export type DnsKeyList = Array<DnsKey>;
 /** The response to a request to enumerate DnsKeys in a ManagedZone. */
 export interface DnsKeysListResponse {
-  /** The requested resources. */
-  dnsKeys?: DnsKeyList;
-  /** Output only. Type of resource. */
-  kind?: string;
   /** This field indicates that more results are available beyond the last page displayed. To fetch the results, make another list request and use this value as your page token. This lets you retrieve the complete contents of a very large collection one page at a time. However, if the contents of the collection change between the first and last paginated list request, the set of all elements returned are an inconsistent view of the collection. You can't retrieve a consistent snapshot of a collection larger than the maximum page size. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
+  /** Output only. Type of resource. */
+  kind?: string | undefined;
+  /** The requested resources. */
+  dnsKeys?: DnsKeyList | undefined;
 }
 export interface ListLocationsRequest {
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
-  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
+  extraLocationTypes?: StringList | undefined;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number | undefined;
+  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
+  filter?: string | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
+  locations?: LocationList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ListManagedZoneOperationsSortByEnum = "startTime" | "id";
 export interface ListManagedZoneOperationsRequest {
-  /** Identifies the project addressed by this request. */
-  project: string;
-  /** Sorting criterion. The only supported values are START_TIME and ID. */
-  sortBy?: ListManagedZoneOperationsSortByEnum | (string & {});
   /** Identifies the managed zone addressed by this request. */
   managedZone: string;
-  /** Optional. A tag returned by a previous list request that was truncated. Use this parameter to continue a previous list request. */
-  pageToken?: string;
   /** Optional. Maximum number of results to be returned. If unspecified, the server decides how many results to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
+  /** Optional. A tag returned by a previous list request that was truncated. Use this parameter to continue a previous list request. */
+  pageToken?: string | undefined;
+  /** Sorting criterion. The only supported values are START_TIME and ID. */
+  sortBy?: ListManagedZoneOperationsSortByEnum | (string & {}) | undefined;
+  /** Identifies the project addressed by this request. */
+  project: string;
 }
 export type OperationList = Array<Operation>;
 export interface ManagedZoneOperationsListResponse {
-  /** The operation resources. */
-  operations?: OperationList;
-  /** This field indicates that more results are available beyond the last page displayed. To fetch the results, make another list request and use this value as your page token. This lets you retrieve the complete contents of a very large collection one page at a time. However, if the contents of the collection change between the first and last paginated list request, the set of all elements returned are an inconsistent view of the collection. You can't retrieve a consistent snapshot of a collection larger than the maximum page size. */
-  nextPageToken?: string;
   /** Output only. Type of resource. */
-  kind?: string;
+  kind?: string | undefined;
+  /** This field indicates that more results are available beyond the last page displayed. To fetch the results, make another list request and use this value as your page token. This lets you retrieve the complete contents of a very large collection one page at a time. However, if the contents of the collection change between the first and last paginated list request, the set of all elements returned are an inconsistent view of the collection. You can't retrieve a consistent snapshot of a collection larger than the maximum page size. */
+  nextPageToken?: string | undefined;
+  /** The operation resources. */
+  operations?: OperationList | undefined;
 }
 export interface ListManagedZonesRequest {
   /** Restricts the list to return only zones with this domain name. */
-  dnsName?: string;
-  /** Optional. A tag returned by a previous list request that was truncated. Use this parameter to continue a previous list request. */
-  pageToken?: string;
+  dnsName?: string | undefined;
+  /** Optional. Maximum number of results to be returned. If unspecified, the server decides how many results to return. */
+  maxResults?: number | undefined;
   /** Identifies the project addressed by this request. */
   project: string;
-  /** Optional. Maximum number of results to be returned. If unspecified, the server decides how many results to return. */
-  maxResults?: number;
+  /** Optional. A tag returned by a previous list request that was truncated. Use this parameter to continue a previous list request. */
+  pageToken?: string | undefined;
 }
 export type ManagedZoneList = Array<ManagedZone>;
 export interface ManagedZonesListResponse {
-  /** Output only. Type of resource. */
-  kind?: string;
-  /** This field indicates that more results are available beyond the last page displayed. To fetch the results, make another list request and use this value as your page token. This lets you retrieve the complete contents of a very large collection one page at a time. However, if the contents of the collection change between the first and last paginated list request, the set of all elements returned are an inconsistent view of the collection. You can't retrieve a consistent snapshot of a collection larger than the maximum page size. */
-  nextPageToken?: string;
   /** The managed zone resources. */
-  managedZones?: ManagedZoneList;
+  managedZones?: ManagedZoneList | undefined;
+  /** This field indicates that more results are available beyond the last page displayed. To fetch the results, make another list request and use this value as your page token. This lets you retrieve the complete contents of a very large collection one page at a time. However, if the contents of the collection change between the first and last paginated list request, the set of all elements returned are an inconsistent view of the collection. You can't retrieve a consistent snapshot of a collection larger than the maximum page size. */
+  nextPageToken?: string | undefined;
+  /** Output only. Type of resource. */
+  kind?: string | undefined;
 }
 export interface ListOperationsRequest {
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
   /** The standard list page size. */
-  pageSize?: number;
-  /** The standard list filter. */
-  filter?: string;
+  pageSize?: number | undefined;
   /** The name of the operation's parent resource. */
   name: string;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
+  /** The standard list filter. */
+  filter?: string | undefined;
 }
 export type GoogleLongrunningOperationList = Array<GoogleLongrunningOperation>;
 /** The response message for Operations.ListOperations. */
 export interface GoogleLongrunningListOperationsResponse {
-  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
+  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
+  unreachable?: StringList | undefined;
   /** A list of operations that matches the specified filter in the request. */
-  operations?: GoogleLongrunningOperationList;
+  operations?: GoogleLongrunningOperationList | undefined;
 }
 export interface ListOutboundEndpointsRequest {
-  clientOperationId?: string;
-  /** Optional. The maximum number of results to return. */
-  pageSize?: number;
-  /** Optional. A page token received from a previous List call. */
-  pageToken?: string;
+  clientOperationId?: string | undefined;
   /** Required. The parent project and location from which to list resources. Format: projects/{project}/locations/{location} */
   parent: string;
+  /** Optional. A page token received from a previous List call. */
+  pageToken?: string | undefined;
+  /** Optional. The maximum number of results to return. */
+  pageSize?: number | undefined;
 }
 export type OutboundEndpointList = Array<OutboundEndpoint>;
 /** Response message for OutboundEndpointsService.ListOutboundEndpoints */
 export interface ListOutboundEndpointsResponse {
   /** Unordered list. The resource names of the unreachable locations. Format: `projects/{project}/locations/{location}` */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** The list of OutboundEndpoints. */
-  outboundEndpoints?: OutboundEndpointList;
+  outboundEndpoints?: OutboundEndpointList | undefined;
   /** A token to retrieve the next page of results. Set to empty if there are no remaining results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListPoliciesRequest {
-  /** Optional. A tag returned by a previous list request that was truncated. Use this parameter to continue a previous list request. */
-  pageToken?: string;
   /** Identifies the project addressed by this request. */
   project: string;
+  /** Optional. A tag returned by a previous list request that was truncated. Use this parameter to continue a previous list request. */
+  pageToken?: string | undefined;
   /** Optional. Maximum number of results to be returned. If unspecified, the server decides how many results to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
 }
 export type PolicyList = Array<Policy>;
 export interface PoliciesListResponse {
   /** This field indicates that more results are available beyond the last page displayed. To fetch the results, make another list request and use this value as your page token. This lets you retrieve the complete contents of a very large collection one page at a time. However, if the contents of the collection change between the first and last paginated list request, the set of all elements returned are an inconsistent view of the collection. You can't retrieve a consistent snapshot of a collection larger than the maximum page size. */
-  nextPageToken?: string;
-  /** The policy resources. */
-  policies?: PolicyList;
+  nextPageToken?: string | undefined;
   /** Output only. Type of resource. */
-  kind?: string;
+  kind?: string | undefined;
+  /** The policy resources. */
+  policies?: PolicyList | undefined;
 }
 export interface ListResourceRecordSetsRequest {
+  /** Optional. A tag returned by a previous list request that was truncated. Use this parameter to continue a previous list request. */
+  pageToken?: string | undefined;
   /** Specify a filter expression to view records that exactly match the specified domain. Both the `name` and `type` parameters are not supported and must be omitted when you use `filter`. Your `filter` expression must conform to AIP-160 and you must specify a domain in the `name` field. Optionally, you can include the `type` field to filter records by type. You can also include the `has_suffix` function to view records that match by domain suffix. Examples: * `name`="example.com." * `name`="example.com." AND type="A" * `name`=`has_suffix`("example.com.") * `name`=`has_suffix`("example.com.") AND type="A" */
-  filter?: string;
+  filter?: string | undefined;
+  /** Optional. Maximum number of results to be returned. If unspecified, the server decides how many results to return. */
+  maxResults?: number | undefined;
   /** Identifies the project addressed by this request. */
   project: string;
-  /** Specify a fully qualified domain name to view only those records. The `name` parameter is not supported and must be omitted when you use `filter`. */
-  name?: string;
   /** Specify a record type to view only those records. You must also specify the `name` parameter. The `type` parameter is not supported and must be omitted when you use `filter`. */
-  type?: string;
-  /** Optional. Maximum number of results to be returned. If unspecified, the server decides how many results to return. */
-  maxResults?: number;
-  /** Optional. A tag returned by a previous list request that was truncated. Use this parameter to continue a previous list request. */
-  pageToken?: string;
+  type?: string | undefined;
   /** Identifies the managed zone addressed by this request. Can be the managed zone name or ID. */
   managedZone: string;
+  /** Specify a fully qualified domain name to view only those records. The `name` parameter is not supported and must be omitted when you use `filter`. */
+  name?: string | undefined;
 }
 export interface ResourceRecordSetsListResponse {
-  /** Output only. Type of resource. */
-  kind?: string;
-  /** The resource record set resources. */
-  rrsets?: ResourceRecordSetList;
   /** This field indicates that more results are available beyond the last page displayed. To fetch the results, make another list request and use this value as your page token. This lets you retrieve the complete contents of a very large collection one page at a time. However, if the contents of the collection change between the first and last paginated list request, the set of all elements returned are an inconsistent view of the collection. You can't retrieve a consistent snapshot of a collection larger than the maximum page size. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
+  /** The resource record set resources. */
+  rrsets?: ResourceRecordSetList | undefined;
+  /** Output only. Type of resource. */
+  kind?: string | undefined;
 }
 export interface ListResponsePoliciesRequest {
-  /** Optional. A tag returned by a previous list request that was truncated. Use this parameter to continue a previous list request. */
-  pageToken?: string;
   /** Optional. Maximum number of results to be returned. If unspecified, the server decides how many results to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** Identifies the project addressed by this request. */
   project: string;
+  /** Optional. A tag returned by a previous list request that was truncated. Use this parameter to continue a previous list request. */
+  pageToken?: string | undefined;
 }
 export type ResponsePolicyList = Array<ResponsePolicy>;
 export interface ResponsePoliciesListResponse {
   /** This field indicates that more results are available beyond the last page displayed. To fetch the results, make another list request and use this value as your page token. This lets you retrieve the complete contents of a very large collection one page at a time. However, if the contents of the collection change between the first and last paginated list request, the set of all elements returned are an inconsistent view of the collection. You can't retrieve a consistent snapshot of a collection larger than the maximum page size. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The Response Policy resources. */
-  responsePolicies?: ResponsePolicyList;
+  responsePolicies?: ResponsePolicyList | undefined;
 }
 export interface ListResponsePolicyRulesRequest {
   /** User assigned name of the Response Policy to list. */
   responsePolicy: string;
+  /** Optional. A tag returned by a previous list request that was truncated. Use this parameter to continue a previous list request. */
+  pageToken?: string | undefined;
   /** Identifies the project addressed by this request. */
   project: string;
   /** Optional. Maximum number of results to be returned. If unspecified, the server decides how many results to return. */
-  maxResults?: number;
-  /** Optional. A tag returned by a previous list request that was truncated. Use this parameter to continue a previous list request. */
-  pageToken?: string;
+  maxResults?: number | undefined;
 }
 export type ResponsePolicyRuleList = Array<ResponsePolicyRule>;
 export interface ResponsePolicyRulesListResponse {
-  /** The Response Policy Rule resources. */
-  responsePolicyRules?: ResponsePolicyRuleList;
   /** This field indicates that more results are available beyond the last page displayed. To fetch the results, make another list request and use this value as your page token. This lets you retrieve the complete contents of a very large collection one page at a time. However, if the contents of the collection change between the first and last paginated list request, the set of all elements returned are an inconsistent view of the collection. You can't retrieve a consistent snapshot of a collection larger than the maximum page size. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
+  /** The Response Policy Rule resources. */
+  responsePolicyRules?: ResponsePolicyRuleList | undefined;
 }
-export interface PatchManagedZonesRequest {
-  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
-  clientOperationId?: string;
+export interface PatchManagedZonesRequest extends ManagedZone {
   /** Identifies the project addressed by this request. */
   project: string;
   /** Identifies the managed zone addressed by this request. Can be the managed zone name or ID. */
   managedZone: string;
-  /** Request body */
-  body?: ManagedZone;
+  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
+  clientOperationId?: string | undefined;
 }
-export interface PatchOutboundEndpointsRequest {
-  /** Required. The list of fields to be updated. */
-  updateMask?: string;
+export interface PatchOutboundEndpointsRequest extends Omit<OutboundEndpoint, "name"> {
   /** Identifier. The resource name of the OutboundEndpoint. Format: `projects/{project}/locations/{location}/outboundEndpoints/{outboundEndpoint}` */
   name: string;
-  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
-  clientOperationId?: string;
+  /** Required. The list of fields to be updated. */
+  updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. */
-  requestId?: string;
-  /** Request body */
-  body?: OutboundEndpoint;
-}
-export interface PatchPoliciesRequest {
+  requestId?: string | undefined;
   /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
-  clientOperationId?: string;
-  /** Identifies the project addressed by this request. */
-  project: string;
+  clientOperationId?: string | undefined;
+}
+export interface PatchPoliciesRequest extends Policy {
+  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
+  clientOperationId?: string | undefined;
   /** User given friendly name of the policy addressed by this request. */
   policy: string;
-  /** Request body */
-  body?: Policy;
-}
-export interface PoliciesPatchResponse {
-  policy?: Policy;
-}
-export interface PatchResourceRecordSetsRequest {
   /** Identifies the project addressed by this request. */
   project: string;
-  /** Identifies the managed zone addressed by this request. Can be the managed zone name or ID. */
-  managedZone: string;
+}
+export interface PoliciesPatchResponse {
+  policy?: Policy | undefined;
+}
+export interface PatchResourceRecordSetsRequest extends Omit<ResourceRecordSet, "type" | "name"> {
+  /** Fully qualified domain name. */
+  name: string;
   /** RRSet type. */
   type: string;
   /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
-  clientOperationId?: string;
-  /** Fully qualified domain name. */
-  name: string;
-  /** Request body */
-  body?: ResourceRecordSet;
+  clientOperationId?: string | undefined;
+  /** Identifies the project addressed by this request. */
+  project: string;
+  /** Identifies the managed zone addressed by this request. Can be the managed zone name or ID. */
+  managedZone: string;
 }
-export interface PatchResponsePoliciesRequest {
+export interface PatchResponsePoliciesRequest extends ResponsePolicy {
+  /** Identifies the project addressed by this request. */
+  project: string;
   /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
-  clientOperationId?: string;
+  clientOperationId?: string | undefined;
   /** User assigned name of the response policy addressed by this request. */
   responsePolicy: string;
-  /** Identifies the project addressed by this request. */
-  project: string;
-  /** Request body */
-  body?: ResponsePolicy;
 }
 export interface ResponsePoliciesPatchResponse {
-  responsePolicy?: ResponsePolicy;
+  responsePolicy?: ResponsePolicy | undefined;
 }
-export interface PatchResponsePolicyRulesRequest {
-  /** User assigned name of the Response Policy Rule addressed by this request. */
-  responsePolicyRule: string;
-  /** Identifies the project addressed by this request. */
-  project: string;
-  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
-  clientOperationId?: string;
+export interface PatchResponsePolicyRulesRequest extends ResponsePolicyRule {
   /** User assigned name of the Response Policy containing the Response Policy Rule. */
   responsePolicy: string;
-  /** Request body */
-  body?: ResponsePolicyRule;
+  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
+  clientOperationId?: string | undefined;
+  /** Identifies the project addressed by this request. */
+  project: string;
+  /** User assigned name of the Response Policy Rule addressed by this request. */
+  responsePolicyRule: string;
 }
 export interface ResponsePolicyRulesPatchResponse {
-  responsePolicyRule?: ResponsePolicyRule;
+  responsePolicyRule?: ResponsePolicyRule | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface GoogleIamV1SetIamPolicyRequest {
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: GoogleIamV1Policy;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string;
+  updateMask?: string | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: GoogleIamV1Policy | undefined;
 }
-export interface SetIamPolicyManagedZonesRequest {
+export interface SetIamPolicyManagedZonesRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface GoogleIamV1TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsManagedZonesRequest {
+export interface TestIamPermissionsManagedZonesRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface GoogleIamV1TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
-export interface UpdateManagedZonesRequest {
+export interface UpdateManagedZonesRequest extends ManagedZone {
   /** Identifies the project addressed by this request. */
   project: string;
   /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
-  clientOperationId?: string;
+  clientOperationId?: string | undefined;
   /** Identifies the managed zone addressed by this request. Can be the managed zone name or ID. */
   managedZone: string;
-  /** Request body */
-  body?: ManagedZone;
 }
-export interface UpdatePoliciesRequest {
-  /** Identifies the project addressed by this request. */
-  project: string;
+export interface UpdatePoliciesRequest extends Policy {
   /** User given friendly name of the policy addressed by this request. */
   policy: string;
   /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
-  clientOperationId?: string;
-  /** Request body */
-  body?: Policy;
+  clientOperationId?: string | undefined;
+  /** Identifies the project addressed by this request. */
+  project: string;
 }
 export interface PoliciesUpdateResponse {
-  policy?: Policy;
+  policy?: Policy | undefined;
 }
-export interface UpdateResponsePoliciesRequest {
+export interface UpdateResponsePoliciesRequest extends ResponsePolicy {
   /** User assigned name of the Response Policy addressed by this request. */
   responsePolicy: string;
   /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
-  clientOperationId?: string;
+  clientOperationId?: string | undefined;
   /** Identifies the project addressed by this request. */
   project: string;
-  /** Request body */
-  body?: ResponsePolicy;
 }
 export interface ResponsePoliciesUpdateResponse {
-  responsePolicy?: ResponsePolicy;
+  responsePolicy?: ResponsePolicy | undefined;
 }
-export interface UpdateResponsePolicyRulesRequest {
+export interface UpdateResponsePolicyRulesRequest extends ResponsePolicyRule {
   /** Identifies the project addressed by this request. */
   project: string;
-  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
-  clientOperationId?: string;
-  /** User assigned name of the Response Policy containing the Response Policy Rule. */
-  responsePolicy: string;
   /** User assigned name of the Response Policy Rule addressed by this request. */
   responsePolicyRule: string;
-  /** Request body */
-  body?: ResponsePolicyRule;
+  /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
+  clientOperationId?: string | undefined;
+  /** User assigned name of the Response Policy containing the Response Policy Rule. */
+  responsePolicy: string;
 }
 export interface ResponsePolicyRulesUpdateResponse {
-  responsePolicyRule?: ResponsePolicyRule;
+  responsePolicyRule?: ResponsePolicyRule | undefined;
 }
 export type CancelOperationsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
@@ -1384,7 +1351,7 @@ export const createManagedZones: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(976, __c61, 0) as any as S.Schema<CreateManagedZonesRequest>,
-  output: __S(1037, __c64, 13) as any as S.Schema<ManagedZone>,
+  output: __S(1035, __c64, 11) as any as S.Schema<ManagedZone>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1405,8 +1372,8 @@ export const createOutboundEndpoints: API.OperationMethod<
   CreateOutboundEndpointsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<CreateOutboundEndpointsRequest>,
-  output: __S(1106, __c69, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(1088, __c68, 0) as any as S.Schema<CreateOutboundEndpointsRequest>,
+  output: __S(1122, __c70, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1422,7 +1389,7 @@ export const createPolicies: API.OperationMethod<
   CreatePoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<CreatePoliciesRequest>,
+  input: __S(1152, __c72, 0) as any as S.Schema<CreatePoliciesRequest>,
   output: __S(1173, __c73, 5) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1540,7 +1507,7 @@ export const deleteOutboundEndpoints: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<DeleteOutboundEndpointsRequest>,
-  output: __S(1106, __c69, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(1122, __c70, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1725,7 +1692,7 @@ export const getManagedZones: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<GetManagedZonesRequest>,
-  output: __S(1037, __c64, 13) as any as S.Schema<ManagedZone>,
+  output: __S(1035, __c64, 11) as any as S.Schema<ManagedZone>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1742,7 +1709,7 @@ export const getOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<GetOperationsRequest>,
-  output: __S(1106, __c69, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(1122, __c70, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1759,7 +1726,7 @@ export const getOutboundEndpoints: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<GetOutboundEndpointsRequest>,
-  output: __S(1120, __c70, 0) as any as S.Schema<OutboundEndpoint>,
+  output: __S(1136, __c71, 0) as any as S.Schema<OutboundEndpoint>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2087,7 +2054,7 @@ export const patchOutboundEndpoints: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<PatchOutboundEndpointsRequest>,
-  output: __S(1106, __c69, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(1122, __c70, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2295,11 +2262,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          clientOperationId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(16, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16, __c1, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            clientOperationId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "dns/v1/projects/{project}/responsePolicies",
@@ -2314,13 +2283,13 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(1040, __c65, 0)),
           gkeClusters: S.optional(__S(993, __c62, 1)),
-          id: S.optional(S.String),
-          kind: S.optional(S.String),
-          responsePolicyName: S.optional(S.String),
-          networks: S.optional(__S(1153, __c72, 1)),
           description: S.optional(S.String),
+          labels: S.optional(__S(1040, __c65, 0)),
+          responsePolicyName: S.optional(S.String),
+          networks: S.optional(__S(1057, __c66, 1)),
+          kind: S.optional(S.String),
+          id: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResponsePolicy" });
   }
@@ -2329,12 +2298,14 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          responsePolicy: S.String.pipe(T.Label()),
-          clientOperationId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(49, __c3, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(49, __c3, 1),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            responsePolicy: S.String.pipe(T.Label()),
+            clientOperationId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "dns/v1/projects/{project}/responsePolicies/{responsePolicy}/rules",
@@ -2355,10 +2326,10 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          behavior: S.optional(S.String),
-          ruleName: S.optional(S.String),
-          dnsName: S.optional(S.String),
           kind: S.optional(S.String),
+          behavior: S.optional(S.String),
+          dnsName: S.optional(S.String),
+          ruleName: S.optional(S.String),
           localData: S.optional(__S(48, __c3, 0)),
         }),
       ).annotate({ identifier: "ResponsePolicyRule" });
@@ -2369,9 +2340,9 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          managedZone: S.String.pipe(T.Label()),
-          clientOperationId: S.optional(S.String.pipe(T.Query())),
           project: S.String.pipe(T.Label()),
+          clientOperationId: S.optional(S.String.pipe(T.Query())),
+          managedZone: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -2403,9 +2374,9 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           clientOperationId: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          requestId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -2421,9 +2392,9 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          policy: S.String.pipe(T.Label()),
           project: S.String.pipe(T.Label()),
           clientOperationId: S.optional(S.String.pipe(T.Query())),
-          policy: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -2439,11 +2410,11 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          managedZone: S.String.pipe(T.Label()),
           clientOperationId: S.optional(S.String.pipe(T.Query())),
+          managedZone: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
           type: S.String.pipe(T.Label()),
+          project: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -2460,8 +2431,8 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project: S.String.pipe(T.Label()),
-          clientOperationId: S.optional(S.String.pipe(T.Query())),
           responsePolicy: S.String.pipe(T.Label()),
+          clientOperationId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -2478,9 +2449,9 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project: S.String.pipe(T.Label()),
+          clientOperationId: S.optional(S.String.pipe(T.Query())),
           responsePolicyRule: S.String.pipe(T.Label()),
           responsePolicy: S.String.pipe(T.Label()),
-          clientOperationId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -2496,10 +2467,10 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          clientOperationId: S.optional(S.String.pipe(T.Query())),
           changeId: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
           managedZone: S.String.pipe(T.Label()),
+          clientOperationId: S.optional(S.String.pipe(T.Query())),
+          project: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2515,9 +2486,9 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          managedZone: S.String.pipe(T.Label()),
           project: S.String.pipe(T.Label()),
           dnsKeyId: S.String.pipe(T.Label()),
+          managedZone: S.String.pipe(T.Label()),
           clientOperationId: S.optional(S.String.pipe(T.Query())),
           digestType: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -2544,17 +2515,17 @@ function __c13(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          digests: S.optional(__S(209, __c13, 1)),
+          kind: S.optional(S.String),
           id: S.optional(S.String),
+          algorithm: S.optional(S.String),
+          description: S.optional(S.String),
+          digests: S.optional(__S(209, __c13, 1)),
           keyLength: S.optional(S.Number),
+          publicKey: S.optional(S.String),
           creationTime: S.optional(S.String),
           type: S.optional(S.String),
-          kind: S.optional(S.String),
-          description: S.optional(S.String),
-          publicKey: S.optional(S.String),
-          keyTag: S.optional(S.Number),
           isActive: S.optional(S.Boolean),
-          algorithm: S.optional(S.String),
+          keyTag: S.optional(S.Number),
         }),
       ).annotate({ identifier: "DnsKey" });
   }
@@ -2575,10 +2546,12 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GoogleIamV1GetIamPolicyRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(225, __c14, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(225, __c14, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "dns/v1/{+resource}:getIamPolicy",
@@ -2593,18 +2566,18 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          title: S.optional(S.String),
           expression: S.optional(S.String),
           description: S.optional(S.String),
           location: S.optional(S.String),
+          title: S.optional(S.String),
         }),
       ).annotate({ identifier: "Expr" });
     case 1:
       return S.suspend(() =>
         S.Struct({
+          members: S.optional(__S(864, __c54, 0)),
           condition: S.optional(__S(240, __c15, 0)),
           role: S.optional(S.String),
-          members: S.optional(__S(864, __c54, 0)),
         }),
       ).annotate({ identifier: "GoogleIamV1Binding" });
     case 2:
@@ -2621,8 +2594,8 @@ function __c15(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          auditLogConfigs: S.optional(__S(244, __c15, 4)),
           service: S.optional(S.String),
+          auditLogConfigs: S.optional(__S(244, __c15, 4)),
         }),
       ).annotate({ identifier: "GoogleIamV1AuditConfig" });
     case 6:
@@ -2631,8 +2604,8 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           bindings: S.optional(__S(242, __c15, 2)),
-          auditConfigs: S.optional(__S(246, __c15, 6)),
           etag: S.optional(S.String),
+          auditConfigs: S.optional(__S(246, __c15, 6)),
           version: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleIamV1Policy" });
@@ -2655,10 +2628,10 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
           locationId: S.optional(S.String),
+          displayName: S.optional(S.String),
           labels: S.optional(__S(1040, __c65, 0)),
-          metadata: S.optional(__S(1088, __c68, 0)),
+          metadata: S.optional(__S(1104, __c69, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Location" });
@@ -2669,10 +2642,10 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          operation: S.String.pipe(T.Label()),
-          managedZone: S.String.pipe(T.Label()),
           clientOperationId: S.optional(S.String.pipe(T.Query())),
           project: S.String.pipe(T.Label()),
+          operation: S.String.pipe(T.Label()),
+          managedZone: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2688,28 +2661,28 @@ function __c19(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          oldValue: S.optional(__S(1037, __c64, 13)),
-          newValue: S.optional(__S(1037, __c64, 13)),
-        }),
-      ).annotate({ identifier: "OperationManagedZoneContext" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           oldValue: S.optional(__S(210, __c13, 2)),
           newValue: S.optional(__S(210, __c13, 2)),
         }),
       ).annotate({ identifier: "OperationDnsKeyContext" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          oldValue: S.optional(__S(1035, __c64, 11)),
+          newValue: S.optional(__S(1035, __c64, 11)),
+        }),
+      ).annotate({ identifier: "OperationManagedZoneContext" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          zoneContext: S.optional(__S(304, __c19, 0)),
+          dnsKeyContext: S.optional(__S(304, __c19, 0)),
+          id: S.optional(S.String),
           startTime: S.optional(S.String),
           type: S.optional(S.String),
-          kind: S.optional(S.String),
+          zoneContext: S.optional(__S(305, __c19, 1)),
           status: S.optional(S.String),
-          dnsKeyContext: S.optional(__S(305, __c19, 1)),
-          id: S.optional(S.String),
           user: S.optional(S.String),
+          kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "Operation" });
   }
@@ -2719,9 +2692,9 @@ function __c20(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          clientOperationId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
           managedZone: S.String.pipe(T.Label()),
+          project: S.String.pipe(T.Label()),
+          clientOperationId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2749,8 +2722,8 @@ function __c22(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           clientOperationId: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({ method: "GET", uri: "dns/v1/{+name}", baseUrl: "https://dns.googleapis.com/" }),
         ),
@@ -2762,9 +2735,9 @@ function __c23(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          policy: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
           clientOperationId: S.optional(S.String.pipe(T.Query())),
+          project: S.String.pipe(T.Label()),
+          policy: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2792,43 +2765,43 @@ function __c24(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          managedZonesPerGkeCluster: S.optional(S.Number),
-          whitelistedKeySpecs: S.optional(__S(1009, __c63, 1)),
-          outboundEndpointsPerManagedZone: S.optional(S.Number),
-          peeringZonesPerTargetNetwork: S.optional(S.Number),
           rrsetAdditionsPerChange: S.optional(S.Number),
-          networksPerPolicy: S.optional(S.Number),
-          gkeClustersPerResponsePolicy: S.optional(S.Number),
-          gkeClustersPerPolicy: S.optional(S.Number),
-          rrsetDeletionsPerChange: S.optional(S.Number),
-          responsePolicies: S.optional(S.Number),
-          internetHealthChecksPerManagedZone: S.optional(S.Number),
-          networksPerManagedZone: S.optional(S.Number),
-          dnsKeysPerManagedZone: S.optional(S.Number),
-          managedZonesPerNetwork: S.optional(S.Number),
-          policies: S.optional(S.Number),
           rrsetsPerManagedZone: S.optional(S.Number),
-          resourceRecordsPerRrset: S.optional(S.Number),
-          targetNameServersPerManagedZone: S.optional(S.Number),
-          networksPerResponsePolicy: S.optional(S.Number),
-          gkeClustersPerManagedZone: S.optional(S.Number),
-          targetNameServersPerPolicy: S.optional(S.Number),
-          itemsPerRoutingPolicy: S.optional(S.Number),
-          outboundEndpointsPerPolicy: S.optional(S.Number),
-          responsePolicyRulesPerResponsePolicy: S.optional(S.Number),
           managedZones: S.optional(S.Number),
           nameserversPerDelegation: S.optional(S.Number),
-          totalRrdataSizePerChange: S.optional(S.Number),
+          outboundEndpointsPerManagedZone: S.optional(S.Number),
           kind: S.optional(S.String),
+          gkeClustersPerPolicy: S.optional(S.Number),
+          managedZonesPerNetwork: S.optional(S.Number),
+          managedZonesPerGkeCluster: S.optional(S.Number),
+          networksPerResponsePolicy: S.optional(S.Number),
+          targetNameServersPerPolicy: S.optional(S.Number),
+          whitelistedKeySpecs: S.optional(__S(1009, __c63, 1)),
+          rrsetDeletionsPerChange: S.optional(S.Number),
+          gkeClustersPerResponsePolicy: S.optional(S.Number),
+          dnsKeysPerManagedZone: S.optional(S.Number),
+          networksPerPolicy: S.optional(S.Number),
+          responsePolicies: S.optional(S.Number),
+          policies: S.optional(S.Number),
+          internetHealthChecksPerManagedZone: S.optional(S.Number),
+          itemsPerRoutingPolicy: S.optional(S.Number),
+          gkeClustersPerManagedZone: S.optional(S.Number),
+          resourceRecordsPerRrset: S.optional(S.Number),
+          peeringZonesPerTargetNetwork: S.optional(S.Number),
+          targetNameServersPerManagedZone: S.optional(S.Number),
+          outboundEndpointsPerPolicy: S.optional(S.Number),
+          responsePolicyRulesPerResponsePolicy: S.optional(S.Number),
+          totalRrdataSizePerChange: S.optional(S.Number),
+          networksPerManagedZone: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Quota" });
     case 2:
       return S.suspend(() =>
         S.Struct({
+          quota: S.optional(__S(385, __c24, 1)),
+          kind: S.optional(S.String),
           id: S.optional(S.String),
           number: S.optional(S.String),
-          kind: S.optional(S.String),
-          quota: S.optional(__S(385, __c24, 1)),
         }),
       ).annotate({ identifier: "Project" });
   }
@@ -2839,9 +2812,9 @@ function __c25(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
+          type: S.String.pipe(T.Label()),
           managedZone: S.String.pipe(T.Label()),
           project: S.String.pipe(T.Label()),
-          type: S.String.pipe(T.Label()),
           clientOperationId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -2858,9 +2831,9 @@ function __c26(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          responsePolicy: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
           clientOperationId: S.optional(S.String.pipe(T.Query())),
+          project: S.String.pipe(T.Label()),
+          responsePolicy: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2877,9 +2850,9 @@ function __c27(j: number): any {
       return S.suspend(() =>
         S.Struct({
           responsePolicyRule: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          responsePolicy: S.String.pipe(T.Label()),
           clientOperationId: S.optional(S.String.pipe(T.Query())),
+          responsePolicy: S.String.pipe(T.Label()),
+          project: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2895,12 +2868,12 @@ function __c28(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          project: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
           maxResults: S.optional(S.Number.pipe(T.Query())),
           sortOrder: S.optional(S.String.pipe(T.Query())),
-          managedZone: S.String.pipe(T.Label()),
           sortBy: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
+          managedZone: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2914,9 +2887,9 @@ function __c28(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          nextPageToken: S.optional(S.String),
           kind: S.optional(S.String),
           changes: S.optional(__S(449, __c28, 1)),
-          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ChangesListResponse" });
   }
@@ -2926,11 +2899,11 @@ function __c29(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          maxResults: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          managedZone: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
           digestType: S.optional(S.String.pipe(T.Query())),
+          managedZone: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          project: S.String.pipe(T.Label()),
+          maxResults: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2944,9 +2917,9 @@ function __c29(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          dnsKeys: S.optional(__S(465, __c29, 1)),
-          kind: S.optional(S.String),
           nextPageToken: S.optional(S.String),
+          kind: S.optional(S.String),
+          dnsKeys: S.optional(__S(465, __c29, 1)),
         }),
       ).annotate({ identifier: "DnsKeysListResponse" });
   }
@@ -2956,9 +2929,9 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          extraLocationTypes: S.optional(__S(864, __c54, 0).pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(864, __c54, 0).pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -2985,11 +2958,11 @@ function __c31(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          project: S.String.pipe(T.Label()),
-          sortBy: S.optional(S.String.pipe(T.Query())),
           managedZone: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           maxResults: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          sortBy: S.optional(S.String.pipe(T.Query())),
+          project: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3003,9 +2976,9 @@ function __c31(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(497, __c31, 1)),
-          nextPageToken: S.optional(S.String),
           kind: S.optional(S.String),
+          nextPageToken: S.optional(S.String),
+          operations: S.optional(__S(497, __c31, 1)),
         }),
       ).annotate({ identifier: "ManagedZoneOperationsListResponse" });
   }
@@ -3016,9 +2989,9 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.Struct({
           dnsName: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
           maxResults: S.optional(S.Number.pipe(T.Query())),
+          project: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3028,13 +3001,13 @@ function __c32(j: number): any {
         ),
       ).annotate({ identifier: "ListManagedZonesRequest" });
     case 1:
-      return S.Array(__S(1037, __c64, 13));
+      return S.Array(__S(1035, __c64, 11));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          kind: S.optional(S.String),
-          nextPageToken: S.optional(S.String),
           managedZones: S.optional(__S(513, __c32, 1)),
+          nextPageToken: S.optional(S.String),
+          kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "ManagedZonesListResponse" });
   }
@@ -3044,11 +3017,11 @@ function __c33(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3058,12 +3031,12 @@ function __c33(j: number): any {
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
     case 1:
-      return S.Array(__S(1106, __c69, 2));
+      return S.Array(__S(1122, __c70, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(864, __c54, 0)),
           nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(864, __c54, 0)),
           operations: S.optional(__S(529, __c33, 1)),
         }),
       ).annotate({ identifier: "GoogleLongrunningListOperationsResponse" });
@@ -3075,9 +3048,9 @@ function __c34(j: number): any {
       return S.suspend(() =>
         S.Struct({
           clientOperationId: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3087,7 +3060,7 @@ function __c34(j: number): any {
         ),
       ).annotate({ identifier: "ListOutboundEndpointsRequest" });
     case 1:
-      return S.Array(__S(1120, __c70, 0));
+      return S.Array(__S(1136, __c71, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -3103,8 +3076,8 @@ function __c35(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           project: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           maxResults: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -3120,8 +3093,8 @@ function __c35(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          policies: S.optional(__S(561, __c35, 1)),
           kind: S.optional(S.String),
+          policies: S.optional(__S(561, __c35, 1)),
         }),
       ).annotate({ identifier: "PoliciesListResponse" });
   }
@@ -3153,13 +3126,13 @@ function __c38(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          name: S.optional(S.String.pipe(T.Query())),
-          type: S.optional(S.String.pipe(T.Query())),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          maxResults: S.optional(S.Number.pipe(T.Query())),
+          project: S.String.pipe(T.Label()),
+          type: S.optional(S.String.pipe(T.Query())),
           managedZone: S.String.pipe(T.Label()),
+          name: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3171,9 +3144,9 @@ function __c38(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          kind: S.optional(S.String),
-          rrsets: S.optional(__S(832, __c52, 0)),
           nextPageToken: S.optional(S.String),
+          rrsets: S.optional(__S(832, __c52, 0)),
+          kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResourceRecordSetsListResponse" });
   }
@@ -3183,9 +3156,9 @@ function __c39(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           maxResults: S.optional(S.Number.pipe(T.Query())),
           project: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3211,9 +3184,9 @@ function __c40(j: number): any {
       return S.suspend(() =>
         S.Struct({
           responsePolicy: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           project: S.String.pipe(T.Label()),
           maxResults: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3227,8 +3200,8 @@ function __c40(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          responsePolicyRules: S.optional(__S(641, __c40, 1)),
           nextPageToken: S.optional(S.String),
+          responsePolicyRules: S.optional(__S(641, __c40, 1)),
         }),
       ).annotate({ identifier: "ResponsePolicyRulesListResponse" });
   }
@@ -3237,12 +3210,14 @@ function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          clientOperationId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          managedZone: S.String.pipe(T.Label()),
-          body: S.optional(__S(1037, __c64, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1035, __c64, 11),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            managedZone: S.String.pipe(T.Label()),
+            clientOperationId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "dns/v1/projects/{project}/managedZones/{managedZone}",
@@ -3256,13 +3231,15 @@ function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          clientOperationId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1120, __c70, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1136, __c71, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            clientOperationId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "dns/v1/{+name}",
@@ -3276,12 +3253,14 @@ function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          clientOperationId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          policy: S.String.pipe(T.Label()),
-          body: S.optional(__S(1173, __c73, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1173, __c73, 5),
+          S.Struct({
+            clientOperationId: S.optional(S.String.pipe(T.Query())),
+            policy: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "dns/v1/projects/{project}/policies/{policy}",
@@ -3305,14 +3284,16 @@ function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          managedZone: S.String.pipe(T.Label()),
-          type: S.String.pipe(T.Label()),
-          clientOperationId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(891, __c55, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(891, __c55, 11),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            type: S.String.pipe(T.Label()),
+            clientOperationId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            managedZone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "dns/v1/projects/{project}/managedZones/{managedZone}/rrsets/{name}/{type}",
@@ -3326,12 +3307,14 @@ function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          clientOperationId: S.optional(S.String.pipe(T.Query())),
-          responsePolicy: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(16, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16, __c1, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            clientOperationId: S.optional(S.String.pipe(T.Query())),
+            responsePolicy: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "dns/v1/projects/{project}/responsePolicies/{responsePolicy}",
@@ -3355,13 +3338,15 @@ function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          responsePolicyRule: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          clientOperationId: S.optional(S.String.pipe(T.Query())),
-          responsePolicy: S.String.pipe(T.Label()),
-          body: S.optional(__S(49, __c3, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(49, __c3, 1),
+          S.Struct({
+            responsePolicy: S.String.pipe(T.Label()),
+            clientOperationId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            responsePolicyRule: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "dns/v1/projects/{project}/responsePolicies/{responsePolicy}/rules/{responsePolicyRule}",
@@ -3386,16 +3371,18 @@ function __c50(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          policy: S.optional(__S(247, __c15, 7)),
           updateMask: S.optional(S.String),
+          policy: S.optional(__S(247, __c15, 7)),
         }),
       ).annotate({ identifier: "GoogleIamV1SetIamPolicyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(800, __c50, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(800, __c50, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "dns/v1/{+resource}:setIamPolicy",
@@ -3409,12 +3396,14 @@ function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          clientOperationId: S.optional(S.String.pipe(T.Query())),
-          managedZone: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(848, __c53, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(848, __c53, 0),
+          S.Struct({
+            managedZone: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            clientOperationId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "dns/v1/projects/{project}/managedZones/{managedZone}/changes",
@@ -3435,12 +3424,12 @@ function __c53(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          deletions: S.optional(__S(832, __c52, 0)),
           id: S.optional(S.String),
+          startTime: S.optional(S.String),
           isServing: S.optional(S.Boolean),
           kind: S.optional(S.String),
           additions: S.optional(__S(832, __c52, 0)),
-          deletions: S.optional(__S(832, __c52, 0)),
-          startTime: S.optional(S.String),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "Change" });
@@ -3457,14 +3446,14 @@ function __c55(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          port: S.optional(S.String),
-          region: S.optional(S.String),
           networkUrl: S.optional(S.String),
-          project: S.optional(S.String),
-          loadBalancerType: S.optional(S.String),
+          region: S.optional(S.String),
           kind: S.optional(S.String),
           ipProtocol: S.optional(S.String),
           ipAddress: S.optional(S.String),
+          loadBalancerType: S.optional(S.String),
+          project: S.optional(S.String),
+          port: S.optional(S.String),
         }),
       ).annotate({ identifier: "RRSetRoutingPolicyLoadBalancerTarget" });
     case 1:
@@ -3479,11 +3468,11 @@ function __c55(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          rrdatas: S.optional(__S(864, __c54, 0)),
-          signatureRrdatas: S.optional(__S(864, __c54, 0)),
           location: S.optional(S.String),
-          kind: S.optional(S.String),
           healthCheckedTargets: S.optional(__S(882, __c55, 2)),
+          signatureRrdatas: S.optional(__S(864, __c54, 0)),
+          rrdatas: S.optional(__S(864, __c54, 0)),
+          kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "RRSetRoutingPolicyGeoPolicyGeoPolicyItem" });
     case 4:
@@ -3491,28 +3480,28 @@ function __c55(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(884, __c55, 4)),
           kind: S.optional(S.String),
+          items: S.optional(__S(884, __c55, 4)),
           enableFencing: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "RRSetRoutingPolicyGeoPolicy" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          primaryTargets: S.optional(__S(882, __c55, 2)),
-          trickleTraffic: S.optional(S.Number),
-          kind: S.optional(S.String),
           backupGeoTargets: S.optional(__S(885, __c55, 5)),
+          trickleTraffic: S.optional(S.Number),
+          primaryTargets: S.optional(__S(882, __c55, 2)),
+          kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "RRSetRoutingPolicyPrimaryBackupPolicy" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          healthCheckedTargets: S.optional(__S(882, __c55, 2)),
           kind: S.optional(S.String),
-          weight: S.optional(S.Number),
           rrdatas: S.optional(__S(864, __c54, 0)),
+          weight: S.optional(S.Number),
           signatureRrdatas: S.optional(__S(864, __c54, 0)),
+          healthCheckedTargets: S.optional(__S(882, __c55, 2)),
         }),
       ).annotate({ identifier: "RRSetRoutingPolicyWrrPolicyWrrPolicyItem" });
     case 8:
@@ -3520,30 +3509,30 @@ function __c55(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(888, __c55, 8)),
           kind: S.optional(S.String),
+          items: S.optional(__S(888, __c55, 8)),
         }),
       ).annotate({ identifier: "RRSetRoutingPolicyWrrPolicy" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          primaryBackup: S.optional(__S(886, __c55, 6)),
-          wrr: S.optional(__S(889, __c55, 9)),
           healthCheck: S.optional(S.String),
-          kind: S.optional(S.String),
+          primaryBackup: S.optional(__S(886, __c55, 6)),
           geo: S.optional(__S(885, __c55, 5)),
+          kind: S.optional(S.String),
+          wrr: S.optional(__S(889, __c55, 9)),
         }),
       ).annotate({ identifier: "RRSetRoutingPolicy" });
     case 11:
       return S.suspend(() =>
         S.Struct({
           ttl: S.optional(S.Number),
-          name: S.optional(S.String),
+          signatureRrdatas: S.optional(__S(864, __c54, 0)),
+          routingPolicy: S.optional(__S(890, __c55, 10)),
+          kind: S.optional(S.String),
           rrdatas: S.optional(__S(864, __c54, 0)),
           type: S.optional(S.String),
-          kind: S.optional(S.String),
-          routingPolicy: S.optional(__S(890, __c55, 10)),
-          signatureRrdatas: S.optional(__S(864, __c54, 0)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResourceRecordSet" });
   }
@@ -3558,10 +3547,12 @@ function __c56(j: number): any {
       ).annotate({ identifier: "GoogleIamV1TestIamPermissionsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(896, __c56, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(896, __c56, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "dns/v1/{+resource}:testIamPermissions",
@@ -3575,12 +3566,14 @@ function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          clientOperationId: S.optional(S.String.pipe(T.Query())),
-          managedZone: S.String.pipe(T.Label()),
-          body: S.optional(__S(1037, __c64, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1035, __c64, 11),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            clientOperationId: S.optional(S.String.pipe(T.Query())),
+            managedZone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "dns/v1/projects/{project}/managedZones/{managedZone}",
@@ -3594,12 +3587,14 @@ function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          policy: S.String.pipe(T.Label()),
-          clientOperationId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1173, __c73, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1173, __c73, 5),
+          S.Struct({
+            policy: S.String.pipe(T.Label()),
+            clientOperationId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "dns/v1/projects/{project}/policies/{policy}",
@@ -3613,12 +3608,14 @@ function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          responsePolicy: S.String.pipe(T.Label()),
-          clientOperationId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(16, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16, __c1, 0),
+          S.Struct({
+            responsePolicy: S.String.pipe(T.Label()),
+            clientOperationId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "dns/v1/projects/{project}/responsePolicies/{responsePolicy}",
@@ -3632,13 +3629,15 @@ function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          clientOperationId: S.optional(S.String.pipe(T.Query())),
-          responsePolicy: S.String.pipe(T.Label()),
-          responsePolicyRule: S.String.pipe(T.Label()),
-          body: S.optional(__S(49, __c3, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(49, __c3, 1),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            responsePolicyRule: S.String.pipe(T.Label()),
+            clientOperationId: S.optional(S.String.pipe(T.Query())),
+            responsePolicy: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "dns/v1/projects/{project}/responsePolicies/{responsePolicy}/rules/{responsePolicyRule}",
@@ -3652,11 +3651,13 @@ function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          clientOperationId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1037, __c64, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1035, __c64, 11),
+          S.Struct({
+            clientOperationId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "dns/v1/projects/{project}/managedZones",
@@ -3684,9 +3685,9 @@ function __c63(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          kind: S.optional(S.String),
           keyLength: S.optional(S.Number),
           algorithm: S.optional(S.String),
-          kind: S.optional(S.String),
           keyType: S.optional(S.String),
         }),
       ).annotate({ identifier: "DnsKeySpec" });
@@ -3699,112 +3700,103 @@ function __c64(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          forwardingPath: S.optional(S.String),
-          domainName: S.optional(S.String),
+          deactivateTime: S.optional(S.String),
           kind: S.optional(S.String),
-          ipv4Address: S.optional(S.String),
-          ipv6Address: S.optional(S.String),
+          networkUrl: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ManagedZoneForwardingConfigNameServerTarget" });
+      ).annotate({ identifier: "ManagedZonePeeringConfigTargetNetwork" });
     case 1:
-      return S.Array(__S(1024, __c64, 0));
+      return S.suspend(() =>
+        S.Struct({
+          targetNetwork: S.optional(__S(1024, __c64, 0)),
+          kind: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ManagedZonePeeringConfig" });
     case 2:
       return S.suspend(() =>
         S.Struct({
+          namespaceUrl: S.optional(S.String),
           kind: S.optional(S.String),
-          outboundEndpoints: S.optional(__S(1057, __c66, 1)),
-          targetNameServers: S.optional(__S(1025, __c64, 1)),
+          deletionTime: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ManagedZoneForwardingConfig" });
+      ).annotate({ identifier: "ManagedZoneServiceDirectoryConfigNamespace" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          namespaceUrl: S.optional(S.String),
-          deletionTime: S.optional(S.String),
-          kind: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ManagedZoneServiceDirectoryConfigNamespace" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.optional(__S(1027, __c64, 3)),
+          namespace: S.optional(__S(1026, __c64, 2)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "ManagedZoneServiceDirectoryConfig" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          ipv6Address: S.optional(S.String),
+          domainName: S.optional(S.String),
+          ipv4Address: S.optional(S.String),
+          forwardingPath: S.optional(S.String),
+          kind: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ManagedZoneForwardingConfigNameServerTarget" });
     case 5:
+      return S.Array(__S(1028, __c64, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.optional(S.String),
+          targetNameServers: S.optional(__S(1029, __c64, 5)),
+          outboundEndpoints: S.optional(__S(1073, __c67, 1)),
+        }),
+      ).annotate({ identifier: "ManagedZoneForwardingConfig" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          nonExistence: S.optional(S.String),
+          kind: S.optional(S.String),
+          defaultKeySpecs: S.optional(__S(1009, __c63, 1)),
+          state: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ManagedZoneDnsSecConfig" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          gkeClusters: S.optional(__S(993, __c62, 1)),
+          kind: S.optional(S.String),
+          networks: S.optional(__S(1057, __c66, 1)),
+        }),
+      ).annotate({ identifier: "ManagedZonePrivateVisibilityConfig" });
+    case 9:
       return S.suspend(() =>
         S.Struct({
           enableLogging: S.optional(S.Boolean),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "ManagedZoneCloudLoggingConfig" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          kind: S.optional(S.String),
-          networkUrl: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ManagedZonePrivateVisibilityConfigNetwork" });
-    case 7:
-      return S.Array(__S(1030, __c64, 6));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          kind: S.optional(S.String),
-          gkeClusters: S.optional(__S(993, __c62, 1)),
-          networks: S.optional(__S(1031, __c64, 7)),
-        }),
-      ).annotate({ identifier: "ManagedZonePrivateVisibilityConfig" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          networkUrl: S.optional(S.String),
-          kind: S.optional(S.String),
-          deactivateTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ManagedZonePeeringConfigTargetNetwork" });
     case 10:
-      return S.suspend(() =>
-        S.Struct({
-          kind: S.optional(S.String),
-          targetNetwork: S.optional(__S(1033, __c64, 9)),
-        }),
-      ).annotate({ identifier: "ManagedZonePeeringConfig" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          kind: S.optional(S.String),
-          nonExistence: S.optional(S.String),
-          state: S.optional(S.String),
-          defaultKeySpecs: S.optional(__S(1009, __c63, 1)),
-        }),
-      ).annotate({ identifier: "ManagedZoneDnsSecConfig" });
-    case 12:
       return S.suspend(() =>
         S.Struct({
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "ManagedZoneReverseLookupConfig" });
-    case 13:
+    case 11:
       return S.suspend(() =>
         S.Struct({
-          dnsName: S.optional(S.String),
-          forwardingConfig: S.optional(__S(1026, __c64, 2)),
-          kind: S.optional(S.String),
-          serviceDirectoryConfig: S.optional(__S(1028, __c64, 4)),
           nameServerSet: S.optional(S.String),
-          cloudLoggingConfig: S.optional(__S(1029, __c64, 5)),
-          description: S.optional(S.String),
-          creationTime: S.optional(S.String),
-          visibility: S.optional(S.String),
-          privateVisibilityConfig: S.optional(__S(1032, __c64, 8)),
-          peeringConfig: S.optional(__S(1034, __c64, 10)),
-          nameServers: S.optional(__S(864, __c54, 0)),
-          dnssecConfig: S.optional(__S(1035, __c64, 11)),
-          reverseLookupConfig: S.optional(__S(1036, __c64, 12)),
-          name: S.optional(S.String),
           id: S.optional(S.String),
+          visibility: S.optional(S.String),
+          peeringConfig: S.optional(__S(1025, __c64, 1)),
+          serviceDirectoryConfig: S.optional(__S(1027, __c64, 3)),
+          kind: S.optional(S.String),
+          description: S.optional(S.String),
+          dnsName: S.optional(S.String),
           labels: S.optional(__S(1040, __c65, 0)),
+          name: S.optional(S.String),
+          forwardingConfig: S.optional(__S(1030, __c64, 6)),
+          nameServers: S.optional(__S(864, __c54, 0)),
+          dnssecConfig: S.optional(__S(1031, __c64, 7)),
+          privateVisibilityConfig: S.optional(__S(1032, __c64, 8)),
+          cloudLoggingConfig: S.optional(__S(1033, __c64, 9)),
+          reverseLookupConfig: S.optional(__S(1034, __c64, 10)),
+          creationTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "ManagedZone" });
   }
@@ -3820,10 +3812,10 @@ function __c66(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
+          networkUrl: S.optional(S.String),
           kind: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ManagedZoneForwardingConfigOutboundEndpoint" });
+      ).annotate({ identifier: "ManagedZonePrivateVisibilityConfigNetwork" });
     case 1:
       return S.Array(__S(1056, __c66, 0));
   }
@@ -3833,12 +3825,27 @@ function __c67(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          outboundEndpointId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          clientOperationId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1120, __c70, 0).pipe(T.HttpBody())),
-        }).pipe(
+          name: S.optional(S.String),
+          kind: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ManagedZoneForwardingConfigOutboundEndpoint" });
+    case 1:
+      return S.Array(__S(1072, __c67, 0));
+  }
+}
+function __c68(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1136, __c71, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            outboundEndpointId: S.optional(S.String.pipe(T.Query())),
+            clientOperationId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "dns/v1/{+parent}/outboundEndpoints",
@@ -3848,53 +3855,34 @@ function __c67(j: number): any {
       ).annotate({ identifier: "CreateOutboundEndpointsRequest" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1088, __c68, 0));
+      return S.Array(__S(1104, __c69, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
+          details: S.optional(__S(1120, __c70, 0)),
           code: S.optional(S.Number),
           message: S.optional(S.String),
-          details: S.optional(__S(1104, __c69, 0)),
         }),
       ).annotate({ identifier: "Status" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          error: S.optional(__S(1105, __c69, 1)),
+          response: S.optional(__S(1104, __c69, 0)),
+          metadata: S.optional(__S(1104, __c69, 0)),
           done: S.optional(S.Boolean),
-          response: S.optional(__S(1088, __c68, 0)),
-          metadata: S.optional(__S(1088, __c68, 0)),
+          error: S.optional(__S(1121, __c70, 1)),
         }),
       ).annotate({ identifier: "GoogleLongrunningOperation" });
-  }
-}
-function __c70(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subnetwork: S.optional(S.String),
-          network: S.optional(S.String),
-          labels: S.optional(__S(1040, __c65, 0)),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          annotations: S.optional(__S(1040, __c65, 0)),
-          name: S.optional(S.String),
-          endpointIp: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          tags: S.optional(__S(1040, __c65, 0)),
-        }),
-      ).annotate({ identifier: "OutboundEndpoint" });
   }
 }
 function __c71(j: number): any {
@@ -3902,10 +3890,31 @@ function __c71(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          project: S.String.pipe(T.Label()),
-          clientOperationId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1173, __c73, 5).pipe(T.HttpBody())),
-        }).pipe(
+          description: S.optional(S.String),
+          network: S.optional(S.String),
+          tags: S.optional(__S(1040, __c65, 0)),
+          annotations: S.optional(__S(1040, __c65, 0)),
+          endpointIp: S.optional(S.String),
+          labels: S.optional(__S(1040, __c65, 0)),
+          createTime: S.optional(S.String),
+          subnetwork: S.optional(S.String),
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OutboundEndpoint" });
+  }
+}
+function __c72(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1173, __c73, 5),
+          S.Struct({
+            clientOperationId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "dns/v1/projects/{project}/policies",
@@ -3913,19 +3922,6 @@ function __c71(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreatePoliciesRequest" });
-  }
-}
-function __c72(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          networkUrl: S.optional(S.String),
-          kind: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PolicyNetwork" });
-    case 1:
-      return S.Array(__S(1152, __c72, 0));
   }
 }
 function __c73(j: number): any {
@@ -3947,8 +3943,8 @@ function __c73(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          kind: S.optional(S.String),
           forwardingPath: S.optional(S.String),
+          kind: S.optional(S.String),
           ipv4Address: S.optional(S.String),
           ipv6Address: S.optional(S.String),
         }),
@@ -3958,23 +3954,23 @@ function __c73(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          outboundEndpoints: S.optional(__S(1057, __c66, 1)),
           kind: S.optional(S.String),
           targetNameServers: S.optional(__S(1171, __c73, 3)),
+          outboundEndpoints: S.optional(__S(1073, __c67, 1)),
         }),
       ).annotate({ identifier: "PolicyAlternativeNameServerConfig" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          dns64Config: S.optional(__S(1169, __c73, 1)),
-          kind: S.optional(S.String),
-          description: S.optional(S.String),
-          id: S.optional(S.String),
-          networks: S.optional(__S(1153, __c72, 1)),
-          name: S.optional(S.String),
-          alternativeNameServerConfig: S.optional(__S(1172, __c73, 4)),
-          enableLogging: S.optional(S.Boolean),
           enableInboundForwarding: S.optional(S.Boolean),
+          description: S.optional(S.String),
+          dns64Config: S.optional(__S(1169, __c73, 1)),
+          enableLogging: S.optional(S.Boolean),
+          id: S.optional(S.String),
+          alternativeNameServerConfig: S.optional(__S(1172, __c73, 4)),
+          name: S.optional(S.String),
+          kind: S.optional(S.String),
+          networks: S.optional(__S(1057, __c66, 1)),
         }),
       ).annotate({ identifier: "Policy" });
   }
@@ -3983,12 +3979,14 @@ function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          clientOperationId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          managedZone: S.String.pipe(T.Label()),
-          body: S.optional(__S(891, __c55, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(891, __c55, 11),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            managedZone: S.String.pipe(T.Label()),
+            clientOperationId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "dns/v1/projects/{project}/managedZones/{managedZone}/rrsets",

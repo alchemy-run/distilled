@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -114,7 +115,7 @@ export class InternalServerException
     "InternalServerException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
@@ -126,7 +127,7 @@ export class ThrottlingException
     "ThrottlingException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
@@ -185,21 +186,21 @@ export type AllowedWindows = string[];
 export type OutcomeAlarms = ControlCondition[];
 export interface CreatePracticeRunConfigurationRequest {
   resourceIdentifier: string;
-  blockedWindows?: string[];
-  blockedDates?: string[];
-  blockingAlarms?: ControlCondition[];
-  allowedWindows?: string[];
+  blockedWindows?: string[] | undefined;
+  blockedDates?: string[] | undefined;
+  blockingAlarms?: ControlCondition[] | undefined;
+  allowedWindows?: string[] | undefined;
   outcomeAlarms: ControlCondition[];
 }
 export type ResourceArn = string;
 export type ResourceName = string;
 export type ZonalAutoshiftStatus = "ENABLED" | "DISABLED" | (string & {});
 export interface PracticeRunConfiguration {
-  blockingAlarms?: ControlCondition[];
+  blockingAlarms?: ControlCondition[] | undefined;
   outcomeAlarms: ControlCondition[];
-  blockedWindows?: string[];
-  allowedWindows?: string[];
-  blockedDates?: string[];
+  blockedWindows?: string[] | undefined;
+  allowedWindows?: string[] | undefined;
+  blockedDates?: string[] | undefined;
 }
 export interface CreatePracticeRunConfigurationResponse {
   arn: string;
@@ -247,8 +248,8 @@ export interface ZonalShiftInResource {
   expiryTime: Date;
   startTime: Date;
   comment: string;
-  shiftType?: ShiftType;
-  practiceRunOutcome?: PracticeRunOutcome;
+  shiftType?: ShiftType | undefined;
+  practiceRunOutcome?: PracticeRunOutcome | undefined;
 }
 export type ZonalShiftsInResource = ZonalShiftInResource[];
 export type AutoshiftAppliedStatus = "APPLIED" | "NOT_APPLIED" | (string & {});
@@ -259,57 +260,57 @@ export interface AutoshiftInResource {
 }
 export type AutoshiftsInResource = AutoshiftInResource[];
 export interface GetManagedResourceResponse {
-  arn?: string;
-  name?: string;
+  arn?: string | undefined;
+  name?: string | undefined;
   appliedWeights: { [key: string]: number | undefined };
   zonalShifts: ZonalShiftInResource[];
-  autoshifts?: AutoshiftInResource[];
-  practiceRunConfiguration?: PracticeRunConfiguration;
-  zonalAutoshiftStatus?: ZonalAutoshiftStatus;
+  autoshifts?: AutoshiftInResource[] | undefined;
+  practiceRunConfiguration?: PracticeRunConfiguration | undefined;
+  zonalAutoshiftStatus?: ZonalAutoshiftStatus | undefined;
 }
 export type AutoshiftExecutionStatus = "ACTIVE" | "COMPLETED" | (string & {});
 export type MaxResults = number;
 export interface ListAutoshiftsRequest {
-  nextToken?: string;
-  status?: AutoshiftExecutionStatus;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  status?: AutoshiftExecutionStatus | undefined;
+  maxResults?: number | undefined;
 }
 export interface AutoshiftSummary {
   awayFrom: string;
-  endTime?: Date;
+  endTime?: Date | undefined;
   startTime: Date;
   status: AutoshiftExecutionStatus;
 }
 export type AutoshiftSummaries = AutoshiftSummary[];
 export interface ListAutoshiftsResponse {
-  items?: AutoshiftSummary[];
-  nextToken?: string;
+  items?: AutoshiftSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListManagedResourcesRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type AvailabilityZones = string[];
 export interface ManagedResourceSummary {
-  arn?: string;
-  name?: string;
+  arn?: string | undefined;
+  name?: string | undefined;
   availabilityZones: string[];
-  appliedWeights?: { [key: string]: number | undefined };
-  zonalShifts?: ZonalShiftInResource[];
-  autoshifts?: AutoshiftInResource[];
-  zonalAutoshiftStatus?: ZonalAutoshiftStatus;
-  practiceRunStatus?: ZonalAutoshiftStatus;
+  appliedWeights?: { [key: string]: number | undefined } | undefined;
+  zonalShifts?: ZonalShiftInResource[] | undefined;
+  autoshifts?: AutoshiftInResource[] | undefined;
+  zonalAutoshiftStatus?: ZonalAutoshiftStatus | undefined;
+  practiceRunStatus?: ZonalAutoshiftStatus | undefined;
 }
 export type ManagedResourceSummaries = ManagedResourceSummary[];
 export interface ListManagedResourcesResponse {
   items: ManagedResourceSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListZonalShiftsRequest {
-  nextToken?: string;
-  status?: ZonalShiftStatus;
-  maxResults?: number;
-  resourceIdentifier?: string;
+  nextToken?: string | undefined;
+  status?: ZonalShiftStatus | undefined;
+  maxResults?: number | undefined;
+  resourceIdentifier?: string | undefined;
 }
 export interface ZonalShiftSummary {
   zonalShiftId: string;
@@ -319,13 +320,13 @@ export interface ZonalShiftSummary {
   startTime: Date;
   status: ZonalShiftStatus;
   comment: string;
-  shiftType?: ShiftType;
-  practiceRunOutcome?: PracticeRunOutcome;
+  shiftType?: ShiftType | undefined;
+  practiceRunOutcome?: PracticeRunOutcome | undefined;
 }
 export type ZonalShiftSummaries = ZonalShiftSummary[];
 export interface ListZonalShiftsResponse {
-  items?: ZonalShiftSummary[];
-  nextToken?: string;
+  items?: ZonalShiftSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface StartPracticeRunRequest {
   resourceIdentifier: string;
@@ -356,11 +357,11 @@ export interface UpdateAutoshiftObserverNotificationStatusResponse {
 }
 export interface UpdatePracticeRunConfigurationRequest {
   resourceIdentifier: string;
-  blockedWindows?: string[];
-  blockedDates?: string[];
-  blockingAlarms?: ControlCondition[];
-  allowedWindows?: string[];
-  outcomeAlarms?: ControlCondition[];
+  blockedWindows?: string[] | undefined;
+  blockedDates?: string[] | undefined;
+  blockingAlarms?: ControlCondition[] | undefined;
+  allowedWindows?: string[] | undefined;
+  outcomeAlarms?: ControlCondition[] | undefined;
 }
 export interface UpdatePracticeRunConfigurationResponse {
   arn: string;
@@ -378,8 +379,8 @@ export interface UpdateZonalAutoshiftConfigurationResponse {
 }
 export interface UpdateZonalShiftRequest {
   zonalShiftId: string;
-  comment?: string;
-  expiresIn?: string;
+  comment?: string | undefined;
+  expiresIn?: string | undefined;
 }
 export type ConflictExceptionReason =
   | "ZonalShiftAlreadyExists"
@@ -424,7 +425,7 @@ export type CancelPracticeRunError =
  * Cancel an in-progress practice run zonal shift in Amazon Application Recovery Controller.
  */
 export const cancelPracticeRun: API.OperationMethod<
-  CancelPracticeRunRequest,
+  CancelPracticeRunRequest & RegionInput,
   CancelPracticeRunResponse,
   CancelPracticeRunError,
   Credentials | HttpClient.HttpClient
@@ -460,7 +461,7 @@ export type CancelZonalShiftError =
  * A zonal shift can be one that you've started for a resource in your Amazon Web Services account in an Amazon Web Services Region, or it can be a zonal shift started by a practice run with zonal autoshift.
  */
 export const cancelZonalShift: API.OperationMethod<
-  CancelZonalShiftRequest,
+  CancelZonalShiftRequest & RegionInput,
   ZonalShift,
   CancelZonalShiftError,
   Credentials | HttpClient.HttpClient
@@ -498,7 +499,7 @@ export type CreatePracticeRunConfigurationError =
  * For more information, see Considerations when you configure zonal autoshift in the Amazon Application Recovery Controller Developer Guide.
  */
 export const createPracticeRunConfiguration: API.OperationMethod<
-  CreatePracticeRunConfigurationRequest,
+  CreatePracticeRunConfigurationRequest & RegionInput,
   CreatePracticeRunConfigurationResponse,
   CreatePracticeRunConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -532,7 +533,7 @@ export type DeletePracticeRunConfigurationError =
  * Deletes the practice run configuration for a resource. Before you can delete a practice run configuration for a resource., you must disable zonal autoshift for the resource. Practice runs must be configured for zonal autoshift to be enabled.
  */
 export const deletePracticeRunConfiguration: API.OperationMethod<
-  DeletePracticeRunConfigurationRequest,
+  DeletePracticeRunConfigurationRequest & RegionInput,
   DeletePracticeRunConfigurationResponse,
   DeletePracticeRunConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -563,7 +564,7 @@ export type GetAutoshiftObserverNotificationStatusError =
  * Returns the status of the autoshift observer notification. Autoshift observer notifications notify you through Amazon EventBridge when there is an autoshift event for zonal autoshift. The status can be `ENABLED` or `DISABLED`. When `ENABLED`, a notification is sent when an autoshift is triggered. When `DISABLED`, notifications are not sent.
  */
 export const getAutoshiftObserverNotificationStatus: API.OperationMethod<
-  GetAutoshiftObserverNotificationStatusRequest,
+  GetAutoshiftObserverNotificationStatusRequest & RegionInput,
   GetAutoshiftObserverNotificationStatusResponse,
   GetAutoshiftObserverNotificationStatusError,
   Credentials | HttpClient.HttpClient
@@ -589,7 +590,7 @@ export type GetManagedResourceError =
  * Get information about a resource that's been registered for zonal shifts with Amazon Application Recovery Controller in this Amazon Web Services Region. Resources that are registered for zonal shifts are managed resources in ARC. You can start zonal shifts and configure zonal autoshift for managed resources.
  */
 export const getManagedResource: API.OperationMethod<
-  GetManagedResourceRequest,
+  GetManagedResourceRequest & RegionInput,
   GetManagedResourceResponse,
   GetManagedResourceError,
   Credentials | HttpClient.HttpClient
@@ -620,7 +621,7 @@ export type ListAutoshiftsError =
  * Returns the autoshifts for an Amazon Web Services Region. By default, the call returns only `ACTIVE` autoshifts. Optionally, you can specify the `status` parameter to return `COMPLETED` autoshifts.
  */
 export const listAutoshifts: API.PaginatedOperationMethod<
-  ListAutoshiftsRequest,
+  ListAutoshiftsRequest & RegionInput,
   ListAutoshiftsResponse,
   ListAutoshiftsError,
   Credentials | HttpClient.HttpClient,
@@ -657,7 +658,7 @@ export type ListManagedResourcesError =
  * Lists all the resources in your Amazon Web Services account in this Amazon Web Services Region that are managed for zonal shifts in Amazon Application Recovery Controller, and information about them. The information includes the zonal autoshift status for the resource, as well as the Amazon Resource Name (ARN), the Availability Zones that each resource is deployed in, and the resource name.
  */
 export const listManagedResources: API.PaginatedOperationMethod<
-  ListManagedResourcesRequest,
+  ListManagedResourcesRequest & RegionInput,
   ListManagedResourcesResponse,
   ListManagedResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -696,7 +697,7 @@ export type ListZonalShiftsError =
  * For more information about listing autoshifts, see ">ListAutoshifts.
  */
 export const listZonalShifts: API.PaginatedOperationMethod<
-  ListZonalShiftsRequest,
+  ListZonalShiftsRequest & RegionInput,
   ListZonalShiftsResponse,
   ListZonalShiftsError,
   Credentials | HttpClient.HttpClient,
@@ -737,7 +738,7 @@ export type StartPracticeRunError =
  * For more information, see Considerations when you configure zonal autoshift in the Amazon Application Recovery Controller Developer Guide.
  */
 export const startPracticeRun: API.OperationMethod<
-  StartPracticeRunRequest,
+  StartPracticeRunRequest & RegionInput,
   StartPracticeRunResponse,
   StartPracticeRunError,
   Credentials | HttpClient.HttpClient
@@ -785,7 +786,7 @@ export type StartZonalShiftError =
  * For more information, see Zonal shift in the Amazon Application Recovery Controller Developer Guide.
  */
 export const startZonalShift: API.OperationMethod<
-  StartZonalShiftRequest,
+  StartZonalShiftRequest & RegionInput,
   ZonalShift,
   StartZonalShiftError,
   Credentials | HttpClient.HttpClient
@@ -821,7 +822,7 @@ export type UpdateAutoshiftObserverNotificationStatusError =
  * For more information, see Notifications for practice runs and autoshifts in the Amazon Application Recovery Controller Developer Guide.
  */
 export const updateAutoshiftObserverNotificationStatus: API.OperationMethod<
-  UpdateAutoshiftObserverNotificationStatusRequest,
+  UpdateAutoshiftObserverNotificationStatusRequest & RegionInput,
   UpdateAutoshiftObserverNotificationStatusResponse,
   UpdateAutoshiftObserverNotificationStatusError,
   Credentials | HttpClient.HttpClient
@@ -853,7 +854,7 @@ export type UpdatePracticeRunConfigurationError =
  * Update a practice run configuration to change one or more of the following: add, change, or remove the blocking alarm; change the outcome alarm; or add, change, or remove blocking dates or time windows.
  */
 export const updatePracticeRunConfiguration: API.OperationMethod<
-  UpdatePracticeRunConfigurationRequest,
+  UpdatePracticeRunConfigurationRequest & RegionInput,
   UpdatePracticeRunConfigurationResponse,
   UpdatePracticeRunConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -889,7 +890,7 @@ export type UpdateZonalAutoshiftConfigurationError =
  * You can update the zonal autoshift status to enable or disable zonal autoshift. When zonal autoshift is `ENABLED`, you authorize Amazon Web Services to shift away resource traffic for an application from an Availability Zone during events, on your behalf, to help reduce time to recovery. Traffic is also shifted away for the required weekly practice runs.
  */
 export const updateZonalAutoshiftConfiguration: API.OperationMethod<
-  UpdateZonalAutoshiftConfigurationRequest,
+  UpdateZonalAutoshiftConfigurationRequest & RegionInput,
   UpdateZonalAutoshiftConfigurationResponse,
   UpdateZonalAutoshiftConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -923,7 +924,7 @@ export type UpdateZonalShiftError =
  * Update an active zonal shift in Amazon Application Recovery Controller in your Amazon Web Services account. You can update a zonal shift to set a new expiration, or edit or replace the comment for the zonal shift.
  */
 export const updateZonalShift: API.OperationMethod<
-  UpdateZonalShiftRequest,
+  UpdateZonalShiftRequest & RegionInput,
   ZonalShift,
   UpdateZonalShiftError,
   Credentials | HttpClient.HttpClient

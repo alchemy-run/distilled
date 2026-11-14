@@ -39,65 +39,65 @@ export interface AddReactionResponse {
 }
 export interface GetReactionRequest {
   /** Channel where the message to get reactions for was posted. */
-  channel?: string;
+  channel?: string | undefined;
   /** File to get reactions for. */
-  file?: string;
+  file?: string | undefined;
   /** File comment to get reactions for. */
-  file_comment?: string;
+  file_comment?: string | undefined;
   /** If true always return the complete reaction list. */
-  full?: boolean;
+  full?: boolean | undefined;
   /** Timestamp of the message to get reactions for. */
-  timestamp?: string;
+  timestamp?: string | undefined;
 }
 export interface GetReactionResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
-  comment?: unknown;
-  message?: unknown;
+  comment?: unknown | undefined;
+  message?: unknown | undefined;
   type: string;
-  channel?: string;
-  file?: unknown;
+  channel?: string | undefined;
+  file?: unknown | undefined;
 }
 export interface ListReactionsRequest {
   /** Show reactions made by this user. Defaults to the authed user. */
-  user?: string;
+  user?: string | undefined;
   /** If true always return the complete reaction list. */
-  full?: boolean;
-  count?: number;
-  page?: number;
+  full?: boolean | undefined;
+  count?: number | undefined;
+  page?: number | undefined;
   /** Parameter for pagination. Set `cursor` equal to the `next_cursor` attribute returned by the previous request's `response_metadata`. This parameter is optional, but pagination is mandatory: the default value simply fetches the first "page" of the collection. See [pagination](/apis/web-api/pagination) for more details. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the list hasn't been reached. */
-  limit?: number;
+  limit?: number | undefined;
   /** encoded team id to list reactions in, required if org token is used */
-  team_id?: string;
+  team_id?: string | undefined;
 }
 export type ListReactionsResponseItemsItemMap = { [key: string]: unknown | undefined };
 export type ListReactionsResponseItemsList = Array<ListReactionsResponseItemsItemMap>;
 /** Pagination metadata. An empty `next_cursor` means the last page. */
 export interface ListReactionsResponseResponseMetadata {
   /** Cursor for the next page -- pass as `cursor` on the next call. */
-  next_cursor?: string;
+  next_cursor?: string | undefined;
 }
 export interface ListReactionsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   items: ListReactionsResponseItemsList;
-  paging?: unknown;
+  paging?: unknown | undefined;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: ListReactionsResponseResponseMetadata;
+  response_metadata?: ListReactionsResponseResponseMetadata | undefined;
 }
 export interface RemoveReactionRequest {
   /** Reaction (emoji) name. */
   name: string;
   /** File to remove reaction from. */
-  file?: string;
+  file?: string | undefined;
   /** File comment to remove reaction from. */
-  file_comment?: string;
+  file_comment?: string | undefined;
   /** Channel where the message to remove reaction from was posted. */
-  channel?: string;
+  channel?: string | undefined;
   /** Timestamp of the message to remove reaction from. */
-  timestamp?: string;
+  timestamp?: string | undefined;
 }
 export interface RemoveReactionResponse {
   /** Always `true` (a failed call raises a typed error instead). */

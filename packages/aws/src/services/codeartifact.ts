@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -116,7 +117,7 @@ export class InternalServerException
     "InternalServerException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
@@ -151,7 +152,7 @@ export class ThrottlingException
       ),
     },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
@@ -171,14 +172,14 @@ export type RepositoryName = string;
 export type ExternalConnectionName = string;
 export interface AssociateExternalConnectionRequest {
   domain: string;
-  domainOwner?: string;
+  domainOwner?: string | undefined;
   repository: string;
   externalConnection: string;
 }
 export type Arn = string;
 export type Description = string;
 export interface UpstreamRepositoryInfo {
-  repositoryName?: string;
+  repositoryName?: string | undefined;
 }
 export type UpstreamRepositoryInfoList = UpstreamRepositoryInfo[];
 export type PackageFormat =
@@ -193,24 +194,24 @@ export type PackageFormat =
   | (string & {});
 export type ExternalConnectionStatus = "Available" | (string & {});
 export interface RepositoryExternalConnectionInfo {
-  externalConnectionName?: string;
-  packageFormat?: PackageFormat;
-  status?: ExternalConnectionStatus;
+  externalConnectionName?: string | undefined;
+  packageFormat?: PackageFormat | undefined;
+  status?: ExternalConnectionStatus | undefined;
 }
 export type RepositoryExternalConnectionInfoList = RepositoryExternalConnectionInfo[];
 export interface RepositoryDescription {
-  name?: string;
-  administratorAccount?: string;
-  domainName?: string;
-  domainOwner?: string;
-  arn?: string;
-  description?: string;
-  upstreams?: UpstreamRepositoryInfo[];
-  externalConnections?: RepositoryExternalConnectionInfo[];
-  createdTime?: Date;
+  name?: string | undefined;
+  administratorAccount?: string | undefined;
+  domainName?: string | undefined;
+  domainOwner?: string | undefined;
+  arn?: string | undefined;
+  description?: string | undefined;
+  upstreams?: UpstreamRepositoryInfo[] | undefined;
+  externalConnections?: RepositoryExternalConnectionInfo[] | undefined;
+  createdTime?: Date | undefined;
 }
 export interface AssociateExternalConnectionResult {
-  repository?: RepositoryDescription;
+  repository?: RepositoryDescription | undefined;
 }
 export type PackageNamespace = string;
 export type PackageName = string;
@@ -220,16 +221,16 @@ export type PackageVersionRevision = string;
 export type PackageVersionRevisionMap = { [key: string]: string | undefined };
 export interface CopyPackageVersionsRequest {
   domain: string;
-  domainOwner?: string;
+  domainOwner?: string | undefined;
   sourceRepository: string;
   destinationRepository: string;
   format: PackageFormat;
-  namespace?: string;
+  namespace?: string | undefined;
   package: string;
-  versions?: string[];
-  versionRevisions?: { [key: string]: string | undefined };
-  allowOverwrite?: boolean;
-  includeFromUpstream?: boolean;
+  versions?: string[] | undefined;
+  versionRevisions?: { [key: string]: string | undefined } | undefined;
+  allowOverwrite?: boolean | undefined;
+  includeFromUpstream?: boolean | undefined;
 }
 export type PackageVersionStatus =
   | "Published"
@@ -240,8 +241,8 @@ export type PackageVersionStatus =
   | "Deleted"
   | (string & {});
 export interface SuccessfulPackageVersionInfo {
-  revision?: string;
-  status?: PackageVersionStatus;
+  revision?: string | undefined;
+  status?: PackageVersionStatus | undefined;
 }
 export type SuccessfulPackageVersionInfoMap = {
   [key: string]: SuccessfulPackageVersionInfo | undefined;
@@ -256,13 +257,13 @@ export type PackageVersionErrorCode =
   | (string & {});
 export type ErrorMessage = string;
 export interface PackageVersionError {
-  errorCode?: PackageVersionErrorCode;
-  errorMessage?: string;
+  errorCode?: PackageVersionErrorCode | undefined;
+  errorMessage?: string | undefined;
 }
 export type PackageVersionErrorMap = { [key: string]: PackageVersionError | undefined };
 export interface CopyPackageVersionsResult {
-  successfulVersions?: { [key: string]: SuccessfulPackageVersionInfo | undefined };
-  failedVersions?: { [key: string]: PackageVersionError | undefined };
+  successfulVersions?: { [key: string]: SuccessfulPackageVersionInfo | undefined } | undefined;
+  failedVersions?: { [key: string]: PackageVersionError | undefined } | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
@@ -273,33 +274,33 @@ export interface Tag {
 export type TagList = Tag[];
 export interface CreateDomainRequest {
   domain: string;
-  encryptionKey?: string;
-  tags?: Tag[];
+  encryptionKey?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export type DomainStatus = "Active" | "Deleted" | (string & {});
 export interface DomainDescription {
-  name?: string;
-  owner?: string;
-  arn?: string;
-  status?: DomainStatus;
-  createdTime?: Date;
-  encryptionKey?: string;
-  repositoryCount?: number;
-  assetSizeBytes?: number;
-  s3BucketArn?: string;
+  name?: string | undefined;
+  owner?: string | undefined;
+  arn?: string | undefined;
+  status?: DomainStatus | undefined;
+  createdTime?: Date | undefined;
+  encryptionKey?: string | undefined;
+  repositoryCount?: number | undefined;
+  assetSizeBytes?: number | undefined;
+  s3BucketArn?: string | undefined;
 }
 export interface CreateDomainResult {
-  domain?: DomainDescription;
+  domain?: DomainDescription | undefined;
 }
 export type PackageGroupPattern = string;
 export type PackageGroupContactInfo = string;
 export interface CreatePackageGroupRequest {
   domain: string;
-  domainOwner?: string;
+  domainOwner?: string | undefined;
   packageGroup: string;
-  contactInfo?: string;
-  description?: string;
-  tags?: Tag[];
+  contactInfo?: string | undefined;
+  description?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export type PackageGroupOriginRestrictionType =
   | "EXTERNAL_UPSTREAM"
@@ -313,34 +314,34 @@ export type PackageGroupOriginRestrictionMode =
   | "INHERIT"
   | (string & {});
 export interface PackageGroupReference {
-  arn?: string;
-  pattern?: string;
+  arn?: string | undefined;
+  pattern?: string | undefined;
 }
 export interface PackageGroupOriginRestriction {
-  mode?: PackageGroupOriginRestrictionMode;
-  effectiveMode?: PackageGroupOriginRestrictionMode;
-  inheritedFrom?: PackageGroupReference;
-  repositoriesCount?: number;
+  mode?: PackageGroupOriginRestrictionMode | undefined;
+  effectiveMode?: PackageGroupOriginRestrictionMode | undefined;
+  inheritedFrom?: PackageGroupReference | undefined;
+  repositoriesCount?: number | undefined;
 }
 export type PackageGroupOriginRestrictions = {
-  [key in PackageGroupOriginRestrictionType]?: PackageGroupOriginRestriction;
+  [key in PackageGroupOriginRestrictionType]?: PackageGroupOriginRestriction | undefined;
 };
 export interface PackageGroupOriginConfiguration {
-  restrictions?: { [key: string]: PackageGroupOriginRestriction | undefined };
+  restrictions?: { [key: string]: PackageGroupOriginRestriction | undefined } | undefined;
 }
 export interface PackageGroupDescription {
-  arn?: string;
-  pattern?: string;
-  domainName?: string;
-  domainOwner?: string;
-  createdTime?: Date;
-  contactInfo?: string;
-  description?: string;
-  originConfiguration?: PackageGroupOriginConfiguration;
-  parent?: PackageGroupReference;
+  arn?: string | undefined;
+  pattern?: string | undefined;
+  domainName?: string | undefined;
+  domainOwner?: string | undefined;
+  createdTime?: Date | undefined;
+  contactInfo?: string | undefined;
+  description?: string | undefined;
+  originConfiguration?: PackageGroupOriginConfiguration | undefined;
+  parent?: PackageGroupReference | undefined;
 }
 export interface CreatePackageGroupResult {
-  packageGroup?: PackageGroupDescription;
+  packageGroup?: PackageGroupDescription | undefined;
 }
 export interface UpstreamRepository {
   repositoryName: string;
@@ -348,43 +349,43 @@ export interface UpstreamRepository {
 export type UpstreamRepositoryList = UpstreamRepository[];
 export interface CreateRepositoryRequest {
   domain: string;
-  domainOwner?: string;
+  domainOwner?: string | undefined;
   repository: string;
-  description?: string;
-  upstreams?: UpstreamRepository[];
-  tags?: Tag[];
+  description?: string | undefined;
+  upstreams?: UpstreamRepository[] | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface CreateRepositoryResult {
-  repository?: RepositoryDescription;
+  repository?: RepositoryDescription | undefined;
 }
 export interface DeleteDomainRequest {
   domain: string;
-  domainOwner?: string;
+  domainOwner?: string | undefined;
 }
 export interface DeleteDomainResult {
-  domain?: DomainDescription;
+  domain?: DomainDescription | undefined;
 }
 export type PolicyRevision = string;
 export interface DeleteDomainPermissionsPolicyRequest {
   domain: string;
-  domainOwner?: string;
-  policyRevision?: string;
+  domainOwner?: string | undefined;
+  policyRevision?: string | undefined;
 }
 export type PolicyDocument = string;
 export interface ResourcePolicy {
-  resourceArn?: string;
-  revision?: string;
-  document?: string;
+  resourceArn?: string | undefined;
+  revision?: string | undefined;
+  document?: string | undefined;
 }
 export interface DeleteDomainPermissionsPolicyResult {
-  policy?: ResourcePolicy;
+  policy?: ResourcePolicy | undefined;
 }
 export interface DeletePackageRequest {
   domain: string;
-  domainOwner?: string;
+  domainOwner?: string | undefined;
   repository: string;
   format: PackageFormat;
-  namespace?: string;
+  namespace?: string | undefined;
   package: string;
 }
 export type AllowPublish = "ALLOW" | "BLOCK" | (string & {});
@@ -394,529 +395,529 @@ export interface PackageOriginRestrictions {
   upstream: AllowUpstream;
 }
 export interface PackageOriginConfiguration {
-  restrictions?: PackageOriginRestrictions;
+  restrictions?: PackageOriginRestrictions | undefined;
 }
 export interface PackageSummary {
-  format?: PackageFormat;
-  namespace?: string;
-  package?: string;
-  originConfiguration?: PackageOriginConfiguration;
+  format?: PackageFormat | undefined;
+  namespace?: string | undefined;
+  package?: string | undefined;
+  originConfiguration?: PackageOriginConfiguration | undefined;
 }
 export interface DeletePackageResult {
-  deletedPackage?: PackageSummary;
+  deletedPackage?: PackageSummary | undefined;
 }
 export interface DeletePackageGroupRequest {
   domain: string;
-  domainOwner?: string;
+  domainOwner?: string | undefined;
   packageGroup: string;
 }
 export interface DeletePackageGroupResult {
-  packageGroup?: PackageGroupDescription;
+  packageGroup?: PackageGroupDescription | undefined;
 }
 export interface DeletePackageVersionsRequest {
   domain: string;
-  domainOwner?: string;
+  domainOwner?: string | undefined;
   repository: string;
   format: PackageFormat;
-  namespace?: string;
+  namespace?: string | undefined;
   package: string;
   versions: string[];
-  expectedStatus?: PackageVersionStatus;
+  expectedStatus?: PackageVersionStatus | undefined;
 }
 export interface DeletePackageVersionsResult {
-  successfulVersions?: { [key: string]: SuccessfulPackageVersionInfo | undefined };
-  failedVersions?: { [key: string]: PackageVersionError | undefined };
+  successfulVersions?: { [key: string]: SuccessfulPackageVersionInfo | undefined } | undefined;
+  failedVersions?: { [key: string]: PackageVersionError | undefined } | undefined;
 }
 export interface DeleteRepositoryRequest {
   domain: string;
-  domainOwner?: string;
+  domainOwner?: string | undefined;
   repository: string;
 }
 export interface DeleteRepositoryResult {
-  repository?: RepositoryDescription;
+  repository?: RepositoryDescription | undefined;
 }
 export interface DeleteRepositoryPermissionsPolicyRequest {
   domain: string;
-  domainOwner?: string;
+  domainOwner?: string | undefined;
   repository: string;
-  policyRevision?: string;
+  policyRevision?: string | undefined;
 }
 export interface DeleteRepositoryPermissionsPolicyResult {
-  policy?: ResourcePolicy;
+  policy?: ResourcePolicy | undefined;
 }
 export interface DescribeDomainRequest {
   domain: string;
-  domainOwner?: string;
+  domainOwner?: string | undefined;
 }
 export interface DescribeDomainResult {
-  domain?: DomainDescription;
+  domain?: DomainDescription | undefined;
 }
 export interface DescribePackageRequest {
   domain: string;
-  domainOwner?: string;
+  domainOwner?: string | undefined;
   repository: string;
   format: PackageFormat;
-  namespace?: string;
+  namespace?: string | undefined;
   package: string;
 }
 export interface PackageDescription {
-  format?: PackageFormat;
-  namespace?: string;
-  name?: string;
-  originConfiguration?: PackageOriginConfiguration;
+  format?: PackageFormat | undefined;
+  namespace?: string | undefined;
+  name?: string | undefined;
+  originConfiguration?: PackageOriginConfiguration | undefined;
 }
 export interface DescribePackageResult {
   package: PackageDescription;
 }
 export interface DescribePackageGroupRequest {
   domain: string;
-  domainOwner?: string;
+  domainOwner?: string | undefined;
   packageGroup: string;
 }
 export interface DescribePackageGroupResult {
-  packageGroup?: PackageGroupDescription;
+  packageGroup?: PackageGroupDescription | undefined;
 }
 export interface DescribePackageVersionRequest {
   domain: string;
-  domainOwner?: string;
+  domainOwner?: string | undefined;
   repository: string;
   format: PackageFormat;
-  namespace?: string;
+  namespace?: string | undefined;
   package: string;
   packageVersion: string;
 }
 export type String255 = string;
 export interface LicenseInfo {
-  name?: string;
-  url?: string;
+  name?: string | undefined;
+  url?: string | undefined;
 }
 export type LicenseInfoList = LicenseInfo[];
 export interface DomainEntryPoint {
-  repositoryName?: string;
-  externalConnectionName?: string;
+  repositoryName?: string | undefined;
+  externalConnectionName?: string | undefined;
 }
 export type PackageVersionOriginType = "INTERNAL" | "EXTERNAL" | "UNKNOWN" | (string & {});
 export interface PackageVersionOrigin {
-  domainEntryPoint?: DomainEntryPoint;
-  originType?: PackageVersionOriginType;
+  domainEntryPoint?: DomainEntryPoint | undefined;
+  originType?: PackageVersionOriginType | undefined;
 }
 export interface PackageVersionDescription {
-  format?: PackageFormat;
-  namespace?: string;
-  packageName?: string;
-  displayName?: string;
-  version?: string;
-  summary?: string;
-  homePage?: string;
-  sourceCodeRepository?: string;
-  publishedTime?: Date;
-  licenses?: LicenseInfo[];
-  revision?: string;
-  status?: PackageVersionStatus;
-  origin?: PackageVersionOrigin;
+  format?: PackageFormat | undefined;
+  namespace?: string | undefined;
+  packageName?: string | undefined;
+  displayName?: string | undefined;
+  version?: string | undefined;
+  summary?: string | undefined;
+  homePage?: string | undefined;
+  sourceCodeRepository?: string | undefined;
+  publishedTime?: Date | undefined;
+  licenses?: LicenseInfo[] | undefined;
+  revision?: string | undefined;
+  status?: PackageVersionStatus | undefined;
+  origin?: PackageVersionOrigin | undefined;
 }
 export interface DescribePackageVersionResult {
   packageVersion: PackageVersionDescription;
 }
 export interface DescribeRepositoryRequest {
   domain: string;
-  domainOwner?: string;
+  domainOwner?: string | undefined;
   repository: string;
 }
 export interface DescribeRepositoryResult {
-  repository?: RepositoryDescription;
+  repository?: RepositoryDescription | undefined;
 }
 export interface DisassociateExternalConnectionRequest {
   domain: string;
-  domainOwner?: string;
+  domainOwner?: string | undefined;
   repository: string;
   externalConnection: string;
 }
 export interface DisassociateExternalConnectionResult {
-  repository?: RepositoryDescription;
+  repository?: RepositoryDescription | undefined;
 }
 export interface DisposePackageVersionsRequest {
   domain: string;
-  domainOwner?: string;
+  domainOwner?: string | undefined;
   repository: string;
   format: PackageFormat;
-  namespace?: string;
+  namespace?: string | undefined;
   package: string;
   versions: string[];
-  versionRevisions?: { [key: string]: string | undefined };
-  expectedStatus?: PackageVersionStatus;
+  versionRevisions?: { [key: string]: string | undefined } | undefined;
+  expectedStatus?: PackageVersionStatus | undefined;
 }
 export interface DisposePackageVersionsResult {
-  successfulVersions?: { [key: string]: SuccessfulPackageVersionInfo | undefined };
-  failedVersions?: { [key: string]: PackageVersionError | undefined };
+  successfulVersions?: { [key: string]: SuccessfulPackageVersionInfo | undefined } | undefined;
+  failedVersions?: { [key: string]: PackageVersionError | undefined } | undefined;
 }
 export interface GetAssociatedPackageGroupRequest {
   domain: string;
-  domainOwner?: string;
+  domainOwner?: string | undefined;
   format: PackageFormat;
-  namespace?: string;
+  namespace?: string | undefined;
   package: string;
 }
 export type PackageGroupAssociationType = "STRONG" | "WEAK" | (string & {});
 export interface GetAssociatedPackageGroupResult {
-  packageGroup?: PackageGroupDescription;
-  associationType?: PackageGroupAssociationType;
+  packageGroup?: PackageGroupDescription | undefined;
+  associationType?: PackageGroupAssociationType | undefined;
 }
 export type AuthorizationTokenDurationSeconds = number;
 export interface GetAuthorizationTokenRequest {
   domain: string;
-  domainOwner?: string;
-  durationSeconds?: number;
+  domainOwner?: string | undefined;
+  durationSeconds?: number | undefined;
 }
 export interface GetAuthorizationTokenResult {
-  authorizationToken?: string | redacted.Redacted<string>;
-  expiration?: Date;
+  authorizationToken?: string | redacted.Redacted<string> | undefined;
+  expiration?: Date | undefined;
 }
 export interface GetDomainPermissionsPolicyRequest {
   domain: string;
-  domainOwner?: string;
+  domainOwner?: string | undefined;
 }
 export interface GetDomainPermissionsPolicyResult {
-  policy?: ResourcePolicy;
+  policy?: ResourcePolicy | undefined;
 }
 export type AssetName = string;
 export interface GetPackageVersionAssetRequest {
   domain: string;
-  domainOwner?: string;
+  domainOwner?: string | undefined;
   repository: string;
   format: PackageFormat;
-  namespace?: string;
+  namespace?: string | undefined;
   package: string;
   packageVersion: string;
   asset: string;
-  packageVersionRevision?: string;
+  packageVersionRevision?: string | undefined;
 }
 export interface GetPackageVersionAssetResult {
-  asset?: T.StreamingOutputBody;
-  assetName?: string;
-  packageVersion?: string;
-  packageVersionRevision?: string;
+  asset?: T.StreamingOutputBody | undefined;
+  assetName?: string | undefined;
+  packageVersion?: string | undefined;
+  packageVersionRevision?: string | undefined;
 }
 export interface GetPackageVersionReadmeRequest {
   domain: string;
-  domainOwner?: string;
+  domainOwner?: string | undefined;
   repository: string;
   format: PackageFormat;
-  namespace?: string;
+  namespace?: string | undefined;
   package: string;
   packageVersion: string;
 }
 export interface GetPackageVersionReadmeResult {
-  format?: PackageFormat;
-  namespace?: string;
-  package?: string;
-  version?: string;
-  versionRevision?: string;
-  readme?: string;
+  format?: PackageFormat | undefined;
+  namespace?: string | undefined;
+  package?: string | undefined;
+  version?: string | undefined;
+  versionRevision?: string | undefined;
+  readme?: string | undefined;
 }
 export type EndpointType = "dualstack" | "ipv4" | (string & {});
 export interface GetRepositoryEndpointRequest {
   domain: string;
-  domainOwner?: string;
+  domainOwner?: string | undefined;
   repository: string;
   format: PackageFormat;
-  endpointType?: EndpointType;
+  endpointType?: EndpointType | undefined;
 }
 export interface GetRepositoryEndpointResult {
-  repositoryEndpoint?: string;
+  repositoryEndpoint?: string | undefined;
 }
 export interface GetRepositoryPermissionsPolicyRequest {
   domain: string;
-  domainOwner?: string;
+  domainOwner?: string | undefined;
   repository: string;
 }
 export interface GetRepositoryPermissionsPolicyResult {
-  policy?: ResourcePolicy;
+  policy?: ResourcePolicy | undefined;
 }
 export type ListAllowedRepositoriesForGroupMaxResults = number;
 export type PaginationToken = string;
 export interface ListAllowedRepositoriesForGroupRequest {
   domain: string;
-  domainOwner?: string;
+  domainOwner?: string | undefined;
   packageGroup: string;
   originRestrictionType: PackageGroupOriginRestrictionType;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type RepositoryNameList = string[];
 export interface ListAllowedRepositoriesForGroupResult {
-  allowedRepositories?: string[];
-  nextToken?: string;
+  allowedRepositories?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListPackagesMaxResults = number;
 export interface ListAssociatedPackagesRequest {
   domain: string;
-  domainOwner?: string;
+  domainOwner?: string | undefined;
   packageGroup: string;
-  maxResults?: number;
-  nextToken?: string;
-  preview?: boolean;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  preview?: boolean | undefined;
 }
 export interface AssociatedPackage {
-  format?: PackageFormat;
-  namespace?: string;
-  package?: string;
-  associationType?: PackageGroupAssociationType;
+  format?: PackageFormat | undefined;
+  namespace?: string | undefined;
+  package?: string | undefined;
+  associationType?: PackageGroupAssociationType | undefined;
 }
 export type AssociatedPackageList = AssociatedPackage[];
 export interface ListAssociatedPackagesResult {
-  packages?: AssociatedPackage[];
-  nextToken?: string;
+  packages?: AssociatedPackage[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListDomainsMaxResults = number;
 export interface ListDomainsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface DomainSummary {
-  name?: string;
-  owner?: string;
-  arn?: string;
-  status?: DomainStatus;
-  createdTime?: Date;
-  encryptionKey?: string;
+  name?: string | undefined;
+  owner?: string | undefined;
+  arn?: string | undefined;
+  status?: DomainStatus | undefined;
+  createdTime?: Date | undefined;
+  encryptionKey?: string | undefined;
 }
 export type DomainSummaryList = DomainSummary[];
 export interface ListDomainsResult {
-  domains?: DomainSummary[];
-  nextToken?: string;
+  domains?: DomainSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListPackageGroupsMaxResults = number;
 export type PackageGroupPatternPrefix = string;
 export interface ListPackageGroupsRequest {
   domain: string;
-  domainOwner?: string;
-  maxResults?: number;
-  nextToken?: string;
-  prefix?: string;
+  domainOwner?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  prefix?: string | undefined;
 }
 export interface PackageGroupSummary {
-  arn?: string;
-  pattern?: string;
-  domainName?: string;
-  domainOwner?: string;
-  createdTime?: Date;
-  contactInfo?: string;
-  description?: string;
-  originConfiguration?: PackageGroupOriginConfiguration;
-  parent?: PackageGroupReference;
+  arn?: string | undefined;
+  pattern?: string | undefined;
+  domainName?: string | undefined;
+  domainOwner?: string | undefined;
+  createdTime?: Date | undefined;
+  contactInfo?: string | undefined;
+  description?: string | undefined;
+  originConfiguration?: PackageGroupOriginConfiguration | undefined;
+  parent?: PackageGroupReference | undefined;
 }
 export type PackageGroupSummaryList = PackageGroupSummary[];
 export interface ListPackageGroupsResult {
-  packageGroups?: PackageGroupSummary[];
-  nextToken?: string;
+  packageGroups?: PackageGroupSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListPackagesRequest {
   domain: string;
-  domainOwner?: string;
+  domainOwner?: string | undefined;
   repository: string;
-  format?: PackageFormat;
-  namespace?: string;
-  packagePrefix?: string;
-  maxResults?: number;
-  nextToken?: string;
-  publish?: AllowPublish;
-  upstream?: AllowUpstream;
+  format?: PackageFormat | undefined;
+  namespace?: string | undefined;
+  packagePrefix?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  publish?: AllowPublish | undefined;
+  upstream?: AllowUpstream | undefined;
 }
 export type PackageSummaryList = PackageSummary[];
 export interface ListPackagesResult {
-  packages?: PackageSummary[];
-  nextToken?: string;
+  packages?: PackageSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListPackageVersionAssetsMaxResults = number;
 export interface ListPackageVersionAssetsRequest {
   domain: string;
-  domainOwner?: string;
+  domainOwner?: string | undefined;
   repository: string;
   format: PackageFormat;
-  namespace?: string;
+  namespace?: string | undefined;
   package: string;
   packageVersion: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type HashAlgorithm = "MD5" | "SHA-1" | "SHA-256" | "SHA-512" | (string & {});
 export type HashValue = string;
-export type AssetHashes = { [key in HashAlgorithm]?: string };
+export type AssetHashes = { [key in HashAlgorithm]?: string | undefined };
 export interface AssetSummary {
   name: string;
-  size?: number;
-  hashes?: { [key: string]: string | undefined };
+  size?: number | undefined;
+  hashes?: { [key: string]: string | undefined } | undefined;
 }
 export type AssetSummaryList = AssetSummary[];
 export interface ListPackageVersionAssetsResult {
-  format?: PackageFormat;
-  namespace?: string;
-  package?: string;
-  version?: string;
-  versionRevision?: string;
-  nextToken?: string;
-  assets?: AssetSummary[];
+  format?: PackageFormat | undefined;
+  namespace?: string | undefined;
+  package?: string | undefined;
+  version?: string | undefined;
+  versionRevision?: string | undefined;
+  nextToken?: string | undefined;
+  assets?: AssetSummary[] | undefined;
 }
 export interface ListPackageVersionDependenciesRequest {
   domain: string;
-  domainOwner?: string;
+  domainOwner?: string | undefined;
   repository: string;
   format: PackageFormat;
-  namespace?: string;
+  namespace?: string | undefined;
   package: string;
   packageVersion: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface PackageDependency {
-  namespace?: string;
-  package?: string;
-  dependencyType?: string;
-  versionRequirement?: string;
+  namespace?: string | undefined;
+  package?: string | undefined;
+  dependencyType?: string | undefined;
+  versionRequirement?: string | undefined;
 }
 export type PackageDependencyList = PackageDependency[];
 export interface ListPackageVersionDependenciesResult {
-  format?: PackageFormat;
-  namespace?: string;
-  package?: string;
-  version?: string;
-  versionRevision?: string;
-  nextToken?: string;
-  dependencies?: PackageDependency[];
+  format?: PackageFormat | undefined;
+  namespace?: string | undefined;
+  package?: string | undefined;
+  version?: string | undefined;
+  versionRevision?: string | undefined;
+  nextToken?: string | undefined;
+  dependencies?: PackageDependency[] | undefined;
 }
 export type PackageVersionSortType = "PUBLISHED_TIME" | (string & {});
 export type ListPackageVersionsMaxResults = number;
 export interface ListPackageVersionsRequest {
   domain: string;
-  domainOwner?: string;
+  domainOwner?: string | undefined;
   repository: string;
   format: PackageFormat;
-  namespace?: string;
+  namespace?: string | undefined;
   package: string;
-  status?: PackageVersionStatus;
-  sortBy?: PackageVersionSortType;
-  maxResults?: number;
-  nextToken?: string;
-  originType?: PackageVersionOriginType;
+  status?: PackageVersionStatus | undefined;
+  sortBy?: PackageVersionSortType | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  originType?: PackageVersionOriginType | undefined;
 }
 export interface PackageVersionSummary {
   version: string;
-  revision?: string;
+  revision?: string | undefined;
   status: PackageVersionStatus;
-  origin?: PackageVersionOrigin;
+  origin?: PackageVersionOrigin | undefined;
 }
 export type PackageVersionSummaryList = PackageVersionSummary[];
 export interface ListPackageVersionsResult {
-  defaultDisplayVersion?: string;
-  format?: PackageFormat;
-  namespace?: string;
-  package?: string;
-  versions?: PackageVersionSummary[];
-  nextToken?: string;
+  defaultDisplayVersion?: string | undefined;
+  format?: PackageFormat | undefined;
+  namespace?: string | undefined;
+  package?: string | undefined;
+  versions?: PackageVersionSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListRepositoriesMaxResults = number;
 export interface ListRepositoriesRequest {
-  repositoryPrefix?: string;
-  maxResults?: number;
-  nextToken?: string;
+  repositoryPrefix?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface RepositorySummary {
-  name?: string;
-  administratorAccount?: string;
-  domainName?: string;
-  domainOwner?: string;
-  arn?: string;
-  description?: string;
-  createdTime?: Date;
+  name?: string | undefined;
+  administratorAccount?: string | undefined;
+  domainName?: string | undefined;
+  domainOwner?: string | undefined;
+  arn?: string | undefined;
+  description?: string | undefined;
+  createdTime?: Date | undefined;
 }
 export type RepositorySummaryList = RepositorySummary[];
 export interface ListRepositoriesResult {
-  repositories?: RepositorySummary[];
-  nextToken?: string;
+  repositories?: RepositorySummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListRepositoriesInDomainMaxResults = number;
 export interface ListRepositoriesInDomainRequest {
   domain: string;
-  domainOwner?: string;
-  administratorAccount?: string;
-  repositoryPrefix?: string;
-  maxResults?: number;
-  nextToken?: string;
+  domainOwner?: string | undefined;
+  administratorAccount?: string | undefined;
+  repositoryPrefix?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListRepositoriesInDomainResult {
-  repositories?: RepositorySummary[];
-  nextToken?: string;
+  repositories?: RepositorySummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListSubPackageGroupsRequest {
   domain: string;
-  domainOwner?: string;
+  domainOwner?: string | undefined;
   packageGroup: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListSubPackageGroupsResult {
-  packageGroups?: PackageGroupSummary[];
-  nextToken?: string;
+  packageGroups?: PackageGroupSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResult {
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export type SHA256 = string;
 export interface PublishPackageVersionRequest {
   domain: string;
-  domainOwner?: string;
+  domainOwner?: string | undefined;
   repository: string;
   format: PackageFormat;
-  namespace?: string;
+  namespace?: string | undefined;
   package: string;
   packageVersion: string;
   assetContent: T.StreamingInputBody;
   assetName: string;
   assetSHA256: string;
-  unfinished?: boolean;
+  unfinished?: boolean | undefined;
 }
 export interface PublishPackageVersionResult {
-  format?: PackageFormat;
-  namespace?: string;
-  package?: string;
-  version?: string;
-  versionRevision?: string;
-  status?: PackageVersionStatus;
-  asset?: AssetSummary;
+  format?: PackageFormat | undefined;
+  namespace?: string | undefined;
+  package?: string | undefined;
+  version?: string | undefined;
+  versionRevision?: string | undefined;
+  status?: PackageVersionStatus | undefined;
+  asset?: AssetSummary | undefined;
 }
 export interface PutDomainPermissionsPolicyRequest {
   domain: string;
-  domainOwner?: string;
-  policyRevision?: string;
+  domainOwner?: string | undefined;
+  policyRevision?: string | undefined;
   policyDocument: string;
 }
 export interface PutDomainPermissionsPolicyResult {
-  policy?: ResourcePolicy;
+  policy?: ResourcePolicy | undefined;
 }
 export interface PutPackageOriginConfigurationRequest {
   domain: string;
-  domainOwner?: string;
+  domainOwner?: string | undefined;
   repository: string;
   format: PackageFormat;
-  namespace?: string;
+  namespace?: string | undefined;
   package: string;
   restrictions: PackageOriginRestrictions;
 }
 export interface PutPackageOriginConfigurationResult {
-  originConfiguration?: PackageOriginConfiguration;
+  originConfiguration?: PackageOriginConfiguration | undefined;
 }
 export interface PutRepositoryPermissionsPolicyRequest {
   domain: string;
-  domainOwner?: string;
+  domainOwner?: string | undefined;
   repository: string;
-  policyRevision?: string;
+  policyRevision?: string | undefined;
   policyDocument: string;
 }
 export interface PutRepositoryPermissionsPolicyResult {
-  policy?: ResourcePolicy;
+  policy?: ResourcePolicy | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -931,66 +932,68 @@ export interface UntagResourceRequest {
 export interface UntagResourceResult {}
 export interface UpdatePackageGroupRequest {
   domain: string;
-  domainOwner?: string;
+  domainOwner?: string | undefined;
   packageGroup: string;
-  contactInfo?: string;
-  description?: string;
+  contactInfo?: string | undefined;
+  description?: string | undefined;
 }
 export interface UpdatePackageGroupResult {
-  packageGroup?: PackageGroupDescription;
+  packageGroup?: PackageGroupDescription | undefined;
 }
 export type OriginRestrictions = {
-  [key in PackageGroupOriginRestrictionType]?: PackageGroupOriginRestrictionMode;
+  [key in PackageGroupOriginRestrictionType]?: PackageGroupOriginRestrictionMode | undefined;
 };
 export interface PackageGroupAllowedRepository {
-  repositoryName?: string;
-  originRestrictionType?: PackageGroupOriginRestrictionType;
+  repositoryName?: string | undefined;
+  originRestrictionType?: PackageGroupOriginRestrictionType | undefined;
 }
 export type PackageGroupAllowedRepositoryList = PackageGroupAllowedRepository[];
 export interface UpdatePackageGroupOriginConfigurationRequest {
   domain: string;
-  domainOwner?: string;
+  domainOwner?: string | undefined;
   packageGroup: string;
-  restrictions?: { [key: string]: PackageGroupOriginRestrictionMode | undefined };
-  addAllowedRepositories?: PackageGroupAllowedRepository[];
-  removeAllowedRepositories?: PackageGroupAllowedRepository[];
+  restrictions?: { [key: string]: PackageGroupOriginRestrictionMode | undefined } | undefined;
+  addAllowedRepositories?: PackageGroupAllowedRepository[] | undefined;
+  removeAllowedRepositories?: PackageGroupAllowedRepository[] | undefined;
 }
 export type PackageGroupAllowedRepositoryUpdateType = "ADDED" | "REMOVED" | (string & {});
 export type PackageGroupAllowedRepositoryUpdate = {
-  [key in PackageGroupAllowedRepositoryUpdateType]?: string[];
+  [key in PackageGroupAllowedRepositoryUpdateType]?: string[] | undefined;
 };
 export type PackageGroupAllowedRepositoryUpdates = {
-  [key in PackageGroupOriginRestrictionType]?: { [key: string]: string[] | undefined };
+  [key in PackageGroupOriginRestrictionType]?: { [key: string]: string[] | undefined } | undefined;
 };
 export interface UpdatePackageGroupOriginConfigurationResult {
-  packageGroup?: PackageGroupDescription;
-  allowedRepositoryUpdates?: { [key: string]: { [key: string]: string[] | undefined } | undefined };
+  packageGroup?: PackageGroupDescription | undefined;
+  allowedRepositoryUpdates?:
+    | { [key: string]: { [key: string]: string[] | undefined } | undefined }
+    | undefined;
 }
 export interface UpdatePackageVersionsStatusRequest {
   domain: string;
-  domainOwner?: string;
+  domainOwner?: string | undefined;
   repository: string;
   format: PackageFormat;
-  namespace?: string;
+  namespace?: string | undefined;
   package: string;
   versions: string[];
-  versionRevisions?: { [key: string]: string | undefined };
-  expectedStatus?: PackageVersionStatus;
+  versionRevisions?: { [key: string]: string | undefined } | undefined;
+  expectedStatus?: PackageVersionStatus | undefined;
   targetStatus: PackageVersionStatus;
 }
 export interface UpdatePackageVersionsStatusResult {
-  successfulVersions?: { [key: string]: SuccessfulPackageVersionInfo | undefined };
-  failedVersions?: { [key: string]: PackageVersionError | undefined };
+  successfulVersions?: { [key: string]: SuccessfulPackageVersionInfo | undefined } | undefined;
+  failedVersions?: { [key: string]: PackageVersionError | undefined } | undefined;
 }
 export interface UpdateRepositoryRequest {
   domain: string;
-  domainOwner?: string;
+  domainOwner?: string | undefined;
   repository: string;
-  description?: string;
-  upstreams?: UpstreamRepository[];
+  description?: string | undefined;
+  upstreams?: UpstreamRepository[] | undefined;
 }
 export interface UpdateRepositoryResult {
-  repository?: RepositoryDescription;
+  repository?: RepositoryDescription | undefined;
 }
 export type ResourceType =
   | "domain"
@@ -1023,7 +1026,7 @@ export type AssociateExternalConnectionError =
  * A repository can have one or more upstream repositories, or an external connection.
  */
 export const associateExternalConnection: API.OperationMethod<
-  AssociateExternalConnectionRequest,
+  AssociateExternalConnectionRequest & RegionInput,
   AssociateExternalConnectionResult,
   AssociateExternalConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1061,7 +1064,7 @@ export type CopyPackageVersionsError =
  * You must specify `versions` or `versionRevisions`. You cannot specify both.
  */
 export const copyPackageVersions: API.OperationMethod<
-  CopyPackageVersionsRequest,
+  CopyPackageVersionsRequest & RegionInput,
   CopyPackageVersionsResult,
   CopyPackageVersionsError,
   Credentials | HttpClient.HttpClient
@@ -1104,7 +1107,7 @@ export type CreateDomainError =
  * pre-production domain to test changes to the production domain configuration.
  */
 export const createDomain: API.OperationMethod<
-  CreateDomainRequest,
+  CreateDomainRequest & RegionInput,
   CreateDomainResult,
   CreateDomainError,
   Credentials | HttpClient.HttpClient
@@ -1140,7 +1143,7 @@ export type CreatePackageGroupError =
  * Creates a package group. For more information about creating package groups, including example CLI commands, see Create a package group in the *CodeArtifact User Guide*.
  */
 export const createPackageGroup: API.OperationMethod<
-  CreatePackageGroupRequest,
+  CreatePackageGroupRequest & RegionInput,
   CreatePackageGroupResult,
   CreatePackageGroupError,
   Credentials | HttpClient.HttpClient
@@ -1176,7 +1179,7 @@ export type CreateRepositoryError =
  * Creates a repository.
  */
 export const createRepository: API.OperationMethod<
-  CreateRepositoryRequest,
+  CreateRepositoryRequest & RegionInput,
   CreateRepositoryResult,
   CreateRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -1211,7 +1214,7 @@ export type DeleteDomainError =
  * with repositories, first delete its repositories.
  */
 export const deleteDomain: API.OperationMethod<
-  DeleteDomainRequest,
+  DeleteDomainRequest & RegionInput,
   DeleteDomainResult,
   DeleteDomainError,
   Credentials | HttpClient.HttpClient
@@ -1244,7 +1247,7 @@ export type DeleteDomainPermissionsPolicyError =
  * Deletes the resource policy set on a domain.
  */
 export const deleteDomainPermissionsPolicy: API.OperationMethod<
-  DeleteDomainPermissionsPolicyRequest,
+  DeleteDomainPermissionsPolicyRequest & RegionInput,
   DeleteDomainPermissionsPolicyResult,
   DeleteDomainPermissionsPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1279,7 +1282,7 @@ export type DeletePackageError =
  * DeletePackageVersions API.
  */
 export const deletePackage: API.OperationMethod<
-  DeletePackageRequest,
+  DeletePackageRequest & RegionInput,
   DeletePackageResult,
   DeletePackageError,
   Credentials | HttpClient.HttpClient
@@ -1318,7 +1321,7 @@ export type DeletePackageGroupError =
  * from the parent, those settings could change.
  */
 export const deletePackageGroup: API.OperationMethod<
-  DeletePackageGroupRequest,
+  DeletePackageGroupRequest & RegionInput,
   DeletePackageGroupResult,
   DeletePackageGroupError,
   Credentials | HttpClient.HttpClient
@@ -1357,7 +1360,7 @@ export type DeletePackageVersionsError =
  * ListPackageVersions), but you can restore them using UpdatePackageVersionsStatus.
  */
 export const deletePackageVersions: API.OperationMethod<
-  DeletePackageVersionsRequest,
+  DeletePackageVersionsRequest & RegionInput,
   DeletePackageVersionsResult,
   DeletePackageVersionsError,
   Credentials | HttpClient.HttpClient
@@ -1391,7 +1394,7 @@ export type DeleteRepositoryError =
  * Deletes a repository.
  */
 export const deleteRepository: API.OperationMethod<
-  DeleteRepositoryRequest,
+  DeleteRepositoryRequest & RegionInput,
   DeleteRepositoryResult,
   DeleteRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -1429,7 +1432,7 @@ export type DeleteRepositoryPermissionsPolicyError =
  * the repository actions granted by the deleted policy.
  */
 export const deleteRepositoryPermissionsPolicy: API.OperationMethod<
-  DeleteRepositoryPermissionsPolicyRequest,
+  DeleteRepositoryPermissionsPolicyRequest & RegionInput,
   DeleteRepositoryPermissionsPolicyResult,
   DeleteRepositoryPermissionsPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1464,7 +1467,7 @@ export type DescribeDomainError =
  * object that contains information about the requested domain.
  */
 export const describeDomain: API.OperationMethod<
-  DescribeDomainRequest,
+  DescribeDomainRequest & RegionInput,
   DescribeDomainResult,
   DescribeDomainError,
   Credentials | HttpClient.HttpClient
@@ -1498,7 +1501,7 @@ export type DescribePackageError =
  * object that contains information about the requested package.
  */
 export const describePackage: API.OperationMethod<
-  DescribePackageRequest,
+  DescribePackageRequest & RegionInput,
   DescribePackageResult,
   DescribePackageError,
   Credentials | HttpClient.HttpClient
@@ -1531,7 +1534,7 @@ export type DescribePackageGroupError =
  * contains information about the requested package group.
  */
 export const describePackageGroup: API.OperationMethod<
-  DescribePackageGroupRequest,
+  DescribePackageGroupRequest & RegionInput,
   DescribePackageGroupResult,
   DescribePackageGroupError,
   Credentials | HttpClient.HttpClient
@@ -1566,7 +1569,7 @@ export type DescribePackageVersionError =
  * object that contains information about the requested package version.
  */
 export const describePackageVersion: API.OperationMethod<
-  DescribePackageVersionRequest,
+  DescribePackageVersionRequest & RegionInput,
   DescribePackageVersionResult,
   DescribePackageVersionError,
   Credentials | HttpClient.HttpClient
@@ -1600,7 +1603,7 @@ export type DescribeRepositoryError =
  * about the requested repository.
  */
 export const describeRepository: API.OperationMethod<
-  DescribeRepositoryRequest,
+  DescribeRepositoryRequest & RegionInput,
   DescribeRepositoryResult,
   DescribeRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -1634,7 +1637,7 @@ export type DisassociateExternalConnectionError =
  * Removes an existing external connection from a repository.
  */
 export const disassociateExternalConnection: API.OperationMethod<
-  DisassociateExternalConnectionRequest,
+  DisassociateExternalConnectionRequest & RegionInput,
   DisassociateExternalConnectionResult,
   DisassociateExternalConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1676,7 +1679,7 @@ export type DisposePackageVersionsError =
  * To view information about a disposed package version, use DescribePackageVersion.
  */
 export const disposePackageVersions: API.OperationMethod<
-  DisposePackageVersionsRequest,
+  DisposePackageVersionsRequest & RegionInput,
   DisposePackageVersionsResult,
   DisposePackageVersionsError,
   Credentials | HttpClient.HttpClient
@@ -1714,7 +1717,7 @@ export type GetAssociatedPackageGroupError =
  * definition syntax and matching behavior in the *CodeArtifact User Guide*.
  */
 export const getAssociatedPackageGroup: API.OperationMethod<
-  GetAssociatedPackageGroupRequest,
+  GetAssociatedPackageGroupRequest & RegionInput,
   GetAssociatedPackageGroupResult,
   GetAssociatedPackageGroupError,
   Credentials | HttpClient.HttpClient
@@ -1764,7 +1767,7 @@ export type GetAuthorizationTokenError =
  * for more information on controlling session duration.
  */
 export const getAuthorizationToken: API.OperationMethod<
-  GetAuthorizationTokenRequest,
+  GetAuthorizationTokenRequest & RegionInput,
   GetAuthorizationTokenResult,
   GetAuthorizationTokenError,
   Credentials | HttpClient.HttpClient
@@ -1800,7 +1803,7 @@ export type GetDomainPermissionsPolicyError =
  * and resource-based policies in the *IAM User Guide*.
  */
 export const getDomainPermissionsPolicy: API.OperationMethod<
-  GetDomainPermissionsPolicyRequest,
+  GetDomainPermissionsPolicyRequest & RegionInput,
   GetDomainPermissionsPolicyResult,
   GetDomainPermissionsPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1835,7 +1838,7 @@ export type GetPackageVersionAssetError =
  * or any other assets in the package version.
  */
 export const getPackageVersionAsset: API.OperationMethod<
-  GetPackageVersionAssetRequest,
+  GetPackageVersionAssetRequest & RegionInput,
   GetPackageVersionAssetResult,
   GetPackageVersionAssetError,
   Credentials | HttpClient.HttpClient
@@ -1870,7 +1873,7 @@ export type GetPackageVersionReadmeError =
  * The returned text might contain formatting. For example, it might contain formatting for Markdown or reStructuredText.
  */
 export const getPackageVersionReadme: API.OperationMethod<
-  GetPackageVersionReadmeRequest,
+  GetPackageVersionReadmeRequest & RegionInput,
   GetPackageVersionReadmeResult,
   GetPackageVersionReadmeError,
   Credentials | HttpClient.HttpClient
@@ -1919,7 +1922,7 @@ export type GetRepositoryEndpointError =
  * - `swift`
  */
 export const getRepositoryEndpoint: API.OperationMethod<
-  GetRepositoryEndpointRequest,
+  GetRepositoryEndpointRequest & RegionInput,
   GetRepositoryEndpointResult,
   GetRepositoryEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1951,7 +1954,7 @@ export type GetRepositoryPermissionsPolicyError =
  * Returns the resource policy that is set on a repository.
  */
 export const getRepositoryPermissionsPolicy: API.OperationMethod<
-  GetRepositoryPermissionsPolicyRequest,
+  GetRepositoryPermissionsPolicyRequest & RegionInput,
   GetRepositoryPermissionsPolicyResult,
   GetRepositoryPermissionsPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1985,7 +1988,7 @@ export type ListAllowedRepositoriesForGroupError =
  * and added repository lists, see Package group origin controls in the *CodeArtifact User Guide*.
  */
 export const listAllowedRepositoriesForGroup: API.PaginatedOperationMethod<
-  ListAllowedRepositoriesForGroupRequest,
+  ListAllowedRepositoriesForGroupRequest & RegionInput,
   ListAllowedRepositoriesForGroupResult,
   ListAllowedRepositoriesForGroupError,
   Credentials | HttpClient.HttpClient,
@@ -2026,7 +2029,7 @@ export type ListAssociatedPackagesError =
  * definition syntax and matching behavior in the *CodeArtifact User Guide*.
  */
 export const listAssociatedPackages: API.PaginatedOperationMethod<
-  ListAssociatedPackagesRequest,
+  ListAssociatedPackagesRequest & RegionInput,
   ListAssociatedPackagesResult,
   ListAssociatedPackagesError,
   Credentials | HttpClient.HttpClient,
@@ -2065,7 +2068,7 @@ export type ListDomainsError =
  * domain.
  */
 export const listDomains: API.PaginatedOperationMethod<
-  ListDomainsRequest,
+  ListDomainsRequest & RegionInput,
   ListDomainsResult,
   ListDomainsError,
   Credentials | HttpClient.HttpClient,
@@ -2103,7 +2106,7 @@ export type ListPackageGroupsError =
  * Returns a list of package groups in the requested domain.
  */
 export const listPackageGroups: API.PaginatedOperationMethod<
-  ListPackageGroupsRequest,
+  ListPackageGroupsRequest & RegionInput,
   ListPackageGroupsResult,
   ListPackageGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2144,7 +2147,7 @@ export type ListPackagesError =
  * objects for packages in a repository that match the request parameters.
  */
 export const listPackages: API.PaginatedOperationMethod<
-  ListPackagesRequest,
+  ListPackagesRequest & RegionInput,
   ListPackagesResult,
   ListPackagesError,
   Credentials | HttpClient.HttpClient,
@@ -2185,7 +2188,7 @@ export type ListPackageVersionAssetsError =
  * objects for assets in a package version.
  */
 export const listPackageVersionAssets: API.PaginatedOperationMethod<
-  ListPackageVersionAssetsRequest,
+  ListPackageVersionAssetsRequest & RegionInput,
   ListPackageVersionAssetsResult,
   ListPackageVersionAssetsError,
   Credentials | HttpClient.HttpClient,
@@ -2228,7 +2231,7 @@ export type ListPackageVersionDependenciesError =
  * for Maven). Any package version dependencies that are not listed in the configuration file are not returned.
  */
 export const listPackageVersionDependencies: API.OperationMethod<
-  ListPackageVersionDependenciesRequest,
+  ListPackageVersionDependenciesRequest & RegionInput,
   ListPackageVersionDependenciesResult,
   ListPackageVersionDependenciesError,
   Credentials | HttpClient.HttpClient
@@ -2262,7 +2265,7 @@ export type ListPackageVersionsError =
  * objects for package versions in a repository that match the request parameters. Package versions of all statuses will be returned by default when calling `list-package-versions` with no `--status` parameter.
  */
 export const listPackageVersions: API.PaginatedOperationMethod<
-  ListPackageVersionsRequest,
+  ListPackageVersionsRequest & RegionInput,
   ListPackageVersionsResult,
   ListPackageVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -2303,7 +2306,7 @@ export type ListRepositoriesError =
  * parameters.
  */
 export const listRepositories: API.PaginatedOperationMethod<
-  ListRepositoriesRequest,
+  ListRepositoriesRequest & RegionInput,
   ListRepositoriesResult,
   ListRepositoriesError,
   Credentials | HttpClient.HttpClient,
@@ -2344,7 +2347,7 @@ export type ListRepositoriesInDomainError =
  * parameters.
  */
 export const listRepositoriesInDomain: API.PaginatedOperationMethod<
-  ListRepositoriesInDomainRequest,
+  ListRepositoriesInDomainRequest & RegionInput,
   ListRepositoriesInDomainResult,
   ListRepositoriesInDomainError,
   Credentials | HttpClient.HttpClient,
@@ -2387,7 +2390,7 @@ export type ListSubPackageGroupsError =
  * definition syntax and matching behavior in the *CodeArtifact User Guide*.
  */
 export const listSubPackageGroups: API.PaginatedOperationMethod<
-  ListSubPackageGroupsRequest,
+  ListSubPackageGroupsRequest & RegionInput,
   ListSubPackageGroupsResult,
   ListSubPackageGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2425,7 +2428,7 @@ export type ListTagsForResourceError =
  * Gets information about Amazon Web Services tags for a specified Amazon Resource Name (ARN) in CodeArtifact.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResult,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2467,7 +2470,7 @@ export type PublishPackageVersionError =
  * packages in the *CodeArtifact User Guide*.
  */
 export const publishPackageVersion: API.OperationMethod<
-  PublishPackageVersionRequest,
+  PublishPackageVersionRequest & RegionInput,
   PublishPackageVersionResult,
   PublishPackageVersionError,
   Credentials | HttpClient.HttpClient
@@ -2507,7 +2510,7 @@ export type PutDomainPermissionsPolicyError =
  * able to update the resource policy.
  */
 export const putDomainPermissionsPolicy: API.OperationMethod<
-  PutDomainPermissionsPolicyRequest,
+  PutDomainPermissionsPolicyRequest & RegionInput,
   PutDomainPermissionsPolicyResult,
   PutDomainPermissionsPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2550,7 +2553,7 @@ export type PutPackageOriginConfigurationError =
  * publishing any versions of the package into the repository before connecting any package managers or publishers to the repository.
  */
 export const putPackageOriginConfiguration: API.OperationMethod<
-  PutPackageOriginConfigurationRequest,
+  PutPackageOriginConfigurationRequest & RegionInput,
   PutPackageOriginConfigurationResult,
   PutPackageOriginConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2588,7 +2591,7 @@ export type PutRepositoryPermissionsPolicyError =
  * able to update the resource policy.
  */
 export const putRepositoryPermissionsPolicy: API.OperationMethod<
-  PutRepositoryPermissionsPolicyRequest,
+  PutRepositoryPermissionsPolicyRequest & RegionInput,
   PutRepositoryPermissionsPolicyResult,
   PutRepositoryPermissionsPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2622,7 +2625,7 @@ export type TagResourceError =
  * Adds or updates tags for a resource in CodeArtifact.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResult,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2653,7 +2656,7 @@ export type UntagResourceError =
  * Removes tags from a resource in CodeArtifact.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResult,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2686,7 +2689,7 @@ export type UpdatePackageGroupError =
  * package group's origin configuration, use UpdatePackageGroupOriginConfiguration.
  */
 export const updatePackageGroup: API.OperationMethod<
-  UpdatePackageGroupRequest,
+  UpdatePackageGroupRequest & RegionInput,
   UpdatePackageGroupResult,
   UpdatePackageGroupError,
   Credentials | HttpClient.HttpClient
@@ -2726,7 +2729,7 @@ export type UpdatePackageGroupOriginConfigurationError =
  * in the *CodeArtifact User Guide*.
  */
 export const updatePackageGroupOriginConfiguration: API.OperationMethod<
-  UpdatePackageGroupOriginConfigurationRequest,
+  UpdatePackageGroupOriginConfigurationRequest & RegionInput,
   UpdatePackageGroupOriginConfigurationResult,
   UpdatePackageGroupOriginConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2763,7 +2766,7 @@ export type UpdatePackageVersionsStatusError =
  * DisposePackageVersions.
  */
 export const updatePackageVersionsStatus: API.OperationMethod<
-  UpdatePackageVersionsStatusRequest,
+  UpdatePackageVersionsStatusRequest & RegionInput,
   UpdatePackageVersionsStatusResult,
   UpdatePackageVersionsStatusError,
   Credentials | HttpClient.HttpClient
@@ -2798,7 +2801,7 @@ export type UpdateRepositoryError =
  * Update the properties of a repository.
  */
 export const updateRepository: API.OperationMethod<
-  UpdateRepositoryRequest,
+  UpdateRepositoryRequest & RegionInput,
   UpdateRepositoryResult,
   UpdateRepositoryError,
   Credentials | HttpClient.HttpClient

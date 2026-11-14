@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -108,7 +109,7 @@ export class InternalServerException
     "InternalServerException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class NotFoundException
   extends /*@__PURE__*/ S.TaggedError<NotFoundException>()(
     "NotFoundException",
@@ -126,7 +127,7 @@ export class ThrottlingException
     "ThrottlingException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
@@ -150,10 +151,10 @@ export interface S3Repository {
   BucketName: string;
 }
 export interface Repository {
-  CodeCommit?: CodeCommitRepository;
-  Bitbucket?: ThirdPartySourceRepository;
-  GitHubEnterpriseServer?: ThirdPartySourceRepository;
-  S3Bucket?: S3Repository;
+  CodeCommit?: CodeCommitRepository | undefined;
+  Bitbucket?: ThirdPartySourceRepository | undefined;
+  GitHubEnterpriseServer?: ThirdPartySourceRepository | undefined;
+  S3Bucket?: S3Repository | undefined;
 }
 export type ClientRequestToken = string;
 export type TagKey = string;
@@ -162,14 +163,14 @@ export type TagMap = { [key: string]: string | undefined };
 export type KMSKeyId = string;
 export type EncryptionOption = "AWS_OWNED_CMK" | "CUSTOMER_MANAGED_CMK" | (string & {});
 export interface KMSKeyDetails {
-  KMSKeyId?: string;
-  EncryptionOption?: EncryptionOption;
+  KMSKeyId?: string | undefined;
+  EncryptionOption?: EncryptionOption | undefined;
 }
 export interface AssociateRepositoryRequest {
   Repository: Repository;
-  ClientRequestToken?: string;
-  Tags?: { [key: string]: string | undefined };
-  KMSKeyDetails?: KMSKeyDetails;
+  ClientRequestToken?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  KMSKeyDetails?: KMSKeyDetails | undefined;
 }
 export type AssociationId = string;
 export type Arn = string;
@@ -192,29 +193,29 @@ export type SourceCodeArtifactsObjectKey = string;
 export type BuildArtifactsObjectKey = string;
 export interface CodeArtifacts {
   SourceCodeArtifactsObjectKey: string;
-  BuildArtifactsObjectKey?: string;
+  BuildArtifactsObjectKey?: string | undefined;
 }
 export interface S3RepositoryDetails {
-  BucketName?: string;
-  CodeArtifacts?: CodeArtifacts;
+  BucketName?: string | undefined;
+  CodeArtifacts?: CodeArtifacts | undefined;
 }
 export interface RepositoryAssociation {
-  AssociationId?: string;
-  AssociationArn?: string;
-  ConnectionArn?: string;
-  Name?: string;
-  Owner?: string;
-  ProviderType?: ProviderType;
-  State?: RepositoryAssociationState;
-  StateReason?: string;
-  LastUpdatedTimeStamp?: Date;
-  CreatedTimeStamp?: Date;
-  KMSKeyDetails?: KMSKeyDetails;
-  S3RepositoryDetails?: S3RepositoryDetails;
+  AssociationId?: string | undefined;
+  AssociationArn?: string | undefined;
+  ConnectionArn?: string | undefined;
+  Name?: string | undefined;
+  Owner?: string | undefined;
+  ProviderType?: ProviderType | undefined;
+  State?: RepositoryAssociationState | undefined;
+  StateReason?: string | undefined;
+  LastUpdatedTimeStamp?: Date | undefined;
+  CreatedTimeStamp?: Date | undefined;
+  KMSKeyDetails?: KMSKeyDetails | undefined;
+  S3RepositoryDetails?: S3RepositoryDetails | undefined;
 }
 export interface AssociateRepositoryResponse {
-  RepositoryAssociation?: RepositoryAssociation;
-  Tags?: { [key: string]: string | undefined };
+  RepositoryAssociation?: RepositoryAssociation | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type CodeReviewName = string;
 export type AssociationArn = string;
@@ -224,9 +225,9 @@ export interface RepositoryHeadSourceCodeType {
 }
 export type CommitId = string;
 export interface CommitDiffSourceCodeType {
-  SourceCommit?: string;
-  DestinationCommit?: string;
-  MergeBaseCommit?: string;
+  SourceCommit?: string | undefined;
+  DestinationCommit?: string | undefined;
+  MergeBaseCommit?: string | undefined;
 }
 export interface BranchDiffSourceCodeType {
   SourceBranchName: string;
@@ -234,45 +235,45 @@ export interface BranchDiffSourceCodeType {
 }
 export interface S3BucketRepository {
   Name: string;
-  Details?: S3RepositoryDetails;
+  Details?: S3RepositoryDetails | undefined;
 }
 export type RequestId = string;
 export type Requester = string;
 export type EventName = string;
 export type EventState = string;
 export interface EventInfo {
-  Name?: string;
-  State?: string;
+  Name?: string | undefined;
+  State?: string | undefined;
 }
 export type VendorName = "GitHub" | "GitLab" | "NativeS3" | (string & {});
 export interface RequestMetadata {
-  RequestId?: string;
-  Requester?: string;
-  EventInfo?: EventInfo;
-  VendorName?: VendorName;
+  RequestId?: string | undefined;
+  Requester?: string | undefined;
+  EventInfo?: EventInfo | undefined;
+  VendorName?: VendorName | undefined;
 }
 export interface SourceCodeType {
-  CommitDiff?: CommitDiffSourceCodeType;
-  RepositoryHead?: RepositoryHeadSourceCodeType;
-  BranchDiff?: BranchDiffSourceCodeType;
-  S3BucketRepository?: S3BucketRepository;
-  RequestMetadata?: RequestMetadata;
+  CommitDiff?: CommitDiffSourceCodeType | undefined;
+  RepositoryHead?: RepositoryHeadSourceCodeType | undefined;
+  BranchDiff?: BranchDiffSourceCodeType | undefined;
+  S3BucketRepository?: S3BucketRepository | undefined;
+  RequestMetadata?: RequestMetadata | undefined;
 }
 export interface RepositoryAnalysis {
-  RepositoryHead?: RepositoryHeadSourceCodeType;
-  SourceCodeType?: SourceCodeType;
+  RepositoryHead?: RepositoryHeadSourceCodeType | undefined;
+  SourceCodeType?: SourceCodeType | undefined;
 }
 export type AnalysisType = "Security" | "CodeQuality" | (string & {});
 export type AnalysisTypes = AnalysisType[];
 export interface CodeReviewType {
   RepositoryAnalysis: RepositoryAnalysis;
-  AnalysisTypes?: AnalysisType[];
+  AnalysisTypes?: AnalysisType[] | undefined;
 }
 export interface CreateCodeReviewRequest {
   Name: string;
   RepositoryAssociationArn: string;
   Type: CodeReviewType;
-  ClientRequestToken?: string;
+  ClientRequestToken?: string | undefined;
 }
 export type JobState = "Completed" | "Pending" | "Failed" | "Deleting" | (string & {});
 export type Type = "PullRequest" | "RepositoryAnalysis" | (string & {});
@@ -280,71 +281,71 @@ export type PullRequestId = string;
 export type LinesOfCodeCount = number;
 export type FindingsCount = number;
 export interface Metrics {
-  MeteredLinesOfCodeCount?: number;
-  SuppressedLinesOfCodeCount?: number;
-  FindingsCount?: number;
+  MeteredLinesOfCodeCount?: number | undefined;
+  SuppressedLinesOfCodeCount?: number | undefined;
+  FindingsCount?: number | undefined;
 }
 export type ConfigFileState = "Present" | "Absent" | "PresentWithErrors" | (string & {});
 export interface CodeReview {
-  Name?: string;
-  CodeReviewArn?: string;
-  RepositoryName?: string;
-  Owner?: string;
-  ProviderType?: ProviderType;
-  State?: JobState;
-  StateReason?: string;
-  CreatedTimeStamp?: Date;
-  LastUpdatedTimeStamp?: Date;
-  Type?: Type;
-  PullRequestId?: string;
-  SourceCodeType?: SourceCodeType;
-  AssociationArn?: string;
-  Metrics?: Metrics;
-  AnalysisTypes?: AnalysisType[];
-  ConfigFileState?: ConfigFileState;
+  Name?: string | undefined;
+  CodeReviewArn?: string | undefined;
+  RepositoryName?: string | undefined;
+  Owner?: string | undefined;
+  ProviderType?: ProviderType | undefined;
+  State?: JobState | undefined;
+  StateReason?: string | undefined;
+  CreatedTimeStamp?: Date | undefined;
+  LastUpdatedTimeStamp?: Date | undefined;
+  Type?: Type | undefined;
+  PullRequestId?: string | undefined;
+  SourceCodeType?: SourceCodeType | undefined;
+  AssociationArn?: string | undefined;
+  Metrics?: Metrics | undefined;
+  AnalysisTypes?: AnalysisType[] | undefined;
+  ConfigFileState?: ConfigFileState | undefined;
 }
 export interface CreateCodeReviewResponse {
-  CodeReview?: CodeReview;
+  CodeReview?: CodeReview | undefined;
 }
 export interface DescribeCodeReviewRequest {
   CodeReviewArn: string;
 }
 export interface DescribeCodeReviewResponse {
-  CodeReview?: CodeReview;
+  CodeReview?: CodeReview | undefined;
 }
 export type RecommendationId = string;
 export type UserId = string;
 export interface DescribeRecommendationFeedbackRequest {
   CodeReviewArn: string;
   RecommendationId: string;
-  UserId?: string;
+  UserId?: string | undefined;
 }
 export type Reaction = "ThumbsUp" | "ThumbsDown" | (string & {});
 export type Reactions = Reaction[];
 export interface RecommendationFeedback {
-  CodeReviewArn?: string;
-  RecommendationId?: string;
-  Reactions?: Reaction[];
-  UserId?: string;
-  CreatedTimeStamp?: Date;
-  LastUpdatedTimeStamp?: Date;
+  CodeReviewArn?: string | undefined;
+  RecommendationId?: string | undefined;
+  Reactions?: Reaction[] | undefined;
+  UserId?: string | undefined;
+  CreatedTimeStamp?: Date | undefined;
+  LastUpdatedTimeStamp?: Date | undefined;
 }
 export interface DescribeRecommendationFeedbackResponse {
-  RecommendationFeedback?: RecommendationFeedback;
+  RecommendationFeedback?: RecommendationFeedback | undefined;
 }
 export interface DescribeRepositoryAssociationRequest {
   AssociationArn: string;
 }
 export interface DescribeRepositoryAssociationResponse {
-  RepositoryAssociation?: RepositoryAssociation;
-  Tags?: { [key: string]: string | undefined };
+  RepositoryAssociation?: RepositoryAssociation | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DisassociateRepositoryRequest {
   AssociationArn: string;
 }
 export interface DisassociateRepositoryResponse {
-  RepositoryAssociation?: RepositoryAssociation;
-  Tags?: { [key: string]: string | undefined };
+  RepositoryAssociation?: RepositoryAssociation | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ProviderTypes = ProviderType[];
 export type JobStates = JobState[];
@@ -352,61 +353,61 @@ export type RepositoryNames = string[];
 export type ListCodeReviewsMaxResults = number;
 export type NextToken = string;
 export interface ListCodeReviewsRequest {
-  ProviderTypes?: ProviderType[];
-  States?: JobState[];
-  RepositoryNames?: string[];
+  ProviderTypes?: ProviderType[] | undefined;
+  States?: JobState[] | undefined;
+  RepositoryNames?: string[] | undefined;
   Type: Type;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface MetricsSummary {
-  MeteredLinesOfCodeCount?: number;
-  SuppressedLinesOfCodeCount?: number;
-  FindingsCount?: number;
+  MeteredLinesOfCodeCount?: number | undefined;
+  SuppressedLinesOfCodeCount?: number | undefined;
+  FindingsCount?: number | undefined;
 }
 export interface CodeReviewSummary {
-  Name?: string;
-  CodeReviewArn?: string;
-  RepositoryName?: string;
-  Owner?: string;
-  ProviderType?: ProviderType;
-  State?: JobState;
-  CreatedTimeStamp?: Date;
-  LastUpdatedTimeStamp?: Date;
-  Type?: Type;
-  PullRequestId?: string;
-  MetricsSummary?: MetricsSummary;
-  SourceCodeType?: SourceCodeType;
+  Name?: string | undefined;
+  CodeReviewArn?: string | undefined;
+  RepositoryName?: string | undefined;
+  Owner?: string | undefined;
+  ProviderType?: ProviderType | undefined;
+  State?: JobState | undefined;
+  CreatedTimeStamp?: Date | undefined;
+  LastUpdatedTimeStamp?: Date | undefined;
+  Type?: Type | undefined;
+  PullRequestId?: string | undefined;
+  MetricsSummary?: MetricsSummary | undefined;
+  SourceCodeType?: SourceCodeType | undefined;
 }
 export type CodeReviewSummaries = CodeReviewSummary[];
 export interface ListCodeReviewsResponse {
-  CodeReviewSummaries?: CodeReviewSummary[];
-  NextToken?: string;
+  CodeReviewSummaries?: CodeReviewSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type MaxResults = number;
 export type UserIds = string[];
 export type RecommendationIds = string[];
 export interface ListRecommendationFeedbackRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
   CodeReviewArn: string;
-  UserIds?: string[];
-  RecommendationIds?: string[];
+  UserIds?: string[] | undefined;
+  RecommendationIds?: string[] | undefined;
 }
 export interface RecommendationFeedbackSummary {
-  RecommendationId?: string;
-  Reactions?: Reaction[];
-  UserId?: string;
+  RecommendationId?: string | undefined;
+  Reactions?: Reaction[] | undefined;
+  UserId?: string | undefined;
 }
 export type RecommendationFeedbackSummaries = RecommendationFeedbackSummary[];
 export interface ListRecommendationFeedbackResponse {
-  RecommendationFeedbackSummaries?: RecommendationFeedbackSummary[];
-  NextToken?: string;
+  RecommendationFeedbackSummaries?: RecommendationFeedbackSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListRecommendationsMaxResults = number;
 export interface ListRecommendationsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
   CodeReviewArn: string;
 }
 export type FilePath = string;
@@ -432,59 +433,59 @@ export type LongDescription = string;
 export type RuleTag = string;
 export type RuleTags = string[];
 export interface RuleMetadata {
-  RuleId?: string;
-  RuleName?: string;
-  ShortDescription?: string;
-  LongDescription?: string;
-  RuleTags?: string[];
+  RuleId?: string | undefined;
+  RuleName?: string | undefined;
+  ShortDescription?: string | undefined;
+  LongDescription?: string | undefined;
+  RuleTags?: string[] | undefined;
 }
 export type Severity = "Info" | "Low" | "Medium" | "High" | "Critical" | (string & {});
 export interface RecommendationSummary {
-  FilePath?: string;
-  RecommendationId?: string;
-  StartLine?: number;
-  EndLine?: number;
-  Description?: string;
-  RecommendationCategory?: RecommendationCategory;
-  RuleMetadata?: RuleMetadata;
-  Severity?: Severity;
+  FilePath?: string | undefined;
+  RecommendationId?: string | undefined;
+  StartLine?: number | undefined;
+  EndLine?: number | undefined;
+  Description?: string | undefined;
+  RecommendationCategory?: RecommendationCategory | undefined;
+  RuleMetadata?: RuleMetadata | undefined;
+  Severity?: Severity | undefined;
 }
 export type RecommendationSummaries = RecommendationSummary[];
 export interface ListRecommendationsResponse {
-  RecommendationSummaries?: RecommendationSummary[];
-  NextToken?: string;
+  RecommendationSummaries?: RecommendationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type RepositoryAssociationStates = RepositoryAssociationState[];
 export type Names = string[];
 export type Owners = string[];
 export interface ListRepositoryAssociationsRequest {
-  ProviderTypes?: ProviderType[];
-  States?: RepositoryAssociationState[];
-  Names?: string[];
-  Owners?: string[];
-  MaxResults?: number;
-  NextToken?: string;
+  ProviderTypes?: ProviderType[] | undefined;
+  States?: RepositoryAssociationState[] | undefined;
+  Names?: string[] | undefined;
+  Owners?: string[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface RepositoryAssociationSummary {
-  AssociationArn?: string;
-  ConnectionArn?: string;
-  LastUpdatedTimeStamp?: Date;
-  AssociationId?: string;
-  Name?: string;
-  Owner?: string;
-  ProviderType?: ProviderType;
-  State?: RepositoryAssociationState;
+  AssociationArn?: string | undefined;
+  ConnectionArn?: string | undefined;
+  LastUpdatedTimeStamp?: Date | undefined;
+  AssociationId?: string | undefined;
+  Name?: string | undefined;
+  Owner?: string | undefined;
+  ProviderType?: ProviderType | undefined;
+  State?: RepositoryAssociationState | undefined;
 }
 export type RepositoryAssociationSummaries = RepositoryAssociationSummary[];
 export interface ListRepositoryAssociationsResponse {
-  RepositoryAssociationSummaries?: RepositoryAssociationSummary[];
-  NextToken?: string;
+  RepositoryAssociationSummaries?: RepositoryAssociationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutRecommendationFeedbackRequest {
   CodeReviewArn: string;
@@ -532,7 +533,7 @@ export type AssociateRepositoryError =
  * CodeGuru Reviewer in the *CodeGuru Reviewer User Guide.*
  */
 export const associateRepository: API.OperationMethod<
-  AssociateRepositoryRequest,
+  AssociateRepositoryRequest & RegionInput,
   AssociateRepositoryResponse,
   AssociateRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -568,7 +569,7 @@ export type CreateCodeReviewError =
  * automatically triggered by a pull request.
  */
 export const createCodeReview: API.OperationMethod<
-  CreateCodeReviewRequest,
+  CreateCodeReviewRequest & RegionInput,
   CreateCodeReviewResponse,
   CreateCodeReviewError,
   Credentials | HttpClient.HttpClient
@@ -601,7 +602,7 @@ export type DescribeCodeReviewError =
  * Returns the metadata associated with the code review along with its status.
  */
 export const describeCodeReview: API.OperationMethod<
-  DescribeCodeReviewRequest,
+  DescribeCodeReviewRequest & RegionInput,
   DescribeCodeReviewResponse,
   DescribeCodeReviewError,
   Credentials | HttpClient.HttpClient
@@ -633,7 +634,7 @@ export type DescribeRecommendationFeedbackError =
  * Describes the customer feedback for a CodeGuru Reviewer recommendation.
  */
 export const describeRecommendationFeedback: API.OperationMethod<
-  DescribeRecommendationFeedbackRequest,
+  DescribeRecommendationFeedbackRequest & RegionInput,
   DescribeRecommendationFeedbackResponse,
   DescribeRecommendationFeedbackError,
   Credentials | HttpClient.HttpClient
@@ -666,7 +667,7 @@ export type DescribeRepositoryAssociationError =
  * repository association.
  */
 export const describeRepositoryAssociation: API.OperationMethod<
-  DescribeRepositoryAssociationRequest,
+  DescribeRepositoryAssociationRequest & RegionInput,
   DescribeRepositoryAssociationResponse,
   DescribeRepositoryAssociationError,
   Credentials | HttpClient.HttpClient
@@ -699,7 +700,7 @@ export type DisassociateRepositoryError =
  * Removes the association between Amazon CodeGuru Reviewer and a repository.
  */
 export const disassociateRepository: API.OperationMethod<
-  DisassociateRepositoryRequest,
+  DisassociateRepositoryRequest & RegionInput,
   DisassociateRepositoryResponse,
   DisassociateRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -731,7 +732,7 @@ export type ListCodeReviewsError =
  * Lists all the code reviews that the customer has created in the past 90 days.
  */
 export const listCodeReviews: API.PaginatedOperationMethod<
-  ListCodeReviewsRequest,
+  ListCodeReviewsRequest & RegionInput,
   ListCodeReviewsResponse,
   ListCodeReviewsError,
   Credentials | HttpClient.HttpClient,
@@ -769,7 +770,7 @@ export type ListRecommendationFeedbackError =
  * feedback for all CodeGuru Reviewer users.
  */
 export const listRecommendationFeedback: API.PaginatedOperationMethod<
-  ListRecommendationFeedbackRequest,
+  ListRecommendationFeedbackRequest & RegionInput,
   ListRecommendationFeedbackResponse,
   ListRecommendationFeedbackError,
   Credentials | HttpClient.HttpClient,
@@ -807,7 +808,7 @@ export type ListRecommendationsError =
  * Returns the list of all recommendations for a completed code review.
  */
 export const listRecommendations: API.PaginatedOperationMethod<
-  ListRecommendationsRequest,
+  ListRecommendationsRequest & RegionInput,
   ListRecommendationsResponse,
   ListRecommendationsError,
   Credentials | HttpClient.HttpClient,
@@ -844,7 +845,7 @@ export type ListRepositoryAssociationsError =
  * repository association. You can filter the returned list by ProviderType, Name, State, and Owner.
  */
 export const listRepositoryAssociations: API.PaginatedOperationMethod<
-  ListRepositoryAssociationsRequest,
+  ListRepositoryAssociationsRequest & RegionInput,
   ListRepositoryAssociationsResponse,
   ListRepositoryAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -875,7 +876,7 @@ export type ListTagsForResourceError =
  * Returns the list of tags associated with an associated repository resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -902,7 +903,7 @@ export type PutRecommendationFeedbackError =
  * different reactions the previous feedback is overwritten.
  */
 export const putRecommendationFeedback: API.OperationMethod<
-  PutRecommendationFeedbackRequest,
+  PutRecommendationFeedbackRequest & RegionInput,
   PutRecommendationFeedbackResponse,
   PutRecommendationFeedbackError,
   Credentials | HttpClient.HttpClient
@@ -932,7 +933,7 @@ export type TagResourceError =
  * Adds one or more tags to an associated repository.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -956,7 +957,7 @@ export type UntagResourceError =
  * Removes a tag from an associated repository.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient

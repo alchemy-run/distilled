@@ -21,6 +21,20 @@ removal: destroying this stack cannot delete the repository.
 Every value in the resource mirrors what the repository is set to today, so the
 first deploy is a no-op. From then on, change the setting **here**.
 
+**main's merge queue.** The "Merge Queue" ruleset is adopted as it was created
+in the GitHub UI, plus one rule: required status checks. A pull request must
+pass every `ci.yml` job and the benchmark before it can enter the queue, and
+again on the queue's merge commit before it lands. That is why `ci.yml` and
+`bench.yml` also run on `merge_group`. Preview packages are not required. The
+check names in `REQUIRED_CHECKS` are job `name:`s, so rename a job in its
+workflow and here together; a required check that never reports holds the
+queue until its timeout.
+
+Build concurrency (`maxEntriesToBuild`) is 20, up from the UI's 1. At 1 the
+queue built only the bottom PR of a stack. After that PR merged as a squash
+commit, the next PR conflicted with it, and the queue ejected it and every PR
+above it.
+
 **The credentials.** Every Actions secret and variable that a workflow in
 `.github/workflows` reads is declared here — the inventory is meant to be
 complete, so a workflow that needs a new credential gets it from this file.

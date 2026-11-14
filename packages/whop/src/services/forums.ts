@@ -94,11 +94,11 @@ export interface Forum {
   who_can_post: ForumWhoCanPostTypes;
 }
 export interface ListForumRequest {
-  after?: string;
-  before?: string;
-  first?: number;
-  last?: number;
-  product_id?: string;
+  after?: string | undefined;
+  before?: string | undefined;
+  first?: number | undefined;
+  last?: number | undefined;
+  product_id?: string | undefined;
   account_id: string;
 }
 /** The parent experience that this forum belongs to. */
@@ -146,15 +146,19 @@ export interface UpdateForumRequest {
   /** The unique identifier of the forum to update. Accepts either an experience ID (e.g. 'exp_xxxxx') or a forum ID. */
   id: string;
   /** A list of words that are automatically blocked from posts in this forum. For example, ['spam', 'scam']. */
-  banned_words?: UpdateForumRequestBannedWordsList | null;
+  banned_words?: UpdateForumRequestBannedWordsList | null | undefined;
   /** The banner image displayed at the top of the forum page. Pass null to remove the existing banner. */
-  banner_image?: UpdateForumRequestBannerImage | null;
+  banner_image?: UpdateForumRequestBannerImage | null | undefined;
   /** Controls how email notifications are sent to members when new posts are created in this forum. */
-  email_notification_preference?: ForumEmailNotificationPreferences | (string & {}) | null;
+  email_notification_preference?:
+    | ForumEmailNotificationPreferences
+    | (string & {})
+    | null
+    | undefined;
   /** Controls which roles are allowed to comment on posts in this forum. */
-  who_can_comment?: ForumWhoCanCommentTypes | (string & {}) | null;
+  who_can_comment?: ForumWhoCanCommentTypes | (string & {}) | null | undefined;
   /** Controls which roles are allowed to create new posts in this forum. */
-  who_can_post?: ForumWhoCanPostTypes | (string & {}) | null;
+  who_can_post?: ForumWhoCanPostTypes | (string & {}) | null | undefined;
 }
 export type GetForumError = BadRequest | Forbidden | NotFound | UnprocessableEntity | WhopOpError;
 /** Retrieve forum [Legacy API -- https://docs.whop.com/api-reference] Retrieves the details of an existing forum. Required permissions: - `forum:read` */

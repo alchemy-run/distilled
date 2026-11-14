@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -114,7 +115,7 @@ export class InternalServerException
     "InternalServerException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
@@ -138,7 +139,7 @@ export class ThrottlingException
     "ThrottlingException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
@@ -161,10 +162,10 @@ export type TagList = Tag[];
 export type ClientTokenName = string;
 export interface CreateRescoreExecutionPlanRequest {
   Name: string;
-  Description?: string;
-  CapacityUnits?: CapacityUnitsConfiguration;
-  Tags?: Tag[];
-  ClientToken?: string;
+  Description?: string | undefined;
+  CapacityUnits?: CapacityUnitsConfiguration | undefined;
+  Tags?: Tag[] | undefined;
+  ClientToken?: string | undefined;
 }
 export type RescoreExecutionPlanId = string;
 export type RescoreExecutionPlanArn = string;
@@ -188,40 +189,40 @@ export type RescoreExecutionPlanStatus =
   | (string & {});
 export type ErrorMessage = string;
 export interface DescribeRescoreExecutionPlanResponse {
-  Id?: string;
-  Arn?: string;
-  Name?: string;
-  Description?: string;
-  CapacityUnits?: CapacityUnitsConfiguration;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  Status?: RescoreExecutionPlanStatus;
-  ErrorMessage?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  CapacityUnits?: CapacityUnitsConfiguration | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  Status?: RescoreExecutionPlanStatus | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type NextToken = string;
 export type MaxResultsIntegerForListRescoreExecutionPlansRequest = number;
 export interface ListRescoreExecutionPlansRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface RescoreExecutionPlanSummary {
-  Name?: string;
-  Id?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  Status?: RescoreExecutionPlanStatus;
+  Name?: string | undefined;
+  Id?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  Status?: RescoreExecutionPlanStatus | undefined;
 }
 export type RescoreExecutionPlanSummaryList = RescoreExecutionPlanSummary[];
 export interface ListRescoreExecutionPlansResponse {
-  SummaryItems?: RescoreExecutionPlanSummary[];
-  NextToken?: string;
+  SummaryItems?: RescoreExecutionPlanSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type AmazonResourceName = string;
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type SearchQuery = string;
 export type DocumentId = string;
@@ -233,11 +234,11 @@ export type TitleTokensList = string[];
 export type BodyTokensList = string[];
 export interface Document {
   Id: string;
-  GroupId?: string;
-  Title?: string;
-  Body?: string;
-  TokenizedTitle?: string[];
-  TokenizedBody?: string[];
+  GroupId?: string | undefined;
+  Title?: string | undefined;
+  Body?: string | undefined;
+  TokenizedTitle?: string[] | undefined;
+  TokenizedBody?: string[] | undefined;
   OriginalScore: number;
 }
 export type DocumentList = Document[];
@@ -248,13 +249,13 @@ export interface RescoreRequest {
 }
 export type RescoreId = string;
 export interface RescoreResultItem {
-  DocumentId?: string;
-  Score?: number;
+  DocumentId?: string | undefined;
+  Score?: number | undefined;
 }
 export type RescoreResultItemList = RescoreResultItem[];
 export interface RescoreResult {
-  RescoreId?: string;
-  ResultItems?: RescoreResultItem[];
+  RescoreId?: string | undefined;
+  ResultItems?: RescoreResultItem[] | undefined;
 }
 export interface TagResourceRequest {
   ResourceARN: string;
@@ -269,9 +270,9 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateRescoreExecutionPlanRequest {
   Id: string;
-  Name?: string;
-  Description?: string;
-  CapacityUnits?: CapacityUnitsConfiguration;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  CapacityUnits?: CapacityUnitsConfiguration | undefined;
 }
 export interface UpdateRescoreExecutionPlanResponse {}
 export type CreateRescoreExecutionPlanError =
@@ -296,7 +297,7 @@ export type CreateRescoreExecutionPlanError =
  * ranking a search service's results.
  */
 export const createRescoreExecutionPlan: API.OperationMethod<
-  CreateRescoreExecutionPlanRequest,
+  CreateRescoreExecutionPlanRequest & RegionInput,
   CreateRescoreExecutionPlanResponse,
   CreateRescoreExecutionPlanError,
   Credentials | HttpClient.HttpClient
@@ -332,7 +333,7 @@ export type DeleteRescoreExecutionPlanError =
  * used for provisioning the `Rescore` API.
  */
 export const deleteRescoreExecutionPlan: API.OperationMethod<
-  DeleteRescoreExecutionPlanRequest,
+  DeleteRescoreExecutionPlanRequest & RegionInput,
   DeleteRescoreExecutionPlanResponse,
   DeleteRescoreExecutionPlanError,
   Credentials | HttpClient.HttpClient
@@ -367,7 +368,7 @@ export type DescribeRescoreExecutionPlanError =
  * resource used for provisioning the `Rescore` API.
  */
 export const describeRescoreExecutionPlan: API.OperationMethod<
-  DescribeRescoreExecutionPlanRequest,
+  DescribeRescoreExecutionPlanRequest & RegionInput,
   DescribeRescoreExecutionPlanResponse,
   DescribeRescoreExecutionPlanError,
   Credentials | HttpClient.HttpClient
@@ -400,7 +401,7 @@ export type ListRescoreExecutionPlansError =
  * provisioning the `Rescore` API.
  */
 export const listRescoreExecutionPlans: API.PaginatedOperationMethod<
-  ListRescoreExecutionPlansRequest,
+  ListRescoreExecutionPlansRequest & RegionInput,
   ListRescoreExecutionPlansResponse,
   ListRescoreExecutionPlansError,
   Credentials | HttpClient.HttpClient,
@@ -439,7 +440,7 @@ export type ListTagsForResourceError =
  * can have tags associated with it.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -475,7 +476,7 @@ export type RescoreError =
  * improve the search service's results.
  */
 export const rescore: API.OperationMethod<
-  RescoreRequest,
+  RescoreRequest & RegionInput,
   RescoreResult,
   RescoreError,
   Credentials | HttpClient.HttpClient
@@ -512,7 +513,7 @@ export type TagResourceError =
  * the existing value is replaced with the new value.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -547,7 +548,7 @@ export type UntagResourceError =
  * `Rescore` operation.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -586,7 +587,7 @@ export type UpdateRescoreExecutionPlanError =
  * results.
  */
 export const updateRescoreExecutionPlan: API.OperationMethod<
-  UpdateRescoreExecutionPlanRequest,
+  UpdateRescoreExecutionPlanRequest & RegionInput,
   UpdateRescoreExecutionPlanResponse,
   UpdateRescoreExecutionPlanError,
   Credentials | HttpClient.HttpClient

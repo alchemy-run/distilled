@@ -25,7 +25,7 @@ const TELEMETRY = {
 
 export interface WebAnalyticsBotCondition {
   /** Stable id for the condition. Generated when omitted. */
-  id?: string;
+  id?: string | undefined;
   /** Event property the condition reads. One of: $raw_user_agent, $ip, $lib, $host, $pathname, $current_url, $browser, $os, $browser_language, $screen_width, $screen_height, $geoip_country_code, $referrer, $referring_domain. */
   key: string;
   /** How `pattern` is compared: 'contains' (case-insensitive substring), 'regex' (RE2), 'exact' (case-sensitive equality), or 'cidr' (an IP network range, only valid with the `$ip` property). */
@@ -41,9 +41,9 @@ export interface CreateWebAnalyticsBotRuleRequest {
   /** Label reported by the `Bot name` property when the rule matches. Also the operator for a rule on a bot PostHog does not know. */
   name: string;
   /** Reported by the `Traffic category` property. Defaults to 'custom'. A built-in category such as ai_crawler or search_crawler relabels the traffic type too. */
-  category?: string;
+  category?: string | undefined;
   /** How the conditions combine: 'AND' flags an event only when every condition matches, 'OR' when any one of them does. */
-  combiner?: string;
+  combiner?: string | undefined;
   /** The conditions of this rule. Each one reads a single event property. */
   items: CreateWebAnalyticsBotRuleRequestItemsList;
 }
@@ -55,9 +55,9 @@ export interface WebAnalyticsBotRule {
   /** Label reported by the `Bot name` property when the rule matches. Also the operator for a rule on a bot PostHog does not know. */
   name: string;
   /** Reported by the `Traffic category` property. Defaults to 'custom'. A built-in category such as ai_crawler or search_crawler relabels the traffic type too. */
-  category?: string;
+  category?: string | undefined;
   /** How the conditions combine: 'AND' flags an event only when every condition matches, 'OR' when any one of them does. */
-  combiner?: string;
+  combiner?: string | undefined;
   /** The conditions of this rule. Each one reads a single event property. */
   items: WebAnalyticsBotRuleItemsList;
 }

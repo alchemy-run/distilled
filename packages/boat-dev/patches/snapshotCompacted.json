@@ -1,0 +1,37 @@
+{
+  "description": "Type the 409 `snapshot_compacted` a snapshot download gets after the snapshot's older layers were cleaned up. The spec documents it on GET /snapshots/{snapshotId}/download (\"A snapshot whose older layers were cleaned up answers 409 `snapshot_compacted`\"). The operation declares only 404, so it reached callers as the generic status error. Source: spec-mirror-boat-dev 71ab00f.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#SnapshotCompacted",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "The snapshot's older layers were cleaned up, so it cannot be downloaded as layers. Read its files instead.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/code": "snapshot_compacted"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#GetSnapshotDownload/errors/-",
+      "value": {
+        "target": "com.boat.api#SnapshotCompacted"
+      }
+    }
+  ]
+}

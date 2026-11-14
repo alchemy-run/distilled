@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -121,7 +122,7 @@ export class InternalException
       /*@__PURE__*/ T.AwsQueryError({ code: "InternalException", httpResponseCode: 500 }),
       /*@__PURE__*/ T.HttpError(500),
     ),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InvalidTypeException
   extends /*@__PURE__*/ S.TaggedError<InvalidTypeException>()(
     "InvalidTypeException",
@@ -186,7 +187,7 @@ export interface BuildSuggestersRequest {
 export type FieldName = string;
 export type FieldNameList = string[];
 export interface BuildSuggestersResponse {
-  FieldNames?: string[];
+  FieldNames?: string[] | undefined;
 }
 export interface CreateDomainRequest {
   DomainName: string;
@@ -195,7 +196,7 @@ export type DomainId = string;
 export type ARN = string;
 export type ServiceUrl = string;
 export interface ServiceEndpoint {
-  Endpoint?: string;
+  Endpoint?: string | undefined;
 }
 export type SearchInstanceType = string;
 export type PartitionCount = number;
@@ -209,20 +210,20 @@ export interface Limits {
 export interface DomainStatus {
   DomainId: string;
   DomainName: string;
-  ARN?: string;
-  Created?: boolean;
-  Deleted?: boolean;
-  DocService?: ServiceEndpoint;
-  SearchService?: ServiceEndpoint;
+  ARN?: string | undefined;
+  Created?: boolean | undefined;
+  Deleted?: boolean | undefined;
+  DocService?: ServiceEndpoint | undefined;
+  SearchService?: ServiceEndpoint | undefined;
   RequiresIndexDocuments: boolean;
-  Processing?: boolean;
-  SearchInstanceType?: string;
-  SearchPartitionCount?: number;
-  SearchInstanceCount?: number;
-  Limits?: Limits;
+  Processing?: boolean | undefined;
+  SearchInstanceType?: string | undefined;
+  SearchPartitionCount?: number | undefined;
+  SearchInstanceCount?: number | undefined;
+  Limits?: Limits | undefined;
 }
 export interface CreateDomainResponse {
-  DomainStatus?: DomainStatus;
+  DomainStatus?: DomainStatus | undefined;
 }
 export type StandardName = string;
 export type AnalysisSchemeLanguage =
@@ -264,16 +265,16 @@ export type AnalysisSchemeLanguage =
   | (string & {});
 export type AlgorithmicStemming = "none" | "minimal" | "light" | "full" | (string & {});
 export interface AnalysisOptions {
-  Synonyms?: string;
-  Stopwords?: string;
-  StemmingDictionary?: string;
-  JapaneseTokenizationDictionary?: string;
-  AlgorithmicStemming?: AlgorithmicStemming;
+  Synonyms?: string | undefined;
+  Stopwords?: string | undefined;
+  StemmingDictionary?: string | undefined;
+  JapaneseTokenizationDictionary?: string | undefined;
+  AlgorithmicStemming?: AlgorithmicStemming | undefined;
 }
 export interface AnalysisScheme {
   AnalysisSchemeName: string;
   AnalysisSchemeLanguage: AnalysisSchemeLanguage;
-  AnalysisOptions?: AnalysisOptions;
+  AnalysisOptions?: AnalysisOptions | undefined;
 }
 export interface DefineAnalysisSchemeRequest {
   DomainName: string;
@@ -290,9 +291,9 @@ export type OptionState =
 export interface OptionStatus {
   CreationDate: Date;
   UpdateDate: Date;
-  UpdateVersion?: number;
+  UpdateVersion?: number | undefined;
   State: OptionState;
-  PendingDeletion?: boolean;
+  PendingDeletion?: boolean | undefined;
 }
 export interface AnalysisSchemeStatus {
   Options: AnalysisScheme;
@@ -332,105 +333,105 @@ export type IndexFieldType =
   | "date-array"
   | (string & {});
 export interface IntOptions {
-  DefaultValue?: number;
-  SourceField?: string;
-  FacetEnabled?: boolean;
-  SearchEnabled?: boolean;
-  ReturnEnabled?: boolean;
-  SortEnabled?: boolean;
+  DefaultValue?: number | undefined;
+  SourceField?: string | undefined;
+  FacetEnabled?: boolean | undefined;
+  SearchEnabled?: boolean | undefined;
+  ReturnEnabled?: boolean | undefined;
+  SortEnabled?: boolean | undefined;
 }
 export interface DoubleOptions {
-  DefaultValue?: number;
-  SourceField?: string;
-  FacetEnabled?: boolean;
-  SearchEnabled?: boolean;
-  ReturnEnabled?: boolean;
-  SortEnabled?: boolean;
+  DefaultValue?: number | undefined;
+  SourceField?: string | undefined;
+  FacetEnabled?: boolean | undefined;
+  SearchEnabled?: boolean | undefined;
+  ReturnEnabled?: boolean | undefined;
+  SortEnabled?: boolean | undefined;
 }
 export type FieldValue = string;
 export interface LiteralOptions {
-  DefaultValue?: string;
-  SourceField?: string;
-  FacetEnabled?: boolean;
-  SearchEnabled?: boolean;
-  ReturnEnabled?: boolean;
-  SortEnabled?: boolean;
+  DefaultValue?: string | undefined;
+  SourceField?: string | undefined;
+  FacetEnabled?: boolean | undefined;
+  SearchEnabled?: boolean | undefined;
+  ReturnEnabled?: boolean | undefined;
+  SortEnabled?: boolean | undefined;
 }
 export type Word = string;
 export interface TextOptions {
-  DefaultValue?: string;
-  SourceField?: string;
-  ReturnEnabled?: boolean;
-  SortEnabled?: boolean;
-  HighlightEnabled?: boolean;
-  AnalysisScheme?: string;
+  DefaultValue?: string | undefined;
+  SourceField?: string | undefined;
+  ReturnEnabled?: boolean | undefined;
+  SortEnabled?: boolean | undefined;
+  HighlightEnabled?: boolean | undefined;
+  AnalysisScheme?: string | undefined;
 }
 export interface DateOptions {
-  DefaultValue?: string;
-  SourceField?: string;
-  FacetEnabled?: boolean;
-  SearchEnabled?: boolean;
-  ReturnEnabled?: boolean;
-  SortEnabled?: boolean;
+  DefaultValue?: string | undefined;
+  SourceField?: string | undefined;
+  FacetEnabled?: boolean | undefined;
+  SearchEnabled?: boolean | undefined;
+  ReturnEnabled?: boolean | undefined;
+  SortEnabled?: boolean | undefined;
 }
 export interface LatLonOptions {
-  DefaultValue?: string;
-  SourceField?: string;
-  FacetEnabled?: boolean;
-  SearchEnabled?: boolean;
-  ReturnEnabled?: boolean;
-  SortEnabled?: boolean;
+  DefaultValue?: string | undefined;
+  SourceField?: string | undefined;
+  FacetEnabled?: boolean | undefined;
+  SearchEnabled?: boolean | undefined;
+  ReturnEnabled?: boolean | undefined;
+  SortEnabled?: boolean | undefined;
 }
 export type FieldNameCommaList = string;
 export interface IntArrayOptions {
-  DefaultValue?: number;
-  SourceFields?: string;
-  FacetEnabled?: boolean;
-  SearchEnabled?: boolean;
-  ReturnEnabled?: boolean;
+  DefaultValue?: number | undefined;
+  SourceFields?: string | undefined;
+  FacetEnabled?: boolean | undefined;
+  SearchEnabled?: boolean | undefined;
+  ReturnEnabled?: boolean | undefined;
 }
 export interface DoubleArrayOptions {
-  DefaultValue?: number;
-  SourceFields?: string;
-  FacetEnabled?: boolean;
-  SearchEnabled?: boolean;
-  ReturnEnabled?: boolean;
+  DefaultValue?: number | undefined;
+  SourceFields?: string | undefined;
+  FacetEnabled?: boolean | undefined;
+  SearchEnabled?: boolean | undefined;
+  ReturnEnabled?: boolean | undefined;
 }
 export interface LiteralArrayOptions {
-  DefaultValue?: string;
-  SourceFields?: string;
-  FacetEnabled?: boolean;
-  SearchEnabled?: boolean;
-  ReturnEnabled?: boolean;
+  DefaultValue?: string | undefined;
+  SourceFields?: string | undefined;
+  FacetEnabled?: boolean | undefined;
+  SearchEnabled?: boolean | undefined;
+  ReturnEnabled?: boolean | undefined;
 }
 export interface TextArrayOptions {
-  DefaultValue?: string;
-  SourceFields?: string;
-  ReturnEnabled?: boolean;
-  HighlightEnabled?: boolean;
-  AnalysisScheme?: string;
+  DefaultValue?: string | undefined;
+  SourceFields?: string | undefined;
+  ReturnEnabled?: boolean | undefined;
+  HighlightEnabled?: boolean | undefined;
+  AnalysisScheme?: string | undefined;
 }
 export interface DateArrayOptions {
-  DefaultValue?: string;
-  SourceFields?: string;
-  FacetEnabled?: boolean;
-  SearchEnabled?: boolean;
-  ReturnEnabled?: boolean;
+  DefaultValue?: string | undefined;
+  SourceFields?: string | undefined;
+  FacetEnabled?: boolean | undefined;
+  SearchEnabled?: boolean | undefined;
+  ReturnEnabled?: boolean | undefined;
 }
 export interface IndexField {
   IndexFieldName: string;
   IndexFieldType: IndexFieldType;
-  IntOptions?: IntOptions;
-  DoubleOptions?: DoubleOptions;
-  LiteralOptions?: LiteralOptions;
-  TextOptions?: TextOptions;
-  DateOptions?: DateOptions;
-  LatLonOptions?: LatLonOptions;
-  IntArrayOptions?: IntArrayOptions;
-  DoubleArrayOptions?: DoubleArrayOptions;
-  LiteralArrayOptions?: LiteralArrayOptions;
-  TextArrayOptions?: TextArrayOptions;
-  DateArrayOptions?: DateArrayOptions;
+  IntOptions?: IntOptions | undefined;
+  DoubleOptions?: DoubleOptions | undefined;
+  LiteralOptions?: LiteralOptions | undefined;
+  TextOptions?: TextOptions | undefined;
+  DateOptions?: DateOptions | undefined;
+  LatLonOptions?: LatLonOptions | undefined;
+  IntArrayOptions?: IntArrayOptions | undefined;
+  DoubleArrayOptions?: DoubleArrayOptions | undefined;
+  LiteralArrayOptions?: LiteralArrayOptions | undefined;
+  TextArrayOptions?: TextArrayOptions | undefined;
+  DateArrayOptions?: DateArrayOptions | undefined;
 }
 export interface DefineIndexFieldRequest {
   DomainName: string;
@@ -446,8 +447,8 @@ export interface DefineIndexFieldResponse {
 export type SuggesterFuzzyMatching = "none" | "low" | "high" | (string & {});
 export interface DocumentSuggesterOptions {
   SourceField: string;
-  FuzzyMatching?: SuggesterFuzzyMatching;
-  SortExpression?: string;
+  FuzzyMatching?: SuggesterFuzzyMatching | undefined;
+  SortExpression?: string | undefined;
 }
 export interface Suggester {
   SuggesterName: string;
@@ -475,7 +476,7 @@ export interface DeleteDomainRequest {
   DomainName: string;
 }
 export interface DeleteDomainResponse {
-  DomainStatus?: DomainStatus;
+  DomainStatus?: DomainStatus | undefined;
 }
 export interface DeleteExpressionRequest {
   DomainName: string;
@@ -501,8 +502,8 @@ export interface DeleteSuggesterResponse {
 export type StandardNameList = string[];
 export interface DescribeAnalysisSchemesRequest {
   DomainName: string;
-  AnalysisSchemeNames?: string[];
-  Deployed?: boolean;
+  AnalysisSchemeNames?: string[] | undefined;
+  Deployed?: boolean | undefined;
 }
 export type AnalysisSchemeStatusList = AnalysisSchemeStatus[];
 export interface DescribeAnalysisSchemesResponse {
@@ -510,7 +511,7 @@ export interface DescribeAnalysisSchemesResponse {
 }
 export interface DescribeAvailabilityOptionsRequest {
   DomainName: string;
-  Deployed?: boolean;
+  Deployed?: boolean | undefined;
 }
 export type MultiAZ = boolean;
 export interface AvailabilityOptionsStatus {
@@ -518,30 +519,30 @@ export interface AvailabilityOptionsStatus {
   Status: OptionStatus;
 }
 export interface DescribeAvailabilityOptionsResponse {
-  AvailabilityOptions?: AvailabilityOptionsStatus;
+  AvailabilityOptions?: AvailabilityOptionsStatus | undefined;
 }
 export interface DescribeDomainEndpointOptionsRequest {
   DomainName: string;
-  Deployed?: boolean;
+  Deployed?: boolean | undefined;
 }
 export type TLSSecurityPolicy =
   | "Policy-Min-TLS-1-0-2019-07"
   | "Policy-Min-TLS-1-2-2019-07"
   | (string & {});
 export interface DomainEndpointOptions {
-  EnforceHTTPS?: boolean;
-  TLSSecurityPolicy?: TLSSecurityPolicy;
+  EnforceHTTPS?: boolean | undefined;
+  TLSSecurityPolicy?: TLSSecurityPolicy | undefined;
 }
 export interface DomainEndpointOptionsStatus {
   Options: DomainEndpointOptions;
   Status: OptionStatus;
 }
 export interface DescribeDomainEndpointOptionsResponse {
-  DomainEndpointOptions?: DomainEndpointOptionsStatus;
+  DomainEndpointOptions?: DomainEndpointOptionsStatus | undefined;
 }
 export type DomainNameList = string[];
 export interface DescribeDomainsRequest {
-  DomainNames?: string[];
+  DomainNames?: string[] | undefined;
 }
 export type DomainStatusList = DomainStatus[];
 export interface DescribeDomainsResponse {
@@ -549,8 +550,8 @@ export interface DescribeDomainsResponse {
 }
 export interface DescribeExpressionsRequest {
   DomainName: string;
-  ExpressionNames?: string[];
-  Deployed?: boolean;
+  ExpressionNames?: string[] | undefined;
+  Deployed?: boolean | undefined;
 }
 export type ExpressionStatusList = ExpressionStatus[];
 export interface DescribeExpressionsResponse {
@@ -559,8 +560,8 @@ export interface DescribeExpressionsResponse {
 export type DynamicFieldNameList = string[];
 export interface DescribeIndexFieldsRequest {
   DomainName: string;
-  FieldNames?: string[];
-  Deployed?: boolean;
+  FieldNames?: string[] | undefined;
+  Deployed?: boolean | undefined;
 }
 export type IndexFieldStatusList = IndexFieldStatus[];
 export interface DescribeIndexFieldsResponse {
@@ -589,9 +590,9 @@ export type PartitionInstanceType =
   | "search.previousgeneration.2xlarge"
   | (string & {});
 export interface ScalingParameters {
-  DesiredInstanceType?: PartitionInstanceType;
-  DesiredReplicationCount?: number;
-  DesiredPartitionCount?: number;
+  DesiredInstanceType?: PartitionInstanceType | undefined;
+  DesiredReplicationCount?: number | undefined;
+  DesiredPartitionCount?: number | undefined;
 }
 export interface ScalingParametersStatus {
   Options: ScalingParameters;
@@ -602,7 +603,7 @@ export interface DescribeScalingParametersResponse {
 }
 export interface DescribeServiceAccessPoliciesRequest {
   DomainName: string;
-  Deployed?: boolean;
+  Deployed?: boolean | undefined;
 }
 export type PolicyDocument = string;
 export interface AccessPoliciesStatus {
@@ -614,8 +615,8 @@ export interface DescribeServiceAccessPoliciesResponse {
 }
 export interface DescribeSuggestersRequest {
   DomainName: string;
-  SuggesterNames?: string[];
-  Deployed?: boolean;
+  SuggesterNames?: string[] | undefined;
+  Deployed?: boolean | undefined;
 }
 export type SuggesterStatusList = SuggesterStatus[];
 export interface DescribeSuggestersResponse {
@@ -625,27 +626,27 @@ export interface IndexDocumentsRequest {
   DomainName: string;
 }
 export interface IndexDocumentsResponse {
-  FieldNames?: string[];
+  FieldNames?: string[] | undefined;
 }
 export interface ListDomainNamesRequest {}
 export type APIVersion = string;
 export type DomainNameMap = { [key: string]: string | undefined };
 export interface ListDomainNamesResponse {
-  DomainNames?: { [key: string]: string | undefined };
+  DomainNames?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateAvailabilityOptionsRequest {
   DomainName: string;
   MultiAZ: boolean;
 }
 export interface UpdateAvailabilityOptionsResponse {
-  AvailabilityOptions?: AvailabilityOptionsStatus;
+  AvailabilityOptions?: AvailabilityOptionsStatus | undefined;
 }
 export interface UpdateDomainEndpointOptionsRequest {
   DomainName: string;
   DomainEndpointOptions: DomainEndpointOptions;
 }
 export interface UpdateDomainEndpointOptionsResponse {
-  DomainEndpointOptions?: DomainEndpointOptionsStatus;
+  DomainEndpointOptions?: DomainEndpointOptionsStatus | undefined;
 }
 export interface UpdateScalingParametersRequest {
   DomainName: string;
@@ -673,7 +674,7 @@ export type BuildSuggestersError =
  * Indexes the search suggestions. For more information, see Configuring Suggesters in the *Amazon CloudSearch Developer Guide*.
  */
 export const buildSuggesters: API.OperationMethod<
-  BuildSuggestersRequest,
+  BuildSuggestersRequest & RegionInput,
   BuildSuggestersResponse,
   BuildSuggestersError,
   Credentials | HttpClient.HttpClient
@@ -700,7 +701,7 @@ export type CreateDomainError =
  * see Creating a Search Domain in the *Amazon CloudSearch Developer Guide*.
  */
 export const createDomain: API.OperationMethod<
-  CreateDomainRequest,
+  CreateDomainRequest & RegionInput,
   CreateDomainResponse,
   CreateDomainError,
   Credentials | HttpClient.HttpClient
@@ -733,7 +734,7 @@ export type DefineAnalysisSchemeError =
  * Configures an analysis scheme that can be applied to a `text` or `text-array` field to define language-specific text processing options. For more information, see Configuring Analysis Schemes in the *Amazon CloudSearch Developer Guide*.
  */
 export const defineAnalysisScheme: API.OperationMethod<
-  DefineAnalysisSchemeRequest,
+  DefineAnalysisSchemeRequest & RegionInput,
   DefineAnalysisSchemeResponse,
   DefineAnalysisSchemeError,
   Credentials | HttpClient.HttpClient
@@ -767,7 +768,7 @@ export type DefineExpressionError =
  * Configures an `Expression` for the search domain. Used to create new expressions and modify existing ones. If the expression exists, the new configuration replaces the old one. For more information, see Configuring Expressions in the *Amazon CloudSearch Developer Guide*.
  */
 export const defineExpression: API.OperationMethod<
-  DefineExpressionRequest,
+  DefineExpressionRequest & RegionInput,
   DefineExpressionResponse,
   DefineExpressionError,
   Credentials | HttpClient.HttpClient
@@ -801,7 +802,7 @@ export type DefineIndexFieldError =
  * Configures an `IndexField` for the search domain. Used to create new fields and modify existing ones. You must specify the name of the domain you are configuring and an index field configuration. The index field configuration specifies a unique name, the index field type, and the options you want to configure for the field. The options you can specify depend on the `IndexFieldType`. If the field exists, the new configuration replaces the old one. For more information, see Configuring Index Fields in the *Amazon CloudSearch Developer Guide*.
  */
 export const defineIndexField: API.OperationMethod<
-  DefineIndexFieldRequest,
+  DefineIndexFieldRequest & RegionInput,
   DefineIndexFieldResponse,
   DefineIndexFieldError,
   Credentials | HttpClient.HttpClient
@@ -835,7 +836,7 @@ export type DefineSuggesterError =
  * Configures a suggester for a domain. A suggester enables you to display possible matches before users finish typing their queries. When you configure a suggester, you must specify the name of the text field you want to search for possible matches and a unique name for the suggester. For more information, see Getting Search Suggestions in the *Amazon CloudSearch Developer Guide*.
  */
 export const defineSuggester: API.OperationMethod<
-  DefineSuggesterRequest,
+  DefineSuggesterRequest & RegionInput,
   DefineSuggesterResponse,
   DefineSuggesterError,
   Credentials | HttpClient.HttpClient
@@ -868,7 +869,7 @@ export type DeleteAnalysisSchemeError =
  * Deletes an analysis scheme. For more information, see Configuring Analysis Schemes in the *Amazon CloudSearch Developer Guide*.
  */
 export const deleteAnalysisScheme: API.OperationMethod<
-  DeleteAnalysisSchemeRequest,
+  DeleteAnalysisSchemeRequest & RegionInput,
   DeleteAnalysisSchemeResponse,
   DeleteAnalysisSchemeError,
   Credentials | HttpClient.HttpClient
@@ -895,7 +896,7 @@ export type DeleteDomainError = BaseException | InternalException | CommonErrors
  * see Deleting a Search Domain in the *Amazon CloudSearch Developer Guide*.
  */
 export const deleteDomain: API.OperationMethod<
-  DeleteDomainRequest,
+  DeleteDomainRequest & RegionInput,
   DeleteDomainResponse,
   DeleteDomainError,
   Credentials | HttpClient.HttpClient
@@ -921,7 +922,7 @@ export type DeleteExpressionError =
  * Removes an `Expression` from the search domain. For more information, see Configuring Expressions in the *Amazon CloudSearch Developer Guide*.
  */
 export const deleteExpression: API.OperationMethod<
-  DeleteExpressionRequest,
+  DeleteExpressionRequest & RegionInput,
   DeleteExpressionResponse,
   DeleteExpressionError,
   Credentials | HttpClient.HttpClient
@@ -953,7 +954,7 @@ export type DeleteIndexFieldError =
  * Removes an `IndexField` from the search domain. For more information, see Configuring Index Fields in the *Amazon CloudSearch Developer Guide*.
  */
 export const deleteIndexField: API.OperationMethod<
-  DeleteIndexFieldRequest,
+  DeleteIndexFieldRequest & RegionInput,
   DeleteIndexFieldResponse,
   DeleteIndexFieldError,
   Credentials | HttpClient.HttpClient
@@ -985,7 +986,7 @@ export type DeleteSuggesterError =
  * Deletes a suggester. For more information, see Getting Search Suggestions in the *Amazon CloudSearch Developer Guide*.
  */
 export const deleteSuggester: API.OperationMethod<
-  DeleteSuggesterRequest,
+  DeleteSuggesterRequest & RegionInput,
   DeleteSuggesterResponse,
   DeleteSuggesterError,
   Credentials | HttpClient.HttpClient
@@ -1015,7 +1016,7 @@ export type DescribeAnalysisSchemesError =
  * Gets the analysis schemes configured for a domain. An analysis scheme defines language-specific text processing options for a `text` field. Can be limited to specific analysis schemes by name. By default, shows all analysis schemes and includes any pending changes to the configuration. Set the `Deployed` option to `true` to show the active configuration and exclude pending changes. For more information, see Configuring Analysis Schemes in the *Amazon CloudSearch Developer Guide*.
  */
 export const describeAnalysisSchemes: API.OperationMethod<
-  DescribeAnalysisSchemesRequest,
+  DescribeAnalysisSchemesRequest & RegionInput,
   DescribeAnalysisSchemesResponse,
   DescribeAnalysisSchemesError,
   Credentials | HttpClient.HttpClient
@@ -1042,7 +1043,7 @@ export type DescribeAvailabilityOptionsError =
  * Gets the availability options configured for a domain. By default, shows the configuration with any pending changes. Set the `Deployed` option to `true` to show the active configuration and exclude pending changes. For more information, see Configuring Availability Options in the *Amazon CloudSearch Developer Guide*.
  */
 export const describeAvailabilityOptions: API.OperationMethod<
-  DescribeAvailabilityOptionsRequest,
+  DescribeAvailabilityOptionsRequest & RegionInput,
   DescribeAvailabilityOptionsResponse,
   DescribeAvailabilityOptionsError,
   Credentials | HttpClient.HttpClient
@@ -1075,7 +1076,7 @@ export type DescribeDomainEndpointOptionsError =
  * Returns the domain's endpoint options, specifically whether all requests to the domain must arrive over HTTPS. For more information, see Configuring Domain Endpoint Options in the *Amazon CloudSearch Developer Guide*.
  */
 export const describeDomainEndpointOptions: API.OperationMethod<
-  DescribeDomainEndpointOptionsRequest,
+  DescribeDomainEndpointOptionsRequest & RegionInput,
   DescribeDomainEndpointOptionsResponse,
   DescribeDomainEndpointOptionsError,
   Credentials | HttpClient.HttpClient
@@ -1103,7 +1104,7 @@ export type DescribeDomainsError = BaseException | InternalException | CommonErr
  * see Getting Information about a Search Domain in the *Amazon CloudSearch Developer Guide*.
  */
 export const describeDomains: API.OperationMethod<
-  DescribeDomainsRequest,
+  DescribeDomainsRequest & RegionInput,
   DescribeDomainsResponse,
   DescribeDomainsError,
   Credentials | HttpClient.HttpClient
@@ -1127,7 +1128,7 @@ export type DescribeExpressionsError =
  * Gets the expressions configured for the search domain. Can be limited to specific expressions by name. By default, shows all expressions and includes any pending changes to the configuration. Set the `Deployed` option to `true` to show the active configuration and exclude pending changes. For more information, see Configuring Expressions in the *Amazon CloudSearch Developer Guide*.
  */
 export const describeExpressions: API.OperationMethod<
-  DescribeExpressionsRequest,
+  DescribeExpressionsRequest & RegionInput,
   DescribeExpressionsResponse,
   DescribeExpressionsError,
   Credentials | HttpClient.HttpClient
@@ -1153,7 +1154,7 @@ export type DescribeIndexFieldsError =
  * see Getting Domain Information in the *Amazon CloudSearch Developer Guide*.
  */
 export const describeIndexFields: API.OperationMethod<
-  DescribeIndexFieldsRequest,
+  DescribeIndexFieldsRequest & RegionInput,
   DescribeIndexFieldsResponse,
   DescribeIndexFieldsError,
   Credentials | HttpClient.HttpClient
@@ -1177,7 +1178,7 @@ export type DescribeScalingParametersError =
  * Gets the scaling parameters configured for a domain. A domain's scaling parameters specify the desired search instance type and replication count. For more information, see Configuring Scaling Options in the *Amazon CloudSearch Developer Guide*.
  */
 export const describeScalingParameters: API.OperationMethod<
-  DescribeScalingParametersRequest,
+  DescribeScalingParametersRequest & RegionInput,
   DescribeScalingParametersResponse,
   DescribeScalingParametersError,
   Credentials | HttpClient.HttpClient
@@ -1202,7 +1203,7 @@ export type DescribeServiceAccessPoliciesError =
  * see Configuring Access for a Search Domain in the *Amazon CloudSearch Developer Guide*.
  */
 export const describeServiceAccessPolicies: API.OperationMethod<
-  DescribeServiceAccessPoliciesRequest,
+  DescribeServiceAccessPoliciesRequest & RegionInput,
   DescribeServiceAccessPoliciesResponse,
   DescribeServiceAccessPoliciesError,
   Credentials | HttpClient.HttpClient
@@ -1226,7 +1227,7 @@ export type DescribeSuggestersError =
  * Gets the suggesters configured for a domain. A suggester enables you to display possible matches before users finish typing their queries. Can be limited to specific suggesters by name. By default, shows all suggesters and includes any pending changes to the configuration. Set the `Deployed` option to `true` to show the active configuration and exclude pending changes. For more information, see Getting Search Suggestions in the *Amazon CloudSearch Developer Guide*.
  */
 export const describeSuggesters: API.OperationMethod<
-  DescribeSuggestersRequest,
+  DescribeSuggestersRequest & RegionInput,
   DescribeSuggestersResponse,
   DescribeSuggestersError,
   Credentials | HttpClient.HttpClient
@@ -1251,7 +1252,7 @@ export type IndexDocumentsError =
  * Tells the search domain to start indexing its documents using the latest indexing options. This operation must be invoked to activate options whose OptionStatus is `RequiresIndexDocuments`.
  */
 export const indexDocuments: API.OperationMethod<
-  IndexDocumentsRequest,
+  IndexDocumentsRequest & RegionInput,
   IndexDocumentsResponse,
   IndexDocumentsError,
   Credentials | HttpClient.HttpClient
@@ -1271,7 +1272,7 @@ export type ListDomainNamesError = BaseException | CommonErrors;
  * Lists all search domains owned by an account.
  */
 export const listDomainNames: API.OperationMethod<
-  ListDomainNamesRequest,
+  ListDomainNamesRequest & RegionInput,
   ListDomainNamesResponse,
   ListDomainNamesError,
   Credentials | HttpClient.HttpClient
@@ -1299,7 +1300,7 @@ export type UpdateAvailabilityOptionsError =
  * Configures the availability options for a domain. Enabling the Multi-AZ option expands an Amazon CloudSearch domain to an additional Availability Zone in the same Region to increase fault tolerance in the event of a service disruption. Changes to the Multi-AZ option can take about half an hour to become active. For more information, see Configuring Availability Options in the *Amazon CloudSearch Developer Guide*.
  */
 export const updateAvailabilityOptions: API.OperationMethod<
-  UpdateAvailabilityOptionsRequest,
+  UpdateAvailabilityOptionsRequest & RegionInput,
   UpdateAvailabilityOptionsResponse,
   UpdateAvailabilityOptionsError,
   Credentials | HttpClient.HttpClient
@@ -1335,7 +1336,7 @@ export type UpdateDomainEndpointOptionsError =
  * Updates the domain's endpoint options, specifically whether all requests to the domain must arrive over HTTPS. For more information, see Configuring Domain Endpoint Options in the *Amazon CloudSearch Developer Guide*.
  */
 export const updateDomainEndpointOptions: API.OperationMethod<
-  UpdateDomainEndpointOptionsRequest,
+  UpdateDomainEndpointOptionsRequest & RegionInput,
   UpdateDomainEndpointOptionsResponse,
   UpdateDomainEndpointOptionsError,
   Credentials | HttpClient.HttpClient
@@ -1370,7 +1371,7 @@ export type UpdateScalingParametersError =
  * Configures scaling parameters for a domain. A domain's scaling parameters specify the desired search instance type and replication count. Amazon CloudSearch will still automatically scale your domain based on the volume of data and traffic, but not below the desired instance type and replication count. If the Multi-AZ option is enabled, these values control the resources used per Availability Zone. For more information, see Configuring Scaling Options in the *Amazon CloudSearch Developer Guide*.
  */
 export const updateScalingParameters: API.OperationMethod<
-  UpdateScalingParametersRequest,
+  UpdateScalingParametersRequest & RegionInput,
   UpdateScalingParametersResponse,
   UpdateScalingParametersError,
   Credentials | HttpClient.HttpClient
@@ -1406,7 +1407,7 @@ export type UpdateServiceAccessPoliciesError =
  * Configuring Access for an Amazon CloudSearch Domain.
  */
 export const updateServiceAccessPolicies: API.OperationMethod<
-  UpdateServiceAccessPoliciesRequest,
+  UpdateServiceAccessPoliciesRequest & RegionInput,
   UpdateServiceAccessPoliciesResponse,
   UpdateServiceAccessPoliciesError,
   Credentials | HttpClient.HttpClient

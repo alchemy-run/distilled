@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -115,7 +116,7 @@ export class EndpointTemporarilyUnavailableException
     "EndpointTemporarilyUnavailableException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(503),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
     "InternalServerException",
@@ -126,7 +127,7 @@ export class InternalServerException
       ),
     },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
@@ -159,7 +160,7 @@ export class ThrottlingException
       ),
     },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
@@ -187,35 +188,35 @@ export type RoutingControlName = string;
 export interface GetRoutingControlStateResponse {
   RoutingControlArn: string;
   RoutingControlState: RoutingControlState;
-  RoutingControlName?: string;
+  RoutingControlName?: string | undefined;
 }
 export type PageToken = string;
 export type MaxResults = number;
 export interface ListRoutingControlsRequest {
-  ControlPanelArn?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  ControlPanelArn?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ControlPanelName = string;
 export type Owner = string;
 export interface RoutingControl {
-  ControlPanelArn?: string;
-  ControlPanelName?: string;
-  RoutingControlArn?: string;
-  RoutingControlName?: string;
-  RoutingControlState?: RoutingControlState;
-  Owner?: string;
+  ControlPanelArn?: string | undefined;
+  ControlPanelName?: string | undefined;
+  RoutingControlArn?: string | undefined;
+  RoutingControlName?: string | undefined;
+  RoutingControlState?: RoutingControlState | undefined;
+  Owner?: string | undefined;
 }
 export type RoutingControls = RoutingControl[];
 export interface ListRoutingControlsResponse {
   RoutingControls: RoutingControl[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type Arns = string[];
 export interface UpdateRoutingControlStateRequest {
   RoutingControlArn: string;
   RoutingControlState: RoutingControlState;
-  SafetyRulesToOverride?: string[];
+  SafetyRulesToOverride?: string[] | undefined;
 }
 export interface UpdateRoutingControlStateResponse {}
 export interface UpdateRoutingControlStateEntry {
@@ -225,7 +226,7 @@ export interface UpdateRoutingControlStateEntry {
 export type UpdateRoutingControlStateEntries = UpdateRoutingControlStateEntry[];
 export interface UpdateRoutingControlStatesRequest {
   UpdateRoutingControlStateEntries: UpdateRoutingControlStateEntry[];
-  SafetyRulesToOverride?: string[];
+  SafetyRulesToOverride?: string[] | undefined;
 }
 export interface UpdateRoutingControlStatesResponse {}
 export type RetryAfterSeconds = number;
@@ -276,7 +277,7 @@ export type GetRoutingControlStateError =
  * routing controls in Route 53 ARC
  */
 export const getRoutingControlState: API.OperationMethod<
-  GetRoutingControlStateRequest,
+  GetRoutingControlStateRequest & RegionInput,
   GetRoutingControlStateResponse,
   GetRoutingControlStateError,
   Credentials | HttpClient.HttpClient
@@ -335,7 +336,7 @@ export type ListRoutingControlsError =
  * routing controls in Route 53 ARC
  */
 export const listRoutingControls: API.PaginatedOperationMethod<
-  ListRoutingControlsRequest,
+  ListRoutingControlsRequest & RegionInput,
   ListRoutingControlsResponse,
   ListRoutingControlsError,
   Credentials | HttpClient.HttpClient,
@@ -404,7 +405,7 @@ export type UpdateRoutingControlStateError =
  * - Working with routing controls overall
  */
 export const updateRoutingControlState: API.OperationMethod<
-  UpdateRoutingControlStateRequest,
+  UpdateRoutingControlStateRequest & RegionInput,
   UpdateRoutingControlStateResponse,
   UpdateRoutingControlStateError,
   Credentials | HttpClient.HttpClient
@@ -468,7 +469,7 @@ export type UpdateRoutingControlStatesError =
  * - Working with routing controls overall
  */
 export const updateRoutingControlStates: API.OperationMethod<
-  UpdateRoutingControlStatesRequest,
+  UpdateRoutingControlStatesRequest & RegionInput,
   UpdateRoutingControlStatesResponse,
   UpdateRoutingControlStatesError,
   Credentials | HttpClient.HttpClient

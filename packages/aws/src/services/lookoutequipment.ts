@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -109,7 +110,7 @@ export class InternalServerException
     "InternalServerException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
@@ -127,7 +128,7 @@ export class ThrottlingException
     "ThrottlingException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
@@ -137,7 +138,7 @@ export class ValidationException
 export type DatasetName = string;
 export type SynthesizedJsonInlineDataSchema = string;
 export interface DatasetSchema {
-  InlineDataSchema?: string;
+  InlineDataSchema?: string | undefined;
 }
 export type NameOrArn = string;
 export type IdempotenceToken = string;
@@ -150,10 +151,10 @@ export interface Tag {
 export type TagList = Tag[];
 export interface CreateDatasetRequest {
   DatasetName: string;
-  DatasetSchema?: DatasetSchema;
-  ServerSideKmsKeyId?: string;
+  DatasetSchema?: DatasetSchema | undefined;
+  ServerSideKmsKeyId?: string | undefined;
   ClientToken: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type DatasetArn = string;
 export type DatasetStatus =
@@ -163,9 +164,9 @@ export type DatasetStatus =
   | "IMPORT_IN_PROGRESS"
   | (string & {});
 export interface CreateDatasetResponse {
-  DatasetName?: string;
-  DatasetArn?: string;
-  Status?: DatasetStatus;
+  DatasetName?: string | undefined;
+  DatasetArn?: string | undefined;
+  Status?: DatasetStatus | undefined;
 }
 export type ModelName = string;
 export type InferenceSchedulerName = string;
@@ -175,40 +176,40 @@ export type S3Bucket = string;
 export type S3Prefix = string;
 export interface InferenceS3InputConfiguration {
   Bucket: string;
-  Prefix?: string;
+  Prefix?: string | undefined;
 }
 export type TimeZoneOffset = string;
 export type FileNameTimestampFormat = string;
 export type ComponentTimestampDelimiter = string;
 export interface InferenceInputNameConfiguration {
-  TimestampFormat?: string;
-  ComponentTimestampDelimiter?: string;
+  TimestampFormat?: string | undefined;
+  ComponentTimestampDelimiter?: string | undefined;
 }
 export interface InferenceInputConfiguration {
-  S3InputConfiguration?: InferenceS3InputConfiguration;
-  InputTimeZoneOffset?: string;
-  InferenceInputNameConfiguration?: InferenceInputNameConfiguration;
+  S3InputConfiguration?: InferenceS3InputConfiguration | undefined;
+  InputTimeZoneOffset?: string | undefined;
+  InferenceInputNameConfiguration?: InferenceInputNameConfiguration | undefined;
 }
 export interface InferenceS3OutputConfiguration {
   Bucket: string;
-  Prefix?: string;
+  Prefix?: string | undefined;
 }
 export interface InferenceOutputConfiguration {
   S3OutputConfiguration: InferenceS3OutputConfiguration;
-  KmsKeyId?: string;
+  KmsKeyId?: string | undefined;
 }
 export type IamRoleArn = string;
 export interface CreateInferenceSchedulerRequest {
   ModelName: string;
   InferenceSchedulerName: string;
-  DataDelayOffsetInMinutes?: number;
+  DataDelayOffsetInMinutes?: number | undefined;
   DataUploadFrequency: DataUploadFrequency;
   DataInputConfiguration: InferenceInputConfiguration;
   DataOutputConfiguration: InferenceOutputConfiguration;
   RoleArn: string;
-  ServerSideKmsKeyId?: string;
+  ServerSideKmsKeyId?: string | undefined;
   ClientToken: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type InferenceSchedulerArn = string;
 export type InferenceSchedulerStatus =
@@ -223,10 +224,10 @@ export type ModelQuality =
   | "POOR_QUALITY_DETECTED"
   | (string & {});
 export interface CreateInferenceSchedulerResponse {
-  InferenceSchedulerArn?: string;
-  InferenceSchedulerName?: string;
-  Status?: InferenceSchedulerStatus;
-  ModelQuality?: ModelQuality;
+  InferenceSchedulerArn?: string | undefined;
+  InferenceSchedulerName?: string | undefined;
+  Status?: InferenceSchedulerStatus | undefined;
+  ModelQuality?: ModelQuality | undefined;
 }
 export type LabelGroupName = string;
 export type LabelRating = "ANOMALY" | "NO_ANOMALY" | "NEUTRAL" | (string & {});
@@ -238,35 +239,35 @@ export interface CreateLabelRequest {
   StartTime: Date;
   EndTime: Date;
   Rating: LabelRating;
-  FaultCode?: string;
-  Notes?: string;
-  Equipment?: string;
+  FaultCode?: string | undefined;
+  Notes?: string | undefined;
+  Equipment?: string | undefined;
   ClientToken: string;
 }
 export type LabelId = string;
 export interface CreateLabelResponse {
-  LabelId?: string;
+  LabelId?: string | undefined;
 }
 export type FaultCodes = string[];
 export interface CreateLabelGroupRequest {
   LabelGroupName: string;
-  FaultCodes?: string[];
+  FaultCodes?: string[] | undefined;
   ClientToken: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type LabelGroupArn = string;
 export interface CreateLabelGroupResponse {
-  LabelGroupName?: string;
-  LabelGroupArn?: string;
+  LabelGroupName?: string | undefined;
+  LabelGroupArn?: string | undefined;
 }
 export type DatasetIdentifier = string;
 export interface LabelsS3InputConfiguration {
   Bucket: string;
-  Prefix?: string;
+  Prefix?: string | undefined;
 }
 export interface LabelsInputConfiguration {
-  S3InputConfiguration?: LabelsS3InputConfiguration;
-  LabelGroupName?: string;
+  S3InputConfiguration?: LabelsS3InputConfiguration | undefined;
+  LabelGroupName?: string | undefined;
 }
 export type TargetSamplingRate =
   | "PT1S"
@@ -282,33 +283,33 @@ export type TargetSamplingRate =
   | "PT1H"
   | (string & {});
 export interface DataPreProcessingConfiguration {
-  TargetSamplingRate?: TargetSamplingRate;
+  TargetSamplingRate?: TargetSamplingRate | undefined;
 }
 export type OffCondition = string;
 export interface ModelDiagnosticsS3OutputConfiguration {
   Bucket: string;
-  Prefix?: string;
+  Prefix?: string | undefined;
 }
 export interface ModelDiagnosticsOutputConfiguration {
   S3OutputConfiguration: ModelDiagnosticsS3OutputConfiguration;
-  KmsKeyId?: string;
+  KmsKeyId?: string | undefined;
 }
 export interface CreateModelRequest {
   ModelName: string;
   DatasetName: string;
-  DatasetSchema?: DatasetSchema;
-  LabelsInputConfiguration?: LabelsInputConfiguration;
+  DatasetSchema?: DatasetSchema | undefined;
+  LabelsInputConfiguration?: LabelsInputConfiguration | undefined;
   ClientToken: string;
-  TrainingDataStartTime?: Date;
-  TrainingDataEndTime?: Date;
-  EvaluationDataStartTime?: Date;
-  EvaluationDataEndTime?: Date;
-  RoleArn?: string;
-  DataPreProcessingConfiguration?: DataPreProcessingConfiguration;
-  ServerSideKmsKeyId?: string;
-  Tags?: Tag[];
-  OffCondition?: string;
-  ModelDiagnosticsOutputConfiguration?: ModelDiagnosticsOutputConfiguration;
+  TrainingDataStartTime?: Date | undefined;
+  TrainingDataEndTime?: Date | undefined;
+  EvaluationDataStartTime?: Date | undefined;
+  EvaluationDataEndTime?: Date | undefined;
+  RoleArn?: string | undefined;
+  DataPreProcessingConfiguration?: DataPreProcessingConfiguration | undefined;
+  ServerSideKmsKeyId?: string | undefined;
+  Tags?: Tag[] | undefined;
+  OffCondition?: string | undefined;
+  ModelDiagnosticsOutputConfiguration?: ModelDiagnosticsOutputConfiguration | undefined;
 }
 export type ModelArn = string;
 export type ModelStatus =
@@ -318,18 +319,18 @@ export type ModelStatus =
   | "IMPORT_IN_PROGRESS"
   | (string & {});
 export interface CreateModelResponse {
-  ModelArn?: string;
-  Status?: ModelStatus;
+  ModelArn?: string | undefined;
+  Status?: ModelStatus | undefined;
 }
 export type RetrainingFrequency = string;
 export type LookbackWindow = string;
 export type ModelPromoteMode = "MANAGED" | "MANUAL" | (string & {});
 export interface CreateRetrainingSchedulerRequest {
   ModelName: string;
-  RetrainingStartDate?: Date;
+  RetrainingStartDate?: Date | undefined;
   RetrainingFrequency: string;
   LookbackWindow: string;
-  PromoteMode?: ModelPromoteMode;
+  PromoteMode?: ModelPromoteMode | undefined;
   ClientToken: string;
 }
 export type RetrainingSchedulerStatus =
@@ -339,9 +340,9 @@ export type RetrainingSchedulerStatus =
   | "STOPPED"
   | (string & {});
 export interface CreateRetrainingSchedulerResponse {
-  ModelName?: string;
-  ModelArn?: string;
-  Status?: RetrainingSchedulerStatus;
+  ModelName?: string | undefined;
+  ModelArn?: string | undefined;
+  Status?: RetrainingSchedulerStatus | undefined;
 }
 export interface DeleteDatasetRequest {
   DatasetName: string;
@@ -381,8 +382,8 @@ export interface DescribeDataIngestionJobRequest {
 export type KeyPattern = string;
 export interface IngestionS3InputConfiguration {
   Bucket: string;
-  Prefix?: string;
-  KeyPattern?: string;
+  Prefix?: string | undefined;
+  KeyPattern?: string | undefined;
 }
 export interface IngestionInputConfiguration {
   S3InputConfiguration: IngestionS3InputConfiguration;
@@ -434,90 +435,90 @@ export type ListOfDiscardedFiles = S3Object[];
 export interface IngestedFilesSummary {
   TotalNumberOfFiles: number;
   IngestedNumberOfFiles: number;
-  DiscardedFiles?: S3Object[];
+  DiscardedFiles?: S3Object[] | undefined;
 }
 export type DataSizeInBytes = number;
 export interface DescribeDataIngestionJobResponse {
-  JobId?: string;
-  DatasetArn?: string;
-  IngestionInputConfiguration?: IngestionInputConfiguration;
-  RoleArn?: string;
-  CreatedAt?: Date;
-  Status?: IngestionJobStatus;
-  FailedReason?: string;
-  DataQualitySummary?: DataQualitySummary;
-  IngestedFilesSummary?: IngestedFilesSummary;
-  StatusDetail?: string;
-  IngestedDataSize?: number;
-  DataStartTime?: Date;
-  DataEndTime?: Date;
-  SourceDatasetArn?: string;
+  JobId?: string | undefined;
+  DatasetArn?: string | undefined;
+  IngestionInputConfiguration?: IngestionInputConfiguration | undefined;
+  RoleArn?: string | undefined;
+  CreatedAt?: Date | undefined;
+  Status?: IngestionJobStatus | undefined;
+  FailedReason?: string | undefined;
+  DataQualitySummary?: DataQualitySummary | undefined;
+  IngestedFilesSummary?: IngestedFilesSummary | undefined;
+  StatusDetail?: string | undefined;
+  IngestedDataSize?: number | undefined;
+  DataStartTime?: Date | undefined;
+  DataEndTime?: Date | undefined;
+  SourceDatasetArn?: string | undefined;
 }
 export interface DescribeDatasetRequest {
   DatasetName: string;
 }
 export type KmsKeyArn = string;
 export interface DescribeDatasetResponse {
-  DatasetName?: string;
-  DatasetArn?: string;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  Status?: DatasetStatus;
-  Schema?: string;
-  ServerSideKmsKeyId?: string;
-  IngestionInputConfiguration?: IngestionInputConfiguration;
-  DataQualitySummary?: DataQualitySummary;
-  IngestedFilesSummary?: IngestedFilesSummary;
-  RoleArn?: string;
-  DataStartTime?: Date;
-  DataEndTime?: Date;
-  SourceDatasetArn?: string;
+  DatasetName?: string | undefined;
+  DatasetArn?: string | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  Status?: DatasetStatus | undefined;
+  Schema?: string | undefined;
+  ServerSideKmsKeyId?: string | undefined;
+  IngestionInputConfiguration?: IngestionInputConfiguration | undefined;
+  DataQualitySummary?: DataQualitySummary | undefined;
+  IngestedFilesSummary?: IngestedFilesSummary | undefined;
+  RoleArn?: string | undefined;
+  DataStartTime?: Date | undefined;
+  DataEndTime?: Date | undefined;
+  SourceDatasetArn?: string | undefined;
 }
 export interface DescribeInferenceSchedulerRequest {
   InferenceSchedulerName: string;
 }
 export type LatestInferenceResult = "ANOMALOUS" | "NORMAL" | (string & {});
 export interface DescribeInferenceSchedulerResponse {
-  ModelArn?: string;
-  ModelName?: string;
-  InferenceSchedulerName?: string;
-  InferenceSchedulerArn?: string;
-  Status?: InferenceSchedulerStatus;
-  DataDelayOffsetInMinutes?: number;
-  DataUploadFrequency?: DataUploadFrequency;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  DataInputConfiguration?: InferenceInputConfiguration;
-  DataOutputConfiguration?: InferenceOutputConfiguration;
-  RoleArn?: string;
-  ServerSideKmsKeyId?: string;
-  LatestInferenceResult?: LatestInferenceResult;
+  ModelArn?: string | undefined;
+  ModelName?: string | undefined;
+  InferenceSchedulerName?: string | undefined;
+  InferenceSchedulerArn?: string | undefined;
+  Status?: InferenceSchedulerStatus | undefined;
+  DataDelayOffsetInMinutes?: number | undefined;
+  DataUploadFrequency?: DataUploadFrequency | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  DataInputConfiguration?: InferenceInputConfiguration | undefined;
+  DataOutputConfiguration?: InferenceOutputConfiguration | undefined;
+  RoleArn?: string | undefined;
+  ServerSideKmsKeyId?: string | undefined;
+  LatestInferenceResult?: LatestInferenceResult | undefined;
 }
 export interface DescribeLabelRequest {
   LabelGroupName: string;
   LabelId: string;
 }
 export interface DescribeLabelResponse {
-  LabelGroupName?: string;
-  LabelGroupArn?: string;
-  LabelId?: string;
-  StartTime?: Date;
-  EndTime?: Date;
-  Rating?: LabelRating;
-  FaultCode?: string;
-  Notes?: string;
-  Equipment?: string;
-  CreatedAt?: Date;
+  LabelGroupName?: string | undefined;
+  LabelGroupArn?: string | undefined;
+  LabelId?: string | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  Rating?: LabelRating | undefined;
+  FaultCode?: string | undefined;
+  Notes?: string | undefined;
+  Equipment?: string | undefined;
+  CreatedAt?: Date | undefined;
 }
 export interface DescribeLabelGroupRequest {
   LabelGroupName: string;
 }
 export interface DescribeLabelGroupResponse {
-  LabelGroupName?: string;
-  LabelGroupArn?: string;
-  FaultCodes?: string[];
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  LabelGroupName?: string | undefined;
+  LabelGroupArn?: string | undefined;
+  FaultCodes?: string[] | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface DescribeModelRequest {
   ModelName: string;
@@ -533,48 +534,48 @@ export type ModelVersionStatus =
   | "CANCELED"
   | (string & {});
 export interface DescribeModelResponse {
-  ModelName?: string;
-  ModelArn?: string;
-  DatasetName?: string;
-  DatasetArn?: string;
-  Schema?: string;
-  LabelsInputConfiguration?: LabelsInputConfiguration;
-  TrainingDataStartTime?: Date;
-  TrainingDataEndTime?: Date;
-  EvaluationDataStartTime?: Date;
-  EvaluationDataEndTime?: Date;
-  RoleArn?: string;
-  DataPreProcessingConfiguration?: DataPreProcessingConfiguration;
-  Status?: ModelStatus;
-  TrainingExecutionStartTime?: Date;
-  TrainingExecutionEndTime?: Date;
-  FailedReason?: string;
-  ModelMetrics?: string;
-  LastUpdatedTime?: Date;
-  CreatedAt?: Date;
-  ServerSideKmsKeyId?: string;
-  OffCondition?: string;
-  SourceModelVersionArn?: string;
-  ImportJobStartTime?: Date;
-  ImportJobEndTime?: Date;
-  ActiveModelVersion?: number;
-  ActiveModelVersionArn?: string;
-  ModelVersionActivatedAt?: Date;
-  PreviousActiveModelVersion?: number;
-  PreviousActiveModelVersionArn?: string;
-  PreviousModelVersionActivatedAt?: Date;
-  PriorModelMetrics?: string;
-  LatestScheduledRetrainingFailedReason?: string;
-  LatestScheduledRetrainingStatus?: ModelVersionStatus;
-  LatestScheduledRetrainingModelVersion?: number;
-  LatestScheduledRetrainingStartTime?: Date;
-  LatestScheduledRetrainingAvailableDataInDays?: number;
-  NextScheduledRetrainingStartDate?: Date;
-  AccumulatedInferenceDataStartTime?: Date;
-  AccumulatedInferenceDataEndTime?: Date;
-  RetrainingSchedulerStatus?: RetrainingSchedulerStatus;
-  ModelDiagnosticsOutputConfiguration?: ModelDiagnosticsOutputConfiguration;
-  ModelQuality?: ModelQuality;
+  ModelName?: string | undefined;
+  ModelArn?: string | undefined;
+  DatasetName?: string | undefined;
+  DatasetArn?: string | undefined;
+  Schema?: string | undefined;
+  LabelsInputConfiguration?: LabelsInputConfiguration | undefined;
+  TrainingDataStartTime?: Date | undefined;
+  TrainingDataEndTime?: Date | undefined;
+  EvaluationDataStartTime?: Date | undefined;
+  EvaluationDataEndTime?: Date | undefined;
+  RoleArn?: string | undefined;
+  DataPreProcessingConfiguration?: DataPreProcessingConfiguration | undefined;
+  Status?: ModelStatus | undefined;
+  TrainingExecutionStartTime?: Date | undefined;
+  TrainingExecutionEndTime?: Date | undefined;
+  FailedReason?: string | undefined;
+  ModelMetrics?: string | undefined;
+  LastUpdatedTime?: Date | undefined;
+  CreatedAt?: Date | undefined;
+  ServerSideKmsKeyId?: string | undefined;
+  OffCondition?: string | undefined;
+  SourceModelVersionArn?: string | undefined;
+  ImportJobStartTime?: Date | undefined;
+  ImportJobEndTime?: Date | undefined;
+  ActiveModelVersion?: number | undefined;
+  ActiveModelVersionArn?: string | undefined;
+  ModelVersionActivatedAt?: Date | undefined;
+  PreviousActiveModelVersion?: number | undefined;
+  PreviousActiveModelVersionArn?: string | undefined;
+  PreviousModelVersionActivatedAt?: Date | undefined;
+  PriorModelMetrics?: string | undefined;
+  LatestScheduledRetrainingFailedReason?: string | undefined;
+  LatestScheduledRetrainingStatus?: ModelVersionStatus | undefined;
+  LatestScheduledRetrainingModelVersion?: number | undefined;
+  LatestScheduledRetrainingStartTime?: Date | undefined;
+  LatestScheduledRetrainingAvailableDataInDays?: number | undefined;
+  NextScheduledRetrainingStartDate?: Date | undefined;
+  AccumulatedInferenceDataStartTime?: Date | undefined;
+  AccumulatedInferenceDataEndTime?: Date | undefined;
+  RetrainingSchedulerStatus?: RetrainingSchedulerStatus | undefined;
+  ModelDiagnosticsOutputConfiguration?: ModelDiagnosticsOutputConfiguration | undefined;
+  ModelQuality?: ModelQuality | undefined;
 }
 export interface DescribeModelVersionRequest {
   ModelName: string;
@@ -592,41 +593,41 @@ export type AutoPromotionResult =
   | (string & {});
 export type AutoPromotionResultReason = string;
 export interface DescribeModelVersionResponse {
-  ModelName?: string;
-  ModelArn?: string;
-  ModelVersion?: number;
-  ModelVersionArn?: string;
-  Status?: ModelVersionStatus;
-  SourceType?: ModelVersionSourceType;
-  DatasetName?: string;
-  DatasetArn?: string;
-  Schema?: string;
-  LabelsInputConfiguration?: LabelsInputConfiguration;
-  TrainingDataStartTime?: Date;
-  TrainingDataEndTime?: Date;
-  EvaluationDataStartTime?: Date;
-  EvaluationDataEndTime?: Date;
-  RoleArn?: string;
-  DataPreProcessingConfiguration?: DataPreProcessingConfiguration;
-  TrainingExecutionStartTime?: Date;
-  TrainingExecutionEndTime?: Date;
-  FailedReason?: string;
-  ModelMetrics?: string;
-  LastUpdatedTime?: Date;
-  CreatedAt?: Date;
-  ServerSideKmsKeyId?: string;
-  OffCondition?: string;
-  SourceModelVersionArn?: string;
-  ImportJobStartTime?: Date;
-  ImportJobEndTime?: Date;
-  ImportedDataSizeInBytes?: number;
-  PriorModelMetrics?: string;
-  RetrainingAvailableDataInDays?: number;
-  AutoPromotionResult?: AutoPromotionResult;
-  AutoPromotionResultReason?: string;
-  ModelDiagnosticsOutputConfiguration?: ModelDiagnosticsOutputConfiguration;
-  ModelDiagnosticsResultsObject?: S3Object;
-  ModelQuality?: ModelQuality;
+  ModelName?: string | undefined;
+  ModelArn?: string | undefined;
+  ModelVersion?: number | undefined;
+  ModelVersionArn?: string | undefined;
+  Status?: ModelVersionStatus | undefined;
+  SourceType?: ModelVersionSourceType | undefined;
+  DatasetName?: string | undefined;
+  DatasetArn?: string | undefined;
+  Schema?: string | undefined;
+  LabelsInputConfiguration?: LabelsInputConfiguration | undefined;
+  TrainingDataStartTime?: Date | undefined;
+  TrainingDataEndTime?: Date | undefined;
+  EvaluationDataStartTime?: Date | undefined;
+  EvaluationDataEndTime?: Date | undefined;
+  RoleArn?: string | undefined;
+  DataPreProcessingConfiguration?: DataPreProcessingConfiguration | undefined;
+  TrainingExecutionStartTime?: Date | undefined;
+  TrainingExecutionEndTime?: Date | undefined;
+  FailedReason?: string | undefined;
+  ModelMetrics?: string | undefined;
+  LastUpdatedTime?: Date | undefined;
+  CreatedAt?: Date | undefined;
+  ServerSideKmsKeyId?: string | undefined;
+  OffCondition?: string | undefined;
+  SourceModelVersionArn?: string | undefined;
+  ImportJobStartTime?: Date | undefined;
+  ImportJobEndTime?: Date | undefined;
+  ImportedDataSizeInBytes?: number | undefined;
+  PriorModelMetrics?: string | undefined;
+  RetrainingAvailableDataInDays?: number | undefined;
+  AutoPromotionResult?: AutoPromotionResult | undefined;
+  AutoPromotionResultReason?: string | undefined;
+  ModelDiagnosticsOutputConfiguration?: ModelDiagnosticsOutputConfiguration | undefined;
+  ModelDiagnosticsResultsObject?: S3Object | undefined;
+  ModelQuality?: ModelQuality | undefined;
 }
 export interface DescribeResourcePolicyRequest {
   ResourceArn: string;
@@ -634,37 +635,37 @@ export interface DescribeResourcePolicyRequest {
 export type PolicyRevisionId = string;
 export type Policy = string;
 export interface DescribeResourcePolicyResponse {
-  PolicyRevisionId?: string;
-  ResourcePolicy?: string;
-  CreationTime?: Date;
-  LastModifiedTime?: Date;
+  PolicyRevisionId?: string | undefined;
+  ResourcePolicy?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastModifiedTime?: Date | undefined;
 }
 export interface DescribeRetrainingSchedulerRequest {
   ModelName: string;
 }
 export interface DescribeRetrainingSchedulerResponse {
-  ModelName?: string;
-  ModelArn?: string;
-  RetrainingStartDate?: Date;
-  RetrainingFrequency?: string;
-  LookbackWindow?: string;
-  Status?: RetrainingSchedulerStatus;
-  PromoteMode?: ModelPromoteMode;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  ModelName?: string | undefined;
+  ModelArn?: string | undefined;
+  RetrainingStartDate?: Date | undefined;
+  RetrainingFrequency?: string | undefined;
+  LookbackWindow?: string | undefined;
+  Status?: RetrainingSchedulerStatus | undefined;
+  PromoteMode?: ModelPromoteMode | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface ImportDatasetRequest {
   SourceDatasetArn: string;
-  DatasetName?: string;
+  DatasetName?: string | undefined;
   ClientToken: string;
-  ServerSideKmsKeyId?: string;
-  Tags?: Tag[];
+  ServerSideKmsKeyId?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface ImportDatasetResponse {
-  DatasetName?: string;
-  DatasetArn?: string;
-  Status?: DatasetStatus;
-  JobId?: string;
+  DatasetName?: string | undefined;
+  DatasetArn?: string | undefined;
+  Status?: DatasetStatus | undefined;
+  JobId?: string | undefined;
 }
 export type InferenceDataImportStrategy =
   | "NO_IMPORT"
@@ -673,251 +674,251 @@ export type InferenceDataImportStrategy =
   | (string & {});
 export interface ImportModelVersionRequest {
   SourceModelVersionArn: string;
-  ModelName?: string;
+  ModelName?: string | undefined;
   DatasetName: string;
-  LabelsInputConfiguration?: LabelsInputConfiguration;
+  LabelsInputConfiguration?: LabelsInputConfiguration | undefined;
   ClientToken: string;
-  RoleArn?: string;
-  ServerSideKmsKeyId?: string;
-  Tags?: Tag[];
-  InferenceDataImportStrategy?: InferenceDataImportStrategy;
+  RoleArn?: string | undefined;
+  ServerSideKmsKeyId?: string | undefined;
+  Tags?: Tag[] | undefined;
+  InferenceDataImportStrategy?: InferenceDataImportStrategy | undefined;
 }
 export interface ImportModelVersionResponse {
-  ModelName?: string;
-  ModelArn?: string;
-  ModelVersionArn?: string;
-  ModelVersion?: number;
-  Status?: ModelVersionStatus;
+  ModelName?: string | undefined;
+  ModelArn?: string | undefined;
+  ModelVersionArn?: string | undefined;
+  ModelVersion?: number | undefined;
+  Status?: ModelVersionStatus | undefined;
 }
 export type NextToken = string;
 export type MaxResults = number;
 export interface ListDataIngestionJobsRequest {
-  DatasetName?: string;
-  NextToken?: string;
-  MaxResults?: number;
-  Status?: IngestionJobStatus;
+  DatasetName?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Status?: IngestionJobStatus | undefined;
 }
 export interface DataIngestionJobSummary {
-  JobId?: string;
-  DatasetName?: string;
-  DatasetArn?: string;
-  IngestionInputConfiguration?: IngestionInputConfiguration;
-  Status?: IngestionJobStatus;
+  JobId?: string | undefined;
+  DatasetName?: string | undefined;
+  DatasetArn?: string | undefined;
+  IngestionInputConfiguration?: IngestionInputConfiguration | undefined;
+  Status?: IngestionJobStatus | undefined;
 }
 export type DataIngestionJobSummaries = DataIngestionJobSummary[];
 export interface ListDataIngestionJobsResponse {
-  NextToken?: string;
-  DataIngestionJobSummaries?: DataIngestionJobSummary[];
+  NextToken?: string | undefined;
+  DataIngestionJobSummaries?: DataIngestionJobSummary[] | undefined;
 }
 export interface ListDatasetsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  DatasetNameBeginsWith?: string;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  DatasetNameBeginsWith?: string | undefined;
 }
 export interface DatasetSummary {
-  DatasetName?: string;
-  DatasetArn?: string;
-  Status?: DatasetStatus;
-  CreatedAt?: Date;
+  DatasetName?: string | undefined;
+  DatasetArn?: string | undefined;
+  Status?: DatasetStatus | undefined;
+  CreatedAt?: Date | undefined;
 }
 export type DatasetSummaries = DatasetSummary[];
 export interface ListDatasetsResponse {
-  NextToken?: string;
-  DatasetSummaries?: DatasetSummary[];
+  NextToken?: string | undefined;
+  DatasetSummaries?: DatasetSummary[] | undefined;
 }
 export interface ListInferenceEventsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
   InferenceSchedulerName: string;
   IntervalStartTime: Date;
   IntervalEndTime: Date;
 }
 export type EventDurationInSeconds = number;
 export interface InferenceEventSummary {
-  InferenceSchedulerArn?: string;
-  InferenceSchedulerName?: string;
-  EventStartTime?: Date;
-  EventEndTime?: Date;
-  Diagnostics?: string;
-  EventDurationInSeconds?: number;
+  InferenceSchedulerArn?: string | undefined;
+  InferenceSchedulerName?: string | undefined;
+  EventStartTime?: Date | undefined;
+  EventEndTime?: Date | undefined;
+  Diagnostics?: string | undefined;
+  EventDurationInSeconds?: number | undefined;
 }
 export type InferenceEventSummaries = InferenceEventSummary[];
 export interface ListInferenceEventsResponse {
-  NextToken?: string;
-  InferenceEventSummaries?: InferenceEventSummary[];
+  NextToken?: string | undefined;
+  InferenceEventSummaries?: InferenceEventSummary[] | undefined;
 }
 export type InferenceExecutionStatus = "IN_PROGRESS" | "SUCCESS" | "FAILED" | (string & {});
 export interface ListInferenceExecutionsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
   InferenceSchedulerName: string;
-  DataStartTimeAfter?: Date;
-  DataEndTimeBefore?: Date;
-  Status?: InferenceExecutionStatus;
+  DataStartTimeAfter?: Date | undefined;
+  DataEndTimeBefore?: Date | undefined;
+  Status?: InferenceExecutionStatus | undefined;
 }
 export interface InferenceExecutionSummary {
-  ModelName?: string;
-  ModelArn?: string;
-  InferenceSchedulerName?: string;
-  InferenceSchedulerArn?: string;
-  ScheduledStartTime?: Date;
-  DataStartTime?: Date;
-  DataEndTime?: Date;
-  DataInputConfiguration?: InferenceInputConfiguration;
-  DataOutputConfiguration?: InferenceOutputConfiguration;
-  CustomerResultObject?: S3Object;
-  Status?: InferenceExecutionStatus;
-  FailedReason?: string;
-  ModelVersion?: number;
-  ModelVersionArn?: string;
+  ModelName?: string | undefined;
+  ModelArn?: string | undefined;
+  InferenceSchedulerName?: string | undefined;
+  InferenceSchedulerArn?: string | undefined;
+  ScheduledStartTime?: Date | undefined;
+  DataStartTime?: Date | undefined;
+  DataEndTime?: Date | undefined;
+  DataInputConfiguration?: InferenceInputConfiguration | undefined;
+  DataOutputConfiguration?: InferenceOutputConfiguration | undefined;
+  CustomerResultObject?: S3Object | undefined;
+  Status?: InferenceExecutionStatus | undefined;
+  FailedReason?: string | undefined;
+  ModelVersion?: number | undefined;
+  ModelVersionArn?: string | undefined;
 }
 export type InferenceExecutionSummaries = InferenceExecutionSummary[];
 export interface ListInferenceExecutionsResponse {
-  NextToken?: string;
-  InferenceExecutionSummaries?: InferenceExecutionSummary[];
+  NextToken?: string | undefined;
+  InferenceExecutionSummaries?: InferenceExecutionSummary[] | undefined;
 }
 export interface ListInferenceSchedulersRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  InferenceSchedulerNameBeginsWith?: string;
-  ModelName?: string;
-  Status?: InferenceSchedulerStatus;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  InferenceSchedulerNameBeginsWith?: string | undefined;
+  ModelName?: string | undefined;
+  Status?: InferenceSchedulerStatus | undefined;
 }
 export interface InferenceSchedulerSummary {
-  ModelName?: string;
-  ModelArn?: string;
-  InferenceSchedulerName?: string;
-  InferenceSchedulerArn?: string;
-  Status?: InferenceSchedulerStatus;
-  DataDelayOffsetInMinutes?: number;
-  DataUploadFrequency?: DataUploadFrequency;
-  LatestInferenceResult?: LatestInferenceResult;
+  ModelName?: string | undefined;
+  ModelArn?: string | undefined;
+  InferenceSchedulerName?: string | undefined;
+  InferenceSchedulerArn?: string | undefined;
+  Status?: InferenceSchedulerStatus | undefined;
+  DataDelayOffsetInMinutes?: number | undefined;
+  DataUploadFrequency?: DataUploadFrequency | undefined;
+  LatestInferenceResult?: LatestInferenceResult | undefined;
 }
 export type InferenceSchedulerSummaries = InferenceSchedulerSummary[];
 export interface ListInferenceSchedulersResponse {
-  NextToken?: string;
-  InferenceSchedulerSummaries?: InferenceSchedulerSummary[];
+  NextToken?: string | undefined;
+  InferenceSchedulerSummaries?: InferenceSchedulerSummary[] | undefined;
 }
 export interface ListLabelGroupsRequest {
-  LabelGroupNameBeginsWith?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  LabelGroupNameBeginsWith?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface LabelGroupSummary {
-  LabelGroupName?: string;
-  LabelGroupArn?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  LabelGroupName?: string | undefined;
+  LabelGroupArn?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export type LabelGroupSummaries = LabelGroupSummary[];
 export interface ListLabelGroupsResponse {
-  NextToken?: string;
-  LabelGroupSummaries?: LabelGroupSummary[];
+  NextToken?: string | undefined;
+  LabelGroupSummaries?: LabelGroupSummary[] | undefined;
 }
 export interface ListLabelsRequest {
   LabelGroupName: string;
-  IntervalStartTime?: Date;
-  IntervalEndTime?: Date;
-  FaultCode?: string;
-  Equipment?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  IntervalStartTime?: Date | undefined;
+  IntervalEndTime?: Date | undefined;
+  FaultCode?: string | undefined;
+  Equipment?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface LabelSummary {
-  LabelGroupName?: string;
-  LabelId?: string;
-  LabelGroupArn?: string;
-  StartTime?: Date;
-  EndTime?: Date;
-  Rating?: LabelRating;
-  FaultCode?: string;
-  Equipment?: string;
-  CreatedAt?: Date;
+  LabelGroupName?: string | undefined;
+  LabelId?: string | undefined;
+  LabelGroupArn?: string | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  Rating?: LabelRating | undefined;
+  FaultCode?: string | undefined;
+  Equipment?: string | undefined;
+  CreatedAt?: Date | undefined;
 }
 export type LabelSummaries = LabelSummary[];
 export interface ListLabelsResponse {
-  NextToken?: string;
-  LabelSummaries?: LabelSummary[];
+  NextToken?: string | undefined;
+  LabelSummaries?: LabelSummary[] | undefined;
 }
 export interface ListModelsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Status?: ModelStatus;
-  ModelNameBeginsWith?: string;
-  DatasetNameBeginsWith?: string;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Status?: ModelStatus | undefined;
+  ModelNameBeginsWith?: string | undefined;
+  DatasetNameBeginsWith?: string | undefined;
 }
 export interface ModelSummary {
-  ModelName?: string;
-  ModelArn?: string;
-  DatasetName?: string;
-  DatasetArn?: string;
-  Status?: ModelStatus;
-  CreatedAt?: Date;
-  ActiveModelVersion?: number;
-  ActiveModelVersionArn?: string;
-  LatestScheduledRetrainingStatus?: ModelVersionStatus;
-  LatestScheduledRetrainingModelVersion?: number;
-  LatestScheduledRetrainingStartTime?: Date;
-  NextScheduledRetrainingStartDate?: Date;
-  RetrainingSchedulerStatus?: RetrainingSchedulerStatus;
-  ModelDiagnosticsOutputConfiguration?: ModelDiagnosticsOutputConfiguration;
-  ModelQuality?: ModelQuality;
+  ModelName?: string | undefined;
+  ModelArn?: string | undefined;
+  DatasetName?: string | undefined;
+  DatasetArn?: string | undefined;
+  Status?: ModelStatus | undefined;
+  CreatedAt?: Date | undefined;
+  ActiveModelVersion?: number | undefined;
+  ActiveModelVersionArn?: string | undefined;
+  LatestScheduledRetrainingStatus?: ModelVersionStatus | undefined;
+  LatestScheduledRetrainingModelVersion?: number | undefined;
+  LatestScheduledRetrainingStartTime?: Date | undefined;
+  NextScheduledRetrainingStartDate?: Date | undefined;
+  RetrainingSchedulerStatus?: RetrainingSchedulerStatus | undefined;
+  ModelDiagnosticsOutputConfiguration?: ModelDiagnosticsOutputConfiguration | undefined;
+  ModelQuality?: ModelQuality | undefined;
 }
 export type ModelSummaries = ModelSummary[];
 export interface ListModelsResponse {
-  NextToken?: string;
-  ModelSummaries?: ModelSummary[];
+  NextToken?: string | undefined;
+  ModelSummaries?: ModelSummary[] | undefined;
 }
 export interface ListModelVersionsRequest {
   ModelName: string;
-  NextToken?: string;
-  MaxResults?: number;
-  Status?: ModelVersionStatus;
-  SourceType?: ModelVersionSourceType;
-  CreatedAtEndTime?: Date;
-  CreatedAtStartTime?: Date;
-  MaxModelVersion?: number;
-  MinModelVersion?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Status?: ModelVersionStatus | undefined;
+  SourceType?: ModelVersionSourceType | undefined;
+  CreatedAtEndTime?: Date | undefined;
+  CreatedAtStartTime?: Date | undefined;
+  MaxModelVersion?: number | undefined;
+  MinModelVersion?: number | undefined;
 }
 export interface ModelVersionSummary {
-  ModelName?: string;
-  ModelArn?: string;
-  ModelVersion?: number;
-  ModelVersionArn?: string;
-  CreatedAt?: Date;
-  Status?: ModelVersionStatus;
-  SourceType?: ModelVersionSourceType;
-  ModelQuality?: ModelQuality;
+  ModelName?: string | undefined;
+  ModelArn?: string | undefined;
+  ModelVersion?: number | undefined;
+  ModelVersionArn?: string | undefined;
+  CreatedAt?: Date | undefined;
+  Status?: ModelVersionStatus | undefined;
+  SourceType?: ModelVersionSourceType | undefined;
+  ModelQuality?: ModelQuality | undefined;
 }
 export type ModelVersionSummaries = ModelVersionSummary[];
 export interface ListModelVersionsResponse {
-  NextToken?: string;
-  ModelVersionSummaries?: ModelVersionSummary[];
+  NextToken?: string | undefined;
+  ModelVersionSummaries?: ModelVersionSummary[] | undefined;
 }
 export interface ListRetrainingSchedulersRequest {
-  ModelNameBeginsWith?: string;
-  Status?: RetrainingSchedulerStatus;
-  NextToken?: string;
-  MaxResults?: number;
+  ModelNameBeginsWith?: string | undefined;
+  Status?: RetrainingSchedulerStatus | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface RetrainingSchedulerSummary {
-  ModelName?: string;
-  ModelArn?: string;
-  Status?: RetrainingSchedulerStatus;
-  RetrainingStartDate?: Date;
-  RetrainingFrequency?: string;
-  LookbackWindow?: string;
+  ModelName?: string | undefined;
+  ModelArn?: string | undefined;
+  Status?: RetrainingSchedulerStatus | undefined;
+  RetrainingStartDate?: Date | undefined;
+  RetrainingFrequency?: string | undefined;
+  LookbackWindow?: string | undefined;
 }
 export type RetrainingSchedulerSummaries = RetrainingSchedulerSummary[];
 export interface ListRetrainingSchedulersResponse {
-  RetrainingSchedulerSummaries?: RetrainingSchedulerSummary[];
-  NextToken?: string;
+  RetrainingSchedulerSummaries?: RetrainingSchedulerSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListSensorStatisticsRequest {
   DatasetName: string;
-  IngestionJobId?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  IngestionJobId?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ComponentName = string;
 export type SensorName = string;
@@ -931,57 +932,57 @@ export type StatisticalIssueStatus =
   | (string & {});
 export interface CategoricalValues {
   Status: StatisticalIssueStatus;
-  NumberOfCategory?: number;
+  NumberOfCategory?: number | undefined;
 }
 export interface MultipleOperatingModes {
   Status: StatisticalIssueStatus;
 }
 export interface LargeTimestampGaps {
   Status: StatisticalIssueStatus;
-  NumberOfLargeTimestampGaps?: number;
-  MaxTimestampGapInDays?: number;
+  NumberOfLargeTimestampGaps?: number | undefined;
+  MaxTimestampGapInDays?: number | undefined;
 }
 export type Monotonicity = "DECREASING" | "INCREASING" | "STATIC" | (string & {});
 export interface MonotonicValues {
   Status: StatisticalIssueStatus;
-  Monotonicity?: Monotonicity;
+  Monotonicity?: Monotonicity | undefined;
 }
 export interface SensorStatisticsSummary {
-  ComponentName?: string;
-  SensorName?: string;
-  DataExists?: boolean;
-  MissingValues?: CountPercent;
-  InvalidValues?: CountPercent;
-  InvalidDateEntries?: CountPercent;
-  DuplicateTimestamps?: CountPercent;
-  CategoricalValues?: CategoricalValues;
-  MultipleOperatingModes?: MultipleOperatingModes;
-  LargeTimestampGaps?: LargeTimestampGaps;
-  MonotonicValues?: MonotonicValues;
-  DataStartTime?: Date;
-  DataEndTime?: Date;
+  ComponentName?: string | undefined;
+  SensorName?: string | undefined;
+  DataExists?: boolean | undefined;
+  MissingValues?: CountPercent | undefined;
+  InvalidValues?: CountPercent | undefined;
+  InvalidDateEntries?: CountPercent | undefined;
+  DuplicateTimestamps?: CountPercent | undefined;
+  CategoricalValues?: CategoricalValues | undefined;
+  MultipleOperatingModes?: MultipleOperatingModes | undefined;
+  LargeTimestampGaps?: LargeTimestampGaps | undefined;
+  MonotonicValues?: MonotonicValues | undefined;
+  DataStartTime?: Date | undefined;
+  DataEndTime?: Date | undefined;
 }
 export type SensorStatisticsSummaries = SensorStatisticsSummary[];
 export interface ListSensorStatisticsResponse {
-  SensorStatisticsSummaries?: SensorStatisticsSummary[];
-  NextToken?: string;
+  SensorStatisticsSummaries?: SensorStatisticsSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type AmazonResourceArn = string;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface PutResourcePolicyRequest {
   ResourceArn: string;
   ResourcePolicy: string;
-  PolicyRevisionId?: string;
+  PolicyRevisionId?: string | undefined;
   ClientToken: string;
 }
 export interface PutResourcePolicyResponse {
-  ResourceArn?: string;
-  PolicyRevisionId?: string;
+  ResourceArn?: string | undefined;
+  PolicyRevisionId?: string | undefined;
 }
 export interface StartDataIngestionJobRequest {
   DatasetName: string;
@@ -990,44 +991,44 @@ export interface StartDataIngestionJobRequest {
   ClientToken: string;
 }
 export interface StartDataIngestionJobResponse {
-  JobId?: string;
-  Status?: IngestionJobStatus;
+  JobId?: string | undefined;
+  Status?: IngestionJobStatus | undefined;
 }
 export interface StartInferenceSchedulerRequest {
   InferenceSchedulerName: string;
 }
 export interface StartInferenceSchedulerResponse {
-  ModelArn?: string;
-  ModelName?: string;
-  InferenceSchedulerName?: string;
-  InferenceSchedulerArn?: string;
-  Status?: InferenceSchedulerStatus;
+  ModelArn?: string | undefined;
+  ModelName?: string | undefined;
+  InferenceSchedulerName?: string | undefined;
+  InferenceSchedulerArn?: string | undefined;
+  Status?: InferenceSchedulerStatus | undefined;
 }
 export interface StartRetrainingSchedulerRequest {
   ModelName: string;
 }
 export interface StartRetrainingSchedulerResponse {
-  ModelName?: string;
-  ModelArn?: string;
-  Status?: RetrainingSchedulerStatus;
+  ModelName?: string | undefined;
+  ModelArn?: string | undefined;
+  Status?: RetrainingSchedulerStatus | undefined;
 }
 export interface StopInferenceSchedulerRequest {
   InferenceSchedulerName: string;
 }
 export interface StopInferenceSchedulerResponse {
-  ModelArn?: string;
-  ModelName?: string;
-  InferenceSchedulerName?: string;
-  InferenceSchedulerArn?: string;
-  Status?: InferenceSchedulerStatus;
+  ModelArn?: string | undefined;
+  ModelName?: string | undefined;
+  InferenceSchedulerName?: string | undefined;
+  InferenceSchedulerArn?: string | undefined;
+  Status?: InferenceSchedulerStatus | undefined;
 }
 export interface StopRetrainingSchedulerRequest {
   ModelName: string;
 }
 export interface StopRetrainingSchedulerResponse {
-  ModelName?: string;
-  ModelArn?: string;
-  Status?: RetrainingSchedulerStatus;
+  ModelName?: string | undefined;
+  ModelArn?: string | undefined;
+  Status?: RetrainingSchedulerStatus | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
@@ -1045,40 +1046,40 @@ export interface UpdateActiveModelVersionRequest {
   ModelVersion: number;
 }
 export interface UpdateActiveModelVersionResponse {
-  ModelName?: string;
-  ModelArn?: string;
-  CurrentActiveVersion?: number;
-  PreviousActiveVersion?: number;
-  CurrentActiveVersionArn?: string;
-  PreviousActiveVersionArn?: string;
+  ModelName?: string | undefined;
+  ModelArn?: string | undefined;
+  CurrentActiveVersion?: number | undefined;
+  PreviousActiveVersion?: number | undefined;
+  CurrentActiveVersionArn?: string | undefined;
+  PreviousActiveVersionArn?: string | undefined;
 }
 export interface UpdateInferenceSchedulerRequest {
   InferenceSchedulerName: string;
-  DataDelayOffsetInMinutes?: number;
-  DataUploadFrequency?: DataUploadFrequency;
-  DataInputConfiguration?: InferenceInputConfiguration;
-  DataOutputConfiguration?: InferenceOutputConfiguration;
-  RoleArn?: string;
+  DataDelayOffsetInMinutes?: number | undefined;
+  DataUploadFrequency?: DataUploadFrequency | undefined;
+  DataInputConfiguration?: InferenceInputConfiguration | undefined;
+  DataOutputConfiguration?: InferenceOutputConfiguration | undefined;
+  RoleArn?: string | undefined;
 }
 export interface UpdateInferenceSchedulerResponse {}
 export interface UpdateLabelGroupRequest {
   LabelGroupName: string;
-  FaultCodes?: string[];
+  FaultCodes?: string[] | undefined;
 }
 export interface UpdateLabelGroupResponse {}
 export interface UpdateModelRequest {
   ModelName: string;
-  LabelsInputConfiguration?: LabelsInputConfiguration;
-  RoleArn?: string;
-  ModelDiagnosticsOutputConfiguration?: ModelDiagnosticsOutputConfiguration;
+  LabelsInputConfiguration?: LabelsInputConfiguration | undefined;
+  RoleArn?: string | undefined;
+  ModelDiagnosticsOutputConfiguration?: ModelDiagnosticsOutputConfiguration | undefined;
 }
 export interface UpdateModelResponse {}
 export interface UpdateRetrainingSchedulerRequest {
   ModelName: string;
-  RetrainingStartDate?: Date;
-  RetrainingFrequency?: string;
-  LookbackWindow?: string;
-  PromoteMode?: ModelPromoteMode;
+  RetrainingStartDate?: Date | undefined;
+  RetrainingFrequency?: string | undefined;
+  LookbackWindow?: string | undefined;
+  PromoteMode?: ModelPromoteMode | undefined;
 }
 export interface UpdateRetrainingSchedulerResponse {}
 export type CreateDatasetError =
@@ -1096,7 +1097,7 @@ export type CreateDatasetError =
  * information. A dataset also contains any tags associated with the ingested data.
  */
 export const createDataset: API.OperationMethod<
-  CreateDatasetRequest,
+  CreateDatasetRequest & RegionInput,
   CreateDatasetResponse,
   CreateDatasetError,
   Credentials | HttpClient.HttpClient
@@ -1135,7 +1136,7 @@ export type CreateInferenceSchedulerError =
  * You must also provide an S3 bucket location for the output data.
  */
 export const createInferenceScheduler: API.OperationMethod<
-  CreateInferenceSchedulerRequest,
+  CreateInferenceSchedulerRequest & RegionInput,
   CreateInferenceSchedulerResponse,
   CreateInferenceSchedulerError,
   Credentials | HttpClient.HttpClient
@@ -1171,7 +1172,7 @@ export type CreateLabelError =
  * Creates a label for an event.
  */
 export const createLabel: API.OperationMethod<
-  CreateLabelRequest,
+  CreateLabelRequest & RegionInput,
   CreateLabelResponse,
   CreateLabelError,
   Credentials | HttpClient.HttpClient
@@ -1206,7 +1207,7 @@ export type CreateLabelGroupError =
  * Creates a group of labels.
  */
 export const createLabelGroup: API.OperationMethod<
-  CreateLabelGroupRequest,
+  CreateLabelGroupRequest & RegionInput,
   CreateLabelGroupResponse,
   CreateLabelGroupError,
   Credentials | HttpClient.HttpClient
@@ -1251,7 +1252,7 @@ export type CreateModelError =
  * Another portion of the data is used to evaluate the model's accuracy.
  */
 export const createModel: API.OperationMethod<
-  CreateModelRequest,
+  CreateModelRequest & RegionInput,
   CreateModelResponse,
   CreateModelError,
   Credentials | HttpClient.HttpClient
@@ -1286,7 +1287,7 @@ export type CreateRetrainingSchedulerError =
  * Creates a retraining scheduler on the specified model.
  */
 export const createRetrainingScheduler: API.OperationMethod<
-  CreateRetrainingSchedulerRequest,
+  CreateRetrainingSchedulerRequest & RegionInput,
   CreateRetrainingSchedulerResponse,
   CreateRetrainingSchedulerError,
   Credentials | HttpClient.HttpClient
@@ -1324,7 +1325,7 @@ export type DeleteDatasetError =
  * does prevent it from being used in the future.
  */
 export const deleteDataset: API.OperationMethod<
-  DeleteDatasetRequest,
+  DeleteDatasetRequest & RegionInput,
   DeleteDatasetResponse,
   DeleteDatasetError,
   Credentials | HttpClient.HttpClient
@@ -1359,7 +1360,7 @@ export type DeleteInferenceSchedulerError =
  * deleted.
  */
 export const deleteInferenceScheduler: API.OperationMethod<
-  DeleteInferenceSchedulerRequest,
+  DeleteInferenceSchedulerRequest & RegionInput,
   DeleteInferenceSchedulerResponse,
   DeleteInferenceSchedulerError,
   Credentials | HttpClient.HttpClient
@@ -1393,7 +1394,7 @@ export type DeleteLabelError =
  * Deletes a label.
  */
 export const deleteLabel: API.OperationMethod<
-  DeleteLabelRequest,
+  DeleteLabelRequest & RegionInput,
   DeleteLabelResponse,
   DeleteLabelError,
   Credentials | HttpClient.HttpClient
@@ -1427,7 +1428,7 @@ export type DeleteLabelGroupError =
  * Deletes a group of labels.
  */
 export const deleteLabelGroup: API.OperationMethod<
-  DeleteLabelGroupRequest,
+  DeleteLabelGroupRequest & RegionInput,
   DeleteLabelGroupResponse,
   DeleteLabelGroupError,
   Credentials | HttpClient.HttpClient
@@ -1462,7 +1463,7 @@ export type DeleteModelError =
  * from being used with an inference scheduler, even one that is already set up.
  */
 export const deleteModel: API.OperationMethod<
-  DeleteModelRequest,
+  DeleteModelRequest & RegionInput,
   DeleteModelResponse,
   DeleteModelError,
   Credentials | HttpClient.HttpClient
@@ -1496,7 +1497,7 @@ export type DeleteResourcePolicyError =
  * Deletes the resource policy attached to the resource.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1531,7 +1532,7 @@ export type DeleteRetrainingSchedulerError =
  * `STOPPED` status.
  */
 export const deleteRetrainingScheduler: API.OperationMethod<
-  DeleteRetrainingSchedulerRequest,
+  DeleteRetrainingSchedulerRequest & RegionInput,
   DeleteRetrainingSchedulerResponse,
   DeleteRetrainingSchedulerError,
   Credentials | HttpClient.HttpClient
@@ -1565,7 +1566,7 @@ export type DescribeDataIngestionJobError =
  * ARN, and status.
  */
 export const describeDataIngestionJob: API.OperationMethod<
-  DescribeDataIngestionJobRequest,
+  DescribeDataIngestionJobRequest & RegionInput,
   DescribeDataIngestionJobResponse,
   DescribeDataIngestionJobError,
   Credentials | HttpClient.HttpClient
@@ -1598,7 +1599,7 @@ export type DescribeDatasetError =
  * column names, and data types.
  */
 export const describeDataset: API.OperationMethod<
-  DescribeDatasetRequest,
+  DescribeDatasetRequest & RegionInput,
   DescribeDatasetResponse,
   DescribeDatasetError,
   Credentials | HttpClient.HttpClient
@@ -1631,7 +1632,7 @@ export type DescribeInferenceSchedulerError =
  * status, and associated metadata
  */
 export const describeInferenceScheduler: API.OperationMethod<
-  DescribeInferenceSchedulerRequest,
+  DescribeInferenceSchedulerRequest & RegionInput,
   DescribeInferenceSchedulerResponse,
   DescribeInferenceSchedulerError,
   Credentials | HttpClient.HttpClient
@@ -1663,7 +1664,7 @@ export type DescribeLabelError =
  * Returns the name of the label.
  */
 export const describeLabel: API.OperationMethod<
-  DescribeLabelRequest,
+  DescribeLabelRequest & RegionInput,
   DescribeLabelResponse,
   DescribeLabelError,
   Credentials | HttpClient.HttpClient
@@ -1695,7 +1696,7 @@ export type DescribeLabelGroupError =
  * Returns information about the label group.
  */
 export const describeLabelGroup: API.OperationMethod<
-  DescribeLabelGroupRequest,
+  DescribeLabelGroupRequest & RegionInput,
   DescribeLabelGroupResponse,
   DescribeLabelGroupError,
   Credentials | HttpClient.HttpClient
@@ -1729,7 +1730,7 @@ export type DescribeModelError =
  * and so on.
  */
 export const describeModel: API.OperationMethod<
-  DescribeModelRequest,
+  DescribeModelRequest & RegionInput,
   DescribeModelResponse,
   DescribeModelError,
   Credentials | HttpClient.HttpClient
@@ -1761,7 +1762,7 @@ export type DescribeModelVersionError =
  * Retrieves information about a specific machine learning model version.
  */
 export const describeModelVersion: API.OperationMethod<
-  DescribeModelVersionRequest,
+  DescribeModelVersionRequest & RegionInput,
   DescribeModelVersionResponse,
   DescribeModelVersionError,
   Credentials | HttpClient.HttpClient
@@ -1793,7 +1794,7 @@ export type DescribeResourcePolicyError =
  * Provides the details of a resource policy attached to a resource.
  */
 export const describeResourcePolicy: API.OperationMethod<
-  DescribeResourcePolicyRequest,
+  DescribeResourcePolicyRequest & RegionInput,
   DescribeResourcePolicyResponse,
   DescribeResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1826,7 +1827,7 @@ export type DescribeRetrainingSchedulerError =
  * model name and retraining parameters.
  */
 export const describeRetrainingScheduler: API.OperationMethod<
-  DescribeRetrainingSchedulerRequest,
+  DescribeRetrainingSchedulerRequest & RegionInput,
   DescribeRetrainingSchedulerResponse,
   DescribeRetrainingSchedulerError,
   Credentials | HttpClient.HttpClient
@@ -1860,7 +1861,7 @@ export type ImportDatasetError =
  * Imports a dataset.
  */
 export const importDataset: API.OperationMethod<
-  ImportDatasetRequest,
+  ImportDatasetRequest & RegionInput,
   ImportDatasetResponse,
   ImportDatasetError,
   Credentials | HttpClient.HttpClient
@@ -1896,7 +1897,7 @@ export type ImportModelVersionError =
  * Imports a model that has been trained successfully.
  */
 export const importModelVersion: API.OperationMethod<
-  ImportModelVersionRequest,
+  ImportModelVersionRequest & RegionInput,
   ImportModelVersionResponse,
   ImportModelVersionError,
   Credentials | HttpClient.HttpClient
@@ -1930,7 +1931,7 @@ export type ListDataIngestionJobsError =
  * of the input data, status, and so on.
  */
 export const listDataIngestionJobs: API.PaginatedOperationMethod<
-  ListDataIngestionJobsRequest,
+  ListDataIngestionJobsRequest & RegionInput,
   ListDataIngestionJobsResponse,
   ListDataIngestionJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1966,7 +1967,7 @@ export type ListDatasetsError =
  * Lists all datasets currently available in your account, filtering on the dataset name.
  */
 export const listDatasets: API.PaginatedOperationMethod<
-  ListDatasetsRequest,
+  ListDatasetsRequest & RegionInput,
   ListDatasetsResponse,
   ListDatasetsError,
   Credentials | HttpClient.HttpClient,
@@ -2003,7 +2004,7 @@ export type ListInferenceEventsError =
  * Lists all inference events that have been found for the specified inference scheduler.
  */
 export const listInferenceEvents: API.PaginatedOperationMethod<
-  ListInferenceEventsRequest,
+  ListInferenceEventsRequest & RegionInput,
   ListInferenceEventsResponse,
   ListInferenceEventsError,
   Credentials | HttpClient.HttpClient,
@@ -2042,7 +2043,7 @@ export type ListInferenceExecutionsError =
  * scheduler.
  */
 export const listInferenceExecutions: API.PaginatedOperationMethod<
-  ListInferenceExecutionsRequest,
+  ListInferenceExecutionsRequest & RegionInput,
   ListInferenceExecutionsResponse,
   ListInferenceExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -2079,7 +2080,7 @@ export type ListInferenceSchedulersError =
  * Retrieves a list of all inference schedulers currently available for your account.
  */
 export const listInferenceSchedulers: API.PaginatedOperationMethod<
-  ListInferenceSchedulersRequest,
+  ListInferenceSchedulersRequest & RegionInput,
   ListInferenceSchedulersResponse,
   ListInferenceSchedulersError,
   Credentials | HttpClient.HttpClient,
@@ -2115,7 +2116,7 @@ export type ListLabelGroupsError =
  * Returns a list of the label groups.
  */
 export const listLabelGroups: API.PaginatedOperationMethod<
-  ListLabelGroupsRequest,
+  ListLabelGroupsRequest & RegionInput,
   ListLabelGroupsResponse,
   ListLabelGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2151,7 +2152,7 @@ export type ListLabelsError =
  * Provides a list of labels.
  */
 export const listLabels: API.PaginatedOperationMethod<
-  ListLabelsRequest,
+  ListLabelsRequest & RegionInput,
   ListLabelsResponse,
   ListLabelsError,
   Credentials | HttpClient.HttpClient,
@@ -2188,7 +2189,7 @@ export type ListModelsError =
  * and status.
  */
 export const listModels: API.PaginatedOperationMethod<
-  ListModelsRequest,
+  ListModelsRequest & RegionInput,
   ListModelsResponse,
   ListModelsError,
   Credentials | HttpClient.HttpClient,
@@ -2227,7 +2228,7 @@ export type ListModelVersionsError =
  * `MaxModelVersion` and `MinModelVersion` fields.
  */
 export const listModelVersions: API.PaginatedOperationMethod<
-  ListModelVersionsRequest,
+  ListModelVersionsRequest & RegionInput,
   ListModelVersionsResponse,
   ListModelVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -2265,7 +2266,7 @@ export type ListRetrainingSchedulersError =
  * status.
  */
 export const listRetrainingSchedulers: API.PaginatedOperationMethod<
-  ListRetrainingSchedulersRequest,
+  ListRetrainingSchedulersRequest & RegionInput,
   ListRetrainingSchedulersResponse,
   ListRetrainingSchedulersError,
   Credentials | HttpClient.HttpClient,
@@ -2304,7 +2305,7 @@ export type ListSensorStatisticsError =
  * Statistics for a previous ingestion job.
  */
 export const listSensorStatistics: API.PaginatedOperationMethod<
-  ListSensorStatisticsRequest,
+  ListSensorStatisticsRequest & RegionInput,
   ListSensorStatisticsResponse,
   ListSensorStatisticsError,
   Credentials | HttpClient.HttpClient,
@@ -2342,7 +2343,7 @@ export type ListTagsForResourceError =
  * Lists all the tags for a specified resource, including key and value.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2376,7 +2377,7 @@ export type PutResourcePolicyError =
  * Creates a resource control policy for a given resource.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2412,7 +2413,7 @@ export type StartDataIngestionJobError =
  * Starts a data ingestion job. Amazon Lookout for Equipment returns the job status.
  */
 export const startDataIngestionJob: API.OperationMethod<
-  StartDataIngestionJobRequest,
+  StartDataIngestionJobRequest & RegionInput,
   StartDataIngestionJobResponse,
   StartDataIngestionJobError,
   Credentials | HttpClient.HttpClient
@@ -2447,7 +2448,7 @@ export type StartInferenceSchedulerError =
  * Starts an inference scheduler.
  */
 export const startInferenceScheduler: API.OperationMethod<
-  StartInferenceSchedulerRequest,
+  StartInferenceSchedulerRequest & RegionInput,
   StartInferenceSchedulerResponse,
   StartInferenceSchedulerError,
   Credentials | HttpClient.HttpClient
@@ -2481,7 +2482,7 @@ export type StartRetrainingSchedulerError =
  * Starts a retraining scheduler.
  */
 export const startRetrainingScheduler: API.OperationMethod<
-  StartRetrainingSchedulerRequest,
+  StartRetrainingSchedulerRequest & RegionInput,
   StartRetrainingSchedulerResponse,
   StartRetrainingSchedulerError,
   Credentials | HttpClient.HttpClient
@@ -2515,7 +2516,7 @@ export type StopInferenceSchedulerError =
  * Stops an inference scheduler.
  */
 export const stopInferenceScheduler: API.OperationMethod<
-  StopInferenceSchedulerRequest,
+  StopInferenceSchedulerRequest & RegionInput,
   StopInferenceSchedulerResponse,
   StopInferenceSchedulerError,
   Credentials | HttpClient.HttpClient
@@ -2549,7 +2550,7 @@ export type StopRetrainingSchedulerError =
  * Stops a retraining scheduler.
  */
 export const stopRetrainingScheduler: API.OperationMethod<
-  StopRetrainingSchedulerRequest,
+  StopRetrainingSchedulerRequest & RegionInput,
   StopRetrainingSchedulerResponse,
   StopRetrainingSchedulerError,
   Credentials | HttpClient.HttpClient
@@ -2587,7 +2588,7 @@ export type TagResourceError =
  * resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2620,7 +2621,7 @@ export type UntagResourceError =
  * Removes a specific tag from a given resource. The tag is specified by its key.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2653,7 +2654,7 @@ export type UpdateActiveModelVersionError =
  * Sets the active model version for a given machine learning model.
  */
 export const updateActiveModelVersion: API.OperationMethod<
-  UpdateActiveModelVersionRequest,
+  UpdateActiveModelVersionRequest & RegionInput,
   UpdateActiveModelVersionResponse,
   UpdateActiveModelVersionError,
   Credentials | HttpClient.HttpClient
@@ -2687,7 +2688,7 @@ export type UpdateInferenceSchedulerError =
  * Updates an inference scheduler.
  */
 export const updateInferenceScheduler: API.OperationMethod<
-  UpdateInferenceSchedulerRequest,
+  UpdateInferenceSchedulerRequest & RegionInput,
   UpdateInferenceSchedulerResponse,
   UpdateInferenceSchedulerError,
   Credentials | HttpClient.HttpClient
@@ -2721,7 +2722,7 @@ export type UpdateLabelGroupError =
  * Updates the label group.
  */
 export const updateLabelGroup: API.OperationMethod<
-  UpdateLabelGroupRequest,
+  UpdateLabelGroupRequest & RegionInput,
   UpdateLabelGroupResponse,
   UpdateLabelGroupError,
   Credentials | HttpClient.HttpClient
@@ -2755,7 +2756,7 @@ export type UpdateModelError =
  * Updates a model in the account.
  */
 export const updateModel: API.OperationMethod<
-  UpdateModelRequest,
+  UpdateModelRequest & RegionInput,
   UpdateModelResponse,
   UpdateModelError,
   Credentials | HttpClient.HttpClient
@@ -2789,7 +2790,7 @@ export type UpdateRetrainingSchedulerError =
  * Updates a retraining scheduler.
  */
 export const updateRetrainingScheduler: API.OperationMethod<
-  UpdateRetrainingSchedulerRequest,
+  UpdateRetrainingSchedulerRequest & RegionInput,
   UpdateRetrainingSchedulerResponse,
   UpdateRetrainingSchedulerError,
   Credentials | HttpClient.HttpClient

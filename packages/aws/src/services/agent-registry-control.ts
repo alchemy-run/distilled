@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -72,7 +73,7 @@ export class InternalServerException
     "InternalServerException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
@@ -90,7 +91,7 @@ export class ThrottlingException
     "ThrottlingException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
@@ -125,8 +126,8 @@ export type InboundTokenClaimValueType = "STRING" | "STRING_ARRAY" | (string & {
 export type MatchValueString = string;
 export type MatchValueStringList = string[];
 export type ClaimMatchValueType =
-  | { matchValueString: string; matchValueStringList?: never }
-  | { matchValueString?: never; matchValueStringList: string[] };
+  | { matchValueString: string; matchValueStringList?: undefined }
+  | { matchValueString?: undefined; matchValueStringList: string[] };
 export type ClaimMatchOperatorType = "EQUALS" | "CONTAINS" | "CONTAINS_ANY" | (string & {});
 export interface AuthorizingClaimMatchValueType {
   claimMatchValue: ClaimMatchValueType;
@@ -154,13 +155,13 @@ export interface ManagedVpcResource {
   vpcIdentifier: string;
   subnetIds: string[];
   endpointIpAddressType: EndpointIpAddressType;
-  securityGroupIds?: string[];
-  tags?: { [key: string]: string | undefined };
-  routingDomain?: string;
+  securityGroupIds?: string[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  routingDomain?: string | undefined;
 }
 export type PrivateEndpoint =
-  | { selfManagedLatticeResource: SelfManagedLatticeResource; managedVpcResource?: never }
-  | { selfManagedLatticeResource?: never; managedVpcResource: ManagedVpcResource };
+  | { selfManagedLatticeResource: SelfManagedLatticeResource; managedVpcResource?: undefined }
+  | { selfManagedLatticeResource?: undefined; managedVpcResource: ManagedVpcResource };
 export type PrivateEndpointOverrideDomain = string;
 export interface PrivateEndpointOverride {
   domain: string;
@@ -169,24 +170,24 @@ export interface PrivateEndpointOverride {
 export type PrivateEndpointOverrides = PrivateEndpointOverride[];
 export interface CustomJWTAuthorizerConfiguration {
   discoveryUrl: string;
-  allowedAudience?: string[];
-  allowedClients?: string[];
-  allowedScopes?: string[];
-  customClaims?: CustomClaimValidationType[];
-  privateEndpoint?: PrivateEndpoint;
-  privateEndpointOverrides?: PrivateEndpointOverride[];
+  allowedAudience?: string[] | undefined;
+  allowedClients?: string[] | undefined;
+  allowedScopes?: string[] | undefined;
+  customClaims?: CustomClaimValidationType[] | undefined;
+  privateEndpoint?: PrivateEndpoint | undefined;
+  privateEndpointOverrides?: PrivateEndpointOverride[] | undefined;
 }
 export type AuthorizerConfiguration = { customJWTAuthorizer: CustomJWTAuthorizerConfiguration };
 export type RegistryAuthorizerType = "CUSTOM_JWT" | "AWS_IAM" | (string & {});
 export interface DiscoveryConfiguration {
-  authorizerConfiguration?: AuthorizerConfiguration;
-  authorizerType?: RegistryAuthorizerType;
+  authorizerConfiguration?: AuthorizerConfiguration | undefined;
+  authorizerType?: RegistryAuthorizerType | undefined;
 }
 export type ClientToken = string;
 export type AutoApprovalRule = "APPROVE_ALL" | (string & {});
 export type AutoApprovalRuleList = AutoApprovalRule[];
 export interface ApprovalConfiguration {
-  autoApprovalRules?: AutoApprovalRule[];
+  autoApprovalRules?: AutoApprovalRule[] | undefined;
 }
 export type CustomMetadataSchemaDefinition = string | redacted.Redacted<string>;
 export type RecordType = "MCP" | "AGENT" | "CUSTOM" | "SKILL" | "GATEWAY" | (string & {});
@@ -196,8 +197,8 @@ export interface RecordTypeSchemaOverride {
 }
 export type RecordTypeSchemaOverrideList = RecordTypeSchemaOverride[];
 export interface CustomMetadataSchemaConfiguration {
-  defaultSchema?: string | redacted.Redacted<string>;
-  recordTypeSchemaOverrides?: RecordTypeSchemaOverride[];
+  defaultSchema?: string | redacted.Redacted<string> | undefined;
+  recordTypeSchemaOverrides?: RecordTypeSchemaOverride[] | undefined;
 }
 export type AutoDetectionScope = "ORGANIZATION" | (string & {});
 export interface AutoDetectionConfiguration {
@@ -206,14 +207,14 @@ export interface AutoDetectionConfiguration {
 }
 export interface CreateRegistryRequest {
   name: string;
-  description?: string | redacted.Redacted<string>;
-  encryptionConfiguration?: EncryptionConfiguration;
-  discoveryConfiguration?: DiscoveryConfiguration;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
-  approvalConfiguration?: ApprovalConfiguration;
-  customMetadataSchemaConfiguration?: CustomMetadataSchemaConfiguration;
-  autoDetectionConfiguration?: AutoDetectionConfiguration;
+  description?: string | redacted.Redacted<string> | undefined;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  discoveryConfiguration?: DiscoveryConfiguration | undefined;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  approvalConfiguration?: ApprovalConfiguration | undefined;
+  customMetadataSchemaConfiguration?: CustomMetadataSchemaConfiguration | undefined;
+  autoDetectionConfiguration?: AutoDetectionConfiguration | undefined;
 }
 export type RegistryArn = string;
 export interface CreateRegistryResponse {
@@ -225,11 +226,11 @@ export type RegistryRecordDisplayName = string;
 export type DescriptorData = string | redacted.Redacted<string>;
 export type DataSchemaVersion = string;
 export interface McpToolsDescriptor {
-  data?: string | redacted.Redacted<string>;
-  dataSchemaVersion?: string;
+  data?: string | redacted.Redacted<string> | undefined;
+  dataSchemaVersion?: string | undefined;
 }
 export interface McpServerAdditionalData {
-  tools?: McpToolsDescriptor;
+  tools?: McpToolsDescriptor | undefined;
 }
 export type DescriptorSourceUrl = string;
 export type RegistryRecordCredentialProviderType = "OAUTH" | "IAM" | (string & {});
@@ -239,24 +240,27 @@ export type ScopeList = string[];
 export type CustomParameterMap = { [key: string]: string | undefined };
 export interface RegistryRecordOAuthCredentialProvider {
   providerArn: string;
-  grantType?: RegistryRecordOAuthGrantType;
-  scopes?: string[];
-  customParameters?: { [key: string]: string | undefined };
+  grantType?: RegistryRecordOAuthGrantType | undefined;
+  scopes?: string[] | undefined;
+  customParameters?: { [key: string]: string | undefined } | undefined;
 }
 export type IamRoleArn = string;
 export type IamSigningServiceName = string;
 export type IamSigningRegion = string;
 export interface RegistryRecordIamCredentialProvider {
-  roleArn?: string;
-  service?: string;
-  region?: string;
+  roleArn?: string | undefined;
+  service?: string | undefined;
+  region?: string | undefined;
 }
 export type RegistryRecordCredentialProviderUnion =
   | {
       oauthCredentialProvider: RegistryRecordOAuthCredentialProvider;
-      iamCredentialProvider?: never;
+      iamCredentialProvider?: undefined;
     }
-  | { oauthCredentialProvider?: never; iamCredentialProvider: RegistryRecordIamCredentialProvider };
+  | {
+      oauthCredentialProvider?: undefined;
+      iamCredentialProvider: RegistryRecordIamCredentialProvider;
+    };
 export interface RegistryRecordCredentialProviderConfiguration {
   credentialProviderType: RegistryRecordCredentialProviderType;
   credentialProvider: RegistryRecordCredentialProviderUnion;
@@ -265,51 +269,51 @@ export type RegistryRecordCredentialProviderConfigurationList =
   RegistryRecordCredentialProviderConfiguration[];
 export interface DescriptorSourceFromUrl {
   url: string;
-  credentialProviderConfigurations?: RegistryRecordCredentialProviderConfiguration[];
+  credentialProviderConfigurations?: RegistryRecordCredentialProviderConfiguration[] | undefined;
 }
 export interface DescriptorSource {
-  fromUrl?: DescriptorSourceFromUrl;
+  fromUrl?: DescriptorSourceFromUrl | undefined;
 }
 export interface McpServerDescriptor {
-  data?: string | redacted.Redacted<string>;
-  dataSchemaVersion?: string;
-  additionalData?: McpServerAdditionalData;
-  source?: DescriptorSource;
+  data?: string | redacted.Redacted<string> | undefined;
+  dataSchemaVersion?: string | undefined;
+  additionalData?: McpServerAdditionalData | undefined;
+  source?: DescriptorSource | undefined;
 }
 export interface A2aAgentCardDescriptor {
-  data?: string | redacted.Redacted<string>;
-  dataSchemaVersion?: string;
-  source?: DescriptorSource;
+  data?: string | redacted.Redacted<string> | undefined;
+  dataSchemaVersion?: string | undefined;
+  source?: DescriptorSource | undefined;
 }
 export interface AgentSkillsMdDescriptor {
-  data?: string | redacted.Redacted<string>;
-  dataSchemaVersion?: string;
-  source?: DescriptorSource;
+  data?: string | redacted.Redacted<string> | undefined;
+  dataSchemaVersion?: string | undefined;
+  source?: DescriptorSource | undefined;
 }
 export interface AgentSkillsAdditionalData {
-  skillMd?: AgentSkillsMdDescriptor;
+  skillMd?: AgentSkillsMdDescriptor | undefined;
 }
 export interface AgentSkillsDefinitionDescriptor {
-  data?: string | redacted.Redacted<string>;
-  dataSchemaVersion?: string;
-  additionalData?: AgentSkillsAdditionalData;
+  data?: string | redacted.Redacted<string> | undefined;
+  dataSchemaVersion?: string | undefined;
+  additionalData?: AgentSkillsAdditionalData | undefined;
 }
 export interface CustomDescriptor {
-  data?: string | redacted.Redacted<string>;
+  data?: string | redacted.Redacted<string> | undefined;
 }
 export interface HttpDescriptor {
-  source?: DescriptorSource;
+  source?: DescriptorSource | undefined;
 }
 export interface AgUiDescriptor {
-  source?: DescriptorSource;
+  source?: DescriptorSource | undefined;
 }
 export interface Descriptors {
-  mcpServer?: McpServerDescriptor;
-  a2aAgentCard?: A2aAgentCardDescriptor;
-  agentSkillsDefinition?: AgentSkillsDefinitionDescriptor;
-  custom?: CustomDescriptor;
-  http?: HttpDescriptor;
-  agui?: AgUiDescriptor;
+  mcpServer?: McpServerDescriptor | undefined;
+  a2aAgentCard?: A2aAgentCardDescriptor | undefined;
+  agentSkillsDefinition?: AgentSkillsDefinitionDescriptor | undefined;
+  custom?: CustomDescriptor | undefined;
+  http?: HttpDescriptor | undefined;
+  agui?: AgUiDescriptor | undefined;
 }
 export type RegistryRecordVersion = string;
 export type ProvenanceRelation = "DETECTED_FROM" | (string & {});
@@ -320,46 +324,46 @@ export type SourceType =
   | (string & {});
 export type AgentCoreRuntimeServerProtocol = "HTTP" | "A2A" | "MCP" | "AGUI" | (string & {});
 export interface AgentCoreRuntimeProtocolConfiguration {
-  serverProtocol?: AgentCoreRuntimeServerProtocol;
+  serverProtocol?: AgentCoreRuntimeServerProtocol | undefined;
 }
 export interface WorkloadIdentityDetails {
   workloadIdentityArn: string;
 }
 export interface AgentCoreRuntimeSourceDetails {
-  protocolConfiguration?: AgentCoreRuntimeProtocolConfiguration;
-  authorizerConfiguration?: AuthorizerConfiguration;
-  workloadIdentityDetails?: WorkloadIdentityDetails;
+  protocolConfiguration?: AgentCoreRuntimeProtocolConfiguration | undefined;
+  authorizerConfiguration?: AuthorizerConfiguration | undefined;
+  workloadIdentityDetails?: WorkloadIdentityDetails | undefined;
 }
 export type AgentCoreGatewayProtocolType = "MCP" | (string & {});
 export interface AgentCoreGatewaySourceDetails {
-  protocolType?: AgentCoreGatewayProtocolType;
-  authorizerType?: string;
-  authorizerConfiguration?: AuthorizerConfiguration;
-  workloadIdentityDetails?: WorkloadIdentityDetails;
+  protocolType?: AgentCoreGatewayProtocolType | undefined;
+  authorizerType?: string | undefined;
+  authorizerConfiguration?: AuthorizerConfiguration | undefined;
+  workloadIdentityDetails?: WorkloadIdentityDetails | undefined;
 }
 export type SourceDetails =
-  | { agentcoreRuntime: AgentCoreRuntimeSourceDetails; agentcoreGateway?: never }
-  | { agentcoreRuntime?: never; agentcoreGateway: AgentCoreGatewaySourceDetails };
+  | { agentcoreRuntime: AgentCoreRuntimeSourceDetails; agentcoreGateway?: undefined }
+  | { agentcoreRuntime?: undefined; agentcoreGateway: AgentCoreGatewaySourceDetails };
 export interface Provenance {
   relation: ProvenanceRelation;
   sourceId: string;
-  sourceType?: SourceType;
-  sourceDetails?: SourceDetails;
+  sourceType?: SourceType | undefined;
+  sourceDetails?: SourceDetails | undefined;
 }
 export type ProvenanceList = Provenance[];
 export type CustomMetadataDocument = unknown;
 export interface CreateRegistryRecordRequest {
   registryId: string;
   name: string;
-  displayName?: string;
-  description?: string | redacted.Redacted<string>;
+  displayName?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
   recordType: RecordType;
   descriptors: Descriptors;
-  recordVersion?: string;
-  clientToken?: string;
-  provenance?: Provenance[];
-  customMetadata?: any;
-  tags?: { [key: string]: string | undefined };
+  recordVersion?: string | undefined;
+  clientToken?: string | undefined;
+  provenance?: Provenance[] | undefined;
+  customMetadata?: any | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type RegistryRecordArn = string;
 export type RegistryRecordStatus =
@@ -406,20 +410,20 @@ export type AutoDetectionStatus = "ACTIVE" | "INACTIVE" | (string & {});
 export interface AutoDetection {
   configuration: AutoDetectionConfiguration;
   status: AutoDetectionStatus;
-  statusReason?: string;
+  statusReason?: string | undefined;
 }
 export interface GetRegistryResponse {
   name: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   registryId: string;
   registryArn: string;
-  discoveryConfiguration?: DiscoveryConfiguration;
-  encryptionConfiguration?: EncryptionConfiguration;
-  approvalConfiguration?: ApprovalConfiguration;
-  customMetadataSchemaConfiguration?: CustomMetadataSchemaConfiguration;
+  discoveryConfiguration?: DiscoveryConfiguration | undefined;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  approvalConfiguration?: ApprovalConfiguration | undefined;
+  customMetadataSchemaConfiguration?: CustomMetadataSchemaConfiguration | undefined;
   status: RegistryStatus;
-  statusReason?: string;
-  autoDetection?: AutoDetection;
+  statusReason?: string | undefined;
+  autoDetection?: AutoDetection | undefined;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -435,20 +439,20 @@ export interface GetRegistryRecordResponse {
   recordArn: string;
   recordId: string;
   name: string;
-  displayName?: string;
-  description?: string | redacted.Redacted<string>;
+  displayName?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
   recordType: RecordType;
-  descriptors?: Descriptors;
-  recordVersion?: string;
+  descriptors?: Descriptors | undefined;
+  recordVersion?: string | undefined;
   status: RegistryRecordStatus;
   createdAt: Date;
   updatedAt: Date;
-  statusReason?: string;
-  provenance?: Provenance[];
-  createdByAutoDetection?: boolean;
-  createdBy?: string;
-  customMetadata?: any;
-  customMetadataSchemaComplianceStatus?: CustomMetadataSchemaComplianceStatus;
+  statusReason?: string | undefined;
+  provenance?: Provenance[] | undefined;
+  createdByAutoDetection?: boolean | undefined;
+  createdBy?: string | undefined;
+  customMetadata?: any | undefined;
+  customMetadataSchemaComplianceStatus?: CustomMetadataSchemaComplianceStatus | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string;
@@ -461,26 +465,26 @@ export interface RegistryFilter {
 }
 export type RegistryFilterList = RegistryFilter[];
 export interface ListRegistriesRequest {
-  maxResults?: number;
-  nextToken?: string;
-  filters?: RegistryFilter[];
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  filters?: RegistryFilter[] | undefined;
 }
 export interface RegistrySummary {
   name: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   registryId: string;
   registryArn: string;
-  discoveryConfiguration?: DiscoveryConfiguration;
+  discoveryConfiguration?: DiscoveryConfiguration | undefined;
   status: RegistryStatus;
-  statusReason?: string;
-  autoDetection?: AutoDetection;
+  statusReason?: string | undefined;
+  autoDetection?: AutoDetection | undefined;
   createdAt: Date;
   updatedAt: Date;
 }
 export type RegistrySummaryList = RegistrySummary[];
 export interface ListRegistriesResponse {
   registries: RegistrySummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type RegistryRecordFilterName = "name" | "status" | "recordType" | (string & {});
 export interface RegistryRecordFilter {
@@ -490,14 +494,14 @@ export interface RegistryRecordFilter {
 export type RegistryRecordFilterList = RegistryRecordFilter[];
 export interface ListRegistryRecordsRequest {
   registryId: string;
-  maxResults?: number;
-  nextToken?: string;
-  filters?: RegistryRecordFilter[];
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  filters?: RegistryRecordFilter[] | undefined;
 }
 export interface ProvenanceSummary {
   relation: ProvenanceRelation;
   sourceId: string;
-  sourceType?: SourceType;
+  sourceType?: SourceType | undefined;
 }
 export type ProvenanceSummaryList = ProvenanceSummary[];
 export interface RegistryRecordSummary {
@@ -505,22 +509,22 @@ export interface RegistryRecordSummary {
   recordArn: string;
   recordId: string;
   name: string;
-  displayName?: string;
-  description?: string | redacted.Redacted<string>;
+  displayName?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
   recordType: RecordType;
   recordVersion: string;
   status: RegistryRecordStatus;
   createdAt: Date;
   updatedAt: Date;
-  createdByAutoDetection?: boolean;
-  createdBy?: string;
-  provenanceSummaryList?: ProvenanceSummary[];
-  customMetadataSchemaComplianceStatus?: CustomMetadataSchemaComplianceStatus;
+  createdByAutoDetection?: boolean | undefined;
+  createdBy?: string | undefined;
+  provenanceSummaryList?: ProvenanceSummary[] | undefined;
+  customMetadataSchemaComplianceStatus?: CustomMetadataSchemaComplianceStatus | undefined;
 }
 export type RegistryRecordSummaryList = RegistryRecordSummary[];
 export interface ListRegistryRecordsResponse {
   registryRecords: RegistryRecordSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ResourceArn = string;
 export interface ListTagsForResourceRequest {
@@ -528,7 +532,7 @@ export interface ListTagsForResourceRequest {
 }
 export type ResourceTagsMap = { [key: string]: string | undefined };
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface SubmitRegistryRecordForApprovalRequest {
   registryId: string;
@@ -553,175 +557,175 @@ export interface UntagResourceRequest {
 }
 export interface UntagResourceResponse {}
 export interface UpdatedDescription {
-  optionalValue?: string | redacted.Redacted<string>;
+  optionalValue?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdatedAuthorizerConfiguration {
-  optionalValue?: AuthorizerConfiguration;
+  optionalValue?: AuthorizerConfiguration | undefined;
 }
 export interface UpdatedDiscoveryConfiguration {
-  authorizerConfiguration?: UpdatedAuthorizerConfiguration;
+  authorizerConfiguration?: UpdatedAuthorizerConfiguration | undefined;
 }
 export interface UpdatedApprovalConfiguration {
-  optionalValue?: ApprovalConfiguration;
+  optionalValue?: ApprovalConfiguration | undefined;
 }
 export interface UpdatedCustomMetadataSchemaConfiguration {
-  optionalValue?: CustomMetadataSchemaConfiguration;
+  optionalValue?: CustomMetadataSchemaConfiguration | undefined;
 }
 export interface UpdatedAutoDetectionConfiguration {
-  optionalValue?: AutoDetectionConfiguration;
+  optionalValue?: AutoDetectionConfiguration | undefined;
 }
 export interface UpdateRegistryRequest {
   registryId: string;
-  name?: string;
-  description?: UpdatedDescription;
-  discoveryConfiguration?: UpdatedDiscoveryConfiguration;
-  approvalConfiguration?: UpdatedApprovalConfiguration;
-  customMetadataSchemaConfiguration?: UpdatedCustomMetadataSchemaConfiguration;
-  autoDetectionConfiguration?: UpdatedAutoDetectionConfiguration;
+  name?: string | undefined;
+  description?: UpdatedDescription | undefined;
+  discoveryConfiguration?: UpdatedDiscoveryConfiguration | undefined;
+  approvalConfiguration?: UpdatedApprovalConfiguration | undefined;
+  customMetadataSchemaConfiguration?: UpdatedCustomMetadataSchemaConfiguration | undefined;
+  autoDetectionConfiguration?: UpdatedAutoDetectionConfiguration | undefined;
 }
 export interface UpdateRegistryResponse {
   name: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   registryId: string;
   registryArn: string;
-  discoveryConfiguration?: DiscoveryConfiguration;
-  encryptionConfiguration?: EncryptionConfiguration;
-  approvalConfiguration?: ApprovalConfiguration;
-  customMetadataSchemaConfiguration?: CustomMetadataSchemaConfiguration;
+  discoveryConfiguration?: DiscoveryConfiguration | undefined;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  approvalConfiguration?: ApprovalConfiguration | undefined;
+  customMetadataSchemaConfiguration?: CustomMetadataSchemaConfiguration | undefined;
   status: RegistryStatus;
-  statusReason?: string;
-  autoDetection?: AutoDetection;
+  statusReason?: string | undefined;
+  autoDetection?: AutoDetection | undefined;
   createdAt: Date;
   updatedAt: Date;
 }
 export interface UpdatedDisplayName {
-  optionalValue?: string;
+  optionalValue?: string | undefined;
 }
 export interface UpdatedDescriptorData {
-  optionalValue?: string | redacted.Redacted<string>;
+  optionalValue?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdatedDataSchemaVersion {
-  optionalValue?: string;
+  optionalValue?: string | undefined;
 }
 export interface UpdatedDescriptorSource {
-  optionalValue?: DescriptorSource;
+  optionalValue?: DescriptorSource | undefined;
 }
 export interface UpdatedMcpToolsDescriptorFields {
-  data?: UpdatedDescriptorData;
-  dataSchemaVersion?: UpdatedDataSchemaVersion;
+  data?: UpdatedDescriptorData | undefined;
+  dataSchemaVersion?: UpdatedDataSchemaVersion | undefined;
 }
 export interface UpdatedMcpToolsDescriptor {
-  optionalValue?: UpdatedMcpToolsDescriptorFields;
+  optionalValue?: UpdatedMcpToolsDescriptorFields | undefined;
 }
 export interface UpdatedMcpServerAdditionalDataFields {
-  tools?: UpdatedMcpToolsDescriptor;
+  tools?: UpdatedMcpToolsDescriptor | undefined;
 }
 export interface UpdatedMcpServerAdditionalData {
-  optionalValue?: UpdatedMcpServerAdditionalDataFields;
+  optionalValue?: UpdatedMcpServerAdditionalDataFields | undefined;
 }
 export interface UpdatedMcpServerDescriptorFields {
-  data?: UpdatedDescriptorData;
-  dataSchemaVersion?: UpdatedDataSchemaVersion;
-  source?: UpdatedDescriptorSource;
-  additionalData?: UpdatedMcpServerAdditionalData;
+  data?: UpdatedDescriptorData | undefined;
+  dataSchemaVersion?: UpdatedDataSchemaVersion | undefined;
+  source?: UpdatedDescriptorSource | undefined;
+  additionalData?: UpdatedMcpServerAdditionalData | undefined;
 }
 export interface UpdatedMcpServerDescriptor {
-  optionalValue?: UpdatedMcpServerDescriptorFields;
+  optionalValue?: UpdatedMcpServerDescriptorFields | undefined;
 }
 export interface UpdatedA2aAgentCardDescriptorFields {
-  data?: UpdatedDescriptorData;
-  dataSchemaVersion?: UpdatedDataSchemaVersion;
-  source?: UpdatedDescriptorSource;
+  data?: UpdatedDescriptorData | undefined;
+  dataSchemaVersion?: UpdatedDataSchemaVersion | undefined;
+  source?: UpdatedDescriptorSource | undefined;
 }
 export interface UpdatedA2aAgentCardDescriptor {
-  optionalValue?: UpdatedA2aAgentCardDescriptorFields;
+  optionalValue?: UpdatedA2aAgentCardDescriptorFields | undefined;
 }
 export interface UpdatedAgentSkillsMdDescriptorFields {
-  data?: UpdatedDescriptorData;
-  dataSchemaVersion?: UpdatedDataSchemaVersion;
-  source?: UpdatedDescriptorSource;
+  data?: UpdatedDescriptorData | undefined;
+  dataSchemaVersion?: UpdatedDataSchemaVersion | undefined;
+  source?: UpdatedDescriptorSource | undefined;
 }
 export interface UpdatedAgentSkillsMdDescriptor {
-  optionalValue?: UpdatedAgentSkillsMdDescriptorFields;
+  optionalValue?: UpdatedAgentSkillsMdDescriptorFields | undefined;
 }
 export interface UpdatedAgentSkillsAdditionalDataFields {
-  skillMd?: UpdatedAgentSkillsMdDescriptor;
+  skillMd?: UpdatedAgentSkillsMdDescriptor | undefined;
 }
 export interface UpdatedAgentSkillsAdditionalData {
-  optionalValue?: UpdatedAgentSkillsAdditionalDataFields;
+  optionalValue?: UpdatedAgentSkillsAdditionalDataFields | undefined;
 }
 export interface UpdatedAgentSkillsDefinitionDescriptorFields {
-  data?: UpdatedDescriptorData;
-  dataSchemaVersion?: UpdatedDataSchemaVersion;
-  additionalData?: UpdatedAgentSkillsAdditionalData;
+  data?: UpdatedDescriptorData | undefined;
+  dataSchemaVersion?: UpdatedDataSchemaVersion | undefined;
+  additionalData?: UpdatedAgentSkillsAdditionalData | undefined;
 }
 export interface UpdatedAgentSkillsDefinitionDescriptor {
-  optionalValue?: UpdatedAgentSkillsDefinitionDescriptorFields;
+  optionalValue?: UpdatedAgentSkillsDefinitionDescriptorFields | undefined;
 }
 export interface UpdatedCustomDescriptorFields {
-  data?: UpdatedDescriptorData;
+  data?: UpdatedDescriptorData | undefined;
 }
 export interface UpdatedCustomDescriptor {
-  optionalValue?: UpdatedCustomDescriptorFields;
+  optionalValue?: UpdatedCustomDescriptorFields | undefined;
 }
 export interface UpdatedHttpDescriptorFields {
-  source?: UpdatedDescriptorSource;
+  source?: UpdatedDescriptorSource | undefined;
 }
 export interface UpdatedHttpDescriptor {
-  optionalValue?: UpdatedHttpDescriptorFields;
+  optionalValue?: UpdatedHttpDescriptorFields | undefined;
 }
 export interface UpdatedAgUiDescriptorFields {
-  source?: UpdatedDescriptorSource;
+  source?: UpdatedDescriptorSource | undefined;
 }
 export interface UpdatedAgUiDescriptor {
-  optionalValue?: UpdatedAgUiDescriptorFields;
+  optionalValue?: UpdatedAgUiDescriptorFields | undefined;
 }
 export interface UpdatedDescriptorsFields {
-  mcpServer?: UpdatedMcpServerDescriptor;
-  a2aAgentCard?: UpdatedA2aAgentCardDescriptor;
-  agentSkillsDefinition?: UpdatedAgentSkillsDefinitionDescriptor;
-  custom?: UpdatedCustomDescriptor;
-  http?: UpdatedHttpDescriptor;
-  agui?: UpdatedAgUiDescriptor;
+  mcpServer?: UpdatedMcpServerDescriptor | undefined;
+  a2aAgentCard?: UpdatedA2aAgentCardDescriptor | undefined;
+  agentSkillsDefinition?: UpdatedAgentSkillsDefinitionDescriptor | undefined;
+  custom?: UpdatedCustomDescriptor | undefined;
+  http?: UpdatedHttpDescriptor | undefined;
+  agui?: UpdatedAgUiDescriptor | undefined;
 }
 export interface UpdatedDescriptors {
-  optionalValue?: UpdatedDescriptorsFields;
+  optionalValue?: UpdatedDescriptorsFields | undefined;
 }
 export interface UpdatedCustomMetadataMap {
-  optionalValue?: any;
+  optionalValue?: any | undefined;
 }
 export interface UpdateRegistryRecordRequest {
   registryId: string;
   recordId: string;
-  name?: string;
-  displayName?: UpdatedDisplayName;
-  description?: UpdatedDescription;
-  recordType?: RecordType;
-  descriptors?: UpdatedDescriptors;
-  recordVersion?: string;
-  customMetadata?: UpdatedCustomMetadataMap;
-  triggerSynchronization?: boolean;
-  provenance?: Provenance[];
+  name?: string | undefined;
+  displayName?: UpdatedDisplayName | undefined;
+  description?: UpdatedDescription | undefined;
+  recordType?: RecordType | undefined;
+  descriptors?: UpdatedDescriptors | undefined;
+  recordVersion?: string | undefined;
+  customMetadata?: UpdatedCustomMetadataMap | undefined;
+  triggerSynchronization?: boolean | undefined;
+  provenance?: Provenance[] | undefined;
 }
 export interface UpdateRegistryRecordResponse {
   registryArn: string;
   recordArn: string;
   recordId: string;
   name: string;
-  displayName?: string;
-  description?: string | redacted.Redacted<string>;
+  displayName?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
   recordType: RecordType;
-  descriptors?: Descriptors;
-  recordVersion?: string;
+  descriptors?: Descriptors | undefined;
+  recordVersion?: string | undefined;
   status: RegistryRecordStatus;
   createdAt: Date;
   updatedAt: Date;
-  statusReason?: string;
-  provenance?: Provenance[];
-  createdByAutoDetection?: boolean;
-  createdBy?: string;
-  customMetadata?: any;
-  customMetadataSchemaComplianceStatus?: CustomMetadataSchemaComplianceStatus;
+  statusReason?: string | undefined;
+  provenance?: Provenance[] | undefined;
+  createdByAutoDetection?: boolean | undefined;
+  createdBy?: string | undefined;
+  customMetadata?: any | undefined;
+  customMetadataSchemaComplianceStatus?: CustomMetadataSchemaComplianceStatus | undefined;
 }
 export interface UpdateRegistryRecordStatusRequest {
   registryId: string;
@@ -762,7 +766,7 @@ export type CreateRegistryError =
  * Creates a new registry, a catalog that organizes registry records and defines their discovery authorization and record approval behavior. Creation is asynchronous: the registry begins in the CREATING status and becomes usable once it reaches READY.
  */
 export const createRegistry: API.OperationMethod<
-  CreateRegistryRequest,
+  CreateRegistryRequest & RegionInput,
   CreateRegistryResponse,
   CreateRegistryError,
   Credentials | HttpClient.HttpClient
@@ -797,7 +801,7 @@ export type CreateRegistryRecordError =
  * Creates a registry record within a registry. A registry record describes a discoverable resource, such as an MCP server, an agent, an agent skill, or a custom resource. Creation is asynchronous: the record is returned with the CREATING status while it is processed.
  */
 export const createRegistryRecord: API.OperationMethod<
-  CreateRegistryRecordRequest,
+  CreateRegistryRecordRequest & RegionInput,
   CreateRegistryRecordResponse,
   CreateRegistryRecordError,
   Credentials | HttpClient.HttpClient
@@ -832,7 +836,7 @@ export type DeleteRegistryError =
  * Deletes a registry. Deletion is asynchronous: the registry transitions to the DELETING status and is removed along with its registry records.
  */
 export const deleteRegistry: API.OperationMethod<
-  DeleteRegistryRequest,
+  DeleteRegistryRequest & RegionInput,
   DeleteRegistryResponse,
   DeleteRegistryError,
   Credentials | HttpClient.HttpClient
@@ -866,7 +870,7 @@ export type DeleteRegistryRecordError =
  * Deletes a registry record
  */
 export const deleteRegistryRecord: API.OperationMethod<
-  DeleteRegistryRecordRequest,
+  DeleteRegistryRecordRequest & RegionInput,
   DeleteRegistryRecordResponse,
   DeleteRegistryRecordError,
   Credentials | HttpClient.HttpClient
@@ -899,7 +903,7 @@ export type GetRegistryError =
  * Gets a registry by identifier (ARN or ID)
  */
 export const getRegistry: API.OperationMethod<
-  GetRegistryRequest,
+  GetRegistryRequest & RegionInput,
   GetRegistryResponse,
   GetRegistryError,
   Credentials | HttpClient.HttpClient
@@ -932,7 +936,7 @@ export type GetRegistryRecordError =
  * Retrieves the details of a registry record
  */
 export const getRegistryRecord: API.OperationMethod<
-  GetRegistryRecordRequest,
+  GetRegistryRecordRequest & RegionInput,
   GetRegistryRecordResponse,
   GetRegistryRecordError,
   Credentials | HttpClient.HttpClient
@@ -964,7 +968,7 @@ export type ListRegistriesError =
  * Lists the registries in the caller's account and Region, with optional filtering by status and discovery authorizer type
  */
 export const listRegistries: API.PaginatedOperationMethod<
-  ListRegistriesRequest,
+  ListRegistriesRequest & RegionInput,
   ListRegistriesResponse,
   ListRegistriesError,
   Credentials | HttpClient.HttpClient,
@@ -1003,7 +1007,7 @@ export type ListRegistryRecordsError =
  * Lists the registry records within a registry, with optional filtering by name, status, and record type
  */
 export const listRegistryRecords: API.PaginatedOperationMethod<
-  ListRegistryRecordsRequest,
+  ListRegistryRecordsRequest & RegionInput,
   ListRegistryRecordsResponse,
   ListRegistryRecordsError,
   Credentials | HttpClient.HttpClient,
@@ -1043,7 +1047,7 @@ export type ListTagsForResourceError =
  * Lists the tags associated with the specified Amazon Web Services Agent Registry resource. Returns the current tag key-value pairs on the resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1076,7 +1080,7 @@ export type SubmitRegistryRecordForApprovalError =
  * Submits a DRAFT registry record for approval, moving it into the registry's approval workflow. Depending on the registry's approval configuration, the record is either auto-approved or set to PENDING_APPROVAL for a curator to approve or reject.
  */
 export const submitRegistryRecordForApproval: API.OperationMethod<
-  SubmitRegistryRecordForApprovalRequest,
+  SubmitRegistryRecordForApprovalRequest & RegionInput,
   SubmitRegistryRecordForApprovalResponse,
   SubmitRegistryRecordForApprovalError,
   Credentials | HttpClient.HttpClient
@@ -1110,7 +1114,7 @@ export type TagResourceError =
  * Adds or overwrites one or more tags for the specified Amazon Web Services Agent Registry resource. Tags are key-value pairs that you can use to categorize and manage Amazon Web Services resources. If a tag with the same key already exists on the resource, the service replaces its value with the value you specify.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1143,7 +1147,7 @@ export type UntagResourceError =
  * Removes one or more tags from the specified Amazon Web Services Agent Registry resource. The operation removes only the tags whose keys you supply; other tags on the resource remain unchanged.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1177,7 +1181,7 @@ export type UpdateRegistryError =
  * Updates an existing registry. This operation uses PATCH semantics: specify only the fields you want to change, and omit the rest to leave them unchanged. Updates are applied asynchronously and the registry transitions to the UPDATING status while they are processed.
  */
 export const updateRegistry: API.OperationMethod<
-  UpdateRegistryRequest,
+  UpdateRegistryRequest & RegionInput,
   UpdateRegistryResponse,
   UpdateRegistryError,
   Credentials | HttpClient.HttpClient
@@ -1212,7 +1216,7 @@ export type UpdateRegistryRecordError =
  * Updates a registry record. The update is asynchronous: the record is returned with the UPDATING status while it is processed. Fields that use update wrappers follow PATCH semantics: omit the field to leave it unchanged.
  */
 export const updateRegistryRecord: API.OperationMethod<
-  UpdateRegistryRecordRequest,
+  UpdateRegistryRecordRequest & RegionInput,
   UpdateRegistryRecordResponse,
   UpdateRegistryRecordError,
   Credentials | HttpClient.HttpClient
@@ -1246,7 +1250,7 @@ export type UpdateRegistryRecordStatusError =
  * Updates the status of a registry record as part of the registry's curation workflow, for example to approve or reject a record that is pending approval, or to deprecate an approved record so that it is no longer discoverable
  */
 export const updateRegistryRecordStatus: API.OperationMethod<
-  UpdateRegistryRecordStatusRequest,
+  UpdateRegistryRecordStatusRequest & RegionInput,
   UpdateRegistryRecordStatusResponse,
   UpdateRegistryRecordStatusError,
   Credentials | HttpClient.HttpClient

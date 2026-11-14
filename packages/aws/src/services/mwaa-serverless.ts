@@ -3,11 +3,14 @@ import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
+import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
 const __s: any[] = [];
@@ -115,7 +118,7 @@ export class OperationTimeoutException
     "OperationTimeoutException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(504),
-  ).pipe(C.withTimeoutError) {}
+  ).pipe(C.withTimeoutError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
@@ -175,12 +178,12 @@ export type IdempotencyTokenString = string;
 export interface DefinitionS3Location {
   Bucket: string;
   ObjectKey: string;
-  VersionId?: string;
+  VersionId?: string | undefined;
 }
 export interface S3Location {
   Bucket: string;
   ObjectKey: string;
-  VersionId?: string;
+  VersionId?: string | undefined;
 }
 export type Code = { S3Location: S3Location };
 export type RoleARN = string;
@@ -188,7 +191,7 @@ export type DescriptionString = string;
 export type EncryptionType = "AWS_MANAGED_KEY" | "CUSTOMER_MANAGED_KEY" | (string & {});
 export interface EncryptionConfiguration {
   Type: EncryptionType;
-  KmsKeyId?: string;
+  KmsKeyId?: string | undefined;
 }
 export interface LoggingConfiguration {
   LogGroupName: string;
@@ -199,25 +202,34 @@ export type SecurityGroupIds = string[];
 export type SubnetString = string;
 export type SubnetIds = string[];
 export interface NetworkConfiguration {
-  SecurityGroupIds?: string[];
-  SubnetIds?: string[];
+  SecurityGroupIds?: string[] | undefined;
+  SubnetIds?: string[] | undefined;
+}
+export type EnvironmentVariableKey = string;
+export type EnvironmentVariableValue = string | redacted.Redacted<string>;
+export type EnvironmentVariablesMap = {
+  [key: string]: string | redacted.Redacted<string> | undefined;
+};
+export interface Environment {
+  Variables?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
 export type Tags = { [key: string]: string | undefined };
 export interface CreateWorkflowRequest {
   Name: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   DefinitionS3Location: DefinitionS3Location;
-  Code?: Code;
+  Code?: Code | undefined;
   RoleArn: string;
-  Description?: string;
-  EncryptionConfiguration?: EncryptionConfiguration;
-  LoggingConfiguration?: LoggingConfiguration;
-  EngineVersion?: EngineVersion;
-  NetworkConfiguration?: NetworkConfiguration;
-  Tags?: { [key: string]: string | undefined };
-  TriggerMode?: string;
+  Description?: string | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
+  LoggingConfiguration?: LoggingConfiguration | undefined;
+  EngineVersion?: EngineVersion | undefined;
+  NetworkConfiguration?: NetworkConfiguration | undefined;
+  Environment?: Environment | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  TriggerMode?: string | undefined;
 }
 export type WorkflowArn = string;
 export type TimestampValue = Date;
@@ -227,20 +239,20 @@ export type IsLatestVersion = boolean;
 export type WarningMessages = string[];
 export interface CreateWorkflowResponse {
   WorkflowArn: string;
-  CreatedAt?: Date;
-  RevisionId?: string;
-  WorkflowStatus?: WorkflowStatus;
-  WorkflowVersion?: string;
-  IsLatestVersion?: boolean;
-  Warnings?: string[];
+  CreatedAt?: Date | undefined;
+  RevisionId?: string | undefined;
+  WorkflowStatus?: WorkflowStatus | undefined;
+  WorkflowVersion?: string | undefined;
+  IsLatestVersion?: boolean | undefined;
+  Warnings?: string[] | undefined;
 }
 export interface DeleteWorkflowRequest {
   WorkflowArn: string;
-  WorkflowVersion?: string;
+  WorkflowVersion?: string | undefined;
 }
 export interface DeleteWorkflowResponse {
   WorkflowArn: string;
-  WorkflowVersion?: string;
+  WorkflowVersion?: string | undefined;
 }
 export type IdString = string;
 export interface GetTaskInstanceRequest {
@@ -270,45 +282,46 @@ export interface GetTaskInstanceResponse {
   WorkflowArn: string;
   RunId: string;
   TaskInstanceId: string;
-  WorkflowVersion?: string;
-  Status?: TaskInstanceStatus;
-  DurationInSeconds?: number;
-  OperatorName?: string;
-  ModifiedAt?: Date;
-  EndedAt?: Date;
-  StartedAt?: Date;
-  AttemptNumber?: number;
-  ErrorMessage?: string;
-  TaskId?: string;
-  LogStream?: string;
-  Xcom?: { [key: string]: string | undefined };
+  WorkflowVersion?: string | undefined;
+  Status?: TaskInstanceStatus | undefined;
+  DurationInSeconds?: number | undefined;
+  OperatorName?: string | undefined;
+  ModifiedAt?: Date | undefined;
+  EndedAt?: Date | undefined;
+  StartedAt?: Date | undefined;
+  AttemptNumber?: number | undefined;
+  ErrorMessage?: string | undefined;
+  TaskId?: string | undefined;
+  LogStream?: string | undefined;
+  Xcom?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetWorkflowRequest {
   WorkflowArn: string;
-  WorkflowVersion?: string;
+  WorkflowVersion?: string | undefined;
 }
 export interface ScheduleConfiguration {
-  CronExpression?: string;
+  CronExpression?: string | undefined;
 }
 export interface GetWorkflowResponse {
   WorkflowArn: string;
-  WorkflowVersion?: string;
-  Name?: string;
-  Description?: string;
-  CreatedAt?: Date;
-  ModifiedAt?: Date;
-  EncryptionConfiguration?: EncryptionConfiguration;
-  LoggingConfiguration?: LoggingConfiguration;
-  EngineVersion?: EngineVersion;
-  WorkflowStatus?: WorkflowStatus;
-  DefinitionS3Location?: DefinitionS3Location;
-  Code?: Code;
-  CodeSnapshottedAt?: Date;
-  ScheduleConfiguration?: ScheduleConfiguration;
-  RoleArn?: string;
-  NetworkConfiguration?: NetworkConfiguration;
-  TriggerMode?: string;
-  WorkflowDefinition?: string;
+  WorkflowVersion?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  CreatedAt?: Date | undefined;
+  ModifiedAt?: Date | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
+  LoggingConfiguration?: LoggingConfiguration | undefined;
+  EngineVersion?: EngineVersion | undefined;
+  WorkflowStatus?: WorkflowStatus | undefined;
+  DefinitionS3Location?: DefinitionS3Location | undefined;
+  Code?: Code | undefined;
+  CodeSnapshottedAt?: Date | undefined;
+  ScheduleConfiguration?: ScheduleConfiguration | undefined;
+  RoleArn?: string | undefined;
+  NetworkConfiguration?: NetworkConfiguration | undefined;
+  Environment?: Environment | undefined;
+  TriggerMode?: string | undefined;
+  WorkflowDefinition?: string | undefined;
 }
 export interface GetWorkflowRunRequest {
   WorkflowArn: string;
@@ -328,137 +341,137 @@ export type WorkflowRunStatus =
   | "STOPPED"
   | (string & {});
 export interface WorkflowRunDetail {
-  WorkflowArn?: string;
-  WorkflowVersion?: string;
-  RunId?: string;
-  RunType?: RunType;
-  StartedOn?: Date;
-  CreatedAt?: Date;
-  CompletedOn?: Date;
-  ModifiedAt?: Date;
-  Duration?: number;
-  ErrorMessage?: string;
-  TaskInstances?: string[];
-  RunState?: WorkflowRunStatus;
+  WorkflowArn?: string | undefined;
+  WorkflowVersion?: string | undefined;
+  RunId?: string | undefined;
+  RunType?: RunType | undefined;
+  StartedOn?: Date | undefined;
+  CreatedAt?: Date | undefined;
+  CompletedOn?: Date | undefined;
+  ModifiedAt?: Date | undefined;
+  Duration?: number | undefined;
+  ErrorMessage?: string | undefined;
+  TaskInstances?: string[] | undefined;
+  RunState?: WorkflowRunStatus | undefined;
 }
 export interface GetWorkflowRunResponse {
-  WorkflowArn?: string;
-  WorkflowVersion?: string;
-  RunId?: string;
-  RunType?: RunType;
-  OverrideParameters?: { [key: string]: any | undefined };
-  RunDetail?: WorkflowRunDetail;
+  WorkflowArn?: string | undefined;
+  WorkflowVersion?: string | undefined;
+  RunId?: string | undefined;
+  RunType?: RunType | undefined;
+  OverrideParameters?: { [key: string]: any | undefined } | undefined;
+  RunDetail?: WorkflowRunDetail | undefined;
 }
 export type TaggableResourceArn = string;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListTaskInstancesRequest {
   WorkflowArn: string;
   RunId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface TaskInstanceSummary {
-  WorkflowArn?: string;
-  WorkflowVersion?: string;
-  RunId?: string;
-  TaskInstanceId?: string;
-  Status?: TaskInstanceStatus;
-  DurationInSeconds?: number;
-  OperatorName?: string;
+  WorkflowArn?: string | undefined;
+  WorkflowVersion?: string | undefined;
+  RunId?: string | undefined;
+  TaskInstanceId?: string | undefined;
+  Status?: TaskInstanceStatus | undefined;
+  DurationInSeconds?: number | undefined;
+  OperatorName?: string | undefined;
 }
 export type TaskInstanceSummaries = TaskInstanceSummary[];
 export interface ListTaskInstancesResponse {
-  TaskInstances?: TaskInstanceSummary[];
-  NextToken?: string;
+  TaskInstances?: TaskInstanceSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListWorkflowRunsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   WorkflowArn: string;
-  WorkflowVersion?: string;
+  WorkflowVersion?: string | undefined;
 }
 export interface RunDetailSummary {
-  Status?: WorkflowRunStatus;
-  CreatedOn?: Date;
-  StartedAt?: Date;
-  EndedAt?: Date;
+  Status?: WorkflowRunStatus | undefined;
+  CreatedOn?: Date | undefined;
+  StartedAt?: Date | undefined;
+  EndedAt?: Date | undefined;
 }
 export interface WorkflowRunSummary {
-  RunId?: string;
-  WorkflowArn?: string;
-  WorkflowVersion?: string;
-  RunType?: RunType;
-  RunDetailSummary?: RunDetailSummary;
+  RunId?: string | undefined;
+  WorkflowArn?: string | undefined;
+  WorkflowVersion?: string | undefined;
+  RunType?: RunType | undefined;
+  RunDetailSummary?: RunDetailSummary | undefined;
 }
 export type WorkflowRunSummaries = WorkflowRunSummary[];
 export interface ListWorkflowRunsResponse {
-  WorkflowRuns?: WorkflowRunSummary[];
-  NextToken?: string;
+  WorkflowRuns?: WorkflowRunSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListWorkflowsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface WorkflowSummary {
   WorkflowArn: string;
-  WorkflowVersion?: string;
-  Name?: string;
-  Description?: string;
-  CreatedAt?: Date;
-  ModifiedAt?: Date;
-  WorkflowStatus?: WorkflowStatus;
-  TriggerMode?: string;
+  WorkflowVersion?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  CreatedAt?: Date | undefined;
+  ModifiedAt?: Date | undefined;
+  WorkflowStatus?: WorkflowStatus | undefined;
+  TriggerMode?: string | undefined;
 }
 export type WorkflowSummaries = WorkflowSummary[];
 export interface ListWorkflowsResponse {
   Workflows: WorkflowSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListWorkflowVersionsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   WorkflowArn: string;
 }
 export interface WorkflowVersionSummary {
   WorkflowVersion: string;
   WorkflowArn: string;
-  IsLatestVersion?: boolean;
-  CreatedAt?: Date;
-  ModifiedAt?: Date;
-  DefinitionS3Location?: DefinitionS3Location;
-  ScheduleConfiguration?: ScheduleConfiguration;
-  TriggerMode?: string;
+  IsLatestVersion?: boolean | undefined;
+  CreatedAt?: Date | undefined;
+  ModifiedAt?: Date | undefined;
+  DefinitionS3Location?: DefinitionS3Location | undefined;
+  ScheduleConfiguration?: ScheduleConfiguration | undefined;
+  TriggerMode?: string | undefined;
 }
 export type WorkflowVersionSummaries = WorkflowVersionSummary[];
 export interface ListWorkflowVersionsResponse {
-  WorkflowVersions?: WorkflowVersionSummary[];
-  NextToken?: string;
+  WorkflowVersions?: WorkflowVersionSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface StartWorkflowRunRequest {
   WorkflowArn: string;
-  ClientToken?: string;
-  OverrideParameters?: { [key: string]: any | undefined };
-  WorkflowVersion?: string;
+  ClientToken?: string | undefined;
+  OverrideParameters?: { [key: string]: any | undefined } | undefined;
+  WorkflowVersion?: string | undefined;
 }
 export interface StartWorkflowRunResponse {
-  RunId?: string;
-  Status?: WorkflowRunStatus;
-  StartedAt?: Date;
+  RunId?: string | undefined;
+  Status?: WorkflowRunStatus | undefined;
+  StartedAt?: Date | undefined;
 }
 export interface StopWorkflowRunRequest {
   WorkflowArn: string;
   RunId: string;
 }
 export interface StopWorkflowRunResponse {
-  WorkflowArn?: string;
-  WorkflowVersion?: string;
-  RunId?: string;
-  Status?: WorkflowRunStatus;
+  WorkflowArn?: string | undefined;
+  WorkflowVersion?: string | undefined;
+  RunId?: string | undefined;
+  Status?: WorkflowRunStatus | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
@@ -474,19 +487,20 @@ export interface UntagResourceResponse {}
 export interface UpdateWorkflowRequest {
   WorkflowArn: string;
   DefinitionS3Location: DefinitionS3Location;
-  Code?: Code;
+  Code?: Code | undefined;
   RoleArn: string;
-  Description?: string;
-  LoggingConfiguration?: LoggingConfiguration;
-  EngineVersion?: EngineVersion;
-  NetworkConfiguration?: NetworkConfiguration;
-  TriggerMode?: string;
+  Description?: string | undefined;
+  LoggingConfiguration?: LoggingConfiguration | undefined;
+  EngineVersion?: EngineVersion | undefined;
+  NetworkConfiguration?: NetworkConfiguration | undefined;
+  Environment?: Environment | undefined;
+  TriggerMode?: string | undefined;
 }
 export interface UpdateWorkflowResponse {
   WorkflowArn: string;
-  ModifiedAt?: Date;
-  WorkflowVersion?: string;
-  Warnings?: string[];
+  ModifiedAt?: Date | undefined;
+  WorkflowVersion?: string | undefined;
+  Warnings?: string[] | undefined;
 }
 export type ErrorMessage = string;
 export type ValidationExceptionReason =
@@ -513,7 +527,7 @@ export type CreateWorkflowError =
  * Creates a new workflow in Amazon Managed Workflows for Apache Airflow Serverless. This operation initializes a workflow with the specified configuration including the workflow definition, execution role, and optional settings for encryption, logging, and networking. You must provide the workflow definition as a YAML file stored in Amazon S3 that defines the DAG structure using supported Amazon Web Services operators. Amazon Managed Workflows for Apache Airflow Serverless automatically creates the first version of the workflow and sets up the necessary execution environment with multi-tenant isolation and security controls.
  */
 export const createWorkflow: API.OperationMethod<
-  CreateWorkflowRequest,
+  CreateWorkflowRequest & RegionInput,
   CreateWorkflowResponse,
   CreateWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -548,7 +562,7 @@ export type DeleteWorkflowError =
  * Deletes a workflow and all its versions. This operation permanently removes the workflow and cannot be undone. Amazon Managed Workflows for Apache Airflow Serverless ensures that all associated resources are properly cleaned up, including stopping any running executions, removing scheduled triggers, and cleaning up execution history. The deletion process respects the multi-tenant isolation boundaries and ensures that no residual data or configurations remain that could affect other customers or workflows.
  */
 export const deleteWorkflow: API.OperationMethod<
-  DeleteWorkflowRequest,
+  DeleteWorkflowRequest & RegionInput,
   DeleteWorkflowResponse,
   DeleteWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -582,7 +596,7 @@ export type GetTaskInstanceError =
  * Retrieves detailed information about a specific task instance within a workflow run. Task instances represent individual tasks that are executed as part of a workflow in the Amazon Managed Workflows for Apache Airflow Serverless environment. Each task instance runs in an isolated ECS container with dedicated resources and security boundaries. The service tracks task execution state, retry attempts, and provides detailed timing and error information for troubleshooting and monitoring purposes.
  */
 export const getTaskInstance: API.OperationMethod<
-  GetTaskInstanceRequest,
+  GetTaskInstanceRequest & RegionInput,
   GetTaskInstanceResponse,
   GetTaskInstanceError,
   Credentials | HttpClient.HttpClient
@@ -616,7 +630,7 @@ export type GetWorkflowError =
  * Retrieves detailed information about a workflow, including its configuration, status, and metadata.
  */
 export const getWorkflow: API.OperationMethod<
-  GetWorkflowRequest,
+  GetWorkflowRequest & RegionInput,
   GetWorkflowResponse,
   GetWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -650,7 +664,7 @@ export type GetWorkflowRunError =
  * Retrieves detailed information about a specific workflow run, including its status, execution details, and task instances.
  */
 export const getWorkflowRun: API.OperationMethod<
-  GetWorkflowRunRequest,
+  GetWorkflowRunRequest & RegionInput,
   GetWorkflowRunResponse,
   GetWorkflowRunError,
   Credentials | HttpClient.HttpClient
@@ -684,7 +698,7 @@ export type ListTagsForResourceError =
  * Lists all tags that are associated with a specified Amazon Managed Workflows for Apache Airflow Serverless resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -717,7 +731,7 @@ export type ListTaskInstancesError =
  * Lists all task instances for a specific workflow run, with optional pagination support.
  */
 export const listTaskInstances: API.PaginatedOperationMethod<
-  ListTaskInstancesRequest,
+  ListTaskInstancesRequest & RegionInput,
   ListTaskInstancesResponse,
   ListTaskInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -756,7 +770,7 @@ export type ListWorkflowRunsError =
  * Lists all runs for a specified workflow, with optional pagination and filtering support.
  */
 export const listWorkflowRuns: API.PaginatedOperationMethod<
-  ListWorkflowRunsRequest,
+  ListWorkflowRunsRequest & RegionInput,
   ListWorkflowRunsResponse,
   ListWorkflowRunsError,
   Credentials | HttpClient.HttpClient,
@@ -795,7 +809,7 @@ export type ListWorkflowsError =
  * Lists all workflows in your account, with optional pagination support. This operation returns summary information for workflows, showing only the most recently created version of each workflow. Amazon Managed Workflows for Apache Airflow Serverless maintains workflow metadata in a highly available, distributed storage system that enables efficient querying and filtering. The service implements proper access controls to ensure you can only view workflows that you have permissions to access, supporting both individual and team-based workflow management scenarios.
  */
 export const listWorkflows: API.PaginatedOperationMethod<
-  ListWorkflowsRequest,
+  ListWorkflowsRequest & RegionInput,
   ListWorkflowsResponse,
   ListWorkflowsError,
   Credentials | HttpClient.HttpClient,
@@ -834,7 +848,7 @@ export type ListWorkflowVersionsError =
  * Lists all versions of a specified workflow, with optional pagination support.
  */
 export const listWorkflowVersions: API.PaginatedOperationMethod<
-  ListWorkflowVersionsRequest,
+  ListWorkflowVersionsRequest & RegionInput,
   ListWorkflowVersionsResponse,
   ListWorkflowVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -876,7 +890,7 @@ export type StartWorkflowRunError =
  * Starts a new execution of a workflow. This operation creates a workflow run that executes the tasks that are defined in the workflow. Amazon Managed Workflows for Apache Airflow Serverless schedules the workflow execution across its managed Airflow environment, automatically scaling ECS worker tasks based on the workload. The service handles task isolation, dependency resolution, and provides comprehensive monitoring and logging throughout the execution lifecycle.
  */
 export const startWorkflowRun: API.OperationMethod<
-  StartWorkflowRunRequest,
+  StartWorkflowRunRequest & RegionInput,
   StartWorkflowRunResponse,
   StartWorkflowRunError,
   Credentials | HttpClient.HttpClient
@@ -912,7 +926,7 @@ export type StopWorkflowRunError =
  * Stops a running workflow execution. This operation terminates all running tasks and prevents new tasks from starting. Amazon Managed Workflows for Apache Airflow Serverless gracefully shuts down the workflow execution by stopping task scheduling and terminating active ECS worker containers. The operation transitions the workflow run to a `STOPPING` state and then to `STOPPED` once all cleanup is complete. In-flight tasks may complete or be terminated depending on their current execution state.
  */
 export const stopWorkflowRun: API.OperationMethod<
-  StopWorkflowRunRequest,
+  StopWorkflowRunRequest & RegionInput,
   StopWorkflowRunResponse,
   StopWorkflowRunError,
   Credentials | HttpClient.HttpClient
@@ -946,7 +960,7 @@ export type TagResourceError =
  * Adds tags to an Amazon Managed Workflows for Apache Airflow Serverless resource. Tags are key-value pairs that help you organize and categorize your resources.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -980,7 +994,7 @@ export type UntagResourceError =
  * Removes tags from an Amazon Managed Workflows for Apache Airflow Serverless resource. This operation removes the specified tags from the resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1016,7 +1030,7 @@ export type UpdateWorkflowError =
  * Updates an existing workflow with new configuration settings. This operation allows you to modify the workflow definition, role, and other settings. When you update a workflow, Amazon Managed Workflows for Apache Airflow Serverless automatically creates a new version with the updated configuration and disables scheduling on all previous versions to ensure only one version is actively scheduled at a time. The update operation maintains workflow history while providing a clean transition to the new configuration.
  */
 export const updateWorkflow: API.OperationMethod<
-  UpdateWorkflowRequest,
+  UpdateWorkflowRequest & RegionInput,
   UpdateWorkflowResponse,
   UpdateWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -1122,6 +1136,7 @@ function __c1(j: number): any {
           ScheduleConfiguration: S.optional(__S(16, __c2, 0)),
           RoleArn: S.optional(S.String),
           NetworkConfiguration: S.optional(__S(178, __c22, 2)),
+          Environment: S.optional(__S(180, __c22, 4)),
           TriggerMode: S.optional(S.String),
           WorkflowDefinition: S.optional(S.String),
         }),
@@ -1489,6 +1504,7 @@ function __c15(j: number): any {
           LoggingConfiguration: S.optional(__S(177, __c22, 1)),
           EngineVersion: S.optional(S.Number),
           NetworkConfiguration: S.optional(__S(178, __c22, 2)),
+          Environment: S.optional(__S(180, __c22, 4)),
           TriggerMode: S.optional(S.String),
         }).pipe(
           T.all(
@@ -1537,6 +1553,7 @@ function __c17(j: number): any {
           LoggingConfiguration: S.optional(__S(177, __c22, 1)),
           EngineVersion: S.optional(S.Number),
           NetworkConfiguration: S.optional(__S(178, __c22, 2)),
+          Environment: S.optional(__S(180, __c22, 4)),
           Tags: S.optional(__S(144, __c18, 0)),
           TriggerMode: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/workflows" }), svc, auth, proto, ver, rules)),
@@ -1598,6 +1615,12 @@ function __c22(j: number): any {
           SubnetIds: S.optional(__S(160, __c20, 0)),
         }),
       ).annotate({ identifier: "NetworkConfiguration" });
+    case 3:
+      return S.Record(S.String, /*@__PURE__*/ SensitiveString.pipe(S.optional));
+    case 4:
+      return S.suspend(() => S.Struct({ Variables: S.optional(__S(179, __c22, 3)) })).annotate({
+        identifier: "Environment",
+      });
   }
 }
 function __c23(j: number): any {

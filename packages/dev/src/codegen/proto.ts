@@ -22,7 +22,8 @@
  * JSON at the gRPC method path — Connect-JSON / grpc-JSON transcoding shape.
  */
 
-import { SENSITIVE_FIELD_PATTERNS } from "./openapi.ts";
+import { DEFAULT_TRAIT, SERVER_STREAMING_TRAIT } from "./members.ts";
+import { ERROR_MATCHERS_TRAIT, SENSITIVE_FIELD_PATTERNS } from "./openapi.ts";
 
 // ============================================================================
 // Prelude
@@ -85,9 +86,13 @@ const WKT_TARGETS: Record<string, string> = {
 
 export interface ProtoField {
   readonly name: string;
+  /** Field number (the wire tag). */
+  readonly number: number;
   readonly type: string;
   readonly repeated: boolean;
   readonly optional: boolean;
+  /** The `oneof` the field belongs to, by its index in the message (0-based). */
+  readonly oneof?: number;
   readonly mapKey?: string;
   readonly mapValue?: string;
   readonly jsonName?: string;
@@ -157,7 +162,25 @@ export interface ProtoConvertOptions {
   /** Keep only these RPC names. Default: every unary RPC. */
   readonly rpcNames?: ReadonlySet<string>;
   readonly skipStreaming?: boolean;
+  /**
+   * Keep server-streaming RPCs (a unary request, a stream of responses) as
+   * operations whose output collects the stream: `{ items: [response, ...] }`.
+   * Client- and bidi-streaming RPCs are still skipped. Pairs with a protocol
+   * that reads every frame (`@distilled.cloud/core/protocol-grpc`).
+   */
+  readonly collectServerStreams?: boolean;
   readonly skipDeprecated?: boolean;
+  /**
+   * Error shapes declared on every operation, matched by HTTP status and,
+   * when `code` is given, by the `code` member of the error body.
+   */
+  readonly errors?: ReadonlyArray<ProtoErrorSpec>;
+}
+
+export interface ProtoErrorSpec {
+  readonly name: string;
+  readonly status: number;
+  readonly code?: string;
 }
 
 export interface ProtoConvertResult {
@@ -261,6 +284,31 @@ class Parser {
     const d = this.lastComment.trim();
     this.lastComment = "";
     return d || undefined;
+  }
+
+  trailingComment(): string | undefined {
+    let j = this.i;
+    while (this.src[j] === " " || this.src[j] === "\t") j++;
+    if (this.src[j] !== "/" || (this.src[j + 1] !== "/" && this.src[j + 1] !== "*")) {
+      return undefined;
+    }
+    const block = this.src[j + 1] === "*";
+    const end = block ? this.src.indexOf("*/", j + 2) : this.src.indexOf("\n", j + 2);
+    if (block && end === -1) return undefined;
+    const stop = end === -1 ? this.src.length : end;
+    const text = this.src.slice(j + 2, stop).trim();
+    while (this.i < (block ? stop + 2 : stop)) this.bump();
+    return text || undefined;
+  }
+
+  endStatement(): string | undefined {
+    this.expect(";");
+    return this.trailingComment();
+  }
+
+  openBlock(): string | undefined {
+    this.expect("{");
+    return this.trailingComment();
   }
 
   peekIdent(): boolean {
@@ -413,11 +461,12 @@ class Parser {
     }
     const name = this.ident();
     this.expect("=");
-    this.number();
+    const number = this.number();
     const opts = this.parseOptions();
-    this.expect(";");
+    const trailing = this.endStatement();
     return {
       name,
+      number,
       type,
       repeated,
       optional,
@@ -425,7 +474,7 @@ class Parser {
       mapValue,
       jsonName: opts.jsonName,
       deprecated: opts.deprecated,
-      documentation,
+      documentation: documentation ?? trailing,
     };
   }
 
@@ -433,14 +482,14 @@ class Parser {
     const documentation = this.takeDoc();
     const name = this.ident();
     const fullName = prefix ? `${prefix}.${name}` : `${pkg}.${name}`;
-    this.expect("{");
+    const trailing = this.openBlock();
     const values: ProtoEnumValue[] = [];
     while (true) {
       this.skipTrivia();
       if (this.peekChar() === "}") break;
       if (this.tryIdent("option") || this.tryIdent("reserved")) {
         this.skipUntil(";");
-        this.expect(";");
+        this.endStatement();
         continue;
       }
       const vdoc = this.takeDoc();
@@ -448,25 +497,26 @@ class Parser {
       this.expect("=");
       const number = this.number();
       const opts = this.parseOptions();
-      this.expect(";");
+      const trailing = this.endStatement();
       values.push({
         name: vname,
         number,
         deprecated: opts.deprecated,
-        documentation: vdoc,
+        documentation: vdoc ?? trailing,
       });
     }
     this.expect("}");
     this.tryChar(";");
-    return { name, fullName, values, documentation };
+    return { name, fullName, values, documentation: documentation ?? trailing };
   }
 
   parseMessage(pkg: string, prefix: string): ProtoMessage {
     const documentation = this.takeDoc();
     const name = this.ident();
     const fullName = prefix ? `${prefix}.${name}` : `${pkg}.${name}`;
-    this.expect("{");
+    const trailing = this.openBlock();
     const fields: ProtoField[] = [];
+    let oneofs = 0;
     const messages: ProtoMessage[] = [];
     const enums: ProtoEnum[] = [];
     while (true) {
@@ -474,7 +524,7 @@ class Parser {
       if (this.peekChar() === "}") break;
       if (this.tryIdent("option") || this.tryIdent("reserved") || this.tryIdent("extensions")) {
         this.skipUntil(";");
-        this.expect(";");
+        this.endStatement();
         continue;
       }
       if (this.tryIdent("message")) {
@@ -487,16 +537,17 @@ class Parser {
       }
       if (this.tryIdent("oneof")) {
         this.ident();
-        this.expect("{");
+        this.openBlock();
+        const oneof = oneofs++;
         while (true) {
           this.skipTrivia();
           if (this.peekChar() === "}") break;
           if (this.tryIdent("option")) {
             this.skipUntil(";");
-            this.expect(";");
+            this.endStatement();
             continue;
           }
-          fields.push({ ...this.parseField(), optional: true });
+          fields.push({ ...this.parseField(), optional: true, oneof });
         }
         this.expect("}");
         continue;
@@ -509,7 +560,7 @@ class Parser {
     }
     this.expect("}");
     this.tryChar(";");
-    return { name, fullName, fields, messages, enums, documentation };
+    return { name, fullName, fields, messages, enums, documentation: documentation ?? trailing };
   }
 
   parseRpc(): ProtoRpc {
@@ -525,7 +576,9 @@ class Parser {
     const responseType = this.dotted();
     this.expect(")");
     let deprecated = false;
+    let trailing: string | undefined;
     if (this.tryChar("{")) {
+      trailing = this.trailingComment();
       while (true) {
         this.skipTrivia();
         if (this.peekChar() === "}") break;
@@ -534,14 +587,14 @@ class Parser {
           this.skipUntil(";");
           const body = this.src.slice(start, this.i);
           if (/deprecated\s*=\s*true/.test(body)) deprecated = true;
-          this.expect(";");
+          this.endStatement();
           continue;
         }
         this.skipUntil("}");
       }
       this.expect("}");
     } else {
-      this.expect(";");
+      trailing = this.endStatement();
     }
     return {
       name,
@@ -550,21 +603,21 @@ class Parser {
       requestStream,
       responseStream,
       deprecated,
-      documentation,
+      documentation: documentation ?? trailing,
     };
   }
 
   parseService(pkg: string): ProtoService {
     const documentation = this.takeDoc();
     const name = this.ident();
-    this.expect("{");
+    const trailing = this.openBlock();
     const rpcs: ProtoRpc[] = [];
     while (true) {
       this.skipTrivia();
       if (this.peekChar() === "}") break;
       if (this.tryIdent("option") || this.tryIdent("reserved")) {
         this.skipUntil(";");
-        this.expect(";");
+        this.endStatement();
         continue;
       }
       if (this.tryIdent("rpc")) {
@@ -575,7 +628,7 @@ class Parser {
     }
     this.expect("}");
     this.tryChar(";");
-    return { name, fullName: `${pkg}.${name}`, rpcs, documentation };
+    return { name, fullName: `${pkg}.${name}`, rpcs, documentation: documentation ?? trailing };
   }
 
   parseFile(): ProtoFile {
@@ -592,24 +645,24 @@ class Parser {
       if (this.tryIdent("syntax")) {
         this.expect("=");
         syntax = this.stringLit();
-        this.expect(";");
+        this.endStatement();
         continue;
       }
       if (this.tryIdent("package")) {
         pkg = this.dotted();
-        this.expect(";");
+        this.endStatement();
         continue;
       }
       if (this.tryIdent("import")) {
         this.tryIdent("public");
         this.tryIdent("weak");
         imports.push(this.stringLit());
-        this.expect(";");
+        this.endStatement();
         continue;
       }
       if (this.tryIdent("option")) {
         this.skipUntil(";");
-        this.expect(";");
+        this.endStatement();
         continue;
       }
       if (this.tryIdent("message")) {
@@ -724,8 +777,22 @@ const ident = (s: string): string => {
   return out || "_";
 };
 
-const camel = (s: string): string =>
-  s.replace(/[_-]+([A-Za-z0-9])/g, (_, c: string) => c.toUpperCase());
+/**
+ * A field's proto3 JSON name, by protoc's rule: drop every `_` and upper-case
+ * the character after it (`field__name4_` -> `fieldName4`).
+ */
+const jsonNameOf = (name: string): string => {
+  let out = "";
+  let upper = false;
+  for (const c of name) {
+    if (c === "_") upper = true;
+    else {
+      out += upper ? c.toUpperCase() : c;
+      upper = false;
+    }
+  }
+  return out;
+};
 
 const shapeNameFor = (fullName: string): string => {
   const parts = fullName.split(".").filter(Boolean);
@@ -869,13 +936,48 @@ const memberTraits = (field: ProtoField, tsName: string): Record<string, any> =>
   const traits: Record<string, any> = {};
   const doc = oneLineDoc(field.documentation);
   if (doc) traits["smithy.api#documentation"] = doc;
-  const wire = field.jsonName ?? camel(field.name);
+  const wire = field.jsonName ?? jsonNameOf(field.name);
   if (wire !== tsName) traits["smithy.api#jsonName"] = wire;
   if (isSensitive(field.name) || isSensitive(tsName)) {
     traits["smithy.api#sensitive"] = {};
   }
   if (field.deprecated) traits["smithy.api#deprecated"] = {};
   return traits;
+};
+
+const SCALAR_DEFAULTS: Record<string, unknown> = {
+  double: 0,
+  float: 0,
+  int32: 0,
+  uint32: 0,
+  sint32: 0,
+  fixed32: 0,
+  sfixed32: 0,
+  int64: "0",
+  uint64: "0",
+  sint64: "0",
+  fixed64: "0",
+  sfixed64: "0",
+  bool: false,
+  string: "",
+  bytes: "",
+};
+
+/**
+ * The proto3 default of a field without presence, as its proto3 JSON value
+ * (the Smithy `default` trait), or `undefined` for a field with presence: an
+ * `optional` or `oneof` field, or a message field. A reader sees the
+ * default when the writer leaves the field out, so a response always has it.
+ */
+const proto3Default = (ctx: EmitCtx, field: ProtoField, scope: string): unknown => {
+  if (field.optional) return undefined;
+  if (field.mapKey && field.mapValue) return {};
+  if (field.repeated) return [];
+  if (field.type in SCALAR_DEFAULTS) return SCALAR_DEFAULTS[field.type];
+  const resolved = resolveName(field.type, ctx.pkg, scope, ctx.index);
+  if (resolved in SCALAR_DEFAULTS) return SCALAR_DEFAULTS[resolved];
+  const en = ctx.index.enums.get(resolved);
+  return en ? (en.values.find((v) => v.number === 0) ?? en.values[0])?.name : undefined;
 };
 
 const emitMembers = (
@@ -886,11 +988,13 @@ const emitMembers = (
   const members: Record<string, any> = {};
   const used = new Set<string>();
   for (const field of fields) {
-    let tsName = ident(camel(field.name));
+    let tsName = ident(jsonNameOf(field.name));
     let k = 2;
-    while (used.has(tsName)) tsName = `${ident(camel(field.name))}${k++}`;
+    while (used.has(tsName)) tsName = `${ident(jsonNameOf(field.name))}${k++}`;
     used.add(tsName);
     const traits = memberTraits(field, tsName);
+    const fallback = proto3Default(ctx, field, scope);
+    if (fallback !== undefined) traits[DEFAULT_TRAIT] = fallback;
     members[tsName] = {
       target: fieldTarget(ctx, field, scope),
       ...(Object.keys(traits).length ? { traits } : {}),
@@ -1022,6 +1126,24 @@ export const convertProtoToSmithy = (options: ProtoConvertOptions): ProtoConvert
     ? options.serviceName
     : `${options.serviceName}Service`;
   bag.names.add(serviceShapeName);
+  const errorTargets = (options.errors ?? []).map((error) => ({
+    target: addExact(bag, error.name, {
+      type: "structure",
+      members: {
+        message: { target: "smithy.api#String" },
+        body: { target: "smithy.api#Document" },
+      },
+      traits: {
+        "smithy.api#error": error.status < 500 ? "client" : "server",
+        "smithy.api#httpError": error.status,
+        [ERROR_MATCHERS_TRAIT]: [
+          error.code === undefined
+            ? { status: error.status }
+            : { status: error.status, body: { "/code": error.code } },
+        ],
+      },
+    }),
+  }));
   for (const rpc of service.rpcs) {
     if (options.rpcNames && !options.rpcNames.has(rpc.name)) continue;
     bag.names.add(rpc.name);
@@ -1029,7 +1151,9 @@ export const convertProtoToSmithy = (options: ProtoConvertOptions): ProtoConvert
 
   for (const rpc of service.rpcs) {
     if (options.rpcNames && !options.rpcNames.has(rpc.name)) continue;
-    if (rpc.requestStream || rpc.responseStream) {
+    const collect =
+      options.collectServerStreams === true && rpc.responseStream && !rpc.requestStream;
+    if ((rpc.requestStream || rpc.responseStream) && !collect) {
       if (skipStreaming) {
         skippedStreaming++;
         continue;
@@ -1041,7 +1165,22 @@ export const convertProtoToSmithy = (options: ProtoConvertOptions): ProtoConvert
     }
 
     const input = copyIo(ctx, rpc.name, "Request", rpc.requestType);
-    const output = copyIo(ctx, rpc.name, "Response", rpc.responseType);
+    const output = collect
+      ? addShape(bag, `${rpc.name}Stream`, {
+          type: "structure",
+          members: {
+            items: {
+              target: listOf(ctx, emitType(ctx, rpc.responseType, undefined, true)),
+              traits: {
+                "smithy.api#required": {},
+                "smithy.api#documentation":
+                  "Every message of the server stream, in order. The stream ends when the server ends it (bound it with the request's timeout).",
+              },
+            },
+          },
+          traits: { "smithy.api#output": {} },
+        })
+      : copyIo(ctx, rpc.name, "Response", rpc.responseType);
     const httpUri = `/${service.fullName}/${rpc.name}`;
     const traits: Record<string, any> = {
       "smithy.api#http": { method: "POST", uri: httpUri, code: 200 },
@@ -1049,11 +1188,13 @@ export const convertProtoToSmithy = (options: ProtoConvertOptions): ProtoConvert
     const doc = oneLineDoc(rpc.documentation);
     if (doc) traits["smithy.api#documentation"] = doc;
     if (rpc.deprecated) traits["smithy.api#deprecated"] = {};
+    if (collect) traits[SERVER_STREAMING_TRAIT] = {};
 
     const opId = addExact(bag, rpc.name, {
       type: "operation",
       input: { target: input },
       output: { target: output },
+      ...(errorTargets.length > 0 ? { errors: errorTargets } : {}),
       traits,
     });
     serviceOps.push({ target: opId });
@@ -1089,4 +1230,125 @@ export const convertProtoToSmithy = (options: ProtoConvertOptions): ProtoConvert
     skippedDeprecated,
     shapeCount: Object.keys(bag.shapes).length,
   };
+};
+
+// ============================================================================
+// Binary wire descriptors
+// ============================================================================
+
+/** Field kinds of `@distilled.cloud/core/protobuf`. */
+const SCALAR_KINDS = new Set([
+  "double",
+  "float",
+  "int32",
+  "int64",
+  "uint32",
+  "uint64",
+  "sint32",
+  "sint64",
+  "fixed32",
+  "fixed64",
+  "sfixed32",
+  "sfixed64",
+  "bool",
+  "string",
+  "bytes",
+]);
+
+type DescriptorField = [
+  number,
+  string,
+  string,
+  (string | [string, string, string?] | 0)?,
+  (0 | 1)?,
+  number?,
+];
+
+export interface ProtoDescriptorTable {
+  messages: Record<string, DescriptorField[]>;
+  enums: Record<string, Record<string, number>>;
+  methods: Record<string, [string, string, 1?]>;
+}
+
+/**
+ * The descriptor table `@distilled.cloud/core/protobuf` transcodes with:
+ * every message's fields (number, proto3 JSON name, kind, reference), every
+ * enum's values, and every kept RPC's request/response types by gRPC path.
+ * JSON names match the Smithy members `convertProtoToSmithy` emits.
+ */
+export const protoDescriptors = (
+  files: readonly ProtoFile[],
+  options: { readonly collectServerStreams?: boolean; readonly skipDeprecated?: boolean } = {},
+): ProtoDescriptorTable => {
+  const index = indexFiles(files);
+  const table: ProtoDescriptorTable = { messages: {}, enums: {}, methods: {} };
+  const pkgOf = (fullName: string): string => {
+    for (const file of files) {
+      if (fullName.startsWith(`${file.package}.`)) return file.package;
+    }
+    return "";
+  };
+  const kindOf = (raw: string, pkg: string, scope: string): [string, string | undefined] => {
+    if (SCALAR_KINDS.has(raw)) return [raw, undefined];
+    const resolved = resolveName(raw, pkg, scope, index);
+    if (SCALAR_KINDS.has(resolved)) return [resolved, undefined];
+    if (index.enums.has(resolved)) return ["enum", resolved];
+    return ["message", resolved];
+  };
+  for (const [name, msg] of index.messages) {
+    const pkg = pkgOf(name);
+    table.messages[name] = msg.fields.map((f): DescriptorField => {
+      const json = f.jsonName ?? jsonNameOf(f.name);
+      if (f.mapKey && f.mapValue) {
+        const [kk] = kindOf(f.mapKey, pkg, name);
+        const [vk, vr] = kindOf(f.mapValue, pkg, name);
+        return [f.number, json, "map", vr ? [kk, vk, vr] : [kk, vk]];
+      }
+      const [kind, ref] = kindOf(f.type, pkg, name);
+      if (f.repeated) return [f.number, json, kind, ref ?? 0, 1];
+      // `optional` and `oneof` fields have presence: absent stays absent.
+      // A oneof member's presence names its oneof (2, 3, ...), so setting one
+      // member clears the others.
+      if (f.optional) {
+        return [f.number, json, kind, ref ?? 0, 0, f.oneof === undefined ? 1 : f.oneof + 2];
+      }
+      return ref ? [f.number, json, kind, ref] : [f.number, json, kind];
+    });
+  }
+  for (const [name, en] of index.enums) {
+    table.enums[name] = Object.fromEntries(en.values.map((v) => [v.name, v.number]));
+  }
+  for (const service of index.services) {
+    const pkg = service.fullName.split(".").slice(0, -1).join(".");
+    for (const rpc of service.rpcs) {
+      if (rpc.deprecated && (options.skipDeprecated ?? true)) continue;
+      const serverStream = rpc.responseStream && !rpc.requestStream;
+      if (rpc.requestStream || (rpc.responseStream && !options.collectServerStreams)) continue;
+      const req = resolveName(rpc.requestType, pkg, undefined, index);
+      const res = resolveName(rpc.responseType, pkg, undefined, index);
+      table.methods[`/${service.fullName}/${rpc.name}`] = serverStream ? [req, res, 1] : [req, res];
+    }
+  }
+  return table;
+};
+
+/**
+ * Throws when an operation of `models` has no method in `table`: the gRPC
+ * protocol finds an operation's message types by its path, so a call to
+ * one without a method could never be encoded.
+ */
+export const assertDescriptorsCover = (
+  models: ReadonlyArray<ProtoConvertResult["model"]>,
+  table: ProtoDescriptorTable,
+): void => {
+  const missing: string[] = [];
+  for (const model of models) {
+    for (const [id, shape] of Object.entries(model.shapes)) {
+      const uri = shape?.type === "operation" ? shape.traits?.["smithy.api#http"]?.uri : undefined;
+      if (typeof uri === "string" && !(uri in table.methods)) missing.push(`${id} (${uri})`);
+    }
+  }
+  if (missing.length > 0) {
+    throw new Error(`no gRPC descriptor method for: ${missing.join(", ")}`);
+  }
 };

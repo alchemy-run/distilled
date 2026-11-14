@@ -49,27 +49,27 @@ export interface CancelDomainVerificationRequest {
 }
 export interface CancelDomainVerificationResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface CheckCommunicationServiceNameAvailabilityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource for which availability needs to be checked. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
 }
 /** The reason why the given name is not available. */
 export type CheckCommunicationServiceNameAvailabilityResponseReason = "Invalid" | "AlreadyExists";
 export interface CheckCommunicationServiceNameAvailabilityResponse {
   /** Indicates if the resource name is available. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason why the given name is not available. */
-  reason?: CheckCommunicationServiceNameAvailabilityResponseReason;
+  reason?: CheckCommunicationServiceNameAvailabilityResponseReason | undefined;
   /** Detailed reason why the given name is available. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Resource tags. */
 export type CommunicationServicesCreateOrUpdateRequestTagsMap = {
@@ -87,11 +87,14 @@ export interface CommunicationServicePropertiesInput {
   /** The location where the communication service stores its data at rest. */
   dataLocation: string;
   /** List of email Domain resource Ids. */
-  linkedDomains?: DomainsResourceList;
+  linkedDomains?: DomainsResourceList | undefined;
   /** Allow, disallow, or let network security perimeter configuration control public network access to the protected resource. Value is optional but if passed in, it must be 'Enabled', 'Disabled' or 'SecuredByPerimeter'. */
-  publicNetworkAccess?: CommunicationServicePropertiesInputPublicNetworkAccess | (string & {});
+  publicNetworkAccess?:
+    | CommunicationServicePropertiesInputPublicNetworkAccess
+    | (string & {})
+    | undefined;
   /** Disable local authentication for the CommunicationService. */
-  disableLocalAuth?: boolean;
+  disableLocalAuth?: boolean | undefined;
 }
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -109,7 +112,9 @@ export type CommunicationServicesCreateOrUpdateRequestIdentityUserAssignedIdenti
 export interface CommunicationServicesCreateOrUpdateRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: CommunicationServicesCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | CommunicationServicesCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface CommunicationServicesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -119,13 +124,13 @@ export interface CommunicationServicesCreateOrUpdateRequest {
   /** The name of the CommunicationService resource. */
   communicationServiceName: string;
   /** Resource tags. */
-  tags?: CommunicationServicesCreateOrUpdateRequestTagsMap;
+  tags?: CommunicationServicesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties of the service. */
-  properties?: CommunicationServicePropertiesInput;
+  properties?: CommunicationServicePropertiesInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CommunicationServicesCreateOrUpdateRequestIdentity;
+  identity?: CommunicationServicesCreateOrUpdateRequestIdentity | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -134,17 +139,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type CommunicationServicesCreateOrUpdateResponseTagsMap = {
@@ -169,30 +174,30 @@ export type CommunicationServicePropertiesPublicNetworkAccess =
 /** A class that describes the properties of the CommunicationService. */
 export interface CommunicationServiceProperties {
   /** Provisioning state of the resource. */
-  provisioningState?: CommunicationServicesProvisioningState;
+  provisioningState?: CommunicationServicesProvisioningState | undefined;
   /** FQDN of the CommunicationService instance. */
-  hostName?: string;
+  hostName?: string | undefined;
   /** The location where the communication service stores its data at rest. */
   dataLocation: string;
   /** Resource ID of an Azure Notification Hub linked to this resource. */
-  notificationHubId?: string;
+  notificationHubId?: string | undefined;
   /** Version of the CommunicationService resource. Probably you need the same or higher version of client SDKs. */
-  version?: string;
+  version?: string | undefined;
   /** The immutable resource Id of the communication service. */
-  immutableResourceId?: string;
+  immutableResourceId?: string | undefined;
   /** List of email Domain resource Ids. */
-  linkedDomains?: DomainsResourceList;
+  linkedDomains?: DomainsResourceList | undefined;
   /** Allow, disallow, or let network security perimeter configuration control public network access to the protected resource. Value is optional but if passed in, it must be 'Enabled', 'Disabled' or 'SecuredByPerimeter'. */
-  publicNetworkAccess?: CommunicationServicePropertiesPublicNetworkAccess;
+  publicNetworkAccess?: CommunicationServicePropertiesPublicNetworkAccess | undefined;
   /** Disable local authentication for the CommunicationService. */
-  disableLocalAuth?: boolean;
+  disableLocalAuth?: boolean | undefined;
 }
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type CommunicationServicesCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap = {
@@ -201,34 +206,36 @@ export type CommunicationServicesCreateOrUpdateResponseIdentityUserAssignedIdent
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface CommunicationServicesCreateOrUpdateResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: CommunicationServicesCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | CommunicationServicesCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface CommunicationServicesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CommunicationServicesCreateOrUpdateResponseTagsMap;
+  tags?: CommunicationServicesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties of the service. */
-  properties?: CommunicationServiceProperties;
+  properties?: CommunicationServiceProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CommunicationServicesCreateOrUpdateResponseIdentity;
+  identity?: CommunicationServicesCreateOrUpdateResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface CommunicationServicesLinkNotificationHubRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -245,7 +252,7 @@ export interface CommunicationServicesLinkNotificationHubRequest {
 /** A notification hub that has been linked to the communication service */
 export interface LinkedNotificationHub {
   /** The resource ID of the notification hub */
-  resourceId?: string;
+  resourceId?: string | undefined;
 }
 export interface DeleteCommunicationServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -257,9 +264,9 @@ export interface DeleteCommunicationServiceRequest {
 }
 export interface DeleteCommunicationServiceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteDomainRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -273,9 +280,9 @@ export interface DeleteDomainRequest {
 }
 export interface DeleteDomainResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteEmailServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -287,9 +294,9 @@ export interface DeleteEmailServiceRequest {
 }
 export interface DeleteEmailServiceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteSenderUsernameRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -357,7 +364,7 @@ export interface DomainPropertiesInput {
   /** Describes how a Domains resource is being managed. */
   domainManagement: DomainManagement | (string & {});
   /** Describes whether user engagement tracking is enabled or disabled. */
-  userEngagementTracking?: UserEngagementTracking | (string & {});
+  userEngagementTracking?: UserEngagementTracking | (string & {}) | undefined;
 }
 export interface DomainsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -369,11 +376,11 @@ export interface DomainsCreateOrUpdateRequest {
   /** The name of the Domains resource. */
   domainName: string;
   /** Resource tags. */
-  tags?: DomainsCreateOrUpdateRequestTagsMap;
+  tags?: DomainsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties of a Domains resource. */
-  properties?: DomainPropertiesInput;
+  properties?: DomainPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type DomainsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -399,85 +406,85 @@ export type VerificationStatus =
 /** A class that represents a VerificationStatus record. */
 export interface VerificationStatusRecord {
   /** Status of the verification operation. */
-  status?: VerificationStatus;
+  status?: VerificationStatus | undefined;
   /** Error code. This property will only be present if the status is UnableToVerify. */
-  errorCode?: string;
+  errorCode?: string | undefined;
 }
 /** List of VerificationStatusRecord */
 export interface DomainPropertiesVerificationStates {
   /** A class that represents a VerificationStatus record. */
-  Domain?: VerificationStatusRecord;
+  Domain?: VerificationStatusRecord | undefined;
   /** A class that represents a VerificationStatus record. */
-  SPF?: VerificationStatusRecord;
+  SPF?: VerificationStatusRecord | undefined;
   /** A class that represents a VerificationStatus record. */
-  DKIM?: VerificationStatusRecord;
+  DKIM?: VerificationStatusRecord | undefined;
   /** A class that represents a VerificationStatus record. */
-  DKIM2?: VerificationStatusRecord;
+  DKIM2?: VerificationStatusRecord | undefined;
   /** A class that represents a VerificationStatus record. */
-  DMARC?: VerificationStatusRecord;
+  DMARC?: VerificationStatusRecord | undefined;
 }
 /** A class that represents a VerificationStatus record. */
 export interface DnsRecord {
   /** Type of the DNS record. Example: TXT */
-  type?: string;
+  type?: string | undefined;
   /** Name of the DNS record. */
-  name?: string;
+  name?: string | undefined;
   /** Value of the DNS record. */
-  value?: string;
+  value?: string | undefined;
   /** Represents an expiry time in seconds to represent how long this entry can be cached by the resolver, default = 3600sec. */
-  ttl?: number;
+  ttl?: number | undefined;
 }
 /** List of DnsRecord */
 export interface DomainPropertiesVerificationRecords {
   /** A class that represents a VerificationStatus record. */
-  Domain?: DnsRecord;
+  Domain?: DnsRecord | undefined;
   /** A class that represents a VerificationStatus record. */
-  SPF?: DnsRecord;
+  SPF?: DnsRecord | undefined;
   /** A class that represents a VerificationStatus record. */
-  DKIM?: DnsRecord;
+  DKIM?: DnsRecord | undefined;
   /** A class that represents a VerificationStatus record. */
-  DKIM2?: DnsRecord;
+  DKIM2?: DnsRecord | undefined;
   /** A class that represents a VerificationStatus record. */
-  DMARC?: DnsRecord;
+  DMARC?: DnsRecord | undefined;
 }
 /** A class that describes the properties of a Domains resource. */
 export interface DomainProperties {
   /** Provisioning state of the resource. */
-  provisioningState?: DomainsProvisioningState;
+  provisioningState?: DomainsProvisioningState | undefined;
   /** The location where the Domains resource data is stored at rest. */
-  dataLocation?: string;
+  dataLocation?: string | undefined;
   /** P2 sender domain that is displayed to the email recipients [RFC 5322]. */
-  fromSenderDomain?: string;
+  fromSenderDomain?: string | undefined;
   /** P1 sender domain that is present on the email envelope [RFC 5321]. */
-  mailFromSenderDomain?: string;
+  mailFromSenderDomain?: string | undefined;
   /** Describes how a Domains resource is being managed. */
   domainManagement: DomainManagement;
   /** List of VerificationStatusRecord */
-  verificationStates?: DomainPropertiesVerificationStates;
+  verificationStates?: DomainPropertiesVerificationStates | undefined;
   /** List of DnsRecord */
-  verificationRecords?: DomainPropertiesVerificationRecords;
+  verificationRecords?: DomainPropertiesVerificationRecords | undefined;
   /** Describes whether user engagement tracking is enabled or disabled. */
-  userEngagementTracking?: UserEngagementTracking;
+  userEngagementTracking?: UserEngagementTracking | undefined;
 }
 export interface DomainsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DomainsCreateOrUpdateResponseTagsMap;
+  tags?: DomainsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties of a Domains resource. */
-  properties?: DomainProperties;
+  properties?: DomainProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DomainsInitiateVerificationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -493,9 +500,9 @@ export interface DomainsInitiateVerificationRequest {
 }
 export interface DomainsInitiateVerificationResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type EmailServicesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -513,7 +520,7 @@ export type EmailServicesProvisioningState =
 /** A class that describes the properties of the EmailService. */
 export interface EmailServiceProperties {
   /** Provisioning state of the resource. */
-  provisioningState?: EmailServicesProvisioningState | (string & {});
+  provisioningState?: EmailServicesProvisioningState | (string & {}) | undefined;
   /** The location where the email service stores its data at rest. */
   dataLocation: string;
 }
@@ -525,33 +532,33 @@ export interface EmailServicesCreateOrUpdateRequest {
   /** The name of the EmailService resource. */
   emailServiceName: string;
   /** Resource tags. */
-  tags?: EmailServicesCreateOrUpdateRequestTagsMap;
+  tags?: EmailServicesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties of the service. */
-  properties?: EmailServiceProperties;
+  properties?: EmailServiceProperties | undefined;
 }
 /** Resource tags. */
 export type EmailServicesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface EmailServicesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: EmailServicesCreateOrUpdateResponseTagsMap;
+  tags?: EmailServicesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties of the service. */
-  properties?: EmailServiceProperties;
+  properties?: EmailServiceProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetCommunicationServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -570,30 +577,32 @@ export type GetCommunicationServiceResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface GetCommunicationServiceResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: GetCommunicationServiceResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | GetCommunicationServiceResponseIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface GetCommunicationServiceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetCommunicationServiceResponseTagsMap;
+  tags?: GetCommunicationServiceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties of the service. */
-  properties?: CommunicationServiceProperties;
+  properties?: CommunicationServiceProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetCommunicationServiceResponseIdentity;
+  identity?: GetCommunicationServiceResponseIdentity | undefined;
 }
 export interface GetDomainRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -609,19 +618,19 @@ export interface GetDomainRequest {
 export type GetDomainResponseTagsMap = { [key: string]: string | undefined };
 export interface GetDomainResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetDomainResponseTagsMap;
+  tags?: GetDomainResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties of a Domains resource. */
-  properties?: DomainProperties;
+  properties?: DomainProperties | undefined;
 }
 export interface GetEmailServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -635,19 +644,19 @@ export interface GetEmailServiceRequest {
 export type GetEmailServiceResponseTagsMap = { [key: string]: string | undefined };
 export interface GetEmailServiceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetEmailServiceResponseTagsMap;
+  tags?: GetEmailServiceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties of the service. */
-  properties?: EmailServiceProperties;
+  properties?: EmailServiceProperties | undefined;
 }
 export interface GetSenderUsernameRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -675,25 +684,25 @@ export type ProvisioningState =
 /** A class that describes the properties of a SenderUsername resource. */
 export interface SenderUsernameProperties {
   /** The location where the SenderUsername resource data is stored at rest. */
-  dataLocation?: string;
+  dataLocation?: string | undefined;
   /** A sender senderUsername to be used when sending emails. */
   username: string;
   /** The display name for the senderUsername. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Provisioning state of the resource. Unknown is the default state for Communication Services. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetSenderUsernameResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a SenderUsername resource. */
-  properties?: SenderUsernameProperties;
+  properties?: SenderUsernameProperties | undefined;
 }
 export interface GetSmtpUsernameRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -716,15 +725,15 @@ export interface SmtpUsernameProperties {
 }
 export interface GetSmtpUsernameResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a SmtpUsername resource. */
-  properties?: SmtpUsernameProperties;
+  properties?: SmtpUsernameProperties | undefined;
 }
 export interface GetSuppressionListRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -741,25 +750,25 @@ export interface GetSuppressionListRequest {
 /** A class that describes the properties of a SuppressionList resource. */
 export interface SuppressionListProperties {
   /** The name of the suppression list. This value must match one of the valid sender usernames of the sending domain. */
-  listName?: string;
+  listName?: string | undefined;
   /** The date the resource was last updated. */
-  lastUpdatedTimeStamp?: string;
+  lastUpdatedTimeStamp?: string | undefined;
   /** The date the resource was created. */
-  createdTimeStamp?: string;
+  createdTimeStamp?: string | undefined;
   /** The location where the SuppressionListAddress data is stored at rest. This value is inherited from the parent Domains resource. */
-  dataLocation?: string;
+  dataLocation?: string | undefined;
 }
 export interface GetSuppressionListResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a SuppressionList resource. */
-  properties?: SuppressionListProperties;
+  properties?: SuppressionListProperties | undefined;
 }
 export interface GetSuppressionListAddressRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -780,27 +789,27 @@ export interface SuppressionListAddressProperties {
   /** Email address of the recipient. */
   email: string;
   /** The first name of the email recipient. */
-  firstName?: string;
+  firstName?: string | undefined;
   /** The last name of the email recipient. */
-  lastName?: string;
+  lastName?: string | undefined;
   /** An optional property to provide contextual notes or a description for an address. */
-  notes?: string;
+  notes?: string | undefined;
   /** The date the address was last updated in a suppression list. */
-  lastModified?: string;
+  lastModified?: string | undefined;
   /** The location where the SuppressionListAddress data is stored at rest. This value is inherited from the parent Domains resource. */
-  dataLocation?: string;
+  dataLocation?: string | undefined;
 }
 export interface GetSuppressionListAddressResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a SuppressionListAddress resource. */
-  properties?: SuppressionListAddressProperties;
+  properties?: SuppressionListAddressProperties | undefined;
 }
 export interface ListCommunicationServiceByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -817,31 +826,33 @@ export type CommunicationServiceResourceIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface CommunicationServiceResourceIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: CommunicationServiceResourceIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | CommunicationServiceResourceIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 /** A class representing a CommunicationService resource. */
 export interface CommunicationServiceResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CommunicationServiceResourceTagsMap;
+  tags?: CommunicationServiceResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties of the service. */
-  properties?: CommunicationServiceProperties;
+  properties?: CommunicationServiceProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CommunicationServiceResourceIdentity;
+  identity?: CommunicationServiceResourceIdentity | undefined;
 }
 /** The CommunicationServiceResource items on this page */
 export type CommunicationServiceResourceListValueList = Array<CommunicationServiceResource>;
@@ -850,7 +861,7 @@ export interface CommunicationServiceResourceList {
   /** The CommunicationServiceResource items on this page */
   value: CommunicationServiceResourceListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCommunicationServiceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -867,13 +878,13 @@ export interface ListCommunicationServiceKeysRequest {
 /** A class representing the access keys of a CommunicationService. */
 export interface CommunicationServiceKeys {
   /** The primary access key. */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
   /** The secondary access key. */
-  secondaryKey?: string;
+  secondaryKey?: string | undefined;
   /** CommunicationService connection string constructed via the primaryKey */
-  primaryConnectionString?: string;
+  primaryConnectionString?: string | undefined;
   /** CommunicationService connection string constructed via the secondaryKey */
-  secondaryConnectionString?: string;
+  secondaryConnectionString?: string | undefined;
 }
 export interface ListDomainByEmailServiceResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -888,19 +899,19 @@ export type DomainResourceTagsMap = { [key: string]: string | undefined };
 /** A class representing a Domains resource. */
 export interface DomainResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DomainResourceTagsMap;
+  tags?: DomainResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties of a Domains resource. */
-  properties?: DomainProperties;
+  properties?: DomainProperties | undefined;
 }
 /** The DomainResource items on this page */
 export type DomainResourceListValueList = Array<DomainResource>;
@@ -909,7 +920,7 @@ export interface DomainResourceList {
   /** The DomainResource items on this page */
   value: DomainResourceListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListEmailServiceByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -922,19 +933,19 @@ export type EmailServiceResourceTagsMap = { [key: string]: string | undefined };
 /** A class representing an EmailService resource. */
 export interface EmailServiceResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: EmailServiceResourceTagsMap;
+  tags?: EmailServiceResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties of the service. */
-  properties?: EmailServiceProperties;
+  properties?: EmailServiceProperties | undefined;
 }
 /** The EmailServiceResource items on this page */
 export type EmailServiceResourceListValueList = Array<EmailServiceResource>;
@@ -943,7 +954,7 @@ export interface EmailServiceResourceList {
   /** The EmailServiceResource items on this page */
   value: EmailServiceResourceListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListEmailServiceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -961,13 +972,13 @@ export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -976,23 +987,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSenderUsernameByDomainsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1007,15 +1018,15 @@ export interface ListSenderUsernameByDomainsRequest {
 /** A class representing a SenderUsername resource. */
 export interface SenderUsernameResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a SenderUsername resource. */
-  properties?: SenderUsernameProperties;
+  properties?: SenderUsernameProperties | undefined;
 }
 /** The SenderUsernameResource items on this page */
 export type SenderUsernameResourceCollectionValueList = Array<SenderUsernameResource>;
@@ -1024,7 +1035,7 @@ export interface SenderUsernameResourceCollection {
   /** The SenderUsernameResource items on this page */
   value: SenderUsernameResourceCollectionValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSmtpUsernamesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1037,15 +1048,15 @@ export interface ListSmtpUsernamesRequest {
 /** The object describing the smtp username resource. */
 export interface SmtpUsernameResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a SmtpUsername resource. */
-  properties?: SmtpUsernameProperties;
+  properties?: SmtpUsernameProperties | undefined;
 }
 /** The SmtpUsernameResource items on this page */
 export type SmtpUsernameResourceCollectionValueList = Array<SmtpUsernameResource>;
@@ -1054,7 +1065,7 @@ export interface SmtpUsernameResourceCollection {
   /** The SmtpUsernameResource items on this page */
   value: SmtpUsernameResourceCollectionValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSuppressionListAddressesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1071,15 +1082,15 @@ export interface ListSuppressionListAddressesRequest {
 /** A object that represents a SuppressionList record. */
 export interface SuppressionListAddressResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a SuppressionListAddress resource. */
-  properties?: SuppressionListAddressProperties;
+  properties?: SuppressionListAddressProperties | undefined;
 }
 /** The SuppressionListAddressResource items on this page */
 export type SuppressionListAddressResourceCollectionValueList =
@@ -1089,7 +1100,7 @@ export interface SuppressionListAddressResourceCollection {
   /** The SuppressionListAddressResource items on this page */
   value: SuppressionListAddressResourceCollectionValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSuppressionListByDomainRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1104,15 +1115,15 @@ export interface ListSuppressionListByDomainRequest {
 /** A class representing a SuppressionList resource. */
 export interface SuppressionListResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a SuppressionList resource. */
-  properties?: SuppressionListProperties;
+  properties?: SuppressionListProperties | undefined;
 }
 /** The SuppressionListResource items on this page */
 export type SuppressionListResourceCollectionValueList = Array<SuppressionListResource>;
@@ -1121,7 +1132,7 @@ export interface SuppressionListResourceCollection {
   /** The SuppressionListResource items on this page */
   value: SuppressionListResourceCollectionValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** The keyType to regenerate. Must be either 'primary' or 'secondary'(case-insensitive). */
 export type KeyType = "Primary" | "Secondary";
@@ -1133,14 +1144,14 @@ export interface RegenerateCommunicationServiceKeyRequest {
   /** The name of the CommunicationService resource. */
   communicationServiceName: string;
   /** The keyType to regenerate. Must be either 'primary' or 'secondary'(case-insensitive). */
-  keyType?: KeyType | (string & {});
+  keyType?: KeyType | (string & {}) | undefined;
 }
 /** A class that describes the properties of a SenderUsername resource. */
 export interface SenderUsernamePropertiesInput {
   /** A sender senderUsername to be used when sending emails. */
   username: string;
   /** The display name for the senderUsername. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export interface SenderUsernamesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1154,19 +1165,19 @@ export interface SenderUsernamesCreateOrUpdateRequest {
   /** The valid sender Username. */
   senderUsername: string;
   /** The properties of a SenderUsername resource. */
-  properties?: SenderUsernamePropertiesInput;
+  properties?: SenderUsernamePropertiesInput | undefined;
 }
 export interface SenderUsernamesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a SenderUsername resource. */
-  properties?: SenderUsernameProperties;
+  properties?: SenderUsernameProperties | undefined;
 }
 export interface SmtpUsernamesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1178,30 +1189,30 @@ export interface SmtpUsernamesCreateOrUpdateRequest {
   /** The name of the SmtpUsernameResource. */
   smtpUsername: string;
   /** The properties of a SmtpUsername resource. */
-  properties?: SmtpUsernameProperties;
+  properties?: SmtpUsernameProperties | undefined;
 }
 export interface SmtpUsernamesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a SmtpUsername resource. */
-  properties?: SmtpUsernameProperties;
+  properties?: SmtpUsernameProperties | undefined;
 }
 /** A class that describes the properties of a SuppressionListAddress resource. */
 export interface SuppressionListAddressPropertiesInput {
   /** Email address of the recipient. */
   email: string;
   /** The first name of the email recipient. */
-  firstName?: string;
+  firstName?: string | undefined;
   /** The last name of the email recipient. */
-  lastName?: string;
+  lastName?: string | undefined;
   /** An optional property to provide contextual notes or a description for an address. */
-  notes?: string;
+  notes?: string | undefined;
 }
 export interface SuppressionListAddressesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1217,24 +1228,24 @@ export interface SuppressionListAddressesCreateOrUpdateRequest {
   /** The id of the address in a suppression list. */
   addressId: string;
   /** The properties of a SuppressionListAddress resource. */
-  properties?: SuppressionListAddressPropertiesInput;
+  properties?: SuppressionListAddressPropertiesInput | undefined;
 }
 export interface SuppressionListAddressesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a SuppressionListAddress resource. */
-  properties?: SuppressionListAddressProperties;
+  properties?: SuppressionListAddressProperties | undefined;
 }
 /** A class that describes the properties of a SuppressionList resource. */
 export interface SuppressionListPropertiesInput {
   /** The name of the suppression list. This value must match one of the valid sender usernames of the sending domain. */
-  listName?: string;
+  listName?: string | undefined;
 }
 export interface SuppressionListsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1248,19 +1259,19 @@ export interface SuppressionListsCreateOrUpdateRequest {
   /** The name of the suppression list. */
   suppressionListName: string;
   /** The properties of a SuppressionList resource. */
-  properties?: SuppressionListPropertiesInput;
+  properties?: SuppressionListPropertiesInput | undefined;
 }
 export interface SuppressionListsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a SuppressionList resource. */
-  properties?: SuppressionListProperties;
+  properties?: SuppressionListProperties | undefined;
 }
 /** Tags of the service which is a list of key value pairs that describe the resource. */
 export type UpdateCommunicationServiceRequestTagsMap = { [key: string]: string | undefined };
@@ -1272,11 +1283,14 @@ export type CommunicationServiceUpdatePropertiesPublicNetworkAccess =
 /** A class that describes the properties that can be updated for CommunicationService resource. */
 export interface CommunicationServiceUpdateProperties {
   /** List of email Domain resource Ids. */
-  linkedDomains?: DomainsResourceList;
+  linkedDomains?: DomainsResourceList | undefined;
   /** Allow, disallow, or let network security perimeter configuration control public network access to the protected resource. Value is optional but if passed in, it must be 'Enabled', 'Disabled' or 'SecuredByPerimeter'. */
-  publicNetworkAccess?: CommunicationServiceUpdatePropertiesPublicNetworkAccess | (string & {});
+  publicNetworkAccess?:
+    | CommunicationServiceUpdatePropertiesPublicNetworkAccess
+    | (string & {})
+    | undefined;
   /** Disable local authentication for the CommunicationService. */
-  disableLocalAuth?: boolean;
+  disableLocalAuth?: boolean | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UpdateCommunicationServiceRequestIdentityUserAssignedIdentitiesMap = {
@@ -1286,7 +1300,9 @@ export type UpdateCommunicationServiceRequestIdentityUserAssignedIdentitiesMap =
 export interface UpdateCommunicationServiceRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: UpdateCommunicationServiceRequestIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | UpdateCommunicationServiceRequestIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface UpdateCommunicationServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1296,11 +1312,11 @@ export interface UpdateCommunicationServiceRequest {
   /** The name of the CommunicationService resource. */
   communicationServiceName: string;
   /** Tags of the service which is a list of key value pairs that describe the resource. */
-  tags?: UpdateCommunicationServiceRequestTagsMap;
+  tags?: UpdateCommunicationServiceRequestTagsMap | undefined;
   /** The properties of the service. */
-  properties?: CommunicationServiceUpdateProperties;
+  properties?: CommunicationServiceUpdateProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: UpdateCommunicationServiceRequestIdentity;
+  identity?: UpdateCommunicationServiceRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type UpdateCommunicationServiceResponseTagsMap = { [key: string]: string | undefined };
@@ -1311,37 +1327,39 @@ export type UpdateCommunicationServiceResponseIdentityUserAssignedIdentitiesMap 
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface UpdateCommunicationServiceResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: UpdateCommunicationServiceResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | UpdateCommunicationServiceResponseIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface UpdateCommunicationServiceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateCommunicationServiceResponseTagsMap;
+  tags?: UpdateCommunicationServiceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties of the service. */
-  properties?: CommunicationServiceProperties;
+  properties?: CommunicationServiceProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: UpdateCommunicationServiceResponseIdentity;
+  identity?: UpdateCommunicationServiceResponseIdentity | undefined;
 }
 /** Tags of the service which is a list of key value pairs that describe the resource. */
 export type UpdateDomainRequestTagsMap = { [key: string]: string | undefined };
 /** A class that describes the updatable properties of a Domains resource. */
 export interface UpdateDomainProperties {
   /** Describes whether user engagement tracking is enabled or disabled. */
-  userEngagementTracking?: UserEngagementTracking | (string & {});
+  userEngagementTracking?: UserEngagementTracking | (string & {}) | undefined;
 }
 export interface UpdateDomainRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1353,31 +1371,31 @@ export interface UpdateDomainRequest {
   /** The name of the Domains resource. */
   domainName: string;
   /** Tags of the service which is a list of key value pairs that describe the resource. */
-  tags?: UpdateDomainRequestTagsMap;
+  tags?: UpdateDomainRequestTagsMap | undefined;
   /** A class that describes the updatable properties of a Domains resource. */
-  properties?: UpdateDomainProperties;
+  properties?: UpdateDomainProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateDomainResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateDomainResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateDomainResponseTagsMap;
+  tags?: UpdateDomainResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties of a Domains resource. */
-  properties?: DomainProperties;
+  properties?: DomainProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Tags of the service which is a list of key value pairs that describe the resource. */
 export type UpdateEmailServiceRequestTagsMap = { [key: string]: string | undefined };
@@ -1389,29 +1407,29 @@ export interface UpdateEmailServiceRequest {
   /** The name of the EmailService resource. */
   emailServiceName: string;
   /** Tags of the service which is a list of key value pairs that describe the resource. */
-  tags?: UpdateEmailServiceRequestTagsMap;
+  tags?: UpdateEmailServiceRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateEmailServiceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateEmailServiceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateEmailServiceResponseTagsMap;
+  tags?: UpdateEmailServiceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties of the service. */
-  properties?: EmailServiceProperties;
+  properties?: EmailServiceProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type CancelDomainVerificationError = AzureOpError;
 /** Cancel Verification Cancel verification of DNS record. */

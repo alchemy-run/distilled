@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -153,13 +154,13 @@ export class InternalFailureException
     "InternalFailureException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class LimitExceededException
   extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()(
     "LimitExceededException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class NotFoundException
   extends /*@__PURE__*/ S.TaggedError<NotFoundException>()(
     "NotFoundException",
@@ -185,23 +186,23 @@ export interface AssociateApiRequest {
 }
 export type AssociationStatus = "PROCESSING" | "FAILED" | "SUCCESS" | (string & {});
 export interface ApiAssociation {
-  domainName?: string;
-  apiId?: string;
-  associationStatus?: AssociationStatus;
-  deploymentDetail?: string;
+  domainName?: string | undefined;
+  apiId?: string | undefined;
+  associationStatus?: AssociationStatus | undefined;
+  deploymentDetail?: string | undefined;
 }
 export interface AssociateApiResponse {
-  apiAssociation?: ApiAssociation;
+  apiAssociation?: ApiAssociation | undefined;
 }
 export type MergeType = "MANUAL_MERGE" | "AUTO_MERGE" | (string & {});
 export interface SourceApiAssociationConfig {
-  mergeType?: MergeType;
+  mergeType?: MergeType | undefined;
 }
 export interface AssociateMergedGraphqlApiRequest {
   sourceApiIdentifier: string;
   mergedApiIdentifier: string;
-  description?: string;
-  sourceApiAssociationConfig?: SourceApiAssociationConfig;
+  description?: string | undefined;
+  sourceApiAssociationConfig?: SourceApiAssociationConfig | undefined;
 }
 export type SourceApiAssociationStatus =
   | "MERGE_SCHEDULED"
@@ -214,29 +215,29 @@ export type SourceApiAssociationStatus =
   | "DELETION_FAILED"
   | (string & {});
 export interface SourceApiAssociation {
-  associationId?: string;
-  associationArn?: string;
-  sourceApiId?: string;
-  sourceApiArn?: string;
-  mergedApiArn?: string;
-  mergedApiId?: string;
-  description?: string;
-  sourceApiAssociationConfig?: SourceApiAssociationConfig;
-  sourceApiAssociationStatus?: SourceApiAssociationStatus;
-  sourceApiAssociationStatusDetail?: string;
-  lastSuccessfulMergeDate?: Date;
+  associationId?: string | undefined;
+  associationArn?: string | undefined;
+  sourceApiId?: string | undefined;
+  sourceApiArn?: string | undefined;
+  mergedApiArn?: string | undefined;
+  mergedApiId?: string | undefined;
+  description?: string | undefined;
+  sourceApiAssociationConfig?: SourceApiAssociationConfig | undefined;
+  sourceApiAssociationStatus?: SourceApiAssociationStatus | undefined;
+  sourceApiAssociationStatusDetail?: string | undefined;
+  lastSuccessfulMergeDate?: Date | undefined;
 }
 export interface AssociateMergedGraphqlApiResponse {
-  sourceApiAssociation?: SourceApiAssociation;
+  sourceApiAssociation?: SourceApiAssociation | undefined;
 }
 export interface AssociateSourceGraphqlApiRequest {
   mergedApiIdentifier: string;
   sourceApiIdentifier: string;
-  description?: string;
-  sourceApiAssociationConfig?: SourceApiAssociationConfig;
+  description?: string | undefined;
+  sourceApiAssociationConfig?: SourceApiAssociationConfig | undefined;
 }
 export interface AssociateSourceGraphqlApiResponse {
-  sourceApiAssociation?: SourceApiAssociation;
+  sourceApiAssociation?: SourceApiAssociation | undefined;
 }
 export type ApiName = string;
 export type TagKey = string;
@@ -252,25 +253,25 @@ export type AuthenticationType =
 export interface CognitoConfig {
   userPoolId: string;
   awsRegion: string;
-  appIdClientRegex?: string;
+  appIdClientRegex?: string | undefined;
 }
 export interface OpenIDConnectConfig {
   issuer: string;
-  clientId?: string;
-  iatTTL?: number;
-  authTTL?: number;
+  clientId?: string | undefined;
+  iatTTL?: number | undefined;
+  authTTL?: number | undefined;
 }
 export type TTL = number;
 export interface LambdaAuthorizerConfig {
-  authorizerResultTtlInSeconds?: number;
+  authorizerResultTtlInSeconds?: number | undefined;
   authorizerUri: string;
-  identityValidationExpression?: string;
+  identityValidationExpression?: string | undefined;
 }
 export interface AuthProvider {
   authType: AuthenticationType;
-  cognitoConfig?: CognitoConfig;
-  openIDConnectConfig?: OpenIDConnectConfig;
-  lambdaAuthorizerConfig?: LambdaAuthorizerConfig;
+  cognitoConfig?: CognitoConfig | undefined;
+  openIDConnectConfig?: OpenIDConnectConfig | undefined;
+  lambdaAuthorizerConfig?: LambdaAuthorizerConfig | undefined;
 }
 export type AuthProviders = AuthProvider[];
 export interface AuthMode {
@@ -287,30 +288,30 @@ export interface EventConfig {
   connectionAuthModes: AuthMode[];
   defaultPublishAuthModes: AuthMode[];
   defaultSubscribeAuthModes: AuthMode[];
-  logConfig?: EventLogConfig;
+  logConfig?: EventLogConfig | undefined;
 }
 export interface CreateApiRequest {
   name: string;
-  ownerContact?: string;
-  tags?: { [key: string]: string | undefined };
+  ownerContact?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
   eventConfig: EventConfig;
 }
 export type OwnerContact = string;
 export type MapOfStringToString = { [key: string]: string | undefined };
 export interface Api {
-  apiId?: string;
-  name?: string;
-  ownerContact?: string;
-  tags?: { [key: string]: string | undefined };
-  dns?: { [key: string]: string | undefined };
-  apiArn?: string;
-  created?: Date;
-  xrayEnabled?: boolean;
-  wafWebAclArn?: string;
-  eventConfig?: EventConfig;
+  apiId?: string | undefined;
+  name?: string | undefined;
+  ownerContact?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  dns?: { [key: string]: string | undefined } | undefined;
+  apiArn?: string | undefined;
+  created?: Date | undefined;
+  xrayEnabled?: boolean | undefined;
+  wafWebAclArn?: string | undefined;
+  eventConfig?: EventConfig | undefined;
 }
 export interface CreateApiResponse {
-  api?: Api;
+  api?: Api | undefined;
 }
 export type ApiCachingBehavior =
   | "FULL_REQUEST_CACHING"
@@ -338,11 +339,11 @@ export type CacheHealthMetricsConfig = "ENABLED" | "DISABLED" | (string & {});
 export interface CreateApiCacheRequest {
   apiId: string;
   ttl: number;
-  transitEncryptionEnabled?: boolean;
-  atRestEncryptionEnabled?: boolean;
+  transitEncryptionEnabled?: boolean | undefined;
+  atRestEncryptionEnabled?: boolean | undefined;
   apiCachingBehavior: ApiCachingBehavior;
   type: ApiCacheType;
-  healthMetricsConfig?: CacheHealthMetricsConfig;
+  healthMetricsConfig?: CacheHealthMetricsConfig | undefined;
 }
 export type ApiCacheStatus =
   | "AVAILABLE"
@@ -352,73 +353,73 @@ export type ApiCacheStatus =
   | "FAILED"
   | (string & {});
 export interface ApiCache {
-  ttl?: number;
-  apiCachingBehavior?: ApiCachingBehavior;
-  transitEncryptionEnabled?: boolean;
-  atRestEncryptionEnabled?: boolean;
-  type?: ApiCacheType;
-  status?: ApiCacheStatus;
-  healthMetricsConfig?: CacheHealthMetricsConfig;
+  ttl?: number | undefined;
+  apiCachingBehavior?: ApiCachingBehavior | undefined;
+  transitEncryptionEnabled?: boolean | undefined;
+  atRestEncryptionEnabled?: boolean | undefined;
+  type?: ApiCacheType | undefined;
+  status?: ApiCacheStatus | undefined;
+  healthMetricsConfig?: CacheHealthMetricsConfig | undefined;
 }
 export interface CreateApiCacheResponse {
-  apiCache?: ApiCache;
+  apiCache?: ApiCache | undefined;
 }
 export interface CreateApiKeyRequest {
   apiId: string;
-  description?: string;
-  expires?: number;
+  description?: string | undefined;
+  expires?: number | undefined;
 }
 export interface ApiKey {
-  id?: string;
-  description?: string;
-  expires?: number;
-  deletes?: number;
+  id?: string | undefined;
+  description?: string | undefined;
+  expires?: number | undefined;
+  deletes?: number | undefined;
 }
 export interface CreateApiKeyResponse {
-  apiKey?: ApiKey;
+  apiKey?: ApiKey | undefined;
 }
 export type Namespace = string;
 export type Code = string;
 export type HandlerBehavior = "CODE" | "DIRECT" | (string & {});
 export type InvokeType = "REQUEST_RESPONSE" | "EVENT" | (string & {});
 export interface LambdaConfig {
-  invokeType?: InvokeType;
+  invokeType?: InvokeType | undefined;
 }
 export interface Integration {
   dataSourceName: string;
-  lambdaConfig?: LambdaConfig;
+  lambdaConfig?: LambdaConfig | undefined;
 }
 export interface HandlerConfig {
   behavior: HandlerBehavior;
   integration: Integration;
 }
 export interface HandlerConfigs {
-  onPublish?: HandlerConfig;
-  onSubscribe?: HandlerConfig;
+  onPublish?: HandlerConfig | undefined;
+  onSubscribe?: HandlerConfig | undefined;
 }
 export interface CreateChannelNamespaceRequest {
   apiId: string;
   name: string;
-  subscribeAuthModes?: AuthMode[];
-  publishAuthModes?: AuthMode[];
-  codeHandlers?: string;
-  tags?: { [key: string]: string | undefined };
-  handlerConfigs?: HandlerConfigs;
+  subscribeAuthModes?: AuthMode[] | undefined;
+  publishAuthModes?: AuthMode[] | undefined;
+  codeHandlers?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  handlerConfigs?: HandlerConfigs | undefined;
 }
 export interface ChannelNamespace {
-  apiId?: string;
-  name?: string;
-  subscribeAuthModes?: AuthMode[];
-  publishAuthModes?: AuthMode[];
-  codeHandlers?: string;
-  tags?: { [key: string]: string | undefined };
-  channelNamespaceArn?: string;
-  created?: Date;
-  lastModified?: Date;
-  handlerConfigs?: HandlerConfigs;
+  apiId?: string | undefined;
+  name?: string | undefined;
+  subscribeAuthModes?: AuthMode[] | undefined;
+  publishAuthModes?: AuthMode[] | undefined;
+  codeHandlers?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  channelNamespaceArn?: string | undefined;
+  created?: Date | undefined;
+  lastModified?: Date | undefined;
+  handlerConfigs?: HandlerConfigs | undefined;
 }
 export interface CreateChannelNamespaceResponse {
-  channelNamespace?: ChannelNamespace;
+  channelNamespace?: ChannelNamespace | undefined;
 }
 export type ResourceName = string;
 export type DataSourceType =
@@ -433,16 +434,16 @@ export type DataSourceType =
   | "AMAZON_BEDROCK_RUNTIME"
   | (string & {});
 export interface DeltaSyncConfig {
-  baseTableTTL?: number;
-  deltaSyncTableName?: string;
-  deltaSyncTableTTL?: number;
+  baseTableTTL?: number | undefined;
+  deltaSyncTableName?: string | undefined;
+  deltaSyncTableTTL?: number | undefined;
 }
 export interface DynamodbDataSourceConfig {
   tableName: string;
   awsRegion: string;
-  useCallerCredentials?: boolean;
-  deltaSyncConfig?: DeltaSyncConfig;
-  versioned?: boolean;
+  useCallerCredentials?: boolean | undefined;
+  deltaSyncConfig?: DeltaSyncConfig | undefined;
+  versioned?: boolean | undefined;
 }
 export interface LambdaDataSourceConfig {
   lambdaFunctionArn: string;
@@ -457,28 +458,28 @@ export interface OpenSearchServiceDataSourceConfig {
 }
 export type AuthorizationType = "AWS_IAM" | (string & {});
 export interface AwsIamConfig {
-  signingRegion?: string;
-  signingServiceName?: string;
+  signingRegion?: string | undefined;
+  signingServiceName?: string | undefined;
 }
 export interface AuthorizationConfig {
   authorizationType: AuthorizationType;
-  awsIamConfig?: AwsIamConfig;
+  awsIamConfig?: AwsIamConfig | undefined;
 }
 export interface HttpDataSourceConfig {
-  endpoint?: string;
-  authorizationConfig?: AuthorizationConfig;
+  endpoint?: string | undefined;
+  authorizationConfig?: AuthorizationConfig | undefined;
 }
 export type RelationalDatabaseSourceType = "RDS_HTTP_ENDPOINT" | (string & {});
 export interface RdsHttpEndpointConfig {
-  awsRegion?: string;
-  dbClusterIdentifier?: string;
-  databaseName?: string;
-  schema?: string;
-  awsSecretStoreArn?: string;
+  awsRegion?: string | undefined;
+  dbClusterIdentifier?: string | undefined;
+  databaseName?: string | undefined;
+  schema?: string | undefined;
+  awsSecretStoreArn?: string | undefined;
 }
 export interface RelationalDatabaseDataSourceConfig {
-  relationalDatabaseSourceType?: RelationalDatabaseSourceType;
-  rdsHttpEndpointConfig?: RdsHttpEndpointConfig;
+  relationalDatabaseSourceType?: RelationalDatabaseSourceType | undefined;
+  rdsHttpEndpointConfig?: RdsHttpEndpointConfig | undefined;
 }
 export interface EventBridgeDataSourceConfig {
   eventBusArn: string;
@@ -487,55 +488,55 @@ export type DataSourceLevelMetricsConfig = "ENABLED" | "DISABLED" | (string & {}
 export interface CreateDataSourceRequest {
   apiId: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   type: DataSourceType;
-  serviceRoleArn?: string;
-  dynamodbConfig?: DynamodbDataSourceConfig;
-  lambdaConfig?: LambdaDataSourceConfig;
-  elasticsearchConfig?: ElasticsearchDataSourceConfig;
-  openSearchServiceConfig?: OpenSearchServiceDataSourceConfig;
-  httpConfig?: HttpDataSourceConfig;
-  relationalDatabaseConfig?: RelationalDatabaseDataSourceConfig;
-  eventBridgeConfig?: EventBridgeDataSourceConfig;
-  metricsConfig?: DataSourceLevelMetricsConfig;
+  serviceRoleArn?: string | undefined;
+  dynamodbConfig?: DynamodbDataSourceConfig | undefined;
+  lambdaConfig?: LambdaDataSourceConfig | undefined;
+  elasticsearchConfig?: ElasticsearchDataSourceConfig | undefined;
+  openSearchServiceConfig?: OpenSearchServiceDataSourceConfig | undefined;
+  httpConfig?: HttpDataSourceConfig | undefined;
+  relationalDatabaseConfig?: RelationalDatabaseDataSourceConfig | undefined;
+  eventBridgeConfig?: EventBridgeDataSourceConfig | undefined;
+  metricsConfig?: DataSourceLevelMetricsConfig | undefined;
 }
 export interface DataSource {
-  dataSourceArn?: string;
-  name?: string;
-  description?: string;
-  type?: DataSourceType;
-  serviceRoleArn?: string;
-  dynamodbConfig?: DynamodbDataSourceConfig;
-  lambdaConfig?: LambdaDataSourceConfig;
-  elasticsearchConfig?: ElasticsearchDataSourceConfig;
-  openSearchServiceConfig?: OpenSearchServiceDataSourceConfig;
-  httpConfig?: HttpDataSourceConfig;
-  relationalDatabaseConfig?: RelationalDatabaseDataSourceConfig;
-  eventBridgeConfig?: EventBridgeDataSourceConfig;
-  metricsConfig?: DataSourceLevelMetricsConfig;
+  dataSourceArn?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  type?: DataSourceType | undefined;
+  serviceRoleArn?: string | undefined;
+  dynamodbConfig?: DynamodbDataSourceConfig | undefined;
+  lambdaConfig?: LambdaDataSourceConfig | undefined;
+  elasticsearchConfig?: ElasticsearchDataSourceConfig | undefined;
+  openSearchServiceConfig?: OpenSearchServiceDataSourceConfig | undefined;
+  httpConfig?: HttpDataSourceConfig | undefined;
+  relationalDatabaseConfig?: RelationalDatabaseDataSourceConfig | undefined;
+  eventBridgeConfig?: EventBridgeDataSourceConfig | undefined;
+  metricsConfig?: DataSourceLevelMetricsConfig | undefined;
 }
 export interface CreateDataSourceResponse {
-  dataSource?: DataSource;
+  dataSource?: DataSource | undefined;
 }
 export type CertificateArn = string;
 export type Description = string;
 export interface CreateDomainNameRequest {
   domainName: string;
   certificateArn: string;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DomainNameConfig {
-  domainName?: string;
-  description?: string;
-  certificateArn?: string;
-  appsyncDomainName?: string;
-  hostedZoneId?: string;
-  tags?: { [key: string]: string | undefined };
-  domainNameArn?: string;
+  domainName?: string | undefined;
+  description?: string | undefined;
+  certificateArn?: string | undefined;
+  appsyncDomainName?: string | undefined;
+  hostedZoneId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  domainNameArn?: string | undefined;
 }
 export interface CreateDomainNameResponse {
-  domainNameConfig?: DomainNameConfig;
+  domainNameConfig?: DomainNameConfig | undefined;
 }
 export type MappingTemplate = string;
 export type ConflictHandlerType =
@@ -546,12 +547,12 @@ export type ConflictHandlerType =
   | (string & {});
 export type ConflictDetectionType = "VERSION" | "NONE" | (string & {});
 export interface LambdaConflictHandlerConfig {
-  lambdaConflictHandlerArn?: string;
+  lambdaConflictHandlerArn?: string | undefined;
 }
 export interface SyncConfig {
-  conflictHandler?: ConflictHandlerType;
-  conflictDetection?: ConflictDetectionType;
-  lambdaConflictHandlerConfig?: LambdaConflictHandlerConfig;
+  conflictHandler?: ConflictHandlerType | undefined;
+  conflictDetection?: ConflictDetectionType | undefined;
+  lambdaConflictHandlerConfig?: LambdaConflictHandlerConfig | undefined;
 }
 export type MaxBatchSize = number;
 export type RuntimeName = "APPSYNC_JS" | (string & {});
@@ -562,56 +563,56 @@ export interface AppSyncRuntime {
 export interface CreateFunctionRequest {
   apiId: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   dataSourceName: string;
-  requestMappingTemplate?: string;
-  responseMappingTemplate?: string;
-  functionVersion?: string;
-  syncConfig?: SyncConfig;
-  maxBatchSize?: number;
-  runtime?: AppSyncRuntime;
-  code?: string;
+  requestMappingTemplate?: string | undefined;
+  responseMappingTemplate?: string | undefined;
+  functionVersion?: string | undefined;
+  syncConfig?: SyncConfig | undefined;
+  maxBatchSize?: number | undefined;
+  runtime?: AppSyncRuntime | undefined;
+  code?: string | undefined;
 }
 export interface FunctionConfiguration {
-  functionId?: string;
-  functionArn?: string;
-  name?: string;
-  description?: string;
-  dataSourceName?: string;
-  requestMappingTemplate?: string;
-  responseMappingTemplate?: string;
-  functionVersion?: string;
-  syncConfig?: SyncConfig;
-  maxBatchSize?: number;
-  runtime?: AppSyncRuntime;
-  code?: string;
+  functionId?: string | undefined;
+  functionArn?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  dataSourceName?: string | undefined;
+  requestMappingTemplate?: string | undefined;
+  responseMappingTemplate?: string | undefined;
+  functionVersion?: string | undefined;
+  syncConfig?: SyncConfig | undefined;
+  maxBatchSize?: number | undefined;
+  runtime?: AppSyncRuntime | undefined;
+  code?: string | undefined;
 }
 export interface CreateFunctionResponse {
-  functionConfiguration?: FunctionConfiguration;
+  functionConfiguration?: FunctionConfiguration | undefined;
 }
 export type FieldLogLevel = "NONE" | "ERROR" | "ALL" | "INFO" | "DEBUG" | (string & {});
 export interface LogConfig {
   fieldLogLevel: FieldLogLevel;
   cloudWatchLogsRoleArn: string;
-  excludeVerboseContent?: boolean;
+  excludeVerboseContent?: boolean | undefined;
 }
 export type DefaultAction = "ALLOW" | "DENY" | (string & {});
 export interface UserPoolConfig {
   userPoolId: string;
   awsRegion: string;
   defaultAction: DefaultAction;
-  appIdClientRegex?: string;
+  appIdClientRegex?: string | undefined;
 }
 export interface CognitoUserPoolConfig {
   userPoolId: string;
   awsRegion: string;
-  appIdClientRegex?: string;
+  appIdClientRegex?: string | undefined;
 }
 export interface AdditionalAuthenticationProvider {
-  authenticationType?: AuthenticationType;
-  openIDConnectConfig?: OpenIDConnectConfig;
-  userPoolConfig?: CognitoUserPoolConfig;
-  lambdaAuthorizerConfig?: LambdaAuthorizerConfig;
+  authenticationType?: AuthenticationType | undefined;
+  openIDConnectConfig?: OpenIDConnectConfig | undefined;
+  userPoolConfig?: CognitoUserPoolConfig | undefined;
+  lambdaAuthorizerConfig?: LambdaAuthorizerConfig | undefined;
 }
 export type AdditionalAuthenticationProviders = AdditionalAuthenticationProvider[];
 export type GraphQLApiType = "GRAPHQL" | "MERGED" | (string & {});
@@ -635,96 +636,96 @@ export interface EnhancedMetricsConfig {
 }
 export interface CreateGraphqlApiRequest {
   name: string;
-  logConfig?: LogConfig;
+  logConfig?: LogConfig | undefined;
   authenticationType: AuthenticationType;
-  userPoolConfig?: UserPoolConfig;
-  openIDConnectConfig?: OpenIDConnectConfig;
-  tags?: { [key: string]: string | undefined };
-  additionalAuthenticationProviders?: AdditionalAuthenticationProvider[];
-  xrayEnabled?: boolean;
-  lambdaAuthorizerConfig?: LambdaAuthorizerConfig;
-  apiType?: GraphQLApiType;
-  mergedApiExecutionRoleArn?: string;
-  visibility?: GraphQLApiVisibility;
-  ownerContact?: string;
-  introspectionConfig?: GraphQLApiIntrospectionConfig;
-  queryDepthLimit?: number;
-  resolverCountLimit?: number;
-  enhancedMetricsConfig?: EnhancedMetricsConfig;
+  userPoolConfig?: UserPoolConfig | undefined;
+  openIDConnectConfig?: OpenIDConnectConfig | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  additionalAuthenticationProviders?: AdditionalAuthenticationProvider[] | undefined;
+  xrayEnabled?: boolean | undefined;
+  lambdaAuthorizerConfig?: LambdaAuthorizerConfig | undefined;
+  apiType?: GraphQLApiType | undefined;
+  mergedApiExecutionRoleArn?: string | undefined;
+  visibility?: GraphQLApiVisibility | undefined;
+  ownerContact?: string | undefined;
+  introspectionConfig?: GraphQLApiIntrospectionConfig | undefined;
+  queryDepthLimit?: number | undefined;
+  resolverCountLimit?: number | undefined;
+  enhancedMetricsConfig?: EnhancedMetricsConfig | undefined;
 }
 export interface GraphqlApi {
-  name?: string;
-  apiId?: string;
-  authenticationType?: AuthenticationType;
-  logConfig?: LogConfig;
-  userPoolConfig?: UserPoolConfig;
-  openIDConnectConfig?: OpenIDConnectConfig;
-  arn?: string;
-  uris?: { [key: string]: string | undefined };
-  tags?: { [key: string]: string | undefined };
-  additionalAuthenticationProviders?: AdditionalAuthenticationProvider[];
-  xrayEnabled?: boolean;
-  wafWebAclArn?: string;
-  lambdaAuthorizerConfig?: LambdaAuthorizerConfig;
-  dns?: { [key: string]: string | undefined };
-  visibility?: GraphQLApiVisibility;
-  apiType?: GraphQLApiType;
-  mergedApiExecutionRoleArn?: string;
-  owner?: string;
-  ownerContact?: string;
-  introspectionConfig?: GraphQLApiIntrospectionConfig;
-  queryDepthLimit?: number;
-  resolverCountLimit?: number;
-  enhancedMetricsConfig?: EnhancedMetricsConfig;
+  name?: string | undefined;
+  apiId?: string | undefined;
+  authenticationType?: AuthenticationType | undefined;
+  logConfig?: LogConfig | undefined;
+  userPoolConfig?: UserPoolConfig | undefined;
+  openIDConnectConfig?: OpenIDConnectConfig | undefined;
+  arn?: string | undefined;
+  uris?: { [key: string]: string | undefined } | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  additionalAuthenticationProviders?: AdditionalAuthenticationProvider[] | undefined;
+  xrayEnabled?: boolean | undefined;
+  wafWebAclArn?: string | undefined;
+  lambdaAuthorizerConfig?: LambdaAuthorizerConfig | undefined;
+  dns?: { [key: string]: string | undefined } | undefined;
+  visibility?: GraphQLApiVisibility | undefined;
+  apiType?: GraphQLApiType | undefined;
+  mergedApiExecutionRoleArn?: string | undefined;
+  owner?: string | undefined;
+  ownerContact?: string | undefined;
+  introspectionConfig?: GraphQLApiIntrospectionConfig | undefined;
+  queryDepthLimit?: number | undefined;
+  resolverCountLimit?: number | undefined;
+  enhancedMetricsConfig?: EnhancedMetricsConfig | undefined;
 }
 export interface CreateGraphqlApiResponse {
-  graphqlApi?: GraphqlApi;
+  graphqlApi?: GraphqlApi | undefined;
 }
 export type ResolverKind = "UNIT" | "PIPELINE" | (string & {});
 export type FunctionsIds = string[];
 export interface PipelineConfig {
-  functions?: string[];
+  functions?: string[] | undefined;
 }
 export type CachingKeys = string[];
 export interface CachingConfig {
   ttl: number;
-  cachingKeys?: string[];
+  cachingKeys?: string[] | undefined;
 }
 export type ResolverLevelMetricsConfig = "ENABLED" | "DISABLED" | (string & {});
 export interface CreateResolverRequest {
   apiId: string;
   typeName: string;
   fieldName: string;
-  dataSourceName?: string;
-  requestMappingTemplate?: string;
-  responseMappingTemplate?: string;
-  kind?: ResolverKind;
-  pipelineConfig?: PipelineConfig;
-  syncConfig?: SyncConfig;
-  cachingConfig?: CachingConfig;
-  maxBatchSize?: number;
-  runtime?: AppSyncRuntime;
-  code?: string;
-  metricsConfig?: ResolverLevelMetricsConfig;
+  dataSourceName?: string | undefined;
+  requestMappingTemplate?: string | undefined;
+  responseMappingTemplate?: string | undefined;
+  kind?: ResolverKind | undefined;
+  pipelineConfig?: PipelineConfig | undefined;
+  syncConfig?: SyncConfig | undefined;
+  cachingConfig?: CachingConfig | undefined;
+  maxBatchSize?: number | undefined;
+  runtime?: AppSyncRuntime | undefined;
+  code?: string | undefined;
+  metricsConfig?: ResolverLevelMetricsConfig | undefined;
 }
 export interface Resolver {
-  typeName?: string;
-  fieldName?: string;
-  dataSourceName?: string;
-  resolverArn?: string;
-  requestMappingTemplate?: string;
-  responseMappingTemplate?: string;
-  kind?: ResolverKind;
-  pipelineConfig?: PipelineConfig;
-  syncConfig?: SyncConfig;
-  cachingConfig?: CachingConfig;
-  maxBatchSize?: number;
-  runtime?: AppSyncRuntime;
-  code?: string;
-  metricsConfig?: ResolverLevelMetricsConfig;
+  typeName?: string | undefined;
+  fieldName?: string | undefined;
+  dataSourceName?: string | undefined;
+  resolverArn?: string | undefined;
+  requestMappingTemplate?: string | undefined;
+  responseMappingTemplate?: string | undefined;
+  kind?: ResolverKind | undefined;
+  pipelineConfig?: PipelineConfig | undefined;
+  syncConfig?: SyncConfig | undefined;
+  cachingConfig?: CachingConfig | undefined;
+  maxBatchSize?: number | undefined;
+  runtime?: AppSyncRuntime | undefined;
+  code?: string | undefined;
+  metricsConfig?: ResolverLevelMetricsConfig | undefined;
 }
 export interface CreateResolverResponse {
-  resolver?: Resolver;
+  resolver?: Resolver | undefined;
 }
 export type TypeDefinitionFormat = "SDL" | "JSON" | (string & {});
 export interface CreateTypeRequest {
@@ -733,14 +734,14 @@ export interface CreateTypeRequest {
   format: TypeDefinitionFormat;
 }
 export interface Type {
-  name?: string;
-  description?: string;
-  arn?: string;
-  definition?: string;
-  format?: TypeDefinitionFormat;
+  name?: string | undefined;
+  description?: string | undefined;
+  arn?: string | undefined;
+  definition?: string | undefined;
+  format?: TypeDefinitionFormat | undefined;
 }
 export interface CreateTypeResponse {
-  type?: Type;
+  type?: Type | undefined;
 }
 export interface DeleteApiRequest {
   apiId: string;
@@ -798,21 +799,21 @@ export interface DisassociateMergedGraphqlApiRequest {
   associationId: string;
 }
 export interface DisassociateMergedGraphqlApiResponse {
-  sourceApiAssociationStatus?: SourceApiAssociationStatus;
+  sourceApiAssociationStatus?: SourceApiAssociationStatus | undefined;
 }
 export interface DisassociateSourceGraphqlApiRequest {
   mergedApiIdentifier: string;
   associationId: string;
 }
 export interface DisassociateSourceGraphqlApiResponse {
-  sourceApiAssociationStatus?: SourceApiAssociationStatus;
+  sourceApiAssociationStatus?: SourceApiAssociationStatus | undefined;
 }
 export type Context = string;
 export interface EvaluateCodeRequest {
   runtime: AppSyncRuntime;
   code: string;
   context: string;
-  function?: string;
+  function?: string | undefined;
 }
 export type EvaluationResult = string;
 export type ErrorMessage = string;
@@ -820,29 +821,29 @@ export type CodeErrorLine = number;
 export type CodeErrorColumn = number;
 export type CodeErrorSpan = number;
 export interface CodeErrorLocation {
-  line?: number;
-  column?: number;
-  span?: number;
+  line?: number | undefined;
+  column?: number | undefined;
+  span?: number | undefined;
 }
 export interface CodeError {
-  errorType?: string;
-  value?: string;
-  location?: CodeErrorLocation;
+  errorType?: string | undefined;
+  value?: string | undefined;
+  location?: CodeErrorLocation | undefined;
 }
 export type CodeErrors = CodeError[];
 export interface EvaluateCodeErrorDetail {
-  message?: string;
-  codeErrors?: CodeError[];
+  message?: string | undefined;
+  codeErrors?: CodeError[] | undefined;
 }
 export type Logs = string[];
 export type Stash = string;
 export type OutErrors = string;
 export interface EvaluateCodeResponse {
-  evaluationResult?: string;
-  error?: EvaluateCodeErrorDetail;
-  logs?: string[];
-  stash?: string;
-  outErrors?: string;
+  evaluationResult?: string | undefined;
+  error?: EvaluateCodeErrorDetail | undefined;
+  logs?: string[] | undefined;
+  stash?: string | undefined;
+  outErrors?: string | undefined;
 }
 export type Template = string;
 export interface EvaluateMappingTemplateRequest {
@@ -850,14 +851,14 @@ export interface EvaluateMappingTemplateRequest {
   context: string;
 }
 export interface ErrorDetail {
-  message?: string;
+  message?: string | undefined;
 }
 export interface EvaluateMappingTemplateResponse {
-  evaluationResult?: string;
-  error?: ErrorDetail;
-  logs?: string[];
-  stash?: string;
-  outErrors?: string;
+  evaluationResult?: string | undefined;
+  error?: ErrorDetail | undefined;
+  logs?: string[] | undefined;
+  stash?: string | undefined;
+  outErrors?: string | undefined;
 }
 export interface FlushApiCacheRequest {
   apiId: string;
@@ -867,98 +868,98 @@ export interface GetApiRequest {
   apiId: string;
 }
 export interface GetApiResponse {
-  api?: Api;
+  api?: Api | undefined;
 }
 export interface GetApiAssociationRequest {
   domainName: string;
 }
 export interface GetApiAssociationResponse {
-  apiAssociation?: ApiAssociation;
+  apiAssociation?: ApiAssociation | undefined;
 }
 export interface GetApiCacheRequest {
   apiId: string;
 }
 export interface GetApiCacheResponse {
-  apiCache?: ApiCache;
+  apiCache?: ApiCache | undefined;
 }
 export interface GetChannelNamespaceRequest {
   apiId: string;
   name: string;
 }
 export interface GetChannelNamespaceResponse {
-  channelNamespace?: ChannelNamespace;
+  channelNamespace?: ChannelNamespace | undefined;
 }
 export interface GetDataSourceRequest {
   apiId: string;
   name: string;
 }
 export interface GetDataSourceResponse {
-  dataSource?: DataSource;
+  dataSource?: DataSource | undefined;
 }
 export type PaginationToken = string;
 export type MaxResults = number;
 export interface GetDataSourceIntrospectionRequest {
   introspectionId: string;
-  includeModelsSDL?: boolean;
-  nextToken?: string;
-  maxResults?: number;
+  includeModelsSDL?: boolean | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type DataSourceIntrospectionStatus = "PROCESSING" | "FAILED" | "SUCCESS" | (string & {});
 export type DataSourceIntrospectionModelFieldTypeValues = string[];
 export interface DataSourceIntrospectionModelFieldType {
-  kind?: string;
-  name?: string;
-  type?: DataSourceIntrospectionModelFieldType;
-  values?: string[];
+  kind?: string | undefined;
+  name?: string | undefined;
+  type?: DataSourceIntrospectionModelFieldType | undefined;
+  values?: string[] | undefined;
 }
 export interface DataSourceIntrospectionModelField {
-  name?: string;
-  type?: DataSourceIntrospectionModelFieldType;
-  length?: number;
+  name?: string | undefined;
+  type?: DataSourceIntrospectionModelFieldType | undefined;
+  length?: number | undefined;
 }
 export type DataSourceIntrospectionModelFields = DataSourceIntrospectionModelField[];
 export type DataSourceIntrospectionModelIndexFields = string[];
 export interface DataSourceIntrospectionModelIndex {
-  name?: string;
-  fields?: string[];
+  name?: string | undefined;
+  fields?: string[] | undefined;
 }
 export type DataSourceIntrospectionModelIndexes = DataSourceIntrospectionModelIndex[];
 export interface DataSourceIntrospectionModel {
-  name?: string;
-  fields?: DataSourceIntrospectionModelField[];
-  primaryKey?: DataSourceIntrospectionModelIndex;
-  indexes?: DataSourceIntrospectionModelIndex[];
-  sdl?: string;
+  name?: string | undefined;
+  fields?: DataSourceIntrospectionModelField[] | undefined;
+  primaryKey?: DataSourceIntrospectionModelIndex | undefined;
+  indexes?: DataSourceIntrospectionModelIndex[] | undefined;
+  sdl?: string | undefined;
 }
 export type DataSourceIntrospectionModels = DataSourceIntrospectionModel[];
 export interface DataSourceIntrospectionResult {
-  models?: DataSourceIntrospectionModel[];
-  nextToken?: string;
+  models?: DataSourceIntrospectionModel[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface GetDataSourceIntrospectionResponse {
-  introspectionId?: string;
-  introspectionStatus?: DataSourceIntrospectionStatus;
-  introspectionStatusDetail?: string;
-  introspectionResult?: DataSourceIntrospectionResult;
+  introspectionId?: string | undefined;
+  introspectionStatus?: DataSourceIntrospectionStatus | undefined;
+  introspectionStatusDetail?: string | undefined;
+  introspectionResult?: DataSourceIntrospectionResult | undefined;
 }
 export interface GetDomainNameRequest {
   domainName: string;
 }
 export interface GetDomainNameResponse {
-  domainNameConfig?: DomainNameConfig;
+  domainNameConfig?: DomainNameConfig | undefined;
 }
 export interface GetFunctionRequest {
   apiId: string;
   functionId: string;
 }
 export interface GetFunctionResponse {
-  functionConfiguration?: FunctionConfiguration;
+  functionConfiguration?: FunctionConfiguration | undefined;
 }
 export interface GetGraphqlApiRequest {
   apiId: string;
 }
 export interface GetGraphqlApiResponse {
-  graphqlApi?: GraphqlApi;
+  graphqlApi?: GraphqlApi | undefined;
 }
 export interface GetGraphqlApiEnvironmentVariablesRequest {
   apiId: string;
@@ -967,16 +968,16 @@ export type EnvironmentVariableKey = string;
 export type EnvironmentVariableValue = string;
 export type EnvironmentVariableMap = { [key: string]: string | undefined };
 export interface GetGraphqlApiEnvironmentVariablesResponse {
-  environmentVariables?: { [key: string]: string | undefined };
+  environmentVariables?: { [key: string]: string | undefined } | undefined;
 }
 export type OutputType = "SDL" | "JSON" | (string & {});
 export interface GetIntrospectionSchemaRequest {
   apiId: string;
   format: OutputType;
-  includeDirectives?: boolean;
+  includeDirectives?: boolean | undefined;
 }
 export interface GetIntrospectionSchemaResponse {
-  schema?: T.StreamingOutputBody;
+  schema?: T.StreamingOutputBody | undefined;
 }
 export interface GetResolverRequest {
   apiId: string;
@@ -984,7 +985,7 @@ export interface GetResolverRequest {
   fieldName: string;
 }
 export interface GetResolverResponse {
-  resolver?: Resolver;
+  resolver?: Resolver | undefined;
 }
 export interface GetSchemaCreationStatusRequest {
   apiId: string;
@@ -998,15 +999,15 @@ export type SchemaStatus =
   | "NOT_APPLICABLE"
   | (string & {});
 export interface GetSchemaCreationStatusResponse {
-  status?: SchemaStatus;
-  details?: string;
+  status?: SchemaStatus | undefined;
+  details?: string | undefined;
 }
 export interface GetSourceApiAssociationRequest {
   mergedApiIdentifier: string;
   associationId: string;
 }
 export interface GetSourceApiAssociationResponse {
-  sourceApiAssociation?: SourceApiAssociation;
+  sourceApiAssociation?: SourceApiAssociation | undefined;
 }
 export interface GetTypeRequest {
   apiId: string;
@@ -1014,153 +1015,153 @@ export interface GetTypeRequest {
   format: TypeDefinitionFormat;
 }
 export interface GetTypeResponse {
-  type?: Type;
+  type?: Type | undefined;
 }
 export interface ListApiKeysRequest {
   apiId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type ApiKeys = ApiKey[];
 export interface ListApiKeysResponse {
-  apiKeys?: ApiKey[];
-  nextToken?: string;
+  apiKeys?: ApiKey[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListApisRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type Apis = Api[];
 export interface ListApisResponse {
-  apis?: Api[];
-  nextToken?: string;
+  apis?: Api[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListChannelNamespacesRequest {
   apiId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type ChannelNamespaces = ChannelNamespace[];
 export interface ListChannelNamespacesResponse {
-  channelNamespaces?: ChannelNamespace[];
-  nextToken?: string;
+  channelNamespaces?: ChannelNamespace[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListDataSourcesRequest {
   apiId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type DataSources = DataSource[];
 export interface ListDataSourcesResponse {
-  dataSources?: DataSource[];
-  nextToken?: string;
+  dataSources?: DataSource[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListDomainNamesRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type DomainNameConfigs = DomainNameConfig[];
 export interface ListDomainNamesResponse {
-  domainNameConfigs?: DomainNameConfig[];
-  nextToken?: string;
+  domainNameConfigs?: DomainNameConfig[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListFunctionsRequest {
   apiId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type Functions = FunctionConfiguration[];
 export interface ListFunctionsResponse {
-  functions?: FunctionConfiguration[];
-  nextToken?: string;
+  functions?: FunctionConfiguration[] | undefined;
+  nextToken?: string | undefined;
 }
 export type Ownership = "CURRENT_ACCOUNT" | "OTHER_ACCOUNTS" | (string & {});
 export interface ListGraphqlApisRequest {
-  nextToken?: string;
-  maxResults?: number;
-  apiType?: GraphQLApiType;
-  owner?: Ownership;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  apiType?: GraphQLApiType | undefined;
+  owner?: Ownership | undefined;
 }
 export type GraphqlApis = GraphqlApi[];
 export interface ListGraphqlApisResponse {
-  graphqlApis?: GraphqlApi[];
-  nextToken?: string;
+  graphqlApis?: GraphqlApi[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListResolversRequest {
   apiId: string;
   typeName: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type Resolvers = Resolver[];
 export interface ListResolversResponse {
-  resolvers?: Resolver[];
-  nextToken?: string;
+  resolvers?: Resolver[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListResolversByFunctionRequest {
   apiId: string;
   functionId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListResolversByFunctionResponse {
-  resolvers?: Resolver[];
-  nextToken?: string;
+  resolvers?: Resolver[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListSourceApiAssociationsRequest {
   apiId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface SourceApiAssociationSummary {
-  associationId?: string;
-  associationArn?: string;
-  sourceApiId?: string;
-  sourceApiArn?: string;
-  mergedApiId?: string;
-  mergedApiArn?: string;
-  description?: string;
+  associationId?: string | undefined;
+  associationArn?: string | undefined;
+  sourceApiId?: string | undefined;
+  sourceApiArn?: string | undefined;
+  mergedApiId?: string | undefined;
+  mergedApiArn?: string | undefined;
+  description?: string | undefined;
 }
 export type SourceApiAssociationSummaryList = SourceApiAssociationSummary[];
 export interface ListSourceApiAssociationsResponse {
-  sourceApiAssociationSummaries?: SourceApiAssociationSummary[];
-  nextToken?: string;
+  sourceApiAssociationSummaries?: SourceApiAssociationSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ResourceArn = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListTypesRequest {
   apiId: string;
   format: TypeDefinitionFormat;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type TypeList = Type[];
 export interface ListTypesResponse {
-  types?: Type[];
-  nextToken?: string;
+  types?: Type[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListTypesByAssociationRequest {
   mergedApiIdentifier: string;
   associationId: string;
   format: TypeDefinitionFormat;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListTypesByAssociationResponse {
-  types?: Type[];
-  nextToken?: string;
+  types?: Type[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface PutGraphqlApiEnvironmentVariablesRequest {
   apiId: string;
   environmentVariables: { [key: string]: string | undefined };
 }
 export interface PutGraphqlApiEnvironmentVariablesResponse {
-  environmentVariables?: { [key: string]: string | undefined };
+  environmentVariables?: { [key: string]: string | undefined } | undefined;
 }
 export type RdsDataApiConfigResourceArn = string;
 export type RdsDataApiConfigSecretArn = string;
@@ -1171,26 +1172,26 @@ export interface RdsDataApiConfig {
   databaseName: string;
 }
 export interface StartDataSourceIntrospectionRequest {
-  rdsDataApiConfig?: RdsDataApiConfig;
+  rdsDataApiConfig?: RdsDataApiConfig | undefined;
 }
 export interface StartDataSourceIntrospectionResponse {
-  introspectionId?: string;
-  introspectionStatus?: DataSourceIntrospectionStatus;
-  introspectionStatusDetail?: string;
+  introspectionId?: string | undefined;
+  introspectionStatus?: DataSourceIntrospectionStatus | undefined;
+  introspectionStatusDetail?: string | undefined;
 }
 export interface StartSchemaCreationRequest {
   apiId: string;
   definition: Uint8Array;
 }
 export interface StartSchemaCreationResponse {
-  status?: SchemaStatus;
+  status?: SchemaStatus | undefined;
 }
 export interface StartSchemaMergeRequest {
   associationId: string;
   mergedApiIdentifier: string;
 }
 export interface StartSchemaMergeResponse {
-  sourceApiAssociationStatus?: SourceApiAssociationStatus;
+  sourceApiAssociationStatus?: SourceApiAssociationStatus | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -1206,144 +1207,144 @@ export interface UntagResourceResponse {}
 export interface UpdateApiRequest {
   apiId: string;
   name: string;
-  ownerContact?: string;
+  ownerContact?: string | undefined;
   eventConfig: EventConfig;
 }
 export interface UpdateApiResponse {
-  api?: Api;
+  api?: Api | undefined;
 }
 export interface UpdateApiCacheRequest {
   apiId: string;
   ttl: number;
   apiCachingBehavior: ApiCachingBehavior;
   type: ApiCacheType;
-  healthMetricsConfig?: CacheHealthMetricsConfig;
+  healthMetricsConfig?: CacheHealthMetricsConfig | undefined;
 }
 export interface UpdateApiCacheResponse {
-  apiCache?: ApiCache;
+  apiCache?: ApiCache | undefined;
 }
 export interface UpdateApiKeyRequest {
   apiId: string;
   id: string;
-  description?: string;
-  expires?: number;
+  description?: string | undefined;
+  expires?: number | undefined;
 }
 export interface UpdateApiKeyResponse {
-  apiKey?: ApiKey;
+  apiKey?: ApiKey | undefined;
 }
 export interface UpdateChannelNamespaceRequest {
   apiId: string;
   name: string;
-  subscribeAuthModes?: AuthMode[];
-  publishAuthModes?: AuthMode[];
-  codeHandlers?: string;
-  handlerConfigs?: HandlerConfigs;
+  subscribeAuthModes?: AuthMode[] | undefined;
+  publishAuthModes?: AuthMode[] | undefined;
+  codeHandlers?: string | undefined;
+  handlerConfigs?: HandlerConfigs | undefined;
 }
 export interface UpdateChannelNamespaceResponse {
-  channelNamespace?: ChannelNamespace;
+  channelNamespace?: ChannelNamespace | undefined;
 }
 export interface UpdateDataSourceRequest {
   apiId: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   type: DataSourceType;
-  serviceRoleArn?: string;
-  dynamodbConfig?: DynamodbDataSourceConfig;
-  lambdaConfig?: LambdaDataSourceConfig;
-  elasticsearchConfig?: ElasticsearchDataSourceConfig;
-  openSearchServiceConfig?: OpenSearchServiceDataSourceConfig;
-  httpConfig?: HttpDataSourceConfig;
-  relationalDatabaseConfig?: RelationalDatabaseDataSourceConfig;
-  eventBridgeConfig?: EventBridgeDataSourceConfig;
-  metricsConfig?: DataSourceLevelMetricsConfig;
+  serviceRoleArn?: string | undefined;
+  dynamodbConfig?: DynamodbDataSourceConfig | undefined;
+  lambdaConfig?: LambdaDataSourceConfig | undefined;
+  elasticsearchConfig?: ElasticsearchDataSourceConfig | undefined;
+  openSearchServiceConfig?: OpenSearchServiceDataSourceConfig | undefined;
+  httpConfig?: HttpDataSourceConfig | undefined;
+  relationalDatabaseConfig?: RelationalDatabaseDataSourceConfig | undefined;
+  eventBridgeConfig?: EventBridgeDataSourceConfig | undefined;
+  metricsConfig?: DataSourceLevelMetricsConfig | undefined;
 }
 export interface UpdateDataSourceResponse {
-  dataSource?: DataSource;
+  dataSource?: DataSource | undefined;
 }
 export interface UpdateDomainNameRequest {
   domainName: string;
-  description?: string;
+  description?: string | undefined;
 }
 export interface UpdateDomainNameResponse {
-  domainNameConfig?: DomainNameConfig;
+  domainNameConfig?: DomainNameConfig | undefined;
 }
 export interface UpdateFunctionRequest {
   apiId: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   functionId: string;
   dataSourceName: string;
-  requestMappingTemplate?: string;
-  responseMappingTemplate?: string;
-  functionVersion?: string;
-  syncConfig?: SyncConfig;
-  maxBatchSize?: number;
-  runtime?: AppSyncRuntime;
-  code?: string;
+  requestMappingTemplate?: string | undefined;
+  responseMappingTemplate?: string | undefined;
+  functionVersion?: string | undefined;
+  syncConfig?: SyncConfig | undefined;
+  maxBatchSize?: number | undefined;
+  runtime?: AppSyncRuntime | undefined;
+  code?: string | undefined;
 }
 export interface UpdateFunctionResponse {
-  functionConfiguration?: FunctionConfiguration;
+  functionConfiguration?: FunctionConfiguration | undefined;
 }
 export interface UpdateGraphqlApiRequest {
   apiId: string;
   name: string;
-  logConfig?: LogConfig;
+  logConfig?: LogConfig | undefined;
   authenticationType: AuthenticationType;
-  userPoolConfig?: UserPoolConfig;
-  openIDConnectConfig?: OpenIDConnectConfig;
-  additionalAuthenticationProviders?: AdditionalAuthenticationProvider[];
-  xrayEnabled?: boolean;
-  lambdaAuthorizerConfig?: LambdaAuthorizerConfig;
-  mergedApiExecutionRoleArn?: string;
-  ownerContact?: string;
-  introspectionConfig?: GraphQLApiIntrospectionConfig;
-  queryDepthLimit?: number;
-  resolverCountLimit?: number;
-  enhancedMetricsConfig?: EnhancedMetricsConfig;
+  userPoolConfig?: UserPoolConfig | undefined;
+  openIDConnectConfig?: OpenIDConnectConfig | undefined;
+  additionalAuthenticationProviders?: AdditionalAuthenticationProvider[] | undefined;
+  xrayEnabled?: boolean | undefined;
+  lambdaAuthorizerConfig?: LambdaAuthorizerConfig | undefined;
+  mergedApiExecutionRoleArn?: string | undefined;
+  ownerContact?: string | undefined;
+  introspectionConfig?: GraphQLApiIntrospectionConfig | undefined;
+  queryDepthLimit?: number | undefined;
+  resolverCountLimit?: number | undefined;
+  enhancedMetricsConfig?: EnhancedMetricsConfig | undefined;
 }
 export interface UpdateGraphqlApiResponse {
-  graphqlApi?: GraphqlApi;
+  graphqlApi?: GraphqlApi | undefined;
 }
 export interface UpdateResolverRequest {
   apiId: string;
   typeName: string;
   fieldName: string;
-  dataSourceName?: string;
-  requestMappingTemplate?: string;
-  responseMappingTemplate?: string;
-  kind?: ResolverKind;
-  pipelineConfig?: PipelineConfig;
-  syncConfig?: SyncConfig;
-  cachingConfig?: CachingConfig;
-  maxBatchSize?: number;
-  runtime?: AppSyncRuntime;
-  code?: string;
-  metricsConfig?: ResolverLevelMetricsConfig;
+  dataSourceName?: string | undefined;
+  requestMappingTemplate?: string | undefined;
+  responseMappingTemplate?: string | undefined;
+  kind?: ResolverKind | undefined;
+  pipelineConfig?: PipelineConfig | undefined;
+  syncConfig?: SyncConfig | undefined;
+  cachingConfig?: CachingConfig | undefined;
+  maxBatchSize?: number | undefined;
+  runtime?: AppSyncRuntime | undefined;
+  code?: string | undefined;
+  metricsConfig?: ResolverLevelMetricsConfig | undefined;
 }
 export interface UpdateResolverResponse {
-  resolver?: Resolver;
+  resolver?: Resolver | undefined;
 }
 export interface UpdateSourceApiAssociationRequest {
   associationId: string;
   mergedApiIdentifier: string;
-  description?: string;
-  sourceApiAssociationConfig?: SourceApiAssociationConfig;
+  description?: string | undefined;
+  sourceApiAssociationConfig?: SourceApiAssociationConfig | undefined;
 }
 export interface UpdateSourceApiAssociationResponse {
-  sourceApiAssociation?: SourceApiAssociation;
+  sourceApiAssociation?: SourceApiAssociation | undefined;
 }
 export interface UpdateTypeRequest {
   apiId: string;
   typeName: string;
-  definition?: string;
+  definition?: string | undefined;
   format: TypeDefinitionFormat;
 }
 export interface UpdateTypeResponse {
-  type?: Type;
+  type?: Type | undefined;
 }
 export type BadRequestReason = "CODE_ERROR" | (string & {});
 export interface BadRequestDetail {
-  codeErrors?: CodeError[];
+  codeErrors?: CodeError[] | undefined;
 }
 export type AssociateApiError =
   | AccessDeniedException
@@ -1355,7 +1356,7 @@ export type AssociateApiError =
  * Maps an endpoint to your custom domain.
  */
 export const associateApi: API.OperationMethod<
-  AssociateApiRequest,
+  AssociateApiRequest & RegionInput,
   AssociateApiResponse,
   AssociateApiError,
   Credentials | HttpClient.HttpClient
@@ -1383,7 +1384,7 @@ export type AssociateMergedGraphqlApiError =
  * identifier.
  */
 export const associateMergedGraphqlApi: API.OperationMethod<
-  AssociateMergedGraphqlApiRequest,
+  AssociateMergedGraphqlApiRequest & RegionInput,
   AssociateMergedGraphqlApiResponse,
   AssociateMergedGraphqlApiError,
   Credentials | HttpClient.HttpClient
@@ -1418,7 +1419,7 @@ export type AssociateSourceGraphqlApiError =
  * identifier.
  */
 export const associateSourceGraphqlApi: API.OperationMethod<
-  AssociateSourceGraphqlApiRequest,
+  AssociateSourceGraphqlApiRequest & RegionInput,
   AssociateSourceGraphqlApiResponse,
   AssociateSourceGraphqlApiError,
   Credentials | HttpClient.HttpClient
@@ -1453,7 +1454,7 @@ export type CreateApiError =
  * publishing and message subscriptions over WebSockets.
  */
 export const createApi: API.OperationMethod<
-  CreateApiRequest,
+  CreateApiRequest & RegionInput,
   CreateApiResponse,
   CreateApiError,
   Credentials | HttpClient.HttpClient
@@ -1485,7 +1486,7 @@ export type CreateApiCacheError =
  * Creates a cache for the GraphQL API.
  */
 export const createApiCache: API.OperationMethod<
-  CreateApiCacheRequest,
+  CreateApiCacheRequest & RegionInput,
   CreateApiCacheResponse,
   CreateApiCacheError,
   Credentials | HttpClient.HttpClient
@@ -1519,7 +1520,7 @@ export type CreateApiKeyError =
  * Creates a unique key that you can distribute to clients who invoke your API.
  */
 export const createApiKey: API.OperationMethod<
-  CreateApiKeyRequest,
+  CreateApiKeyRequest & RegionInput,
   CreateApiKeyResponse,
   CreateApiKeyError,
   Credentials | HttpClient.HttpClient
@@ -1555,7 +1556,7 @@ export type CreateChannelNamespaceError =
  * Creates a `ChannelNamespace` for an `Api`.
  */
 export const createChannelNamespace: API.OperationMethod<
-  CreateChannelNamespaceRequest,
+  CreateChannelNamespaceRequest & RegionInput,
   CreateChannelNamespaceResponse,
   CreateChannelNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -1589,7 +1590,7 @@ export type CreateDataSourceError =
  * Creates a `DataSource` object.
  */
 export const createDataSource: API.OperationMethod<
-  CreateDataSourceRequest,
+  CreateDataSourceRequest & RegionInput,
   CreateDataSourceResponse,
   CreateDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -1619,7 +1620,7 @@ export type CreateDomainNameError =
  * Creates a custom `DomainName` object.
  */
 export const createDomainName: API.OperationMethod<
-  CreateDomainNameRequest,
+  CreateDomainNameRequest & RegionInput,
   CreateDomainNameResponse,
   CreateDomainNameError,
   Credentials | HttpClient.HttpClient
@@ -1648,7 +1649,7 @@ export type CreateFunctionError =
  * logic.
  */
 export const createFunction: API.OperationMethod<
-  CreateFunctionRequest,
+  CreateFunctionRequest & RegionInput,
   CreateFunctionResponse,
   CreateFunctionError,
   Credentials | HttpClient.HttpClient
@@ -1681,7 +1682,7 @@ export type CreateGraphqlApiError =
  * Creates a `GraphqlApi` object.
  */
 export const createGraphqlApi: API.OperationMethod<
-  CreateGraphqlApiRequest,
+  CreateGraphqlApiRequest & RegionInput,
   CreateGraphqlApiResponse,
   CreateGraphqlApiError,
   Credentials | HttpClient.HttpClient
@@ -1717,7 +1718,7 @@ export type CreateResolverError =
  * and converts the data source's responses into GraphQL.
  */
 export const createResolver: API.OperationMethod<
-  CreateResolverRequest,
+  CreateResolverRequest & RegionInput,
   CreateResolverResponse,
   CreateResolverError,
   Credentials | HttpClient.HttpClient
@@ -1749,7 +1750,7 @@ export type CreateTypeError =
  * Creates a `Type` object.
  */
 export const createType: API.OperationMethod<
-  CreateTypeRequest,
+  CreateTypeRequest & RegionInput,
   CreateTypeResponse,
   CreateTypeError,
   Credentials | HttpClient.HttpClient
@@ -1782,7 +1783,7 @@ export type DeleteApiError =
  * Deletes an `Api` object
  */
 export const deleteApi: API.OperationMethod<
-  DeleteApiRequest,
+  DeleteApiRequest & RegionInput,
   DeleteApiResponse,
   DeleteApiError,
   Credentials | HttpClient.HttpClient
@@ -1815,7 +1816,7 @@ export type DeleteApiCacheError =
  * Deletes an `ApiCache` object.
  */
 export const deleteApiCache: API.OperationMethod<
-  DeleteApiCacheRequest,
+  DeleteApiCacheRequest & RegionInput,
   DeleteApiCacheResponse,
   DeleteApiCacheError,
   Credentials | HttpClient.HttpClient
@@ -1846,7 +1847,7 @@ export type DeleteApiKeyError =
  * Deletes an API key.
  */
 export const deleteApiKey: API.OperationMethod<
-  DeleteApiKeyRequest,
+  DeleteApiKeyRequest & RegionInput,
   DeleteApiKeyResponse,
   DeleteApiKeyError,
   Credentials | HttpClient.HttpClient
@@ -1873,7 +1874,7 @@ export type DeleteChannelNamespaceError =
  * Deletes a `ChannelNamespace`.
  */
 export const deleteChannelNamespace: API.OperationMethod<
-  DeleteChannelNamespaceRequest,
+  DeleteChannelNamespaceRequest & RegionInput,
   DeleteChannelNamespaceResponse,
   DeleteChannelNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -1906,7 +1907,7 @@ export type DeleteDataSourceError =
  * Deletes a `DataSource` object.
  */
 export const deleteDataSource: API.OperationMethod<
-  DeleteDataSourceRequest,
+  DeleteDataSourceRequest & RegionInput,
   DeleteDataSourceResponse,
   DeleteDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -1938,7 +1939,7 @@ export type DeleteDomainNameError =
  * Deletes a custom `DomainName` object.
  */
 export const deleteDomainName: API.OperationMethod<
-  DeleteDomainNameRequest,
+  DeleteDomainNameRequest & RegionInput,
   DeleteDomainNameResponse,
   DeleteDomainNameError,
   Credentials | HttpClient.HttpClient
@@ -1970,7 +1971,7 @@ export type DeleteFunctionError =
  * Deletes a `Function`.
  */
 export const deleteFunction: API.OperationMethod<
-  DeleteFunctionRequest,
+  DeleteFunctionRequest & RegionInput,
   DeleteFunctionResponse,
   DeleteFunctionError,
   Credentials | HttpClient.HttpClient
@@ -2003,7 +2004,7 @@ export type DeleteGraphqlApiError =
  * Deletes a `GraphqlApi` object.
  */
 export const deleteGraphqlApi: API.OperationMethod<
-  DeleteGraphqlApiRequest,
+  DeleteGraphqlApiRequest & RegionInput,
   DeleteGraphqlApiResponse,
   DeleteGraphqlApiError,
   Credentials | HttpClient.HttpClient
@@ -2036,7 +2037,7 @@ export type DeleteResolverError =
  * Deletes a `Resolver` object.
  */
 export const deleteResolver: API.OperationMethod<
-  DeleteResolverRequest,
+  DeleteResolverRequest & RegionInput,
   DeleteResolverResponse,
   DeleteResolverError,
   Credentials | HttpClient.HttpClient
@@ -2068,7 +2069,7 @@ export type DeleteTypeError =
  * Deletes a `Type` object.
  */
 export const deleteType: API.OperationMethod<
-  DeleteTypeRequest,
+  DeleteTypeRequest & RegionInput,
   DeleteTypeResponse,
   DeleteTypeError,
   Credentials | HttpClient.HttpClient
@@ -2100,7 +2101,7 @@ export type DisassociateApiError =
  * Removes an `ApiAssociation` object from a custom domain.
  */
 export const disassociateApi: API.OperationMethod<
-  DisassociateApiRequest,
+  DisassociateApiRequest & RegionInput,
   DisassociateApiResponse,
   DisassociateApiError,
   Credentials | HttpClient.HttpClient
@@ -2133,7 +2134,7 @@ export type DisassociateMergedGraphqlApiError =
  * identifier and the association ID.
  */
 export const disassociateMergedGraphqlApi: API.OperationMethod<
-  DisassociateMergedGraphqlApiRequest,
+  DisassociateMergedGraphqlApiRequest & RegionInput,
   DisassociateMergedGraphqlApiResponse,
   DisassociateMergedGraphqlApiError,
   Credentials | HttpClient.HttpClient
@@ -2166,7 +2167,7 @@ export type DisassociateSourceGraphqlApiError =
  * identifier and the association ID.
  */
 export const disassociateSourceGraphqlApi: API.OperationMethod<
-  DisassociateSourceGraphqlApiRequest,
+  DisassociateSourceGraphqlApiRequest & RegionInput,
   DisassociateSourceGraphqlApiResponse,
   DisassociateSourceGraphqlApiError,
   Credentials | HttpClient.HttpClient
@@ -2201,7 +2202,7 @@ export type EvaluateCodeError =
  * maps it to the shape of the GraphQL field output type.
  */
 export const evaluateCode: API.OperationMethod<
-  EvaluateCodeRequest,
+  EvaluateCodeRequest & RegionInput,
   EvaluateCodeResponse,
   EvaluateCodeError,
   Credentials | HttpClient.HttpClient
@@ -2233,7 +2234,7 @@ export type EvaluateMappingTemplateError =
  * Mapping templates are written in the Apache Velocity Template Language (VTL).
  */
 export const evaluateMappingTemplate: API.OperationMethod<
-  EvaluateMappingTemplateRequest,
+  EvaluateMappingTemplateRequest & RegionInput,
   EvaluateMappingTemplateResponse,
   EvaluateMappingTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2259,7 +2260,7 @@ export type FlushApiCacheError =
  * Flushes an `ApiCache` object.
  */
 export const flushApiCache: API.OperationMethod<
-  FlushApiCacheRequest,
+  FlushApiCacheRequest & RegionInput,
   FlushApiCacheResponse,
   FlushApiCacheError,
   Credentials | HttpClient.HttpClient
@@ -2291,7 +2292,7 @@ export type GetApiError =
  * Retrieves an `Api` object.
  */
 export const getApi: API.OperationMethod<
-  GetApiRequest,
+  GetApiRequest & RegionInput,
   GetApiResponse,
   GetApiError,
   Credentials | HttpClient.HttpClient
@@ -2322,7 +2323,7 @@ export type GetApiAssociationError =
  * Retrieves an `ApiAssociation` object.
  */
 export const getApiAssociation: API.OperationMethod<
-  GetApiAssociationRequest,
+  GetApiAssociationRequest & RegionInput,
   GetApiAssociationResponse,
   GetApiAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2348,7 +2349,7 @@ export type GetApiCacheError =
  * Retrieves an `ApiCache` object.
  */
 export const getApiCache: API.OperationMethod<
-  GetApiCacheRequest,
+  GetApiCacheRequest & RegionInput,
   GetApiCacheResponse,
   GetApiCacheError,
   Credentials | HttpClient.HttpClient
@@ -2380,7 +2381,7 @@ export type GetChannelNamespaceError =
  * Retrieves the channel namespace for a specified `Api`.
  */
 export const getChannelNamespace: API.OperationMethod<
-  GetChannelNamespaceRequest,
+  GetChannelNamespaceRequest & RegionInput,
   GetChannelNamespaceResponse,
   GetChannelNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -2412,7 +2413,7 @@ export type GetDataSourceError =
  * Retrieves a `DataSource` object.
  */
 export const getDataSource: API.OperationMethod<
-  GetDataSourceRequest,
+  GetDataSourceRequest & RegionInput,
   GetDataSourceResponse,
   GetDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -2444,7 +2445,7 @@ export type GetDataSourceIntrospectionError =
  * an error message will be returned instead.
  */
 export const getDataSourceIntrospection: API.OperationMethod<
-  GetDataSourceIntrospectionRequest,
+  GetDataSourceIntrospectionRequest & RegionInput,
   GetDataSourceIntrospectionResponse,
   GetDataSourceIntrospectionError,
   Credentials | HttpClient.HttpClient
@@ -2469,7 +2470,7 @@ export type GetDomainNameError =
  * Retrieves a custom `DomainName` object.
  */
 export const getDomainName: API.OperationMethod<
-  GetDomainNameRequest,
+  GetDomainNameRequest & RegionInput,
   GetDomainNameResponse,
   GetDomainNameError,
   Credentials | HttpClient.HttpClient
@@ -2493,7 +2494,7 @@ export type GetFunctionError =
  * Get a `Function`.
  */
 export const getFunction: API.OperationMethod<
-  GetFunctionRequest,
+  GetFunctionRequest & RegionInput,
   GetFunctionResponse,
   GetFunctionError,
   Credentials | HttpClient.HttpClient
@@ -2519,7 +2520,7 @@ export type GetGraphqlApiError =
  * Retrieves a `GraphqlApi` object.
  */
 export const getGraphqlApi: API.OperationMethod<
-  GetGraphqlApiRequest,
+  GetGraphqlApiRequest & RegionInput,
   GetGraphqlApiResponse,
   GetGraphqlApiError,
   Credentials | HttpClient.HttpClient
@@ -2552,7 +2553,7 @@ export type GetGraphqlApiEnvironmentVariablesError =
  * its ID value.
  */
 export const getGraphqlApiEnvironmentVariables: API.OperationMethod<
-  GetGraphqlApiEnvironmentVariablesRequest,
+  GetGraphqlApiEnvironmentVariablesRequest & RegionInput,
   GetGraphqlApiEnvironmentVariablesResponse,
   GetGraphqlApiEnvironmentVariablesError,
   Credentials | HttpClient.HttpClient
@@ -2583,7 +2584,7 @@ export type GetIntrospectionSchemaError =
  * Retrieves the introspection schema for a GraphQL API.
  */
 export const getIntrospectionSchema: API.OperationMethod<
-  GetIntrospectionSchemaRequest,
+  GetIntrospectionSchemaRequest & RegionInput,
   GetIntrospectionSchemaResponse,
   GetIntrospectionSchemaError,
   Credentials | HttpClient.HttpClient
@@ -2612,7 +2613,7 @@ export type GetResolverError =
  * Retrieves a `Resolver` object.
  */
 export const getResolver: API.OperationMethod<
-  GetResolverRequest,
+  GetResolverRequest & RegionInput,
   GetResolverResponse,
   GetResolverError,
   Credentials | HttpClient.HttpClient
@@ -2637,7 +2638,7 @@ export type GetSchemaCreationStatusError =
  * Retrieves the current status of a schema creation operation.
  */
 export const getSchemaCreationStatus: API.OperationMethod<
-  GetSchemaCreationStatusRequest,
+  GetSchemaCreationStatusRequest & RegionInput,
   GetSchemaCreationStatusResponse,
   GetSchemaCreationStatusError,
   Credentials | HttpClient.HttpClient
@@ -2662,7 +2663,7 @@ export type GetSourceApiAssociationError =
  * Retrieves a `SourceApiAssociation` object.
  */
 export const getSourceApiAssociation: API.OperationMethod<
-  GetSourceApiAssociationRequest,
+  GetSourceApiAssociationRequest & RegionInput,
   GetSourceApiAssociationResponse,
   GetSourceApiAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2688,7 +2689,7 @@ export type GetTypeError =
  * Retrieves a `Type` object.
  */
 export const getType: API.OperationMethod<
-  GetTypeRequest,
+  GetTypeRequest & RegionInput,
   GetTypeResponse,
   GetTypeError,
   Credentials | HttpClient.HttpClient
@@ -2724,7 +2725,7 @@ export type ListApiKeysError =
  * deleted.
  */
 export const listApiKeys: API.PaginatedOperationMethod<
-  ListApiKeysRequest,
+  ListApiKeysRequest & RegionInput,
   ListApiKeysResponse,
   ListApiKeysError,
   Credentials | HttpClient.HttpClient,
@@ -2758,7 +2759,7 @@ export type ListApisError =
  * information about an API, use `GetApi`.
  */
 export const listApis: API.PaginatedOperationMethod<
-  ListApisRequest,
+  ListApisRequest & RegionInput,
   ListApisResponse,
   ListApisError,
   Credentials | HttpClient.HttpClient,
@@ -2793,7 +2794,7 @@ export type ListChannelNamespacesError =
  * namespace. To retrieve code handlers, use `GetChannelNamespace`.
  */
 export const listChannelNamespaces: API.PaginatedOperationMethod<
-  ListChannelNamespacesRequest,
+  ListChannelNamespacesRequest & RegionInput,
   ListChannelNamespacesResponse,
   ListChannelNamespacesError,
   Credentials | HttpClient.HttpClient,
@@ -2825,7 +2826,7 @@ export type ListDataSourcesError =
  * Lists the data sources for a given API.
  */
 export const listDataSources: API.PaginatedOperationMethod<
-  ListDataSourcesRequest,
+  ListDataSourcesRequest & RegionInput,
   ListDataSourcesResponse,
   ListDataSourcesError,
   Credentials | HttpClient.HttpClient,
@@ -2856,7 +2857,7 @@ export type ListDomainNamesError =
  * Lists multiple custom domain names.
  */
 export const listDomainNames: API.PaginatedOperationMethod<
-  ListDomainNamesRequest,
+  ListDomainNamesRequest & RegionInput,
   ListDomainNamesResponse,
   ListDomainNamesError,
   Credentials | HttpClient.HttpClient,
@@ -2888,7 +2889,7 @@ export type ListFunctionsError =
  * List multiple functions.
  */
 export const listFunctions: API.PaginatedOperationMethod<
-  ListFunctionsRequest,
+  ListFunctionsRequest & RegionInput,
   ListFunctionsResponse,
   ListFunctionsError,
   Credentials | HttpClient.HttpClient,
@@ -2919,7 +2920,7 @@ export type ListGraphqlApisError =
  * Lists your GraphQL APIs.
  */
 export const listGraphqlApis: API.PaginatedOperationMethod<
-  ListGraphqlApisRequest,
+  ListGraphqlApisRequest & RegionInput,
   ListGraphqlApisResponse,
   ListGraphqlApisError,
   Credentials | HttpClient.HttpClient,
@@ -2951,7 +2952,7 @@ export type ListResolversError =
  * Lists the resolvers for a given API and type.
  */
 export const listResolvers: API.PaginatedOperationMethod<
-  ListResolversRequest,
+  ListResolversRequest & RegionInput,
   ListResolversResponse,
   ListResolversError,
   Credentials | HttpClient.HttpClient,
@@ -2983,7 +2984,7 @@ export type ListResolversByFunctionError =
  * List the resolvers that are associated with a specific function.
  */
 export const listResolversByFunction: API.PaginatedOperationMethod<
-  ListResolversByFunctionRequest,
+  ListResolversByFunctionRequest & RegionInput,
   ListResolversByFunctionResponse,
   ListResolversByFunctionError,
   Credentials | HttpClient.HttpClient,
@@ -3015,7 +3016,7 @@ export type ListSourceApiAssociationsError =
  * Lists the `SourceApiAssociationSummary` data.
  */
 export const listSourceApiAssociations: API.PaginatedOperationMethod<
-  ListSourceApiAssociationsRequest,
+  ListSourceApiAssociationsRequest & RegionInput,
   ListSourceApiAssociationsResponse,
   ListSourceApiAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3049,7 +3050,7 @@ export type ListTagsForResourceError =
  * Lists the tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -3082,7 +3083,7 @@ export type ListTypesError =
  * Lists the types for a given API.
  */
 export const listTypes: API.PaginatedOperationMethod<
-  ListTypesRequest,
+  ListTypesRequest & RegionInput,
   ListTypesResponse,
   ListTypesError,
   Credentials | HttpClient.HttpClient,
@@ -3121,7 +3122,7 @@ export type ListTypesByAssociationError =
  * Lists `Type` objects by the source API association ID.
  */
 export const listTypesByAssociation: API.PaginatedOperationMethod<
-  ListTypesByAssociationRequest,
+  ListTypesByAssociationRequest & RegionInput,
   ListTypesByAssociationResponse,
   ListTypesByAssociationError,
   Credentials | HttpClient.HttpClient,
@@ -3197,7 +3198,7 @@ export type PutGraphqlApiEnvironmentVariablesError =
  * variables in the list each time you call this action.
  */
 export const putGraphqlApiEnvironmentVariables: API.OperationMethod<
-  PutGraphqlApiEnvironmentVariablesRequest,
+  PutGraphqlApiEnvironmentVariablesRequest & RegionInput,
   PutGraphqlApiEnvironmentVariablesResponse,
   PutGraphqlApiEnvironmentVariablesError,
   Credentials | HttpClient.HttpClient
@@ -3230,7 +3231,7 @@ export type StartDataSourceIntrospectionError =
  * introspection after its creation.
  */
 export const startDataSourceIntrospection: API.OperationMethod<
-  StartDataSourceIntrospectionRequest,
+  StartDataSourceIntrospectionRequest & RegionInput,
   StartDataSourceIntrospectionResponse,
   StartDataSourceIntrospectionError,
   Credentials | HttpClient.HttpClient
@@ -3259,7 +3260,7 @@ export type StartSchemaCreationError =
  * determine when it has completed.
  */
 export const startSchemaCreation: API.OperationMethod<
-  StartSchemaCreationRequest,
+  StartSchemaCreationRequest & RegionInput,
   StartSchemaCreationResponse,
   StartSchemaCreationError,
   Credentials | HttpClient.HttpClient
@@ -3292,7 +3293,7 @@ export type StartSchemaMergeError =
  * operation.
  */
 export const startSchemaMerge: API.OperationMethod<
-  StartSchemaMergeRequest,
+  StartSchemaMergeRequest & RegionInput,
   StartSchemaMergeResponse,
   StartSchemaMergeError,
   Credentials | HttpClient.HttpClient
@@ -3325,7 +3326,7 @@ export type TagResourceError =
  * Tags a resource with user-supplied tags.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3359,7 +3360,7 @@ export type UntagResourceError =
  * Untags a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3393,7 +3394,7 @@ export type UpdateApiError =
  * Updates an `Api`.
  */
 export const updateApi: API.OperationMethod<
-  UpdateApiRequest,
+  UpdateApiRequest & RegionInput,
   UpdateApiResponse,
   UpdateApiError,
   Credentials | HttpClient.HttpClient
@@ -3426,7 +3427,7 @@ export type UpdateApiCacheError =
  * Updates the cache for the GraphQL API.
  */
 export const updateApiCache: API.OperationMethod<
-  UpdateApiCacheRequest,
+  UpdateApiCacheRequest & RegionInput,
   UpdateApiCacheResponse,
   UpdateApiCacheError,
   Credentials | HttpClient.HttpClient
@@ -3459,7 +3460,7 @@ export type UpdateApiKeyError =
  * Updates an API key. You can update the key as long as it's not deleted.
  */
 export const updateApiKey: API.OperationMethod<
-  UpdateApiKeyRequest,
+  UpdateApiKeyRequest & RegionInput,
   UpdateApiKeyResponse,
   UpdateApiKeyError,
   Credentials | HttpClient.HttpClient
@@ -3493,7 +3494,7 @@ export type UpdateChannelNamespaceError =
  * Updates a `ChannelNamespace` associated with an `Api`.
  */
 export const updateChannelNamespace: API.OperationMethod<
-  UpdateChannelNamespaceRequest,
+  UpdateChannelNamespaceRequest & RegionInput,
   UpdateChannelNamespaceResponse,
   UpdateChannelNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -3526,7 +3527,7 @@ export type UpdateDataSourceError =
  * Updates a `DataSource` object.
  */
 export const updateDataSource: API.OperationMethod<
-  UpdateDataSourceRequest,
+  UpdateDataSourceRequest & RegionInput,
   UpdateDataSourceResponse,
   UpdateDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -3558,7 +3559,7 @@ export type UpdateDomainNameError =
  * Updates a custom `DomainName` object.
  */
 export const updateDomainName: API.OperationMethod<
-  UpdateDomainNameRequest,
+  UpdateDomainNameRequest & RegionInput,
   UpdateDomainNameResponse,
   UpdateDomainNameError,
   Credentials | HttpClient.HttpClient
@@ -3590,7 +3591,7 @@ export type UpdateFunctionError =
  * Updates a `Function` object.
  */
 export const updateFunction: API.OperationMethod<
-  UpdateFunctionRequest,
+  UpdateFunctionRequest & RegionInput,
   UpdateFunctionResponse,
   UpdateFunctionError,
   Credentials | HttpClient.HttpClient
@@ -3623,7 +3624,7 @@ export type UpdateGraphqlApiError =
  * Updates a `GraphqlApi` object.
  */
 export const updateGraphqlApi: API.OperationMethod<
-  UpdateGraphqlApiRequest,
+  UpdateGraphqlApiRequest & RegionInput,
   UpdateGraphqlApiResponse,
   UpdateGraphqlApiError,
   Credentials | HttpClient.HttpClient
@@ -3656,7 +3657,7 @@ export type UpdateResolverError =
  * Updates a `Resolver` object.
  */
 export const updateResolver: API.OperationMethod<
-  UpdateResolverRequest,
+  UpdateResolverRequest & RegionInput,
   UpdateResolverResponse,
   UpdateResolverError,
   Credentials | HttpClient.HttpClient
@@ -3688,7 +3689,7 @@ export type UpdateSourceApiAssociationError =
  * Updates some of the configuration choices of a particular source API association.
  */
 export const updateSourceApiAssociation: API.OperationMethod<
-  UpdateSourceApiAssociationRequest,
+  UpdateSourceApiAssociationRequest & RegionInput,
   UpdateSourceApiAssociationResponse,
   UpdateSourceApiAssociationError,
   Credentials | HttpClient.HttpClient
@@ -3720,7 +3721,7 @@ export type UpdateTypeError =
  * Updates a `Type` object.
  */
 export const updateType: API.OperationMethod<
-  UpdateTypeRequest,
+  UpdateTypeRequest & RegionInput,
   UpdateTypeResponse,
   UpdateTypeError,
   Credentials | HttpClient.HttpClient

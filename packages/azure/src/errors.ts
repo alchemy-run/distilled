@@ -34,6 +34,7 @@ export {
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
 import * as Category from "@distilled.cloud/core/category";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 // ---------------------------------------------------------------------------
@@ -697,7 +698,7 @@ export class NetAppVolumeGroupNotReadable
   extends /*@__PURE__*/ Schema.TaggedError<NetAppVolumeGroupNotReadable>()(
     "NetAppVolumeGroupNotReadable",
     AzureErrorFields,
-  ).pipe(Category.withServerError) {}
+  ).pipe(Category.withServerError, Category.withRetryable()) {}
 
 /**
  * Returned when an operation needs a subscription preview feature that is
@@ -1684,7 +1685,7 @@ export class MetricsContainerNotReady
   extends /*@__PURE__*/ Schema.TaggedError<MetricsContainerNotReady>()(
     "MetricsContainerNotReady",
     AzureErrorFields,
-  ).pipe(Category.withServerError) {}
+  ).pipe(Category.withServerError, Category.withRetryable()) {}
 
 /**
  * Returned when a resource's `extendedLocation` names an Arc custom
@@ -2887,11 +2888,9 @@ export const matchAzureErrorMessage = (arm: {
 /** Unknown Azure error -- returned when an error code is not recognized. */
 export class UnknownAzureError
   extends /*@__PURE__*/ Schema.TaggedError<UnknownAzureError>()("UnknownAzureError", {
-    code: /*@__PURE__*/ Schema.optional(Schema.String),
-    message: /*@__PURE__*/ Schema.optional(Schema.String),
+    ...UnknownErrorFields,
     target: /*@__PURE__*/ Schema.optional(Schema.String),
-    body: Schema.Unknown,
-  }).pipe(Category.withServerError) {}
+  }) {}
 
 /** Schema parse error wrapper for Azure responses. */
 export class AzureParseError

@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -196,7 +197,7 @@ export class InvalidStateException
 export class LimitExceededException
   extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()("LimitExceededException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
-  }).pipe(C.withQuotaError) {}
+  }).pipe(C.withQuotaError, C.withThrottlingError, C.withRetryableError) {}
 export class ManagedRuleException
   extends /*@__PURE__*/ S.TaggedError<ManagedRuleException>()("ManagedRuleException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
@@ -243,9 +244,9 @@ export type ReplayState =
   | (string & {});
 export type ReplayStateReason = string;
 export interface CancelReplayResponse {
-  ReplayArn?: string;
-  State?: ReplayState;
-  StateReason?: string;
+  ReplayArn?: string | undefined;
+  State?: ReplayState | undefined;
+  StateReason?: string | undefined;
 }
 export type ApiDestinationName = string;
 export type ApiDestinationDescription = string;
@@ -263,19 +264,19 @@ export type ApiDestinationHttpMethod =
 export type ApiDestinationInvocationRateLimitPerSecond = number;
 export interface CreateApiDestinationRequest {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   ConnectionArn: string;
   InvocationEndpoint: string;
   HttpMethod: ApiDestinationHttpMethod;
-  InvocationRateLimitPerSecond?: number;
+  InvocationRateLimitPerSecond?: number | undefined;
 }
 export type ApiDestinationArn = string;
 export type ApiDestinationState = "ACTIVE" | "INACTIVE" | (string & {});
 export interface CreateApiDestinationResponse {
-  ApiDestinationArn?: string;
-  ApiDestinationState?: ApiDestinationState;
-  CreationTime?: Date;
-  LastModifiedTime?: Date;
+  ApiDestinationArn?: string | undefined;
+  ApiDestinationState?: ApiDestinationState | undefined;
+  CreationTime?: Date | undefined;
+  LastModifiedTime?: Date | undefined;
 }
 export type ArchiveName = string;
 export type EventBusArn = string;
@@ -286,10 +287,10 @@ export type KmsKeyIdentifier = string;
 export interface CreateArchiveRequest {
   ArchiveName: string;
   EventSourceArn: string;
-  Description?: string;
-  EventPattern?: string;
-  RetentionDays?: number;
-  KmsKeyIdentifier?: string;
+  Description?: string | undefined;
+  EventPattern?: string | undefined;
+  RetentionDays?: number | undefined;
+  KmsKeyIdentifier?: string | undefined;
 }
 export type ArchiveArn = string;
 export type ArchiveState =
@@ -302,10 +303,10 @@ export type ArchiveState =
   | (string & {});
 export type ArchiveStateReason = string;
 export interface CreateArchiveResponse {
-  ArchiveArn?: string;
-  State?: ArchiveState;
-  StateReason?: string;
-  CreationTime?: Date;
+  ArchiveArn?: string | undefined;
+  State?: ArchiveState | undefined;
+  StateReason?: string | undefined;
+  CreationTime?: Date | undefined;
 }
 export type ConnectionName = string;
 export type ConnectionDescription = string;
@@ -328,36 +329,36 @@ export type ConnectionOAuthHttpMethod = "GET" | "POST" | "PUT" | (string & {});
 export type HeaderKey = string;
 export type HeaderValueSensitive = string | redacted.Redacted<string>;
 export interface ConnectionHeaderParameter {
-  Key?: string;
-  Value?: string | redacted.Redacted<string>;
-  IsValueSecret?: boolean;
+  Key?: string | undefined;
+  Value?: string | redacted.Redacted<string> | undefined;
+  IsValueSecret?: boolean | undefined;
 }
 export type ConnectionHeaderParametersList = ConnectionHeaderParameter[];
 export type QueryStringKey = string;
 export type QueryStringValueSensitive = string | redacted.Redacted<string>;
 export interface ConnectionQueryStringParameter {
-  Key?: string;
-  Value?: string | redacted.Redacted<string>;
-  IsValueSecret?: boolean;
+  Key?: string | undefined;
+  Value?: string | redacted.Redacted<string> | undefined;
+  IsValueSecret?: boolean | undefined;
 }
 export type ConnectionQueryStringParametersList = ConnectionQueryStringParameter[];
 export type SensitiveString = string | redacted.Redacted<string>;
 export interface ConnectionBodyParameter {
-  Key?: string;
-  Value?: string | redacted.Redacted<string>;
-  IsValueSecret?: boolean;
+  Key?: string | undefined;
+  Value?: string | redacted.Redacted<string> | undefined;
+  IsValueSecret?: boolean | undefined;
 }
 export type ConnectionBodyParametersList = ConnectionBodyParameter[];
 export interface ConnectionHttpParameters {
-  HeaderParameters?: ConnectionHeaderParameter[];
-  QueryStringParameters?: ConnectionQueryStringParameter[];
-  BodyParameters?: ConnectionBodyParameter[];
+  HeaderParameters?: ConnectionHeaderParameter[] | undefined;
+  QueryStringParameters?: ConnectionQueryStringParameter[] | undefined;
+  BodyParameters?: ConnectionBodyParameter[] | undefined;
 }
 export interface CreateConnectionOAuthRequestParameters {
   ClientParameters: CreateConnectionOAuthClientRequestParameters;
   AuthorizationEndpoint: string;
   HttpMethod: ConnectionOAuthHttpMethod;
-  OAuthHttpParameters?: ConnectionHttpParameters;
+  OAuthHttpParameters?: ConnectionHttpParameters | undefined;
 }
 export interface CreateConnectionApiKeyAuthRequestParameters {
   ApiKeyName: string;
@@ -371,19 +372,19 @@ export interface ConnectivityResourceParameters {
   ResourceParameters: ConnectivityResourceConfigurationArn;
 }
 export interface CreateConnectionAuthRequestParameters {
-  BasicAuthParameters?: CreateConnectionBasicAuthRequestParameters;
-  OAuthParameters?: CreateConnectionOAuthRequestParameters;
-  ApiKeyAuthParameters?: CreateConnectionApiKeyAuthRequestParameters;
-  InvocationHttpParameters?: ConnectionHttpParameters;
-  ConnectivityParameters?: ConnectivityResourceParameters;
+  BasicAuthParameters?: CreateConnectionBasicAuthRequestParameters | undefined;
+  OAuthParameters?: CreateConnectionOAuthRequestParameters | undefined;
+  ApiKeyAuthParameters?: CreateConnectionApiKeyAuthRequestParameters | undefined;
+  InvocationHttpParameters?: ConnectionHttpParameters | undefined;
+  ConnectivityParameters?: ConnectivityResourceParameters | undefined;
 }
 export interface CreateConnectionRequest {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   AuthorizationType: ConnectionAuthorizationType;
   AuthParameters: CreateConnectionAuthRequestParameters;
-  InvocationConnectivityParameters?: ConnectivityResourceParameters;
-  KmsKeyIdentifier?: string;
+  InvocationConnectivityParameters?: ConnectivityResourceParameters | undefined;
+  KmsKeyIdentifier?: string | undefined;
 }
 export type ConnectionState =
   | "CREATING"
@@ -397,10 +398,10 @@ export type ConnectionState =
   | "FAILED_CONNECTIVITY"
   | (string & {});
 export interface CreateConnectionResponse {
-  ConnectionArn?: string;
-  ConnectionState?: ConnectionState;
-  CreationTime?: Date;
-  LastModifiedTime?: Date;
+  ConnectionArn?: string | undefined;
+  ConnectionState?: ConnectionState | undefined;
+  CreationTime?: Date | undefined;
+  LastModifiedTime?: Date | undefined;
 }
 export type EndpointName = string;
 export type EndpointDescription = string;
@@ -421,7 +422,7 @@ export interface RoutingConfig {
 }
 export type ReplicationState = "ENABLED" | "DISABLED" | (string & {});
 export interface ReplicationConfig {
-  State?: ReplicationState;
+  State?: ReplicationState | undefined;
 }
 export type NonPartnerEventBusArn = string;
 export interface EndpointEventBus {
@@ -431,11 +432,11 @@ export type EndpointEventBusList = EndpointEventBus[];
 export type IamRoleArn = string;
 export interface CreateEndpointRequest {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   RoutingConfig: RoutingConfig;
-  ReplicationConfig?: ReplicationConfig;
+  ReplicationConfig?: ReplicationConfig | undefined;
   EventBuses: EndpointEventBus[];
-  RoleArn?: string;
+  RoleArn?: string | undefined;
 }
 export type EndpointArn = string;
 export type EndpointState =
@@ -448,25 +449,25 @@ export type EndpointState =
   | "DELETE_FAILED"
   | (string & {});
 export interface CreateEndpointResponse {
-  Name?: string;
-  Arn?: string;
-  RoutingConfig?: RoutingConfig;
-  ReplicationConfig?: ReplicationConfig;
-  EventBuses?: EndpointEventBus[];
-  RoleArn?: string;
-  State?: EndpointState;
+  Name?: string | undefined;
+  Arn?: string | undefined;
+  RoutingConfig?: RoutingConfig | undefined;
+  ReplicationConfig?: ReplicationConfig | undefined;
+  EventBuses?: EndpointEventBus[] | undefined;
+  RoleArn?: string | undefined;
+  State?: EndpointState | undefined;
 }
 export type EventBusName = string;
 export type EventBusDescription = string;
 export type ResourceArn = string;
 export interface DeadLetterConfig {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export type IncludeDetail = "NONE" | "FULL" | (string & {});
 export type Level = "OFF" | "ERROR" | "INFO" | "TRACE" | (string & {});
 export interface LogConfig {
-  IncludeDetail?: IncludeDetail;
-  Level?: Level;
+  IncludeDetail?: IncludeDetail | undefined;
+  Level?: Level | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
@@ -477,19 +478,19 @@ export interface Tag {
 export type TagList = Tag[];
 export interface CreateEventBusRequest {
   Name: string;
-  EventSourceName?: string;
-  Description?: string;
-  KmsKeyIdentifier?: string;
-  DeadLetterConfig?: DeadLetterConfig;
-  LogConfig?: LogConfig;
-  Tags?: Tag[];
+  EventSourceName?: string | undefined;
+  Description?: string | undefined;
+  KmsKeyIdentifier?: string | undefined;
+  DeadLetterConfig?: DeadLetterConfig | undefined;
+  LogConfig?: LogConfig | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateEventBusResponse {
-  EventBusArn?: string;
-  Description?: string;
-  KmsKeyIdentifier?: string;
-  DeadLetterConfig?: DeadLetterConfig;
-  LogConfig?: LogConfig;
+  EventBusArn?: string | undefined;
+  Description?: string | undefined;
+  KmsKeyIdentifier?: string | undefined;
+  DeadLetterConfig?: DeadLetterConfig | undefined;
+  LogConfig?: LogConfig | undefined;
 }
 export type AccountId = string;
 export interface CreatePartnerEventSourceRequest {
@@ -497,7 +498,7 @@ export interface CreatePartnerEventSourceRequest {
   Account: string;
 }
 export interface CreatePartnerEventSourceResponse {
-  EventSourceArn?: string;
+  EventSourceArn?: string | undefined;
 }
 export interface DeactivateEventSourceRequest {
   Name: string;
@@ -507,11 +508,11 @@ export interface DeauthorizeConnectionRequest {
   Name: string;
 }
 export interface DeauthorizeConnectionResponse {
-  ConnectionArn?: string;
-  ConnectionState?: ConnectionState;
-  CreationTime?: Date;
-  LastModifiedTime?: Date;
-  LastAuthorizedTime?: Date;
+  ConnectionArn?: string | undefined;
+  ConnectionState?: ConnectionState | undefined;
+  CreationTime?: Date | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastAuthorizedTime?: Date | undefined;
 }
 export interface DeleteApiDestinationRequest {
   Name: string;
@@ -525,11 +526,11 @@ export interface DeleteConnectionRequest {
   Name: string;
 }
 export interface DeleteConnectionResponse {
-  ConnectionArn?: string;
-  ConnectionState?: ConnectionState;
-  CreationTime?: Date;
-  LastModifiedTime?: Date;
-  LastAuthorizedTime?: Date;
+  ConnectionArn?: string | undefined;
+  ConnectionState?: ConnectionState | undefined;
+  CreationTime?: Date | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastAuthorizedTime?: Date | undefined;
 }
 export interface DeleteEndpointRequest {
   Name: string;
@@ -548,41 +549,41 @@ export type RuleName = string;
 export type EventBusNameOrArn = string;
 export interface DeleteRuleRequest {
   Name: string;
-  EventBusName?: string;
-  Force?: boolean;
+  EventBusName?: string | undefined;
+  Force?: boolean | undefined;
 }
 export interface DeleteRuleResponse {}
 export interface DescribeApiDestinationRequest {
   Name: string;
 }
 export interface DescribeApiDestinationResponse {
-  ApiDestinationArn?: string;
-  Name?: string;
-  Description?: string;
-  ApiDestinationState?: ApiDestinationState;
-  ConnectionArn?: string;
-  InvocationEndpoint?: string;
-  HttpMethod?: ApiDestinationHttpMethod;
-  InvocationRateLimitPerSecond?: number;
-  CreationTime?: Date;
-  LastModifiedTime?: Date;
+  ApiDestinationArn?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  ApiDestinationState?: ApiDestinationState | undefined;
+  ConnectionArn?: string | undefined;
+  InvocationEndpoint?: string | undefined;
+  HttpMethod?: ApiDestinationHttpMethod | undefined;
+  InvocationRateLimitPerSecond?: number | undefined;
+  CreationTime?: Date | undefined;
+  LastModifiedTime?: Date | undefined;
 }
 export interface DescribeArchiveRequest {
   ArchiveName: string;
 }
 export interface DescribeArchiveResponse {
-  ArchiveArn?: string;
-  ArchiveName?: string;
-  EventSourceArn?: string;
-  Description?: string;
-  EventPattern?: string;
-  State?: ArchiveState;
-  StateReason?: string;
-  KmsKeyIdentifier?: string;
-  RetentionDays?: number;
-  SizeBytes?: number;
-  EventCount?: number;
-  CreationTime?: Date;
+  ArchiveArn?: string | undefined;
+  ArchiveName?: string | undefined;
+  EventSourceArn?: string | undefined;
+  Description?: string | undefined;
+  EventPattern?: string | undefined;
+  State?: ArchiveState | undefined;
+  StateReason?: string | undefined;
+  KmsKeyIdentifier?: string | undefined;
+  RetentionDays?: number | undefined;
+  SizeBytes?: number | undefined;
+  EventCount?: number | undefined;
+  CreationTime?: Date | undefined;
 }
 export interface DescribeConnectionRequest {
   Name: string;
@@ -598,99 +599,99 @@ export interface DescribeConnectionConnectivityParameters {
 export type ConnectionStateReason = string;
 export type SecretsManagerSecretArn = string;
 export interface ConnectionBasicAuthResponseParameters {
-  Username?: string;
+  Username?: string | undefined;
 }
 export interface ConnectionOAuthClientResponseParameters {
-  ClientID?: string;
+  ClientID?: string | undefined;
 }
 export interface ConnectionOAuthResponseParameters {
-  ClientParameters?: ConnectionOAuthClientResponseParameters;
-  AuthorizationEndpoint?: string;
-  HttpMethod?: ConnectionOAuthHttpMethod;
-  OAuthHttpParameters?: ConnectionHttpParameters;
+  ClientParameters?: ConnectionOAuthClientResponseParameters | undefined;
+  AuthorizationEndpoint?: string | undefined;
+  HttpMethod?: ConnectionOAuthHttpMethod | undefined;
+  OAuthHttpParameters?: ConnectionHttpParameters | undefined;
 }
 export interface ConnectionApiKeyAuthResponseParameters {
-  ApiKeyName?: string;
+  ApiKeyName?: string | undefined;
 }
 export interface ConnectionAuthResponseParameters {
-  BasicAuthParameters?: ConnectionBasicAuthResponseParameters;
-  OAuthParameters?: ConnectionOAuthResponseParameters;
-  ApiKeyAuthParameters?: ConnectionApiKeyAuthResponseParameters;
-  InvocationHttpParameters?: ConnectionHttpParameters;
-  ConnectivityParameters?: DescribeConnectionConnectivityParameters;
+  BasicAuthParameters?: ConnectionBasicAuthResponseParameters | undefined;
+  OAuthParameters?: ConnectionOAuthResponseParameters | undefined;
+  ApiKeyAuthParameters?: ConnectionApiKeyAuthResponseParameters | undefined;
+  InvocationHttpParameters?: ConnectionHttpParameters | undefined;
+  ConnectivityParameters?: DescribeConnectionConnectivityParameters | undefined;
 }
 export interface DescribeConnectionResponse {
-  ConnectionArn?: string;
-  Name?: string;
-  Description?: string;
-  InvocationConnectivityParameters?: DescribeConnectionConnectivityParameters;
-  ConnectionState?: ConnectionState;
-  StateReason?: string;
-  AuthorizationType?: ConnectionAuthorizationType;
-  SecretArn?: string;
-  KmsKeyIdentifier?: string;
-  AuthParameters?: ConnectionAuthResponseParameters;
-  CreationTime?: Date;
-  LastModifiedTime?: Date;
-  LastAuthorizedTime?: Date;
+  ConnectionArn?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  InvocationConnectivityParameters?: DescribeConnectionConnectivityParameters | undefined;
+  ConnectionState?: ConnectionState | undefined;
+  StateReason?: string | undefined;
+  AuthorizationType?: ConnectionAuthorizationType | undefined;
+  SecretArn?: string | undefined;
+  KmsKeyIdentifier?: string | undefined;
+  AuthParameters?: ConnectionAuthResponseParameters | undefined;
+  CreationTime?: Date | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastAuthorizedTime?: Date | undefined;
 }
 export type HomeRegion = string;
 export interface DescribeEndpointRequest {
   Name: string;
-  HomeRegion?: string;
+  HomeRegion?: string | undefined;
 }
 export type EndpointId = string;
 export type EndpointUrl = string;
 export type EndpointStateReason = string;
 export interface DescribeEndpointResponse {
-  Name?: string;
-  Description?: string;
-  Arn?: string;
-  RoutingConfig?: RoutingConfig;
-  ReplicationConfig?: ReplicationConfig;
-  EventBuses?: EndpointEventBus[];
-  RoleArn?: string;
-  EndpointId?: string;
-  EndpointUrl?: string;
-  State?: EndpointState;
-  StateReason?: string;
-  CreationTime?: Date;
-  LastModifiedTime?: Date;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Arn?: string | undefined;
+  RoutingConfig?: RoutingConfig | undefined;
+  ReplicationConfig?: ReplicationConfig | undefined;
+  EventBuses?: EndpointEventBus[] | undefined;
+  RoleArn?: string | undefined;
+  EndpointId?: string | undefined;
+  EndpointUrl?: string | undefined;
+  State?: EndpointState | undefined;
+  StateReason?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastModifiedTime?: Date | undefined;
 }
 export interface DescribeEventBusRequest {
-  Name?: string;
+  Name?: string | undefined;
 }
 export type ManagedBy = string;
 export interface DescribeEventBusResponse {
-  Name?: string;
-  Arn?: string;
-  Description?: string;
-  KmsKeyIdentifier?: string;
-  DeadLetterConfig?: DeadLetterConfig;
-  Policy?: string;
-  LogConfig?: LogConfig;
-  CreationTime?: Date;
-  LastModifiedTime?: Date;
-  ManagedBy?: string;
+  Name?: string | undefined;
+  Arn?: string | undefined;
+  Description?: string | undefined;
+  KmsKeyIdentifier?: string | undefined;
+  DeadLetterConfig?: DeadLetterConfig | undefined;
+  Policy?: string | undefined;
+  LogConfig?: LogConfig | undefined;
+  CreationTime?: Date | undefined;
+  LastModifiedTime?: Date | undefined;
+  ManagedBy?: string | undefined;
 }
 export interface DescribeEventSourceRequest {
   Name: string;
 }
 export type EventSourceState = "PENDING" | "ACTIVE" | "DELETED" | (string & {});
 export interface DescribeEventSourceResponse {
-  Arn?: string;
-  CreatedBy?: string;
-  CreationTime?: Date;
-  ExpirationTime?: Date;
-  Name?: string;
-  State?: EventSourceState;
+  Arn?: string | undefined;
+  CreatedBy?: string | undefined;
+  CreationTime?: Date | undefined;
+  ExpirationTime?: Date | undefined;
+  Name?: string | undefined;
+  State?: EventSourceState | undefined;
 }
 export interface DescribePartnerEventSourceRequest {
   Name: string;
 }
 export interface DescribePartnerEventSourceResponse {
-  Arn?: string;
-  Name?: string;
+  Arn?: string | undefined;
+  Name?: string | undefined;
 }
 export interface DescribeReplayRequest {
   ReplayName: string;
@@ -700,25 +701,25 @@ export type Arn = string;
 export type ReplayDestinationFilters = string[];
 export interface ReplayDestination {
   Arn: string;
-  FilterArns?: string[];
+  FilterArns?: string[] | undefined;
 }
 export interface DescribeReplayResponse {
-  ReplayName?: string;
-  ReplayArn?: string;
-  Description?: string;
-  State?: ReplayState;
-  StateReason?: string;
-  EventSourceArn?: string;
-  Destination?: ReplayDestination;
-  EventStartTime?: Date;
-  EventEndTime?: Date;
-  EventLastReplayedTime?: Date;
-  ReplayStartTime?: Date;
-  ReplayEndTime?: Date;
+  ReplayName?: string | undefined;
+  ReplayArn?: string | undefined;
+  Description?: string | undefined;
+  State?: ReplayState | undefined;
+  StateReason?: string | undefined;
+  EventSourceArn?: string | undefined;
+  Destination?: ReplayDestination | undefined;
+  EventStartTime?: Date | undefined;
+  EventEndTime?: Date | undefined;
+  EventLastReplayedTime?: Date | undefined;
+  ReplayStartTime?: Date | undefined;
+  ReplayEndTime?: Date | undefined;
 }
 export interface DescribeRuleRequest {
   Name: string;
-  EventBusName?: string;
+  EventBusName?: string | undefined;
 }
 export type RuleArn = string;
 export type ScheduleExpression = string;
@@ -731,258 +732,258 @@ export type RuleDescription = string;
 export type RoleArn = string;
 export type CreatedBy = string;
 export interface DescribeRuleResponse {
-  Name?: string;
-  Arn?: string;
-  EventPattern?: string;
-  ScheduleExpression?: string;
-  State?: RuleState;
-  Description?: string;
-  RoleArn?: string;
-  ManagedBy?: string;
-  EventBusName?: string;
-  CreatedBy?: string;
+  Name?: string | undefined;
+  Arn?: string | undefined;
+  EventPattern?: string | undefined;
+  ScheduleExpression?: string | undefined;
+  State?: RuleState | undefined;
+  Description?: string | undefined;
+  RoleArn?: string | undefined;
+  ManagedBy?: string | undefined;
+  EventBusName?: string | undefined;
+  CreatedBy?: string | undefined;
 }
 export interface DisableRuleRequest {
   Name: string;
-  EventBusName?: string;
+  EventBusName?: string | undefined;
 }
 export interface DisableRuleResponse {}
 export interface EnableRuleRequest {
   Name: string;
-  EventBusName?: string;
+  EventBusName?: string | undefined;
 }
 export interface EnableRuleResponse {}
 export type NextToken = string;
 export type LimitMax100 = number;
 export interface ListApiDestinationsRequest {
-  NamePrefix?: string;
-  ConnectionArn?: string;
-  NextToken?: string;
-  Limit?: number;
+  NamePrefix?: string | undefined;
+  ConnectionArn?: string | undefined;
+  NextToken?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface ApiDestination {
-  ApiDestinationArn?: string;
-  Name?: string;
-  ApiDestinationState?: ApiDestinationState;
-  ConnectionArn?: string;
-  InvocationEndpoint?: string;
-  HttpMethod?: ApiDestinationHttpMethod;
-  InvocationRateLimitPerSecond?: number;
-  CreationTime?: Date;
-  LastModifiedTime?: Date;
+  ApiDestinationArn?: string | undefined;
+  Name?: string | undefined;
+  ApiDestinationState?: ApiDestinationState | undefined;
+  ConnectionArn?: string | undefined;
+  InvocationEndpoint?: string | undefined;
+  HttpMethod?: ApiDestinationHttpMethod | undefined;
+  InvocationRateLimitPerSecond?: number | undefined;
+  CreationTime?: Date | undefined;
+  LastModifiedTime?: Date | undefined;
 }
 export type ApiDestinationResponseList = ApiDestination[];
 export interface ListApiDestinationsResponse {
-  ApiDestinations?: ApiDestination[];
-  NextToken?: string;
+  ApiDestinations?: ApiDestination[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListArchivesRequest {
-  NamePrefix?: string;
-  EventSourceArn?: string;
-  State?: ArchiveState;
-  NextToken?: string;
-  Limit?: number;
+  NamePrefix?: string | undefined;
+  EventSourceArn?: string | undefined;
+  State?: ArchiveState | undefined;
+  NextToken?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface Archive {
-  ArchiveName?: string;
-  EventSourceArn?: string;
-  State?: ArchiveState;
-  StateReason?: string;
-  RetentionDays?: number;
-  SizeBytes?: number;
-  EventCount?: number;
-  CreationTime?: Date;
+  ArchiveName?: string | undefined;
+  EventSourceArn?: string | undefined;
+  State?: ArchiveState | undefined;
+  StateReason?: string | undefined;
+  RetentionDays?: number | undefined;
+  SizeBytes?: number | undefined;
+  EventCount?: number | undefined;
+  CreationTime?: Date | undefined;
 }
 export type ArchiveResponseList = Archive[];
 export interface ListArchivesResponse {
-  Archives?: Archive[];
-  NextToken?: string;
+  Archives?: Archive[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListConnectionsRequest {
-  NamePrefix?: string;
-  ConnectionState?: ConnectionState;
-  NextToken?: string;
-  Limit?: number;
+  NamePrefix?: string | undefined;
+  ConnectionState?: ConnectionState | undefined;
+  NextToken?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface Connection {
-  ConnectionArn?: string;
-  Name?: string;
-  ConnectionState?: ConnectionState;
-  StateReason?: string;
-  AuthorizationType?: ConnectionAuthorizationType;
-  CreationTime?: Date;
-  LastModifiedTime?: Date;
-  LastAuthorizedTime?: Date;
+  ConnectionArn?: string | undefined;
+  Name?: string | undefined;
+  ConnectionState?: ConnectionState | undefined;
+  StateReason?: string | undefined;
+  AuthorizationType?: ConnectionAuthorizationType | undefined;
+  CreationTime?: Date | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastAuthorizedTime?: Date | undefined;
 }
 export type ConnectionResponseList = Connection[];
 export interface ListConnectionsResponse {
-  Connections?: Connection[];
-  NextToken?: string;
+  Connections?: Connection[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListEndpointsRequest {
-  NamePrefix?: string;
-  HomeRegion?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NamePrefix?: string | undefined;
+  HomeRegion?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface Endpoint {
-  Name?: string;
-  Description?: string;
-  Arn?: string;
-  RoutingConfig?: RoutingConfig;
-  ReplicationConfig?: ReplicationConfig;
-  EventBuses?: EndpointEventBus[];
-  RoleArn?: string;
-  EndpointId?: string;
-  EndpointUrl?: string;
-  State?: EndpointState;
-  StateReason?: string;
-  CreationTime?: Date;
-  LastModifiedTime?: Date;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Arn?: string | undefined;
+  RoutingConfig?: RoutingConfig | undefined;
+  ReplicationConfig?: ReplicationConfig | undefined;
+  EventBuses?: EndpointEventBus[] | undefined;
+  RoleArn?: string | undefined;
+  EndpointId?: string | undefined;
+  EndpointUrl?: string | undefined;
+  State?: EndpointState | undefined;
+  StateReason?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastModifiedTime?: Date | undefined;
 }
 const Endpoint = /*@__PURE__*/ __L.at(__c1, 7) as any as S.Schema<Endpoint>;
 export type EndpointList = Endpoint[];
 export interface ListEndpointsResponse {
-  Endpoints?: Endpoint[];
-  NextToken?: string;
+  Endpoints?: Endpoint[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListEventBusesRequest {
-  NamePrefix?: string;
-  NextToken?: string;
-  Limit?: number;
+  NamePrefix?: string | undefined;
+  NextToken?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface EventBus {
-  Name?: string;
-  Arn?: string;
-  Description?: string;
-  Policy?: string;
-  CreationTime?: Date;
-  LastModifiedTime?: Date;
-  ManagedBy?: string;
+  Name?: string | undefined;
+  Arn?: string | undefined;
+  Description?: string | undefined;
+  Policy?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastModifiedTime?: Date | undefined;
+  ManagedBy?: string | undefined;
 }
 export type EventBusList = EventBus[];
 export interface ListEventBusesResponse {
-  EventBuses?: EventBus[];
-  NextToken?: string;
+  EventBuses?: EventBus[] | undefined;
+  NextToken?: string | undefined;
 }
 export type EventSourceNamePrefix = string;
 export interface ListEventSourcesRequest {
-  NamePrefix?: string;
-  NextToken?: string;
-  Limit?: number;
+  NamePrefix?: string | undefined;
+  NextToken?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface EventSource {
-  Arn?: string;
-  CreatedBy?: string;
-  CreationTime?: Date;
-  ExpirationTime?: Date;
-  Name?: string;
-  State?: EventSourceState;
+  Arn?: string | undefined;
+  CreatedBy?: string | undefined;
+  CreationTime?: Date | undefined;
+  ExpirationTime?: Date | undefined;
+  Name?: string | undefined;
+  State?: EventSourceState | undefined;
 }
 export type EventSourceList = EventSource[];
 export interface ListEventSourcesResponse {
-  EventSources?: EventSource[];
-  NextToken?: string;
+  EventSources?: EventSource[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPartnerEventSourceAccountsRequest {
   EventSourceName: string;
-  NextToken?: string;
-  Limit?: number;
+  NextToken?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface PartnerEventSourceAccount {
-  Account?: string;
-  CreationTime?: Date;
-  ExpirationTime?: Date;
-  State?: EventSourceState;
+  Account?: string | undefined;
+  CreationTime?: Date | undefined;
+  ExpirationTime?: Date | undefined;
+  State?: EventSourceState | undefined;
 }
 export type PartnerEventSourceAccountList = PartnerEventSourceAccount[];
 export interface ListPartnerEventSourceAccountsResponse {
-  PartnerEventSourceAccounts?: PartnerEventSourceAccount[];
-  NextToken?: string;
+  PartnerEventSourceAccounts?: PartnerEventSourceAccount[] | undefined;
+  NextToken?: string | undefined;
 }
 export type PartnerEventSourceNamePrefix = string;
 export interface ListPartnerEventSourcesRequest {
   NamePrefix: string;
-  NextToken?: string;
-  Limit?: number;
+  NextToken?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface PartnerEventSource {
-  Arn?: string;
-  Name?: string;
+  Arn?: string | undefined;
+  Name?: string | undefined;
 }
 export type PartnerEventSourceList = PartnerEventSource[];
 export interface ListPartnerEventSourcesResponse {
-  PartnerEventSources?: PartnerEventSource[];
-  NextToken?: string;
+  PartnerEventSources?: PartnerEventSource[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListReplaysRequest {
-  NamePrefix?: string;
-  State?: ReplayState;
-  EventSourceArn?: string;
-  NextToken?: string;
-  Limit?: number;
+  NamePrefix?: string | undefined;
+  State?: ReplayState | undefined;
+  EventSourceArn?: string | undefined;
+  NextToken?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface Replay {
-  ReplayName?: string;
-  EventSourceArn?: string;
-  State?: ReplayState;
-  StateReason?: string;
-  EventStartTime?: Date;
-  EventEndTime?: Date;
-  EventLastReplayedTime?: Date;
-  ReplayStartTime?: Date;
-  ReplayEndTime?: Date;
+  ReplayName?: string | undefined;
+  EventSourceArn?: string | undefined;
+  State?: ReplayState | undefined;
+  StateReason?: string | undefined;
+  EventStartTime?: Date | undefined;
+  EventEndTime?: Date | undefined;
+  EventLastReplayedTime?: Date | undefined;
+  ReplayStartTime?: Date | undefined;
+  ReplayEndTime?: Date | undefined;
 }
 export type ReplayList = Replay[];
 export interface ListReplaysResponse {
-  Replays?: Replay[];
-  NextToken?: string;
+  Replays?: Replay[] | undefined;
+  NextToken?: string | undefined;
 }
 export type TargetArn = string;
 export interface ListRuleNamesByTargetRequest {
   TargetArn: string;
-  EventBusName?: string;
-  NextToken?: string;
-  Limit?: number;
+  EventBusName?: string | undefined;
+  NextToken?: string | undefined;
+  Limit?: number | undefined;
 }
 export type RuleNameList = string[];
 export interface ListRuleNamesByTargetResponse {
-  RuleNames?: string[];
-  NextToken?: string;
+  RuleNames?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListRulesRequest {
-  NamePrefix?: string;
-  EventBusName?: string;
-  NextToken?: string;
-  Limit?: number;
+  NamePrefix?: string | undefined;
+  EventBusName?: string | undefined;
+  NextToken?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface Rule {
-  Name?: string;
-  Arn?: string;
-  EventPattern?: string;
-  State?: RuleState;
-  Description?: string;
-  ScheduleExpression?: string;
-  RoleArn?: string;
-  ManagedBy?: string;
-  EventBusName?: string;
+  Name?: string | undefined;
+  Arn?: string | undefined;
+  EventPattern?: string | undefined;
+  State?: RuleState | undefined;
+  Description?: string | undefined;
+  ScheduleExpression?: string | undefined;
+  RoleArn?: string | undefined;
+  ManagedBy?: string | undefined;
+  EventBusName?: string | undefined;
 }
 export type RuleResponseList = Rule[];
 export interface ListRulesResponse {
-  Rules?: Rule[];
-  NextToken?: string;
+  Rules?: Rule[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface ListTargetsByRuleRequest {
   Rule: string;
-  EventBusName?: string;
-  NextToken?: string;
-  Limit?: number;
+  EventBusName?: string | undefined;
+  NextToken?: string | undefined;
+  Limit?: number | undefined;
 }
 export type TargetId = string;
 export type TargetInput = string;
@@ -991,7 +992,7 @@ export type InputTransformerPathKey = string;
 export type TransformerPaths = { [key: string]: string | undefined };
 export type TransformerInput = string;
 export interface InputTransformer {
-  InputPathsMap?: { [key: string]: string | undefined };
+  InputPathsMap?: { [key: string]: string | undefined } | undefined;
   InputTemplate: string;
 }
 export type TargetPartitionKeyPath = string;
@@ -1015,68 +1016,68 @@ export type StringList = string[];
 export type AssignPublicIp = "ENABLED" | "DISABLED" | (string & {});
 export interface AwsVpcConfiguration {
   Subnets: string[];
-  SecurityGroups?: string[];
-  AssignPublicIp?: AssignPublicIp;
+  SecurityGroups?: string[] | undefined;
+  AssignPublicIp?: AssignPublicIp | undefined;
 }
 export interface NetworkConfiguration {
-  awsvpcConfiguration?: AwsVpcConfiguration;
+  awsvpcConfiguration?: AwsVpcConfiguration | undefined;
 }
 export type CapacityProvider = string;
 export type CapacityProviderStrategyItemWeight = number;
 export type CapacityProviderStrategyItemBase = number;
 export interface CapacityProviderStrategyItem {
   capacityProvider: string;
-  weight?: number;
-  base?: number;
+  weight?: number | undefined;
+  base?: number | undefined;
 }
 export type CapacityProviderStrategy = CapacityProviderStrategyItem[];
 export type PlacementConstraintType = "distinctInstance" | "memberOf" | (string & {});
 export type PlacementConstraintExpression = string;
 export interface PlacementConstraint {
-  type?: PlacementConstraintType;
-  expression?: string;
+  type?: PlacementConstraintType | undefined;
+  expression?: string | undefined;
 }
 export type PlacementConstraints = PlacementConstraint[];
 export type PlacementStrategyType = "random" | "spread" | "binpack" | (string & {});
 export type PlacementStrategyField = string;
 export interface PlacementStrategy {
-  type?: PlacementStrategyType;
-  field?: string;
+  type?: PlacementStrategyType | undefined;
+  field?: string | undefined;
 }
 export type PlacementStrategies = PlacementStrategy[];
 export type PropagateTags = "TASK_DEFINITION" | (string & {});
 export type ReferenceId = string;
 export interface EcsParameters {
   TaskDefinitionArn: string;
-  TaskCount?: number;
-  LaunchType?: LaunchType;
-  NetworkConfiguration?: NetworkConfiguration;
-  PlatformVersion?: string;
-  Group?: string;
-  CapacityProviderStrategy?: CapacityProviderStrategyItem[];
-  EnableECSManagedTags?: boolean;
-  EnableExecuteCommand?: boolean;
-  PlacementConstraints?: PlacementConstraint[];
-  PlacementStrategy?: PlacementStrategy[];
-  PropagateTags?: PropagateTags;
-  ReferenceId?: string;
-  Tags?: Tag[];
+  TaskCount?: number | undefined;
+  LaunchType?: LaunchType | undefined;
+  NetworkConfiguration?: NetworkConfiguration | undefined;
+  PlatformVersion?: string | undefined;
+  Group?: string | undefined;
+  CapacityProviderStrategy?: CapacityProviderStrategyItem[] | undefined;
+  EnableECSManagedTags?: boolean | undefined;
+  EnableExecuteCommand?: boolean | undefined;
+  PlacementConstraints?: PlacementConstraint[] | undefined;
+  PlacementStrategy?: PlacementStrategy[] | undefined;
+  PropagateTags?: PropagateTags | undefined;
+  ReferenceId?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface BatchArrayProperties {
-  Size?: number;
+  Size?: number | undefined;
 }
 export interface BatchRetryStrategy {
-  Attempts?: number;
+  Attempts?: number | undefined;
 }
 export interface BatchParameters {
   JobDefinition: string;
   JobName: string;
-  ArrayProperties?: BatchArrayProperties;
-  RetryStrategy?: BatchRetryStrategy;
+  ArrayProperties?: BatchArrayProperties | undefined;
+  RetryStrategy?: BatchRetryStrategy | undefined;
 }
 export type MessageGroupId = string;
 export interface SqsParameters {
-  MessageGroupId?: string;
+  MessageGroupId?: string | undefined;
 }
 export type PathParameter = string;
 export type PathParameterList = string[];
@@ -1085,9 +1086,9 @@ export type HeaderParametersMap = { [key: string]: string | undefined };
 export type QueryStringValue = string;
 export type QueryStringParametersMap = { [key: string]: string | undefined };
 export interface HttpParameters {
-  PathParameterValues?: string[];
-  HeaderParameters?: { [key: string]: string | undefined };
-  QueryStringParameters?: { [key: string]: string | undefined };
+  PathParameterValues?: string[] | undefined;
+  HeaderParameters?: { [key: string]: string | undefined } | undefined;
+  QueryStringParameters?: { [key: string]: string | undefined } | undefined;
 }
 export type RedshiftSecretManagerArn = string;
 export type Database = string;
@@ -1096,13 +1097,13 @@ export type Sql = string | redacted.Redacted<string>;
 export type StatementName = string;
 export type Sqls = (string | redacted.Redacted<string>)[];
 export interface RedshiftDataParameters {
-  SecretManagerArn?: string;
+  SecretManagerArn?: string | undefined;
   Database: string;
-  DbUser?: string;
-  Sql?: string | redacted.Redacted<string>;
-  StatementName?: string;
-  WithEvent?: boolean;
-  Sqls?: (string | redacted.Redacted<string>)[];
+  DbUser?: string | undefined;
+  Sql?: string | redacted.Redacted<string> | undefined;
+  StatementName?: string | undefined;
+  WithEvent?: boolean | undefined;
+  Sqls?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export type SageMakerPipelineParameterName = string;
 export type SageMakerPipelineParameterValue = string;
@@ -1112,41 +1113,41 @@ export interface SageMakerPipelineParameter {
 }
 export type SageMakerPipelineParameterList = SageMakerPipelineParameter[];
 export interface SageMakerPipelineParameters {
-  PipelineParameterList?: SageMakerPipelineParameter[];
+  PipelineParameterList?: SageMakerPipelineParameter[] | undefined;
 }
 export type MaximumRetryAttempts = number;
 export type MaximumEventAgeInSeconds = number;
 export interface RetryPolicy {
-  MaximumRetryAttempts?: number;
-  MaximumEventAgeInSeconds?: number;
+  MaximumRetryAttempts?: number | undefined;
+  MaximumEventAgeInSeconds?: number | undefined;
 }
 export type GraphQLOperation = string | redacted.Redacted<string>;
 export interface AppSyncParameters {
-  GraphQLOperation?: string | redacted.Redacted<string>;
+  GraphQLOperation?: string | redacted.Redacted<string> | undefined;
 }
 export interface Target {
   Id: string;
   Arn: string;
-  RoleArn?: string;
-  Input?: string;
-  InputPath?: string;
-  InputTransformer?: InputTransformer;
-  KinesisParameters?: KinesisParameters;
-  RunCommandParameters?: RunCommandParameters;
-  EcsParameters?: EcsParameters;
-  BatchParameters?: BatchParameters;
-  SqsParameters?: SqsParameters;
-  HttpParameters?: HttpParameters;
-  RedshiftDataParameters?: RedshiftDataParameters;
-  SageMakerPipelineParameters?: SageMakerPipelineParameters;
-  DeadLetterConfig?: DeadLetterConfig;
-  RetryPolicy?: RetryPolicy;
-  AppSyncParameters?: AppSyncParameters;
+  RoleArn?: string | undefined;
+  Input?: string | undefined;
+  InputPath?: string | undefined;
+  InputTransformer?: InputTransformer | undefined;
+  KinesisParameters?: KinesisParameters | undefined;
+  RunCommandParameters?: RunCommandParameters | undefined;
+  EcsParameters?: EcsParameters | undefined;
+  BatchParameters?: BatchParameters | undefined;
+  SqsParameters?: SqsParameters | undefined;
+  HttpParameters?: HttpParameters | undefined;
+  RedshiftDataParameters?: RedshiftDataParameters | undefined;
+  SageMakerPipelineParameters?: SageMakerPipelineParameters | undefined;
+  DeadLetterConfig?: DeadLetterConfig | undefined;
+  RetryPolicy?: RetryPolicy | undefined;
+  AppSyncParameters?: AppSyncParameters | undefined;
 }
 export type TargetList = Target[];
 export interface ListTargetsByRuleResponse {
-  Targets?: Target[];
-  NextToken?: string;
+  Targets?: Target[] | undefined;
+  NextToken?: string | undefined;
 }
 export type EventTime = Date;
 export type EventResource = string;
@@ -1154,52 +1155,52 @@ export type EventResourceList = string[];
 export type NonPartnerEventBusNameOrArn = string;
 export type TraceHeader = string;
 export interface PutEventsRequestEntry {
-  Time?: Date;
-  Source?: string;
-  Resources?: string[];
-  DetailType?: string;
-  Detail?: string;
-  EventBusName?: string;
-  TraceHeader?: string;
+  Time?: Date | undefined;
+  Source?: string | undefined;
+  Resources?: string[] | undefined;
+  DetailType?: string | undefined;
+  Detail?: string | undefined;
+  EventBusName?: string | undefined;
+  TraceHeader?: string | undefined;
 }
 export type PutEventsRequestEntryList = PutEventsRequestEntry[];
 export interface PutEventsRequest {
   Entries: PutEventsRequestEntry[];
-  EndpointId?: string;
+  EndpointId?: string | undefined;
 }
 export type EventId = string;
 export type ErrorCode = string;
 export type ErrorMessage = string;
 export interface PutEventsResultEntry {
-  EventId?: string;
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  EventId?: string | undefined;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type PutEventsResultEntryList = PutEventsResultEntry[];
 export interface PutEventsResponse {
-  FailedEntryCount?: number;
-  Entries?: PutEventsResultEntry[];
+  FailedEntryCount?: number | undefined;
+  Entries?: PutEventsResultEntry[] | undefined;
 }
 export interface PutPartnerEventsRequestEntry {
-  Time?: Date;
-  Source?: string;
-  Resources?: string[];
-  DetailType?: string;
-  Detail?: string;
+  Time?: Date | undefined;
+  Source?: string | undefined;
+  Resources?: string[] | undefined;
+  DetailType?: string | undefined;
+  Detail?: string | undefined;
 }
 export type PutPartnerEventsRequestEntryList = PutPartnerEventsRequestEntry[];
 export interface PutPartnerEventsRequest {
   Entries: PutPartnerEventsRequestEntry[];
 }
 export interface PutPartnerEventsResultEntry {
-  EventId?: string;
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  EventId?: string | undefined;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type PutPartnerEventsResultEntryList = PutPartnerEventsResultEntry[];
 export interface PutPartnerEventsResponse {
-  FailedEntryCount?: number;
-  Entries?: PutPartnerEventsResultEntry[];
+  FailedEntryCount?: number | undefined;
+  Entries?: PutPartnerEventsResultEntry[] | undefined;
 }
 export type NonPartnerEventBusName = string;
 export type Action = string;
@@ -1211,78 +1212,78 @@ export interface Condition {
   Value: string;
 }
 export interface PutPermissionRequest {
-  EventBusName?: string;
-  Action?: string;
-  Principal?: string;
-  StatementId?: string;
-  Condition?: Condition;
-  Policy?: string;
+  EventBusName?: string | undefined;
+  Action?: string | undefined;
+  Principal?: string | undefined;
+  StatementId?: string | undefined;
+  Condition?: Condition | undefined;
+  Policy?: string | undefined;
 }
 export interface PutPermissionResponse {}
 export interface PutRuleRequest {
   Name: string;
-  ScheduleExpression?: string;
-  EventPattern?: string;
-  State?: RuleState;
-  Description?: string;
-  RoleArn?: string;
-  Tags?: Tag[];
-  EventBusName?: string;
+  ScheduleExpression?: string | undefined;
+  EventPattern?: string | undefined;
+  State?: RuleState | undefined;
+  Description?: string | undefined;
+  RoleArn?: string | undefined;
+  Tags?: Tag[] | undefined;
+  EventBusName?: string | undefined;
 }
 export interface PutRuleResponse {
-  RuleArn?: string;
+  RuleArn?: string | undefined;
 }
 export interface PutTargetsRequest {
   Rule: string;
-  EventBusName?: string;
+  EventBusName?: string | undefined;
   Targets: Target[];
 }
 export interface PutTargetsResultEntry {
-  TargetId?: string;
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  TargetId?: string | undefined;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type PutTargetsResultEntryList = PutTargetsResultEntry[];
 export interface PutTargetsResponse {
-  FailedEntryCount?: number;
-  FailedEntries?: PutTargetsResultEntry[];
+  FailedEntryCount?: number | undefined;
+  FailedEntries?: PutTargetsResultEntry[] | undefined;
 }
 export interface RemovePermissionRequest {
-  StatementId?: string;
-  RemoveAllPermissions?: boolean;
-  EventBusName?: string;
+  StatementId?: string | undefined;
+  RemoveAllPermissions?: boolean | undefined;
+  EventBusName?: string | undefined;
 }
 export interface RemovePermissionResponse {}
 export type TargetIdList = string[];
 export interface RemoveTargetsRequest {
   Rule: string;
-  EventBusName?: string;
+  EventBusName?: string | undefined;
   Ids: string[];
-  Force?: boolean;
+  Force?: boolean | undefined;
 }
 export interface RemoveTargetsResultEntry {
-  TargetId?: string;
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  TargetId?: string | undefined;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type RemoveTargetsResultEntryList = RemoveTargetsResultEntry[];
 export interface RemoveTargetsResponse {
-  FailedEntryCount?: number;
-  FailedEntries?: RemoveTargetsResultEntry[];
+  FailedEntryCount?: number | undefined;
+  FailedEntries?: RemoveTargetsResultEntry[] | undefined;
 }
 export interface StartReplayRequest {
   ReplayName: string;
-  Description?: string;
+  Description?: string | undefined;
   EventSourceArn: string;
   EventStartTime: Date;
   EventEndTime: Date;
   Destination: ReplayDestination;
 }
 export interface StartReplayResponse {
-  ReplayArn?: string;
-  State?: ReplayState;
-  StateReason?: string;
-  ReplayStartTime?: Date;
+  ReplayArn?: string | undefined;
+  State?: ReplayState | undefined;
+  StateReason?: string | undefined;
+  ReplayStartTime?: Date | undefined;
 }
 export interface TagResourceRequest {
   ResourceARN: string;
@@ -1294,7 +1295,7 @@ export interface TestEventPatternRequest {
   Event: string;
 }
 export interface TestEventPatternResponse {
-  Result?: boolean;
+  Result?: boolean | undefined;
 }
 export type TagKeyList = string[];
 export interface UntagResourceRequest {
@@ -1304,104 +1305,104 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateApiDestinationRequest {
   Name: string;
-  Description?: string;
-  ConnectionArn?: string;
-  InvocationEndpoint?: string;
-  HttpMethod?: ApiDestinationHttpMethod;
-  InvocationRateLimitPerSecond?: number;
+  Description?: string | undefined;
+  ConnectionArn?: string | undefined;
+  InvocationEndpoint?: string | undefined;
+  HttpMethod?: ApiDestinationHttpMethod | undefined;
+  InvocationRateLimitPerSecond?: number | undefined;
 }
 export interface UpdateApiDestinationResponse {
-  ApiDestinationArn?: string;
-  ApiDestinationState?: ApiDestinationState;
-  CreationTime?: Date;
-  LastModifiedTime?: Date;
+  ApiDestinationArn?: string | undefined;
+  ApiDestinationState?: ApiDestinationState | undefined;
+  CreationTime?: Date | undefined;
+  LastModifiedTime?: Date | undefined;
 }
 export interface UpdateArchiveRequest {
   ArchiveName: string;
-  Description?: string;
-  EventPattern?: string;
-  RetentionDays?: number;
-  KmsKeyIdentifier?: string;
+  Description?: string | undefined;
+  EventPattern?: string | undefined;
+  RetentionDays?: number | undefined;
+  KmsKeyIdentifier?: string | undefined;
 }
 export interface UpdateArchiveResponse {
-  ArchiveArn?: string;
-  State?: ArchiveState;
-  StateReason?: string;
-  CreationTime?: Date;
+  ArchiveArn?: string | undefined;
+  State?: ArchiveState | undefined;
+  StateReason?: string | undefined;
+  CreationTime?: Date | undefined;
 }
 export interface UpdateConnectionBasicAuthRequestParameters {
-  Username?: string;
-  Password?: string | redacted.Redacted<string>;
+  Username?: string | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateConnectionOAuthClientRequestParameters {
-  ClientID?: string;
-  ClientSecret?: string | redacted.Redacted<string>;
+  ClientID?: string | undefined;
+  ClientSecret?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateConnectionOAuthRequestParameters {
-  ClientParameters?: UpdateConnectionOAuthClientRequestParameters;
-  AuthorizationEndpoint?: string;
-  HttpMethod?: ConnectionOAuthHttpMethod;
-  OAuthHttpParameters?: ConnectionHttpParameters;
+  ClientParameters?: UpdateConnectionOAuthClientRequestParameters | undefined;
+  AuthorizationEndpoint?: string | undefined;
+  HttpMethod?: ConnectionOAuthHttpMethod | undefined;
+  OAuthHttpParameters?: ConnectionHttpParameters | undefined;
 }
 export interface UpdateConnectionApiKeyAuthRequestParameters {
-  ApiKeyName?: string;
-  ApiKeyValue?: string | redacted.Redacted<string>;
+  ApiKeyName?: string | undefined;
+  ApiKeyValue?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateConnectionAuthRequestParameters {
-  BasicAuthParameters?: UpdateConnectionBasicAuthRequestParameters;
-  OAuthParameters?: UpdateConnectionOAuthRequestParameters;
-  ApiKeyAuthParameters?: UpdateConnectionApiKeyAuthRequestParameters;
-  InvocationHttpParameters?: ConnectionHttpParameters;
-  ConnectivityParameters?: ConnectivityResourceParameters;
+  BasicAuthParameters?: UpdateConnectionBasicAuthRequestParameters | undefined;
+  OAuthParameters?: UpdateConnectionOAuthRequestParameters | undefined;
+  ApiKeyAuthParameters?: UpdateConnectionApiKeyAuthRequestParameters | undefined;
+  InvocationHttpParameters?: ConnectionHttpParameters | undefined;
+  ConnectivityParameters?: ConnectivityResourceParameters | undefined;
 }
 export interface UpdateConnectionRequest {
   Name: string;
-  Description?: string;
-  AuthorizationType?: ConnectionAuthorizationType;
-  AuthParameters?: UpdateConnectionAuthRequestParameters;
-  InvocationConnectivityParameters?: ConnectivityResourceParameters;
-  KmsKeyIdentifier?: string;
+  Description?: string | undefined;
+  AuthorizationType?: ConnectionAuthorizationType | undefined;
+  AuthParameters?: UpdateConnectionAuthRequestParameters | undefined;
+  InvocationConnectivityParameters?: ConnectivityResourceParameters | undefined;
+  KmsKeyIdentifier?: string | undefined;
 }
 export interface UpdateConnectionResponse {
-  ConnectionArn?: string;
-  ConnectionState?: ConnectionState;
-  CreationTime?: Date;
-  LastModifiedTime?: Date;
-  LastAuthorizedTime?: Date;
+  ConnectionArn?: string | undefined;
+  ConnectionState?: ConnectionState | undefined;
+  CreationTime?: Date | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastAuthorizedTime?: Date | undefined;
 }
 export interface UpdateEndpointRequest {
   Name: string;
-  Description?: string;
-  RoutingConfig?: RoutingConfig;
-  ReplicationConfig?: ReplicationConfig;
-  EventBuses?: EndpointEventBus[];
-  RoleArn?: string;
+  Description?: string | undefined;
+  RoutingConfig?: RoutingConfig | undefined;
+  ReplicationConfig?: ReplicationConfig | undefined;
+  EventBuses?: EndpointEventBus[] | undefined;
+  RoleArn?: string | undefined;
 }
 export interface UpdateEndpointResponse {
-  Name?: string;
-  Arn?: string;
-  RoutingConfig?: RoutingConfig;
-  ReplicationConfig?: ReplicationConfig;
-  EventBuses?: EndpointEventBus[];
-  RoleArn?: string;
-  EndpointId?: string;
-  EndpointUrl?: string;
-  State?: EndpointState;
+  Name?: string | undefined;
+  Arn?: string | undefined;
+  RoutingConfig?: RoutingConfig | undefined;
+  ReplicationConfig?: ReplicationConfig | undefined;
+  EventBuses?: EndpointEventBus[] | undefined;
+  RoleArn?: string | undefined;
+  EndpointId?: string | undefined;
+  EndpointUrl?: string | undefined;
+  State?: EndpointState | undefined;
 }
 export interface UpdateEventBusRequest {
-  Name?: string;
-  KmsKeyIdentifier?: string;
-  Description?: string;
-  DeadLetterConfig?: DeadLetterConfig;
-  LogConfig?: LogConfig;
+  Name?: string | undefined;
+  KmsKeyIdentifier?: string | undefined;
+  Description?: string | undefined;
+  DeadLetterConfig?: DeadLetterConfig | undefined;
+  LogConfig?: LogConfig | undefined;
 }
 export interface UpdateEventBusResponse {
-  Arn?: string;
-  Name?: string;
-  KmsKeyIdentifier?: string;
-  Description?: string;
-  DeadLetterConfig?: DeadLetterConfig;
-  LogConfig?: LogConfig;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  KmsKeyIdentifier?: string | undefined;
+  Description?: string | undefined;
+  DeadLetterConfig?: DeadLetterConfig | undefined;
+  LogConfig?: LogConfig | undefined;
 }
 export type ActivateEventSourceError =
   | ConcurrentModificationException
@@ -1415,7 +1416,7 @@ export type ActivateEventSourceError =
  * event bus will start receiving events from the event source.
  */
 export const activateEventSource: API.OperationMethod<
-  ActivateEventSourceRequest,
+  ActivateEventSourceRequest & RegionInput,
   ActivateEventSourceResponse,
   ActivateEventSourceError,
   Credentials | HttpClient.HttpClient
@@ -1446,7 +1447,7 @@ export type CancelReplayError =
  * Cancels the specified replay.
  */
 export const cancelReplay: API.OperationMethod<
-  CancelReplayRequest,
+  CancelReplayRequest & RegionInput,
   CancelReplayResponse,
   CancelReplayError,
   Credentials | HttpClient.HttpClient
@@ -1483,7 +1484,7 @@ export type CreateApiDestinationError =
  * *EventBridge User Guide*.
  */
 export const createApiDestination: API.OperationMethod<
-  CreateApiDestinationRequest,
+  CreateApiDestinationRequest & RegionInput,
   CreateApiDestinationResponse,
   CreateApiDestinationError,
   Credentials | HttpClient.HttpClient
@@ -1524,7 +1525,7 @@ export type CreateArchiveError =
  * For more information, see Encrypting archives in the *Amazon EventBridge User Guide*.
  */
 export const createArchive: API.OperationMethod<
-  CreateArchiveRequest,
+  CreateArchiveRequest & RegionInput,
   CreateArchiveResponse,
   CreateArchiveError,
   Credentials | HttpClient.HttpClient
@@ -1561,7 +1562,7 @@ export type CreateConnectionError =
  * For more information, see Connections for endpoint targets in the *Amazon EventBridge User Guide*.
  */
 export const createConnection: API.OperationMethod<
-  CreateConnectionRequest,
+  CreateConnectionRequest & RegionInput,
   CreateConnectionResponse,
   CreateConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1598,7 +1599,7 @@ export type CreateEndpointError =
  * a "healthy" state.
  */
 export const createEndpoint: API.OperationMethod<
-  CreateEndpointRequest,
+  CreateEndpointRequest & RegionInput,
   CreateEndpointResponse,
   CreateEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1633,7 +1634,7 @@ export type CreateEventBusError =
  * bus which can be matched to a partner event source.
  */
 export const createEventBus: API.OperationMethod<
-  CreateEventBusRequest,
+  CreateEventBusRequest & RegionInput,
   CreateEventBusResponse,
   CreateEventBusError,
   Credentials | HttpClient.HttpClient
@@ -1701,7 +1702,7 @@ export type CreatePartnerEventSourceError =
  * create an event bus to receive these events.
  */
 export const createPartnerEventSource: API.OperationMethod<
-  CreatePartnerEventSourceRequest,
+  CreatePartnerEventSourceRequest & RegionInput,
   CreatePartnerEventSourceResponse,
   CreatePartnerEventSourceError,
   Credentials | HttpClient.HttpClient
@@ -1739,7 +1740,7 @@ export type DeactivateEventSourceError =
  * To activate a deactivated partner event source, use ActivateEventSource.
  */
 export const deactivateEventSource: API.OperationMethod<
-  DeactivateEventSourceRequest,
+  DeactivateEventSourceRequest & RegionInput,
   DeactivateEventSourceResponse,
   DeactivateEventSourceError,
   Credentials | HttpClient.HttpClient
@@ -1770,7 +1771,7 @@ export type DeauthorizeConnectionError =
  * from the connection so you can reuse it without having to create a new connection.
  */
 export const deauthorizeConnection: API.OperationMethod<
-  DeauthorizeConnectionRequest,
+  DeauthorizeConnectionRequest & RegionInput,
   DeauthorizeConnectionResponse,
   DeauthorizeConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1794,7 +1795,7 @@ export type DeleteApiDestinationError =
  * Deletes the specified API destination.
  */
 export const deleteApiDestination: API.OperationMethod<
-  DeleteApiDestinationRequest,
+  DeleteApiDestinationRequest & RegionInput,
   DeleteApiDestinationResponse,
   DeleteApiDestinationError,
   Credentials | HttpClient.HttpClient
@@ -1818,7 +1819,7 @@ export type DeleteArchiveError =
  * Deletes the specified archive.
  */
 export const deleteArchive: API.OperationMethod<
-  DeleteArchiveRequest,
+  DeleteArchiveRequest & RegionInput,
   DeleteArchiveResponse,
   DeleteArchiveError,
   Credentials | HttpClient.HttpClient
@@ -1842,7 +1843,7 @@ export type DeleteConnectionError =
  * Deletes a connection.
  */
 export const deleteConnection: API.OperationMethod<
-  DeleteConnectionRequest,
+  DeleteConnectionRequest & RegionInput,
   DeleteConnectionResponse,
   DeleteConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1870,7 +1871,7 @@ export type DeleteEndpointError =
  * .
  */
 export const deleteEndpoint: API.OperationMethod<
-  DeleteEndpointRequest,
+  DeleteEndpointRequest & RegionInput,
   DeleteEndpointResponse,
   DeleteEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1896,7 +1897,7 @@ export type DeleteEventBusError =
  * this event bus need to be deleted. You can't delete your account's default event bus.
  */
 export const deleteEventBus: API.OperationMethod<
-  DeleteEventBusRequest,
+  DeleteEventBusRequest & RegionInput,
   DeleteEventBusResponse,
   DeleteEventBusError,
   Credentials | HttpClient.HttpClient
@@ -1929,7 +1930,7 @@ export type DeletePartnerEventSourceError =
  * Amazon Web Services customer account becomes DELETED.
  */
 export const deletePartnerEventSource: API.OperationMethod<
-  DeletePartnerEventSourceRequest,
+  DeletePartnerEventSourceRequest & RegionInput,
   DeletePartnerEventSourceResponse,
   DeletePartnerEventSourceError,
   Credentials | HttpClient.HttpClient
@@ -1969,7 +1970,7 @@ export type DeleteRuleError =
  * rule.
  */
 export const deleteRule: API.OperationMethod<
-  DeleteRuleRequest,
+  DeleteRuleRequest & RegionInput,
   DeleteRuleResponse,
   DeleteRuleError,
   Credentials | HttpClient.HttpClient
@@ -1997,7 +1998,7 @@ export type DescribeApiDestinationError =
  * Retrieves details about an API destination.
  */
 export const describeApiDestination: API.OperationMethod<
-  DescribeApiDestinationRequest,
+  DescribeApiDestinationRequest & RegionInput,
   DescribeApiDestinationResponse,
   DescribeApiDestinationError,
   Credentials | HttpClient.HttpClient
@@ -2021,7 +2022,7 @@ export type DescribeArchiveError =
  * Retrieves details about an archive.
  */
 export const describeArchive: API.OperationMethod<
-  DescribeArchiveRequest,
+  DescribeArchiveRequest & RegionInput,
   DescribeArchiveResponse,
   DescribeArchiveError,
   Credentials | HttpClient.HttpClient
@@ -2041,7 +2042,7 @@ export type DescribeConnectionError = InternalException | ResourceNotFoundExcept
  * Retrieves details about a connection.
  */
 export const describeConnection: API.OperationMethod<
-  DescribeConnectionRequest,
+  DescribeConnectionRequest & RegionInput,
   DescribeConnectionResponse,
   DescribeConnectionError,
   Credentials | HttpClient.HttpClient
@@ -2066,7 +2067,7 @@ export type DescribeEndpointError = InternalException | ResourceNotFoundExceptio
  * .
  */
 export const describeEndpoint: API.OperationMethod<
-  DescribeEndpointRequest,
+  DescribeEndpointRequest & RegionInput,
   DescribeEndpointResponse,
   DescribeEndpointError,
   Credentials | HttpClient.HttpClient
@@ -2093,7 +2094,7 @@ export type DescribeEventBusError = InternalException | ResourceNotFoundExceptio
  * For more information about partner event buses, see CreateEventBus.
  */
 export const describeEventBus: API.OperationMethod<
-  DescribeEventBusRequest,
+  DescribeEventBusRequest & RegionInput,
   DescribeEventBusResponse,
   DescribeEventBusError,
   Credentials | HttpClient.HttpClient
@@ -2118,7 +2119,7 @@ export type DescribeEventSourceError =
  * account.
  */
 export const describeEventSource: API.OperationMethod<
-  DescribeEventSourceRequest,
+  DescribeEventSourceRequest & RegionInput,
   DescribeEventSourceResponse,
   DescribeEventSourceError,
   Credentials | HttpClient.HttpClient
@@ -2144,7 +2145,7 @@ export type DescribePartnerEventSourceError =
  * them.
  */
 export const describePartnerEventSource: API.OperationMethod<
-  DescribePartnerEventSourceRequest,
+  DescribePartnerEventSourceRequest & RegionInput,
   DescribePartnerEventSourceResponse,
   DescribePartnerEventSourceError,
   Credentials | HttpClient.HttpClient
@@ -2172,7 +2173,7 @@ export type DescribeReplayError = InternalException | ResourceNotFoundException 
  * associated with the last event replayed.
  */
 export const describeReplay: API.OperationMethod<
-  DescribeReplayRequest,
+  DescribeReplayRequest & RegionInput,
   DescribeReplayResponse,
   DescribeReplayError,
   Credentials | HttpClient.HttpClient
@@ -2195,7 +2196,7 @@ export type DescribeRuleError = InternalException | ResourceNotFoundException | 
  * rule, use ListTargetsByRule.
  */
 export const describeRule: API.OperationMethod<
-  DescribeRuleRequest,
+  DescribeRuleRequest & RegionInput,
   DescribeRuleResponse,
   DescribeRuleError,
   Credentials | HttpClient.HttpClient
@@ -2224,7 +2225,7 @@ export type DisableRuleError =
  * Allow a short period of time for changes to take effect.
  */
 export const disableRule: API.OperationMethod<
-  DisableRuleRequest,
+  DisableRuleRequest & RegionInput,
   DisableRuleResponse,
   DisableRuleError,
   Credentials | HttpClient.HttpClient
@@ -2257,7 +2258,7 @@ export type EnableRuleError =
  * enabled rule. Allow a short period of time for changes to take effect.
  */
 export const enableRule: API.OperationMethod<
-  EnableRuleRequest,
+  EnableRuleRequest & RegionInput,
   EnableRuleResponse,
   EnableRuleError,
   Credentials | HttpClient.HttpClient
@@ -2282,7 +2283,7 @@ export type ListApiDestinationsError = InternalException | CommonErrors;
  * Retrieves a list of API destination in the account in the current Region.
  */
 export const listApiDestinations: API.OperationMethod<
-  ListApiDestinationsRequest,
+  ListApiDestinationsRequest & RegionInput,
   ListApiDestinationsResponse,
   ListApiDestinationsError,
   Credentials | HttpClient.HttpClient
@@ -2303,7 +2304,7 @@ export type ListArchivesError = InternalException | ResourceNotFoundException | 
  * match to the archive names. Filter parameters are exclusive.
  */
 export const listArchives: API.OperationMethod<
-  ListArchivesRequest,
+  ListArchivesRequest & RegionInput,
   ListArchivesResponse,
   ListArchivesError,
   Credentials | HttpClient.HttpClient
@@ -2323,7 +2324,7 @@ export type ListConnectionsError = InternalException | CommonErrors;
  * Retrieves a list of connections from the account.
  */
 export const listConnections: API.OperationMethod<
-  ListConnectionsRequest,
+  ListConnectionsRequest & RegionInput,
   ListConnectionsResponse,
   ListConnectionsError,
   Credentials | HttpClient.HttpClient
@@ -2348,7 +2349,7 @@ export type ListEndpointsError = InternalException | CommonErrors;
  * .
  */
 export const listEndpoints: API.OperationMethod<
-  ListEndpointsRequest,
+  ListEndpointsRequest & RegionInput,
   ListEndpointsResponse,
   ListEndpointsError,
   Credentials | HttpClient.HttpClient
@@ -2369,7 +2370,7 @@ export type ListEventBusesError = InternalException | CommonErrors;
  * buses, and partner event buses.
  */
 export const listEventBuses: API.OperationMethod<
-  ListEventBusesRequest,
+  ListEventBusesRequest & RegionInput,
   ListEventBusesResponse,
   ListEventBusesError,
   Credentials | HttpClient.HttpClient
@@ -2390,7 +2391,7 @@ export type ListEventSourcesError = InternalException | OperationDisabledExcepti
  * Amazon Web Services account. For more information about partner event sources, see CreateEventBus.
  */
 export const listEventSources: API.OperationMethod<
-  ListEventSourcesRequest,
+  ListEventSourcesRequest & RegionInput,
   ListEventSourcesResponse,
   ListEventSourcesError,
   Credentials | HttpClient.HttpClient
@@ -2415,7 +2416,7 @@ export type ListPartnerEventSourceAccountsError =
  * particular partner event source name is associated with. This operation is not used by Amazon Web Services customers.
  */
 export const listPartnerEventSourceAccounts: API.OperationMethod<
-  ListPartnerEventSourceAccountsRequest,
+  ListPartnerEventSourceAccountsRequest & RegionInput,
   ListPartnerEventSourceAccountsResponse,
   ListPartnerEventSourceAccountsError,
   Credentials | HttpClient.HttpClient
@@ -2439,7 +2440,7 @@ export type ListPartnerEventSourcesError =
  * they have created. This operation is not used by Amazon Web Services customers.
  */
 export const listPartnerEventSources: API.OperationMethod<
-  ListPartnerEventSourcesRequest,
+  ListPartnerEventSourcesRequest & RegionInput,
   ListPartnerEventSourcesResponse,
   ListPartnerEventSourcesError,
   Credentials | HttpClient.HttpClient
@@ -2460,7 +2461,7 @@ export type ListReplaysError = InternalException | CommonErrors;
  * match to the replay names. Filter parameters are exclusive.
  */
 export const listReplays: API.OperationMethod<
-  ListReplaysRequest,
+  ListReplaysRequest & RegionInput,
   ListReplaysResponse,
   ListReplaysError,
   Credentials | HttpClient.HttpClient
@@ -2486,7 +2487,7 @@ export type ListRuleNamesByTargetError =
  * The maximum number of results per page for requests is 100.
  */
 export const listRuleNamesByTarget: API.OperationMethod<
-  ListRuleNamesByTargetRequest,
+  ListRuleNamesByTargetRequest & RegionInput,
   ListRuleNamesByTargetResponse,
   ListRuleNamesByTargetError,
   Credentials | HttpClient.HttpClient
@@ -2512,7 +2513,7 @@ export type ListRulesError = InternalException | ResourceNotFoundException | Com
  * use ListTargetsByRule.
  */
 export const listRules: API.OperationMethod<
-  ListRulesRequest,
+  ListRulesRequest & RegionInput,
   ListRulesResponse,
   ListRulesError,
   Credentials | HttpClient.HttpClient
@@ -2537,7 +2538,7 @@ export type ListTagsForResourceError =
  * buses can be tagged.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2559,7 +2560,7 @@ export type ListTargetsByRuleError = InternalException | ResourceNotFoundExcepti
  * The maximum number of results per page for requests is 100.
  */
 export const listTargetsByRule: API.OperationMethod<
-  ListTargetsByRuleRequest,
+  ListTargetsByRuleRequest & RegionInput,
   ListTargetsByRuleResponse,
   ListTargetsByRuleError,
   Credentials | HttpClient.HttpClient
@@ -2592,7 +2593,7 @@ export type PutEventsError = InternalException | CommonErrors;
  * PutEvents will only process nested JSON up to 1000 levels deep.
  */
 export const putEvents: API.OperationMethod<
-  PutEventsRequest,
+  PutEventsRequest & RegionInput,
   PutEventsResponse,
   PutEventsError,
   Credentials | HttpClient.HttpClient
@@ -2621,7 +2622,7 @@ export type PutPartnerEventsError = InternalException | OperationDisabledExcepti
  * entry size in the *EventBridge User Guide*.
  */
 export const putPartnerEvents: API.OperationMethod<
-  PutPartnerEventsRequest,
+  PutPartnerEventsRequest & RegionInput,
   PutPartnerEventsResponse,
   PutPartnerEventsError,
   Credentials | HttpClient.HttpClient
@@ -2666,7 +2667,7 @@ export type PutPermissionError =
  * The permission policy on the event bus cannot exceed 10 KB in size.
  */
 export const putPermission: API.OperationMethod<
-  PutPermissionRequest,
+  PutPermissionRequest & RegionInput,
   PutPermissionResponse,
   PutPermissionError,
   Credentials | HttpClient.HttpClient
@@ -2751,7 +2752,7 @@ export type PutRuleError =
  * *EventBridge User Guide*.
  */
 export const putRule: API.OperationMethod<
-  PutRuleRequest,
+  PutRuleRequest & RegionInput,
   PutRuleResponse,
   PutRuleError,
   Credentials | HttpClient.HttpClient
@@ -2881,7 +2882,7 @@ export type PutTargetsError =
  * `FailedEntries` provides the ID of the failed target and the error code.
  */
 export const putTargets: API.OperationMethod<
-  PutTargetsRequest,
+  PutTargetsRequest & RegionInput,
   PutTargetsResponse,
   PutTargetsError,
   Credentials | HttpClient.HttpClient
@@ -2915,7 +2916,7 @@ export type RemovePermissionError =
  * `PutPermission`. You can find the `StatementId` by using DescribeEventBus.
  */
 export const removePermission: API.OperationMethod<
-  RemovePermissionRequest,
+  RemovePermissionRequest & RegionInput,
   RemovePermissionResponse,
   RemovePermissionError,
   Credentials | HttpClient.HttpClient
@@ -2958,7 +2959,7 @@ export type RemoveTargetsError =
  * The maximum number of entries per request is 10.
  */
 export const removeTargets: API.OperationMethod<
-  RemoveTargetsRequest,
+  RemoveTargetsRequest & RegionInput,
   RemoveTargetsResponse,
   RemoveTargetsError,
   Credentials | HttpClient.HttpClient
@@ -2997,7 +2998,7 @@ export type StartReplayError =
  * replayed.
  */
 export const startReplay: API.OperationMethod<
-  StartReplayRequest,
+  StartReplayRequest & RegionInput,
   StartReplayResponse,
   StartReplayError,
   Credentials | HttpClient.HttpClient
@@ -3042,7 +3043,7 @@ export type TagResourceError =
  * You can associate as many as 50 tags with a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3073,7 +3074,7 @@ export type TestEventPatternError = InternalException | InvalidEventPatternExcep
  * syntax in the event you want to match.
  */
 export const testEventPattern: API.OperationMethod<
-  TestEventPatternRequest,
+  TestEventPatternRequest & RegionInput,
   TestEventPatternResponse,
   TestEventPatternError,
   Credentials | HttpClient.HttpClient
@@ -3099,7 +3100,7 @@ export type UntagResourceError =
  * Removes one or more tags from the specified EventBridge resource. In Amazon EventBridge, rules and event buses can be tagged.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3130,7 +3131,7 @@ export type UpdateApiDestinationError =
  * Updates an API destination.
  */
 export const updateApiDestination: API.OperationMethod<
-  UpdateApiDestinationRequest,
+  UpdateApiDestinationRequest & RegionInput,
   UpdateApiDestinationResponse,
   UpdateApiDestinationError,
   Credentials | HttpClient.HttpClient
@@ -3161,7 +3162,7 @@ export type UpdateArchiveError =
  * Updates the specified archive.
  */
 export const updateArchive: API.OperationMethod<
-  UpdateArchiveRequest,
+  UpdateArchiveRequest & RegionInput,
   UpdateArchiveResponse,
   UpdateArchiveError,
   Credentials | HttpClient.HttpClient
@@ -3194,7 +3195,7 @@ export type UpdateConnectionError =
  * Updates settings for a connection.
  */
 export const updateConnection: API.OperationMethod<
-  UpdateConnectionRequest,
+  UpdateConnectionRequest & RegionInput,
   UpdateConnectionResponse,
   UpdateConnectionError,
   Credentials | HttpClient.HttpClient
@@ -3230,7 +3231,7 @@ export type UpdateEndpointError =
  * .
  */
 export const updateEndpoint: API.OperationMethod<
-  UpdateEndpointRequest,
+  UpdateEndpointRequest & RegionInput,
   UpdateEndpointResponse,
   UpdateEndpointError,
   Credentials | HttpClient.HttpClient
@@ -3260,7 +3261,7 @@ export type UpdateEventBusError =
  * Updates the specified event bus.
  */
 export const updateEventBus: API.OperationMethod<
-  UpdateEventBusRequest,
+  UpdateEventBusRequest & RegionInput,
   UpdateEventBusResponse,
   UpdateEventBusError,
   Credentials | HttpClient.HttpClient

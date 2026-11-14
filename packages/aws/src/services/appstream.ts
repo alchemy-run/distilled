@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -153,7 +154,7 @@ export class LimitExceededException
     "LimitExceededException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+  ).pipe(C.withBadRequestError, C.withThrottlingError, C.withRetryableError) {}
 export class OperationNotPermittedException
   extends /*@__PURE__*/ S.TaggedError<OperationNotPermittedException>()(
     "OperationNotPermittedException",
@@ -193,61 +194,59 @@ export class ResourceNotFoundException
 export type Arn = string;
 export type Name = string;
 export interface AssociateAppBlockBuilderAppBlockRequest {
-  AppBlockArn?: string;
-  AppBlockBuilderName?: string;
+  AppBlockArn?: string | undefined;
+  AppBlockBuilderName?: string | undefined;
 }
 export interface AppBlockBuilderAppBlockAssociation {
-  AppBlockArn?: string;
-  AppBlockBuilderName?: string;
+  AppBlockArn?: string | undefined;
+  AppBlockBuilderName?: string | undefined;
 }
 export interface AssociateAppBlockBuilderAppBlockResult {
-  AppBlockBuilderAppBlockAssociation?: AppBlockBuilderAppBlockAssociation & {
-    AppBlockArn: Arn;
-    AppBlockBuilderName: Name;
-  };
+  AppBlockBuilderAppBlockAssociation?:
+    | (AppBlockBuilderAppBlockAssociation & { AppBlockArn: Arn; AppBlockBuilderName: Name })
+    | undefined;
 }
 export interface AssociateApplicationFleetRequest {
-  FleetName?: string;
-  ApplicationArn?: string;
+  FleetName?: string | undefined;
+  ApplicationArn?: string | undefined;
 }
 export interface ApplicationFleetAssociation {
-  FleetName?: string;
-  ApplicationArn?: string;
+  FleetName?: string | undefined;
+  ApplicationArn?: string | undefined;
 }
 export interface AssociateApplicationFleetResult {
-  ApplicationFleetAssociation?: ApplicationFleetAssociation & {
-    FleetName: string;
-    ApplicationArn: Arn;
-  };
+  ApplicationFleetAssociation?:
+    | (ApplicationFleetAssociation & { FleetName: string; ApplicationArn: Arn })
+    | undefined;
 }
 export interface AssociateApplicationToEntitlementRequest {
-  StackName?: string;
-  EntitlementName?: string;
-  ApplicationIdentifier?: string;
+  StackName?: string | undefined;
+  EntitlementName?: string | undefined;
+  ApplicationIdentifier?: string | undefined;
 }
 export interface AssociateApplicationToEntitlementResult {}
 export interface AssociateFleetRequest {
-  FleetName?: string;
-  StackName?: string;
+  FleetName?: string | undefined;
+  StackName?: string | undefined;
 }
 export interface AssociateFleetResult {}
 export type StringList = string[];
 export interface AssociateSoftwareToImageBuilderRequest {
-  ImageBuilderName?: string;
-  SoftwareNames?: string[];
+  ImageBuilderName?: string | undefined;
+  SoftwareNames?: string[] | undefined;
 }
 export interface AssociateSoftwareToImageBuilderResult {}
 export type Username = string | redacted.Redacted<string>;
 export type AuthenticationType = "API" | "SAML" | "USERPOOL" | "AWS_AD" | (string & {});
 export interface UserStackAssociation {
-  StackName?: string;
-  UserName?: string | redacted.Redacted<string>;
-  AuthenticationType?: AuthenticationType;
-  SendEmailNotification?: boolean;
+  StackName?: string | undefined;
+  UserName?: string | redacted.Redacted<string> | undefined;
+  AuthenticationType?: AuthenticationType | undefined;
+  SendEmailNotification?: boolean | undefined;
 }
 export type UserStackAssociationList = UserStackAssociation[];
 export interface BatchAssociateUserStackRequest {
-  UserStackAssociations?: UserStackAssociation[];
+  UserStackAssociations?: UserStackAssociation[] | undefined;
 }
 export type UserStackAssociationErrorCode =
   | "STACK_NOT_FOUND"
@@ -256,131 +255,137 @@ export type UserStackAssociationErrorCode =
   | "INTERNAL_ERROR"
   | (string & {});
 export interface UserStackAssociationError {
-  UserStackAssociation?: UserStackAssociation;
-  ErrorCode?: UserStackAssociationErrorCode;
-  ErrorMessage?: string;
+  UserStackAssociation?: UserStackAssociation | undefined;
+  ErrorCode?: UserStackAssociationErrorCode | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type UserStackAssociationErrorList = UserStackAssociationError[];
 export interface BatchAssociateUserStackResult {
-  errors?: (UserStackAssociationError & {
-    UserStackAssociation: UserStackAssociation & {
-      StackName: string;
-      UserName: Username;
-      AuthenticationType: AuthenticationType;
-    };
-  })[];
+  errors?:
+    | (UserStackAssociationError & {
+        UserStackAssociation: UserStackAssociation & {
+          StackName: string;
+          UserName: Username;
+          AuthenticationType: AuthenticationType;
+        };
+      })[]
+    | undefined;
 }
 export interface BatchDisassociateUserStackRequest {
-  UserStackAssociations?: UserStackAssociation[];
+  UserStackAssociations?: UserStackAssociation[] | undefined;
 }
 export interface BatchDisassociateUserStackResult {
-  errors?: (UserStackAssociationError & {
-    UserStackAssociation: UserStackAssociation & {
-      StackName: string;
-      UserName: Username;
-      AuthenticationType: AuthenticationType;
-    };
-  })[];
+  errors?:
+    | (UserStackAssociationError & {
+        UserStackAssociation: UserStackAssociation & {
+          StackName: string;
+          UserName: Username;
+          AuthenticationType: AuthenticationType;
+        };
+      })[]
+    | undefined;
 }
 export type RegionName = string;
 export type Description = string;
 export interface CopyImageRequest {
-  SourceImageName?: string;
-  DestinationImageName?: string;
-  DestinationRegion?: string;
-  DestinationImageDescription?: string;
+  SourceImageName?: string | undefined;
+  DestinationImageName?: string | undefined;
+  DestinationRegion?: string | undefined;
+  DestinationImageDescription?: string | undefined;
 }
 export interface CopyImageResponse {
-  DestinationImageName?: string;
+  DestinationImageName?: string | undefined;
 }
 export type DisplayName = string;
 export type S3Bucket = string;
 export type S3Key = string;
 export interface S3Location {
-  S3Bucket?: string;
-  S3Key?: string;
+  S3Bucket?: string | undefined;
+  S3Key?: string | undefined;
 }
 export interface ScriptDetails {
-  ScriptS3Location?: S3Location;
-  ExecutablePath?: string;
-  ExecutableParameters?: string;
-  TimeoutInSeconds?: number;
+  ScriptS3Location?: S3Location | undefined;
+  ExecutablePath?: string | undefined;
+  ExecutableParameters?: string | undefined;
+  TimeoutInSeconds?: number | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
 export type Tags = { [key: string]: string | undefined };
 export type PackagingType = "CUSTOM" | "APPSTREAM2" | (string & {});
 export interface CreateAppBlockRequest {
-  Name?: string;
-  Description?: string;
-  DisplayName?: string;
-  SourceS3Location?: S3Location;
-  SetupScriptDetails?: ScriptDetails;
-  Tags?: { [key: string]: string | undefined };
-  PostSetupScriptDetails?: ScriptDetails;
-  PackagingType?: PackagingType;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  DisplayName?: string | undefined;
+  SourceS3Location?: S3Location | undefined;
+  SetupScriptDetails?: ScriptDetails | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  PostSetupScriptDetails?: ScriptDetails | undefined;
+  PackagingType?: PackagingType | undefined;
 }
 export type AppBlockState = "INACTIVE" | "ACTIVE" | (string & {});
 export interface ErrorDetails {
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type ErrorDetailsList = ErrorDetails[];
 export interface AppBlock {
-  Name?: string;
-  Arn?: string;
-  Description?: string;
-  DisplayName?: string;
-  SourceS3Location?: S3Location;
-  SetupScriptDetails?: ScriptDetails;
-  CreatedTime?: Date;
-  PostSetupScriptDetails?: ScriptDetails;
-  PackagingType?: PackagingType;
-  State?: AppBlockState;
-  AppBlockErrors?: ErrorDetails[];
+  Name?: string | undefined;
+  Arn?: string | undefined;
+  Description?: string | undefined;
+  DisplayName?: string | undefined;
+  SourceS3Location?: S3Location | undefined;
+  SetupScriptDetails?: ScriptDetails | undefined;
+  CreatedTime?: Date | undefined;
+  PostSetupScriptDetails?: ScriptDetails | undefined;
+  PackagingType?: PackagingType | undefined;
+  State?: AppBlockState | undefined;
+  AppBlockErrors?: ErrorDetails[] | undefined;
 }
 export interface CreateAppBlockResult {
-  AppBlock?: AppBlock & {
-    Name: string;
-    Arn: Arn;
-    SourceS3Location: S3Location & { S3Bucket: S3Bucket };
-    SetupScriptDetails: ScriptDetails & {
-      ScriptS3Location: S3Location & { S3Bucket: S3Bucket };
-      ExecutablePath: string;
-      TimeoutInSeconds: number;
-    };
-    PostSetupScriptDetails: ScriptDetails & {
-      ScriptS3Location: S3Location & { S3Bucket: S3Bucket };
-      ExecutablePath: string;
-      TimeoutInSeconds: number;
-    };
-  };
+  AppBlock?:
+    | (AppBlock & {
+        Name: string;
+        Arn: Arn;
+        SourceS3Location: S3Location & { S3Bucket: S3Bucket };
+        SetupScriptDetails: ScriptDetails & {
+          ScriptS3Location: S3Location & { S3Bucket: S3Bucket };
+          ExecutablePath: string;
+          TimeoutInSeconds: number;
+        };
+        PostSetupScriptDetails: ScriptDetails & {
+          ScriptS3Location: S3Location & { S3Bucket: S3Bucket };
+          ExecutablePath: string;
+          TimeoutInSeconds: number;
+        };
+      })
+    | undefined;
 }
 export type AppBlockBuilderPlatformType = "WINDOWS_SERVER_2019" | (string & {});
 export type SubnetIdList = string[];
 export type SecurityGroupIdList = string[];
 export interface VpcConfig {
-  SubnetIds?: string[];
-  SecurityGroupIds?: string[];
+  SubnetIds?: string[] | undefined;
+  SecurityGroupIds?: string[] | undefined;
 }
 export type AccessEndpointType = "STREAMING" | (string & {});
 export interface AccessEndpoint {
-  EndpointType?: AccessEndpointType;
-  VpceId?: string;
+  EndpointType?: AccessEndpointType | undefined;
+  VpceId?: string | undefined;
 }
 export type AccessEndpointList = AccessEndpoint[];
 export interface CreateAppBlockBuilderRequest {
-  Name?: string;
-  Description?: string;
-  DisplayName?: string;
-  Tags?: { [key: string]: string | undefined };
-  Platform?: AppBlockBuilderPlatformType;
-  InstanceType?: string;
-  VpcConfig?: VpcConfig;
-  EnableDefaultInternetAccess?: boolean;
-  IamRoleArn?: string;
-  AccessEndpoints?: AccessEndpoint[];
-  DisableIMDSV1?: boolean;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  DisplayName?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Platform?: AppBlockBuilderPlatformType | undefined;
+  InstanceType?: string | undefined;
+  VpcConfig?: VpcConfig | undefined;
+  EnableDefaultInternetAccess?: boolean | undefined;
+  IamRoleArn?: string | undefined;
+  AccessEndpoints?: AccessEndpoint[] | undefined;
+  DisableIMDSV1?: boolean | undefined;
 }
 export type AppBlockBuilderState = "STARTING" | "RUNNING" | "STOPPING" | "STOPPED" | (string & {});
 export type FleetErrorCode =
@@ -417,51 +422,53 @@ export type FleetErrorCode =
   | "VALIDATION_ERROR"
   | (string & {});
 export interface ResourceError {
-  ErrorCode?: FleetErrorCode;
-  ErrorMessage?: string;
-  ErrorTimestamp?: Date;
+  ErrorCode?: FleetErrorCode | undefined;
+  ErrorMessage?: string | undefined;
+  ErrorTimestamp?: Date | undefined;
 }
 export type ResourceErrors = ResourceError[];
 export type AppBlockBuilderStateChangeReasonCode = "INTERNAL_ERROR" | (string & {});
 export interface AppBlockBuilderStateChangeReason {
-  Code?: AppBlockBuilderStateChangeReasonCode;
-  Message?: string;
+  Code?: AppBlockBuilderStateChangeReasonCode | undefined;
+  Message?: string | undefined;
 }
 export interface AppBlockBuilder {
-  Arn?: string;
-  Name?: string;
-  DisplayName?: string;
-  Description?: string;
-  Platform?: AppBlockBuilderPlatformType;
-  InstanceType?: string;
-  EnableDefaultInternetAccess?: boolean;
-  IamRoleArn?: string;
-  VpcConfig?: VpcConfig;
-  State?: AppBlockBuilderState;
-  CreatedTime?: Date;
-  AppBlockBuilderErrors?: ResourceError[];
-  StateChangeReason?: AppBlockBuilderStateChangeReason;
-  AccessEndpoints?: AccessEndpoint[];
-  DisableIMDSV1?: boolean;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  DisplayName?: string | undefined;
+  Description?: string | undefined;
+  Platform?: AppBlockBuilderPlatformType | undefined;
+  InstanceType?: string | undefined;
+  EnableDefaultInternetAccess?: boolean | undefined;
+  IamRoleArn?: string | undefined;
+  VpcConfig?: VpcConfig | undefined;
+  State?: AppBlockBuilderState | undefined;
+  CreatedTime?: Date | undefined;
+  AppBlockBuilderErrors?: ResourceError[] | undefined;
+  StateChangeReason?: AppBlockBuilderStateChangeReason | undefined;
+  AccessEndpoints?: AccessEndpoint[] | undefined;
+  DisableIMDSV1?: boolean | undefined;
 }
 export interface CreateAppBlockBuilderResult {
-  AppBlockBuilder?: AppBlockBuilder & {
-    Arn: Arn;
-    Name: string;
-    Platform: AppBlockBuilderPlatformType;
-    InstanceType: string;
-    VpcConfig: VpcConfig;
-    State: AppBlockBuilderState;
-    AccessEndpoints: (AccessEndpoint & { EndpointType: AccessEndpointType })[];
-  };
+  AppBlockBuilder?:
+    | (AppBlockBuilder & {
+        Arn: Arn;
+        Name: string;
+        Platform: AppBlockBuilderPlatformType;
+        InstanceType: string;
+        VpcConfig: VpcConfig;
+        State: AppBlockBuilderState;
+        AccessEndpoints: (AccessEndpoint & { EndpointType: AccessEndpointType })[];
+      })
+    | undefined;
 }
 export interface CreateAppBlockBuilderStreamingURLRequest {
-  AppBlockBuilderName?: string;
-  Validity?: number;
+  AppBlockBuilderName?: string | undefined;
+  Validity?: number | undefined;
 }
 export interface CreateAppBlockBuilderStreamingURLResult {
-  StreamingURL?: string;
-  Expires?: Date;
+  StreamingURL?: string | undefined;
+  Expires?: Date | undefined;
 }
 export type PlatformType =
   | "WINDOWS"
@@ -469,6 +476,7 @@ export type PlatformType =
   | "WINDOWS_SERVER_2019"
   | "WINDOWS_SERVER_2022"
   | "WINDOWS_SERVER_2025"
+  | "WINDOWS_11"
   | "AMAZON_LINUX2"
   | "RHEL8"
   | "ROCKY_LINUX8"
@@ -476,38 +484,38 @@ export type PlatformType =
   | (string & {});
 export type Platforms = PlatformType[];
 export interface CreateApplicationRequest {
-  Name?: string;
-  DisplayName?: string;
-  Description?: string;
-  IconS3Location?: S3Location;
-  LaunchPath?: string;
-  WorkingDirectory?: string;
-  LaunchParameters?: string;
-  Platforms?: PlatformType[];
-  InstanceFamilies?: string[];
-  AppBlockArn?: string;
-  Tags?: { [key: string]: string | undefined };
+  Name?: string | undefined;
+  DisplayName?: string | undefined;
+  Description?: string | undefined;
+  IconS3Location?: S3Location | undefined;
+  LaunchPath?: string | undefined;
+  WorkingDirectory?: string | undefined;
+  LaunchParameters?: string | undefined;
+  Platforms?: PlatformType[] | undefined;
+  InstanceFamilies?: string[] | undefined;
+  AppBlockArn?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type Metadata = { [key: string]: string | undefined };
 export interface Application {
-  Name?: string;
-  DisplayName?: string;
-  IconURL?: string;
-  LaunchPath?: string;
-  LaunchParameters?: string;
-  Enabled?: boolean;
-  Metadata?: { [key: string]: string | undefined };
-  WorkingDirectory?: string;
-  Description?: string;
-  Arn?: string;
-  AppBlockArn?: string;
-  IconS3Location?: S3Location;
-  Platforms?: PlatformType[];
-  InstanceFamilies?: string[];
-  CreatedTime?: Date;
+  Name?: string | undefined;
+  DisplayName?: string | undefined;
+  IconURL?: string | undefined;
+  LaunchPath?: string | undefined;
+  LaunchParameters?: string | undefined;
+  Enabled?: boolean | undefined;
+  Metadata?: { [key: string]: string | undefined } | undefined;
+  WorkingDirectory?: string | undefined;
+  Description?: string | undefined;
+  Arn?: string | undefined;
+  AppBlockArn?: string | undefined;
+  IconS3Location?: S3Location | undefined;
+  Platforms?: PlatformType[] | undefined;
+  InstanceFamilies?: string[] | undefined;
+  CreatedTime?: Date | undefined;
 }
 export interface CreateApplicationResult {
-  Application?: Application & { IconS3Location: S3Location & { S3Bucket: S3Bucket } };
+  Application?: (Application & { IconS3Location: S3Location & { S3Bucket: S3Bucket } }) | undefined;
 }
 export type DirectoryName = string;
 export type OrganizationalUnitDistinguishedName = string;
@@ -515,8 +523,8 @@ export type OrganizationalUnitDistinguishedNamesList = string[];
 export type AccountName = string | redacted.Redacted<string>;
 export type AccountPassword = string | redacted.Redacted<string>;
 export interface ServiceAccountCredentials {
-  AccountName?: string | redacted.Redacted<string>;
-  AccountPassword?: string | redacted.Redacted<string>;
+  AccountName?: string | redacted.Redacted<string> | undefined;
+  AccountPassword?: string | redacted.Redacted<string> | undefined;
 }
 export type CertificateBasedAuthStatus =
   | "DISABLED"
@@ -524,68 +532,72 @@ export type CertificateBasedAuthStatus =
   | "ENABLED_NO_DIRECTORY_LOGIN_FALLBACK"
   | (string & {});
 export interface CertificateBasedAuthProperties {
-  Status?: CertificateBasedAuthStatus;
-  CertificateAuthorityArn?: string;
+  Status?: CertificateBasedAuthStatus | undefined;
+  CertificateAuthorityArn?: string | undefined;
 }
 export interface CreateDirectoryConfigRequest {
-  DirectoryName?: string;
-  OrganizationalUnitDistinguishedNames?: string[];
-  ServiceAccountCredentials?: ServiceAccountCredentials;
-  CertificateBasedAuthProperties?: CertificateBasedAuthProperties;
+  DirectoryName?: string | undefined;
+  OrganizationalUnitDistinguishedNames?: string[] | undefined;
+  ServiceAccountCredentials?: ServiceAccountCredentials | undefined;
+  CertificateBasedAuthProperties?: CertificateBasedAuthProperties | undefined;
 }
 export interface DirectoryConfig {
-  DirectoryName?: string;
-  OrganizationalUnitDistinguishedNames?: string[];
-  ServiceAccountCredentials?: ServiceAccountCredentials;
-  CreatedTime?: Date;
-  CertificateBasedAuthProperties?: CertificateBasedAuthProperties;
+  DirectoryName?: string | undefined;
+  OrganizationalUnitDistinguishedNames?: string[] | undefined;
+  ServiceAccountCredentials?: ServiceAccountCredentials | undefined;
+  CreatedTime?: Date | undefined;
+  CertificateBasedAuthProperties?: CertificateBasedAuthProperties | undefined;
 }
 export interface CreateDirectoryConfigResult {
-  DirectoryConfig?: DirectoryConfig & {
-    DirectoryName: DirectoryName;
-    ServiceAccountCredentials: ServiceAccountCredentials & {
-      AccountName: AccountName;
-      AccountPassword: AccountPassword;
-    };
-  };
+  DirectoryConfig?:
+    | (DirectoryConfig & {
+        DirectoryName: DirectoryName;
+        ServiceAccountCredentials: ServiceAccountCredentials & {
+          AccountName: AccountName;
+          AccountPassword: AccountPassword;
+        };
+      })
+    | undefined;
 }
 export type AppVisibility = "ALL" | "ASSOCIATED" | (string & {});
 export interface EntitlementAttribute {
-  Name?: string;
-  Value?: string;
+  Name?: string | undefined;
+  Value?: string | undefined;
 }
 export type EntitlementAttributeList = EntitlementAttribute[];
 export interface CreateEntitlementRequest {
-  Name?: string;
-  StackName?: string;
-  Description?: string;
-  AppVisibility?: AppVisibility;
-  Attributes?: EntitlementAttribute[];
+  Name?: string | undefined;
+  StackName?: string | undefined;
+  Description?: string | undefined;
+  AppVisibility?: AppVisibility | undefined;
+  Attributes?: EntitlementAttribute[] | undefined;
 }
 export interface Entitlement {
-  Name?: string;
-  StackName?: string;
-  Description?: string;
-  AppVisibility?: AppVisibility;
-  Attributes?: EntitlementAttribute[];
-  CreatedTime?: Date;
-  LastModifiedTime?: Date;
+  Name?: string | undefined;
+  StackName?: string | undefined;
+  Description?: string | undefined;
+  AppVisibility?: AppVisibility | undefined;
+  Attributes?: EntitlementAttribute[] | undefined;
+  CreatedTime?: Date | undefined;
+  LastModifiedTime?: Date | undefined;
 }
 export interface CreateEntitlementResult {
-  Entitlement?: Entitlement & {
-    Name: Name;
-    StackName: Name;
-    AppVisibility: AppVisibility;
-    Attributes: (EntitlementAttribute & { Name: string; Value: string })[];
-  };
+  Entitlement?:
+    | (Entitlement & {
+        Name: Name;
+        StackName: Name;
+        AppVisibility: AppVisibility;
+        Attributes: (EntitlementAttribute & { Name: string; Value: string })[];
+      })
+    | undefined;
 }
 export type AmiName = string;
 export interface CreateExportImageTaskRequest {
-  ImageName?: string;
-  AmiName?: string;
-  IamRoleArn?: string;
-  TagSpecifications?: { [key: string]: string | undefined };
-  AmiDescription?: string;
+  ImageName?: string | undefined;
+  AmiName?: string | undefined;
+  IamRoleArn?: string | undefined;
+  TagSpecifications?: { [key: string]: string | undefined } | undefined;
+  AmiDescription?: string | undefined;
 }
 export type UUID = string;
 export type ExportImageTaskState =
@@ -596,142 +608,141 @@ export type ExportImageTaskState =
   | (string & {});
 export type PhotonAmiId = string;
 export interface ExportImageTask {
-  TaskId?: string;
-  ImageArn?: string;
-  AmiName?: string;
-  CreatedDate?: Date;
-  AmiDescription?: string;
-  State?: ExportImageTaskState;
-  AmiId?: string;
-  TagSpecifications?: { [key: string]: string | undefined };
-  ErrorDetails?: ErrorDetails[];
+  TaskId?: string | undefined;
+  ImageArn?: string | undefined;
+  AmiName?: string | undefined;
+  CreatedDate?: Date | undefined;
+  AmiDescription?: string | undefined;
+  State?: ExportImageTaskState | undefined;
+  AmiId?: string | undefined;
+  TagSpecifications?: { [key: string]: string | undefined } | undefined;
+  ErrorDetails?: ErrorDetails[] | undefined;
 }
 export interface CreateExportImageTaskResult {
-  ExportImageTask?: ExportImageTask & {
-    TaskId: UUID;
-    ImageArn: Arn;
-    AmiName: AmiName;
-    CreatedDate: Date;
-  };
+  ExportImageTask?:
+    | (ExportImageTask & { TaskId: UUID; ImageArn: Arn; AmiName: AmiName; CreatedDate: Date })
+    | undefined;
 }
 export type FleetType = "ALWAYS_ON" | "ON_DEMAND" | "ELASTIC" | (string & {});
 export interface ComputeCapacity {
-  DesiredInstances?: number;
-  DesiredSessions?: number;
+  DesiredInstances?: number | undefined;
+  DesiredSessions?: number | undefined;
 }
 export interface DomainJoinInfo {
-  DirectoryName?: string;
-  OrganizationalUnitDistinguishedName?: string;
+  DirectoryName?: string | undefined;
+  OrganizationalUnitDistinguishedName?: string | undefined;
 }
 export type StreamView = "APP" | "DESKTOP" | (string & {});
 export type UsbDeviceFilterString = string;
 export type UsbDeviceFilterStrings = string[];
 export interface VolumeConfig {
-  VolumeSizeInGb?: number;
+  VolumeSizeInGb?: number | undefined;
 }
 export interface CreateFleetRequest {
-  Name?: string;
-  ImageName?: string;
-  ImageArn?: string;
-  InstanceType?: string;
-  FleetType?: FleetType;
-  ComputeCapacity?: ComputeCapacity;
-  VpcConfig?: VpcConfig;
-  MaxUserDurationInSeconds?: number;
-  DisconnectTimeoutInSeconds?: number;
-  Description?: string;
-  DisplayName?: string;
-  EnableDefaultInternetAccess?: boolean;
-  DomainJoinInfo?: DomainJoinInfo;
-  Tags?: { [key: string]: string | undefined };
-  IdleDisconnectTimeoutInSeconds?: number;
-  IamRoleArn?: string;
-  StreamView?: StreamView;
-  Platform?: PlatformType;
-  MaxConcurrentSessions?: number;
-  UsbDeviceFilterStrings?: string[];
-  SessionScriptS3Location?: S3Location;
-  MaxSessionsPerInstance?: number;
-  RootVolumeConfig?: VolumeConfig;
-  DisableIMDSV1?: boolean;
+  Name?: string | undefined;
+  ImageName?: string | undefined;
+  ImageArn?: string | undefined;
+  InstanceType?: string | undefined;
+  FleetType?: FleetType | undefined;
+  ComputeCapacity?: ComputeCapacity | undefined;
+  VpcConfig?: VpcConfig | undefined;
+  MaxUserDurationInSeconds?: number | undefined;
+  DisconnectTimeoutInSeconds?: number | undefined;
+  Description?: string | undefined;
+  DisplayName?: string | undefined;
+  EnableDefaultInternetAccess?: boolean | undefined;
+  DomainJoinInfo?: DomainJoinInfo | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  IdleDisconnectTimeoutInSeconds?: number | undefined;
+  IamRoleArn?: string | undefined;
+  StreamView?: StreamView | undefined;
+  Platform?: PlatformType | undefined;
+  MaxConcurrentSessions?: number | undefined;
+  UsbDeviceFilterStrings?: string[] | undefined;
+  SessionScriptS3Location?: S3Location | undefined;
+  MaxSessionsPerInstance?: number | undefined;
+  RootVolumeConfig?: VolumeConfig | undefined;
+  DisableIMDSV1?: boolean | undefined;
 }
 export interface ComputeCapacityStatus {
-  Desired?: number;
-  Running?: number;
-  InUse?: number;
-  Available?: number;
-  DesiredUserSessions?: number;
-  AvailableUserSessions?: number;
-  ActiveUserSessions?: number;
-  ActualUserSessions?: number;
-  Draining?: number;
-  DrainModeActiveUserSessions?: number;
-  DrainModeUnusedUserSessions?: number;
+  Desired?: number | undefined;
+  Running?: number | undefined;
+  InUse?: number | undefined;
+  Available?: number | undefined;
+  DesiredUserSessions?: number | undefined;
+  AvailableUserSessions?: number | undefined;
+  ActiveUserSessions?: number | undefined;
+  ActualUserSessions?: number | undefined;
+  Draining?: number | undefined;
+  DrainModeActiveUserSessions?: number | undefined;
+  DrainModeUnusedUserSessions?: number | undefined;
 }
 export type FleetState = "STARTING" | "RUNNING" | "STOPPING" | "STOPPED" | (string & {});
 export interface FleetError {
-  ErrorCode?: FleetErrorCode;
-  ErrorMessage?: string;
+  ErrorCode?: FleetErrorCode | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type FleetErrors = FleetError[];
 export interface Fleet {
-  Arn?: string;
-  Name?: string;
-  DisplayName?: string;
-  Description?: string;
-  ImageName?: string;
-  ImageArn?: string;
-  InstanceType?: string;
-  FleetType?: FleetType;
-  ComputeCapacityStatus?: ComputeCapacityStatus;
-  MaxUserDurationInSeconds?: number;
-  DisconnectTimeoutInSeconds?: number;
-  State?: FleetState;
-  VpcConfig?: VpcConfig;
-  CreatedTime?: Date;
-  FleetErrors?: FleetError[];
-  EnableDefaultInternetAccess?: boolean;
-  DomainJoinInfo?: DomainJoinInfo;
-  IdleDisconnectTimeoutInSeconds?: number;
-  IamRoleArn?: string;
-  StreamView?: StreamView;
-  Platform?: PlatformType;
-  MaxConcurrentSessions?: number;
-  UsbDeviceFilterStrings?: string[];
-  SessionScriptS3Location?: S3Location;
-  MaxSessionsPerInstance?: number;
-  RootVolumeConfig?: VolumeConfig;
-  DisableIMDSV1?: boolean;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  DisplayName?: string | undefined;
+  Description?: string | undefined;
+  ImageName?: string | undefined;
+  ImageArn?: string | undefined;
+  InstanceType?: string | undefined;
+  FleetType?: FleetType | undefined;
+  ComputeCapacityStatus?: ComputeCapacityStatus | undefined;
+  MaxUserDurationInSeconds?: number | undefined;
+  DisconnectTimeoutInSeconds?: number | undefined;
+  State?: FleetState | undefined;
+  VpcConfig?: VpcConfig | undefined;
+  CreatedTime?: Date | undefined;
+  FleetErrors?: FleetError[] | undefined;
+  EnableDefaultInternetAccess?: boolean | undefined;
+  DomainJoinInfo?: DomainJoinInfo | undefined;
+  IdleDisconnectTimeoutInSeconds?: number | undefined;
+  IamRoleArn?: string | undefined;
+  StreamView?: StreamView | undefined;
+  Platform?: PlatformType | undefined;
+  MaxConcurrentSessions?: number | undefined;
+  UsbDeviceFilterStrings?: string[] | undefined;
+  SessionScriptS3Location?: S3Location | undefined;
+  MaxSessionsPerInstance?: number | undefined;
+  RootVolumeConfig?: VolumeConfig | undefined;
+  DisableIMDSV1?: boolean | undefined;
 }
 export interface CreateFleetResult {
-  Fleet?: Fleet & {
-    Arn: Arn;
-    Name: string;
-    InstanceType: string;
-    ComputeCapacityStatus: ComputeCapacityStatus & { Desired: number };
-    State: FleetState;
-    SessionScriptS3Location: S3Location & { S3Bucket: S3Bucket };
-  };
+  Fleet?:
+    | (Fleet & {
+        Arn: Arn;
+        Name: string;
+        InstanceType: string;
+        ComputeCapacityStatus: ComputeCapacityStatus & { Desired: number };
+        State: FleetState;
+        SessionScriptS3Location: S3Location & { S3Bucket: S3Bucket };
+      })
+    | undefined;
 }
 export type AppstreamAgentVersion = string;
 export interface CreateImageBuilderRequest {
-  Name?: string;
-  ImageName?: string;
-  ImageArn?: string;
-  InstanceType?: string;
-  Description?: string;
-  DisplayName?: string;
-  VpcConfig?: VpcConfig;
-  IamRoleArn?: string;
-  EnableDefaultInternetAccess?: boolean;
-  DomainJoinInfo?: DomainJoinInfo;
-  AppstreamAgentVersion?: string;
-  Tags?: { [key: string]: string | undefined };
-  AccessEndpoints?: AccessEndpoint[];
-  RootVolumeConfig?: VolumeConfig;
-  SoftwaresToInstall?: string[];
-  SoftwaresToUninstall?: string[];
-  DisableIMDSV1?: boolean;
+  Name?: string | undefined;
+  ImageName?: string | undefined;
+  ImageArn?: string | undefined;
+  InstanceType?: string | undefined;
+  Description?: string | undefined;
+  DisplayName?: string | undefined;
+  VpcConfig?: VpcConfig | undefined;
+  IamRoleArn?: string | undefined;
+  EnableDefaultInternetAccess?: boolean | undefined;
+  DomainJoinInfo?: DomainJoinInfo | undefined;
+  AppstreamAgentVersion?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  AccessEndpoints?: AccessEndpoint[] | undefined;
+  RootVolumeConfig?: VolumeConfig | undefined;
+  SoftwaresToInstall?: string[] | undefined;
+  SoftwaresToUninstall?: string[] | undefined;
+  DisableIMDSV1?: boolean | undefined;
 }
 export type ImageBuilderState =
   | "PENDING"
@@ -754,58 +765,60 @@ export type ImageBuilderStateChangeReasonCode =
   | "IMAGE_UNAVAILABLE"
   | (string & {});
 export interface ImageBuilderStateChangeReason {
-  Code?: ImageBuilderStateChangeReasonCode;
-  Message?: string;
+  Code?: ImageBuilderStateChangeReasonCode | undefined;
+  Message?: string | undefined;
 }
 export interface NetworkAccessConfiguration {
-  EniPrivateIpAddress?: string;
-  EniIpv6Addresses?: string[];
-  EniId?: string;
+  EniPrivateIpAddress?: string | undefined;
+  EniIpv6Addresses?: string[] | undefined;
+  EniId?: string | undefined;
 }
 export type LatestAppstreamAgentVersion = "TRUE" | "FALSE" | (string & {});
 export interface ImageBuilder {
-  Name?: string;
-  Arn?: string;
-  ImageArn?: string;
-  Description?: string;
-  DisplayName?: string;
-  VpcConfig?: VpcConfig;
-  InstanceType?: string;
-  Platform?: PlatformType;
-  IamRoleArn?: string;
-  State?: ImageBuilderState;
-  StateChangeReason?: ImageBuilderStateChangeReason;
-  CreatedTime?: Date;
-  EnableDefaultInternetAccess?: boolean;
-  DomainJoinInfo?: DomainJoinInfo;
-  NetworkAccessConfiguration?: NetworkAccessConfiguration;
-  ImageBuilderErrors?: ResourceError[];
-  AppstreamAgentVersion?: string;
-  AccessEndpoints?: AccessEndpoint[];
-  RootVolumeConfig?: VolumeConfig;
-  LatestAppstreamAgentVersion?: LatestAppstreamAgentVersion;
-  DisableIMDSV1?: boolean;
+  Name?: string | undefined;
+  Arn?: string | undefined;
+  ImageArn?: string | undefined;
+  Description?: string | undefined;
+  DisplayName?: string | undefined;
+  VpcConfig?: VpcConfig | undefined;
+  InstanceType?: string | undefined;
+  Platform?: PlatformType | undefined;
+  IamRoleArn?: string | undefined;
+  State?: ImageBuilderState | undefined;
+  StateChangeReason?: ImageBuilderStateChangeReason | undefined;
+  CreatedTime?: Date | undefined;
+  EnableDefaultInternetAccess?: boolean | undefined;
+  DomainJoinInfo?: DomainJoinInfo | undefined;
+  NetworkAccessConfiguration?: NetworkAccessConfiguration | undefined;
+  ImageBuilderErrors?: ResourceError[] | undefined;
+  AppstreamAgentVersion?: string | undefined;
+  AccessEndpoints?: AccessEndpoint[] | undefined;
+  RootVolumeConfig?: VolumeConfig | undefined;
+  LatestAppstreamAgentVersion?: LatestAppstreamAgentVersion | undefined;
+  DisableIMDSV1?: boolean | undefined;
 }
 export interface CreateImageBuilderResult {
-  ImageBuilder?: ImageBuilder & {
-    Name: string;
-    AccessEndpoints: (AccessEndpoint & { EndpointType: AccessEndpointType })[];
-  };
+  ImageBuilder?:
+    | (ImageBuilder & {
+        Name: string;
+        AccessEndpoints: (AccessEndpoint & { EndpointType: AccessEndpointType })[];
+      })
+    | undefined;
 }
 export interface CreateImageBuilderStreamingURLRequest {
-  Name?: string;
-  Validity?: number;
+  Name?: string | undefined;
+  Validity?: number | undefined;
 }
 export interface CreateImageBuilderStreamingURLResult {
-  StreamingURL?: string;
-  Expires?: Date;
+  StreamingURL?: string | undefined;
+  Expires?: Date | undefined;
 }
 export type WorkspaceImageId = string;
 export type ImageImportDescription = string;
 export type ImageImportDisplayName = string;
 export type InstanceType = string;
 export interface RuntimeValidationConfig {
-  IntendedInstanceType?: string;
+  IntendedInstanceType?: string | undefined;
 }
 export type AgentSoftwareVersion = "CURRENT_LATEST" | "ALWAYS_LATEST" | (string & {});
 export type AppName = string;
@@ -813,27 +826,27 @@ export type AppDisplayName = string;
 export type FilePath = string | redacted.Redacted<string>;
 export type LaunchParameters = string | redacted.Redacted<string>;
 export interface ApplicationConfig {
-  Name?: string;
-  DisplayName?: string;
-  AbsoluteAppPath?: string | redacted.Redacted<string>;
-  AbsoluteIconPath?: string | redacted.Redacted<string>;
-  AbsoluteManifestPath?: string | redacted.Redacted<string>;
-  WorkingDirectory?: string | redacted.Redacted<string>;
-  LaunchParameters?: string | redacted.Redacted<string>;
+  Name?: string | undefined;
+  DisplayName?: string | undefined;
+  AbsoluteAppPath?: string | redacted.Redacted<string> | undefined;
+  AbsoluteIconPath?: string | redacted.Redacted<string> | undefined;
+  AbsoluteManifestPath?: string | redacted.Redacted<string> | undefined;
+  WorkingDirectory?: string | redacted.Redacted<string> | undefined;
+  LaunchParameters?: string | redacted.Redacted<string> | undefined;
 }
 export type AppCatalogConfig = ApplicationConfig[];
 export interface CreateImportedImageRequest {
-  Name?: string;
-  SourceAmiId?: string;
-  WorkspaceImageId?: string;
-  IamRoleArn?: string;
-  Description?: string;
-  DisplayName?: string;
-  Tags?: { [key: string]: string | undefined };
-  RuntimeValidationConfig?: RuntimeValidationConfig;
-  AgentSoftwareVersion?: AgentSoftwareVersion;
-  AppCatalogConfig?: ApplicationConfig[];
-  DryRun?: boolean;
+  Name?: string | undefined;
+  SourceAmiId?: string | undefined;
+  WorkspaceImageId?: string | undefined;
+  IamRoleArn?: string | undefined;
+  Description?: string | undefined;
+  DisplayName?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  RuntimeValidationConfig?: RuntimeValidationConfig | undefined;
+  AgentSoftwareVersion?: AgentSoftwareVersion | undefined;
+  AppCatalogConfig?: ApplicationConfig[] | undefined;
+  DryRun?: boolean | undefined;
 }
 export type ImageState =
   | "PENDING"
@@ -854,62 +867,64 @@ export type ImageStateChangeReasonCode =
   | "IMAGE_IMPORT_FAILURE"
   | (string & {});
 export interface ImageStateChangeReason {
-  Code?: ImageStateChangeReasonCode;
-  Message?: string;
+  Code?: ImageStateChangeReasonCode | undefined;
+  Message?: string | undefined;
 }
 export type Applications = Application[];
 export interface ImagePermissions {
-  allowFleet?: boolean;
-  allowImageBuilder?: boolean;
+  allowFleet?: boolean | undefined;
+  allowImageBuilder?: boolean | undefined;
 }
 export type DynamicAppProvidersEnabled = "ENABLED" | "DISABLED" | (string & {});
 export type ImageSharedWithOthers = "TRUE" | "FALSE" | (string & {});
 export type ImageType = "CUSTOM" | "NATIVE" | "BYOL" | (string & {});
 export type NvidiaGridDriverVersion = string;
 export interface ImageSoftwareMetadata {
-  nvidiaGridDriverVersion?: string;
+  nvidiaGridDriverVersion?: string | undefined;
 }
 export interface Image {
-  Name?: string;
-  Arn?: string;
-  BaseImageArn?: string;
-  DisplayName?: string;
-  State?: ImageState;
-  Visibility?: VisibilityType;
-  ImageBuilderSupported?: boolean;
-  ImageBuilderName?: string;
-  Platform?: PlatformType;
-  Description?: string;
-  StateChangeReason?: ImageStateChangeReason;
-  Applications?: Application[];
-  CreatedTime?: Date;
-  PublicBaseImageReleasedDate?: Date;
-  AppstreamAgentVersion?: string;
-  ImagePermissions?: ImagePermissions;
-  ImageErrors?: ResourceError[];
-  LatestAppstreamAgentVersion?: LatestAppstreamAgentVersion;
-  SupportedInstanceFamilies?: string[];
-  DynamicAppProvidersEnabled?: DynamicAppProvidersEnabled;
-  ImageSharedWithOthers?: ImageSharedWithOthers;
-  ManagedSoftwareIncluded?: boolean;
-  ImageType?: ImageType;
-  ImageSoftwareMetadata?: ImageSoftwareMetadata;
+  Name?: string | undefined;
+  Arn?: string | undefined;
+  BaseImageArn?: string | undefined;
+  DisplayName?: string | undefined;
+  State?: ImageState | undefined;
+  Visibility?: VisibilityType | undefined;
+  ImageBuilderSupported?: boolean | undefined;
+  ImageBuilderName?: string | undefined;
+  Platform?: PlatformType | undefined;
+  Description?: string | undefined;
+  StateChangeReason?: ImageStateChangeReason | undefined;
+  Applications?: Application[] | undefined;
+  CreatedTime?: Date | undefined;
+  PublicBaseImageReleasedDate?: Date | undefined;
+  AppstreamAgentVersion?: string | undefined;
+  ImagePermissions?: ImagePermissions | undefined;
+  ImageErrors?: ResourceError[] | undefined;
+  LatestAppstreamAgentVersion?: LatestAppstreamAgentVersion | undefined;
+  SupportedInstanceFamilies?: string[] | undefined;
+  DynamicAppProvidersEnabled?: DynamicAppProvidersEnabled | undefined;
+  ImageSharedWithOthers?: ImageSharedWithOthers | undefined;
+  ManagedSoftwareIncluded?: boolean | undefined;
+  ImageType?: ImageType | undefined;
+  ImageSoftwareMetadata?: ImageSoftwareMetadata | undefined;
 }
 export interface CreateImportedImageResult {
-  Image?: Image & {
-    Name: string;
-    Applications: (Application & { IconS3Location: S3Location & { S3Bucket: S3Bucket } })[];
-  };
+  Image?:
+    | (Image & {
+        Name: string;
+        Applications: (Application & { IconS3Location: S3Location & { S3Bucket: S3Bucket } })[];
+      })
+    | undefined;
 }
 export type StorageConnectorType = "HOMEFOLDERS" | "GOOGLE_DRIVE" | "ONE_DRIVE" | (string & {});
 export type ResourceIdentifier = string;
 export type Domain = string;
 export type DomainList = string[];
 export interface StorageConnector {
-  ConnectorType?: StorageConnectorType;
-  ResourceIdentifier?: string;
-  Domains?: string[];
-  DomainsRequireAdminConsent?: string[];
+  ConnectorType?: StorageConnectorType | undefined;
+  ResourceIdentifier?: string | undefined;
+  Domains?: string[] | undefined;
+  DomainsRequireAdminConsent?: string[] | undefined;
 }
 export type StorageConnectorList = StorageConnector[];
 export type RedirectURL = string;
@@ -926,31 +941,31 @@ export type Action =
   | (string & {});
 export type Permission = "ENABLED" | "DISABLED" | (string & {});
 export interface UserSetting {
-  Action?: Action;
-  Permission?: Permission;
-  MaximumLength?: number;
+  Action?: Action | undefined;
+  Permission?: Permission | undefined;
+  MaximumLength?: number | undefined;
 }
 export type UserSettingList = UserSetting[];
 export type SettingsGroup = string;
 export interface ApplicationSettings {
-  Enabled?: boolean;
-  SettingsGroup?: string;
+  Enabled?: boolean | undefined;
+  SettingsGroup?: string | undefined;
 }
 export type EmbedHostDomain = string;
 export type EmbedHostDomains = string[];
 export type PreferredProtocol = "TCP" | "UDP" | (string & {});
 export interface StreamingExperienceSettings {
-  PreferredProtocol?: PreferredProtocol;
+  PreferredProtocol?: PreferredProtocol | undefined;
 }
 export type UrlPattern = string;
 export type UrlPatternList = string[];
 export interface UrlRedirectionConfig {
-  Enabled?: boolean;
-  AllowedUrls?: string[];
-  DeniedUrls?: string[];
+  Enabled?: boolean | undefined;
+  AllowedUrls?: string[] | undefined;
+  DeniedUrls?: string[] | undefined;
 }
 export interface ContentRedirection {
-  HostToClient?: UrlRedirectionConfig;
+  HostToClient?: UrlRedirectionConfig | undefined;
 }
 export type AgentAction =
   | "COMPUTER_VISION"
@@ -958,8 +973,8 @@ export type AgentAction =
   | "FORWARD_MCP_TOOLS"
   | (string & {});
 export interface AgentAccessSetting {
-  AgentAction?: AgentAction;
-  Permission?: Permission;
+  AgentAction?: AgentAction | undefined;
+  Permission?: Permission | undefined;
 }
 export type AgentAccessSettingList = AgentAccessSetting[];
 export type S3BucketArn = string;
@@ -967,461 +982,495 @@ export type ScreenResolution = "W_1280xH_720" | (string & {});
 export type ScreenImageFormat = "PNG" | "JPEG" | (string & {});
 export type UserControlMode = "VIEW_ONLY" | "VIEW_STOP" | "DISABLED" | (string & {});
 export interface AgentAccessConfig {
-  Settings?: AgentAccessSetting[];
-  S3BucketArn?: string;
-  ScreenshotsUploadEnabled?: boolean;
-  ScreenResolution?: ScreenResolution;
-  ScreenImageFormat?: ScreenImageFormat;
-  UserControlMode?: UserControlMode;
+  Settings?: AgentAccessSetting[] | undefined;
+  S3BucketArn?: string | undefined;
+  ScreenshotsUploadEnabled?: boolean | undefined;
+  ScreenResolution?: ScreenResolution | undefined;
+  ScreenImageFormat?: ScreenImageFormat | undefined;
+  UserControlMode?: UserControlMode | undefined;
 }
+export type StorageConnectorAuthentication =
+  | "FORCE_REAUTHENTICATION"
+  | "REUSE_CREDENTIALS"
+  | (string & {});
 export interface CreateStackRequest {
-  Name?: string;
-  Description?: string;
-  DisplayName?: string;
-  StorageConnectors?: StorageConnector[];
-  RedirectURL?: string;
-  FeedbackURL?: string;
-  UserSettings?: UserSetting[];
-  ApplicationSettings?: ApplicationSettings;
-  Tags?: { [key: string]: string | undefined };
-  AccessEndpoints?: AccessEndpoint[];
-  EmbedHostDomains?: string[];
-  StreamingExperienceSettings?: StreamingExperienceSettings;
-  ContentRedirection?: ContentRedirection;
-  AgentAccessConfig?: AgentAccessConfig;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  DisplayName?: string | undefined;
+  StorageConnectors?: StorageConnector[] | undefined;
+  RedirectURL?: string | undefined;
+  FeedbackURL?: string | undefined;
+  UserSettings?: UserSetting[] | undefined;
+  ApplicationSettings?: ApplicationSettings | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  AccessEndpoints?: AccessEndpoint[] | undefined;
+  EmbedHostDomains?: string[] | undefined;
+  StreamingExperienceSettings?: StreamingExperienceSettings | undefined;
+  ContentRedirection?: ContentRedirection | undefined;
+  AgentAccessConfig?: AgentAccessConfig | undefined;
+  StorageConnectorAuthentication?: StorageConnectorAuthentication | undefined;
 }
 export type StackErrorCode = "STORAGE_CONNECTOR_ERROR" | "INTERNAL_SERVICE_ERROR" | (string & {});
 export interface StackError {
-  ErrorCode?: StackErrorCode;
-  ErrorMessage?: string;
+  ErrorCode?: StackErrorCode | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type StackErrors = StackError[];
 export interface ApplicationSettingsResponse {
-  Enabled?: boolean;
-  SettingsGroup?: string;
-  S3BucketName?: string;
+  Enabled?: boolean | undefined;
+  SettingsGroup?: string | undefined;
+  S3BucketName?: string | undefined;
 }
 export interface Stack {
-  Arn?: string;
-  Name?: string;
-  Description?: string;
-  DisplayName?: string;
-  CreatedTime?: Date;
-  StorageConnectors?: StorageConnector[];
-  RedirectURL?: string;
-  FeedbackURL?: string;
-  StackErrors?: StackError[];
-  UserSettings?: UserSetting[];
-  ApplicationSettings?: ApplicationSettingsResponse;
-  AccessEndpoints?: AccessEndpoint[];
-  EmbedHostDomains?: string[];
-  StreamingExperienceSettings?: StreamingExperienceSettings;
-  ContentRedirection?: ContentRedirection;
-  AgentAccessConfig?: AgentAccessConfig;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  DisplayName?: string | undefined;
+  CreatedTime?: Date | undefined;
+  StorageConnectors?: StorageConnector[] | undefined;
+  RedirectURL?: string | undefined;
+  FeedbackURL?: string | undefined;
+  StackErrors?: StackError[] | undefined;
+  UserSettings?: UserSetting[] | undefined;
+  ApplicationSettings?: ApplicationSettingsResponse | undefined;
+  AccessEndpoints?: AccessEndpoint[] | undefined;
+  EmbedHostDomains?: string[] | undefined;
+  StreamingExperienceSettings?: StreamingExperienceSettings | undefined;
+  ContentRedirection?: ContentRedirection | undefined;
+  AgentAccessConfig?: AgentAccessConfig | undefined;
+  StorageConnectorAuthentication?: StorageConnectorAuthentication | undefined;
 }
 export interface CreateStackResult {
-  Stack?: Stack & {
-    Name: string;
-    StorageConnectors: (StorageConnector & { ConnectorType: StorageConnectorType })[];
-    UserSettings: (UserSetting & { Action: Action; Permission: Permission })[];
-    AccessEndpoints: (AccessEndpoint & { EndpointType: AccessEndpointType })[];
-    ContentRedirection: ContentRedirection & {
-      HostToClient: UrlRedirectionConfig & { Enabled: boolean };
-    };
-    AgentAccessConfig: AgentAccessConfig & {
-      Settings: (AgentAccessSetting & { AgentAction: AgentAction; Permission: Permission })[];
-      ScreenResolution: ScreenResolution;
-      ScreenImageFormat: ScreenImageFormat;
-    };
-  };
+  Stack?:
+    | (Stack & {
+        Name: string;
+        StorageConnectors: (StorageConnector & { ConnectorType: StorageConnectorType })[];
+        UserSettings: (UserSetting & { Action: Action; Permission: Permission })[];
+        AccessEndpoints: (AccessEndpoint & { EndpointType: AccessEndpointType })[];
+        ContentRedirection: ContentRedirection & {
+          HostToClient: UrlRedirectionConfig & { Enabled: boolean };
+        };
+        AgentAccessConfig: AgentAccessConfig & {
+          Settings: (AgentAccessSetting & { AgentAction: AgentAction; Permission: Permission })[];
+          ScreenResolution: ScreenResolution;
+          ScreenImageFormat: ScreenImageFormat;
+        };
+      })
+    | undefined;
 }
 export type StreamingUrlUserId = string;
 export interface CreateStreamingURLRequest {
-  StackName?: string;
-  FleetName?: string;
-  UserId?: string;
-  ApplicationId?: string;
-  Validity?: number;
-  SessionContext?: string;
+  StackName?: string | undefined;
+  FleetName?: string | undefined;
+  UserId?: string | undefined;
+  ApplicationId?: string | undefined;
+  Validity?: number | undefined;
+  SessionContext?: string | undefined;
 }
 export interface CreateStreamingURLResult {
-  StreamingURL?: string;
-  Expires?: Date;
+  StreamingURL?: string | undefined;
+  Expires?: Date | undefined;
 }
 export type ThemeFooterLinkDisplayName = string;
 export type ThemeFooterLinkURL = string;
 export interface ThemeFooterLink {
-  DisplayName?: string;
-  FooterLinkURL?: string;
+  DisplayName?: string | undefined;
+  FooterLinkURL?: string | undefined;
 }
 export type ThemeFooterLinks = ThemeFooterLink[];
 export type ThemeTitleText = string;
 export type ThemeStyling = "LIGHT_BLUE" | "BLUE" | "PINK" | "RED" | (string & {});
 export interface CreateThemeForStackRequest {
-  StackName?: string;
-  FooterLinks?: ThemeFooterLink[];
-  TitleText?: string;
-  ThemeStyling?: ThemeStyling;
-  OrganizationLogoS3Location?: S3Location;
-  FaviconS3Location?: S3Location;
+  StackName?: string | undefined;
+  FooterLinks?: ThemeFooterLink[] | undefined;
+  TitleText?: string | undefined;
+  ThemeStyling?: ThemeStyling | undefined;
+  OrganizationLogoS3Location?: S3Location | undefined;
+  FaviconS3Location?: S3Location | undefined;
 }
 export type ThemeState = "ENABLED" | "DISABLED" | (string & {});
 export interface Theme {
-  StackName?: string;
-  State?: ThemeState;
-  ThemeTitleText?: string;
-  ThemeStyling?: ThemeStyling;
-  ThemeFooterLinks?: ThemeFooterLink[];
-  ThemeOrganizationLogoURL?: string;
-  ThemeFaviconURL?: string;
-  CreatedTime?: Date;
+  StackName?: string | undefined;
+  State?: ThemeState | undefined;
+  ThemeTitleText?: string | undefined;
+  ThemeStyling?: ThemeStyling | undefined;
+  ThemeFooterLinks?: ThemeFooterLink[] | undefined;
+  ThemeOrganizationLogoURL?: string | undefined;
+  ThemeFaviconURL?: string | undefined;
+  CreatedTime?: Date | undefined;
 }
 export interface CreateThemeForStackResult {
-  Theme?: Theme;
+  Theme?: Theme | undefined;
 }
 export interface CreateUpdatedImageRequest {
-  existingImageName?: string;
-  newImageName?: string;
-  newImageDescription?: string;
-  newImageDisplayName?: string;
-  newImageTags?: { [key: string]: string | undefined };
-  dryRun?: boolean;
+  existingImageName?: string | undefined;
+  newImageName?: string | undefined;
+  newImageDescription?: string | undefined;
+  newImageDisplayName?: string | undefined;
+  newImageTags?: { [key: string]: string | undefined } | undefined;
+  dryRun?: boolean | undefined;
 }
 export interface CreateUpdatedImageResult {
-  image?: Image & {
-    Name: string;
-    Applications: (Application & { IconS3Location: S3Location & { S3Bucket: S3Bucket } })[];
-  };
-  canUpdateImage?: boolean;
+  image?:
+    | (Image & {
+        Name: string;
+        Applications: (Application & { IconS3Location: S3Location & { S3Bucket: S3Bucket } })[];
+      })
+    | undefined;
+  canUpdateImage?: boolean | undefined;
 }
 export interface CreateUsageReportSubscriptionRequest {}
 export type UsageReportSchedule = "DAILY" | (string & {});
 export interface CreateUsageReportSubscriptionResult {
-  S3BucketName?: string;
-  Schedule?: UsageReportSchedule;
+  S3BucketName?: string | undefined;
+  Schedule?: UsageReportSchedule | undefined;
 }
 export type MessageAction = "SUPPRESS" | "RESEND" | (string & {});
 export type UserAttributeValue = string | redacted.Redacted<string>;
 export interface CreateUserRequest {
-  UserName?: string | redacted.Redacted<string>;
-  MessageAction?: MessageAction;
-  FirstName?: string | redacted.Redacted<string>;
-  LastName?: string | redacted.Redacted<string>;
-  AuthenticationType?: AuthenticationType;
+  UserName?: string | redacted.Redacted<string> | undefined;
+  MessageAction?: MessageAction | undefined;
+  FirstName?: string | redacted.Redacted<string> | undefined;
+  LastName?: string | redacted.Redacted<string> | undefined;
+  AuthenticationType?: AuthenticationType | undefined;
 }
 export interface CreateUserResult {}
 export interface DeleteAppBlockRequest {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface DeleteAppBlockResult {}
 export interface DeleteAppBlockBuilderRequest {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface DeleteAppBlockBuilderResult {}
 export interface DeleteApplicationRequest {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface DeleteApplicationResult {}
 export interface DeleteDirectoryConfigRequest {
-  DirectoryName?: string;
+  DirectoryName?: string | undefined;
 }
 export interface DeleteDirectoryConfigResult {}
 export interface DeleteEntitlementRequest {
-  Name?: string;
-  StackName?: string;
+  Name?: string | undefined;
+  StackName?: string | undefined;
 }
 export interface DeleteEntitlementResult {}
 export interface DeleteFleetRequest {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface DeleteFleetResult {}
 export interface DeleteImageRequest {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface DeleteImageResult {
-  Image?: Image & {
-    Name: string;
-    Applications: (Application & { IconS3Location: S3Location & { S3Bucket: S3Bucket } })[];
-  };
+  Image?:
+    | (Image & {
+        Name: string;
+        Applications: (Application & { IconS3Location: S3Location & { S3Bucket: S3Bucket } })[];
+      })
+    | undefined;
 }
 export interface DeleteImageBuilderRequest {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface DeleteImageBuilderResult {
-  ImageBuilder?: ImageBuilder & {
-    Name: string;
-    AccessEndpoints: (AccessEndpoint & { EndpointType: AccessEndpointType })[];
-  };
+  ImageBuilder?:
+    | (ImageBuilder & {
+        Name: string;
+        AccessEndpoints: (AccessEndpoint & { EndpointType: AccessEndpointType })[];
+      })
+    | undefined;
 }
 export type AwsAccountId = string;
 export interface DeleteImagePermissionsRequest {
-  Name?: string;
-  SharedAccountId?: string;
+  Name?: string | undefined;
+  SharedAccountId?: string | undefined;
 }
 export interface DeleteImagePermissionsResult {}
 export interface DeleteStackRequest {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface DeleteStackResult {}
 export interface DeleteThemeForStackRequest {
-  StackName?: string;
+  StackName?: string | undefined;
 }
 export interface DeleteThemeForStackResult {}
 export interface DeleteUsageReportSubscriptionRequest {}
 export interface DeleteUsageReportSubscriptionResult {}
 export interface DeleteUserRequest {
-  UserName?: string | redacted.Redacted<string>;
-  AuthenticationType?: AuthenticationType;
+  UserName?: string | redacted.Redacted<string> | undefined;
+  AuthenticationType?: AuthenticationType | undefined;
 }
 export interface DeleteUserResult {}
 export interface DescribeAppBlockBuilderAppBlockAssociationsRequest {
-  AppBlockArn?: string;
-  AppBlockBuilderName?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  AppBlockArn?: string | undefined;
+  AppBlockBuilderName?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type AppBlockBuilderAppBlockAssociationsList = AppBlockBuilderAppBlockAssociation[];
 export interface DescribeAppBlockBuilderAppBlockAssociationsResult {
-  AppBlockBuilderAppBlockAssociations?: (AppBlockBuilderAppBlockAssociation & {
-    AppBlockArn: Arn;
-    AppBlockBuilderName: Name;
-  })[];
-  NextToken?: string;
+  AppBlockBuilderAppBlockAssociations?:
+    | (AppBlockBuilderAppBlockAssociation & { AppBlockArn: Arn; AppBlockBuilderName: Name })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeAppBlockBuildersRequest {
-  Names?: string[];
-  NextToken?: string;
-  MaxResults?: number;
+  Names?: string[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type AppBlockBuilderList = AppBlockBuilder[];
 export interface DescribeAppBlockBuildersResult {
-  AppBlockBuilders?: (AppBlockBuilder & {
-    Arn: Arn;
-    Name: string;
-    Platform: AppBlockBuilderPlatformType;
-    InstanceType: string;
-    VpcConfig: VpcConfig;
-    State: AppBlockBuilderState;
-    AccessEndpoints: (AccessEndpoint & { EndpointType: AccessEndpointType })[];
-  })[];
-  NextToken?: string;
+  AppBlockBuilders?:
+    | (AppBlockBuilder & {
+        Arn: Arn;
+        Name: string;
+        Platform: AppBlockBuilderPlatformType;
+        InstanceType: string;
+        VpcConfig: VpcConfig;
+        State: AppBlockBuilderState;
+        AccessEndpoints: (AccessEndpoint & { EndpointType: AccessEndpointType })[];
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export type ArnList = string[];
 export interface DescribeAppBlocksRequest {
-  Arns?: string[];
-  NextToken?: string;
-  MaxResults?: number;
+  Arns?: string[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type AppBlocks = AppBlock[];
 export interface DescribeAppBlocksResult {
-  AppBlocks?: (AppBlock & {
-    Name: string;
-    Arn: Arn;
-    SourceS3Location: S3Location & { S3Bucket: S3Bucket };
-    SetupScriptDetails: ScriptDetails & {
-      ScriptS3Location: S3Location & { S3Bucket: S3Bucket };
-      ExecutablePath: string;
-      TimeoutInSeconds: number;
-    };
-    PostSetupScriptDetails: ScriptDetails & {
-      ScriptS3Location: S3Location & { S3Bucket: S3Bucket };
-      ExecutablePath: string;
-      TimeoutInSeconds: number;
-    };
-  })[];
-  NextToken?: string;
+  AppBlocks?:
+    | (AppBlock & {
+        Name: string;
+        Arn: Arn;
+        SourceS3Location: S3Location & { S3Bucket: S3Bucket };
+        SetupScriptDetails: ScriptDetails & {
+          ScriptS3Location: S3Location & { S3Bucket: S3Bucket };
+          ExecutablePath: string;
+          TimeoutInSeconds: number;
+        };
+        PostSetupScriptDetails: ScriptDetails & {
+          ScriptS3Location: S3Location & { S3Bucket: S3Bucket };
+          ExecutablePath: string;
+          TimeoutInSeconds: number;
+        };
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeApplicationFleetAssociationsRequest {
-  FleetName?: string;
-  ApplicationArn?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  FleetName?: string | undefined;
+  ApplicationArn?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ApplicationFleetAssociationList = ApplicationFleetAssociation[];
 export interface DescribeApplicationFleetAssociationsResult {
-  ApplicationFleetAssociations?: (ApplicationFleetAssociation & {
-    FleetName: string;
-    ApplicationArn: Arn;
-  })[];
-  NextToken?: string;
+  ApplicationFleetAssociations?:
+    | (ApplicationFleetAssociation & { FleetName: string; ApplicationArn: Arn })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeApplicationsRequest {
-  Arns?: string[];
-  NextToken?: string;
-  MaxResults?: number;
+  Arns?: string[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface DescribeApplicationsResult {
-  Applications?: (Application & { IconS3Location: S3Location & { S3Bucket: S3Bucket } })[];
-  NextToken?: string;
+  Applications?:
+    | (Application & { IconS3Location: S3Location & { S3Bucket: S3Bucket } })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeAppLicenseUsageRequest {
-  BillingPeriod?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  BillingPeriod?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface AdminAppLicenseUsageRecord {
-  UserArn?: string;
-  BillingPeriod?: string;
-  OwnerAWSAccountId?: string;
-  SubscriptionFirstUsedDate?: Date;
-  SubscriptionLastUsedDate?: Date;
-  LicenseType?: string;
-  UserId?: string;
+  UserArn?: string | undefined;
+  BillingPeriod?: string | undefined;
+  OwnerAWSAccountId?: string | undefined;
+  SubscriptionFirstUsedDate?: Date | undefined;
+  SubscriptionLastUsedDate?: Date | undefined;
+  LicenseType?: string | undefined;
+  UserId?: string | undefined;
 }
 export type AdminAppLicenseUsageList = AdminAppLicenseUsageRecord[];
 export interface DescribeAppLicenseUsageResult {
-  AppLicenseUsages?: (AdminAppLicenseUsageRecord & {
-    UserArn: string;
-    BillingPeriod: string;
-    OwnerAWSAccountId: AwsAccountId;
-    SubscriptionFirstUsedDate: Date;
-    SubscriptionLastUsedDate: Date;
-    LicenseType: string;
-    UserId: string;
-  })[];
-  NextToken?: string;
+  AppLicenseUsages?:
+    | (AdminAppLicenseUsageRecord & {
+        UserArn: string;
+        BillingPeriod: string;
+        OwnerAWSAccountId: AwsAccountId;
+        SubscriptionFirstUsedDate: Date;
+        SubscriptionLastUsedDate: Date;
+        LicenseType: string;
+        UserId: string;
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export type DirectoryNameList = string[];
 export interface DescribeDirectoryConfigsRequest {
-  DirectoryNames?: string[];
-  MaxResults?: number;
-  NextToken?: string;
+  DirectoryNames?: string[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type DirectoryConfigList = DirectoryConfig[];
 export interface DescribeDirectoryConfigsResult {
-  DirectoryConfigs?: (DirectoryConfig & {
-    DirectoryName: DirectoryName;
-    ServiceAccountCredentials: ServiceAccountCredentials & {
-      AccountName: AccountName;
-      AccountPassword: AccountPassword;
-    };
-  })[];
-  NextToken?: string;
+  DirectoryConfigs?:
+    | (DirectoryConfig & {
+        DirectoryName: DirectoryName;
+        ServiceAccountCredentials: ServiceAccountCredentials & {
+          AccountName: AccountName;
+          AccountPassword: AccountPassword;
+        };
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeEntitlementsRequest {
-  Name?: string;
-  StackName?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  Name?: string | undefined;
+  StackName?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type EntitlementList = Entitlement[];
 export interface DescribeEntitlementsResult {
-  Entitlements?: (Entitlement & {
-    Name: Name;
-    StackName: Name;
-    AppVisibility: AppVisibility;
-    Attributes: (EntitlementAttribute & { Name: string; Value: string })[];
-  })[];
-  NextToken?: string;
+  Entitlements?:
+    | (Entitlement & {
+        Name: Name;
+        StackName: Name;
+        AppVisibility: AppVisibility;
+        Attributes: (EntitlementAttribute & { Name: string; Value: string })[];
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeFleetsRequest {
-  Names?: string[];
-  NextToken?: string;
+  Names?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export type FleetList = Fleet[];
 export interface DescribeFleetsResult {
-  Fleets?: (Fleet & {
-    Arn: Arn;
-    Name: string;
-    InstanceType: string;
-    ComputeCapacityStatus: ComputeCapacityStatus & { Desired: number };
-    State: FleetState;
-    SessionScriptS3Location: S3Location & { S3Bucket: S3Bucket };
-  })[];
-  NextToken?: string;
+  Fleets?:
+    | (Fleet & {
+        Arn: Arn;
+        Name: string;
+        InstanceType: string;
+        ComputeCapacityStatus: ComputeCapacityStatus & { Desired: number };
+        State: FleetState;
+        SessionScriptS3Location: S3Location & { S3Bucket: S3Bucket };
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeImageBuildersRequest {
-  Names?: string[];
-  MaxResults?: number;
-  NextToken?: string;
+  Names?: string[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ImageBuilderList = ImageBuilder[];
 export interface DescribeImageBuildersResult {
-  ImageBuilders?: (ImageBuilder & {
-    Name: string;
-    AccessEndpoints: (AccessEndpoint & { EndpointType: AccessEndpointType })[];
-  })[];
-  NextToken?: string;
+  ImageBuilders?:
+    | (ImageBuilder & {
+        Name: string;
+        AccessEndpoints: (AccessEndpoint & { EndpointType: AccessEndpointType })[];
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export type MaxResults = number;
 export type AwsAccountIdList = string[];
 export interface DescribeImagePermissionsRequest {
-  Name?: string;
-  MaxResults?: number;
-  SharedAwsAccountIds?: string[];
-  NextToken?: string;
+  Name?: string | undefined;
+  MaxResults?: number | undefined;
+  SharedAwsAccountIds?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface SharedImagePermissions {
-  sharedAccountId?: string;
-  imagePermissions?: ImagePermissions;
+  sharedAccountId?: string | undefined;
+  imagePermissions?: ImagePermissions | undefined;
 }
 export type SharedImagePermissionsList = SharedImagePermissions[];
 export interface DescribeImagePermissionsResult {
-  Name?: string;
-  SharedImagePermissionsList?: (SharedImagePermissions & {
-    sharedAccountId: AwsAccountId;
-    imagePermissions: ImagePermissions;
-  })[];
-  NextToken?: string;
+  Name?: string | undefined;
+  SharedImagePermissionsList?:
+    | (SharedImagePermissions & {
+        sharedAccountId: AwsAccountId;
+        imagePermissions: ImagePermissions;
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export type DescribeImagesMaxResults = number;
 export interface DescribeImagesRequest {
-  Names?: string[];
-  Arns?: string[];
-  Type?: VisibilityType;
-  NextToken?: string;
-  MaxResults?: number;
+  Names?: string[] | undefined;
+  Arns?: string[] | undefined;
+  Type?: VisibilityType | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ImageList = Image[];
 export interface DescribeImagesResult {
-  Images?: (Image & {
-    Name: string;
-    Applications: (Application & { IconS3Location: S3Location & { S3Bucket: S3Bucket } })[];
-  })[];
-  NextToken?: string;
+  Images?:
+    | (Image & {
+        Name: string;
+        Applications: (Application & { IconS3Location: S3Location & { S3Bucket: S3Bucket } })[];
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export type UserId = string;
 export interface DescribeSessionsRequest {
-  StackName?: string;
-  FleetName?: string;
-  UserId?: string;
-  NextToken?: string;
-  Limit?: number;
-  AuthenticationType?: AuthenticationType;
-  InstanceId?: string;
+  StackName?: string | undefined;
+  FleetName?: string | undefined;
+  UserId?: string | undefined;
+  NextToken?: string | undefined;
+  Limit?: number | undefined;
+  AuthenticationType?: AuthenticationType | undefined;
+  InstanceId?: string | undefined;
 }
 export type SessionState = "ACTIVE" | "PENDING" | "EXPIRED" | (string & {});
 export type SessionConnectionState = "CONNECTED" | "NOT_CONNECTED" | (string & {});
 export type InstanceDrainStatus = "ACTIVE" | "DRAINING" | "NOT_APPLICABLE" | (string & {});
 export interface Session {
-  Id?: string;
-  UserId?: string;
-  StackName?: string;
-  FleetName?: string;
-  State?: SessionState;
-  ConnectionState?: SessionConnectionState;
-  StartTime?: Date;
-  MaxExpirationTime?: Date;
-  AuthenticationType?: AuthenticationType;
-  NetworkAccessConfiguration?: NetworkAccessConfiguration;
-  InstanceId?: string;
-  InstanceDrainStatus?: InstanceDrainStatus;
+  Id?: string | undefined;
+  UserId?: string | undefined;
+  StackName?: string | undefined;
+  FleetName?: string | undefined;
+  State?: SessionState | undefined;
+  ConnectionState?: SessionConnectionState | undefined;
+  StartTime?: Date | undefined;
+  MaxExpirationTime?: Date | undefined;
+  AuthenticationType?: AuthenticationType | undefined;
+  NetworkAccessConfiguration?: NetworkAccessConfiguration | undefined;
+  InstanceId?: string | undefined;
+  InstanceDrainStatus?: InstanceDrainStatus | undefined;
 }
 export type SessionList = Session[];
 export interface DescribeSessionsResult {
-  Sessions?: (Session & {
-    Id: string;
-    UserId: UserId;
-    StackName: string;
-    FleetName: string;
-    State: SessionState;
-  })[];
-  NextToken?: string;
+  Sessions?:
+    | (Session & {
+        Id: string;
+        UserId: UserId;
+        StackName: string;
+        FleetName: string;
+        State: SessionState;
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeSoftwareAssociationsRequest {
-  AssociatedResource?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  AssociatedResource?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type SoftwareDeploymentStatus =
   | "STAGED_FOR_INSTALLATION"
@@ -1433,47 +1482,49 @@ export type SoftwareDeploymentStatus =
   | "FAILED_TO_UNINSTALL"
   | (string & {});
 export interface SoftwareAssociations {
-  SoftwareName?: string;
-  Status?: SoftwareDeploymentStatus;
-  DeploymentError?: ErrorDetails[];
+  SoftwareName?: string | undefined;
+  Status?: SoftwareDeploymentStatus | undefined;
+  DeploymentError?: ErrorDetails[] | undefined;
 }
 export type SoftwareAssociationsList = SoftwareAssociations[];
 export interface DescribeSoftwareAssociationsResult {
-  AssociatedResource?: string;
-  SoftwareAssociations?: SoftwareAssociations[];
-  NextToken?: string;
+  AssociatedResource?: string | undefined;
+  SoftwareAssociations?: SoftwareAssociations[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeStacksRequest {
-  Names?: string[];
-  NextToken?: string;
+  Names?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export type StackList = Stack[];
 export interface DescribeStacksResult {
-  Stacks?: (Stack & {
-    Name: string;
-    StorageConnectors: (StorageConnector & { ConnectorType: StorageConnectorType })[];
-    UserSettings: (UserSetting & { Action: Action; Permission: Permission })[];
-    AccessEndpoints: (AccessEndpoint & { EndpointType: AccessEndpointType })[];
-    ContentRedirection: ContentRedirection & {
-      HostToClient: UrlRedirectionConfig & { Enabled: boolean };
-    };
-    AgentAccessConfig: AgentAccessConfig & {
-      Settings: (AgentAccessSetting & { AgentAction: AgentAction; Permission: Permission })[];
-      ScreenResolution: ScreenResolution;
-      ScreenImageFormat: ScreenImageFormat;
-    };
-  })[];
-  NextToken?: string;
+  Stacks?:
+    | (Stack & {
+        Name: string;
+        StorageConnectors: (StorageConnector & { ConnectorType: StorageConnectorType })[];
+        UserSettings: (UserSetting & { Action: Action; Permission: Permission })[];
+        AccessEndpoints: (AccessEndpoint & { EndpointType: AccessEndpointType })[];
+        ContentRedirection: ContentRedirection & {
+          HostToClient: UrlRedirectionConfig & { Enabled: boolean };
+        };
+        AgentAccessConfig: AgentAccessConfig & {
+          Settings: (AgentAccessSetting & { AgentAction: AgentAction; Permission: Permission })[];
+          ScreenResolution: ScreenResolution;
+          ScreenImageFormat: ScreenImageFormat;
+        };
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeThemeForStackRequest {
-  StackName?: string;
+  StackName?: string | undefined;
 }
 export interface DescribeThemeForStackResult {
-  Theme?: Theme;
+  Theme?: Theme | undefined;
 }
 export interface DescribeUsageReportSubscriptionsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type UsageReportExecutionErrorCode =
   | "RESOURCE_NOT_FOUND"
@@ -1481,239 +1532,243 @@ export type UsageReportExecutionErrorCode =
   | "INTERNAL_SERVICE_ERROR"
   | (string & {});
 export interface LastReportGenerationExecutionError {
-  ErrorCode?: UsageReportExecutionErrorCode;
-  ErrorMessage?: string;
+  ErrorCode?: UsageReportExecutionErrorCode | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type LastReportGenerationExecutionErrors = LastReportGenerationExecutionError[];
 export interface UsageReportSubscription {
-  S3BucketName?: string;
-  Schedule?: UsageReportSchedule;
-  LastGeneratedReportDate?: Date;
-  SubscriptionErrors?: LastReportGenerationExecutionError[];
+  S3BucketName?: string | undefined;
+  Schedule?: UsageReportSchedule | undefined;
+  LastGeneratedReportDate?: Date | undefined;
+  SubscriptionErrors?: LastReportGenerationExecutionError[] | undefined;
 }
 export type UsageReportSubscriptionList = UsageReportSubscription[];
 export interface DescribeUsageReportSubscriptionsResult {
-  UsageReportSubscriptions?: UsageReportSubscription[];
-  NextToken?: string;
+  UsageReportSubscriptions?: UsageReportSubscription[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeUsersRequest {
-  AuthenticationType?: AuthenticationType;
-  MaxResults?: number;
-  NextToken?: string;
+  AuthenticationType?: AuthenticationType | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface User {
-  Arn?: string;
-  UserName?: string | redacted.Redacted<string>;
-  Enabled?: boolean;
-  Status?: string;
-  FirstName?: string | redacted.Redacted<string>;
-  LastName?: string | redacted.Redacted<string>;
-  CreatedTime?: Date;
-  AuthenticationType?: AuthenticationType;
+  Arn?: string | undefined;
+  UserName?: string | redacted.Redacted<string> | undefined;
+  Enabled?: boolean | undefined;
+  Status?: string | undefined;
+  FirstName?: string | redacted.Redacted<string> | undefined;
+  LastName?: string | redacted.Redacted<string> | undefined;
+  CreatedTime?: Date | undefined;
+  AuthenticationType?: AuthenticationType | undefined;
 }
 export type UserList = User[];
 export interface DescribeUsersResult {
-  Users?: (User & { AuthenticationType: AuthenticationType })[];
-  NextToken?: string;
+  Users?: (User & { AuthenticationType: AuthenticationType })[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeUserStackAssociationsRequest {
-  StackName?: string;
-  UserName?: string | redacted.Redacted<string>;
-  AuthenticationType?: AuthenticationType;
-  MaxResults?: number;
-  NextToken?: string;
+  StackName?: string | undefined;
+  UserName?: string | redacted.Redacted<string> | undefined;
+  AuthenticationType?: AuthenticationType | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeUserStackAssociationsResult {
-  UserStackAssociations?: (UserStackAssociation & {
-    StackName: string;
-    UserName: Username;
-    AuthenticationType: AuthenticationType;
-  })[];
-  NextToken?: string;
+  UserStackAssociations?:
+    | (UserStackAssociation & {
+        StackName: string;
+        UserName: Username;
+        AuthenticationType: AuthenticationType;
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface DisableUserRequest {
-  UserName?: string | redacted.Redacted<string>;
-  AuthenticationType?: AuthenticationType;
+  UserName?: string | redacted.Redacted<string> | undefined;
+  AuthenticationType?: AuthenticationType | undefined;
 }
 export interface DisableUserResult {}
 export interface DisassociateAppBlockBuilderAppBlockRequest {
-  AppBlockArn?: string;
-  AppBlockBuilderName?: string;
+  AppBlockArn?: string | undefined;
+  AppBlockBuilderName?: string | undefined;
 }
 export interface DisassociateAppBlockBuilderAppBlockResult {}
 export interface DisassociateApplicationFleetRequest {
-  FleetName?: string;
-  ApplicationArn?: string;
+  FleetName?: string | undefined;
+  ApplicationArn?: string | undefined;
 }
 export interface DisassociateApplicationFleetResult {}
 export interface DisassociateApplicationFromEntitlementRequest {
-  StackName?: string;
-  EntitlementName?: string;
-  ApplicationIdentifier?: string;
+  StackName?: string | undefined;
+  EntitlementName?: string | undefined;
+  ApplicationIdentifier?: string | undefined;
 }
 export interface DisassociateApplicationFromEntitlementResult {}
 export interface DisassociateFleetRequest {
-  FleetName?: string;
-  StackName?: string;
+  FleetName?: string | undefined;
+  StackName?: string | undefined;
 }
 export interface DisassociateFleetResult {}
 export interface DisassociateSoftwareFromImageBuilderRequest {
-  ImageBuilderName?: string;
-  SoftwareNames?: string[];
+  ImageBuilderName?: string | undefined;
+  SoftwareNames?: string[] | undefined;
 }
 export interface DisassociateSoftwareFromImageBuilderResult {}
 export interface DrainSessionInstanceRequest {
-  SessionId?: string;
+  SessionId?: string | undefined;
 }
 export interface DrainSessionInstanceResult {}
 export interface EnableUserRequest {
-  UserName?: string | redacted.Redacted<string>;
-  AuthenticationType?: AuthenticationType;
+  UserName?: string | redacted.Redacted<string> | undefined;
+  AuthenticationType?: AuthenticationType | undefined;
 }
 export interface EnableUserResult {}
 export interface ExpireSessionRequest {
-  SessionId?: string;
+  SessionId?: string | undefined;
 }
 export interface ExpireSessionResult {}
 export interface GetExportImageTaskRequest {
-  TaskId?: string;
+  TaskId?: string | undefined;
 }
 export interface GetExportImageTaskResult {
-  ExportImageTask?: ExportImageTask & {
-    TaskId: UUID;
-    ImageArn: Arn;
-    AmiName: AmiName;
-    CreatedDate: Date;
-  };
+  ExportImageTask?:
+    | (ExportImageTask & { TaskId: UUID; ImageArn: Arn; AmiName: AmiName; CreatedDate: Date })
+    | undefined;
 }
 export interface ListAssociatedFleetsRequest {
-  StackName?: string;
-  NextToken?: string;
+  StackName?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListAssociatedFleetsResult {
-  Names?: string[];
-  NextToken?: string;
+  Names?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListAssociatedStacksRequest {
-  FleetName?: string;
-  NextToken?: string;
+  FleetName?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListAssociatedStacksResult {
-  Names?: string[];
-  NextToken?: string;
+  Names?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListEntitledApplicationsRequest {
-  StackName?: string;
-  EntitlementName?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  StackName?: string | undefined;
+  EntitlementName?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface EntitledApplication {
-  ApplicationIdentifier?: string;
+  ApplicationIdentifier?: string | undefined;
 }
 export type EntitledApplicationList = EntitledApplication[];
 export interface ListEntitledApplicationsResult {
-  EntitledApplications?: (EntitledApplication & { ApplicationIdentifier: string })[];
-  NextToken?: string;
+  EntitledApplications?: (EntitledApplication & { ApplicationIdentifier: string })[] | undefined;
+  NextToken?: string | undefined;
 }
 export type FilterName = string;
 export type FilterValue = string;
 export type FilterValues = string[];
 export interface Filter {
-  Name?: string;
-  Values?: string[];
+  Name?: string | undefined;
+  Values?: string[] | undefined;
 }
 export type Filters = Filter[];
 export interface ListExportImageTasksRequest {
-  Filters?: Filter[];
-  MaxResults?: number;
-  NextToken?: string;
+  Filters?: Filter[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ExportImageTasks = ExportImageTask[];
 export interface ListExportImageTasksResult {
-  ExportImageTasks?: (ExportImageTask & {
-    TaskId: UUID;
-    ImageArn: Arn;
-    AmiName: AmiName;
-    CreatedDate: Date;
-  })[];
-  NextToken?: string;
+  ExportImageTasks?:
+    | (ExportImageTask & { TaskId: UUID; ImageArn: Arn; AmiName: AmiName; CreatedDate: Date })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
-  ResourceArn?: string;
+  ResourceArn?: string | undefined;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartAppBlockBuilderRequest {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface StartAppBlockBuilderResult {
-  AppBlockBuilder?: AppBlockBuilder & {
-    Arn: Arn;
-    Name: string;
-    Platform: AppBlockBuilderPlatformType;
-    InstanceType: string;
-    VpcConfig: VpcConfig;
-    State: AppBlockBuilderState;
-    AccessEndpoints: (AccessEndpoint & { EndpointType: AccessEndpointType })[];
-  };
+  AppBlockBuilder?:
+    | (AppBlockBuilder & {
+        Arn: Arn;
+        Name: string;
+        Platform: AppBlockBuilderPlatformType;
+        InstanceType: string;
+        VpcConfig: VpcConfig;
+        State: AppBlockBuilderState;
+        AccessEndpoints: (AccessEndpoint & { EndpointType: AccessEndpointType })[];
+      })
+    | undefined;
 }
 export interface StartFleetRequest {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface StartFleetResult {}
 export interface StartImageBuilderRequest {
-  Name?: string;
-  AppstreamAgentVersion?: string;
+  Name?: string | undefined;
+  AppstreamAgentVersion?: string | undefined;
 }
 export interface StartImageBuilderResult {
-  ImageBuilder?: ImageBuilder & {
-    Name: string;
-    AccessEndpoints: (AccessEndpoint & { EndpointType: AccessEndpointType })[];
-  };
+  ImageBuilder?:
+    | (ImageBuilder & {
+        Name: string;
+        AccessEndpoints: (AccessEndpoint & { EndpointType: AccessEndpointType })[];
+      })
+    | undefined;
 }
 export interface StartSoftwareDeploymentToImageBuilderRequest {
-  ImageBuilderName?: string;
-  RetryFailedDeployments?: boolean;
+  ImageBuilderName?: string | undefined;
+  RetryFailedDeployments?: boolean | undefined;
 }
 export interface StartSoftwareDeploymentToImageBuilderResult {}
 export interface StopAppBlockBuilderRequest {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface StopAppBlockBuilderResult {
-  AppBlockBuilder?: AppBlockBuilder & {
-    Arn: Arn;
-    Name: string;
-    Platform: AppBlockBuilderPlatformType;
-    InstanceType: string;
-    VpcConfig: VpcConfig;
-    State: AppBlockBuilderState;
-    AccessEndpoints: (AccessEndpoint & { EndpointType: AccessEndpointType })[];
-  };
+  AppBlockBuilder?:
+    | (AppBlockBuilder & {
+        Arn: Arn;
+        Name: string;
+        Platform: AppBlockBuilderPlatformType;
+        InstanceType: string;
+        VpcConfig: VpcConfig;
+        State: AppBlockBuilderState;
+        AccessEndpoints: (AccessEndpoint & { EndpointType: AccessEndpointType })[];
+      })
+    | undefined;
 }
 export interface StopFleetRequest {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface StopFleetResult {}
 export interface StopImageBuilderRequest {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface StopImageBuilderResult {
-  ImageBuilder?: ImageBuilder & {
-    Name: string;
-    AccessEndpoints: (AccessEndpoint & { EndpointType: AccessEndpointType })[];
-  };
+  ImageBuilder?:
+    | (ImageBuilder & {
+        Name: string;
+        AccessEndpoints: (AccessEndpoint & { EndpointType: AccessEndpointType })[];
+      })
+    | undefined;
 }
 export interface TagResourceRequest {
-  ResourceArn?: string;
-  Tags?: { [key: string]: string | undefined };
+  ResourceArn?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceResponse {}
 export type TagKeyList = string[];
 export interface UntagResourceRequest {
-  ResourceArn?: string;
-  TagKeys?: string[];
+  ResourceArn?: string | undefined;
+  TagKeys?: string[] | undefined;
 }
 export interface UntagResourceResponse {}
 export type AppBlockBuilderAttribute =
@@ -1723,74 +1778,80 @@ export type AppBlockBuilderAttribute =
   | (string & {});
 export type AppBlockBuilderAttributes = AppBlockBuilderAttribute[];
 export interface UpdateAppBlockBuilderRequest {
-  Name?: string;
-  Description?: string;
-  DisplayName?: string;
-  Platform?: PlatformType;
-  InstanceType?: string;
-  VpcConfig?: VpcConfig;
-  EnableDefaultInternetAccess?: boolean;
-  IamRoleArn?: string;
-  AccessEndpoints?: AccessEndpoint[];
-  AttributesToDelete?: AppBlockBuilderAttribute[];
-  DisableIMDSV1?: boolean;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  DisplayName?: string | undefined;
+  Platform?: PlatformType | undefined;
+  InstanceType?: string | undefined;
+  VpcConfig?: VpcConfig | undefined;
+  EnableDefaultInternetAccess?: boolean | undefined;
+  IamRoleArn?: string | undefined;
+  AccessEndpoints?: AccessEndpoint[] | undefined;
+  AttributesToDelete?: AppBlockBuilderAttribute[] | undefined;
+  DisableIMDSV1?: boolean | undefined;
 }
 export interface UpdateAppBlockBuilderResult {
-  AppBlockBuilder?: AppBlockBuilder & {
-    Arn: Arn;
-    Name: string;
-    Platform: AppBlockBuilderPlatformType;
-    InstanceType: string;
-    VpcConfig: VpcConfig;
-    State: AppBlockBuilderState;
-    AccessEndpoints: (AccessEndpoint & { EndpointType: AccessEndpointType })[];
-  };
+  AppBlockBuilder?:
+    | (AppBlockBuilder & {
+        Arn: Arn;
+        Name: string;
+        Platform: AppBlockBuilderPlatformType;
+        InstanceType: string;
+        VpcConfig: VpcConfig;
+        State: AppBlockBuilderState;
+        AccessEndpoints: (AccessEndpoint & { EndpointType: AccessEndpointType })[];
+      })
+    | undefined;
 }
 export type ApplicationAttribute = "LAUNCH_PARAMETERS" | "WORKING_DIRECTORY" | (string & {});
 export type ApplicationAttributes = ApplicationAttribute[];
 export interface UpdateApplicationRequest {
-  Name?: string;
-  DisplayName?: string;
-  Description?: string;
-  IconS3Location?: S3Location;
-  LaunchPath?: string;
-  WorkingDirectory?: string;
-  LaunchParameters?: string;
-  AppBlockArn?: string;
-  AttributesToDelete?: ApplicationAttribute[];
+  Name?: string | undefined;
+  DisplayName?: string | undefined;
+  Description?: string | undefined;
+  IconS3Location?: S3Location | undefined;
+  LaunchPath?: string | undefined;
+  WorkingDirectory?: string | undefined;
+  LaunchParameters?: string | undefined;
+  AppBlockArn?: string | undefined;
+  AttributesToDelete?: ApplicationAttribute[] | undefined;
 }
 export interface UpdateApplicationResult {
-  Application?: Application & { IconS3Location: S3Location & { S3Bucket: S3Bucket } };
+  Application?: (Application & { IconS3Location: S3Location & { S3Bucket: S3Bucket } }) | undefined;
 }
 export interface UpdateDirectoryConfigRequest {
-  DirectoryName?: string;
-  OrganizationalUnitDistinguishedNames?: string[];
-  ServiceAccountCredentials?: ServiceAccountCredentials;
-  CertificateBasedAuthProperties?: CertificateBasedAuthProperties;
+  DirectoryName?: string | undefined;
+  OrganizationalUnitDistinguishedNames?: string[] | undefined;
+  ServiceAccountCredentials?: ServiceAccountCredentials | undefined;
+  CertificateBasedAuthProperties?: CertificateBasedAuthProperties | undefined;
 }
 export interface UpdateDirectoryConfigResult {
-  DirectoryConfig?: DirectoryConfig & {
-    DirectoryName: DirectoryName;
-    ServiceAccountCredentials: ServiceAccountCredentials & {
-      AccountName: AccountName;
-      AccountPassword: AccountPassword;
-    };
-  };
+  DirectoryConfig?:
+    | (DirectoryConfig & {
+        DirectoryName: DirectoryName;
+        ServiceAccountCredentials: ServiceAccountCredentials & {
+          AccountName: AccountName;
+          AccountPassword: AccountPassword;
+        };
+      })
+    | undefined;
 }
 export interface UpdateEntitlementRequest {
-  Name?: string;
-  StackName?: string;
-  Description?: string;
-  AppVisibility?: AppVisibility;
-  Attributes?: EntitlementAttribute[];
+  Name?: string | undefined;
+  StackName?: string | undefined;
+  Description?: string | undefined;
+  AppVisibility?: AppVisibility | undefined;
+  Attributes?: EntitlementAttribute[] | undefined;
 }
 export interface UpdateEntitlementResult {
-  Entitlement?: Entitlement & {
-    Name: Name;
-    StackName: Name;
-    AppVisibility: AppVisibility;
-    Attributes: (EntitlementAttribute & { Name: string; Value: string })[];
-  };
+  Entitlement?:
+    | (Entitlement & {
+        Name: Name;
+        StackName: Name;
+        AppVisibility: AppVisibility;
+        Attributes: (EntitlementAttribute & { Name: string; Value: string })[];
+      })
+    | undefined;
 }
 export type FleetAttribute =
   | "VPC_CONFIGURATION"
@@ -1804,45 +1865,47 @@ export type FleetAttribute =
   | (string & {});
 export type FleetAttributes = FleetAttribute[];
 export interface UpdateFleetRequest {
-  ImageName?: string;
-  ImageArn?: string;
-  Name?: string;
-  InstanceType?: string;
-  ComputeCapacity?: ComputeCapacity;
-  VpcConfig?: VpcConfig;
-  MaxUserDurationInSeconds?: number;
-  DisconnectTimeoutInSeconds?: number;
-  DeleteVpcConfig?: boolean;
-  Description?: string;
-  DisplayName?: string;
-  EnableDefaultInternetAccess?: boolean;
-  DomainJoinInfo?: DomainJoinInfo;
-  IdleDisconnectTimeoutInSeconds?: number;
-  AttributesToDelete?: FleetAttribute[];
-  IamRoleArn?: string;
-  StreamView?: StreamView;
-  Platform?: PlatformType;
-  MaxConcurrentSessions?: number;
-  UsbDeviceFilterStrings?: string[];
-  SessionScriptS3Location?: S3Location;
-  MaxSessionsPerInstance?: number;
-  RootVolumeConfig?: VolumeConfig;
-  DisableIMDSV1?: boolean;
+  ImageName?: string | undefined;
+  ImageArn?: string | undefined;
+  Name?: string | undefined;
+  InstanceType?: string | undefined;
+  ComputeCapacity?: ComputeCapacity | undefined;
+  VpcConfig?: VpcConfig | undefined;
+  MaxUserDurationInSeconds?: number | undefined;
+  DisconnectTimeoutInSeconds?: number | undefined;
+  DeleteVpcConfig?: boolean | undefined;
+  Description?: string | undefined;
+  DisplayName?: string | undefined;
+  EnableDefaultInternetAccess?: boolean | undefined;
+  DomainJoinInfo?: DomainJoinInfo | undefined;
+  IdleDisconnectTimeoutInSeconds?: number | undefined;
+  AttributesToDelete?: FleetAttribute[] | undefined;
+  IamRoleArn?: string | undefined;
+  StreamView?: StreamView | undefined;
+  Platform?: PlatformType | undefined;
+  MaxConcurrentSessions?: number | undefined;
+  UsbDeviceFilterStrings?: string[] | undefined;
+  SessionScriptS3Location?: S3Location | undefined;
+  MaxSessionsPerInstance?: number | undefined;
+  RootVolumeConfig?: VolumeConfig | undefined;
+  DisableIMDSV1?: boolean | undefined;
 }
 export interface UpdateFleetResult {
-  Fleet?: Fleet & {
-    Arn: Arn;
-    Name: string;
-    InstanceType: string;
-    ComputeCapacityStatus: ComputeCapacityStatus & { Desired: number };
-    State: FleetState;
-    SessionScriptS3Location: S3Location & { S3Bucket: S3Bucket };
-  };
+  Fleet?:
+    | (Fleet & {
+        Arn: Arn;
+        Name: string;
+        InstanceType: string;
+        ComputeCapacityStatus: ComputeCapacityStatus & { Desired: number };
+        State: FleetState;
+        SessionScriptS3Location: S3Location & { S3Bucket: S3Bucket };
+      })
+    | undefined;
 }
 export interface UpdateImagePermissionsRequest {
-  Name?: string;
-  SharedAccountId?: string;
-  ImagePermissions?: ImagePermissions;
+  Name?: string | undefined;
+  SharedAccountId?: string | undefined;
+  ImagePermissions?: ImagePermissions | undefined;
 }
 export interface UpdateImagePermissionsResult {}
 export type StackAttribute =
@@ -1860,63 +1923,67 @@ export type StackAttribute =
   | "STREAMING_EXPERIENCE_SETTINGS"
   | "CONTENT_REDIRECTION"
   | "AGENT_ACCESS_CONFIG"
+  | "STORAGE_CONNECTOR_AUTHENTICATION"
   | (string & {});
 export type StackAttributes = StackAttribute[];
 export interface AgentAccessConfigForUpdate {
-  Settings?: AgentAccessSetting[];
-  S3BucketArn?: string;
-  ScreenshotsUploadEnabled?: boolean;
-  ScreenResolution?: ScreenResolution;
-  ScreenImageFormat?: ScreenImageFormat;
-  UserControlMode?: UserControlMode;
+  Settings?: AgentAccessSetting[] | undefined;
+  S3BucketArn?: string | undefined;
+  ScreenshotsUploadEnabled?: boolean | undefined;
+  ScreenResolution?: ScreenResolution | undefined;
+  ScreenImageFormat?: ScreenImageFormat | undefined;
+  UserControlMode?: UserControlMode | undefined;
 }
 export interface UpdateStackRequest {
-  DisplayName?: string;
-  Description?: string;
-  Name?: string;
-  StorageConnectors?: StorageConnector[];
-  DeleteStorageConnectors?: boolean;
-  RedirectURL?: string;
-  FeedbackURL?: string;
-  AttributesToDelete?: StackAttribute[];
-  UserSettings?: UserSetting[];
-  ApplicationSettings?: ApplicationSettings;
-  AccessEndpoints?: AccessEndpoint[];
-  EmbedHostDomains?: string[];
-  StreamingExperienceSettings?: StreamingExperienceSettings;
-  ContentRedirection?: ContentRedirection;
-  AgentAccessConfig?: AgentAccessConfigForUpdate;
+  DisplayName?: string | undefined;
+  Description?: string | undefined;
+  Name?: string | undefined;
+  StorageConnectors?: StorageConnector[] | undefined;
+  DeleteStorageConnectors?: boolean | undefined;
+  RedirectURL?: string | undefined;
+  FeedbackURL?: string | undefined;
+  AttributesToDelete?: StackAttribute[] | undefined;
+  UserSettings?: UserSetting[] | undefined;
+  ApplicationSettings?: ApplicationSettings | undefined;
+  AccessEndpoints?: AccessEndpoint[] | undefined;
+  EmbedHostDomains?: string[] | undefined;
+  StreamingExperienceSettings?: StreamingExperienceSettings | undefined;
+  ContentRedirection?: ContentRedirection | undefined;
+  AgentAccessConfig?: AgentAccessConfigForUpdate | undefined;
+  StorageConnectorAuthentication?: StorageConnectorAuthentication | undefined;
 }
 export interface UpdateStackResult {
-  Stack?: Stack & {
-    Name: string;
-    StorageConnectors: (StorageConnector & { ConnectorType: StorageConnectorType })[];
-    UserSettings: (UserSetting & { Action: Action; Permission: Permission })[];
-    AccessEndpoints: (AccessEndpoint & { EndpointType: AccessEndpointType })[];
-    ContentRedirection: ContentRedirection & {
-      HostToClient: UrlRedirectionConfig & { Enabled: boolean };
-    };
-    AgentAccessConfig: AgentAccessConfig & {
-      Settings: (AgentAccessSetting & { AgentAction: AgentAction; Permission: Permission })[];
-      ScreenResolution: ScreenResolution;
-      ScreenImageFormat: ScreenImageFormat;
-    };
-  };
+  Stack?:
+    | (Stack & {
+        Name: string;
+        StorageConnectors: (StorageConnector & { ConnectorType: StorageConnectorType })[];
+        UserSettings: (UserSetting & { Action: Action; Permission: Permission })[];
+        AccessEndpoints: (AccessEndpoint & { EndpointType: AccessEndpointType })[];
+        ContentRedirection: ContentRedirection & {
+          HostToClient: UrlRedirectionConfig & { Enabled: boolean };
+        };
+        AgentAccessConfig: AgentAccessConfig & {
+          Settings: (AgentAccessSetting & { AgentAction: AgentAction; Permission: Permission })[];
+          ScreenResolution: ScreenResolution;
+          ScreenImageFormat: ScreenImageFormat;
+        };
+      })
+    | undefined;
 }
 export type ThemeAttribute = "FOOTER_LINKS" | (string & {});
 export type ThemeAttributes = ThemeAttribute[];
 export interface UpdateThemeForStackRequest {
-  StackName?: string;
-  FooterLinks?: ThemeFooterLink[];
-  TitleText?: string;
-  ThemeStyling?: ThemeStyling;
-  OrganizationLogoS3Location?: S3Location;
-  FaviconS3Location?: S3Location;
-  State?: ThemeState;
-  AttributesToDelete?: ThemeAttribute[];
+  StackName?: string | undefined;
+  FooterLinks?: ThemeFooterLink[] | undefined;
+  TitleText?: string | undefined;
+  ThemeStyling?: ThemeStyling | undefined;
+  OrganizationLogoS3Location?: S3Location | undefined;
+  FaviconS3Location?: S3Location | undefined;
+  State?: ThemeState | undefined;
+  AttributesToDelete?: ThemeAttribute[] | undefined;
 }
 export interface UpdateThemeForStackResult {
-  Theme?: Theme;
+  Theme?: Theme | undefined;
 }
 export type ErrorMessage = string;
 export type AssociateAppBlockBuilderAppBlockError =
@@ -1930,7 +1997,7 @@ export type AssociateAppBlockBuilderAppBlockError =
  * Associates the specified app block builder with the specified app block.
  */
 export const associateAppBlockBuilderAppBlock: API.OperationMethod<
-  AssociateAppBlockBuilderAppBlockRequest,
+  AssociateAppBlockBuilderAppBlockRequest & RegionInput,
   AssociateAppBlockBuilderAppBlockResult,
   AssociateAppBlockBuilderAppBlockError,
   Credentials | HttpClient.HttpClient
@@ -1962,7 +2029,7 @@ export type AssociateApplicationFleetError =
  * Associates the specified application with the specified fleet. This is only supported for Elastic fleets.
  */
 export const associateApplicationFleet: API.OperationMethod<
-  AssociateApplicationFleetRequest,
+  AssociateApplicationFleetRequest & RegionInput,
   AssociateApplicationFleetResult,
   AssociateApplicationFleetError,
   Credentials | HttpClient.HttpClient
@@ -1993,7 +2060,7 @@ export type AssociateApplicationToEntitlementError =
  * Associates an application to entitle.
  */
 export const associateApplicationToEntitlement: API.OperationMethod<
-  AssociateApplicationToEntitlementRequest,
+  AssociateApplicationToEntitlementRequest & RegionInput,
   AssociateApplicationToEntitlementResult,
   AssociateApplicationToEntitlementError,
   Credentials | HttpClient.HttpClient
@@ -2025,7 +2092,7 @@ export type AssociateFleetError =
  * Associates the specified fleet with the specified stack.
  */
 export const associateFleet: API.OperationMethod<
-  AssociateFleetRequest,
+  AssociateFleetRequest & RegionInput,
   AssociateFleetResult,
   AssociateFleetError,
   Credentials | HttpClient.HttpClient
@@ -2058,7 +2125,7 @@ export type AssociateSoftwareToImageBuilderError =
  * Associates license included application(s) with an existing image builder instance.
  */
 export const associateSoftwareToImageBuilder: API.OperationMethod<
-  AssociateSoftwareToImageBuilderRequest,
+  AssociateSoftwareToImageBuilderRequest & RegionInput,
   AssociateSoftwareToImageBuilderResult,
   AssociateSoftwareToImageBuilderError,
   Credentials | HttpClient.HttpClient
@@ -2087,7 +2154,7 @@ export type BatchAssociateUserStackError =
  * Associates the specified users with the specified stacks. Users in a user pool cannot be assigned to stacks with fleets that are joined to an Active Directory domain.
  */
 export const batchAssociateUserStack: API.OperationMethod<
-  BatchAssociateUserStackRequest,
+  BatchAssociateUserStackRequest & RegionInput,
   BatchAssociateUserStackResult,
   BatchAssociateUserStackError,
   Credentials | HttpClient.HttpClient
@@ -2110,7 +2177,7 @@ export type BatchDisassociateUserStackError =
  * Disassociates the specified users from the specified stacks.
  */
 export const batchDisassociateUserStack: API.OperationMethod<
-  BatchDisassociateUserStackRequest,
+  BatchDisassociateUserStackRequest & RegionInput,
   BatchDisassociateUserStackResult,
   BatchDisassociateUserStackError,
   Credentials | HttpClient.HttpClient
@@ -2137,7 +2204,7 @@ export type CopyImageError =
  * Copies the image within the same region or to a new region within the same AWS account. Note that any tags you added to the image will not be copied.
  */
 export const copyImage: API.OperationMethod<
-  CopyImageRequest,
+  CopyImageRequest & RegionInput,
   CopyImageResponse,
   CopyImageError,
   Credentials | HttpClient.HttpClient
@@ -2177,7 +2244,7 @@ export type CreateAppBlockError =
  * This is only supported for Elastic fleets.
  */
 export const createAppBlock: API.OperationMethod<
-  CreateAppBlockRequest,
+  CreateAppBlockRequest & RegionInput,
   CreateAppBlockResult,
   CreateAppBlockError,
   Credentials | HttpClient.HttpClient
@@ -2213,7 +2280,7 @@ export type CreateAppBlockBuilderError =
  * Creates an app block builder.
  */
 export const createAppBlockBuilder: API.OperationMethod<
-  CreateAppBlockBuilderRequest,
+  CreateAppBlockBuilderRequest & RegionInput,
   CreateAppBlockBuilderResult,
   CreateAppBlockBuilderError,
   Credentials | HttpClient.HttpClient
@@ -2247,7 +2314,7 @@ export type CreateAppBlockBuilderStreamingURLError =
  * Creates a URL to start a create app block builder streaming session.
  */
 export const createAppBlockBuilderStreamingURL: API.OperationMethod<
-  CreateAppBlockBuilderStreamingURLRequest,
+  CreateAppBlockBuilderStreamingURLRequest & RegionInput,
   CreateAppBlockBuilderStreamingURLResult,
   CreateAppBlockBuilderStreamingURLError,
   Credentials | HttpClient.HttpClient
@@ -2281,7 +2348,7 @@ export type CreateApplicationError =
  * This is only supported for Elastic fleets.
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationRequest,
+  CreateApplicationRequest & RegionInput,
   CreateApplicationResult,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -2314,7 +2381,7 @@ export type CreateDirectoryConfigError =
  * Creates a Directory Config object in WorkSpaces Applications. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
  */
 export const createDirectoryConfig: API.OperationMethod<
-  CreateDirectoryConfigRequest,
+  CreateDirectoryConfigRequest & RegionInput,
   CreateDirectoryConfigResult,
   CreateDirectoryConfigError,
   Credentials | HttpClient.HttpClient
@@ -2351,7 +2418,7 @@ export type CreateEntitlementError =
  * Application Framework.
  */
 export const createEntitlement: API.OperationMethod<
-  CreateEntitlementRequest,
+  CreateEntitlementRequest & RegionInput,
   CreateEntitlementResult,
   CreateEntitlementError,
   Credentials | HttpClient.HttpClient
@@ -2384,7 +2451,7 @@ export type CreateExportImageTaskError =
  * Creates a task to export a WorkSpaces Applications image to an EC2 AMI. This allows you to use your customized WorkSpaces Applications images with other AWS services or for backup purposes.
  */
 export const createExportImageTask: API.OperationMethod<
-  CreateExportImageTaskRequest,
+  CreateExportImageTaskRequest & RegionInput,
   CreateExportImageTaskResult,
   CreateExportImageTaskError,
   Credentials | HttpClient.HttpClient
@@ -2424,7 +2491,7 @@ export type CreateFleetError =
  * Creates a fleet. A fleet consists of streaming instances that your users access for their applications and desktops.
  */
 export const createFleet: API.OperationMethod<
-  CreateFleetRequest,
+  CreateFleetRequest & RegionInput,
   CreateFleetResult,
   CreateFleetError,
   Credentials | HttpClient.HttpClient
@@ -2470,7 +2537,7 @@ export type CreateImageBuilderError =
  * The initial state of the builder is `PENDING`. When it is ready, the state is `RUNNING`.
  */
 export const createImageBuilder: API.OperationMethod<
-  CreateImageBuilderRequest,
+  CreateImageBuilderRequest & RegionInput,
   CreateImageBuilderResult,
   CreateImageBuilderError,
   Credentials | HttpClient.HttpClient
@@ -2505,7 +2572,7 @@ export type CreateImageBuilderStreamingURLError =
  * Creates a URL to start an image builder streaming session.
  */
 export const createImageBuilderStreamingURL: API.OperationMethod<
-  CreateImageBuilderStreamingURLRequest,
+  CreateImageBuilderStreamingURLRequest & RegionInput,
   CreateImageBuilderStreamingURLResult,
   CreateImageBuilderStreamingURLError,
   Credentials | HttpClient.HttpClient
@@ -2535,7 +2602,7 @@ export type CreateImportedImageError =
  * Creates a custom WorkSpaces Applications image by importing an EC2 AMI. This allows you to use your own customized AMI to create WorkSpaces Applications images that support additional instance types beyond the standard stream.* instances.
  */
 export const createImportedImage: API.OperationMethod<
-  CreateImportedImageRequest,
+  CreateImportedImageRequest & RegionInput,
   CreateImportedImageResult,
   CreateImportedImageError,
   Credentials | HttpClient.HttpClient
@@ -2574,7 +2641,7 @@ export type CreateStackError =
  * Creates a stack to start streaming applications to users. A stack consists of an associated fleet, user access policies, and storage configurations.
  */
 export const createStack: API.OperationMethod<
-  CreateStackRequest,
+  CreateStackRequest & RegionInput,
   CreateStackResult,
   CreateStackError,
   Credentials | HttpClient.HttpClient
@@ -2608,7 +2675,7 @@ export type CreateStreamingURLError =
  * Creates a temporary URL to start an WorkSpaces Applications streaming session for the specified user. A streaming URL enables application streaming to be tested without user setup.
  */
 export const createStreamingURL: API.OperationMethod<
-  CreateStreamingURLRequest,
+  CreateStreamingURLRequest & RegionInput,
   CreateStreamingURLResult,
   CreateStreamingURLError,
   Credentials | HttpClient.HttpClient
@@ -2640,7 +2707,7 @@ export type CreateThemeForStackError =
  * Creates custom branding that customizes the appearance of the streaming application catalog page.
  */
 export const createThemeForStack: API.OperationMethod<
-  CreateThemeForStackRequest,
+  CreateThemeForStackRequest & RegionInput,
   CreateThemeForStackResult,
   CreateThemeForStackError,
   Credentials | HttpClient.HttpClient
@@ -2678,7 +2745,7 @@ export type CreateUpdatedImageError =
  * Managed WorkSpaces Applications Image Updates" section in Administer Your WorkSpaces Applications Images, in the *Amazon WorkSpaces Applications Administration Guide*.
  */
 export const createUpdatedImage: API.OperationMethod<
-  CreateUpdatedImageRequest,
+  CreateUpdatedImageRequest & RegionInput,
   CreateUpdatedImageResult,
   CreateUpdatedImageError,
   Credentials | HttpClient.HttpClient
@@ -2710,7 +2777,7 @@ export type CreateUsageReportSubscriptionError =
  * Creates a usage report subscription. Usage reports are generated daily.
  */
 export const createUsageReportSubscription: API.OperationMethod<
-  CreateUsageReportSubscriptionRequest,
+  CreateUsageReportSubscriptionRequest & RegionInput,
   CreateUsageReportSubscriptionResult,
   CreateUsageReportSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -2736,7 +2803,7 @@ export type CreateUserError =
  * Creates a new user in the user pool.
  */
 export const createUser: API.OperationMethod<
-  CreateUserRequest,
+  CreateUserRequest & RegionInput,
   CreateUserResult,
   CreateUserError,
   Credentials | HttpClient.HttpClient
@@ -2766,7 +2833,7 @@ export type DeleteAppBlockError =
  * Deletes an app block.
  */
 export const deleteAppBlock: API.OperationMethod<
-  DeleteAppBlockRequest,
+  DeleteAppBlockRequest & RegionInput,
   DeleteAppBlockResult,
   DeleteAppBlockError,
   Credentials | HttpClient.HttpClient
@@ -2794,7 +2861,7 @@ export type DeleteAppBlockBuilderError =
  * block.
  */
 export const deleteAppBlockBuilder: API.OperationMethod<
-  DeleteAppBlockBuilderRequest,
+  DeleteAppBlockBuilderRequest & RegionInput,
   DeleteAppBlockBuilderResult,
   DeleteAppBlockBuilderError,
   Credentials | HttpClient.HttpClient
@@ -2824,7 +2891,7 @@ export type DeleteApplicationError =
  * Deletes an application.
  */
 export const deleteApplication: API.OperationMethod<
-  DeleteApplicationRequest,
+  DeleteApplicationRequest & RegionInput,
   DeleteApplicationResult,
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
@@ -2852,7 +2919,7 @@ export type DeleteDirectoryConfigError =
  * Deletes the specified Directory Config object from WorkSpaces Applications. This object includes the information required to join streaming instances to an Active Directory domain.
  */
 export const deleteDirectoryConfig: API.OperationMethod<
-  DeleteDirectoryConfigRequest,
+  DeleteDirectoryConfigRequest & RegionInput,
   DeleteDirectoryConfigResult,
   DeleteDirectoryConfigError,
   Credentials | HttpClient.HttpClient
@@ -2877,7 +2944,7 @@ export type DeleteEntitlementError =
  * Deletes the specified entitlement.
  */
 export const deleteEntitlement: API.OperationMethod<
-  DeleteEntitlementRequest,
+  DeleteEntitlementRequest & RegionInput,
   DeleteEntitlementResult,
   DeleteEntitlementError,
   Credentials | HttpClient.HttpClient
@@ -2906,7 +2973,7 @@ export type DeleteFleetError =
  * Deletes the specified fleet.
  */
 export const deleteFleet: API.OperationMethod<
-  DeleteFleetRequest,
+  DeleteFleetRequest & RegionInput,
   DeleteFleetResult,
   DeleteFleetError,
   Credentials | HttpClient.HttpClient
@@ -2932,7 +2999,7 @@ export type DeleteImageError =
  * After you delete an image, you cannot provision new capacity using the image.
  */
 export const deleteImage: API.OperationMethod<
-  DeleteImageRequest,
+  DeleteImageRequest & RegionInput,
   DeleteImageResult,
   DeleteImageError,
   Credentials | HttpClient.HttpClient
@@ -2961,7 +3028,7 @@ export type DeleteImageBuilderError =
  * Deletes the specified image builder and releases the capacity.
  */
 export const deleteImageBuilder: API.OperationMethod<
-  DeleteImageBuilderRequest,
+  DeleteImageBuilderRequest & RegionInput,
   DeleteImageBuilderResult,
   DeleteImageBuilderError,
   Credentials | HttpClient.HttpClient
@@ -2988,7 +3055,7 @@ export type DeleteImagePermissionsError =
  * Deletes permissions for the specified private image. After you delete permissions for an image, AWS accounts to which you previously granted these permissions can no longer use the image.
  */
 export const deleteImagePermissions: API.OperationMethod<
-  DeleteImagePermissionsRequest,
+  DeleteImagePermissionsRequest & RegionInput,
   DeleteImagePermissionsResult,
   DeleteImagePermissionsError,
   Credentials | HttpClient.HttpClient
@@ -3013,7 +3080,7 @@ export type DeleteStackError =
  * Deletes the specified stack. After the stack is deleted, the application streaming environment provided by the stack is no longer available to users. Also, any reservations made for application streaming sessions for the stack are released.
  */
 export const deleteStack: API.OperationMethod<
-  DeleteStackRequest,
+  DeleteStackRequest & RegionInput,
   DeleteStackResult,
   DeleteStackError,
   Credentials | HttpClient.HttpClient
@@ -3042,7 +3109,7 @@ export type DeleteThemeForStackError =
  * Deletes custom branding that customizes the appearance of the streaming application catalog page.
  */
 export const deleteThemeForStack: API.OperationMethod<
-  DeleteThemeForStackRequest,
+  DeleteThemeForStackRequest & RegionInput,
   DeleteThemeForStackResult,
   DeleteThemeForStackError,
   Credentials | HttpClient.HttpClient
@@ -3069,7 +3136,7 @@ export type DeleteUsageReportSubscriptionError =
  * Disables usage report generation.
  */
 export const deleteUsageReportSubscription: API.OperationMethod<
-  DeleteUsageReportSubscriptionRequest,
+  DeleteUsageReportSubscriptionRequest & RegionInput,
   DeleteUsageReportSubscriptionResult,
   DeleteUsageReportSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -3089,7 +3156,7 @@ export type DeleteUserError = ResourceNotFoundException | CommonErrors;
  * Deletes a user from the user pool.
  */
 export const deleteUser: API.OperationMethod<
-  DeleteUserRequest,
+  DeleteUserRequest & RegionInput,
   DeleteUserResult,
   DeleteUserError,
   Credentials | HttpClient.HttpClient
@@ -3112,7 +3179,7 @@ export type DescribeAppBlockBuilderAppBlockAssociationsError =
  * Retrieves a list that describes one or more app block builder associations.
  */
 export const describeAppBlockBuilderAppBlockAssociations: API.PaginatedOperationMethod<
-  DescribeAppBlockBuilderAppBlockAssociationsRequest,
+  DescribeAppBlockBuilderAppBlockAssociationsRequest & RegionInput,
   DescribeAppBlockBuilderAppBlockAssociationsResult,
   DescribeAppBlockBuilderAppBlockAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3141,7 +3208,7 @@ export type DescribeAppBlockBuildersError =
  * Retrieves a list that describes one or more app block builders.
  */
 export const describeAppBlockBuilders: API.PaginatedOperationMethod<
-  DescribeAppBlockBuildersRequest,
+  DescribeAppBlockBuildersRequest & RegionInput,
   DescribeAppBlockBuildersResult,
   DescribeAppBlockBuildersError,
   Credentials | HttpClient.HttpClient,
@@ -3170,7 +3237,7 @@ export type DescribeAppBlocksError =
  * Retrieves a list that describes one or more app blocks.
  */
 export const describeAppBlocks: API.OperationMethod<
-  DescribeAppBlocksRequest,
+  DescribeAppBlocksRequest & RegionInput,
   DescribeAppBlocksResult,
   DescribeAppBlocksError,
   Credentials | HttpClient.HttpClient
@@ -3193,7 +3260,7 @@ export type DescribeApplicationFleetAssociationsError =
  * Retrieves a list that describes one or more application fleet associations. Either ApplicationArn or FleetName must be specified.
  */
 export const describeApplicationFleetAssociations: API.OperationMethod<
-  DescribeApplicationFleetAssociationsRequest,
+  DescribeApplicationFleetAssociationsRequest & RegionInput,
   DescribeApplicationFleetAssociationsResult,
   DescribeApplicationFleetAssociationsError,
   Credentials | HttpClient.HttpClient
@@ -3216,7 +3283,7 @@ export type DescribeApplicationsError =
  * Retrieves a list that describes one or more applications.
  */
 export const describeApplications: API.OperationMethod<
-  DescribeApplicationsRequest,
+  DescribeApplicationsRequest & RegionInput,
   DescribeApplicationsResult,
   DescribeApplicationsError,
   Credentials | HttpClient.HttpClient
@@ -3240,7 +3307,7 @@ export type DescribeAppLicenseUsageError =
  * Retrieves license included application usage information.
  */
 export const describeAppLicenseUsage: API.OperationMethod<
-  DescribeAppLicenseUsageRequest,
+  DescribeAppLicenseUsageRequest & RegionInput,
   DescribeAppLicenseUsageResult,
   DescribeAppLicenseUsageError,
   Credentials | HttpClient.HttpClient
@@ -3266,7 +3333,7 @@ export type DescribeDirectoryConfigsError = ResourceNotFoundException | CommonEr
  * Although the response syntax in this topic includes the account password, this password is not returned in the actual response.
  */
 export const describeDirectoryConfigs: API.OperationMethod<
-  DescribeDirectoryConfigsRequest,
+  DescribeDirectoryConfigsRequest & RegionInput,
   DescribeDirectoryConfigsResult,
   DescribeDirectoryConfigsError,
   Credentials | HttpClient.HttpClient
@@ -3290,7 +3357,7 @@ export type DescribeEntitlementsError =
  * Retrieves a list that describes one of more entitlements.
  */
 export const describeEntitlements: API.OperationMethod<
-  DescribeEntitlementsRequest,
+  DescribeEntitlementsRequest & RegionInput,
   DescribeEntitlementsResult,
   DescribeEntitlementsError,
   Credentials | HttpClient.HttpClient
@@ -3310,7 +3377,7 @@ export type DescribeFleetsError = ResourceNotFoundException | CommonErrors;
  * Retrieves a list that describes one or more specified fleets, if the fleet names are provided. Otherwise, all fleets in the account are described.
  */
 export const describeFleets: API.OperationMethod<
-  DescribeFleetsRequest,
+  DescribeFleetsRequest & RegionInput,
   DescribeFleetsResult,
   DescribeFleetsError,
   Credentials | HttpClient.HttpClient
@@ -3330,7 +3397,7 @@ export type DescribeImageBuildersError = ResourceNotFoundException | CommonError
  * Retrieves a list that describes one or more specified image builders, if the image builder names are provided. Otherwise, all image builders in the account are described.
  */
 export const describeImageBuilders: API.OperationMethod<
-  DescribeImageBuildersRequest,
+  DescribeImageBuildersRequest & RegionInput,
   DescribeImageBuildersResult,
   DescribeImageBuildersError,
   Credentials | HttpClient.HttpClient
@@ -3350,7 +3417,7 @@ export type DescribeImagePermissionsError = ResourceNotFoundException | CommonEr
  * Retrieves a list that describes the permissions for shared AWS account IDs on a private image that you own.
  */
 export const describeImagePermissions: API.PaginatedOperationMethod<
-  DescribeImagePermissionsRequest,
+  DescribeImagePermissionsRequest & RegionInput,
   DescribeImagePermissionsResult,
   DescribeImagePermissionsError,
   Credentials | HttpClient.HttpClient,
@@ -3379,7 +3446,7 @@ export type DescribeImagesError =
  * Retrieves a list that describes one or more specified images, if the image names or image ARNs are provided. Otherwise, all images in the account are described.
  */
 export const describeImages: API.PaginatedOperationMethod<
-  DescribeImagesRequest,
+  DescribeImagesRequest & RegionInput,
   DescribeImagesResult,
   DescribeImagesError,
   Credentials | HttpClient.HttpClient,
@@ -3407,7 +3474,7 @@ export type DescribeSessionsError = InvalidParameterCombinationException | Commo
  * the default is to authenticate users using a streaming URL.
  */
 export const describeSessions: API.OperationMethod<
-  DescribeSessionsRequest,
+  DescribeSessionsRequest & RegionInput,
   DescribeSessionsResult,
   DescribeSessionsError,
   Credentials | HttpClient.HttpClient
@@ -3430,7 +3497,7 @@ export type DescribeSoftwareAssociationsError =
  * Retrieves license included application associations for a specified resource.
  */
 export const describeSoftwareAssociations: API.OperationMethod<
-  DescribeSoftwareAssociationsRequest,
+  DescribeSoftwareAssociationsRequest & RegionInput,
   DescribeSoftwareAssociationsResult,
   DescribeSoftwareAssociationsError,
   Credentials | HttpClient.HttpClient
@@ -3450,7 +3517,7 @@ export type DescribeStacksError = ResourceNotFoundException | CommonErrors;
  * Retrieves a list that describes one or more specified stacks, if the stack names are provided. Otherwise, all stacks in the account are described.
  */
 export const describeStacks: API.OperationMethod<
-  DescribeStacksRequest,
+  DescribeStacksRequest & RegionInput,
   DescribeStacksResult,
   DescribeStacksError,
   Credentials | HttpClient.HttpClient
@@ -3473,7 +3540,7 @@ export type DescribeThemeForStackError =
  * Retrieves a list that describes the theme for a specified stack. A theme is custom branding that customizes the appearance of the streaming application catalog page.
  */
 export const describeThemeForStack: API.OperationMethod<
-  DescribeThemeForStackRequest,
+  DescribeThemeForStackRequest & RegionInput,
   DescribeThemeForStackResult,
   DescribeThemeForStackError,
   Credentials | HttpClient.HttpClient
@@ -3496,7 +3563,7 @@ export type DescribeUsageReportSubscriptionsError =
  * Retrieves a list that describes one or more usage report subscriptions.
  */
 export const describeUsageReportSubscriptions: API.OperationMethod<
-  DescribeUsageReportSubscriptionsRequest,
+  DescribeUsageReportSubscriptionsRequest & RegionInput,
   DescribeUsageReportSubscriptionsResult,
   DescribeUsageReportSubscriptionsError,
   Credentials | HttpClient.HttpClient
@@ -3520,7 +3587,7 @@ export type DescribeUsersError =
  * Retrieves a list that describes one or more specified users in the user pool.
  */
 export const describeUsers: API.OperationMethod<
-  DescribeUsersRequest,
+  DescribeUsersRequest & RegionInput,
   DescribeUsersResult,
   DescribeUsersError,
   Credentials | HttpClient.HttpClient
@@ -3551,7 +3618,7 @@ export type DescribeUserStackAssociationsError =
  * - The user name (email address of the user associated with the stack) and the authentication type for the user
  */
 export const describeUserStackAssociations: API.OperationMethod<
-  DescribeUserStackAssociationsRequest,
+  DescribeUserStackAssociationsRequest & RegionInput,
   DescribeUserStackAssociationsResult,
   DescribeUserStackAssociationsError,
   Credentials | HttpClient.HttpClient
@@ -3571,7 +3638,7 @@ export type DisableUserError = ResourceNotFoundException | CommonErrors;
  * Disables the specified user in the user pool. Users can't sign in to WorkSpaces Applications until they are re-enabled. This action does not delete the user.
  */
 export const disableUser: API.OperationMethod<
-  DisableUserRequest,
+  DisableUserRequest & RegionInput,
   DisableUserResult,
   DisableUserError,
   Credentials | HttpClient.HttpClient
@@ -3596,7 +3663,7 @@ export type DisassociateAppBlockBuilderAppBlockError =
  * Disassociates a specified app block builder from a specified app block.
  */
 export const disassociateAppBlockBuilderAppBlock: API.OperationMethod<
-  DisassociateAppBlockBuilderAppBlockRequest,
+  DisassociateAppBlockBuilderAppBlockRequest & RegionInput,
   DisassociateAppBlockBuilderAppBlockResult,
   DisassociateAppBlockBuilderAppBlockError,
   Credentials | HttpClient.HttpClient
@@ -3625,7 +3692,7 @@ export type DisassociateApplicationFleetError =
  * Disassociates the specified application from the fleet.
  */
 export const disassociateApplicationFleet: API.OperationMethod<
-  DisassociateApplicationFleetRequest,
+  DisassociateApplicationFleetRequest & RegionInput,
   DisassociateApplicationFleetResult,
   DisassociateApplicationFleetError,
   Credentials | HttpClient.HttpClient
@@ -3653,7 +3720,7 @@ export type DisassociateApplicationFromEntitlementError =
  * Deletes the specified application from the specified entitlement.
  */
 export const disassociateApplicationFromEntitlement: API.OperationMethod<
-  DisassociateApplicationFromEntitlementRequest,
+  DisassociateApplicationFromEntitlementRequest & RegionInput,
   DisassociateApplicationFromEntitlementResult,
   DisassociateApplicationFromEntitlementError,
   Credentials | HttpClient.HttpClient
@@ -3678,7 +3745,7 @@ export type DisassociateFleetError =
  * Disassociates the specified fleet from the specified stack.
  */
 export const disassociateFleet: API.OperationMethod<
-  DisassociateFleetRequest,
+  DisassociateFleetRequest & RegionInput,
   DisassociateFleetResult,
   DisassociateFleetError,
   Credentials | HttpClient.HttpClient
@@ -3708,7 +3775,7 @@ export type DisassociateSoftwareFromImageBuilderError =
  * Removes license included application(s) association(s) from an image builder instance.
  */
 export const disassociateSoftwareFromImageBuilder: API.OperationMethod<
-  DisassociateSoftwareFromImageBuilderRequest,
+  DisassociateSoftwareFromImageBuilderRequest & RegionInput,
   DisassociateSoftwareFromImageBuilderResult,
   DisassociateSoftwareFromImageBuilderError,
   Credentials | HttpClient.HttpClient
@@ -3737,7 +3804,7 @@ export type DrainSessionInstanceError =
  * Drains the instance hosting the specified streaming session. The instance stops accepting new sessions while existing sessions continue uninterrupted. Once all sessions end, the instance is reclaimed and replaced. This only applies to multi-session fleets.
  */
 export const drainSessionInstance: API.OperationMethod<
-  DrainSessionInstanceRequest,
+  DrainSessionInstanceRequest & RegionInput,
   DrainSessionInstanceResult,
   DrainSessionInstanceError,
   Credentials | HttpClient.HttpClient
@@ -3764,7 +3831,7 @@ export type EnableUserError =
  * Enables a user in the user pool. After being enabled, users can sign in to WorkSpaces Applications and open applications from the stacks to which they are assigned.
  */
 export const enableUser: API.OperationMethod<
-  EnableUserRequest,
+  EnableUserRequest & RegionInput,
   EnableUserResult,
   EnableUserError,
   Credentials | HttpClient.HttpClient
@@ -3784,7 +3851,7 @@ export type ExpireSessionError = CommonErrors;
  * Immediately stops the specified streaming session.
  */
 export const expireSession: API.OperationMethod<
-  ExpireSessionRequest,
+  ExpireSessionRequest & RegionInput,
   ExpireSessionResult,
   ExpireSessionError,
   Credentials | HttpClient.HttpClient
@@ -3807,7 +3874,7 @@ export type GetExportImageTaskError =
  * Retrieves information about an export image task, including its current state, progress, and any error details.
  */
 export const getExportImageTask: API.OperationMethod<
-  GetExportImageTaskRequest,
+  GetExportImageTaskRequest & RegionInput,
   GetExportImageTaskResult,
   GetExportImageTaskError,
   Credentials | HttpClient.HttpClient
@@ -3827,7 +3894,7 @@ export type ListAssociatedFleetsError = CommonErrors;
  * Retrieves the name of the fleet that is associated with the specified stack.
  */
 export const listAssociatedFleets: API.OperationMethod<
-  ListAssociatedFleetsRequest,
+  ListAssociatedFleetsRequest & RegionInput,
   ListAssociatedFleetsResult,
   ListAssociatedFleetsError,
   Credentials | HttpClient.HttpClient
@@ -3847,7 +3914,7 @@ export type ListAssociatedStacksError = CommonErrors;
  * Retrieves the name of the stack with which the specified fleet is associated.
  */
 export const listAssociatedStacks: API.OperationMethod<
-  ListAssociatedStacksRequest,
+  ListAssociatedStacksRequest & RegionInput,
   ListAssociatedStacksResult,
   ListAssociatedStacksError,
   Credentials | HttpClient.HttpClient
@@ -3871,7 +3938,7 @@ export type ListEntitledApplicationsError =
  * Retrieves a list of entitled applications.
  */
 export const listEntitledApplications: API.OperationMethod<
-  ListEntitledApplicationsRequest,
+  ListEntitledApplicationsRequest & RegionInput,
   ListEntitledApplicationsResult,
   ListEntitledApplicationsError,
   Credentials | HttpClient.HttpClient
@@ -3891,7 +3958,7 @@ export type ListExportImageTasksError = OperationNotPermittedException | CommonE
  * Lists export image tasks, with optional filtering and pagination. Use this operation to monitor the status of multiple export operations.
  */
 export const listExportImageTasks: API.OperationMethod<
-  ListExportImageTasksRequest,
+  ListExportImageTasksRequest & RegionInput,
   ListExportImageTasksResult,
   ListExportImageTasksError,
   Credentials | HttpClient.HttpClient
@@ -3913,7 +3980,7 @@ export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
  * For more information about tags, see Tagging Your Resources in the *Amazon WorkSpaces Applications Administration Guide*.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -3947,7 +4014,7 @@ export type StartAppBlockBuilderError =
  * fleet instance with application builder assistance functionality.
  */
 export const startAppBlockBuilder: API.OperationMethod<
-  StartAppBlockBuilderRequest,
+  StartAppBlockBuilderRequest & RegionInput,
   StartAppBlockBuilderResult,
   StartAppBlockBuilderError,
   Credentials | HttpClient.HttpClient
@@ -3984,7 +4051,7 @@ export type StartFleetError =
  * Starts the specified fleet.
  */
 export const startFleet: API.OperationMethod<
-  StartFleetRequest,
+  StartFleetRequest & RegionInput,
   StartFleetResult,
   StartFleetError,
   Credentials | HttpClient.HttpClient
@@ -4019,7 +4086,7 @@ export type StartImageBuilderError =
  * Starts the specified image builder.
  */
 export const startImageBuilder: API.OperationMethod<
-  StartImageBuilderRequest,
+  StartImageBuilderRequest & RegionInput,
   StartImageBuilderResult,
   StartImageBuilderError,
   Credentials | HttpClient.HttpClient
@@ -4049,7 +4116,7 @@ export type StartSoftwareDeploymentToImageBuilderError =
  * Initiates license included applications deployment to an image builder instance.
  */
 export const startSoftwareDeploymentToImageBuilder: API.OperationMethod<
-  StartSoftwareDeploymentToImageBuilderRequest,
+  StartSoftwareDeploymentToImageBuilderRequest & RegionInput,
   StartSoftwareDeploymentToImageBuilderResult,
   StartSoftwareDeploymentToImageBuilderError,
   Credentials | HttpClient.HttpClient
@@ -4080,7 +4147,7 @@ export type StopAppBlockBuilderError =
  * persisted.
  */
 export const stopAppBlockBuilder: API.OperationMethod<
-  StopAppBlockBuilderRequest,
+  StopAppBlockBuilderRequest & RegionInput,
   StopAppBlockBuilderResult,
   StopAppBlockBuilderError,
   Credentials | HttpClient.HttpClient
@@ -4107,7 +4174,7 @@ export type StopFleetError =
  * Stops the specified fleet.
  */
 export const stopFleet: API.OperationMethod<
-  StopFleetRequest,
+  StopFleetRequest & RegionInput,
   StopFleetResult,
   StopFleetError,
   Credentials | HttpClient.HttpClient
@@ -4131,7 +4198,7 @@ export type StopImageBuilderError =
  * Stops the specified image builder.
  */
 export const stopImageBuilder: API.OperationMethod<
-  StopImageBuilderRequest,
+  StopImageBuilderRequest & RegionInput,
   StopImageBuilderResult,
   StopImageBuilderError,
   Credentials | HttpClient.HttpClient
@@ -4167,7 +4234,7 @@ export type TagResourceError =
  * For more information about tags, see Tagging Your Resources in the *Amazon WorkSpaces Applications Administration Guide*.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4191,7 +4258,7 @@ export type UntagResourceError = ResourceNotFoundException | CommonErrors;
  * For more information about tags, see Tagging Your Resources in the *Amazon WorkSpaces Applications Administration Guide*.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4227,7 +4294,7 @@ export type UpdateAppBlockBuilderError =
  * in the `STOPPED` state, you can update any attribute except the Name.
  */
 export const updateAppBlockBuilder: API.OperationMethod<
-  UpdateAppBlockBuilderRequest,
+  UpdateAppBlockBuilderRequest & RegionInput,
   UpdateAppBlockBuilderResult,
   UpdateAppBlockBuilderError,
   Credentials | HttpClient.HttpClient
@@ -4262,7 +4329,7 @@ export type UpdateApplicationError =
  * Updates the specified application.
  */
 export const updateApplication: API.OperationMethod<
-  UpdateApplicationRequest,
+  UpdateApplicationRequest & RegionInput,
   UpdateApplicationResult,
   UpdateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -4293,7 +4360,7 @@ export type UpdateDirectoryConfigError =
  * Updates the specified Directory Config object in WorkSpaces Applications. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
  */
 export const updateDirectoryConfig: API.OperationMethod<
-  UpdateDirectoryConfigRequest,
+  UpdateDirectoryConfigRequest & RegionInput,
   UpdateDirectoryConfigResult,
   UpdateDirectoryConfigError,
   Credentials | HttpClient.HttpClient
@@ -4325,7 +4392,7 @@ export type UpdateEntitlementError =
  * Updates the specified entitlement.
  */
 export const updateEntitlement: API.OperationMethod<
-  UpdateEntitlementRequest,
+  UpdateEntitlementRequest & RegionInput,
   UpdateEntitlementResult,
   UpdateEntitlementError,
   Credentials | HttpClient.HttpClient
@@ -4384,7 +4451,7 @@ export type UpdateFleetError =
  * If the fleet is in the `STARTING` or `STOPPED` state, you can't update it.
  */
 export const updateFleet: API.OperationMethod<
-  UpdateFleetRequest,
+  UpdateFleetRequest & RegionInput,
   UpdateFleetResult,
   UpdateFleetError,
   Credentials | HttpClient.HttpClient
@@ -4420,7 +4487,7 @@ export type UpdateImagePermissionsError =
  * Adds or updates permissions for the specified private image.
  */
 export const updateImagePermissions: API.OperationMethod<
-  UpdateImagePermissionsRequest,
+  UpdateImagePermissionsRequest & RegionInput,
   UpdateImagePermissionsResult,
   UpdateImagePermissionsError,
   Credentials | HttpClient.HttpClient
@@ -4450,7 +4517,7 @@ export type UpdateStackError =
  * Updates the specified fields for the specified stack.
  */
 export const updateStack: API.OperationMethod<
-  UpdateStackRequest,
+  UpdateStackRequest & RegionInput,
   UpdateStackResult,
   UpdateStackError,
   Credentials | HttpClient.HttpClient
@@ -4487,7 +4554,7 @@ export type UpdateThemeForStackError =
  * Updates custom branding that customizes the appearance of the streaming application catalog page.
  */
 export const updateThemeForStack: API.OperationMethod<
-  UpdateThemeForStackRequest,
+  UpdateThemeForStackRequest & RegionInput,
   UpdateThemeForStackResult,
   UpdateThemeForStackError,
   Credentials | HttpClient.HttpClient
@@ -4575,6 +4642,7 @@ function __c2(j: number): any {
           StreamingExperienceSettings: S.optional(__S(980, __c61, 4)),
           ContentRedirection: S.optional(__S(982, __c61, 6)),
           AgentAccessConfig: S.optional(__S(985, __c61, 9)),
+          StorageConnectorAuthentication: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateStackRequest" });
   }
@@ -5457,6 +5525,7 @@ function __c59(j: number): any {
           StreamingExperienceSettings: S.optional(__S(980, __c61, 4)),
           ContentRedirection: S.optional(__S(982, __c61, 6)),
           AgentAccessConfig: S.optional(__S(985, __c61, 9)),
+          StorageConnectorAuthentication: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateStackRequest" });
   }
@@ -5556,6 +5625,7 @@ function __c61(j: number): any {
           StreamingExperienceSettings: S.optional(__S(980, __c61, 4)),
           ContentRedirection: S.optional(__S(982, __c61, 6)),
           AgentAccessConfig: S.optional(__S(985, __c61, 9)),
+          StorageConnectorAuthentication: S.optional(S.String),
         }),
       ).annotate({ identifier: "Stack" });
   }

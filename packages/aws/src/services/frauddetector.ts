@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -112,7 +113,7 @@ export class InternalServerException
     "InternalServerException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
@@ -130,7 +131,7 @@ export class ThrottlingException
     "ThrottlingException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
@@ -138,12 +139,12 @@ export class ValidationException
     /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export interface VariableEntry {
-  name?: string;
-  dataType?: string;
-  dataSource?: string;
-  defaultValue?: string;
-  description?: string;
-  variableType?: string;
+  name?: string | undefined;
+  dataType?: string | undefined;
+  dataSource?: string | undefined;
+  defaultValue?: string | undefined;
+  description?: string | undefined;
+  variableType?: string | undefined;
 }
 export type VariableEntryList = VariableEntry[];
 export type TagKey = string;
@@ -155,17 +156,17 @@ export interface Tag {
 export type TagList = Tag[];
 export interface BatchCreateVariableRequest {
   variableEntries: VariableEntry[];
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export type Integer2 = number;
 export interface BatchCreateVariableError_ {
-  name?: string;
-  code?: number;
-  message?: string;
+  name?: string | undefined;
+  code?: number | undefined;
+  message?: string | undefined;
 }
 export type BatchCreateVariableErrorList = BatchCreateVariableError_[];
 export interface BatchCreateVariableResult {
-  errors?: BatchCreateVariableError_[];
+  errors?: BatchCreateVariableError_[] | undefined;
 }
 export type NameList = string[];
 export interface BatchGetVariableRequest {
@@ -175,26 +176,26 @@ export type DataType = "STRING" | "INTEGER" | "FLOAT" | "BOOLEAN" | "DATETIME" |
 export type DataSource = "EVENT" | "MODEL_SCORE" | "EXTERNAL_MODEL_SCORE" | (string & {});
 export type FraudDetectorArn = string;
 export interface Variable {
-  name?: string;
-  dataType?: DataType;
-  dataSource?: DataSource;
-  defaultValue?: string;
-  description?: string;
-  variableType?: string;
-  lastUpdatedTime?: string;
-  createdTime?: string;
-  arn?: string;
+  name?: string | undefined;
+  dataType?: DataType | undefined;
+  dataSource?: DataSource | undefined;
+  defaultValue?: string | undefined;
+  description?: string | undefined;
+  variableType?: string | undefined;
+  lastUpdatedTime?: string | undefined;
+  createdTime?: string | undefined;
+  arn?: string | undefined;
 }
 export type VariableList = Variable[];
 export interface BatchGetVariableError_ {
-  name?: string;
-  code?: number;
-  message?: string;
+  name?: string | undefined;
+  code?: number | undefined;
+  message?: string | undefined;
 }
 export type BatchGetVariableErrorList = BatchGetVariableError_[];
 export interface BatchGetVariableResult {
-  variables?: Variable[];
-  errors?: BatchGetVariableError_[];
+  variables?: Variable[] | undefined;
+  errors?: BatchGetVariableError_[] | undefined;
 }
 export type Identifier = string;
 export interface CancelBatchImportJobRequest {
@@ -213,7 +214,7 @@ export interface CreateBatchImportJobRequest {
   outputPath: string;
   eventTypeName: string;
   iamRoleArn: string;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface CreateBatchImportJobResult {}
 export type WholeNumberVersionString = string;
@@ -223,9 +224,9 @@ export interface CreateBatchPredictionJobRequest {
   outputPath: string;
   eventTypeName: string;
   detectorName: string;
-  detectorVersion?: string;
+  detectorVersion?: string | undefined;
   iamRoleArn: string;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface CreateBatchPredictionJobResult {}
 export type Description = string;
@@ -247,24 +248,24 @@ export interface ModelVersion {
   modelId: string;
   modelType: ModelTypeEnum;
   modelVersionNumber: string;
-  arn?: string;
+  arn?: string | undefined;
 }
 export type ListOfModelVersions = ModelVersion[];
 export type RuleExecutionMode = "ALL_MATCHED" | "FIRST_MATCHED" | (string & {});
 export interface CreateDetectorVersionRequest {
   detectorId: string;
-  description?: string;
-  externalModelEndpoints?: string[];
+  description?: string | undefined;
+  externalModelEndpoints?: string[] | undefined;
   rules: Rule[];
-  modelVersions?: ModelVersion[];
-  ruleExecutionMode?: RuleExecutionMode;
-  tags?: Tag[];
+  modelVersions?: ModelVersion[] | undefined;
+  ruleExecutionMode?: RuleExecutionMode | undefined;
+  tags?: Tag[] | undefined;
 }
 export type DetectorVersionStatus = "DRAFT" | "ACTIVE" | "INACTIVE" | (string & {});
 export interface CreateDetectorVersionResult {
-  detectorId?: string;
-  detectorVersionId?: string;
-  status?: DetectorVersionStatus;
+  detectorId?: string | undefined;
+  detectorVersionId?: string | undefined;
+  status?: DetectorVersionStatus | undefined;
 }
 export type NoDashIdentifier = string;
 export type Elements = string | redacted.Redacted<string>;
@@ -272,30 +273,30 @@ export type ElementsList = (string | redacted.Redacted<string>)[];
 export type VariableType = string;
 export interface CreateListRequest {
   name: string;
-  elements?: (string | redacted.Redacted<string>)[];
-  variableType?: string;
-  description?: string;
-  tags?: Tag[];
+  elements?: (string | redacted.Redacted<string>)[] | undefined;
+  variableType?: string | undefined;
+  description?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface CreateListResult {}
 export interface CreateModelRequest {
   modelId: string;
   modelType: ModelTypeEnum;
-  description?: string;
+  description?: string | undefined;
   eventTypeName: string;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface CreateModelResult {}
 export type TrainingDataSourceEnum = "EXTERNAL_EVENTS" | "INGESTED_EVENTS" | (string & {});
 export type LabelMapper = { [key: string]: string[] | undefined };
 export type UnlabeledEventsTreatment = "IGNORE" | "FRAUD" | "LEGIT" | "AUTO" | (string & {});
 export interface LabelSchema {
-  labelMapper?: { [key: string]: string[] | undefined };
-  unlabeledEventsTreatment?: UnlabeledEventsTreatment;
+  labelMapper?: { [key: string]: string[] | undefined } | undefined;
+  unlabeledEventsTreatment?: UnlabeledEventsTreatment | undefined;
 }
 export interface TrainingDataSchema {
   modelVariables: string[];
-  labelSchema?: LabelSchema;
+  labelSchema?: LabelSchema | undefined;
 }
 export interface ExternalEventsDetail {
   dataLocation: string;
@@ -313,15 +314,15 @@ export interface CreateModelVersionRequest {
   modelType: ModelTypeEnum;
   trainingDataSource: TrainingDataSourceEnum;
   trainingDataSchema: TrainingDataSchema;
-  externalEventsDetail?: ExternalEventsDetail;
-  ingestedEventsDetail?: IngestedEventsDetail;
-  tags?: Tag[];
+  externalEventsDetail?: ExternalEventsDetail | undefined;
+  ingestedEventsDetail?: IngestedEventsDetail | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface CreateModelVersionResult {
-  modelId?: string;
-  modelType?: ModelTypeEnum;
-  modelVersionNumber?: string;
-  status?: string;
+  modelId?: string | undefined;
+  modelType?: ModelTypeEnum | undefined;
+  modelVersionNumber?: string | undefined;
+  status?: string | undefined;
 }
 export type RuleExpression = string | redacted.Redacted<string>;
 export type Language = "DETECTORPL" | (string & {});
@@ -329,23 +330,23 @@ export type NonEmptyListOfStrings = string[];
 export interface CreateRuleRequest {
   ruleId: string;
   detectorId: string;
-  description?: string;
+  description?: string | undefined;
   expression: string | redacted.Redacted<string>;
   language: Language;
   outcomes: string[];
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface CreateRuleResult {
-  rule?: Rule;
+  rule?: Rule | undefined;
 }
 export interface CreateVariableRequest {
   name: string;
   dataType: DataType;
   dataSource: DataSource;
   defaultValue: string;
-  description?: string;
-  variableType?: string;
-  tags?: Tag[];
+  description?: string | undefined;
+  variableType?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface CreateVariableResult {}
 export interface DeleteBatchImportJobRequest {
@@ -373,15 +374,15 @@ export type DeleteAuditHistory = boolean;
 export interface DeleteEventRequest {
   eventId: string;
   eventTypeName: string;
-  deleteAuditHistory?: boolean;
+  deleteAuditHistory?: boolean | undefined;
 }
 export interface DeleteEventResult {}
 export interface DeleteEventsByEventTypeRequest {
   eventTypeName: string;
 }
 export interface DeleteEventsByEventTypeResult {
-  eventTypeName?: string;
-  eventsDeletionStatus?: string;
+  eventTypeName?: string | undefined;
+  eventsDeletionStatus?: string | undefined;
 }
 export interface DeleteEventTypeRequest {
   name: string;
@@ -426,58 +427,58 @@ export interface DeleteVariableResult {}
 export type DetectorVersionMaxResults = number;
 export interface DescribeDetectorRequest {
   detectorId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface DetectorVersionSummary {
-  detectorVersionId?: string;
-  status?: DetectorVersionStatus;
-  description?: string;
-  lastUpdatedTime?: string;
+  detectorVersionId?: string | undefined;
+  status?: DetectorVersionStatus | undefined;
+  description?: string | undefined;
+  lastUpdatedTime?: string | undefined;
 }
 export type DetectorVersionSummaryList = DetectorVersionSummary[];
 export interface DescribeDetectorResult {
-  detectorId?: string;
-  detectorVersionSummaries?: DetectorVersionSummary[];
-  nextToken?: string;
-  arn?: string;
+  detectorId?: string | undefined;
+  detectorVersionSummaries?: DetectorVersionSummary[] | undefined;
+  nextToken?: string | undefined;
+  arn?: string | undefined;
 }
 export type ModelsMaxPageSize = number;
 export interface DescribeModelVersionsRequest {
-  modelId?: string;
-  modelVersionNumber?: string;
-  modelType?: ModelTypeEnum;
-  nextToken?: string;
-  maxResults?: number;
+  modelId?: string | undefined;
+  modelVersionNumber?: string | undefined;
+  modelType?: ModelTypeEnum | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface FileValidationMessage {
-  title?: string;
-  content?: string;
-  type?: string;
+  title?: string | undefined;
+  content?: string | undefined;
+  type?: string | undefined;
 }
 export type FileValidationMessageList = FileValidationMessage[];
 export interface FieldValidationMessage {
-  fieldName?: string;
-  identifier?: string;
-  title?: string;
-  content?: string;
-  type?: string;
+  fieldName?: string | undefined;
+  identifier?: string | undefined;
+  title?: string | undefined;
+  content?: string | undefined;
+  type?: string | undefined;
 }
 export type FieldValidationMessageList = FieldValidationMessage[];
 export interface DataValidationMetrics {
-  fileLevelMessages?: FileValidationMessage[];
-  fieldLevelMessages?: FieldValidationMessage[];
+  fileLevelMessages?: FileValidationMessage[] | undefined;
+  fieldLevelMessages?: FieldValidationMessage[] | undefined;
 }
 export interface MetricDataPoint {
-  fpr?: number;
-  precision?: number;
-  tpr?: number;
-  threshold?: number;
+  fpr?: number | undefined;
+  precision?: number | undefined;
+  tpr?: number | undefined;
+  threshold?: number | undefined;
 }
 export type MetricDataPointsList = MetricDataPoint[];
 export interface TrainingMetrics {
-  auc?: number;
-  metricDataPoints?: MetricDataPoint[];
+  auc?: number | undefined;
+  metricDataPoints?: MetricDataPoint[] | undefined;
 }
 export interface LogOddsMetric {
   variableName: string;
@@ -486,18 +487,18 @@ export interface LogOddsMetric {
 }
 export type ListOfLogOddsMetrics = LogOddsMetric[];
 export interface VariableImportanceMetrics {
-  logOddsMetrics?: LogOddsMetric[];
+  logOddsMetrics?: LogOddsMetric[] | undefined;
 }
 export interface TrainingResult {
-  dataValidationMetrics?: DataValidationMetrics;
-  trainingMetrics?: TrainingMetrics;
-  variableImportanceMetrics?: VariableImportanceMetrics;
+  dataValidationMetrics?: DataValidationMetrics | undefined;
+  trainingMetrics?: TrainingMetrics | undefined;
+  variableImportanceMetrics?: VariableImportanceMetrics | undefined;
 }
 export interface OFIMetricDataPoint {
-  fpr?: number;
-  precision?: number;
-  tpr?: number;
-  threshold?: number;
+  fpr?: number | undefined;
+  precision?: number | undefined;
+  tpr?: number | undefined;
+  threshold?: number | undefined;
 }
 export type OFIMetricDataPointsList = OFIMetricDataPoint[];
 export interface UncertaintyRange {
@@ -505,46 +506,46 @@ export interface UncertaintyRange {
   upperBoundValue: number;
 }
 export interface OFIModelPerformance {
-  auc?: number;
-  uncertaintyRange?: UncertaintyRange;
+  auc?: number | undefined;
+  uncertaintyRange?: UncertaintyRange | undefined;
 }
 export interface OFITrainingMetricsValue {
-  metricDataPoints?: OFIMetricDataPoint[];
-  modelPerformance?: OFIModelPerformance;
+  metricDataPoints?: OFIMetricDataPoint[] | undefined;
+  modelPerformance?: OFIModelPerformance | undefined;
 }
 export interface TFIMetricDataPoint {
-  fpr?: number;
-  precision?: number;
-  tpr?: number;
-  threshold?: number;
+  fpr?: number | undefined;
+  precision?: number | undefined;
+  tpr?: number | undefined;
+  threshold?: number | undefined;
 }
 export type TFIMetricDataPointsList = TFIMetricDataPoint[];
 export interface TFIModelPerformance {
-  auc?: number;
-  uncertaintyRange?: UncertaintyRange;
+  auc?: number | undefined;
+  uncertaintyRange?: UncertaintyRange | undefined;
 }
 export interface TFITrainingMetricsValue {
-  metricDataPoints?: TFIMetricDataPoint[];
-  modelPerformance?: TFIModelPerformance;
+  metricDataPoints?: TFIMetricDataPoint[] | undefined;
+  modelPerformance?: TFIModelPerformance | undefined;
 }
 export interface ATIMetricDataPoint {
-  cr?: number;
-  adr?: number;
-  threshold?: number;
-  atodr?: number;
+  cr?: number | undefined;
+  adr?: number | undefined;
+  threshold?: number | undefined;
+  atodr?: number | undefined;
 }
 export type ATIMetricDataPointsList = ATIMetricDataPoint[];
 export interface ATIModelPerformance {
-  asi?: number;
+  asi?: number | undefined;
 }
 export interface ATITrainingMetricsValue {
-  metricDataPoints?: ATIMetricDataPoint[];
-  modelPerformance?: ATIModelPerformance;
+  metricDataPoints?: ATIMetricDataPoint[] | undefined;
+  modelPerformance?: ATIModelPerformance | undefined;
 }
 export interface TrainingMetricsV2 {
-  ofi?: OFITrainingMetricsValue;
-  tfi?: TFITrainingMetricsValue;
-  ati?: ATITrainingMetricsValue;
+  ofi?: OFITrainingMetricsValue | undefined;
+  tfi?: TFITrainingMetricsValue | undefined;
+  ati?: ATITrainingMetricsValue | undefined;
 }
 export interface AggregatedLogOddsMetric {
   variableNames: string[];
@@ -552,39 +553,39 @@ export interface AggregatedLogOddsMetric {
 }
 export type ListOfAggregatedLogOddsMetrics = AggregatedLogOddsMetric[];
 export interface AggregatedVariablesImportanceMetrics {
-  logOddsMetrics?: AggregatedLogOddsMetric[];
+  logOddsMetrics?: AggregatedLogOddsMetric[] | undefined;
 }
 export interface TrainingResultV2 {
-  dataValidationMetrics?: DataValidationMetrics;
-  trainingMetricsV2?: TrainingMetricsV2;
-  variableImportanceMetrics?: VariableImportanceMetrics;
-  aggregatedVariablesImportanceMetrics?: AggregatedVariablesImportanceMetrics;
+  dataValidationMetrics?: DataValidationMetrics | undefined;
+  trainingMetricsV2?: TrainingMetricsV2 | undefined;
+  variableImportanceMetrics?: VariableImportanceMetrics | undefined;
+  aggregatedVariablesImportanceMetrics?: AggregatedVariablesImportanceMetrics | undefined;
 }
 export interface ModelVersionDetail {
-  modelId?: string;
-  modelType?: ModelTypeEnum;
-  modelVersionNumber?: string;
-  status?: string;
-  trainingDataSource?: TrainingDataSourceEnum;
-  trainingDataSchema?: TrainingDataSchema;
-  externalEventsDetail?: ExternalEventsDetail;
-  ingestedEventsDetail?: IngestedEventsDetail;
-  trainingResult?: TrainingResult;
-  lastUpdatedTime?: string;
-  createdTime?: string;
-  arn?: string;
-  trainingResultV2?: TrainingResultV2;
+  modelId?: string | undefined;
+  modelType?: ModelTypeEnum | undefined;
+  modelVersionNumber?: string | undefined;
+  status?: string | undefined;
+  trainingDataSource?: TrainingDataSourceEnum | undefined;
+  trainingDataSchema?: TrainingDataSchema | undefined;
+  externalEventsDetail?: ExternalEventsDetail | undefined;
+  ingestedEventsDetail?: IngestedEventsDetail | undefined;
+  trainingResult?: TrainingResult | undefined;
+  lastUpdatedTime?: string | undefined;
+  createdTime?: string | undefined;
+  arn?: string | undefined;
+  trainingResultV2?: TrainingResultV2 | undefined;
 }
 export type ModelVersionDetailList = ModelVersionDetail[];
 export interface DescribeModelVersionsResult {
-  modelVersionDetails?: ModelVersionDetail[];
-  nextToken?: string;
+  modelVersionDetails?: ModelVersionDetail[] | undefined;
+  nextToken?: string | undefined;
 }
 export type BatchImportsMaxPageSize = number;
 export interface GetBatchImportJobsRequest {
-  jobId?: string;
-  maxResults?: number;
-  nextToken?: string;
+  jobId?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type AsyncJobStatus =
   | "IN_PROGRESS_INITIALIZING"
@@ -595,113 +596,113 @@ export type AsyncJobStatus =
   | "FAILED"
   | (string & {});
 export interface BatchImport {
-  jobId?: string;
-  status?: AsyncJobStatus;
-  failureReason?: string;
-  startTime?: string;
-  completionTime?: string;
-  inputPath?: string;
-  outputPath?: string;
-  eventTypeName?: string;
-  iamRoleArn?: string;
-  arn?: string;
-  processedRecordsCount?: number;
-  failedRecordsCount?: number;
-  totalRecordsCount?: number;
+  jobId?: string | undefined;
+  status?: AsyncJobStatus | undefined;
+  failureReason?: string | undefined;
+  startTime?: string | undefined;
+  completionTime?: string | undefined;
+  inputPath?: string | undefined;
+  outputPath?: string | undefined;
+  eventTypeName?: string | undefined;
+  iamRoleArn?: string | undefined;
+  arn?: string | undefined;
+  processedRecordsCount?: number | undefined;
+  failedRecordsCount?: number | undefined;
+  totalRecordsCount?: number | undefined;
 }
 export type BatchImportList = BatchImport[];
 export interface GetBatchImportJobsResult {
-  batchImports?: BatchImport[];
-  nextToken?: string;
+  batchImports?: BatchImport[] | undefined;
+  nextToken?: string | undefined;
 }
 export type BatchPredictionsMaxPageSize = number;
 export interface GetBatchPredictionJobsRequest {
-  jobId?: string;
-  maxResults?: number;
-  nextToken?: string;
+  jobId?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface BatchPrediction {
-  jobId?: string;
-  status?: AsyncJobStatus;
-  failureReason?: string;
-  startTime?: string;
-  completionTime?: string;
-  lastHeartbeatTime?: string;
-  inputPath?: string;
-  outputPath?: string;
-  eventTypeName?: string;
-  detectorName?: string;
-  detectorVersion?: string;
-  iamRoleArn?: string;
-  arn?: string;
-  processedRecordsCount?: number;
-  totalRecordsCount?: number;
+  jobId?: string | undefined;
+  status?: AsyncJobStatus | undefined;
+  failureReason?: string | undefined;
+  startTime?: string | undefined;
+  completionTime?: string | undefined;
+  lastHeartbeatTime?: string | undefined;
+  inputPath?: string | undefined;
+  outputPath?: string | undefined;
+  eventTypeName?: string | undefined;
+  detectorName?: string | undefined;
+  detectorVersion?: string | undefined;
+  iamRoleArn?: string | undefined;
+  arn?: string | undefined;
+  processedRecordsCount?: number | undefined;
+  totalRecordsCount?: number | undefined;
 }
 export type BatchPredictionList = BatchPrediction[];
 export interface GetBatchPredictionJobsResult {
-  batchPredictions?: BatchPrediction[];
-  nextToken?: string;
+  batchPredictions?: BatchPrediction[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface GetDeleteEventsByEventTypeStatusRequest {
   eventTypeName: string;
 }
 export interface GetDeleteEventsByEventTypeStatusResult {
-  eventTypeName?: string;
-  eventsDeletionStatus?: AsyncJobStatus;
+  eventTypeName?: string | undefined;
+  eventsDeletionStatus?: AsyncJobStatus | undefined;
 }
 export type DetectorsMaxResults = number;
 export interface GetDetectorsRequest {
-  detectorId?: string;
-  nextToken?: string;
-  maxResults?: number;
+  detectorId?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface Detector {
-  detectorId?: string;
-  description?: string;
-  eventTypeName?: string;
-  lastUpdatedTime?: string;
-  createdTime?: string;
-  arn?: string;
+  detectorId?: string | undefined;
+  description?: string | undefined;
+  eventTypeName?: string | undefined;
+  lastUpdatedTime?: string | undefined;
+  createdTime?: string | undefined;
+  arn?: string | undefined;
 }
 export type DetectorList = Detector[];
 export interface GetDetectorsResult {
-  detectors?: Detector[];
-  nextToken?: string;
+  detectors?: Detector[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface GetDetectorVersionRequest {
   detectorId: string;
   detectorVersionId: string;
 }
 export interface GetDetectorVersionResult {
-  detectorId?: string;
-  detectorVersionId?: string;
-  description?: string;
-  externalModelEndpoints?: string[];
-  modelVersions?: ModelVersion[];
-  rules?: Rule[];
-  status?: DetectorVersionStatus;
-  lastUpdatedTime?: string;
-  createdTime?: string;
-  ruleExecutionMode?: RuleExecutionMode;
-  arn?: string;
+  detectorId?: string | undefined;
+  detectorVersionId?: string | undefined;
+  description?: string | undefined;
+  externalModelEndpoints?: string[] | undefined;
+  modelVersions?: ModelVersion[] | undefined;
+  rules?: Rule[] | undefined;
+  status?: DetectorVersionStatus | undefined;
+  lastUpdatedTime?: string | undefined;
+  createdTime?: string | undefined;
+  ruleExecutionMode?: RuleExecutionMode | undefined;
+  arn?: string | undefined;
 }
 export type EntityTypesMaxResults = number;
 export interface GetEntityTypesRequest {
-  name?: string;
-  nextToken?: string;
-  maxResults?: number;
+  name?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface EntityType {
-  name?: string;
-  description?: string;
-  lastUpdatedTime?: string;
-  createdTime?: string;
-  arn?: string;
+  name?: string | undefined;
+  description?: string | undefined;
+  lastUpdatedTime?: string | undefined;
+  createdTime?: string | undefined;
+  arn?: string | undefined;
 }
 export type EntityTypeList = EntityType[];
 export interface GetEntityTypesResult {
-  entityTypes?: EntityType[];
-  nextToken?: string;
+  entityTypes?: EntityType[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface GetEventRequest {
   eventId: string;
@@ -717,16 +718,16 @@ export interface Entity {
 }
 export type ListOfEntities = Entity[];
 export interface Event {
-  eventId?: string;
-  eventTypeName?: string;
-  eventTimestamp?: string;
-  eventVariables?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  currentLabel?: string;
-  labelTimestamp?: string;
-  entities?: Entity[];
+  eventId?: string | undefined;
+  eventTypeName?: string | undefined;
+  eventTimestamp?: string | undefined;
+  eventVariables?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
+  currentLabel?: string | undefined;
+  labelTimestamp?: string | undefined;
+  entities?: Entity[] | undefined;
 }
 export interface GetEventResult {
-  event?: Event;
+  event?: Event | undefined;
 }
 export type UtcTimestampISO8601 = string;
 export type VariableName = string;
@@ -734,46 +735,46 @@ export type VariableValue = string | redacted.Redacted<string>;
 export type EventVariableMap = { [key: string]: string | redacted.Redacted<string> | undefined };
 export type ContentType = string;
 export interface ModelEndpointDataBlob {
-  byteBuffer?: Uint8Array;
-  contentType?: string;
+  byteBuffer?: Uint8Array | undefined;
+  contentType?: string | undefined;
 }
 export type ExternalModelEndpointDataBlobMap = { [key: string]: ModelEndpointDataBlob | undefined };
 export interface GetEventPredictionRequest {
   detectorId: string;
-  detectorVersionId?: string;
+  detectorVersionId?: string | undefined;
   eventId: string;
   eventTypeName: string;
   entities: Entity[];
   eventTimestamp: string;
   eventVariables: { [key: string]: string | redacted.Redacted<string> | undefined };
-  externalModelEndpointDataBlobs?: { [key: string]: ModelEndpointDataBlob | undefined };
+  externalModelEndpointDataBlobs?: { [key: string]: ModelEndpointDataBlob | undefined } | undefined;
 }
 export type ModelPredictionMap = { [key: string]: number | undefined };
 export interface ModelScores {
-  modelVersion?: ModelVersion;
-  scores?: { [key: string]: number | undefined };
+  modelVersion?: ModelVersion | undefined;
+  scores?: { [key: string]: number | undefined } | undefined;
 }
 export type ListOfModelScores = ModelScores[];
 export interface RuleResult {
-  ruleId?: string;
-  outcomes?: string[];
+  ruleId?: string | undefined;
+  outcomes?: string[] | undefined;
 }
 export type ListOfRuleResults = RuleResult[];
 export type ModelSource = "SAGEMAKER" | (string & {});
 export interface ExternalModelSummary {
-  modelEndpoint?: string;
-  modelSource?: ModelSource;
+  modelEndpoint?: string | undefined;
+  modelSource?: ModelSource | undefined;
 }
 export type ExternalModelPredictionMap = { [key: string]: string | undefined };
 export interface ExternalModelOutputs {
-  externalModel?: ExternalModelSummary;
-  outputs?: { [key: string]: string | undefined };
+  externalModel?: ExternalModelSummary | undefined;
+  outputs?: { [key: string]: string | undefined } | undefined;
 }
 export type ListOfExternalModelOutputs = ExternalModelOutputs[];
 export interface GetEventPredictionResult {
-  modelScores?: ModelScores[];
-  ruleResults?: RuleResult[];
-  externalModelOutputs?: ExternalModelOutputs[];
+  modelScores?: ModelScores[] | undefined;
+  ruleResults?: RuleResult[] | undefined;
+  externalModelOutputs?: ExternalModelOutputs[] | undefined;
 }
 export interface GetEventPredictionMetadataRequest {
   eventId: string;
@@ -784,226 +785,226 @@ export interface GetEventPredictionMetadataRequest {
 }
 export type SensitiveString = string | redacted.Redacted<string>;
 export interface EventVariableSummary {
-  name?: string | redacted.Redacted<string>;
-  value?: string | redacted.Redacted<string>;
-  source?: string | redacted.Redacted<string>;
+  name?: string | redacted.Redacted<string> | undefined;
+  value?: string | redacted.Redacted<string> | undefined;
+  source?: string | redacted.Redacted<string> | undefined;
 }
 export type ListOfEventVariableSummaries = EventVariableSummary[];
 export interface EvaluatedRule {
-  ruleId?: string;
-  ruleVersion?: string;
-  expression?: string | redacted.Redacted<string>;
-  expressionWithValues?: string | redacted.Redacted<string>;
-  outcomes?: string[];
-  evaluated?: boolean;
-  matched?: boolean;
+  ruleId?: string | undefined;
+  ruleVersion?: string | undefined;
+  expression?: string | redacted.Redacted<string> | undefined;
+  expressionWithValues?: string | redacted.Redacted<string> | undefined;
+  outcomes?: string[] | undefined;
+  evaluated?: boolean | undefined;
+  matched?: boolean | undefined;
 }
 export type EvaluatedRuleList = EvaluatedRule[];
 export interface VariableImpactExplanation {
-  eventVariableName?: string;
-  relativeImpact?: string;
-  logOddsImpact?: number;
+  eventVariableName?: string | undefined;
+  relativeImpact?: string | undefined;
+  logOddsImpact?: number | undefined;
 }
 export type ListOfVariableImpactExplanations = VariableImpactExplanation[];
 export interface AggregatedVariablesImpactExplanation {
-  eventVariableNames?: string[];
-  relativeImpact?: string;
-  logOddsImpact?: number;
+  eventVariableNames?: string[] | undefined;
+  relativeImpact?: string | undefined;
+  logOddsImpact?: number | undefined;
 }
 export type ListOfAggregatedVariablesImpactExplanations = AggregatedVariablesImpactExplanation[];
 export interface PredictionExplanations {
-  variableImpactExplanations?: VariableImpactExplanation[];
-  aggregatedVariablesImpactExplanations?: AggregatedVariablesImpactExplanation[];
+  variableImpactExplanations?: VariableImpactExplanation[] | undefined;
+  aggregatedVariablesImpactExplanations?: AggregatedVariablesImpactExplanation[] | undefined;
 }
 export interface ModelVersionEvaluation {
-  outputVariableName?: string;
-  evaluationScore?: string;
-  predictionExplanations?: PredictionExplanations;
+  outputVariableName?: string | undefined;
+  evaluationScore?: string | undefined;
+  predictionExplanations?: PredictionExplanations | undefined;
 }
 export type ListOfModelVersionEvaluations = ModelVersionEvaluation[];
 export interface EvaluatedModelVersion {
-  modelId?: string;
-  modelVersion?: string;
-  modelType?: string;
-  evaluations?: ModelVersionEvaluation[];
+  modelId?: string | undefined;
+  modelVersion?: string | undefined;
+  modelType?: string | undefined;
+  evaluations?: ModelVersionEvaluation[] | undefined;
 }
 export type ListOfEvaluatedModelVersions = EvaluatedModelVersion[];
 export type MapOfStrings = { [key: string]: string | undefined };
 export interface EvaluatedExternalModel {
-  modelEndpoint?: string;
-  useEventVariables?: boolean;
-  inputVariables?: { [key: string]: string | undefined };
-  outputVariables?: { [key: string]: string | undefined };
+  modelEndpoint?: string | undefined;
+  useEventVariables?: boolean | undefined;
+  inputVariables?: { [key: string]: string | undefined } | undefined;
+  outputVariables?: { [key: string]: string | undefined } | undefined;
 }
 export type ListOfEvaluatedExternalModels = EvaluatedExternalModel[];
 export interface GetEventPredictionMetadataResult {
-  eventId?: string;
-  eventTypeName?: string;
-  entityId?: string;
-  entityType?: string;
-  eventTimestamp?: string;
-  detectorId?: string;
-  detectorVersionId?: string;
-  detectorVersionStatus?: string;
-  eventVariables?: EventVariableSummary[];
-  rules?: EvaluatedRule[];
-  ruleExecutionMode?: RuleExecutionMode;
-  outcomes?: string[];
-  evaluatedModelVersions?: EvaluatedModelVersion[];
-  evaluatedExternalModels?: EvaluatedExternalModel[];
-  predictionTimestamp?: string;
+  eventId?: string | undefined;
+  eventTypeName?: string | undefined;
+  entityId?: string | undefined;
+  entityType?: string | undefined;
+  eventTimestamp?: string | undefined;
+  detectorId?: string | undefined;
+  detectorVersionId?: string | undefined;
+  detectorVersionStatus?: string | undefined;
+  eventVariables?: EventVariableSummary[] | undefined;
+  rules?: EvaluatedRule[] | undefined;
+  ruleExecutionMode?: RuleExecutionMode | undefined;
+  outcomes?: string[] | undefined;
+  evaluatedModelVersions?: EvaluatedModelVersion[] | undefined;
+  evaluatedExternalModels?: EvaluatedExternalModel[] | undefined;
+  predictionTimestamp?: string | undefined;
 }
 export type EventTypesMaxResults = number;
 export interface GetEventTypesRequest {
-  name?: string;
-  nextToken?: string;
-  maxResults?: number;
+  name?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type EventIngestion = "ENABLED" | "DISABLED" | (string & {});
 export interface IngestedEventStatistics {
-  numberOfEvents?: number;
-  eventDataSizeInBytes?: number;
-  leastRecentEvent?: string;
-  mostRecentEvent?: string;
-  lastUpdatedTime?: string;
+  numberOfEvents?: number | undefined;
+  eventDataSizeInBytes?: number | undefined;
+  leastRecentEvent?: string | undefined;
+  mostRecentEvent?: string | undefined;
+  lastUpdatedTime?: string | undefined;
 }
 export interface EventOrchestration {
   eventBridgeEnabled: boolean;
 }
 export interface EventType {
-  name?: string;
-  description?: string;
-  eventVariables?: string[];
-  labels?: string[];
-  entityTypes?: string[];
-  eventIngestion?: EventIngestion;
-  ingestedEventStatistics?: IngestedEventStatistics;
-  lastUpdatedTime?: string;
-  createdTime?: string;
-  arn?: string;
-  eventOrchestration?: EventOrchestration;
+  name?: string | undefined;
+  description?: string | undefined;
+  eventVariables?: string[] | undefined;
+  labels?: string[] | undefined;
+  entityTypes?: string[] | undefined;
+  eventIngestion?: EventIngestion | undefined;
+  ingestedEventStatistics?: IngestedEventStatistics | undefined;
+  lastUpdatedTime?: string | undefined;
+  createdTime?: string | undefined;
+  arn?: string | undefined;
+  eventOrchestration?: EventOrchestration | undefined;
 }
 export type EventTypeList = EventType[];
 export interface GetEventTypesResult {
-  eventTypes?: EventType[];
-  nextToken?: string;
+  eventTypes?: EventType[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ExternalModelsMaxResults = number;
 export interface GetExternalModelsRequest {
-  modelEndpoint?: string;
-  nextToken?: string;
-  maxResults?: number;
+  modelEndpoint?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type ModelInputDataFormat = "TEXT_CSV" | "APPLICATION_JSON" | (string & {});
 export type UseEventVariables = boolean;
 export type ModelInputTemplate = string;
 export interface ModelInputConfiguration {
-  eventTypeName?: string;
-  format?: ModelInputDataFormat;
+  eventTypeName?: string | undefined;
+  format?: ModelInputDataFormat | undefined;
   useEventVariables: boolean;
-  jsonInputTemplate?: string;
-  csvInputTemplate?: string;
+  jsonInputTemplate?: string | undefined;
+  csvInputTemplate?: string | undefined;
 }
 export type ModelOutputDataFormat = "TEXT_CSV" | "APPLICATION_JSONLINES" | (string & {});
 export type JsonKeyToVariableMap = { [key: string]: string | undefined };
 export type CsvIndexToVariableMap = { [key: string]: string | undefined };
 export interface ModelOutputConfiguration {
   format: ModelOutputDataFormat;
-  jsonKeyToVariableMap?: { [key: string]: string | undefined };
-  csvIndexToVariableMap?: { [key: string]: string | undefined };
+  jsonKeyToVariableMap?: { [key: string]: string | undefined } | undefined;
+  csvIndexToVariableMap?: { [key: string]: string | undefined } | undefined;
 }
 export type ModelEndpointStatus = "ASSOCIATED" | "DISSOCIATED" | (string & {});
 export interface ExternalModel {
-  modelEndpoint?: string;
-  modelSource?: ModelSource;
-  invokeModelEndpointRoleArn?: string;
-  inputConfiguration?: ModelInputConfiguration;
-  outputConfiguration?: ModelOutputConfiguration;
-  modelEndpointStatus?: ModelEndpointStatus;
-  lastUpdatedTime?: string;
-  createdTime?: string;
-  arn?: string;
+  modelEndpoint?: string | undefined;
+  modelSource?: ModelSource | undefined;
+  invokeModelEndpointRoleArn?: string | undefined;
+  inputConfiguration?: ModelInputConfiguration | undefined;
+  outputConfiguration?: ModelOutputConfiguration | undefined;
+  modelEndpointStatus?: ModelEndpointStatus | undefined;
+  lastUpdatedTime?: string | undefined;
+  createdTime?: string | undefined;
+  arn?: string | undefined;
 }
 export type ExternalModelList = ExternalModel[];
 export interface GetExternalModelsResult {
-  externalModels?: ExternalModel[];
-  nextToken?: string;
+  externalModels?: ExternalModel[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface GetKMSEncryptionKeyRequest {}
 export type KmsEncryptionKeyArn = string;
 export interface KMSKey {
-  kmsEncryptionKeyArn?: string;
+  kmsEncryptionKeyArn?: string | undefined;
 }
 export interface GetKMSEncryptionKeyResult {
-  kmsKey?: KMSKey;
+  kmsKey?: KMSKey | undefined;
 }
 export type LabelsMaxResults = number;
 export interface GetLabelsRequest {
-  name?: string;
-  nextToken?: string;
-  maxResults?: number;
+  name?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface Label {
-  name?: string;
-  description?: string;
-  lastUpdatedTime?: string;
-  createdTime?: string;
-  arn?: string;
+  name?: string | undefined;
+  description?: string | undefined;
+  lastUpdatedTime?: string | undefined;
+  createdTime?: string | undefined;
+  arn?: string | undefined;
 }
 export type LabelList = Label[];
 export interface GetLabelsResult {
-  labels?: Label[];
-  nextToken?: string;
+  labels?: Label[] | undefined;
+  nextToken?: string | undefined;
 }
 export type NextToken = string;
 export type ListsElementsMaxResults = number;
 export interface GetListElementsRequest {
   name: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface GetListElementsResult {
-  elements?: (string | redacted.Redacted<string>)[];
-  nextToken?: string;
+  elements?: (string | redacted.Redacted<string>)[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListsMetadataMaxResults = number;
 export interface GetListsMetadataRequest {
-  name?: string;
-  nextToken?: string;
-  maxResults?: number;
+  name?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface AllowDenyList {
   name: string;
-  description?: string;
-  variableType?: string;
-  createdTime?: string;
-  updatedTime?: string;
-  arn?: string;
+  description?: string | undefined;
+  variableType?: string | undefined;
+  createdTime?: string | undefined;
+  updatedTime?: string | undefined;
+  arn?: string | undefined;
 }
 export type AllowDenyLists = AllowDenyList[];
 export interface GetListsMetadataResult {
-  lists?: AllowDenyList[];
-  nextToken?: string;
+  lists?: AllowDenyList[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface GetModelsRequest {
-  modelId?: string;
-  modelType?: ModelTypeEnum;
-  nextToken?: string;
-  maxResults?: number;
+  modelId?: string | undefined;
+  modelType?: ModelTypeEnum | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface Model {
-  modelId?: string;
-  modelType?: ModelTypeEnum;
-  description?: string;
-  eventTypeName?: string;
-  createdTime?: string;
-  lastUpdatedTime?: string;
-  arn?: string;
+  modelId?: string | undefined;
+  modelType?: ModelTypeEnum | undefined;
+  description?: string | undefined;
+  eventTypeName?: string | undefined;
+  createdTime?: string | undefined;
+  lastUpdatedTime?: string | undefined;
+  arn?: string | undefined;
 }
 export type ModelList = Model[];
 export interface GetModelsResult {
-  nextToken?: string;
-  models?: Model[];
+  nextToken?: string | undefined;
+  models?: Model[] | undefined;
 }
 export interface GetModelVersionRequest {
   modelId: string;
@@ -1011,72 +1012,72 @@ export interface GetModelVersionRequest {
   modelVersionNumber: string;
 }
 export interface GetModelVersionResult {
-  modelId?: string;
-  modelType?: ModelTypeEnum;
-  modelVersionNumber?: string;
-  trainingDataSource?: TrainingDataSourceEnum;
-  trainingDataSchema?: TrainingDataSchema;
-  externalEventsDetail?: ExternalEventsDetail;
-  ingestedEventsDetail?: IngestedEventsDetail;
-  status?: string;
-  arn?: string;
+  modelId?: string | undefined;
+  modelType?: ModelTypeEnum | undefined;
+  modelVersionNumber?: string | undefined;
+  trainingDataSource?: TrainingDataSourceEnum | undefined;
+  trainingDataSchema?: TrainingDataSchema | undefined;
+  externalEventsDetail?: ExternalEventsDetail | undefined;
+  ingestedEventsDetail?: IngestedEventsDetail | undefined;
+  status?: string | undefined;
+  arn?: string | undefined;
 }
 export type OutcomesMaxResults = number;
 export interface GetOutcomesRequest {
-  name?: string;
-  nextToken?: string;
-  maxResults?: number;
+  name?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface Outcome {
-  name?: string;
-  description?: string;
-  lastUpdatedTime?: string;
-  createdTime?: string;
-  arn?: string;
+  name?: string | undefined;
+  description?: string | undefined;
+  lastUpdatedTime?: string | undefined;
+  createdTime?: string | undefined;
+  arn?: string | undefined;
 }
 export type OutcomeList = Outcome[];
 export interface GetOutcomesResult {
-  outcomes?: Outcome[];
-  nextToken?: string;
+  outcomes?: Outcome[] | undefined;
+  nextToken?: string | undefined;
 }
 export type RulesMaxResults = number;
 export interface GetRulesRequest {
-  ruleId?: string;
+  ruleId?: string | undefined;
   detectorId: string;
-  ruleVersion?: string;
-  nextToken?: string;
-  maxResults?: number;
+  ruleVersion?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface RuleDetail {
-  ruleId?: string;
-  description?: string;
-  detectorId?: string;
-  ruleVersion?: string;
-  expression?: string | redacted.Redacted<string>;
-  language?: Language;
-  outcomes?: string[];
-  lastUpdatedTime?: string;
-  createdTime?: string;
-  arn?: string;
+  ruleId?: string | undefined;
+  description?: string | undefined;
+  detectorId?: string | undefined;
+  ruleVersion?: string | undefined;
+  expression?: string | redacted.Redacted<string> | undefined;
+  language?: Language | undefined;
+  outcomes?: string[] | undefined;
+  lastUpdatedTime?: string | undefined;
+  createdTime?: string | undefined;
+  arn?: string | undefined;
 }
 export type RuleDetailList = RuleDetail[];
 export interface GetRulesResult {
-  ruleDetails?: RuleDetail[];
-  nextToken?: string;
+  ruleDetails?: RuleDetail[] | undefined;
+  nextToken?: string | undefined;
 }
 export type VariablesMaxResults = number;
 export interface GetVariablesRequest {
-  name?: string;
-  nextToken?: string;
-  maxResults?: number;
+  name?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface GetVariablesResult {
-  variables?: Variable[];
-  nextToken?: string;
+  variables?: Variable[] | undefined;
+  nextToken?: string | undefined;
 }
 export type FilterString = string;
 export interface FilterCondition {
-  value?: string;
+  value?: string | undefined;
 }
 export interface PredictionTimeRange {
   startTime: string;
@@ -1084,59 +1085,59 @@ export interface PredictionTimeRange {
 }
 export type EventPredictionsMaxResults = number;
 export interface ListEventPredictionsRequest {
-  eventId?: FilterCondition;
-  eventType?: FilterCondition;
-  detectorId?: FilterCondition;
-  detectorVersionId?: FilterCondition;
-  predictionTimeRange?: PredictionTimeRange;
-  nextToken?: string;
-  maxResults?: number;
+  eventId?: FilterCondition | undefined;
+  eventType?: FilterCondition | undefined;
+  detectorId?: FilterCondition | undefined;
+  detectorVersionId?: FilterCondition | undefined;
+  predictionTimeRange?: PredictionTimeRange | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface EventPredictionSummary {
-  eventId?: string;
-  eventTypeName?: string;
-  eventTimestamp?: string;
-  predictionTimestamp?: string;
-  detectorId?: string;
-  detectorVersionId?: string;
+  eventId?: string | undefined;
+  eventTypeName?: string | undefined;
+  eventTimestamp?: string | undefined;
+  predictionTimestamp?: string | undefined;
+  detectorId?: string | undefined;
+  detectorVersionId?: string | undefined;
 }
 export type ListOfEventPredictionSummaries = EventPredictionSummary[];
 export interface ListEventPredictionsResult {
-  eventPredictionSummaries?: EventPredictionSummary[];
-  nextToken?: string;
+  eventPredictionSummaries?: EventPredictionSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type TagsMaxResults = number;
 export interface ListTagsForResourceRequest {
   resourceARN: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListTagsForResourceResult {
-  tags?: Tag[];
-  nextToken?: string;
+  tags?: Tag[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface PutDetectorRequest {
   detectorId: string;
-  description?: string;
+  description?: string | undefined;
   eventTypeName: string;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface PutDetectorResult {}
 export interface PutEntityTypeRequest {
   name: string;
-  description?: string;
-  tags?: Tag[];
+  description?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface PutEntityTypeResult {}
 export interface PutEventTypeRequest {
   name: string;
-  description?: string;
+  description?: string | undefined;
   eventVariables: string[];
-  labels?: string[];
+  labels?: string[] | undefined;
   entityTypes: string[];
-  eventIngestion?: EventIngestion;
-  tags?: Tag[];
-  eventOrchestration?: EventOrchestration;
+  eventIngestion?: EventIngestion | undefined;
+  tags?: Tag[] | undefined;
+  eventOrchestration?: EventOrchestration | undefined;
 }
 export interface PutEventTypeResult {}
 export interface PutExternalModelRequest {
@@ -1146,7 +1147,7 @@ export interface PutExternalModelRequest {
   inputConfiguration: ModelInputConfiguration;
   outputConfiguration: ModelOutputConfiguration;
   modelEndpointStatus: ModelEndpointStatus;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface PutExternalModelResult {}
 export interface PutKMSEncryptionKeyRequest {
@@ -1155,14 +1156,14 @@ export interface PutKMSEncryptionKeyRequest {
 export interface PutKMSEncryptionKeyResult {}
 export interface PutLabelRequest {
   name: string;
-  description?: string;
-  tags?: Tag[];
+  description?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface PutLabelResult {}
 export interface PutOutcomeRequest {
   name: string;
-  description?: string;
-  tags?: Tag[];
+  description?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface PutOutcomeResult {}
 export interface SendEventRequest {
@@ -1170,8 +1171,8 @@ export interface SendEventRequest {
   eventTypeName: string;
   eventTimestamp: string;
   eventVariables: { [key: string]: string | redacted.Redacted<string> | undefined };
-  assignedLabel?: string;
-  labelTimestamp?: string;
+  assignedLabel?: string | undefined;
+  labelTimestamp?: string | undefined;
   entities: Entity[];
 }
 export interface SendEventResult {}
@@ -1191,9 +1192,9 @@ export interface UpdateDetectorVersionRequest {
   detectorVersionId: string;
   externalModelEndpoints: string[];
   rules: Rule[];
-  description?: string;
-  modelVersions?: ModelVersion[];
-  ruleExecutionMode?: RuleExecutionMode;
+  description?: string | undefined;
+  modelVersions?: ModelVersion[] | undefined;
+  ruleExecutionMode?: RuleExecutionMode | undefined;
 }
 export interface UpdateDetectorVersionResult {}
 export interface UpdateDetectorVersionMetadataRequest {
@@ -1218,31 +1219,31 @@ export interface UpdateEventLabelResult {}
 export type ListUpdateMode = "REPLACE" | "APPEND" | "REMOVE" | (string & {});
 export interface UpdateListRequest {
   name: string;
-  elements?: (string | redacted.Redacted<string>)[];
-  description?: string;
-  updateMode?: ListUpdateMode;
-  variableType?: string;
+  elements?: (string | redacted.Redacted<string>)[] | undefined;
+  description?: string | undefined;
+  updateMode?: ListUpdateMode | undefined;
+  variableType?: string | undefined;
 }
 export interface UpdateListResult {}
 export interface UpdateModelRequest {
   modelId: string;
   modelType: ModelTypeEnum;
-  description?: string;
+  description?: string | undefined;
 }
 export interface UpdateModelResult {}
 export interface UpdateModelVersionRequest {
   modelId: string;
   modelType: ModelTypeEnum;
   majorVersionNumber: string;
-  externalEventsDetail?: ExternalEventsDetail;
-  ingestedEventsDetail?: IngestedEventsDetail;
-  tags?: Tag[];
+  externalEventsDetail?: ExternalEventsDetail | undefined;
+  ingestedEventsDetail?: IngestedEventsDetail | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface UpdateModelVersionResult {
-  modelId?: string;
-  modelType?: ModelTypeEnum;
-  modelVersionNumber?: string;
-  status?: string;
+  modelId?: string | undefined;
+  modelType?: ModelTypeEnum | undefined;
+  modelVersionNumber?: string | undefined;
+  status?: string | undefined;
 }
 export type ModelVersionStatus = "ACTIVE" | "INACTIVE" | "TRAINING_CANCELLED" | (string & {});
 export interface UpdateModelVersionStatusRequest {
@@ -1259,20 +1260,20 @@ export interface UpdateRuleMetadataRequest {
 export interface UpdateRuleMetadataResult {}
 export interface UpdateRuleVersionRequest {
   rule: Rule;
-  description?: string;
+  description?: string | undefined;
   expression: string | redacted.Redacted<string>;
   language: Language;
   outcomes: string[];
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface UpdateRuleVersionResult {
-  rule?: Rule;
+  rule?: Rule | undefined;
 }
 export interface UpdateVariableRequest {
   name: string;
-  defaultValue?: string;
-  description?: string;
-  variableType?: string;
+  defaultValue?: string | undefined;
+  description?: string | undefined;
+  variableType?: string | undefined;
 }
 export interface UpdateVariableResult {}
 export type BatchCreateVariableError =
@@ -1285,7 +1286,7 @@ export type BatchCreateVariableError =
  * Creates a batch of variables.
  */
 export const batchCreateVariable: API.OperationMethod<
-  BatchCreateVariableRequest,
+  BatchCreateVariableRequest & RegionInput,
   BatchCreateVariableResult,
   BatchCreateVariableError,
   Credentials | HttpClient.HttpClient
@@ -1315,7 +1316,7 @@ export type BatchGetVariableError =
  * Gets a batch of variables.
  */
 export const batchGetVariable: API.OperationMethod<
-  BatchGetVariableRequest,
+  BatchGetVariableRequest & RegionInput,
   BatchGetVariableResult,
   BatchGetVariableError,
   Credentials | HttpClient.HttpClient
@@ -1346,7 +1347,7 @@ export type CancelBatchImportJobError =
  * Cancels an in-progress batch import job.
  */
 export const cancelBatchImportJob: API.OperationMethod<
-  CancelBatchImportJobRequest,
+  CancelBatchImportJobRequest & RegionInput,
   CancelBatchImportJobResult,
   CancelBatchImportJobError,
   Credentials | HttpClient.HttpClient
@@ -1378,7 +1379,7 @@ export type CancelBatchPredictionJobError =
  * Cancels the specified batch prediction job.
  */
 export const cancelBatchPredictionJob: API.OperationMethod<
-  CancelBatchPredictionJobRequest,
+  CancelBatchPredictionJobRequest & RegionInput,
   CancelBatchPredictionJobResult,
   CancelBatchPredictionJobError,
   Credentials | HttpClient.HttpClient
@@ -1410,7 +1411,7 @@ export type CreateBatchImportJobError =
  * Creates a batch import job.
  */
 export const createBatchImportJob: API.OperationMethod<
-  CreateBatchImportJobRequest,
+  CreateBatchImportJobRequest & RegionInput,
   CreateBatchImportJobResult,
   CreateBatchImportJobError,
   Credentials | HttpClient.HttpClient
@@ -1442,7 +1443,7 @@ export type CreateBatchPredictionJobError =
  * Creates a batch prediction job.
  */
 export const createBatchPredictionJob: API.OperationMethod<
-  CreateBatchPredictionJobRequest,
+  CreateBatchPredictionJobRequest & RegionInput,
   CreateBatchPredictionJobResult,
   CreateBatchPredictionJobError,
   Credentials | HttpClient.HttpClient
@@ -1474,7 +1475,7 @@ export type CreateDetectorVersionError =
  * Creates a detector version. The detector version starts in a `DRAFT` status.
  */
 export const createDetectorVersion: API.OperationMethod<
-  CreateDetectorVersionRequest,
+  CreateDetectorVersionRequest & RegionInput,
   CreateDetectorVersionResult,
   CreateDetectorVersionError,
   Credentials | HttpClient.HttpClient
@@ -1508,7 +1509,7 @@ export type CreateListError =
  * For more information, see Lists.
  */
 export const createList: API.OperationMethod<
-  CreateListRequest,
+  CreateListRequest & RegionInput,
   CreateListResult,
   CreateListError,
   Credentials | HttpClient.HttpClient
@@ -1538,7 +1539,7 @@ export type CreateModelError =
  * Creates a model using the specified model type.
  */
 export const createModel: API.OperationMethod<
-  CreateModelRequest,
+  CreateModelRequest & RegionInput,
   CreateModelResult,
   CreateModelError,
   Credentials | HttpClient.HttpClient
@@ -1569,7 +1570,7 @@ export type CreateModelVersionError =
  * Creates a version of the model using the specified model type and model id.
  */
 export const createModelVersion: API.OperationMethod<
-  CreateModelVersionRequest,
+  CreateModelVersionRequest & RegionInput,
   CreateModelVersionResult,
   CreateModelVersionError,
   Credentials | HttpClient.HttpClient
@@ -1600,7 +1601,7 @@ export type CreateRuleError =
  * Creates a rule for use with the specified detector.
  */
 export const createRule: API.OperationMethod<
-  CreateRuleRequest,
+  CreateRuleRequest & RegionInput,
   CreateRuleResult,
   CreateRuleError,
   Credentials | HttpClient.HttpClient
@@ -1630,7 +1631,7 @@ export type CreateVariableError =
  * Creates a variable.
  */
 export const createVariable: API.OperationMethod<
-  CreateVariableRequest,
+  CreateVariableRequest & RegionInput,
   CreateVariableResult,
   CreateVariableError,
   Credentials | HttpClient.HttpClient
@@ -1660,7 +1661,7 @@ export type DeleteBatchImportJobError =
  * Deletes the specified batch import job ID record. This action does not delete the data that was batch imported.
  */
 export const deleteBatchImportJob: API.OperationMethod<
-  DeleteBatchImportJobRequest,
+  DeleteBatchImportJobRequest & RegionInput,
   DeleteBatchImportJobResult,
   DeleteBatchImportJobError,
   Credentials | HttpClient.HttpClient
@@ -1690,7 +1691,7 @@ export type DeleteBatchPredictionJobError =
  * Deletes a batch prediction job.
  */
 export const deleteBatchPredictionJob: API.OperationMethod<
-  DeleteBatchPredictionJobRequest,
+  DeleteBatchPredictionJobRequest & RegionInput,
   DeleteBatchPredictionJobResult,
   DeleteBatchPredictionJobError,
   Credentials | HttpClient.HttpClient
@@ -1723,7 +1724,7 @@ export type DeleteDetectorError =
  * When you delete a detector, Amazon Fraud Detector permanently deletes the detector and the data is no longer stored in Amazon Fraud Detector.
  */
 export const deleteDetector: API.OperationMethod<
-  DeleteDetectorRequest,
+  DeleteDetectorRequest & RegionInput,
   DeleteDetectorResult,
   DeleteDetectorError,
   Credentials | HttpClient.HttpClient
@@ -1758,7 +1759,7 @@ export type DeleteDetectorVersionError =
  * When you delete a detector version, Amazon Fraud Detector permanently deletes the detector and the data is no longer stored in Amazon Fraud Detector.
  */
 export const deleteDetectorVersion: API.OperationMethod<
-  DeleteDetectorVersionRequest,
+  DeleteDetectorVersionRequest & RegionInput,
   DeleteDetectorVersionResult,
   DeleteDetectorVersionError,
   Credentials | HttpClient.HttpClient
@@ -1795,7 +1796,7 @@ export type DeleteEntityTypeError =
  * When you delete an entity type, Amazon Fraud Detector permanently deletes that entity type and the data is no longer stored in Amazon Fraud Detector.
  */
 export const deleteEntityType: API.OperationMethod<
-  DeleteEntityTypeRequest,
+  DeleteEntityTypeRequest & RegionInput,
   DeleteEntityTypeResult,
   DeleteEntityTypeError,
   Credentials | HttpClient.HttpClient
@@ -1829,7 +1830,7 @@ export type DeleteEventError =
  * If `deleteAuditHistory` is `True`, event data is available through search for up to 30 seconds after the delete operation is completed.
  */
 export const deleteEvent: API.OperationMethod<
-  DeleteEventRequest,
+  DeleteEventRequest & RegionInput,
   DeleteEventResult,
   DeleteEventError,
   Credentials | HttpClient.HttpClient
@@ -1861,7 +1862,7 @@ export type DeleteEventsByEventTypeError =
  * Deletes all events of a particular event type.
  */
 export const deleteEventsByEventType: API.OperationMethod<
-  DeleteEventsByEventTypeRequest,
+  DeleteEventsByEventTypeRequest & RegionInput,
   DeleteEventsByEventTypeResult,
   DeleteEventsByEventTypeError,
   Credentials | HttpClient.HttpClient
@@ -1898,7 +1899,7 @@ export type DeleteEventTypeError =
  * When you delete an event type, Amazon Fraud Detector permanently deletes that event type and the data is no longer stored in Amazon Fraud Detector.
  */
 export const deleteEventType: API.OperationMethod<
-  DeleteEventTypeRequest,
+  DeleteEventTypeRequest & RegionInput,
   DeleteEventTypeResult,
   DeleteEventTypeError,
   Credentials | HttpClient.HttpClient
@@ -1932,7 +1933,7 @@ export type DeleteExternalModelError =
  * You can remove an Amazon SageMaker model if it is not associated with a detector version. Removing a SageMaker model disconnects it from Amazon Fraud Detector, but the model remains available in SageMaker.
  */
 export const deleteExternalModel: API.OperationMethod<
-  DeleteExternalModelRequest,
+  DeleteExternalModelRequest & RegionInput,
   DeleteExternalModelResult,
   DeleteExternalModelError,
   Credentials | HttpClient.HttpClient
@@ -1969,7 +1970,7 @@ export type DeleteLabelError =
  * When you delete a label, Amazon Fraud Detector permanently deletes that label and the data is no longer stored in Amazon Fraud Detector.
  */
 export const deleteLabel: API.OperationMethod<
-  DeleteLabelRequest,
+  DeleteLabelRequest & RegionInput,
   DeleteLabelResult,
   DeleteLabelError,
   Credentials | HttpClient.HttpClient
@@ -1997,7 +1998,7 @@ export type DeleteListError =
  * When you delete a list, Amazon Fraud Detector permanently deletes that list and the elements in the list.
  */
 export const deleteList: API.OperationMethod<
-  DeleteListRequest,
+  DeleteListRequest & RegionInput,
   DeleteListResult,
   DeleteListError,
   Credentials | HttpClient.HttpClient
@@ -2033,7 +2034,7 @@ export type DeleteModelError =
  * When you delete a model, Amazon Fraud Detector permanently deletes that model and the data is no longer stored in Amazon Fraud Detector.
  */
 export const deleteModel: API.OperationMethod<
-  DeleteModelRequest,
+  DeleteModelRequest & RegionInput,
   DeleteModelResult,
   DeleteModelError,
   Credentials | HttpClient.HttpClient
@@ -2069,7 +2070,7 @@ export type DeleteModelVersionError =
  * When you delete a model version, Amazon Fraud Detector permanently deletes that model version and the data is no longer stored in Amazon Fraud Detector.
  */
 export const deleteModelVersion: API.OperationMethod<
-  DeleteModelVersionRequest,
+  DeleteModelVersionRequest & RegionInput,
   DeleteModelVersionResult,
   DeleteModelVersionError,
   Credentials | HttpClient.HttpClient
@@ -2105,7 +2106,7 @@ export type DeleteOutcomeError =
  * When you delete an outcome, Amazon Fraud Detector permanently deletes that outcome and the data is no longer stored in Amazon Fraud Detector.
  */
 export const deleteOutcome: API.OperationMethod<
-  DeleteOutcomeRequest,
+  DeleteOutcomeRequest & RegionInput,
   DeleteOutcomeResult,
   DeleteOutcomeError,
   Credentials | HttpClient.HttpClient
@@ -2139,7 +2140,7 @@ export type DeleteRuleError =
  * When you delete a rule, Amazon Fraud Detector permanently deletes that rule and the data is no longer stored in Amazon Fraud Detector.
  */
 export const deleteRule: API.OperationMethod<
-  DeleteRuleRequest,
+  DeleteRuleRequest & RegionInput,
   DeleteRuleResult,
   DeleteRuleError,
   Credentials | HttpClient.HttpClient
@@ -2177,7 +2178,7 @@ export type DeleteVariableError =
  * When you delete a variable, Amazon Fraud Detector permanently deletes that variable and the data is no longer stored in Amazon Fraud Detector.
  */
 export const deleteVariable: API.OperationMethod<
-  DeleteVariableRequest,
+  DeleteVariableRequest & RegionInput,
   DeleteVariableResult,
   DeleteVariableError,
   Credentials | HttpClient.HttpClient
@@ -2209,7 +2210,7 @@ export type DescribeDetectorError =
  * Gets all versions for a specified detector.
  */
 export const describeDetector: API.OperationMethod<
-  DescribeDetectorRequest,
+  DescribeDetectorRequest & RegionInput,
   DescribeDetectorResult,
   DescribeDetectorError,
   Credentials | HttpClient.HttpClient
@@ -2241,7 +2242,7 @@ export type DescribeModelVersionsError =
  * Gets all of the model versions for the specified model type or for the specified model type and model ID. You can also get details for a single, specified model version.
  */
 export const describeModelVersions: API.PaginatedOperationMethod<
-  DescribeModelVersionsRequest,
+  DescribeModelVersionsRequest & RegionInput,
   DescribeModelVersionsResult,
   DescribeModelVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -2282,7 +2283,7 @@ export type GetBatchImportJobsError =
  * A null pagination token fetches the records from the beginning.
  */
 export const getBatchImportJobs: API.PaginatedOperationMethod<
-  GetBatchImportJobsRequest,
+  GetBatchImportJobsRequest & RegionInput,
   GetBatchImportJobsResult,
   GetBatchImportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -2320,7 +2321,7 @@ export type GetBatchPredictionJobsError =
  * Gets all batch prediction jobs or a specific job if you specify a job ID. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 50 records per page. If you provide a maxResults, the value must be between 1 and 50. To get the next page results, provide the pagination token from the GetBatchPredictionJobsResponse as part of your request. A null pagination token fetches the records from the beginning.
  */
 export const getBatchPredictionJobs: API.PaginatedOperationMethod<
-  GetBatchPredictionJobsRequest,
+  GetBatchPredictionJobsRequest & RegionInput,
   GetBatchPredictionJobsResult,
   GetBatchPredictionJobsError,
   Credentials | HttpClient.HttpClient,
@@ -2358,7 +2359,7 @@ export type GetDeleteEventsByEventTypeStatusError =
  * Retrieves the status of a `DeleteEventsByEventType` action.
  */
 export const getDeleteEventsByEventTypeStatus: API.OperationMethod<
-  GetDeleteEventsByEventTypeStatusRequest,
+  GetDeleteEventsByEventTypeStatusRequest & RegionInput,
   GetDeleteEventsByEventTypeStatusResult,
   GetDeleteEventsByEventTypeStatusError,
   Credentials | HttpClient.HttpClient
@@ -2395,7 +2396,7 @@ export type GetDetectorsError =
  * fetches the records from the beginning.
  */
 export const getDetectors: API.PaginatedOperationMethod<
-  GetDetectorsRequest,
+  GetDetectorsRequest & RegionInput,
   GetDetectorsResult,
   GetDetectorsError,
   Credentials | HttpClient.HttpClient,
@@ -2433,7 +2434,7 @@ export type GetDetectorVersionError =
  * Gets a particular detector version.
  */
 export const getDetectorVersion: API.OperationMethod<
-  GetDetectorVersionRequest,
+  GetDetectorVersionRequest & RegionInput,
   GetDetectorVersionResult,
   GetDetectorVersionError,
   Credentials | HttpClient.HttpClient
@@ -2470,7 +2471,7 @@ export type GetEntityTypesError =
  * fetches the records from the beginning.
  */
 export const getEntityTypes: API.PaginatedOperationMethod<
-  GetEntityTypesRequest,
+  GetEntityTypesRequest & RegionInput,
   GetEntityTypesResult,
   GetEntityTypesError,
   Credentials | HttpClient.HttpClient,
@@ -2508,7 +2509,7 @@ export type GetEventError =
  * Retrieves details of events stored with Amazon Fraud Detector. This action does not retrieve prediction results.
  */
 export const getEvent: API.OperationMethod<
-  GetEventRequest,
+  GetEventRequest & RegionInput,
   GetEventResult,
   GetEventError,
   Credentials | HttpClient.HttpClient
@@ -2542,7 +2543,7 @@ export type GetEventPredictionError =
  * Evaluates an event against a detector version. If a version ID is not provided, the detector's (`ACTIVE`) version is used.
  */
 export const getEventPrediction: API.OperationMethod<
-  GetEventPredictionRequest,
+  GetEventPredictionRequest & RegionInput,
   GetEventPredictionResult,
   GetEventPredictionError,
   Credentials | HttpClient.HttpClient
@@ -2576,7 +2577,7 @@ export type GetEventPredictionMetadataError =
  * Gets details of the past fraud predictions for the specified event ID, event type, detector ID, and detector version ID that was generated in the specified time period.
  */
 export const getEventPredictionMetadata: API.OperationMethod<
-  GetEventPredictionMetadataRequest,
+  GetEventPredictionMetadataRequest & RegionInput,
   GetEventPredictionMetadataResult,
   GetEventPredictionMetadataError,
   Credentials | HttpClient.HttpClient
@@ -2613,7 +2614,7 @@ export type GetEventTypesError =
  * fetches the records from the beginning.
  */
 export const getEventTypes: API.PaginatedOperationMethod<
-  GetEventTypesRequest,
+  GetEventTypesRequest & RegionInput,
   GetEventTypesResult,
   GetEventTypesError,
   Credentials | HttpClient.HttpClient,
@@ -2656,7 +2657,7 @@ export type GetExternalModelsError =
  * of your request. A null pagination token fetches the records from the beginning.
  */
 export const getExternalModels: API.PaginatedOperationMethod<
-  GetExternalModelsRequest,
+  GetExternalModelsRequest & RegionInput,
   GetExternalModelsResult,
   GetExternalModelsError,
   Credentials | HttpClient.HttpClient,
@@ -2693,7 +2694,7 @@ export type GetKMSEncryptionKeyError =
  * Gets the encryption key if a KMS key has been specified to be used to encrypt content in Amazon Fraud Detector.
  */
 export const getKMSEncryptionKey: API.OperationMethod<
-  GetKMSEncryptionKeyRequest,
+  GetKMSEncryptionKeyRequest & RegionInput,
   GetKMSEncryptionKeyResult,
   GetKMSEncryptionKeyError,
   Credentials | HttpClient.HttpClient
@@ -2729,7 +2730,7 @@ export type GetLabelsError =
  * fetches the records from the beginning.
  */
 export const getLabels: API.PaginatedOperationMethod<
-  GetLabelsRequest,
+  GetLabelsRequest & RegionInput,
   GetLabelsResult,
   GetLabelsError,
   Credentials | HttpClient.HttpClient,
@@ -2767,7 +2768,7 @@ export type GetListElementsError =
  * Gets all the elements in the specified list.
  */
 export const getListElements: API.PaginatedOperationMethod<
-  GetListElementsRequest,
+  GetListElementsRequest & RegionInput,
   GetListElementsResult,
   GetListElementsError,
   Credentials | HttpClient.HttpClient,
@@ -2805,7 +2806,7 @@ export type GetListsMetadataError =
  * Gets the metadata of either all the lists under the account or the specified list.
  */
 export const getListsMetadata: API.PaginatedOperationMethod<
-  GetListsMetadataRequest,
+  GetListsMetadataRequest & RegionInput,
   GetListsMetadataResult,
   GetListsMetadataError,
   Credentials | HttpClient.HttpClient,
@@ -2850,7 +2851,7 @@ export type GetModelsError =
  * fetches the records from the beginning.
  */
 export const getModels: API.PaginatedOperationMethod<
-  GetModelsRequest,
+  GetModelsRequest & RegionInput,
   GetModelsResult,
   GetModelsError,
   Credentials | HttpClient.HttpClient,
@@ -2888,7 +2889,7 @@ export type GetModelVersionError =
  * Gets the details of the specified model version.
  */
 export const getModelVersion: API.OperationMethod<
-  GetModelVersionRequest,
+  GetModelVersionRequest & RegionInput,
   GetModelVersionResult,
   GetModelVersionError,
   Credentials | HttpClient.HttpClient
@@ -2925,7 +2926,7 @@ export type GetOutcomesError =
  * fetches the records from the beginning.
  */
 export const getOutcomes: API.PaginatedOperationMethod<
-  GetOutcomesRequest,
+  GetOutcomesRequest & RegionInput,
   GetOutcomesResult,
   GetOutcomesError,
   Credentials | HttpClient.HttpClient,
@@ -2965,7 +2966,7 @@ export type GetRulesError =
  * This is a paginated API. Providing null maxResults results in retrieving maximum of 100 records per page. If you provide maxResults the value must be between 50 and 100. To get the next page result, a provide a pagination token from GetRulesResult as part of your request. Null pagination token fetches the records from the beginning.
  */
 export const getRules: API.PaginatedOperationMethod<
-  GetRulesRequest,
+  GetRulesRequest & RegionInput,
   GetRulesResult,
   GetRulesError,
   Credentials | HttpClient.HttpClient,
@@ -3008,7 +3009,7 @@ export type GetVariablesError =
  * fetches the records from the beginning.
  */
 export const getVariables: API.PaginatedOperationMethod<
-  GetVariablesRequest,
+  GetVariablesRequest & RegionInput,
   GetVariablesResult,
   GetVariablesError,
   Credentials | HttpClient.HttpClient,
@@ -3056,7 +3057,7 @@ export type ListEventPredictionsError =
  * the `nextToken` from the response as part of your request. A null `nextToken` fetches the records from the beginning.
  */
 export const listEventPredictions: API.PaginatedOperationMethod<
-  ListEventPredictionsRequest,
+  ListEventPredictionsRequest & RegionInput,
   ListEventPredictionsResult,
   ListEventPredictionsError,
   Credentials | HttpClient.HttpClient,
@@ -3094,7 +3095,7 @@ export type ListTagsForResourceError =
  * fetches the records from the beginning.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResult,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -3131,7 +3132,7 @@ export type PutDetectorError =
  * Creates or updates a detector.
  */
 export const putDetector: API.OperationMethod<
-  PutDetectorRequest,
+  PutDetectorRequest & RegionInput,
   PutDetectorResult,
   PutDetectorError,
   Credentials | HttpClient.HttpClient
@@ -3163,7 +3164,7 @@ export type PutEntityTypeError =
  * Creates or updates an entity type. An entity represents who is performing the event. As part of a fraud prediction, you pass the entity ID to indicate the specific entity who performed the event. An entity type classifies the entity. Example classifications include customer, merchant, or account.
  */
 export const putEntityType: API.OperationMethod<
-  PutEntityTypeRequest,
+  PutEntityTypeRequest & RegionInput,
   PutEntityTypeResult,
   PutEntityTypeError,
   Credentials | HttpClient.HttpClient
@@ -3195,7 +3196,7 @@ export type PutEventTypeError =
  * Creates or updates an event type. An event is a business activity that is evaluated for fraud risk. With Amazon Fraud Detector, you generate fraud predictions for events. An event type defines the structure for an event sent to Amazon Fraud Detector. This includes the variables sent as part of the event, the entity performing the event (such as a customer), and the labels that classify the event. Example event types include online payment transactions, account registrations, and authentications.
  */
 export const putEventType: API.OperationMethod<
-  PutEventTypeRequest,
+  PutEventTypeRequest & RegionInput,
   PutEventTypeResult,
   PutEventTypeError,
   Credentials | HttpClient.HttpClient
@@ -3227,7 +3228,7 @@ export type PutExternalModelError =
  * Creates or updates an Amazon SageMaker model endpoint. You can also use this action to update the configuration of the model endpoint, including the IAM role and/or the mapped variables.
  */
 export const putExternalModel: API.OperationMethod<
-  PutExternalModelRequest,
+  PutExternalModelRequest & RegionInput,
   PutExternalModelResult,
   PutExternalModelError,
   Credentials | HttpClient.HttpClient
@@ -3260,7 +3261,7 @@ export type PutKMSEncryptionKeyError =
  * Specifies the KMS key to be used to encrypt content in Amazon Fraud Detector.
  */
 export const putKMSEncryptionKey: API.OperationMethod<
-  PutKMSEncryptionKeyRequest,
+  PutKMSEncryptionKeyRequest & RegionInput,
   PutKMSEncryptionKeyResult,
   PutKMSEncryptionKeyError,
   Credentials | HttpClient.HttpClient
@@ -3293,7 +3294,7 @@ export type PutLabelError =
  * Creates or updates label. A label classifies an event as fraudulent or legitimate. Labels are associated with event types and used to train supervised machine learning models in Amazon Fraud Detector.
  */
 export const putLabel: API.OperationMethod<
-  PutLabelRequest,
+  PutLabelRequest & RegionInput,
   PutLabelResult,
   PutLabelError,
   Credentials | HttpClient.HttpClient
@@ -3325,7 +3326,7 @@ export type PutOutcomeError =
  * Creates or updates an outcome.
  */
 export const putOutcome: API.OperationMethod<
-  PutOutcomeRequest,
+  PutOutcomeRequest & RegionInput,
   PutOutcomeResult,
   PutOutcomeError,
   Credentials | HttpClient.HttpClient
@@ -3358,7 +3359,7 @@ export type SendEventError =
  * Stores events in Amazon Fraud Detector without generating fraud predictions for those events. For example, you can use `SendEvent` to upload a historical dataset, which you can then later use to train a model.
  */
 export const sendEvent: API.OperationMethod<
-  SendEventRequest,
+  SendEventRequest & RegionInput,
   SendEventResult,
   SendEventError,
   Credentials | HttpClient.HttpClient
@@ -3390,7 +3391,7 @@ export type TagResourceError =
  * Assigns tags to a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResult,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3420,7 +3421,7 @@ export type UntagResourceError =
  * Removes tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResult,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3452,7 +3453,7 @@ export type UpdateDetectorVersionError =
  * Updates a detector version. The detector version attributes that you can update include models, external model endpoints, rules, rule execution mode, and description. You can only update a `DRAFT` detector version.
  */
 export const updateDetectorVersion: API.OperationMethod<
-  UpdateDetectorVersionRequest,
+  UpdateDetectorVersionRequest & RegionInput,
   UpdateDetectorVersionResult,
   UpdateDetectorVersionError,
   Credentials | HttpClient.HttpClient
@@ -3486,7 +3487,7 @@ export type UpdateDetectorVersionMetadataError =
  * `INACTIVE`).
  */
 export const updateDetectorVersionMetadata: API.OperationMethod<
-  UpdateDetectorVersionMetadataRequest,
+  UpdateDetectorVersionMetadataRequest & RegionInput,
   UpdateDetectorVersionMetadataResult,
   UpdateDetectorVersionMetadataError,
   Credentials | HttpClient.HttpClient
@@ -3520,7 +3521,7 @@ export type UpdateDetectorVersionStatusError =
  * demotions using `UpdateDetectorVersionStatus`: `DRAFT` to `ACTIVE`, `ACTIVE` to `INACTIVE`, and `INACTIVE` to `ACTIVE`.
  */
 export const updateDetectorVersionStatus: API.OperationMethod<
-  UpdateDetectorVersionStatusRequest,
+  UpdateDetectorVersionStatusRequest & RegionInput,
   UpdateDetectorVersionStatusResult,
   UpdateDetectorVersionStatusError,
   Credentials | HttpClient.HttpClient
@@ -3554,7 +3555,7 @@ export type UpdateEventLabelError =
  * Updates the specified event with a new label.
  */
 export const updateEventLabel: API.OperationMethod<
-  UpdateEventLabelRequest,
+  UpdateEventLabelRequest & RegionInput,
   UpdateEventLabelResult,
   UpdateEventLabelError,
   Credentials | HttpClient.HttpClient
@@ -3588,7 +3589,7 @@ export type UpdateListError =
  * Updates a list.
  */
 export const updateList: API.OperationMethod<
-  UpdateListRequest,
+  UpdateListRequest & RegionInput,
   UpdateListResult,
   UpdateListError,
   Credentials | HttpClient.HttpClient
@@ -3622,7 +3623,7 @@ export type UpdateModelError =
  * Updates model description.
  */
 export const updateModel: API.OperationMethod<
-  UpdateModelRequest,
+  UpdateModelRequest & RegionInput,
   UpdateModelResult,
   UpdateModelError,
   Credentials | HttpClient.HttpClient
@@ -3656,7 +3657,7 @@ export type UpdateModelVersionError =
  * Updates a model version. Updating a model version retrains an existing model version using updated training data and produces a new minor version of the model. You can update the training data set location and data access role attributes using this action. This action creates and trains a new minor version of the model, for example version 1.01, 1.02, 1.03.
  */
 export const updateModelVersion: API.OperationMethod<
-  UpdateModelVersionRequest,
+  UpdateModelVersionRequest & RegionInput,
   UpdateModelVersionResult,
   UpdateModelVersionError,
   Credentials | HttpClient.HttpClient
@@ -3698,7 +3699,7 @@ export type UpdateModelVersionStatusError =
  * - Change `ACTIVE` to `INACTIVE`.
  */
 export const updateModelVersionStatus: API.OperationMethod<
-  UpdateModelVersionStatusRequest,
+  UpdateModelVersionStatusRequest & RegionInput,
   UpdateModelVersionStatusResult,
   UpdateModelVersionStatusError,
   Credentials | HttpClient.HttpClient
@@ -3732,7 +3733,7 @@ export type UpdateRuleMetadataError =
  * Updates a rule's metadata. The description attribute can be updated.
  */
 export const updateRuleMetadata: API.OperationMethod<
-  UpdateRuleMetadataRequest,
+  UpdateRuleMetadataRequest & RegionInput,
   UpdateRuleMetadataResult,
   UpdateRuleMetadataError,
   Credentials | HttpClient.HttpClient
@@ -3766,7 +3767,7 @@ export type UpdateRuleVersionError =
  * Updates a rule version resulting in a new rule version. Updates a rule version resulting in a new rule version (version 1, 2, 3 ...).
  */
 export const updateRuleVersion: API.OperationMethod<
-  UpdateRuleVersionRequest,
+  UpdateRuleVersionRequest & RegionInput,
   UpdateRuleVersionResult,
   UpdateRuleVersionError,
   Credentials | HttpClient.HttpClient
@@ -3800,7 +3801,7 @@ export type UpdateVariableError =
  * Updates a variable.
  */
 export const updateVariable: API.OperationMethod<
-  UpdateVariableRequest,
+  UpdateVariableRequest & RegionInput,
   UpdateVariableResult,
   UpdateVariableError,
   Credentials | HttpClient.HttpClient

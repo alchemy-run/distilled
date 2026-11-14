@@ -75,13 +75,13 @@ export interface AssignAliasRequest {
   /** The deployment or alias ID or URL to assign from */
   id: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The alias we want to assign to the deployment defined in the URL */
-  alias?: string;
+  alias?: string | undefined;
   /** The redirect property will take precedence over the deployment id from the URL and consists of a hostname (like test.com) to which the alias should redirect using status code 307 */
-  redirect?: string | null;
+  redirect?: string | null | undefined;
 }
 export interface AssignAliasResponse {
   /** The assigned alias name */
@@ -89,7 +89,7 @@ export interface AssignAliasResponse {
   /** The date when the alias was created */
   created: string;
   /** The unique identifier of the previously aliased deployment, only received when the alias was used before */
-  oldDeploymentId?: string | null;
+  oldDeploymentId?: string | null | undefined;
   /** The unique identifier of the alias */
   uid: string;
 }
@@ -97,9 +97,9 @@ export interface DeleteAliasRequest {
   /** The ID or alias that will be removed */
   aliasId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type DeleteAliasResponseStatus = "SUCCESS";
 export interface DeleteAliasResponse {
@@ -109,35 +109,35 @@ export interface GetAliasRequest {
   /** The alias or alias ID to be retrieved */
   idOrAlias: string;
   /** Get the alias only if it was created after the provided timestamp */
-  from?: number;
+  from?: number | undefined;
   /** Get the alias only if it is assigned to the provided project ID */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Get the alias only if it was created after this JavaScript timestamp */
-  since?: number;
+  since?: number | undefined;
   /** Get the alias only if it was created before this JavaScript timestamp */
-  until?: number;
+  until?: number | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 /** Information of the user who created the alias */
 export interface GetAliasResponseCreator {
   /** Email of the user who created the alias */
-  email?: string;
+  email?: string | undefined;
   /** ID of the user who created the alias */
   uid: string;
   /** Username of the user who created the alias */
-  username?: string;
+  username?: string | undefined;
 }
 /** A map with the deployment ID, URL and metadata */
 export interface GetAliasResponseDeployment {
   /** The deployment unique identifier */
   id: string;
   /** The deployment metadata */
-  meta?: string;
+  meta?: string | undefined;
   /** The deployment unique URL */
-  url?: string;
+  url?: string | undefined;
 }
 /** A list of the deployment routing information for each project. */
 export interface GetAliasResponseMicrofrontendsApplicationsCase0Item {
@@ -163,15 +163,15 @@ export type GetAliasResponseMicrofrontendsApplicationsCase1List =
   Array<GetAliasResponseMicrofrontendsApplicationsCase1Item>;
 /** A list of the deployment routing information for each project. */
 export interface GetAliasResponseMicrofrontendsApplicationsCase2Item {
-  branchAlias?: string;
+  branchAlias?: string | undefined;
   /** This is the latest non-cancelled deployment of the branch alias at the time the commit alias was created. It is possible there is no deployment for the branch, or this was set before the deployment was canceled, in which case this will point to a cancelled deployment, in either case the proxy will fallback to the fallbackDeploymentId. */
-  branchDeploymentId?: string;
+  branchDeploymentId?: string | undefined;
   /** This is the deployment for the same commit, it could be a cancelled deployment. The proxy will fallback to the branchDeploymentId and then the fallbackDeploymentId. */
-  deploymentId?: string;
+  deploymentId?: string | undefined;
   /** This is the deployment of the fallback host at the time the commit alias was created. It is possible for this to be a deleted deployment, in which case the proxy will show that the deployment is deleted. It will not use the fallbackHost, as a future deployment on the fallback host could be invalid for this deployment, and it could lead to confusion / incorrect behavior for the commit alias. */
-  fallbackDeploymentId?: string;
+  fallbackDeploymentId?: string | undefined;
   /** Temporary for backwards compatibility. Can remove when metadata change is released */
-  fallbackHost?: string;
+  fallbackHost?: string | undefined;
   /** The project ID of the microfrontends application. */
   projectId: string;
 }
@@ -195,7 +195,7 @@ export type GetAliasResponseProtectionBypassValueCase0Scope = "shareable-link";
 export interface GetAliasResponseProtectionBypassValueCase0 {
   createdAt: number;
   createdBy: string;
-  expires?: number;
+  expires?: number | undefined;
   scope: GetAliasResponseProtectionBypassValueCase0Scope;
 }
 export type GetAliasResponseProtectionBypassValueCase1Access = "granted" | "requested";
@@ -240,52 +240,52 @@ export interface GetAliasResponse {
   /** The date when the alias was created */
   created: string;
   /** The date when the alias was created in milliseconds since the UNIX epoch */
-  createdAt?: number | null;
+  createdAt?: number | null | undefined;
   /** Information of the user who created the alias */
-  creator?: GetAliasResponseCreator;
+  creator?: GetAliasResponseCreator | undefined;
   /** The date when the alias was deleted in milliseconds since the UNIX epoch */
-  deletedAt?: number | null;
+  deletedAt?: number | null | undefined;
   /** A map with the deployment ID, URL and metadata */
-  deployment?: GetAliasResponseDeployment;
+  deployment?: GetAliasResponseDeployment | undefined;
   /** The deployment ID */
   deploymentId: string | null;
   /** The microfrontends for the alias including the routing configuration */
-  microfrontends?: GetAliasResponseMicrofrontends;
+  microfrontends?: GetAliasResponseMicrofrontends | undefined;
   /** The unique identifier of the project */
   projectId: string | null;
   /** The protection bypass for the alias */
-  protectionBypass?: GetAliasResponseProtectionBypassMap;
+  protectionBypass?: GetAliasResponseProtectionBypassMap | undefined;
   /** Target destination domain for redirect when the alias is a redirect */
-  redirect?: string | null;
+  redirect?: string | null | undefined;
   /** Status code to be used on redirect */
-  redirectStatusCode?: GetAliasResponseRedirectStatusCode | null;
+  redirectStatusCode?: GetAliasResponseRedirectStatusCode | null | undefined;
   /** The unique identifier of the alias */
   uid: string;
   /** The date when the alias was updated in milliseconds since the UNIX epoch */
-  updatedAt?: number | null;
+  updatedAt?: number | null | undefined;
 }
 export type ListAliasesRequestDomainCase0List = Array<string>;
 /** Get only aliases of the given domain name */
 export type ListAliasesRequestDomain = ListAliasesRequestDomainCase0List | string;
 export interface ListAliasesRequest {
   /** Get only aliases of the given domain name */
-  domain?: ListAliasesRequestDomain;
+  domain?: ListAliasesRequestDomain | undefined;
   /** Get only aliases created after the provided timestamp */
-  from?: number;
+  from?: number | undefined;
   /** Maximum number of aliases to list from a request */
-  limit?: number;
+  limit?: number | undefined;
   /** Filter aliases from the given `projectId` */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Get aliases created after this JavaScript timestamp */
-  since?: number;
+  since?: number | undefined;
   /** Get aliases created before this JavaScript timestamp */
-  until?: number;
+  until?: number | undefined;
   /** Get aliases that would be rolled back for the given deployment */
-  rollbackDeploymentId?: string;
+  rollbackDeploymentId?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 /** Information of the user who created the alias */
 export type ListAliasesResponseAliasesItemCreator = GetAliasResponseCreator;
@@ -325,7 +325,7 @@ export type ListAliasesResponseAliasesItemProtectionBypassValueCase0Scope = "sha
 export interface ListAliasesResponseAliasesItemProtectionBypassValueCase0 {
   createdAt: number;
   createdBy: string;
-  expires?: number;
+  expires?: number | undefined;
   scope: ListAliasesResponseAliasesItemProtectionBypassValueCase0Scope;
 }
 export type ListAliasesResponseAliasesItemProtectionBypassValueCase1Access =
@@ -373,29 +373,29 @@ export interface ListAliasesResponseAliasesItem {
   /** The date when the alias was created */
   created: string;
   /** The date when the alias was created in milliseconds since the UNIX epoch */
-  createdAt?: number;
+  createdAt?: number | undefined;
   /** Information of the user who created the alias */
-  creator?: GetAliasResponseCreator;
+  creator?: GetAliasResponseCreator | undefined;
   /** The date when the alias was deleted in milliseconds since the UNIX epoch */
-  deletedAt?: number | null;
+  deletedAt?: number | null | undefined;
   /** A map with the deployment ID, URL and metadata */
-  deployment?: GetAliasResponseDeployment;
+  deployment?: GetAliasResponseDeployment | undefined;
   /** The deployment ID */
   deploymentId: string | null;
   /** The microfrontends for the alias including the routing configuration */
-  microfrontends?: ListAliasesResponseAliasesItemMicrofrontends;
+  microfrontends?: ListAliasesResponseAliasesItemMicrofrontends | undefined;
   /** The unique identifier of the project */
   projectId: string | null;
   /** The protection bypass for the alias */
-  protectionBypass?: ListAliasesResponseAliasesItemProtectionBypassMap;
+  protectionBypass?: ListAliasesResponseAliasesItemProtectionBypassMap | undefined;
   /** Target destination domain for redirect when the alias is a redirect */
-  redirect?: string | null;
+  redirect?: string | null | undefined;
   /** Status code to be used on redirect */
-  redirectStatusCode?: ListAliasesResponseAliasesItemRedirectStatusCode | null;
+  redirectStatusCode?: ListAliasesResponseAliasesItemRedirectStatusCode | null | undefined;
   /** The unique identifier of the alias */
   uid: string;
   /** The date when the alias was updated in milliseconds since the UNIX epoch */
-  updatedAt?: number;
+  updatedAt?: number | undefined;
 }
 export type ListAliasesResponseAliasesList = Array<ListAliasesResponseAliasesItem>;
 /** This object contains information related to the pagination of the current request, including the necessary parameters to get the next or previous page of data. */
@@ -415,9 +415,9 @@ export interface ListDeploymentAliasesRequest {
   /** The ID of the deployment the aliases should be listed for */
   id: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type ListDeploymentAliasesResponseAliasesItemProtectionBypassValueCase0Scope =
   "shareable-link";
@@ -425,7 +425,7 @@ export type ListDeploymentAliasesResponseAliasesItemProtectionBypassValueCase0Sc
 export interface ListDeploymentAliasesResponseAliasesItemProtectionBypassValueCase0 {
   createdAt: number;
   createdBy: string;
-  expires?: number;
+  expires?: number | undefined;
   scope: ListDeploymentAliasesResponseAliasesItemProtectionBypassValueCase0Scope;
 }
 export type ListDeploymentAliasesResponseAliasesItemProtectionBypassValueCase1Access =
@@ -473,9 +473,9 @@ export interface ListDeploymentAliasesResponseAliasesItem {
   /** The date when the alias was created */
   created: string;
   /** The protection bypass for the alias */
-  protectionBypass?: ListDeploymentAliasesResponseAliasesItemProtectionBypassMap;
+  protectionBypass?: ListDeploymentAliasesResponseAliasesItemProtectionBypassMap | undefined;
   /** Target destination domain for redirect when the alias is a redirect */
-  redirect?: string | null;
+  redirect?: string | null | undefined;
   /** The unique identifier of the alias */
   uid: string;
 }
@@ -495,18 +495,18 @@ export interface PatchUrlProtectionBypassRequestBodyCase0Revoke {
 }
 export interface PatchUrlProtectionBypassRequestBodyCase0 {
   /** Optional time the shareable link is valid for in seconds. If not provided, the shareable link will never expire. */
-  ttl?: number;
+  ttl?: number | undefined;
   /** Optional instructions for revoking and regenerating a shareable link */
-  revoke?: PatchUrlProtectionBypassRequestBodyCase0Revoke;
+  revoke?: PatchUrlProtectionBypassRequestBodyCase0Revoke | undefined;
 }
 /** Invitation status for the user scoped bypass. */
 export type PatchUrlProtectionBypassRequestBodyCase1ScopeAccess = "denied" | "granted";
 /** Instructions for creating a user scoped protection bypass */
 export interface PatchUrlProtectionBypassRequestBodyCase1Scope {
   /** Specified user id for the scoped bypass. */
-  userId?: string;
+  userId?: string | undefined;
   /** Specified email for the scoped bypass. */
-  email?: string;
+  email?: string | undefined;
   /** Invitation status for the user scoped bypass. */
   access: PatchUrlProtectionBypassRequestBodyCase1ScopeAccess | (string & {});
 }
@@ -531,10 +531,10 @@ export interface PatchUrlProtectionBypassRequest {
   /** The alias or deployment ID */
   id: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
-  body?: PatchUrlProtectionBypassRequestBody;
+  slug?: string | undefined;
+  body?: PatchUrlProtectionBypassRequestBody | undefined;
 }
 export type PatchUrlProtectionBypassResponseBodyMap = { [key: string]: unknown | undefined };
 export type PatchUrlProtectionBypassResponse = PatchUrlProtectionBypassResponseBodyMap;

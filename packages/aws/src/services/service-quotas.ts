@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -166,7 +167,7 @@ export class ServiceException
     "ServiceException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ServiceQuotaTemplateNotInUseException
   extends /*@__PURE__*/ S.TaggedError<ServiceQuotaTemplateNotInUseException>()(
     "ServiceQuotaTemplateNotInUseException",
@@ -190,7 +191,7 @@ export class TooManyRequestsException
     "TooManyRequestsException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class TooManyTagsException
   extends /*@__PURE__*/ S.TaggedError<TooManyTagsException>()(
     "TooManyTagsException",
@@ -218,7 +219,7 @@ export interface DisassociateServiceQuotaTemplateResponse {}
 export interface GetAssociationForServiceQuotaTemplateRequest {}
 export type ServiceQuotaTemplateAssociationStatus = "ASSOCIATED" | "DISASSOCIATED" | (string & {});
 export interface GetAssociationForServiceQuotaTemplateResponse {
-  ServiceQuotaTemplateAssociationStatus?: ServiceQuotaTemplateAssociationStatus;
+  ServiceQuotaTemplateAssociationStatus?: ServiceQuotaTemplateAssociationStatus | undefined;
 }
 export interface GetAutoManagementConfigurationRequest {}
 export type OptInLevel = "ACCOUNT" | (string & {});
@@ -228,17 +229,17 @@ export type OptInStatus = "ENABLED" | "DISABLED" | (string & {});
 export type ExcludedService = string;
 export type QuotaName = string;
 export interface QuotaInfo {
-  QuotaCode?: string;
-  QuotaName?: string;
+  QuotaCode?: string | undefined;
+  QuotaName?: string | undefined;
 }
 export type QuotaInfoList = QuotaInfo[];
 export type ExclusionQuotaList = { [key: string]: QuotaInfo[] | undefined };
 export interface GetAutoManagementConfigurationResponse {
-  OptInLevel?: OptInLevel;
-  OptInType?: OptInType;
-  NotificationArn?: string;
-  OptInStatus?: OptInStatus;
-  ExclusionList?: { [key: string]: QuotaInfo[] | undefined };
+  OptInLevel?: OptInLevel | undefined;
+  OptInType?: OptInType | undefined;
+  NotificationArn?: string | undefined;
+  OptInStatus?: OptInStatus | undefined;
+  ExclusionList?: { [key: string]: QuotaInfo[] | undefined } | undefined;
 }
 export interface GetAWSDefaultServiceQuotaRequest {
   ServiceCode: string;
@@ -257,10 +258,10 @@ export type MetricDimensionValue = string;
 export type MetricDimensionsMapDefinition = { [key: string]: string | undefined };
 export type Statistic = string;
 export interface MetricInfo {
-  MetricNamespace?: string;
-  MetricName?: string;
-  MetricDimensions?: { [key: string]: string | undefined };
-  MetricStatisticRecommendation?: string;
+  MetricNamespace?: string | undefined;
+  MetricName?: string | undefined;
+  MetricDimensions?: { [key: string]: string | undefined } | undefined;
+  MetricStatisticRecommendation?: string | undefined;
 }
 export type PeriodValue = number;
 export type PeriodUnit =
@@ -273,8 +274,8 @@ export type PeriodUnit =
   | "WEEK"
   | (string & {});
 export interface QuotaPeriod {
-  PeriodValue?: number;
-  PeriodUnit?: PeriodUnit;
+  PeriodValue?: number | undefined;
+  PeriodUnit?: PeriodUnit | undefined;
 }
 export type ErrorCode =
   | "DEPENDENCY_ACCESS_DENIED_ERROR"
@@ -284,8 +285,8 @@ export type ErrorCode =
   | (string & {});
 export type ErrorMessage = string;
 export interface ErrorReason {
-  ErrorCode?: ErrorCode;
-  ErrorMessage?: string;
+  ErrorCode?: ErrorCode | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type AppliedLevelEnum = "ACCOUNT" | "RESOURCE" | "ALL" | (string & {});
 export type QuotaContextScope = "RESOURCE" | "ACCOUNT" | (string & {});
@@ -293,39 +294,39 @@ export type QuotaContextScopeType = string;
 export type QuotaContextId = string;
 export type AdjustableAtLevelEnum = "ACCOUNT" | "PER_RESOURCE" | "ALL" | (string & {});
 export interface QuotaContextInfo {
-  ContextScope?: QuotaContextScope;
-  ContextScopeType?: string;
-  ContextId?: string;
-  AdjustableAtLevel?: AdjustableAtLevelEnum;
+  ContextScope?: QuotaContextScope | undefined;
+  ContextScopeType?: string | undefined;
+  ContextId?: string | undefined;
+  AdjustableAtLevel?: AdjustableAtLevelEnum | undefined;
 }
 export type QuotaDescription = string;
 export interface ServiceQuota {
-  ServiceCode?: string;
-  ServiceName?: string;
-  QuotaArn?: string;
-  QuotaCode?: string;
-  QuotaName?: string;
-  Value?: number;
-  Unit?: string;
-  Adjustable?: boolean;
-  GlobalQuota?: boolean;
-  UsageMetric?: MetricInfo;
-  Period?: QuotaPeriod;
-  ErrorReason?: ErrorReason;
-  QuotaAppliedAtLevel?: AppliedLevelEnum;
-  QuotaContext?: QuotaContextInfo;
-  Description?: string;
+  ServiceCode?: string | undefined;
+  ServiceName?: string | undefined;
+  QuotaArn?: string | undefined;
+  QuotaCode?: string | undefined;
+  QuotaName?: string | undefined;
+  Value?: number | undefined;
+  Unit?: string | undefined;
+  Adjustable?: boolean | undefined;
+  GlobalQuota?: boolean | undefined;
+  UsageMetric?: MetricInfo | undefined;
+  Period?: QuotaPeriod | undefined;
+  ErrorReason?: ErrorReason | undefined;
+  QuotaAppliedAtLevel?: AppliedLevelEnum | undefined;
+  QuotaContext?: QuotaContextInfo | undefined;
+  Description?: string | undefined;
 }
 export interface GetAWSDefaultServiceQuotaResponse {
-  Quota?: ServiceQuota;
+  Quota?: ServiceQuota | undefined;
 }
 export type ReportId = string;
 export type NextToken = string;
 export type MaxResultsUtilization = number;
 export interface GetQuotaUtilizationReportRequest {
   ReportId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ReportStatus = "PENDING" | "IN_PROGRESS" | "COMPLETED" | "FAILED" | (string & {});
 export type TotalCount = number;
@@ -333,28 +334,28 @@ export type UtilizationPct = number;
 export type DefaultValue = number;
 export type AppliedValue = number;
 export interface QuotaUtilizationInfo {
-  QuotaCode?: string;
-  ServiceCode?: string;
-  QuotaName?: string;
-  Namespace?: string;
-  Utilization?: number;
-  DefaultValue?: number;
-  AppliedValue?: number;
-  ServiceName?: string;
-  Adjustable?: boolean;
+  QuotaCode?: string | undefined;
+  ServiceCode?: string | undefined;
+  QuotaName?: string | undefined;
+  Namespace?: string | undefined;
+  Utilization?: number | undefined;
+  DefaultValue?: number | undefined;
+  AppliedValue?: number | undefined;
+  ServiceName?: string | undefined;
+  Adjustable?: boolean | undefined;
 }
 export type QuotaUtilizationInfoList = QuotaUtilizationInfo[];
 export type ReportErrorCode = string;
 export type ReportErrorMessage = string;
 export interface GetQuotaUtilizationReportResponse {
-  ReportId?: string;
-  Status?: ReportStatus;
-  GeneratedAt?: Date;
-  TotalCount?: number;
-  Quotas?: QuotaUtilizationInfo[];
-  NextToken?: string;
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  ReportId?: string | undefined;
+  Status?: ReportStatus | undefined;
+  GeneratedAt?: Date | undefined;
+  TotalCount?: number | undefined;
+  Quotas?: QuotaUtilizationInfo[] | undefined;
+  NextToken?: string | undefined;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export interface GetRequestedServiceQuotaChangeRequest {
   RequestId: string;
@@ -372,34 +373,34 @@ export type RequestStatus =
   | (string & {});
 export type Requester = string;
 export interface RequestedServiceQuotaChange {
-  Id?: string;
-  RequestType?: RequestType;
-  CaseId?: string;
-  ServiceCode?: string;
-  ServiceName?: string;
-  QuotaCode?: string;
-  QuotaName?: string;
-  DesiredValue?: number;
-  Status?: RequestStatus;
-  Created?: Date;
-  LastUpdated?: Date;
-  Requester?: string;
-  QuotaArn?: string;
-  GlobalQuota?: boolean;
-  Unit?: string;
-  QuotaRequestedAtLevel?: AppliedLevelEnum;
-  QuotaContext?: QuotaContextInfo;
+  Id?: string | undefined;
+  RequestType?: RequestType | undefined;
+  CaseId?: string | undefined;
+  ServiceCode?: string | undefined;
+  ServiceName?: string | undefined;
+  QuotaCode?: string | undefined;
+  QuotaName?: string | undefined;
+  DesiredValue?: number | undefined;
+  Status?: RequestStatus | undefined;
+  Created?: Date | undefined;
+  LastUpdated?: Date | undefined;
+  Requester?: string | undefined;
+  QuotaArn?: string | undefined;
+  GlobalQuota?: boolean | undefined;
+  Unit?: string | undefined;
+  QuotaRequestedAtLevel?: AppliedLevelEnum | undefined;
+  QuotaContext?: QuotaContextInfo | undefined;
 }
 export interface GetRequestedServiceQuotaChangeResponse {
-  RequestedQuota?: RequestedServiceQuotaChange;
+  RequestedQuota?: RequestedServiceQuotaChange | undefined;
 }
 export interface GetServiceQuotaRequest {
   ServiceCode: string;
   QuotaCode: string;
-  ContextId?: string;
+  ContextId?: string | undefined;
 }
 export interface GetServiceQuotaResponse {
-  Quota?: ServiceQuota;
+  Quota?: ServiceQuota | undefined;
 }
 export interface GetServiceQuotaIncreaseRequestFromTemplateRequest {
   ServiceCode: string;
@@ -407,87 +408,87 @@ export interface GetServiceQuotaIncreaseRequestFromTemplateRequest {
   AwsRegion: string;
 }
 export interface ServiceQuotaIncreaseRequestInTemplate {
-  ServiceCode?: string;
-  ServiceName?: string;
-  QuotaCode?: string;
-  QuotaName?: string;
-  DesiredValue?: number;
-  AwsRegion?: string;
-  Unit?: string;
-  GlobalQuota?: boolean;
+  ServiceCode?: string | undefined;
+  ServiceName?: string | undefined;
+  QuotaCode?: string | undefined;
+  QuotaName?: string | undefined;
+  DesiredValue?: number | undefined;
+  AwsRegion?: string | undefined;
+  Unit?: string | undefined;
+  GlobalQuota?: boolean | undefined;
 }
 export interface GetServiceQuotaIncreaseRequestFromTemplateResponse {
-  ServiceQuotaIncreaseRequestInTemplate?: ServiceQuotaIncreaseRequestInTemplate;
+  ServiceQuotaIncreaseRequestInTemplate?: ServiceQuotaIncreaseRequestInTemplate | undefined;
 }
 export type MaxResults = number;
 export interface ListAWSDefaultServiceQuotasRequest {
   ServiceCode: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ServiceQuotaListDefinition = ServiceQuota[];
 export interface ListAWSDefaultServiceQuotasResponse {
-  NextToken?: string;
-  Quotas?: ServiceQuota[];
+  NextToken?: string | undefined;
+  Quotas?: ServiceQuota[] | undefined;
 }
 export interface ListRequestedServiceQuotaChangeHistoryRequest {
-  ServiceCode?: string;
-  Status?: RequestStatus;
-  NextToken?: string;
-  MaxResults?: number;
-  QuotaRequestedAtLevel?: AppliedLevelEnum;
+  ServiceCode?: string | undefined;
+  Status?: RequestStatus | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  QuotaRequestedAtLevel?: AppliedLevelEnum | undefined;
 }
 export type RequestedServiceQuotaChangeHistoryListDefinition = RequestedServiceQuotaChange[];
 export interface ListRequestedServiceQuotaChangeHistoryResponse {
-  NextToken?: string;
-  RequestedQuotas?: RequestedServiceQuotaChange[];
+  NextToken?: string | undefined;
+  RequestedQuotas?: RequestedServiceQuotaChange[] | undefined;
 }
 export interface ListRequestedServiceQuotaChangeHistoryByQuotaRequest {
   ServiceCode: string;
   QuotaCode: string;
-  Status?: RequestStatus;
-  NextToken?: string;
-  MaxResults?: number;
-  QuotaRequestedAtLevel?: AppliedLevelEnum;
+  Status?: RequestStatus | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  QuotaRequestedAtLevel?: AppliedLevelEnum | undefined;
 }
 export interface ListRequestedServiceQuotaChangeHistoryByQuotaResponse {
-  NextToken?: string;
-  RequestedQuotas?: RequestedServiceQuotaChange[];
+  NextToken?: string | undefined;
+  RequestedQuotas?: RequestedServiceQuotaChange[] | undefined;
 }
 export interface ListServiceQuotaIncreaseRequestsInTemplateRequest {
-  ServiceCode?: string;
-  AwsRegion?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  ServiceCode?: string | undefined;
+  AwsRegion?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ServiceQuotaIncreaseRequestInTemplateList = ServiceQuotaIncreaseRequestInTemplate[];
 export interface ListServiceQuotaIncreaseRequestsInTemplateResponse {
-  ServiceQuotaIncreaseRequestInTemplateList?: ServiceQuotaIncreaseRequestInTemplate[];
-  NextToken?: string;
+  ServiceQuotaIncreaseRequestInTemplateList?: ServiceQuotaIncreaseRequestInTemplate[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListServiceQuotasRequest {
   ServiceCode: string;
-  NextToken?: string;
-  MaxResults?: number;
-  QuotaCode?: string;
-  QuotaAppliedAtLevel?: AppliedLevelEnum;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  QuotaCode?: string | undefined;
+  QuotaAppliedAtLevel?: AppliedLevelEnum | undefined;
 }
 export interface ListServiceQuotasResponse {
-  NextToken?: string;
-  Quotas?: ServiceQuota[];
+  NextToken?: string | undefined;
+  Quotas?: ServiceQuota[] | undefined;
 }
 export interface ListServicesRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ServiceInfo {
-  ServiceCode?: string;
-  ServiceName?: string;
+  ServiceCode?: string | undefined;
+  ServiceName?: string | undefined;
 }
 export type ServiceInfoListDefinition = ServiceInfo[];
 export interface ListServicesResponse {
-  NextToken?: string;
-  Services?: ServiceInfo[];
+  NextToken?: string | undefined;
+  Services?: ServiceInfo[] | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
@@ -500,7 +501,7 @@ export interface Tag {
 }
 export type OutputTags = Tag[];
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface PutServiceQuotaIncreaseRequestIntoTemplateRequest {
   QuotaCode: string;
@@ -509,18 +510,18 @@ export interface PutServiceQuotaIncreaseRequestIntoTemplateRequest {
   DesiredValue: number;
 }
 export interface PutServiceQuotaIncreaseRequestIntoTemplateResponse {
-  ServiceQuotaIncreaseRequestInTemplate?: ServiceQuotaIncreaseRequestInTemplate;
+  ServiceQuotaIncreaseRequestInTemplate?: ServiceQuotaIncreaseRequestInTemplate | undefined;
 }
 export type SupportCaseAllowed = boolean;
 export interface RequestServiceQuotaIncreaseRequest {
   ServiceCode: string;
   QuotaCode: string;
   DesiredValue: number;
-  ContextId?: string;
-  SupportCaseAllowed?: boolean;
+  ContextId?: string | undefined;
+  SupportCaseAllowed?: boolean | undefined;
 }
 export interface RequestServiceQuotaIncreaseResponse {
-  RequestedQuota?: RequestedServiceQuotaChange;
+  RequestedQuota?: RequestedServiceQuotaChange | undefined;
 }
 export type ExcludedLimit = string;
 export type ExcludedQuotaList = string[];
@@ -528,16 +529,16 @@ export type ExclusionList = { [key: string]: string[] | undefined };
 export interface StartAutoManagementRequest {
   OptInLevel: OptInLevel;
   OptInType: OptInType;
-  NotificationArn?: string;
-  ExclusionList?: { [key: string]: string[] | undefined };
+  NotificationArn?: string | undefined;
+  ExclusionList?: { [key: string]: string[] | undefined } | undefined;
 }
 export interface StartAutoManagementResponse {}
 export interface StartQuotaUtilizationReportRequest {}
 export type ReportMessage = string;
 export interface StartQuotaUtilizationReportResponse {
-  ReportId?: string;
-  Status?: ReportStatus;
-  Message?: string;
+  ReportId?: string | undefined;
+  Status?: ReportStatus | undefined;
+  Message?: string | undefined;
 }
 export interface StopAutoManagementRequest {}
 export interface StopAutoManagementResponse {}
@@ -554,9 +555,9 @@ export interface UntagResourceRequest {
 }
 export interface UntagResourceResponse {}
 export interface UpdateAutoManagementRequest {
-  OptInType?: OptInType;
-  NotificationArn?: string;
-  ExclusionList?: { [key: string]: string[] | undefined };
+  OptInType?: OptInType | undefined;
+  NotificationArn?: string | undefined;
+  ExclusionList?: { [key: string]: string[] | undefined } | undefined;
 }
 export interface UpdateAutoManagementResponse {}
 export type ExceptionMessage = string;
@@ -577,7 +578,7 @@ export type AssociateServiceQuotaTemplateError =
  * for any adjustable quota to your template.
  */
 export const associateServiceQuotaTemplate: API.OperationMethod<
-  AssociateServiceQuotaTemplateRequest,
+  AssociateServiceQuotaTemplateRequest & RegionInput,
   AssociateServiceQuotaTemplateResponse,
   AssociateServiceQuotaTemplateError,
   Credentials | HttpClient.HttpClient
@@ -616,7 +617,7 @@ export type CreateSupportCaseError =
  * a Support case if the request has a `Pending` status.
  */
 export const createSupportCase: API.OperationMethod<
-  CreateSupportCaseRequest,
+  CreateSupportCaseRequest & RegionInput,
   CreateSupportCaseResponse,
   CreateSupportCaseError,
   Credentials | HttpClient.HttpClient
@@ -656,7 +657,7 @@ export type DeleteServiceQuotaIncreaseRequestFromTemplateError =
  * template.
  */
 export const deleteServiceQuotaIncreaseRequestFromTemplate: API.OperationMethod<
-  DeleteServiceQuotaIncreaseRequestFromTemplateRequest,
+  DeleteServiceQuotaIncreaseRequestFromTemplateRequest & RegionInput,
   DeleteServiceQuotaIncreaseRequestFromTemplateResponse,
   DeleteServiceQuotaIncreaseRequestFromTemplateError,
   Credentials | HttpClient.HttpClient
@@ -697,7 +698,7 @@ export type DisassociateServiceQuotaTemplateError =
  * Disabling a quota request template does not apply its quota increase requests.
  */
 export const disassociateServiceQuotaTemplate: API.OperationMethod<
-  DisassociateServiceQuotaTemplateRequest,
+  DisassociateServiceQuotaTemplateRequest & RegionInput,
   DisassociateServiceQuotaTemplateResponse,
   DisassociateServiceQuotaTemplateError,
   Credentials | HttpClient.HttpClient
@@ -735,7 +736,7 @@ export type GetAssociationForServiceQuotaTemplateError =
  * Retrieves the status of the association for the quota request template.
  */
 export const getAssociationForServiceQuotaTemplate: API.OperationMethod<
-  GetAssociationForServiceQuotaTemplateRequest,
+  GetAssociationForServiceQuotaTemplateRequest & RegionInput,
   GetAssociationForServiceQuotaTemplateResponse,
   GetAssociationForServiceQuotaTemplateError,
   Credentials | HttpClient.HttpClient
@@ -771,7 +772,7 @@ export type GetAutoManagementConfigurationError =
  * run out of your allocated quotas.
  */
 export const getAutoManagementConfiguration: API.OperationMethod<
-  GetAutoManagementConfigurationRequest,
+  GetAutoManagementConfigurationRequest & RegionInput,
   GetAutoManagementConfigurationResponse,
   GetAutoManagementConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -804,7 +805,7 @@ export type GetAWSDefaultServiceQuotaError =
  * reflect any quota increases.
  */
 export const getAWSDefaultServiceQuota: API.OperationMethod<
-  GetAWSDefaultServiceQuotaRequest,
+  GetAWSDefaultServiceQuotaRequest & RegionInput,
   GetAWSDefaultServiceQuotaResponse,
   GetAWSDefaultServiceQuotaError,
   Credentials | HttpClient.HttpClient
@@ -848,7 +849,7 @@ export type GetQuotaUtilizationReportError =
  * 15 minutes.
  */
 export const getQuotaUtilizationReport: API.OperationMethod<
-  GetQuotaUtilizationReportRequest,
+  GetQuotaUtilizationReportRequest & RegionInput,
   GetQuotaUtilizationReportResponse,
   GetQuotaUtilizationReportError,
   Credentials | HttpClient.HttpClient
@@ -881,7 +882,7 @@ export type GetRequestedServiceQuotaChangeError =
  * Retrieves information about the specified quota increase request.
  */
 export const getRequestedServiceQuotaChange: API.OperationMethod<
-  GetRequestedServiceQuotaChangeRequest,
+  GetRequestedServiceQuotaChangeRequest & RegionInput,
   GetRequestedServiceQuotaChangeResponse,
   GetRequestedServiceQuotaChangeError,
   Credentials | HttpClient.HttpClient
@@ -915,7 +916,7 @@ export type GetServiceQuotaError =
  * value is not available for a quota, the quota is not retrieved.
  */
 export const getServiceQuota: API.OperationMethod<
-  GetServiceQuotaRequest,
+  GetServiceQuotaRequest & RegionInput,
   GetServiceQuotaResponse,
   GetServiceQuotaError,
   Credentials | HttpClient.HttpClient
@@ -952,7 +953,7 @@ export type GetServiceQuotaIncreaseRequestFromTemplateError =
  * template.
  */
 export const getServiceQuotaIncreaseRequestFromTemplate: API.OperationMethod<
-  GetServiceQuotaIncreaseRequestFromTemplateRequest,
+  GetServiceQuotaIncreaseRequestFromTemplateRequest & RegionInput,
   GetServiceQuotaIncreaseRequestFromTemplateResponse,
   GetServiceQuotaIncreaseRequestFromTemplateError,
   Credentials | HttpClient.HttpClient
@@ -990,7 +991,7 @@ export type ListAWSDefaultServiceQuotasError =
  * value does not reflect any quota increases.
  */
 export const listAWSDefaultServiceQuotas: API.PaginatedOperationMethod<
-  ListAWSDefaultServiceQuotasRequest,
+  ListAWSDefaultServiceQuotasRequest & RegionInput,
   ListAWSDefaultServiceQuotasResponse,
   ListAWSDefaultServiceQuotasError,
   Credentials | HttpClient.HttpClient,
@@ -1033,7 +1034,7 @@ export type ListRequestedServiceQuotaChangeHistoryError =
  * levels. Responses include any open or closed requests within 90 days.
  */
 export const listRequestedServiceQuotaChangeHistory: API.PaginatedOperationMethod<
-  ListRequestedServiceQuotaChangeHistoryRequest,
+  ListRequestedServiceQuotaChangeHistoryRequest & RegionInput,
   ListRequestedServiceQuotaChangeHistoryResponse,
   ListRequestedServiceQuotaChangeHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -1075,7 +1076,7 @@ export type ListRequestedServiceQuotaChangeHistoryByQuotaError =
  * return quota requests at either the account level, resource level, or all levels.
  */
 export const listRequestedServiceQuotaChangeHistoryByQuota: API.PaginatedOperationMethod<
-  ListRequestedServiceQuotaChangeHistoryByQuotaRequest,
+  ListRequestedServiceQuotaChangeHistoryByQuotaRequest & RegionInput,
   ListRequestedServiceQuotaChangeHistoryByQuotaResponse,
   ListRequestedServiceQuotaChangeHistoryByQuotaError,
   Credentials | HttpClient.HttpClient,
@@ -1126,7 +1127,7 @@ export type ListServiceQuotaIncreaseRequestsInTemplateError =
  * Lists the quota increase requests in the specified quota request template.
  */
 export const listServiceQuotaIncreaseRequestsInTemplate: API.PaginatedOperationMethod<
-  ListServiceQuotaIncreaseRequestsInTemplateRequest,
+  ListServiceQuotaIncreaseRequestsInTemplateRequest & RegionInput,
   ListServiceQuotaIncreaseRequestsInTemplateResponse,
   ListServiceQuotaIncreaseRequestsInTemplateError,
   Credentials | HttpClient.HttpClient,
@@ -1172,7 +1173,7 @@ export type ListServiceQuotasError =
  * either the account level, resource level, or all levels.
  */
 export const listServiceQuotas: API.PaginatedOperationMethod<
-  ListServiceQuotasRequest,
+  ListServiceQuotasRequest & RegionInput,
   ListServiceQuotasResponse,
   ListServiceQuotasError,
   Credentials | HttpClient.HttpClient,
@@ -1212,7 +1213,7 @@ export type ListServicesError =
  * Lists the names and codes for the Amazon Web Services services integrated with Service Quotas.
  */
 export const listServices: API.PaginatedOperationMethod<
-  ListServicesRequest,
+  ListServicesRequest & RegionInput,
   ListServicesResponse,
   ListServicesError,
   Credentials | HttpClient.HttpClient,
@@ -1251,7 +1252,7 @@ export type ListTagsForResourceError =
  * Returns a list of the tags assigned to the specified applied quota.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1288,7 +1289,7 @@ export type PutServiceQuotaIncreaseRequestIntoTemplateError =
  * Adds a quota increase request to your quota request template.
  */
 export const putServiceQuotaIncreaseRequestIntoTemplate: API.OperationMethod<
-  PutServiceQuotaIncreaseRequestIntoTemplateRequest,
+  PutServiceQuotaIncreaseRequestIntoTemplateRequest & RegionInput,
   PutServiceQuotaIncreaseRequestIntoTemplateResponse,
   PutServiceQuotaIncreaseRequestIntoTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1330,7 +1331,7 @@ export type RequestServiceQuotaIncreaseError =
  * level.
  */
 export const requestServiceQuotaIncrease: API.OperationMethod<
-  RequestServiceQuotaIncreaseRequest,
+  RequestServiceQuotaIncreaseRequest & RegionInput,
   RequestServiceQuotaIncreaseResponse,
   RequestServiceQuotaIncreaseError,
   Credentials | HttpClient.HttpClient
@@ -1368,7 +1369,7 @@ export type StartAutoManagementError =
  * run out of your allocated quotas.
  */
 export const startAutoManagement: API.OperationMethod<
-  StartAutoManagementRequest,
+  StartAutoManagementRequest & RegionInput,
   StartAutoManagementResponse,
   StartAutoManagementError,
   Credentials | HttpClient.HttpClient
@@ -1407,7 +1408,7 @@ export type StartQuotaUtilizationReportError =
  * to check the status and retrieve the results when the report is ready.
  */
 export const startQuotaUtilizationReport: API.OperationMethod<
-  StartQuotaUtilizationReportRequest,
+  StartQuotaUtilizationReportRequest & RegionInput,
   StartQuotaUtilizationReportResponse,
   StartQuotaUtilizationReportError,
   Credentials | HttpClient.HttpClient
@@ -1442,7 +1443,7 @@ export type StopAutoManagementError =
  * run out of your allocated quotas.
  */
 export const stopAutoManagement: API.OperationMethod<
-  StopAutoManagementRequest,
+  StopAutoManagementRequest & RegionInput,
   StopAutoManagementResponse,
   StopAutoManagementError,
   Credentials | HttpClient.HttpClient
@@ -1477,7 +1478,7 @@ export type TagResourceError =
  * the quota.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1512,7 +1513,7 @@ export type UntagResourceError =
  * remove.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1546,7 +1547,7 @@ export type UpdateAutoManagementError =
  * run out of your allocated quotas.
  */
 export const updateAutoManagement: API.OperationMethod<
-  UpdateAutoManagementRequest,
+  UpdateAutoManagementRequest & RegionInput,
   UpdateAutoManagementResponse,
   UpdateAutoManagementError,
   Credentials | HttpClient.HttpClient

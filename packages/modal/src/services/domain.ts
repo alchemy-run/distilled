@@ -23,20 +23,39 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+/** The domain is already registered (gRPC ALREADY_EXISTS). */
+export class DomainAlreadyExists
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<DomainAlreadyExists>()("DomainAlreadyExists", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ code: 6 }],
+  ) {}
+
+/** The domain doesn't exist (gRPC NOT_FOUND). */
+export class DomainNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<DomainNotFound>()("DomainNotFound", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ code: 5 }],
+  ) {}
+
 export interface CreateDomainRequest {
-  domainName?: string;
+  domainName?: string | undefined;
 }
-/** now unused internal experimental values */
 export type DNSRecordType = "DNS_RECORD_TYPE_A" | "DNS_RECORD_TYPE_TXT" | "DNS_RECORD_TYPE_CNAME";
 export interface DNSRecord {
-  type?: DNSRecordType;
-  name?: string;
-  value?: string;
+  type: DNSRecordType;
+  name: string;
+  value: string;
 }
 export type DNSRecordList = Array<DNSRecord>;
 export interface CreateDomainResponse {
-  domainId?: string;
-  dnsRecords?: DNSRecordList;
+  domainId: string;
+  dnsRecords: DNSRecordList;
 }
 export interface ListDomainRequest {}
 export type CertificateStatus =
@@ -45,23 +64,23 @@ export type CertificateStatus =
   | "CERTIFICATE_STATUS_FAILED"
   | "CERTIFICATE_STATUS_REVOKED";
 export interface Domain {
-  domainId?: string;
-  domainName?: string;
-  createdAt?: number;
-  certificateStatus?: CertificateStatus;
-  dnsRecords?: DNSRecordList;
+  domainId: string;
+  domainName: string;
+  createdAt: number;
+  certificateStatus: CertificateStatus;
+  dnsRecords: DNSRecordList;
 }
 export type DomainList2 = Array<Domain>;
 export interface ListDomainResponse {
-  domains?: DomainList2;
+  domains: DomainList2;
 }
 export interface VerifyDomainCertificateRequest {
-  domainId?: string;
+  domainId?: string | undefined;
 }
 export interface VerifyDomainCertificateResponse {
-  domain?: Domain;
+  domain?: Domain | undefined;
 }
-export type CreateDomainError = ModalOpError;
+export type CreateDomainError = DomainAlreadyExists | ModalOpError;
 export const createDomain: API.OperationMethod<
   CreateDomainRequest,
   CreateDomainResponse,
@@ -70,7 +89,7 @@ export const createDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateDomainRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<CreateDomainResponse>,
-  errors: [UnknownModalError],
+  errors: [DomainAlreadyExists, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93,7 +112,7 @@ export const listDomain: API.OperationMethod<
   span: "ListDomain",
 }));
 
-export type VerifyDomainCertificateError = ModalOpError;
+export type VerifyDomainCertificateError = DomainNotFound | ModalOpError;
 /** Domains */
 export const verifyDomainCertificate: API.OperationMethod<
   VerifyDomainCertificateRequest,
@@ -103,7 +122,7 @@ export const verifyDomainCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<VerifyDomainCertificateRequest>,
   output: __S(17, __c4, 1) as any as S.Schema<VerifyDomainCertificateResponse>,
-  errors: [UnknownModalError],
+  errors: [DomainNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -124,8 +143,8 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          domainId: S.optional(S.String),
-          dnsRecords: S.optional(__S(5, __c1, 1)),
+          domainId: S.String,
+          dnsRecords: __S(5, __c1, 1),
         }),
       ).annotate({ identifier: "CreateDomainResponse" });
   }
@@ -135,9 +154,9 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
-          name: S.optional(S.String),
-          value: S.optional(S.String),
+          type: S.String,
+          name: S.String,
+          value: S.String,
         }),
       ).annotate({ identifier: "DNSRecord" });
     case 1:
@@ -157,7 +176,7 @@ function __c2(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          domains: S.optional(__S(9, __c2, 1)),
+          domains: __S(9, __c2, 1),
         }),
       ).annotate({ identifier: "ListDomainResponse" });
   }
@@ -167,11 +186,11 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          domainId: S.optional(S.String),
-          domainName: S.optional(S.String),
-          createdAt: S.optional(S.Number),
-          certificateStatus: S.optional(S.String),
-          dnsRecords: S.optional(__S(5, __c1, 1)),
+          domainId: S.String,
+          domainName: S.String,
+          createdAt: S.Number,
+          certificateStatus: S.String,
+          dnsRecords: __S(5, __c1, 1),
         }),
       ).annotate({ identifier: "Domain" });
   }

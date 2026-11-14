@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -245,7 +246,7 @@ export class ThrottlingException
       /*@__PURE__*/ T.AwsQueryError({ code: "Throttling", httpResponseCode: 400 }),
       /*@__PURE__*/ T.HttpError(400),
     ),
-  ).pipe(C.withBadRequestError) {}
+  ).pipe(C.withBadRequestError, C.withThrottlingError, C.withRetryableError) {}
 export class UploadIdNotFound
   extends /*@__PURE__*/ S.TaggedError<UploadIdNotFound>()("UploadIdNotFound", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
@@ -254,20 +255,20 @@ export type AttachmentSetId = string;
 export type FileName = string;
 export type Data = Uint8Array;
 export interface Attachment {
-  fileName?: string;
-  data?: Uint8Array;
+  fileName?: string | undefined;
+  data?: Uint8Array | undefined;
 }
 export type Attachments = Attachment[];
 export type NullableBooleanType = boolean;
 export interface AddAttachmentsToSetRequest {
-  attachmentSetId?: string;
+  attachmentSetId?: string | undefined;
   attachments: Attachment[];
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
 }
 export type ExpiryTime = string;
 export interface AddAttachmentsToSetResponse {
-  attachmentSetId?: string;
-  expiryTime?: string;
+  attachmentSetId?: string | undefined;
+  expiryTime?: string | undefined;
 }
 export type CaseId = string;
 export type CommunicationBody = string;
@@ -276,16 +277,16 @@ export type CcEmailAddressList = string[];
 export type UploadId = string;
 export type UploadIds = string[];
 export interface AddCommunicationToCaseRequest {
-  caseId?: string;
+  caseId?: string | undefined;
   communicationBody: string;
-  ccEmailAddresses?: string[];
-  attachmentSetId?: string;
-  uploadIds?: string[];
-  dryRun?: boolean;
+  ccEmailAddresses?: string[] | undefined;
+  attachmentSetId?: string | undefined;
+  uploadIds?: string[] | undefined;
+  dryRun?: boolean | undefined;
 }
 export type Result = boolean;
 export interface AddCommunicationToCaseResponse {
-  result?: boolean;
+  result?: boolean | undefined;
 }
 export type FieldIntegerValue = number;
 export type ETag = string;
@@ -297,7 +298,7 @@ export type CompletedUploadList = CompletedUpload[];
 export interface CompleteAttachmentUploadRequest {
   uploadId: string;
   completedUploads: CompletedUpload[];
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
 }
 export type UploadStatus = "attachment-ready" | "attachment-not-ready" | "failed" | (string & {});
 export interface CompleteAttachmentUploadResponse {
@@ -311,40 +312,40 @@ export type Language = string;
 export type IssueType = string;
 export interface CreateCaseRequest {
   subject: string;
-  serviceCode?: string;
-  severityCode?: string;
-  categoryCode?: string;
+  serviceCode?: string | undefined;
+  severityCode?: string | undefined;
+  categoryCode?: string | undefined;
   communicationBody: string;
-  ccEmailAddresses?: string[];
-  language?: string;
-  issueType?: string;
-  attachmentSetId?: string;
-  uploadIds?: string[];
-  dryRun?: boolean;
+  ccEmailAddresses?: string[] | undefined;
+  language?: string | undefined;
+  issueType?: string | undefined;
+  attachmentSetId?: string | undefined;
+  uploadIds?: string[] | undefined;
+  dryRun?: boolean | undefined;
 }
 export interface CreateCaseResponse {
-  caseId?: string;
+  caseId?: string | undefined;
 }
 export type AttachmentId = string;
 export interface DescribeAttachmentRequest {
   attachmentId: string;
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
 }
 export interface DescribeAttachmentResponse {
-  attachment?: Attachment;
+  attachment?: Attachment | undefined;
 }
 export interface DescribeAttachmentUploadStatusRequest {
   uploadId: string;
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
 }
 export interface UploadProgress {
-  totalParts?: number;
-  completedPartsCount?: number;
+  totalParts?: number | undefined;
+  completedPartsCount?: number | undefined;
 }
 export interface DescribeAttachmentUploadStatusResponse {
   uploadStatus: UploadStatus;
   fileName: string;
-  uploadProgress?: UploadProgress;
+  uploadProgress?: UploadProgress | undefined;
 }
 export type CaseIdList = string[];
 export type DisplayId = string;
@@ -355,16 +356,16 @@ export type NextToken = string;
 export type MaxResults = number;
 export type IncludeCommunications = boolean;
 export interface DescribeCasesRequest {
-  caseIdList?: string[];
-  displayId?: string;
-  afterTime?: string;
-  beforeTime?: string;
-  includeResolvedCases?: boolean;
-  nextToken?: string;
-  maxResults?: number;
-  language?: string;
-  includeCommunications?: boolean;
-  dryRun?: boolean;
+  caseIdList?: string[] | undefined;
+  displayId?: string | undefined;
+  afterTime?: string | undefined;
+  beforeTime?: string | undefined;
+  includeResolvedCases?: boolean | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  language?: string | undefined;
+  includeCommunications?: boolean | undefined;
+  dryRun?: boolean | undefined;
 }
 export type Status = string;
 export type ServiceCode = string;
@@ -372,121 +373,121 @@ export type SubmittedBy = string;
 export type TimeCreated = string;
 export type ValidatedCommunicationBody = string;
 export interface AttachmentDetails {
-  attachmentId?: string;
-  fileName?: string;
+  attachmentId?: string | undefined;
+  fileName?: string | undefined;
 }
 export type AttachmentSet = AttachmentDetails[];
 export interface Communication {
-  caseId?: string;
-  body?: string;
-  submittedBy?: string;
-  timeCreated?: string;
-  attachments?: AttachmentDetails[];
-  attachmentSet?: AttachmentDetails[];
+  caseId?: string | undefined;
+  body?: string | undefined;
+  submittedBy?: string | undefined;
+  timeCreated?: string | undefined;
+  attachments?: AttachmentDetails[] | undefined;
+  attachmentSet?: AttachmentDetails[] | undefined;
 }
 export type CommunicationList = Communication[];
 export interface RecentCaseCommunications {
-  communications?: Communication[];
-  nextToken?: string;
+  communications?: Communication[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface CaseDetails {
-  caseId?: string;
-  displayId?: string;
-  subject?: string;
-  status?: string;
-  serviceCode?: string;
-  categoryCode?: string;
-  severityCode?: string;
-  submittedBy?: string;
-  timeCreated?: string;
-  recentCommunications?: RecentCaseCommunications;
-  ccEmailAddresses?: string[];
-  language?: string;
+  caseId?: string | undefined;
+  displayId?: string | undefined;
+  subject?: string | undefined;
+  status?: string | undefined;
+  serviceCode?: string | undefined;
+  categoryCode?: string | undefined;
+  severityCode?: string | undefined;
+  submittedBy?: string | undefined;
+  timeCreated?: string | undefined;
+  recentCommunications?: RecentCaseCommunications | undefined;
+  ccEmailAddresses?: string[] | undefined;
+  language?: string | undefined;
 }
 export type CaseList = CaseDetails[];
 export interface DescribeCasesResponse {
-  cases?: CaseDetails[];
-  nextToken?: string;
+  cases?: CaseDetails[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface DescribeCommunicationsRequest {
   caseId: string;
-  beforeTime?: string;
-  afterTime?: string;
-  nextToken?: string;
-  maxResults?: number;
-  dryRun?: boolean;
+  beforeTime?: string | undefined;
+  afterTime?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  dryRun?: boolean | undefined;
 }
 export interface DescribeCommunicationsResponse {
-  communications?: Communication[];
-  nextToken?: string;
+  communications?: Communication[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface DescribeCreateCaseOptionsRequest {
   issueType: string;
   serviceCode: string;
   language: string;
   categoryCode: string;
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
 }
 export type ValidatedLanguageAvailability = string;
 export type Type = string;
 export type StartTime = string;
 export type EndTime = string;
 export interface SupportedHour {
-  startTime?: string;
-  endTime?: string;
+  startTime?: string | undefined;
+  endTime?: string | undefined;
 }
 export type SupportedHoursList = SupportedHour[];
 export type ValidatedDateTime = string;
 export interface DateInterval {
-  startDateTime?: string;
-  endDateTime?: string;
+  startDateTime?: string | undefined;
+  endDateTime?: string | undefined;
 }
 export type DatesWithoutSupportList = DateInterval[];
 export interface CommunicationTypeOptions {
-  type?: string;
-  supportedHours?: SupportedHour[];
-  datesWithoutSupport?: DateInterval[];
+  type?: string | undefined;
+  supportedHours?: SupportedHour[] | undefined;
+  datesWithoutSupport?: DateInterval[] | undefined;
 }
 export type CommunicationTypeOptionsList = CommunicationTypeOptions[];
 export interface DescribeCreateCaseOptionsResponse {
-  languageAvailability?: string;
-  communicationTypes?: CommunicationTypeOptions[];
+  languageAvailability?: string | undefined;
+  communicationTypes?: CommunicationTypeOptions[] | undefined;
 }
 export type ServiceCodeList = string[];
 export interface DescribeServicesRequest {
-  serviceCodeList?: string[];
-  language?: string;
-  dryRun?: boolean;
+  serviceCodeList?: string[] | undefined;
+  language?: string | undefined;
+  dryRun?: boolean | undefined;
 }
 export type ServiceName = string;
 export type CategoryName = string;
 export interface Category {
-  code?: string;
-  name?: string;
+  code?: string | undefined;
+  name?: string | undefined;
 }
 export type CategoryList = Category[];
 export interface Service {
-  code?: string;
-  name?: string;
-  categories?: Category[];
+  code?: string | undefined;
+  name?: string | undefined;
+  categories?: Category[] | undefined;
 }
 export type ServiceList = Service[];
 export interface DescribeServicesResponse {
-  services?: Service[];
+  services?: Service[] | undefined;
 }
 export interface DescribeSeverityLevelsRequest {
-  language?: string;
-  dryRun?: boolean;
+  language?: string | undefined;
+  dryRun?: boolean | undefined;
 }
 export type SeverityLevelCode = string;
 export type SeverityLevelName = string;
 export interface SeverityLevel {
-  code?: string;
-  name?: string;
+  code?: string | undefined;
+  name?: string | undefined;
 }
 export type SeverityLevelsList = SeverityLevel[];
 export interface DescribeSeverityLevelsResponse {
-  severityLevels?: SeverityLevel[];
+  severityLevels?: SeverityLevel[] | undefined;
 }
 export type ValidatedIssueTypeString = string;
 export type ValidatedServiceCode = string;
@@ -495,18 +496,18 @@ export interface DescribeSupportedLanguagesRequest {
   issueType: string;
   serviceCode: string;
   categoryCode: string;
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
 }
 export type Code = string;
 export type Display = string;
 export interface SupportedLanguage {
-  code?: string;
-  language?: string;
-  display?: string;
+  code?: string | undefined;
+  language?: string | undefined;
+  display?: string | undefined;
 }
 export type SupportedLanguagesList = SupportedLanguage[];
 export interface DescribeSupportedLanguagesResponse {
-  supportedLanguages?: SupportedLanguage[];
+  supportedLanguages?: SupportedLanguage[] | undefined;
 }
 export type StringList = string[];
 export interface DescribeTrustedAdvisorCheckRefreshStatusesRequest {
@@ -523,7 +524,7 @@ export interface DescribeTrustedAdvisorCheckRefreshStatusesResponse {
 }
 export interface DescribeTrustedAdvisorCheckResultRequest {
   checkId: string;
-  language?: string;
+  language?: string | undefined;
 }
 export interface TrustedAdvisorResourcesSummary {
   resourcesProcessed: number;
@@ -536,13 +537,13 @@ export interface TrustedAdvisorCostOptimizingSummary {
   estimatedPercentMonthlySavings: number;
 }
 export interface TrustedAdvisorCategorySpecificSummary {
-  costOptimizing?: TrustedAdvisorCostOptimizingSummary;
+  costOptimizing?: TrustedAdvisorCostOptimizingSummary | undefined;
 }
 export interface TrustedAdvisorResourceDetail {
   status: string;
-  region?: string;
+  region?: string | undefined;
   resourceId: string;
-  isSuppressed?: boolean;
+  isSuppressed?: boolean | undefined;
   metadata: string[];
 }
 export type TrustedAdvisorResourceDetailList = TrustedAdvisorResourceDetail[];
@@ -555,7 +556,7 @@ export interface TrustedAdvisorCheckResult {
   flaggedResources: TrustedAdvisorResourceDetail[];
 }
 export interface DescribeTrustedAdvisorCheckResultResponse {
-  result?: TrustedAdvisorCheckResult;
+  result?: TrustedAdvisorCheckResult | undefined;
 }
 export interface DescribeTrustedAdvisorChecksRequest {
   language: string;
@@ -578,7 +579,7 @@ export interface TrustedAdvisorCheckSummary {
   checkId: string;
   timestamp: string;
   status: string;
-  hasFlaggedResources?: boolean;
+  hasFlaggedResources?: boolean | undefined;
   resourcesSummary: TrustedAdvisorResourcesSummary;
   categorySpecificSummary: TrustedAdvisorCategorySpecificSummary;
 }
@@ -588,7 +589,7 @@ export interface DescribeTrustedAdvisorCheckSummariesResponse {
 }
 export interface GetAttachmentDownloadLinkRequest {
   attachmentId: string;
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
 }
 export type HttpsUrl = string;
 export interface DownloadUrl {
@@ -604,14 +605,14 @@ export type StartIndex = number;
 export type EndIndex = number;
 export interface UploadRange {
   startIndex: number;
-  endIndex?: number;
+  endIndex?: number | undefined;
 }
 export interface GetAttachmentUploadLinksRequest {
   fileName: string;
-  fileSizeBytes?: number;
-  uploadId?: string;
-  uploadRange?: UploadRange;
-  dryRun?: boolean;
+  fileSizeBytes?: number | undefined;
+  uploadId?: string | undefined;
+  uploadRange?: UploadRange | undefined;
+  dryRun?: boolean | undefined;
 }
 export type PartSizeBytes = number;
 export interface UploadUrl {
@@ -624,7 +625,7 @@ export interface GetAttachmentUploadLinksResponse {
   uploadId: string;
   partSizeBytes: number;
   totalParts: number;
-  nextIndex?: number;
+  nextIndex?: number | undefined;
   uploadUrls: UploadUrl[];
 }
 export interface RefreshTrustedAdvisorCheckRequest {
@@ -634,21 +635,21 @@ export interface RefreshTrustedAdvisorCheckResponse {
   status: TrustedAdvisorCheckRefreshStatus;
 }
 export interface ResolveCaseRequest {
-  caseId?: string;
-  dryRun?: boolean;
+  caseId?: string | undefined;
+  dryRun?: boolean | undefined;
 }
 export type CaseStatus = string;
 export interface ResolveCaseResponse {
-  initialCaseStatus?: string;
-  finalCaseStatus?: string;
+  initialCaseStatus?: string | undefined;
+  finalCaseStatus?: string | undefined;
 }
 export type ErrorMessage = string;
 export type AvailabilityErrorMessage = string;
 export type CoralAvailabilityThrottlingReason = string;
 export type CoralAvailabilityThrottledResource = string;
 export interface ThrottlingReason {
-  reason?: string;
-  resource?: string;
+  reason?: string | undefined;
+  resource?: string | undefined;
 }
 export type ThrottlingReasonList = ThrottlingReason[];
 export type AddAttachmentsToSetError =
@@ -675,7 +676,7 @@ export type AddAttachmentsToSetError =
  * information about changing your support plan, see Amazon Web Services Support.
  */
 export const addAttachmentsToSet: API.OperationMethod<
-  AddAttachmentsToSetRequest,
+  AddAttachmentsToSetRequest & RegionInput,
   AddAttachmentsToSetResponse,
   AddAttachmentsToSetError,
   Credentials | HttpClient.HttpClient
@@ -732,7 +733,7 @@ export type AddCommunicationToCaseError =
  * information about changing your support plan, see Amazon Web Services Support.
  */
 export const addCommunicationToCase: API.OperationMethod<
-  AddCommunicationToCaseRequest,
+  AddCommunicationToCaseRequest & RegionInput,
   AddCommunicationToCaseResponse,
   AddCommunicationToCaseError,
   Credentials | HttpClient.HttpClient
@@ -768,7 +769,7 @@ export type CompleteAttachmentUploadError =
  * become `attachment-ready` before passing the `uploadId` to CreateCase or AddCommunicationToCase.
  */
 export const completeAttachmentUpload: API.OperationMethod<
-  CompleteAttachmentUploadRequest,
+  CompleteAttachmentUploadRequest & RegionInput,
   CompleteAttachmentUploadResponse,
   CompleteAttachmentUploadError,
   Credentials | HttpClient.HttpClient
@@ -829,7 +830,7 @@ export type CreateCaseError =
  * information about changing your support plan, see Amazon Web Services Support.
  */
 export const createCase: API.OperationMethod<
-  CreateCaseRequest,
+  CreateCaseRequest & RegionInput,
   CreateCaseResponse,
   CreateCaseError,
   Credentials | HttpClient.HttpClient
@@ -881,7 +882,7 @@ export type DescribeAttachmentError =
  * use to download the attachment directly.
  */
 export const describeAttachment: API.OperationMethod<
-  DescribeAttachmentRequest,
+  DescribeAttachmentRequest & RegionInput,
   DescribeAttachmentResponse,
   DescribeAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -926,7 +927,7 @@ export type DescribeAttachmentUploadStatusError =
  * information about changing your support plan, see Amazon Web Services Support.
  */
 export const describeAttachmentUploadStatus: API.OperationMethod<
-  DescribeAttachmentUploadStatusRequest,
+  DescribeAttachmentUploadStatusRequest & RegionInput,
   DescribeAttachmentUploadStatusResponse,
   DescribeAttachmentUploadStatusError,
   Credentials | HttpClient.HttpClient
@@ -985,7 +986,7 @@ export type DescribeCasesError =
  * smaller.
  */
 export const describeCases: API.PaginatedOperationMethod<
-  DescribeCasesRequest,
+  DescribeCasesRequest & RegionInput,
   DescribeCasesResponse,
   DescribeCasesError,
   Credentials | HttpClient.HttpClient,
@@ -1048,7 +1049,7 @@ export type DescribeCommunicationsError =
  * smaller.
  */
 export const describeCommunications: API.PaginatedOperationMethod<
-  DescribeCommunicationsRequest,
+  DescribeCommunicationsRequest & RegionInput,
   DescribeCommunicationsResponse,
   DescribeCommunicationsError,
   Credentials | HttpClient.HttpClient,
@@ -1090,7 +1091,7 @@ export type DescribeCreateCaseOptionsError =
  * information about changing your support plan, see Amazon Web Services Support.
  */
 export const describeCreateCaseOptions: API.OperationMethod<
-  DescribeCreateCaseOptionsRequest,
+  DescribeCreateCaseOptionsRequest & RegionInput,
   DescribeCreateCaseOptionsResponse,
   DescribeCreateCaseOptionsError,
   Credentials | HttpClient.HttpClient
@@ -1127,7 +1128,7 @@ export type DescribeServicesError = DryRunOperationException | InternalServerErr
  * information about changing your support plan, see Amazon Web Services Support.
  */
 export const describeServices: API.OperationMethod<
-  DescribeServicesRequest,
+  DescribeServicesRequest & RegionInput,
   DescribeServicesResponse,
   DescribeServicesError,
   Credentials | HttpClient.HttpClient
@@ -1160,7 +1161,7 @@ export type DescribeSeverityLevelsError =
  * information about changing your support plan, see Amazon Web Services Support.
  */
 export const describeSeverityLevels: API.OperationMethod<
-  DescribeSeverityLevelsRequest,
+  DescribeSeverityLevelsRequest & RegionInput,
   DescribeSeverityLevelsResponse,
   DescribeSeverityLevelsError,
   Credentials | HttpClient.HttpClient
@@ -1194,7 +1195,7 @@ export type DescribeSupportedLanguagesError =
  * information about changing your support plan, see Amazon Web Services Support.
  */
 export const describeSupportedLanguages: API.OperationMethod<
-  DescribeSupportedLanguagesRequest,
+  DescribeSupportedLanguagesRequest & RegionInput,
   DescribeSupportedLanguagesResponse,
   DescribeSupportedLanguagesError,
   Credentials | HttpClient.HttpClient
@@ -1236,7 +1237,7 @@ export type DescribeTrustedAdvisorCheckRefreshStatusesError =
  * API in the *Amazon Web Services Support User Guide*.
  */
 export const describeTrustedAdvisorCheckRefreshStatuses: API.OperationMethod<
-  DescribeTrustedAdvisorCheckRefreshStatusesRequest,
+  DescribeTrustedAdvisorCheckRefreshStatusesRequest & RegionInput,
   DescribeTrustedAdvisorCheckRefreshStatusesResponse,
   DescribeTrustedAdvisorCheckRefreshStatusesError,
   Credentials | HttpClient.HttpClient
@@ -1295,7 +1296,7 @@ export type DescribeTrustedAdvisorCheckResultError =
  * API in the *Amazon Web Services Support User Guide*.
  */
 export const describeTrustedAdvisorCheckResult: API.OperationMethod<
-  DescribeTrustedAdvisorCheckResultRequest,
+  DescribeTrustedAdvisorCheckResultRequest & RegionInput,
   DescribeTrustedAdvisorCheckResultResponse,
   DescribeTrustedAdvisorCheckResultError,
   Credentials | HttpClient.HttpClient
@@ -1338,7 +1339,7 @@ export type DescribeTrustedAdvisorChecksError =
  * API in the *Amazon Web Services Support User Guide*.
  */
 export const describeTrustedAdvisorChecks: API.OperationMethod<
-  DescribeTrustedAdvisorChecksRequest,
+  DescribeTrustedAdvisorChecksRequest & RegionInput,
   DescribeTrustedAdvisorChecksResponse,
   DescribeTrustedAdvisorChecksError,
   Credentials | HttpClient.HttpClient
@@ -1382,7 +1383,7 @@ export type DescribeTrustedAdvisorCheckSummariesError =
  * The **Resources processed** value, `resourcesProcessed`, usually shows both flagged resources (those with warnings or errors) and resources in good standing (ok status resources). However, some checks report flagged resources only. To understand what a specific check reports, review the detailed check information in the Trusted Advisor check reference. If you see a **Green** criterion listed in the **Alert criteria**, then the check reports all resources. If there's no **Green** criterion listed in the **Alert criteria**, then the check reports only flagged resources. For example, the Amazon EC2 Reserved Instance optimization check (cX3c2R1chu) doesn't list a **Green** criterion in the **Alert criteria**. So, this check only reports flagged resources.
  */
 export const describeTrustedAdvisorCheckSummaries: API.OperationMethod<
-  DescribeTrustedAdvisorCheckSummariesRequest,
+  DescribeTrustedAdvisorCheckSummariesRequest & RegionInput,
   DescribeTrustedAdvisorCheckSummariesResponse,
   DescribeTrustedAdvisorCheckSummariesError,
   Credentials | HttpClient.HttpClient
@@ -1418,7 +1419,7 @@ export type GetAttachmentDownloadLinkError =
  * information about changing your support plan, see Amazon Web Services Support.
  */
 export const getAttachmentDownloadLink: API.OperationMethod<
-  GetAttachmentDownloadLinkRequest,
+  GetAttachmentDownloadLinkRequest & RegionInput,
   GetAttachmentDownloadLinkResponse,
   GetAttachmentDownloadLinkError,
   Credentials | HttpClient.HttpClient
@@ -1464,7 +1465,7 @@ export type GetAttachmentUploadLinksError =
  * information about changing your support plan, see Amazon Web Services Support.
  */
 export const getAttachmentUploadLinks: API.OperationMethod<
-  GetAttachmentUploadLinksRequest,
+  GetAttachmentUploadLinksRequest & RegionInput,
   GetAttachmentUploadLinksResponse,
   GetAttachmentUploadLinksError,
   Credentials | HttpClient.HttpClient
@@ -1506,7 +1507,7 @@ export type RefreshTrustedAdvisorCheckError = InternalServerError | CommonErrors
  * API in the *Amazon Web Services Support User Guide*.
  */
 export const refreshTrustedAdvisorCheck: API.OperationMethod<
-  RefreshTrustedAdvisorCheckRequest,
+  RefreshTrustedAdvisorCheckRequest & RegionInput,
   RefreshTrustedAdvisorCheckResponse,
   RefreshTrustedAdvisorCheckError,
   Credentials | HttpClient.HttpClient
@@ -1539,7 +1540,7 @@ export type ResolveCaseError =
  * information about changing your support plan, see Amazon Web Services Support.
  */
 export const resolveCase: API.OperationMethod<
-  ResolveCaseRequest,
+  ResolveCaseRequest & RegionInput,
   ResolveCaseResponse,
   ResolveCaseError,
   Credentials | HttpClient.HttpClient

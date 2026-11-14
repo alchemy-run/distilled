@@ -254,3 +254,178 @@ describe("pagination over a bare-array response", () => {
     expect(code).toContain("resultInfo?: string | null;");
   });
 });
+
+const grpcModel = () => ({
+  smithy: "2.0",
+  shapes: {
+    "com.example.grpc#Echo": {
+      type: "service",
+      version: "1.0",
+      operations: [{ target: "com.example.grpc#Say" }, { target: "com.example.grpc#Count" }],
+    },
+    "com.example.grpc#Say": {
+      type: "operation",
+      input: { target: "com.example.grpc#SayRequest" },
+      output: { target: "com.example.grpc#SayResponse" },
+      traits: { "smithy.api#http": { method: "POST", uri: "/echo.Echo/Say" } },
+    },
+    "com.example.grpc#Count": {
+      type: "operation",
+      input: { target: "com.example.grpc#SayRequest" },
+      output: { target: "com.example.grpc#CountStream" },
+      traits: {
+        "smithy.api#http": { method: "POST", uri: "/echo.Echo/Count" },
+        "com.distilled.grpc#serverStreaming": {},
+      },
+    },
+    "com.example.grpc#SayRequest": {
+      type: "structure",
+      traits: { "smithy.api#input": {} },
+      members: {
+        text: { target: "smithy.api#String", traits: { "smithy.api#default": "" } },
+        shared: { target: "com.example.grpc#Shared" },
+      },
+    },
+    "com.example.grpc#SayResponse": {
+      type: "structure",
+      members: {
+        text: { target: "smithy.api#String", traits: { "smithy.api#default": "" } },
+        note: { target: "smithy.api#String" },
+        shared: { target: "com.example.grpc#Shared" },
+      },
+    },
+    "com.example.grpc#Shared": {
+      type: "structure",
+      members: {
+        label: { target: "smithy.api#String", traits: { "smithy.api#default": "" } },
+      },
+    },
+    "com.example.grpc#CountStream": {
+      type: "structure",
+      members: {
+        items: {
+          target: "com.example.grpc#SayResponseList",
+          traits: { "smithy.api#required": {} },
+        },
+      },
+    },
+    "com.example.grpc#SayResponseList": {
+      type: "list",
+      member: { target: "com.example.grpc#SayResponse" },
+    },
+  },
+});
+
+describe("proto3 defaults and server streams", () => {
+  const { code } = generateService(grpcModel(), { ...spec, streams: true });
+
+  test("a member with a default is required in a response-only shape", () => {
+    expect(code).toMatch(
+      /export interface SayResponse \{\s*text: string;\s*note\?: string \| undefined;/,
+    );
+  });
+
+  test("a member with a default stays optional where a request reaches it", () => {
+    expect(code).toMatch(/export interface SayRequest \{\s*text\?: string \| undefined;/);
+    expect(code).toMatch(/export interface Shared \{\s*label\?: string \| undefined;/);
+  });
+
+  test("a server-streaming operation is made with makeStreaming", () => {
+    expect(code).toContain("API.StreamingOperationMethod<");
+    expect(code).toContain("API.makeStreaming(");
+    expect(code).toMatch(/export const say: API\.OperationMethod</);
+  });
+});
+
+describe("whole-body responses", () => {
+  test("a nullable response body becomes a `| null` output type", () => {
+    const { code } = generateService(
+      {
+        smithy: "2.0",
+        shapes: {
+          "com.example.raw#Example": {
+            type: "service",
+            version: "2024-01-01",
+            operations: [{ target: "com.example.raw#ListThings" }],
+          },
+          "com.example.raw#ListThings": {
+            type: "operation",
+            input: { target: "smithy.api#Unit" },
+            output: { target: "com.example.raw#ListThingsResponse" },
+            traits: { "smithy.api#http": { method: "GET", uri: "/things" } },
+          },
+          "com.example.raw#ListThingsResponse": {
+            type: "structure",
+            traits: { "smithy.api#output": {} },
+            members: {
+              body: {
+                target: "com.example.raw#Things",
+                traits: {
+                  "com.example.raw#rawResponse": {},
+                  "com.example.raw#nullable": {},
+                  "smithy.api#required": {},
+                },
+              },
+            },
+          },
+          "com.example.raw#Things": { type: "list", member: { target: "smithy.api#String" } },
+        },
+      },
+      {
+        ...spec,
+        nullableTrait: "com.example.raw#nullable",
+        extraBindings: [
+          {
+            trait: "com.example.raw#rawResponse",
+            binding: "rawResponse",
+            pipe: "T.RawResponse()",
+            rootPipe: "T.RawResponseRoot()",
+          },
+        ],
+      },
+    );
+    expect(code).toContain("export type ListThingsResponse = Things | null;");
+    expect(code).toContain("S.NullOr(Things).pipe(T.RawResponseRoot())");
+  });
+});
+
+describe("distilled.retry#policy", () => {
+  const withRetryTraits = (service?: object, operation?: object) => {
+    const model = primitiveUnionModel("enum", false) as any;
+    const shapes = model.shapes;
+    if (service) shapes["com.example.union#Example"].traits = { "distilled.retry#policy": service };
+    if (operation) {
+      shapes["com.example.union#GetValue"].traits["distilled.retry#policy"] = operation;
+    }
+    return model;
+  };
+
+  test("no trait emits no retryPolicy", () => {
+    expect(generateService(withRetryTraits(), spec).code).not.toContain("retryPolicy");
+  });
+
+  test("the service's trait applies to its operations", () => {
+    const { code } = generateService(withRetryTraits({ maxAttempts: 4, baseMs: 25 }), spec);
+    expect(code).toContain(`  retryPolicy: {"maxAttempts":4,"baseMs":25},`);
+  });
+
+  test("the operation's trait wins over the service's, key by key", () => {
+    const { code } = generateService(
+      withRetryTraits({ maxAttempts: 4, baseMs: 25 }, { baseMs: 100, capMs: 5000 }),
+      spec,
+    );
+    expect(code).toContain(`  retryPolicy: {"maxAttempts":4,"baseMs":100,"capMs":5000},`);
+  });
+
+  test("an unknown key or a bad number fails the generation", () => {
+    expect(() => generateService(withRetryTraits({ retries: 2 }), spec)).toThrow(/unknown key/);
+    expect(() => generateService(withRetryTraits({ maxAttempts: 0 }), spec)).toThrow(/whole/);
+    expect(() => generateService(withRetryTraits({ baseMs: 1.5 }), spec)).toThrow(/whole/);
+    expect(() => generateService(withRetryTraits({ factor: 0.5 }), spec)).toThrow(/at least 1/);
+  });
+
+  test("factor may be fractional", () => {
+    const { code } = generateService(withRetryTraits({ factor: 1.3 }), spec);
+    expect(code).toContain(`  retryPolicy: {"factor":1.3},`);
+  });
+});

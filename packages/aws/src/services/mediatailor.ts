@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -140,8 +141,8 @@ export interface ConfigureLogsForChannelRequest {
   LogTypes: LogType[];
 }
 export interface ConfigureLogsForChannelResponse {
-  ChannelName?: string;
-  LogTypes?: LogType[];
+  ChannelName?: string | undefined;
+  LogTypes?: LogType[] | undefined;
 }
 export type LoggingStrategy = "VENDED_LOGS" | "LEGACY_CLOUDWATCH" | (string & {});
 export type __listOfLoggingStrategies = LoggingStrategy[];
@@ -221,8 +222,8 @@ const __adsInteractionExcludeEventTypesList = __S(
   0,
 ) as any as S.Schema<__adsInteractionExcludeEventTypesList>;
 export interface AdsInteractionLog {
-  PublishOptInEventTypes?: AdsInteractionPublishOptInEventType[];
-  ExcludeEventTypes?: AdsInteractionExcludeEventType[];
+  PublishOptInEventTypes?: AdsInteractionPublishOptInEventType[] | undefined;
+  ExcludeEventTypes?: AdsInteractionExcludeEventType[] | undefined;
 }
 export type ManifestServicePublishOptInEventType =
   | "PRE_SESSION_INIT_HOOK_SUMMARY"
@@ -267,42 +268,42 @@ export type ManifestServiceExcludeEventType =
   | (string & {});
 export type __manifestServiceExcludeEventTypesList = ManifestServiceExcludeEventType[];
 export interface ManifestServiceInteractionLog {
-  PublishOptInEventTypes?: ManifestServicePublishOptInEventType[];
-  ExcludeEventTypes?: ManifestServiceExcludeEventType[];
+  PublishOptInEventTypes?: ManifestServicePublishOptInEventType[] | undefined;
+  ExcludeEventTypes?: ManifestServiceExcludeEventType[] | undefined;
 }
 export interface ConfigureLogsForPlaybackConfigurationRequest {
   PercentEnabled: number;
   PlaybackConfigurationName: string;
-  EnabledLoggingStrategies?: LoggingStrategy[];
-  AdsInteractionLog?: AdsInteractionLog;
-  ManifestServiceInteractionLog?: ManifestServiceInteractionLog;
+  EnabledLoggingStrategies?: LoggingStrategy[] | undefined;
+  AdsInteractionLog?: AdsInteractionLog | undefined;
+  ManifestServiceInteractionLog?: ManifestServiceInteractionLog | undefined;
 }
 export interface ConfigureLogsForPlaybackConfigurationResponse {
   PercentEnabled: number;
-  PlaybackConfigurationName?: string;
-  EnabledLoggingStrategies?: LoggingStrategy[];
-  AdsInteractionLog?: AdsInteractionLog;
-  ManifestServiceInteractionLog?: ManifestServiceInteractionLog;
+  PlaybackConfigurationName?: string | undefined;
+  EnabledLoggingStrategies?: LoggingStrategy[] | undefined;
+  AdsInteractionLog?: AdsInteractionLog | undefined;
+  ManifestServiceInteractionLog?: ManifestServiceInteractionLog | undefined;
 }
 export interface SlateSource {
-  SourceLocationName?: string;
-  VodSourceName?: string;
+  SourceLocationName?: string | undefined;
+  VodSourceName?: string | undefined;
 }
 export interface DashPlaylistSettings {
-  ManifestWindowSeconds?: number;
-  MinBufferTimeSeconds?: number;
-  MinUpdatePeriodSeconds?: number;
-  SuggestedPresentationDelaySeconds?: number;
+  ManifestWindowSeconds?: number | undefined;
+  MinBufferTimeSeconds?: number | undefined;
+  MinUpdatePeriodSeconds?: number | undefined;
+  SuggestedPresentationDelaySeconds?: number | undefined;
 }
 export type AdMarkupType = "DATERANGE" | "SCTE35_ENHANCED" | (string & {});
 export type AdMarkupTypes = AdMarkupType[];
 export interface HlsPlaylistSettings {
-  ManifestWindowSeconds?: number;
-  AdMarkupType?: AdMarkupType[];
+  ManifestWindowSeconds?: number | undefined;
+  AdMarkupType?: AdMarkupType[] | undefined;
 }
 export interface RequestOutputItem {
-  DashPlaylistSettings?: DashPlaylistSettings;
-  HlsPlaylistSettings?: HlsPlaylistSettings;
+  DashPlaylistSettings?: DashPlaylistSettings | undefined;
+  HlsPlaylistSettings?: HlsPlaylistSettings | undefined;
   ManifestName: string;
   SourceGroup: string;
 }
@@ -317,38 +318,38 @@ export interface TimeShiftConfiguration {
 export type Audiences = string[];
 export interface CreateChannelRequest {
   ChannelName: string;
-  FillerSlate?: SlateSource;
+  FillerSlate?: SlateSource | undefined;
   Outputs: RequestOutputItem[];
   PlaybackMode: PlaybackMode;
-  Tags?: { [key: string]: string | undefined };
-  Tier?: Tier;
-  TimeShiftConfiguration?: TimeShiftConfiguration;
-  Audiences?: string[];
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Tier?: Tier | undefined;
+  TimeShiftConfiguration?: TimeShiftConfiguration | undefined;
+  Audiences?: string[] | undefined;
 }
 export type ChannelState = "RUNNING" | "STOPPED" | (string & {});
 export type __timestampUnix = Date;
 export interface ResponseOutputItem {
-  DashPlaylistSettings?: DashPlaylistSettings;
-  HlsPlaylistSettings?: HlsPlaylistSettings;
+  DashPlaylistSettings?: DashPlaylistSettings | undefined;
+  HlsPlaylistSettings?: HlsPlaylistSettings | undefined;
   ManifestName: string;
   PlaybackUrl: string;
-  DualStackPlaybackUrl?: string;
+  DualStackPlaybackUrl?: string | undefined;
   SourceGroup: string;
 }
 export type ResponseOutputs = ResponseOutputItem[];
 export interface CreateChannelResponse {
-  Arn?: string;
-  ChannelName?: string;
-  ChannelState?: ChannelState;
-  CreationTime?: Date;
-  FillerSlate?: SlateSource;
-  LastModifiedTime?: Date;
-  Outputs?: ResponseOutputItem[];
-  PlaybackMode?: string;
-  Tags?: { [key: string]: string | undefined };
-  Tier?: string;
-  TimeShiftConfiguration?: TimeShiftConfiguration;
-  Audiences?: string[];
+  Arn?: string | undefined;
+  ChannelName?: string | undefined;
+  ChannelState?: ChannelState | undefined;
+  CreationTime?: Date | undefined;
+  FillerSlate?: SlateSource | undefined;
+  LastModifiedTime?: Date | undefined;
+  Outputs?: ResponseOutputItem[] | undefined;
+  PlaybackMode?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Tier?: string | undefined;
+  TimeShiftConfiguration?: TimeShiftConfiguration | undefined;
+  Audiences?: string[] | undefined;
 }
 export type Type = "DASH" | "HLS" | (string & {});
 export interface HttpPackageConfiguration {
@@ -361,16 +362,16 @@ export interface CreateLiveSourceRequest {
   HttpPackageConfigurations: HttpPackageConfiguration[];
   LiveSourceName: string;
   SourceLocationName: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateLiveSourceResponse {
-  Arn?: string;
-  CreationTime?: Date;
-  HttpPackageConfigurations?: HttpPackageConfiguration[];
-  LastModifiedTime?: Date;
-  LiveSourceName?: string;
-  SourceLocationName?: string;
-  Tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  CreationTime?: Date | undefined;
+  HttpPackageConfigurations?: HttpPackageConfiguration[] | undefined;
+  LastModifiedTime?: Date | undefined;
+  LiveSourceName?: string | undefined;
+  SourceLocationName?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type Operator = "EQUALS" | (string & {});
 export interface AvailMatchingCriteria {
@@ -380,85 +381,85 @@ export interface AvailMatchingCriteria {
 export type __listOfAvailMatchingCriteria = AvailMatchingCriteria[];
 const __listOfAvailMatchingCriteria = /*@__PURE__*/ __L.at(__c67, 1);
 export interface PrefetchConsumption {
-  AvailMatchingCriteria?: AvailMatchingCriteria[];
+  AvailMatchingCriteria?: AvailMatchingCriteria[] | undefined;
   EndTime: Date;
-  StartTime?: Date;
+  StartTime?: Date | undefined;
 }
 export type TrafficShapingType = "RETRIEVAL_WINDOW" | "TPS" | (string & {});
 export interface TrafficShapingRetrievalWindow {
-  RetrievalWindowDurationSeconds?: number;
+  RetrievalWindowDurationSeconds?: number | undefined;
 }
 export interface TrafficShapingTpsConfiguration {
-  PeakTps?: number;
-  PeakConcurrentUsers?: number;
+  PeakTps?: number | undefined;
+  PeakConcurrentUsers?: number | undefined;
 }
 export interface PrefetchRetrieval {
-  DynamicVariables?: { [key: string]: string | undefined };
+  DynamicVariables?: { [key: string]: string | undefined } | undefined;
   EndTime: Date;
-  StartTime?: Date;
-  TrafficShapingType?: TrafficShapingType;
-  TrafficShapingRetrievalWindow?: TrafficShapingRetrievalWindow;
-  TrafficShapingTpsConfiguration?: TrafficShapingTpsConfiguration;
+  StartTime?: Date | undefined;
+  TrafficShapingType?: TrafficShapingType | undefined;
+  TrafficShapingRetrievalWindow?: TrafficShapingRetrievalWindow | undefined;
+  TrafficShapingTpsConfiguration?: TrafficShapingTpsConfiguration | undefined;
 }
 export interface RecurringConsumption {
-  RetrievedAdExpirationSeconds?: number;
-  AvailMatchingCriteria?: AvailMatchingCriteria[];
+  RetrievedAdExpirationSeconds?: number | undefined;
+  AvailMatchingCriteria?: AvailMatchingCriteria[] | undefined;
 }
 export interface RecurringRetrieval {
-  DynamicVariables?: { [key: string]: string | undefined };
-  DelayAfterAvailEndSeconds?: number;
-  TrafficShapingType?: TrafficShapingType;
-  TrafficShapingRetrievalWindow?: TrafficShapingRetrievalWindow;
-  TrafficShapingTpsConfiguration?: TrafficShapingTpsConfiguration;
+  DynamicVariables?: { [key: string]: string | undefined } | undefined;
+  DelayAfterAvailEndSeconds?: number | undefined;
+  TrafficShapingType?: TrafficShapingType | undefined;
+  TrafficShapingRetrievalWindow?: TrafficShapingRetrievalWindow | undefined;
+  TrafficShapingTpsConfiguration?: TrafficShapingTpsConfiguration | undefined;
 }
 export interface RecurringPrefetchConfiguration {
-  StartTime?: Date;
+  StartTime?: Date | undefined;
   EndTime: Date;
   RecurringConsumption: RecurringConsumption;
   RecurringRetrieval: RecurringRetrieval;
 }
 export type PrefetchScheduleType = "SINGLE" | "RECURRING" | (string & {});
 export interface CreatePrefetchScheduleRequest {
-  Consumption?: PrefetchConsumption;
+  Consumption?: PrefetchConsumption | undefined;
   Name: string;
   PlaybackConfigurationName: string;
-  Retrieval?: PrefetchRetrieval;
-  RecurringPrefetchConfiguration?: RecurringPrefetchConfiguration;
-  ScheduleType?: PrefetchScheduleType;
-  StreamId?: string;
-  Tags?: { [key: string]: string | undefined };
+  Retrieval?: PrefetchRetrieval | undefined;
+  RecurringPrefetchConfiguration?: RecurringPrefetchConfiguration | undefined;
+  ScheduleType?: PrefetchScheduleType | undefined;
+  StreamId?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreatePrefetchScheduleResponse {
-  Arn?: string;
-  Consumption?: PrefetchConsumption;
-  Name?: string;
-  PlaybackConfigurationName?: string;
-  Retrieval?: PrefetchRetrieval;
-  RecurringPrefetchConfiguration?: RecurringPrefetchConfiguration;
-  ScheduleType?: PrefetchScheduleType;
-  StreamId?: string;
-  Tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  Consumption?: PrefetchConsumption | undefined;
+  Name?: string | undefined;
+  PlaybackConfigurationName?: string | undefined;
+  Retrieval?: PrefetchRetrieval | undefined;
+  RecurringPrefetchConfiguration?: RecurringPrefetchConfiguration | undefined;
+  ScheduleType?: PrefetchScheduleType | undefined;
+  StreamId?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type MessageType = "SPLICE_INSERT" | "TIME_SIGNAL" | (string & {});
 export interface SpliceInsertMessage {
-  AvailNum?: number;
-  AvailsExpected?: number;
-  SpliceEventId?: number;
-  UniqueProgramId?: number;
+  AvailNum?: number | undefined;
+  AvailsExpected?: number | undefined;
+  SpliceEventId?: number | undefined;
+  UniqueProgramId?: number | undefined;
 }
 export interface SegmentationDescriptor {
-  SegmentationEventId?: number;
-  SegmentationUpidType?: number;
-  SegmentationUpid?: string;
-  SegmentationTypeId?: number;
-  SegmentNum?: number;
-  SegmentsExpected?: number;
-  SubSegmentNum?: number;
-  SubSegmentsExpected?: number;
+  SegmentationEventId?: number | undefined;
+  SegmentationUpidType?: number | undefined;
+  SegmentationUpid?: string | undefined;
+  SegmentationTypeId?: number | undefined;
+  SegmentNum?: number | undefined;
+  SegmentsExpected?: number | undefined;
+  SubSegmentNum?: number | undefined;
+  SubSegmentsExpected?: number | undefined;
 }
 export type SegmentationDescriptorList = SegmentationDescriptor[];
 export interface TimeSignalMessage {
-  SegmentationDescriptors?: SegmentationDescriptor[];
+  SegmentationDescriptors?: SegmentationDescriptor[] | undefined;
 }
 export interface KeyValuePair {
   Key: string;
@@ -466,73 +467,73 @@ export interface KeyValuePair {
 }
 export type AdBreakMetadataList = KeyValuePair[];
 export interface AdBreak {
-  MessageType?: MessageType;
+  MessageType?: MessageType | undefined;
   OffsetMillis: number;
-  Slate?: SlateSource;
-  SpliceInsertMessage?: SpliceInsertMessage;
-  TimeSignalMessage?: TimeSignalMessage;
-  AdBreakMetadata?: KeyValuePair[];
+  Slate?: SlateSource | undefined;
+  SpliceInsertMessage?: SpliceInsertMessage | undefined;
+  TimeSignalMessage?: TimeSignalMessage | undefined;
+  AdBreakMetadata?: KeyValuePair[] | undefined;
 }
 export type __listOfAdBreak = AdBreak[];
 const __listOfAdBreak = /*@__PURE__*/ __L.at(__c2, 7);
 export type RelativePosition = "BEFORE_PROGRAM" | "AFTER_PROGRAM" | (string & {});
 export interface Transition {
-  DurationMillis?: number;
+  DurationMillis?: number | undefined;
   RelativePosition: RelativePosition;
-  RelativeProgram?: string;
-  ScheduledStartTimeMillis?: number;
+  RelativeProgram?: string | undefined;
+  ScheduledStartTimeMillis?: number | undefined;
   Type: string;
 }
 export interface ClipRange {
-  EndOffsetMillis?: number;
-  StartOffsetMillis?: number;
+  EndOffsetMillis?: number | undefined;
+  StartOffsetMillis?: number | undefined;
 }
 export interface ScheduleConfiguration {
   Transition: Transition;
-  ClipRange?: ClipRange;
+  ClipRange?: ClipRange | undefined;
 }
 export interface AlternateMedia {
-  SourceLocationName?: string;
-  LiveSourceName?: string;
-  VodSourceName?: string;
-  ClipRange?: ClipRange;
-  ScheduledStartTimeMillis?: number;
-  AdBreaks?: AdBreak[];
-  DurationMillis?: number;
+  SourceLocationName?: string | undefined;
+  LiveSourceName?: string | undefined;
+  VodSourceName?: string | undefined;
+  ClipRange?: ClipRange | undefined;
+  ScheduledStartTimeMillis?: number | undefined;
+  AdBreaks?: AdBreak[] | undefined;
+  DurationMillis?: number | undefined;
 }
 export type __listOfAlternateMedia = AlternateMedia[];
 const __listOfAlternateMedia = /*@__PURE__*/ __L.at(__c2, 10);
 export interface AudienceMedia {
-  Audience?: string;
-  AlternateMedia?: AlternateMedia[];
+  Audience?: string | undefined;
+  AlternateMedia?: AlternateMedia[] | undefined;
 }
 export type __listOfAudienceMedia = AudienceMedia[];
 const __listOfAudienceMedia = /*@__PURE__*/ __L.at(__c2, 12);
 export interface CreateProgramRequest {
-  AdBreaks?: AdBreak[];
+  AdBreaks?: AdBreak[] | undefined;
   ChannelName: string;
-  LiveSourceName?: string;
+  LiveSourceName?: string | undefined;
   ProgramName: string;
   ScheduleConfiguration: ScheduleConfiguration;
   SourceLocationName: string;
-  VodSourceName?: string;
-  AudienceMedia?: AudienceMedia[];
-  Tags?: { [key: string]: string | undefined };
+  VodSourceName?: string | undefined;
+  AudienceMedia?: AudienceMedia[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateProgramResponse {
-  AdBreaks?: AdBreak[];
-  Arn?: string;
-  ChannelName?: string;
-  CreationTime?: Date;
-  LiveSourceName?: string;
-  ProgramName?: string;
-  ScheduledStartTime?: Date;
-  SourceLocationName?: string;
-  VodSourceName?: string;
-  ClipRange?: ClipRange;
-  DurationMillis?: number;
-  AudienceMedia?: AudienceMedia[];
-  Tags?: { [key: string]: string | undefined };
+  AdBreaks?: AdBreak[] | undefined;
+  Arn?: string | undefined;
+  ChannelName?: string | undefined;
+  CreationTime?: Date | undefined;
+  LiveSourceName?: string | undefined;
+  ProgramName?: string | undefined;
+  ScheduledStartTime?: Date | undefined;
+  SourceLocationName?: string | undefined;
+  VodSourceName?: string | undefined;
+  ClipRange?: ClipRange | undefined;
+  DurationMillis?: number | undefined;
+  AudienceMedia?: AudienceMedia[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type AccessType =
   | "S3_SIGV4"
@@ -540,59 +541,59 @@ export type AccessType =
   | "AUTODETECT_SIGV4"
   | (string & {});
 export interface SecretsManagerAccessTokenConfiguration {
-  HeaderName?: string;
-  SecretArn?: string;
-  SecretStringKey?: string;
+  HeaderName?: string | undefined;
+  SecretArn?: string | undefined;
+  SecretStringKey?: string | undefined;
 }
 export interface AccessConfiguration {
-  AccessType?: AccessType;
-  SecretsManagerAccessTokenConfiguration?: SecretsManagerAccessTokenConfiguration;
+  AccessType?: AccessType | undefined;
+  SecretsManagerAccessTokenConfiguration?: SecretsManagerAccessTokenConfiguration | undefined;
 }
 export interface DefaultSegmentDeliveryConfiguration {
-  BaseUrl?: string;
+  BaseUrl?: string | undefined;
 }
 export interface HttpConfiguration {
   BaseUrl: string;
 }
 export interface SegmentDeliveryConfiguration {
-  BaseUrl?: string;
-  Name?: string;
+  BaseUrl?: string | undefined;
+  Name?: string | undefined;
 }
 export type __listOfSegmentDeliveryConfiguration = SegmentDeliveryConfiguration[];
 const __listOfSegmentDeliveryConfiguration = /*@__PURE__*/ __L.at(__c4, 5);
 export interface CreateSourceLocationRequest {
-  AccessConfiguration?: AccessConfiguration;
-  DefaultSegmentDeliveryConfiguration?: DefaultSegmentDeliveryConfiguration;
+  AccessConfiguration?: AccessConfiguration | undefined;
+  DefaultSegmentDeliveryConfiguration?: DefaultSegmentDeliveryConfiguration | undefined;
   HttpConfiguration: HttpConfiguration;
-  SegmentDeliveryConfigurations?: SegmentDeliveryConfiguration[];
+  SegmentDeliveryConfigurations?: SegmentDeliveryConfiguration[] | undefined;
   SourceLocationName: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateSourceLocationResponse {
-  AccessConfiguration?: AccessConfiguration;
-  Arn?: string;
-  CreationTime?: Date;
-  DefaultSegmentDeliveryConfiguration?: DefaultSegmentDeliveryConfiguration;
-  HttpConfiguration?: HttpConfiguration;
-  LastModifiedTime?: Date;
-  SegmentDeliveryConfigurations?: SegmentDeliveryConfiguration[];
-  SourceLocationName?: string;
-  Tags?: { [key: string]: string | undefined };
+  AccessConfiguration?: AccessConfiguration | undefined;
+  Arn?: string | undefined;
+  CreationTime?: Date | undefined;
+  DefaultSegmentDeliveryConfiguration?: DefaultSegmentDeliveryConfiguration | undefined;
+  HttpConfiguration?: HttpConfiguration | undefined;
+  LastModifiedTime?: Date | undefined;
+  SegmentDeliveryConfigurations?: SegmentDeliveryConfiguration[] | undefined;
+  SourceLocationName?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateVodSourceRequest {
   HttpPackageConfigurations: HttpPackageConfiguration[];
   SourceLocationName: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
   VodSourceName: string;
 }
 export interface CreateVodSourceResponse {
-  Arn?: string;
-  CreationTime?: Date;
-  HttpPackageConfigurations?: HttpPackageConfiguration[];
-  LastModifiedTime?: Date;
-  SourceLocationName?: string;
-  Tags?: { [key: string]: string | undefined };
-  VodSourceName?: string;
+  Arn?: string | undefined;
+  CreationTime?: Date | undefined;
+  HttpPackageConfigurations?: HttpPackageConfiguration[] | undefined;
+  LastModifiedTime?: Date | undefined;
+  SourceLocationName?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  VodSourceName?: string | undefined;
 }
 export interface DeleteChannelRequest {
   ChannelName: string;
@@ -638,68 +639,68 @@ export interface DescribeChannelRequest {
   ChannelName: string;
 }
 export interface LogConfigurationForChannel {
-  LogTypes?: LogType[];
+  LogTypes?: LogType[] | undefined;
 }
 export interface DescribeChannelResponse {
-  Arn?: string;
-  ChannelName?: string;
-  ChannelState?: ChannelState;
-  CreationTime?: Date;
-  FillerSlate?: SlateSource;
-  LastModifiedTime?: Date;
-  Outputs?: ResponseOutputItem[];
-  PlaybackMode?: string;
-  Tags?: { [key: string]: string | undefined };
-  Tier?: string;
+  Arn?: string | undefined;
+  ChannelName?: string | undefined;
+  ChannelState?: ChannelState | undefined;
+  CreationTime?: Date | undefined;
+  FillerSlate?: SlateSource | undefined;
+  LastModifiedTime?: Date | undefined;
+  Outputs?: ResponseOutputItem[] | undefined;
+  PlaybackMode?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Tier?: string | undefined;
   LogConfiguration: LogConfigurationForChannel;
-  TimeShiftConfiguration?: TimeShiftConfiguration;
-  Audiences?: string[];
+  TimeShiftConfiguration?: TimeShiftConfiguration | undefined;
+  Audiences?: string[] | undefined;
 }
 export interface DescribeLiveSourceRequest {
   LiveSourceName: string;
   SourceLocationName: string;
 }
 export interface DescribeLiveSourceResponse {
-  Arn?: string;
-  CreationTime?: Date;
-  HttpPackageConfigurations?: HttpPackageConfiguration[];
-  LastModifiedTime?: Date;
-  LiveSourceName?: string;
-  SourceLocationName?: string;
-  Tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  CreationTime?: Date | undefined;
+  HttpPackageConfigurations?: HttpPackageConfiguration[] | undefined;
+  LastModifiedTime?: Date | undefined;
+  LiveSourceName?: string | undefined;
+  SourceLocationName?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DescribeProgramRequest {
   ChannelName: string;
   ProgramName: string;
 }
 export interface DescribeProgramResponse {
-  AdBreaks?: AdBreak[];
-  Arn?: string;
-  ChannelName?: string;
-  CreationTime?: Date;
-  LiveSourceName?: string;
-  ProgramName?: string;
-  ScheduledStartTime?: Date;
-  SourceLocationName?: string;
-  VodSourceName?: string;
-  ClipRange?: ClipRange;
-  DurationMillis?: number;
-  AudienceMedia?: AudienceMedia[];
-  Tags?: { [key: string]: string | undefined };
+  AdBreaks?: AdBreak[] | undefined;
+  Arn?: string | undefined;
+  ChannelName?: string | undefined;
+  CreationTime?: Date | undefined;
+  LiveSourceName?: string | undefined;
+  ProgramName?: string | undefined;
+  ScheduledStartTime?: Date | undefined;
+  SourceLocationName?: string | undefined;
+  VodSourceName?: string | undefined;
+  ClipRange?: ClipRange | undefined;
+  DurationMillis?: number | undefined;
+  AudienceMedia?: AudienceMedia[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DescribeSourceLocationRequest {
   SourceLocationName: string;
 }
 export interface DescribeSourceLocationResponse {
-  AccessConfiguration?: AccessConfiguration;
-  Arn?: string;
-  CreationTime?: Date;
-  DefaultSegmentDeliveryConfiguration?: DefaultSegmentDeliveryConfiguration;
-  HttpConfiguration?: HttpConfiguration;
-  LastModifiedTime?: Date;
-  SegmentDeliveryConfigurations?: SegmentDeliveryConfiguration[];
-  SourceLocationName?: string;
-  Tags?: { [key: string]: string | undefined };
+  AccessConfiguration?: AccessConfiguration | undefined;
+  Arn?: string | undefined;
+  CreationTime?: Date | undefined;
+  DefaultSegmentDeliveryConfiguration?: DefaultSegmentDeliveryConfiguration | undefined;
+  HttpConfiguration?: HttpConfiguration | undefined;
+  LastModifiedTime?: Date | undefined;
+  SegmentDeliveryConfigurations?: SegmentDeliveryConfiguration[] | undefined;
+  SourceLocationName?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DescribeVodSourceRequest {
   SourceLocationName: string;
@@ -710,56 +711,56 @@ export interface AdBreakOpportunity {
 }
 export type AdBreakOpportunities = AdBreakOpportunity[];
 export interface DescribeVodSourceResponse {
-  AdBreakOpportunities?: AdBreakOpportunity[];
-  Arn?: string;
-  CreationTime?: Date;
-  HttpPackageConfigurations?: HttpPackageConfiguration[];
-  LastModifiedTime?: Date;
-  SourceLocationName?: string;
-  Tags?: { [key: string]: string | undefined };
-  VodSourceName?: string;
+  AdBreakOpportunities?: AdBreakOpportunity[] | undefined;
+  Arn?: string | undefined;
+  CreationTime?: Date | undefined;
+  HttpPackageConfigurations?: HttpPackageConfiguration[] | undefined;
+  LastModifiedTime?: Date | undefined;
+  SourceLocationName?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  VodSourceName?: string | undefined;
 }
 export interface GetChannelPolicyRequest {
   ChannelName: string;
 }
 export interface GetChannelPolicyResponse {
-  Policy?: string;
+  Policy?: string | undefined;
 }
 export type MaxResults = number;
 export interface GetChannelScheduleRequest {
   ChannelName: string;
-  DurationMinutes?: string;
-  MaxResults?: number;
-  NextToken?: string;
-  Audience?: string;
+  DurationMinutes?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Audience?: string | undefined;
 }
 export interface ScheduleAdBreak {
-  ApproximateDurationSeconds?: number;
-  ApproximateStartTime?: Date;
-  SourceLocationName?: string;
-  VodSourceName?: string;
+  ApproximateDurationSeconds?: number | undefined;
+  ApproximateStartTime?: Date | undefined;
+  SourceLocationName?: string | undefined;
+  VodSourceName?: string | undefined;
 }
 export type __listOfScheduleAdBreak = ScheduleAdBreak[];
 const __listOfScheduleAdBreak = /*@__PURE__*/ __L.at(__c25, 2);
 export type ScheduleEntryType = "PROGRAM" | "FILLER_SLATE" | "ALTERNATE_MEDIA" | (string & {});
 export interface ScheduleEntry {
-  ApproximateDurationSeconds?: number;
-  ApproximateStartTime?: Date;
+  ApproximateDurationSeconds?: number | undefined;
+  ApproximateStartTime?: Date | undefined;
   Arn: string;
   ChannelName: string;
-  LiveSourceName?: string;
+  LiveSourceName?: string | undefined;
   ProgramName: string;
-  ScheduleAdBreaks?: ScheduleAdBreak[];
-  ScheduleEntryType?: ScheduleEntryType;
+  ScheduleAdBreaks?: ScheduleAdBreak[] | undefined;
+  ScheduleEntryType?: ScheduleEntryType | undefined;
   SourceLocationName: string;
-  VodSourceName?: string;
-  Audiences?: string[];
+  VodSourceName?: string | undefined;
+  Audiences?: string[] | undefined;
 }
 export type __listOfScheduleEntry = ScheduleEntry[];
 const __listOfScheduleEntry = /*@__PURE__*/ __L.at(__c25, 4);
 export interface GetChannelScheduleResponse {
-  Items?: ScheduleEntry[];
-  NextToken?: string;
+  Items?: ScheduleEntry[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetFunctionRequest {
   FunctionId: string;
@@ -774,38 +775,46 @@ export type FunctionType =
   | (string & {});
 export type RuntimeType = "JSONATA" | (string & {});
 export type MethodType = "GET" | "POST" | (string & {});
+export type __integerMin1 = number;
+export interface HttpRequestCacheConfiguration {
+  TtlMinimumSeconds: number;
+  TtlMaximumSeconds: number;
+  Key?: string | undefined;
+}
 export interface HttpRequestConfiguration {
   Runtime: RuntimeType;
-  Output?: { [key: string]: string | undefined };
+  Output?: { [key: string]: string | undefined } | undefined;
   MethodType: MethodType;
   RequestTimeoutMilliseconds: number;
   Url: string;
-  Body?: string;
-  Headers?: { [key: string]: string | undefined };
+  Body?: string | undefined;
+  Headers?: { [key: string]: string | undefined } | undefined;
+  Cache?: HttpRequestCacheConfiguration | undefined;
 }
 export type AwsTargetService = string;
 export interface AwsServiceRequestConfiguration {
   Runtime: RuntimeType;
-  Output?: { [key: string]: string | undefined };
+  Output?: { [key: string]: string | undefined } | undefined;
   MethodType: MethodType;
   RequestTimeoutMilliseconds: number;
   Url: string;
-  Body?: string;
-  Headers?: { [key: string]: string | undefined };
+  Body?: string | undefined;
+  Headers?: { [key: string]: string | undefined } | undefined;
+  Cache?: HttpRequestCacheConfiguration | undefined;
   TargetService: string;
   TargetRegion: string;
 }
 export interface CustomOutputConfiguration {
   Runtime: RuntimeType;
-  Output?: { [key: string]: string | undefined };
+  Output?: { [key: string]: string | undefined } | undefined;
 }
 export interface FunctionRef {
-  RunCondition?: string;
-  FunctionId?: string;
-  Alias?: string;
+  RunCondition?: string | undefined;
+  FunctionId?: string | undefined;
+  Alias?: string | undefined;
 }
 export type __listOfFunctionsRef = FunctionRef[];
-const __listOfFunctionsRef = /*@__PURE__*/ __L.at(__c27, 4);
+const __listOfFunctionsRef = /*@__PURE__*/ __L.at(__c27, 5);
 export interface ConcurrentExecutorConfiguration {
   Runtime: RuntimeType;
   Output: { [key: string]: string | undefined };
@@ -815,31 +824,32 @@ export interface ConcurrentExecutorConfiguration {
 }
 export interface SequentialExecutorConfiguration {
   Runtime: RuntimeType;
-  Output?: { [key: string]: string | undefined };
+  Output?: { [key: string]: string | undefined } | undefined;
   FunctionList: FunctionRef[];
   TimeoutMilliseconds: number;
 }
 export interface VastRequestConfiguration {
   Runtime: RuntimeType;
-  Output?: { [key: string]: string | undefined };
+  Output?: { [key: string]: string | undefined } | undefined;
   MethodType: MethodType;
   RequestTimeoutMilliseconds: number;
   Url: string;
-  Body?: string;
-  Headers?: { [key: string]: string | undefined };
+  Body?: string | undefined;
+  Headers?: { [key: string]: string | undefined } | undefined;
+  Cache?: HttpRequestCacheConfiguration | undefined;
 }
 export interface GetFunctionResponse {
   FunctionId: string;
   FunctionType: FunctionType;
-  Description?: string;
-  HttpRequestConfiguration?: HttpRequestConfiguration;
-  AwsServiceRequestConfiguration?: AwsServiceRequestConfiguration;
-  CustomOutputConfiguration?: CustomOutputConfiguration;
-  ConcurrentExecutorConfiguration?: ConcurrentExecutorConfiguration;
-  SequentialExecutorConfiguration?: SequentialExecutorConfiguration;
-  VastRequestConfiguration?: VastRequestConfiguration;
-  Tags?: { [key: string]: string | undefined };
-  Arn?: string;
+  Description?: string | undefined;
+  HttpRequestConfiguration?: HttpRequestConfiguration | undefined;
+  AwsServiceRequestConfiguration?: AwsServiceRequestConfiguration | undefined;
+  CustomOutputConfiguration?: CustomOutputConfiguration | undefined;
+  ConcurrentExecutorConfiguration?: ConcurrentExecutorConfiguration | undefined;
+  SequentialExecutorConfiguration?: SequentialExecutorConfiguration | undefined;
+  VastRequestConfiguration?: VastRequestConfiguration | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Arn?: string | undefined;
 }
 export interface GetPlaybackConfigurationRequest {
   Name: string;
@@ -847,58 +857,57 @@ export interface GetPlaybackConfigurationRequest {
 export type Mode = "OFF" | "BEHIND_LIVE_EDGE" | "AFTER_LIVE_EDGE" | (string & {});
 export type FillPolicy = "FULL_AVAIL_ONLY" | "PARTIAL_AVAIL" | (string & {});
 export interface AvailSuppression {
-  Mode?: Mode;
-  Value?: string;
-  FillPolicy?: FillPolicy;
+  Mode?: Mode | undefined;
+  Value?: string | undefined;
+  FillPolicy?: FillPolicy | undefined;
 }
 export interface Bumper {
-  EndUrl?: string;
-  StartUrl?: string;
+  EndUrl?: string | undefined;
+  StartUrl?: string | undefined;
 }
 export interface CdnConfiguration {
-  AdSegmentUrlPrefix?: string;
-  ContentSegmentUrlPrefix?: string;
+  AdSegmentUrlPrefix?: string | undefined;
+  ContentSegmentUrlPrefix?: string | undefined;
 }
 export type ConfigurationAliasesResponse = {
   [key: string]: { [key: string]: string | undefined } | undefined;
 };
 export type OriginManifestType = "SINGLE_PERIOD" | "MULTI_PERIOD" | (string & {});
 export interface DashConfiguration {
-  ManifestEndpointPrefix?: string;
-  DualStackManifestEndpointPrefix?: string;
-  MpdLocation?: string;
-  OriginManifestType?: OriginManifestType;
+  ManifestEndpointPrefix?: string | undefined;
+  DualStackManifestEndpointPrefix?: string | undefined;
+  MpdLocation?: string | undefined;
+  OriginManifestType?: OriginManifestType | undefined;
 }
 export interface HlsConfiguration {
-  ManifestEndpointPrefix?: string;
-  DualStackManifestEndpointPrefix?: string;
+  ManifestEndpointPrefix?: string | undefined;
+  DualStackManifestEndpointPrefix?: string | undefined;
 }
 export type InsertionMode = "STITCHED_ONLY" | "PLAYER_SELECT" | (string & {});
 export type PreRollAdSequencingMode = "FOLLOW_AD_SEQUENCE" | "IGNORE_AD_SEQUENCE" | (string & {});
 export interface PreRollVastResponse {
-  AdSequencingMode?: PreRollAdSequencingMode;
+  AdSequencingMode?: PreRollAdSequencingMode | undefined;
 }
 export interface PreRollAdDecisionServerConfiguration {
-  VastResponse?: PreRollVastResponse;
+  VastResponse?: PreRollVastResponse | undefined;
 }
 export interface LivePreRollConfiguration {
-  AdDecisionServerUrl?: string;
-  MaxDurationSeconds?: number;
-  AdDecisionServerConfiguration?: PreRollAdDecisionServerConfiguration;
+  AdDecisionServerUrl?: string | undefined;
+  MaxDurationSeconds?: number | undefined;
+  AdDecisionServerConfiguration?: PreRollAdDecisionServerConfiguration | undefined;
 }
 export interface LogConfiguration {
   PercentEnabled: number;
-  EnabledLoggingStrategies?: LoggingStrategy[];
-  AdsInteractionLog?: AdsInteractionLog;
-  ManifestServiceInteractionLog?: ManifestServiceInteractionLog;
+  EnabledLoggingStrategies?: LoggingStrategy[] | undefined;
+  AdsInteractionLog?: AdsInteractionLog | undefined;
+  ManifestServiceInteractionLog?: ManifestServiceInteractionLog | undefined;
 }
 export interface AdMarkerPassthrough {
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
 export interface ManifestProcessingRules {
-  AdMarkerPassthrough?: AdMarkerPassthrough;
+  AdMarkerPassthrough?: AdMarkerPassthrough | undefined;
 }
-export type __integerMin1 = number;
 export type StreamingMediaFileConditioning = "TRANSCODE" | "NONE" | (string & {});
 export interface AdConditioningConfiguration {
   StreamingMediaFileConditioning: StreamingMediaFileConditioning;
@@ -908,10 +917,10 @@ export type StringMap = { [key: string]: string | undefined };
 const StringMap = __mapOf__string as any as S.Schema<StringMap>;
 export type CompressionMethod = "NONE" | "GZIP" | (string & {});
 export interface HttpRequest {
-  Method?: Method;
-  Body?: string;
-  Headers?: { [key: string]: string | undefined };
-  CompressRequest?: CompressionMethod;
+  Method?: Method | undefined;
+  Body?: string | undefined;
+  Headers?: { [key: string]: string | undefined } | undefined;
+  CompressRequest?: CompressionMethod | undefined;
 }
 export type AdSequencingMode =
   | "FOLLOW_AD_SEQUENCE"
@@ -920,11 +929,11 @@ export type AdSequencingMode =
   | "FOLLOW_AD_SEQUENCE_ONLY_VOD"
   | (string & {});
 export interface VastResponse {
-  AdSequencingMode?: AdSequencingMode;
+  AdSequencingMode?: AdSequencingMode | undefined;
 }
 export interface AdDecisionServerConfiguration {
-  HttpRequest?: HttpRequest;
-  VastResponse?: VastResponse;
+  HttpRequest?: HttpRequest | undefined;
+  VastResponse?: VastResponse | undefined;
 }
 export type MinimumUnfilledDurationSeconds = number;
 export type ApsPublisherId = string;
@@ -942,77 +951,81 @@ export type EventName =
   | "POST_ADS_RESPONSE"
   | "PRE_MANIFEST_INSERTION"
   | (string & {});
-export type FunctionMapping = { [key in EventName]?: string };
+export type FunctionMapping = { [key in EventName]?: string | undefined };
 export interface AdsPersonalizationTimeouts {
-  AdsRequestTimeoutMilliseconds?: number;
-  LiveMaximumAdsPersonalizationTimeMilliseconds?: number;
-  VodMaximumAdsPersonalizationTimeMilliseconds?: number;
-  PrefetchAdsRequestTimeoutMilliseconds?: number;
-  PrefetchMaximumAdsPersonalizationTimeMilliseconds?: number;
+  AdsRequestTimeoutMilliseconds?: number | undefined;
+  LiveMaximumAdsPersonalizationTimeMilliseconds?: number | undefined;
+  VodMaximumAdsPersonalizationTimeMilliseconds?: number | undefined;
+  PrefetchAdsRequestTimeoutMilliseconds?: number | undefined;
+  PrefetchMaximumAdsPersonalizationTimeMilliseconds?: number | undefined;
 }
 export interface AdsPersonalizationConcurrency {
-  MaxConcurrentAdsRequests?: number;
-  EnableVodVastParallelization?: boolean;
+  MaxConcurrentAdsRequests?: number | undefined;
+  EnableVodVastParallelization?: boolean | undefined;
 }
 export type ClientSideBeaconingMode = "DISABLED" | "INSIGHTS" | (string & {});
 export type BeaconEventType = "MUTE" | "UNMUTE" | "PAUSE" | "SKIP" | (string & {});
 export type BeaconEventTypeList = BeaconEventType[];
 export interface ClientSideBeaconingConfiguration {
   ReportingMode: ClientSideBeaconingMode;
-  AdditionalEventTypes?: BeaconEventType[];
+  AdditionalEventTypes?: BeaconEventType[] | undefined;
 }
 export interface BeaconingConfiguration {
-  ClientSide?: ClientSideBeaconingConfiguration;
+  ClientSide?: ClientSideBeaconingConfiguration | undefined;
 }
 export interface GetPlaybackConfigurationResponse {
-  AdDecisionServerUrl?: string;
-  AvailSuppression?: AvailSuppression;
-  Bumper?: Bumper;
-  CdnConfiguration?: CdnConfiguration;
-  ConfigurationAliases?: { [key: string]: { [key: string]: string | undefined } | undefined };
-  DashConfiguration?: DashConfiguration;
-  HlsConfiguration?: HlsConfiguration;
-  InsertionMode?: InsertionMode;
-  LivePreRollConfiguration?: LivePreRollConfiguration;
-  LogConfiguration?: LogConfiguration & { EnabledLoggingStrategies: __listOfLoggingStrategies };
-  ManifestProcessingRules?: ManifestProcessingRules;
-  Name?: string;
-  PersonalizationThresholdSeconds?: number;
-  PlaybackConfigurationArn?: string;
-  PlaybackEndpointPrefix?: string;
-  DualStackPlaybackEndpointPrefix?: string;
-  SessionInitializationEndpointPrefix?: string;
-  DualStackSessionInitializationEndpointPrefix?: string;
-  SlateAdUrl?: string;
-  Tags?: { [key: string]: string | undefined };
-  TranscodeProfileName?: string;
-  VideoContentSourceUrl?: string;
-  AdConditioningConfiguration?: AdConditioningConfiguration;
-  AdDecisionServerConfiguration?: AdDecisionServerConfiguration;
-  YieldOptimizationConfiguration?: YieldOptimizationConfiguration;
-  FunctionMapping?: { [key: string]: string | undefined };
-  AdsPersonalizationTimeouts?: AdsPersonalizationTimeouts;
-  AdsPersonalizationConcurrency?: AdsPersonalizationConcurrency;
-  BeaconingConfiguration?: BeaconingConfiguration;
+  AdDecisionServerUrl?: string | undefined;
+  AvailSuppression?: AvailSuppression | undefined;
+  Bumper?: Bumper | undefined;
+  CdnConfiguration?: CdnConfiguration | undefined;
+  ConfigurationAliases?:
+    | { [key: string]: { [key: string]: string | undefined } | undefined }
+    | undefined;
+  DashConfiguration?: DashConfiguration | undefined;
+  HlsConfiguration?: HlsConfiguration | undefined;
+  InsertionMode?: InsertionMode | undefined;
+  LivePreRollConfiguration?: LivePreRollConfiguration | undefined;
+  LogConfiguration?:
+    | (LogConfiguration & { EnabledLoggingStrategies: __listOfLoggingStrategies })
+    | undefined;
+  ManifestProcessingRules?: ManifestProcessingRules | undefined;
+  Name?: string | undefined;
+  PersonalizationThresholdSeconds?: number | undefined;
+  PlaybackConfigurationArn?: string | undefined;
+  PlaybackEndpointPrefix?: string | undefined;
+  DualStackPlaybackEndpointPrefix?: string | undefined;
+  SessionInitializationEndpointPrefix?: string | undefined;
+  DualStackSessionInitializationEndpointPrefix?: string | undefined;
+  SlateAdUrl?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  TranscodeProfileName?: string | undefined;
+  VideoContentSourceUrl?: string | undefined;
+  AdConditioningConfiguration?: AdConditioningConfiguration | undefined;
+  AdDecisionServerConfiguration?: AdDecisionServerConfiguration | undefined;
+  YieldOptimizationConfiguration?: YieldOptimizationConfiguration | undefined;
+  FunctionMapping?: { [key: string]: string | undefined } | undefined;
+  AdsPersonalizationTimeouts?: AdsPersonalizationTimeouts | undefined;
+  AdsPersonalizationConcurrency?: AdsPersonalizationConcurrency | undefined;
+  BeaconingConfiguration?: BeaconingConfiguration | undefined;
 }
 export interface GetPrefetchScheduleRequest {
   Name: string;
   PlaybackConfigurationName: string;
 }
 export interface GetPrefetchScheduleResponse {
-  Arn?: string;
-  Consumption?: PrefetchConsumption;
-  Name?: string;
-  PlaybackConfigurationName?: string;
-  Retrieval?: PrefetchRetrieval;
-  ScheduleType?: PrefetchScheduleType;
-  RecurringPrefetchConfiguration?: RecurringPrefetchConfiguration;
-  StreamId?: string;
-  Tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  Consumption?: PrefetchConsumption | undefined;
+  Name?: string | undefined;
+  PlaybackConfigurationName?: string | undefined;
+  Retrieval?: PrefetchRetrieval | undefined;
+  ScheduleType?: PrefetchScheduleType | undefined;
+  RecurringPrefetchConfiguration?: RecurringPrefetchConfiguration | undefined;
+  StreamId?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListAlertsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   ResourceArn: string;
 }
 export type __listOf__string = string[];
@@ -1024,196 +1037,202 @@ export interface Alert {
   LastModifiedTime: Date;
   RelatedResourceArns: string[];
   ResourceArn: string;
-  Category?: AlertCategory;
+  Category?: AlertCategory | undefined;
 }
 export type __listOfAlert = Alert[];
 const __listOfAlert = /*@__PURE__*/ __L.at(__c31, 2);
 export interface ListAlertsResponse {
-  Items?: Alert[];
-  NextToken?: string;
+  Items?: Alert[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListChannelsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface Channel {
   Arn: string;
   ChannelName: string;
   ChannelState: string;
-  CreationTime?: Date;
-  FillerSlate?: SlateSource;
-  LastModifiedTime?: Date;
+  CreationTime?: Date | undefined;
+  FillerSlate?: SlateSource | undefined;
+  LastModifiedTime?: Date | undefined;
   Outputs: ResponseOutputItem[];
   PlaybackMode: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
   Tier: string;
   LogConfiguration: LogConfigurationForChannel;
-  Audiences?: string[];
+  Audiences?: string[] | undefined;
 }
 export type __listOfChannel = Channel[];
 const __listOfChannel = /*@__PURE__*/ __L.at(__c32, 2);
 export interface ListChannelsResponse {
-  Items?: Channel[];
-  NextToken?: string;
+  Items?: Channel[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListFunctionsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface Function {
   FunctionId: string;
   FunctionType: FunctionType;
-  Description?: string;
-  HttpRequestConfiguration?: HttpRequestConfiguration;
-  AwsServiceRequestConfiguration?: AwsServiceRequestConfiguration;
-  CustomOutputConfiguration?: CustomOutputConfiguration;
-  ConcurrentExecutorConfiguration?: ConcurrentExecutorConfiguration;
-  SequentialExecutorConfiguration?: SequentialExecutorConfiguration;
-  VastRequestConfiguration?: VastRequestConfiguration;
-  Tags?: { [key: string]: string | undefined };
-  Arn?: string;
+  Description?: string | undefined;
+  HttpRequestConfiguration?: HttpRequestConfiguration | undefined;
+  AwsServiceRequestConfiguration?: AwsServiceRequestConfiguration | undefined;
+  CustomOutputConfiguration?: CustomOutputConfiguration | undefined;
+  ConcurrentExecutorConfiguration?: ConcurrentExecutorConfiguration | undefined;
+  SequentialExecutorConfiguration?: SequentialExecutorConfiguration | undefined;
+  VastRequestConfiguration?: VastRequestConfiguration | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Arn?: string | undefined;
 }
 export type __listOfFunctionsResponse = Function[];
 const __listOfFunctionsResponse = /*@__PURE__*/ __L.at(__c33, 1);
 export interface ListFunctionsResponse {
-  Items?: Function[];
-  NextToken?: string;
+  Items?: Function[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListLiveSourcesRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   SourceLocationName: string;
 }
 export interface LiveSource {
   Arn: string;
-  CreationTime?: Date;
+  CreationTime?: Date | undefined;
   HttpPackageConfigurations: HttpPackageConfiguration[];
-  LastModifiedTime?: Date;
+  LastModifiedTime?: Date | undefined;
   LiveSourceName: string;
   SourceLocationName: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type __listOfLiveSource = LiveSource[];
 const __listOfLiveSource = /*@__PURE__*/ __L.at(__c34, 2);
 export interface ListLiveSourcesResponse {
-  Items?: LiveSource[];
-  NextToken?: string;
+  Items?: LiveSource[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPlaybackConfigurationsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface PlaybackConfiguration {
-  AdDecisionServerUrl?: string;
-  AvailSuppression?: AvailSuppression;
-  Bumper?: Bumper;
-  CdnConfiguration?: CdnConfiguration;
-  ConfigurationAliases?: { [key: string]: { [key: string]: string | undefined } | undefined };
-  DashConfiguration?: DashConfiguration;
-  HlsConfiguration?: HlsConfiguration;
-  InsertionMode?: InsertionMode;
-  LivePreRollConfiguration?: LivePreRollConfiguration;
-  LogConfiguration?: LogConfiguration;
-  ManifestProcessingRules?: ManifestProcessingRules;
-  Name?: string;
-  PersonalizationThresholdSeconds?: number;
-  PlaybackConfigurationArn?: string;
-  PlaybackEndpointPrefix?: string;
-  DualStackPlaybackEndpointPrefix?: string;
-  SessionInitializationEndpointPrefix?: string;
-  DualStackSessionInitializationEndpointPrefix?: string;
-  SlateAdUrl?: string;
-  Tags?: { [key: string]: string | undefined };
-  TranscodeProfileName?: string;
-  VideoContentSourceUrl?: string;
-  AdConditioningConfiguration?: AdConditioningConfiguration;
-  AdDecisionServerConfiguration?: AdDecisionServerConfiguration;
-  YieldOptimizationConfiguration?: YieldOptimizationConfiguration;
-  FunctionMapping?: { [key: string]: string | undefined };
-  AdsPersonalizationTimeouts?: AdsPersonalizationTimeouts;
-  AdsPersonalizationConcurrency?: AdsPersonalizationConcurrency;
-  BeaconingConfiguration?: BeaconingConfiguration;
+  AdDecisionServerUrl?: string | undefined;
+  AvailSuppression?: AvailSuppression | undefined;
+  Bumper?: Bumper | undefined;
+  CdnConfiguration?: CdnConfiguration | undefined;
+  ConfigurationAliases?:
+    | { [key: string]: { [key: string]: string | undefined } | undefined }
+    | undefined;
+  DashConfiguration?: DashConfiguration | undefined;
+  HlsConfiguration?: HlsConfiguration | undefined;
+  InsertionMode?: InsertionMode | undefined;
+  LivePreRollConfiguration?: LivePreRollConfiguration | undefined;
+  LogConfiguration?: LogConfiguration | undefined;
+  ManifestProcessingRules?: ManifestProcessingRules | undefined;
+  Name?: string | undefined;
+  PersonalizationThresholdSeconds?: number | undefined;
+  PlaybackConfigurationArn?: string | undefined;
+  PlaybackEndpointPrefix?: string | undefined;
+  DualStackPlaybackEndpointPrefix?: string | undefined;
+  SessionInitializationEndpointPrefix?: string | undefined;
+  DualStackSessionInitializationEndpointPrefix?: string | undefined;
+  SlateAdUrl?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  TranscodeProfileName?: string | undefined;
+  VideoContentSourceUrl?: string | undefined;
+  AdConditioningConfiguration?: AdConditioningConfiguration | undefined;
+  AdDecisionServerConfiguration?: AdDecisionServerConfiguration | undefined;
+  YieldOptimizationConfiguration?: YieldOptimizationConfiguration | undefined;
+  FunctionMapping?: { [key: string]: string | undefined } | undefined;
+  AdsPersonalizationTimeouts?: AdsPersonalizationTimeouts | undefined;
+  AdsPersonalizationConcurrency?: AdsPersonalizationConcurrency | undefined;
+  BeaconingConfiguration?: BeaconingConfiguration | undefined;
 }
 export type __listOfPlaybackConfiguration = PlaybackConfiguration[];
 const __listOfPlaybackConfiguration = /*@__PURE__*/ __L.at(__c35, 1);
 export interface ListPlaybackConfigurationsResponse {
-  Items?: (PlaybackConfiguration & {
-    LogConfiguration: LogConfiguration & { EnabledLoggingStrategies: __listOfLoggingStrategies };
-  })[];
-  NextToken?: string;
+  Items?:
+    | (PlaybackConfiguration & {
+        LogConfiguration: LogConfiguration & {
+          EnabledLoggingStrategies: __listOfLoggingStrategies;
+        };
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export type __integerMin1Max100 = number;
 export type ListPrefetchScheduleType = "SINGLE" | "RECURRING" | "ALL" | (string & {});
 export interface ListPrefetchSchedulesRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   PlaybackConfigurationName: string;
-  ScheduleType?: ListPrefetchScheduleType;
-  StreamId?: string;
+  ScheduleType?: ListPrefetchScheduleType | undefined;
+  StreamId?: string | undefined;
 }
 export interface PrefetchSchedule {
   Arn: string;
-  Consumption?: PrefetchConsumption;
+  Consumption?: PrefetchConsumption | undefined;
   Name: string;
   PlaybackConfigurationName: string;
-  Retrieval?: PrefetchRetrieval;
-  ScheduleType?: PrefetchScheduleType;
-  RecurringPrefetchConfiguration?: RecurringPrefetchConfiguration;
-  StreamId?: string;
-  Tags?: { [key: string]: string | undefined };
+  Retrieval?: PrefetchRetrieval | undefined;
+  ScheduleType?: PrefetchScheduleType | undefined;
+  RecurringPrefetchConfiguration?: RecurringPrefetchConfiguration | undefined;
+  StreamId?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type __listOfPrefetchSchedule = PrefetchSchedule[];
 const __listOfPrefetchSchedule = /*@__PURE__*/ __L.at(__c36, 2);
 export interface ListPrefetchSchedulesResponse {
-  Items?: PrefetchSchedule[];
-  NextToken?: string;
+  Items?: PrefetchSchedule[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListSourceLocationsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface SourceLocation {
-  AccessConfiguration?: AccessConfiguration;
+  AccessConfiguration?: AccessConfiguration | undefined;
   Arn: string;
-  CreationTime?: Date;
-  DefaultSegmentDeliveryConfiguration?: DefaultSegmentDeliveryConfiguration;
+  CreationTime?: Date | undefined;
+  DefaultSegmentDeliveryConfiguration?: DefaultSegmentDeliveryConfiguration | undefined;
   HttpConfiguration: HttpConfiguration;
-  LastModifiedTime?: Date;
-  SegmentDeliveryConfigurations?: SegmentDeliveryConfiguration[];
+  LastModifiedTime?: Date | undefined;
+  SegmentDeliveryConfigurations?: SegmentDeliveryConfiguration[] | undefined;
   SourceLocationName: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type __listOfSourceLocation = SourceLocation[];
 const __listOfSourceLocation = /*@__PURE__*/ __L.at(__c37, 2);
 export interface ListSourceLocationsResponse {
-  Items?: SourceLocation[];
-  NextToken?: string;
+  Items?: SourceLocation[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListVodSourcesRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   SourceLocationName: string;
 }
 export interface VodSource {
   Arn: string;
-  CreationTime?: Date;
+  CreationTime?: Date | undefined;
   HttpPackageConfigurations: HttpPackageConfiguration[];
-  LastModifiedTime?: Date;
+  LastModifiedTime?: Date | undefined;
   SourceLocationName: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
   VodSourceName: string;
 }
 export type __listOfVodSource = VodSource[];
 const __listOfVodSource = /*@__PURE__*/ __L.at(__c39, 2);
 export interface ListVodSourcesResponse {
-  Items?: VodSource[];
-  NextToken?: string;
+  Items?: VodSource[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface PutChannelPolicyRequest {
   ChannelName: string;
@@ -1223,89 +1242,95 @@ export interface PutChannelPolicyResponse {}
 export interface PutFunctionRequest {
   FunctionId: string;
   FunctionType: FunctionType;
-  Description?: string;
-  HttpRequestConfiguration?: HttpRequestConfiguration;
-  AwsServiceRequestConfiguration?: AwsServiceRequestConfiguration;
-  CustomOutputConfiguration?: CustomOutputConfiguration;
-  ConcurrentExecutorConfiguration?: ConcurrentExecutorConfiguration;
-  SequentialExecutorConfiguration?: SequentialExecutorConfiguration;
-  VastRequestConfiguration?: VastRequestConfiguration;
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  HttpRequestConfiguration?: HttpRequestConfiguration | undefined;
+  AwsServiceRequestConfiguration?: AwsServiceRequestConfiguration | undefined;
+  CustomOutputConfiguration?: CustomOutputConfiguration | undefined;
+  ConcurrentExecutorConfiguration?: ConcurrentExecutorConfiguration | undefined;
+  SequentialExecutorConfiguration?: SequentialExecutorConfiguration | undefined;
+  VastRequestConfiguration?: VastRequestConfiguration | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutFunctionResponse {
   FunctionId: string;
   FunctionType: FunctionType;
-  Description?: string;
-  HttpRequestConfiguration?: HttpRequestConfiguration;
-  AwsServiceRequestConfiguration?: AwsServiceRequestConfiguration;
-  CustomOutputConfiguration?: CustomOutputConfiguration;
-  ConcurrentExecutorConfiguration?: ConcurrentExecutorConfiguration;
-  SequentialExecutorConfiguration?: SequentialExecutorConfiguration;
-  VastRequestConfiguration?: VastRequestConfiguration;
-  Tags?: { [key: string]: string | undefined };
-  Arn?: string;
+  Description?: string | undefined;
+  HttpRequestConfiguration?: HttpRequestConfiguration | undefined;
+  AwsServiceRequestConfiguration?: AwsServiceRequestConfiguration | undefined;
+  CustomOutputConfiguration?: CustomOutputConfiguration | undefined;
+  ConcurrentExecutorConfiguration?: ConcurrentExecutorConfiguration | undefined;
+  SequentialExecutorConfiguration?: SequentialExecutorConfiguration | undefined;
+  VastRequestConfiguration?: VastRequestConfiguration | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Arn?: string | undefined;
 }
 export type ConfigurationAliasesRequest = {
   [key: string]: { [key: string]: string | undefined } | undefined;
 };
 export interface DashConfigurationForPut {
-  MpdLocation?: string;
-  OriginManifestType?: OriginManifestType;
+  MpdLocation?: string | undefined;
+  OriginManifestType?: OriginManifestType | undefined;
 }
 export interface PutPlaybackConfigurationRequest {
-  AdDecisionServerUrl?: string;
-  AvailSuppression?: AvailSuppression;
-  Bumper?: Bumper;
-  CdnConfiguration?: CdnConfiguration;
-  ConfigurationAliases?: { [key: string]: { [key: string]: string | undefined } | undefined };
-  DashConfiguration?: DashConfigurationForPut;
-  InsertionMode?: InsertionMode;
-  LivePreRollConfiguration?: LivePreRollConfiguration;
-  ManifestProcessingRules?: ManifestProcessingRules;
+  AdDecisionServerUrl?: string | undefined;
+  AvailSuppression?: AvailSuppression | undefined;
+  Bumper?: Bumper | undefined;
+  CdnConfiguration?: CdnConfiguration | undefined;
+  ConfigurationAliases?:
+    | { [key: string]: { [key: string]: string | undefined } | undefined }
+    | undefined;
+  DashConfiguration?: DashConfigurationForPut | undefined;
+  InsertionMode?: InsertionMode | undefined;
+  LivePreRollConfiguration?: LivePreRollConfiguration | undefined;
+  ManifestProcessingRules?: ManifestProcessingRules | undefined;
   Name: string;
-  PersonalizationThresholdSeconds?: number;
-  SlateAdUrl?: string;
-  Tags?: { [key: string]: string | undefined };
-  TranscodeProfileName?: string;
-  VideoContentSourceUrl?: string;
-  AdConditioningConfiguration?: AdConditioningConfiguration;
-  AdDecisionServerConfiguration?: AdDecisionServerConfiguration;
-  YieldOptimizationConfiguration?: YieldOptimizationConfiguration;
-  FunctionMapping?: { [key: string]: string | undefined };
-  AdsPersonalizationTimeouts?: AdsPersonalizationTimeouts;
-  AdsPersonalizationConcurrency?: AdsPersonalizationConcurrency;
-  BeaconingConfiguration?: BeaconingConfiguration;
+  PersonalizationThresholdSeconds?: number | undefined;
+  SlateAdUrl?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  TranscodeProfileName?: string | undefined;
+  VideoContentSourceUrl?: string | undefined;
+  AdConditioningConfiguration?: AdConditioningConfiguration | undefined;
+  AdDecisionServerConfiguration?: AdDecisionServerConfiguration | undefined;
+  YieldOptimizationConfiguration?: YieldOptimizationConfiguration | undefined;
+  FunctionMapping?: { [key: string]: string | undefined } | undefined;
+  AdsPersonalizationTimeouts?: AdsPersonalizationTimeouts | undefined;
+  AdsPersonalizationConcurrency?: AdsPersonalizationConcurrency | undefined;
+  BeaconingConfiguration?: BeaconingConfiguration | undefined;
 }
 export interface PutPlaybackConfigurationResponse {
-  AdDecisionServerUrl?: string;
-  AvailSuppression?: AvailSuppression;
-  Bumper?: Bumper;
-  CdnConfiguration?: CdnConfiguration;
-  ConfigurationAliases?: { [key: string]: { [key: string]: string | undefined } | undefined };
-  DashConfiguration?: DashConfiguration;
-  HlsConfiguration?: HlsConfiguration;
-  InsertionMode?: InsertionMode;
-  LivePreRollConfiguration?: LivePreRollConfiguration;
-  LogConfiguration?: LogConfiguration & { EnabledLoggingStrategies: __listOfLoggingStrategies };
-  ManifestProcessingRules?: ManifestProcessingRules;
-  Name?: string;
-  PersonalizationThresholdSeconds?: number;
-  PlaybackConfigurationArn?: string;
-  PlaybackEndpointPrefix?: string;
-  DualStackPlaybackEndpointPrefix?: string;
-  SessionInitializationEndpointPrefix?: string;
-  DualStackSessionInitializationEndpointPrefix?: string;
-  SlateAdUrl?: string;
-  Tags?: { [key: string]: string | undefined };
-  TranscodeProfileName?: string;
-  VideoContentSourceUrl?: string;
-  AdConditioningConfiguration?: AdConditioningConfiguration;
-  AdDecisionServerConfiguration?: AdDecisionServerConfiguration;
-  YieldOptimizationConfiguration?: YieldOptimizationConfiguration;
-  FunctionMapping?: { [key: string]: string | undefined };
-  AdsPersonalizationTimeouts?: AdsPersonalizationTimeouts;
-  AdsPersonalizationConcurrency?: AdsPersonalizationConcurrency;
-  BeaconingConfiguration?: BeaconingConfiguration;
+  AdDecisionServerUrl?: string | undefined;
+  AvailSuppression?: AvailSuppression | undefined;
+  Bumper?: Bumper | undefined;
+  CdnConfiguration?: CdnConfiguration | undefined;
+  ConfigurationAliases?:
+    | { [key: string]: { [key: string]: string | undefined } | undefined }
+    | undefined;
+  DashConfiguration?: DashConfiguration | undefined;
+  HlsConfiguration?: HlsConfiguration | undefined;
+  InsertionMode?: InsertionMode | undefined;
+  LivePreRollConfiguration?: LivePreRollConfiguration | undefined;
+  LogConfiguration?:
+    | (LogConfiguration & { EnabledLoggingStrategies: __listOfLoggingStrategies })
+    | undefined;
+  ManifestProcessingRules?: ManifestProcessingRules | undefined;
+  Name?: string | undefined;
+  PersonalizationThresholdSeconds?: number | undefined;
+  PlaybackConfigurationArn?: string | undefined;
+  PlaybackEndpointPrefix?: string | undefined;
+  DualStackPlaybackEndpointPrefix?: string | undefined;
+  SessionInitializationEndpointPrefix?: string | undefined;
+  DualStackSessionInitializationEndpointPrefix?: string | undefined;
+  SlateAdUrl?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  TranscodeProfileName?: string | undefined;
+  VideoContentSourceUrl?: string | undefined;
+  AdConditioningConfiguration?: AdConditioningConfiguration | undefined;
+  AdDecisionServerConfiguration?: AdDecisionServerConfiguration | undefined;
+  YieldOptimizationConfiguration?: YieldOptimizationConfiguration | undefined;
+  FunctionMapping?: { [key: string]: string | undefined } | undefined;
+  AdsPersonalizationTimeouts?: AdsPersonalizationTimeouts | undefined;
+  AdsPersonalizationConcurrency?: AdsPersonalizationConcurrency | undefined;
+  BeaconingConfiguration?: BeaconingConfiguration | undefined;
 }
 export interface StartChannelRequest {
   ChannelName: string;
@@ -1327,24 +1352,24 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateChannelRequest {
   ChannelName: string;
-  FillerSlate?: SlateSource;
+  FillerSlate?: SlateSource | undefined;
   Outputs: RequestOutputItem[];
-  TimeShiftConfiguration?: TimeShiftConfiguration;
-  Audiences?: string[];
+  TimeShiftConfiguration?: TimeShiftConfiguration | undefined;
+  Audiences?: string[] | undefined;
 }
 export interface UpdateChannelResponse {
-  Arn?: string;
-  ChannelName?: string;
-  ChannelState?: ChannelState;
-  CreationTime?: Date;
-  FillerSlate?: SlateSource;
-  LastModifiedTime?: Date;
-  Outputs?: ResponseOutputItem[];
-  PlaybackMode?: string;
-  Tags?: { [key: string]: string | undefined };
-  Tier?: string;
-  TimeShiftConfiguration?: TimeShiftConfiguration;
-  Audiences?: string[];
+  Arn?: string | undefined;
+  ChannelName?: string | undefined;
+  ChannelState?: ChannelState | undefined;
+  CreationTime?: Date | undefined;
+  FillerSlate?: SlateSource | undefined;
+  LastModifiedTime?: Date | undefined;
+  Outputs?: ResponseOutputItem[] | undefined;
+  PlaybackMode?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Tier?: string | undefined;
+  TimeShiftConfiguration?: TimeShiftConfiguration | undefined;
+  Audiences?: string[] | undefined;
 }
 export interface UpdateLiveSourceRequest {
   HttpPackageConfigurations: HttpPackageConfiguration[];
@@ -1352,61 +1377,61 @@ export interface UpdateLiveSourceRequest {
   SourceLocationName: string;
 }
 export interface UpdateLiveSourceResponse {
-  Arn?: string;
-  CreationTime?: Date;
-  HttpPackageConfigurations?: HttpPackageConfiguration[];
-  LastModifiedTime?: Date;
-  LiveSourceName?: string;
-  SourceLocationName?: string;
-  Tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  CreationTime?: Date | undefined;
+  HttpPackageConfigurations?: HttpPackageConfiguration[] | undefined;
+  LastModifiedTime?: Date | undefined;
+  LiveSourceName?: string | undefined;
+  SourceLocationName?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateProgramTransition {
-  ScheduledStartTimeMillis?: number;
-  DurationMillis?: number;
+  ScheduledStartTimeMillis?: number | undefined;
+  DurationMillis?: number | undefined;
 }
 export interface UpdateProgramScheduleConfiguration {
-  Transition?: UpdateProgramTransition;
-  ClipRange?: ClipRange;
+  Transition?: UpdateProgramTransition | undefined;
+  ClipRange?: ClipRange | undefined;
 }
 export interface UpdateProgramRequest {
-  AdBreaks?: AdBreak[];
+  AdBreaks?: AdBreak[] | undefined;
   ChannelName: string;
   ProgramName: string;
   ScheduleConfiguration: UpdateProgramScheduleConfiguration;
-  AudienceMedia?: AudienceMedia[];
+  AudienceMedia?: AudienceMedia[] | undefined;
 }
 export interface UpdateProgramResponse {
-  AdBreaks?: AdBreak[];
-  Arn?: string;
-  ChannelName?: string;
-  CreationTime?: Date;
-  ProgramName?: string;
-  SourceLocationName?: string;
-  VodSourceName?: string;
-  LiveSourceName?: string;
-  ClipRange?: ClipRange;
-  DurationMillis?: number;
-  ScheduledStartTime?: Date;
-  AudienceMedia?: AudienceMedia[];
-  Tags?: { [key: string]: string | undefined };
+  AdBreaks?: AdBreak[] | undefined;
+  Arn?: string | undefined;
+  ChannelName?: string | undefined;
+  CreationTime?: Date | undefined;
+  ProgramName?: string | undefined;
+  SourceLocationName?: string | undefined;
+  VodSourceName?: string | undefined;
+  LiveSourceName?: string | undefined;
+  ClipRange?: ClipRange | undefined;
+  DurationMillis?: number | undefined;
+  ScheduledStartTime?: Date | undefined;
+  AudienceMedia?: AudienceMedia[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateSourceLocationRequest {
-  AccessConfiguration?: AccessConfiguration;
-  DefaultSegmentDeliveryConfiguration?: DefaultSegmentDeliveryConfiguration;
+  AccessConfiguration?: AccessConfiguration | undefined;
+  DefaultSegmentDeliveryConfiguration?: DefaultSegmentDeliveryConfiguration | undefined;
   HttpConfiguration: HttpConfiguration;
-  SegmentDeliveryConfigurations?: SegmentDeliveryConfiguration[];
+  SegmentDeliveryConfigurations?: SegmentDeliveryConfiguration[] | undefined;
   SourceLocationName: string;
 }
 export interface UpdateSourceLocationResponse {
-  AccessConfiguration?: AccessConfiguration;
-  Arn?: string;
-  CreationTime?: Date;
-  DefaultSegmentDeliveryConfiguration?: DefaultSegmentDeliveryConfiguration;
-  HttpConfiguration?: HttpConfiguration;
-  LastModifiedTime?: Date;
-  SegmentDeliveryConfigurations?: SegmentDeliveryConfiguration[];
-  SourceLocationName?: string;
-  Tags?: { [key: string]: string | undefined };
+  AccessConfiguration?: AccessConfiguration | undefined;
+  Arn?: string | undefined;
+  CreationTime?: Date | undefined;
+  DefaultSegmentDeliveryConfiguration?: DefaultSegmentDeliveryConfiguration | undefined;
+  HttpConfiguration?: HttpConfiguration | undefined;
+  LastModifiedTime?: Date | undefined;
+  SegmentDeliveryConfigurations?: SegmentDeliveryConfiguration[] | undefined;
+  SourceLocationName?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateVodSourceRequest {
   HttpPackageConfigurations: HttpPackageConfiguration[];
@@ -1414,20 +1439,20 @@ export interface UpdateVodSourceRequest {
   VodSourceName: string;
 }
 export interface UpdateVodSourceResponse {
-  Arn?: string;
-  CreationTime?: Date;
-  HttpPackageConfigurations?: HttpPackageConfiguration[];
-  LastModifiedTime?: Date;
-  SourceLocationName?: string;
-  Tags?: { [key: string]: string | undefined };
-  VodSourceName?: string;
+  Arn?: string | undefined;
+  CreationTime?: Date | undefined;
+  HttpPackageConfigurations?: HttpPackageConfiguration[] | undefined;
+  LastModifiedTime?: Date | undefined;
+  SourceLocationName?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  VodSourceName?: string | undefined;
 }
 export type ConfigureLogsForChannelError = CommonErrors;
 /**
  * Configures Amazon CloudWatch log settings for a channel.
  */
 export const configureLogsForChannel: API.OperationMethod<
-  ConfigureLogsForChannelRequest,
+  ConfigureLogsForChannelRequest & RegionInput,
   ConfigureLogsForChannelResponse,
   ConfigureLogsForChannelError,
   Credentials | HttpClient.HttpClient
@@ -1447,7 +1472,7 @@ export type ConfigureLogsForPlaybackConfigurationError = CommonErrors;
  * Defines where AWS Elemental MediaTailor sends logs for the playback configuration.
  */
 export const configureLogsForPlaybackConfiguration: API.OperationMethod<
-  ConfigureLogsForPlaybackConfigurationRequest,
+  ConfigureLogsForPlaybackConfigurationRequest & RegionInput,
   ConfigureLogsForPlaybackConfigurationResponse,
   ConfigureLogsForPlaybackConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1467,7 +1492,7 @@ export type CreateChannelError = CommonErrors;
  * Creates a channel. For information about MediaTailor channels, see Working with channels in the *MediaTailor User Guide*.
  */
 export const createChannel: API.OperationMethod<
-  CreateChannelRequest,
+  CreateChannelRequest & RegionInput,
   CreateChannelResponse,
   CreateChannelError,
   Credentials | HttpClient.HttpClient
@@ -1487,7 +1512,7 @@ export type CreateLiveSourceError = CommonErrors;
  * The live source configuration.
  */
 export const createLiveSource: API.OperationMethod<
-  CreateLiveSourceRequest,
+  CreateLiveSourceRequest & RegionInput,
   CreateLiveSourceResponse,
   CreateLiveSourceError,
   Credentials | HttpClient.HttpClient
@@ -1510,7 +1535,7 @@ export type CreatePrefetchScheduleError =
  * Creates a prefetch schedule for a playback configuration. A prefetch schedule allows you to tell MediaTailor to fetch and prepare certain ads before an ad break happens. For more information about ad prefetching, see Using ad prefetching in the *MediaTailor User Guide*.
  */
 export const createPrefetchSchedule: API.OperationMethod<
-  CreatePrefetchScheduleRequest,
+  CreatePrefetchScheduleRequest & RegionInput,
   CreatePrefetchScheduleResponse,
   CreatePrefetchScheduleError,
   Credentials | HttpClient.HttpClient
@@ -1530,7 +1555,7 @@ export type CreateProgramError = BadRequestException | ChannelNotFound | CommonE
  * Creates a program within a channel. For information about programs, see Working with programs in the *MediaTailor User Guide*.
  */
 export const createProgram: API.OperationMethod<
-  CreateProgramRequest,
+  CreateProgramRequest & RegionInput,
   CreateProgramResponse,
   CreateProgramError,
   Credentials | HttpClient.HttpClient
@@ -1550,7 +1575,7 @@ export type CreateSourceLocationError = CommonErrors;
  * Creates a source location. A source location is a container for sources. For more information about source locations, see Working with source locations in the *MediaTailor User Guide*.
  */
 export const createSourceLocation: API.OperationMethod<
-  CreateSourceLocationRequest,
+  CreateSourceLocationRequest & RegionInput,
   CreateSourceLocationResponse,
   CreateSourceLocationError,
   Credentials | HttpClient.HttpClient
@@ -1570,7 +1595,7 @@ export type CreateVodSourceError = CommonErrors;
  * The VOD source configuration parameters.
  */
 export const createVodSource: API.OperationMethod<
-  CreateVodSourceRequest,
+  CreateVodSourceRequest & RegionInput,
   CreateVodSourceResponse,
   CreateVodSourceError,
   Credentials | HttpClient.HttpClient
@@ -1590,7 +1615,7 @@ export type DeleteChannelError = CommonErrors;
  * Deletes a channel. For information about MediaTailor channels, see Working with channels in the *MediaTailor User Guide*.
  */
 export const deleteChannel: API.OperationMethod<
-  DeleteChannelRequest,
+  DeleteChannelRequest & RegionInput,
   DeleteChannelResponse,
   DeleteChannelError,
   Credentials | HttpClient.HttpClient
@@ -1610,7 +1635,7 @@ export type DeleteChannelPolicyError = CommonErrors;
  * The channel policy to delete.
  */
 export const deleteChannelPolicy: API.OperationMethod<
-  DeleteChannelPolicyRequest,
+  DeleteChannelPolicyRequest & RegionInput,
   DeleteChannelPolicyResponse,
   DeleteChannelPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1630,7 +1655,7 @@ export type DeleteFunctionError = CommonErrors;
  * Deletes a function. MediaTailor prevents deletion of a function that is still referenced by a playback configuration or by another function. Remove all references before deleting. For more information about functions, see Working with functions in the *MediaTailor User Guide*.
  */
 export const deleteFunction: API.OperationMethod<
-  DeleteFunctionRequest,
+  DeleteFunctionRequest & RegionInput,
   DeleteFunctionResponse,
   DeleteFunctionError,
   Credentials | HttpClient.HttpClient
@@ -1650,7 +1675,7 @@ export type DeleteLiveSourceError = CommonErrors;
  * The live source to delete.
  */
 export const deleteLiveSource: API.OperationMethod<
-  DeleteLiveSourceRequest,
+  DeleteLiveSourceRequest & RegionInput,
   DeleteLiveSourceResponse,
   DeleteLiveSourceError,
   Credentials | HttpClient.HttpClient
@@ -1670,7 +1695,7 @@ export type DeletePlaybackConfigurationError = CommonErrors;
  * Deletes a playback configuration. For information about MediaTailor configurations, see Working with configurations in AWS Elemental MediaTailor.
  */
 export const deletePlaybackConfiguration: API.OperationMethod<
-  DeletePlaybackConfigurationRequest,
+  DeletePlaybackConfigurationRequest & RegionInput,
   DeletePlaybackConfigurationResponse,
   DeletePlaybackConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1693,7 +1718,7 @@ export type DeletePrefetchScheduleError =
  * Deletes a prefetch schedule for a specific playback configuration. If you call `DeletePrefetchSchedule` on an expired prefetch schedule, MediaTailor returns an HTTP 404 status code. For more information about ad prefetching, see Using ad prefetching in the *MediaTailor User Guide*.
  */
 export const deletePrefetchSchedule: API.OperationMethod<
-  DeletePrefetchScheduleRequest,
+  DeletePrefetchScheduleRequest & RegionInput,
   DeletePrefetchScheduleResponse,
   DeletePrefetchScheduleError,
   Credentials | HttpClient.HttpClient
@@ -1713,7 +1738,7 @@ export type DeleteProgramError = BadRequestException | ProgramNotFound | CommonE
  * Deletes a program within a channel. For information about programs, see Working with programs in the *MediaTailor User Guide*.
  */
 export const deleteProgram: API.OperationMethod<
-  DeleteProgramRequest,
+  DeleteProgramRequest & RegionInput,
   DeleteProgramResponse,
   DeleteProgramError,
   Credentials | HttpClient.HttpClient
@@ -1733,7 +1758,7 @@ export type DeleteSourceLocationError = CommonErrors;
  * Deletes a source location. A source location is a container for sources. For more information about source locations, see Working with source locations in the *MediaTailor User Guide*.
  */
 export const deleteSourceLocation: API.OperationMethod<
-  DeleteSourceLocationRequest,
+  DeleteSourceLocationRequest & RegionInput,
   DeleteSourceLocationResponse,
   DeleteSourceLocationError,
   Credentials | HttpClient.HttpClient
@@ -1753,7 +1778,7 @@ export type DeleteVodSourceError = CommonErrors;
  * The video on demand (VOD) source to delete.
  */
 export const deleteVodSource: API.OperationMethod<
-  DeleteVodSourceRequest,
+  DeleteVodSourceRequest & RegionInput,
   DeleteVodSourceResponse,
   DeleteVodSourceError,
   Credentials | HttpClient.HttpClient
@@ -1773,7 +1798,7 @@ export type DescribeChannelError = CommonErrors;
  * Describes a channel. For information about MediaTailor channels, see Working with channels in the *MediaTailor User Guide*.
  */
 export const describeChannel: API.OperationMethod<
-  DescribeChannelRequest,
+  DescribeChannelRequest & RegionInput,
   DescribeChannelResponse,
   DescribeChannelError,
   Credentials | HttpClient.HttpClient
@@ -1793,7 +1818,7 @@ export type DescribeLiveSourceError = CommonErrors;
  * The live source to describe.
  */
 export const describeLiveSource: API.OperationMethod<
-  DescribeLiveSourceRequest,
+  DescribeLiveSourceRequest & RegionInput,
   DescribeLiveSourceResponse,
   DescribeLiveSourceError,
   Credentials | HttpClient.HttpClient
@@ -1813,7 +1838,7 @@ export type DescribeProgramError = BadRequestException | ProgramNotFound | Commo
  * Describes a program within a channel. For information about programs, see Working with programs in the *MediaTailor User Guide*.
  */
 export const describeProgram: API.OperationMethod<
-  DescribeProgramRequest,
+  DescribeProgramRequest & RegionInput,
   DescribeProgramResponse,
   DescribeProgramError,
   Credentials | HttpClient.HttpClient
@@ -1833,7 +1858,7 @@ export type DescribeSourceLocationError = CommonErrors;
  * Describes a source location. A source location is a container for sources. For more information about source locations, see Working with source locations in the *MediaTailor User Guide*.
  */
 export const describeSourceLocation: API.OperationMethod<
-  DescribeSourceLocationRequest,
+  DescribeSourceLocationRequest & RegionInput,
   DescribeSourceLocationResponse,
   DescribeSourceLocationError,
   Credentials | HttpClient.HttpClient
@@ -1853,7 +1878,7 @@ export type DescribeVodSourceError = CommonErrors;
  * Provides details about a specific video on demand (VOD) source in a specific source location.
  */
 export const describeVodSource: API.OperationMethod<
-  DescribeVodSourceRequest,
+  DescribeVodSourceRequest & RegionInput,
   DescribeVodSourceResponse,
   DescribeVodSourceError,
   Credentials | HttpClient.HttpClient
@@ -1873,7 +1898,7 @@ export type GetChannelPolicyError = CommonErrors;
  * Returns the channel's IAM policy. IAM policies are used to control access to your channel.
  */
 export const getChannelPolicy: API.OperationMethod<
-  GetChannelPolicyRequest,
+  GetChannelPolicyRequest & RegionInput,
   GetChannelPolicyResponse,
   GetChannelPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1893,7 +1918,7 @@ export type GetChannelScheduleError = BadRequestException | ChannelNotFound | Co
  * Retrieves information about your channel's schedule.
  */
 export const getChannelSchedule: API.PaginatedOperationMethod<
-  GetChannelScheduleRequest,
+  GetChannelScheduleRequest & RegionInput,
   GetChannelScheduleResponse,
   GetChannelScheduleError,
   Credentials | HttpClient.HttpClient,
@@ -1920,13 +1945,13 @@ export type GetFunctionError = CommonErrors;
  * Retrieves the configuration and metadata for a function. For more information about functions, see Working with functions in the *MediaTailor User Guide*.
  */
 export const getFunction: API.OperationMethod<
-  GetFunctionRequest,
+  GetFunctionRequest & RegionInput,
   GetFunctionResponse,
   GetFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<GetFunctionRequest>,
-  output: __S(871, __c27, 7) as any as S.Schema<GetFunctionResponse>,
+  output: __S(872, __c27, 8) as any as S.Schema<GetFunctionResponse>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1940,7 +1965,7 @@ export type GetPlaybackConfigurationError = PlaybackConfigurationNotFound | Comm
  * Retrieves a playback configuration. For information about MediaTailor configurations, see Working with configurations in AWS Elemental MediaTailor.
  */
 export const getPlaybackConfiguration: API.OperationMethod<
-  GetPlaybackConfigurationRequest,
+  GetPlaybackConfigurationRequest & RegionInput,
   GetPlaybackConfigurationResponse,
   GetPlaybackConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1963,7 +1988,7 @@ export type GetPrefetchScheduleError =
  * Retrieves a prefetch schedule for a playback configuration. A prefetch schedule allows you to tell MediaTailor to fetch and prepare certain ads before an ad break happens. For more information about ad prefetching, see Using ad prefetching in the *MediaTailor User Guide*.
  */
 export const getPrefetchSchedule: API.OperationMethod<
-  GetPrefetchScheduleRequest,
+  GetPrefetchScheduleRequest & RegionInput,
   GetPrefetchScheduleResponse,
   GetPrefetchScheduleError,
   Credentials | HttpClient.HttpClient
@@ -1983,7 +2008,7 @@ export type ListAlertsError = BadRequestException | CommonErrors;
  * Lists the alerts that are associated with a MediaTailor channel assembly resource.
  */
 export const listAlerts: API.PaginatedOperationMethod<
-  ListAlertsRequest,
+  ListAlertsRequest & RegionInput,
   ListAlertsResponse,
   ListAlertsError,
   Credentials | HttpClient.HttpClient,
@@ -2010,7 +2035,7 @@ export type ListChannelsError = CommonErrors;
  * Retrieves information about the channels that are associated with the current AWS account.
  */
 export const listChannels: API.PaginatedOperationMethod<
-  ListChannelsRequest,
+  ListChannelsRequest & RegionInput,
   ListChannelsResponse,
   ListChannelsError,
   Credentials | HttpClient.HttpClient,
@@ -2037,7 +2062,7 @@ export type ListFunctionsError = CommonErrors;
  * Retrieves all functions associated with your AWS account in the current Region. For more information about functions, see Working with functions in the *MediaTailor User Guide*.
  */
 export const listFunctions: API.PaginatedOperationMethod<
-  ListFunctionsRequest,
+  ListFunctionsRequest & RegionInput,
   ListFunctionsResponse,
   ListFunctionsError,
   Credentials | HttpClient.HttpClient,
@@ -2064,7 +2089,7 @@ export type ListLiveSourcesError = CommonErrors;
  * Lists the live sources contained in a source location. A source represents a piece of content.
  */
 export const listLiveSources: API.PaginatedOperationMethod<
-  ListLiveSourcesRequest,
+  ListLiveSourcesRequest & RegionInput,
   ListLiveSourcesResponse,
   ListLiveSourcesError,
   Credentials | HttpClient.HttpClient,
@@ -2091,7 +2116,7 @@ export type ListPlaybackConfigurationsError = CommonErrors;
  * Retrieves existing playback configurations. For information about MediaTailor configurations, see Working with Configurations in AWS Elemental MediaTailor.
  */
 export const listPlaybackConfigurations: API.PaginatedOperationMethod<
-  ListPlaybackConfigurationsRequest,
+  ListPlaybackConfigurationsRequest & RegionInput,
   ListPlaybackConfigurationsResponse,
   ListPlaybackConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -2121,7 +2146,7 @@ export type ListPrefetchSchedulesError =
  * Lists the prefetch schedules for a playback configuration.
  */
 export const listPrefetchSchedules: API.PaginatedOperationMethod<
-  ListPrefetchSchedulesRequest,
+  ListPrefetchSchedulesRequest & RegionInput,
   ListPrefetchSchedulesResponse,
   ListPrefetchSchedulesError,
   Credentials | HttpClient.HttpClient,
@@ -2148,7 +2173,7 @@ export type ListSourceLocationsError = CommonErrors;
  * Lists the source locations for a channel. A source location defines the host server URL, and contains a list of sources.
  */
 export const listSourceLocations: API.PaginatedOperationMethod<
-  ListSourceLocationsRequest,
+  ListSourceLocationsRequest & RegionInput,
   ListSourceLocationsResponse,
   ListSourceLocationsError,
   Credentials | HttpClient.HttpClient,
@@ -2175,7 +2200,7 @@ export type ListTagsForResourceError = BadRequestException | CommonErrors;
  * A list of tags that are associated with this resource. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2195,7 +2220,7 @@ export type ListVodSourcesError = CommonErrors;
  * Lists the VOD sources contained in a source location. A source represents a piece of content.
  */
 export const listVodSources: API.PaginatedOperationMethod<
-  ListVodSourcesRequest,
+  ListVodSourcesRequest & RegionInput,
   ListVodSourcesResponse,
   ListVodSourcesError,
   Credentials | HttpClient.HttpClient,
@@ -2222,7 +2247,7 @@ export type PutChannelPolicyError = CommonErrors;
  * Creates an IAM policy for the channel. IAM policies are used to control access to your channel.
  */
 export const putChannelPolicy: API.OperationMethod<
-  PutChannelPolicyRequest,
+  PutChannelPolicyRequest & RegionInput,
   PutChannelPolicyResponse,
   PutChannelPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2242,13 +2267,13 @@ export type PutFunctionError = CommonErrors;
  * Creates or updates a function. A function defines reusable logic that MediaTailor executes at lifecycle hooks during ad insertion. For more information about functions, see Working with functions in the *MediaTailor User Guide*.
  */
 export const putFunction: API.OperationMethod<
-  PutFunctionRequest,
+  PutFunctionRequest & RegionInput,
   PutFunctionResponse,
   PutFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<PutFunctionRequest>,
-  output: __S(871, __c27, 7) as any as S.Schema<PutFunctionResponse>,
+  output: __S(872, __c27, 8) as any as S.Schema<PutFunctionResponse>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2262,7 +2287,7 @@ export type PutPlaybackConfigurationError = CommonErrors;
  * Creates a playback configuration. For information about MediaTailor configurations, see Working with configurations in AWS Elemental MediaTailor.
  */
 export const putPlaybackConfiguration: API.OperationMethod<
-  PutPlaybackConfigurationRequest,
+  PutPlaybackConfigurationRequest & RegionInput,
   PutPlaybackConfigurationResponse,
   PutPlaybackConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2282,7 +2307,7 @@ export type StartChannelError = BadRequestException | ChannelNotFound | CommonEr
  * Starts a channel. For information about MediaTailor channels, see Working with channels in the *MediaTailor User Guide*.
  */
 export const startChannel: API.OperationMethod<
-  StartChannelRequest,
+  StartChannelRequest & RegionInput,
   StartChannelResponse,
   StartChannelError,
   Credentials | HttpClient.HttpClient
@@ -2302,7 +2327,7 @@ export type StopChannelError = BadRequestException | ChannelNotFound | CommonErr
  * Stops a channel. For information about MediaTailor channels, see Working with channels in the *MediaTailor User Guide*.
  */
 export const stopChannel: API.OperationMethod<
-  StopChannelRequest,
+  StopChannelRequest & RegionInput,
   StopChannelResponse,
   StopChannelError,
   Credentials | HttpClient.HttpClient
@@ -2322,7 +2347,7 @@ export type TagResourceError = BadRequestException | CommonErrors;
  * The resource to tag. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2342,7 +2367,7 @@ export type UntagResourceError = BadRequestException | CommonErrors;
  * The resource to untag.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2362,7 +2387,7 @@ export type UpdateChannelError = CommonErrors;
  * Updates a channel. For information about MediaTailor channels, see Working with channels in the *MediaTailor User Guide*.
  */
 export const updateChannel: API.OperationMethod<
-  UpdateChannelRequest,
+  UpdateChannelRequest & RegionInput,
   UpdateChannelResponse,
   UpdateChannelError,
   Credentials | HttpClient.HttpClient
@@ -2382,7 +2407,7 @@ export type UpdateLiveSourceError = CommonErrors;
  * Updates a live source's configuration.
  */
 export const updateLiveSource: API.OperationMethod<
-  UpdateLiveSourceRequest,
+  UpdateLiveSourceRequest & RegionInput,
   UpdateLiveSourceResponse,
   UpdateLiveSourceError,
   Credentials | HttpClient.HttpClient
@@ -2402,7 +2427,7 @@ export type UpdateProgramError = BadRequestException | ProgramNotFound | CommonE
  * Updates a program within a channel.
  */
 export const updateProgram: API.OperationMethod<
-  UpdateProgramRequest,
+  UpdateProgramRequest & RegionInput,
   UpdateProgramResponse,
   UpdateProgramError,
   Credentials | HttpClient.HttpClient
@@ -2422,7 +2447,7 @@ export type UpdateSourceLocationError = CommonErrors;
  * Updates a source location. A source location is a container for sources. For more information about source locations, see Working with source locations in the *MediaTailor User Guide*.
  */
 export const updateSourceLocation: API.OperationMethod<
-  UpdateSourceLocationRequest,
+  UpdateSourceLocationRequest & RegionInput,
   UpdateSourceLocationResponse,
   UpdateSourceLocationError,
   Credentials | HttpClient.HttpClient
@@ -2442,7 +2467,7 @@ export type UpdateVodSourceError = CommonErrors;
  * Updates a VOD source's configuration.
  */
 export const updateVodSource: API.OperationMethod<
-  UpdateVodSourceRequest,
+  UpdateVodSourceRequest & RegionInput,
   UpdateVodSourceResponse,
   UpdateVodSourceError,
   Credentials | HttpClient.HttpClient
@@ -3148,15 +3173,11 @@ function __c27(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Runtime: S.String,
-          Output: S.optional(__mapOf__string),
-          MethodType: S.String,
-          RequestTimeoutMilliseconds: S.Number,
-          Url: S.String,
-          Body: S.optional(S.String),
-          Headers: S.optional(__mapOf__string),
+          TtlMinimumSeconds: S.Number,
+          TtlMaximumSeconds: S.Number,
+          Key: S.optional(S.String),
         }),
-      ).annotate({ identifier: "HttpRequestConfiguration" });
+      ).annotate({ identifier: "HttpRequestCacheConfiguration" });
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -3167,15 +3188,29 @@ function __c27(j: number): any {
           Url: S.String,
           Body: S.optional(S.String),
           Headers: S.optional(__mapOf__string),
+          Cache: S.optional(__S(864, __c27, 0)),
+        }),
+      ).annotate({ identifier: "HttpRequestConfiguration" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Runtime: S.String,
+          Output: S.optional(__mapOf__string),
+          MethodType: S.String,
+          RequestTimeoutMilliseconds: S.Number,
+          Url: S.String,
+          Body: S.optional(S.String),
+          Headers: S.optional(__mapOf__string),
+          Cache: S.optional(__S(864, __c27, 0)),
           TargetService: S.String,
           TargetRegion: S.String,
         }),
       ).annotate({ identifier: "AwsServiceRequestConfiguration" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({ Runtime: S.String, Output: S.optional(__mapOf__string) }),
       ).annotate({ identifier: "CustomOutputConfiguration" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           RunCondition: S.optional(S.String),
@@ -3183,9 +3218,9 @@ function __c27(j: number): any {
           Alias: S.optional(S.String),
         }),
       ).annotate({ identifier: "FunctionRef" });
-    case 4:
-      return S.Array(__S(867, __c27, 3));
     case 5:
+      return S.Array(__S(868, __c27, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
           Runtime: S.String,
@@ -3195,7 +3230,7 @@ function __c27(j: number): any {
           MaxConcurrency: S.Number,
         }),
       ).annotate({ identifier: "ConcurrentExecutorConfiguration" });
-    case 6:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           Runtime: S.String,
@@ -3204,18 +3239,18 @@ function __c27(j: number): any {
           TimeoutMilliseconds: S.Number,
         }),
       ).annotate({ identifier: "SequentialExecutorConfiguration" });
-    case 7:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           FunctionId: S.String,
           FunctionType: S.String,
           Description: S.optional(S.String),
-          HttpRequestConfiguration: S.optional(__S(864, __c27, 0)),
-          AwsServiceRequestConfiguration: S.optional(__S(865, __c27, 1)),
-          CustomOutputConfiguration: S.optional(__S(866, __c27, 2)),
-          ConcurrentExecutorConfiguration: S.optional(__S(869, __c27, 5)),
-          SequentialExecutorConfiguration: S.optional(__S(870, __c27, 6)),
-          VastRequestConfiguration: S.optional(__S(864, __c27, 0)),
+          HttpRequestConfiguration: S.optional(__S(865, __c27, 1)),
+          AwsServiceRequestConfiguration: S.optional(__S(866, __c27, 2)),
+          CustomOutputConfiguration: S.optional(__S(867, __c27, 3)),
+          ConcurrentExecutorConfiguration: S.optional(__S(870, __c27, 6)),
+          SequentialExecutorConfiguration: S.optional(__S(871, __c27, 7)),
+          VastRequestConfiguration: S.optional(__S(865, __c27, 1)),
           Tags: S.optional(__mapOf__string),
           Arn: S.optional(S.String),
         }).pipe(S.encodeKeys({ Tags: "tags" })),
@@ -3513,7 +3548,7 @@ function __c33(j: number): any {
         }).pipe(T.all(T.Http({ method: "GET", uri: "/functions" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListFunctionsRequest" });
     case 1:
-      return S.Array(__S(871, __c27, 7));
+      return S.Array(__S(872, __c27, 8));
     case 2:
       return S.suspend(() =>
         S.Struct({ Items: S.optional(__listOfFunctionsResponse), NextToken: S.optional(S.String) }),
@@ -3749,12 +3784,12 @@ function __c41(j: number): any {
           FunctionId: S.String.pipe(T.HttpLabel("FunctionId")),
           FunctionType: S.String,
           Description: S.optional(S.String),
-          HttpRequestConfiguration: S.optional(__S(864, __c27, 0)),
-          AwsServiceRequestConfiguration: S.optional(__S(865, __c27, 1)),
-          CustomOutputConfiguration: S.optional(__S(866, __c27, 2)),
-          ConcurrentExecutorConfiguration: S.optional(__S(869, __c27, 5)),
-          SequentialExecutorConfiguration: S.optional(__S(870, __c27, 6)),
-          VastRequestConfiguration: S.optional(__S(864, __c27, 0)),
+          HttpRequestConfiguration: S.optional(__S(865, __c27, 1)),
+          AwsServiceRequestConfiguration: S.optional(__S(866, __c27, 2)),
+          CustomOutputConfiguration: S.optional(__S(867, __c27, 3)),
+          ConcurrentExecutorConfiguration: S.optional(__S(870, __c27, 6)),
+          SequentialExecutorConfiguration: S.optional(__S(871, __c27, 7)),
+          VastRequestConfiguration: S.optional(__S(865, __c27, 1)),
           Tags: S.optional(__mapOf__string),
         })
           .pipe(S.encodeKeys({ Tags: "tags" }))

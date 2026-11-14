@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -189,7 +190,7 @@ export class LimitExceededException
     "LimitExceededException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+  ).pipe(C.withConflictError, C.withThrottlingError, C.withRetryableError) {}
 export class ProhibitedStateException
   extends /*@__PURE__*/ S.TaggedError<ProhibitedStateException>()(
     "ProhibitedStateException",
@@ -213,7 +214,7 @@ export class ServiceUnavailableException
     "ServiceUnavailableException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(503),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class StorageLimitExceededException
   extends /*@__PURE__*/ S.TaggedError<StorageLimitExceededException>()(
     "StorageLimitExceededException",
@@ -257,7 +258,7 @@ export type AuthenticationHeaderType = string | redacted.Redacted<string>;
 export type ResourceIdType = string;
 export type DocumentVersionIdType = string;
 export interface AbortDocumentVersionUploadRequest {
-  AuthenticationToken?: string | redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string> | undefined;
   DocumentId: string;
   VersionId: string;
 }
@@ -265,7 +266,7 @@ export interface AbortDocumentVersionUploadResponse {}
 export type IdType = string;
 export interface ActivateUserRequest {
   UserId: string;
-  AuthenticationToken?: string | redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string> | undefined;
 }
 export type UsernameType = string | redacted.Redacted<string>;
 export type EmailAddressType = string | redacted.Redacted<string>;
@@ -296,32 +297,32 @@ export type SizeType = number;
 export type PositiveSizeType = number;
 export type StorageType = "UNLIMITED" | "QUOTA" | (string & {});
 export interface StorageRuleType {
-  StorageAllocatedInBytes?: number;
-  StorageType?: StorageType;
+  StorageAllocatedInBytes?: number | undefined;
+  StorageType?: StorageType | undefined;
 }
 export interface UserStorageMetadata {
-  StorageUtilizedInBytes?: number;
-  StorageRule?: StorageRuleType;
+  StorageUtilizedInBytes?: number | undefined;
+  StorageRule?: StorageRuleType | undefined;
 }
 export interface User {
-  Id?: string;
-  Username?: string | redacted.Redacted<string>;
-  EmailAddress?: string | redacted.Redacted<string>;
-  GivenName?: string | redacted.Redacted<string>;
-  Surname?: string | redacted.Redacted<string>;
-  OrganizationId?: string;
-  RootFolderId?: string;
-  RecycleBinFolderId?: string;
-  Status?: UserStatusType;
-  Type?: UserType;
-  CreatedTimestamp?: Date;
-  ModifiedTimestamp?: Date;
-  TimeZoneId?: string;
-  Locale?: LocaleType;
-  Storage?: UserStorageMetadata;
+  Id?: string | undefined;
+  Username?: string | redacted.Redacted<string> | undefined;
+  EmailAddress?: string | redacted.Redacted<string> | undefined;
+  GivenName?: string | redacted.Redacted<string> | undefined;
+  Surname?: string | redacted.Redacted<string> | undefined;
+  OrganizationId?: string | undefined;
+  RootFolderId?: string | undefined;
+  RecycleBinFolderId?: string | undefined;
+  Status?: UserStatusType | undefined;
+  Type?: UserType | undefined;
+  CreatedTimestamp?: Date | undefined;
+  ModifiedTimestamp?: Date | undefined;
+  TimeZoneId?: string | undefined;
+  Locale?: LocaleType | undefined;
+  Storage?: UserStorageMetadata | undefined;
 }
 export interface ActivateUserResponse {
-  User?: User;
+  User?: User | undefined;
 }
 export type PrincipalType =
   | "USER"
@@ -339,70 +340,70 @@ export interface SharePrincipal {
 export type SharePrincipalList = SharePrincipal[];
 export type MessageType = string | redacted.Redacted<string>;
 export interface NotificationOptions {
-  SendEmail?: boolean;
-  EmailMessage?: string | redacted.Redacted<string>;
+  SendEmail?: boolean | undefined;
+  EmailMessage?: string | redacted.Redacted<string> | undefined;
 }
 export interface AddResourcePermissionsRequest {
-  AuthenticationToken?: string | redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string> | undefined;
   ResourceId: string;
   Principals: SharePrincipal[];
-  NotificationOptions?: NotificationOptions;
+  NotificationOptions?: NotificationOptions | undefined;
 }
 export type ShareStatusType = "SUCCESS" | "FAILURE" | (string & {});
 export interface ShareResult {
-  PrincipalId?: string;
-  InviteePrincipalId?: string;
-  Role?: RoleType;
-  Status?: ShareStatusType;
-  ShareId?: string;
-  StatusMessage?: string | redacted.Redacted<string>;
+  PrincipalId?: string | undefined;
+  InviteePrincipalId?: string | undefined;
+  Role?: RoleType | undefined;
+  Status?: ShareStatusType | undefined;
+  ShareId?: string | undefined;
+  StatusMessage?: string | redacted.Redacted<string> | undefined;
 }
 export type ShareResultsList = ShareResult[];
 export interface AddResourcePermissionsResponse {
-  ShareResults?: ShareResult[];
+  ShareResults?: ShareResult[] | undefined;
 }
 export type CommentIdType = string;
 export type CommentTextType = string | redacted.Redacted<string>;
 export type CommentVisibilityType = "PUBLIC" | "PRIVATE" | (string & {});
 export interface CreateCommentRequest {
-  AuthenticationToken?: string | redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string> | undefined;
   DocumentId: string;
   VersionId: string;
-  ParentId?: string;
-  ThreadId?: string;
+  ParentId?: string | undefined;
+  ThreadId?: string | undefined;
   Text: string | redacted.Redacted<string>;
-  Visibility?: CommentVisibilityType;
-  NotifyCollaborators?: boolean;
+  Visibility?: CommentVisibilityType | undefined;
+  NotifyCollaborators?: boolean | undefined;
 }
 export type CommentStatusType = "DRAFT" | "PUBLISHED" | "DELETED" | (string & {});
 export interface Comment {
   CommentId: string;
-  ParentId?: string;
-  ThreadId?: string;
-  Text?: string | redacted.Redacted<string>;
-  Contributor?: User;
-  CreatedTimestamp?: Date;
-  Status?: CommentStatusType;
-  Visibility?: CommentVisibilityType;
-  RecipientId?: string;
+  ParentId?: string | undefined;
+  ThreadId?: string | undefined;
+  Text?: string | redacted.Redacted<string> | undefined;
+  Contributor?: User | undefined;
+  CreatedTimestamp?: Date | undefined;
+  Status?: CommentStatusType | undefined;
+  Visibility?: CommentVisibilityType | undefined;
+  RecipientId?: string | undefined;
 }
 export interface CreateCommentResponse {
-  Comment?: Comment;
+  Comment?: Comment | undefined;
 }
 export type CustomMetadataKeyType = string;
 export type CustomMetadataValueType = string;
 export type CustomMetadataMap = { [key: string]: string | undefined };
 export interface CreateCustomMetadataRequest {
-  AuthenticationToken?: string | redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string> | undefined;
   ResourceId: string;
-  VersionId?: string;
+  VersionId?: string | undefined;
   CustomMetadata: { [key: string]: string | undefined };
 }
 export interface CreateCustomMetadataResponse {}
 export type ResourceNameType = string | redacted.Redacted<string>;
 export interface CreateFolderRequest {
-  AuthenticationToken?: string | redacted.Redacted<string>;
-  Name?: string | redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string> | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
   ParentFolderId: string;
 }
 export type ResourceStateType = "ACTIVE" | "RESTORING" | "RECYCLING" | "RECYCLED" | (string & {});
@@ -410,25 +411,25 @@ export type HashType = string;
 export type SharedLabel = string;
 export type SharedLabels = string[];
 export interface FolderMetadata {
-  Id?: string;
-  Name?: string | redacted.Redacted<string>;
-  CreatorId?: string;
-  ParentFolderId?: string;
-  CreatedTimestamp?: Date;
-  ModifiedTimestamp?: Date;
-  ResourceState?: ResourceStateType;
-  Signature?: string;
-  Labels?: string[];
-  Size?: number;
-  LatestVersionSize?: number;
+  Id?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  CreatorId?: string | undefined;
+  ParentFolderId?: string | undefined;
+  CreatedTimestamp?: Date | undefined;
+  ModifiedTimestamp?: Date | undefined;
+  ResourceState?: ResourceStateType | undefined;
+  Signature?: string | undefined;
+  Labels?: string[] | undefined;
+  Size?: number | undefined;
+  LatestVersionSize?: number | undefined;
 }
 export interface CreateFolderResponse {
-  Metadata?: FolderMetadata;
+  Metadata?: FolderMetadata | undefined;
 }
 export interface CreateLabelsRequest {
   ResourceId: string;
   Labels: string[];
-  AuthenticationToken?: string | redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface CreateLabelsResponse {}
 export type SubscriptionEndPointType = string;
@@ -441,35 +442,35 @@ export interface CreateNotificationSubscriptionRequest {
   SubscriptionType: SubscriptionType;
 }
 export interface Subscription {
-  SubscriptionId?: string;
-  EndPoint?: string;
-  Protocol?: SubscriptionProtocolType;
+  SubscriptionId?: string | undefined;
+  EndPoint?: string | undefined;
+  Protocol?: SubscriptionProtocolType | undefined;
 }
 export interface CreateNotificationSubscriptionResponse {
-  Subscription?: Subscription;
+  Subscription?: Subscription | undefined;
 }
 export type PasswordType = string | redacted.Redacted<string>;
 export interface CreateUserRequest {
-  OrganizationId?: string;
+  OrganizationId?: string | undefined;
   Username: string | redacted.Redacted<string>;
-  EmailAddress?: string | redacted.Redacted<string>;
+  EmailAddress?: string | redacted.Redacted<string> | undefined;
   GivenName: string | redacted.Redacted<string>;
   Surname: string | redacted.Redacted<string>;
   Password: string | redacted.Redacted<string>;
-  TimeZoneId?: string;
-  StorageRule?: StorageRuleType;
-  AuthenticationToken?: string | redacted.Redacted<string>;
+  TimeZoneId?: string | undefined;
+  StorageRule?: StorageRuleType | undefined;
+  AuthenticationToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface CreateUserResponse {
-  User?: User;
+  User?: User | undefined;
 }
 export interface DeactivateUserRequest {
   UserId: string;
-  AuthenticationToken?: string | redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface DeactivateUserResponse {}
 export interface DeleteCommentRequest {
-  AuthenticationToken?: string | redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string> | undefined;
   DocumentId: string;
   VersionId: string;
   CommentId: string;
@@ -477,40 +478,40 @@ export interface DeleteCommentRequest {
 export interface DeleteCommentResponse {}
 export type CustomMetadataKeyList = string[];
 export interface DeleteCustomMetadataRequest {
-  AuthenticationToken?: string | redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string> | undefined;
   ResourceId: string;
-  VersionId?: string;
-  Keys?: string[];
-  DeleteAll?: boolean;
+  VersionId?: string | undefined;
+  Keys?: string[] | undefined;
+  DeleteAll?: boolean | undefined;
 }
 export interface DeleteCustomMetadataResponse {}
 export interface DeleteDocumentRequest {
-  AuthenticationToken?: string | redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string> | undefined;
   DocumentId: string;
 }
 export interface DeleteDocumentResponse {}
 export interface DeleteDocumentVersionRequest {
-  AuthenticationToken?: string | redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string> | undefined;
   DocumentId: string;
   VersionId: string;
   DeletePriorVersions: boolean;
 }
 export interface DeleteDocumentVersionResponse {}
 export interface DeleteFolderRequest {
-  AuthenticationToken?: string | redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string> | undefined;
   FolderId: string;
 }
 export interface DeleteFolderResponse {}
 export interface DeleteFolderContentsRequest {
-  AuthenticationToken?: string | redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string> | undefined;
   FolderId: string;
 }
 export interface DeleteFolderContentsResponse {}
 export interface DeleteLabelsRequest {
   ResourceId: string;
-  AuthenticationToken?: string | redacted.Redacted<string>;
-  Labels?: string[];
-  DeleteAll?: boolean;
+  AuthenticationToken?: string | redacted.Redacted<string> | undefined;
+  Labels?: string[] | undefined;
+  DeleteAll?: boolean | undefined;
 }
 export interface DeleteLabelsResponse {}
 export interface DeleteNotificationSubscriptionRequest {
@@ -519,7 +520,7 @@ export interface DeleteNotificationSubscriptionRequest {
 }
 export interface DeleteNotificationSubscriptionResponse {}
 export interface DeleteUserRequest {
-  AuthenticationToken?: string | redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string> | undefined;
   UserId: string;
 }
 export interface DeleteUserResponse {}
@@ -527,16 +528,16 @@ export type ActivityNamesFilterType = string;
 export type LimitType = number;
 export type SearchMarkerType = string;
 export interface DescribeActivitiesRequest {
-  AuthenticationToken?: string | redacted.Redacted<string>;
-  StartTime?: Date;
-  EndTime?: Date;
-  OrganizationId?: string;
-  ActivityTypes?: string;
-  ResourceId?: string;
-  UserId?: string;
-  IncludeIndirectActivities?: boolean;
-  Limit?: number;
-  Marker?: string;
+  AuthenticationToken?: string | redacted.Redacted<string> | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  OrganizationId?: string | undefined;
+  ActivityTypes?: string | undefined;
+  ResourceId?: string | undefined;
+  UserId?: string | undefined;
+  IncludeIndirectActivities?: boolean | undefined;
+  Limit?: number | undefined;
+  Marker?: string | undefined;
 }
 export type ActivityType =
   | "DOCUMENT_CHECKED_IN"
@@ -574,195 +575,195 @@ export type ActivityType =
   | "FOLDER_MOVED"
   | (string & {});
 export interface UserMetadata {
-  Id?: string;
-  Username?: string | redacted.Redacted<string>;
-  GivenName?: string | redacted.Redacted<string>;
-  Surname?: string | redacted.Redacted<string>;
-  EmailAddress?: string | redacted.Redacted<string>;
+  Id?: string | undefined;
+  Username?: string | redacted.Redacted<string> | undefined;
+  GivenName?: string | redacted.Redacted<string> | undefined;
+  Surname?: string | redacted.Redacted<string> | undefined;
+  EmailAddress?: string | redacted.Redacted<string> | undefined;
 }
 export type UserMetadataList = UserMetadata[];
 export type GroupNameType = string;
 export interface GroupMetadata {
-  Id?: string;
-  Name?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
 }
 export type GroupMetadataList = GroupMetadata[];
 export interface Participants {
-  Users?: UserMetadata[];
-  Groups?: GroupMetadata[];
+  Users?: UserMetadata[] | undefined;
+  Groups?: GroupMetadata[] | undefined;
 }
 export type ResourceType = "FOLDER" | "DOCUMENT" | (string & {});
 export interface ResourceMetadata {
-  Type?: ResourceType;
-  Name?: string | redacted.Redacted<string>;
-  OriginalName?: string | redacted.Redacted<string>;
-  Id?: string;
-  VersionId?: string;
-  Owner?: UserMetadata;
-  ParentId?: string;
+  Type?: ResourceType | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  OriginalName?: string | redacted.Redacted<string> | undefined;
+  Id?: string | undefined;
+  VersionId?: string | undefined;
+  Owner?: UserMetadata | undefined;
+  ParentId?: string | undefined;
 }
 export interface CommentMetadata {
-  CommentId?: string;
-  Contributor?: User;
-  CreatedTimestamp?: Date;
-  CommentStatus?: CommentStatusType;
-  RecipientId?: string;
-  ContributorId?: string;
+  CommentId?: string | undefined;
+  Contributor?: User | undefined;
+  CreatedTimestamp?: Date | undefined;
+  CommentStatus?: CommentStatusType | undefined;
+  RecipientId?: string | undefined;
+  ContributorId?: string | undefined;
 }
 export interface Activity {
-  Type?: ActivityType;
-  TimeStamp?: Date;
-  IsIndirectActivity?: boolean;
-  OrganizationId?: string;
-  Initiator?: UserMetadata;
-  Participants?: Participants;
-  ResourceMetadata?: ResourceMetadata;
-  OriginalParent?: ResourceMetadata;
-  CommentMetadata?: CommentMetadata;
+  Type?: ActivityType | undefined;
+  TimeStamp?: Date | undefined;
+  IsIndirectActivity?: boolean | undefined;
+  OrganizationId?: string | undefined;
+  Initiator?: UserMetadata | undefined;
+  Participants?: Participants | undefined;
+  ResourceMetadata?: ResourceMetadata | undefined;
+  OriginalParent?: ResourceMetadata | undefined;
+  CommentMetadata?: CommentMetadata | undefined;
 }
 export type UserActivities = Activity[];
 export interface DescribeActivitiesResponse {
-  UserActivities?: Activity[];
-  Marker?: string;
+  UserActivities?: Activity[] | undefined;
+  Marker?: string | undefined;
 }
 export type MarkerType = string;
 export interface DescribeCommentsRequest {
-  AuthenticationToken?: string | redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string> | undefined;
   DocumentId: string;
   VersionId: string;
-  Limit?: number;
-  Marker?: string;
+  Limit?: number | undefined;
+  Marker?: string | undefined;
 }
 export type CommentList = Comment[];
 export interface DescribeCommentsResponse {
-  Comments?: Comment[];
-  Marker?: string;
+  Comments?: Comment[] | undefined;
+  Marker?: string | undefined;
 }
 export type PageMarkerType = string;
 export type FieldNamesType = string;
 export interface DescribeDocumentVersionsRequest {
-  AuthenticationToken?: string | redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string> | undefined;
   DocumentId: string;
-  Marker?: string;
-  Limit?: number;
-  Include?: string;
-  Fields?: string;
+  Marker?: string | undefined;
+  Limit?: number | undefined;
+  Include?: string | undefined;
+  Fields?: string | undefined;
 }
 export type DocumentContentType = string;
 export type DocumentStatusType = "INITIALIZED" | "ACTIVE" | (string & {});
 export type DocumentThumbnailType = "SMALL" | "SMALL_HQ" | "LARGE" | (string & {});
 export type UrlType = string | redacted.Redacted<string>;
 export type DocumentThumbnailUrlMap = {
-  [key in DocumentThumbnailType]?: string | redacted.Redacted<string>;
+  [key in DocumentThumbnailType]?: string | redacted.Redacted<string> | undefined;
 };
 export type DocumentSourceType = "ORIGINAL" | "WITH_COMMENTS" | (string & {});
 export type DocumentSourceUrlMap = {
-  [key in DocumentSourceType]?: string | redacted.Redacted<string>;
+  [key in DocumentSourceType]?: string | redacted.Redacted<string> | undefined;
 };
 export interface DocumentVersionMetadata {
-  Id?: string;
-  Name?: string | redacted.Redacted<string>;
-  ContentType?: string;
-  Size?: number;
-  Signature?: string;
-  Status?: DocumentStatusType;
-  CreatedTimestamp?: Date;
-  ModifiedTimestamp?: Date;
-  ContentCreatedTimestamp?: Date;
-  ContentModifiedTimestamp?: Date;
-  CreatorId?: string;
-  Thumbnail?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  Source?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  Id?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  ContentType?: string | undefined;
+  Size?: number | undefined;
+  Signature?: string | undefined;
+  Status?: DocumentStatusType | undefined;
+  CreatedTimestamp?: Date | undefined;
+  ModifiedTimestamp?: Date | undefined;
+  ContentCreatedTimestamp?: Date | undefined;
+  ContentModifiedTimestamp?: Date | undefined;
+  CreatorId?: string | undefined;
+  Thumbnail?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
+  Source?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
 }
 export type DocumentVersionMetadataList = DocumentVersionMetadata[];
 export interface DescribeDocumentVersionsResponse {
-  DocumentVersions?: DocumentVersionMetadata[];
-  Marker?: string;
+  DocumentVersions?: DocumentVersionMetadata[] | undefined;
+  Marker?: string | undefined;
 }
 export type ResourceSortType = "DATE" | "NAME" | (string & {});
 export type OrderType = "ASCENDING" | "DESCENDING" | (string & {});
 export type FolderContentType = "ALL" | "DOCUMENT" | "FOLDER" | (string & {});
 export interface DescribeFolderContentsRequest {
-  AuthenticationToken?: string | redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string> | undefined;
   FolderId: string;
-  Sort?: ResourceSortType;
-  Order?: OrderType;
-  Limit?: number;
-  Marker?: string;
-  Type?: FolderContentType;
-  Include?: string;
+  Sort?: ResourceSortType | undefined;
+  Order?: OrderType | undefined;
+  Limit?: number | undefined;
+  Marker?: string | undefined;
+  Type?: FolderContentType | undefined;
+  Include?: string | undefined;
 }
 export type FolderMetadataList = FolderMetadata[];
 export interface DocumentMetadata {
-  Id?: string;
-  CreatorId?: string;
-  ParentFolderId?: string;
-  CreatedTimestamp?: Date;
-  ModifiedTimestamp?: Date;
-  LatestVersionMetadata?: DocumentVersionMetadata;
-  ResourceState?: ResourceStateType;
-  Labels?: string[];
+  Id?: string | undefined;
+  CreatorId?: string | undefined;
+  ParentFolderId?: string | undefined;
+  CreatedTimestamp?: Date | undefined;
+  ModifiedTimestamp?: Date | undefined;
+  LatestVersionMetadata?: DocumentVersionMetadata | undefined;
+  ResourceState?: ResourceStateType | undefined;
+  Labels?: string[] | undefined;
 }
 export type DocumentMetadataList = DocumentMetadata[];
 export interface DescribeFolderContentsResponse {
-  Folders?: FolderMetadata[];
-  Documents?: DocumentMetadata[];
-  Marker?: string;
+  Folders?: FolderMetadata[] | undefined;
+  Documents?: DocumentMetadata[] | undefined;
+  Marker?: string | undefined;
 }
 export type SearchQueryType = string | redacted.Redacted<string>;
 export type PositiveIntegerType = number;
 export interface DescribeGroupsRequest {
-  AuthenticationToken?: string | redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string> | undefined;
   SearchQuery: string | redacted.Redacted<string>;
-  OrganizationId?: string;
-  Marker?: string;
-  Limit?: number;
+  OrganizationId?: string | undefined;
+  Marker?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface DescribeGroupsResponse {
-  Groups?: GroupMetadata[];
-  Marker?: string;
+  Groups?: GroupMetadata[] | undefined;
+  Marker?: string | undefined;
 }
 export interface DescribeNotificationSubscriptionsRequest {
   OrganizationId: string;
-  Marker?: string;
-  Limit?: number;
+  Marker?: string | undefined;
+  Limit?: number | undefined;
 }
 export type SubscriptionList = Subscription[];
 export interface DescribeNotificationSubscriptionsResponse {
-  Subscriptions?: Subscription[];
-  Marker?: string;
+  Subscriptions?: Subscription[] | undefined;
+  Marker?: string | undefined;
 }
 export interface DescribeResourcePermissionsRequest {
-  AuthenticationToken?: string | redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string> | undefined;
   ResourceId: string;
-  PrincipalId?: string;
-  Limit?: number;
-  Marker?: string;
+  PrincipalId?: string | undefined;
+  Limit?: number | undefined;
+  Marker?: string | undefined;
 }
 export type RolePermissionType = "DIRECT" | "INHERITED" | (string & {});
 export interface PermissionInfo {
-  Role?: RoleType;
-  Type?: RolePermissionType;
+  Role?: RoleType | undefined;
+  Type?: RolePermissionType | undefined;
 }
 export type PermissionInfoList = PermissionInfo[];
 export interface Principal {
-  Id?: string;
-  Type?: PrincipalType;
-  Roles?: PermissionInfo[];
+  Id?: string | undefined;
+  Type?: PrincipalType | undefined;
+  Roles?: PermissionInfo[] | undefined;
 }
 export type PrincipalList = Principal[];
 export interface DescribeResourcePermissionsResponse {
-  Principals?: Principal[];
-  Marker?: string;
+  Principals?: Principal[] | undefined;
+  Marker?: string | undefined;
 }
 export interface DescribeRootFoldersRequest {
   AuthenticationToken: string | redacted.Redacted<string>;
-  Limit?: number;
-  Marker?: string;
+  Limit?: number | undefined;
+  Marker?: string | undefined;
 }
 export interface DescribeRootFoldersResponse {
-  Folders?: FolderMetadata[];
-  Marker?: string;
+  Folders?: FolderMetadata[] | undefined;
+  Marker?: string | undefined;
 }
 export type UserIdsType = string;
 export type UserFilterType = "ALL" | "ACTIVE_PENDING" | (string & {});
@@ -774,134 +775,134 @@ export type UserSortType =
   | "STORAGE_USED"
   | (string & {});
 export interface DescribeUsersRequest {
-  AuthenticationToken?: string | redacted.Redacted<string>;
-  OrganizationId?: string;
-  UserIds?: string;
-  Query?: string | redacted.Redacted<string>;
-  Include?: UserFilterType;
-  Order?: OrderType;
-  Sort?: UserSortType;
-  Marker?: string;
-  Limit?: number;
-  Fields?: string;
+  AuthenticationToken?: string | redacted.Redacted<string> | undefined;
+  OrganizationId?: string | undefined;
+  UserIds?: string | undefined;
+  Query?: string | redacted.Redacted<string> | undefined;
+  Include?: UserFilterType | undefined;
+  Order?: OrderType | undefined;
+  Sort?: UserSortType | undefined;
+  Marker?: string | undefined;
+  Limit?: number | undefined;
+  Fields?: string | undefined;
 }
 export type OrganizationUserList = User[];
 export interface DescribeUsersResponse {
-  Users?: User[];
-  TotalNumberOfUsers?: number;
-  Marker?: string;
+  Users?: User[] | undefined;
+  TotalNumberOfUsers?: number | undefined;
+  Marker?: string | undefined;
 }
 export interface GetCurrentUserRequest {
   AuthenticationToken: string | redacted.Redacted<string>;
 }
 export interface GetCurrentUserResponse {
-  User?: User;
+  User?: User | undefined;
 }
 export interface GetDocumentRequest {
-  AuthenticationToken?: string | redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string> | undefined;
   DocumentId: string;
-  IncludeCustomMetadata?: boolean;
+  IncludeCustomMetadata?: boolean | undefined;
 }
 export interface GetDocumentResponse {
-  Metadata?: DocumentMetadata;
-  CustomMetadata?: { [key: string]: string | undefined };
+  Metadata?: DocumentMetadata | undefined;
+  CustomMetadata?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetDocumentPathRequest {
-  AuthenticationToken?: string | redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string> | undefined;
   DocumentId: string;
-  Limit?: number;
-  Fields?: string;
-  Marker?: string;
+  Limit?: number | undefined;
+  Fields?: string | undefined;
+  Marker?: string | undefined;
 }
 export interface ResourcePathComponent {
-  Id?: string;
-  Name?: string | redacted.Redacted<string>;
+  Id?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
 }
 export type ResourcePathComponentList = ResourcePathComponent[];
 export interface ResourcePath {
-  Components?: ResourcePathComponent[];
+  Components?: ResourcePathComponent[] | undefined;
 }
 export interface GetDocumentPathResponse {
-  Path?: ResourcePath;
+  Path?: ResourcePath | undefined;
 }
 export interface GetDocumentVersionRequest {
-  AuthenticationToken?: string | redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string> | undefined;
   DocumentId: string;
   VersionId: string;
-  Fields?: string;
-  IncludeCustomMetadata?: boolean;
+  Fields?: string | undefined;
+  IncludeCustomMetadata?: boolean | undefined;
 }
 export interface GetDocumentVersionResponse {
-  Metadata?: DocumentVersionMetadata;
-  CustomMetadata?: { [key: string]: string | undefined };
+  Metadata?: DocumentVersionMetadata | undefined;
+  CustomMetadata?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetFolderRequest {
-  AuthenticationToken?: string | redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string> | undefined;
   FolderId: string;
-  IncludeCustomMetadata?: boolean;
+  IncludeCustomMetadata?: boolean | undefined;
 }
 export interface GetFolderResponse {
-  Metadata?: FolderMetadata;
-  CustomMetadata?: { [key: string]: string | undefined };
+  Metadata?: FolderMetadata | undefined;
+  CustomMetadata?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetFolderPathRequest {
-  AuthenticationToken?: string | redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string> | undefined;
   FolderId: string;
-  Limit?: number;
-  Fields?: string;
-  Marker?: string;
+  Limit?: number | undefined;
+  Fields?: string | undefined;
+  Marker?: string | undefined;
 }
 export interface GetFolderPathResponse {
-  Path?: ResourcePath;
+  Path?: ResourcePath | undefined;
 }
 export type ResourceCollectionType = "SHARED_WITH_ME" | (string & {});
 export interface GetResourcesRequest {
-  AuthenticationToken?: string | redacted.Redacted<string>;
-  UserId?: string;
-  CollectionType?: ResourceCollectionType;
-  Limit?: number;
-  Marker?: string;
+  AuthenticationToken?: string | redacted.Redacted<string> | undefined;
+  UserId?: string | undefined;
+  CollectionType?: ResourceCollectionType | undefined;
+  Limit?: number | undefined;
+  Marker?: string | undefined;
 }
 export interface GetResourcesResponse {
-  Folders?: FolderMetadata[];
-  Documents?: DocumentMetadata[];
-  Marker?: string;
+  Folders?: FolderMetadata[] | undefined;
+  Documents?: DocumentMetadata[] | undefined;
+  Marker?: string | undefined;
 }
 export interface InitiateDocumentVersionUploadRequest {
-  AuthenticationToken?: string | redacted.Redacted<string>;
-  Id?: string;
-  Name?: string | redacted.Redacted<string>;
-  ContentCreatedTimestamp?: Date;
-  ContentModifiedTimestamp?: Date;
-  ContentType?: string;
-  DocumentSizeInBytes?: number;
-  ParentFolderId?: string;
+  AuthenticationToken?: string | redacted.Redacted<string> | undefined;
+  Id?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  ContentCreatedTimestamp?: Date | undefined;
+  ContentModifiedTimestamp?: Date | undefined;
+  ContentType?: string | undefined;
+  DocumentSizeInBytes?: number | undefined;
+  ParentFolderId?: string | undefined;
 }
 export type HeaderNameType = string;
 export type HeaderValueType = string;
 export type SignedHeaderMap = { [key: string]: string | undefined };
 export interface UploadMetadata {
-  UploadUrl?: string | redacted.Redacted<string>;
-  SignedHeaders?: { [key: string]: string | undefined };
+  UploadUrl?: string | redacted.Redacted<string> | undefined;
+  SignedHeaders?: { [key: string]: string | undefined } | undefined;
 }
 export interface InitiateDocumentVersionUploadResponse {
-  Metadata?: DocumentMetadata;
-  UploadMetadata?: UploadMetadata;
+  Metadata?: DocumentMetadata | undefined;
+  UploadMetadata?: UploadMetadata | undefined;
 }
 export interface RemoveAllResourcePermissionsRequest {
-  AuthenticationToken?: string | redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string> | undefined;
   ResourceId: string;
 }
 export interface RemoveAllResourcePermissionsResponse {}
 export interface RemoveResourcePermissionRequest {
-  AuthenticationToken?: string | redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string> | undefined;
   ResourceId: string;
   PrincipalId: string;
-  PrincipalType?: PrincipalType;
+  PrincipalType?: PrincipalType | undefined;
 }
 export interface RemoveResourcePermissionResponse {}
 export interface RestoreDocumentVersionsRequest {
-  AuthenticationToken?: string | redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string> | undefined;
   DocumentId: string;
 }
 export interface RestoreDocumentVersionsResponse {}
@@ -968,7 +969,7 @@ export type PrincipalRoleType = "VIEWER" | "CONTRIBUTOR" | "OWNER" | "COOWNER" |
 export type SearchPrincipalRoleList = PrincipalRoleType[];
 export interface SearchPrincipalType {
   Id: string;
-  Roles?: PrincipalRoleType[];
+  Roles?: PrincipalRoleType[] | undefined;
 }
 export type SearchPrincipalTypeList = SearchPrincipalType[];
 export type SearchAncestorId = string;
@@ -977,24 +978,24 @@ export type SearchCollectionType = "OWNED" | "SHARED_WITH_ME" | (string & {});
 export type SearchCollectionTypeList = SearchCollectionType[];
 export type LongType = number;
 export interface LongRangeType {
-  StartValue?: number;
-  EndValue?: number;
+  StartValue?: number | undefined;
+  EndValue?: number | undefined;
 }
 export interface DateRangeType {
-  StartValue?: Date;
-  EndValue?: Date;
+  StartValue?: Date | undefined;
+  EndValue?: Date | undefined;
 }
 export interface Filters {
-  TextLocales?: LanguageCodeType[];
-  ContentCategories?: ContentCategoryType[];
-  ResourceTypes?: SearchResourceType[];
-  Labels?: string[];
-  Principals?: SearchPrincipalType[];
-  AncestorIds?: string[];
-  SearchCollectionTypes?: SearchCollectionType[];
-  SizeRange?: LongRangeType;
-  CreatedRange?: DateRangeType;
-  ModifiedRange?: DateRangeType;
+  TextLocales?: LanguageCodeType[] | undefined;
+  ContentCategories?: ContentCategoryType[] | undefined;
+  ResourceTypes?: SearchResourceType[] | undefined;
+  Labels?: string[] | undefined;
+  Principals?: SearchPrincipalType[] | undefined;
+  AncestorIds?: string[] | undefined;
+  SearchCollectionTypes?: SearchCollectionType[] | undefined;
+  SizeRange?: LongRangeType | undefined;
+  CreatedRange?: DateRangeType | undefined;
+  ModifiedRange?: DateRangeType | undefined;
 }
 export type OrderByFieldType =
   | "RELEVANCE"
@@ -1005,22 +1006,22 @@ export type OrderByFieldType =
   | (string & {});
 export type SortOrder = "ASC" | "DESC" | (string & {});
 export interface SearchSortResult {
-  Field?: OrderByFieldType;
-  Order?: SortOrder;
+  Field?: OrderByFieldType | undefined;
+  Order?: SortOrder | undefined;
 }
 export type SearchResultSortList = SearchSortResult[];
 export type SearchResultsLimitType = number;
 export type NextMarkerType = string;
 export interface SearchResourcesRequest {
-  AuthenticationToken?: string | redacted.Redacted<string>;
-  QueryText?: string | redacted.Redacted<string>;
-  QueryScopes?: SearchQueryScopeType[];
-  OrganizationId?: string;
-  AdditionalResponseFields?: AdditionalResponseFieldType[];
-  Filters?: Filters;
-  OrderBy?: SearchSortResult[];
-  Limit?: number;
-  Marker?: string;
+  AuthenticationToken?: string | redacted.Redacted<string> | undefined;
+  QueryText?: string | redacted.Redacted<string> | undefined;
+  QueryScopes?: SearchQueryScopeType[] | undefined;
+  OrganizationId?: string | undefined;
+  AdditionalResponseFields?: AdditionalResponseFieldType[] | undefined;
+  Filters?: Filters | undefined;
+  OrderBy?: SearchSortResult[] | undefined;
+  Limit?: number | undefined;
+  Marker?: string | undefined;
 }
 export type ResponseItemType =
   | "DOCUMENT"
@@ -1030,56 +1031,56 @@ export type ResponseItemType =
   | (string & {});
 export type ResponseItemWebUrl = string | redacted.Redacted<string>;
 export interface ResponseItem {
-  ResourceType?: ResponseItemType;
-  WebUrl?: string | redacted.Redacted<string>;
-  DocumentMetadata?: DocumentMetadata;
-  FolderMetadata?: FolderMetadata;
-  CommentMetadata?: CommentMetadata;
-  DocumentVersionMetadata?: DocumentVersionMetadata;
+  ResourceType?: ResponseItemType | undefined;
+  WebUrl?: string | redacted.Redacted<string> | undefined;
+  DocumentMetadata?: DocumentMetadata | undefined;
+  FolderMetadata?: FolderMetadata | undefined;
+  CommentMetadata?: CommentMetadata | undefined;
+  DocumentVersionMetadata?: DocumentVersionMetadata | undefined;
 }
 export type ResponseItemsList = ResponseItem[];
 export interface SearchResourcesResponse {
-  Items?: ResponseItem[];
-  Marker?: string;
+  Items?: ResponseItem[] | undefined;
+  Marker?: string | undefined;
 }
 export interface UpdateDocumentRequest {
-  AuthenticationToken?: string | redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string> | undefined;
   DocumentId: string;
-  Name?: string | redacted.Redacted<string>;
-  ParentFolderId?: string;
-  ResourceState?: ResourceStateType;
+  Name?: string | redacted.Redacted<string> | undefined;
+  ParentFolderId?: string | undefined;
+  ResourceState?: ResourceStateType | undefined;
 }
 export interface UpdateDocumentResponse {}
 export type DocumentVersionStatus = "ACTIVE" | (string & {});
 export interface UpdateDocumentVersionRequest {
-  AuthenticationToken?: string | redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string> | undefined;
   DocumentId: string;
   VersionId: string;
-  VersionStatus?: DocumentVersionStatus;
+  VersionStatus?: DocumentVersionStatus | undefined;
 }
 export interface UpdateDocumentVersionResponse {}
 export interface UpdateFolderRequest {
-  AuthenticationToken?: string | redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string> | undefined;
   FolderId: string;
-  Name?: string | redacted.Redacted<string>;
-  ParentFolderId?: string;
-  ResourceState?: ResourceStateType;
+  Name?: string | redacted.Redacted<string> | undefined;
+  ParentFolderId?: string | undefined;
+  ResourceState?: ResourceStateType | undefined;
 }
 export interface UpdateFolderResponse {}
 export type BooleanEnumType = "TRUE" | "FALSE" | (string & {});
 export interface UpdateUserRequest {
-  AuthenticationToken?: string | redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string> | undefined;
   UserId: string;
-  GivenName?: string | redacted.Redacted<string>;
-  Surname?: string | redacted.Redacted<string>;
-  Type?: UserType;
-  StorageRule?: StorageRuleType;
-  TimeZoneId?: string;
-  Locale?: LocaleType;
-  GrantPoweruserPrivileges?: BooleanEnumType;
+  GivenName?: string | redacted.Redacted<string> | undefined;
+  Surname?: string | redacted.Redacted<string> | undefined;
+  Type?: UserType | undefined;
+  StorageRule?: StorageRuleType | undefined;
+  TimeZoneId?: string | undefined;
+  Locale?: LocaleType | undefined;
+  GrantPoweruserPrivileges?: BooleanEnumType | undefined;
 }
 export interface UpdateUserResponse {
-  User?: User;
+  User?: User | undefined;
 }
 export type ErrorMessageType = string;
 export type EntityIdList = string[];
@@ -1100,7 +1101,7 @@ export type AbortDocumentVersionUploadError =
  * so.
  */
 export const abortDocumentVersionUpload: API.OperationMethod<
-  AbortDocumentVersionUploadRequest,
+  AbortDocumentVersionUploadRequest & RegionInput,
   AbortDocumentVersionUploadResponse,
   AbortDocumentVersionUploadError,
   Credentials | HttpClient.HttpClient
@@ -1135,7 +1136,7 @@ export type ActivateUserError =
  * WorkDocs.
  */
 export const activateUser: API.OperationMethod<
-  ActivateUserRequest,
+  ActivateUserRequest & RegionInput,
   ActivateUserResponse,
   ActivateUserError,
   Credentials | HttpClient.HttpClient
@@ -1169,7 +1170,7 @@ export type AddResourcePermissionsError =
  * permissions.
  */
 export const addResourcePermissions: API.OperationMethod<
-  AddResourcePermissionsRequest,
+  AddResourcePermissionsRequest & RegionInput,
   AddResourcePermissionsResponse,
   AddResourcePermissionsError,
   Credentials | HttpClient.HttpClient
@@ -1204,7 +1205,7 @@ export type CreateCommentError =
  * Adds a new comment to the specified document version.
  */
 export const createComment: API.OperationMethod<
-  CreateCommentRequest,
+  CreateCommentRequest & RegionInput,
   CreateCommentResponse,
   CreateCommentError,
   Credentials | HttpClient.HttpClient
@@ -1242,7 +1243,7 @@ export type CreateCustomMetadataError =
  * or version).
  */
 export const createCustomMetadata: API.OperationMethod<
-  CreateCustomMetadataRequest,
+  CreateCustomMetadataRequest & RegionInput,
   CreateCustomMetadataResponse,
   CreateCustomMetadataError,
   Credentials | HttpClient.HttpClient
@@ -1281,7 +1282,7 @@ export type CreateFolderError =
  * Creates a folder with the specified name and parent folder.
  */
 export const createFolder: API.OperationMethod<
-  CreateFolderRequest,
+  CreateFolderRequest & RegionInput,
   CreateFolderResponse,
   CreateFolderError,
   Credentials | HttpClient.HttpClient
@@ -1320,7 +1321,7 @@ export type CreateLabelsError =
  * folder)
  */
 export const createLabels: API.OperationMethod<
-  CreateLabelsRequest,
+  CreateLabelsRequest & RegionInput,
   CreateLabelsResponse,
   CreateLabelsError,
   Credentials | HttpClient.HttpClient
@@ -1356,7 +1357,7 @@ export type CreateNotificationSubscriptionError =
  * Guide.
  */
 export const createNotificationSubscription: API.OperationMethod<
-  CreateNotificationSubscriptionRequest,
+  CreateNotificationSubscriptionRequest & RegionInput,
   CreateNotificationSubscriptionResponse,
   CreateNotificationSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -1388,7 +1389,7 @@ export type CreateUserError =
  * created user is "ACTIVE". New users can access Amazon WorkDocs.
  */
 export const createUser: API.OperationMethod<
-  CreateUserRequest,
+  CreateUserRequest & RegionInput,
   CreateUserResponse,
   CreateUserError,
   Credentials | HttpClient.HttpClient
@@ -1421,7 +1422,7 @@ export type DeactivateUserError =
  * WorkDocs.
  */
 export const deactivateUser: API.OperationMethod<
-  DeactivateUserRequest,
+  DeactivateUserRequest & RegionInput,
   DeactivateUserResponse,
   DeactivateUserError,
   Credentials | HttpClient.HttpClient
@@ -1455,7 +1456,7 @@ export type DeleteCommentError =
  * Deletes the specified comment from the document version.
  */
 export const deleteComment: API.OperationMethod<
-  DeleteCommentRequest,
+  DeleteCommentRequest & RegionInput,
   DeleteCommentResponse,
   DeleteCommentError,
   Credentials | HttpClient.HttpClient
@@ -1490,7 +1491,7 @@ export type DeleteCustomMetadataError =
  * Deletes custom metadata from the specified resource.
  */
 export const deleteCustomMetadata: API.OperationMethod<
-  DeleteCustomMetadataRequest,
+  DeleteCustomMetadataRequest & RegionInput,
   DeleteCustomMetadataResponse,
   DeleteCustomMetadataError,
   Credentials | HttpClient.HttpClient
@@ -1527,7 +1528,7 @@ export type DeleteDocumentError =
  * Permanently deletes the specified document and its associated metadata.
  */
 export const deleteDocument: API.OperationMethod<
-  DeleteDocumentRequest,
+  DeleteDocumentRequest & RegionInput,
   DeleteDocumentResponse,
   DeleteDocumentError,
   Credentials | HttpClient.HttpClient
@@ -1566,7 +1567,7 @@ export type DeleteDocumentVersionError =
  * Deletes a specific version of a document.
  */
 export const deleteDocumentVersion: API.OperationMethod<
-  DeleteDocumentVersionRequest,
+  DeleteDocumentVersionRequest & RegionInput,
   DeleteDocumentVersionResponse,
   DeleteDocumentVersionError,
   Credentials | HttpClient.HttpClient
@@ -1605,7 +1606,7 @@ export type DeleteFolderError =
  * Permanently deletes the specified folder and its contents.
  */
 export const deleteFolder: API.OperationMethod<
-  DeleteFolderRequest,
+  DeleteFolderRequest & RegionInput,
   DeleteFolderResponse,
   DeleteFolderError,
   Credentials | HttpClient.HttpClient
@@ -1643,7 +1644,7 @@ export type DeleteFolderContentsError =
  * Deletes the contents of the specified folder.
  */
 export const deleteFolderContents: API.OperationMethod<
-  DeleteFolderContentsRequest,
+  DeleteFolderContentsRequest & RegionInput,
   DeleteFolderContentsResponse,
   DeleteFolderContentsError,
   Credentials | HttpClient.HttpClient
@@ -1678,7 +1679,7 @@ export type DeleteLabelsError =
  * Deletes the specified list of labels from a resource.
  */
 export const deleteLabels: API.OperationMethod<
-  DeleteLabelsRequest,
+  DeleteLabelsRequest & RegionInput,
   DeleteLabelsResponse,
   DeleteLabelsError,
   Credentials | HttpClient.HttpClient
@@ -1710,7 +1711,7 @@ export type DeleteNotificationSubscriptionError =
  * Deletes the specified subscription from the specified organization.
  */
 export const deleteNotificationSubscription: API.OperationMethod<
-  DeleteNotificationSubscriptionRequest,
+  DeleteNotificationSubscriptionRequest & RegionInput,
   DeleteNotificationSubscriptionResponse,
   DeleteNotificationSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -1743,7 +1744,7 @@ export type DeleteUserError =
  * Deleting a user immediately and permanently deletes all content in that user's folder structure. Site retention policies do NOT apply to this type of deletion.
  */
 export const deleteUser: API.OperationMethod<
-  DeleteUserRequest,
+  DeleteUserRequest & RegionInput,
   DeleteUserResponse,
   DeleteUserError,
   Credentials | HttpClient.HttpClient
@@ -1775,7 +1776,7 @@ export type DescribeActivitiesError =
  * Describes the user activities in a specified time period.
  */
 export const describeActivities: API.PaginatedOperationMethod<
-  DescribeActivitiesRequest,
+  DescribeActivitiesRequest & RegionInput,
   DescribeActivitiesResponse,
   DescribeActivitiesError,
   Credentials | HttpClient.HttpClient,
@@ -1815,7 +1816,7 @@ export type DescribeCommentsError =
  * List all the comments for the specified document version.
  */
 export const describeComments: API.PaginatedOperationMethod<
-  DescribeCommentsRequest,
+  DescribeCommentsRequest & RegionInput,
   DescribeCommentsResponse,
   DescribeCommentsError,
   Credentials | HttpClient.HttpClient,
@@ -1860,7 +1861,7 @@ export type DescribeDocumentVersionsError =
  * By default, only active versions are returned.
  */
 export const describeDocumentVersions: API.PaginatedOperationMethod<
-  DescribeDocumentVersionsRequest,
+  DescribeDocumentVersionsRequest & RegionInput,
   DescribeDocumentVersionsResponse,
   DescribeDocumentVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -1909,7 +1910,7 @@ export type DescribeFolderContentsError =
  * documents.
  */
 export const describeFolderContents: API.PaginatedOperationMethod<
-  DescribeFolderContentsRequest,
+  DescribeFolderContentsRequest & RegionInput,
   DescribeFolderContentsResponse,
   DescribeFolderContentsError,
   Credentials | HttpClient.HttpClient,
@@ -1944,7 +1945,7 @@ export type DescribeGroupsError =
  * Active Directory.
  */
 export const describeGroups: API.PaginatedOperationMethod<
-  DescribeGroupsRequest,
+  DescribeGroupsRequest & RegionInput,
   DescribeGroupsResponse,
   DescribeGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -1980,7 +1981,7 @@ export type DescribeNotificationSubscriptionsError =
  * Lists the specified notification subscriptions.
  */
 export const describeNotificationSubscriptions: API.PaginatedOperationMethod<
-  DescribeNotificationSubscriptionsRequest,
+  DescribeNotificationSubscriptionsRequest & RegionInput,
   DescribeNotificationSubscriptionsResponse,
   DescribeNotificationSubscriptionsError,
   Credentials | HttpClient.HttpClient,
@@ -2017,7 +2018,7 @@ export type DescribeResourcePermissionsError =
  * Describes the permissions of a specified resource.
  */
 export const describeResourcePermissions: API.PaginatedOperationMethod<
-  DescribeResourcePermissionsRequest,
+  DescribeResourcePermissionsRequest & RegionInput,
   DescribeResourcePermissionsResponse,
   DescribeResourcePermissionsError,
   Credentials | HttpClient.HttpClient,
@@ -2065,7 +2066,7 @@ export type DescribeRootFoldersError =
  * WorkDocs Developer Guide.
  */
 export const describeRootFolders: API.PaginatedOperationMethod<
-  DescribeRootFoldersRequest,
+  DescribeRootFoldersRequest & RegionInput,
   DescribeRootFoldersResponse,
   DescribeRootFoldersError,
   Credentials | HttpClient.HttpClient,
@@ -2111,7 +2112,7 @@ export type DescribeUsersError =
  * set of results.
  */
 export const describeUsers: API.PaginatedOperationMethod<
-  DescribeUsersRequest,
+  DescribeUsersRequest & RegionInput,
   DescribeUsersResponse,
   DescribeUsersError,
   Credentials | HttpClient.HttpClient,
@@ -2159,7 +2160,7 @@ export type GetCurrentUserError =
  * WorkDocs Developer Guide.
  */
 export const getCurrentUser: API.OperationMethod<
-  GetCurrentUserRequest,
+  GetCurrentUserRequest & RegionInput,
   GetCurrentUserResponse,
   GetCurrentUserError,
   Credentials | HttpClient.HttpClient
@@ -2193,7 +2194,7 @@ export type GetDocumentError =
  * Retrieves details of a document.
  */
 export const getDocument: API.OperationMethod<
-  GetDocumentRequest,
+  GetDocumentRequest & RegionInput,
   GetDocumentResponse,
   GetDocumentError,
   Credentials | HttpClient.HttpClient
@@ -2233,7 +2234,7 @@ export type GetDocumentPathError =
  * folders.
  */
 export const getDocumentPath: API.OperationMethod<
-  GetDocumentPathRequest,
+  GetDocumentPathRequest & RegionInput,
   GetDocumentPathResponse,
   GetDocumentPathError,
   Credentials | HttpClient.HttpClient
@@ -2267,7 +2268,7 @@ export type GetDocumentVersionError =
  * Retrieves version metadata for the specified document.
  */
 export const getDocumentVersion: API.OperationMethod<
-  GetDocumentVersionRequest,
+  GetDocumentVersionRequest & RegionInput,
   GetDocumentVersionResponse,
   GetDocumentVersionError,
   Credentials | HttpClient.HttpClient
@@ -2303,7 +2304,7 @@ export type GetFolderError =
  * Retrieves the metadata of the specified folder.
  */
 export const getFolder: API.OperationMethod<
-  GetFolderRequest,
+  GetFolderRequest & RegionInput,
   GetFolderResponse,
   GetFolderError,
   Credentials | HttpClient.HttpClient
@@ -2343,7 +2344,7 @@ export type GetFolderPathError =
  * names.
  */
 export const getFolderPath: API.OperationMethod<
-  GetFolderPathRequest,
+  GetFolderPathRequest & RegionInput,
   GetFolderPathResponse,
   GetFolderPathError,
   Credentials | HttpClient.HttpClient
@@ -2376,7 +2377,7 @@ export type GetResourcesError =
  * `CollectionType` supported is `SHARED_WITH_ME`.
  */
 export const getResources: API.OperationMethod<
-  GetResourcesRequest,
+  GetResourcesRequest & RegionInput,
   GetResourcesResponse,
   GetResourcesError,
   Credentials | HttpClient.HttpClient
@@ -2424,7 +2425,7 @@ export type InitiateDocumentVersionUploadError =
  * To cancel the document upload, call AbortDocumentVersionUpload.
  */
 export const initiateDocumentVersionUpload: API.OperationMethod<
-  InitiateDocumentVersionUploadRequest,
+  InitiateDocumentVersionUploadRequest & RegionInput,
   InitiateDocumentVersionUploadResponse,
   InitiateDocumentVersionUploadError,
   Credentials | HttpClient.HttpClient
@@ -2464,7 +2465,7 @@ export type RemoveAllResourcePermissionsError =
  * Removes all the permissions from the specified resource.
  */
 export const removeAllResourcePermissions: API.OperationMethod<
-  RemoveAllResourcePermissionsRequest,
+  RemoveAllResourcePermissionsRequest & RegionInput,
   RemoveAllResourcePermissionsResponse,
   RemoveAllResourcePermissionsError,
   Credentials | HttpClient.HttpClient
@@ -2495,7 +2496,7 @@ export type RemoveResourcePermissionError =
  * resource.
  */
 export const removeResourcePermission: API.OperationMethod<
-  RemoveResourcePermissionRequest,
+  RemoveResourcePermissionRequest & RegionInput,
   RemoveResourcePermissionResponse,
   RemoveResourcePermissionError,
   Credentials | HttpClient.HttpClient
@@ -2529,7 +2530,7 @@ export type RestoreDocumentVersionsError =
  * Recovers a deleted version of an Amazon WorkDocs document.
  */
 export const restoreDocumentVersions: API.OperationMethod<
-  RestoreDocumentVersionsRequest,
+  RestoreDocumentVersionsRequest & RegionInput,
   RestoreDocumentVersionsResponse,
   RestoreDocumentVersionsError,
   Credentials | HttpClient.HttpClient
@@ -2563,7 +2564,7 @@ export type SearchResourcesError =
  * Searches metadata and the content of folders, documents, document versions, and comments.
  */
 export const searchResources: API.PaginatedOperationMethod<
-  SearchResourcesRequest,
+  SearchResourcesRequest & RegionInput,
   SearchResourcesResponse,
   SearchResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -2607,7 +2608,7 @@ export type UpdateDocumentError =
  * the document and its parent folder, if applicable.
  */
 export const updateDocument: API.OperationMethod<
-  UpdateDocumentRequest,
+  UpdateDocumentRequest & RegionInput,
   UpdateDocumentResponse,
   UpdateDocumentError,
   Credentials | HttpClient.HttpClient
@@ -2651,7 +2652,7 @@ export type UpdateDocumentVersionError =
  * returned by InitiateDocumentVersionUpload.
  */
 export const updateDocumentVersion: API.OperationMethod<
-  UpdateDocumentVersionRequest,
+  UpdateDocumentVersionRequest & RegionInput,
   UpdateDocumentVersionResponse,
   UpdateDocumentVersionError,
   Credentials | HttpClient.HttpClient
@@ -2692,7 +2693,7 @@ export type UpdateFolderError =
  * to both the folder and its parent folder, if applicable.
  */
 export const updateFolder: API.OperationMethod<
-  UpdateFolderRequest,
+  UpdateFolderRequest & RegionInput,
   UpdateFolderResponse,
   UpdateFolderError,
   Credentials | HttpClient.HttpClient
@@ -2734,7 +2735,7 @@ export type UpdateUserError =
  * administrative privileges to the Amazon WorkDocs site.
  */
 export const updateUser: API.OperationMethod<
-  UpdateUserRequest,
+  UpdateUserRequest & RegionInput,
   UpdateUserResponse,
   UpdateUserError,
   Credentials | HttpClient.HttpClient

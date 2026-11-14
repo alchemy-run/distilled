@@ -1,3 +1,4 @@
+import type { PaginatedTrait } from "@distilled.cloud/core/pagination";
 import { booleanStringEnums, STRING_ENCODED_TRAIT } from "./boolean-string-enums.ts";
 import {
   enumDecl,
@@ -9,8 +10,16 @@ import {
   PURE,
   suspendConst,
 } from "./emit.ts";
+import { SPREAD_TRAIT } from "./flatten-payload.ts";
 import { orderIndex, reachableFrom, shapeDeps, topoOrder, type ShapeMap } from "./graph.ts";
-import { ADDITIONAL_PROPERTIES_TRAIT, memberBases, smithyWireName } from "./members.ts";
+import {
+  ADDITIONAL_PROPERTIES_TRAIT,
+  DEFAULT_TRAIT,
+  memberBases,
+  smithyWireName,
+  STREAM_WHEN_TRAIT,
+  streamsOutput,
+} from "./members.ts";
 /**
  * The generic smithy→SDK service generator (dev-time only).
  *
@@ -35,7 +44,13 @@ import {
   modelNamespace,
   type OpEntry,
 } from "./operations.ts";
-import { validatePaginated } from "./pagination.ts";
+import {
+  assertPaginationFields,
+  CORE_STRATEGY_FIELDS,
+  defaultStrategyFields,
+  type PaginationField,
+  validatePaginated,
+} from "./pagination.ts";
 import { JSON_PRELUDE, makeSchemaRef, makeTsRef, TS_JSON_PRELUDE } from "./prelude.ts";
 import {
   ATTRIBUTES_TRAIT as TELEMETRY_ATTRIBUTES_TRAIT,
@@ -125,6 +140,12 @@ export interface PaginationProfile {
   readonly protocol?: string;
   /** Strategy expression passed as makePaginated's second argument. */
   readonly strategy?: string;
+  /**
+   * The trait fields {@link strategy} reads. Core strategies (and no
+   * strategy, i.e. `paginateWithDefaults`) have them built in; a provider
+   * strategy must declare them, or generation fails.
+   */
+  readonly requires?: (trait: PaginatedTrait) => readonly PaginationField[];
   /** Items path fallback when the trait omits `items`. */
   readonly itemsFallback: string;
   /** Output names accepted even when not modeled (delivered by the protocol). */
@@ -170,7 +191,52 @@ export interface OperationEmit {
    * spec's own `operation` emitter must include them.
    */
   readonly telemetry: readonly string[];
+  /**
+   * The op config line for `distilled.retry#policy` (`retryPolicy: {…}`,
+   * the service's trait with the operation's on top); undefined when
+   * neither sets one. A spec's own `operation` emitter must include it.
+   */
+  readonly retryPolicy?: string;
 }
+
+/** Retry numbers for a service or an operation (see core `RetryOverride`). */
+export const RETRY_POLICY_TRAIT = "distilled.retry#policy";
+const RETRY_POLICY_KEYS = [
+  "maxAttempts",
+  "baseMs",
+  "throttlingBaseMs",
+  "capMs",
+  "factor",
+  "longPoll",
+] as const;
+
+/** The trait's value, checked: known keys, whole numbers, `factor` ≥ 1, `longPoll` a boolean. */
+const retryPolicyOf = (value: unknown, where: string): Record<string, number | boolean> => {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) {
+    throw new Error(`${where}: ${RETRY_POLICY_TRAIT} must be an object`);
+  }
+  for (const [key, n] of Object.entries(value)) {
+    if (!(RETRY_POLICY_KEYS as readonly string[]).includes(key)) {
+      throw new Error(`${where}: ${RETRY_POLICY_TRAIT} has unknown key ${key}`);
+    }
+    if (key === "longPoll") {
+      if (typeof n !== "boolean") {
+        throw new Error(`${where}: ${RETRY_POLICY_TRAIT}.longPoll must be a boolean`);
+      }
+      continue;
+    }
+    if (key === "factor") {
+      if (typeof n !== "number" || !(n >= 1)) {
+        throw new Error(`${where}: ${RETRY_POLICY_TRAIT}.factor must be a number of at least 1`);
+      }
+      continue;
+    }
+    if (!Number.isInteger(n) || (n as number) < (key === "maxAttempts" ? 1 : 0)) {
+      throw new Error(`${where}: ${RETRY_POLICY_TRAIT}.${key} must be a whole number`);
+    }
+  }
+  return value as Record<string, number | boolean>;
+};
 
 export interface SdkSpec {
   /** Namespace fallback for models with no operations. Default `"smithy.unknown"`. */
@@ -291,6 +357,14 @@ export interface SdkSpec {
   readonly paginationProfileFor?: (trait: any, op: OpEntry) => string | undefined;
 
   /**
+   * The operations' protocol implements `stream` (core's gRPC protocol
+   * does), so server-streaming operations may be emitted as
+   * `API.makeStreaming`. Without it, generation fails on one: its
+   * `.stream()` would die on every call.
+   */
+  readonly streams?: boolean;
+
+  /**
    * Service-wide fallback key dictionary stamped on op I/O roots (emitted
    * as a `KEY_DICTIONARY` header const + `T.KeyDictionary(KEY_DICTIONARY)`
    * root pipe). `doc` is the const's doc comment. An entry may list several
@@ -340,6 +414,12 @@ export interface SdkSpec {
    * `"primitive"`: emit unwrapped unions of primitive or enum values.
    */
   readonly unionStyle?: "opaque-cases" | "untagged" | "primitive";
+  /**
+   * Member trait whose value is the member's own key dictionary (also listed
+   * in `memberTraitPipes`). An opaque-cases union cannot carry member pipes,
+   * so each case's dictionaries go on `T.UnionCases` instead.
+   */
+  readonly memberKeyDictionaryTrait?: string;
   /** Full override of union emission. */
   readonly union?: (ctx: {
     readonly name: string;
@@ -484,7 +564,19 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
   if (selected.length === 0 && extraRoots.length === 0) return { code: "", operations: 0 };
 
   // 2. Reachability + dependencies-first order (cycles suspend at refs).
-  const roots = [...selected.flatMap((op) => [op.def.__input, op.def.__output]), ...extraRoots];
+  // An operation that streams only when its input asks also roots its frame.
+  const streamWhenOf = (
+    op: OpEntry,
+  ): { input: Record<string, unknown>; items: string } | undefined =>
+    op.def.traits?.[STREAM_WHEN_TRAIT];
+  const roots = [
+    ...selected.flatMap((op) => [
+      op.def.__input,
+      op.def.__output,
+      ...(streamWhenOf(op) ? [streamWhenOf(op)!.items] : []),
+    ]),
+    ...extraRoots,
+  ];
   const reachable = reachableFrom(shapes, roots, shapeDeps);
   const order = topoOrder(shapes, reachable, shapeDeps);
   const indexOf = orderIndex(order);
@@ -599,6 +691,12 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       const binding = bindingOf(traits);
       return {
         ...base,
+        // A member with a default (Smithy 2.0 `@default`) is always present
+        // in a response, so response-only shapes require it. Shapes a
+        // request also reaches keep it optional: the sender may omit it.
+        required:
+          base.required ||
+          (DEFAULT_TRAIT in traits && ownerId !== undefined && !requestReachable.has(ownerId)),
         binding,
         wire: smithyWireName(traits, base.name, wireKind(binding)),
         nullable:
@@ -756,6 +854,19 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         syntheticOutputs: new Set(profile.syntheticOutputs ?? []),
       });
       if (ok) {
+        const strategy = profile.strategy ?? "paginateWithDefaults";
+        const fields =
+          profile.requires?.(pg) ??
+          (profile.strategy === undefined
+            ? defaultStrategyFields(pg)
+            : CORE_STRATEGY_FIELDS[profile.strategy]);
+        if (fields === undefined) {
+          throw new Error(
+            `pagination profile "${profileName}": ${strategy} is not a core strategy; ` +
+              `declare the trait fields it reads in \`requires\``,
+          );
+        }
+        assertPaginationFields(op.id, strategy, fields, pg);
         op.def.__pagination = pg;
         paginatedOutputs.add(op.def.__output);
         // A profile that injects a page member (Cloudflare's `resultInfo`)
@@ -875,7 +986,8 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
             ? [`T.KeyDictionary(KEY_DICTIONARY)`]
             : []),
         ];
-        out.push(`export type ${name} = ${tsRef(m.target)};`);
+        const nullable = spec.nullableTrait !== undefined && spec.nullableTrait in (m.traits ?? {});
+        out.push(`export type ${name} = ${tsRef(m.target)}${nullable ? " | null" : ""};`);
         out.push(
           suspendConst({
             name,
@@ -883,7 +995,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
             multiline: true,
             annotateIdentifier: true,
             castTo: `S.${spec.schemaType ?? "Schema"}<${name}>`,
-            expr: `${ref(m.target, i)}.pipe(${rootPipes.join(", ")})`,
+            expr: `${nullable ? `S.NullOr(${ref(m.target, i)})` : ref(m.target, i)}.pipe(${rootPipes.join(", ")})`,
           }),
         );
         return;
@@ -891,9 +1003,13 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
 
       // Paginated outputs always deliver their items member — required.
       const itemsRoot = paginatedItemsRoot.get(id);
-      const infos = memberInfos(d, id).map((info) =>
+      const allInfos = memberInfos(d, id).map((info) =>
         info.tsName === itemsRoot ? { ...info, required: true } : info,
       );
+      // An inlined request body (see ./flatten-payload.ts): the shape
+      // extends the body's struct and interface instead of copying them.
+      const spread = allInfos.find((info) => SPREAD_TRAIT in info.traits);
+      const infos = spread ? allInfos.filter((info) => info !== spread) : allInfos;
       const fields = infos.flatMap((info) =>
         interfaceField({
           name: info.tsName,
@@ -916,7 +1032,11 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       // to accept every declared member's type too, so it stays `unknown`.
       const open = ADDITIONAL_PROPERTIES_TRAIT in (d.traits ?? {});
       if (open) fields.push(`  [key: string]: unknown;`);
-      const struct = open ? `S.StructWithRest(${closed}, [S.Record(S.String, S.Unknown)])` : closed;
+      const struct = spread
+        ? `S.Extend(${ref(spread.target, i)}, ${closed})`
+        : open
+          ? `S.StructWithRest(${closed}, [S.Record(S.String, S.Unknown)])`
+          : closed;
       const structCtx = {
         id,
         isOpIo: opIoShapes.has(id),
@@ -952,7 +1072,24 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         if (!structCtx.isOpIo) {
           structBodies.set(bodyKey, { id, name });
         }
-        out.push(interfaceDecl(name, fields));
+        if (spread) {
+          // Body fields a path or query member shadows are left out.
+          const own = new Set(infos.map((info) => info.tsName));
+          const shadowed = memberInfos(shapes[spread.target] ?? {})
+            .map((m) => m.tsName)
+            .filter((n) => own.has(n));
+          const base = tsRefAt(spread.target, id);
+          const parent = shadowed.length
+            ? `Omit<${base}, ${shadowed.map((n) => JSON.stringify(n)).join(" | ")}>`
+            : base;
+          out.push(
+            fields.length
+              ? `export interface ${name} extends ${parent} {\n${fields.join("\n")}\n}`
+              : `export interface ${name} extends ${parent} {}`,
+          );
+        } else {
+          out.push(interfaceDecl(name, fields));
+        }
         out.push(
           suspendConst({
             name,
@@ -1035,9 +1172,26 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         );
       } else if (spec.unionStyle === "opaque-cases") {
         const disc = unionDiscriminator(caseTargets);
+        const dictTrait = spec.memberKeyDictionaryTrait;
+        const dictionaries = caseTargets.map((t: string) => {
+          const cd = shapes[t];
+          return dictTrait && cd?.type === "structure"
+            ? Object.fromEntries(
+                memberInfos(cd)
+                  .filter((mi) => mi.traits[dictTrait] !== undefined)
+                  .map((mi) => [mi.tsName, mi.traits[dictTrait]]),
+              )
+            : {};
+        });
+        const hasDictionaries = dictionaries.some((d) => Object.keys(d).length > 0);
+        const args = [
+          JSON.stringify(caseKeys),
+          ...(disc ? [JSON.stringify(disc)] : hasDictionaries ? ["undefined"] : []),
+          ...(hasDictionaries ? [JSON.stringify(dictionaries)] : []),
+        ];
         out.push(
           `export type ${name} = ${caseTargets.map((t) => tsRefAt(t, id)).join(" | ") || "unknown"};`,
-          `export const ${name} = ${pure}S.Unknown.pipe(T.UnionCases(${JSON.stringify(caseKeys)}${disc ? `, ${JSON.stringify(disc)}` : ""}));\n`,
+          `export const ${name} = ${pure}S.Unknown.pipe(T.UnionCases(${args.join(", ")}));\n`,
         );
       } else {
         throw new Error(`no union emission configured for shape ${id} — set unionStyle or union`);
@@ -1113,12 +1267,46 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       const overrides = decl.overrides?.(ctx);
       const contextType = overrides?.contextType ?? decl.contextType;
       const paginated = ctx.pagination !== undefined;
+      const streaming = !paginated && streamsOutput(ctx.op.def.traits);
+      if (streaming && !spec.streams) {
+        throw new Error(
+          `${ctx.op.id}: a server-streaming operation needs a protocol that streams; ` +
+            "set `streams: true` on the SdkSpec only if its protocol implements `stream`",
+        );
+      }
+      const streamWhen = streaming ? streamWhenOf(ctx.op) : undefined;
+      const streamLines: string[] = [];
+      if (streamWhen !== undefined) {
+        if (shapes[streamWhen.items] === undefined) {
+          throw new Error(
+            `${ctx.op.id}: ${STREAM_WHEN_TRAIT} items ${streamWhen.items} is not a shape`,
+          );
+        }
+        const inputMembers = memberInfos(shapes[ctx.op.def.__input] ?? {});
+        const fixed = Object.fromEntries(
+          Object.entries(streamWhen.input).map(([name, value]) => {
+            const member = inputMembers.find((m) => m.name === name);
+            if (member === undefined) {
+              throw new Error(
+                `${ctx.op.id}: ${STREAM_WHEN_TRAIT} input member ${name} is not in the input`,
+              );
+            }
+            return [member.tsName, value];
+          }),
+        );
+        streamLines.push(
+          `items: ${ref(streamWhen.items, indexOf.size)}`,
+          `streamInput: ${JSON.stringify(fixed)}`,
+        );
+      }
       const itemTsType = paginated
         ? paginatedItemTsType(ctx.op.def.__output, paginatedItemsPath.get(ctx.op.id) ?? "")
-        : undefined;
+        : streamWhen !== undefined
+          ? tsRef(streamWhen.items)
+          : undefined;
       const typeAnnotation =
         overrides?.typeAnnotation ??
-        `API.${paginated ? "PaginatedOperationMethod" : "OperationMethod"}<\n` +
+        `API.${paginated ? "PaginatedOperationMethod" : streaming ? "StreamingOperationMethod" : "OperationMethod"}<\n` +
           `  ${ctx.inputName},\n` +
           `  ${ctx.outputTsType},\n` +
           `  ${ctx.opName}Error,\n` +
@@ -1136,7 +1324,9 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         `  protocol: ${protocol},\n` +
         (decl.retry ? `  retry: ${decl.retry},\n` : "") +
         (decl.extraConfig?.(ctx) ?? []).map((l) => `  ${l},\n`).join("") +
+        streamLines.map((l) => `  ${l},\n`).join("") +
         ctx.telemetry.map((l) => `  ${l},\n`).join("") +
+        (ctx.retryPolicy !== undefined ? `  ${ctx.retryPolicy},\n` : "") +
         (paginated ? `  pagination: ${JSON.stringify(ctx.pagination)} as const,\n` : "") +
         `}`;
       return [
@@ -1145,7 +1335,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         operationConst({
           exportName: ctx.exportName,
           typeAnnotation,
-          factory: paginated ? "API.makePaginated" : "API.make",
+          factory: paginated ? "API.makePaginated" : streaming ? "API.makeStreaming" : "API.make",
           pure,
           extraArg: paginated ? opProfile.get(ctx.op.id)?.strategy : undefined,
           config,
@@ -1378,7 +1568,17 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       extensions.push(`${key}: ${use(target[0])}.${target[1]}(${JSON.stringify(place)})`);
     }
     if (stream !== undefined) {
-      const rule = { ...stream, member: tsName(op.def.__output, stream.member) };
+      const rule: Record<string, unknown> = {
+        ...stream,
+        member: tsName(op.def.__output, stream.member),
+      };
+      if (stream.events !== undefined) {
+        // Event rules are keyed by the stream union's members.
+        const union = (shapes[op.def.__output]?.members ?? {})[stream.member]?.target;
+        rule.events = Object.fromEntries(
+          Object.entries(stream.events).map(([event, rules]) => [tsName(union, event), rules]),
+        );
+      }
       extensions.push(`hold: ${use(TX_STREAM)}.holdForStream(${JSON.stringify(rule)})`);
     }
     const spanCode =
@@ -1391,6 +1591,20 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       ...(serviceTelemetry !== undefined ? ["telemetry: TELEMETRY"] : []),
       `span: ${spanCode}`,
     ];
+  };
+
+  const serviceRetryPolicy = (() => {
+    const svc = Object.values(shapes).find((d: any) => d?.type === "service") as any;
+    const trait = svc?.traits?.[RETRY_POLICY_TRAIT];
+    return trait === undefined ? undefined : retryPolicyOf(trait, "service");
+  })();
+  const retryPolicyLine = (op: { id: string; def: any }): string | undefined => {
+    const own = op.def.traits?.[RETRY_POLICY_TRAIT];
+    const merged = {
+      ...serviceRetryPolicy,
+      ...(own === undefined ? {} : retryPolicyOf(own, op.id)),
+    };
+    return Object.keys(merged).length === 0 ? undefined : `retryPolicy: ${JSON.stringify(merged)}`;
   };
 
   for (const op of selected) {
@@ -1411,6 +1625,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         doc: oneLine(op.def.traits?.["smithy.api#documentation"]),
         pagination: op.def.__pagination,
         telemetry: telemetryLines(op),
+        retryPolicy: retryPolicyLine(op),
       }),
     );
   }

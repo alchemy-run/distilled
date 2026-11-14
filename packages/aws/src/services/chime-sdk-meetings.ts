@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -132,7 +133,7 @@ export class LimitExceededException
       RequestId: /*@__PURE__*/ S.optional(S.String),
     },
     /*@__PURE__*/ T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+  ).pipe(C.withBadRequestError, C.withThrottlingError, C.withRetryableError) {}
 export class NotFoundException
   extends /*@__PURE__*/ S.TaggedError<NotFoundException>()(
     "NotFoundException",
@@ -163,7 +164,7 @@ export class ServiceFailureException
       RequestId: /*@__PURE__*/ S.optional(S.String),
     },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ServiceUnavailableException
   extends /*@__PURE__*/ S.TaggedError<ServiceUnavailableException>()(
     "ServiceUnavailableException",
@@ -176,7 +177,7 @@ export class ServiceUnavailableException
       ),
     },
     /*@__PURE__*/ T.HttpError(503),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",
@@ -186,7 +187,7 @@ export class ThrottlingException
       RequestId: /*@__PURE__*/ S.optional(S.String),
     },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class TooManyTagsException
   extends /*@__PURE__*/ S.TaggedError<TooManyTagsException>()(
     "TooManyTagsException",
@@ -228,7 +229,7 @@ export interface AttendeeCapabilities {
 }
 export interface CreateAttendeeRequestItem {
   ExternalUserId: string | redacted.Redacted<string>;
-  Capabilities?: AttendeeCapabilities;
+  Capabilities?: AttendeeCapabilities | undefined;
 }
 export type CreateAttendeeRequestItemList = CreateAttendeeRequestItem[];
 export interface BatchCreateAttendeeRequest {
@@ -237,21 +238,21 @@ export interface BatchCreateAttendeeRequest {
 }
 export type JoinTokenString = string | redacted.Redacted<string>;
 export interface Attendee {
-  ExternalUserId?: string | redacted.Redacted<string>;
-  AttendeeId?: string;
-  JoinToken?: string | redacted.Redacted<string>;
-  Capabilities?: AttendeeCapabilities;
+  ExternalUserId?: string | redacted.Redacted<string> | undefined;
+  AttendeeId?: string | undefined;
+  JoinToken?: string | redacted.Redacted<string> | undefined;
+  Capabilities?: AttendeeCapabilities | undefined;
 }
 export type AttendeeList = Attendee[];
 export interface CreateAttendeeError_ {
-  ExternalUserId?: string | redacted.Redacted<string>;
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  ExternalUserId?: string | redacted.Redacted<string> | undefined;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type BatchCreateAttendeeErrorList = CreateAttendeeError_[];
 export interface BatchCreateAttendeeResponse {
-  Attendees?: Attendee[];
-  Errors?: CreateAttendeeError_[];
+  Attendees?: Attendee[] | undefined;
+  Errors?: CreateAttendeeError_[] | undefined;
 }
 export interface AttendeeIdItem {
   AttendeeId: string;
@@ -266,41 +267,41 @@ export interface BatchUpdateAttendeeCapabilitiesExceptResponse {}
 export interface CreateAttendeeRequest {
   MeetingId: string;
   ExternalUserId: string | redacted.Redacted<string>;
-  Capabilities?: AttendeeCapabilities;
+  Capabilities?: AttendeeCapabilities | undefined;
 }
 export interface CreateAttendeeResponse {
-  Attendee?: Attendee;
+  Attendee?: Attendee | undefined;
 }
 export type ClientRequestToken = string | redacted.Redacted<string>;
 export type MediaRegion = string;
 export type ExternalMeetingId = string | redacted.Redacted<string>;
 export type Arn = string | redacted.Redacted<string>;
 export interface NotificationsConfiguration {
-  LambdaFunctionArn?: string | redacted.Redacted<string>;
-  SnsTopicArn?: string | redacted.Redacted<string>;
-  SqsQueueArn?: string | redacted.Redacted<string>;
+  LambdaFunctionArn?: string | redacted.Redacted<string> | undefined;
+  SnsTopicArn?: string | redacted.Redacted<string> | undefined;
+  SqsQueueArn?: string | redacted.Redacted<string> | undefined;
 }
 export type MeetingFeatureStatus = "AVAILABLE" | "UNAVAILABLE" | (string & {});
 export interface AudioFeatures {
-  EchoReduction?: MeetingFeatureStatus;
+  EchoReduction?: MeetingFeatureStatus | undefined;
 }
 export type VideoResolution = "None" | "HD" | "FHD" | (string & {});
 export interface VideoFeatures {
-  MaxResolution?: VideoResolution;
+  MaxResolution?: VideoResolution | undefined;
 }
 export type ContentResolution = "None" | "FHD" | "UHD" | (string & {});
 export interface ContentFeatures {
-  MaxResolution?: ContentResolution;
+  MaxResolution?: ContentResolution | undefined;
 }
 export type AttendeeMax = number;
 export interface AttendeeFeatures {
-  MaxCount?: number;
+  MaxCount?: number | undefined;
 }
 export interface MeetingFeaturesConfiguration {
-  Audio?: AudioFeatures;
-  Video?: VideoFeatures;
-  Content?: ContentFeatures;
-  Attendee?: AttendeeFeatures;
+  Audio?: AudioFeatures | undefined;
+  Video?: VideoFeatures | undefined;
+  Content?: ContentFeatures | undefined;
+  Attendee?: AttendeeFeatures | undefined;
 }
 export type PrimaryMeetingId = string;
 export type TenantId = string;
@@ -316,58 +317,58 @@ export type MediaPlacementNetworkType = "Ipv4Only" | "DualStack" | (string & {})
 export interface CreateMeetingRequest {
   ClientRequestToken: string | redacted.Redacted<string>;
   MediaRegion: string;
-  MeetingHostId?: string | redacted.Redacted<string>;
+  MeetingHostId?: string | redacted.Redacted<string> | undefined;
   ExternalMeetingId: string | redacted.Redacted<string>;
-  NotificationsConfiguration?: NotificationsConfiguration;
-  MeetingFeatures?: MeetingFeaturesConfiguration;
-  PrimaryMeetingId?: string;
-  TenantIds?: string[];
-  Tags?: Tag[];
-  MediaPlacementNetworkType?: MediaPlacementNetworkType;
+  NotificationsConfiguration?: NotificationsConfiguration | undefined;
+  MeetingFeatures?: MeetingFeaturesConfiguration | undefined;
+  PrimaryMeetingId?: string | undefined;
+  TenantIds?: string[] | undefined;
+  Tags?: Tag[] | undefined;
+  MediaPlacementNetworkType?: MediaPlacementNetworkType | undefined;
 }
 export interface MediaPlacement {
-  AudioHostUrl?: string;
-  AudioFallbackUrl?: string;
-  SignalingUrl?: string;
-  TurnControlUrl?: string;
-  ScreenDataUrl?: string;
-  ScreenViewingUrl?: string;
-  ScreenSharingUrl?: string;
-  EventIngestionUrl?: string;
+  AudioHostUrl?: string | undefined;
+  AudioFallbackUrl?: string | undefined;
+  SignalingUrl?: string | undefined;
+  TurnControlUrl?: string | undefined;
+  ScreenDataUrl?: string | undefined;
+  ScreenViewingUrl?: string | undefined;
+  ScreenSharingUrl?: string | undefined;
+  EventIngestionUrl?: string | undefined;
 }
 export type AmazonResourceName = string;
 export interface Meeting {
-  MeetingId?: string;
-  MeetingHostId?: string | redacted.Redacted<string>;
-  ExternalMeetingId?: string | redacted.Redacted<string>;
-  MediaRegion?: string;
-  MediaPlacement?: MediaPlacement;
-  MeetingFeatures?: MeetingFeaturesConfiguration;
-  PrimaryMeetingId?: string;
-  TenantIds?: string[];
-  MeetingArn?: string;
+  MeetingId?: string | undefined;
+  MeetingHostId?: string | redacted.Redacted<string> | undefined;
+  ExternalMeetingId?: string | redacted.Redacted<string> | undefined;
+  MediaRegion?: string | undefined;
+  MediaPlacement?: MediaPlacement | undefined;
+  MeetingFeatures?: MeetingFeaturesConfiguration | undefined;
+  PrimaryMeetingId?: string | undefined;
+  TenantIds?: string[] | undefined;
+  MeetingArn?: string | undefined;
 }
 export interface CreateMeetingResponse {
-  Meeting?: Meeting;
+  Meeting?: Meeting | undefined;
 }
 export type CreateMeetingWithAttendeesRequestItemList = CreateAttendeeRequestItem[];
 export interface CreateMeetingWithAttendeesRequest {
   ClientRequestToken: string | redacted.Redacted<string>;
   MediaRegion: string;
-  MeetingHostId?: string | redacted.Redacted<string>;
+  MeetingHostId?: string | redacted.Redacted<string> | undefined;
   ExternalMeetingId: string | redacted.Redacted<string>;
-  MeetingFeatures?: MeetingFeaturesConfiguration;
-  NotificationsConfiguration?: NotificationsConfiguration;
+  MeetingFeatures?: MeetingFeaturesConfiguration | undefined;
+  NotificationsConfiguration?: NotificationsConfiguration | undefined;
   Attendees: CreateAttendeeRequestItem[];
-  PrimaryMeetingId?: string;
-  TenantIds?: string[];
-  Tags?: Tag[];
-  MediaPlacementNetworkType?: MediaPlacementNetworkType;
+  PrimaryMeetingId?: string | undefined;
+  TenantIds?: string[] | undefined;
+  Tags?: Tag[] | undefined;
+  MediaPlacementNetworkType?: MediaPlacementNetworkType | undefined;
 }
 export interface CreateMeetingWithAttendeesResponse {
-  Meeting?: Meeting;
-  Attendees?: Attendee[];
-  Errors?: CreateAttendeeError_[];
+  Meeting?: Meeting | undefined;
+  Attendees?: Attendee[] | undefined;
+  Errors?: CreateAttendeeError_[] | undefined;
 }
 export interface DeleteAttendeeRequest {
   MeetingId: string;
@@ -383,29 +384,29 @@ export interface GetAttendeeRequest {
   AttendeeId: string;
 }
 export interface GetAttendeeResponse {
-  Attendee?: Attendee;
+  Attendee?: Attendee | undefined;
 }
 export interface GetMeetingRequest {
   MeetingId: string;
 }
 export interface GetMeetingResponse {
-  Meeting?: Meeting;
+  Meeting?: Meeting | undefined;
 }
 export type ResultMax = number;
 export interface ListAttendeesRequest {
   MeetingId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListAttendeesResponse {
-  Attendees?: Attendee[];
-  NextToken?: string;
+  Attendees?: Attendee[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type TranscribeLanguageCode =
   | "en-US"
@@ -447,22 +448,22 @@ export type TranscribeLanguageModelName = string;
 export type TranscribeLanguageOptions = string;
 export type TranscribeVocabularyNamesOrFilterNamesString = string;
 export interface EngineTranscribeSettings {
-  LanguageCode?: TranscribeLanguageCode;
-  VocabularyFilterMethod?: TranscribeVocabularyFilterMethod;
-  VocabularyFilterName?: string;
-  VocabularyName?: string;
-  Region?: TranscribeRegion;
-  EnablePartialResultsStabilization?: boolean;
-  PartialResultsStability?: TranscribePartialResultsStability;
-  ContentIdentificationType?: TranscribeContentIdentificationType;
-  ContentRedactionType?: TranscribeContentRedactionType;
-  PiiEntityTypes?: string;
-  LanguageModelName?: string;
-  IdentifyLanguage?: boolean;
-  LanguageOptions?: string;
-  PreferredLanguage?: TranscribeLanguageCode;
-  VocabularyNames?: string;
-  VocabularyFilterNames?: string;
+  LanguageCode?: TranscribeLanguageCode | undefined;
+  VocabularyFilterMethod?: TranscribeVocabularyFilterMethod | undefined;
+  VocabularyFilterName?: string | undefined;
+  VocabularyName?: string | undefined;
+  Region?: TranscribeRegion | undefined;
+  EnablePartialResultsStabilization?: boolean | undefined;
+  PartialResultsStability?: TranscribePartialResultsStability | undefined;
+  ContentIdentificationType?: TranscribeContentIdentificationType | undefined;
+  ContentRedactionType?: TranscribeContentRedactionType | undefined;
+  PiiEntityTypes?: string | undefined;
+  LanguageModelName?: string | undefined;
+  IdentifyLanguage?: boolean | undefined;
+  LanguageOptions?: string | undefined;
+  PreferredLanguage?: TranscribeLanguageCode | undefined;
+  VocabularyNames?: string | undefined;
+  VocabularyFilterNames?: string | undefined;
 }
 export type TranscribeMedicalLanguageCode = "en-US" | (string & {});
 export type TranscribeMedicalSpecialty =
@@ -488,13 +489,13 @@ export interface EngineTranscribeMedicalSettings {
   LanguageCode: TranscribeMedicalLanguageCode;
   Specialty: TranscribeMedicalSpecialty;
   Type: TranscribeMedicalType;
-  VocabularyName?: string;
-  Region?: TranscribeMedicalRegion;
-  ContentIdentificationType?: TranscribeMedicalContentIdentificationType;
+  VocabularyName?: string | undefined;
+  Region?: TranscribeMedicalRegion | undefined;
+  ContentIdentificationType?: TranscribeMedicalContentIdentificationType | undefined;
 }
 export interface TranscriptionConfiguration {
-  EngineTranscribeSettings?: EngineTranscribeSettings;
-  EngineTranscribeMedicalSettings?: EngineTranscribeMedicalSettings;
+  EngineTranscribeSettings?: EngineTranscribeSettings | undefined;
+  EngineTranscribeMedicalSettings?: EngineTranscribeMedicalSettings | undefined;
 }
 export interface StartMeetingTranscriptionRequest {
   MeetingId: string;
@@ -522,7 +523,7 @@ export interface UpdateAttendeeCapabilitiesRequest {
   Capabilities: AttendeeCapabilities;
 }
 export interface UpdateAttendeeCapabilitiesResponse {
-  Attendee?: Attendee;
+  Attendee?: Attendee | undefined;
 }
 export type RetryAfterSeconds = string;
 export type BatchCreateAttendeeError =
@@ -541,7 +542,7 @@ export type BatchCreateAttendeeError =
  * Using the Amazon Chime SDK in the *Amazon Chime Developer Guide*.
  */
 export const batchCreateAttendee: API.OperationMethod<
-  BatchCreateAttendeeRequest,
+  BatchCreateAttendeeRequest & RegionInput,
   BatchCreateAttendeeResponse,
   BatchCreateAttendeeError,
   Credentials | HttpClient.HttpClient
@@ -609,7 +610,7 @@ export type BatchUpdateAttendeeCapabilitiesExceptError =
  * and if the attendee turned on their video or content streams, remote attendees can receive those streams, but only after media renegotiation between the client and the Amazon Chime back-end server.
  */
 export const batchUpdateAttendeeCapabilitiesExcept: API.OperationMethod<
-  BatchUpdateAttendeeCapabilitiesExceptRequest,
+  BatchUpdateAttendeeCapabilitiesExceptRequest & RegionInput,
   BatchUpdateAttendeeCapabilitiesExceptResponse,
   BatchUpdateAttendeeCapabilitiesExceptError,
   Credentials | HttpClient.HttpClient
@@ -651,7 +652,7 @@ export type CreateAttendeeError =
  * *Amazon Chime Developer Guide*.
  */
 export const createAttendee: API.OperationMethod<
-  CreateAttendeeRequest,
+  CreateAttendeeRequest & RegionInput,
   CreateAttendeeResponse,
   CreateAttendeeError,
   Credentials | HttpClient.HttpClient
@@ -703,7 +704,7 @@ export type CreateMeetingError =
  * - Video.MaxResolution: HD
  */
 export const createMeeting: API.OperationMethod<
-  CreateMeetingRequest,
+  CreateMeetingRequest & RegionInput,
   CreateMeetingResponse,
   CreateMeetingError,
   Credentials | HttpClient.HttpClient
@@ -754,7 +755,7 @@ export type CreateMeetingWithAttendeesError =
  * - Video.MaxResolution: HD
  */
 export const createMeetingWithAttendees: API.OperationMethod<
-  CreateMeetingWithAttendeesRequest,
+  CreateMeetingWithAttendeesRequest & RegionInput,
   CreateMeetingWithAttendeesResponse,
   CreateMeetingWithAttendeesError,
   Credentials | HttpClient.HttpClient
@@ -794,7 +795,7 @@ export type DeleteAttendeeError =
  * in the *Amazon Chime Developer Guide*.
  */
 export const deleteAttendee: API.OperationMethod<
-  DeleteAttendeeRequest,
+  DeleteAttendeeRequest & RegionInput,
   DeleteAttendeeResponse,
   DeleteAttendeeError,
   Credentials | HttpClient.HttpClient
@@ -833,7 +834,7 @@ export type DeleteMeetingError =
  * *Amazon Chime Developer Guide*.
  */
 export const deleteMeeting: API.OperationMethod<
-  DeleteMeetingRequest,
+  DeleteMeetingRequest & RegionInput,
   DeleteMeetingResponse,
   DeleteMeetingError,
   Credentials | HttpClient.HttpClient
@@ -871,7 +872,7 @@ export type GetAttendeeError =
  * in the *Amazon Chime Developer Guide*.
  */
 export const getAttendee: API.OperationMethod<
-  GetAttendeeRequest,
+  GetAttendeeRequest & RegionInput,
   GetAttendeeResponse,
   GetAttendeeError,
   Credentials | HttpClient.HttpClient
@@ -909,7 +910,7 @@ export type GetMeetingError =
  * in the *Amazon Chime Developer Guide*.
  */
 export const getMeeting: API.OperationMethod<
-  GetMeetingRequest,
+  GetMeetingRequest & RegionInput,
   GetMeetingResponse,
   GetMeetingError,
   Credentials | HttpClient.HttpClient
@@ -947,7 +948,7 @@ export type ListAttendeesError =
  * in the *Amazon Chime Developer Guide*.
  */
 export const listAttendees: API.PaginatedOperationMethod<
-  ListAttendeesRequest,
+  ListAttendeesRequest & RegionInput,
   ListAttendeesResponse,
   ListAttendeesError,
   Credentials | HttpClient.HttpClient,
@@ -990,7 +991,7 @@ export type ListTagsForResourceError =
  * Returns a list of the tags available for the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1043,7 +1044,7 @@ export type StartMeetingTranscriptionError =
  * improve AWS AI/ML services by configuring an AI services opt out policy using Amazon Web Services Organizations.
  */
 export const startMeetingTranscription: API.OperationMethod<
-  StartMeetingTranscriptionRequest,
+  StartMeetingTranscriptionRequest & RegionInput,
   StartMeetingTranscriptionResponse,
   StartMeetingTranscriptionError,
   Credentials | HttpClient.HttpClient
@@ -1091,7 +1092,7 @@ export type StopMeetingTranscriptionError =
  * improve Amazon Web Services AI/ML services by configuring an AI services opt out policy using Amazon Web Services Organizations.
  */
 export const stopMeetingTranscription: API.OperationMethod<
-  StopMeetingTranscriptionRequest,
+  StopMeetingTranscriptionRequest & RegionInput,
   StopMeetingTranscriptionResponse,
   StopMeetingTranscriptionError,
   Credentials | HttpClient.HttpClient
@@ -1130,7 +1131,7 @@ export type TagResourceError =
  * The resource that supports tags.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1184,7 +1185,7 @@ export type UntagResourceError =
  * `ChimeSDKMeetings:DeleteTags`
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1251,7 +1252,7 @@ export type UpdateAttendeeCapabilitiesError =
  * and if the attendee turned on their video or content streams, remote attendees can receive those streams, but only after media renegotiation between the client and the Amazon Chime back-end server.
  */
 export const updateAttendeeCapabilities: API.OperationMethod<
-  UpdateAttendeeCapabilitiesRequest,
+  UpdateAttendeeCapabilitiesRequest & RegionInput,
   UpdateAttendeeCapabilitiesResponse,
   UpdateAttendeeCapabilitiesError,
   Credentials | HttpClient.HttpClient

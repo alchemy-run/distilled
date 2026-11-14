@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -106,7 +107,7 @@ export class InternalServerException
     "InternalServerException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
@@ -121,7 +122,7 @@ export class ThrottlingException
     "ThrottlingException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()("ValidationException", {
     message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
@@ -153,11 +154,11 @@ export type InitializationVectorType = string | redacted.Redacted<string>;
 export type PaddingType = "PKCS1" | "OAEP_SHA1" | "OAEP_SHA256" | "OAEP_SHA512" | (string & {});
 export interface SymmetricEncryptionAttributes {
   Mode: EncryptionMode;
-  InitializationVector?: string | redacted.Redacted<string>;
-  PaddingType?: PaddingType;
+  InitializationVector?: string | redacted.Redacted<string> | undefined;
+  PaddingType?: PaddingType | undefined;
 }
 export interface AsymmetricEncryptionAttributes {
-  PaddingType?: PaddingType;
+  PaddingType?: PaddingType | undefined;
 }
 export type HexLength16Or20Or24 = string;
 export type DukptEncryptionMode = "ECB" | "CBC" | (string & {});
@@ -171,10 +172,10 @@ export type DukptDerivationType =
 export type DukptKeyVariant = "BIDIRECTIONAL" | "REQUEST" | "RESPONSE" | (string & {});
 export interface DukptEncryptionAttributes {
   KeySerialNumber: string;
-  Mode?: DukptEncryptionMode;
-  DukptKeyDerivationType?: DukptDerivationType;
-  DukptKeyVariant?: DukptKeyVariant;
-  InitializationVector?: string | redacted.Redacted<string>;
+  Mode?: DukptEncryptionMode | undefined;
+  DukptKeyDerivationType?: DukptDerivationType | undefined;
+  DukptKeyVariant?: DukptKeyVariant | undefined;
+  InitializationVector?: string | redacted.Redacted<string> | undefined;
 }
 export type EmvMajorKeyDerivationMode = "EMV_OPTION_A" | "EMV_OPTION_B" | (string & {});
 export type PrimaryAccountNumberType = string | redacted.Redacted<string>;
@@ -186,14 +187,34 @@ export interface EmvEncryptionAttributes {
   PrimaryAccountNumber: string | redacted.Redacted<string>;
   PanSequenceNumber: string;
   SessionDerivationData: string | redacted.Redacted<string>;
-  Mode?: EmvEncryptionMode;
-  InitializationVector?: string | redacted.Redacted<string>;
+  Mode?: EmvEncryptionMode | undefined;
+  InitializationVector?: string | redacted.Redacted<string> | undefined;
 }
 export type EncryptionDecryptionAttributes =
-  | { Symmetric: SymmetricEncryptionAttributes; Asymmetric?: never; Dukpt?: never; Emv?: never }
-  | { Symmetric?: never; Asymmetric: AsymmetricEncryptionAttributes; Dukpt?: never; Emv?: never }
-  | { Symmetric?: never; Asymmetric?: never; Dukpt: DukptEncryptionAttributes; Emv?: never }
-  | { Symmetric?: never; Asymmetric?: never; Dukpt?: never; Emv: EmvEncryptionAttributes };
+  | {
+      Symmetric: SymmetricEncryptionAttributes;
+      Asymmetric?: undefined;
+      Dukpt?: undefined;
+      Emv?: undefined;
+    }
+  | {
+      Symmetric?: undefined;
+      Asymmetric: AsymmetricEncryptionAttributes;
+      Dukpt?: undefined;
+      Emv?: undefined;
+    }
+  | {
+      Symmetric?: undefined;
+      Asymmetric?: undefined;
+      Dukpt: DukptEncryptionAttributes;
+      Emv?: undefined;
+    }
+  | {
+      Symmetric?: undefined;
+      Asymmetric?: undefined;
+      Dukpt?: undefined;
+      Emv: EmvEncryptionAttributes;
+    };
 export type Tr31WrappedKeyBlock = string | redacted.Redacted<string>;
 export type CertificateType = string;
 export type SymmetricKeyAlgorithm =
@@ -219,18 +240,18 @@ export interface EcdhDerivationAttributes {
   SharedInformation: string;
 }
 export type WrappedKeyMaterial =
-  | { Tr31KeyBlock: string | redacted.Redacted<string>; DiffieHellmanSymmetricKey?: never }
-  | { Tr31KeyBlock?: never; DiffieHellmanSymmetricKey: EcdhDerivationAttributes };
+  | { Tr31KeyBlock: string | redacted.Redacted<string>; DiffieHellmanSymmetricKey?: undefined }
+  | { Tr31KeyBlock?: undefined; DiffieHellmanSymmetricKey: EcdhDerivationAttributes };
 export type KeyCheckValueAlgorithm = string;
 export interface WrappedKey {
   WrappedKeyMaterial: WrappedKeyMaterial;
-  KeyCheckValueAlgorithm?: string;
+  KeyCheckValueAlgorithm?: string | undefined;
 }
 export interface DecryptDataInput {
   KeyIdentifier: string;
   CipherText: string | redacted.Redacted<string>;
   DecryptionAttributes: EncryptionDecryptionAttributes;
-  WrappedKey?: WrappedKey;
+  WrappedKey?: WrappedKey | undefined;
 }
 export type KeyArn = string;
 export type KeyCheckValue = string;
@@ -245,25 +266,25 @@ export interface EncryptDataInput {
   KeyIdentifier: string;
   PlainText: string | redacted.Redacted<string>;
   EncryptionAttributes: EncryptionDecryptionAttributes;
-  WrappedKey?: WrappedKey;
+  WrappedKey?: WrappedKey | undefined;
 }
 export interface EncryptDataOutput {
   KeyArn: string;
-  KeyCheckValue?: string;
+  KeyCheckValue?: string | undefined;
   CipherText: string | redacted.Redacted<string>;
 }
 export type RandomKeyMaxLength = "BYTES_8" | "BYTES_16" | "BYTES_24" | (string & {});
 export interface KekValidationRequest {
   DeriveKeyAlgorithm: SymmetricKeyAlgorithm;
-  RandomKeyMaxLength?: RandomKeyMaxLength;
+  RandomKeyMaxLength?: RandomKeyMaxLength | undefined;
 }
 export type As2805RandomKeyMaterial = string | redacted.Redacted<string>;
 export interface KekValidationResponse {
   RandomKeySend: string | redacted.Redacted<string>;
 }
 export type As2805KekValidationType =
-  | { KekValidationRequest: KekValidationRequest; KekValidationResponse?: never }
-  | { KekValidationRequest?: never; KekValidationResponse: KekValidationResponse };
+  | { KekValidationRequest: KekValidationRequest; KekValidationResponse?: undefined }
+  | { KekValidationRequest?: undefined; KekValidationResponse: KekValidationResponse };
 export type RandomKeySendVariantMask = "VARIANT_MASK_82C0" | "VARIANT_MASK_82" | (string & {});
 export interface GenerateAs2805KekValidationInput {
   KeyIdentifier: string;
@@ -312,50 +333,50 @@ export interface SessionKeyUnionPay {
 export type SessionKeyDerivation =
   | {
       EmvCommon: SessionKeyEmvCommon;
-      Mastercard?: never;
-      Emv2000?: never;
-      Amex?: never;
-      Visa?: never;
-      UnionPay?: never;
+      Mastercard?: undefined;
+      Emv2000?: undefined;
+      Amex?: undefined;
+      Visa?: undefined;
+      UnionPay?: undefined;
     }
   | {
-      EmvCommon?: never;
+      EmvCommon?: undefined;
       Mastercard: SessionKeyMastercard;
-      Emv2000?: never;
-      Amex?: never;
-      Visa?: never;
-      UnionPay?: never;
+      Emv2000?: undefined;
+      Amex?: undefined;
+      Visa?: undefined;
+      UnionPay?: undefined;
     }
   | {
-      EmvCommon?: never;
-      Mastercard?: never;
+      EmvCommon?: undefined;
+      Mastercard?: undefined;
       Emv2000: SessionKeyEmv2000;
-      Amex?: never;
-      Visa?: never;
-      UnionPay?: never;
+      Amex?: undefined;
+      Visa?: undefined;
+      UnionPay?: undefined;
     }
   | {
-      EmvCommon?: never;
-      Mastercard?: never;
-      Emv2000?: never;
+      EmvCommon?: undefined;
+      Mastercard?: undefined;
+      Emv2000?: undefined;
       Amex: SessionKeyAmex;
-      Visa?: never;
-      UnionPay?: never;
+      Visa?: undefined;
+      UnionPay?: undefined;
     }
   | {
-      EmvCommon?: never;
-      Mastercard?: never;
-      Emv2000?: never;
-      Amex?: never;
+      EmvCommon?: undefined;
+      Mastercard?: undefined;
+      Emv2000?: undefined;
+      Amex?: undefined;
       Visa: SessionKeyVisa;
-      UnionPay?: never;
+      UnionPay?: undefined;
     }
   | {
-      EmvCommon?: never;
-      Mastercard?: never;
-      Emv2000?: never;
-      Amex?: never;
-      Visa?: never;
+      EmvCommon?: undefined;
+      Mastercard?: undefined;
+      Emv2000?: undefined;
+      Amex?: undefined;
+      Visa?: undefined;
       UnionPay: SessionKeyUnionPay;
     };
 export interface GenerateAuthRequestCryptogramInput {
@@ -409,65 +430,65 @@ export interface DynamicCardVerificationValue {
 export type CardGenerationAttributes =
   | {
       AmexCardSecurityCodeVersion1: AmexCardSecurityCodeVersion1;
-      AmexCardSecurityCodeVersion2?: never;
-      CardVerificationValue1?: never;
-      CardVerificationValue2?: never;
-      CardHolderVerificationValue?: never;
-      DynamicCardVerificationCode?: never;
-      DynamicCardVerificationValue?: never;
+      AmexCardSecurityCodeVersion2?: undefined;
+      CardVerificationValue1?: undefined;
+      CardVerificationValue2?: undefined;
+      CardHolderVerificationValue?: undefined;
+      DynamicCardVerificationCode?: undefined;
+      DynamicCardVerificationValue?: undefined;
     }
   | {
-      AmexCardSecurityCodeVersion1?: never;
+      AmexCardSecurityCodeVersion1?: undefined;
       AmexCardSecurityCodeVersion2: AmexCardSecurityCodeVersion2;
-      CardVerificationValue1?: never;
-      CardVerificationValue2?: never;
-      CardHolderVerificationValue?: never;
-      DynamicCardVerificationCode?: never;
-      DynamicCardVerificationValue?: never;
+      CardVerificationValue1?: undefined;
+      CardVerificationValue2?: undefined;
+      CardHolderVerificationValue?: undefined;
+      DynamicCardVerificationCode?: undefined;
+      DynamicCardVerificationValue?: undefined;
     }
   | {
-      AmexCardSecurityCodeVersion1?: never;
-      AmexCardSecurityCodeVersion2?: never;
+      AmexCardSecurityCodeVersion1?: undefined;
+      AmexCardSecurityCodeVersion2?: undefined;
       CardVerificationValue1: CardVerificationValue1;
-      CardVerificationValue2?: never;
-      CardHolderVerificationValue?: never;
-      DynamicCardVerificationCode?: never;
-      DynamicCardVerificationValue?: never;
+      CardVerificationValue2?: undefined;
+      CardHolderVerificationValue?: undefined;
+      DynamicCardVerificationCode?: undefined;
+      DynamicCardVerificationValue?: undefined;
     }
   | {
-      AmexCardSecurityCodeVersion1?: never;
-      AmexCardSecurityCodeVersion2?: never;
-      CardVerificationValue1?: never;
+      AmexCardSecurityCodeVersion1?: undefined;
+      AmexCardSecurityCodeVersion2?: undefined;
+      CardVerificationValue1?: undefined;
       CardVerificationValue2: CardVerificationValue2;
-      CardHolderVerificationValue?: never;
-      DynamicCardVerificationCode?: never;
-      DynamicCardVerificationValue?: never;
+      CardHolderVerificationValue?: undefined;
+      DynamicCardVerificationCode?: undefined;
+      DynamicCardVerificationValue?: undefined;
     }
   | {
-      AmexCardSecurityCodeVersion1?: never;
-      AmexCardSecurityCodeVersion2?: never;
-      CardVerificationValue1?: never;
-      CardVerificationValue2?: never;
+      AmexCardSecurityCodeVersion1?: undefined;
+      AmexCardSecurityCodeVersion2?: undefined;
+      CardVerificationValue1?: undefined;
+      CardVerificationValue2?: undefined;
       CardHolderVerificationValue: CardHolderVerificationValue;
-      DynamicCardVerificationCode?: never;
-      DynamicCardVerificationValue?: never;
+      DynamicCardVerificationCode?: undefined;
+      DynamicCardVerificationValue?: undefined;
     }
   | {
-      AmexCardSecurityCodeVersion1?: never;
-      AmexCardSecurityCodeVersion2?: never;
-      CardVerificationValue1?: never;
-      CardVerificationValue2?: never;
-      CardHolderVerificationValue?: never;
+      AmexCardSecurityCodeVersion1?: undefined;
+      AmexCardSecurityCodeVersion2?: undefined;
+      CardVerificationValue1?: undefined;
+      CardVerificationValue2?: undefined;
+      CardHolderVerificationValue?: undefined;
       DynamicCardVerificationCode: DynamicCardVerificationCode;
-      DynamicCardVerificationValue?: never;
+      DynamicCardVerificationValue?: undefined;
     }
   | {
-      AmexCardSecurityCodeVersion1?: never;
-      AmexCardSecurityCodeVersion2?: never;
-      CardVerificationValue1?: never;
-      CardVerificationValue2?: never;
-      CardHolderVerificationValue?: never;
-      DynamicCardVerificationCode?: never;
+      AmexCardSecurityCodeVersion1?: undefined;
+      AmexCardSecurityCodeVersion2?: undefined;
+      CardVerificationValue1?: undefined;
+      CardVerificationValue2?: undefined;
+      CardHolderVerificationValue?: undefined;
+      DynamicCardVerificationCode?: undefined;
       DynamicCardVerificationValue: DynamicCardVerificationValue;
     };
 export type IntegerRangeBetween3And5Type = number;
@@ -475,7 +496,7 @@ export interface GenerateCardValidationDataInput {
   KeyIdentifier: string;
   PrimaryAccountNumber: string | redacted.Redacted<string>;
   GenerationAttributes: CardGenerationAttributes;
-  ValidationDataLength?: number;
+  ValidationDataLength?: number | undefined;
 }
 export type ValidationDataType = string | redacted.Redacted<string>;
 export interface GenerateCardValidationDataOutput {
@@ -507,9 +528,9 @@ export type ApplicationCryptogramType = string | redacted.Redacted<string>;
 export type SessionKeyDerivationValue =
   | {
       ApplicationCryptogram: string | redacted.Redacted<string>;
-      ApplicationTransactionCounter?: never;
+      ApplicationTransactionCounter?: undefined;
     }
-  | { ApplicationCryptogram?: never; ApplicationTransactionCounter: string };
+  | { ApplicationCryptogram?: undefined; ApplicationTransactionCounter: string };
 export interface MacAlgorithmEmv {
   MajorKeyDerivationMode: MajorKeyDerivationMode;
   PrimaryAccountNumber: string | redacted.Redacted<string>;
@@ -520,42 +541,42 @@ export interface MacAlgorithmEmv {
 export interface MacAlgorithmDukpt {
   KeySerialNumber: string;
   DukptKeyVariant: DukptKeyVariant;
-  DukptDerivationType?: DukptDerivationType;
+  DukptDerivationType?: DukptDerivationType | undefined;
 }
 export type MacAttributes =
   | {
       Algorithm: MacAlgorithm;
-      EmvMac?: never;
-      DukptIso9797Algorithm1?: never;
-      DukptIso9797Algorithm3?: never;
-      DukptCmac?: never;
+      EmvMac?: undefined;
+      DukptIso9797Algorithm1?: undefined;
+      DukptIso9797Algorithm3?: undefined;
+      DukptCmac?: undefined;
     }
   | {
-      Algorithm?: never;
+      Algorithm?: undefined;
       EmvMac: MacAlgorithmEmv;
-      DukptIso9797Algorithm1?: never;
-      DukptIso9797Algorithm3?: never;
-      DukptCmac?: never;
+      DukptIso9797Algorithm1?: undefined;
+      DukptIso9797Algorithm3?: undefined;
+      DukptCmac?: undefined;
     }
   | {
-      Algorithm?: never;
-      EmvMac?: never;
+      Algorithm?: undefined;
+      EmvMac?: undefined;
       DukptIso9797Algorithm1: MacAlgorithmDukpt;
-      DukptIso9797Algorithm3?: never;
-      DukptCmac?: never;
+      DukptIso9797Algorithm3?: undefined;
+      DukptCmac?: undefined;
     }
   | {
-      Algorithm?: never;
-      EmvMac?: never;
-      DukptIso9797Algorithm1?: never;
+      Algorithm?: undefined;
+      EmvMac?: undefined;
+      DukptIso9797Algorithm1?: undefined;
       DukptIso9797Algorithm3: MacAlgorithmDukpt;
-      DukptCmac?: never;
+      DukptCmac?: undefined;
     }
   | {
-      Algorithm?: never;
-      EmvMac?: never;
-      DukptIso9797Algorithm1?: never;
-      DukptIso9797Algorithm3?: never;
+      Algorithm?: undefined;
+      EmvMac?: undefined;
+      DukptIso9797Algorithm1?: undefined;
+      DukptIso9797Algorithm3?: undefined;
       DukptCmac: MacAlgorithmDukpt;
     };
 export type IntegerRangeBetween4And32 = number;
@@ -563,7 +584,7 @@ export interface GenerateMacInput {
   KeyIdentifier: string;
   MessageData: string | redacted.Redacted<string>;
   GenerationAttributes: MacAttributes;
-  MacLength?: number;
+  MacLength?: number | undefined;
 }
 export type MacOutputType = string | redacted.Redacted<string>;
 export interface GenerateMacOutput {
@@ -599,7 +620,7 @@ export interface AmexAttributes {
   PanSequenceNumber: string;
   ApplicationTransactionCounter: string;
   AuthorizationRequestKeyIdentifier: string;
-  CurrentPinAttributes?: CurrentPinAttributes;
+  CurrentPinAttributes?: CurrentPinAttributes | undefined;
 }
 export interface VisaAttributes {
   MajorKeyDerivationMode: MajorKeyDerivationMode;
@@ -607,7 +628,7 @@ export interface VisaAttributes {
   PanSequenceNumber: string;
   ApplicationTransactionCounter: string;
   AuthorizationRequestKeyIdentifier: string;
-  CurrentPinAttributes?: CurrentPinAttributes;
+  CurrentPinAttributes?: CurrentPinAttributes | undefined;
 }
 export interface Emv2000Attributes {
   MajorKeyDerivationMode: MajorKeyDerivationMode;
@@ -624,25 +645,37 @@ export interface MasterCardAttributes {
 export type DerivationMethodAttributes =
   | {
       EmvCommon: EmvCommonAttributes;
-      Amex?: never;
-      Visa?: never;
-      Emv2000?: never;
-      Mastercard?: never;
+      Amex?: undefined;
+      Visa?: undefined;
+      Emv2000?: undefined;
+      Mastercard?: undefined;
     }
-  | { EmvCommon?: never; Amex: AmexAttributes; Visa?: never; Emv2000?: never; Mastercard?: never }
-  | { EmvCommon?: never; Amex?: never; Visa: VisaAttributes; Emv2000?: never; Mastercard?: never }
   | {
-      EmvCommon?: never;
-      Amex?: never;
-      Visa?: never;
+      EmvCommon?: undefined;
+      Amex: AmexAttributes;
+      Visa?: undefined;
+      Emv2000?: undefined;
+      Mastercard?: undefined;
+    }
+  | {
+      EmvCommon?: undefined;
+      Amex?: undefined;
+      Visa: VisaAttributes;
+      Emv2000?: undefined;
+      Mastercard?: undefined;
+    }
+  | {
+      EmvCommon?: undefined;
+      Amex?: undefined;
+      Visa?: undefined;
       Emv2000: Emv2000Attributes;
-      Mastercard?: never;
+      Mastercard?: undefined;
     }
   | {
-      EmvCommon?: never;
-      Amex?: never;
-      Visa?: never;
-      Emv2000?: never;
+      EmvCommon?: undefined;
+      Amex?: undefined;
+      Visa?: undefined;
+      Emv2000?: undefined;
       Mastercard: MasterCardAttributes;
     };
 export interface GenerateMacEmvPinChangeInput {
@@ -659,8 +692,8 @@ export type EncryptedPinBlockType = string | redacted.Redacted<string>;
 export interface VisaAmexDerivationOutputs {
   AuthorizationRequestKeyArn: string;
   AuthorizationRequestKeyCheckValue: string;
-  CurrentPinPekArn?: string;
-  CurrentPinPekKeyCheckValue?: string;
+  CurrentPinPekArn?: string | undefined;
+  CurrentPinPekKeyCheckValue?: string | undefined;
 }
 export interface GenerateMacEmvPinChangeOutput {
   NewPinPekArn: string;
@@ -671,7 +704,7 @@ export interface GenerateMacEmvPinChangeOutput {
   NewPinPekKeyCheckValue: string;
   SecureMessagingIntegrityKeyCheckValue: string;
   SecureMessagingConfidentialityKeyCheckValue: string;
-  VisaAmexDerivationOutputs?: VisaAmexDerivationOutputs;
+  VisaAmexDerivationOutputs?: VisaAmexDerivationOutputs | undefined;
 }
 export type IntegerRangeBetween0And6 = number;
 export interface VisaPin {
@@ -710,50 +743,50 @@ export interface Ibm3624PinFromOffset {
 export type PinGenerationAttributes =
   | {
       VisaPin: VisaPin;
-      VisaPinVerificationValue?: never;
-      Ibm3624PinOffset?: never;
-      Ibm3624NaturalPin?: never;
-      Ibm3624RandomPin?: never;
-      Ibm3624PinFromOffset?: never;
+      VisaPinVerificationValue?: undefined;
+      Ibm3624PinOffset?: undefined;
+      Ibm3624NaturalPin?: undefined;
+      Ibm3624RandomPin?: undefined;
+      Ibm3624PinFromOffset?: undefined;
     }
   | {
-      VisaPin?: never;
+      VisaPin?: undefined;
       VisaPinVerificationValue: VisaPinVerificationValue;
-      Ibm3624PinOffset?: never;
-      Ibm3624NaturalPin?: never;
-      Ibm3624RandomPin?: never;
-      Ibm3624PinFromOffset?: never;
+      Ibm3624PinOffset?: undefined;
+      Ibm3624NaturalPin?: undefined;
+      Ibm3624RandomPin?: undefined;
+      Ibm3624PinFromOffset?: undefined;
     }
   | {
-      VisaPin?: never;
-      VisaPinVerificationValue?: never;
+      VisaPin?: undefined;
+      VisaPinVerificationValue?: undefined;
       Ibm3624PinOffset: Ibm3624PinOffset;
-      Ibm3624NaturalPin?: never;
-      Ibm3624RandomPin?: never;
-      Ibm3624PinFromOffset?: never;
+      Ibm3624NaturalPin?: undefined;
+      Ibm3624RandomPin?: undefined;
+      Ibm3624PinFromOffset?: undefined;
     }
   | {
-      VisaPin?: never;
-      VisaPinVerificationValue?: never;
-      Ibm3624PinOffset?: never;
+      VisaPin?: undefined;
+      VisaPinVerificationValue?: undefined;
+      Ibm3624PinOffset?: undefined;
       Ibm3624NaturalPin: Ibm3624NaturalPin;
-      Ibm3624RandomPin?: never;
-      Ibm3624PinFromOffset?: never;
+      Ibm3624RandomPin?: undefined;
+      Ibm3624PinFromOffset?: undefined;
     }
   | {
-      VisaPin?: never;
-      VisaPinVerificationValue?: never;
-      Ibm3624PinOffset?: never;
-      Ibm3624NaturalPin?: never;
+      VisaPin?: undefined;
+      VisaPinVerificationValue?: undefined;
+      Ibm3624PinOffset?: undefined;
+      Ibm3624NaturalPin?: undefined;
       Ibm3624RandomPin: Ibm3624RandomPin;
-      Ibm3624PinFromOffset?: never;
+      Ibm3624PinFromOffset?: undefined;
     }
   | {
-      VisaPin?: never;
-      VisaPinVerificationValue?: never;
-      Ibm3624PinOffset?: never;
-      Ibm3624NaturalPin?: never;
-      Ibm3624RandomPin?: never;
+      VisaPin?: undefined;
+      VisaPinVerificationValue?: undefined;
+      Ibm3624PinOffset?: undefined;
+      Ibm3624NaturalPin?: undefined;
+      Ibm3624RandomPin?: undefined;
       Ibm3624PinFromOffset: Ibm3624PinFromOffset;
     };
 export type IntegerRangeBetween4And12 = number;
@@ -767,15 +800,15 @@ export interface GeneratePinDataInput {
   GenerationKeyIdentifier: string;
   EncryptionKeyIdentifier: string;
   GenerationAttributes: PinGenerationAttributes;
-  PinDataLength?: number;
-  PrimaryAccountNumber?: string | redacted.Redacted<string>;
+  PinDataLength?: number | undefined;
+  PrimaryAccountNumber?: string | redacted.Redacted<string> | undefined;
   PinBlockFormat: PinBlockFormatForPinData;
-  EncryptionWrappedKey?: WrappedKey;
+  EncryptionWrappedKey?: WrappedKey | undefined;
 }
 export type VerificationValueType = string | redacted.Redacted<string>;
 export type PinData =
-  | { PinOffset: string | redacted.Redacted<string>; VerificationValue?: never }
-  | { PinOffset?: never; VerificationValue: string | redacted.Redacted<string> };
+  | { PinOffset: string | redacted.Redacted<string>; VerificationValue?: undefined }
+  | { PinOffset?: undefined; VerificationValue: string | redacted.Redacted<string> };
 export interface GeneratePinDataOutput {
   GenerationKeyArn: string;
   GenerationKeyCheckValue: string;
@@ -785,17 +818,17 @@ export interface GeneratePinDataOutput {
   PinData: PinData;
 }
 export type ReEncryptionAttributes =
-  | { Symmetric: SymmetricEncryptionAttributes; Asymmetric?: never; Dukpt?: never }
-  | { Symmetric?: never; Asymmetric: AsymmetricEncryptionAttributes; Dukpt?: never }
-  | { Symmetric?: never; Asymmetric?: never; Dukpt: DukptEncryptionAttributes };
+  | { Symmetric: SymmetricEncryptionAttributes; Asymmetric?: undefined; Dukpt?: undefined }
+  | { Symmetric?: undefined; Asymmetric: AsymmetricEncryptionAttributes; Dukpt?: undefined }
+  | { Symmetric?: undefined; Asymmetric?: undefined; Dukpt: DukptEncryptionAttributes };
 export interface ReEncryptDataInput {
   IncomingKeyIdentifier: string;
   OutgoingKeyIdentifier: string;
   CipherText: string | redacted.Redacted<string>;
   IncomingEncryptionAttributes: ReEncryptionAttributes;
   OutgoingEncryptionAttributes: ReEncryptionAttributes;
-  IncomingWrappedKey?: WrappedKey;
-  OutgoingWrappedKey?: WrappedKey;
+  IncomingWrappedKey?: WrappedKey | undefined;
+  OutgoingWrappedKey?: WrappedKey | undefined;
 }
 export interface ReEncryptDataOutput {
   KeyArn: string;
@@ -821,7 +854,7 @@ export type OutgoingKeyMaterial = { Tr31KeyBlock: OutgoingTr31KeyBlock };
 export interface TranslateKeyMaterialInput {
   IncomingKeyMaterial: IncomingKeyMaterial;
   OutgoingKeyMaterial: OutgoingKeyMaterial;
-  KeyCheckValueAlgorithm?: string;
+  KeyCheckValueAlgorithm?: string | undefined;
 }
 export type KeyMaterial = string | redacted.Redacted<string>;
 export type WrappedKeyMaterialFormat = string;
@@ -843,44 +876,44 @@ export interface TranslationPinDataAs2805Format0 {
 export type TranslationIsoFormats =
   | {
       IsoFormat0: TranslationPinDataIsoFormat034;
-      IsoFormat1?: never;
-      IsoFormat3?: never;
-      IsoFormat4?: never;
-      As2805Format0?: never;
+      IsoFormat1?: undefined;
+      IsoFormat3?: undefined;
+      IsoFormat4?: undefined;
+      As2805Format0?: undefined;
     }
   | {
-      IsoFormat0?: never;
+      IsoFormat0?: undefined;
       IsoFormat1: TranslationPinDataIsoFormat1;
-      IsoFormat3?: never;
-      IsoFormat4?: never;
-      As2805Format0?: never;
+      IsoFormat3?: undefined;
+      IsoFormat4?: undefined;
+      As2805Format0?: undefined;
     }
   | {
-      IsoFormat0?: never;
-      IsoFormat1?: never;
+      IsoFormat0?: undefined;
+      IsoFormat1?: undefined;
       IsoFormat3: TranslationPinDataIsoFormat034;
-      IsoFormat4?: never;
-      As2805Format0?: never;
+      IsoFormat4?: undefined;
+      As2805Format0?: undefined;
     }
   | {
-      IsoFormat0?: never;
-      IsoFormat1?: never;
-      IsoFormat3?: never;
+      IsoFormat0?: undefined;
+      IsoFormat1?: undefined;
+      IsoFormat3?: undefined;
       IsoFormat4: TranslationPinDataIsoFormat034;
-      As2805Format0?: never;
+      As2805Format0?: undefined;
     }
   | {
-      IsoFormat0?: never;
-      IsoFormat1?: never;
-      IsoFormat3?: never;
-      IsoFormat4?: never;
+      IsoFormat0?: undefined;
+      IsoFormat1?: undefined;
+      IsoFormat3?: undefined;
+      IsoFormat4?: undefined;
       As2805Format0: TranslationPinDataAs2805Format0;
     };
 export type HexEvenLengthBetween16And32 = string | redacted.Redacted<string>;
 export interface DukptDerivationAttributes {
   KeySerialNumber: string;
-  DukptKeyDerivationType?: DukptDerivationType;
-  DukptKeyVariant?: DukptKeyVariant;
+  DukptKeyDerivationType?: DukptDerivationType | undefined;
+  DukptKeyVariant?: DukptKeyVariant | undefined;
 }
 export type SystemTraceAuditNumberType = string;
 export type TransactionAmountType = string;
@@ -894,11 +927,11 @@ export interface TranslatePinDataInput {
   IncomingTranslationAttributes: TranslationIsoFormats;
   OutgoingTranslationAttributes: TranslationIsoFormats;
   EncryptedPinBlock: string | redacted.Redacted<string>;
-  IncomingDukptAttributes?: DukptDerivationAttributes;
-  OutgoingDukptAttributes?: DukptDerivationAttributes;
-  IncomingWrappedKey?: WrappedKey;
-  OutgoingWrappedKey?: WrappedKey;
-  IncomingAs2805Attributes?: As2805PekDerivationAttributes;
+  IncomingDukptAttributes?: DukptDerivationAttributes | undefined;
+  OutgoingDukptAttributes?: DukptDerivationAttributes | undefined;
+  IncomingWrappedKey?: WrappedKey | undefined;
+  OutgoingWrappedKey?: WrappedKey | undefined;
+  IncomingAs2805Attributes?: As2805PekDerivationAttributes | undefined;
 }
 export interface TranslatePinDataOutput {
   PinBlock: string | redacted.Redacted<string>;
@@ -911,24 +944,24 @@ export interface CryptogramVerificationArpcMethod1 {
 export type ProprietaryAuthenticationDataType = string | redacted.Redacted<string>;
 export interface CryptogramVerificationArpcMethod2 {
   CardStatusUpdate: string;
-  ProprietaryAuthenticationData?: string | redacted.Redacted<string>;
+  ProprietaryAuthenticationData?: string | redacted.Redacted<string> | undefined;
 }
 export type CryptogramAuthResponse =
-  | { ArpcMethod1: CryptogramVerificationArpcMethod1; ArpcMethod2?: never }
-  | { ArpcMethod1?: never; ArpcMethod2: CryptogramVerificationArpcMethod2 };
+  | { ArpcMethod1: CryptogramVerificationArpcMethod1; ArpcMethod2?: undefined }
+  | { ArpcMethod1?: undefined; ArpcMethod2: CryptogramVerificationArpcMethod2 };
 export interface VerifyAuthRequestCryptogramInput {
   KeyIdentifier: string;
   TransactionData: string | redacted.Redacted<string>;
   AuthRequestCryptogram: string | redacted.Redacted<string>;
   MajorKeyDerivationMode: MajorKeyDerivationMode;
   SessionKeyDerivationAttributes: SessionKeyDerivation;
-  AuthResponseAttributes?: CryptogramAuthResponse;
+  AuthResponseAttributes?: CryptogramAuthResponse | undefined;
 }
 export type AuthResponseValueType = string | redacted.Redacted<string>;
 export interface VerifyAuthRequestCryptogramOutput {
   KeyArn: string;
   KeyCheckValue: string;
-  AuthResponseValue?: string | redacted.Redacted<string>;
+  AuthResponseValue?: string | redacted.Redacted<string> | undefined;
 }
 export interface DiscoverDynamicCardVerificationCode {
   CardExpiryDate: string | redacted.Redacted<string>;
@@ -938,82 +971,82 @@ export interface DiscoverDynamicCardVerificationCode {
 export type CardVerificationAttributes =
   | {
       AmexCardSecurityCodeVersion1: AmexCardSecurityCodeVersion1;
-      AmexCardSecurityCodeVersion2?: never;
-      CardVerificationValue1?: never;
-      CardVerificationValue2?: never;
-      CardHolderVerificationValue?: never;
-      DynamicCardVerificationCode?: never;
-      DynamicCardVerificationValue?: never;
-      DiscoverDynamicCardVerificationCode?: never;
+      AmexCardSecurityCodeVersion2?: undefined;
+      CardVerificationValue1?: undefined;
+      CardVerificationValue2?: undefined;
+      CardHolderVerificationValue?: undefined;
+      DynamicCardVerificationCode?: undefined;
+      DynamicCardVerificationValue?: undefined;
+      DiscoverDynamicCardVerificationCode?: undefined;
     }
   | {
-      AmexCardSecurityCodeVersion1?: never;
+      AmexCardSecurityCodeVersion1?: undefined;
       AmexCardSecurityCodeVersion2: AmexCardSecurityCodeVersion2;
-      CardVerificationValue1?: never;
-      CardVerificationValue2?: never;
-      CardHolderVerificationValue?: never;
-      DynamicCardVerificationCode?: never;
-      DynamicCardVerificationValue?: never;
-      DiscoverDynamicCardVerificationCode?: never;
+      CardVerificationValue1?: undefined;
+      CardVerificationValue2?: undefined;
+      CardHolderVerificationValue?: undefined;
+      DynamicCardVerificationCode?: undefined;
+      DynamicCardVerificationValue?: undefined;
+      DiscoverDynamicCardVerificationCode?: undefined;
     }
   | {
-      AmexCardSecurityCodeVersion1?: never;
-      AmexCardSecurityCodeVersion2?: never;
+      AmexCardSecurityCodeVersion1?: undefined;
+      AmexCardSecurityCodeVersion2?: undefined;
       CardVerificationValue1: CardVerificationValue1;
-      CardVerificationValue2?: never;
-      CardHolderVerificationValue?: never;
-      DynamicCardVerificationCode?: never;
-      DynamicCardVerificationValue?: never;
-      DiscoverDynamicCardVerificationCode?: never;
+      CardVerificationValue2?: undefined;
+      CardHolderVerificationValue?: undefined;
+      DynamicCardVerificationCode?: undefined;
+      DynamicCardVerificationValue?: undefined;
+      DiscoverDynamicCardVerificationCode?: undefined;
     }
   | {
-      AmexCardSecurityCodeVersion1?: never;
-      AmexCardSecurityCodeVersion2?: never;
-      CardVerificationValue1?: never;
+      AmexCardSecurityCodeVersion1?: undefined;
+      AmexCardSecurityCodeVersion2?: undefined;
+      CardVerificationValue1?: undefined;
       CardVerificationValue2: CardVerificationValue2;
-      CardHolderVerificationValue?: never;
-      DynamicCardVerificationCode?: never;
-      DynamicCardVerificationValue?: never;
-      DiscoverDynamicCardVerificationCode?: never;
+      CardHolderVerificationValue?: undefined;
+      DynamicCardVerificationCode?: undefined;
+      DynamicCardVerificationValue?: undefined;
+      DiscoverDynamicCardVerificationCode?: undefined;
     }
   | {
-      AmexCardSecurityCodeVersion1?: never;
-      AmexCardSecurityCodeVersion2?: never;
-      CardVerificationValue1?: never;
-      CardVerificationValue2?: never;
+      AmexCardSecurityCodeVersion1?: undefined;
+      AmexCardSecurityCodeVersion2?: undefined;
+      CardVerificationValue1?: undefined;
+      CardVerificationValue2?: undefined;
       CardHolderVerificationValue: CardHolderVerificationValue;
-      DynamicCardVerificationCode?: never;
-      DynamicCardVerificationValue?: never;
-      DiscoverDynamicCardVerificationCode?: never;
+      DynamicCardVerificationCode?: undefined;
+      DynamicCardVerificationValue?: undefined;
+      DiscoverDynamicCardVerificationCode?: undefined;
     }
   | {
-      AmexCardSecurityCodeVersion1?: never;
-      AmexCardSecurityCodeVersion2?: never;
-      CardVerificationValue1?: never;
-      CardVerificationValue2?: never;
-      CardHolderVerificationValue?: never;
+      AmexCardSecurityCodeVersion1?: undefined;
+      AmexCardSecurityCodeVersion2?: undefined;
+      CardVerificationValue1?: undefined;
+      CardVerificationValue2?: undefined;
+      CardHolderVerificationValue?: undefined;
       DynamicCardVerificationCode: DynamicCardVerificationCode;
-      DynamicCardVerificationValue?: never;
-      DiscoverDynamicCardVerificationCode?: never;
+      DynamicCardVerificationValue?: undefined;
+      DiscoverDynamicCardVerificationCode?: undefined;
     }
   | {
-      AmexCardSecurityCodeVersion1?: never;
-      AmexCardSecurityCodeVersion2?: never;
-      CardVerificationValue1?: never;
-      CardVerificationValue2?: never;
-      CardHolderVerificationValue?: never;
-      DynamicCardVerificationCode?: never;
+      AmexCardSecurityCodeVersion1?: undefined;
+      AmexCardSecurityCodeVersion2?: undefined;
+      CardVerificationValue1?: undefined;
+      CardVerificationValue2?: undefined;
+      CardHolderVerificationValue?: undefined;
+      DynamicCardVerificationCode?: undefined;
       DynamicCardVerificationValue: DynamicCardVerificationValue;
-      DiscoverDynamicCardVerificationCode?: never;
+      DiscoverDynamicCardVerificationCode?: undefined;
     }
   | {
-      AmexCardSecurityCodeVersion1?: never;
-      AmexCardSecurityCodeVersion2?: never;
-      CardVerificationValue1?: never;
-      CardVerificationValue2?: never;
-      CardHolderVerificationValue?: never;
-      DynamicCardVerificationCode?: never;
-      DynamicCardVerificationValue?: never;
+      AmexCardSecurityCodeVersion1?: undefined;
+      AmexCardSecurityCodeVersion2?: undefined;
+      CardVerificationValue1?: undefined;
+      CardVerificationValue2?: undefined;
+      CardHolderVerificationValue?: undefined;
+      DynamicCardVerificationCode?: undefined;
+      DynamicCardVerificationValue?: undefined;
       DiscoverDynamicCardVerificationCode: DiscoverDynamicCardVerificationCode;
     };
 export interface VerifyCardValidationDataInput {
@@ -1032,7 +1065,7 @@ export interface VerifyMacInput {
   MessageData: string | redacted.Redacted<string>;
   Mac: string | redacted.Redacted<string>;
   VerificationAttributes: MacAttributes;
-  MacLength?: number;
+  MacLength?: number | undefined;
 }
 export interface VerifyMacOutput {
   KeyArn: string;
@@ -1049,8 +1082,8 @@ export interface Ibm3624PinVerification {
   PinOffset: string | redacted.Redacted<string>;
 }
 export type PinVerificationAttributes =
-  | { VisaPin: VisaPinVerification; Ibm3624Pin?: never }
-  | { VisaPin?: never; Ibm3624Pin: Ibm3624PinVerification };
+  | { VisaPin: VisaPinVerification; Ibm3624Pin?: undefined }
+  | { VisaPin?: undefined; Ibm3624Pin: Ibm3624PinVerification };
 export interface DukptAttributes {
   KeySerialNumber: string;
   DukptDerivationType: DukptDerivationType;
@@ -1060,11 +1093,11 @@ export interface VerifyPinDataInput {
   EncryptionKeyIdentifier: string;
   VerificationAttributes: PinVerificationAttributes;
   EncryptedPinBlock: string | redacted.Redacted<string>;
-  PrimaryAccountNumber?: string | redacted.Redacted<string>;
+  PrimaryAccountNumber?: string | redacted.Redacted<string> | undefined;
   PinBlockFormat: PinBlockFormatForPinData;
-  PinDataLength?: number;
-  DukptAttributes?: DukptAttributes;
-  EncryptionWrappedKey?: WrappedKey;
+  PinDataLength?: number | undefined;
+  DukptAttributes?: DukptAttributes | undefined;
+  EncryptionWrappedKey?: WrappedKey | undefined;
 }
 export interface VerifyPinDataOutput {
   VerificationKeyArn: string;
@@ -1109,7 +1142,7 @@ export type DecryptDataError =
  * - ImportKey
  */
 export const decryptData: API.OperationMethod<
-  DecryptDataInput,
+  DecryptDataInput & RegionInput,
   DecryptDataOutput,
   DecryptDataError,
   Credentials | HttpClient.HttpClient
@@ -1167,7 +1200,7 @@ export type EncryptDataError =
  * - ReEncryptData
  */
 export const encryptData: API.OperationMethod<
-  EncryptDataInput,
+  EncryptDataInput & RegionInput,
   EncryptDataOutput,
   EncryptDataError,
   Credentials | HttpClient.HttpClient
@@ -1209,7 +1242,7 @@ export type GenerateAs2805KekValidationError =
  * **Cross-account use**: This operation supports cross-account use when the key has a resource-based policy that grants access. For more information, see Resource-based policies.
  */
 export const generateAs2805KekValidation: API.OperationMethod<
-  GenerateAs2805KekValidationInput,
+  GenerateAs2805KekValidationInput & RegionInput,
   GenerateAs2805KekValidationOutput,
   GenerateAs2805KekValidationError,
   Credentials | HttpClient.HttpClient
@@ -1253,7 +1286,7 @@ export type GenerateAuthRequestCryptogramError =
  * - VerifyAuthRequestCryptogram
  */
 export const generateAuthRequestCryptogram: API.OperationMethod<
-  GenerateAuthRequestCryptogramInput,
+  GenerateAuthRequestCryptogramInput & RegionInput,
   GenerateAuthRequestCryptogramOutput,
   GenerateAuthRequestCryptogramError,
   Credentials | HttpClient.HttpClient
@@ -1297,7 +1330,7 @@ export type GenerateCardValidationDataError =
  * - VerifyCardValidationData
  */
 export const generateCardValidationData: API.OperationMethod<
-  GenerateCardValidationDataInput,
+  GenerateCardValidationDataInput & RegionInput,
   GenerateCardValidationDataOutput,
   GenerateCardValidationDataError,
   Credentials | HttpClient.HttpClient
@@ -1341,7 +1374,7 @@ export type GenerateMacError =
  * - VerifyMac
  */
 export const generateMac: API.OperationMethod<
-  GenerateMacInput,
+  GenerateMacInput & RegionInput,
   GenerateMacOutput,
   GenerateMacError,
   Credentials | HttpClient.HttpClient
@@ -1391,7 +1424,7 @@ export type GenerateMacEmvPinChangeError =
  * - GenerateMac
  */
 export const generateMacEmvPinChange: API.OperationMethod<
-  GenerateMacEmvPinChangeInput,
+  GenerateMacEmvPinChangeInput & RegionInput,
   GenerateMacEmvPinChangeOutput,
   GenerateMacEmvPinChangeError,
   Credentials | HttpClient.HttpClient
@@ -1439,7 +1472,7 @@ export type GeneratePinDataError =
  * - VerifyPinData
  */
 export const generatePinData: API.OperationMethod<
-  GeneratePinDataInput,
+  GeneratePinDataInput & RegionInput,
   GeneratePinDataOutput,
   GeneratePinDataError,
   Credentials | HttpClient.HttpClient
@@ -1497,7 +1530,7 @@ export type ReEncryptDataError =
  * - ImportKey
  */
 export const reEncryptData: API.OperationMethod<
-  ReEncryptDataInput,
+  ReEncryptDataInput & RegionInput,
   ReEncryptDataOutput,
   ReEncryptDataError,
   Credentials | HttpClient.HttpClient
@@ -1545,7 +1578,7 @@ export type TranslateKeyMaterialError =
  * - ImportKey
  */
 export const translateKeyMaterial: API.OperationMethod<
-  TranslateKeyMaterialInput,
+  TranslateKeyMaterialInput & RegionInput,
   TranslateKeyMaterialOutput,
   TranslateKeyMaterialError,
   Credentials | HttpClient.HttpClient
@@ -1599,7 +1632,7 @@ export type TranslatePinDataError =
  * - VerifyPinData
  */
 export const translatePinData: API.OperationMethod<
-  TranslatePinDataInput,
+  TranslatePinDataInput & RegionInput,
   TranslatePinDataOutput,
   TranslatePinDataError,
   Credentials | HttpClient.HttpClient
@@ -1644,7 +1677,7 @@ export type VerifyAuthRequestCryptogramError =
  * - VerifyPinData
  */
 export const verifyAuthRequestCryptogram: API.OperationMethod<
-  VerifyAuthRequestCryptogramInput,
+  VerifyAuthRequestCryptogramInput & RegionInput,
   VerifyAuthRequestCryptogramOutput,
   VerifyAuthRequestCryptogramError,
   Credentials | HttpClient.HttpClient
@@ -1692,7 +1725,7 @@ export type VerifyCardValidationDataError =
  * - VerifyPinData
  */
 export const verifyCardValidationData: API.OperationMethod<
-  VerifyCardValidationDataInput,
+  VerifyCardValidationDataInput & RegionInput,
   VerifyCardValidationDataOutput,
   VerifyCardValidationDataError,
   Credentials | HttpClient.HttpClient
@@ -1736,7 +1769,7 @@ export type VerifyMacError =
  * - GenerateMac
  */
 export const verifyMac: API.OperationMethod<
-  VerifyMacInput,
+  VerifyMacInput & RegionInput,
   VerifyMacOutput,
   VerifyMacError,
   Credentials | HttpClient.HttpClient
@@ -1782,7 +1815,7 @@ export type VerifyPinDataError =
  * - TranslatePinData
  */
 export const verifyPinData: API.OperationMethod<
-  VerifyPinDataInput,
+  VerifyPinDataInput & RegionInput,
   VerifyPinDataOutput,
   VerifyPinDataError,
   Credentials | HttpClient.HttpClient

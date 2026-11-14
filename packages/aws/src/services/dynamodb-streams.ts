@@ -3,9 +3,11 @@ import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
+import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -164,7 +166,7 @@ export class InternalServerError
 export class LimitExceededException
   extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()("LimitExceededException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
-  }) {}
+  }).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()("ResourceNotFoundException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
@@ -178,14 +180,14 @@ export type PositiveIntegerObject = number;
 export type ShardId = string;
 export type ShardFilterType = "CHILD_SHARDS" | (string & {});
 export interface ShardFilter {
-  Type?: ShardFilterType;
-  ShardId?: string;
+  Type?: ShardFilterType | undefined;
+  ShardId?: string | undefined;
 }
 export interface DescribeStreamInput {
   StreamArn: string;
-  Limit?: number;
-  ExclusiveStartShardId?: string;
-  ShardFilter?: ShardFilter;
+  Limit?: number | undefined;
+  ExclusiveStartShardId?: string | undefined;
+  ShardFilter?: ShardFilter | undefined;
 }
 export type StreamStatus = "ENABLING" | "ENABLED" | "DISABLING" | "DISABLED" | (string & {});
 export type StreamViewType =
@@ -204,33 +206,33 @@ export interface KeySchemaElement {
 export type KeySchema = KeySchemaElement[];
 export type SequenceNumber = string;
 export interface SequenceNumberRange {
-  StartingSequenceNumber?: string;
-  EndingSequenceNumber?: string;
+  StartingSequenceNumber?: string | undefined;
+  EndingSequenceNumber?: string | undefined;
 }
 export interface Shard {
-  ShardId?: string;
-  SequenceNumberRange?: SequenceNumberRange;
-  ParentShardId?: string;
+  ShardId?: string | undefined;
+  SequenceNumberRange?: SequenceNumberRange | undefined;
+  ParentShardId?: string | undefined;
 }
 export type ShardDescriptionList = Shard[];
 export interface StreamDescription {
-  StreamArn?: string;
-  StreamLabel?: string;
-  StreamStatus?: StreamStatus;
-  StreamViewType?: StreamViewType;
-  CreationRequestDateTime?: Date;
-  TableName?: string;
-  KeySchema?: KeySchemaElement[];
-  Shards?: Shard[];
-  LastEvaluatedShardId?: string;
+  StreamArn?: string | undefined;
+  StreamLabel?: string | undefined;
+  StreamStatus?: StreamStatus | undefined;
+  StreamViewType?: StreamViewType | undefined;
+  CreationRequestDateTime?: Date | undefined;
+  TableName?: string | undefined;
+  KeySchema?: KeySchemaElement[] | undefined;
+  Shards?: Shard[] | undefined;
+  LastEvaluatedShardId?: string | undefined;
 }
 export interface DescribeStreamOutput {
-  StreamDescription?: StreamDescription;
+  StreamDescription?: StreamDescription | undefined;
 }
 export type ShardIterator = string;
 export interface GetRecordsInput {
   ShardIterator: string;
-  Limit?: number;
+  Limit?: number | undefined;
 }
 export type OperationType = "INSERT" | "MODIFY" | "REMOVE" | (string & {});
 export type AttributeName = string;
@@ -247,182 +249,184 @@ export type BooleanAttributeValue = boolean;
 export type AttributeValue =
   | {
       S: string;
-      N?: never;
-      B?: never;
-      SS?: never;
-      NS?: never;
-      BS?: never;
-      M?: never;
-      L?: never;
-      NULL?: never;
-      BOOL?: never;
+      N?: undefined;
+      B?: undefined;
+      SS?: undefined;
+      NS?: undefined;
+      BS?: undefined;
+      M?: undefined;
+      L?: undefined;
+      NULL?: undefined;
+      BOOL?: undefined;
     }
   | {
-      S?: never;
+      S?: undefined;
       N: string;
-      B?: never;
-      SS?: never;
-      NS?: never;
-      BS?: never;
-      M?: never;
-      L?: never;
-      NULL?: never;
-      BOOL?: never;
+      B?: undefined;
+      SS?: undefined;
+      NS?: undefined;
+      BS?: undefined;
+      M?: undefined;
+      L?: undefined;
+      NULL?: undefined;
+      BOOL?: undefined;
     }
   | {
-      S?: never;
-      N?: never;
+      S?: undefined;
+      N?: undefined;
       B: Uint8Array;
-      SS?: never;
-      NS?: never;
-      BS?: never;
-      M?: never;
-      L?: never;
-      NULL?: never;
-      BOOL?: never;
+      SS?: undefined;
+      NS?: undefined;
+      BS?: undefined;
+      M?: undefined;
+      L?: undefined;
+      NULL?: undefined;
+      BOOL?: undefined;
     }
   | {
-      S?: never;
-      N?: never;
-      B?: never;
+      S?: undefined;
+      N?: undefined;
+      B?: undefined;
       SS: string[];
-      NS?: never;
-      BS?: never;
-      M?: never;
-      L?: never;
-      NULL?: never;
-      BOOL?: never;
+      NS?: undefined;
+      BS?: undefined;
+      M?: undefined;
+      L?: undefined;
+      NULL?: undefined;
+      BOOL?: undefined;
     }
   | {
-      S?: never;
-      N?: never;
-      B?: never;
-      SS?: never;
+      S?: undefined;
+      N?: undefined;
+      B?: undefined;
+      SS?: undefined;
       NS: string[];
-      BS?: never;
-      M?: never;
-      L?: never;
-      NULL?: never;
-      BOOL?: never;
+      BS?: undefined;
+      M?: undefined;
+      L?: undefined;
+      NULL?: undefined;
+      BOOL?: undefined;
     }
   | {
-      S?: never;
-      N?: never;
-      B?: never;
-      SS?: never;
-      NS?: never;
+      S?: undefined;
+      N?: undefined;
+      B?: undefined;
+      SS?: undefined;
+      NS?: undefined;
       BS: Uint8Array[];
-      M?: never;
-      L?: never;
-      NULL?: never;
-      BOOL?: never;
+      M?: undefined;
+      L?: undefined;
+      NULL?: undefined;
+      BOOL?: undefined;
     }
   | {
-      S?: never;
-      N?: never;
-      B?: never;
-      SS?: never;
-      NS?: never;
-      BS?: never;
+      S?: undefined;
+      N?: undefined;
+      B?: undefined;
+      SS?: undefined;
+      NS?: undefined;
+      BS?: undefined;
       M: { [key: string]: AttributeValue | undefined };
-      L?: never;
-      NULL?: never;
-      BOOL?: never;
+      L?: undefined;
+      NULL?: undefined;
+      BOOL?: undefined;
     }
   | {
-      S?: never;
-      N?: never;
-      B?: never;
-      SS?: never;
-      NS?: never;
-      BS?: never;
-      M?: never;
+      S?: undefined;
+      N?: undefined;
+      B?: undefined;
+      SS?: undefined;
+      NS?: undefined;
+      BS?: undefined;
+      M?: undefined;
       L: AttributeValue[];
-      NULL?: never;
-      BOOL?: never;
+      NULL?: undefined;
+      BOOL?: undefined;
     }
   | {
-      S?: never;
-      N?: never;
-      B?: never;
-      SS?: never;
-      NS?: never;
-      BS?: never;
-      M?: never;
-      L?: never;
+      S?: undefined;
+      N?: undefined;
+      B?: undefined;
+      SS?: undefined;
+      NS?: undefined;
+      BS?: undefined;
+      M?: undefined;
+      L?: undefined;
       NULL: boolean;
-      BOOL?: never;
+      BOOL?: undefined;
     }
   | {
-      S?: never;
-      N?: never;
-      B?: never;
-      SS?: never;
-      NS?: never;
-      BS?: never;
-      M?: never;
-      L?: never;
-      NULL?: never;
+      S?: undefined;
+      N?: undefined;
+      B?: undefined;
+      SS?: undefined;
+      NS?: undefined;
+      BS?: undefined;
+      M?: undefined;
+      L?: undefined;
+      NULL?: undefined;
       BOOL: boolean;
     };
 export type AttributeMap = { [key: string]: AttributeValue | undefined };
 export type PositiveLongObject = number;
 export interface StreamRecord {
-  ApproximateCreationDateTime?: Date;
-  Keys?: { [key: string]: AttributeValue | undefined };
-  NewImage?: { [key: string]: AttributeValue | undefined };
-  OldImage?: { [key: string]: AttributeValue | undefined };
-  SequenceNumber?: string;
-  SizeBytes?: number;
-  StreamViewType?: StreamViewType;
+  ApproximateCreationDateTime?: Date | undefined;
+  Keys?: { [key: string]: AttributeValue | undefined } | undefined;
+  NewImage?: { [key: string]: AttributeValue | undefined } | undefined;
+  OldImage?: { [key: string]: AttributeValue | undefined } | undefined;
+  SequenceNumber?: string | undefined;
+  SizeBytes?: number | undefined;
+  StreamViewType?: StreamViewType | undefined;
 }
 export interface Identity {
-  PrincipalId?: string;
-  Type?: string;
+  PrincipalId?: string | undefined;
+  Type?: string | undefined;
 }
 export interface Record {
-  eventID?: string;
-  eventName?: OperationType;
-  eventVersion?: string;
-  eventSource?: string;
-  awsRegion?: string;
-  dynamodb?: StreamRecord;
-  userIdentity?: Identity;
+  eventID?: string | undefined;
+  eventName?: OperationType | undefined;
+  eventVersion?: string | undefined;
+  eventSource?: string | undefined;
+  awsRegion?: string | undefined;
+  dynamodb?: StreamRecord | undefined;
+  userIdentity?: Identity | undefined;
 }
 export type RecordList = Record[];
 export interface GetRecordsOutput {
-  Records?: Record[];
-  NextShardIterator?: string;
+  Records?: Record[] | undefined;
+  NextShardIterator?: string | undefined;
 }
 export type ShardIteratorType =
   | "TRIM_HORIZON"
   | "LATEST"
   | "AT_SEQUENCE_NUMBER"
   | "AFTER_SEQUENCE_NUMBER"
+  | "AT_TIMESTAMP"
   | (string & {});
 export interface GetShardIteratorInput {
   StreamArn: string;
   ShardId: string;
   ShardIteratorType: ShardIteratorType;
-  SequenceNumber?: string;
+  SequenceNumber?: string | undefined;
+  Timestamp?: Date | undefined;
 }
 export interface GetShardIteratorOutput {
-  ShardIterator?: string;
+  ShardIterator?: string | undefined;
 }
 export interface ListStreamsInput {
-  TableName?: string;
-  Limit?: number;
-  ExclusiveStartStreamArn?: string;
+  TableName?: string | undefined;
+  Limit?: number | undefined;
+  ExclusiveStartStreamArn?: string | undefined;
 }
 export interface Stream {
-  StreamArn?: string;
-  TableName?: string;
-  StreamLabel?: string;
+  StreamArn?: string | undefined;
+  TableName?: string | undefined;
+  StreamLabel?: string | undefined;
 }
 export type StreamList = Stream[];
 export interface ListStreamsOutput {
-  Streams?: Stream[];
-  LastEvaluatedStreamArn?: string;
+  Streams?: Stream[] | undefined;
+  LastEvaluatedStreamArn?: string | undefined;
 }
 export type ErrorMessage = string;
 export type DescribeStreamError = InternalServerError | ResourceNotFoundException | CommonErrors;
@@ -438,7 +442,7 @@ export type DescribeStreamError = InternalServerError | ResourceNotFoundExceptio
  * are present, then that shard is closed and can no longer receive more data.
  */
 export const describeStream: API.OperationMethod<
-  DescribeStreamInput,
+  DescribeStreamInput & RegionInput,
   DescribeStreamOutput,
   DescribeStreamError,
   Credentials | HttpClient.HttpClient
@@ -473,7 +477,7 @@ export type GetRecordsError =
  * whichever comes first.
  */
 export const getRecords: API.OperationMethod<
-  GetRecordsInput,
+  GetRecordsInput & RegionInput,
   GetRecordsOutput,
   GetRecordsError,
   Credentials | HttpClient.HttpClient
@@ -509,7 +513,7 @@ export type GetShardIteratorError =
  * A shard iterator expires 15 minutes after it is returned to the requester.
  */
 export const getShardIterator: API.OperationMethod<
-  GetShardIteratorInput,
+  GetShardIteratorInput & RegionInput,
   GetShardIteratorOutput,
   GetShardIteratorError,
   Credentials | HttpClient.HttpClient
@@ -533,7 +537,7 @@ export type ListStreamsError = InternalServerError | ResourceNotFoundException |
  * You can call `ListStreams` at a maximum rate of 5 times per second.
  */
 export const listStreams: API.OperationMethod<
-  ListStreamsInput,
+  ListStreamsInput & RegionInput,
   ListStreamsOutput,
   ListStreamsError,
   Credentials | HttpClient.HttpClient
@@ -706,6 +710,7 @@ function __c2(j: number): any {
           ShardId: S.String,
           ShardIteratorType: S.String,
           SequenceNumber: S.optional(S.String),
+          Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetShardIteratorInput" });
     case 1:

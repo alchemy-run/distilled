@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -84,7 +85,7 @@ export class InternalServiceErrorException
       code: /*@__PURE__*/ S.optional(S.String),
     },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class TooManyRequestsException
   extends /*@__PURE__*/ S.TaggedError<TooManyRequestsException>()(
     "TooManyRequestsException",
@@ -93,7 +94,7 @@ export class TooManyRequestsException
       code: /*@__PURE__*/ S.optional(S.String),
     },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
@@ -117,7 +118,7 @@ export interface GetRevocationStatusRequest {
 export type RevokedEntity = string;
 export type RevokedEntities = string[];
 export interface GetRevocationStatusResponse {
-  revokedEntities?: string[];
+  revokedEntities?: string[] | undefined;
 }
 export type GetRevocationStatusError =
   | AccessDeniedException
@@ -129,7 +130,7 @@ export type GetRevocationStatusError =
  * Retrieves the revocation status for a signed artifact by checking if the signing profile, job, or certificate has been revoked.
  */
 export const getRevocationStatus: API.OperationMethod<
-  GetRevocationStatusRequest,
+  GetRevocationStatusRequest & RegionInput,
   GetRevocationStatusResponse,
   GetRevocationStatusError,
   Credentials | HttpClient.HttpClient

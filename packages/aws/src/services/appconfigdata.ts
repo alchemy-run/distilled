@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -113,7 +114,7 @@ export class InternalServerException
     "InternalServerException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
@@ -131,17 +132,17 @@ export class ThrottlingException
     "ThrottlingException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export type Token = string;
 export interface GetLatestConfigurationRequest {
   ConfigurationToken: string;
 }
 export interface GetLatestConfigurationResponse {
-  NextPollConfigurationToken?: string;
-  NextPollIntervalInSeconds?: number;
-  ContentType?: string;
-  Configuration?: T.StreamingOutputBody;
-  VersionLabel?: string;
+  NextPollConfigurationToken?: string | undefined;
+  NextPollIntervalInSeconds?: number | undefined;
+  ContentType?: string | undefined;
+  Configuration?: T.StreamingOutputBody | undefined;
+  VersionLabel?: string | undefined;
 }
 export type Identifier = string;
 export type OptionalPollSeconds = number;
@@ -149,15 +150,15 @@ export interface StartConfigurationSessionRequest {
   ApplicationIdentifier: string;
   EnvironmentIdentifier: string;
   ConfigurationProfileIdentifier: string;
-  RequiredMinimumPollIntervalInSeconds?: number;
+  RequiredMinimumPollIntervalInSeconds?: number | undefined;
 }
 export interface StartConfigurationSessionResponse {
-  InitialConfigurationToken?: string;
+  InitialConfigurationToken?: string | undefined;
 }
 export type BadRequestReason = string;
 export type InvalidParameterProblem = string;
 export interface InvalidParameterDetail {
-  Problem?: string;
+  Problem?: string | undefined;
 }
 export type InvalidParameterMap = { [key: string]: InvalidParameterDetail | undefined };
 export type BadRequestDetails = {
@@ -189,7 +190,7 @@ export type GetLatestConfigurationError =
  * Pricing.
  */
 export const getLatestConfiguration: API.OperationMethod<
-  GetLatestConfigurationRequest,
+  GetLatestConfigurationRequest & RegionInput,
   GetLatestConfigurationResponse,
   GetLatestConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -222,7 +223,7 @@ export type StartConfigurationSessionError =
  * configuration in the *AppConfig User Guide*.
  */
 export const startConfigurationSession: API.OperationMethod<
-  StartConfigurationSessionRequest,
+  StartConfigurationSessionRequest & RegionInput,
   StartConfigurationSessionResponse,
   StartConfigurationSessionError,
   Credentials | HttpClient.HttpClient

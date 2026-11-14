@@ -1,6 +1,5 @@
 import * as API from "@distilled.cloud/core/api";
-import { debugHttp } from "@distilled.cloud/core/debug";
-import { ConfigError, HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
+import { ConfigError, HTTP_STATUS_MAP, InternalServerError } from "@distilled.cloud/core/errors";
 import type { DefaultErrors } from "@distilled.cloud/core/errors";
 import {
   getAnn,
@@ -11,6 +10,7 @@ import {
 } from "@distilled.cloud/core/protocol-http";
 import { validateResponse } from "@distilled.cloud/core/response-validation";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import { SdkError } from "@distilled.cloud/core/sdk-error";
 import {
   bodySymbol,
   headerSymbol,
@@ -74,7 +74,8 @@ export type GcpOpError =
   | GCPCredentialsError
   | ConfigError
   | SourceError
-  | HttpClientError.HttpClientError;
+  | HttpClientError.HttpClientError
+  | SdkError;
 
 /** Context (requirements) shared by every generated GCP operation. */
 export type GcpOpContext = Credentials | HttpClient.HttpClient;
@@ -171,7 +172,7 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
 
     const http = getAnn(inputAst, httpSymbol) as GcpHttpTrait | undefined;
     if (!http) {
-      throw new Error("operation input is missing the Http() trait");
+      return yield* fail(new SdkError({ message: "operation input is missing the Http() trait" }));
     }
     const inputObj = (input ?? {}) as Record<string, unknown>;
 
@@ -230,9 +231,6 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
         ? Endpoint.withEndpoint(http.baseUrl, override)
         : Region.endpointFor(http.baseUrl, uri, mode);
     const url = `${baseUrl}${uri}${qs ? `?${qs}` : ""}`;
-    if (debugHttp()) {
-      console.error(`[distilled] ${http.method} ${url}`);
-    }
 
     let request = HttpClientRequest.make(http.method)(url).pipe(
       HttpClientRequest.setHeaders(headers),
@@ -264,9 +262,6 @@ const decode = ({
     // Read as text and parse tolerantly -- some error responses (proxies,
     // HTML error pages) carry non-JSON bodies.
     const text = (yield* response.text.pipe(Effect.catch(fail))) ?? "";
-    if (debugHttp()) {
-      console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
-    }
     let json: unknown;
     let nonJson = false;
     if (text.trim().length > 0) {
@@ -308,12 +303,25 @@ const decode = ({
         return yield* fail(tackEnvelope(instance, envelope));
       }
 
-      const unknownInstance = new UnknownGCPError({
-        code: envelope.code ?? status,
-        message,
-        body: json ?? text,
-      });
-      return yield* fail(tackEnvelope(unknownInstance, envelope));
+      // 3. Unmapped 5xx -> retryable server error, as in core's REST
+      //    protocol.
+      if (status >= 500) {
+        const instance = new InternalServerError({
+          message,
+          retryAfter: parseRetryAfterForStatus(status, headers),
+        });
+        return yield* fail(tackEnvelope(instance, envelope));
+      }
+
+      return yield* fail(
+        new UnknownGCPError({
+          status,
+          code: envelope.status,
+          message,
+          details: envelope.details,
+          body: json ?? text,
+        }),
+      );
     }
 
     // Success: the JSON body is the payload verbatim (GCP wire names are
@@ -323,7 +331,7 @@ const decode = ({
     // schema.
     return yield* validateResponse(
       outputAst,
-      nonJson ? text : (json ?? {}),
+      nonJson ? text : json === undefined ? {} : json,
       (cause) => new GCPParseError({ body: nonJson ? text : json, cause }),
     ).pipe(Effect.catch(fail));
   });

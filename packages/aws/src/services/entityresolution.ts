@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -154,21 +155,21 @@ export interface AddPolicyStatementInput {
   effect: StatementEffect;
   action: string[];
   principal: string[];
-  condition?: string;
+  condition?: string | undefined;
 }
 export type PolicyToken = string;
 export type PolicyDocument = string;
 export interface AddPolicyStatementOutput {
   arn: string;
   token: string;
-  policy?: string;
+  policy?: string | undefined;
 }
 export type EntityName = string;
 export type HeaderSafeUniqueId = string;
 export type UniqueIdList = string[];
 export interface BatchDeleteUniqueIdInput {
   workflowName: string;
-  inputSource?: string;
+  inputSource?: string | undefined;
   uniqueIds: string[];
 }
 export type DeleteUniqueIdStatus = "COMPLETED" | "ACCEPTED" | (string & {});
@@ -185,23 +186,23 @@ export type DeletedUniqueIdList = DeletedUniqueId[];
 export type DisconnectedUniqueIdsList = string[];
 export interface BatchDeleteUniqueIdOutput {
   status: DeleteUniqueIdStatus;
-  errors?: DeleteUniqueIdError[];
-  deleted?: DeletedUniqueId[];
-  disconnectedUniqueIds?: string[];
+  errors?: DeleteUniqueIdError[] | undefined;
+  deleted?: DeletedUniqueId[] | undefined;
+  disconnectedUniqueIds?: string[] | undefined;
 }
 export type Description = string;
 export type InputSourceARN = string;
 export type IdNamespaceType = "SOURCE" | "TARGET" | (string & {});
 export interface IdMappingWorkflowInputSource {
   inputSourceARN: string;
-  schemaName?: string;
-  type?: IdNamespaceType;
+  schemaName?: string | undefined;
+  type?: IdNamespaceType | undefined;
 }
 export type IdMappingWorkflowInputSourceConfig = IdMappingWorkflowInputSource[];
 export type KMSArn = string;
 export type S3Path = string;
 export interface IdMappingWorkflowOutputSource {
-  KMSArn?: string;
+  KMSArn?: string | undefined;
   outputS3Path: string;
 }
 export type IdMappingWorkflowOutputSourceConfig = IdMappingWorkflowOutputSource[];
@@ -220,7 +221,7 @@ export type RecordMatchingModel =
   | "MANY_SOURCE_TO_ONE_TARGET"
   | (string & {});
 export interface IdMappingRuleBasedProperties {
-  rules?: Rule[];
+  rules?: Rule[] | undefined;
   ruleDefinitionType: IdMappingWorkflowRuleDefinitionType;
   attributeMatchingModel: AttributeMatchingModel;
   recordMatchingModel: RecordMatchingModel;
@@ -231,17 +232,17 @@ export interface IntermediateSourceConfiguration {
 }
 export interface ProviderProperties {
   providerServiceArn: string;
-  providerConfiguration?: any;
-  intermediateSourceConfiguration?: IntermediateSourceConfiguration;
+  providerConfiguration?: any | undefined;
+  intermediateSourceConfiguration?: IntermediateSourceConfiguration | undefined;
 }
 export interface IdMappingTechniques {
   idMappingType: IdMappingType;
-  ruleBasedProperties?: IdMappingRuleBasedProperties;
-  providerProperties?: ProviderProperties;
+  ruleBasedProperties?: IdMappingRuleBasedProperties | undefined;
+  providerProperties?: ProviderProperties | undefined;
 }
 export type IdMappingIncrementalRunType = "ON_DEMAND" | (string & {});
 export interface IdMappingIncrementalRunConfig {
-  incrementalRunType?: IdMappingIncrementalRunType;
+  incrementalRunType?: IdMappingIncrementalRunType | undefined;
 }
 export type IdMappingRoleArn = string;
 export type TagKey = string;
@@ -249,81 +250,81 @@ export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
 export interface CreateIdMappingWorkflowInput {
   workflowName: string;
-  description?: string;
+  description?: string | undefined;
   inputSourceConfig: IdMappingWorkflowInputSource[];
-  outputSourceConfig?: IdMappingWorkflowOutputSource[];
+  outputSourceConfig?: IdMappingWorkflowOutputSource[] | undefined;
   idMappingTechniques: IdMappingTechniques;
-  incrementalRunConfig?: IdMappingIncrementalRunConfig;
-  roleArn?: string;
-  tags?: { [key: string]: string | undefined };
+  incrementalRunConfig?: IdMappingIncrementalRunConfig | undefined;
+  roleArn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type IdMappingWorkflowArn = string;
 export interface CreateIdMappingWorkflowOutput {
   workflowName: string;
   workflowArn: string;
-  description?: string;
+  description?: string | undefined;
   inputSourceConfig: IdMappingWorkflowInputSource[];
-  outputSourceConfig?: IdMappingWorkflowOutputSource[];
+  outputSourceConfig?: IdMappingWorkflowOutputSource[] | undefined;
   idMappingTechniques: IdMappingTechniques;
-  incrementalRunConfig?: IdMappingIncrementalRunConfig;
-  roleArn?: string;
+  incrementalRunConfig?: IdMappingIncrementalRunConfig | undefined;
+  roleArn?: string | undefined;
 }
 export interface IdNamespaceInputSource {
   inputSourceARN: string;
-  schemaName?: string;
+  schemaName?: string | undefined;
 }
 export type IdNamespaceInputSourceConfig = IdNamespaceInputSource[];
 export type IdMappingWorkflowRuleDefinitionTypeList = IdMappingWorkflowRuleDefinitionType[];
 export type RecordMatchingModelList = RecordMatchingModel[];
 export interface NamespaceRuleBasedProperties {
-  rules?: Rule[];
-  ruleDefinitionTypes?: IdMappingWorkflowRuleDefinitionType[];
-  attributeMatchingModel?: AttributeMatchingModel;
-  recordMatchingModels?: RecordMatchingModel[];
+  rules?: Rule[] | undefined;
+  ruleDefinitionTypes?: IdMappingWorkflowRuleDefinitionType[] | undefined;
+  attributeMatchingModel?: AttributeMatchingModel | undefined;
+  recordMatchingModels?: RecordMatchingModel[] | undefined;
 }
 export interface NamespaceProviderProperties {
   providerServiceArn: string;
-  providerConfiguration?: any;
+  providerConfiguration?: any | undefined;
 }
 export interface IdNamespaceIdMappingWorkflowProperties {
   idMappingType: IdMappingType;
-  ruleBasedProperties?: NamespaceRuleBasedProperties;
-  providerProperties?: NamespaceProviderProperties;
+  ruleBasedProperties?: NamespaceRuleBasedProperties | undefined;
+  providerProperties?: NamespaceProviderProperties | undefined;
 }
 export type IdNamespaceIdMappingWorkflowPropertiesList = IdNamespaceIdMappingWorkflowProperties[];
 export type RoleArn = string;
 export interface CreateIdNamespaceInput {
   idNamespaceName: string;
-  description?: string;
-  inputSourceConfig?: IdNamespaceInputSource[];
-  idMappingWorkflowProperties?: IdNamespaceIdMappingWorkflowProperties[];
+  description?: string | undefined;
+  inputSourceConfig?: IdNamespaceInputSource[] | undefined;
+  idMappingWorkflowProperties?: IdNamespaceIdMappingWorkflowProperties[] | undefined;
   type: IdNamespaceType;
-  roleArn?: string;
-  tags?: { [key: string]: string | undefined };
+  roleArn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type IdNamespaceArn = string;
 export interface CreateIdNamespaceOutput {
   idNamespaceName: string;
   idNamespaceArn: string;
-  description?: string;
-  inputSourceConfig?: IdNamespaceInputSource[];
-  idMappingWorkflowProperties?: IdNamespaceIdMappingWorkflowProperties[];
+  description?: string | undefined;
+  inputSourceConfig?: IdNamespaceInputSource[] | undefined;
+  idMappingWorkflowProperties?: IdNamespaceIdMappingWorkflowProperties[] | undefined;
   type: IdNamespaceType;
-  roleArn?: string;
+  roleArn?: string | undefined;
   createdAt: Date;
   updatedAt: Date;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface InputSource {
   inputSourceARN: string;
   schemaName: string;
-  applyNormalization?: boolean;
+  applyNormalization?: boolean | undefined;
 }
 export type InputSourceConfig = InputSource[];
 export type OptionalS3Path = string;
 export interface OutputAttribute {
   name: string;
-  hashed?: boolean;
+  hashed?: boolean | undefined;
 }
 export type OutputAttributes = OutputAttribute[];
 export type CustomerProfilesDomainArn = string;
@@ -333,11 +334,11 @@ export interface CustomerProfilesIntegrationConfig {
   objectTypeArn: string;
 }
 export interface OutputSource {
-  KMSArn?: string;
-  outputS3Path?: string;
+  KMSArn?: string | undefined;
+  outputS3Path?: string | undefined;
   output: OutputAttribute[];
-  applyNormalization?: boolean;
-  customerProfilesIntegrationConfig?: CustomerProfilesIntegrationConfig;
+  applyNormalization?: boolean | undefined;
+  customerProfilesIntegrationConfig?: CustomerProfilesIntegrationConfig | undefined;
 }
 export type OutputSourceConfig = OutputSource[];
 export type ResolutionType = "RULE_MATCHING" | "ML_MATCHING" | "PROVIDER" | (string & {});
@@ -345,7 +346,7 @@ export type MatchPurpose = "IDENTIFIER_GENERATION" | "INDEXING" | (string & {});
 export interface RuleBasedProperties {
   rules: Rule[];
   attributeMatchingModel: AttributeMatchingModel;
-  matchPurpose?: MatchPurpose;
+  matchPurpose?: MatchPurpose | undefined;
 }
 export interface RuleCondition {
   ruleName: string;
@@ -353,42 +354,42 @@ export interface RuleCondition {
 }
 export type RuleConditionList = RuleCondition[];
 export interface MatchingConfig {
-  enableTransitiveMatching?: boolean;
+  enableTransitiveMatching?: boolean | undefined;
 }
 export interface RuleConditionProperties {
   rules: RuleCondition[];
-  matchingConfig?: MatchingConfig;
+  matchingConfig?: MatchingConfig | undefined;
 }
 export interface ResolutionTechniques {
   resolutionType: ResolutionType;
-  ruleBasedProperties?: RuleBasedProperties;
-  ruleConditionProperties?: RuleConditionProperties;
-  enableRealTimeMatching?: boolean;
-  providerProperties?: ProviderProperties;
+  ruleBasedProperties?: RuleBasedProperties | undefined;
+  ruleConditionProperties?: RuleConditionProperties | undefined;
+  enableRealTimeMatching?: boolean | undefined;
+  providerProperties?: ProviderProperties | undefined;
 }
 export type IncrementalRunType = "IMMEDIATE" | (string & {});
 export interface IncrementalRunConfig {
-  incrementalRunType?: IncrementalRunType;
+  incrementalRunType?: IncrementalRunType | undefined;
 }
 export interface CreateMatchingWorkflowInput {
   workflowName: string;
-  description?: string;
+  description?: string | undefined;
   inputSourceConfig: InputSource[];
   outputSourceConfig: OutputSource[];
   resolutionTechniques: ResolutionTechniques;
-  incrementalRunConfig?: IncrementalRunConfig;
+  incrementalRunConfig?: IncrementalRunConfig | undefined;
   roleArn: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type MatchingWorkflowArn = string;
 export interface CreateMatchingWorkflowOutput {
   workflowName: string;
   workflowArn: string;
-  description?: string;
+  description?: string | undefined;
   inputSourceConfig: InputSource[];
   outputSourceConfig: OutputSource[];
   resolutionTechniques: ResolutionTechniques;
-  incrementalRunConfig?: IncrementalRunConfig;
+  incrementalRunConfig?: IncrementalRunConfig | undefined;
   roleArn: string;
 }
 export type SchemaAttributeType =
@@ -419,23 +420,23 @@ export type SchemaAttributeType =
 export interface SchemaInputAttribute {
   fieldName: string;
   type: SchemaAttributeType;
-  groupName?: string;
-  matchKey?: string;
-  subType?: string;
-  hashed?: boolean;
+  groupName?: string | undefined;
+  matchKey?: string | undefined;
+  subType?: string | undefined;
+  hashed?: boolean | undefined;
 }
 export type SchemaInputAttributes = SchemaInputAttribute[];
 export interface CreateSchemaMappingInput {
   schemaName: string;
-  description?: string;
+  description?: string | undefined;
   mappedInputFields: SchemaInputAttribute[];
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type SchemaMappingArn = string;
 export interface CreateSchemaMappingOutput {
   schemaName: string;
   schemaArn: string;
-  description?: string;
+  description?: string | undefined;
   mappedInputFields: SchemaInputAttribute[];
 }
 export interface DeleteIdMappingWorkflowInput {
@@ -463,7 +464,7 @@ export interface DeletePolicyStatementInput {
 export interface DeletePolicyStatementOutput {
   arn: string;
   token: string;
-  policy?: string;
+  policy?: string | undefined;
 }
 export interface DeleteSchemaMappingInput {
   schemaName: string;
@@ -483,7 +484,7 @@ export type ProcessingType = "CONSISTENT" | "EVENTUAL" | "EVENTUAL_NO_LOOKUP" | 
 export interface GenerateMatchIdInput {
   workflowName: string;
   records: Record[];
-  processingType?: ProcessingType;
+  processingType?: ProcessingType | undefined;
 }
 export interface MatchedRecord {
   inputSourceARN: string;
@@ -515,29 +516,29 @@ export interface GetIdMappingJobInput {
 }
 export type JobStatus = "RUNNING" | "SUCCEEDED" | "FAILED" | "QUEUED" | (string & {});
 export interface IdMappingJobMetrics {
-  inputRecords?: number;
-  totalRecordsProcessed?: number;
-  recordsNotProcessed?: number;
-  deleteRecordsProcessed?: number;
-  totalMappedRecords?: number;
-  totalMappedSourceRecords?: number;
-  totalMappedTargetRecords?: number;
-  uniqueRecordsLoaded?: number;
-  newMappedRecords?: number;
-  newMappedSourceRecords?: number;
-  newMappedTargetRecords?: number;
-  newUniqueRecordsLoaded?: number;
-  mappedRecordsRemoved?: number;
-  mappedSourceRecordsRemoved?: number;
-  mappedTargetRecordsRemoved?: number;
+  inputRecords?: number | undefined;
+  totalRecordsProcessed?: number | undefined;
+  recordsNotProcessed?: number | undefined;
+  deleteRecordsProcessed?: number | undefined;
+  totalMappedRecords?: number | undefined;
+  totalMappedSourceRecords?: number | undefined;
+  totalMappedTargetRecords?: number | undefined;
+  uniqueRecordsLoaded?: number | undefined;
+  newMappedRecords?: number | undefined;
+  newMappedSourceRecords?: number | undefined;
+  newMappedTargetRecords?: number | undefined;
+  newUniqueRecordsLoaded?: number | undefined;
+  mappedRecordsRemoved?: number | undefined;
+  mappedSourceRecordsRemoved?: number | undefined;
+  mappedTargetRecordsRemoved?: number | undefined;
 }
 export interface ErrorDetails {
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 export interface IdMappingJobOutputSource {
   roleArn: string;
   outputS3Path: string;
-  KMSArn?: string;
+  KMSArn?: string | undefined;
 }
 export type IdMappingJobOutputSourceConfig = IdMappingJobOutputSource[];
 export type JobType = "BATCH" | "INCREMENTAL" | "DELETE_ONLY" | (string & {});
@@ -545,11 +546,11 @@ export interface GetIdMappingJobOutput {
   jobId: string;
   status: JobStatus;
   startTime: Date;
-  endTime?: Date;
-  metrics?: IdMappingJobMetrics;
-  errorDetails?: ErrorDetails;
-  outputSourceConfig?: IdMappingJobOutputSource[];
-  jobType?: JobType;
+  endTime?: Date | undefined;
+  metrics?: IdMappingJobMetrics | undefined;
+  errorDetails?: ErrorDetails | undefined;
+  outputSourceConfig?: IdMappingJobOutputSource[] | undefined;
+  jobType?: JobType | undefined;
 }
 export interface GetIdMappingWorkflowInput {
   workflowName: string;
@@ -557,15 +558,15 @@ export interface GetIdMappingWorkflowInput {
 export interface GetIdMappingWorkflowOutput {
   workflowName: string;
   workflowArn: string;
-  description?: string;
+  description?: string | undefined;
   inputSourceConfig: IdMappingWorkflowInputSource[];
-  outputSourceConfig?: IdMappingWorkflowOutputSource[];
+  outputSourceConfig?: IdMappingWorkflowOutputSource[] | undefined;
   idMappingTechniques: IdMappingTechniques;
   createdAt: Date;
   updatedAt: Date;
-  incrementalRunConfig?: IdMappingIncrementalRunConfig;
-  roleArn?: string;
-  tags?: { [key: string]: string | undefined };
+  incrementalRunConfig?: IdMappingIncrementalRunConfig | undefined;
+  roleArn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type EntityNameOrIdNamespaceArn = string;
 export interface GetIdNamespaceInput {
@@ -574,50 +575,50 @@ export interface GetIdNamespaceInput {
 export interface GetIdNamespaceOutput {
   idNamespaceName: string;
   idNamespaceArn: string;
-  description?: string;
-  inputSourceConfig?: IdNamespaceInputSource[];
-  idMappingWorkflowProperties?: IdNamespaceIdMappingWorkflowProperties[];
+  description?: string | undefined;
+  inputSourceConfig?: IdNamespaceInputSource[] | undefined;
+  idMappingWorkflowProperties?: IdNamespaceIdMappingWorkflowProperties[] | undefined;
   type: IdNamespaceType;
-  roleArn?: string;
+  roleArn?: string | undefined;
   createdAt: Date;
   updatedAt: Date;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type RecordAttributeMap = { [key: string]: string | undefined };
 export interface GetMatchIdInput {
   workflowName: string;
   record: { [key: string]: string | undefined };
-  applyNormalization?: boolean;
+  applyNormalization?: boolean | undefined;
 }
 export interface GetMatchIdOutput {
-  matchId?: string;
-  matchRule?: string;
+  matchId?: string | undefined;
+  matchRule?: string | undefined;
 }
 export interface GetMatchingJobInput {
   workflowName: string;
   jobId: string;
 }
 export interface JobMetrics {
-  inputRecords?: number;
-  totalRecordsProcessed?: number;
-  recordsNotProcessed?: number;
-  deleteRecordsProcessed?: number;
-  matchIDs?: number;
+  inputRecords?: number | undefined;
+  totalRecordsProcessed?: number | undefined;
+  recordsNotProcessed?: number | undefined;
+  deleteRecordsProcessed?: number | undefined;
+  matchIDs?: number | undefined;
 }
 export interface JobOutputSource {
   roleArn: string;
   outputS3Path: string;
-  KMSArn?: string;
+  KMSArn?: string | undefined;
 }
 export type JobOutputSourceConfig = JobOutputSource[];
 export interface GetMatchingJobOutput {
   jobId: string;
   status: JobStatus;
   startTime: Date;
-  endTime?: Date;
-  metrics?: JobMetrics;
-  errorDetails?: ErrorDetails;
-  outputSourceConfig?: JobOutputSource[];
+  endTime?: Date | undefined;
+  metrics?: JobMetrics | undefined;
+  errorDetails?: ErrorDetails | undefined;
+  outputSourceConfig?: JobOutputSource[] | undefined;
 }
 export interface GetMatchingWorkflowInput {
   workflowName: string;
@@ -625,15 +626,15 @@ export interface GetMatchingWorkflowInput {
 export interface GetMatchingWorkflowOutput {
   workflowName: string;
   workflowArn: string;
-  description?: string;
+  description?: string | undefined;
   inputSourceConfig: InputSource[];
   outputSourceConfig: OutputSource[];
   resolutionTechniques: ResolutionTechniques;
   createdAt: Date;
   updatedAt: Date;
-  incrementalRunConfig?: IncrementalRunConfig;
+  incrementalRunConfig?: IncrementalRunConfig | undefined;
   roleArn: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetPolicyInput {
   arn: string;
@@ -641,7 +642,7 @@ export interface GetPolicyInput {
 export interface GetPolicyOutput {
   arn: string;
   token: string;
-  policy?: string;
+  policy?: string | undefined;
 }
 export interface GetProviderServiceInput {
   providerName: string;
@@ -650,9 +651,9 @@ export interface GetProviderServiceInput {
 export type ProviderServiceDisplayName = string;
 export type ServiceType = "ASSIGNMENT" | "ID_MAPPING" | (string & {});
 export interface ProviderIdNameSpaceConfiguration {
-  description?: string;
-  providerTargetConfigurationDefinition?: any;
-  providerSourceConfigurationDefinition?: any;
+  description?: string | undefined;
+  providerTargetConfigurationDefinition?: any | undefined;
+  providerSourceConfigurationDefinition?: any | undefined;
 }
 export interface ProviderMarketplaceConfiguration {
   dataSetId: string;
@@ -667,21 +668,21 @@ export type AwsAccountId = string;
 export type AwsAccountIdList = string[];
 export type RequiredBucketActionsList = string[];
 export interface ProviderIntermediateDataAccessConfiguration {
-  awsAccountIds?: string[];
-  requiredBucketActions?: string[];
+  awsAccountIds?: string[] | undefined;
+  requiredBucketActions?: string[] | undefined;
 }
 export type SchemaList = string[];
 export type Schemas = string[][];
 export interface ProviderSchemaAttribute {
   fieldName: string;
   type: SchemaAttributeType;
-  subType?: string;
-  hashing?: boolean;
+  subType?: string | undefined;
+  hashing?: boolean | undefined;
 }
 export type ProviderSchemaAttributes = ProviderSchemaAttribute[];
 export interface ProviderComponentSchema {
-  schemas?: string[][];
-  providerSchemaAttributes?: ProviderSchemaAttribute[];
+  schemas?: string[][] | undefined;
+  providerSchemaAttributes?: ProviderSchemaAttribute[] | undefined;
 }
 export interface GetProviderServiceOutput {
   providerName: string;
@@ -689,14 +690,16 @@ export interface GetProviderServiceOutput {
   providerServiceDisplayName: string;
   providerServiceType: ServiceType;
   providerServiceArn: string;
-  providerConfigurationDefinition?: any;
-  providerIdNameSpaceConfiguration?: ProviderIdNameSpaceConfiguration;
-  providerJobConfiguration?: any;
+  providerConfigurationDefinition?: any | undefined;
+  providerIdNameSpaceConfiguration?: ProviderIdNameSpaceConfiguration | undefined;
+  providerJobConfiguration?: any | undefined;
   providerEndpointConfiguration: ProviderEndpointConfiguration;
   anonymizedOutput: boolean;
   providerEntityOutputDefinition: any;
-  providerIntermediateDataAccessConfiguration?: ProviderIntermediateDataAccessConfiguration;
-  providerComponentSchema?: ProviderComponentSchema;
+  providerIntermediateDataAccessConfiguration?:
+    | ProviderIntermediateDataAccessConfiguration
+    | undefined;
+  providerComponentSchema?: ProviderComponentSchema | undefined;
 }
 export interface GetSchemaMappingInput {
   schemaName: string;
@@ -704,33 +707,33 @@ export interface GetSchemaMappingInput {
 export interface GetSchemaMappingOutput {
   schemaName: string;
   schemaArn: string;
-  description?: string;
+  description?: string | undefined;
   mappedInputFields: SchemaInputAttribute[];
   createdAt: Date;
   updatedAt: Date;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
   hasWorkflows: boolean;
 }
 export type NextToken = string;
 export interface ListIdMappingJobsInput {
   workflowName: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface JobSummary {
   jobId: string;
   status: JobStatus;
   startTime: Date;
-  endTime?: Date;
+  endTime?: Date | undefined;
 }
 export type JobList = JobSummary[];
 export interface ListIdMappingJobsOutput {
-  jobs?: JobSummary[];
-  nextToken?: string;
+  jobs?: JobSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListIdMappingWorkflowsInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface IdMappingWorkflowSummary {
   workflowName: string;
@@ -740,12 +743,12 @@ export interface IdMappingWorkflowSummary {
 }
 export type IdMappingWorkflowList = IdMappingWorkflowSummary[];
 export interface ListIdMappingWorkflowsOutput {
-  workflowSummaries?: IdMappingWorkflowSummary[];
-  nextToken?: string;
+  workflowSummaries?: IdMappingWorkflowSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListIdNamespacesInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface IdNamespaceIdMappingWorkflowMetadata {
   idMappingType: IdMappingType;
@@ -754,29 +757,29 @@ export type IdNamespaceIdMappingWorkflowMetadataList = IdNamespaceIdMappingWorkf
 export interface IdNamespaceSummary {
   idNamespaceName: string;
   idNamespaceArn: string;
-  description?: string;
-  idMappingWorkflowProperties?: IdNamespaceIdMappingWorkflowMetadata[];
+  description?: string | undefined;
+  idMappingWorkflowProperties?: IdNamespaceIdMappingWorkflowMetadata[] | undefined;
   type: IdNamespaceType;
   createdAt: Date;
   updatedAt: Date;
 }
 export type IdNamespaceList = IdNamespaceSummary[];
 export interface ListIdNamespacesOutput {
-  idNamespaceSummaries?: IdNamespaceSummary[];
-  nextToken?: string;
+  idNamespaceSummaries?: IdNamespaceSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListMatchingJobsInput {
   workflowName: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListMatchingJobsOutput {
-  jobs?: JobSummary[];
-  nextToken?: string;
+  jobs?: JobSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListMatchingWorkflowsInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface MatchingWorkflowSummary {
   workflowName: string;
@@ -787,13 +790,13 @@ export interface MatchingWorkflowSummary {
 }
 export type MatchingWorkflowList = MatchingWorkflowSummary[];
 export interface ListMatchingWorkflowsOutput {
-  workflowSummaries?: MatchingWorkflowSummary[];
-  nextToken?: string;
+  workflowSummaries?: MatchingWorkflowSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListProviderServicesInput {
-  nextToken?: string;
-  maxResults?: number;
-  providerName?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  providerName?: string | undefined;
 }
 export interface ProviderServiceSummary {
   providerServiceArn: string;
@@ -804,12 +807,12 @@ export interface ProviderServiceSummary {
 }
 export type ProviderServiceList = ProviderServiceSummary[];
 export interface ListProviderServicesOutput {
-  providerServiceSummaries?: ProviderServiceSummary[];
-  nextToken?: string;
+  providerServiceSummaries?: ProviderServiceSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListSchemaMappingsInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface SchemaMappingSummary {
   schemaName: string;
@@ -820,8 +823,8 @@ export interface SchemaMappingSummary {
 }
 export type SchemaMappingList = SchemaMappingSummary[];
 export interface ListSchemaMappingsOutput {
-  schemaList?: SchemaMappingSummary[];
-  nextToken?: string;
+  schemaList?: SchemaMappingSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceInput {
   resourceArn: string;
@@ -831,23 +834,23 @@ export interface ListTagsForResourceOutput {
 }
 export interface PutPolicyInput {
   arn: string;
-  token?: string;
+  token?: string | undefined;
   policy: string;
 }
 export interface PutPolicyOutput {
   arn: string;
   token: string;
-  policy?: string;
+  policy?: string | undefined;
 }
 export interface StartIdMappingJobInput {
   workflowName: string;
-  outputSourceConfig?: IdMappingJobOutputSource[];
-  jobType?: JobType;
+  outputSourceConfig?: IdMappingJobOutputSource[] | undefined;
+  jobType?: JobType | undefined;
 }
 export interface StartIdMappingJobOutput {
   jobId: string;
-  outputSourceConfig?: IdMappingJobOutputSource[];
-  jobType?: JobType;
+  outputSourceConfig?: IdMappingJobOutputSource[] | undefined;
+  jobType?: JobType | undefined;
 }
 export interface StartMatchingJobInput {
   workflowName: string;
@@ -868,68 +871,68 @@ export interface UntagResourceInput {
 export interface UntagResourceOutput {}
 export interface UpdateIdMappingWorkflowInput {
   workflowName: string;
-  description?: string;
+  description?: string | undefined;
   inputSourceConfig: IdMappingWorkflowInputSource[];
-  outputSourceConfig?: IdMappingWorkflowOutputSource[];
+  outputSourceConfig?: IdMappingWorkflowOutputSource[] | undefined;
   idMappingTechniques: IdMappingTechniques;
-  incrementalRunConfig?: IdMappingIncrementalRunConfig;
-  roleArn?: string;
+  incrementalRunConfig?: IdMappingIncrementalRunConfig | undefined;
+  roleArn?: string | undefined;
 }
 export interface UpdateIdMappingWorkflowOutput {
   workflowName: string;
   workflowArn: string;
-  description?: string;
+  description?: string | undefined;
   inputSourceConfig: IdMappingWorkflowInputSource[];
-  outputSourceConfig?: IdMappingWorkflowOutputSource[];
+  outputSourceConfig?: IdMappingWorkflowOutputSource[] | undefined;
   idMappingTechniques: IdMappingTechniques;
-  incrementalRunConfig?: IdMappingIncrementalRunConfig;
-  roleArn?: string;
+  incrementalRunConfig?: IdMappingIncrementalRunConfig | undefined;
+  roleArn?: string | undefined;
 }
 export interface UpdateIdNamespaceInput {
   idNamespaceName: string;
-  description?: string;
-  inputSourceConfig?: IdNamespaceInputSource[];
-  idMappingWorkflowProperties?: IdNamespaceIdMappingWorkflowProperties[];
-  roleArn?: string;
+  description?: string | undefined;
+  inputSourceConfig?: IdNamespaceInputSource[] | undefined;
+  idMappingWorkflowProperties?: IdNamespaceIdMappingWorkflowProperties[] | undefined;
+  roleArn?: string | undefined;
 }
 export interface UpdateIdNamespaceOutput {
   idNamespaceName: string;
   idNamespaceArn: string;
-  description?: string;
-  inputSourceConfig?: IdNamespaceInputSource[];
-  idMappingWorkflowProperties?: IdNamespaceIdMappingWorkflowProperties[];
+  description?: string | undefined;
+  inputSourceConfig?: IdNamespaceInputSource[] | undefined;
+  idMappingWorkflowProperties?: IdNamespaceIdMappingWorkflowProperties[] | undefined;
   type: IdNamespaceType;
-  roleArn?: string;
+  roleArn?: string | undefined;
   createdAt: Date;
   updatedAt: Date;
 }
 export interface UpdateMatchingWorkflowInput {
   workflowName: string;
-  description?: string;
+  description?: string | undefined;
   inputSourceConfig: InputSource[];
   outputSourceConfig: OutputSource[];
   resolutionTechniques: ResolutionTechniques;
-  incrementalRunConfig?: IncrementalRunConfig;
+  incrementalRunConfig?: IncrementalRunConfig | undefined;
   roleArn: string;
 }
 export interface UpdateMatchingWorkflowOutput {
   workflowName: string;
-  description?: string;
+  description?: string | undefined;
   inputSourceConfig: InputSource[];
   outputSourceConfig: OutputSource[];
   resolutionTechniques: ResolutionTechniques;
-  incrementalRunConfig?: IncrementalRunConfig;
+  incrementalRunConfig?: IncrementalRunConfig | undefined;
   roleArn: string;
 }
 export interface UpdateSchemaMappingInput {
   schemaName: string;
-  description?: string;
+  description?: string | undefined;
   mappedInputFields: SchemaInputAttribute[];
 }
 export interface UpdateSchemaMappingOutput {
   schemaName: string;
   schemaArn: string;
-  description?: string;
+  description?: string | undefined;
   mappedInputFields: SchemaInputAttribute[];
 }
 export type AddPolicyStatementError =
@@ -944,7 +947,7 @@ export type AddPolicyStatementError =
  * Adds a policy statement object. To retrieve a list of existing policy statements, use the `GetPolicy` API.
  */
 export const addPolicyStatement: API.OperationMethod<
-  AddPolicyStatementInput,
+  AddPolicyStatementInput & RegionInput,
   AddPolicyStatementOutput,
   AddPolicyStatementError,
   Credentials | HttpClient.HttpClient
@@ -975,7 +978,7 @@ export type BatchDeleteUniqueIdError =
  * Deletes multiple unique IDs in a matching workflow.
  */
 export const batchDeleteUniqueId: API.OperationMethod<
-  BatchDeleteUniqueIdInput,
+  BatchDeleteUniqueIdInput & RegionInput,
   BatchDeleteUniqueIdOutput,
   BatchDeleteUniqueIdError,
   Credentials | HttpClient.HttpClient
@@ -1004,7 +1007,7 @@ export type CreateIdMappingWorkflowError =
  * Incremental processing is not supported for ID mapping workflows.
  */
 export const createIdMappingWorkflow: API.OperationMethod<
-  CreateIdMappingWorkflowInput,
+  CreateIdMappingWorkflowInput & RegionInput,
   CreateIdMappingWorkflowOutput,
   CreateIdMappingWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -1038,7 +1041,7 @@ export type CreateIdNamespaceError =
  * Creates an ID namespace object which will help customers provide metadata explaining their dataset and how to use it. Each ID namespace must have a unique name. To modify an existing ID namespace, use the UpdateIdNamespace API.
  */
 export const createIdNamespace: API.OperationMethod<
-  CreateIdNamespaceInput,
+  CreateIdNamespaceInput & RegionInput,
   CreateIdNamespaceOutput,
   CreateIdNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -1074,7 +1077,7 @@ export type CreateMatchingWorkflowError =
  * For workflows where `resolutionType` is `PROVIDER`, incremental processing is not supported.
  */
 export const createMatchingWorkflow: API.OperationMethod<
-  CreateMatchingWorkflowInput,
+  CreateMatchingWorkflowInput & RegionInput,
   CreateMatchingWorkflowOutput,
   CreateMatchingWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -1108,7 +1111,7 @@ export type CreateSchemaMappingError =
  * Creates a schema mapping, which defines the schema of the input customer records table. The `SchemaMapping` also provides Entity Resolution with some metadata about the table, such as the attribute types of the columns and which columns to match on.
  */
 export const createSchemaMapping: API.OperationMethod<
-  CreateSchemaMappingInput,
+  CreateSchemaMappingInput & RegionInput,
   CreateSchemaMappingOutput,
   CreateSchemaMappingError,
   Credentials | HttpClient.HttpClient
@@ -1142,7 +1145,7 @@ export type DeleteIdMappingWorkflowError =
  * Deletes the `IdMappingWorkflow` with a given name. This operation returns a `ResourceNotFoundException` if a workflow with the given name does not exist.
  */
 export const deleteIdMappingWorkflow: API.OperationMethod<
-  DeleteIdMappingWorkflowInput,
+  DeleteIdMappingWorkflowInput & RegionInput,
   DeleteIdMappingWorkflowOutput,
   DeleteIdMappingWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -1176,7 +1179,7 @@ export type DeleteIdNamespaceError =
  * Deletes the `IdNamespace` with a given name. This operation returns a `ResourceNotFoundException` if an ID namespace with the given name does not exist.
  */
 export const deleteIdNamespace: API.OperationMethod<
-  DeleteIdNamespaceInput,
+  DeleteIdNamespaceInput & RegionInput,
   DeleteIdNamespaceOutput,
   DeleteIdNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -1210,7 +1213,7 @@ export type DeleteMatchingWorkflowError =
  * Deletes the `MatchingWorkflow` with a given name. This operation returns a `ResourceNotFoundException` if a workflow with the given name does not exist.
  */
 export const deleteMatchingWorkflow: API.OperationMethod<
-  DeleteMatchingWorkflowInput,
+  DeleteMatchingWorkflowInput & RegionInput,
   DeleteMatchingWorkflowOutput,
   DeleteMatchingWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -1244,7 +1247,7 @@ export type DeletePolicyStatementError =
  * Deletes the policy statement.
  */
 export const deletePolicyStatement: API.OperationMethod<
-  DeletePolicyStatementInput,
+  DeletePolicyStatementInput & RegionInput,
   DeletePolicyStatementOutput,
   DeletePolicyStatementError,
   Credentials | HttpClient.HttpClient
@@ -1278,7 +1281,7 @@ export type DeleteSchemaMappingError =
  * Deletes the `SchemaMapping` with a given name. This operation returns a `ResourceNotFoundException` if a schema with the given name does not exist. This operation will fail if there is a `MatchingWorkflow` object that references the `SchemaMapping` in the workflow's `InputSourceConfig`.
  */
 export const deleteSchemaMapping: API.OperationMethod<
-  DeleteSchemaMappingInput,
+  DeleteSchemaMappingInput & RegionInput,
   DeleteSchemaMappingOutput,
   DeleteSchemaMappingError,
   Credentials | HttpClient.HttpClient
@@ -1313,7 +1316,7 @@ export type GenerateMatchIdError =
  * The processing type (`processingType`) you choose affects both the accuracy and response time of the operation. Additional charges apply for each API call, whether made through the Entity Resolution console or directly via the API. The rule-based matching workflow must exist and be active before calling this operation.
  */
 export const generateMatchId: API.OperationMethod<
-  GenerateMatchIdInput,
+  GenerateMatchIdInput & RegionInput,
   GenerateMatchIdOutput,
   GenerateMatchIdError,
   Credentials | HttpClient.HttpClient
@@ -1345,7 +1348,7 @@ export type GetIdMappingJobError =
  * Returns the status, metrics, and errors (if there are any) that are associated with a job.
  */
 export const getIdMappingJob: API.OperationMethod<
-  GetIdMappingJobInput,
+  GetIdMappingJobInput & RegionInput,
   GetIdMappingJobOutput,
   GetIdMappingJobError,
   Credentials | HttpClient.HttpClient
@@ -1377,7 +1380,7 @@ export type GetIdMappingWorkflowError =
  * Returns the `IdMappingWorkflow` with a given name, if it exists.
  */
 export const getIdMappingWorkflow: API.OperationMethod<
-  GetIdMappingWorkflowInput,
+  GetIdMappingWorkflowInput & RegionInput,
   GetIdMappingWorkflowOutput,
   GetIdMappingWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -1409,7 +1412,7 @@ export type GetIdNamespaceError =
  * Returns the `IdNamespace` with a given name, if it exists.
  */
 export const getIdNamespace: API.OperationMethod<
-  GetIdNamespaceInput,
+  GetIdNamespaceInput & RegionInput,
   GetIdNamespaceOutput,
   GetIdNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -1443,7 +1446,7 @@ export type GetMatchIdError =
  * You can call this API as a dry run of an incremental load on the rule-based matching workflow.
  */
 export const getMatchId: API.OperationMethod<
-  GetMatchIdInput,
+  GetMatchIdInput & RegionInput,
   GetMatchIdOutput,
   GetMatchIdError,
   Credentials | HttpClient.HttpClient
@@ -1475,7 +1478,7 @@ export type GetMatchingJobError =
  * Returns the status, metrics, and errors (if there are any) that are associated with a job.
  */
 export const getMatchingJob: API.OperationMethod<
-  GetMatchingJobInput,
+  GetMatchingJobInput & RegionInput,
   GetMatchingJobOutput,
   GetMatchingJobError,
   Credentials | HttpClient.HttpClient
@@ -1507,7 +1510,7 @@ export type GetMatchingWorkflowError =
  * Returns the `MatchingWorkflow` with a given name, if it exists.
  */
 export const getMatchingWorkflow: API.OperationMethod<
-  GetMatchingWorkflowInput,
+  GetMatchingWorkflowInput & RegionInput,
   GetMatchingWorkflowOutput,
   GetMatchingWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -1539,7 +1542,7 @@ export type GetPolicyError =
  * Returns the resource-based policy.
  */
 export const getPolicy: API.OperationMethod<
-  GetPolicyInput,
+  GetPolicyInput & RegionInput,
   GetPolicyOutput,
   GetPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1571,7 +1574,7 @@ export type GetProviderServiceError =
  * Returns the `ProviderService` of a given name.
  */
 export const getProviderService: API.OperationMethod<
-  GetProviderServiceInput,
+  GetProviderServiceInput & RegionInput,
   GetProviderServiceOutput,
   GetProviderServiceError,
   Credentials | HttpClient.HttpClient
@@ -1603,7 +1606,7 @@ export type GetSchemaMappingError =
  * Returns the SchemaMapping of a given name.
  */
 export const getSchemaMapping: API.OperationMethod<
-  GetSchemaMappingInput,
+  GetSchemaMappingInput & RegionInput,
   GetSchemaMappingOutput,
   GetSchemaMappingError,
   Credentials | HttpClient.HttpClient
@@ -1635,7 +1638,7 @@ export type ListIdMappingJobsError =
  * Lists all ID mapping jobs for a given workflow.
  */
 export const listIdMappingJobs: API.PaginatedOperationMethod<
-  ListIdMappingJobsInput,
+  ListIdMappingJobsInput & RegionInput,
   ListIdMappingJobsOutput,
   ListIdMappingJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1673,7 +1676,7 @@ export type ListIdMappingWorkflowsError =
  * Returns a list of all the `IdMappingWorkflows` that have been created for an Amazon Web Services account.
  */
 export const listIdMappingWorkflows: API.PaginatedOperationMethod<
-  ListIdMappingWorkflowsInput,
+  ListIdMappingWorkflowsInput & RegionInput,
   ListIdMappingWorkflowsOutput,
   ListIdMappingWorkflowsError,
   Credentials | HttpClient.HttpClient,
@@ -1710,7 +1713,7 @@ export type ListIdNamespacesError =
  * Returns a list of all ID namespaces.
  */
 export const listIdNamespaces: API.PaginatedOperationMethod<
-  ListIdNamespacesInput,
+  ListIdNamespacesInput & RegionInput,
   ListIdNamespacesOutput,
   ListIdNamespacesError,
   Credentials | HttpClient.HttpClient,
@@ -1748,7 +1751,7 @@ export type ListMatchingJobsError =
  * Lists all jobs for a given workflow.
  */
 export const listMatchingJobs: API.PaginatedOperationMethod<
-  ListMatchingJobsInput,
+  ListMatchingJobsInput & RegionInput,
   ListMatchingJobsOutput,
   ListMatchingJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1786,7 +1789,7 @@ export type ListMatchingWorkflowsError =
  * Returns a list of all the `MatchingWorkflows` that have been created for an Amazon Web Services account.
  */
 export const listMatchingWorkflows: API.PaginatedOperationMethod<
-  ListMatchingWorkflowsInput,
+  ListMatchingWorkflowsInput & RegionInput,
   ListMatchingWorkflowsOutput,
   ListMatchingWorkflowsError,
   Credentials | HttpClient.HttpClient,
@@ -1823,7 +1826,7 @@ export type ListProviderServicesError =
  * Returns a list of all the `ProviderServices` that are available in this Amazon Web Services Region.
  */
 export const listProviderServices: API.PaginatedOperationMethod<
-  ListProviderServicesInput,
+  ListProviderServicesInput & RegionInput,
   ListProviderServicesOutput,
   ListProviderServicesError,
   Credentials | HttpClient.HttpClient,
@@ -1860,7 +1863,7 @@ export type ListSchemaMappingsError =
  * Returns a list of all the `SchemaMappings` that have been created for an Amazon Web Services account.
  */
 export const listSchemaMappings: API.PaginatedOperationMethod<
-  ListSchemaMappingsInput,
+  ListSchemaMappingsInput & RegionInput,
   ListSchemaMappingsOutput,
   ListSchemaMappingsError,
   Credentials | HttpClient.HttpClient,
@@ -1896,7 +1899,7 @@ export type ListTagsForResourceError =
  * Displays the tags associated with an Entity Resolution resource. In Entity Resolution, `SchemaMapping`, and `MatchingWorkflow` can be tagged.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1923,7 +1926,7 @@ export type PutPolicyError =
  * Updates the resource-based policy.
  */
 export const putPolicy: API.OperationMethod<
-  PutPolicyInput,
+  PutPolicyInput & RegionInput,
   PutPolicyOutput,
   PutPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1958,7 +1961,7 @@ export type StartIdMappingJobError =
  * Starts the `IdMappingJob` of a workflow. The workflow must have previously been created using the `CreateIdMappingWorkflow` endpoint.
  */
 export const startIdMappingJob: API.OperationMethod<
-  StartIdMappingJobInput,
+  StartIdMappingJobInput & RegionInput,
   StartIdMappingJobOutput,
   StartIdMappingJobError,
   Credentials | HttpClient.HttpClient
@@ -1994,7 +1997,7 @@ export type StartMatchingJobError =
  * Starts the `MatchingJob` of a workflow. The workflow must have previously been created using the `CreateMatchingWorkflow` endpoint.
  */
 export const startMatchingJob: API.OperationMethod<
-  StartMatchingJobInput,
+  StartMatchingJobInput & RegionInput,
   StartMatchingJobOutput,
   StartMatchingJobError,
   Credentials | HttpClient.HttpClient
@@ -2026,7 +2029,7 @@ export type TagResourceError =
  * Assigns one or more tags (key-value pairs) to the specified Entity Resolution resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. In Entity Resolution, `SchemaMapping` and `MatchingWorkflow` can be tagged. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the `TagResource` action with a resource that already has tags. If you specify a new tag key, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2046,7 +2049,7 @@ export type UntagResourceError = InternalServerException | ResourceNotFoundExcep
  * Removes one or more tags from the specified Entity Resolution resource. In Entity Resolution, `SchemaMapping`, and `MatchingWorkflow` can be tagged.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2074,7 +2077,7 @@ export type UpdateIdMappingWorkflowError =
  * Incremental processing is not supported for ID mapping workflows.
  */
 export const updateIdMappingWorkflow: API.OperationMethod<
-  UpdateIdMappingWorkflowInput,
+  UpdateIdMappingWorkflowInput & RegionInput,
   UpdateIdMappingWorkflowOutput,
   UpdateIdMappingWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -2106,7 +2109,7 @@ export type UpdateIdNamespaceError =
  * Updates an existing ID namespace.
  */
 export const updateIdNamespace: API.OperationMethod<
-  UpdateIdNamespaceInput,
+  UpdateIdNamespaceInput & RegionInput,
   UpdateIdNamespaceOutput,
   UpdateIdNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -2140,7 +2143,7 @@ export type UpdateMatchingWorkflowError =
  * For workflows where `resolutionType` is `PROVIDER`, incremental processing is not supported.
  */
 export const updateMatchingWorkflow: API.OperationMethod<
-  UpdateMatchingWorkflowInput,
+  UpdateMatchingWorkflowInput & RegionInput,
   UpdateMatchingWorkflowOutput,
   UpdateMatchingWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -2175,7 +2178,7 @@ export type UpdateSchemaMappingError =
  * A schema is immutable if it is being used by a workflow. Therefore, you can't update a schema mapping if it's associated with a workflow.
  */
 export const updateSchemaMapping: API.OperationMethod<
-  UpdateSchemaMappingInput,
+  UpdateSchemaMappingInput & RegionInput,
   UpdateSchemaMappingOutput,
   UpdateSchemaMappingError,
   Credentials | HttpClient.HttpClient

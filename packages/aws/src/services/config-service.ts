@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -187,7 +188,7 @@ export class LastDeliveryChannelDeleteFailedException
 export class LimitExceededException
   extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()("LimitExceededException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
-  }) {}
+  }).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class MaxActiveResourcesExceededException
   extends /*@__PURE__*/ S.TaggedError<MaxActiveResourcesExceededException>()(
     "MaxActiveResourcesExceededException",
@@ -912,7 +913,7 @@ export type RecorderName = string;
 export type AllSupported = boolean;
 export type IncludeGlobalResourceTypes = boolean;
 export interface ExclusionByResourceTypes {
-  resourceTypes?: ResourceType[];
+  resourceTypes?: ResourceType[] | undefined;
 }
 export type RecordingStrategyType =
   | "ALL_SUPPORTED_RESOURCE_TYPES"
@@ -920,27 +921,27 @@ export type RecordingStrategyType =
   | "EXCLUSION_BY_RESOURCE_TYPES"
   | (string & {});
 export interface RecordingStrategy {
-  useOnly?: RecordingStrategyType;
+  useOnly?: RecordingStrategyType | undefined;
 }
 export interface RecordingGroup {
-  allSupported?: boolean;
-  includeGlobalResourceTypes?: boolean;
-  resourceTypes?: ResourceType[];
-  exclusionByResourceTypes?: ExclusionByResourceTypes;
-  recordingStrategy?: RecordingStrategy;
+  allSupported?: boolean | undefined;
+  includeGlobalResourceTypes?: boolean | undefined;
+  resourceTypes?: ResourceType[] | undefined;
+  exclusionByResourceTypes?: ExclusionByResourceTypes | undefined;
+  recordingStrategy?: RecordingStrategy | undefined;
 }
 export type RecordingFrequency = "CONTINUOUS" | "DAILY" | (string & {});
 export type Description = string;
 export type RecordingModeResourceTypesList = ResourceType[];
 export interface RecordingModeOverride {
-  description?: string;
+  description?: string | undefined;
   resourceTypes: ResourceType[];
   recordingFrequency: RecordingFrequency;
 }
 export type RecordingModeOverrides = RecordingModeOverride[];
 export interface RecordingMode {
   recordingFrequency: RecordingFrequency;
-  recordingModeOverrides?: RecordingModeOverride[];
+  recordingModeOverrides?: RecordingModeOverride[] | undefined;
 }
 export type RecordingScope = "INTERNAL" | "PAID" | (string & {});
 export type ServicePrincipal = string;
@@ -951,20 +952,20 @@ export type ThirdPartyCloudRegion = string;
 export type IncludedRegions = string[];
 export interface ScopeConfiguration {
   scopeType: string;
-  scopeValues?: string[];
+  scopeValues?: string[] | undefined;
   allRegions: boolean;
-  includedRegions?: string[];
+  includedRegions?: string[] | undefined;
 }
 export interface ConfigurationRecorder {
-  arn?: string;
-  name?: string;
-  roleARN?: string;
-  recordingGroup?: RecordingGroup;
-  recordingMode?: RecordingMode;
-  recordingScope?: RecordingScope;
-  servicePrincipal?: string;
-  connectorArn?: string;
-  scopeConfiguration?: ScopeConfiguration;
+  arn?: string | undefined;
+  name?: string | undefined;
+  roleARN?: string | undefined;
+  recordingGroup?: RecordingGroup | undefined;
+  recordingMode?: RecordingMode | undefined;
+  recordingScope?: RecordingScope | undefined;
+  servicePrincipal?: string | undefined;
+  connectorArn?: string | undefined;
+  scopeConfiguration?: ScopeConfiguration | undefined;
 }
 export interface AssociateResourceTypesResponse {
   ConfigurationRecorder: ConfigurationRecorder;
@@ -979,7 +980,7 @@ export interface AggregateResourceIdentifier {
   SourceRegion: string;
   ResourceId: string;
   ResourceType: ResourceType;
-  ResourceName?: string;
+  ResourceName?: string | undefined;
 }
 export type ResourceIdentifiersList = AggregateResourceIdentifier[];
 export interface BatchGetAggregateResourceConfigRequest {
@@ -1005,28 +1006,28 @@ export type SupplementaryConfigurationValue = string;
 export type SupplementaryConfiguration = { [key: string]: string | undefined };
 export type ConfigurationItemDeliveryTime = Date;
 export interface BaseConfigurationItem {
-  version?: string;
-  accountId?: string;
-  configurationItemCaptureTime?: Date;
-  configurationItemStatus?: ConfigurationItemStatus;
-  configurationStateId?: string;
-  arn?: string;
-  resourceType?: ResourceType;
-  resourceId?: string;
-  resourceName?: string;
-  awsRegion?: string;
-  availabilityZone?: string;
-  resourceCreationTime?: Date;
-  configuration?: string;
-  supplementaryConfiguration?: { [key: string]: string | undefined };
-  recordingFrequency?: RecordingFrequency;
-  configurationItemDeliveryTime?: Date;
+  version?: string | undefined;
+  accountId?: string | undefined;
+  configurationItemCaptureTime?: Date | undefined;
+  configurationItemStatus?: ConfigurationItemStatus | undefined;
+  configurationStateId?: string | undefined;
+  arn?: string | undefined;
+  resourceType?: ResourceType | undefined;
+  resourceId?: string | undefined;
+  resourceName?: string | undefined;
+  awsRegion?: string | undefined;
+  availabilityZone?: string | undefined;
+  resourceCreationTime?: Date | undefined;
+  configuration?: string | undefined;
+  supplementaryConfiguration?: { [key: string]: string | undefined } | undefined;
+  recordingFrequency?: RecordingFrequency | undefined;
+  configurationItemDeliveryTime?: Date | undefined;
 }
 export type BaseConfigurationItems = BaseConfigurationItem[];
 export type UnprocessedResourceIdentifierList = AggregateResourceIdentifier[];
 export interface BatchGetAggregateResourceConfigResponse {
-  BaseConfigurationItems?: BaseConfigurationItem[];
-  UnprocessedResourceIdentifiers?: AggregateResourceIdentifier[];
+  BaseConfigurationItems?: BaseConfigurationItem[] | undefined;
+  UnprocessedResourceIdentifiers?: AggregateResourceIdentifier[] | undefined;
 }
 export interface ResourceKey {
   resourceType: ResourceType;
@@ -1037,8 +1038,8 @@ export interface BatchGetResourceConfigRequest {
   resourceKeys: ResourceKey[];
 }
 export interface BatchGetResourceConfigResponse {
-  baseConfigurationItems?: BaseConfigurationItem[];
-  unprocessedResourceKeys?: ResourceKey[];
+  baseConfigurationItems?: BaseConfigurationItem[] | undefined;
+  unprocessedResourceKeys?: ResourceKey[] | undefined;
 }
 export interface DeleteAggregationAuthorizationRequest {
   AuthorizedAccountId: string;
@@ -1094,14 +1095,14 @@ export interface DeletePendingAggregationRequestRequest {
 export interface DeletePendingAggregationRequestResponse {}
 export interface DeleteRemediationConfigurationRequest {
   ConfigRuleName: string;
-  ResourceType?: string;
+  ResourceType?: string | undefined;
 }
 export interface DeleteRemediationConfigurationResponse {}
 export type StringWithCharLimit256 = string;
 export type StringWithCharLimit1024 = string;
 export interface RemediationExceptionResourceKey {
-  ResourceType?: string;
-  ResourceId?: string;
+  ResourceType?: string | undefined;
+  ResourceId?: string | undefined;
 }
 export type RemediationExceptionResourceKeys = RemediationExceptionResourceKey[];
 export interface DeleteRemediationExceptionsRequest {
@@ -1109,12 +1110,12 @@ export interface DeleteRemediationExceptionsRequest {
   ResourceKeys: RemediationExceptionResourceKey[];
 }
 export interface FailedDeleteRemediationExceptionsBatch {
-  FailureMessage?: string;
-  FailedItems?: RemediationExceptionResourceKey[];
+  FailureMessage?: string | undefined;
+  FailedItems?: RemediationExceptionResourceKey[] | undefined;
 }
 export type FailedDeleteRemediationExceptionsBatches = FailedDeleteRemediationExceptionsBatch[];
 export interface DeleteRemediationExceptionsResponse {
-  FailedBatches?: FailedDeleteRemediationExceptionsBatch[];
+  FailedBatches?: FailedDeleteRemediationExceptionsBatch[] | undefined;
 }
 export type ResourceTypeString = string;
 export interface DeleteResourceConfigRequest {
@@ -1128,8 +1129,8 @@ export interface DeleteRetentionConfigurationRequest {
 }
 export interface DeleteRetentionConfigurationResponse {}
 export interface DeleteServiceLinkedConfigurationRecorderRequest {
-  ServicePrincipal?: string;
-  Arn?: string;
+  ServicePrincipal?: string | undefined;
+  Arn?: string | undefined;
 }
 export interface DeleteServiceLinkedConfigurationRecorderResponse {
   Arn: string;
@@ -1144,7 +1145,7 @@ export interface DeliverConfigSnapshotRequest {
   deliveryChannelName: string;
 }
 export interface DeliverConfigSnapshotResponse {
-  configSnapshotId?: string;
+  configSnapshotId?: string | undefined;
 }
 export type ComplianceType =
   | "COMPLIANT"
@@ -1153,37 +1154,37 @@ export type ComplianceType =
   | "INSUFFICIENT_DATA"
   | (string & {});
 export interface ConfigRuleComplianceFilters {
-  ConfigRuleName?: string;
-  ComplianceType?: ComplianceType;
-  AccountId?: string;
-  AwsRegion?: string;
+  ConfigRuleName?: string | undefined;
+  ComplianceType?: ComplianceType | undefined;
+  AccountId?: string | undefined;
+  AwsRegion?: string | undefined;
 }
 export type GroupByAPILimit = number;
 export type NextToken = string;
 export interface DescribeAggregateComplianceByConfigRulesRequest {
   ConfigurationAggregatorName: string;
-  Filters?: ConfigRuleComplianceFilters;
-  Limit?: number;
-  NextToken?: string;
+  Filters?: ConfigRuleComplianceFilters | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ComplianceContributorCount {
-  CappedCount?: number;
-  CapExceeded?: boolean;
+  CappedCount?: number | undefined;
+  CapExceeded?: boolean | undefined;
 }
 export interface Compliance {
-  ComplianceType?: ComplianceType;
-  ComplianceContributorCount?: ComplianceContributorCount;
+  ComplianceType?: ComplianceType | undefined;
+  ComplianceContributorCount?: ComplianceContributorCount | undefined;
 }
 export interface AggregateComplianceByConfigRule {
-  ConfigRuleName?: string;
-  Compliance?: Compliance;
-  AccountId?: string;
-  AwsRegion?: string;
+  ConfigRuleName?: string | undefined;
+  Compliance?: Compliance | undefined;
+  AccountId?: string | undefined;
+  AwsRegion?: string | undefined;
 }
 export type AggregateComplianceByConfigRuleList = AggregateComplianceByConfigRule[];
 export interface DescribeAggregateComplianceByConfigRulesResponse {
-  AggregateComplianceByConfigRules?: AggregateComplianceByConfigRule[];
-  NextToken?: string;
+  AggregateComplianceByConfigRules?: AggregateComplianceByConfigRule[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ConformancePackComplianceType =
   | "COMPLIANT"
@@ -1191,133 +1192,133 @@ export type ConformancePackComplianceType =
   | "INSUFFICIENT_DATA"
   | (string & {});
 export interface AggregateConformancePackComplianceFilters {
-  ConformancePackName?: string;
-  ComplianceType?: ConformancePackComplianceType;
-  AccountId?: string;
-  AwsRegion?: string;
+  ConformancePackName?: string | undefined;
+  ComplianceType?: ConformancePackComplianceType | undefined;
+  AccountId?: string | undefined;
+  AwsRegion?: string | undefined;
 }
 export type Limit = number;
 export interface DescribeAggregateComplianceByConformancePacksRequest {
   ConfigurationAggregatorName: string;
-  Filters?: AggregateConformancePackComplianceFilters;
-  Limit?: number;
-  NextToken?: string;
+  Filters?: AggregateConformancePackComplianceFilters | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface AggregateConformancePackCompliance {
-  ComplianceType?: ConformancePackComplianceType;
-  CompliantRuleCount?: number;
-  NonCompliantRuleCount?: number;
-  TotalRuleCount?: number;
+  ComplianceType?: ConformancePackComplianceType | undefined;
+  CompliantRuleCount?: number | undefined;
+  NonCompliantRuleCount?: number | undefined;
+  TotalRuleCount?: number | undefined;
 }
 export interface AggregateComplianceByConformancePack {
-  ConformancePackName?: string;
-  Compliance?: AggregateConformancePackCompliance;
-  AccountId?: string;
-  AwsRegion?: string;
+  ConformancePackName?: string | undefined;
+  Compliance?: AggregateConformancePackCompliance | undefined;
+  AccountId?: string | undefined;
+  AwsRegion?: string | undefined;
 }
 export type AggregateComplianceByConformancePackList = AggregateComplianceByConformancePack[];
 export interface DescribeAggregateComplianceByConformancePacksResponse {
-  AggregateComplianceByConformancePacks?: AggregateComplianceByConformancePack[];
-  NextToken?: string;
+  AggregateComplianceByConformancePacks?: AggregateComplianceByConformancePack[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeAggregationAuthorizationsRequest {
-  Limit?: number;
-  NextToken?: string;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface AggregationAuthorization {
-  AggregationAuthorizationArn?: string;
-  AuthorizedAccountId?: string;
-  AuthorizedAwsRegion?: string;
-  CreationTime?: Date;
+  AggregationAuthorizationArn?: string | undefined;
+  AuthorizedAccountId?: string | undefined;
+  AuthorizedAwsRegion?: string | undefined;
+  CreationTime?: Date | undefined;
 }
 export type AggregationAuthorizationList = AggregationAuthorization[];
 export interface DescribeAggregationAuthorizationsResponse {
-  AggregationAuthorizations?: AggregationAuthorization[];
-  NextToken?: string;
+  AggregationAuthorizations?: AggregationAuthorization[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ConfigRuleNames = string[];
 export type ComplianceTypes = ComplianceType[];
 export interface DescribeComplianceByConfigRuleRequest {
-  ConfigRuleNames?: string[];
-  ComplianceTypes?: ComplianceType[];
-  NextToken?: string;
+  ConfigRuleNames?: string[] | undefined;
+  ComplianceTypes?: ComplianceType[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ComplianceByConfigRule {
-  ConfigRuleName?: string;
-  Compliance?: Compliance;
+  ConfigRuleName?: string | undefined;
+  Compliance?: Compliance | undefined;
 }
 export type ComplianceByConfigRules = ComplianceByConfigRule[];
 export interface DescribeComplianceByConfigRuleResponse {
-  ComplianceByConfigRules?: ComplianceByConfigRule[];
-  NextToken?: string;
+  ComplianceByConfigRules?: ComplianceByConfigRule[] | undefined;
+  NextToken?: string | undefined;
 }
 export type BaseResourceId = string;
 export interface DescribeComplianceByResourceRequest {
-  ResourceType?: string;
-  ResourceId?: string;
-  ComplianceTypes?: ComplianceType[];
-  Limit?: number;
-  NextToken?: string;
+  ResourceType?: string | undefined;
+  ResourceId?: string | undefined;
+  ComplianceTypes?: ComplianceType[] | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ComplianceByResource {
-  ResourceType?: string;
-  ResourceId?: string;
-  Compliance?: Compliance;
+  ResourceType?: string | undefined;
+  ResourceId?: string | undefined;
+  Compliance?: Compliance | undefined;
 }
 export type ComplianceByResources = ComplianceByResource[];
 export interface DescribeComplianceByResourceResponse {
-  ComplianceByResources?: ComplianceByResource[];
-  NextToken?: string;
+  ComplianceByResources?: ComplianceByResource[] | undefined;
+  NextToken?: string | undefined;
 }
 export type RuleLimit = number;
 export interface DescribeConfigRuleEvaluationStatusRequest {
-  ConfigRuleNames?: string[];
-  NextToken?: string;
-  Limit?: number;
+  ConfigRuleNames?: string[] | undefined;
+  NextToken?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface ConfigRuleEvaluationStatus {
-  ConfigRuleName?: string;
-  ConfigRuleArn?: string;
-  ConfigRuleId?: string;
-  LastSuccessfulInvocationTime?: Date;
-  LastFailedInvocationTime?: Date;
-  LastSuccessfulEvaluationTime?: Date;
-  LastFailedEvaluationTime?: Date;
-  FirstActivatedTime?: Date;
-  LastDeactivatedTime?: Date;
-  LastErrorCode?: string;
-  LastErrorMessage?: string;
-  FirstEvaluationStarted?: boolean;
-  LastDebugLogDeliveryStatus?: string;
-  LastDebugLogDeliveryStatusReason?: string;
-  LastDebugLogDeliveryTime?: Date;
+  ConfigRuleName?: string | undefined;
+  ConfigRuleArn?: string | undefined;
+  ConfigRuleId?: string | undefined;
+  LastSuccessfulInvocationTime?: Date | undefined;
+  LastFailedInvocationTime?: Date | undefined;
+  LastSuccessfulEvaluationTime?: Date | undefined;
+  LastFailedEvaluationTime?: Date | undefined;
+  FirstActivatedTime?: Date | undefined;
+  LastDeactivatedTime?: Date | undefined;
+  LastErrorCode?: string | undefined;
+  LastErrorMessage?: string | undefined;
+  FirstEvaluationStarted?: boolean | undefined;
+  LastDebugLogDeliveryStatus?: string | undefined;
+  LastDebugLogDeliveryStatusReason?: string | undefined;
+  LastDebugLogDeliveryTime?: Date | undefined;
 }
 export type ConfigRuleEvaluationStatusList = ConfigRuleEvaluationStatus[];
 export interface DescribeConfigRuleEvaluationStatusResponse {
-  ConfigRulesEvaluationStatus?: ConfigRuleEvaluationStatus[];
-  NextToken?: string;
+  ConfigRulesEvaluationStatus?: ConfigRuleEvaluationStatus[] | undefined;
+  NextToken?: string | undefined;
 }
 export type EvaluationMode = "DETECTIVE" | "PROACTIVE" | (string & {});
 export type RuleEvaluationVisibility = "EXTERNAL" | "INTERNAL" | (string & {});
 export interface DescribeConfigRulesFilters {
-  EvaluationMode?: EvaluationMode;
-  RuleEvaluationVisibility?: RuleEvaluationVisibility;
+  EvaluationMode?: EvaluationMode | undefined;
+  RuleEvaluationVisibility?: RuleEvaluationVisibility | undefined;
 }
 export interface DescribeConfigRulesRequest {
-  ConfigRuleNames?: string[];
-  Filters?: DescribeConfigRulesFilters;
-  NextToken?: string;
+  ConfigRuleNames?: string[] | undefined;
+  Filters?: DescribeConfigRulesFilters | undefined;
+  NextToken?: string | undefined;
 }
 export type EmptiableStringWithCharLimit256 = string;
 export type ComplianceResourceTypes = string[];
 export type StringWithCharLimit128 = string;
 export type ServicePrincipals = string[];
 export interface Scope {
-  ComplianceResourceTypes?: string[];
-  TagKey?: string;
-  TagValue?: string;
-  ComplianceResourceId?: string;
-  ServicePrincipals?: string[];
+  ComplianceResourceTypes?: string[] | undefined;
+  TagKey?: string | undefined;
+  TagValue?: string | undefined;
+  ComplianceResourceId?: string | undefined;
+  ServicePrincipals?: string[] | undefined;
 }
 export type Owner = "CUSTOM_LAMBDA" | "AWS" | "CUSTOM_POLICY" | (string & {});
 export type EventSource = "aws.config" | (string & {});
@@ -1335,9 +1336,9 @@ export type MaximumExecutionFrequency =
   | "TwentyFour_Hours"
   | (string & {});
 export interface SourceDetail {
-  EventSource?: EventSource;
-  MessageType?: MessageType;
-  MaximumExecutionFrequency?: MaximumExecutionFrequency;
+  EventSource?: EventSource | undefined;
+  MessageType?: MessageType | undefined;
+  MaximumExecutionFrequency?: MaximumExecutionFrequency | undefined;
 }
 export type SourceDetails = SourceDetail[];
 export type PolicyRuntime = string;
@@ -1345,13 +1346,13 @@ export type PolicyText = string;
 export interface CustomPolicyDetails {
   PolicyRuntime: string;
   PolicyText: string;
-  EnableDebugLogDelivery?: boolean;
+  EnableDebugLogDelivery?: boolean | undefined;
 }
 export interface Source {
   Owner: Owner;
-  SourceIdentifier?: string;
-  SourceDetails?: SourceDetail[];
-  CustomPolicyDetails?: CustomPolicyDetails;
+  SourceIdentifier?: string | undefined;
+  SourceDetails?: SourceDetail[] | undefined;
+  CustomPolicyDetails?: CustomPolicyDetails | undefined;
 }
 export type ConfigRuleState =
   | "ACTIVE"
@@ -1360,165 +1361,165 @@ export type ConfigRuleState =
   | "EVALUATING"
   | (string & {});
 export interface EvaluationModeConfiguration {
-  Mode?: EvaluationMode;
+  Mode?: EvaluationMode | undefined;
 }
 export type EvaluationModes = EvaluationModeConfiguration[];
 export interface ConfigRule {
-  ConfigRuleName?: string;
-  ConfigRuleArn?: string;
-  ConfigRuleId?: string;
-  Description?: string;
-  Scope?: Scope;
+  ConfigRuleName?: string | undefined;
+  ConfigRuleArn?: string | undefined;
+  ConfigRuleId?: string | undefined;
+  Description?: string | undefined;
+  Scope?: Scope | undefined;
   Source: Source;
-  InputParameters?: string;
-  MaximumExecutionFrequency?: MaximumExecutionFrequency;
-  ConfigRuleState?: ConfigRuleState;
-  CreatedBy?: string;
-  EvaluationModes?: EvaluationModeConfiguration[];
-  RuleEvaluationVisibility?: RuleEvaluationVisibility;
+  InputParameters?: string | undefined;
+  MaximumExecutionFrequency?: MaximumExecutionFrequency | undefined;
+  ConfigRuleState?: ConfigRuleState | undefined;
+  CreatedBy?: string | undefined;
+  EvaluationModes?: EvaluationModeConfiguration[] | undefined;
+  RuleEvaluationVisibility?: RuleEvaluationVisibility | undefined;
 }
 export type ConfigRules = ConfigRule[];
 export interface DescribeConfigRulesResponse {
-  ConfigRules?: ConfigRule[];
-  NextToken?: string;
+  ConfigRules?: ConfigRule[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ConfigurationAggregatorNameList = string[];
 export interface DescribeConfigurationAggregatorsRequest {
-  ConfigurationAggregatorNames?: string[];
-  NextToken?: string;
-  Limit?: number;
+  ConfigurationAggregatorNames?: string[] | undefined;
+  NextToken?: string | undefined;
+  Limit?: number | undefined;
 }
 export type ConfigurationAggregatorArn = string;
 export type AccountAggregationSourceAccountList = string[];
 export type AggregatorRegionList = string[];
 export interface AccountAggregationSource {
   AccountIds: string[];
-  AllAwsRegions?: boolean;
-  AwsRegions?: string[];
+  AllAwsRegions?: boolean | undefined;
+  AwsRegions?: string[] | undefined;
 }
 export type AccountAggregationSourceList = AccountAggregationSource[];
 export interface OrganizationAggregationSource {
   RoleArn: string;
-  AwsRegions?: string[];
-  AllAwsRegions?: boolean;
+  AwsRegions?: string[] | undefined;
+  AllAwsRegions?: boolean | undefined;
 }
 export type AggregatorFilterType = "INCLUDE" | (string & {});
 export type ResourceTypeValue = string;
 export type ResourceTypeValueList = string[];
 export interface AggregatorFilterResourceType {
-  Type?: AggregatorFilterType;
-  Value?: string[];
+  Type?: AggregatorFilterType | undefined;
+  Value?: string[] | undefined;
 }
 export type ServicePrincipalValue = string;
 export type ServicePrincipalValueList = string[];
 export interface AggregatorFilterServicePrincipal {
-  Type?: AggregatorFilterType;
-  Value?: string[];
+  Type?: AggregatorFilterType | undefined;
+  Value?: string[] | undefined;
 }
 export interface AggregatorFilters {
-  ResourceType?: AggregatorFilterResourceType;
-  ServicePrincipal?: AggregatorFilterServicePrincipal;
+  ResourceType?: AggregatorFilterResourceType | undefined;
+  ServicePrincipal?: AggregatorFilterServicePrincipal | undefined;
 }
 export interface ConfigurationAggregator {
-  ConfigurationAggregatorName?: string;
-  ConfigurationAggregatorArn?: string;
-  AccountAggregationSources?: AccountAggregationSource[];
-  OrganizationAggregationSource?: OrganizationAggregationSource;
-  CreationTime?: Date;
-  LastUpdatedTime?: Date;
-  CreatedBy?: string;
-  AggregatorFilters?: AggregatorFilters;
+  ConfigurationAggregatorName?: string | undefined;
+  ConfigurationAggregatorArn?: string | undefined;
+  AccountAggregationSources?: AccountAggregationSource[] | undefined;
+  OrganizationAggregationSource?: OrganizationAggregationSource | undefined;
+  CreationTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
+  CreatedBy?: string | undefined;
+  AggregatorFilters?: AggregatorFilters | undefined;
 }
 export type ConfigurationAggregatorList = ConfigurationAggregator[];
 export interface DescribeConfigurationAggregatorsResponse {
-  ConfigurationAggregators?: ConfigurationAggregator[];
-  NextToken?: string;
+  ConfigurationAggregators?: ConfigurationAggregator[] | undefined;
+  NextToken?: string | undefined;
 }
 export type AggregatedSourceStatusType = "FAILED" | "SUCCEEDED" | "OUTDATED" | (string & {});
 export type AggregatedSourceStatusTypeList = AggregatedSourceStatusType[];
 export interface DescribeConfigurationAggregatorSourcesStatusRequest {
   ConfigurationAggregatorName: string;
-  UpdateStatus?: AggregatedSourceStatusType[];
-  NextToken?: string;
-  Limit?: number;
+  UpdateStatus?: AggregatedSourceStatusType[] | undefined;
+  NextToken?: string | undefined;
+  Limit?: number | undefined;
 }
 export type AggregatedSourceType = "ACCOUNT" | "ORGANIZATION" | (string & {});
 export interface AggregatedSourceStatus {
-  SourceId?: string;
-  SourceType?: AggregatedSourceType;
-  AwsRegion?: string;
-  LastUpdateStatus?: AggregatedSourceStatusType;
-  LastUpdateTime?: Date;
-  LastErrorCode?: string;
-  LastErrorMessage?: string;
+  SourceId?: string | undefined;
+  SourceType?: AggregatedSourceType | undefined;
+  AwsRegion?: string | undefined;
+  LastUpdateStatus?: AggregatedSourceStatusType | undefined;
+  LastUpdateTime?: Date | undefined;
+  LastErrorCode?: string | undefined;
+  LastErrorMessage?: string | undefined;
 }
 export type AggregatedSourceStatusList = AggregatedSourceStatus[];
 export interface DescribeConfigurationAggregatorSourcesStatusResponse {
-  AggregatedSourceStatusList?: AggregatedSourceStatus[];
-  NextToken?: string;
+  AggregatedSourceStatusList?: AggregatedSourceStatus[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ConfigurationRecorderNameList = string[];
 export interface DescribeConfigurationRecordersRequest {
-  ConfigurationRecorderNames?: string[];
-  ServicePrincipal?: string;
-  Arn?: string;
+  ConfigurationRecorderNames?: string[] | undefined;
+  ServicePrincipal?: string | undefined;
+  Arn?: string | undefined;
 }
 export type ConfigurationRecorderList = ConfigurationRecorder[];
 export interface DescribeConfigurationRecordersResponse {
-  ConfigurationRecorders?: ConfigurationRecorder[];
+  ConfigurationRecorders?: ConfigurationRecorder[] | undefined;
 }
 export interface DescribeConfigurationRecorderStatusRequest {
-  ConfigurationRecorderNames?: string[];
-  ServicePrincipal?: string;
-  Arn?: string;
+  ConfigurationRecorderNames?: string[] | undefined;
+  ServicePrincipal?: string | undefined;
+  Arn?: string | undefined;
 }
 export type RecorderStatus = "Pending" | "Success" | "Failure" | "NotApplicable" | (string & {});
 export interface ConfigurationRecorderStatus {
-  arn?: string;
-  name?: string;
-  lastStartTime?: Date;
-  lastStopTime?: Date;
-  recording?: boolean;
-  lastStatus?: RecorderStatus;
-  lastErrorCode?: string;
-  lastErrorMessage?: string;
-  lastStatusChangeTime?: Date;
-  servicePrincipal?: string;
+  arn?: string | undefined;
+  name?: string | undefined;
+  lastStartTime?: Date | undefined;
+  lastStopTime?: Date | undefined;
+  recording?: boolean | undefined;
+  lastStatus?: RecorderStatus | undefined;
+  lastErrorCode?: string | undefined;
+  lastErrorMessage?: string | undefined;
+  lastStatusChangeTime?: Date | undefined;
+  servicePrincipal?: string | undefined;
 }
 export type ConfigurationRecorderStatusList = ConfigurationRecorderStatus[];
 export interface DescribeConfigurationRecorderStatusResponse {
-  ConfigurationRecordersStatus?: ConfigurationRecorderStatus[];
+  ConfigurationRecordersStatus?: ConfigurationRecorderStatus[] | undefined;
 }
 export type ConformancePackConfigRuleNames = string[];
 export interface ConformancePackComplianceFilters {
-  ConfigRuleNames?: string[];
-  ComplianceType?: ConformancePackComplianceType;
+  ConfigRuleNames?: string[] | undefined;
+  ComplianceType?: ConformancePackComplianceType | undefined;
 }
 export type DescribeConformancePackComplianceLimit = number;
 export interface DescribeConformancePackComplianceRequest {
   ConformancePackName: string;
-  Filters?: ConformancePackComplianceFilters;
-  Limit?: number;
-  NextToken?: string;
+  Filters?: ConformancePackComplianceFilters | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ControlsList = string[];
 export interface ConformancePackRuleCompliance {
-  ConfigRuleName?: string;
-  ComplianceType?: ConformancePackComplianceType;
-  Controls?: string[];
+  ConfigRuleName?: string | undefined;
+  ComplianceType?: ConformancePackComplianceType | undefined;
+  Controls?: string[] | undefined;
 }
 export type ConformancePackRuleComplianceList = ConformancePackRuleCompliance[];
 export interface DescribeConformancePackComplianceResponse {
   ConformancePackName: string;
   ConformancePackRuleComplianceList: ConformancePackRuleCompliance[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type ConformancePackNamesList = string[];
 export type PageSizeLimit = number;
 export interface DescribeConformancePacksRequest {
-  ConformancePackNames?: string[];
-  Limit?: number;
-  NextToken?: string;
+  ConformancePackNames?: string[] | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ConformancePackArn = string;
 export type ConformancePackId = string;
@@ -1535,28 +1536,28 @@ export type SSMDocumentName = string;
 export type SSMDocumentVersion = string;
 export interface TemplateSSMDocumentDetails {
   DocumentName: string;
-  DocumentVersion?: string;
+  DocumentVersion?: string | undefined;
 }
 export interface ConformancePackDetail {
   ConformancePackName: string;
   ConformancePackArn: string;
   ConformancePackId: string;
-  DeliveryS3Bucket?: string;
-  DeliveryS3KeyPrefix?: string;
-  ConformancePackInputParameters?: ConformancePackInputParameter[];
-  LastUpdateRequestedTime?: Date;
-  CreatedBy?: string;
-  TemplateSSMDocumentDetails?: TemplateSSMDocumentDetails;
+  DeliveryS3Bucket?: string | undefined;
+  DeliveryS3KeyPrefix?: string | undefined;
+  ConformancePackInputParameters?: ConformancePackInputParameter[] | undefined;
+  LastUpdateRequestedTime?: Date | undefined;
+  CreatedBy?: string | undefined;
+  TemplateSSMDocumentDetails?: TemplateSSMDocumentDetails | undefined;
 }
 export type ConformancePackDetailList = ConformancePackDetail[];
 export interface DescribeConformancePacksResponse {
-  ConformancePackDetails?: ConformancePackDetail[];
-  NextToken?: string;
+  ConformancePackDetails?: ConformancePackDetail[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeConformancePackStatusRequest {
-  ConformancePackNames?: string[];
-  Limit?: number;
-  NextToken?: string;
+  ConformancePackNames?: string[] | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ConformancePackState =
   | "CREATE_IN_PROGRESS"
@@ -1573,81 +1574,81 @@ export interface ConformancePackStatusDetail {
   ConformancePackArn: string;
   ConformancePackState: ConformancePackState;
   StackArn: string;
-  ConformancePackStatusReason?: string;
+  ConformancePackStatusReason?: string | undefined;
   LastUpdateRequestedTime: Date;
-  LastUpdateCompletedTime?: Date;
+  LastUpdateCompletedTime?: Date | undefined;
 }
 export type ConformancePackStatusDetailsList = ConformancePackStatusDetail[];
 export interface DescribeConformancePackStatusResponse {
-  ConformancePackStatusDetails?: ConformancePackStatusDetail[];
-  NextToken?: string;
+  ConformancePackStatusDetails?: ConformancePackStatusDetail[] | undefined;
+  NextToken?: string | undefined;
 }
 export type DeliveryChannelNameList = string[];
 export interface DescribeDeliveryChannelsRequest {
-  DeliveryChannelNames?: string[];
+  DeliveryChannelNames?: string[] | undefined;
 }
 export interface ConfigSnapshotDeliveryProperties {
-  deliveryFrequency?: MaximumExecutionFrequency;
+  deliveryFrequency?: MaximumExecutionFrequency | undefined;
 }
 export interface DeliveryChannel {
-  name?: string;
-  s3BucketName?: string;
-  s3KeyPrefix?: string;
-  s3KmsKeyArn?: string;
-  snsTopicARN?: string;
-  configSnapshotDeliveryProperties?: ConfigSnapshotDeliveryProperties;
+  name?: string | undefined;
+  s3BucketName?: string | undefined;
+  s3KeyPrefix?: string | undefined;
+  s3KmsKeyArn?: string | undefined;
+  snsTopicARN?: string | undefined;
+  configSnapshotDeliveryProperties?: ConfigSnapshotDeliveryProperties | undefined;
 }
 export type DeliveryChannelList = DeliveryChannel[];
 export interface DescribeDeliveryChannelsResponse {
-  DeliveryChannels?: DeliveryChannel[];
+  DeliveryChannels?: DeliveryChannel[] | undefined;
 }
 export interface DescribeDeliveryChannelStatusRequest {
-  DeliveryChannelNames?: string[];
+  DeliveryChannelNames?: string[] | undefined;
 }
 export type DeliveryStatus = "Success" | "Failure" | "Not_Applicable" | (string & {});
 export interface ConfigExportDeliveryInfo {
-  lastStatus?: DeliveryStatus;
-  lastErrorCode?: string;
-  lastErrorMessage?: string;
-  lastAttemptTime?: Date;
-  lastSuccessfulTime?: Date;
-  nextDeliveryTime?: Date;
+  lastStatus?: DeliveryStatus | undefined;
+  lastErrorCode?: string | undefined;
+  lastErrorMessage?: string | undefined;
+  lastAttemptTime?: Date | undefined;
+  lastSuccessfulTime?: Date | undefined;
+  nextDeliveryTime?: Date | undefined;
 }
 export interface ConfigStreamDeliveryInfo {
-  lastStatus?: DeliveryStatus;
-  lastErrorCode?: string;
-  lastErrorMessage?: string;
-  lastStatusChangeTime?: Date;
+  lastStatus?: DeliveryStatus | undefined;
+  lastErrorCode?: string | undefined;
+  lastErrorMessage?: string | undefined;
+  lastStatusChangeTime?: Date | undefined;
 }
 export interface DeliveryChannelStatus {
-  name?: string;
-  configSnapshotDeliveryInfo?: ConfigExportDeliveryInfo;
-  configHistoryDeliveryInfo?: ConfigExportDeliveryInfo;
-  configStreamDeliveryInfo?: ConfigStreamDeliveryInfo;
+  name?: string | undefined;
+  configSnapshotDeliveryInfo?: ConfigExportDeliveryInfo | undefined;
+  configHistoryDeliveryInfo?: ConfigExportDeliveryInfo | undefined;
+  configStreamDeliveryInfo?: ConfigStreamDeliveryInfo | undefined;
 }
 export type DeliveryChannelStatusList = DeliveryChannelStatus[];
 export interface DescribeDeliveryChannelStatusResponse {
-  DeliveryChannelsStatus?: DeliveryChannelStatus[];
+  DeliveryChannelsStatus?: DeliveryChannelStatus[] | undefined;
 }
 export type OrganizationConfigRuleNames = string[];
 export type CosmosPageLimit = number;
 export interface DescribeOrganizationConfigRulesRequest {
-  OrganizationConfigRuleNames?: string[];
-  Limit?: number;
-  NextToken?: string;
+  OrganizationConfigRuleNames?: string[] | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type StringWithCharLimit256Min0 = string;
 export type ResourceTypesScope = string[];
 export type StringWithCharLimit768 = string;
 export interface OrganizationManagedRuleMetadata {
-  Description?: string;
+  Description?: string | undefined;
   RuleIdentifier: string;
-  InputParameters?: string;
-  MaximumExecutionFrequency?: MaximumExecutionFrequency;
-  ResourceTypesScope?: string[];
-  ResourceIdScope?: string;
-  TagKeyScope?: string;
-  TagValueScope?: string;
+  InputParameters?: string | undefined;
+  MaximumExecutionFrequency?: MaximumExecutionFrequency | undefined;
+  ResourceTypesScope?: string[] | undefined;
+  ResourceIdScope?: string | undefined;
+  TagKeyScope?: string | undefined;
+  TagValueScope?: string | undefined;
 }
 export type OrganizationConfigRuleTriggerType =
   | "ConfigurationItemChangeNotification"
@@ -1656,15 +1657,15 @@ export type OrganizationConfigRuleTriggerType =
   | (string & {});
 export type OrganizationConfigRuleTriggerTypes = OrganizationConfigRuleTriggerType[];
 export interface OrganizationCustomRuleMetadata {
-  Description?: string;
+  Description?: string | undefined;
   LambdaFunctionArn: string;
   OrganizationConfigRuleTriggerTypes: OrganizationConfigRuleTriggerType[];
-  InputParameters?: string;
-  MaximumExecutionFrequency?: MaximumExecutionFrequency;
-  ResourceTypesScope?: string[];
-  ResourceIdScope?: string;
-  TagKeyScope?: string;
-  TagValueScope?: string;
+  InputParameters?: string | undefined;
+  MaximumExecutionFrequency?: MaximumExecutionFrequency | undefined;
+  ResourceTypesScope?: string[] | undefined;
+  ResourceIdScope?: string | undefined;
+  TagKeyScope?: string | undefined;
+  TagValueScope?: string | undefined;
 }
 export type ExcludedAccounts = string[];
 export type OrganizationConfigRuleTriggerTypeNoSN =
@@ -1674,35 +1675,35 @@ export type OrganizationConfigRuleTriggerTypeNoSN =
 export type OrganizationConfigRuleTriggerTypeNoSNs = OrganizationConfigRuleTriggerTypeNoSN[];
 export type DebugLogDeliveryAccounts = string[];
 export interface OrganizationCustomPolicyRuleMetadataNoPolicy {
-  Description?: string;
-  OrganizationConfigRuleTriggerTypes?: OrganizationConfigRuleTriggerTypeNoSN[];
-  InputParameters?: string;
-  MaximumExecutionFrequency?: MaximumExecutionFrequency;
-  ResourceTypesScope?: string[];
-  ResourceIdScope?: string;
-  TagKeyScope?: string;
-  TagValueScope?: string;
-  PolicyRuntime?: string;
-  DebugLogDeliveryAccounts?: string[];
+  Description?: string | undefined;
+  OrganizationConfigRuleTriggerTypes?: OrganizationConfigRuleTriggerTypeNoSN[] | undefined;
+  InputParameters?: string | undefined;
+  MaximumExecutionFrequency?: MaximumExecutionFrequency | undefined;
+  ResourceTypesScope?: string[] | undefined;
+  ResourceIdScope?: string | undefined;
+  TagKeyScope?: string | undefined;
+  TagValueScope?: string | undefined;
+  PolicyRuntime?: string | undefined;
+  DebugLogDeliveryAccounts?: string[] | undefined;
 }
 export interface OrganizationConfigRule {
   OrganizationConfigRuleName: string;
   OrganizationConfigRuleArn: string;
-  OrganizationManagedRuleMetadata?: OrganizationManagedRuleMetadata;
-  OrganizationCustomRuleMetadata?: OrganizationCustomRuleMetadata;
-  ExcludedAccounts?: string[];
-  LastUpdateTime?: Date;
-  OrganizationCustomPolicyRuleMetadata?: OrganizationCustomPolicyRuleMetadataNoPolicy;
+  OrganizationManagedRuleMetadata?: OrganizationManagedRuleMetadata | undefined;
+  OrganizationCustomRuleMetadata?: OrganizationCustomRuleMetadata | undefined;
+  ExcludedAccounts?: string[] | undefined;
+  LastUpdateTime?: Date | undefined;
+  OrganizationCustomPolicyRuleMetadata?: OrganizationCustomPolicyRuleMetadataNoPolicy | undefined;
 }
 export type OrganizationConfigRules = OrganizationConfigRule[];
 export interface DescribeOrganizationConfigRulesResponse {
-  OrganizationConfigRules?: OrganizationConfigRule[];
-  NextToken?: string;
+  OrganizationConfigRules?: OrganizationConfigRule[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeOrganizationConfigRuleStatusesRequest {
-  OrganizationConfigRuleNames?: string[];
-  Limit?: number;
-  NextToken?: string;
+  OrganizationConfigRuleNames?: string[] | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type OrganizationRuleStatus =
   | "CREATE_SUCCESSFUL"
@@ -1718,39 +1719,39 @@ export type OrganizationRuleStatus =
 export interface OrganizationConfigRuleStatus {
   OrganizationConfigRuleName: string;
   OrganizationRuleStatus: OrganizationRuleStatus;
-  ErrorCode?: string;
-  ErrorMessage?: string;
-  LastUpdateTime?: Date;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
+  LastUpdateTime?: Date | undefined;
 }
 export type OrganizationConfigRuleStatuses = OrganizationConfigRuleStatus[];
 export interface DescribeOrganizationConfigRuleStatusesResponse {
-  OrganizationConfigRuleStatuses?: OrganizationConfigRuleStatus[];
-  NextToken?: string;
+  OrganizationConfigRuleStatuses?: OrganizationConfigRuleStatus[] | undefined;
+  NextToken?: string | undefined;
 }
 export type OrganizationConformancePackNames = string[];
 export interface DescribeOrganizationConformancePacksRequest {
-  OrganizationConformancePackNames?: string[];
-  Limit?: number;
-  NextToken?: string;
+  OrganizationConformancePackNames?: string[] | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface OrganizationConformancePack {
   OrganizationConformancePackName: string;
   OrganizationConformancePackArn: string;
-  DeliveryS3Bucket?: string;
-  DeliveryS3KeyPrefix?: string;
-  ConformancePackInputParameters?: ConformancePackInputParameter[];
-  ExcludedAccounts?: string[];
+  DeliveryS3Bucket?: string | undefined;
+  DeliveryS3KeyPrefix?: string | undefined;
+  ConformancePackInputParameters?: ConformancePackInputParameter[] | undefined;
+  ExcludedAccounts?: string[] | undefined;
   LastUpdateTime: Date;
 }
 export type OrganizationConformancePacks = OrganizationConformancePack[];
 export interface DescribeOrganizationConformancePacksResponse {
-  OrganizationConformancePacks?: OrganizationConformancePack[];
-  NextToken?: string;
+  OrganizationConformancePacks?: OrganizationConformancePack[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeOrganizationConformancePackStatusesRequest {
-  OrganizationConformancePackNames?: string[];
-  Limit?: number;
-  NextToken?: string;
+  OrganizationConformancePackNames?: string[] | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type OrganizationResourceStatus =
   | "CREATE_SUCCESSFUL"
@@ -1766,28 +1767,28 @@ export type OrganizationResourceStatus =
 export interface OrganizationConformancePackStatus {
   OrganizationConformancePackName: string;
   Status: OrganizationResourceStatus;
-  ErrorCode?: string;
-  ErrorMessage?: string;
-  LastUpdateTime?: Date;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
+  LastUpdateTime?: Date | undefined;
 }
 export type OrganizationConformancePackStatuses = OrganizationConformancePackStatus[];
 export interface DescribeOrganizationConformancePackStatusesResponse {
-  OrganizationConformancePackStatuses?: OrganizationConformancePackStatus[];
-  NextToken?: string;
+  OrganizationConformancePackStatuses?: OrganizationConformancePackStatus[] | undefined;
+  NextToken?: string | undefined;
 }
 export type DescribePendingAggregationRequestsLimit = number;
 export interface DescribePendingAggregationRequestsRequest {
-  Limit?: number;
-  NextToken?: string;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface PendingAggregationRequest {
-  RequesterAccountId?: string;
-  RequesterAwsRegion?: string;
+  RequesterAccountId?: string | undefined;
+  RequesterAwsRegion?: string | undefined;
 }
 export type PendingAggregationRequestList = PendingAggregationRequest[];
 export interface DescribePendingAggregationRequestsResponse {
-  PendingAggregationRequests?: PendingAggregationRequest[];
-  NextToken?: string;
+  PendingAggregationRequests?: PendingAggregationRequest[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeRemediationConfigurationsRequest {
   ConfigRuleNames: string[];
@@ -1802,17 +1803,17 @@ export interface StaticValue {
   Values: string[];
 }
 export interface RemediationParameterValue {
-  ResourceValue?: ResourceValue;
-  StaticValue?: StaticValue;
+  ResourceValue?: ResourceValue | undefined;
+  StaticValue?: StaticValue | undefined;
 }
 export type RemediationParameters = { [key: string]: RemediationParameterValue | undefined };
 export type Percentage = number;
 export interface SsmControls {
-  ConcurrentExecutionRatePercentage?: number;
-  ErrorPercentage?: number;
+  ConcurrentExecutionRatePercentage?: number | undefined;
+  ErrorPercentage?: number | undefined;
 }
 export interface ExecutionControls {
-  SsmControls?: SsmControls;
+  SsmControls?: SsmControls | undefined;
 }
 export type AutoRemediationAttempts = number;
 export type AutoRemediationAttemptSeconds = number;
@@ -1820,43 +1821,43 @@ export interface RemediationConfiguration {
   ConfigRuleName: string;
   TargetType: RemediationTargetType;
   TargetId: string;
-  TargetVersion?: string;
-  Parameters?: { [key: string]: RemediationParameterValue | undefined };
-  ResourceType?: string;
-  Automatic?: boolean;
-  ExecutionControls?: ExecutionControls;
-  MaximumAutomaticAttempts?: number;
-  RetryAttemptSeconds?: number;
-  Arn?: string;
-  CreatedByService?: string;
+  TargetVersion?: string | undefined;
+  Parameters?: { [key: string]: RemediationParameterValue | undefined } | undefined;
+  ResourceType?: string | undefined;
+  Automatic?: boolean | undefined;
+  ExecutionControls?: ExecutionControls | undefined;
+  MaximumAutomaticAttempts?: number | undefined;
+  RetryAttemptSeconds?: number | undefined;
+  Arn?: string | undefined;
+  CreatedByService?: string | undefined;
 }
 export type RemediationConfigurations = RemediationConfiguration[];
 export interface DescribeRemediationConfigurationsResponse {
-  RemediationConfigurations?: RemediationConfiguration[];
+  RemediationConfigurations?: RemediationConfiguration[] | undefined;
 }
 export interface DescribeRemediationExceptionsRequest {
   ConfigRuleName: string;
-  ResourceKeys?: RemediationExceptionResourceKey[];
-  Limit?: number;
-  NextToken?: string;
+  ResourceKeys?: RemediationExceptionResourceKey[] | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface RemediationException {
   ConfigRuleName: string;
   ResourceType: string;
   ResourceId: string;
-  Message?: string;
-  ExpirationTime?: Date;
+  Message?: string | undefined;
+  ExpirationTime?: Date | undefined;
 }
 export type RemediationExceptions = RemediationException[];
 export interface DescribeRemediationExceptionsResponse {
-  RemediationExceptions?: RemediationException[];
-  NextToken?: string;
+  RemediationExceptions?: RemediationException[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeRemediationExecutionStatusRequest {
   ConfigRuleName: string;
-  ResourceKeys?: ResourceKey[];
-  Limit?: number;
-  NextToken?: string;
+  ResourceKeys?: ResourceKey[] | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type RemediationExecutionState =
   | "QUEUED"
@@ -1874,29 +1875,29 @@ export type RemediationExecutionStepState =
   | "UNKNOWN"
   | (string & {});
 export interface RemediationExecutionStep {
-  Name?: string;
-  State?: RemediationExecutionStepState;
-  ErrorMessage?: string;
-  StartTime?: Date;
-  StopTime?: Date;
+  Name?: string | undefined;
+  State?: RemediationExecutionStepState | undefined;
+  ErrorMessage?: string | undefined;
+  StartTime?: Date | undefined;
+  StopTime?: Date | undefined;
 }
 export type RemediationExecutionSteps = RemediationExecutionStep[];
 export interface RemediationExecutionStatus {
-  ResourceKey?: ResourceKey;
-  State?: RemediationExecutionState;
-  StepDetails?: RemediationExecutionStep[];
-  InvocationTime?: Date;
-  LastUpdatedTime?: Date;
+  ResourceKey?: ResourceKey | undefined;
+  State?: RemediationExecutionState | undefined;
+  StepDetails?: RemediationExecutionStep[] | undefined;
+  InvocationTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
 }
 export type RemediationExecutionStatuses = RemediationExecutionStatus[];
 export interface DescribeRemediationExecutionStatusResponse {
-  RemediationExecutionStatuses?: RemediationExecutionStatus[];
-  NextToken?: string;
+  RemediationExecutionStatuses?: RemediationExecutionStatus[] | undefined;
+  NextToken?: string | undefined;
 }
 export type RetentionConfigurationNameList = string[];
 export interface DescribeRetentionConfigurationsRequest {
-  RetentionConfigurationNames?: string[];
-  NextToken?: string;
+  RetentionConfigurationNames?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export type RetentionPeriodInDays = number;
 export interface RetentionConfiguration {
@@ -1905,8 +1906,8 @@ export interface RetentionConfiguration {
 }
 export type RetentionConfigurationList = RetentionConfiguration[];
 export interface DescribeRetentionConfigurationsResponse {
-  RetentionConfigurations?: RetentionConfiguration[];
-  NextToken?: string;
+  RetentionConfigurations?: RetentionConfiguration[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DisassociateResourceTypesRequest {
   ConfigurationRecorderArn: string;
@@ -1920,66 +1921,66 @@ export interface GetAggregateComplianceDetailsByConfigRuleRequest {
   ConfigRuleName: string;
   AccountId: string;
   AwsRegion: string;
-  ComplianceType?: ComplianceType;
-  Limit?: number;
-  NextToken?: string;
+  ComplianceType?: ComplianceType | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface EvaluationResultQualifier {
-  ConfigRuleName?: string;
-  ResourceType?: string;
-  ResourceId?: string;
-  EvaluationMode?: EvaluationMode;
+  ConfigRuleName?: string | undefined;
+  ResourceType?: string | undefined;
+  ResourceId?: string | undefined;
+  EvaluationMode?: EvaluationMode | undefined;
 }
 export type ResourceEvaluationId = string;
 export interface EvaluationResultIdentifier {
-  EvaluationResultQualifier?: EvaluationResultQualifier;
-  OrderingTimestamp?: Date;
-  ResourceEvaluationId?: string;
+  EvaluationResultQualifier?: EvaluationResultQualifier | undefined;
+  OrderingTimestamp?: Date | undefined;
+  ResourceEvaluationId?: string | undefined;
 }
 export interface AggregateEvaluationResult {
-  EvaluationResultIdentifier?: EvaluationResultIdentifier;
-  ComplianceType?: ComplianceType;
-  ResultRecordedTime?: Date;
-  ConfigRuleInvokedTime?: Date;
-  Annotation?: string;
-  AccountId?: string;
-  AwsRegion?: string;
+  EvaluationResultIdentifier?: EvaluationResultIdentifier | undefined;
+  ComplianceType?: ComplianceType | undefined;
+  ResultRecordedTime?: Date | undefined;
+  ConfigRuleInvokedTime?: Date | undefined;
+  Annotation?: string | undefined;
+  AccountId?: string | undefined;
+  AwsRegion?: string | undefined;
 }
 export type AggregateEvaluationResultList = AggregateEvaluationResult[];
 export interface GetAggregateComplianceDetailsByConfigRuleResponse {
-  AggregateEvaluationResults?: AggregateEvaluationResult[];
-  NextToken?: string;
+  AggregateEvaluationResults?: AggregateEvaluationResult[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ConfigRuleComplianceSummaryFilters {
-  AccountId?: string;
-  AwsRegion?: string;
+  AccountId?: string | undefined;
+  AwsRegion?: string | undefined;
 }
 export type ConfigRuleComplianceSummaryGroupKey = "ACCOUNT_ID" | "AWS_REGION" | (string & {});
 export interface GetAggregateConfigRuleComplianceSummaryRequest {
   ConfigurationAggregatorName: string;
-  Filters?: ConfigRuleComplianceSummaryFilters;
-  GroupByKey?: ConfigRuleComplianceSummaryGroupKey;
-  Limit?: number;
-  NextToken?: string;
+  Filters?: ConfigRuleComplianceSummaryFilters | undefined;
+  GroupByKey?: ConfigRuleComplianceSummaryGroupKey | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ComplianceSummary {
-  CompliantResourceCount?: ComplianceContributorCount;
-  NonCompliantResourceCount?: ComplianceContributorCount;
-  ComplianceSummaryTimestamp?: Date;
+  CompliantResourceCount?: ComplianceContributorCount | undefined;
+  NonCompliantResourceCount?: ComplianceContributorCount | undefined;
+  ComplianceSummaryTimestamp?: Date | undefined;
 }
 export interface AggregateComplianceCount {
-  GroupName?: string;
-  ComplianceSummary?: ComplianceSummary;
+  GroupName?: string | undefined;
+  ComplianceSummary?: ComplianceSummary | undefined;
 }
 export type AggregateComplianceCountList = AggregateComplianceCount[];
 export interface GetAggregateConfigRuleComplianceSummaryResponse {
-  GroupByKey?: string;
-  AggregateComplianceCounts?: AggregateComplianceCount[];
-  NextToken?: string;
+  GroupByKey?: string | undefined;
+  AggregateComplianceCounts?: AggregateComplianceCount[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface AggregateConformancePackComplianceSummaryFilters {
-  AccountId?: string;
-  AwsRegion?: string;
+  AccountId?: string | undefined;
+  AwsRegion?: string | undefined;
 }
 export type AggregateConformancePackComplianceSummaryGroupKey =
   | "ACCOUNT_ID"
@@ -1987,38 +1988,40 @@ export type AggregateConformancePackComplianceSummaryGroupKey =
   | (string & {});
 export interface GetAggregateConformancePackComplianceSummaryRequest {
   ConfigurationAggregatorName: string;
-  Filters?: AggregateConformancePackComplianceSummaryFilters;
-  GroupByKey?: AggregateConformancePackComplianceSummaryGroupKey;
-  Limit?: number;
-  NextToken?: string;
+  Filters?: AggregateConformancePackComplianceSummaryFilters | undefined;
+  GroupByKey?: AggregateConformancePackComplianceSummaryGroupKey | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface AggregateConformancePackComplianceCount {
-  CompliantConformancePackCount?: number;
-  NonCompliantConformancePackCount?: number;
+  CompliantConformancePackCount?: number | undefined;
+  NonCompliantConformancePackCount?: number | undefined;
 }
 export interface AggregateConformancePackComplianceSummary {
-  ComplianceSummary?: AggregateConformancePackComplianceCount;
-  GroupName?: string;
+  ComplianceSummary?: AggregateConformancePackComplianceCount | undefined;
+  GroupName?: string | undefined;
 }
 export type AggregateConformancePackComplianceSummaryList =
   AggregateConformancePackComplianceSummary[];
 export interface GetAggregateConformancePackComplianceSummaryResponse {
-  AggregateConformancePackComplianceSummaries?: AggregateConformancePackComplianceSummary[];
-  GroupByKey?: string;
-  NextToken?: string;
+  AggregateConformancePackComplianceSummaries?:
+    | AggregateConformancePackComplianceSummary[]
+    | undefined;
+  GroupByKey?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface ResourceCountFilters {
-  ResourceType?: ResourceType;
-  AccountId?: string;
-  Region?: string;
+  ResourceType?: ResourceType | undefined;
+  AccountId?: string | undefined;
+  Region?: string | undefined;
 }
 export type ResourceCountGroupKey = "RESOURCE_TYPE" | "ACCOUNT_ID" | "AWS_REGION" | (string & {});
 export interface GetAggregateDiscoveredResourceCountsRequest {
   ConfigurationAggregatorName: string;
-  Filters?: ResourceCountFilters;
-  GroupByKey?: ResourceCountGroupKey;
-  Limit?: number;
-  NextToken?: string;
+  Filters?: ResourceCountFilters | undefined;
+  GroupByKey?: ResourceCountGroupKey | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface GroupedResourceCount {
   GroupName: string;
@@ -2027,9 +2030,9 @@ export interface GroupedResourceCount {
 export type GroupedResourceCountList = GroupedResourceCount[];
 export interface GetAggregateDiscoveredResourceCountsResponse {
   TotalDiscoveredResources: number;
-  GroupByKey?: string;
-  GroupedResourceCounts?: GroupedResourceCount[];
-  NextToken?: string;
+  GroupByKey?: string | undefined;
+  GroupedResourceCounts?: GroupedResourceCount[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetAggregateResourceConfigRequest {
   ConfigurationAggregatorName: string;
@@ -2043,96 +2046,96 @@ export type RelatedEvent = string;
 export type RelatedEventList = string[];
 export type RelationshipName = string;
 export interface Relationship {
-  resourceType?: ResourceType;
-  resourceId?: string;
-  resourceName?: string;
-  relationshipName?: string;
+  resourceType?: ResourceType | undefined;
+  resourceId?: string | undefined;
+  resourceName?: string | undefined;
+  relationshipName?: string | undefined;
 }
 export type RelationshipList = Relationship[];
 export interface ConfigurationItem {
-  version?: string;
-  accountId?: string;
-  configurationItemCaptureTime?: Date;
-  configurationItemStatus?: ConfigurationItemStatus;
-  configurationStateId?: string;
-  configurationItemMD5Hash?: string;
-  arn?: string;
-  resourceType?: ResourceType;
-  resourceId?: string;
-  resourceName?: string;
-  awsRegion?: string;
-  availabilityZone?: string;
-  resourceCreationTime?: Date;
-  tags?: { [key: string]: string | undefined };
-  relatedEvents?: string[];
-  relationships?: Relationship[];
-  configuration?: string;
-  supplementaryConfiguration?: { [key: string]: string | undefined };
-  recordingFrequency?: RecordingFrequency;
-  configurationItemDeliveryTime?: Date;
+  version?: string | undefined;
+  accountId?: string | undefined;
+  configurationItemCaptureTime?: Date | undefined;
+  configurationItemStatus?: ConfigurationItemStatus | undefined;
+  configurationStateId?: string | undefined;
+  configurationItemMD5Hash?: string | undefined;
+  arn?: string | undefined;
+  resourceType?: ResourceType | undefined;
+  resourceId?: string | undefined;
+  resourceName?: string | undefined;
+  awsRegion?: string | undefined;
+  availabilityZone?: string | undefined;
+  resourceCreationTime?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  relatedEvents?: string[] | undefined;
+  relationships?: Relationship[] | undefined;
+  configuration?: string | undefined;
+  supplementaryConfiguration?: { [key: string]: string | undefined } | undefined;
+  recordingFrequency?: RecordingFrequency | undefined;
+  configurationItemDeliveryTime?: Date | undefined;
 }
 export interface GetAggregateResourceConfigResponse {
-  ConfigurationItem?: ConfigurationItem;
+  ConfigurationItem?: ConfigurationItem | undefined;
 }
 export interface GetComplianceDetailsByConfigRuleRequest {
   ConfigRuleName: string;
-  ComplianceTypes?: ComplianceType[];
-  Limit?: number;
-  NextToken?: string;
+  ComplianceTypes?: ComplianceType[] | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface EvaluationResult {
-  EvaluationResultIdentifier?: EvaluationResultIdentifier;
-  ComplianceType?: ComplianceType;
-  ResultRecordedTime?: Date;
-  ConfigRuleInvokedTime?: Date;
-  Annotation?: string;
-  ResultToken?: string;
+  EvaluationResultIdentifier?: EvaluationResultIdentifier | undefined;
+  ComplianceType?: ComplianceType | undefined;
+  ResultRecordedTime?: Date | undefined;
+  ConfigRuleInvokedTime?: Date | undefined;
+  Annotation?: string | undefined;
+  ResultToken?: string | undefined;
 }
 export type EvaluationResults = EvaluationResult[];
 export interface GetComplianceDetailsByConfigRuleResponse {
-  EvaluationResults?: EvaluationResult[];
-  NextToken?: string;
+  EvaluationResults?: EvaluationResult[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetComplianceDetailsByResourceRequest {
-  ResourceType?: string;
-  ResourceId?: string;
-  ComplianceTypes?: ComplianceType[];
-  NextToken?: string;
-  ResourceEvaluationId?: string;
+  ResourceType?: string | undefined;
+  ResourceId?: string | undefined;
+  ComplianceTypes?: ComplianceType[] | undefined;
+  NextToken?: string | undefined;
+  ResourceEvaluationId?: string | undefined;
 }
 export interface GetComplianceDetailsByResourceResponse {
-  EvaluationResults?: EvaluationResult[];
-  NextToken?: string;
+  EvaluationResults?: EvaluationResult[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetComplianceSummaryByConfigRuleRequest {}
 export interface GetComplianceSummaryByConfigRuleResponse {
-  ComplianceSummary?: ComplianceSummary;
+  ComplianceSummary?: ComplianceSummary | undefined;
 }
 export type ResourceTypes = string[];
 export interface GetComplianceSummaryByResourceTypeRequest {
-  ResourceTypes?: string[];
+  ResourceTypes?: string[] | undefined;
 }
 export interface ComplianceSummaryByResourceType {
-  ResourceType?: string;
-  ComplianceSummary?: ComplianceSummary;
+  ResourceType?: string | undefined;
+  ComplianceSummary?: ComplianceSummary | undefined;
 }
 export type ComplianceSummariesByResourceType = ComplianceSummaryByResourceType[];
 export interface GetComplianceSummaryByResourceTypeResponse {
-  ComplianceSummariesByResourceType?: ComplianceSummaryByResourceType[];
+  ComplianceSummariesByResourceType?: ComplianceSummaryByResourceType[] | undefined;
 }
 export type ConformancePackComplianceResourceIds = string[];
 export interface ConformancePackEvaluationFilters {
-  ConfigRuleNames?: string[];
-  ComplianceType?: ConformancePackComplianceType;
-  ResourceType?: string;
-  ResourceIds?: string[];
+  ConfigRuleNames?: string[] | undefined;
+  ComplianceType?: ConformancePackComplianceType | undefined;
+  ResourceType?: string | undefined;
+  ResourceIds?: string[] | undefined;
 }
 export type GetConformancePackComplianceDetailsLimit = number;
 export interface GetConformancePackComplianceDetailsRequest {
   ConformancePackName: string;
-  Filters?: ConformancePackEvaluationFilters;
-  Limit?: number;
-  NextToken?: string;
+  Filters?: ConformancePackEvaluationFilters | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type Annotation = string;
 export interface ConformancePackEvaluationResult {
@@ -2140,19 +2143,19 @@ export interface ConformancePackEvaluationResult {
   EvaluationResultIdentifier: EvaluationResultIdentifier;
   ConfigRuleInvokedTime: Date;
   ResultRecordedTime: Date;
-  Annotation?: string;
+  Annotation?: string | undefined;
 }
 export type ConformancePackRuleEvaluationResultsList = ConformancePackEvaluationResult[];
 export interface GetConformancePackComplianceDetailsResponse {
   ConformancePackName: string;
-  ConformancePackRuleEvaluationResults?: ConformancePackEvaluationResult[];
-  NextToken?: string;
+  ConformancePackRuleEvaluationResults?: ConformancePackEvaluationResult[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ConformancePackNamesToSummarizeList = string[];
 export interface GetConformancePackComplianceSummaryRequest {
   ConformancePackNames: string[];
-  Limit?: number;
-  NextToken?: string;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ConformancePackComplianceSummary {
   ConformancePackName: string;
@@ -2160,8 +2163,8 @@ export interface ConformancePackComplianceSummary {
 }
 export type ConformancePackComplianceSummaryList = ConformancePackComplianceSummary[];
 export interface GetConformancePackComplianceSummaryResponse {
-  ConformancePackComplianceSummaryList?: ConformancePackComplianceSummary[];
-  NextToken?: string;
+  ConformancePackComplianceSummaryList?: ConformancePackComplianceSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetConnectorRequest {
   Arn: string;
@@ -2174,7 +2177,7 @@ export interface AzureConnectorConfiguration {
   clientIdentifier: string;
 }
 export interface ConnectorConfiguration {
-  azure?: AzureConnectorConfiguration;
+  azure?: AzureConnectorConfiguration | undefined;
 }
 export interface Connector {
   name: string;
@@ -2186,25 +2189,25 @@ export interface GetConnectorResponse {
   Connector: Connector;
 }
 export interface GetCustomRulePolicyRequest {
-  ConfigRuleName?: string;
+  ConfigRuleName?: string | undefined;
 }
 export interface GetCustomRulePolicyResponse {
-  PolicyText?: string;
+  PolicyText?: string | undefined;
 }
 export interface GetDiscoveredResourceCountsRequest {
-  resourceTypes?: string[];
-  limit?: number;
-  nextToken?: string;
+  resourceTypes?: string[] | undefined;
+  limit?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ResourceCount {
-  resourceType?: ResourceType;
-  count?: number;
+  resourceType?: ResourceType | undefined;
+  count?: number | undefined;
 }
 export type ResourceCounts = ResourceCount[];
 export interface GetDiscoveredResourceCountsResponse {
-  totalDiscoveredResources?: number;
-  resourceCounts?: ResourceCount[];
-  nextToken?: string;
+  totalDiscoveredResources?: number | undefined;
+  resourceCounts?: ResourceCount[] | undefined;
+  nextToken?: string | undefined;
 }
 export type MemberAccountRuleStatus =
   | "CREATE_SUCCESSFUL"
@@ -2218,27 +2221,27 @@ export type MemberAccountRuleStatus =
   | "UPDATE_FAILED"
   | (string & {});
 export interface StatusDetailFilters {
-  AccountId?: string;
-  MemberAccountRuleStatus?: MemberAccountRuleStatus;
+  AccountId?: string | undefined;
+  MemberAccountRuleStatus?: MemberAccountRuleStatus | undefined;
 }
 export interface GetOrganizationConfigRuleDetailedStatusRequest {
   OrganizationConfigRuleName: string;
-  Filters?: StatusDetailFilters;
-  Limit?: number;
-  NextToken?: string;
+  Filters?: StatusDetailFilters | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface MemberAccountStatus {
   AccountId: string;
   ConfigRuleName: string;
   MemberAccountRuleStatus: MemberAccountRuleStatus;
-  ErrorCode?: string;
-  ErrorMessage?: string;
-  LastUpdateTime?: Date;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
+  LastUpdateTime?: Date | undefined;
 }
 export type OrganizationConfigRuleDetailedStatus = MemberAccountStatus[];
 export interface GetOrganizationConfigRuleDetailedStatusResponse {
-  OrganizationConfigRuleDetailedStatus?: MemberAccountStatus[];
-  NextToken?: string;
+  OrganizationConfigRuleDetailedStatus?: MemberAccountStatus[] | undefined;
+  NextToken?: string | undefined;
 }
 export type OrganizationResourceDetailedStatus =
   | "CREATE_SUCCESSFUL"
@@ -2252,34 +2255,36 @@ export type OrganizationResourceDetailedStatus =
   | "UPDATE_FAILED"
   | (string & {});
 export interface OrganizationResourceDetailedStatusFilters {
-  AccountId?: string;
-  Status?: OrganizationResourceDetailedStatus;
+  AccountId?: string | undefined;
+  Status?: OrganizationResourceDetailedStatus | undefined;
 }
 export interface GetOrganizationConformancePackDetailedStatusRequest {
   OrganizationConformancePackName: string;
-  Filters?: OrganizationResourceDetailedStatusFilters;
-  Limit?: number;
-  NextToken?: string;
+  Filters?: OrganizationResourceDetailedStatusFilters | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface OrganizationConformancePackDetailedStatus {
   AccountId: string;
   ConformancePackName: string;
   Status: OrganizationResourceDetailedStatus;
-  ErrorCode?: string;
-  ErrorMessage?: string;
-  LastUpdateTime?: Date;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
+  LastUpdateTime?: Date | undefined;
 }
 export type OrganizationConformancePackDetailedStatuses =
   OrganizationConformancePackDetailedStatus[];
 export interface GetOrganizationConformancePackDetailedStatusResponse {
-  OrganizationConformancePackDetailedStatuses?: OrganizationConformancePackDetailedStatus[];
-  NextToken?: string;
+  OrganizationConformancePackDetailedStatuses?:
+    | OrganizationConformancePackDetailedStatus[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetOrganizationCustomRulePolicyRequest {
   OrganizationConfigRuleName: string;
 }
 export interface GetOrganizationCustomRulePolicyResponse {
-  PolicyText?: string;
+  PolicyText?: string | undefined;
 }
 export type LaterTime = Date;
 export type EarlierTime = Date;
@@ -2287,16 +2292,16 @@ export type ChronologicalOrder = "Reverse" | "Forward" | (string & {});
 export interface GetResourceConfigHistoryRequest {
   resourceType: ResourceType;
   resourceId: string;
-  laterTime?: Date;
-  earlierTime?: Date;
-  chronologicalOrder?: ChronologicalOrder;
-  limit?: number;
-  nextToken?: string;
+  laterTime?: Date | undefined;
+  earlierTime?: Date | undefined;
+  chronologicalOrder?: ChronologicalOrder | undefined;
+  limit?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ConfigurationItemList = ConfigurationItem[];
 export interface GetResourceConfigHistoryResponse {
-  configurationItems?: ConfigurationItem[];
-  nextToken?: string;
+  configurationItems?: ConfigurationItem[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface GetResourceEvaluationSummaryRequest {
   ResourceEvaluationId: string;
@@ -2304,11 +2309,11 @@ export interface GetResourceEvaluationSummaryRequest {
 export type ResourceEvaluationStatus = "IN_PROGRESS" | "FAILED" | "SUCCEEDED" | (string & {});
 export interface EvaluationStatus {
   Status: ResourceEvaluationStatus;
-  FailureReason?: string;
+  FailureReason?: string | undefined;
 }
 export type EvaluationContextIdentifier = string;
 export interface EvaluationContext {
-  EvaluationContextIdentifier?: string;
+  EvaluationContextIdentifier?: string | undefined;
 }
 export type ResourceConfiguration = string;
 export type ResourceConfigurationSchemaType = "CFN_RESOURCE_SCHEMA" | (string & {});
@@ -2316,16 +2321,16 @@ export interface ResourceDetails {
   ResourceId: string;
   ResourceType: string;
   ResourceConfiguration: string;
-  ResourceConfigurationSchemaType?: ResourceConfigurationSchemaType;
+  ResourceConfigurationSchemaType?: ResourceConfigurationSchemaType | undefined;
 }
 export interface GetResourceEvaluationSummaryResponse {
-  ResourceEvaluationId?: string;
-  EvaluationMode?: EvaluationMode;
-  EvaluationStatus?: EvaluationStatus;
-  EvaluationStartTimestamp?: Date;
-  Compliance?: ComplianceType;
-  EvaluationContext?: EvaluationContext;
-  ResourceDetails?: ResourceDetails;
+  ResourceEvaluationId?: string | undefined;
+  EvaluationMode?: EvaluationMode | undefined;
+  EvaluationStatus?: EvaluationStatus | undefined;
+  EvaluationStartTimestamp?: Date | undefined;
+  Compliance?: ComplianceType | undefined;
+  EvaluationContext?: EvaluationContext | undefined;
+  ResourceDetails?: ResourceDetails | undefined;
 }
 export interface GetStoredQueryRequest {
   QueryName: string;
@@ -2335,59 +2340,59 @@ export type QueryArn = string;
 export type QueryDescription = string;
 export type QueryExpression = string;
 export interface StoredQuery {
-  QueryId?: string;
-  QueryArn?: string;
+  QueryId?: string | undefined;
+  QueryArn?: string | undefined;
   QueryName: string;
-  Description?: string;
-  Expression?: string;
+  Description?: string | undefined;
+  Expression?: string | undefined;
 }
 export interface GetStoredQueryResponse {
-  StoredQuery?: StoredQuery;
+  StoredQuery?: StoredQuery | undefined;
 }
 export interface ResourceFilters {
-  AccountId?: string;
-  ResourceId?: string;
-  ResourceName?: string;
-  Region?: string;
+  AccountId?: string | undefined;
+  ResourceId?: string | undefined;
+  ResourceName?: string | undefined;
+  Region?: string | undefined;
 }
 export interface ListAggregateDiscoveredResourcesRequest {
   ConfigurationAggregatorName: string;
   ResourceType: ResourceType;
-  Filters?: ResourceFilters;
-  Limit?: number;
-  NextToken?: string;
+  Filters?: ResourceFilters | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type DiscoveredResourceIdentifierList = AggregateResourceIdentifier[];
 export interface ListAggregateDiscoveredResourcesResponse {
-  ResourceIdentifiers?: AggregateResourceIdentifier[];
-  NextToken?: string;
+  ResourceIdentifiers?: AggregateResourceIdentifier[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ConfigurationRecorderFilterName = "recordingScope" | (string & {});
 export type ConfigurationRecorderFilterValue = string;
 export type ConfigurationRecorderFilterValues = string[];
 export interface ConfigurationRecorderFilter {
-  filterName?: ConfigurationRecorderFilterName;
-  filterValue?: string[];
+  filterName?: ConfigurationRecorderFilterName | undefined;
+  filterValue?: string[] | undefined;
 }
 export type ConfigurationRecorderFilterList = ConfigurationRecorderFilter[];
 export type MaxResults = number;
 export interface ListConfigurationRecordersRequest {
-  Filters?: ConfigurationRecorderFilter[];
-  MaxResults?: number;
-  NextToken?: string;
+  Filters?: ConfigurationRecorderFilter[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type Provider = "AZURE" | (string & {});
 export interface ConfigurationRecorderSummary {
   arn: string;
   name: string;
-  servicePrincipal?: string;
+  servicePrincipal?: string | undefined;
   recordingScope: RecordingScope;
-  provider?: Provider;
+  provider?: Provider | undefined;
 }
 export type ConfigurationRecorderSummaries = ConfigurationRecorderSummary[];
 export interface ListConfigurationRecordersResponse {
   ConfigurationRecorderSummaries: ConfigurationRecorderSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type ConformancePackNameFilter = string[];
 export interface ConformancePackComplianceScoresFilters {
@@ -2396,36 +2401,36 @@ export interface ConformancePackComplianceScoresFilters {
 export type SortOrder = "ASCENDING" | "DESCENDING" | (string & {});
 export type SortBy = "SCORE" | (string & {});
 export interface ListConformancePackComplianceScoresRequest {
-  Filters?: ConformancePackComplianceScoresFilters;
-  SortOrder?: SortOrder;
-  SortBy?: SortBy;
-  Limit?: number;
-  NextToken?: string;
+  Filters?: ConformancePackComplianceScoresFilters | undefined;
+  SortOrder?: SortOrder | undefined;
+  SortBy?: SortBy | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ComplianceScore = string;
 export type LastUpdatedTime = Date;
 export interface ConformancePackComplianceScore {
-  Score?: string;
-  ConformancePackName?: string;
-  LastUpdatedTime?: Date;
+  Score?: string | undefined;
+  ConformancePackName?: string | undefined;
+  LastUpdatedTime?: Date | undefined;
 }
 export type ConformancePackComplianceScores = ConformancePackComplianceScore[];
 export interface ListConformancePackComplianceScoresResponse {
-  NextToken?: string;
+  NextToken?: string | undefined;
   ConformancePackComplianceScores: ConformancePackComplianceScore[];
 }
 export type ListConnectorsMaxResults = number;
 export type ConnectorFilterName = "provider" | (string & {});
 export type FilterValueList = string[];
 export interface ConnectorFilter {
-  filterName?: ConnectorFilterName;
-  filterValues?: string[];
+  filterName?: ConnectorFilterName | undefined;
+  filterValues?: string[] | undefined;
 }
 export type ConnectorFilterList = ConnectorFilter[];
 export interface ListConnectorsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  Filters?: ConnectorFilter[];
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: ConnectorFilter[] | undefined;
 }
 export interface ConnectorSummary {
   arn: string;
@@ -2437,132 +2442,132 @@ export interface ConnectorSummary {
 export type ConnectorSummaries = ConnectorSummary[];
 export interface ListConnectorsResponse {
   ConnectorSummaries: ConnectorSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type ResourceIdList = string[];
 export interface ListDiscoveredResourcesRequest {
   resourceType: ResourceType;
-  resourceIds?: string[];
-  resourceName?: string;
-  limit?: number;
-  includeDeletedResources?: boolean;
-  nextToken?: string;
+  resourceIds?: string[] | undefined;
+  resourceName?: string | undefined;
+  limit?: number | undefined;
+  includeDeletedResources?: boolean | undefined;
+  nextToken?: string | undefined;
 }
 export type ResourceDeletionTime = Date;
 export interface ResourceIdentifier {
-  resourceType?: ResourceType;
-  resourceId?: string;
-  resourceName?: string;
-  resourceDeletionTime?: Date;
+  resourceType?: ResourceType | undefined;
+  resourceId?: string | undefined;
+  resourceName?: string | undefined;
+  resourceDeletionTime?: Date | undefined;
 }
 export type ResourceIdentifierList = ResourceIdentifier[];
 export interface ListDiscoveredResourcesResponse {
-  resourceIdentifiers?: ResourceIdentifier[];
-  nextToken?: string;
+  resourceIdentifiers?: ResourceIdentifier[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface TimeWindow {
-  StartTime?: Date;
-  EndTime?: Date;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
 }
 export interface ResourceEvaluationFilters {
-  EvaluationMode?: EvaluationMode;
-  TimeWindow?: TimeWindow;
-  EvaluationContextIdentifier?: string;
+  EvaluationMode?: EvaluationMode | undefined;
+  TimeWindow?: TimeWindow | undefined;
+  EvaluationContextIdentifier?: string | undefined;
 }
 export type ListResourceEvaluationsPageItemLimit = number;
 export interface ListResourceEvaluationsRequest {
-  Filters?: ResourceEvaluationFilters;
-  Limit?: number;
-  NextToken?: string;
+  Filters?: ResourceEvaluationFilters | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ResourceEvaluation {
-  ResourceEvaluationId?: string;
-  EvaluationMode?: EvaluationMode;
-  EvaluationStartTimestamp?: Date;
+  ResourceEvaluationId?: string | undefined;
+  EvaluationMode?: EvaluationMode | undefined;
+  EvaluationStartTimestamp?: Date | undefined;
 }
 export type ResourceEvaluations = ResourceEvaluation[];
 export interface ListResourceEvaluationsResponse {
-  ResourceEvaluations?: ResourceEvaluation[];
-  NextToken?: string;
+  ResourceEvaluations?: ResourceEvaluation[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListStoredQueriesRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface StoredQueryMetadata {
   QueryId: string;
   QueryArn: string;
   QueryName: string;
-  Description?: string;
+  Description?: string | undefined;
 }
 export type StoredQueryMetadataList = StoredQueryMetadata[];
 export interface ListStoredQueriesResponse {
-  StoredQueryMetadata?: StoredQueryMetadata[];
-  NextToken?: string;
+  StoredQueryMetadata?: StoredQueryMetadata[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
-  Limit?: number;
-  NextToken?: string;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type TagList = Tag[];
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
-  NextToken?: string;
+  Tags?: Tag[] | undefined;
+  NextToken?: string | undefined;
 }
 export type TagsList = Tag[];
 export interface PutAggregationAuthorizationRequest {
   AuthorizedAccountId: string;
   AuthorizedAwsRegion: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface PutAggregationAuthorizationResponse {
-  AggregationAuthorization?: AggregationAuthorization;
+  AggregationAuthorization?: AggregationAuthorization | undefined;
 }
 export interface PutConfigRuleRequest {
   ConfigRule: ConfigRule;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface PutConfigRuleResponse {}
 export interface PutConfigurationAggregatorRequest {
   ConfigurationAggregatorName: string;
-  AccountAggregationSources?: AccountAggregationSource[];
-  OrganizationAggregationSource?: OrganizationAggregationSource;
-  Tags?: Tag[];
-  AggregatorFilters?: AggregatorFilters;
+  AccountAggregationSources?: AccountAggregationSource[] | undefined;
+  OrganizationAggregationSource?: OrganizationAggregationSource | undefined;
+  Tags?: Tag[] | undefined;
+  AggregatorFilters?: AggregatorFilters | undefined;
 }
 export interface PutConfigurationAggregatorResponse {
-  ConfigurationAggregator?: ConfigurationAggregator;
+  ConfigurationAggregator?: ConfigurationAggregator | undefined;
 }
 export interface PutConfigurationRecorderRequest {
   ConfigurationRecorder: ConfigurationRecorder;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface PutConfigurationRecorderResponse {}
 export type TemplateS3Uri = string;
 export type TemplateBody = string;
 export interface PutConformancePackRequest {
   ConformancePackName: string;
-  TemplateS3Uri?: string;
-  TemplateBody?: string;
-  DeliveryS3Bucket?: string;
-  DeliveryS3KeyPrefix?: string;
-  ConformancePackInputParameters?: ConformancePackInputParameter[];
-  TemplateSSMDocumentDetails?: TemplateSSMDocumentDetails;
-  Tags?: Tag[];
+  TemplateS3Uri?: string | undefined;
+  TemplateBody?: string | undefined;
+  DeliveryS3Bucket?: string | undefined;
+  DeliveryS3KeyPrefix?: string | undefined;
+  ConformancePackInputParameters?: ConformancePackInputParameter[] | undefined;
+  TemplateSSMDocumentDetails?: TemplateSSMDocumentDetails | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface PutConformancePackResponse {
-  ConformancePackArn?: string;
+  ConformancePackArn?: string | undefined;
 }
 export interface PutConnectorRequest {
   ConnectorConfiguration: ConnectorConfiguration;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface PutConnectorResponse {
   Arn: string;
@@ -2576,23 +2581,23 @@ export interface Evaluation {
   ComplianceResourceType: string;
   ComplianceResourceId: string;
   ComplianceType: ComplianceType;
-  Annotation?: string;
+  Annotation?: string | undefined;
   OrderingTimestamp: Date;
 }
 export type Evaluations = Evaluation[];
 export interface PutEvaluationsRequest {
-  Evaluations?: Evaluation[];
+  Evaluations?: Evaluation[] | undefined;
   ResultToken: string;
-  TestMode?: boolean;
+  TestMode?: boolean | undefined;
 }
 export interface PutEvaluationsResponse {
-  FailedEvaluations?: Evaluation[];
+  FailedEvaluations?: Evaluation[] | undefined;
 }
 export interface ExternalEvaluation {
   ComplianceResourceType: string;
   ComplianceResourceId: string;
   ComplianceType: ComplianceType;
-  Annotation?: string;
+  Annotation?: string | undefined;
   OrderingTimestamp: Date;
 }
 export interface PutExternalEvaluationRequest {
@@ -2601,103 +2606,103 @@ export interface PutExternalEvaluationRequest {
 }
 export interface PutExternalEvaluationResponse {}
 export interface OrganizationCustomPolicyRuleMetadata {
-  Description?: string;
-  OrganizationConfigRuleTriggerTypes?: OrganizationConfigRuleTriggerTypeNoSN[];
-  InputParameters?: string;
-  MaximumExecutionFrequency?: MaximumExecutionFrequency;
-  ResourceTypesScope?: string[];
-  ResourceIdScope?: string;
-  TagKeyScope?: string;
-  TagValueScope?: string;
+  Description?: string | undefined;
+  OrganizationConfigRuleTriggerTypes?: OrganizationConfigRuleTriggerTypeNoSN[] | undefined;
+  InputParameters?: string | undefined;
+  MaximumExecutionFrequency?: MaximumExecutionFrequency | undefined;
+  ResourceTypesScope?: string[] | undefined;
+  ResourceIdScope?: string | undefined;
+  TagKeyScope?: string | undefined;
+  TagValueScope?: string | undefined;
   PolicyRuntime: string;
   PolicyText: string;
-  DebugLogDeliveryAccounts?: string[];
+  DebugLogDeliveryAccounts?: string[] | undefined;
 }
 export interface PutOrganizationConfigRuleRequest {
   OrganizationConfigRuleName: string;
-  OrganizationManagedRuleMetadata?: OrganizationManagedRuleMetadata;
-  OrganizationCustomRuleMetadata?: OrganizationCustomRuleMetadata;
-  ExcludedAccounts?: string[];
-  OrganizationCustomPolicyRuleMetadata?: OrganizationCustomPolicyRuleMetadata;
-  Tags?: Tag[];
+  OrganizationManagedRuleMetadata?: OrganizationManagedRuleMetadata | undefined;
+  OrganizationCustomRuleMetadata?: OrganizationCustomRuleMetadata | undefined;
+  ExcludedAccounts?: string[] | undefined;
+  OrganizationCustomPolicyRuleMetadata?: OrganizationCustomPolicyRuleMetadata | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface PutOrganizationConfigRuleResponse {
-  OrganizationConfigRuleArn?: string;
+  OrganizationConfigRuleArn?: string | undefined;
 }
 export interface PutOrganizationConformancePackRequest {
   OrganizationConformancePackName: string;
-  TemplateS3Uri?: string;
-  TemplateBody?: string;
-  DeliveryS3Bucket?: string;
-  DeliveryS3KeyPrefix?: string;
-  ConformancePackInputParameters?: ConformancePackInputParameter[];
-  ExcludedAccounts?: string[];
-  Tags?: Tag[];
+  TemplateS3Uri?: string | undefined;
+  TemplateBody?: string | undefined;
+  DeliveryS3Bucket?: string | undefined;
+  DeliveryS3KeyPrefix?: string | undefined;
+  ConformancePackInputParameters?: ConformancePackInputParameter[] | undefined;
+  ExcludedAccounts?: string[] | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface PutOrganizationConformancePackResponse {
-  OrganizationConformancePackArn?: string;
+  OrganizationConformancePackArn?: string | undefined;
 }
 export interface PutRemediationConfigurationsRequest {
   RemediationConfigurations: RemediationConfiguration[];
 }
 export interface FailedRemediationBatch {
-  FailureMessage?: string;
-  FailedItems?: RemediationConfiguration[];
+  FailureMessage?: string | undefined;
+  FailedItems?: RemediationConfiguration[] | undefined;
 }
 export type FailedRemediationBatches = FailedRemediationBatch[];
 export interface PutRemediationConfigurationsResponse {
-  FailedBatches?: FailedRemediationBatch[];
+  FailedBatches?: FailedRemediationBatch[] | undefined;
 }
 export interface PutRemediationExceptionsRequest {
   ConfigRuleName: string;
   ResourceKeys: RemediationExceptionResourceKey[];
-  Message?: string;
-  ExpirationTime?: Date;
+  Message?: string | undefined;
+  ExpirationTime?: Date | undefined;
 }
 export interface FailedRemediationExceptionBatch {
-  FailureMessage?: string;
-  FailedItems?: RemediationException[];
+  FailureMessage?: string | undefined;
+  FailedItems?: RemediationException[] | undefined;
 }
 export type FailedRemediationExceptionBatches = FailedRemediationExceptionBatch[];
 export interface PutRemediationExceptionsResponse {
-  FailedBatches?: FailedRemediationExceptionBatch[];
+  FailedBatches?: FailedRemediationExceptionBatch[] | undefined;
 }
 export type SchemaVersionId = string;
 export interface PutResourceConfigRequest {
   ResourceType: string;
   SchemaVersionId: string;
   ResourceId: string;
-  ResourceName?: string;
+  ResourceName?: string | undefined;
   Configuration: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutResourceConfigResponse {}
 export interface PutRetentionConfigurationRequest {
   RetentionPeriodInDays: number;
 }
 export interface PutRetentionConfigurationResponse {
-  RetentionConfiguration?: RetentionConfiguration;
+  RetentionConfiguration?: RetentionConfiguration | undefined;
 }
 export interface PutServiceLinkedConfigurationRecorderRequest {
   ServicePrincipal: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface PutServiceLinkedConfigurationRecorderResponse {
-  Arn?: string;
-  Name?: string;
+  Arn?: string | undefined;
+  Name?: string | undefined;
 }
 export interface PutStoredQueryRequest {
   StoredQuery: StoredQuery;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface PutStoredQueryResponse {
-  QueryArn?: string;
+  QueryArn?: string | undefined;
 }
 export interface PutThirdPartyServiceLinkedConfigurationRecorderRequest {
   ServicePrincipal: string;
   ConnectorArn: string;
   ScopeConfiguration: ScopeConfiguration;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface PutThirdPartyServiceLinkedConfigurationRecorderResponse {
   Arn: string;
@@ -2707,37 +2712,37 @@ export type Expression = string;
 export interface SelectAggregateResourceConfigRequest {
   Expression: string;
   ConfigurationAggregatorName: string;
-  Limit?: number;
-  MaxResults?: number;
-  NextToken?: string;
+  Limit?: number | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type Results = string[];
 export type FieldName = string;
 export interface FieldInfo {
-  Name?: string;
+  Name?: string | undefined;
 }
 export type FieldInfoList = FieldInfo[];
 export interface QueryInfo {
-  SelectFields?: FieldInfo[];
+  SelectFields?: FieldInfo[] | undefined;
 }
 export interface SelectAggregateResourceConfigResponse {
-  Results?: string[];
-  QueryInfo?: QueryInfo;
-  NextToken?: string;
+  Results?: string[] | undefined;
+  QueryInfo?: QueryInfo | undefined;
+  NextToken?: string | undefined;
 }
 export interface SelectResourceConfigRequest {
   Expression: string;
-  Limit?: number;
-  NextToken?: string;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface SelectResourceConfigResponse {
-  Results?: string[];
-  QueryInfo?: QueryInfo;
-  NextToken?: string;
+  Results?: string[] | undefined;
+  QueryInfo?: QueryInfo | undefined;
+  NextToken?: string | undefined;
 }
 export type ReevaluateConfigRuleNames = string[];
 export interface StartConfigRulesEvaluationRequest {
-  ConfigRuleNames?: string[];
+  ConfigRuleNames?: string[] | undefined;
 }
 export interface StartConfigRulesEvaluationResponse {}
 export interface StartConfigurationRecorderRequest {
@@ -2749,20 +2754,20 @@ export interface StartRemediationExecutionRequest {
   ResourceKeys: ResourceKey[];
 }
 export interface StartRemediationExecutionResponse {
-  FailureMessage?: string;
-  FailedItems?: ResourceKey[];
+  FailureMessage?: string | undefined;
+  FailedItems?: ResourceKey[] | undefined;
 }
 export type EvaluationTimeout = number;
 export type ClientToken = string;
 export interface StartResourceEvaluationRequest {
   ResourceDetails: ResourceDetails;
-  EvaluationContext?: EvaluationContext;
+  EvaluationContext?: EvaluationContext | undefined;
   EvaluationMode: EvaluationMode;
-  EvaluationTimeout?: number;
-  ClientToken?: string;
+  EvaluationTimeout?: number | undefined;
+  ClientToken?: string | undefined;
 }
 export interface StartResourceEvaluationResponse {
-  ResourceEvaluationId?: string;
+  ResourceEvaluationId?: string | undefined;
 }
 export interface StopConfigurationRecorderRequest {
   ConfigurationRecorderName: string;
@@ -2791,7 +2796,7 @@ export type AssociateResourceTypesError =
  * For this operation, the specified configuration recorder must use a RecordingStrategy that is either `INCLUSION_BY_RESOURCE_TYPES` or `EXCLUSION_BY_RESOURCE_TYPES`.
  */
 export const associateResourceTypes: API.OperationMethod<
-  AssociateResourceTypesRequest,
+  AssociateResourceTypesRequest & RegionInput,
   AssociateResourceTypesResponse,
   AssociateResourceTypesError,
   Credentials | HttpClient.HttpClient
@@ -2819,7 +2824,7 @@ export type BatchGetAggregateResourceConfigError =
  * - The API does not return tags and relationships.
  */
 export const batchGetAggregateResourceConfig: API.OperationMethod<
-  BatchGetAggregateResourceConfigRequest,
+  BatchGetAggregateResourceConfigRequest & RegionInput,
   BatchGetAggregateResourceConfigResponse,
   BatchGetAggregateResourceConfigError,
   Credentials | HttpClient.HttpClient
@@ -2854,7 +2859,7 @@ export type BatchGetResourceConfigError =
  * response.
  */
 export const batchGetResourceConfig: API.OperationMethod<
-  BatchGetResourceConfigRequest,
+  BatchGetResourceConfigRequest & RegionInput,
   BatchGetResourceConfigResponse,
   BatchGetResourceConfigError,
   Credentials | HttpClient.HttpClient
@@ -2875,7 +2880,7 @@ export type DeleteAggregationAuthorizationError = InvalidParameterValueException
  * configuration aggregator account in a specified region.
  */
 export const deleteAggregationAuthorization: API.OperationMethod<
-  DeleteAggregationAuthorizationRequest,
+  DeleteAggregationAuthorizationRequest & RegionInput,
   DeleteAggregationAuthorizationResponse,
   DeleteAggregationAuthorizationError,
   Credentials | HttpClient.HttpClient
@@ -2920,7 +2925,7 @@ export type DeleteConfigRuleError =
  * when recording is disabled for `AWS::Config::ResourceCompliance`, rule evaluations will not be recorded in the associated resource's history.
  */
 export const deleteConfigRule: API.OperationMethod<
-  DeleteConfigRuleRequest,
+  DeleteConfigRuleRequest & RegionInput,
   DeleteConfigRuleResponse,
   DeleteConfigRuleError,
   Credentials | HttpClient.HttpClient
@@ -2943,7 +2948,7 @@ export type DeleteConfigurationAggregatorError =
  * aggregated data associated with the aggregator.
  */
 export const deleteConfigurationAggregator: API.OperationMethod<
-  DeleteConfigurationAggregatorRequest,
+  DeleteConfigurationAggregatorRequest & RegionInput,
   DeleteConfigurationAggregatorResponse,
   DeleteConfigurationAggregatorError,
   Credentials | HttpClient.HttpClient
@@ -2973,7 +2978,7 @@ export type DeleteConfigurationRecorderError =
  * you have created a new customer managed configuration recorder.
  */
 export const deleteConfigurationRecorder: API.OperationMethod<
-  DeleteConfigurationRecorderRequest,
+  DeleteConfigurationRecorderRequest & RegionInput,
   DeleteConfigurationRecorderResponse,
   DeleteConfigurationRecorderError,
   Credentials | HttpClient.HttpClient
@@ -3012,7 +3017,7 @@ export type DeleteConformancePackError =
  * when recording is disabled for `AWS::Config::ResourceCompliance`, rule evaluations will not be recorded in the associated resource's history.
  */
 export const deleteConformancePack: API.OperationMethod<
-  DeleteConformancePackRequest,
+  DeleteConformancePackRequest & RegionInput,
   DeleteConformancePackResponse,
   DeleteConformancePackError,
   Credentials | HttpClient.HttpClient
@@ -3032,7 +3037,7 @@ export type DeleteConnectorError = ResourceNotFoundException | ValidationExcepti
  * Deletes the specified connector.
  */
 export const deleteConnector: API.OperationMethod<
-  DeleteConnectorRequest,
+  DeleteConnectorRequest & RegionInput,
   DeleteConnectorResponse,
   DeleteConnectorError,
   Credentials | HttpClient.HttpClient
@@ -3057,7 +3062,7 @@ export type DeleteDeliveryChannelError =
  * Before you can delete the delivery channel, you must stop the customer managed configuration recorder. You can use the StopConfigurationRecorder operation to stop the customer managed configuration recorder.
  */
 export const deleteDeliveryChannel: API.OperationMethod<
-  DeleteDeliveryChannelRequest,
+  DeleteDeliveryChannelRequest & RegionInput,
   DeleteDeliveryChannelResponse,
   DeleteDeliveryChannelError,
   Credentials | HttpClient.HttpClient
@@ -3083,7 +3088,7 @@ export type DeleteEvaluationResultsError =
  * your Amazon Web Services resources against the rule.
  */
 export const deleteEvaluationResults: API.OperationMethod<
-  DeleteEvaluationResultsRequest,
+  DeleteEvaluationResultsRequest & RegionInput,
   DeleteEvaluationResultsResponse,
   DeleteEvaluationResultsError,
   Credentials | HttpClient.HttpClient
@@ -3126,7 +3131,7 @@ export type DeleteOrganizationConfigRuleError =
  * when recording is disabled for `AWS::Config::ResourceCompliance`, rule evaluations will not be recorded in the associated resource's history.
  */
 export const deleteOrganizationConfigRule: API.OperationMethod<
-  DeleteOrganizationConfigRuleRequest,
+  DeleteOrganizationConfigRuleRequest & RegionInput,
   DeleteOrganizationConfigRuleResponse,
   DeleteOrganizationConfigRuleError,
   Credentials | HttpClient.HttpClient
@@ -3174,7 +3179,7 @@ export type DeleteOrganizationConformancePackError =
  * when recording is disabled for `AWS::Config::ResourceCompliance`, rule evaluations will not be recorded in the associated resource's history.
  */
 export const deleteOrganizationConformancePack: API.OperationMethod<
-  DeleteOrganizationConformancePackRequest,
+  DeleteOrganizationConformancePackRequest & RegionInput,
   DeleteOrganizationConformancePackResponse,
   DeleteOrganizationConformancePackError,
   Credentials | HttpClient.HttpClient
@@ -3199,7 +3204,7 @@ export type DeletePendingAggregationRequestError = InvalidParameterValueExceptio
  * aggregator account in a specified region.
  */
 export const deletePendingAggregationRequest: API.OperationMethod<
-  DeletePendingAggregationRequestRequest,
+  DeletePendingAggregationRequestRequest & RegionInput,
   DeletePendingAggregationRequestResponse,
   DeletePendingAggregationRequestError,
   Credentials | HttpClient.HttpClient
@@ -3224,7 +3229,7 @@ export type DeleteRemediationConfigurationError =
  * Deletes the remediation configuration.
  */
 export const deleteRemediationConfiguration: API.OperationMethod<
-  DeleteRemediationConfigurationRequest,
+  DeleteRemediationConfigurationRequest & RegionInput,
   DeleteRemediationConfigurationResponse,
   DeleteRemediationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3252,7 +3257,7 @@ export type DeleteRemediationExceptionsError = NoSuchRemediationExceptionExcepti
  * Remediation exceptions blocks auto-remediation until the exception is cleared.
  */
 export const deleteRemediationExceptions: API.OperationMethod<
-  DeleteRemediationExceptionsRequest,
+  DeleteRemediationExceptionsRequest & RegionInput,
   DeleteRemediationExceptionsResponse,
   DeleteRemediationExceptionsError,
   Credentials | HttpClient.HttpClient
@@ -3275,7 +3280,7 @@ export type DeleteResourceConfigError =
  * Records the configuration state for a custom resource that has been deleted. This API records a new ConfigurationItem with a ResourceDeleted status. You can retrieve the ConfigurationItems recorded for this resource in your Config History.
  */
 export const deleteResourceConfig: API.OperationMethod<
-  DeleteResourceConfigRequest,
+  DeleteResourceConfigRequest & RegionInput,
   DeleteResourceConfigResponse,
   DeleteResourceConfigError,
   Credentials | HttpClient.HttpClient
@@ -3298,7 +3303,7 @@ export type DeleteRetentionConfigurationError =
  * Deletes the retention configuration.
  */
 export const deleteRetentionConfiguration: API.OperationMethod<
-  DeleteRetentionConfigurationRequest,
+  DeleteRetentionConfigurationRequest & RegionInput,
   DeleteRetentionConfigurationResponse,
   DeleteRetentionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3332,7 +3337,7 @@ export type DeleteServiceLinkedConfigurationRecorderError =
  * The recording scope is set by the service that is linked to the configuration recorder and determines whether you receive configuration items (CIs) in the delivery channel. If the recording scope is internal, you will not receive CIs in the delivery channel.
  */
 export const deleteServiceLinkedConfigurationRecorder: API.OperationMethod<
-  DeleteServiceLinkedConfigurationRecorderRequest,
+  DeleteServiceLinkedConfigurationRecorderRequest & RegionInput,
   DeleteServiceLinkedConfigurationRecorderResponse,
   DeleteServiceLinkedConfigurationRecorderError,
   Credentials | HttpClient.HttpClient
@@ -3352,7 +3357,7 @@ export type DeleteStoredQueryError = ResourceNotFoundException | ValidationExcep
  * Deletes the stored query for a single Amazon Web Services account and a single Amazon Web Services Region.
  */
 export const deleteStoredQuery: API.OperationMethod<
-  DeleteStoredQueryRequest,
+  DeleteStoredQueryRequest & RegionInput,
   DeleteStoredQueryResponse,
   DeleteStoredQueryError,
   Credentials | HttpClient.HttpClient
@@ -3387,7 +3392,7 @@ export type DeliverConfigSnapshotError =
  * failed.
  */
 export const deliverConfigSnapshot: API.OperationMethod<
-  DeliverConfigSnapshotRequest,
+  DeliverConfigSnapshotRequest & RegionInput,
   DeliverConfigSnapshotResponse,
   DeliverConfigSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -3421,7 +3426,7 @@ export type DescribeAggregateComplianceByConfigRulesError =
  * page.
  */
 export const describeAggregateComplianceByConfigRules: API.PaginatedOperationMethod<
-  DescribeAggregateComplianceByConfigRulesRequest,
+  DescribeAggregateComplianceByConfigRulesRequest & RegionInput,
   DescribeAggregateComplianceByConfigRulesResponse,
   DescribeAggregateComplianceByConfigRulesError,
   Credentials | HttpClient.HttpClient,
@@ -3456,7 +3461,7 @@ export type DescribeAggregateComplianceByConformancePacksError =
  * The results can return an empty result page, but if you have a `nextToken`, the results are displayed on the next page.
  */
 export const describeAggregateComplianceByConformancePacks: API.PaginatedOperationMethod<
-  DescribeAggregateComplianceByConformancePacksRequest,
+  DescribeAggregateComplianceByConformancePacksRequest & RegionInput,
   DescribeAggregateComplianceByConformancePacksResponse,
   DescribeAggregateComplianceByConformancePacksError,
   Credentials | HttpClient.HttpClient,
@@ -3501,7 +3506,7 @@ export type DescribeAggregationAuthorizationsError =
  * accounts and regions.
  */
 export const describeAggregationAuthorizations: API.PaginatedOperationMethod<
-  DescribeAggregationAuthorizationsRequest,
+  DescribeAggregationAuthorizationsRequest & RegionInput,
   DescribeAggregationAuthorizationsResponse,
   DescribeAggregationAuthorizationsError,
   Credentials | HttpClient.HttpClient,
@@ -3561,7 +3566,7 @@ export type DescribeComplianceByConfigRuleError =
  * the rule's scope.
  */
 export const describeComplianceByConfigRule: API.PaginatedOperationMethod<
-  DescribeComplianceByConfigRuleRequest,
+  DescribeComplianceByConfigRuleRequest & RegionInput,
   DescribeComplianceByConfigRuleResponse,
   DescribeComplianceByConfigRuleError,
   Credentials | HttpClient.HttpClient,
@@ -3619,7 +3624,7 @@ export type DescribeComplianceByResourceError =
  * the rule's scope.
  */
 export const describeComplianceByResource: API.PaginatedOperationMethod<
-  DescribeComplianceByResourceRequest,
+  DescribeComplianceByResourceRequest & RegionInput,
   DescribeComplianceByResourceResponse,
   DescribeComplianceByResourceError,
   Credentials | HttpClient.HttpClient,
@@ -3651,7 +3656,7 @@ export type DescribeConfigRuleEvaluationStatusError =
  * the rule, and the related error for the last failure.
  */
 export const describeConfigRuleEvaluationStatus: API.PaginatedOperationMethod<
-  DescribeConfigRuleEvaluationStatusRequest,
+  DescribeConfigRuleEvaluationStatusRequest & RegionInput,
   DescribeConfigRuleEvaluationStatusResponse,
   DescribeConfigRuleEvaluationStatusError,
   Credentials | HttpClient.HttpClient,
@@ -3682,7 +3687,7 @@ export type DescribeConfigRulesError =
  * Returns details about your Config rules.
  */
 export const describeConfigRules: API.PaginatedOperationMethod<
-  DescribeConfigRulesRequest,
+  DescribeConfigRulesRequest & RegionInput,
   DescribeConfigRulesResponse,
   DescribeConfigRulesError,
   Credentials | HttpClient.HttpClient,
@@ -3712,7 +3717,7 @@ export type DescribeConfigurationAggregatorsError =
  * with the account.
  */
 export const describeConfigurationAggregators: API.PaginatedOperationMethod<
-  DescribeConfigurationAggregatorsRequest,
+  DescribeConfigurationAggregatorsRequest & RegionInput,
   DescribeConfigurationAggregatorsResponse,
   DescribeConfigurationAggregatorsError,
   Credentials | HttpClient.HttpClient,
@@ -3750,7 +3755,7 @@ export type DescribeConfigurationAggregatorSourcesStatusError =
  * The status includes information about the last time Config verified authorization between the source account and an aggregator account. In case of a failure, the status contains the related error code or message.
  */
 export const describeConfigurationAggregatorSourcesStatus: API.PaginatedOperationMethod<
-  DescribeConfigurationAggregatorSourcesStatusRequest,
+  DescribeConfigurationAggregatorSourcesStatusRequest & RegionInput,
   DescribeConfigurationAggregatorSourcesStatusResponse,
   DescribeConfigurationAggregatorSourcesStatusError,
   Credentials | HttpClient.HttpClient,
@@ -3798,7 +3803,7 @@ export type DescribeConfigurationRecordersError =
  * When making a request to this operation, you can only specify one configuration recorder.
  */
 export const describeConfigurationRecorders: API.OperationMethod<
-  DescribeConfigurationRecordersRequest,
+  DescribeConfigurationRecordersRequest & RegionInput,
   DescribeConfigurationRecordersResponse,
   DescribeConfigurationRecordersError,
   Credentials | HttpClient.HttpClient
@@ -3829,7 +3834,7 @@ export type DescribeConfigurationRecorderStatusError =
  * When making a request to this operation, you can only specify one configuration recorder.
  */
 export const describeConfigurationRecorderStatus: API.OperationMethod<
-  DescribeConfigurationRecorderStatusRequest,
+  DescribeConfigurationRecorderStatusRequest & RegionInput,
   DescribeConfigurationRecorderStatusResponse,
   DescribeConfigurationRecorderStatusError,
   Credentials | HttpClient.HttpClient
@@ -3857,7 +3862,7 @@ export type DescribeConformancePackComplianceError =
  * You must provide exact rule names.
  */
 export const describeConformancePackCompliance: API.PaginatedOperationMethod<
-  DescribeConformancePackComplianceRequest,
+  DescribeConformancePackComplianceRequest & RegionInput,
   DescribeConformancePackComplianceResponse,
   DescribeConformancePackComplianceError,
   Credentials | HttpClient.HttpClient,
@@ -3895,7 +3900,7 @@ export type DescribeConformancePacksError =
  * Returns a list of one or more conformance packs.
  */
 export const describeConformancePacks: API.PaginatedOperationMethod<
-  DescribeConformancePacksRequest,
+  DescribeConformancePacksRequest & RegionInput,
   DescribeConformancePacksResponse,
   DescribeConformancePacksError,
   Credentials | HttpClient.HttpClient,
@@ -3933,7 +3938,7 @@ export type DescribeConformancePackStatusError =
  * If there are no conformance packs then you will see an empty result.
  */
 export const describeConformancePackStatus: API.PaginatedOperationMethod<
-  DescribeConformancePackStatusRequest,
+  DescribeConformancePackStatusRequest & RegionInput,
   DescribeConformancePackStatusResponse,
   DescribeConformancePackStatusError,
   Credentials | HttpClient.HttpClient,
@@ -3965,7 +3970,7 @@ export type DescribeDeliveryChannelsError = NoSuchDeliveryChannelException | Com
  * region in your account.
  */
 export const describeDeliveryChannels: API.OperationMethod<
-  DescribeDeliveryChannelsRequest,
+  DescribeDeliveryChannelsRequest & RegionInput,
   DescribeDeliveryChannelsResponse,
   DescribeDeliveryChannelsError,
   Credentials | HttpClient.HttpClient
@@ -3991,7 +3996,7 @@ export type DescribeDeliveryChannelStatusError = NoSuchDeliveryChannelException 
  * region in your account.
  */
 export const describeDeliveryChannelStatus: API.OperationMethod<
-  DescribeDeliveryChannelStatusRequest,
+  DescribeDeliveryChannelStatusRequest & RegionInput,
   DescribeDeliveryChannelStatusResponse,
   DescribeDeliveryChannelStatusError,
   Credentials | HttpClient.HttpClient
@@ -4034,7 +4039,7 @@ export type DescribeOrganizationConfigRulesError =
  * those APIs.
  */
 export const describeOrganizationConfigRules: API.PaginatedOperationMethod<
-  DescribeOrganizationConfigRulesRequest,
+  DescribeOrganizationConfigRulesRequest & RegionInput,
   DescribeOrganizationConfigRulesResponse,
   DescribeOrganizationConfigRulesError,
   Credentials | HttpClient.HttpClient,
@@ -4078,7 +4083,7 @@ export type DescribeOrganizationConfigRuleStatusesError =
  * It is only applicable, when you request all the organization Config rules.
  */
 export const describeOrganizationConfigRuleStatuses: API.PaginatedOperationMethod<
-  DescribeOrganizationConfigRuleStatusesRequest,
+  DescribeOrganizationConfigRuleStatusesRequest & RegionInput,
   DescribeOrganizationConfigRuleStatusesResponse,
   DescribeOrganizationConfigRuleStatusesError,
   Credentials | HttpClient.HttpClient,
@@ -4133,7 +4138,7 @@ export type DescribeOrganizationConformancePacksError =
  * those APIs.
  */
 export const describeOrganizationConformancePacks: API.PaginatedOperationMethod<
-  DescribeOrganizationConformancePacksRequest,
+  DescribeOrganizationConformancePacksRequest & RegionInput,
   DescribeOrganizationConformancePacksResponse,
   DescribeOrganizationConformancePacksError,
   Credentials | HttpClient.HttpClient,
@@ -4177,7 +4182,7 @@ export type DescribeOrganizationConformancePackStatusesError =
  * They are only applicable, when you request all the organization conformance packs.
  */
 export const describeOrganizationConformancePackStatuses: API.PaginatedOperationMethod<
-  DescribeOrganizationConformancePackStatusesRequest,
+  DescribeOrganizationConformancePackStatusesRequest & RegionInput,
   DescribeOrganizationConformancePackStatusesResponse,
   DescribeOrganizationConformancePackStatusesError,
   Credentials | HttpClient.HttpClient,
@@ -4221,7 +4226,7 @@ export type DescribePendingAggregationRequestsError =
  * Returns a list of all pending aggregation requests.
  */
 export const describePendingAggregationRequests: API.PaginatedOperationMethod<
-  DescribePendingAggregationRequestsRequest,
+  DescribePendingAggregationRequestsRequest & RegionInput,
   DescribePendingAggregationRequestsResponse,
   DescribePendingAggregationRequestsError,
   Credentials | HttpClient.HttpClient,
@@ -4248,7 +4253,7 @@ export type DescribeRemediationConfigurationsError = CommonErrors;
  * Returns the details of one or more remediation configurations.
  */
 export const describeRemediationConfigurations: API.OperationMethod<
-  DescribeRemediationConfigurationsRequest,
+  DescribeRemediationConfigurationsRequest & RegionInput,
   DescribeRemediationConfigurationsResponse,
   DescribeRemediationConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -4279,7 +4284,7 @@ export type DescribeRemediationExceptionsError =
  * Limit and next token are not applicable if you request resources in batch. It is only applicable, when you request all resources.
  */
 export const describeRemediationExceptions: API.PaginatedOperationMethod<
-  DescribeRemediationExceptionsRequest,
+  DescribeRemediationExceptionsRequest & RegionInput,
   DescribeRemediationExceptionsResponse,
   DescribeRemediationExceptionsError,
   Credentials | HttpClient.HttpClient,
@@ -4306,7 +4311,7 @@ export type DescribeRemediationExecutionStatusError =
  * When you specify the limit and the next token, you receive a paginated response.
  */
 export const describeRemediationExecutionStatus: API.PaginatedOperationMethod<
-  DescribeRemediationExecutionStatusRequest,
+  DescribeRemediationExecutionStatusRequest & RegionInput,
   DescribeRemediationExecutionStatusResponse,
   DescribeRemediationExecutionStatusError,
   Credentials | HttpClient.HttpClient,
@@ -4347,7 +4352,7 @@ export type DescribeRetentionConfigurationsError =
  * configuration per region in your account.
  */
 export const describeRetentionConfigurations: API.PaginatedOperationMethod<
-  DescribeRetentionConfigurationsRequest,
+  DescribeRetentionConfigurationsRequest & RegionInput,
   DescribeRetentionConfigurationsResponse,
   DescribeRetentionConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -4383,7 +4388,7 @@ export type DisassociateResourceTypesError =
  * For this operation, the configuration recorder must use a RecordingStrategy that is either `INCLUSION_BY_RESOURCE_TYPES` or `EXCLUSION_BY_RESOURCE_TYPES`.
  */
 export const disassociateResourceTypes: API.OperationMethod<
-  DisassociateResourceTypesRequest,
+  DisassociateResourceTypesRequest & RegionInput,
   DisassociateResourceTypesResponse,
   DisassociateResourceTypesError,
   Credentials | HttpClient.HttpClient
@@ -4415,7 +4420,7 @@ export type GetAggregateComplianceDetailsByConfigRuleError =
  * page.
  */
 export const getAggregateComplianceDetailsByConfigRule: API.PaginatedOperationMethod<
-  GetAggregateComplianceDetailsByConfigRuleRequest,
+  GetAggregateComplianceDetailsByConfigRuleRequest & RegionInput,
   GetAggregateComplianceDetailsByConfigRuleResponse,
   GetAggregateComplianceDetailsByConfigRuleError,
   Credentials | HttpClient.HttpClient,
@@ -4457,7 +4462,7 @@ export type GetAggregateConfigRuleComplianceSummaryError =
  * page.
  */
 export const getAggregateConfigRuleComplianceSummary: API.PaginatedOperationMethod<
-  GetAggregateConfigRuleComplianceSummaryRequest,
+  GetAggregateConfigRuleComplianceSummaryRequest & RegionInput,
   GetAggregateConfigRuleComplianceSummaryResponse,
   GetAggregateConfigRuleComplianceSummaryError,
   Credentials | HttpClient.HttpClient,
@@ -4491,7 +4496,7 @@ export type GetAggregateConformancePackComplianceSummaryError =
  * The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page.
  */
 export const getAggregateConformancePackComplianceSummary: API.PaginatedOperationMethod<
-  GetAggregateConformancePackComplianceSummaryRequest,
+  GetAggregateConformancePackComplianceSummaryRequest & RegionInput,
   GetAggregateConformancePackComplianceSummaryResponse,
   GetAggregateConformancePackComplianceSummaryError,
   Credentials | HttpClient.HttpClient,
@@ -4530,7 +4535,7 @@ export type GetAggregateDiscoveredResourceCountsError =
  * If the input contains ACCOUNT_ID as a GroupByKey, the API returns resource counts for all source accounts that are present in your aggregator.
  */
 export const getAggregateDiscoveredResourceCounts: API.PaginatedOperationMethod<
-  GetAggregateDiscoveredResourceCountsRequest,
+  GetAggregateDiscoveredResourceCountsRequest & RegionInput,
   GetAggregateDiscoveredResourceCountsResponse,
   GetAggregateDiscoveredResourceCountsError,
   Credentials | HttpClient.HttpClient,
@@ -4564,7 +4569,7 @@ export type GetAggregateResourceConfigError =
  * The API does not return results for deleted resources.
  */
 export const getAggregateResourceConfig: API.OperationMethod<
-  GetAggregateResourceConfigRequest,
+  GetAggregateResourceConfigRequest & RegionInput,
   GetAggregateResourceConfigResponse,
   GetAggregateResourceConfigError,
   Credentials | HttpClient.HttpClient
@@ -4596,7 +4601,7 @@ export type GetComplianceDetailsByConfigRuleError =
  * resource complies with the rule.
  */
 export const getComplianceDetailsByConfigRule: API.PaginatedOperationMethod<
-  GetComplianceDetailsByConfigRuleRequest,
+  GetComplianceDetailsByConfigRuleRequest & RegionInput,
   GetComplianceDetailsByConfigRuleResponse,
   GetComplianceDetailsByConfigRuleError,
   Credentials | HttpClient.HttpClient,
@@ -4626,7 +4631,7 @@ export type GetComplianceDetailsByResourceError = InvalidParameterValueException
  * complies with each rule.
  */
 export const getComplianceDetailsByResource: API.PaginatedOperationMethod<
-  GetComplianceDetailsByResourceRequest,
+  GetComplianceDetailsByResourceRequest & RegionInput,
   GetComplianceDetailsByResourceResponse,
   GetComplianceDetailsByResourceError,
   Credentials | HttpClient.HttpClient,
@@ -4653,7 +4658,7 @@ export type GetComplianceSummaryByConfigRuleError = CommonErrors;
  * noncompliant, up to a maximum of 25 for each.
  */
 export const getComplianceSummaryByConfigRule: API.OperationMethod<
-  GetComplianceSummaryByConfigRuleRequest,
+  GetComplianceSummaryByConfigRuleRequest & RegionInput,
   GetComplianceSummaryByConfigRuleResponse,
   GetComplianceSummaryByConfigRuleError,
   Credentials | HttpClient.HttpClient
@@ -4676,7 +4681,7 @@ export type GetComplianceSummaryByResourceTypeError = InvalidParameterValueExcep
  * number returned is 100.
  */
 export const getComplianceSummaryByResourceType: API.OperationMethod<
-  GetComplianceSummaryByResourceTypeRequest,
+  GetComplianceSummaryByResourceTypeRequest & RegionInput,
   GetComplianceSummaryByResourceTypeResponse,
   GetComplianceSummaryByResourceTypeError,
   Credentials | HttpClient.HttpClient
@@ -4702,7 +4707,7 @@ export type GetConformancePackComplianceDetailsError =
  * Returns compliance details of a conformance pack for all Amazon Web Services resources that are monitered by conformance pack.
  */
 export const getConformancePackComplianceDetails: API.PaginatedOperationMethod<
-  GetConformancePackComplianceDetailsRequest,
+  GetConformancePackComplianceDetailsRequest & RegionInput,
   GetConformancePackComplianceDetailsResponse,
   GetConformancePackComplianceDetailsError,
   Credentials | HttpClient.HttpClient,
@@ -4734,7 +4739,7 @@ export type GetConformancePackComplianceSummaryError =
  * Returns compliance details for the conformance pack based on the cumulative compliance results of all the rules in that conformance pack.
  */
 export const getConformancePackComplianceSummary: API.PaginatedOperationMethod<
-  GetConformancePackComplianceSummaryRequest,
+  GetConformancePackComplianceSummaryRequest & RegionInput,
   GetConformancePackComplianceSummaryResponse,
   GetConformancePackComplianceSummaryError,
   Credentials | HttpClient.HttpClient,
@@ -4761,7 +4766,7 @@ export type GetConnectorError = ResourceNotFoundException | ValidationException 
  * Returns the details of the specified connector.
  */
 export const getConnector: API.OperationMethod<
-  GetConnectorRequest,
+  GetConnectorRequest & RegionInput,
   GetConnectorResponse,
   GetConnectorError,
   Credentials | HttpClient.HttpClient
@@ -4781,7 +4786,7 @@ export type GetCustomRulePolicyError = NoSuchConfigRuleException | CommonErrors;
  * Returns the policy definition containing the logic for your Config Custom Policy rule.
  */
 export const getCustomRulePolicy: API.OperationMethod<
-  GetCustomRulePolicyRequest,
+  GetCustomRulePolicyRequest & RegionInput,
   GetCustomRulePolicyResponse,
   GetCustomRulePolicyError,
   Credentials | HttpClient.HttpClient
@@ -4847,7 +4852,7 @@ export type GetDiscoveredResourceCountsError =
  * GetDiscoveredResourceCounts action.
  */
 export const getDiscoveredResourceCounts: API.PaginatedOperationMethod<
-  GetDiscoveredResourceCountsRequest,
+  GetDiscoveredResourceCountsRequest & RegionInput,
   GetDiscoveredResourceCountsResponse,
   GetDiscoveredResourceCountsError,
   Credentials | HttpClient.HttpClient,
@@ -4874,7 +4879,7 @@ export type GetOrganizationConfigRuleDetailedStatusError =
  * Returns detailed status for each member account within an organization for a given organization Config rule.
  */
 export const getOrganizationConfigRuleDetailedStatus: API.PaginatedOperationMethod<
-  GetOrganizationConfigRuleDetailedStatusRequest,
+  GetOrganizationConfigRuleDetailedStatusRequest & RegionInput,
   GetOrganizationConfigRuleDetailedStatusResponse,
   GetOrganizationConfigRuleDetailedStatusError,
   Credentials | HttpClient.HttpClient,
@@ -4911,7 +4916,7 @@ export type GetOrganizationConformancePackDetailedStatusError =
  * Returns detailed status for each member account within an organization for a given organization conformance pack.
  */
 export const getOrganizationConformancePackDetailedStatus: API.PaginatedOperationMethod<
-  GetOrganizationConformancePackDetailedStatusRequest,
+  GetOrganizationConformancePackDetailedStatusRequest & RegionInput,
   GetOrganizationConformancePackDetailedStatusResponse,
   GetOrganizationConformancePackDetailedStatusError,
   Credentials | HttpClient.HttpClient,
@@ -4950,7 +4955,7 @@ export type GetOrganizationCustomRulePolicyError =
  * Returns the policy definition containing the logic for your organization Config Custom Policy rule.
  */
 export const getOrganizationCustomRulePolicy: API.OperationMethod<
-  GetOrganizationCustomRulePolicyRequest,
+  GetOrganizationCustomRulePolicyRequest & RegionInput,
   GetOrganizationCustomRulePolicyResponse,
   GetOrganizationCustomRulePolicyError,
   Credentials | HttpClient.HttpClient
@@ -5005,7 +5010,7 @@ export type GetResourceConfigHistoryError =
  * `nextToken`.
  */
 export const getResourceConfigHistory: API.PaginatedOperationMethod<
-  GetResourceConfigHistoryRequest,
+  GetResourceConfigHistoryRequest & RegionInput,
   GetResourceConfigHistoryResponse,
   GetResourceConfigHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -5044,7 +5049,7 @@ export type GetResourceEvaluationSummaryError = ResourceNotFoundException | Comm
  * For more information, see the Examples section.
  */
 export const getResourceEvaluationSummary: API.OperationMethod<
-  GetResourceEvaluationSummaryRequest,
+  GetResourceEvaluationSummaryRequest & RegionInput,
   GetResourceEvaluationSummaryResponse,
   GetResourceEvaluationSummaryError,
   Credentials | HttpClient.HttpClient
@@ -5064,7 +5069,7 @@ export type GetStoredQueryError = ResourceNotFoundException | ValidationExceptio
  * Returns the details of a specific stored query.
  */
 export const getStoredQuery: API.OperationMethod<
-  GetStoredQueryRequest,
+  GetStoredQueryRequest & RegionInput,
   GetStoredQueryResponse,
   GetStoredQueryError,
   Credentials | HttpClient.HttpClient
@@ -5093,7 +5098,7 @@ export type ListAggregateDiscoveredResourcesError =
  * For example, if the input consists of accountID 12345678910 and the region is us-east-1 for resource type `AWS::EC2::Instance` then the API returns all the EC2 instance identifiers of accountID 12345678910 and region us-east-1.
  */
 export const listAggregateDiscoveredResources: API.PaginatedOperationMethod<
-  ListAggregateDiscoveredResourcesRequest,
+  ListAggregateDiscoveredResourcesRequest & RegionInput,
   ListAggregateDiscoveredResourcesResponse,
   ListAggregateDiscoveredResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -5125,7 +5130,7 @@ export type ListConfigurationRecordersError = ValidationException | CommonErrors
  * Returns a list of configuration recorders depending on the filters you specify.
  */
 export const listConfigurationRecorders: API.PaginatedOperationMethod<
-  ListConfigurationRecordersRequest,
+  ListConfigurationRecordersRequest & RegionInput,
   ListConfigurationRecordersResponse,
   ListConfigurationRecordersError,
   Credentials | HttpClient.HttpClient,
@@ -5161,7 +5166,7 @@ export type ListConformancePackComplianceScoresError =
  * Conformance packs with no evaluation results will have a compliance score of `INSUFFICIENT_DATA`.
  */
 export const listConformancePackComplianceScores: API.PaginatedOperationMethod<
-  ListConformancePackComplianceScoresRequest,
+  ListConformancePackComplianceScoresRequest & RegionInput,
   ListConformancePackComplianceScoresResponse,
   ListConformancePackComplianceScoresError,
   Credentials | HttpClient.HttpClient,
@@ -5183,7 +5188,7 @@ export type ListConnectorsError = ValidationException | CommonErrors;
  * Returns a list of connectors depending on the filters you specify.
  */
 export const listConnectors: API.PaginatedOperationMethod<
-  ListConnectorsRequest,
+  ListConnectorsRequest & RegionInput,
   ListConnectorsResponse,
   ListConnectorsError,
   Credentials | HttpClient.HttpClient,
@@ -5248,7 +5253,7 @@ export type ListDiscoveredResourcesError =
  * tracks resources that were successfully provisioned.
  */
 export const listDiscoveredResources: API.PaginatedOperationMethod<
-  ListDiscoveredResourcesRequest,
+  ListDiscoveredResourcesRequest & RegionInput,
   ListDiscoveredResourcesResponse,
   ListDiscoveredResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -5284,7 +5289,7 @@ export type ListResourceEvaluationsError =
  * Returns a list of proactive resource evaluations.
  */
 export const listResourceEvaluations: API.PaginatedOperationMethod<
-  ListResourceEvaluationsRequest,
+  ListResourceEvaluationsRequest & RegionInput,
   ListResourceEvaluationsResponse,
   ListResourceEvaluationsError,
   Credentials | HttpClient.HttpClient,
@@ -5311,7 +5316,7 @@ export type ListStoredQueriesError = InvalidNextTokenException | ValidationExcep
  * Lists the stored queries for a single Amazon Web Services account and a single Amazon Web Services Region. The default is 100.
  */
 export const listStoredQueries: API.PaginatedOperationMethod<
-  ListStoredQueriesRequest,
+  ListStoredQueriesRequest & RegionInput,
   ListStoredQueriesResponse,
   ListStoredQueriesError,
   Credentials | HttpClient.HttpClient,
@@ -5342,7 +5347,7 @@ export type ListTagsForResourceError =
  * List the tags for Config resource.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -5382,7 +5387,7 @@ export type PutAggregationAuthorizationError = InvalidParameterValueException | 
  * Use TagResource and UntagResource to update tags after creation.
  */
 export const putAggregationAuthorization: API.OperationMethod<
-  PutAggregationAuthorizationRequest,
+  PutAggregationAuthorizationRequest & RegionInput,
   PutAggregationAuthorizationResponse,
   PutAggregationAuthorizationError,
   Credentials | HttpClient.HttpClient
@@ -5459,7 +5464,7 @@ export type PutConfigRuleError =
  * Use TagResource and UntagResource to update tags after creation.
  */
 export const putConfigRule: API.OperationMethod<
-  PutConfigRuleRequest,
+  PutConfigRuleRequest & RegionInput,
   PutConfigRuleResponse,
   PutConfigRuleError,
   Credentials | HttpClient.HttpClient
@@ -5513,7 +5518,7 @@ export type PutConfigurationAggregatorError =
  * Use TagResource and UntagResource to update tags after creation.
  */
 export const putConfigurationAggregator: API.OperationMethod<
-  PutConfigurationAggregatorRequest,
+  PutConfigurationAggregatorRequest & RegionInput,
   PutConfigurationAggregatorResponse,
   PutConfigurationAggregatorError,
   Credentials | HttpClient.HttpClient
@@ -5572,7 +5577,7 @@ export type PutConfigurationRecorderError =
  * Use TagResource and UntagResource to update tags after creation.
  */
 export const putConfigurationRecorder: API.OperationMethod<
-  PutConfigurationRecorderRequest,
+  PutConfigurationRecorderRequest & RegionInput,
   PutConfigurationRecorderResponse,
   PutConfigurationRecorderError,
   Credentials | HttpClient.HttpClient
@@ -5632,7 +5637,7 @@ export type PutConformancePackError =
  * Use TagResource and UntagResource to update tags after creation.
  */
 export const putConformancePack: API.OperationMethod<
-  PutConformancePackRequest,
+  PutConformancePackRequest & RegionInput,
   PutConformancePackResponse,
   PutConformancePackError,
   Credentials | HttpClient.HttpClient
@@ -5675,7 +5680,7 @@ export type PutConnectorError =
  * Use TagResource and UntagResource to update tags after creation.
  */
 export const putConnector: API.OperationMethod<
-  PutConnectorRequest,
+  PutConnectorRequest & RegionInput,
   PutConnectorResponse,
   PutConnectorError,
   Credentials | HttpClient.HttpClient
@@ -5721,7 +5726,7 @@ export type PutDeliveryChannelError =
  * You can have only one delivery channel for each account for each Amazon Web Services Region.
  */
 export const putDeliveryChannel: API.OperationMethod<
-  PutDeliveryChannelRequest,
+  PutDeliveryChannelRequest & RegionInput,
   PutDeliveryChannelResponse,
   PutDeliveryChannelError,
   Credentials | HttpClient.HttpClient
@@ -5756,7 +5761,7 @@ export type PutEvaluationsError =
  * that is invoked by an Config rule.
  */
 export const putEvaluations: API.OperationMethod<
-  PutEvaluationsRequest,
+  PutEvaluationsRequest & RegionInput,
   PutEvaluationsResponse,
   PutEvaluationsError,
   Credentials | HttpClient.HttpClient
@@ -5780,7 +5785,7 @@ export type PutExternalEvaluationError =
  * This API checks if the rule is a process check when the name of the Config rule is provided.
  */
 export const putExternalEvaluation: API.OperationMethod<
-  PutExternalEvaluationRequest,
+  PutExternalEvaluationRequest & RegionInput,
   PutExternalEvaluationResponse,
   PutExternalEvaluationError,
   Credentials | HttpClient.HttpClient
@@ -5850,7 +5855,7 @@ export type PutOrganizationConfigRuleError =
  * Make sure to specify one of either `OrganizationCustomPolicyRuleMetadata` for Custom Policy rules, `OrganizationCustomRuleMetadata` for Custom Lambda rules, or `OrganizationManagedRuleMetadata` for managed rules.
  */
 export const putOrganizationConfigRule: API.OperationMethod<
-  PutOrganizationConfigRuleRequest,
+  PutOrganizationConfigRuleRequest & RegionInput,
   PutOrganizationConfigRuleResponse,
   PutOrganizationConfigRuleError,
   Credentials | HttpClient.HttpClient
@@ -5922,7 +5927,7 @@ export type PutOrganizationConformancePackError =
  * You cannot update a conformance pack while it is in this state.
  */
 export const putOrganizationConformancePack: API.OperationMethod<
-  PutOrganizationConformancePackRequest,
+  PutOrganizationConformancePackRequest & RegionInput,
   PutOrganizationConformancePackResponse,
   PutOrganizationConformancePackError,
   Credentials | HttpClient.HttpClient
@@ -5981,7 +5986,7 @@ export type PutRemediationConfigurationsError =
  * This means that in some cases auto remediation can be initiated even for compliant resources, since the bootstrap processor uses a database that can have stale evaluation results based on the last known compliance data snapshot.
  */
 export const putRemediationConfigurations: API.OperationMethod<
-  PutRemediationConfigurationsRequest,
+  PutRemediationConfigurationsRequest & RegionInput,
   PutRemediationConfigurationsResponse,
   PutRemediationConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -6037,7 +6042,7 @@ export type PutRemediationExceptionsError =
  * This means that in some cases auto remediation can be initiated even for compliant resources, since the bootstrap processor uses a database that can have stale evaluation results based on the last known compliance data snapshot.
  */
 export const putRemediationExceptions: API.OperationMethod<
-  PutRemediationExceptionsRequest,
+  PutRemediationExceptionsRequest & RegionInput,
   PutRemediationExceptionsResponse,
   PutRemediationExceptionsError,
   Credentials | HttpClient.HttpClient
@@ -6071,7 +6076,7 @@ export type PutResourceConfigError =
  * Write-only schema properites are not recorded as part of the published configuration item.
  */
 export const putResourceConfig: API.OperationMethod<
-  PutResourceConfigRequest,
+  PutResourceConfigRequest & RegionInput,
   PutResourceConfigResponse,
   PutResourceConfigError,
   Credentials | HttpClient.HttpClient
@@ -6108,7 +6113,7 @@ export type PutRetentionConfigurationError =
  * configuration per region in your account.
  */
 export const putRetentionConfiguration: API.OperationMethod<
-  PutRetentionConfigurationRequest,
+  PutRetentionConfigurationRequest & RegionInput,
   PutRetentionConfigurationResponse,
   PutRetentionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -6149,7 +6154,7 @@ export type PutServiceLinkedConfigurationRecorderError =
  * Use TagResource and UntagResource to update tags after creation.
  */
 export const putServiceLinkedConfigurationRecorder: API.OperationMethod<
-  PutServiceLinkedConfigurationRecorderRequest,
+  PutServiceLinkedConfigurationRecorderRequest & RegionInput,
   PutServiceLinkedConfigurationRecorderResponse,
   PutServiceLinkedConfigurationRecorderError,
   Credentials | HttpClient.HttpClient
@@ -6184,7 +6189,7 @@ export type PutStoredQueryError =
  * Config will ignore these differences and treat it as an idempotent request of the previous. In this case, `tags` will not be updated, even if they are different.
  */
 export const putStoredQuery: API.OperationMethod<
-  PutStoredQueryRequest,
+  PutStoredQueryRequest & RegionInput,
   PutStoredQueryResponse,
   PutStoredQueryError,
   Credentials | HttpClient.HttpClient
@@ -6220,7 +6225,7 @@ export type PutThirdPartyServiceLinkedConfigurationRecorderError =
  * Use TagResource and UntagResource to update tags after creation.
  */
 export const putThirdPartyServiceLinkedConfigurationRecorder: API.OperationMethod<
-  PutThirdPartyServiceLinkedConfigurationRecorderRequest,
+  PutThirdPartyServiceLinkedConfigurationRecorderRequest & RegionInput,
   PutThirdPartyServiceLinkedConfigurationRecorderResponse,
   PutThirdPartyServiceLinkedConfigurationRecorderError,
   Credentials | HttpClient.HttpClient
@@ -6265,7 +6270,7 @@ export type SelectAggregateResourceConfigError =
  * and do not specify the `MaxResults` or the `Limit` query parameters, the default page size is set to 25.
  */
 export const selectAggregateResourceConfig: API.PaginatedOperationMethod<
-  SelectAggregateResourceConfigRequest,
+  SelectAggregateResourceConfigRequest & RegionInput,
   SelectAggregateResourceConfigResponse,
   SelectAggregateResourceConfigError,
   Credentials | HttpClient.HttpClient,
@@ -6306,7 +6311,7 @@ export type SelectResourceConfigError =
  * section in the *Config Developer Guide*.
  */
 export const selectResourceConfig: API.PaginatedOperationMethod<
-  SelectResourceConfigRequest,
+  SelectResourceConfigRequest & RegionInput,
   SelectResourceConfigResponse,
   SelectResourceConfigError,
   Credentials | HttpClient.HttpClient,
@@ -6377,7 +6382,7 @@ export type StartConfigRulesEvaluationError =
  * every 24 hours.
  */
 export const startConfigRulesEvaluation: API.OperationMethod<
-  StartConfigRulesEvaluationRequest,
+  StartConfigRulesEvaluationRequest & RegionInput,
   StartConfigRulesEvaluationResponse,
   StartConfigRulesEvaluationError,
   Credentials | HttpClient.HttpClient
@@ -6409,7 +6414,7 @@ export type StartConfigurationRecorderError =
  * successfully start the customer managed configuration recorder. You can use the PutDeliveryChannel operation to create a delivery channel.
  */
 export const startConfigurationRecorder: API.OperationMethod<
-  StartConfigurationRecorderRequest,
+  StartConfigurationRecorderRequest & RegionInput,
   StartConfigurationRecorderResponse,
   StartConfigurationRecorderError,
   Credentials | HttpClient.HttpClient
@@ -6439,7 +6444,7 @@ export type StartRemediationExecutionError =
  * You can specify up to 100 resource keys per request. An existing StartRemediationExecution call for the specified resource keys must complete before you can call the API again.
  */
 export const startRemediationExecution: API.OperationMethod<
-  StartRemediationExecutionRequest,
+  StartRemediationExecutionRequest & RegionInput,
   StartRemediationExecutionResponse,
   StartRemediationExecutionError,
   Credentials | HttpClient.HttpClient
@@ -6477,7 +6482,7 @@ export type StartResourceEvaluationError =
  * and Amazon Web Services resource and property types reference in the CloudFormation User Guide.
  */
 export const startResourceEvaluation: API.OperationMethod<
-  StartResourceEvaluationRequest,
+  StartResourceEvaluationRequest & RegionInput,
   StartResourceEvaluationResponse,
   StartResourceEvaluationError,
   Credentials | HttpClient.HttpClient
@@ -6500,7 +6505,7 @@ export type StopConfigurationRecorderError =
  * Stops the customer managed configuration recorder. The customer managed configuration recorder will stop recording configuration changes for the resource types you have specified.
  */
 export const stopConfigurationRecorder: API.OperationMethod<
-  StopConfigurationRecorderRequest,
+  StopConfigurationRecorderRequest & RegionInput,
   StopConfigurationRecorderResponse,
   StopConfigurationRecorderError,
   Credentials | HttpClient.HttpClient
@@ -6525,7 +6530,7 @@ export type TagResourceError =
  * If existing tags are specified, however, then their values will be updated. When a resource is deleted, the tags associated with that resource are deleted as well.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -6545,7 +6550,7 @@ export type UntagResourceError = ResourceNotFoundException | ValidationException
  * Deletes specified tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient

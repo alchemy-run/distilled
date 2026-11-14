@@ -1,0 +1,10 @@
+{
+  "description": "VolumeAndToken.token is the bearer token for a volume's content API (Authorization: Bearer in packages/js-sdk/src/volume/client.ts); the spec carries no sensitive mark. Source: spec/openapi.yml (e2b-dev/E2B, 2026-11-02).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.e2b.volumes#VolumeAndToken/members/token/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

@@ -3,9 +3,11 @@ import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
+import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -141,7 +143,7 @@ export class InvalidParameterException
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()("ThrottlingException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
-  }) {}
+  }).pipe(C.withThrottlingError, C.withRetryableError) {}
 export type ProductCode = string;
 export type GetEntitlementFilterName =
   | "CUSTOMER_IDENTIFIER"
@@ -151,34 +153,34 @@ export type GetEntitlementFilterName =
   | (string & {});
 export type FilterValue = string;
 export type FilterValueList = string[];
-export type GetEntitlementFilters = { [key in GetEntitlementFilterName]?: string[] };
+export type GetEntitlementFilters = { [key in GetEntitlementFilterName]?: string[] | undefined };
 export type NonEmptyString = string;
 export type PageSizeInteger = number;
 export interface GetEntitlementsRequest {
   ProductCode: string;
-  Filter?: { [key: string]: string[] | undefined };
-  NextToken?: string;
-  MaxResults?: number;
+  Filter?: { [key: string]: string[] | undefined } | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface EntitlementValue {
-  IntegerValue?: number;
-  DoubleValue?: number;
-  BooleanValue?: boolean;
-  StringValue?: string;
+  IntegerValue?: number | undefined;
+  DoubleValue?: number | undefined;
+  BooleanValue?: boolean | undefined;
+  StringValue?: string | undefined;
 }
 export interface Entitlement {
-  ProductCode?: string;
-  Dimension?: string;
-  CustomerIdentifier?: string;
-  CustomerAWSAccountId?: string;
-  Value?: EntitlementValue;
-  ExpirationDate?: Date;
-  LicenseArn?: string;
+  ProductCode?: string | undefined;
+  Dimension?: string | undefined;
+  CustomerIdentifier?: string | undefined;
+  CustomerAWSAccountId?: string | undefined;
+  Value?: EntitlementValue | undefined;
+  ExpirationDate?: Date | undefined;
+  LicenseArn?: string | undefined;
 }
 export type EntitlementList = Entitlement[];
 export interface GetEntitlementsResult {
-  Entitlements?: Entitlement[];
-  NextToken?: string;
+  Entitlements?: Entitlement[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ErrorMessage = string;
 export type GetEntitlementsError =
@@ -191,7 +193,7 @@ export type GetEntitlementsError =
  * filtered based on customer identifier, AWS account ID, license ARN, or product dimensions.
  */
 export const getEntitlements: API.PaginatedOperationMethod<
-  GetEntitlementsRequest,
+  GetEntitlementsRequest & RegionInput,
   GetEntitlementsResult,
   GetEntitlementsError,
   Credentials | HttpClient.HttpClient,
