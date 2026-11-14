@@ -14,10 +14,10 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  * Failures nest under `{ errors: [{ code, message }] }`.
  *
  *   request:  credentials -> `Authorization: Bearer <apiKey>` + base URL
- *             (default https://api.inngest.com/v2), resolved from the
- *             calling fiber on every request; the `Environment` layer,
- *             when provided, as `X-Inngest-Env` (a call's own
- *             `xInngestEnv` wins)
+ *             (default https://api.inngest.com/v2; `/v1/` routes go to
+ *             its origin), resolved from the calling fiber on every request;
+ *             the `Environment` layer, when provided, as `X-Inngest-Env`
+ *             (a call's own `xInngestEnv` wins)
  *
  *   response: 2xx JSON is the payload (sensitive members delivered as
  *             `Redacted`); non-2xx `{ errors: [{ code, message }] }`
@@ -101,7 +101,12 @@ export const InngestProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRest
       ? resolve
       : Effect.map(resolve, (creds): Resolved => ({ ...creds, environment }));
   }),
-  baseUrl: (creds) => creds.apiBaseUrl,
+  // v1 routes carry their own `/v1/` prefix and live at the base URL's
+  // origin. URL.parse never throws: a malformed base URL fails like v2 calls.
+  baseUrl: (creds, target) =>
+    target.uri.startsWith("/v1/")
+      ? (URL.parse(creds.apiBaseUrl)?.origin ?? creds.apiBaseUrl)
+      : creds.apiBaseUrl,
   // Lowercase, so a call's own `xInngestEnv` header member replaces it.
   headers: (creds) => {
     const headers: Record<string, string> = {
