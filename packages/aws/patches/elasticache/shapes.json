@@ -1,0 +1,40 @@
+{
+  "description": "ElastiCache: Members that hold secrets (sensitive).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.elasticache#CreateCacheClusterMessage/members/AuthToken/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.elasticache#ModifyCacheClusterMessage/members/AuthToken/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.elasticache#CreateReplicationGroupMessage/members/AuthToken/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.elasticache#ModifyReplicationGroupMessage/members/AuthToken/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.elasticache#AuthenticationMode/members/Passwords/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.elasticache#CreateUserMessage/members/Passwords/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.elasticache#ModifyUserMessage/members/Passwords/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

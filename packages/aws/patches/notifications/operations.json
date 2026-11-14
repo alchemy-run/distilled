@@ -1,0 +1,12 @@
+{
+  "description": "Notifications: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.notifications#ListManagedNotificationChildEvents/errors/-",
+      "value": {
+        "target": "com.amazonaws.notifications#ResourceNotFoundException"
+      }
+    }
+  ]
+}

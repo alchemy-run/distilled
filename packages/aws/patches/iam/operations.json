@@ -1,0 +1,19 @@
+{
+  "description": "IAM: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.iam#ListServiceSpecificCredentials/errors/-",
+      "value": {
+        "target": "com.amazonaws.iam#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.iam#ListServiceSpecificCredentials/errors/-",
+      "value": {
+        "target": "com.amazonaws.iam#InvalidInput"
+      }
+    }
+  ]
+}

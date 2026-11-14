@@ -1,6 +1,0 @@
-{
-  "operations": {
-    "createFargateProfile": { "errors": ["ResourceInUseException"] },
-    "deleteFargateProfile": { "errors": ["ResourceInUseException"] }
-  }
-}

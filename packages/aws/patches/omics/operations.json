@@ -1,0 +1,12 @@
+{
+  "description": "Omics: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.omics#GetVariantStore/errors/-",
+      "value": {
+        "target": "com.amazonaws.omics#TooManyRequestsException"
+      }
+    }
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "description": "FSx: Error shapes the model does not declare, for the errors operations.json list (a shape with aws.codegen#synthetic matches its base wire error by message); categories (distilled.errors#categories) the error traits do not express.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.fsx#SourceSnapshotNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "BadRequest",
+            "message": {
+              "includes": "SourceSnapshotARN provided is not a valid ARN"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.fsx#BadRequest/members",
+      "path": "/shapes/com.amazonaws.fsx#SourceSnapshotNotFound/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.fsx#SnapshotVolumeNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "BadRequest",
+            "message": {
+              "includes": "volume was not found"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.fsx#BadRequest/members",
+      "path": "/shapes/com.amazonaws.fsx#SnapshotVolumeNotFound/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.fsx#RestoreSnapshotNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "BadRequest",
+            "message": {
+              "includes": "snapshot cannot be found"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.fsx#BadRequest/members",
+      "path": "/shapes/com.amazonaws.fsx#RestoreSnapshotNotFound/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.fsx#UpdateSnapshotNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "BadRequest",
+            "message": {
+              "includes": "the snapshot is not found"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.fsx#BadRequest/members",
+      "path": "/shapes/com.amazonaws.fsx#UpdateSnapshotNotFound/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.fsx#SourceSnapshotNotFound/traits/distilled.errors#categories",
+      "value": ["NotFoundError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.fsx#SnapshotVolumeNotFound/traits/distilled.errors#categories",
+      "value": ["NotFoundError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.fsx#RestoreSnapshotNotFound/traits/distilled.errors#categories",
+      "value": ["NotFoundError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.fsx#UpdateSnapshotNotFound/traits/distilled.errors#categories",
+      "value": ["NotFoundError"]
+    }
+  ]
+}

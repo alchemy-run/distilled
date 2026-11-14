@@ -1,0 +1,12 @@
+{
+  "description": "Bedrock Data Automation: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.bedrockdataautomation#DeleteDataAutomationLibrary/errors/-",
+      "value": {
+        "target": "com.amazonaws.bedrockdataautomation#LibraryIngestionJobsActive"
+      }
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "description": "Database Migration Service: Error shapes the model does not declare, for the errors operations.json list (a shape with aws.codegen#synthetic matches its base wire error by message); members the error responses carry; categories (distilled.errors#categories) the error traits do not express.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databasemigrationservice#InvalidParameterValueException",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databasemigrationservice#InvalidReplicationInstanceClass",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "InvalidParameterValueException",
+            "message": {
+              "includes": "Invalid ReplicationInstance class"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databasemigrationservice#InvalidParameterValueException/members/message",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databasemigrationservice#InvalidParameterValueException/traits/distilled.errors#categories",
+      "value": ["BadRequestError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databasemigrationservice#InvalidReplicationInstanceClass/traits/distilled.errors#categories",
+      "value": ["BadRequestError"]
+    }
+  ]
+}

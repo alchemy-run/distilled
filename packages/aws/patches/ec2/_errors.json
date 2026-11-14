@@ -1,0 +1,2688 @@
+{
+  "description": "EC2: Error shapes the model does not declare, for the errors operations.json list (a shape with aws.codegen#synthetic matches its base wire error by message); categories (distilled.errors#categories) the error traits do not express.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#RequestLimitExceeded",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidParameterValue",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#MissingParameter",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#ParseError",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#VpcLimitExceeded",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#UnauthorizedOperation",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#DependencyViolation",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidVpcIDNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidVpcID.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidVpcIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidVpcId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#RequestError",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidSubnetConflict",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidSubnet.Conflict"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidSubnetIDNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidSubnetID.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidSubnetIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidSubnetId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InternetGatewayLimitExceeded",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidInternetGatewayIDNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidInternetGatewayID.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidInternetGatewayIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidInternetGatewayId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#GatewayNotAttached",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "Gateway.NotAttached"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidRouteTableIDNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidRouteTableID.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidRouteTableIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidRouteTableId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidGatewayIDNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidGatewayID.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidInstanceIDMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidInstanceID.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidNetworkInterfaceIDNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidNetworkInterfaceID.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidPrefixListIDNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidPrefixListID.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidVpcEndpointIdNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidVpcEndpointId.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#RouteAlreadyExists",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidElasticIpIDNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidElasticIpID.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidSubnet",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#CannotDelete",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidGroupNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidGroup.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidGroupIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidGroupId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#VPCIdNotSpecified",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#DryRunOperation",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidNetworkAclIDNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidNetworkAclID.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidNetworkAclIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidNetworkAclId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidVpcPeeringConnectionIDNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidVpcPeeringConnectionID.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidVpcPeeringConnectionIdNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidVpcPeeringConnectionId.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidDhcpOptionIDNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidDhcpOptionID.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidDhcpOptionsIDNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidDhcpOptionsID.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidDhcpOptionsIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidDhcpOptionsId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidParameterCombination",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidPublicIpv4PoolIDMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidPublicIpv4PoolID.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidPublicIpv4PoolIDNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidPublicIpv4PoolID.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidAssociationIDNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidAssociationID.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#FilterLimitExceeded",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidParameter",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#NatGatewayMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#NatGatewayNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidServiceName",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidVpcIdNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidVpcId.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#CidrConflict",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidVpcCidrBlockAssociationIDNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidVpcCidrBlockAssociationID.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidVpcCidrBlockAssociationIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidVpcCidrBlockAssociationId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidVpcCidrBlockAssociationIdErrorNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidVpcCidrBlockAssociationIdError.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#OperationNotPermitted",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidPermissionDuplicate",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidPermission.Duplicate"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidSecurityGroupRuleIdNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidSecurityGroupRuleId.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidPermissionNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidPermission.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidNetworkInterfaceInUse",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidNetworkInterface.InUse"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidNetworkInterfaceIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidNetworkInterfaceId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidEgressOnlyInternetGatewayIdNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidEgressOnlyInternetGatewayId.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#MalformedGatewayIDNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "MalformedGatewayID.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#IncorrectState",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidVpnGatewayIDNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidVpnGatewayID.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidGroupDuplicate",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidGroup.Duplicate"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidNetworkAclEntryNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidNetworkAclEntry.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidCustomerGatewayIDNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidCustomerGatewayID.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidVpnConnectionIDNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidVpnConnectionID.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidTransitGatewayIDNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidTransitGatewayID.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidSecurityGroupRuleIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidSecurityGroupRuleId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#UnknownParameter",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidCarrierGatewayIDMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidCarrierGatewayID.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidCarrierGatewayIDNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidCarrierGatewayID.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidID",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidFlowLogIdNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidFlowLogId.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidRouteNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidRoute.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidTransitGatewayAttachmentIDNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidTransitGatewayAttachmentID.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidCustomerGatewayIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidCustomerGatewayId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidRouteTableAssociationIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidRouteTableAssociationId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidVpcEndpointServiceIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidVpcEndpointServiceId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidVpcEndpointServiceIdNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidVpcEndpointServiceId.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidInstanceIDNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidInstanceID.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidAttachmentIDNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidAttachmentID.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidNetworkInterfaceAttachmentIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidNetworkInterfaceAttachmentId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidSubnetCidrBlockAssociationIDNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidSubnetCidrBlockAssociationID.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidSubnetCidrBlockAssociationIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidSubnetCidrBlockAssociationId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#DefaultSubnetAlreadyExistsInAvailabilityZone",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#DefaultVpcAlreadyExists",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidPrefixListIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidPrefixListId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#AuthFailure",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidAddressNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidAddress.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidAllocationIDNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidAllocationID.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidIPAddressInUse",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidIPAddress.InUse"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidEgressOnlyInternetGatewayIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidEgressOnlyInternetGatewayId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidSnapshotNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidSnapshot.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidUserIDMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidUserID.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidVolumeNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidVolume.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidSnapshotIDMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidSnapshotID.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#VolumeInUse",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#IdempotentParameterMismatch",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidAMIIDMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidAMIID.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidAMIIDNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidAMIID.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#UnsupportedHibernationConfiguration",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InsufficientInstanceCapacity",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidVolumeIDMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidVolumeID.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#IncorrectInstanceState",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#UnsupportedOperation",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidKeyPairNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidKeyPair.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidRegion",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidLaunchTemplateIdNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidLaunchTemplateId.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidLaunchTemplateNameNotFoundException",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidLaunchTemplateName.NotFoundException"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidLaunchTemplateIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidLaunchTemplateId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#TransitGatewayLimitExceeded",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidRequest",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidSpotInstanceRequestIDMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidSpotInstanceRequestID.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidTransitGatewayIDMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidTransitGatewayID.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidKeyPairDuplicate",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidKeyPair.Duplicate"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidClientVpnEndpointIdNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidClientVpnEndpointId.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidPermissionIDMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidPermissionID.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidPermissionIDNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidPermissionID.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#ResourceLimitExceeded",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidIpamIdNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidIpamId.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidTransitGatewayAttachmentIDMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidTransitGatewayAttachmentID.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidLocalGatewayIDMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidLocalGatewayID.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidLocalGatewayIDNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidLocalGatewayID.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidSubnetIDMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidSubnetID.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidSubnetCidrReservationIDMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidSubnetCidrReservationID.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidSubnetCidrReservationIDNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidSubnetCidrReservationID.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidTrafficMirrorFilterIdNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidTrafficMirrorFilterId.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidTrafficMirrorTargetIdNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidTrafficMirrorTargetId.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidTrafficMirrorSessionIdNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidTrafficMirrorSessionId.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidNetworkInsightsAccessScopeIdNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidNetworkInsightsAccessScopeId.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidPlacementGroupUnknown",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidPlacementGroup.Unknown"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidLocalGatewayRouteTableIDMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidLocalGatewayRouteTableID.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidLocalGatewayRouteTableIDNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidLocalGatewayRouteTableID.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidIpv4PoolCoipIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidIpv4PoolCoipId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#ClientVpnEndpointLimitExceeded",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#ClientVpnEndpointCreationInProgress",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "OperationNotPermitted",
+            "message": {
+              "includes": "another endpoint is being created"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#VerifiedAccessInstanceLimitExceeded",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidVerifiedAccessInstanceIdNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidVerifiedAccessInstanceId.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidVerifiedAccessGroupIdNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidVerifiedAccessGroupId.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidVerifiedAccessEndpointIdNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidVerifiedAccessEndpointId.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidVerifiedAccessTrustProviderIdNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidVerifiedAccessTrustProviderId.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidIpamScopeIdNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidIpamScopeId.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidIpamPoolIdNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidIpamPoolId.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidIpamResourceDiscoveryIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidIpamResourceDiscoveryId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidIpamResourceDiscoveryIdNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidIpamResourceDiscoveryId.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidIpamPolicyIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidIpamPolicyId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidIpamPolicyIdNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidIpamPolicyId.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidRouteServerIdNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidRouteServerId.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidInstanceConnectEndpointIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidInstanceConnectEndpointId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidInstanceConnectEndpointIdNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidInstanceConnectEndpointId.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidState",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#VpcBlockPublicAccessExclusionIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "VpcBlockPublicAccessExclusionId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidVpcEncryptionControlIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidVpcEncryptionControlId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidVpcEncryptionControlIdNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidVpcEncryptionControlId.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#AddressLimitExceeded",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidZoneNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidZone.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#IdempotentVolumeDeleted",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "IdempotentParameterMismatch",
+            "message": {
+              "includes": "associated with a resource that is already deleted"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidHostConfiguration",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidHostIDMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidHostID.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InaccessibleStorageLocation",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidSpotDatafeedNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidSpotDatafeed.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidBundleIDNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidBundleID.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidTransitGatewayMulticastDomainIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidTransitGatewayMulticastDomainId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidTransitGatewayMulticastDomainIdNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidTransitGatewayMulticastDomainId.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#Unsupported",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidCapacityReservationIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidCapacityReservationId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#ClientVpnEndpointAssociationExists",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidClientVpnDuplicateAssociationException",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidClientVpnSubnetIdDuplicateAz",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidClientVpnSubnetId.DuplicateAz"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidClientVpnSubnetIdOverlappingCidr",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidClientVpnSubnetId.OverlappingCidr"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidClientVpnSubnetIdNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidClientVpnSubnetId.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidClientVpnAssociationIdNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidCidrNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidCidr.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidTransitGatewayPolicyTableIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidTransitGatewayPolicyTableId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidTransitGatewayPolicyTableIdNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidTransitGatewayPolicyTableId.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidPoolIDMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidPoolID.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidPoolIDNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidPoolID.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidCidrBlockMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidCidrBlock.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidImageUsageReportIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidImageUsageReportId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidIpamPrefixListResolverIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidIpamPrefixListResolverId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidIpamPrefixListResolverIdNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidIpamPrefixListResolverId.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidIpamPrefixListResolverTargetIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidIpamPrefixListResolverTargetId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidLocalGatewayRouteTableVirtualInterfaceGroupAssociationIDMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidLocalGatewayRouteTableVirtualInterfaceGroupAssociationID.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidLocalGatewayRouteTableVirtualInterfaceGroupAssociationIDNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidLocalGatewayRouteTableVirtualInterfaceGroupAssociationID.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidLocalGatewayVirtualInterfaceGroupIDMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidLocalGatewayVirtualInterfaceGroupID.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidLocalGatewayVirtualInterfaceGroupIDNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidLocalGatewayVirtualInterfaceGroupID.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidLocalGatewayRouteTableVpcAssociationIDMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidLocalGatewayRouteTableVpcAssociationID.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidLocalGatewayRouteTableVpcAssociationIDNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidLocalGatewayRouteTableVpcAssociationID.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidLocalGatewayVirtualInterfaceIDMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidLocalGatewayVirtualInterfaceID.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidLocalGatewayVirtualInterfaceIDNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidLocalGatewayVirtualInterfaceID.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidRouteServerIdNotAssociated",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidRouteServerId.NotAssociated"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidRouteServerEndpointIdNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidRouteServerEndpointId.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidRouteServerPeerIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidRouteServerPeerId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidRouteServerPeerIdNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidRouteServerPeerId.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidTrafficMirrorFilterRuleIdNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidTrafficMirrorFilterRuleId.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidTransitGatewayMeteringPolicyIdNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidTransitGatewayMeteringPolicyId.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidTransitGatewayMeteringPolicyIdMalformedException",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidTransitGatewayRouteTableAnnouncementIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidTransitGatewayRouteTableAnnouncementId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidRouteMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidRoute.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidPublicIpv4PoolNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidPublicIpv4Pool.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidIpamExternalResourceVerificationTokenIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidIpamExternalResourceVerificationTokenId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidIpamExternalResourceVerificationTokenIdNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidIpamExternalResourceVerificationTokenId.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidDeclarativePoliciesReportIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidDeclarativePoliciesReportId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidConversionTaskIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidConversionTaskId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidInput",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidCapacityManagerDataExportIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidCapacityManagerDataExportId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidCapacityManagerDataExportIdNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidCapacityManagerDataExportId.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidClientVpnRouteNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidFpgaImageIDMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidFpgaImageID.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidInstanceEventWindowIDNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidTransitGatewayConnectPeerIDMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidTransitGatewayConnectPeerID.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidTransitGatewayConnectPeerIDNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidTransitGatewayConnectPeerID.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidVpnConcentratorIDMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidVpnConcentratorID.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidCertificateArnMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidCertificateArn.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidRoleArnMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidRoleArn.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidCapacityReservationIdNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidCapacityReservationId.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidClientVpnDuplicateRoute",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidClientVpnActiveAssociationNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#ClientVpnRouteLimitExceeded",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidScheduledInstance",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#DeclarativePoliciesAccessDenied",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidAddressMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidAddress.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidFleetIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidFleetId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidFpgaImageIDNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidFpgaImageID.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidTargetArnUnknown",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidTargetArn.Unknown"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidIpamResourceDiscoveryAssociationIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidIpamResourceDiscoveryAssociationId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidIpamResourceDiscoveryAssociationIdNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidIpamResourceDiscoveryAssociationId.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidIpv6PoolIDMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidIpv6PoolID.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidVpnConnectionDeviceTypeIdNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidVpnConnectionDeviceTypeId.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidVpnConnectionId",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidCapacityReservationFleetIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidCapacityReservationFleetId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidInstanceEventWindowIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidInstanceEventWindowId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidIpamScopeIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidIpamScopeId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#UnknownResource",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidConnectionNotification",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidReservedInstancesIDNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidReservedInstancesID.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidCapacityBlockIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidCapacityBlockId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidExportTaskIDMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidExportTaskID.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidHostReservationOfferingIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidHostReservationOfferingId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidIpv6PoolIDNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidIpv6PoolID.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidOutpostLagIDMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidOutpostLagID.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidPrefixListIdNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidPrefixListId.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidServiceLinkVirtualInterfaceIDMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidServiceLinkVirtualInterfaceID.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidVolumeModificationNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidVolumeModification.NotFound"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidVpnConcentratorIdMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidVpnConcentratorId.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidAction",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidClientVpnDuplicateAuthorizationRule",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#ClientVpnAuthorizationRuleLimitExceeded",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#CapacityManagerDisabled",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "CapacityManager.Disabled"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#MissingRequiredParameter",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidPurchaseTokenMalformed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#errorTag": "InvalidPurchaseToken.Malformed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#InvalidClientVpnEndpointAuthorizationRuleNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#RequestLimitExceeded/traits/distilled.errors#categories",
+      "value": ["ThrottlingError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#IncorrectState/traits/distilled.errors#categories",
+      "value": ["ConflictError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#VolumeInUse/traits/distilled.errors#categories",
+      "value": ["ConflictError", "RetryableError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#IncorrectInstanceState/traits/distilled.errors#categories",
+      "value": ["ConflictError"]
+    }
+  ]
+}

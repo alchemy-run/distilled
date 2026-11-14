@@ -1,0 +1,9 @@
+{
+  "description": "Bedrock Agent: Members the API leaves out (not required).",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.bedrockagent#Agent/members/agentVersion/traits/smithy.api#required"
+    }
+  ]
+}

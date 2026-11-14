@@ -1,0 +1,54 @@
+{
+  "description": "Kinesis Video: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.kinesisvideo#UpdateStream/errors/-",
+      "value": {
+        "target": "com.amazonaws.kinesisvideo#StreamNotActive"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.kinesisvideo#UpdateDataRetention/errors/-",
+      "value": {
+        "target": "com.amazonaws.kinesisvideo#StreamNotActive"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.kinesisvideo#TagStream/errors/-",
+      "value": {
+        "target": "com.amazonaws.kinesisvideo#StreamNotActive"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.kinesisvideo#UntagStream/errors/-",
+      "value": {
+        "target": "com.amazonaws.kinesisvideo#StreamNotActive"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.kinesisvideo#UpdateSignalingChannel/errors/-",
+      "value": {
+        "target": "com.amazonaws.kinesisvideo#StreamNotActive"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.kinesisvideo#TagResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.kinesisvideo#StreamNotActive"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.kinesisvideo#UntagResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.kinesisvideo#StreamNotActive"
+      }
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "description": "Amplify: Error shapes the model does not declare, for the errors operations.json list; members the error responses carry.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.amplify#TimeoutException",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.amplify#TimeoutException/members/message",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    }
+  ]
+}

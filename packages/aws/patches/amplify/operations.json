@@ -1,0 +1,264 @@
+{
+  "description": "Amplify: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.amplify#CreateApp/errors/-",
+      "value": {
+        "target": "com.amazonaws.amplify#TimeoutException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.amplify#CreateBackendEnvironment/errors/-",
+      "value": {
+        "target": "com.amazonaws.amplify#TimeoutException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.amplify#CreateBranch/errors/-",
+      "value": {
+        "target": "com.amazonaws.amplify#TimeoutException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.amplify#CreateDeployment/errors/-",
+      "value": {
+        "target": "com.amazonaws.amplify#TimeoutException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.amplify#CreateDomainAssociation/errors/-",
+      "value": {
+        "target": "com.amazonaws.amplify#TimeoutException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.amplify#CreateWebhook/errors/-",
+      "value": {
+        "target": "com.amazonaws.amplify#TimeoutException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.amplify#DeleteApp/errors/-",
+      "value": {
+        "target": "com.amazonaws.amplify#TimeoutException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.amplify#DeleteBackendEnvironment/errors/-",
+      "value": {
+        "target": "com.amazonaws.amplify#TimeoutException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.amplify#DeleteBranch/errors/-",
+      "value": {
+        "target": "com.amazonaws.amplify#TimeoutException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.amplify#DeleteDomainAssociation/errors/-",
+      "value": {
+        "target": "com.amazonaws.amplify#TimeoutException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.amplify#DeleteJob/errors/-",
+      "value": {
+        "target": "com.amazonaws.amplify#TimeoutException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.amplify#DeleteWebhook/errors/-",
+      "value": {
+        "target": "com.amazonaws.amplify#TimeoutException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.amplify#GenerateAccessLogs/errors/-",
+      "value": {
+        "target": "com.amazonaws.amplify#TimeoutException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.amplify#GetApp/errors/-",
+      "value": {
+        "target": "com.amazonaws.amplify#TimeoutException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.amplify#GetArtifactUrl/errors/-",
+      "value": {
+        "target": "com.amazonaws.amplify#TimeoutException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.amplify#GetBackendEnvironment/errors/-",
+      "value": {
+        "target": "com.amazonaws.amplify#TimeoutException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.amplify#GetBranch/errors/-",
+      "value": {
+        "target": "com.amazonaws.amplify#TimeoutException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.amplify#GetDomainAssociation/errors/-",
+      "value": {
+        "target": "com.amazonaws.amplify#TimeoutException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.amplify#GetJob/errors/-",
+      "value": {
+        "target": "com.amazonaws.amplify#TimeoutException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.amplify#GetWebhook/errors/-",
+      "value": {
+        "target": "com.amazonaws.amplify#TimeoutException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.amplify#ListApps/errors/-",
+      "value": {
+        "target": "com.amazonaws.amplify#TimeoutException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.amplify#ListArtifacts/errors/-",
+      "value": {
+        "target": "com.amazonaws.amplify#TimeoutException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.amplify#ListBackendEnvironments/errors/-",
+      "value": {
+        "target": "com.amazonaws.amplify#TimeoutException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.amplify#ListBranches/errors/-",
+      "value": {
+        "target": "com.amazonaws.amplify#TimeoutException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.amplify#ListDomainAssociations/errors/-",
+      "value": {
+        "target": "com.amazonaws.amplify#TimeoutException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.amplify#ListJobs/errors/-",
+      "value": {
+        "target": "com.amazonaws.amplify#TimeoutException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.amplify#ListTagsForResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.amplify#TimeoutException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.amplify#ListWebhooks/errors/-",
+      "value": {
+        "target": "com.amazonaws.amplify#TimeoutException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.amplify#StartDeployment/errors/-",
+      "value": {
+        "target": "com.amazonaws.amplify#TimeoutException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.amplify#StartJob/errors/-",
+      "value": {
+        "target": "com.amazonaws.amplify#TimeoutException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.amplify#StopJob/errors/-",
+      "value": {
+        "target": "com.amazonaws.amplify#TimeoutException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.amplify#TagResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.amplify#TimeoutException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.amplify#UntagResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.amplify#TimeoutException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.amplify#UpdateApp/errors/-",
+      "value": {
+        "target": "com.amazonaws.amplify#TimeoutException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.amplify#UpdateBranch/errors/-",
+      "value": {
+        "target": "com.amazonaws.amplify#TimeoutException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.amplify#UpdateDomainAssociation/errors/-",
+      "value": {
+        "target": "com.amazonaws.amplify#TimeoutException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.amplify#UpdateWebhook/errors/-",
+      "value": {
+        "target": "com.amazonaws.amplify#TimeoutException"
+      }
+    }
+  ]
+}

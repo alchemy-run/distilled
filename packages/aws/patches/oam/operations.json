@@ -1,0 +1,110 @@
+{
+  "description": "OAM: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.oam#CreateLink/errors/-",
+      "value": {
+        "target": "com.amazonaws.oam#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.oam#CreateSink/errors/-",
+      "value": {
+        "target": "com.amazonaws.oam#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.oam#DeleteLink/errors/-",
+      "value": {
+        "target": "com.amazonaws.oam#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.oam#DeleteSink/errors/-",
+      "value": {
+        "target": "com.amazonaws.oam#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.oam#GetLink/errors/-",
+      "value": {
+        "target": "com.amazonaws.oam#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.oam#GetSink/errors/-",
+      "value": {
+        "target": "com.amazonaws.oam#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.oam#GetSinkPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.oam#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.oam#ListAttachedLinks/errors/-",
+      "value": {
+        "target": "com.amazonaws.oam#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.oam#ListLinks/errors/-",
+      "value": {
+        "target": "com.amazonaws.oam#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.oam#ListSinks/errors/-",
+      "value": {
+        "target": "com.amazonaws.oam#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.oam#ListTagsForResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.oam#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.oam#PutSinkPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.oam#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.oam#TagResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.oam#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.oam#UntagResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.oam#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.oam#UpdateLink/errors/-",
+      "value": {
+        "target": "com.amazonaws.oam#TooManyRequestsException"
+      }
+    }
+  ]
+}

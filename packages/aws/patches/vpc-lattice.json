@@ -1,7 +1,0 @@
-{
-  "operations": {
-    "listAccessLogSubscriptions": {
-      "errors": ["ResourceNotFoundException"]
-    }
-  }
-}

@@ -1,0 +1,10 @@
+{
+  "description": "chatbot: Members the API always returns (required).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.chatbot#CustomActionAttachment/members/NotificationType/traits/smithy.api#required",
+      "value": {}
+    }
+  ]
+}

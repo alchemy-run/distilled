@@ -1,0 +1,21 @@
+{
+  "description": "Application Signals: Members the API leaves out (not required).",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.applicationsignals#ServiceLevelObjectiveBudgetReportError/members/Name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.applicationsignals#Service/members/KeyAttributes/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.applicationsignals#Service/members/MetricReferences/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.applicationsignals#RecurrenceRule/members/Expression/traits/smithy.api#required"
+    }
+  ]
+}

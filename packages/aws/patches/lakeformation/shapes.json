@@ -1,0 +1,45 @@
+{
+  "description": "LakeFormation: Members that hold secrets (sensitive).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lakeformation#TemporaryCredentials/members/SecretAccessKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lakeformation#TemporaryCredentials/members/SessionToken/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lakeformation#GetTemporaryGluePartitionCredentialsResponse/members/SecretAccessKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lakeformation#GetTemporaryGluePartitionCredentialsResponse/members/SessionToken/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lakeformation#GetTemporaryGlueTableCredentialsResponse/members/SecretAccessKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lakeformation#GetTemporaryGlueTableCredentialsResponse/members/SessionToken/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lakeformation#AssumeDecoratedRoleWithSAMLResponse/members/SecretAccessKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lakeformation#AssumeDecoratedRoleWithSAMLResponse/members/SessionToken/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

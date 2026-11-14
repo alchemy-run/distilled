@@ -1,0 +1,20 @@
+{
+  "description": "DataExchange: Members that hold secrets (sensitive).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.dataexchange#ImportAssetFromApiGatewayApiRequestDetails/members/ApiKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.dataexchange#ImportAssetFromApiGatewayApiResponseDetails/members/ApiKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.dataexchange#ApiGatewayApiAsset/members/ApiKey/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

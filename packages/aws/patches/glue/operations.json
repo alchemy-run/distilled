@@ -1,0 +1,61 @@
+{
+  "description": "Glue: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.glue#DeleteDatabase/errors/-",
+      "value": {
+        "target": "com.amazonaws.glue#InsufficientLakeFormationPermissions"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.glue#CreateCrawler/errors/-",
+      "value": {
+        "target": "com.amazonaws.glue#GlueRoleNotAssumable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.glue#CreateCrawler/errors/-",
+      "value": {
+        "target": "com.amazonaws.glue#GlueS3TargetNotReady"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.glue#UpdateCrawler/errors/-",
+      "value": {
+        "target": "com.amazonaws.glue#GlueRoleNotAssumable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.glue#UpdateCrawler/errors/-",
+      "value": {
+        "target": "com.amazonaws.glue#GlueS3TargetNotReady"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.glue#StartJobRun/errors/-",
+      "value": {
+        "target": "com.amazonaws.glue#GlueRoleNotAssumable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.glue#CreateJob/errors/-",
+      "value": {
+        "target": "com.amazonaws.glue#GlueRoleNotAssumable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.glue#UpdateJob/errors/-",
+      "value": {
+        "target": "com.amazonaws.glue#GlueRoleNotAssumable"
+      }
+    }
+  ]
+}

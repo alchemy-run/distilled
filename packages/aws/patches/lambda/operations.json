@@ -1,0 +1,670 @@
+{
+  "description": "Lambda: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#CreateFunction/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#LambdaInternalKmsError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#CreateFunction/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ExecutionRoleNotAssumable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#CreateFunction/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ExecutionRoleMissingVpcPermissions"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#CreateFunction/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#KmsGrantPrincipalNotReady"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#CreateFunction/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#SecurityGroupNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#CreateEventSourceMapping/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#CreateEventSourceMapping/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ResourceInUseException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#CreateEventSourceMapping/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ExecutionRoleNotAssumable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#CreateEventSourceMapping/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ExecutionRoleMissingPermissions"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#CreateEventSourceMapping/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#QueueVisibilityTimeoutTooShort"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#PutFunctionEventInvokeConfig/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#PutFunctionEventInvokeConfig/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ParseError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#GetFunctionEventInvokeConfig/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#GetFunctionEventInvokeConfig/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ParseError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#DeleteFunctionEventInvokeConfig/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#DeleteFunctionEventInvokeConfig/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ParseError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#PutFunctionConcurrency/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#PutFunctionConcurrency/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ParseError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#DeleteFunctionConcurrency/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#DeleteFunctionConcurrency/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ParseError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#PutProvisionedConcurrencyConfig/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#PutProvisionedConcurrencyConfig/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ParseError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#DeleteProvisionedConcurrencyConfig/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#DeleteProvisionedConcurrencyConfig/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ParseError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#UpdateFunctionCode/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#UpdateFunctionCode/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ParseError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#UpdateFunctionCode/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ExecutionRoleNotAssumable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#UpdateFunctionCode/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ExecutionRoleMissingVpcPermissions"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#UpdateFunctionCode/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#KmsGrantPrincipalNotReady"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#UpdateFunctionConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#UpdateFunctionConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ParseError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#UpdateFunctionConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ExecutionRoleNotAssumable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#UpdateFunctionConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ExecutionRoleMissingVpcPermissions"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#UpdateFunctionConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#KmsGrantPrincipalNotReady"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#UpdateFunctionConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#SecurityGroupNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#ListFunctionEventInvokeConfigs/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#ListFunctionEventInvokeConfigs/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ParseError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#CreateAlias/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#CreateAlias/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ParseError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#UpdateAlias/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#UpdateAlias/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ParseError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#DeleteAlias/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#PublishLayerVersion/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#PublishLayerVersion/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ParseError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#DeleteLayerVersion/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#DeleteLayerVersion/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ParseError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#GetLayerVersion/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#GetLayerVersion/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ParseError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#AddLayerVersionPermission/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#AddLayerVersionPermission/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ParseError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#RemoveLayerVersionPermission/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#RemoveLayerVersionPermission/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ParseError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#AddPermission/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#AddPermission/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ParseError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#PublishVersion/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#PublishVersion/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ParseError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#CreateFunctionUrlConfig/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#CreateFunctionUrlConfig/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ParseError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#UpdateFunctionUrlConfig/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#UpdateFunctionUrlConfig/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ParseError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#DeleteFunctionUrlConfig/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#DeleteFunctionUrlConfig/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ParseError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#DeleteCodeSigningConfig/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#DeleteCodeSigningConfig/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ParseError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#PutFunctionCodeSigningConfig/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#PutFunctionCodeSigningConfig/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ParseError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#TagResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#TagResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ParseError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#UntagResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#UntagResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ParseError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#ListTags/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#ListTags/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ParseError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#Invoke/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#Invoke/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ParseError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#GetCodeSigningConfig/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#GetCodeSigningConfig/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ParseError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#GetFunctionConcurrency/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#GetFunctionConcurrency/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ParseError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#GetProvisionedConcurrencyConfig/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#GetProvisionedConcurrencyConfig/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ParseError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#ListProvisionedConcurrencyConfigs/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#ListProvisionedConcurrencyConfigs/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ParseError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#ListLayerVersions/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#ListLayerVersions/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ParseError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#GetLayerVersionPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#GetLayerVersionPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ParseError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#GetFunctionRecursionConfig/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#GetFunctionRecursionConfig/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ParseError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#PutFunctionRecursionConfig/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#PutFunctionRecursionConfig/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ParseError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#UpdateEventSourceMapping/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#UpdateEventSourceMapping/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ParseError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#UpdateEventSourceMapping/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ExecutionRoleNotAssumable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#UpdateEventSourceMapping/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#ExecutionRoleMissingPermissions"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#UpdateEventSourceMapping/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#QueueVisibilityTimeoutTooShort"
+      }
+    }
+  ]
+}

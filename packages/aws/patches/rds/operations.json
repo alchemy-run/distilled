@@ -1,0 +1,82 @@
+{
+  "description": "RDS: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.rds#DescribeDBEngineVersions/errors/-",
+      "value": {
+        "target": "com.amazonaws.rds#InvalidParameterCombination"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.rds#CreateDBInstance/errors/-",
+      "value": {
+        "target": "com.amazonaws.rds#InvalidParameterCombination"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.rds#CreateDBInstance/errors/-",
+      "value": {
+        "target": "com.amazonaws.rds#InvalidParameterValue"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.rds#ModifyDBInstance/errors/-",
+      "value": {
+        "target": "com.amazonaws.rds#InvalidParameterCombination"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.rds#ModifyDBInstance/errors/-",
+      "value": {
+        "target": "com.amazonaws.rds#InvalidParameterValue"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.rds#CreateDBCluster/errors/-",
+      "value": {
+        "target": "com.amazonaws.rds#InvalidParameterCombination"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.rds#CreateDBCluster/errors/-",
+      "value": {
+        "target": "com.amazonaws.rds#InvalidParameterValue"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.rds#ModifyDBCluster/errors/-",
+      "value": {
+        "target": "com.amazonaws.rds#InvalidParameterCombination"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.rds#ModifyDBCluster/errors/-",
+      "value": {
+        "target": "com.amazonaws.rds#InvalidParameterValue"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.rds#DeleteDBInstance/errors/-",
+      "value": {
+        "target": "com.amazonaws.rds#DBInstanceDeletionProtected"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.rds#DeleteDBCluster/errors/-",
+      "value": {
+        "target": "com.amazonaws.rds#DBClusterDeletionProtected"
+      }
+    }
+  ]
+}

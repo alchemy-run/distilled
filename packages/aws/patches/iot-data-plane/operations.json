@@ -1,0 +1,54 @@
+{
+  "description": "IoT Data Plane: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.iotdataplane#Publish/errors/-",
+      "value": {
+        "target": "com.amazonaws.iotdataplane#ForbiddenException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.iotdataplane#GetThingShadow/errors/-",
+      "value": {
+        "target": "com.amazonaws.iotdataplane#ForbiddenException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.iotdataplane#UpdateThingShadow/errors/-",
+      "value": {
+        "target": "com.amazonaws.iotdataplane#ForbiddenException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.iotdataplane#DeleteThingShadow/errors/-",
+      "value": {
+        "target": "com.amazonaws.iotdataplane#ForbiddenException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.iotdataplane#ListNamedShadowsForThing/errors/-",
+      "value": {
+        "target": "com.amazonaws.iotdataplane#ForbiddenException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.iotdataplane#GetRetainedMessage/errors/-",
+      "value": {
+        "target": "com.amazonaws.iotdataplane#ForbiddenException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.iotdataplane#ListRetainedMessages/errors/-",
+      "value": {
+        "target": "com.amazonaws.iotdataplane#ForbiddenException"
+      }
+    }
+  ]
+}

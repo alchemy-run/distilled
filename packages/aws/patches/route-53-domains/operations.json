@@ -1,0 +1,33 @@
+{
+  "description": "Route 53 Domains: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.route53domains#GetDomainDetail/errors/-",
+      "value": {
+        "target": "com.amazonaws.route53domains#DomainNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.route53domains#RenewDomain/errors/-",
+      "value": {
+        "target": "com.amazonaws.route53domains#DomainNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.route53domains#RetrieveDomainAuthCode/errors/-",
+      "value": {
+        "target": "com.amazonaws.route53domains#DomainNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.route53domains#UpdateDomainNameservers/errors/-",
+      "value": {
+        "target": "com.amazonaws.route53domains#DomainNotFound"
+      }
+    }
+  ]
+}

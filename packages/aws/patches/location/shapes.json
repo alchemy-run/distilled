@@ -1,0 +1,49 @@
+{
+  "description": "Location: Members the API leaves out (not required).",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.location#DescribeGeofenceCollectionResponse/members/Description/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.location#DescribeMapResponse/members/Description/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.location#DescribePlaceIndexResponse/members/Description/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.location#DescribeRouteCalculatorResponse/members/Description/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.location#DescribeTrackerResponse/members/Description/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.location#ListGeofenceCollectionsResponseEntry/members/Description/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.location#ListMapsResponseEntry/members/Description/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.location#ListPlaceIndexesResponseEntry/members/Description/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.location#ListRouteCalculatorsResponseEntry/members/Description/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.location#ListTrackersResponseEntry/members/Description/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.location#BatchEvaluateGeofencesResponse/members/Errors/traits/smithy.api#required"
+    }
+  ]
+}

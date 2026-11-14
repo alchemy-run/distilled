@@ -14,7 +14,7 @@ It lives in `packages/<pkg>/patches/` and is committed together with the
    them;
 2. apply the patches: RFC-6902 ops on that model (`/shapes`, `/metadata`),
    in `finalizeConvert`;
-3. rename operations to verbNoun;
+3. rename operations to verbNoun (AWS keeps the names AWS publishes);
 4. hand the patched, renamed models to generate, in memory. `pnpm convert`
    instead writes them to the gitignored `.generated-specs/` for you to
    read; they are never committed.
@@ -47,7 +47,7 @@ callers a type they trust.
 | One model (`planetscale`, `neon`) | flat `patches/<topic>.patch.json` |
 | Several models (`posthog`, `kubernetes`, `azure`, `gcp`, `fly-io`) | `patches/<model>/<topic>.json` — `<model>` is the model (`.generated-specs/<model>.json` in a `pnpm convert` dump) it patches. `axiom` passes one patches dir per spec (`patches/v1-edge-ingest/`); follow its `convert.ts` |
 | Cloudflare | `patches/<service>/<operation>.json`; error shapes shared by a service go once in `patches/<service>/_errors.json` |
-| AWS | `patches/<sdkId>.json` — a typed config for `applyAwsSpecPatches` (`errors`, `syntheticErrors`, `errorCategories`, `enums`, …), not RFC-6902. Follow the neighbours. |
+| AWS | `patches/<module>/` (`s3`, `api-gateway`): `_errors.json` adds the error shapes the model lacks, their members and categories; `operations.json` appends operation errors and retry policies; `service.json` holds errors every operation returns and the service retry policy; `shapes.json` fixes structures, enums and unions. Pointers use the published ids (`com.amazonaws.s3#GetObject`). Manual models (`manual-specs/`) skip convert: edit them directly. |
 
 Read the package's existing patches first and extend the file that already
 covers the same kind of fix: one file for every omitted error status, one
@@ -136,7 +136,10 @@ operation's `errors`:
   …) comes from `smithy.api#httpError` and `smithy.api#retryable`
   (`errorCategories` in `packages/dev/src/codegen/generator.ts`), and
   retry policies act on those categories. Set them deliberately: a client
-  error that arrives as a 5xx should not be retried as a server error.
+  error that arrives as a 5xx should not be retried as a server error. A
+  category the status can't say goes in the
+  `distilled.errors#categories` trait, e.g. `["AlreadyExistsError"]` on a
+  409 that means "already exists".
 - `add` at an array index inserts (RFC 6902), so `…/errors/0` puts a class
   first; `-` appends.
 - `add` of a new object key appends it. The extension `"before": "<key>"`
@@ -177,8 +180,24 @@ after the patches and keeps any field a patch set, so a patch adds or
 replaces just the trait or field it means: `[]` as a member's
 `com.distilled.telemetry#attributes` stops recording that member, and an
 operation's `com.distilled.telemetry#operation` `{ "kind": "producer" }`
-changes only its kind. AWS patches are not RFC-6902: AWS spans come from
-the table in `packages/aws/scripts/telemetry.ts`.
+changes only its kind. AWS's defaults come from the table in
+`packages/aws/scripts/telemetry.ts`.
+
+**AWS errors.** AWS matches an error by its wire code, the shape name.
+- An error every operation returns (S3's `InvalidAccessKeyId`) goes once
+  in `service.json`: `add /shapes/com.amazonaws.s3#AmazonS3/errors/-`.
+  The generator gives a service's `errors` to every operation, including
+  ones a later model adds.
+- Convert gives every operation and service an `errors` list, so always
+  append with `…/errors/-`, never replace the list.
+- A wire code that is not a valid shape name (EC2's
+  `InvalidVpcID.NotFound`) is the shape `InvalidVpcIDNotFound` with the
+  trait `"aws.codegen#errorTag": "InvalidVpcID.NotFound"`.
+- One wire error that means several things: add a shape with
+  `"aws.codegen#synthetic": { "from": "InvalidRequestException",
+  "message": { "matches": "WorkGroup.*not found" } }`, `copy` the base
+  error's `members` onto it, and append it to the operation's `errors`.
+  The runtime checks it before the base error.
 
 **One operation returns more than the shared shape promises.** Add a copy
 of the shape under a new name, change the copy, and re-point only that

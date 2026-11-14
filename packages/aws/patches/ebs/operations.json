@@ -1,0 +1,19 @@
+{
+  "description": "EBS: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ebs#PutSnapshotBlock/errors/-",
+      "value": {
+        "target": "com.amazonaws.ebs#InvalidSignatureException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ebs#CompleteSnapshot/errors/-",
+      "value": {
+        "target": "com.amazonaws.ebs#InvalidSignatureException"
+      }
+    }
+  ]
+}

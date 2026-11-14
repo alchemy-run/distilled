@@ -1,0 +1,65 @@
+{
+  "description": "Secrets Manager: Categories (distilled.errors#categories) the error traits do not express.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.secretsmanager#ResourceExistsException/traits/distilled.errors#categories",
+      "value": ["ConflictError", "AlreadyExistsError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.secretsmanager#ResourceNotFoundException/traits/distilled.errors#categories",
+      "value": ["NotFoundError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.secretsmanager#PreconditionNotMetException/traits/distilled.errors#categories",
+      "value": ["ConflictError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.secretsmanager#LimitExceededException/traits/distilled.errors#categories",
+      "value": ["QuotaError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.secretsmanager#InternalServiceError/traits/distilled.errors#categories",
+      "value": ["ServerError", "RetryableError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.secretsmanager#InvalidParameterException/traits/distilled.errors#categories",
+      "value": ["BadRequestError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.secretsmanager#InvalidRequestException/traits/distilled.errors#categories",
+      "value": ["BadRequestError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.secretsmanager#InvalidNextTokenException/traits/distilled.errors#categories",
+      "value": ["BadRequestError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.secretsmanager#MalformedPolicyDocumentException/traits/distilled.errors#categories",
+      "value": ["BadRequestError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.secretsmanager#PublicPolicyException/traits/distilled.errors#categories",
+      "value": ["BadRequestError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.secretsmanager#DecryptionFailure/traits/distilled.errors#categories",
+      "value": ["ServerError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.secretsmanager#EncryptionFailure/traits/distilled.errors#categories",
+      "value": ["ServerError"]
+    }
+  ]
+}

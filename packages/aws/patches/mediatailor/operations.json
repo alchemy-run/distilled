@@ -1,0 +1,173 @@
+{
+  "description": "MediaTailor: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.mediatailor#GetPlaybackConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.mediatailor#PlaybackConfigurationNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.mediatailor#GetPrefetchSchedule/errors/-",
+      "value": {
+        "target": "com.amazonaws.mediatailor#BadRequestException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.mediatailor#GetPrefetchSchedule/errors/-",
+      "value": {
+        "target": "com.amazonaws.mediatailor#PrefetchScheduleNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.mediatailor#DeletePrefetchSchedule/errors/-",
+      "value": {
+        "target": "com.amazonaws.mediatailor#BadRequestException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.mediatailor#DeletePrefetchSchedule/errors/-",
+      "value": {
+        "target": "com.amazonaws.mediatailor#PrefetchScheduleNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.mediatailor#CreatePrefetchSchedule/errors/-",
+      "value": {
+        "target": "com.amazonaws.mediatailor#BadRequestException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.mediatailor#CreatePrefetchSchedule/errors/-",
+      "value": {
+        "target": "com.amazonaws.mediatailor#PlaybackConfigurationNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.mediatailor#ListPrefetchSchedules/errors/-",
+      "value": {
+        "target": "com.amazonaws.mediatailor#BadRequestException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.mediatailor#ListPrefetchSchedules/errors/-",
+      "value": {
+        "target": "com.amazonaws.mediatailor#PlaybackConfigurationNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.mediatailor#ListAlerts/errors/-",
+      "value": {
+        "target": "com.amazonaws.mediatailor#BadRequestException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.mediatailor#GetChannelSchedule/errors/-",
+      "value": {
+        "target": "com.amazonaws.mediatailor#BadRequestException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.mediatailor#GetChannelSchedule/errors/-",
+      "value": {
+        "target": "com.amazonaws.mediatailor#ChannelNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.mediatailor#StartChannel/errors/-",
+      "value": {
+        "target": "com.amazonaws.mediatailor#BadRequestException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.mediatailor#StartChannel/errors/-",
+      "value": {
+        "target": "com.amazonaws.mediatailor#ChannelNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.mediatailor#StopChannel/errors/-",
+      "value": {
+        "target": "com.amazonaws.mediatailor#BadRequestException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.mediatailor#StopChannel/errors/-",
+      "value": {
+        "target": "com.amazonaws.mediatailor#ChannelNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.mediatailor#CreateProgram/errors/-",
+      "value": {
+        "target": "com.amazonaws.mediatailor#BadRequestException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.mediatailor#CreateProgram/errors/-",
+      "value": {
+        "target": "com.amazonaws.mediatailor#ChannelNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.mediatailor#DescribeProgram/errors/-",
+      "value": {
+        "target": "com.amazonaws.mediatailor#BadRequestException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.mediatailor#DescribeProgram/errors/-",
+      "value": {
+        "target": "com.amazonaws.mediatailor#ProgramNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.mediatailor#UpdateProgram/errors/-",
+      "value": {
+        "target": "com.amazonaws.mediatailor#BadRequestException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.mediatailor#UpdateProgram/errors/-",
+      "value": {
+        "target": "com.amazonaws.mediatailor#ProgramNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.mediatailor#DeleteProgram/errors/-",
+      "value": {
+        "target": "com.amazonaws.mediatailor#BadRequestException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.mediatailor#DeleteProgram/errors/-",
+      "value": {
+        "target": "com.amazonaws.mediatailor#ProgramNotFound"
+      }
+    }
+  ]
+}

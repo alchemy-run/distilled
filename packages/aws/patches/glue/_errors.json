@@ -1,0 +1,78 @@
+{
+  "description": "Glue: Error shapes the model does not declare, for the errors operations.json list (a shape with aws.codegen#synthetic matches its base wire error by message); categories (distilled.errors#categories) the error traits do not express.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.glue#InsufficientLakeFormationPermissions",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "AccessDeniedException",
+            "message": {
+              "includes": "Insufficient Lake Formation permission"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.glue#AccessDeniedException/members",
+      "path": "/shapes/com.amazonaws.glue#InsufficientLakeFormationPermissions/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.glue#GlueRoleNotAssumable",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "InvalidInputException",
+            "message": {
+              "includes": "unable to assume"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.glue#InvalidInputException/members",
+      "path": "/shapes/com.amazonaws.glue#GlueRoleNotAssumable/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.glue#GlueS3TargetNotReady",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "InvalidInputException",
+            "message": {
+              "includes": "InvalidAccessKeyId"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.glue#InvalidInputException/members",
+      "path": "/shapes/com.amazonaws.glue#GlueS3TargetNotReady/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.glue#GlueRoleNotAssumable/traits/distilled.errors#categories",
+      "value": ["RetryableError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.glue#GlueS3TargetNotReady/traits/distilled.errors#categories",
+      "value": ["RetryableError"]
+    }
+  ]
+}

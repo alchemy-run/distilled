@@ -1,0 +1,26 @@
+{
+  "description": "Cost Explorer: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.costexplorer#CreateAnomalyMonitor/errors/-",
+      "value": {
+        "target": "com.amazonaws.costexplorer#AnomalyMonitorAlreadyExists"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.costexplorer#CreateAnomalySubscription/errors/-",
+      "value": {
+        "target": "com.amazonaws.costexplorer#AnomalySubscriptionAlreadyExists"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.costexplorer#GetRightsizingRecommendation/errors/-",
+      "value": {
+        "target": "com.amazonaws.costexplorer#RightsizingRecommendationNotEnabled"
+      }
+    }
+  ]
+}

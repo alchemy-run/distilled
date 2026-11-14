@@ -1,0 +1,63 @@
+{
+  "description": "Cost Explorer: Error shapes the model does not declare, for the errors operations.json list (a shape with aws.codegen#synthetic matches its base wire error by message); categories (distilled.errors#categories) the error traits do not express.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.costexplorer#AnomalyMonitorAlreadyExists",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "ValidationException",
+            "message": {
+              "includes": "same monitor name as an existing monitor"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.costexplorer#AnomalySubscriptionAlreadyExists",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "ValidationException",
+            "message": {
+              "includes": "same subscription name as an existing subscription"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.costexplorer#RightsizingRecommendationNotEnabled",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "AccessDeniedException",
+            "message": {
+              "includes": "opt-in only feature"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.costexplorer#AnomalyMonitorAlreadyExists/traits/distilled.errors#categories",
+      "value": ["AlreadyExistsError", "ConflictError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.costexplorer#AnomalySubscriptionAlreadyExists/traits/distilled.errors#categories",
+      "value": ["AlreadyExistsError", "ConflictError"]
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "description": "IVS RealTime: Error shapes the model does not declare, for the errors operations.json list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivsrealtime#ThrottlingException",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    }
+  ]
+}

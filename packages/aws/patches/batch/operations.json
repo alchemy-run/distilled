@@ -1,0 +1,82 @@
+{
+  "description": "Batch: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.batch#UpdateComputeEnvironment/errors/-",
+      "value": {
+        "target": "com.amazonaws.batch#ComputeEnvironmentNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.batch#UpdateComputeEnvironment/errors/-",
+      "value": {
+        "target": "com.amazonaws.batch#ComputeEnvironmentBeingModified"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.batch#DeleteComputeEnvironment/errors/-",
+      "value": {
+        "target": "com.amazonaws.batch#ComputeEnvironmentNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.batch#DeleteComputeEnvironment/errors/-",
+      "value": {
+        "target": "com.amazonaws.batch#ComputeEnvironmentInUse"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.batch#DeleteComputeEnvironment/errors/-",
+      "value": {
+        "target": "com.amazonaws.batch#ComputeEnvironmentBeingModified"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.batch#CreateJobQueue/errors/-",
+      "value": {
+        "target": "com.amazonaws.batch#ComputeEnvironmentNotValid"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.batch#CreateJobQueue/errors/-",
+      "value": {
+        "target": "com.amazonaws.batch#JobQueueAlreadyExists"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.batch#UpdateJobQueue/errors/-",
+      "value": {
+        "target": "com.amazonaws.batch#JobQueueNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.batch#UpdateJobQueue/errors/-",
+      "value": {
+        "target": "com.amazonaws.batch#JobQueueBeingModified"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.batch#DeleteJobQueue/errors/-",
+      "value": {
+        "target": "com.amazonaws.batch#JobQueueNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.batch#DeleteJobQueue/errors/-",
+      "value": {
+        "target": "com.amazonaws.batch#JobQueueBeingModified"
+      }
+    }
+  ]
+}

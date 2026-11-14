@@ -1,0 +1,56 @@
+{
+  "description": "EMR containers: Error shapes the model does not declare, for the errors operations.json list (a shape with aws.codegen#synthetic matches its base wire error by message); categories (distilled.errors#categories) the error traits do not express.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emrcontainers#TooManyRequestsException",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emrcontainers#EksClusterConnectionUpdating",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "ValidationException",
+            "message": {
+              "includes": "connection is currently being updated"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.emrcontainers#ValidationException/members",
+      "path": "/shapes/com.amazonaws.emrcontainers#EksClusterConnectionUpdating/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emrcontainers#InvalidResourceArn",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "BadRequestException",
+            "message": {
+              "includes": "Invalid input resource arn"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emrcontainers#TooManyRequestsException/traits/distilled.errors#categories",
+      "value": ["ThrottlingError", "RetryableError"]
+    }
+  ]
+}
