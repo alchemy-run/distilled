@@ -2626,6 +2626,7 @@ export const batchExecuteStatement: API.OperationMethod<
       ConsumedCapacity: [{ name: "aws.dynamodb.consumed_capacity", transform: "jsonList" }],
     },
   },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type BatchGetItemError =
@@ -2722,6 +2723,7 @@ export const batchGetItem: API.OperationMethod<
       ConsumedCapacity: [{ name: "aws.dynamodb.consumed_capacity", transform: "jsonList" }],
     },
   },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type BatchWriteItemError =
@@ -2849,6 +2851,7 @@ export const batchWriteItem: API.OperationMethod<
       ConsumedCapacity: [{ name: "aws.dynamodb.consumed_capacity", transform: "jsonList" }],
     },
   },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type CancelBulkOperationError =
@@ -2874,6 +2877,7 @@ export const cancelBulkOperation: API.OperationMethod<
   operationName: "CancelBulkOperation",
   telemetry: TELEMETRY,
   span: { op: "CancelBulkOperation", attributes: { "db.operation.name": "CancelBulkOperation" } },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type CreateBackupError =
@@ -2948,6 +2952,7 @@ export const createBackup: API.OperationMethod<
       ],
     },
   },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type CreateGlobalTableError =
@@ -3023,6 +3028,7 @@ export const createGlobalTable: API.OperationMethod<
   operationName: "CreateGlobalTable",
   telemetry: TELEMETRY,
   span: { op: "CreateGlobalTable", attributes: { "db.operation.name": "CreateGlobalTable" } },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type CreateTableError =
@@ -3076,6 +3082,7 @@ export const createTable: API.OperationMethod<
       ],
     },
   },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type DeleteBackupError =
@@ -3111,6 +3118,7 @@ export const deleteBackup: API.OperationMethod<
   operationName: "DeleteBackup",
   telemetry: TELEMETRY,
   span: { op: "DeleteBackup", attributes: { "db.operation.name": "DeleteBackup" } },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type DeleteItemError =
@@ -3178,6 +3186,7 @@ export const deleteItem: API.OperationMethod<
       ConsumedCapacity: [{ name: "aws.dynamodb.consumed_capacity", transform: "jsonList" }],
     },
   },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type DeleteResourcePolicyError =
@@ -3230,6 +3239,7 @@ export const deleteResourcePolicy: API.OperationMethod<
   operationName: "DeleteResourcePolicy",
   telemetry: TELEMETRY,
   span: { op: "DeleteResourcePolicy", attributes: { "db.operation.name": "DeleteResourcePolicy" } },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type DeleteTableError =
@@ -3291,6 +3301,7 @@ export const deleteTable: API.OperationMethod<
       ],
     },
   },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type DescribeBackupError =
@@ -3318,6 +3329,7 @@ export const describeBackup: API.OperationMethod<
   operationName: "DescribeBackup",
   telemetry: TELEMETRY,
   span: { op: "DescribeBackup", attributes: { "db.operation.name": "DescribeBackup" } },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type DescribeBulkOperationError =
@@ -3344,6 +3356,7 @@ export const describeBulkOperation: API.OperationMethod<
     op: "DescribeBulkOperation",
     attributes: { "db.operation.name": "DescribeBulkOperation" },
   },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type DescribeContinuousBackupsError =
@@ -3391,6 +3404,7 @@ export const describeContinuousBackups: API.OperationMethod<
       ],
     },
   },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type DescribeContributorInsightsError =
@@ -3425,6 +3439,7 @@ export const describeContributorInsights: API.OperationMethod<
       IndexName: [{ name: "aws.dynamodb.index_name" }],
     },
   },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type DescribeEndpointsError = CommonErrors;
@@ -3446,6 +3461,7 @@ export const describeEndpoints: API.OperationMethod<
   operationName: "DescribeEndpoints",
   telemetry: TELEMETRY,
   span: { op: "DescribeEndpoints", attributes: { "db.operation.name": "DescribeEndpoints" } },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type DescribeExportError =
@@ -3470,6 +3486,7 @@ export const describeExport: API.OperationMethod<
   operationName: "DescribeExport",
   telemetry: TELEMETRY,
   span: { op: "DescribeExport", attributes: { "db.operation.name": "DescribeExport" } },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type DescribeGlobalTableError =
@@ -3498,6 +3515,7 @@ export const describeGlobalTable: API.OperationMethod<
   operationName: "DescribeGlobalTable",
   telemetry: TELEMETRY,
   span: { op: "DescribeGlobalTable", attributes: { "db.operation.name": "DescribeGlobalTable" } },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type DescribeGlobalTableSettingsError =
@@ -3529,6 +3547,7 @@ export const describeGlobalTableSettings: API.OperationMethod<
     op: "DescribeGlobalTableSettings",
     attributes: { "db.operation.name": "DescribeGlobalTableSettings" },
   },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type DescribeImportError = ImportNotFoundException | CommonErrors;
@@ -3549,6 +3568,7 @@ export const describeImport: API.OperationMethod<
   operationName: "DescribeImport",
   telemetry: TELEMETRY,
   span: { op: "DescribeImport", attributes: { "db.operation.name": "DescribeImport" } },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type DescribeKinesisStreamingDestinationError =
@@ -3582,6 +3602,7 @@ export const describeKinesisStreamingDestination: API.OperationMethod<
       ],
     },
   },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type DescribeLimitsError = InternalServerError | InvalidEndpointException | CommonErrors;
@@ -3664,6 +3685,7 @@ export const describeLimits: API.OperationMethod<
   operationName: "DescribeLimits",
   telemetry: TELEMETRY,
   span: { op: "DescribeLimits", attributes: { "db.operation.name": "DescribeLimits" } },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type DescribeTableError =
@@ -3705,6 +3727,7 @@ export const describeTable: API.OperationMethod<
       ],
     },
   },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type DescribeTableReplicaAutoScalingError =
@@ -3737,6 +3760,7 @@ export const describeTableReplicaAutoScaling: API.OperationMethod<
       ],
     },
   },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type DescribeTimeToLiveError =
@@ -3770,6 +3794,7 @@ export const describeTimeToLive: API.OperationMethod<
       ],
     },
   },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type DisableKinesisStreamingDestinationError =
@@ -3812,6 +3837,7 @@ export const disableKinesisStreamingDestination: API.OperationMethod<
       ],
     },
   },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type EnableKinesisStreamingDestinationError =
@@ -3856,6 +3882,7 @@ export const enableKinesisStreamingDestination: API.OperationMethod<
       ],
     },
   },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type ExecuteStatementError =
@@ -3920,6 +3947,7 @@ export const executeStatement: API.OperationMethod<
       ConsumedCapacity: [{ name: "aws.dynamodb.consumed_capacity", transform: "jsonList" }],
     },
   },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type ExecuteTransactionError =
@@ -3970,6 +3998,7 @@ export const executeTransaction: API.OperationMethod<
       ConsumedCapacity: [{ name: "aws.dynamodb.consumed_capacity", transform: "jsonList" }],
     },
   },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type ExportTableToPointInTimeError =
@@ -4009,6 +4038,7 @@ export const exportTableToPointInTime: API.OperationMethod<
     op: "ExportTableToPointInTime",
     attributes: { "db.operation.name": "ExportTableToPointInTime" },
   },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type GetItemError =
@@ -4065,6 +4095,7 @@ export const getItem: API.OperationMethod<
       ConsumedCapacity: [{ name: "aws.dynamodb.consumed_capacity", transform: "jsonList" }],
     },
   },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type GetResourcePolicyError =
@@ -4127,6 +4158,7 @@ export const getResourcePolicy: API.OperationMethod<
   operationName: "GetResourcePolicy",
   telemetry: TELEMETRY,
   span: { op: "GetResourcePolicy", attributes: { "db.operation.name": "GetResourcePolicy" } },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type ImportTableError =
@@ -4151,6 +4183,7 @@ export const importTable: API.OperationMethod<
   operationName: "ImportTable",
   telemetry: TELEMETRY,
   span: { op: "ImportTable", attributes: { "db.operation.name": "ImportTable" } },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type ListBackupsError = InternalServerError | InvalidEndpointException | CommonErrors;
@@ -4194,6 +4227,7 @@ export const listBackups: API.OperationMethod<
       Limit: [{ name: "aws.dynamodb.limit" }],
     },
   },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type ListBulkOperationsError = InvalidEndpointException | CommonErrors;
@@ -4223,6 +4257,7 @@ export const listBulkOperations: API.PaginatedOperationMethod<
   } as const,
   telemetry: TELEMETRY,
   span: { op: "ListBulkOperations", attributes: { "db.operation.name": "ListBulkOperations" } },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 })) as any;
 
 export type ListContributorInsightsError =
@@ -4262,6 +4297,7 @@ export const listContributorInsights: API.PaginatedOperationMethod<
       ],
     },
   },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 })) as any;
 
 export type ListExportsError = InternalServerError | LimitExceededException | CommonErrors;
@@ -4288,6 +4324,7 @@ export const listExports: API.PaginatedOperationMethod<
   } as const,
   telemetry: TELEMETRY,
   span: { op: "ListExports", attributes: { "db.operation.name": "ListExports" } },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 })) as any;
 
 export type ListGlobalTablesError = InternalServerError | InvalidEndpointException | CommonErrors;
@@ -4316,6 +4353,7 @@ export const listGlobalTables: API.OperationMethod<
     attributes: { "db.operation.name": "ListGlobalTables" },
     input: { Limit: [{ name: "aws.dynamodb.limit" }] },
   },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type ListImportsError = LimitExceededException | CommonErrors;
@@ -4338,6 +4376,7 @@ export const listImports: API.PaginatedOperationMethod<
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "PageSize" } as const,
   telemetry: TELEMETRY,
   span: { op: "ListImports", attributes: { "db.operation.name": "ListImports" } },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 })) as any;
 
 export type ListTablesError = InternalServerError | InvalidEndpointException | CommonErrors;
@@ -4374,6 +4413,7 @@ export const listTables: API.PaginatedOperationMethod<
       Limit: [{ name: "aws.dynamodb.limit" }],
     },
   },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 })) as any;
 
 export type ListTagsOfResourceError =
@@ -4402,6 +4442,7 @@ export const listTagsOfResource: API.OperationMethod<
   operationName: "ListTagsOfResource",
   telemetry: TELEMETRY,
   span: { op: "ListTagsOfResource", attributes: { "db.operation.name": "ListTagsOfResource" } },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type PutItemError =
@@ -4483,6 +4524,7 @@ export const putItem: API.OperationMethod<
       ConsumedCapacity: [{ name: "aws.dynamodb.consumed_capacity", transform: "jsonList" }],
     },
   },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type PutResourcePolicyError =
@@ -4536,6 +4578,7 @@ export const putResourcePolicy: API.OperationMethod<
   operationName: "PutResourcePolicy",
   telemetry: TELEMETRY,
   span: { op: "PutResourcePolicy", attributes: { "db.operation.name": "PutResourcePolicy" } },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type QueryError =
@@ -4649,6 +4692,7 @@ export const query: API.PaginatedOperationMethod<
       ConsumedCapacity: [{ name: "aws.dynamodb.consumed_capacity", transform: "jsonList" }],
     },
   },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 })) as any;
 
 export type RestoreTableFromBackupError =
@@ -4706,6 +4750,7 @@ export const restoreTableFromBackup: API.OperationMethod<
     op: "RestoreTableFromBackup",
     attributes: { "db.operation.name": "RestoreTableFromBackup" },
   },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type RestoreTableToPointInTimeError =
@@ -4784,6 +4829,7 @@ export const restoreTableToPointInTime: API.OperationMethod<
     op: "RestoreTableToPointInTime",
     attributes: { "db.operation.name": "RestoreTableToPointInTime" },
   },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type ScanError =
@@ -4889,6 +4935,7 @@ export const scan: API.PaginatedOperationMethod<
       ConsumedCapacity: [{ name: "aws.dynamodb.consumed_capacity", transform: "jsonList" }],
     },
   },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 })) as any;
 
 export type SearchVectorsError =
@@ -4948,6 +4995,7 @@ export const searchVectors: API.OperationMethod<
       ConsumedCapacity: [{ name: "aws.dynamodb.consumed_capacity", transform: "jsonList" }],
     },
   },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type StartBulkPutItemsError =
@@ -4991,6 +5039,7 @@ export const startBulkPutItems: API.OperationMethod<
       ],
     },
   },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type TagResourceError =
@@ -5042,6 +5091,7 @@ export const tagResource: API.OperationMethod<
   operationName: "TagResource",
   telemetry: TELEMETRY,
   span: { op: "TagResource", attributes: { "db.operation.name": "TagResource" } },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type TransactGetItemsError =
@@ -5104,6 +5154,7 @@ export const transactGetItems: API.OperationMethod<
       ConsumedCapacity: [{ name: "aws.dynamodb.consumed_capacity", transform: "jsonList" }],
     },
   },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type TransactWriteItemsError =
@@ -5205,6 +5256,7 @@ export const transactWriteItems: API.OperationMethod<
       ConsumedCapacity: [{ name: "aws.dynamodb.consumed_capacity", transform: "jsonList" }],
     },
   },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type UntagResourceError =
@@ -5254,6 +5306,7 @@ export const untagResource: API.OperationMethod<
   operationName: "UntagResource",
   telemetry: TELEMETRY,
   span: { op: "UntagResource", attributes: { "db.operation.name": "UntagResource" } },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type UpdateContinuousBackupsError =
@@ -5305,6 +5358,7 @@ export const updateContinuousBackups: API.OperationMethod<
       ],
     },
   },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type UpdateContributorInsightsError =
@@ -5344,6 +5398,7 @@ export const updateContributorInsights: API.OperationMethod<
       IndexName: [{ name: "aws.dynamodb.index_name" }],
     },
   },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type UpdateGlobalTableError =
@@ -5403,6 +5458,7 @@ export const updateGlobalTable: API.OperationMethod<
   operationName: "UpdateGlobalTable",
   telemetry: TELEMETRY,
   span: { op: "UpdateGlobalTable", attributes: { "db.operation.name": "UpdateGlobalTable" } },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type UpdateGlobalTableSettingsError =
@@ -5446,6 +5502,7 @@ export const updateGlobalTableSettings: API.OperationMethod<
     op: "UpdateGlobalTableSettings",
     attributes: { "db.operation.name": "UpdateGlobalTableSettings" },
   },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type UpdateItemError =
@@ -5507,6 +5564,7 @@ export const updateItem: API.OperationMethod<
       ConsumedCapacity: [{ name: "aws.dynamodb.consumed_capacity", transform: "jsonList" }],
     },
   },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type UpdateKinesisStreamingDestinationError =
@@ -5548,6 +5606,7 @@ export const updateKinesisStreamingDestination: API.OperationMethod<
       ],
     },
   },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type UpdateTableError =
@@ -5629,6 +5688,7 @@ export const updateTable: API.OperationMethod<
       ],
     },
   },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type UpdateTableReplicaAutoScalingError =
@@ -5668,6 +5728,7 @@ export const updateTableReplicaAutoScaling: API.OperationMethod<
       ],
     },
   },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 export type UpdateTimeToLiveError =
@@ -5735,6 +5796,7 @@ export const updateTimeToLive: API.OperationMethod<
       ],
     },
   },
+  retryPolicy: { maxAttempts: 4, baseMs: 25 },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

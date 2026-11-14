@@ -1,5 +1,9 @@
 import { operationConst, suspendConst, suspendRef, PURE } from "@distilled.cloud/dev/codegen/emit";
-import { errorCategories, type SdkSpec } from "@distilled.cloud/dev/codegen/generator";
+import {
+  errorCategories,
+  RETRY_POLICY_TRAIT,
+  type SdkSpec,
+} from "@distilled.cloud/dev/codegen/generator";
 /**
  * AWS provider spec for the shared smithy→SDK compiler
  * (`@distilled.cloud/dev/codegen/generator`).
@@ -102,6 +106,11 @@ export const applyAwsSpecPatches = (
 ): void => {
   const shapes = model.shapes as Record<string, any>;
   const errorShapeIds = collectErrorShapeIds(model);
+
+  if (serviceSpec.retryPolicy) {
+    const service = Object.values(shapes).find((s) => s?.type === "service");
+    service.traits = { ...service.traits, [RETRY_POLICY_TRAIT]: serviceSpec.retryPolicy };
+  }
 
   if (serviceSpec.errorHttpStatus) {
     for (const [errorName, status] of Object.entries(serviceSpec.errorHttpStatus)) {
@@ -2293,6 +2302,7 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
           : []),
         ...(paginatedTrait ? [`pagination: ${JSON.stringify(paginatedTrait)} as const`] : []),
         ...ctx.telemetry,
+        ...(ctx.retryPolicy !== undefined ? [ctx.retryPolicy] : []),
       ];
       const metaObject = `{ ${metaParts.join(", ")} }`;
 

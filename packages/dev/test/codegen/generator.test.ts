@@ -388,3 +388,38 @@ describe("whole-body responses", () => {
     expect(code).toContain("S.NullOr(Things).pipe(T.RawResponseRoot())");
   });
 });
+
+describe("distilled.retry#policy", () => {
+  const withRetryTraits = (service?: object, operation?: object) => {
+    const model = primitiveUnionModel("enum", false) as any;
+    const shapes = model.shapes;
+    if (service) shapes["com.example.union#Example"].traits = { "distilled.retry#policy": service };
+    if (operation) {
+      shapes["com.example.union#GetValue"].traits["distilled.retry#policy"] = operation;
+    }
+    return model;
+  };
+
+  test("no trait emits no retryPolicy", () => {
+    expect(generateService(withRetryTraits(), spec).code).not.toContain("retryPolicy");
+  });
+
+  test("the service's trait applies to its operations", () => {
+    const { code } = generateService(withRetryTraits({ maxAttempts: 4, baseMs: 25 }), spec);
+    expect(code).toContain(`  retryPolicy: {"maxAttempts":4,"baseMs":25},`);
+  });
+
+  test("the operation's trait wins over the service's, key by key", () => {
+    const { code } = generateService(
+      withRetryTraits({ maxAttempts: 4, baseMs: 25 }, { baseMs: 100, capMs: 5000 }),
+      spec,
+    );
+    expect(code).toContain(`  retryPolicy: {"maxAttempts":4,"baseMs":100,"capMs":5000},`);
+  });
+
+  test("an unknown key or a bad number fails the generation", () => {
+    expect(() => generateService(withRetryTraits({ retries: 2 }), spec)).toThrow(/unknown key/);
+    expect(() => generateService(withRetryTraits({ maxAttempts: 0 }), spec)).toThrow(/whole/);
+    expect(() => generateService(withRetryTraits({ baseMs: 1.5 }), spec)).toThrow(/whole/);
+  });
+});

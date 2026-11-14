@@ -349,6 +349,42 @@ export const defaultOptions: Options = {
 
 export const makeDefault: Factory = () => defaultOptions;
 
+/**
+ * A model's `distilled.retry#policy` trait: numbers that replace the default
+ * policy's for a service or an operation. What retries still comes from the
+ * error's marks.
+ */
+export interface RetryOverride {
+  /** Attempts in total, the first included. */
+  readonly maxAttempts?: number;
+  readonly baseMs?: number;
+  readonly throttlingBaseMs?: number;
+  readonly capMs?: number;
+}
+
+const overridden = new WeakMap<RetryOverride, Options>();
+
+/** {@link defaultOptions} with `override`'s numbers, memoized per override object. */
+export const defaultWith = (override: RetryOverride): Options => {
+  const cached = overridden.get(override);
+  if (cached !== undefined) return cached;
+  const backoff = defaultOptions.backoff!;
+  const result: Options = {
+    ...defaultOptions,
+    backoff: {
+      ...backoff,
+      ...(override.maxAttempts !== undefined ? { maxRetries: override.maxAttempts - 1 } : {}),
+      ...(override.baseMs !== undefined ? { baseMs: override.baseMs } : {}),
+      ...(override.throttlingBaseMs !== undefined
+        ? { throttlingBaseMs: override.throttlingBaseMs }
+        : {}),
+      ...(override.capMs !== undefined ? { capMs: override.capMs } : {}),
+    },
+  };
+  overridden.set(override, result);
+  return result;
+};
+
 const slowBackoff: Backoff = {
   baseMs: 1000,
   factor: 2,
