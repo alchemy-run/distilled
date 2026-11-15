@@ -18,6 +18,7 @@ import { SingleShotGen } from "effect/Utils";
 import { getAnn, rawResponseRootSymbol } from "./annotations.ts";
 import { isThrottling } from "./category.ts";
 import * as Pagination from "./pagination.ts";
+import type { Protocol as TypedProtocol } from "./protocol.ts";
 import { takeLastRequest } from "./retry-state.ts";
 import {
   type Backoff,
@@ -81,6 +82,10 @@ export interface ProtocolOperationConfig {
  * into an output value using the output schema's trait annotations.
  *
  * Swap implementations by providing a different `Layer<Protocol>`.
+ *
+ * This is the older form of a protocol: its methods state no errors, so
+ * each SDK writes `<Sdk>OpError` on its operations by hand. core/protocol
+ * has the typed form, which `API.make` also accepts.
  */
 export class Protocol
   extends /*@__PURE__*/ Context.Service<
@@ -152,14 +157,15 @@ export interface PreparedOperation {
  * successful `Exit` (e.g. a `Credentials` service holding
  * `Effect.succeed(config)`), so a resolved value costs no fiber step.
  */
-export const withValue = <A, B>(
-  effect: Effect.Effect<A, any, any>,
-  f: (a: A) => Effect.Effect<B, any, any>,
-): Effect.Effect<B, any, any> =>
+export const withValue = <A, E, R, B, E2, R2>(
+  effect: Effect.Effect<A, E, R>,
+  f: (a: A) => Effect.Effect<B, E2, R2>,
+): Effect.Effect<B, E | E2, R | R2> =>
   Exit.isExit(effect)
     ? Exit.isSuccess(effect)
       ? f(effect.value as A)
-      : (effect as unknown as Effect.Effect<never, any>)
+      : // A failed Exit never produces its value.
+        (effect as Exit.Exit<never, E>)
     : Effect.flatMap(effect, f);
 
 export type ApiErrorClass = {
@@ -238,6 +244,53 @@ const protocolContext = <PE, PR>(
   });
 };
 
+/** An operation's `protocol`, in either form (see {@link OperationConfig.protocol}). */
+type AnyProtocol = Layer.Layer<Protocol, any, any> | TypedProtocol<any, any, any>;
+
+const isProtocolLayer = (protocol: AnyProtocol): protocol is Layer.Layer<Protocol, any, any> =>
+  Layer.isLayer(protocol);
+
+/**
+ * A protocol's methods as `API.make` runs them: a typed protocol, or the
+ * service a protocol layer builds. `API.make` passes the operation's own
+ * error classes to either one, and types each operation from its config.
+ */
+interface ProtocolMethods {
+  readonly encode: (args: any) => Effect.Effect<HttpClientRequest.HttpClientRequest, any, any>;
+  readonly decode: (args: any) => Effect.Effect<unknown, any, any>;
+  readonly call?: (operation: any, input: unknown) => Effect.Effect<unknown, any, any>;
+  readonly stream?: (operation: any, input: unknown) => Stream.Stream<unknown, any, any>;
+}
+
+/**
+ * The methods of an operation's protocol, kept on `prepared` for its next
+ * calls: a typed protocol as it is, a layer's service once the layer is
+ * built.
+ */
+const protocolOf = (prepared: Prepared): Effect.Effect<ProtocolMethods, any, any> => {
+  const protocol: AnyProtocol = prepared.cfg.protocol;
+  return isProtocolLayer(protocol)
+    ? Effect.map(
+        protocolContext(protocol),
+        (ctx) => (prepared.service = Context.get(ctx, Protocol)),
+      )
+    : Effect.succeed((prepared.service = protocol));
+};
+
+/**
+ * A typed protocol as an operation's config takes it: `Errors` is its
+ * service errors and protocol errors together, which is what `API.make`
+ * adds to the operation's own errors. Written member by member so that
+ * `Errors` is read from what the methods fail with.
+ */
+type TypedProtocolWith<Errors, Requirements> = {
+  readonly [Method in keyof TypedProtocol<Errors, Errors, Requirements>]: TypedProtocol<
+    Errors,
+    Errors,
+    Requirements
+  >[Method];
+};
+
 export interface OperationConfig<
   I extends S.Top,
   O extends S.Top,
@@ -249,12 +302,22 @@ export interface OperationConfig<
   output?: O;
   errors?: E;
   /**
-   * The protocol layer that knows how to encode/decode this operation's wire
-   * format. Built once per process and shared across all operations that
-   * reference the same layer value -- it must resolve call-dependent services
-   * (credentials etc.) inside encode/decode, not at build time.
+   * What encodes and decodes this operation's wire format, in one of two
+   * forms:
+   *
+   * - A typed protocol (core/protocol): an object whose type states the
+   *   service errors and protocol errors of the SDK. `PE` is both groups
+   *   and `PR` what its methods read, so the operation's type gets them
+   *   from the protocol.
+   * - A protocol layer, the older form, which states neither: its SDK
+   *   writes `<Sdk>OpError` on each operation by hand. Built once per
+   *   process and shared across all operations that reference the same
+   *   layer value.
+   *
+   * Either one resolves call-dependent services (credentials etc.) inside
+   * encode/decode, on the calling fiber.
    */
-  protocol: Layer.Layer<Protocol, PE, PR>;
+  protocol: Layer.Layer<Protocol, PE, PR> | TypedProtocolWith<PE, PR>;
   /**
    * SDK-specific retry service tag (see `core/retry`). When provided and the
    * caller's context carries a policy under this tag, every call is retried
@@ -484,8 +547,8 @@ interface OperationState {
 
 interface Prepared extends PreparedOperation {
   readonly cfg: OperationConfig<any, any, any, any, any>;
-  /** The built protocol service, once its layer has been built. */
-  service?: ProtocolShape;
+  /** The protocol's methods, once resolved (see {@link protocolOf}). */
+  service?: ProtocolMethods;
   /** The operation span's facts, from the telemetry traits; built on the first traced call. */
   info?: Telemetry.OperationInfo;
 }
@@ -563,12 +626,10 @@ export const encodeRequest = <I, O, E, R>(
     if (state === undefined) return Effect.fail(new SdkError({ message: "not an operation" }));
     const prepared = prepareOr(state);
     if (prepared instanceof SdkError) return Effect.fail(prepared);
-    const encode = (service: ProtocolShape) =>
+    const encode = (service: ProtocolMethods) =>
       service.encode({ input, inputAst: prepared.inputAst, config: prepared.cfg });
     if (prepared.service !== undefined) return encode(prepared.service);
-    return Effect.flatMap(protocolContext(prepared.cfg.protocol), (protocolCtx) =>
-      encode((prepared.service = Context.get(protocolCtx, Protocol))),
-    );
+    return Effect.flatMap(protocolOf(prepared), encode);
   });
 
 const defineState = (op: unknown, state: OperationState): OperationState => {
@@ -578,7 +639,7 @@ const defineState = (op: unknown, state: OperationState): OperationState => {
 
 const runWith = (
   p: Prepared,
-  protocol: ProtocolShape,
+  protocol: ProtocolMethods,
   input: unknown,
 ): Effect.Effect<any, any, any> => {
   if (protocol.call !== undefined) return protocol.call(p, input);
@@ -608,14 +669,11 @@ const callUntraced = (
     if (prepared instanceof SdkError) return Effect.fail(prepared);
     const call = Effect.flatMap(
       debug === undefined
-        ? protocolContext(prepared.cfg.protocol)
-        : debug.phase("distilled.setup", protocolContext(prepared.cfg.protocol), {
+        ? protocolOf(prepared)
+        : debug.phase("distilled.setup", protocolOf(prepared), {
             "distilled.setup.first_call": true,
           }),
-      (protocolCtx) => {
-        const service = (prepared.service = Context.get(protocolCtx, Protocol));
-        return runWith(prepared, service, input);
-      },
+      (service) => runWith(prepared, service, input),
     );
     return applyRetry(call, prepared.cfg, debug);
   });
@@ -914,7 +972,9 @@ export type StreamingOperationMethod<I, O, E, R, Item = StreamedItem<O>> = Effec
   OperationSchemas<I, O>;
 
 /** The `.stream()` of an operation its protocol can't stream: fails with {@link SdkError}. */
-export const cannotStream = (operation: PreparedOperation): Stream.Stream<never, SdkError> =>
+export const cannotStream = (
+  operation: Pick<PreparedOperation, "config">,
+): Stream.Stream<never, SdkError> =>
   Stream.fail(
     new SdkError({
       message: `${operation.config.operationName ?? "this operation"}: its protocol can't stream`,
@@ -931,13 +991,11 @@ const streamCall =
         if (prepared instanceof SdkError) return Effect.succeed(Stream.fail(prepared));
         const fixed = prepared.cfg.streamInput;
         const sent = fixed === undefined ? input : { ...(input as object), ...fixed };
-        const run = (service: ProtocolShape) =>
+        const run = (service: ProtocolMethods) =>
           service.stream === undefined ? cannotStream(prepared) : service.stream(prepared, sent);
         return prepared.service !== undefined
           ? Effect.succeed(run(prepared.service))
-          : Effect.map(protocolContext(prepared.cfg.protocol), (ctx) =>
-              run((prepared.service = Context.get(ctx, Protocol))),
-            );
+          : Effect.map(protocolOf(prepared), run);
       }),
     );
 
