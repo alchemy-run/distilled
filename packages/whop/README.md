@@ -14,9 +14,10 @@ npm install @distilled.cloud/whop effect
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Whop from "@distilled.cloud/whop";
+import * as Plans from "@distilled.cloud/whop/plans";
 
 const program = Effect.gen(function* () {
-  const result = yield* Whop.plans.createPlan({});
+  const result = yield* Plans.createPlan({});
   return result;
 });
 

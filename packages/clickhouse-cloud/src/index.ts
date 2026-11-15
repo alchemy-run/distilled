@@ -17,13 +17,15 @@
  * import { Effect, Layer } from "effect";
  * import * as FetchHttpClient from "effect/http/FetchHttpClient";
  * import * as ClickHouseCloud from "@distilled.cloud/clickhouse-cloud";
+ * import * as Organization from "@distilled.cloud/clickhouse-cloud/organization";
+ * import * as Service from "@distilled.cloud/clickhouse-cloud/service";
  *
  * const program = Effect.gen(function* () {
- *   const organizations = yield* ClickHouseCloud.organization.listOrganizations({});
+ *   const organizations = yield* Organization.listOrganizations({});
  *   const organizationId = organizations.result[0]?.id;
  *   if (organizationId === undefined) return [];
  *
- *   const services = yield* ClickHouseCloud.service.listServices({ organizationId });
+ *   const services = yield* Service.listServices({ organizationId });
  *   return services.map(({ name, state, region }) => ({ name, state, region }));
  * });
  *
@@ -47,4 +49,3 @@ export {
 } from "./protocol.ts";
 export { paginateCursor } from "./pagination.ts";
 export * as Retry from "./retry.ts";
-export * from "./services/index.ts";

@@ -14,9 +14,10 @@ npm install @distilled.cloud/hetzner effect
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Hetzner from "@distilled.cloud/hetzner";
+import * as Servers from "@distilled.cloud/hetzner/servers";
 
 const program = Effect.gen(function* () {
-  const result = yield* Hetzner.servers.listServers({});
+  const result = yield* Servers.listServers({});
   return result;
 });
 

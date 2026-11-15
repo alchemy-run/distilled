@@ -17,13 +17,14 @@ npm install @distilled.cloud/exa effect
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Exa from "@distilled.cloud/exa";
+import * as Api from "@distilled.cloud/exa/api";
 
 const program = Effect.gen(function* () {
-  const { results } = yield* Exa.api.search({
+  const { results } = yield* Api.search({
     query: "Effect TypeScript library",
     numResults: 3,
   });
-  const contents = yield* Exa.api.getContents({
+  const contents = yield* Api.getContents({
     urls: results.map((result) => result.url),
     text: { maxCharacters: 2000 },
   });
@@ -35,23 +36,23 @@ const Live = Layer.mergeAll(FetchHttpClient.layer, Exa.CredentialsFromEnv, Exa.E
 program.pipe(Effect.provide(Live), Effect.runPromise);
 ```
 
-One module per API:
+One module per API, each imported from its own subpath:
 
-- `Exa.api`: search, contents, answer, search monitors, Agent runs, batches and Websets.
+- `@distilled.cloud/exa/api`: search, contents, answer, search monitors, Agent runs, batches and Websets.
   Its calls go through `Exa.ExaProtocol`.
-- `Exa.teamManagement`: API keys and team credits. Its calls go through
+- `@distilled.cloud/exa/team_management`: API keys and team credits. Its calls go through
   `Exa.ExaTeamManagementProtocol`.
 
-Lists page by cursor: `Exa.api.listWebsets.pages({})` and `Exa.api.listWebsets.items({})`
+Lists page by cursor: `Api.listWebsets.pages({})` and `Api.listWebsets.items({})`
 follow `nextCursor`.
 
 ## Auth
 
 Both APIs take the key in the `x-api-key` header.
 
-- `EXA_API_KEY`: the API key for `Exa.api`, from the [dashboard](https://dashboard.exa.ai/api-keys).
+- `EXA_API_KEY`: the API key for `@distilled.cloud/exa/api`, from the [dashboard](https://dashboard.exa.ai/api-keys).
   Requests go to `https://api.exa.ai`. `EXA_API_BASE_URL` overrides it.
-- `EXA_SERVICE_API_KEY` (optional): the service API key for `Exa.teamManagement`, from the
+- `EXA_SERVICE_API_KEY` (optional): the service API key for `@distilled.cloud/exa/team_management`, from the
   dashboard's "Service keys" tab. Requests go to `https://admin-api.exa.ai/team-management`.
   Without it, Team Management calls send `EXA_API_KEY`.
 
