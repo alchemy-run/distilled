@@ -10,7 +10,6 @@
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
-import { finishModule } from "@distilled.cloud/dev/codegen/cli";
 import { generateService } from "@distilled.cloud/dev/codegen/generator";
 import { inheritServiceErrors } from "@distilled.cloud/dev/codegen/operations";
 import * as Effect from "effect/Effect";
@@ -134,13 +133,13 @@ const serviceModel = (serviceId: string) => {
   return { smithy: "2.0", shapes: JSON.parse(json) as Record<string, Shape> };
 };
 
-/** Generate the service module the way `pnpm generate` does, and load it. */
+/** Generate the service module with the AWS generator spec, and load it. */
 const loadService = async (name: string, smithy: ReturnType<typeof serviceModel>) => {
   const copy = structuredClone(smithy) as any;
   inheritServiceErrors(copy.shapes);
   const { code } = generateService(copy, awsSpec(copy));
   // Generated services live in src/services; these import the same modules.
-  const text = finishModule(code, `${name}.ts`).replaceAll('from "../', 'from "../../../src/');
+  const text = code.replaceAll('from "../', 'from "../../../src/');
   const file = path.join(generatedDir, `${name}.ts`);
   fs.writeFileSync(file, text);
   return (await import(file)) as Record<string, any>;

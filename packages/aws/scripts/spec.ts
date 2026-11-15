@@ -1103,12 +1103,7 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
         case "smithy.api#Double":
         case "smithy.api#Long":
         case "smithy.api#Float":
-        case "smithy.api#PrimitiveByte":
-        case "smithy.api#PrimitiveShort":
-        case "smithy.api#PrimitiveInteger":
         case "smithy.api#PrimitiveLong":
-        case "smithy.api#PrimitiveFloat":
-        case "smithy.api#PrimitiveDouble":
           return "S.Number";
         case "smithy.api#Boolean":
         case "smithy.api#PrimitiveBoolean":
@@ -1129,8 +1124,6 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
     const shape = shapes[target];
     if (!shape) throw new Error(`unable to find shape: ${target}`);
     switch (shape.type) {
-      case "byte":
-      case "short":
       case "integer":
       case "long":
       case "double":

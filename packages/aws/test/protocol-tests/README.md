@@ -4,7 +4,7 @@ The AWS runtime's wire protocols (`awsJson1_0`, `awsJson1_1`, `awsQuery`, `ec2Qu
 
 `protocol-tests.test.ts` runs them with the rest of the tests (`pnpm vitest run`):
 
-1. It generates each test service from `model.json` with the AWS generator (`scripts/spec.ts`), the same way `pnpm generate aws` does, into the gitignored `.generated/`.
+1. It generates each test service from `model.json` with the AWS generator (`generateService` with `scripts/spec.ts`) into the gitignored `.generated/`.
 2. It replays each `httpRequestTests` case: it calls the operation with the case's params through a fake `HttpClient` and compares the request it sends.
 3. It replays each `httpResponseTests` case: the fake `HttpClient` returns the case's response, and the test compares what the operation returns, or the typed error it fails with.
 
