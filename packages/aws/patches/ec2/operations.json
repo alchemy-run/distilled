@@ -4364,6 +4364,13 @@
     },
     {
       "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#RunInstances/errors/-",
+      "value": {
+        "target": "com.amazonaws.ec2#VcpuLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
       "path": "/shapes/com.amazonaws.ec2#AttachVolume/errors/-",
       "value": {
         "target": "com.amazonaws.ec2#RequestLimitExceeded"
@@ -4605,6 +4612,20 @@
       "path": "/shapes/com.amazonaws.ec2#StartInstances/errors/-",
       "value": {
         "target": "com.amazonaws.ec2#IncorrectInstanceState"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#StartInstances/errors/-",
+      "value": {
+        "target": "com.amazonaws.ec2#InsufficientInstanceCapacity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#StartInstances/errors/-",
+      "value": {
+        "target": "com.amazonaws.ec2#VcpuLimitExceeded"
       }
     },
     {

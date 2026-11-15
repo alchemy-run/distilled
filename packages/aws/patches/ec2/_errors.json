@@ -1072,6 +1072,15 @@
     },
     {
       "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#VcpuLimitExceeded",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
       "path": "/shapes/com.amazonaws.ec2#InvalidVolumeIDMalformed",
       "value": {
         "type": "structure",
@@ -2683,6 +2692,11 @@
       "op": "add",
       "path": "/shapes/com.amazonaws.ec2#IncorrectInstanceState/traits/distilled.errors#categories",
       "value": ["ConflictError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#VcpuLimitExceeded/traits/distilled.errors#categories",
+      "value": ["QuotaError"]
     }
   ]
 }
