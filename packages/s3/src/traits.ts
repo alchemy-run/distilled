@@ -734,23 +734,15 @@ export const eventStreamWith = <A, E>(
   f: (codec: EventStreamCodec) => Stream.Stream<A, E>,
 ): Stream.Stream<A, E> => Stream.unwrap(Effect.map(codecFor(eventSchema), f));
 
-/** A request body built by the event stream codec registered for `eventSchema`. */
+/**
+ * A request body built by the event stream codec registered for
+ * `eventSchema`. The codec loads in the calling operation's fiber, so a
+ * failed load fails the call with its `SdkError`.
+ */
 export const eventStreamBody = (
   eventSchema: unknown,
   f: (codec: EventStreamCodec) => ReadableStream<Uint8Array>,
-): ReadableStream<Uint8Array> => {
-  let reader: ReadableStreamDefaultReader<Uint8Array> | undefined;
-  const open = async () =>
-    (reader ??= f(await Effect.runPromise(codecFor(eventSchema))).getReader());
-  return new ReadableStream<Uint8Array>({
-    async pull(controller) {
-      const { done, value } = await (await open()).read();
-      if (done) controller.close();
-      else controller.enqueue(value);
-    },
-    cancel: (reason) => reader?.cancel(reason),
-  });
-};
+): Effect.Effect<ReadableStream<Uint8Array>> => Effect.map(codecFor(eventSchema), f);
 
 export const EventStream = <A>(
   eventSchema: S.Schema<A>,
