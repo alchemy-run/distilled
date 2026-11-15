@@ -2305,7 +2305,18 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
       );
       serviceConstants.push(`const ver = T.ServiceVersion("${version}");`);
 
-      serviceConstants.push(`const proto = ${PROTOCOL_ANNOTATIONS[protocol]};`);
+      // A service moved off awsQuery says so on every request
+      // (`x-amzn-query-mode`), so it can answer with query error codes.
+      const queryCompatible =
+        serviceShape.traits?.["aws.protocols#awsQueryCompatible"] != null &&
+        (protocol === "aws.protocols#awsJson1_0" || protocol === "aws.protocols#awsJson1_1");
+      serviceConstants.push(
+        `const proto = ${
+          queryCompatible
+            ? PROTOCOL_ANNOTATIONS[protocol].replace("()", "({ awsQueryCompatible: true })")
+            : PROTOCOL_ANNOTATIONS[protocol]
+        };`,
+      );
 
       // Compiled endpoint resolver function (if a rule set is available)
       if (endpointRuleSet) {
