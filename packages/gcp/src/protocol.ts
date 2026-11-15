@@ -6,6 +6,7 @@ import {
   getProps,
   hasPropAnn,
   matchTypedError,
+  responseErrorFields,
   nameOf,
 } from "@distilled.cloud/core/protocol-http";
 import { validateResponse } from "@distilled.cloud/core/response-validation";
@@ -38,11 +39,10 @@ import {
  *   response: 2xx JSON body returned as-is (GCP wire names are already the
  *             TS-facing names). Failures carry the standard GCP error
  *             envelope `{ error: { code, message, status, details } }` --
- *             dispatch is per-op matcher classes (`matchTypedError`) then
- *             HTTP status via core's `HTTP_STATUS_MAP`, with the envelope's
- *             gRPC-style `status` string and `details[]` tacked onto the
- *             instance so the per-service error classes' declared fields
- *             are populated at catch sites. Unmatched statuses ->
+ *             dispatch is per-op matcher classes (`matchTypedError`, which
+ *             reads their declared `status` and `details` under `error`)
+ *             then HTTP status via core's `HTTP_STATUS_MAP`; every error
+ *             carries the body and headers. Unmatched statuses ->
  *             `UnknownGCPError`.
  */
 import type { SourceError } from "effect/ConfigProvider";
@@ -145,19 +145,6 @@ const extractGCPErrorEnvelope = (
   };
 };
 
-/**
- * The envelope fields the per-service error classes declare but the core
- * `HTTP_STATUS_MAP` classes don't. `Effect.catchTag` matches by `_tag`
- * (string) and the runtime instance built here shares a tag with the
- * per-service class, so tacking the structured envelope fields onto the
- * instance after construction makes them visible at the per-service
- * narrowed type -- core stays untouched (mirrors the distilled gcp client).
- */
-type EnvelopeAddenda = {
-  status?: string;
-  details?: ReadonlyArray<unknown>;
-};
-
 // The protocol layer is memoized per process by `API.make`, so the build
 // must not capture credentials -- `encode` resolves Credentials from the
 // calling fiber's context on every request. The requirement is erased at
@@ -242,13 +229,6 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
     return request;
   });
 
-const tackEnvelope = <T>(instance: T, envelope: EnvelopeAddenda): T => {
-  const tackOn = instance as T & EnvelopeAddenda;
-  if (envelope.status !== undefined) tackOn.status = envelope.status;
-  if (envelope.details !== undefined) tackOn.details = envelope.details;
-  return instance;
-};
-
 const decode = ({
   response,
   outputAst,
@@ -282,35 +262,36 @@ const decode = ({
       //    message-or-status matcher (e.g. IAM ServiceAccountQuotaExceeded)
       //    has to win over the generic HTTP_STATUS_MAP class, or quota
       //    lands as UnknownGCPError / TooManyRequests with no catchable tag.
-      const typed = matchTypedError(errors, status, [{ code: envelope.code, message }], {
-        body: nonJson ? text : json,
-        headers,
-      });
-      if (typed !== undefined) {
-        return yield* fail(tackEnvelope(typed, envelope));
-      }
+      // The envelope's fields sit under `error`; core reads a typed error's
+      // declared `status` and `details` there.
+      const failure = { body: nonJson ? text : json, headers, fieldsAt: "/error" };
+      const typed = matchTypedError(errors, status, [{ code: envelope.code, message }], failure);
+      if (typed !== undefined) return yield* fail(typed);
 
       // 2. Status-map dispatch: the constructed instance shares its `_tag`
-      //    with the per-service typed error classes, and the envelope's
-      //    `status` / `details` are tacked on so catch-site narrowing sees
-      //    them.
+      //    with the per-service typed error classes and carries the body
+      //    (the envelope's `status` and `details` are under `body.error`).
       const ErrorClass = HTTP_STATUS_MAP[status as keyof typeof HTTP_STATUS_MAP];
       if (ErrorClass) {
-        const instance = new ErrorClass({
-          message,
-          retryAfter: parseRetryAfterForStatus(status, headers),
-        } as any);
-        return yield* fail(tackEnvelope(instance, envelope));
+        return yield* fail(
+          new ErrorClass({
+            message,
+            ...responseErrorFields(undefined, failure),
+            retryAfter: parseRetryAfterForStatus(status, headers),
+          } as any),
+        );
       }
 
       // 3. Unmapped 5xx -> retryable server error, as in core's REST
       //    protocol.
       if (status >= 500) {
-        const instance = new InternalServerError({
-          message,
-          retryAfter: parseRetryAfterForStatus(status, headers),
-        });
-        return yield* fail(tackEnvelope(instance, envelope));
+        return yield* fail(
+          new InternalServerError({
+            message,
+            ...responseErrorFields(undefined, failure),
+            retryAfter: parseRetryAfterForStatus(status, headers),
+          }),
+        );
       }
 
       return yield* fail(

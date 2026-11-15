@@ -1,7 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import { HTTP_STATUS_MAP, InternalServerError } from "@distilled.cloud/core/errors";
 import type { ConfigError, DefaultErrors } from "@distilled.cloud/core/errors";
-import { getAnn, getProps, hasPropAnn, nameOf } from "@distilled.cloud/core/protocol-http";
+import {
+  getAnn,
+  getProps,
+  hasPropAnn,
+  matchTypedError,
+  nameOf,
+  responseErrorFields,
+} from "@distilled.cloud/core/protocol-http";
 import { validateResponse } from "@distilled.cloud/core/response-validation";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 import { SdkError } from "@distilled.cloud/core/sdk-error";
@@ -32,12 +39,11 @@ import {
  *   response: 2xx JSON body returned as-is (Google wire names are already the
  *             TS-facing names). Failures carry the standard Google error
  *             envelope `{ error: { code, message, status, details } }` --
- *             dispatch is purely by HTTP status via core's
- *             `HTTP_STATUS_MAP` (mirroring the distilled google-workspace client), with
- *             the envelope's gRPC-style `status` string and `details[]`
- *             tacked onto the instance so the per-service error classes'
- *             declared fields are populated at catch sites. Unmatched
- *             statuses -> `UnknownGoogleWorkspaceError`.
+ *             dispatch is per-op matcher classes (`matchTypedError`, which
+ *             reads their declared `status` and `details` under `error`)
+ *             then HTTP status via core's `HTTP_STATUS_MAP`; every error
+ *             carries the body and headers. Unmatched statuses ->
+ *             `UnknownGoogleWorkspaceError`.
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
@@ -133,19 +139,6 @@ const extractGoogleErrorEnvelope = (
   };
 };
 
-/**
- * The envelope fields the per-service error classes declare but the core
- * `HTTP_STATUS_MAP` classes don't. `Effect.catchTag` matches by `_tag`
- * (string) and the runtime instance built here shares a tag with the
- * per-service class, so tacking the structured envelope fields onto the
- * instance after construction makes them visible at the per-service
- * narrowed type -- core stays untouched (mirrors the distilled google-workspace client).
- */
-type EnvelopeAddenda = {
-  status?: string;
-  details?: ReadonlyArray<unknown>;
-};
-
 // The protocol layer is memoized per process by `API.make`, so the build
 // must not capture credentials -- `encode` resolves Credentials from the
 // calling fiber's context on every request. The requirement is erased at
@@ -214,6 +207,7 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
 const decode = ({
   response,
   outputAst,
+  errors,
 }: {
   readonly response: HttpClientResponse.HttpClientResponse;
   readonly outputAst: AST.AST;
@@ -239,33 +233,36 @@ const decode = ({
       const envelope = extractGoogleErrorEnvelope(json);
       const message = envelope.message ?? (nonJson && text ? text : String(status));
 
-      // Status-map dispatch, exactly like the distilled google-workspace client: the
-      // constructed instance shares its `_tag` with the per-service typed
-      // error classes (NotFound/Forbidden/BadRequest/Conflict/...), and the
-      // envelope's `status` / `details` are tacked on so the per-service
-      // narrowed type sees them.
+      // 1. Per-operation typed error (matcher metadata on the class). The
+      //    envelope's fields sit under `error`; core reads a typed error's
+      //    declared `status` and `details` there.
+      const failure = { body: nonJson ? text : json, headers, fieldsAt: "/error" };
+      const typed = matchTypedError(errors, status, [{ code: envelope.code, message }], failure);
+      if (typed !== undefined) return yield* fail(typed);
+
+      // 2. Status-map dispatch: the constructed instance shares its `_tag`
+      //    with the per-service typed error classes and carries the body
+      //    (the envelope's `status` and `details` are under `body.error`).
       const ErrorClass = HTTP_STATUS_MAP[status as keyof typeof HTTP_STATUS_MAP];
       if (ErrorClass) {
-        const instance = new ErrorClass({
-          message,
-          retryAfter: parseRetryAfterForStatus(status, headers),
-        } as any);
-        const tackOn = instance as unknown as EnvelopeAddenda;
-        if (envelope.status !== undefined) tackOn.status = envelope.status;
-        if (envelope.details !== undefined) tackOn.details = envelope.details;
-        return yield* fail(instance);
+        return yield* fail(
+          new ErrorClass({
+            message,
+            ...responseErrorFields(undefined, failure),
+            retryAfter: parseRetryAfterForStatus(status, headers),
+          } as any),
+        );
       }
 
-      // Unmapped 5xx -> retryable server error, as in core's REST protocol.
+      // 3. Unmapped 5xx -> retryable server error, as in core's REST protocol.
       if (status >= 500) {
-        const instance = new InternalServerError({
-          message,
-          retryAfter: parseRetryAfterForStatus(status, headers),
-        });
-        const tackOn = instance as unknown as EnvelopeAddenda;
-        if (envelope.status !== undefined) tackOn.status = envelope.status;
-        if (envelope.details !== undefined) tackOn.details = envelope.details;
-        return yield* fail(instance);
+        return yield* fail(
+          new InternalServerError({
+            message,
+            ...responseErrorFields(undefined, failure),
+            retryAfter: parseRetryAfterForStatus(status, headers),
+          }),
+        );
       }
 
       return yield* fail(
