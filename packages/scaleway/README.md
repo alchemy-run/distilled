@@ -17,14 +17,15 @@ npm install @distilled.cloud/scaleway effect
 import { Config, Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Scaleway from "@distilled.cloud/scaleway";
+import * as VpcV2 from "@distilled.cloud/scaleway/vpc_v2";
 
 const program = Effect.gen(function* () {
   const project_id = yield* Config.String("SCW_DEFAULT_PROJECT_ID");
 
   // `region` is optional: it defaults to SCW_DEFAULT_REGION (fr-par).
-  const vpc = yield* Scaleway.vpcV2.createVPC({ name: "distilled-example", project_id });
-  const { private_networks } = yield* Scaleway.vpcV2.listPrivateNetworks({ vpc_id: vpc.id });
-  yield* Scaleway.vpcV2.deleteVPC({ vpc_id: vpc.id! });
+  const vpc = yield* VpcV2.createVPC({ name: "distilled-example", project_id });
+  const { private_networks } = yield* VpcV2.listPrivateNetworks({ vpc_id: vpc.id });
+  yield* VpcV2.deleteVPC({ vpc_id: vpc.id! });
 
   return { vpc: vpc.id, privateNetworks: private_networks?.length };
 });
@@ -94,8 +95,9 @@ read (Instance v1's `X-Total-Count` header is folded into `total_count`), and
 
 ```ts
 import * as Stream from "effect/Stream";
+import * as InstanceV1 from "@distilled.cloud/scaleway/instance_v1";
 
-const servers = Scaleway.instanceV1.listServers.items({ zone: "fr-par-1" }).pipe(Stream.runCollect);
+const servers = InstanceV1.listServers.items({ zone: "fr-par-1" }).pipe(Stream.runCollect);
 ```
 
 ## Errors
@@ -110,7 +112,9 @@ core's `TooManyRequests`. A failure without a recognised `type` falls back
 to the HTTP status class, then `UnknownScalewayError`.
 
 ```ts
-Scaleway.instanceV1.getServer({ server_id }).pipe(
+import * as InstanceV1 from "@distilled.cloud/scaleway/instance_v1";
+
+InstanceV1.getServer({ server_id }).pipe(
   Effect.catchTag("ResourceNotFoundError", () => Effect.succeed(undefined)),
 );
 ```
@@ -124,7 +128,9 @@ read it. Each also has a `…Raw` twin that asks for the file itself
 (`?dl=1`, as the JS SDK does) and answers a `Uint8Array`:
 
 ```ts
-const pdf = yield* Scaleway.accountContractV3.downloadContractSignatureRaw({
+import * as AccountContractV3 from "@distilled.cloud/scaleway/account_contract_v3";
+
+const pdf = yield* AccountContractV3.downloadContractSignatureRaw({
   contract_signature_id,
   locale: "en_US",
 });

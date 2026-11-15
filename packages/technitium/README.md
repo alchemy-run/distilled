@@ -19,9 +19,10 @@ This program prints every record of a zone:
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Technitium from "@distilled.cloud/technitium";
+import * as Zones from "@distilled.cloud/technitium/zones";
 
 const program = Effect.gen(function* () {
-  const { records = [] } = yield* Technitium.zones.getRecords({
+  const { records = [] } = yield* Zones.getRecords({
     zone: "homelab.example.com",
     domain: "homelab.example.com",
     listZone: true,

@@ -39,9 +39,10 @@ npm install @distilled.cloud/modal effect
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Modal from "@distilled.cloud/modal";
+import * as Sandbox from "@distilled.cloud/modal/sandbox";
 
 const program = Effect.gen(function* () {
-  const result = yield* Modal.sandbox.listSandbox({});
+  const result = yield* Sandbox.listSandbox({});
   return result;
 });
 

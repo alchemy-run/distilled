@@ -14,9 +14,10 @@ npm install @distilled.cloud/fly-io effect
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Fly from "@distilled.cloud/fly-io";
+import * as Machines from "@distilled.cloud/fly-io/machines";
 
 const program = Effect.gen(function* () {
-  const result = yield* Fly.machines.listApps({ org_slug: "personal" });
+  const result = yield* Machines.listApps({ org_slug: "personal" });
   return result;
 });
 

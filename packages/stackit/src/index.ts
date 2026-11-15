@@ -13,9 +13,9 @@
  *
  * @example
  * ```ts
- * import * as Stackit from "@distilled.cloud/stackit";
+ * import * as Dns from "@distilled.cloud/stackit/dns";
  *
- * const { zones } = yield* Stackit.dns.listZones({
+ * const { zones } = yield* Dns.listZones({
  *   projectId: "...",
  * });
  * ```
@@ -31,4 +31,3 @@ export {
 } from "./protocol.ts";
 export { paginateByTotalPages } from "./pagination.ts";
 export * as Retry from "./retry.ts";
-export * from "./services/index.ts";

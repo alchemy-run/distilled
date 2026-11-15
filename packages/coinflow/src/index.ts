@@ -11,9 +11,9 @@
  *
  * @example
  * ```ts
- * import * as Coinflow from "@distilled.cloud/coinflow";
+ * import * as Authentication from "@distilled.cloud/coinflow/authentication";
  *
- * const { key } = yield* Coinflow.authentication.getSessionKey({ authUserId: "user-123" });
+ * const { key } = yield* Authentication.getSessionKey({ authUserId: "user-123" });
  * ```
  */
 export * from "./credentials.ts";
@@ -21,4 +21,3 @@ export * from "./errors.ts";
 export * as T from "./traits.ts";
 export { CoinflowProtocol, type CoinflowOpError, type CoinflowOpContext } from "./protocol.ts";
 export * as Retry from "./retry.ts";
-export * from "./services/index.ts";
