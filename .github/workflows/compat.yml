@@ -1,0 +1,51 @@
+name: Compatibility
+
+# Nightly run of compat-tests.yml on main. A failure opens one issue, or
+# comments on it while it is open, with the failed jobs and the run's link.
+# release.yml runs the same tests before it publishes.
+
+on:
+  schedule:
+    - cron: "17 4 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: compat-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    uses: ./.github/workflows/compat-tests.yml
+
+  report:
+    name: Open an issue on failure
+    needs: tests
+    if: failure() && github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      issues: write
+    steps:
+      - name: Open or update the issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RUN_ID: ${{ github.run_id }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          title="Nightly compatibility run failed"
+          failed=$(gh run view "$RUN_ID" --json jobs \
+            --jq '.jobs[] | select(.conclusion == "failure") | "- \(.name): \(.url)"')
+          body=$(printf 'The nightly Compatibility run failed on %s.\n\n%s\n\nRun: %s\n' "$SHA" "$failed" "$RUN_URL")
+          number=$(gh issue list --state open --search "\"$title\" in:title" --json number,title \
+            --jq "map(select(.title == \"$title\")) | .[0].number // empty")
+          if [ -n "$number" ]; then
+            gh issue comment "$number" --body "$body"
+          else
+            gh issue create --title "$title" --body "$body"
+          fi

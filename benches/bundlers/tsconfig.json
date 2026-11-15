@@ -11,5 +11,12 @@
     "types": ["node"]
   },
   // The fixtures are plain JavaScript, bundled from the packed packages.
-  "include": ["run.ts", "vitest.config.ts", "src/**/*.ts", "test/**/*.ts"]
+  "include": [
+    "run.ts",
+    "vitest.config.ts",
+    "vitest.workerd.config.ts",
+    "src/**/*.ts",
+    "test/**/*.ts",
+    "workerd/**/*.ts"
+  ]
 }
