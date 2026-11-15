@@ -24,15 +24,12 @@ import {
   getEventSchema,
   getHttpHeader,
   getHttpPrefixHeaders,
-  getHttpQuery,
   getMemberAnnotation,
   getOwnAnnotation,
   getPropAnnotations,
   getTimestampFormatFromAST,
   getXmlNameProp,
-  hasHttpLabel,
   hasHttpPayload,
-  hasHttpQueryParams,
   hasS3UnwrappedXmlOutput,
   hasXmlAttribute,
   hasXmlFlattened,
@@ -741,15 +738,10 @@ const memberPlansOf = (ast: AST.AST): ReadonlyArray<MemberPlan> => {
   if (plans === undefined) {
     const out: MemberPlan[] = [];
     for (const prop of getEncodedPropertySignatures(ast)) {
-      // Skip HTTP-bound properties (headers, query, labels)
-      if (
-        getHttpHeader(prop) ||
-        getHttpQuery(prop) ||
-        hasHttpLabel(prop) ||
-        getHttpPrefixHeaders(prop) ||
-        hasHttpQueryParams(prop)
-      )
-        continue;
+      // Skip the members bound to response headers. A response has no
+      // query or path, so `@httpQuery` and `@httpLabel` members are read
+      // from the body.
+      if (getHttpHeader(prop) || getHttpPrefixHeaders(prop)) continue;
       const key = String(prop.name);
       const xmlName = memberXmlName(prop);
       out.push({

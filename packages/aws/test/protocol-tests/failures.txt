@@ -196,10 +196,6 @@ RestJsonHttpChecksumRequired (request)
 # `@httpPrefixHeaders` with an empty prefix is not decoded.
 HttpEmptyPrefixHeadersResponseClient (response)
 
-# An output member with `@httpQuery` is not read from the body, where the
-# response carries it.
-IgnoreQueryParamsInResponse (response)
-
 # `@mediaType("application/json")` header strings are not base64-encoded.
 MediaTypeHeaderInputBase64 (request)
 MediaTypeHeaderOutputBase64 (response)
