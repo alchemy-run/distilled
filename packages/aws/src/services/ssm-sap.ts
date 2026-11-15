@@ -365,7 +365,7 @@ export interface GetOperationInput {
   OperationId: string;
 }
 export type OperationType = string;
-export type OperationProperties = { [key: string]: string | undefined };
+export type OperationProperties = { [key: string]: string | null | undefined };
 export type ResourceType = string;
 export type ResourceId = string;
 export interface Operation {
@@ -373,7 +373,7 @@ export interface Operation {
   Type?: string | undefined;
   Status?: OperationStatus | undefined;
   StatusMessage?: string | undefined;
-  Properties?: { [key: string]: string | undefined } | undefined;
+  Properties?: { [key: string]: string | null | undefined } | undefined;
   ResourceType?: string | undefined;
   ResourceId?: string | undefined;
   ResourceArn?: string | undefined;
@@ -1462,7 +1462,7 @@ function __c2(j: number): any {
 function __c3(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional)).pipe(
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.String).pipe(S.optional)).pipe(
         /*@__PURE__*/ T.Sparse(),
       );
     case 1:

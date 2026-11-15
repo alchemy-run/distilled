@@ -1283,14 +1283,19 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
         // Parenthesize union element types (e.g. sensitive members that
         // render as `string | redacted.Redacted<string>`) so the `[]`
         // suffix binds to the whole union, not just the last member.
-        const elementType = tsTypeOf(shape.member.target);
+        // A `@sparse` list holds null elements.
+        const elementType =
+          shape.traits?.["smithy.api#sparse"] != null
+            ? `${tsTypeOf(shape.member.target)} | null`
+            : tsTypeOf(shape.member.target);
         return elementType.includes("|") ? `(${elementType})[]` : `${elementType}[]`;
       }
       case "map": {
         // Include | undefined so users can pass objects with undefined
-        // values (dropped during serialization).
+        // values (dropped during serialization); a `@sparse` map holds nulls.
         const valueType = tsTypeOf(shape.value.target);
-        return `{ [key: string]: ${valueType} | undefined }`;
+        const sparse = shape.traits?.["smithy.api#sparse"] != null ? " | null" : "";
+        return `{ [key: string]: ${valueType}${sparse} | undefined }`;
       }
       case "union":
         return name;
@@ -1719,7 +1724,11 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
           );
 
           const sparsePipe = isSparse ? ".pipe(T.Sparse())" : "";
-          const memberTsType = tsTypeAt(def.member.target, name);
+          // A `@sparse` list holds null elements, sent and returned as null.
+          if (isSparse) innerType = `S.NullOr(${innerType})`;
+          const memberTsType = isSparse
+            ? `${tsTypeAt(def.member.target, name)} | null`
+            : tsTypeAt(def.member.target, name);
           const memberTsTypeForArray = memberTsType.includes("|")
             ? `(${memberTsType})`
             : memberTsType;
@@ -1781,7 +1790,11 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
           );
 
           const sparsePipe = isSparse ? ".pipe(T.Sparse())" : "";
-          const valueTsType = tsTypeAt(def.value.target, name);
+          // A `@sparse` map holds null values, sent and returned as null.
+          if (isSparse) wrappedValue = `S.NullOr(${wrappedValue})`;
+          const valueTsType = isSparse
+            ? `${tsTypeAt(def.value.target, name)} | null`
+            : tsTypeAt(def.value.target, name);
           // Value piped through S.optional so undefined values are accepted
           // (and dropped during serialization).
           const recordExpr = `S.Record(${wrappedKey}, ${wrappedValue}.pipe(S.optional))${sparsePipe}`;

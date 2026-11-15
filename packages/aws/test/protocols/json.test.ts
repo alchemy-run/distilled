@@ -294,13 +294,15 @@ describe("awsJson response deserialization", () => {
     op(DynamoDB.getItem.input, DynamoDB.getItem.output, "GetItem"),
   );
 
-  test("returns the parsed JSON document with nulls dropped", async () => {
+  // The codec drops a null member, and keeps a null in a `@sparse` list or map.
+  test("returns the parsed JSON document with its nulls", async () => {
     const body = JSON.stringify({
       Item: { Artist: { S: "No One You Know" }, Year: { N: "2015" }, Missing: null },
       ConsumedCapacity: null,
     });
     expect(await run(handler.deserializeResponse(response(body)))).toEqual({
-      Item: { Artist: { S: "No One You Know" }, Year: { N: "2015" } },
+      Item: { Artist: { S: "No One You Know" }, Year: { N: "2015" }, Missing: null },
+      ConsumedCapacity: null,
     });
   });
 
@@ -1194,6 +1196,7 @@ describe("restJson1 response deserialization", () => {
       Truncated: false,
       LastModified: "Tue, 02 Jan 2024 03:04:05 GMT",
       Items: ["a"],
+      NextToken: null,
     });
   });
 
