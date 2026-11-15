@@ -78,7 +78,7 @@ import {
 } from "./traits.ts";
 import { getIdentifier, getPropertySignatures } from "./util/ast.ts";
 import { invalidHostLabel } from "./util/serialize-input.ts";
-import { bodyStream, isStreamBody } from "./util/stream.ts";
+import { bodyStream, isStreamBody, type StreamBody } from "./util/stream.ts";
 
 /**
  * Context (requirements) shared by every generated AWS operation.
@@ -101,7 +101,7 @@ interface Prepared {
     status: number;
     statusText: string;
     headers: Record<string, string>;
-    body: string | ReadableStream<Uint8Array>;
+    body: string | StreamBody;
   }) => Effect.Effect<any, any, any>;
   readonly sigv4: { name: string } | undefined;
   /** Legacy SigV2 (SimpleDB only) -- signs via body parameters, no header. */
@@ -647,7 +647,7 @@ const decodeWith = (
     response.request.method === "HEAD" ||
     (response.headers as Record<string, string>)["content-length"] === "0" ||
     response.status === 204;
-  const parse = (body: string | ReadableStream<Uint8Array>) =>
+  const parse = (body: string | StreamBody) =>
     Effect.mapError(
       prepared.parseResponse({
         status: response.status,
@@ -669,8 +669,9 @@ const decodeWith = (
       ? fromText("")
       : Effect.flatMap(response.text, fromText)
     : empty
-      ? parse(new ReadableStream<Uint8Array>({ start: (c) => c.close() }))
-      : Effect.flatMap(Stream.toReadableStreamEffect(response.stream), parse);
+      ? parse(Stream.empty)
+      : // The HttpClient's stream as is: the caller reads it in its own fiber.
+        parse(response.stream);
   return decoded;
 };
 

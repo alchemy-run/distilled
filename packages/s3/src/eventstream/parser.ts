@@ -12,6 +12,7 @@ import * as Ref from "effect/Ref";
 import type * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
 import { decode, decodeFailure, fitsWire, holdsSensitive } from "../util/codec.ts";
+import { bodyStream, type StreamBody } from "../util/stream.ts";
 import {
   decodeMessage,
   EventParseError,
@@ -41,21 +42,12 @@ export type EventStreamParseError = EventStreamDecodeError | EventParseError;
  * - Event type parsing
  */
 export const parseEventStream = (
-  input: ReadableStream<Uint8Array>,
+  input: StreamBody,
 ): Stream.Stream<StreamEvent, EventStreamParseError> => {
-  // Convert ReadableStream to Effect Stream of chunks
-  const chunkStream: Stream.Stream<Uint8Array, EventStreamDecodeError> = Stream.unfold(
-    input.getReader(),
-    (reader) =>
-      Effect.tryPromise({
-        try: () => reader.read(),
-        catch: (e) =>
-          new EventStreamDecodeError({
-            message: `Failed to read from stream: ${e}`,
-          }),
-      }).pipe(
-        Effect.map((result) => (result.done ? undefined : ([result.value, reader] as const))),
-      ),
+  // The body's chunks, read in the caller's fiber
+  const chunkStream: Stream.Stream<Uint8Array, EventStreamDecodeError> = Stream.mapError(
+    bodyStream(input),
+    (e) => new EventStreamDecodeError({ message: `Failed to read from stream: ${e}` }),
   );
 
   // Process chunks with buffering to extract complete messages
@@ -290,7 +282,7 @@ export const decodeEventStreamUnion = (
  * @param eventSchema - The Smithy union schema for the stream's events
  */
 export const parseEventStreamToUnion = (
-  input: ReadableStream<Uint8Array>,
+  input: StreamBody,
   payloadParser: PayloadParser = jsonPayloadParser,
   eventSchema?: Schema.Schema<unknown>,
   eventPayloadMap?: Record<string, string>,

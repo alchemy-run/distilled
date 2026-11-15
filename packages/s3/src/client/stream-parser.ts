@@ -47,6 +47,8 @@ export function makeStreamParser(outputAst: AST.AST): StreamParser | null {
 
       // Return a parser function that handles this event stream property
       return (deserialized) => {
+        // Only a raw web stream is unparsed: a protocol hands back the
+        // HttpClient's Effect stream already parsed (events) or as bytes (blob).
         if (!deserialized?.[propName] || !(deserialized[propName] instanceof ReadableStream)) {
           return null;
         }
