@@ -29,9 +29,6 @@ const spec: SdkSpec = {
     "smithy.api#sensitive": "T.SensitiveValue",
   },
   errors: {
-    // The protocol builds its errors without core's matchTypedError, so core's
-    // response fields (body, headers, retryAfter) would stay empty.
-    responseFields: false,
     // The protocol always fills code/message/type; `detail` is optional in a
     // problem document (RFC 7807 §3.1), as the model's unrequired member says.
     field: (name, target) =>
