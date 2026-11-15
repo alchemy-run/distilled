@@ -871,7 +871,7 @@ describe("makeRestProtocol typed error matching", () => {
 describe("makeRestProtocol error response fields", () => {
   const PlainOutput = S.Struct({ id: S.optional(S.String) });
   const NestedProtocol = makeRestProtocol({ ...baseOptions, errorFieldsAt: "/error" });
-  const plainOp = (protocol: Layer.Layer<API.Protocol>) =>
+  const plainOp = (protocol: API.ProtocolLayer<unknown, unknown>) =>
     API.make(() => ({
       input: ThingInput,
       output: PlainOutput,

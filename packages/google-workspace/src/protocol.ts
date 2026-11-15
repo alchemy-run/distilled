@@ -1,6 +1,15 @@
 import * as API from "@distilled.cloud/core/api";
 import { HTTP_STATUS_MAP, InternalServerError } from "@distilled.cloud/core/errors";
-import type { ConfigError, DefaultErrors } from "@distilled.cloud/core/errors";
+import type {
+  BadRequest,
+  ConfigError,
+  Conflict,
+  DefaultErrors,
+  Forbidden,
+  Locked,
+  NotFound,
+  UnprocessableEntity,
+} from "@distilled.cloud/core/errors";
 import {
   getAnn,
   getProps,
