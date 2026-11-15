@@ -39,7 +39,8 @@ const randomSchema = (r: () => number, depth: number, nonEmpty = false): L.Lite 
       L.Any,
       L.Undefined,
       L.Void,
-      L.Date,
+      // A declaration with no check accepts anything (toEffect makes L.Date Effect's Date).
+      L.fromNode({ _tag: "Declaration" }),
       L.Literal("x"),
       L.Literal(1),
       L.Literal(true),
