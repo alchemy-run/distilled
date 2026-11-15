@@ -164,18 +164,6 @@ XmlEmptyLists (response)
 XmlEmptyMaps (response)
 XmlEmptySelfClosedMaps (response)
 
-# XML unions are not encoded or decoded.
-RestXmlHttpPayloadWithUnion (request)
-RestXmlHttpPayloadWithUnion (response)
-XmlUnionsWithBooleanMember (request)
-XmlUnionsWithBooleanMember (response)
-XmlUnionsWithStringMember (request)
-XmlUnionsWithStringMember (response)
-XmlUnionsWithStructMember (request)
-XmlUnionsWithStructMember (response)
-XmlUnionsWithUnionMember (request)
-XmlUnionsWithUnionMember (response)
-
 # XML namespaces and `@xmlName` on the input structure are not written.
 BodyWithXmlName (request)
 BodyWithXmlName (response)

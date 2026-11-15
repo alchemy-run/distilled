@@ -370,9 +370,11 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
         const parsed = readXml(bodyText);
         // Lenient mode returns the body as read.
         if (parsed instanceof Unreadable) return parsed;
+        // The payload is the document's root element, whatever its name.
+        const root = outputPayloadProp.xmlName ? parsed[outputPayloadProp.xmlName] : undefined;
         result[outputPayloadProp.name] = deserializeValue(
           outputPayloadProp.type,
-          outputPayloadProp.xmlName ? (parsed[outputPayloadProp.xmlName] ?? parsed) : parsed,
+          root ?? Object.values(parsed)[0] ?? parsed,
         );
       }
     }
