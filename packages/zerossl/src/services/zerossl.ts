@@ -30,6 +30,8 @@ export class CaaRecordCheckFailed
     /*@__PURE__*/ S.TaggedError<CaaRecordCheckFailed>()("CaaRecordCheckFailed", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "caa_record_check_failed" }, { code: 2841 }],
   ) {}
@@ -40,6 +42,8 @@ export class CaddyLegacyUserRemoved
     /*@__PURE__*/ S.TaggedError<CaddyLegacyUserRemoved>()("CaddyLegacyUserRemoved", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "caddy_legacy_user_removed" }, { code: 2977 }],
   ) {}
@@ -50,6 +54,8 @@ export class CannotFindOriginalCertificate
     /*@__PURE__*/ S.TaggedError<CannotFindOriginalCertificate>()("CannotFindOriginalCertificate", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "cannot_find_original_certificate" }, { code: 2816 }],
   ) {}
@@ -62,6 +68,8 @@ export class CannotIssueCertificateUnpaidUpgradeInvoices
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ message: "cannot_issue_certificate_unpaid_upgrade_invoices" }, { code: 2804 }],
@@ -75,6 +83,8 @@ export class CannotReplaceCertificateOtherReplacementInDraft
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ message: "cannot_replace_certificate_other_replacement_in_draft" }, { code: 2813 }],
@@ -86,6 +96,8 @@ export class CertificateCannotBeCancelled
     /*@__PURE__*/ S.TaggedError<CertificateCannotBeCancelled>()("CertificateCannotBeCancelled", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "certificate_cannot_be_cancelled" }, { code: 2833 }],
   ) {}
@@ -98,6 +110,8 @@ export class CertificateCreationLockedUnpaidInvoices
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ message: "certificate_creation_locked_unpaid_invoices" }, { code: 2841 }],
@@ -109,6 +123,8 @@ export class CertificateLimitReached
     /*@__PURE__*/ S.TaggedError<CertificateLimitReached>()("CertificateLimitReached", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "certificate_limit_reached" }, { code: 2817 }],
   ) {}
@@ -119,6 +135,8 @@ export class CertificateNotDownloadable
     /*@__PURE__*/ S.TaggedError<CertificateNotDownloadable>()("CertificateNotDownloadable", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "certificate_not_downloadable" }, { code: 2860 }],
   ) {}
@@ -129,6 +147,8 @@ export class CertificateNotEligible
     /*@__PURE__*/ S.TaggedError<CertificateNotEligible>()("CertificateNotEligible", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "certificate_not_eligible" }, { code: 2830 }],
   ) {}
@@ -139,6 +159,8 @@ export class CertificateNotFound
     /*@__PURE__*/ S.TaggedError<CertificateNotFound>()("CertificateNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "certificate_not_found" }, { code: 2803 }],
   ) {}
@@ -151,6 +173,8 @@ export class CertificateNotInRevocableState
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ message: "certificate_not_in_revocable_state" }, { code: 2907 }],
@@ -162,6 +186,8 @@ export class CertificateNotIssued
     /*@__PURE__*/ S.TaggedError<CertificateNotIssued>()("CertificateNotIssued", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "certificate_not_issued" }, { code: 2832 }],
   ) {}
@@ -172,6 +198,8 @@ export class CertificateNotReadyToValidate
     /*@__PURE__*/ S.TaggedError<CertificateNotReadyToValidate>()("CertificateNotReadyToValidate", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "certificate_not_ready_to_validate" }, { code: 2831 }],
   ) {}
@@ -184,6 +212,8 @@ export class CertificateNotRevocableAlreadyReplaced
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ message: "certificate_not_revocable_already_replaced" }, { code: 2910 }],
@@ -197,6 +227,8 @@ export class CertificateNotRevocableBeingIssued
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ message: "certificate_not_revocable_being_issued" }, { code: 2909 }],
@@ -208,6 +240,8 @@ export class CertificatePremiumNotAllowed
     /*@__PURE__*/ S.TaggedError<CertificatePremiumNotAllowed>()("CertificatePremiumNotAllowed", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "certificate_premium_not_allowed" }, { code: 2875 }],
   ) {}
@@ -220,6 +254,8 @@ export class CertificateRestrictedTopLevelDomain
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ message: "certificate_restricted_top_level_domain" }, { code: 2874 }],
@@ -233,6 +269,8 @@ export class CertificateRevocationTemporarilyBlocked
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ message: "certificate_revocation_temporarily_blocked" }, { code: 2908 }],
@@ -246,6 +284,8 @@ export class CertificateUnsupportedTopLevelDomain
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ message: "certificate_unsupported_top_level_domain" }, { code: 2877 }],
@@ -257,6 +297,8 @@ export class Conflict
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "conflict" }, { code: 112 }, { code: 114 }],
   ) {}
@@ -267,6 +309,8 @@ export class CsrCnIsInvalid
     /*@__PURE__*/ S.TaggedError<CsrCnIsInvalid>()("CsrCnIsInvalid", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "csr_cn_is_invalid" }, { code: 2836 }],
   ) {}
@@ -277,6 +321,8 @@ export class DuplicateCertificatesFound
     /*@__PURE__*/ S.TaggedError<DuplicateCertificatesFound>()("DuplicateCertificatesFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "duplicate_certificates_found" }, { code: 2839 }],
   ) {}
@@ -287,6 +333,8 @@ export class DuplicateDomainsInArray
     /*@__PURE__*/ S.TaggedError<DuplicateDomainsInArray>()("DuplicateDomainsInArray", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "duplicate_domains_in_array" }, { code: 2811 }],
   ) {}
@@ -297,6 +345,8 @@ export class FailedCancellingCertificate
     /*@__PURE__*/ S.TaggedError<FailedCancellingCertificate>()("FailedCancellingCertificate", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "failed_cancelling_certificate" }, { code: 2834 }],
   ) {}
@@ -307,6 +357,8 @@ export class FailedCreatingEabAccount
     /*@__PURE__*/ S.TaggedError<FailedCreatingEabAccount>()("FailedCreatingEabAccount", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "failed_creating_eab_account" }, { code: 2902 }],
   ) {}
@@ -317,6 +369,8 @@ export class FailedGettingValidationStatus
     /*@__PURE__*/ S.TaggedError<FailedGettingValidationStatus>()("FailedGettingValidationStatus", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "failed_getting_validation_status" }, { code: 2838 }],
   ) {}
@@ -327,6 +381,8 @@ export class FailedResendingEmail
     /*@__PURE__*/ S.TaggedError<FailedResendingEmail>()("FailedResendingEmail", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "failed_resending_email" }, { code: 2837 }],
   ) {}
@@ -337,6 +393,8 @@ export class FailedSavingEabAccount
     /*@__PURE__*/ S.TaggedError<FailedSavingEabAccount>()("FailedSavingEabAccount", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "failed_saving_eab_account" }, { code: 2903 }],
   ) {}
@@ -347,6 +405,8 @@ export class FailedShowingCertificate
     /*@__PURE__*/ S.TaggedError<FailedShowingCertificate>()("FailedShowingCertificate", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "failed_showing_certificate" }, { code: 2822 }],
   ) {}
@@ -357,6 +417,8 @@ export class FailedValidatingCertificate
     /*@__PURE__*/ S.TaggedError<FailedValidatingCertificate>()("FailedValidatingCertificate", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "failed_validating_certificate" }, { code: 2823 }],
   ) {}
@@ -367,6 +429,8 @@ export class InactiveUser
     /*@__PURE__*/ S.TaggedError<InactiveUser>()("InactiveUser", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "inactive_user" }, { code: 102 }],
   ) {}
@@ -379,6 +443,8 @@ export class IncorrectCertificateValidationType
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ message: "incorrect_certificate_validation_type" }, { code: 2829 }],
@@ -390,6 +456,8 @@ export class IncorrectRequestType
     /*@__PURE__*/ S.TaggedError<IncorrectRequestType>()("IncorrectRequestType", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "incorrect_request_type" }, { code: 2800 }],
   ) {}
@@ -402,6 +470,8 @@ export class InternalErrorFailedCreatingCertificate
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ message: "internal_error_failed_creating_certificate" }, { code: 2821 }],
@@ -415,6 +485,8 @@ export class InternalErrorFailedProcessingCsr
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ message: "internal_error_failed_processing_csr" }, { code: 2820 }],
@@ -428,6 +500,8 @@ export class InternalErrorWhileValdatingDomainControl
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ message: "internal_error_while_valdating_domain_control" }, { code: 2826 }],
@@ -439,6 +513,8 @@ export class InternalServerError
     /*@__PURE__*/ S.TaggedError<InternalServerError>()("InternalServerError", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "internal_server_error" }, { code: 111 }],
   ) {}
@@ -449,6 +525,8 @@ export class InvalidAccessKey
     /*@__PURE__*/ S.TaggedError<InvalidAccessKey>()("InvalidAccessKey", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "invalid_access_key" }, { code: 101 }],
   ) {}
@@ -459,6 +537,8 @@ export class InvalidApiFunction
     /*@__PURE__*/ S.TaggedError<InvalidApiFunction>()("InvalidApiFunction", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "invalid_api_function" }, { code: 103 }],
   ) {}
@@ -469,6 +549,8 @@ export class InvalidCaaRecordsDetected
     /*@__PURE__*/ S.TaggedError<InvalidCaaRecordsDetected>()("InvalidCaaRecordsDetected", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "invalid_caa_records_detected" }, { code: 2840 }],
   ) {}
@@ -479,6 +561,8 @@ export class InvalidCertificateCsr
     /*@__PURE__*/ S.TaggedError<InvalidCertificateCsr>()("InvalidCertificateCsr", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "invalid_certificate_csr" }, { code: 2818 }],
   ) {}
@@ -491,6 +575,8 @@ export class InvalidCertificateCsrForNonWildcard
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ message: "invalid_certificate_csr_for_non_wildcard" }, { code: 28181 }],
@@ -504,6 +590,8 @@ export class InvalidCertificateCsrForWildcard
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ message: "invalid_certificate_csr_for_wildcard" }, { code: 28182 }],
@@ -515,6 +603,8 @@ export class InvalidCertificateDomain
     /*@__PURE__*/ S.TaggedError<InvalidCertificateDomain>()("InvalidCertificateDomain", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "invalid_certificate_domain" }, { code: 2808 }],
   ) {}
@@ -525,6 +615,8 @@ export class InvalidCertificateType
     /*@__PURE__*/ S.TaggedError<InvalidCertificateType>()("InvalidCertificateType", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "invalid_certificate_type" }, { code: 2805 }],
   ) {}
@@ -535,6 +627,8 @@ export class InvalidCertificateValidity
     /*@__PURE__*/ S.TaggedError<InvalidCertificateValidity>()("InvalidCertificateValidity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "invalid_certificate_validity" }, { code: 2807 }],
   ) {}
@@ -547,6 +641,8 @@ export class InvalidDomainsInMultidomainRequest
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ message: "invalid_domains_in_multidomain_request" }, { code: 2810 }],
@@ -558,6 +654,8 @@ export class InvalidJsonRequest
     /*@__PURE__*/ S.TaggedError<InvalidJsonRequest>()("InvalidJsonRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "invalid_json_request" }, { code: 115 }],
   ) {}
@@ -568,6 +666,8 @@ export class InvalidJsonRequestParam
     /*@__PURE__*/ S.TaggedError<InvalidJsonRequestParam>()("InvalidJsonRequestParam", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "invalid_json_request_param" }, { code: 116 }],
   ) {}
@@ -578,6 +678,8 @@ export class InvalidRequestBody
     /*@__PURE__*/ S.TaggedError<InvalidRequestBody>()("InvalidRequestBody", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "invalid_request_body" }, { code: 110 }],
   ) {}
@@ -588,6 +690,8 @@ export class InvalidSan
     /*@__PURE__*/ S.TaggedError<InvalidSan>()("InvalidSan", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "invalid_san" }, { code: 2880 }],
   ) {}
@@ -598,6 +702,8 @@ export class InvalidValidationMethod
     /*@__PURE__*/ S.TaggedError<InvalidValidationMethod>()("InvalidValidationMethod", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "invalid_validation_method" }, { code: 2827 }],
   ) {}
@@ -608,6 +714,8 @@ export class Ipv6IsNotYetSupported
     /*@__PURE__*/ S.TaggedError<Ipv6IsNotYetSupported>()("Ipv6IsNotYetSupported", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "ipv6_is_not_yet_supported" }, { code: 2843 }],
   ) {}
@@ -618,6 +726,8 @@ export class MissingCertificateCsr
     /*@__PURE__*/ S.TaggedError<MissingCertificateCsr>()("MissingCertificateCsr", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "missing_certificate_csr" }, { code: 2819 }],
   ) {}
@@ -628,6 +738,8 @@ export class MissingCertificateDomains
     /*@__PURE__*/ S.TaggedError<MissingCertificateDomains>()("MissingCertificateDomains", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "missing_certificate_domains" }, { code: 2812 }],
   ) {}
@@ -638,6 +750,8 @@ export class MissingCertificateHash
     /*@__PURE__*/ S.TaggedError<MissingCertificateHash>()("MissingCertificateHash", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "missing_certificate_hash" }, { code: 2802 }],
   ) {}
@@ -648,6 +762,8 @@ export class MissingCertificateType
     /*@__PURE__*/ S.TaggedError<MissingCertificateType>()("MissingCertificateType", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "missing_certificate_type" }, { code: 2806 }],
   ) {}
@@ -658,6 +774,8 @@ export class MissingValidationEmail
     /*@__PURE__*/ S.TaggedError<MissingValidationEmail>()("MissingValidationEmail", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "missing_validation_email" }, { code: 2825 }],
   ) {}
@@ -668,6 +786,8 @@ export class MissingValidationEmails
     /*@__PURE__*/ S.TaggedError<MissingValidationEmails>()("MissingValidationEmails", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "missing_validation_emails" }, { code: 2824 }],
   ) {}
@@ -678,6 +798,8 @@ export class MissingValidationMethod
     /*@__PURE__*/ S.TaggedError<MissingValidationMethod>()("MissingValidationMethod", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "missing_validation_method" }, { code: 2828 }],
   ) {}
@@ -688,6 +810,8 @@ export class OriginalCertificateNotActive
     /*@__PURE__*/ S.TaggedError<OriginalCertificateNotActive>()("OriginalCertificateNotActive", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "original_certificate_not_active" }, { code: 2815 }],
   ) {}
@@ -698,6 +822,8 @@ export class PermissionDenied
     /*@__PURE__*/ S.TaggedError<PermissionDenied>()("PermissionDenied", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "permission_denied" }, { code: 2801 }],
   ) {}
@@ -710,6 +836,8 @@ export class PermissionDeniedOnOriginalCertificate
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ message: "permission_denied_on_original_certificate" }, { code: 2814 }],
@@ -721,6 +849,8 @@ export class RateLimitExceeded
       retryAfter: /*@__PURE__*/ S.optional(S.Duration),
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withRetryableError, C.withThrottlingError),
     [{ message: { includes: "rate_limit" } }],
   ) {}
@@ -733,6 +863,8 @@ export class ReplacementNeedsSameCommonName
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ message: "replacement_needs_same_common_name" }, { code: 2842 }],
@@ -744,6 +876,8 @@ export class RevocationFailed
     /*@__PURE__*/ S.TaggedError<RevocationFailed>()("RevocationFailed", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "revocation_failed" }, { code: 2906 }],
   ) {}
@@ -754,6 +888,8 @@ export class RouteNotFound
     /*@__PURE__*/ S.TaggedError<RouteNotFound>()("RouteNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "route_not_found" }, { code: 104 }],
   ) {}
@@ -766,6 +902,8 @@ export class TooManyEabCredentialsCreatedForUser
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ message: "too_many_eab_credentials_created_for_user" }, { code: 2905 }],
@@ -779,6 +917,8 @@ export class TooManyEabCredentialsCreatedToday
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ message: "too_many_eab_credentials_created_today" }, { code: 2904 }],
@@ -790,6 +930,8 @@ export class UnprocessableEntity
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "unprocessable_entity" }, { code: 113 }],
   ) {}
@@ -802,6 +944,8 @@ export class WildcardDomainsNotAllowedInMultidomainCertificate
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ message: "wildcard_domains_not_allowed_in_multidomain_certificate" }, { code: 2809 }],

@@ -30,6 +30,8 @@ export class RepoNameInUse
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<RepoNameInUse>()("RepoNameInUse", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 409, message: { includes: "already exists in this project" } }],
   ) {}
@@ -39,6 +41,8 @@ export class RepoNameInvalid
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<RepoNameInvalid>()("RepoNameInvalid", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 400, message: { includes: "invalid name" } }],
   ) {}

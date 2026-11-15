@@ -154,9 +154,26 @@ const ERROR_CATEGORY_NAMES = new Set([
   "DependencyViolationError",
 ]);
 
-/** `["NotFoundError"]` → `C.withNotFoundError`. */
-const categoryPipes = (traits: Record<string, any> | undefined): string[] =>
-  errorCategories(traits).map((name) => `C.with${name}`);
+/** Categories whose errors the retry policy may retry, so they carry the server's hint. */
+const RETRY_HINT_CATEGORIES = new Set(["RetryableError", "ThrottlingError", "ServerError"]);
+
+/**
+ * The response fields core fills on an error (`body`, `headers`, and the
+ * `retryAfter` hint on errors the retry policy may retry) that `fields` does
+ * not already declare.
+ */
+const responseFieldLines = (fields: readonly string[], categories: readonly string[]): string[] => {
+  const declared = new Set(fields.map((line) => line.match(/^\s*"?([\w$]+)"?\??:/)?.[1]));
+  const out: string[] = [];
+  if (!declared.has("body")) out.push(`  body: ${PURE}S.optional(S.Unknown),`);
+  if (!declared.has("headers")) {
+    out.push(`  headers: ${PURE}S.optional(${PURE}S.Record(S.String, S.String)),`);
+  }
+  if (!declared.has("retryAfter") && categories.some((c) => RETRY_HINT_CATEGORIES.has(c))) {
+    out.push(`  retryAfter: ${PURE}S.optional(S.Duration),`);
+  }
+  return out;
+};
 
 /** A member's resolved binding. The four generic kinds plus provider extras. */
 export type MemberBinding = "label" | "query" | "header" | "body" | (string & {});
@@ -493,6 +510,14 @@ export interface SdkSpec {
     readonly field?: (name: string, target: string) => string;
     /** Optional wrapper (e.g. matcher application) from the shape's traits. */
     readonly wrap?: (traits: Record<string, any>) => ((cls: string) => string) | undefined;
+    /**
+     * Declare the fields core fills on every error built from a response:
+     * `body`, `headers`, and `retryAfter` on retryable, throttling and
+     * server errors (see `responseErrorFields` in core `protocol-http`).
+     * Default `true`. Set `false` only for a protocol that builds its errors
+     * without core's `matchTypedError`, so the fields would stay empty.
+     */
+    readonly responseFields?: boolean;
   };
 
   /**
@@ -958,8 +983,12 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
             errorField("code", "smithy.api#Integer"),
             errorField("message", "smithy.api#String"),
           ]);
+    const categoryNames = errorCategories(d.traits);
+    if (spec.errors?.responseFields ?? true) {
+      fields.push(...responseFieldLines(fields, categoryNames));
+    }
     const matchers = spec.errorMatchersTrait ? d.traits?.[spec.errorMatchersTrait] : undefined;
-    const categories = categoryPipes(d.traits);
+    const categories = categoryNames.map((n) => `C.with${n}`);
     if (categories.length) usesCategories = true;
     out.push(
       errorClass({

@@ -72,6 +72,8 @@ export class AdvancedCertificateManagerRequired
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ code: 1450 }],
@@ -82,6 +84,8 @@ export class CertificatePackNotDeletable
     /*@__PURE__*/ S.TaggedError<CertificatePackNotDeletable>()("CertificatePackNotDeletable", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 400, message: { includes: "Bad response certificate service" } }],
   ) {}
@@ -91,6 +95,8 @@ export class CertificatePackNotFound
     /*@__PURE__*/ S.TaggedError<CertificatePackNotFound>()("CertificatePackNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1408 }, { status: 404 }],
   ) {}
@@ -100,6 +106,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}

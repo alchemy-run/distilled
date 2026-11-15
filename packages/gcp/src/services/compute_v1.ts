@@ -40,6 +40,8 @@ export class BadRequest
       reason: /*@__PURE__*/ S.optional(S.String),
       domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
   ) {}
@@ -54,6 +56,8 @@ export class CloudArmorEnterpriseRequired
       reason: /*@__PURE__*/ S.optional(S.String),
       domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400, message: { includes: "require Cloud Armor Managed Protection Plus" } }],
   ) {}
@@ -68,6 +72,8 @@ export class CollectorIlbNotReady
       reason: /*@__PURE__*/ S.optional(S.String),
       domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400, message: { includes: "specified as collector ILB is not ready" } }],
   ) {}
@@ -81,6 +87,8 @@ export class Conflict
       reason: /*@__PURE__*/ S.optional(S.String),
       domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
   ) {}
@@ -94,6 +102,8 @@ export class Forbidden
       reason: /*@__PURE__*/ S.optional(S.String),
       domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
   ) {}
@@ -108,6 +118,8 @@ export class FutureReservationsNotEligible
       reason: /*@__PURE__*/ S.optional(S.String),
       domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [
       {
@@ -129,6 +141,8 @@ export class HealthCheckServiceNotAvailable
         reason: /*@__PURE__*/ S.optional(S.String),
         domain: /*@__PURE__*/ S.optional(S.String),
         details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ).pipe(C.withBadRequestError),
     [{ status: 400, message: { includes: "HealthCheck as a Service feature is not available" } }],
@@ -143,6 +157,8 @@ export class NotFound
       reason: /*@__PURE__*/ S.optional(S.String),
       domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -157,6 +173,8 @@ export class ResourceNotReady
       reason: /*@__PURE__*/ S.optional(S.String),
       domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400, message: { includes: "' is not ready" } }],
   ) {}

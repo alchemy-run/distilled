@@ -48,6 +48,8 @@ export class FlagshipAppNotFound
     /*@__PURE__*/ S.TaggedError<FlagshipAppNotFound>()("FlagshipAppNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404, message: { includes: "App not found" } }],
   ) {}
@@ -57,6 +59,8 @@ export class FlagshipFlagAlreadyExists
     /*@__PURE__*/ S.TaggedError<FlagshipFlagAlreadyExists>()("FlagshipFlagAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 409, message: { includes: "Flag already exists" } }],
   ) {}
@@ -66,6 +70,8 @@ export class FlagshipFlagNotFound
     /*@__PURE__*/ S.TaggedError<FlagshipFlagNotFound>()("FlagshipFlagNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404, message: { includes: "Flag not found" } }],
   ) {}

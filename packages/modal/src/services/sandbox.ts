@@ -29,6 +29,8 @@ export class SandboxAlreadyExists
     /*@__PURE__*/ S.TaggedError<SandboxAlreadyExists>()("SandboxAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 6 }],
   ) {}
@@ -39,6 +41,8 @@ export class SandboxNotFound
     /*@__PURE__*/ S.TaggedError<SandboxNotFound>()("SandboxNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 5 }],
   ) {}

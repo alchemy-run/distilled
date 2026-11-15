@@ -50,6 +50,8 @@ export class DuplicateMnmRuleName
     /*@__PURE__*/ S.TaggedError<DuplicateMnmRuleName>()("DuplicateMnmRuleName", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1008, message: { includes: "rule name must be unique" } }],
   ) {}
@@ -59,6 +61,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -68,6 +72,8 @@ export class InvalidMnmConfig
     /*@__PURE__*/ S.TaggedError<InvalidMnmConfig>()("InvalidMnmConfig", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1003 }],
   ) {}
@@ -77,6 +83,8 @@ export class MnmConfigAlreadyExists
     /*@__PURE__*/ S.TaggedError<MnmConfigAlreadyExists>()("MnmConfigAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1005, message: { includes: "already exists" } }],
   ) {}
@@ -86,6 +94,8 @@ export class MnmConfigMissing
     /*@__PURE__*/ S.TaggedError<MnmConfigMissing>()("MnmConfigMissing", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1008, message: { includes: "without initial account configuration" } }],
   ) {}
@@ -95,6 +105,8 @@ export class MnmConfigNotFound
     /*@__PURE__*/ S.TaggedError<MnmConfigNotFound>()("MnmConfigNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1004, message: { includes: "not found" } }],
   ) {}
@@ -104,6 +116,8 @@ export class MnmRuleNotFound
     /*@__PURE__*/ S.TaggedError<MnmRuleNotFound>()("MnmRuleNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1009 }],
   ) {}

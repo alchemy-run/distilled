@@ -71,6 +71,8 @@ export class CustomHostnameNotFound
     /*@__PURE__*/ S.TaggedError<CustomHostnameNotFound>()("CustomHostnameNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1436 }, { status: 404 }],
   ) {}
@@ -80,6 +82,8 @@ export class FallbackOriginNotFound
     /*@__PURE__*/ S.TaggedError<FallbackOriginNotFound>()("FallbackOriginNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404 }],
   ) {}
@@ -89,6 +93,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -98,6 +104,8 @@ export class SaasAccessNotGranted
     /*@__PURE__*/ S.TaggedError<SaasAccessNotGranted>()("SaasAccessNotGranted", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1456 }],
   ) {}
@@ -107,6 +115,8 @@ export class SaasQuotaNotAllocated
     /*@__PURE__*/ S.TaggedError<SaasQuotaNotAllocated>()("SaasQuotaNotAllocated", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1404, status: 403 }],
   ) {}

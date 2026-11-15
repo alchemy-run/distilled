@@ -29,6 +29,8 @@ export class ProxyAlreadyExists
     /*@__PURE__*/ S.TaggedError<ProxyAlreadyExists>()("ProxyAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 6 }],
   ) {}
@@ -39,6 +41,8 @@ export class ProxyNotFound
     /*@__PURE__*/ S.TaggedError<ProxyNotFound>()("ProxyNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 5 }],
   ) {}

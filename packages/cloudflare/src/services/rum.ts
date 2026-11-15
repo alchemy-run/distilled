@@ -50,6 +50,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -59,6 +61,8 @@ export class MaxRulesExceeded
     /*@__PURE__*/ S.TaggedError<MaxRulesExceeded>()("MaxRulesExceeded", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 409, message: { includes: "maxRulesError" } }],
   ) {}
@@ -68,6 +72,8 @@ export class RuleNotFound
     /*@__PURE__*/ S.TaggedError<RuleNotFound>()("RuleNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10003 }],
   ) {}
@@ -77,6 +83,8 @@ export class RulesetNotFound
     /*@__PURE__*/ S.TaggedError<RulesetNotFound>()("RulesetNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404 }],
   ) {}
@@ -86,6 +94,8 @@ export class RumSiteQuotaExceeded
     /*@__PURE__*/ S.TaggedError<RumSiteQuotaExceeded>()("RumSiteQuotaExceeded", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10014 }],
   ) {}
@@ -95,6 +105,8 @@ export class SiteNotFound
     /*@__PURE__*/ S.TaggedError<SiteNotFound>()("SiteNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10015 }],
   ) {}

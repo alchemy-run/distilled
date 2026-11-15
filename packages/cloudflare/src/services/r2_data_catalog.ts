@@ -52,6 +52,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -61,6 +63,8 @@ export class InvalidCredential
     /*@__PURE__*/ S.TaggedError<InvalidCredential>()("InvalidCredential", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 30004 }, { code: 30005 }],
   ) {}
@@ -70,6 +74,8 @@ export class InvalidRoute
     /*@__PURE__*/ S.TaggedError<InvalidRoute>()("InvalidRoute", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7003 }],
   ) {}
@@ -79,6 +85,8 @@ export class NoSuchBucket
     /*@__PURE__*/ S.TaggedError<NoSuchBucket>()("NoSuchBucket", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10006 }, { code: 40406 }],
   ) {}
@@ -88,6 +96,8 @@ export class TableNotFound
     /*@__PURE__*/ S.TaggedError<TableNotFound>()("TableNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10001 }, { code: 40403 }],
   ) {}
@@ -97,6 +107,8 @@ export class WarehouseInactive
     /*@__PURE__*/ S.TaggedError<WarehouseInactive>()("WarehouseInactive", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 40402 }],
   ) {}
@@ -106,6 +118,8 @@ export class WarehouseNotFound
     /*@__PURE__*/ S.TaggedError<WarehouseNotFound>()("WarehouseNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 40401 }],
   ) {}

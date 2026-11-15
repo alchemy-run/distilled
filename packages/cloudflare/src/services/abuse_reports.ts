@@ -75,6 +75,8 @@ export class InvalidAccountId
     /*@__PURE__*/ S.TaggedError<InvalidAccountId>()("InvalidAccountId", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ code: 7003 }],
   ) {}
@@ -84,6 +86,8 @@ export class InvalidRequest
     /*@__PURE__*/ S.TaggedError<InvalidRequest>()("InvalidRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ code: 7003 }],
   ) {}

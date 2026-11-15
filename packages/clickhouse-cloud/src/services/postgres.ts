@@ -37,6 +37,8 @@ export class DeletionProtectionNotEnabled
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<DeletionProtectionNotEnabled>()("DeletionProtectionNotEnabled", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [
       {

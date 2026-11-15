@@ -30,6 +30,8 @@ export class RepoNotInRegion
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<RepoNotInRegion>()("RepoNotInRegion", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404, message: { includes: "not in this region" } }],
   ) {}

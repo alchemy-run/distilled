@@ -30,6 +30,8 @@ export class EndpointAlreadyExists
     /*@__PURE__*/ S.TaggedError<EndpointAlreadyExists>()("EndpointAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 6 }],
   ) {}
@@ -40,6 +42,8 @@ export class EndpointNotFound
     /*@__PURE__*/ S.TaggedError<EndpointNotFound>()("EndpointNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 5 }],
   ) {}
@@ -50,6 +54,8 @@ export class EndpointProxyTokenRequired
     /*@__PURE__*/ S.TaggedError<EndpointProxyTokenRequired>()("EndpointProxyTokenRequired", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 400, message: { includes: "Create a proxy token" } }],
   ) {}
