@@ -980,7 +980,7 @@ export interface StopOperation {
 }
 export interface Sandbox {
   id: string;
-  name: string;
+  name?: string | undefined;
   /** `cancelled` is terminal: a create or fork that could not get a machine was removed. `GET /sandboxes/{sandboxId}` reports it once, with only `id`, `state` and `error`, then answers 404. */
   state: SandboxState;
   /** Why the sandbox is stopped, failed or cancelled, or null. */
@@ -1025,14 +1025,14 @@ export interface Sandbox {
   archiveAfter?: string | null | undefined;
   /** The auto-stop length as last set on create, resume, fork or PATCH, or null when auto-stop is disabled. */
   ttlSeconds?: number | null | undefined;
-  desktopAvailable: boolean;
+  desktopAvailable?: boolean | undefined;
   /** Secret-bearing desktop stream URL when available. Redact from logs. */
   desktopUrl?: string | null | undefined;
   /** False when the sandbox was created with snapshots off. */
   snapshots?: boolean | undefined;
   /** False when the sandbox was created with monitoring off. */
   monitoring?: boolean | undefined;
-  snapshotAvailable: boolean;
+  snapshotAvailable?: boolean | undefined;
   /** Timestamp of the most recent successfully completed snapshot, or null. */
   snapshotCompletedAt?: string | null | undefined;
   /** Last time a snapshot confirmed the sandbox's saved state, including checks that found nothing new to save. Falls back to `snapshotCompletedAt`; null if never. */
@@ -7981,7 +7981,7 @@ function __c88(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          name: S.String,
+          name: S.optional(S.String),
           state: S.String,
           error: S.optional(S.NullOr(S.String)),
           dataExpiredAt: S.optional(S.NullOr(S.String)),
@@ -8005,11 +8005,11 @@ function __c88(j: number): any {
           updatedAt: S.optional(S.NullOr(S.String)),
           archiveAfter: S.optional(S.NullOr(S.String)),
           ttlSeconds: S.optional(S.NullOr(S.Number)),
-          desktopAvailable: S.Boolean,
+          desktopAvailable: S.optional(S.Boolean),
           desktopUrl: S.optional(S.NullOr(S.String)),
           snapshots: S.optional(S.Boolean),
           monitoring: S.optional(S.Boolean),
-          snapshotAvailable: S.Boolean,
+          snapshotAvailable: S.optional(S.Boolean),
           snapshotCompletedAt: S.optional(S.NullOr(S.String)),
           snapshotVerifiedAt: S.optional(S.NullOr(S.String)),
           team: S.optional(S.NullOr(__S(2817, __c88, 1))),
