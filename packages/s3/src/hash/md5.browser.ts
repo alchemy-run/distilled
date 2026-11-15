@@ -82,7 +82,7 @@ class BrowserMd5 implements Checksum {
     }
   }
 
-  async digest(): Promise<Uint8Array> {
+  digest(): Uint8Array {
     // Pad a copy, so the running hash is left as it was.
     const state = this.state.slice();
     const tail = new Uint8Array(this.blockLength < 56 ? 64 : 128);

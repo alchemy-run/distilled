@@ -18,22 +18,15 @@ export interface ChecksumConstructor {
   new (secret?: SourceData): Checksum;
 }
 
+/** The checksum of a buffered body. */
 export const stringHasher = (
   checksumAlgorithmFn: ChecksumConstructor,
-  body: any,
-): Effect.Effect<Uint8Array, InvalidInput> =>
-  Effect.tryPromise({
-    try: async () => {
-      const hash = new checksumAlgorithmFn();
-      hash.update(toUint8Array(body || ""));
-      return hash.digest();
-    },
-    catch: (cause) =>
-      new InvalidInput({
-        member: "body",
-        message: `the request body could not be checksummed: ${cause instanceof Error ? cause.message : String(cause)}`,
-      }),
-  });
+  body: string | Uint8Array,
+): Uint8Array => {
+  const hash = new checksumAlgorithmFn();
+  hash.update(toUint8Array(body));
+  return hash.digest();
+};
 
 // Minimum chunk size for S3 aws-chunked encoding (8KB, except for the last chunk)
 const MIN_CHUNK_SIZE = 8 * 1024;
@@ -131,7 +124,7 @@ export const applyHttpChecksum = (
     }
 
     // Non-streaming: compute checksum directly
-    const checksum = toBase64(yield* stringHasher(hasher, body));
+    const checksum = toBase64(stringHasher(hasher, body));
 
     return {
       ...request,
@@ -158,17 +151,8 @@ export const createAwsChunkedStream = (
   Stream.suspend(() => {
     const hash = new checksumAlgorithmFn();
     const encoder = new TextEncoder();
-    const trailer = Effect.tryPromise({
-      try: () => hash.digest(),
-      catch: (cause) =>
-        new InvalidInput({
-          member: "body",
-          message: `the request body could not be checksummed: ${cause instanceof Error ? cause.message : String(cause)}`,
-        }),
-    }).pipe(
-      Effect.map((digest) =>
-        encoder.encode(`0\r\n${checksumLocationName}:${toBase64(digest)}\r\n\r\n`),
-      ),
+    const trailer = Stream.sync(() =>
+      encoder.encode(`0\r\n${checksumLocationName}:${toBase64(hash.digest())}\r\n\r\n`),
     );
     return bodyStream(source).pipe(
       minChunkSize(MIN_CHUNK_SIZE),
@@ -182,7 +166,7 @@ export const createAwsChunkedStream = (
         framed.set(CRLF, header.length + chunk.length);
         return framed;
       }),
-      Stream.concat(Stream.fromEffect(trailer)),
+      Stream.concat(trailer),
     );
   });
 
