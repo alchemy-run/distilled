@@ -1,12 +1,33 @@
 /**
  * HTTP header values of `@httpHeader` members: lists are one header whose
- * values are joined with ", " (Smithy HTTP binding rules, as the AWS SDKs
- * send and read them).
+ * values are joined with ", ", and a string with a `@mediaType` is sent
+ * base64-encoded (Smithy HTTP binding rules, as the AWS SDKs send and read
+ * them).
  */
 
 import type * as AST from "effect/SchemaAST";
 import { codecSymbol } from "../lite.ts";
-import { getArrayElementAST, isArrayAST, isBooleanAST, isNumberAST, unwrapUnion } from "./ast.ts";
+import {
+  getArrayElementAST,
+  isArrayAST,
+  isBooleanAST,
+  isNumberAST,
+  isStringAST,
+  unwrapUnion,
+} from "./ast.ts";
+import { fromBase64, toBase64 } from "./base64.ts";
+
+/** The header value of a `@mediaType` string: its UTF-8 bytes in base64. */
+export const toBase64Header = (value: string): string => toBase64(new TextEncoder().encode(value));
+
+/** What a header reader returns for a `@mediaType` value that is not base64. */
+export const notBase64: unique symbol = Symbol.for("distilled-aws/not-base64-header");
+
+const BASE64 = /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/;
+
+/** The text of a `@mediaType` header, or {@link notBase64}. */
+const fromBase64Header = (value: string): string | typeof notBase64 =>
+  BASE64.test(value) ? new TextDecoder().decode(fromBase64(value)) : notBase64;
 
 /**
  * The header value of a list: its elements joined with ", ". With `quote`,
@@ -75,9 +96,11 @@ const scalarReader = (ast: AST.AST): ((value: string) => unknown) =>
 /**
  * The wire value of a response header bound to a member of type `ast`, for
  * the schema decoder: a list header split into its values, numbers and
- * booleans parsed.
+ * booleans parsed, and a string with a `mediaType` decoded from base64
+ * ({@link notBase64} when it is not base64).
  */
-export const headerReader = (ast: AST.AST): ((value: string) => unknown) => {
+export const headerReader = (ast: AST.AST, mediaType?: string): ((value: string) => unknown) => {
+  if (mediaType !== undefined && isStringAST(ast)) return fromBase64Header;
   const element = isArrayAST(ast) ? getArrayElementAST(ast) : undefined;
   if (element === undefined) return scalarReader(ast);
   const read = scalarReader(element);

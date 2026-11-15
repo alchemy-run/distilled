@@ -14,12 +14,13 @@ import {
   getHttpPrefixHeaders,
   getHttpQuery,
   getHttpTrait,
+  getMediaType,
   hasHttpLabel,
   hasHttpPayload,
   hasHttpQueryParams,
 } from "../traits.ts";
-import { getArrayElementAST, getEncodedPropertySignatures, isDateAST } from "./ast.ts";
-import { formatHeaderList } from "./headers.ts";
+import { getArrayElementAST, getEncodedPropertySignatures, isDateAST, isStringAST } from "./ast.ts";
+import { formatHeaderList, toBase64Header } from "./headers.ts";
 
 /**
  * Percent-encode a URI label value: everything except RFC 3986 unreserved
@@ -91,6 +92,8 @@ interface MemberBinding {
   readonly header: string | undefined;
   /** Whether a list header quotes an element that holds a comma (every list but timestamps). */
   readonly quoteHeader: boolean;
+  /** Whether the header is a string with a `@mediaType`, sent base64-encoded. */
+  readonly base64Header: boolean;
   /** The `{Label}` / `{Label+}` placeholder of an @httpLabel member. */
   readonly label: RegExp | undefined;
   /** Whether the placeholder is greedy (`{Label+}`), so the value keeps its `/`. */
@@ -118,6 +121,7 @@ const bindingsOf = (ast: AST.AST): ReadonlyArray<MemberBinding> => {
         type: prop.type,
         header: getHttpHeader(prop),
         quoteHeader: element !== undefined && !isDateAST(element),
+        base64Header: getMediaType(prop) !== undefined && isStringAST(prop.type),
         label: hasHttpLabel(prop) ? new RegExp(`\\{${labelName}\\+?\\}`) : undefined,
         greedy: uri.includes(`{${labelName}+}`),
         queryParam: getHttpQuery(prop),
@@ -170,7 +174,9 @@ export function bindInputToRequest(
       // Value should already be encoded (dates as formatted strings, etc.)
       request.headers[member.header] = Array.isArray(value)
         ? formatHeaderList(value, member.quoteHeader)
-        : String(value);
+        : member.base64Header
+          ? toBase64Header(String(value))
+          : String(value);
     } else if (member.label !== undefined) {
       const invalid = invalidAwsLabel(name, value, member.greedy);
       if (invalid !== undefined) return invalid;
