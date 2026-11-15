@@ -68,6 +68,8 @@ export class DatabaseAlreadyExists
     /*@__PURE__*/ S.TaggedError<DatabaseAlreadyExists>()("DatabaseAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7502 }],
   ) {}
@@ -77,6 +79,8 @@ export class DatabaseNotFound
     /*@__PURE__*/ S.TaggedError<DatabaseNotFound>()("DatabaseNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7404 }],
   ) {}
@@ -86,6 +90,8 @@ export class InternalError
     /*@__PURE__*/ S.TaggedError<InternalError>()("InternalError", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7500 }],
   ) {}
@@ -95,6 +101,8 @@ export class InvalidObjectIdentifier
     /*@__PURE__*/ S.TaggedError<InvalidObjectIdentifier>()("InvalidObjectIdentifier", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7003 }],
   ) {}
@@ -104,6 +112,8 @@ export class InvalidProperty
     /*@__PURE__*/ S.TaggedError<InvalidProperty>()("InvalidProperty", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7400 }],
   ) {}
@@ -113,6 +123,8 @@ export class InvalidRequest
     /*@__PURE__*/ S.TaggedError<InvalidRequest>()("InvalidRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7400 }],
   ) {}
@@ -122,6 +134,8 @@ export class NoHistoryAvailable
     /*@__PURE__*/ S.TaggedError<NoHistoryAvailable>()("NoHistoryAvailable", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7500 }],
   ) {}
@@ -131,6 +145,8 @@ export class TimestampTooOld
     /*@__PURE__*/ S.TaggedError<TimestampTooOld>()("TimestampTooOld", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7400 }],
   ) {}
@@ -140,6 +156,8 @@ export class UnknownError
     /*@__PURE__*/ S.TaggedError<UnknownError>()("UnknownError", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 0 }],
   ) {}

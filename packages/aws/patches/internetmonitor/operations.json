@@ -1,0 +1,19 @@
+{
+  "description": "InternetMonitor: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.internetmonitor#GetMonitor/errors/-",
+      "value": {
+        "target": "com.amazonaws.internetmonitor#ResourceNotFoundException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.internetmonitor#DeleteMonitor/errors/-",
+      "value": {
+        "target": "com.amazonaws.internetmonitor#ResourceNotFoundException"
+      }
+    }
+  ]
+}

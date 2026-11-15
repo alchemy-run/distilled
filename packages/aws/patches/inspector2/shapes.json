@@ -1,0 +1,29 @@
+{
+  "description": "Inspector2: Members the API leaves out (not required).",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.inspector2#State/members/errorCode/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.inspector2#State/members/errorMessage/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.inspector2#ResourceStatus/members/ec2/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.inspector2#ResourceStatus/members/ecr/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.inspector2#FailedAccount/members/errorCode/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.inspector2#FailedAccount/members/errorMessage/traits/smithy.api#required"
+    }
+  ]
+}

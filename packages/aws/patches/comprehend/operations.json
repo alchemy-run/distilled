@@ -1,0 +1,40 @@
+{
+  "description": "Comprehend: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.comprehend#StartEventsDetectionJob/errors/-",
+      "value": {
+        "target": "com.amazonaws.comprehend#NotAuthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.comprehend#StopEventsDetectionJob/errors/-",
+      "value": {
+        "target": "com.amazonaws.comprehend#NotAuthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.comprehend#DescribeEventsDetectionJob/errors/-",
+      "value": {
+        "target": "com.amazonaws.comprehend#NotAuthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.comprehend#ListEventsDetectionJobs/errors/-",
+      "value": {
+        "target": "com.amazonaws.comprehend#NotAuthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.comprehend#ClassifyDocument/errors/-",
+      "value": {
+        "target": "com.amazonaws.comprehend#NotAuthorizedException"
+      }
+    }
+  ]
+}

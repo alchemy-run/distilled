@@ -1,0 +1,145 @@
+{
+  "description": "ControlTower: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.controltower#CreateLandingZone/errors/-",
+      "value": {
+        "target": "com.amazonaws.controltower#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.controltower#GetLandingZone/errors/-",
+      "value": {
+        "target": "com.amazonaws.controltower#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.controltower#UpdateLandingZone/errors/-",
+      "value": {
+        "target": "com.amazonaws.controltower#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.controltower#DeleteLandingZone/errors/-",
+      "value": {
+        "target": "com.amazonaws.controltower#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.controltower#ResetLandingZone/errors/-",
+      "value": {
+        "target": "com.amazonaws.controltower#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.controltower#GetLandingZoneOperation/errors/-",
+      "value": {
+        "target": "com.amazonaws.controltower#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.controltower#ListLandingZoneOperations/errors/-",
+      "value": {
+        "target": "com.amazonaws.controltower#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.controltower#ListLandingZones/errors/-",
+      "value": {
+        "target": "com.amazonaws.controltower#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.controltower#GetBaseline/errors/-",
+      "value": {
+        "target": "com.amazonaws.controltower#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.controltower#ListBaselines/errors/-",
+      "value": {
+        "target": "com.amazonaws.controltower#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.controltower#GetBaselineOperation/errors/-",
+      "value": {
+        "target": "com.amazonaws.controltower#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.controltower#EnableBaseline/errors/-",
+      "value": {
+        "target": "com.amazonaws.controltower#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.controltower#DisableBaseline/errors/-",
+      "value": {
+        "target": "com.amazonaws.controltower#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.controltower#UpdateEnabledBaseline/errors/-",
+      "value": {
+        "target": "com.amazonaws.controltower#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.controltower#ResetEnabledBaseline/errors/-",
+      "value": {
+        "target": "com.amazonaws.controltower#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.controltower#GetEnabledBaseline/errors/-",
+      "value": {
+        "target": "com.amazonaws.controltower#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.controltower#ListEnabledBaselines/errors/-",
+      "value": {
+        "target": "com.amazonaws.controltower#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.controltower#ListTagsForResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.controltower#BadRequestException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.controltower#TagResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.controltower#BadRequestException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.controltower#UntagResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.controltower#BadRequestException"
+      }
+    }
+  ]
+}

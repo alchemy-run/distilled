@@ -43,6 +43,8 @@ export class InvalidIdentifier
     /*@__PURE__*/ S.TaggedError<InvalidIdentifier>()("InvalidIdentifier", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7003 }],
   ) {}
@@ -52,6 +54,8 @@ export class MalformedParameter
     /*@__PURE__*/ S.TaggedError<MalformedParameter>()("MalformedParameter", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10077 }],
   ) {}
@@ -61,6 +65,8 @@ export class NamespaceNotFound
     /*@__PURE__*/ S.TaggedError<NamespaceNotFound>()("NamespaceNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10066 }],
   ) {}

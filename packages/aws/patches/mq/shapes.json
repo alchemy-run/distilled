@@ -1,0 +1,25 @@
+{
+  "description": "mq: Members that hold secrets (sensitive).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.mq#User/members/Password/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.mq#CreateUserRequest/members/Password/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.mq#UpdateUserRequest/members/Password/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.mq#LdapServerMetadataInput/members/ServiceAccountPassword/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

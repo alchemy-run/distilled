@@ -55,6 +55,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -64,6 +66,8 @@ export class VpcServiceNameAlreadyExists
     /*@__PURE__*/ S.TaggedError<VpcServiceNameAlreadyExists>()("VpcServiceNameAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 5101, message: { includes: "already exists" } }],
   ) {}
@@ -73,6 +77,8 @@ export class VpcServiceNotFound
     /*@__PURE__*/ S.TaggedError<VpcServiceNotFound>()("VpcServiceNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 5104 }],
   ) {}
@@ -82,6 +88,8 @@ export class VpcTunnelNotFound
     /*@__PURE__*/ S.TaggedError<VpcTunnelNotFound>()("VpcTunnelNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 5101, message: { includes: "Tunnel ID Not Found" } }],
   ) {}

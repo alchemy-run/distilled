@@ -49,6 +49,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -58,6 +60,8 @@ export class OriginCloudRegionNotFound
     /*@__PURE__*/ S.TaggedError<OriginCloudRegionNotFound>()("OriginCloudRegionNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404 }],
   ) {}
@@ -67,6 +71,8 @@ export class SettingUnavailableForPlan
     /*@__PURE__*/ S.TaggedError<SettingUnavailableForPlan>()("SettingUnavailableForPlan", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [
       { status: 403, message: { includes: "not available for your plan" } },
@@ -79,6 +85,8 @@ export class Unauthorized
     /*@__PURE__*/ S.TaggedError<Unauthorized>()("Unauthorized", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 401 }],
   ) {}
@@ -88,6 +96,8 @@ export class VariantsNotConfigured
     /*@__PURE__*/ S.TaggedError<VariantsNotConfigured>()("VariantsNotConfigured", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404, message: { includes: "zone setting does not exist" } }],
   ) {}

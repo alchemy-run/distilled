@@ -592,6 +592,8 @@ export class AccessApplicationNotFound
     /*@__PURE__*/ S.TaggedError<AccessApplicationNotFound>()("AccessApplicationNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404, message: { includes: "unknown_application" } }],
   ) {}
@@ -601,6 +603,8 @@ export class AccessBookmarkNotFound
     /*@__PURE__*/ S.TaggedError<AccessBookmarkNotFound>()("AccessBookmarkNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 12045 }, { code: 12135 }, { code: 11021 }],
   ) {}
@@ -610,6 +614,8 @@ export class AccessCertificateNotFound
     /*@__PURE__*/ S.TaggedError<AccessCertificateNotFound>()("AccessCertificateNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 12135 }],
   ) {}
@@ -621,6 +627,8 @@ export class AccessCertificateQuotaExceeded
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ code: 12130, message: { includes: "maximum number of certificates" } }],
@@ -631,6 +639,8 @@ export class AccessCustomPageNotFound
     /*@__PURE__*/ S.TaggedError<AccessCustomPageNotFound>()("AccessCustomPageNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 12135 }],
   ) {}
@@ -640,6 +650,8 @@ export class AccessCustomPagesNotEntitled
     /*@__PURE__*/ S.TaggedError<AccessCustomPagesNotEntitled>()("AccessCustomPagesNotEntitled", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 12133, message: { includes: "does not have permission for custom pages" } }],
   ) {}
@@ -649,6 +661,8 @@ export class AccessDestinationConflict
     /*@__PURE__*/ S.TaggedError<AccessDestinationConflict>()("AccessDestinationConflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: { includes: "destination belongs to another application" } }],
   ) {}
@@ -658,6 +672,8 @@ export class AccessGroupNotFound
     /*@__PURE__*/ S.TaggedError<AccessGroupNotFound>()("AccessGroupNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 12152 }],
   ) {}
@@ -669,6 +685,8 @@ export class AccessIdentityProviderNotFound
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ code: 12135 }],
@@ -679,6 +697,8 @@ export class AccessPolicyNotFound
     /*@__PURE__*/ S.TaggedError<AccessPolicyNotFound>()("AccessPolicyNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 12135 }],
   ) {}
@@ -688,6 +708,8 @@ export class AccessReferenceNotFound
     /*@__PURE__*/ S.TaggedError<AccessReferenceNotFound>()("AccessReferenceNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 400, message: { includes: "not found" } }],
   ) {}
@@ -697,6 +719,8 @@ export class AccessServiceTokenNotFound
     /*@__PURE__*/ S.TaggedError<AccessServiceTokenNotFound>()("AccessServiceTokenNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 12135 }],
   ) {}
@@ -706,6 +730,8 @@ export class AccessTagNotFound
     /*@__PURE__*/ S.TaggedError<AccessTagNotFound>()("AccessTagNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 12135 }],
   ) {}
@@ -717,6 +743,8 @@ export class CannotDeleteDefaultGatewayLocation
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ code: 1217 }],
@@ -729,6 +757,8 @@ export class CannotDemoteDefaultGatewayLocation
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ code: 1216 }],
@@ -739,6 +769,8 @@ export class DeviceNetworkNotFound
     /*@__PURE__*/ S.TaggedError<DeviceNetworkNotFound>()("DeviceNetworkNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 2053 }],
   ) {}
@@ -748,6 +780,8 @@ export class DevicePolicyNotFound
     /*@__PURE__*/ S.TaggedError<DevicePolicyNotFound>()("DevicePolicyNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 2052 }],
   ) {}
@@ -759,6 +793,8 @@ export class DevicePostureIntegrationNotFound
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ status: 404 }],
@@ -769,6 +805,8 @@ export class DexTestNotFound
     /*@__PURE__*/ S.TaggedError<DexTestNotFound>()("DexTestNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404 }],
   ) {}
@@ -778,6 +816,8 @@ export class DlpEntryNotFound
     /*@__PURE__*/ S.TaggedError<DlpEntryNotFound>()("DlpEntryNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404 }],
   ) {}
@@ -787,6 +827,8 @@ export class DlpProfileNotFound
     /*@__PURE__*/ S.TaggedError<DlpProfileNotFound>()("DlpProfileNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404 }],
   ) {}
@@ -796,6 +838,8 @@ export class DuplicateTunnelName
     /*@__PURE__*/ S.TaggedError<DuplicateTunnelName>()("DuplicateTunnelName", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1013 }],
   ) {}
@@ -805,6 +849,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -814,6 +860,8 @@ export class GatewayCertificateInUse
     /*@__PURE__*/ S.TaggedError<GatewayCertificateInUse>()("GatewayCertificateInUse", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 2118 }],
   ) {}
@@ -823,6 +871,8 @@ export class GatewayCertificateNotFound
     /*@__PURE__*/ S.TaggedError<GatewayCertificateNotFound>()("GatewayCertificateNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 2027 }],
   ) {}
@@ -834,6 +884,8 @@ export class GatewayCertificateQuotaReached
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [
@@ -849,6 +901,8 @@ export class GatewayListNotFound
     /*@__PURE__*/ S.TaggedError<GatewayListNotFound>()("GatewayListNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 2218 }],
   ) {}
@@ -858,6 +912,8 @@ export class GatewayLocationNotFound
     /*@__PURE__*/ S.TaggedError<GatewayLocationNotFound>()("GatewayLocationNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1103 }],
   ) {}
@@ -867,6 +923,8 @@ export class HostnameRouteAlreadyRouted
     /*@__PURE__*/ S.TaggedError<HostnameRouteAlreadyRouted>()("HostnameRouteAlreadyRouted", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 409, message: { includes: "already routed to another tunnel" } }],
   ) {}
@@ -876,6 +934,8 @@ export class HostnameRouteNotFound
     /*@__PURE__*/ S.TaggedError<HostnameRouteNotFound>()("HostnameRouteNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404 }],
   ) {}
@@ -887,6 +947,8 @@ export class InvalidPostureIntegrationConfig
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ status: 400, message: { includes: "invalid posture integration request" } }],
@@ -899,6 +961,8 @@ export class IpProxyEndpointsRequireEnterprise
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ code: 2009 }],
@@ -909,6 +973,8 @@ export class McpPortalHostnameInUse
     /*@__PURE__*/ S.TaggedError<McpPortalHostnameInUse>()("McpPortalHostnameInUse", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 400, message: { includes: "already in use in a different MCP Portal" } }],
   ) {}
@@ -918,6 +984,8 @@ export class McpPortalNotFound
     /*@__PURE__*/ S.TaggedError<McpPortalNotFound>()("McpPortalNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404 }],
   ) {}
@@ -927,6 +995,8 @@ export class McpServerInvalidId
     /*@__PURE__*/ S.TaggedError<McpServerInvalidId>()("McpServerInvalidId", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 400, message: { includes: "String must contain at most 32 character(s)" } }],
   ) {}
@@ -936,6 +1006,8 @@ export class McpServerNotFound
     /*@__PURE__*/ S.TaggedError<McpServerNotFound>()("McpServerNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404 }],
   ) {}
@@ -947,6 +1019,7 @@ export class McpServerSyncFailure
       code: S.Number,
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 200, body: { "/success": false, "/result/status": "error" } }],
   ) {}
@@ -956,6 +1029,8 @@ export class OrganizationAlreadyExists
     /*@__PURE__*/ S.TaggedError<OrganizationAlreadyExists>()("OrganizationAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 11002 }],
   ) {}
@@ -965,6 +1040,8 @@ export class OrganizationNotFound
     /*@__PURE__*/ S.TaggedError<OrganizationNotFound>()("OrganizationNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404 }],
   ) {}
@@ -974,6 +1051,8 @@ export class PostureRuleNotFound
     /*@__PURE__*/ S.TaggedError<PostureRuleNotFound>()("PostureRuleNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 6024 }],
   ) {}
@@ -983,6 +1062,8 @@ export class ProxyEndpointNotFound
     /*@__PURE__*/ S.TaggedError<ProxyEndpointNotFound>()("ProxyEndpointNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 2002 }],
   ) {}
@@ -994,6 +1075,8 @@ export class RiskScoringIntegrationNotFound
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ status: 404 }],
@@ -1004,6 +1087,8 @@ export class TargetNotFound
     /*@__PURE__*/ S.TaggedError<TargetNotFound>()("TargetNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404 }],
   ) {}
@@ -1013,6 +1098,8 @@ export class TunnelConfigurationNotFound
     /*@__PURE__*/ S.TaggedError<TunnelConfigurationNotFound>()("TunnelConfigurationNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1055 }],
   ) {}
@@ -1022,6 +1109,8 @@ export class TunnelNotFound
     /*@__PURE__*/ S.TaggedError<TunnelNotFound>()("TunnelNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1002 }, { status: 404 }],
   ) {}
@@ -1031,6 +1120,8 @@ export class TunnelTokenNotFound
     /*@__PURE__*/ S.TaggedError<TunnelTokenNotFound>()("TunnelTokenNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1054 }],
   ) {}
@@ -1040,6 +1131,8 @@ export class VirtualNetworkConflict
     /*@__PURE__*/ S.TaggedError<VirtualNetworkConflict>()("VirtualNetworkConflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1014 }],
   ) {}
@@ -1049,6 +1142,8 @@ export class VirtualNetworkNotFound
     /*@__PURE__*/ S.TaggedError<VirtualNetworkNotFound>()("VirtualNetworkNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1046 }],
   ) {}

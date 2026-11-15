@@ -14,6 +14,7 @@
 import {
   fromNode,
   Number as LiteNumber,
+  representation,
   String as LiteString,
   type Lite,
 } from "@distilled.cloud/core/schema-lite-impl";
@@ -43,7 +44,11 @@ export const timestamp = (
   fromNode({
     _tag: "Declaration",
     typeParameters: [],
-    annotations: { [codecSymbol]: kind, ...annotations },
+    annotations: {
+      [codecSymbol]: kind,
+      representation: representation("effect/schema/Date"),
+      ...annotations,
+    },
     encoding: [{ to: kind === "epoch-seconds" ? LiteNumber.ast : LiteString.ast }],
     check: isValidDate,
   });
@@ -53,7 +58,11 @@ export const blob = (annotations?: Record<string, unknown>): Lite =>
   fromNode({
     _tag: "Declaration",
     typeParameters: [],
-    annotations: { [codecSymbol]: "blob", ...annotations },
+    annotations: {
+      [codecSymbol]: "blob",
+      representation: representation("effect/schema/Uint8Array"),
+      ...annotations,
+    },
     encoding: [{ to: LiteString.ast }],
     check: isBytes,
   });
@@ -72,6 +81,7 @@ export const sensitive = (schema: Lite, identifier: string): Lite =>
       fromNode({
         _tag: "Declaration",
         typeParameters: [schema.ast],
+        annotations: { representation: representation("effect/schema/Redacted") },
         check: Redacted.isRedacted,
       }).ast,
     ],

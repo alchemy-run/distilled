@@ -1,0 +1,15 @@
+{
+  "description": "API Gateway: Members that hold secrets (sensitive).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.apigateway#ApiKey/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.apigateway#CreateApiKeyRequest/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

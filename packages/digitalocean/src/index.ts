@@ -9,7 +9,7 @@
  * ```ts
  * import * as DigitalOcean from "@distilled.cloud/digitalocean";
  *
- * const account = yield* DigitalOcean.Services.digitalocean.accountGet({});
+ * const account = yield* DigitalOcean.accountGet({});
  * ```
  */
 export * from "./credentials.ts";
@@ -22,15 +22,14 @@ export {
 } from "./protocol.ts";
 export { paginateCursor, paginatePageNumber } from "./pagination.ts";
 export * as Retry from "./retry.ts";
-export * as Services from "./services/index.ts";
 // Operations (and their request/response types) are importable off the package
 // root. The service-local typed error classes shadow the same-named shared
 // ones from ./errors.ts -- the ops actually raise the service-local classes.
 //
 // The API also models a `Credentials` schema (a database connection's
 // user/password), which would collide with the `Credentials` service from
-// ./credentials.ts. That one stays at the root; the schema is reachable as
-// `Services.digitalocean.Credentials`.
+// ./credentials.ts. That one stays at the root; the schema is reachable from
+// `@distilled.cloud/digitalocean/digitalocean`.
 export * from "./services/digitalocean.ts";
 export { Credentials } from "./credentials.ts";
 export {

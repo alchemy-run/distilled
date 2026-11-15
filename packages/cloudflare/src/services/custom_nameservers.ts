@@ -44,6 +44,8 @@ export class CustomNameserverAlreadyExists
     /*@__PURE__*/ S.TaggedError<CustomNameserverAlreadyExists>()("CustomNameserverAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: { includes: "already exist" } }],
   ) {}
@@ -53,6 +55,8 @@ export class CustomNameserverNotFound
     /*@__PURE__*/ S.TaggedError<CustomNameserverNotFound>()("CustomNameserverNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404 }],
   ) {}
@@ -62,6 +66,8 @@ export class CustomNameserversNotEnabled
     /*@__PURE__*/ S.TaggedError<CustomNameserversNotEnabled>()("CustomNameserversNotEnabled", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1002, message: { includes: "not enabled" } }],
   ) {}
@@ -71,6 +77,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}

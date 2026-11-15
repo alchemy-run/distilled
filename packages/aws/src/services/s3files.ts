@@ -118,6 +118,15 @@ export class ServiceQuotaExceededException
     },
     /*@__PURE__*/ T.HttpError(402),
   ).pipe(C.withQuotaError) {}
+export class ThrottlingException
+  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
+    "ThrottlingException",
+    {
+      errorCode: S.String,
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+    },
+    /*@__PURE__*/ T.HttpError(429),
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
@@ -466,6 +475,7 @@ export type CreateAccessPointError =
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ValidationException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Creates an S3 File System Access Point for application-specific access with POSIX user identity and root directory enforcement. Access points provide a way to manage access to shared datasets in multi-tenant scenarios.
@@ -476,14 +486,15 @@ export const createAccessPoint: API.OperationMethod<
   CreateAccessPointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(68, __c17, 0) as any as S.Schema<CreateAccessPointRequest>,
-  output: __S(72, __c18, 0) as any as S.Schema<CreateAccessPointResponse>,
+  input: __S(72, __c18, 0) as any as S.Schema<CreateAccessPointRequest>,
+  output: __S(76, __c19, 0) as any as S.Schema<CreateAccessPointResponse>,
   errors: [
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ValidationException,
+    ThrottlingException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -498,6 +509,7 @@ export type CreateFileSystemError =
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ValidationException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Creates an S3 File System resource scoped to a bucket or prefix within a bucket, enabling file system access to S3 data. To create a file system, you need an S3 bucket and an IAM role that grants the service permission to access the bucket.
@@ -508,14 +520,15 @@ export const createFileSystem: API.OperationMethod<
   CreateFileSystemError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(84, __c21, 0) as any as S.Schema<CreateFileSystemRequest>,
-  output: __S(88, __c22, 0) as any as S.Schema<CreateFileSystemResponse>,
+  input: __S(88, __c22, 0) as any as S.Schema<CreateFileSystemRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<CreateFileSystemResponse>,
   errors: [
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ValidationException,
+    ThrottlingException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -530,6 +543,7 @@ export type CreateMountTargetError =
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ValidationException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Creates a mount target resource as an endpoint for mounting the S3 File System from compute resources in a specific Availability Zone and VPC. Mount targets provide network access to the file system.
@@ -540,14 +554,15 @@ export const createMountTarget: API.OperationMethod<
   CreateMountTargetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(92, __c23, 0) as any as S.Schema<CreateMountTargetRequest>,
-  output: __S(100, __c25, 0) as any as S.Schema<CreateMountTargetResponse>,
+  input: __S(96, __c24, 0) as any as S.Schema<CreateMountTargetRequest>,
+  output: __S(104, __c26, 0) as any as S.Schema<CreateMountTargetResponse>,
   errors: [
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ValidationException,
+    ThrottlingException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -561,6 +576,7 @@ export type DeleteAccessPointError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Deletes an S3 File System Access Point. This operation is irreversible.
@@ -571,13 +587,14 @@ export const deleteAccessPoint: API.OperationMethod<
   DeleteAccessPointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c26, 0) as any as S.Schema<DeleteAccessPointRequest>,
-  output: __S(108, __c27, 0) as any as S.Schema<DeleteAccessPointResponse>,
+  input: __S(108, __c27, 0) as any as S.Schema<DeleteAccessPointRequest>,
+  output: __S(112, __c28, 0) as any as S.Schema<DeleteAccessPointResponse>,
   errors: [
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
+    ThrottlingException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -591,6 +608,7 @@ export type DeleteFileSystemError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Deletes an S3 File System. You can optionally force deletion of a file system that has pending export data.
@@ -601,13 +619,14 @@ export const deleteFileSystem: API.OperationMethod<
   DeleteFileSystemError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c28, 0) as any as S.Schema<DeleteFileSystemRequest>,
-  output: __S(108, __c27, 0) as any as S.Schema<DeleteFileSystemResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<DeleteFileSystemRequest>,
+  output: __S(112, __c28, 0) as any as S.Schema<DeleteFileSystemResponse>,
   errors: [
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
+    ThrottlingException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -620,6 +639,7 @@ export type DeleteFileSystemPolicyError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Deletes the IAM resource policy of an S3 File System.
@@ -630,9 +650,14 @@ export const deleteFileSystemPolicy: API.OperationMethod<
   DeleteFileSystemPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<DeleteFileSystemPolicyRequest>,
-  output: __S(108, __c27, 0) as any as S.Schema<DeleteFileSystemPolicyResponse>,
-  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  input: __S(4, __c1, 0) as any as S.Schema<DeleteFileSystemPolicyRequest>,
+  output: __S(112, __c28, 0) as any as S.Schema<DeleteFileSystemPolicyResponse>,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFileSystemPolicy",
@@ -645,6 +670,7 @@ export type DeleteMountTargetError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Deletes the specified mount target. This operation is irreversible.
@@ -655,13 +681,14 @@ export const deleteMountTarget: API.OperationMethod<
   DeleteMountTargetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<DeleteMountTargetRequest>,
-  output: __S(108, __c27, 0) as any as S.Schema<DeleteMountTargetResponse>,
+  input: __S(8, __c2, 0) as any as S.Schema<DeleteMountTargetRequest>,
+  output: __S(112, __c28, 0) as any as S.Schema<DeleteMountTargetResponse>,
   errors: [
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
+    ThrottlingException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -674,6 +701,7 @@ export type GetAccessPointError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Returns resource information for an S3 File System Access Point.
@@ -684,9 +712,14 @@ export const getAccessPoint: API.OperationMethod<
   GetAccessPointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<GetAccessPointRequest>,
-  output: __S(72, __c18, 0) as any as S.Schema<GetAccessPointResponse>,
-  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  input: __S(12, __c3, 0) as any as S.Schema<GetAccessPointRequest>,
+  output: __S(76, __c19, 0) as any as S.Schema<GetAccessPointResponse>,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessPoint",
@@ -698,6 +731,7 @@ export type GetFileSystemError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Returns resource information for the specified S3 File System including status, configuration, and metadata.
@@ -708,9 +742,14 @@ export const getFileSystem: API.OperationMethod<
   GetFileSystemError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<GetFileSystemRequest>,
-  output: __S(88, __c22, 0) as any as S.Schema<GetFileSystemResponse>,
-  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  input: __S(16, __c4, 0) as any as S.Schema<GetFileSystemRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<GetFileSystemResponse>,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFileSystem",
@@ -722,6 +761,7 @@ export type GetFileSystemPolicyError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Returns the IAM resource policy of an S3 File System.
@@ -732,9 +772,14 @@ export const getFileSystemPolicy: API.OperationMethod<
   GetFileSystemPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<GetFileSystemPolicyRequest>,
-  output: __S(17, __c4, 1) as any as S.Schema<GetFileSystemPolicyResponse>,
-  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  input: __S(20, __c5, 0) as any as S.Schema<GetFileSystemPolicyRequest>,
+  output: __S(21, __c5, 1) as any as S.Schema<GetFileSystemPolicyResponse>,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFileSystemPolicy",
@@ -746,6 +791,7 @@ export type GetMountTargetError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Returns detailed resource information for the specified mount target including network configuration.
@@ -756,9 +802,14 @@ export const getMountTarget: API.OperationMethod<
   GetMountTargetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<GetMountTargetRequest>,
-  output: __S(100, __c25, 0) as any as S.Schema<GetMountTargetResponse>,
-  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  input: __S(24, __c6, 0) as any as S.Schema<GetMountTargetRequest>,
+  output: __S(104, __c26, 0) as any as S.Schema<GetMountTargetResponse>,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMountTarget",
@@ -770,6 +821,7 @@ export type GetSynchronizationConfigurationError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Returns the synchronization configuration for the specified S3 File System, including import data rules and expiration data rules.
@@ -780,9 +832,14 @@ export const getSynchronizationConfiguration: API.OperationMethod<
   GetSynchronizationConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<GetSynchronizationConfigurationRequest>,
-  output: __S(25, __c6, 1) as any as S.Schema<GetSynchronizationConfigurationResponse>,
-  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  input: __S(28, __c7, 0) as any as S.Schema<GetSynchronizationConfigurationRequest>,
+  output: __S(29, __c7, 1) as any as S.Schema<GetSynchronizationConfigurationResponse>,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSynchronizationConfiguration",
@@ -794,6 +851,7 @@ export type ListAccessPointsError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Returns resource information for all S3 File System Access Points associated with the specified S3 File System.
@@ -805,9 +863,14 @@ export const listAccessPoints: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ListAccessPointsDescription
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<ListAccessPointsRequest>,
-  output: __S(35, __c8, 3) as any as S.Schema<ListAccessPointsResponse>,
-  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  input: __S(36, __c9, 0) as any as S.Schema<ListAccessPointsRequest>,
+  output: __S(39, __c9, 3) as any as S.Schema<ListAccessPointsResponse>,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAccessPoints",
@@ -821,7 +884,11 @@ export const listAccessPoints: API.PaginatedOperationMethod<
   span: "ListAccessPoints",
 })) as any;
 
-export type ListFileSystemsError = InternalServerException | ValidationException | CommonErrors;
+export type ListFileSystemsError =
+  | InternalServerException
+  | ValidationException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns a list of all S3 File Systems owned by the account with optional filtering by bucket.
  */
@@ -832,9 +899,9 @@ export const listFileSystems: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ListFileSystemsDescription
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<ListFileSystemsRequest>,
-  output: __S(39, __c9, 3) as any as S.Schema<ListFileSystemsResponse>,
-  errors: [InternalServerException, ValidationException],
+  input: __S(40, __c10, 0) as any as S.Schema<ListFileSystemsRequest>,
+  output: __S(43, __c10, 3) as any as S.Schema<ListFileSystemsResponse>,
+  errors: [InternalServerException, ValidationException, ThrottlingException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFileSystems",
@@ -852,6 +919,7 @@ export type ListMountTargetsError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Returns resource information for all mount targets with optional filtering by file system, access point, and VPC.
@@ -863,9 +931,14 @@ export const listMountTargets: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ListMountTargetsDescription
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<ListMountTargetsRequest>,
-  output: __S(43, __c10, 3) as any as S.Schema<ListMountTargetsResponse>,
-  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  input: __S(44, __c11, 0) as any as S.Schema<ListMountTargetsRequest>,
+  output: __S(47, __c11, 3) as any as S.Schema<ListMountTargetsResponse>,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMountTargets",
@@ -883,6 +956,7 @@ export type ListTagsForResourceError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Lists all tags for S3 Files resources.
@@ -894,9 +968,14 @@ export const listTagsForResource: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Tag
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(44, __c11, 0) as any as S.Schema<ListTagsForResourceRequest>,
-  output: __S(45, __c11, 1) as any as S.Schema<ListTagsForResourceResponse>,
-  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  input: __S(48, __c12, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(49, __c12, 1) as any as S.Schema<ListTagsForResourceResponse>,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -914,6 +993,7 @@ export type PutFileSystemPolicyError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Creates or replaces the IAM resource policy for an S3 File System to control access permissions.
@@ -924,9 +1004,14 @@ export const putFileSystemPolicy: API.OperationMethod<
   PutFileSystemPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c12, 0) as any as S.Schema<PutFileSystemPolicyRequest>,
-  output: __S(108, __c27, 0) as any as S.Schema<PutFileSystemPolicyResponse>,
-  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  input: __S(52, __c13, 0) as any as S.Schema<PutFileSystemPolicyRequest>,
+  output: __S(112, __c28, 0) as any as S.Schema<PutFileSystemPolicyResponse>,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFileSystemPolicy",
@@ -939,6 +1024,7 @@ export type PutSynchronizationConfigurationError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Creates or updates the synchronization configuration for the specified S3 File System, including import data rules and expiration data rules.
@@ -949,13 +1035,14 @@ export const putSynchronizationConfiguration: API.OperationMethod<
   PutSynchronizationConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(52, __c13, 0) as any as S.Schema<PutSynchronizationConfigurationRequest>,
-  output: __S(108, __c27, 0) as any as S.Schema<PutSynchronizationConfigurationResponse>,
+  input: __S(56, __c14, 0) as any as S.Schema<PutSynchronizationConfigurationRequest>,
+  output: __S(112, __c28, 0) as any as S.Schema<PutSynchronizationConfigurationResponse>,
   errors: [
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
+    ThrottlingException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -968,6 +1055,7 @@ export type TagResourceError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Creates tags for S3 Files resources using standard Amazon Web Services tagging APIs.
@@ -978,9 +1066,14 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c14, 0) as any as S.Schema<TagResourceRequest>,
-  output: __S(108, __c27, 0) as any as S.Schema<TagResourceResponse>,
-  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  input: __S(60, __c15, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(112, __c28, 0) as any as S.Schema<TagResourceResponse>,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -992,6 +1085,7 @@ export type UntagResourceError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Removes tags from S3 Files resources.
@@ -1002,9 +1096,14 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(60, __c15, 0) as any as S.Schema<UntagResourceRequest>,
-  output: __S(108, __c27, 0) as any as S.Schema<UntagResourceResponse>,
-  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  input: __S(64, __c16, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(112, __c28, 0) as any as S.Schema<UntagResourceResponse>,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -1016,6 +1115,7 @@ export type UpdateMountTargetError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Updates the mount target resource, specifically security group configurations.
@@ -1026,9 +1126,14 @@ export const updateMountTarget: API.OperationMethod<
   UpdateMountTargetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c16, 0) as any as S.Schema<UpdateMountTargetRequest>,
-  output: __S(100, __c25, 0) as any as S.Schema<UpdateMountTargetResponse>,
-  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  input: __S(68, __c17, 0) as any as S.Schema<UpdateMountTargetRequest>,
+  output: __S(104, __c26, 0) as any as S.Schema<UpdateMountTargetResponse>,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMountTarget",
@@ -1038,6 +1143,27 @@ export const updateMountTarget: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          fileSystemId: S.String.pipe(T.HttpLabel("fileSystemId")),
+          forceDelete: S.optional(S.Boolean).pipe(T.HttpQuery("forceDelete")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "DELETE", uri: "/file-systems/{fileSystemId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteFileSystemRequest" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1055,7 +1181,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "DeleteFileSystemPolicyRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1073,7 +1199,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "DeleteMountTargetRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1091,7 +1217,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetAccessPointRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1109,7 +1235,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetFileSystemRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1131,7 +1257,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetFileSystemPolicyResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1149,7 +1275,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetMountTargetRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1172,29 +1298,29 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           latestVersionNumber: S.optional(S.Number),
-          importDataRules: __S(29, __c7, 1),
-          expirationDataRules: __S(31, __c7, 3),
+          importDataRules: __S(33, __c8, 1),
+          expirationDataRules: __S(35, __c8, 3),
         }).pipe(ns),
       ).annotate({ identifier: "GetSynchronizationConfigurationResponse" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ prefix: S.String, trigger: S.String, sizeLessThan: S.Number }),
       ).annotate({ identifier: "ImportDataRule" });
     case 1:
-      return S.Array(__S(28, __c7, 0));
+      return S.Array(__S(32, __c8, 0));
     case 2:
       return S.suspend(() => S.Struct({ daysAfterLastAccess: S.Number })).annotate({
         identifier: "ExpirationDataRule",
       });
     case 3:
-      return S.Array(__S(30, __c7, 2));
+      return S.Array(__S(34, __c8, 2));
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1214,20 +1340,20 @@ function __c8(j: number): any {
           fileSystemId: S.String,
           status: S.String,
           ownerId: S.String,
-          posixUser: S.optional(__S(77, __c19, 1)),
-          rootDirectory: S.optional(__S(79, __c19, 3)),
+          posixUser: S.optional(__S(81, __c20, 1)),
+          rootDirectory: S.optional(__S(83, __c20, 3)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAccessPointsDescription" });
     case 2:
-      return S.Array(__S(33, __c8, 1));
+      return S.Array(__S(37, __c9, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), accessPoints: __S(34, __c8, 2) }).pipe(ns),
+        S.Struct({ nextToken: S.optional(S.String), accessPoints: __S(38, __c9, 2) }).pipe(ns),
       ).annotate({ identifier: "ListAccessPointsResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1254,14 +1380,14 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "ListFileSystemsDescription" });
     case 2:
-      return S.Array(__S(37, __c9, 1));
+      return S.Array(__S(41, __c10, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), fileSystems: __S(38, __c9, 2) }).pipe(ns),
+        S.Struct({ nextToken: S.optional(S.String), fileSystems: __S(42, __c10, 2) }).pipe(ns),
       ).annotate({ identifier: "ListFileSystemsResponse" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1291,14 +1417,14 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "ListMountTargetsDescription" });
     case 2:
-      return S.Array(__S(41, __c10, 1));
+      return S.Array(__S(45, __c11, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), mountTargets: __S(42, __c10, 2) }).pipe(ns),
+        S.Struct({ nextToken: S.optional(S.String), mountTargets: __S(46, __c11, 2) }).pipe(ns),
       ).annotate({ identifier: "ListMountTargetsResponse" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1320,11 +1446,11 @@ function __c11(j: number): any {
       ).annotate({ identifier: "ListTagsForResourceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ tags: S.optional(__S(81, __c20, 1)), nextToken: S.optional(S.String) }).pipe(ns),
+        S.Struct({ tags: S.optional(__S(85, __c21, 1)), nextToken: S.optional(S.String) }).pipe(ns),
       ).annotate({ identifier: "ListTagsForResourceResponse" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1345,15 +1471,15 @@ function __c12(j: number): any {
       ).annotate({ identifier: "PutFileSystemPolicyRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           fileSystemId: S.String.pipe(T.HttpLabel("fileSystemId")),
           latestVersionNumber: S.optional(S.Number),
-          importDataRules: __S(29, __c7, 1),
-          expirationDataRules: __S(31, __c7, 3),
+          importDataRules: __S(33, __c8, 1),
+          expirationDataRules: __S(35, __c8, 3),
         }).pipe(
           T.all(
             ns,
@@ -1371,13 +1497,13 @@ function __c13(j: number): any {
       ).annotate({ identifier: "PutSynchronizationConfigurationRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resourceId: S.String.pipe(T.HttpLabel("resourceId")),
-          tags: __S(81, __c20, 1),
+          tags: __S(85, __c21, 1),
         }).pipe(
           T.all(
             ns,
@@ -1392,13 +1518,13 @@ function __c14(j: number): any {
       ).annotate({ identifier: "TagResourceRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resourceId: S.String.pipe(T.HttpLabel("resourceId")),
-          tagKeys: __S(96, __c24, 0).pipe(T.HttpQuery("tagKeys")),
+          tagKeys: __S(100, __c25, 0).pipe(T.HttpQuery("tagKeys")),
         }).pipe(
           T.all(
             ns,
@@ -1413,13 +1539,13 @@ function __c15(j: number): any {
       ).annotate({ identifier: "UntagResourceRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           mountTargetId: S.String.pipe(T.HttpLabel("mountTargetId")),
-          securityGroups: __S(96, __c24, 0),
+          securityGroups: __S(100, __c25, 0),
         }).pipe(
           T.all(
             ns,
@@ -1434,23 +1560,23 @@ function __c16(j: number): any {
       ).annotate({ identifier: "UpdateMountTargetRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          tags: S.optional(__S(81, __c20, 1)),
+          tags: S.optional(__S(85, __c21, 1)),
           fileSystemId: S.String,
-          posixUser: S.optional(__S(77, __c19, 1)),
-          rootDirectory: S.optional(__S(79, __c19, 3)),
+          posixUser: S.optional(__S(81, __c20, 1)),
+          rootDirectory: S.optional(__S(83, __c20, 3)),
         }).pipe(
           T.all(ns, T.Http({ method: "PUT", uri: "/access-points" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "CreateAccessPointRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1461,21 +1587,21 @@ function __c18(j: number): any {
           fileSystemId: S.String,
           status: S.String,
           ownerId: S.String,
-          posixUser: S.optional(__S(77, __c19, 1)),
-          rootDirectory: S.optional(__S(79, __c19, 3)),
-          tags: S.optional(__S(81, __c20, 1)),
+          posixUser: S.optional(__S(81, __c20, 1)),
+          rootDirectory: S.optional(__S(83, __c20, 3)),
+          tags: S.optional(__S(85, __c21, 1)),
           name: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "CreateAccessPointResponse" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
     case 1:
       return S.suspend(() =>
-        S.Struct({ uid: S.Number, gid: S.Number, secondaryGids: S.optional(__S(76, __c19, 0)) }),
+        S.Struct({ uid: S.Number, gid: S.Number, secondaryGids: S.optional(__S(80, __c20, 0)) }),
       ).annotate({ identifier: "PosixUser" });
     case 2:
       return S.suspend(() =>
@@ -1485,22 +1611,22 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           path: S.optional(S.String),
-          creationPermissions: S.optional(__S(78, __c19, 2)),
+          creationPermissions: S.optional(__S(82, __c20, 2)),
         }),
       ).annotate({ identifier: "RootDirectory" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ key: S.String, value: S.String })).annotate({
         identifier: "Tag",
       });
     case 1:
-      return S.Array(__S(80, __c20, 0));
+      return S.Array(__S(84, __c21, 0));
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1510,7 +1636,7 @@ function __c21(j: number): any {
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           kmsKeyId: S.optional(S.String),
           roleArn: S.String,
-          tags: S.optional(__S(81, __c20, 1)),
+          tags: S.optional(__S(85, __c21, 1)),
           acceptBucketWarning: S.optional(S.Boolean),
         }).pipe(
           T.all(ns, T.Http({ method: "PUT", uri: "/file-systems" }), svc, auth, proto, ver, rules),
@@ -1518,7 +1644,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "CreateFileSystemRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1534,13 +1660,13 @@ function __c22(j: number): any {
           statusMessage: S.optional(S.String),
           roleArn: S.optional(S.String),
           ownerId: S.optional(S.String),
-          tags: S.optional(__S(81, __c20, 1)),
+          tags: S.optional(__S(85, __c21, 1)),
           name: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "CreateFileSystemResponse" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1550,20 +1676,20 @@ function __c23(j: number): any {
           ipv4Address: S.optional(S.String),
           ipv6Address: S.optional(S.String),
           ipAddressType: S.optional(S.String),
-          securityGroups: S.optional(__S(96, __c24, 0)),
+          securityGroups: S.optional(__S(100, __c25, 0)),
         }).pipe(
           T.all(ns, T.Http({ method: "PUT", uri: "/mount-targets" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "CreateMountTargetRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1577,14 +1703,14 @@ function __c25(j: number): any {
           ipv6Address: S.optional(S.String),
           networkInterfaceId: S.optional(S.String),
           vpcId: S.optional(S.String),
-          securityGroups: S.optional(__S(96, __c24, 0)),
+          securityGroups: S.optional(__S(100, __c25, 0)),
           status: S.optional(S.String),
           statusMessage: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "CreateMountTargetResponse" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1602,33 +1728,12 @@ function __c26(j: number): any {
       ).annotate({ identifier: "DeleteAccessPointRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({}).pipe(ns)).annotate({
         identifier: "DeleteAccessPointResponse",
       });
-  }
-}
-function __c28(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          fileSystemId: S.String.pipe(T.HttpLabel("fileSystemId")),
-          forceDelete: S.optional(S.Boolean).pipe(T.HttpQuery("forceDelete")),
-        }).pipe(
-          T.all(
-            ns,
-            T.Http({ method: "DELETE", uri: "/file-systems/{fileSystemId}" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "DeleteFileSystemRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

@@ -153,6 +153,8 @@ export class AlreadyExistsException
     /*@__PURE__*/ S.TaggedError<AlreadyExistsException>()("AlreadyExistsException", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [
       { status: 409, body: { "/error/type": "AlreadyExistsException" } },
@@ -166,6 +168,8 @@ export class CommitFailedException
     /*@__PURE__*/ S.TaggedError<CommitFailedException>()("CommitFailedException", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [
       { status: 409, body: { "/error/type": "CommitFailedException" } },
@@ -178,6 +182,8 @@ export class CommitStateUnknownException
     /*@__PURE__*/ S.TaggedError<CommitStateUnknownException>()("CommitStateUnknownException", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 500 }, { status: 502 }, { status: 504 }],
   ) {}
@@ -187,6 +193,8 @@ export class NamespaceNotEmptyException
     /*@__PURE__*/ S.TaggedError<NamespaceNotEmptyException>()("NamespaceNotEmptyException", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [
       { status: 409, body: { "/error/type": "NamespaceNotEmptyException" } },
@@ -199,6 +207,8 @@ export class NoSuchFunctionException
     /*@__PURE__*/ S.TaggedError<NoSuchFunctionException>()("NoSuchFunctionException", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404, body: { "/error/type": "NoSuchFunctionException" } }],
   ) {}
@@ -208,6 +218,8 @@ export class NoSuchNamespaceException
     /*@__PURE__*/ S.TaggedError<NoSuchNamespaceException>()("NoSuchNamespaceException", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [
       { status: 404, body: { "/error/type": "NoSuchNamespaceException" } },
@@ -220,6 +232,8 @@ export class NoSuchPlanIdException
     /*@__PURE__*/ S.TaggedError<NoSuchPlanIdException>()("NoSuchPlanIdException", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404, body: { "/error/type": "NoSuchPlanIdException" } }],
   ) {}
@@ -229,6 +243,8 @@ export class NoSuchPlanTaskException
     /*@__PURE__*/ S.TaggedError<NoSuchPlanTaskException>()("NoSuchPlanTaskException", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404, body: { "/error/type": "NoSuchPlanTaskException" } }],
   ) {}
@@ -238,6 +254,8 @@ export class NoSuchTableException
     /*@__PURE__*/ S.TaggedError<NoSuchTableException>()("NoSuchTableException", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [
       { status: 404, body: { "/error/type": "NoSuchTableException" } },
@@ -250,6 +268,8 @@ export class NoSuchViewException
     /*@__PURE__*/ S.TaggedError<NoSuchViewException>()("NoSuchViewException", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404, body: { "/error/type": "NoSuchViewException" } }],
   ) {}
@@ -259,6 +279,8 @@ export class NoSuchWarehouseException
     /*@__PURE__*/ S.TaggedError<NoSuchWarehouseException>()("NoSuchWarehouseException", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404, body: { "/error/type": "NoSuchWarehouseException" } }],
   ) {}
@@ -268,6 +290,8 @@ export class UnprocessableEntityException
     /*@__PURE__*/ S.TaggedError<UnprocessableEntityException>()("UnprocessableEntityException", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422, body: { "/error/type": "UnprocessableEntityException" } }],
   ) {}
@@ -277,6 +301,8 @@ export class UnsupportedOperationException
     /*@__PURE__*/ S.TaggedError<UnsupportedOperationException>()("UnsupportedOperationException", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 406, body: { "/error/type": "UnsupportedOperationException" } }],
   ) {}

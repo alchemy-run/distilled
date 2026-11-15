@@ -585,6 +585,8 @@
     {
       "path": "./packages/opencode/tsconfig.scripts.json"
     },
+    { "path": "./packages/opensearch/tsconfig.json" },
+    { "path": "./packages/opensearch/tsconfig.scripts.json" },
     {
       "path": "./packages/growthbook/tsconfig.json"
     },
@@ -629,6 +631,12 @@
     { "path": "./packages/stackit/tsconfig.test.json" },
     {
       "path": "./packages/stackit/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/scaleway/tsconfig.json"
+    },
+    {
+      "path": "./packages/scaleway/tsconfig.scripts.json"
     },
     {
       "path": "./packages/daytona/tsconfig.json"

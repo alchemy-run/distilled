@@ -12,9 +12,9 @@
  *
  * @example
  * ```ts
- * import * as Rivet from "@distilled.cloud/rivet";
+ * import * as Pools from "@distilled.cloud/rivet/pools";
  *
- * const pool = yield* Rivet.pools.upsertPool({ pool: "default", namespace: "default" });
+ * const pool = yield* Pools.upsertPool({ pool: "default", namespace: "default" });
  * ```
  */
 export * from "./credentials.ts";
@@ -23,4 +23,3 @@ export * as T from "./traits.ts";
 export { RivetProtocol, type RivetOpError, type RivetOpContext } from "./protocol.ts";
 export { paginateCursor } from "./pagination.ts";
 export * as Retry from "./retry.ts";
-export * from "./services/index.ts";

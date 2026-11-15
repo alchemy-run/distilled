@@ -1,0 +1,63 @@
+{
+  "description": "GetClusterCertificate: Scaleway answers the file itself when the request adds `?dl=1` (scaleway-sdk-js sends it for these downloads; the Go SDK and CLI read the JSON `scaleway.std.File` instead). Each gets a `…Raw` twin that sends `dl=1` (the `rawDownload` flag on its http trait) and returns the body as bytes.",
+  "patches": [
+    {
+      "op": "copy",
+      "from": "/shapes/com.scaleway.redis_v1#GetClusterCertificateRequest",
+      "path": "/shapes/com.scaleway.redis_v1#GetClusterCertificateRawRequest"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.redis_v1#GetClusterCertificateRawResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "body": {
+            "target": "smithy.api#Blob",
+            "traits": {
+              "com.distilled.openapi#rawResponse": {},
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.scaleway.redis_v1#GetClusterCertificate",
+      "path": "/shapes/com.scaleway.redis_v1#GetClusterCertificateRaw"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.scaleway.redis_v1#GetClusterCertificateRaw/input",
+      "value": {
+        "target": "com.scaleway.redis_v1#GetClusterCertificateRawRequest"
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.scaleway.redis_v1#GetClusterCertificateRaw/output",
+      "value": {
+        "target": "com.scaleway.redis_v1#GetClusterCertificateRawResponse"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.redis_v1#GetClusterCertificateRaw/traits/smithy.api#http/rawDownload",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.redis_v1#GetClusterCertificateRaw/traits/smithy.api#documentation",
+      "value": "The file `getClusterCertificate` returns, as bytes (`?dl=1`), rather than the JSON file object."
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.redis_v1#RedisV1/operations/-",
+      "value": {
+        "target": "com.scaleway.redis_v1#GetClusterCertificateRaw"
+      }
+    }
+  ]
+}

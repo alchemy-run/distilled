@@ -44,6 +44,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -53,6 +55,8 @@ export class LiveInputNotFound
     /*@__PURE__*/ S.TaggedError<LiveInputNotFound>()("LiveInputNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10003 }],
   ) {}
@@ -62,6 +66,8 @@ export class OutputNotFound
     /*@__PURE__*/ S.TaggedError<OutputNotFound>()("OutputNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10003 }],
   ) {}
@@ -71,6 +77,8 @@ export class SigningKeyNotFound
     /*@__PURE__*/ S.TaggedError<SigningKeyNotFound>()("SigningKeyNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10003 }],
   ) {}
@@ -80,6 +88,8 @@ export class WatermarkImageInvalid
     /*@__PURE__*/ S.TaggedError<WatermarkImageInvalid>()("WatermarkImageInvalid", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10004 }],
   ) {}
@@ -89,6 +99,8 @@ export class WatermarkNotFound
     /*@__PURE__*/ S.TaggedError<WatermarkNotFound>()("WatermarkNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10003 }],
   ) {}
@@ -98,6 +110,8 @@ export class WebhookNotFound
     /*@__PURE__*/ S.TaggedError<WebhookNotFound>()("WebhookNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10003 }],
   ) {}

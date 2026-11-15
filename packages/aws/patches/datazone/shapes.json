@@ -1,0 +1,32 @@
+{
+  "description": "DataZone: Members that hold secrets (sensitive); union members the API returns.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.datazone#ProvisioningProperties/members/manual",
+      "value": {
+        "target": "smithy.api#Unit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.datazone#GetEnvironmentCredentialsOutput/members/secretAccessKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.datazone#GetEnvironmentCredentialsOutput/members/sessionToken/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.datazone#ConnectionCredentials/members/secretAccessKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.datazone#ConnectionCredentials/members/sessionToken/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

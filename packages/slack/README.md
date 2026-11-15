@@ -14,9 +14,10 @@ npm install @distilled.cloud/slack effect
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Slack from "@distilled.cloud/slack";
+import * as Admin from "@distilled.cloud/slack/admin";
 
 const program = Effect.gen(function* () {
-  const result = yield* Slack.admin.listAppsActivities({});
+  const result = yield* Admin.listAppsActivities({});
   return result;
 });
 

@@ -2921,6 +2921,9 @@ export type AssociateServiceError =
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ValidationException
+  | AccessDeniedException
+  | ContentSizeExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Adds a specific service association to an AgentSpace. It overwrites the existing association of the same service. Returns 201 Created on success.
@@ -2940,6 +2943,9 @@ export const associateService: API.OperationMethod<
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ValidationException,
+    AccessDeniedException,
+    ContentSizeExceededException,
+    ThrottlingException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2955,6 +2961,10 @@ export type CreateAgentSpaceError =
   | InvalidParameterException
   | ServiceQuotaExceededException
   | ValidationException
+  | AccessDeniedException
+  | ContentSizeExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Creates a new AgentSpace with the specified name and description. Duplicate space names are allowed.
@@ -2973,6 +2983,10 @@ export const createAgentSpace: API.OperationMethod<
     InvalidParameterException,
     ServiceQuotaExceededException,
     ValidationException,
+    AccessDeniedException,
+    ContentSizeExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2988,6 +3002,10 @@ export type CreateAssetError =
   | InternalServerException
   | ThrottlingException
   | ValidationException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Creates a new asset in the specified agent space
@@ -3006,6 +3024,10 @@ export const createAsset: API.OperationMethod<
     InternalServerException,
     ThrottlingException,
     ValidationException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3023,6 +3045,8 @@ export type CreateAssetFileError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Creates a file in an asset
@@ -3043,6 +3067,8 @@ export const createAssetFile: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3059,6 +3085,9 @@ export type CreateBacklogTaskError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Creates a new backlog task in the specified agent space
@@ -3078,6 +3107,9 @@ export const createBacklogTask: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3092,6 +3124,11 @@ export type CreateChatError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | AccessDeniedException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Creates a new chat execution in the specified agent space
@@ -3109,6 +3146,11 @@ export const createChat: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    AccessDeniedException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3123,6 +3165,11 @@ export type CreatePrivateConnectionError =
   | InternalServerException
   | InvalidParameterException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Creates a Private Connection to a target resource.
@@ -3140,6 +3187,11 @@ export const createPrivateConnection: API.OperationMethod<
     InternalServerException,
     InvalidParameterException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3156,6 +3208,9 @@ export type CreateTriggerError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Creates a new Trigger in the specified agent space
@@ -3175,6 +3230,9 @@ export const createTrigger: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3189,6 +3247,11 @@ export type DeleteAgentSpaceError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | AccessDeniedException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Deletes an AgentSpace. This operation is idempotent and returns a 204 No Content response on success.
@@ -3206,6 +3269,11 @@ export const deleteAgentSpace: API.OperationMethod<
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
+    AccessDeniedException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3222,6 +3290,9 @@ export type DeleteAssetError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Deletes an asset and all its files from the specified agent space
@@ -3241,6 +3312,9 @@ export const deleteAsset: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3256,6 +3330,10 @@ export type DeleteAssetFileError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Deletes a file from an asset
@@ -3274,6 +3352,10 @@ export const deleteAssetFile: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3288,6 +3370,11 @@ export type DeletePrivateConnectionError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Deletes a Private Connection. The deletion is asynchronous and returns DELETE_IN_PROGRESS status.
@@ -3305,6 +3392,11 @@ export const deletePrivateConnection: API.OperationMethod<
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3321,6 +3413,9 @@ export type DeleteTriggerError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Deletes a Trigger from the specified agent space
@@ -3340,6 +3435,9 @@ export const deleteTrigger: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3354,6 +3452,11 @@ export type DeregisterServiceError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | AccessDeniedException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Deregister a service
@@ -3371,6 +3474,11 @@ export const deregisterService: API.OperationMethod<
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
+    AccessDeniedException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3385,6 +3493,11 @@ export type DescribePrivateConnectionError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Retrieves details of an existing Private Connection.
@@ -3402,6 +3515,11 @@ export const describePrivateConnection: API.OperationMethod<
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3415,6 +3533,13 @@ export type DisableOperatorAppError =
   | IdentityCenterServiceException
   | InternalServerException
   | ValidationException
+  | AccessDeniedException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Disable the Operator App for the specified AgentSpace
@@ -3427,7 +3552,18 @@ export const disableOperatorApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<DisableOperatorAppInput>,
   output: __S(64, __c2, 0) as any as S.Schema<DisableOperatorAppResponse>,
-  errors: [IdentityCenterServiceException, InternalServerException, ValidationException],
+  errors: [
+    IdentityCenterServiceException,
+    InternalServerException,
+    ValidationException,
+    AccessDeniedException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableOperatorApp",
@@ -3440,6 +3576,12 @@ export type DisassociateServiceError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | AccessDeniedException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Deletes a specific service association from an AgentSpace. This operation is idempotent and returns a 204 No Content response on success.
@@ -3452,7 +3594,17 @@ export const disassociateService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<DisassociateServiceInput>,
   output: __S(64, __c2, 0) as any as S.Schema<DisassociateServiceOutput>,
-  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+    AccessDeniedException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateService",
@@ -3465,6 +3617,13 @@ export type EnableOperatorAppError =
   | IdentityCenterServiceException
   | InternalServerException
   | ValidationException
+  | AccessDeniedException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Enable the Operator App to access the given AgentSpace
@@ -3477,7 +3636,18 @@ export const enableOperatorApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<EnableOperatorAppInput>,
   output: __S(1153, __c36, 1) as any as S.Schema<EnableOperatorAppOutput>,
-  errors: [IdentityCenterServiceException, InternalServerException, ValidationException],
+  errors: [
+    IdentityCenterServiceException,
+    InternalServerException,
+    ValidationException,
+    AccessDeniedException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableOperatorApp",
@@ -3492,6 +3662,10 @@ export type GetAccountUsageError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Retrieves monthly account usage metrics and limits for the AWS account.
@@ -3510,6 +3684,10 @@ export const getAccountUsage: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3523,6 +3701,12 @@ export type GetAgentSpaceError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | AccessDeniedException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Retrieves detailed information about a specific AgentSpace.
@@ -3535,7 +3719,17 @@ export const getAgentSpace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<GetAgentSpaceInput>,
   output: __S(256, __c8, 0) as any as S.Schema<GetAgentSpaceOutput>,
-  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+    AccessDeniedException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgentSpace",
@@ -3550,6 +3744,10 @@ export type GetAssetError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Gets an asset from the specified agent space
@@ -3568,6 +3766,10 @@ export const getAsset: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3583,6 +3785,10 @@ export type GetAssetContentError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Gets an asset's content as a zip bundle
@@ -3601,6 +3807,10 @@ export const getAssetContent: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3616,6 +3826,10 @@ export type GetAssetFileError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Gets a file from an asset
@@ -3634,6 +3848,10 @@ export const getAssetFile: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3647,6 +3865,12 @@ export type GetAssociationError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | AccessDeniedException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Retrieves given associations configured for a specific AgentSpace.
@@ -3659,7 +3883,17 @@ export const getAssociation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<GetAssociationInput>,
   output: __S(1409, __c44, 1) as any as S.Schema<GetAssociationOutput>,
-  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+    AccessDeniedException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssociation",
@@ -3675,6 +3909,9 @@ export type GetBacklogTaskError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Gets a backlog task for the specified agent space and task id
@@ -3694,6 +3931,9 @@ export const getBacklogTask: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3703,7 +3943,17 @@ export const getBacklogTask: API.OperationMethod<
   span: "GetBacklogTask",
 }));
 
-export type GetOperatorAppError = InternalServerException | ValidationException | CommonErrors;
+export type GetOperatorAppError =
+  | InternalServerException
+  | ValidationException
+  | AccessDeniedException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Get the full auth configuration of operator including any enabled auth flow
  */
@@ -3715,7 +3965,17 @@ export const getOperatorApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<GetOperatorAppInput>,
   output: __S(1473, __c46, 1) as any as S.Schema<GetOperatorAppOutput>,
-  errors: [InternalServerException, ValidationException],
+  errors: [
+    InternalServerException,
+    ValidationException,
+    AccessDeniedException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOperatorApp",
@@ -3730,6 +3990,10 @@ export type GetRecommendationError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Retrieves a specific recommendation by its ID
@@ -3748,6 +4012,10 @@ export const getRecommendation: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3761,6 +4029,12 @@ export type GetServiceError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | AccessDeniedException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Retrieves given service by it's unique identifier
@@ -3773,7 +4047,17 @@ export const getService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<GetServiceInput>,
   output: __S(1601, __c50, 1) as any as S.Schema<GetServiceOutput>,
-  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+    AccessDeniedException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetService",
@@ -3788,6 +4072,10 @@ export type GetTriggerError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Gets a Trigger from the specified agent space
@@ -3806,6 +4094,10 @@ export const getTrigger: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3815,7 +4107,17 @@ export const getTrigger: API.OperationMethod<
   span: "GetTrigger",
 }));
 
-export type ListAgentSpacesError = InternalServerException | ValidationException | CommonErrors;
+export type ListAgentSpacesError =
+  | InternalServerException
+  | ValidationException
+  | AccessDeniedException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists all AgentSpaces with optional pagination.
  */
@@ -3828,7 +4130,17 @@ export const listAgentSpaces: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<ListAgentSpacesInput>,
   output: __S(1730, __c54, 2) as any as S.Schema<ListAgentSpacesOutput>,
-  errors: [InternalServerException, ValidationException],
+  errors: [
+    InternalServerException,
+    ValidationException,
+    AccessDeniedException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAgentSpaces",
@@ -3849,6 +4161,10 @@ export type ListAssetFilesError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Lists files in an asset
@@ -3868,6 +4184,10 @@ export const listAssetFiles: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3888,6 +4208,11 @@ export type ListAssetsError =
   | InternalServerException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Lists assets in the specified agent space
@@ -3906,6 +4231,11 @@ export const listAssets: API.PaginatedOperationMethod<
     InternalServerException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3926,6 +4256,11 @@ export type ListAssetTypesError =
   | InternalServerException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Lists the supported asset types
@@ -3944,6 +4279,11 @@ export const listAssetTypes: API.PaginatedOperationMethod<
     InternalServerException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3965,6 +4305,10 @@ export type ListAssetVersionsError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Lists versions of an asset in the specified agent space
@@ -3984,6 +4328,10 @@ export const listAssetVersions: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4003,6 +4351,12 @@ export type ListAssociationsError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | AccessDeniedException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * List all associations for given AgentSpace
@@ -4016,7 +4370,17 @@ export const listAssociations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<ListAssociationsInput>,
   output: __S(1890, __c59, 2) as any as S.Schema<ListAssociationsOutput>,
-  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+    AccessDeniedException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAssociations",
@@ -4036,6 +4400,11 @@ export type ListBacklogTasksError =
   | InternalServerException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Lists backlog tasks in the specified agent space with optional filtering and sorting
@@ -4054,6 +4423,11 @@ export const listBacklogTasks: API.PaginatedOperationMethod<
     InternalServerException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4074,6 +4448,11 @@ export type ListChatsError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | AccessDeniedException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Retrieves a paginated list of the user's recent chat executions
@@ -4091,6 +4470,11 @@ export const listChats: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    AccessDeniedException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4106,6 +4490,10 @@ export type ListExecutionsError =
   | InternalServerException
   | ThrottlingException
   | ValidationException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * List executions
@@ -4125,6 +4513,10 @@ export const listExecutions: API.PaginatedOperationMethod<
     InternalServerException,
     ThrottlingException,
     ValidationException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4145,6 +4537,11 @@ export type ListGoalsError =
   | InternalServerException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Lists goals in the specified agent space with optional filtering
@@ -4163,6 +4560,11 @@ export const listGoals: API.PaginatedOperationMethod<
     InternalServerException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4184,6 +4586,10 @@ export type ListJournalRecordsError =
   | InternalServerException
   | ThrottlingException
   | ValidationException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * List journal records for a specific execution
@@ -4203,6 +4609,10 @@ export const listJournalRecords: API.PaginatedOperationMethod<
     InternalServerException,
     ThrottlingException,
     ValidationException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4224,6 +4634,10 @@ export type ListPendingMessagesError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * List pending messages for a specific execution.
@@ -4242,6 +4656,10 @@ export const listPendingMessages: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4255,6 +4673,12 @@ export type ListPrivateConnectionsError =
   | AccessDeniedException
   | InternalServerException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Lists all Private Connections in the caller's account.
@@ -4267,7 +4691,17 @@ export const listPrivateConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<ListPrivateConnectionsInput>,
   output: __S(2146, __c67, 2) as any as S.Schema<ListPrivateConnectionsOutput>,
-  errors: [AccessDeniedException, InternalServerException, ValidationException],
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPrivateConnections",
@@ -4281,6 +4715,11 @@ export type ListRecommendationsError =
   | InternalServerException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Lists recommendations for the specified agent space
@@ -4298,6 +4737,11 @@ export const listRecommendations: API.OperationMethod<
     InternalServerException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4307,7 +4751,17 @@ export const listRecommendations: API.OperationMethod<
   span: "ListRecommendations",
 }));
 
-export type ListServicesError = InternalServerException | ValidationException | CommonErrors;
+export type ListServicesError =
+  | InternalServerException
+  | ValidationException
+  | AccessDeniedException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * List a list of registered service on the account level.
  */
@@ -4320,7 +4774,17 @@ export const listServices: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<ListServicesInput>,
   output: __S(2242, __c70, 2) as any as S.Schema<ListServicesOutput>,
-  errors: [InternalServerException, ValidationException],
+  errors: [
+    InternalServerException,
+    ValidationException,
+    AccessDeniedException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListServices",
@@ -4340,6 +4804,11 @@ export type ListTagsForResourceError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Lists tags for the specified AWS DevOps Agent resource.
@@ -4357,6 +4826,11 @@ export const listTagsForResource: API.OperationMethod<
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4372,6 +4846,10 @@ export type ListTriggersError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Lists Triggers in the specified agent space
@@ -4391,6 +4869,10 @@ export const listTriggers: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4410,6 +4892,12 @@ export type ListWebhooksError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | AccessDeniedException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * List all webhooks for given Association
@@ -4422,7 +4910,17 @@ export const listWebhooks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<ListWebhooksInput>,
   output: __S(2339, __c73, 3) as any as S.Schema<ListWebhooksOutput>,
-  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+    AccessDeniedException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListWebhooks",
@@ -4436,6 +4934,11 @@ export type RegisterServiceError =
   | InvalidParameterException
   | ResourceNotFoundException
   | ValidationException
+  | AccessDeniedException
+  | ConflictException
+  | ContentSizeExceededException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * This operation registers the specified service
@@ -4453,6 +4956,11 @@ export const registerService: API.OperationMethod<
     InvalidParameterException,
     ResourceNotFoundException,
     ValidationException,
+    AccessDeniedException,
+    ConflictException,
+    ContentSizeExceededException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4469,6 +4977,9 @@ export type SendMessageError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
   | CommonErrors;
 /**
  * Sends a chat message and streams the response for the specified agent space execution
@@ -4488,6 +4999,9 @@ export const sendMessage: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4502,6 +5016,11 @@ export type TagResourceError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Adds or overwrites tags for the specified AWS DevOps Agent resource.
@@ -4519,6 +5038,11 @@ export const tagResource: API.OperationMethod<
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4533,6 +5057,11 @@ export type UntagResourceError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Removes tags from the specified AWS DevOps Agent resource.
@@ -4550,6 +5079,11 @@ export const untagResource: API.OperationMethod<
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4564,6 +5098,11 @@ export type UpdateAgentSpaceError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | AccessDeniedException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Updates the information of an existing AgentSpace.
@@ -4581,6 +5120,11 @@ export const updateAgentSpace: API.OperationMethod<
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
+    AccessDeniedException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4598,6 +5142,8 @@ export type UpdateApprovalActionError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | ContentSizeExceededException
+  | InvalidParameterException
   | CommonErrors;
 /**
  * Updates an approval request with the terminal decision (APPROVED or REJECTED). A single operation handles both verbs via the action enum.
@@ -4618,6 +5164,8 @@ export const updateApprovalAction: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    ContentSizeExceededException,
+    InvalidParameterException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4634,6 +5182,9 @@ export type UpdateAssetError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Updates an asset in the specified agent space
@@ -4653,6 +5204,9 @@ export const updateAsset: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4670,6 +5224,8 @@ export type UpdateAssetFileError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Updates a file in an asset
@@ -4690,6 +5246,8 @@ export const updateAssetFile: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4705,6 +5263,10 @@ export type UpdateAssociationError =
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ValidationException
+  | AccessDeniedException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Partially updates the configuration of an existing service association for an AgentSpace. Present fields are fully replaced; absent fields are left unchanged. Returns 200 OK on success.
@@ -4723,6 +5285,10 @@ export const updateAssociation: API.OperationMethod<
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ValidationException,
+    AccessDeniedException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ThrottlingException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4739,6 +5305,9 @@ export type UpdateBacklogTaskError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Update an existing backlog task.
@@ -4758,6 +5327,9 @@ export const updateBacklogTask: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4774,6 +5346,9 @@ export type UpdateGoalError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Update an existing goal
@@ -4793,6 +5368,9 @@ export const updateGoal: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4806,6 +5384,12 @@ export type UpdateOperatorAppIdpConfigError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | AccessDeniedException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Update the external Identity Provider configuration for the Operator App
@@ -4818,7 +5402,17 @@ export const updateOperatorAppIdpConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<UpdateOperatorAppIdpConfigInput>,
   output: __S(2721, __c85, 1) as any as S.Schema<UpdateOperatorAppIdpConfigOutput>,
-  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+    AccessDeniedException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOperatorAppIdpConfig",
@@ -4832,6 +5426,11 @@ export type UpdatePrivateConnectionCertificateError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Updates the certificate associated with a Private Connection.
@@ -4849,6 +5448,11 @@ export const updatePrivateConnectionCertificate: API.OperationMethod<
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4865,6 +5469,9 @@ export type UpdateRecommendationError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Updates an existing recommendation with new content, status, or metadata
@@ -4884,6 +5491,9 @@ export const updateRecommendation: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4899,6 +5509,10 @@ export type UpdateTriggerError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Updates the status of an existing Trigger
@@ -4917,6 +5531,10 @@ export const updateTrigger: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4930,6 +5548,12 @@ export type ValidateAwsAssociationsError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | AccessDeniedException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Validates an aws association and set status and returns a 204 No Content response on success.
@@ -4942,7 +5566,17 @@ export const validateAwsAssociations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c89, 0) as any as S.Schema<ValidateAwsAssociationsInput>,
   output: __S(64, __c2, 0) as any as S.Schema<ValidateAwsAssociationsOutput>,
-  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+    AccessDeniedException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidateAwsAssociations",

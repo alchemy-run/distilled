@@ -1,0 +1,97 @@
+{
+  "description": "EventBridge: Error shapes the model does not declare, for the errors operations.json list (a shape with aws.codegen#synthetic matches its base wire error by message); categories (distilled.errors#categories) the error traits do not express.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.eventbridge#EventBusHasRules",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "ValidationException",
+            "message": {
+              "includes": "has rules"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.eventbridge#EndpointRoleNotAssumable",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "ValidationException",
+            "message": {
+              "includes": "cannot be assumed by principal"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.eventbridge#ThrottlingException/traits/distilled.errors#categories",
+      "value": ["ThrottlingError", "RetryableError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.eventbridge#InternalException/traits/distilled.errors#categories",
+      "value": ["ServerError", "RetryableError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.eventbridge#ConcurrentModificationException/traits/distilled.errors#categories",
+      "value": ["ConflictError", "RetryableError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.eventbridge#IllegalStatusException/traits/distilled.errors#categories",
+      "value": ["ConflictError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.eventbridge#InvalidStateException/traits/distilled.errors#categories",
+      "value": ["ConflictError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.eventbridge#InvalidEventPatternException/traits/distilled.errors#categories",
+      "value": ["BadRequestError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.eventbridge#ManagedRuleException/traits/distilled.errors#categories",
+      "value": ["BadRequestError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.eventbridge#OperationDisabledException/traits/distilled.errors#categories",
+      "value": ["BadRequestError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.eventbridge#LimitExceededException/traits/distilled.errors#categories",
+      "value": ["QuotaError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.eventbridge#PolicyLengthExceededException/traits/distilled.errors#categories",
+      "value": ["QuotaError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.eventbridge#EventBusHasRules/traits/distilled.errors#categories",
+      "value": ["ConflictError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.eventbridge#EndpointRoleNotAssumable/traits/distilled.errors#categories",
+      "value": ["RetryableError"]
+    }
+  ]
+}

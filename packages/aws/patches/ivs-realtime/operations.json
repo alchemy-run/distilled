@@ -1,0 +1,61 @@
+{
+  "description": "IVS RealTime: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivsrealtime#CreateStage/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivsrealtime#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivsrealtime#DeleteStage/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivsrealtime#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivsrealtime#GetStage/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivsrealtime#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivsrealtime#ListStages/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivsrealtime#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivsrealtime#ListTagsForResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivsrealtime#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivsrealtime#TagResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivsrealtime#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivsrealtime#UntagResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivsrealtime#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivsrealtime#UpdateStage/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivsrealtime#ThrottlingException"
+      }
+    }
+  ]
+}

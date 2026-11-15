@@ -1,0 +1,54 @@
+{
+  "description": "Kafka: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.kafka#GetBootstrapBrokers/errors/-",
+      "value": {
+        "target": "com.amazonaws.kafka#NotFoundException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.kafka#ListTopics/errors/-",
+      "value": {
+        "target": "com.amazonaws.kafka#NotFoundException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.kafka#ListTopics/errors/-",
+      "value": {
+        "target": "com.amazonaws.kafka#ServerlessUnsupported"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.kafka#CreateTopic/errors/-",
+      "value": {
+        "target": "com.amazonaws.kafka#ServerlessUnsupported"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.kafka#DeleteTopic/errors/-",
+      "value": {
+        "target": "com.amazonaws.kafka#ServerlessUnsupported"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.kafka#DescribeTopic/errors/-",
+      "value": {
+        "target": "com.amazonaws.kafka#ServerlessUnsupported"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.kafka#UpdateTopic/errors/-",
+      "value": {
+        "target": "com.amazonaws.kafka#ServerlessUnsupported"
+      }
+    }
+  ]
+}

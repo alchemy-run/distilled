@@ -516,19 +516,14 @@ describe("restJson1 request serialization: HTTP bindings", () => {
     });
   });
 
-  test("Lambda Invoke: streaming payloads keep bytes and convert Effect streams", async () => {
+  test("Lambda Invoke: streaming payloads keep bytes and Effect streams as given", async () => {
     const handler = restJson1Protocol(op(Lambda.invoke.input, Lambda.invoke.output));
     const payload = bytes("{}");
     const fromBytes = await run(handler.serializeRequest({ FunctionName: "f", Payload: payload }));
     expect(fromBytes.body).toBe(payload);
-    const fromStream = await run(
-      handler.serializeRequest({
-        FunctionName: "f",
-        Payload: Stream.fromIterable([bytes('{"a":'), bytes("1}")]),
-      }),
-    );
-    expect(fromStream.body).toBeInstanceOf(ReadableStream);
-    expect(await new globalThis.Response(fromStream.body as ReadableStream).text()).toBe('{"a":1}');
+    const stream = Stream.fromIterable([bytes('{"a":'), bytes("1}")]);
+    const fromStream = await run(handler.serializeRequest({ FunctionName: "f", Payload: stream }));
+    expect(fromStream.body).toBe(stream);
   });
 
   test("Lambda Invoke without a payload sends no body", async () => {

@@ -1,0 +1,125 @@
+{
+  "description": "EC2: Enum values the API returns.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#RIProductDescription/members/Red_Hat_Enterprise_Linux",
+      "value": {
+        "target": "smithy.api#Unit",
+        "traits": {
+          "smithy.api#enumValue": "Red Hat Enterprise Linux"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#RIProductDescription/members/SUSE_Linux",
+      "value": {
+        "target": "smithy.api#Unit",
+        "traits": {
+          "smithy.api#enumValue": "SUSE Linux"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#RIProductDescription/members/Ubuntu_Pro_Linux",
+      "value": {
+        "target": "smithy.api#Unit",
+        "traits": {
+          "smithy.api#enumValue": "Ubuntu Pro Linux"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#HypervisorType/members/nitro",
+      "value": {
+        "target": "smithy.api#Unit",
+        "traits": {
+          "smithy.api#enumValue": "nitro"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#VirtualizationType/members/nested_virtualization",
+      "value": {
+        "target": "smithy.api#Unit",
+        "traits": {
+          "smithy.api#enumValue": "nested-virtualization"
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.amazonaws.ec2#State/members",
+      "value": {
+        "pendingAcceptance": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pendingAcceptance"
+          }
+        },
+        "pending": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "available": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "available"
+          }
+        },
+        "deleting": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        },
+        "deleted": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleted"
+          }
+        },
+        "rejected": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rejected"
+          }
+        },
+        "failed": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "expired": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "expired"
+          }
+        },
+        "partial": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "partial"
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ec2#AttachmentStatus/members/available",
+      "value": {
+        "target": "smithy.api#Unit",
+        "traits": {
+          "smithy.api#enumValue": "available"
+        }
+      }
+    }
+  ]
+}

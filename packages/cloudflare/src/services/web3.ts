@@ -42,6 +42,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -51,6 +53,8 @@ export class InvalidWeb3HostnameTarget
     /*@__PURE__*/ S.TaggedError<InvalidWeb3HostnameTarget>()("InvalidWeb3HostnameTarget", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1006 }],
   ) {}
@@ -60,6 +64,8 @@ export class Web3HostnameNotEntitled
     /*@__PURE__*/ S.TaggedError<Web3HostnameNotEntitled>()("Web3HostnameNotEntitled", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1010, message: { includes: "not entitled" } }],
   ) {}
@@ -69,6 +75,8 @@ export class Web3HostnameNotFound
     /*@__PURE__*/ S.TaggedError<Web3HostnameNotFound>()("Web3HostnameNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1002 }],
   ) {}

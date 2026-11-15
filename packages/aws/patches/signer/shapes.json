@@ -1,0 +1,9 @@
+{
+  "description": "signer: Members the API leaves out (not required).",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.signer#SigningMaterial/members/certificateArn/traits/smithy.api#required"
+    }
+  ]
+}

@@ -33,6 +33,8 @@ export class EventDestinationNotFound
     /*@__PURE__*/ S.TaggedError<EventDestinationNotFound>()("EventDestinationNotFound", {
       code: S.String,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404, body: { "/error/code": "not_found" } }],
   ) {}
@@ -43,6 +45,8 @@ export class ProductHasPrices
     /*@__PURE__*/ S.TaggedError<ProductHasPrices>()("ProductHasPrices", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400, message: { includes: "user-created prices" } }],
   ) {}

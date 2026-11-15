@@ -36,6 +36,8 @@ export class ContentScanningNotEnabled
     /*@__PURE__*/ S.TaggedError<ContentScanningNotEnabled>()("ContentScanningNotEnabled", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 400, message: { includes: "File Upload Scan not enabled" } }],
   ) {}
@@ -45,6 +47,8 @@ export class ContentScanningNotEntitled
     /*@__PURE__*/ S.TaggedError<ContentScanningNotEntitled>()("ContentScanningNotEntitled", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 400, message: { includes: "not entitled" } }],
   ) {}
@@ -54,6 +58,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}

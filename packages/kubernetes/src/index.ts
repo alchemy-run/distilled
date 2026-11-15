@@ -8,9 +8,9 @@
  *
  * @example
  * ```ts
- * import * as Kubernetes from "@distilled.cloud/kubernetes";
+ * import * as Core from "@distilled.cloud/kubernetes/core";
  *
- * const pods = yield* Kubernetes.core.listCoreV1NamespacedPod({
+ * const pods = yield* Core.listCoreV1NamespacedPod({
  *   namespace: "default",
  * });
  * ```
@@ -24,4 +24,3 @@ export {
   type KubernetesOpContext,
 } from "./protocol.ts";
 export * as Retry from "./retry.ts";
-export * from "./services/index.ts";

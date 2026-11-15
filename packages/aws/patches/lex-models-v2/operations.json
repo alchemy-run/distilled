@@ -1,0 +1,26 @@
+{
+  "description": "Lex Models V2: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lexmodelsv2#ListBotAliases/errors/-",
+      "value": {
+        "target": "com.amazonaws.lexmodelsv2#ResourceNotFoundException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lexmodelsv2#ListIntents/errors/-",
+      "value": {
+        "target": "com.amazonaws.lexmodelsv2#ResourceNotFoundException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lexmodelsv2#ListSlotTypes/errors/-",
+      "value": {
+        "target": "com.amazonaws.lexmodelsv2#ResourceNotFoundException"
+      }
+    }
+  ]
+}

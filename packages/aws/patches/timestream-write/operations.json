@@ -1,0 +1,19 @@
+{
+  "description": "Timestream Write: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.timestreamwrite#DescribeEndpoints/errors/-",
+      "value": {
+        "target": "com.amazonaws.timestreamwrite#TimestreamNotOnboarded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.timestreamwrite#CreateDatabase/errors/-",
+      "value": {
+        "target": "com.amazonaws.timestreamwrite#TimestreamNotOnboarded"
+      }
+    }
+  ]
+}

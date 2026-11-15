@@ -66,6 +66,8 @@ export class InstanceAlreadyExists
     /*@__PURE__*/ S.TaggedError<InstanceAlreadyExists>()("InstanceAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10405 }],
   ) {}
@@ -75,6 +77,8 @@ export class InstanceCannotTerminate
     /*@__PURE__*/ S.TaggedError<InstanceCannotTerminate>()("InstanceCannotTerminate", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10401 }],
   ) {}
@@ -84,6 +88,8 @@ export class InstanceNotFound
     /*@__PURE__*/ S.TaggedError<InstanceNotFound>()("InstanceNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10201 }, { code: 10400 }],
   ) {}
@@ -93,6 +99,8 @@ export class InvalidBody
     /*@__PURE__*/ S.TaggedError<InvalidBody>()("InvalidBody", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10002 }],
   ) {}
@@ -102,6 +110,8 @@ export class InvalidRoute
     /*@__PURE__*/ S.TaggedError<InvalidRoute>()("InvalidRoute", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7003 }],
   ) {}
@@ -111,6 +121,8 @@ export class VersionNotFound
     /*@__PURE__*/ S.TaggedError<VersionNotFound>()("VersionNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10300 }],
   ) {}
@@ -120,6 +132,8 @@ export class WorkflowInternalError
     /*@__PURE__*/ S.TaggedError<WorkflowInternalError>()("WorkflowInternalError", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10001 }],
   ) {}
@@ -129,6 +143,8 @@ export class WorkflowNotFound
     /*@__PURE__*/ S.TaggedError<WorkflowNotFound>()("WorkflowNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10200 }],
   ) {}

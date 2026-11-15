@@ -30,6 +30,8 @@ export class AccessTokenInvalid
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<AccessTokenInvalid>()("AccessTokenInvalid", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ body: { "/code": "AccessTokenInvalid" } }],
   ) {}
@@ -38,6 +40,8 @@ export class DeployKeyNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<DeployKeyNotFound>()("DeployKeyNotFound", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ body: { "/code": "DeployKeyNotFound" } }],
   ) {}
@@ -46,6 +50,8 @@ export class DeploymentAlreadyExists
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<DeploymentAlreadyExists>()("DeploymentAlreadyExists", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ body: { "/code": "DeploymentAlreadyExists" } }],
   ) {}
@@ -54,6 +60,8 @@ export class DeploymentNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<DeploymentNotFound>()("DeploymentNotFound", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ body: { "/code": "DeploymentNotFound" } }],
   ) {}
@@ -64,6 +72,8 @@ export class DeploymentReferenceAlreadyExists
       "DeploymentReferenceAlreadyExists",
       {
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ).pipe(C.withBadRequestError),
     [{ body: { "/code": "DeploymentReferenceAlreadyExists" } }],
@@ -73,6 +83,8 @@ export class InvalidDeploymentReference
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<InvalidDeploymentReference>()("InvalidDeploymentReference", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ body: { "/code": "InvalidDeploymentReference" } }],
   ) {}
@@ -81,6 +93,8 @@ export class InvalidProjectTag
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<InvalidProjectTag>()("InvalidProjectTag", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ body: { "/code": "InvalidProjectTag" } }],
   ) {}
@@ -89,6 +103,8 @@ export class NotAllowed
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotAllowed>()("NotAllowed", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ body: { "/code": "NotAllowed" } }],
   ) {}
@@ -97,6 +113,8 @@ export class OperationNotPermitted
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<OperationNotPermitted>()("OperationNotPermitted", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ body: { "/code": "OperationNotPermitted" } }],
   ) {}
@@ -105,6 +123,8 @@ export class PreviewDeployKeyNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<PreviewDeployKeyNotFound>()("PreviewDeployKeyNotFound", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ body: { "/code": "PreviewDeployKeyNotFound" } }],
   ) {}
@@ -113,6 +133,8 @@ export class ProjectNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<ProjectNotFound>()("ProjectNotFound", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ body: { "/code": "ProjectNotFound" } }],
   ) {}
@@ -121,6 +143,8 @@ export class UnexpectedAuthHeaderFormat
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnexpectedAuthHeaderFormat>()("UnexpectedAuthHeaderFormat", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ body: { "/code": "UnexpectedAuthHeaderFormat" } }],
   ) {}
@@ -129,6 +153,8 @@ export class VanityDomainsDisabled
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<VanityDomainsDisabled>()("VanityDomainsDisabled", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ body: { "/code": "VanityDomainsDisabled" } }],
   ) {}

@@ -1,0 +1,54 @@
+{
+  "description": "XRay: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.xray#CreateGroup/errors/-",
+      "value": {
+        "target": "com.amazonaws.xray#GroupAlreadyExists"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.xray#GetGroup/errors/-",
+      "value": {
+        "target": "com.amazonaws.xray#GroupNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.xray#UpdateGroup/errors/-",
+      "value": {
+        "target": "com.amazonaws.xray#GroupNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.xray#DeleteGroup/errors/-",
+      "value": {
+        "target": "com.amazonaws.xray#GroupNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.xray#CreateSamplingRule/errors/-",
+      "value": {
+        "target": "com.amazonaws.xray#SamplingRuleAlreadyExists"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.xray#UpdateSamplingRule/errors/-",
+      "value": {
+        "target": "com.amazonaws.xray#SamplingRuleNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.xray#DeleteSamplingRule/errors/-",
+      "value": {
+        "target": "com.amazonaws.xray#SamplingRuleNotFound"
+      }
+    }
+  ]
+}

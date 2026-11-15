@@ -28,6 +28,8 @@ export class D1ExecutionError
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<D1ExecutionError>()("D1ExecutionError", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400, message: { matches: "^D1_(?:EXEC_)?ERROR:" } }],
   ) {}
@@ -37,6 +39,8 @@ export class PeerIncompatibleVersion
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<PeerIncompatibleVersion>()("PeerIncompatibleVersion", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 426 }],
   ) {}
@@ -46,6 +50,8 @@ export class PeerReplayRejected
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<PeerReplayRejected>()("PeerReplayRejected", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409, message: "peer request replay rejected" }],
   ) {}
@@ -55,6 +61,8 @@ export class PeerWrongTarget
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<PeerWrongTarget>()("PeerWrongTarget", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409, message: "peer request targets a different node session" }],
   ) {}

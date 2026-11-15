@@ -75,9 +75,10 @@ npm install @distilled.cloud/github effect
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Github from "@distilled.cloud/github";
+import * as Repos from "@distilled.cloud/github/repos";
 
 const program = Effect.gen(function* () {
-  const result = yield* Github.repos.get({ owner: "acme", repo: "api" });
+  const result = yield* Repos.get({ owner: "acme", repo: "api" });
   return result;
 });
 

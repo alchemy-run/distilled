@@ -1,0 +1,27 @@
+{
+  "description": "Scaleway's OpenAPI export drops query parameters that belong to a proto `oneOf`, so `ListAPIKeys` lose filters the API takes. The official JS SDK sends them through `resolveOneOf` in `urlParams` \u2014 scaleway-sdk-js packages_generated/iam/src/v1alpha1/api.gen.ts \u2014 with the types in the sibling types.gen.ts. They are added as optional query members; the API enforces the one-of.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.iam_v1alpha1#ListAPIKeysRequest/members/application_id",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "application_id",
+          "smithy.api#documentation": "ID of the application bearer. One-of `bearer`: at most one of `application_id`, `user_id`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.iam_v1alpha1#ListAPIKeysRequest/members/user_id",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "user_id",
+          "smithy.api#documentation": "ID of the user bearer. One-of `bearer`: at most one of `application_id`, `user_id`."
+        }
+      }
+    }
+  ]
+}

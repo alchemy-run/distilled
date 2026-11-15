@@ -1,0 +1,222 @@
+{
+  "description": "ivs: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivs#CreateChannel/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivs#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivs#CreateRecordingConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivs#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivs#CreateStreamKey/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivs#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivs#DeleteAdConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivs#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivs#DeleteChannel/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivs#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivs#DeletePlaybackKeyPair/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivs#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivs#DeletePlaybackKeyPair/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivs#InternalServerException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivs#DeletePlaybackRestrictionPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivs#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivs#DeleteRecordingConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivs#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivs#DeleteStreamKey/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivs#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivs#GetAdConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivs#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivs#GetChannel/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivs#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivs#GetPlaybackKeyPair/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivs#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivs#GetPlaybackRestrictionPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivs#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivs#GetRecordingConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivs#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivs#GetStream/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivs#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivs#GetStreamKey/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivs#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivs#GetStreamSession/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivs#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivs#ImportPlaybackKeyPair/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivs#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivs#ListAdConfigurations/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivs#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivs#ListChannels/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivs#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivs#ListPlaybackKeyPairs/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivs#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivs#ListPlaybackRestrictionPolicies/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivs#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivs#ListRecordingConfigurations/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivs#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivs#ListStreamKeys/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivs#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivs#ListStreamSessions/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivs#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivs#ListStreams/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivs#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivs#ListTagsForResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivs#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivs#StopStream/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivs#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivs#TagResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivs#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivs#UntagResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivs#ThrottlingException"
+      }
+    }
+  ]
+}
