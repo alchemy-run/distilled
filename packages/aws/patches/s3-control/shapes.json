@@ -1,0 +1,9 @@
+{
+  "description": "S3 Control: Members the API leaves out (not required).",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.s3control#AccountLevel/members/BucketLevel/traits/smithy.api#required"
+    }
+  ]
+}

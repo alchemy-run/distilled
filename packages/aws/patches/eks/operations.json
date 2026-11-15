@@ -1,0 +1,19 @@
+{
+  "description": "EKS: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.eks#CreateFargateProfile/errors/-",
+      "value": {
+        "target": "com.amazonaws.eks#ResourceInUseException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.eks#DeleteFargateProfile/errors/-",
+      "value": {
+        "target": "com.amazonaws.eks#ResourceInUseException"
+      }
+    }
+  ]
+}

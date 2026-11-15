@@ -15,10 +15,11 @@
  *
  * @example
  * ```ts
- * import * as Onepassword from "@distilled.cloud/onepassword";
+ * import * as Connect from "@distilled.cloud/onepassword/connect";
+ * import * as Events from "@distilled.cloud/onepassword/events";
  *
- * const vaults = yield* Onepassword.connect.getVaults({});
- * const events = yield* Onepassword.events.getAuditEventsV2({ body: { limit: 100 } });
+ * const vaults = yield* Connect.getVaults({});
+ * const events = yield* Events.getAuditEventsV2({ body: { limit: 100 } });
  * ```
  *
  * @example Per-service path
@@ -46,4 +47,3 @@ export {
 } from "./protocol.ts";
 export { paginateCursor } from "./pagination.ts";
 export * as Retry from "./retry.ts";
-export * from "./services/index.ts";

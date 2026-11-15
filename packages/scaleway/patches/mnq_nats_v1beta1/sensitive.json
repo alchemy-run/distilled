@@ -1,0 +1,10 @@
+{
+  "description": "CreateNatsCredentials answers a NATS `.creds` file whose `content` is the credential's private NKey seed and JWT (https://www.scaleway.com/en/developers/api/messaging-and-queuing/nats/). It is only returned once, and it is marked sensitive.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.mnq_nats_v1beta1#File/members/content/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

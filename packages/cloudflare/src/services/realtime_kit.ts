@@ -181,6 +181,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -190,6 +192,8 @@ export class RealtimeKitPresetExists
     /*@__PURE__*/ S.TaggedError<RealtimeKitPresetExists>()("RealtimeKitPresetExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 409 }],
   ) {}
@@ -199,6 +203,8 @@ export class RealtimeKitPresetNotFound
     /*@__PURE__*/ S.TaggedError<RealtimeKitPresetNotFound>()("RealtimeKitPresetNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404 }],
   ) {}
@@ -208,6 +214,8 @@ export class RealtimeKitWebhookExists
     /*@__PURE__*/ S.TaggedError<RealtimeKitWebhookExists>()("RealtimeKitWebhookExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 409 }],
   ) {}
@@ -217,6 +225,8 @@ export class RealtimeKitWebhookNotFound
     /*@__PURE__*/ S.TaggedError<RealtimeKitWebhookNotFound>()("RealtimeKitWebhookNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404 }],
   ) {}

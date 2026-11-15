@@ -47,6 +47,8 @@ export class CmbConfigNotFound
     /*@__PURE__*/ S.TaggedError<CmbConfigNotFound>()("CmbConfigNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404 }],
   ) {}
@@ -56,6 +58,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -65,6 +69,8 @@ export class LogsControlNotAuthorized
     /*@__PURE__*/ S.TaggedError<LogsControlNotAuthorized>()("LogsControlNotAuthorized", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10000, message: { includes: "Unauthorized" } }],
   ) {}

@@ -29,6 +29,8 @@ export class EnvironmentNotFound
     /*@__PURE__*/ S.TaggedError<EnvironmentNotFound>()("EnvironmentNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 5, message: { includes: "Environment" } }],
   ) {}
@@ -39,6 +41,8 @@ export class VolumeAlreadyExists
     /*@__PURE__*/ S.TaggedError<VolumeAlreadyExists>()("VolumeAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 6 }],
   ) {}
@@ -49,6 +53,8 @@ export class VolumeFileNotFound
     /*@__PURE__*/ S.TaggedError<VolumeFileNotFound>()("VolumeFileNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 5 }],
   ) {}
@@ -59,6 +65,8 @@ export class VolumeNotFound
     /*@__PURE__*/ S.TaggedError<VolumeNotFound>()("VolumeNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 5 }],
   ) {}

@@ -32,6 +32,8 @@ export class AgentOutdated
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<AgentOutdated>()("AgentOutdated", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409, body: { "/code": "agent_outdated" } }],
   ) {}
@@ -41,6 +43,8 @@ export class AmbiguousOrg
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<AmbiguousOrg>()("AmbiguousOrg", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409, body: { "/code": "ambiguous_org" } }],
   ) {}
@@ -50,6 +54,8 @@ export class ApiKeyOutlivesSigner
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<ApiKeyOutlivesSigner>()("ApiKeyOutlivesSigner", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [
       {
@@ -65,6 +71,8 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
   ) {}
@@ -74,6 +82,8 @@ export class Conflict
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
   ) {}
@@ -83,6 +93,8 @@ export class CountRequiresFrom
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<CountRequiresFrom>()("CountRequiresFrom", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400, body: { "/code": "count_requires_from" } }],
   ) {}
@@ -92,6 +104,8 @@ export class CountWithFailFast
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<CountWithFailFast>()("CountWithFailFast", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400, body: { "/code": "count_with_fail_fast" } }],
   ) {}
@@ -101,6 +115,8 @@ export class CountWithHostedPorts
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<CountWithHostedPorts>()("CountWithHostedPorts", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400, body: { "/code": "count_with_hosted_ports" } }],
   ) {}
@@ -110,6 +126,8 @@ export class FailFastWithHostedPorts
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<FailFastWithHostedPorts>()("FailFastWithHostedPorts", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400, body: { "/code": "fail_fast_with_hosted_ports" } }],
   ) {}
@@ -119,6 +137,8 @@ export class FastModeNotSupported
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<FastModeNotSupported>()("FastModeNotSupported", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400, body: { "/code": "fast_mode_not_supported" } }],
   ) {}
@@ -128,6 +148,8 @@ export class FileNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<FileNotFound>()("FileNotFound", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [
       {
@@ -148,6 +170,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
   ) {}
@@ -157,6 +181,8 @@ export class ForkNeedsSnapshot
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<ForkNeedsSnapshot>()("ForkNeedsSnapshot", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [
       {
@@ -172,6 +198,9 @@ export class GatewayError
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<GatewayError>()("GatewayError", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+      retryAfter: /*@__PURE__*/ S.optional(S.Duration),
     }).pipe(C.withServerError),
     [{ status: 502, body: { "/code": "gateway_error" } }],
   ) {}
@@ -181,6 +210,9 @@ export class IdempotencyInProgress
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<IdempotencyInProgress>()("IdempotencyInProgress", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+      retryAfter: /*@__PURE__*/ S.optional(S.Duration),
     }).pipe(C.withConflictError, C.withRetryableError),
     [{ status: 409, body: { "/code": "idempotency_in_progress" } }],
   ) {}
@@ -190,6 +222,8 @@ export class IdempotencyKeyReused
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<IdempotencyKeyReused>()("IdempotencyKeyReused", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409, body: { "/code": "idempotency_key_reused" } }],
   ) {}
@@ -199,6 +233,8 @@ export class InvalidFiles
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<InvalidFiles>()("InvalidFiles", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400, body: { "/code": "invalid_files" } }],
   ) {}
@@ -208,6 +244,8 @@ export class InvalidHostedPorts
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<InvalidHostedPorts>()("InvalidHostedPorts", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400, body: { "/code": "invalid_hosted_ports" } }],
   ) {}
@@ -217,6 +255,8 @@ export class InvalidSetupScript
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<InvalidSetupScript>()("InvalidSetupScript", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400, body: { "/code": "invalid_setup_script" } }],
   ) {}
@@ -226,6 +266,8 @@ export class MachineClassPlanRequired
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<MachineClassPlanRequired>()("MachineClassPlanRequired", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403, body: { "/code": "machine_class_plan_required" } }],
   ) {}
@@ -235,6 +277,8 @@ export class MemberSandboxLimitReached
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<MemberSandboxLimitReached>()("MemberSandboxLimitReached", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 429, body: { "/code": "member_limit_reached" } }],
   ) {}
@@ -244,6 +288,8 @@ export class MonitoringOffForAccount
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<MonitoringOffForAccount>()("MonitoringOffForAccount", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409, body: { "/code": "monitoring_off_for_account" } }],
   ) {}
@@ -253,6 +299,8 @@ export class NoReadyMachine
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NoReadyMachine>()("NoReadyMachine", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 503, body: { "/code": "no_ready_machine" } }],
   ) {}
@@ -262,6 +310,8 @@ export class NoRunningTurn
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NoRunningTurn>()("NoRunningTurn", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409, body: { "/code": "no_running_turn" } }],
   ) {}
@@ -271,6 +321,8 @@ export class NotFound
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -280,6 +332,8 @@ export class NotOrgSandbox
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotOrgSandbox>()("NotOrgSandbox", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400, body: { "/code": "not_org_sandbox" } }],
   ) {}
@@ -289,6 +343,8 @@ export class RecoverResetFailed
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<RecoverResetFailed>()("RecoverResetFailed", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409, body: { "/code": "reset_failed" } }],
   ) {}
@@ -298,6 +354,8 @@ export class RecoverTooSoon
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<RecoverTooSoon>()("RecoverTooSoon", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409, body: { "/code": "too_soon" } }],
   ) {}
@@ -307,6 +365,8 @@ export class RecoverUnsupported
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<RecoverUnsupported>()("RecoverUnsupported", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409, body: { "/code": "recover_unsupported" } }],
   ) {}
@@ -316,6 +376,8 @@ export class SandboxAlreadyStopped
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<SandboxAlreadyStopped>()("SandboxAlreadyStopped", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400, body: { "/code": "stop_failed" }, message: { includes: "archived" } }],
   ) {}
@@ -325,6 +387,8 @@ export class SandboxHasNoMachine
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<SandboxHasNoMachine>()("SandboxHasNoMachine", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409, body: { "/code": "no_machine" } }],
   ) {}
@@ -334,6 +398,8 @@ export class SandboxIsReachable
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<SandboxIsReachable>()("SandboxIsReachable", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409, body: { "/code": "sandbox_is_reachable" } }],
   ) {}
@@ -343,6 +409,8 @@ export class SandboxLimitReached
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<SandboxLimitReached>()("SandboxLimitReached", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 429, body: { "/code": "limit_reached" } }],
   ) {}
@@ -352,6 +420,8 @@ export class SandboxNotRunning
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<SandboxNotRunning>()("SandboxNotRunning", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409, body: { "/code": "machine_not_running" } }],
   ) {}
@@ -361,6 +431,8 @@ export class SandboxStartLimitExceeded
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<SandboxStartLimitExceeded>()("SandboxStartLimitExceeded", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [
       {
@@ -376,6 +448,8 @@ export class SaveInProgress
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<SaveInProgress>()("SaveInProgress", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [
       { status: 409, body: { "/code": "save_in_progress" } },
@@ -388,6 +462,8 @@ export class SnapshotCompacted
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<SnapshotCompacted>()("SnapshotCompacted", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409, body: { "/code": "snapshot_compacted" } }],
   ) {}
@@ -397,6 +473,8 @@ export class SnapshotsOffForAccount
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<SnapshotsOffForAccount>()("SnapshotsOffForAccount", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409, body: { "/code": "snapshots_off_for_account" } }],
   ) {}
@@ -980,7 +1058,7 @@ export interface StopOperation {
 }
 export interface Sandbox {
   id: string;
-  name: string;
+  name?: string | undefined;
   /** `cancelled` is terminal: a create or fork that could not get a machine was removed. `GET /sandboxes/{sandboxId}` reports it once, with only `id`, `state` and `error`, then answers 404. */
   state: SandboxState;
   /** Why the sandbox is stopped, failed or cancelled, or null. */
@@ -1025,14 +1103,14 @@ export interface Sandbox {
   archiveAfter?: string | null | undefined;
   /** The auto-stop length as last set on create, resume, fork or PATCH, or null when auto-stop is disabled. */
   ttlSeconds?: number | null | undefined;
-  desktopAvailable: boolean;
+  desktopAvailable?: boolean | undefined;
   /** Secret-bearing desktop stream URL when available. Redact from logs. */
   desktopUrl?: string | null | undefined;
   /** False when the sandbox was created with snapshots off. */
   snapshots?: boolean | undefined;
   /** False when the sandbox was created with monitoring off. */
   monitoring?: boolean | undefined;
-  snapshotAvailable: boolean;
+  snapshotAvailable?: boolean | undefined;
   /** Timestamp of the most recent successfully completed snapshot, or null. */
   snapshotCompletedAt?: string | null | undefined;
   /** Last time a snapshot confirmed the sandbox's saved state, including checks that found nothing new to save. Falls back to `snapshotCompletedAt`; null if never. */
@@ -7981,7 +8059,7 @@ function __c88(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          name: S.String,
+          name: S.optional(S.String),
           state: S.String,
           error: S.optional(S.NullOr(S.String)),
           dataExpiredAt: S.optional(S.NullOr(S.String)),
@@ -8005,11 +8083,11 @@ function __c88(j: number): any {
           updatedAt: S.optional(S.NullOr(S.String)),
           archiveAfter: S.optional(S.NullOr(S.String)),
           ttlSeconds: S.optional(S.NullOr(S.Number)),
-          desktopAvailable: S.Boolean,
+          desktopAvailable: S.optional(S.Boolean),
           desktopUrl: S.optional(S.NullOr(S.String)),
           snapshots: S.optional(S.Boolean),
           monitoring: S.optional(S.Boolean),
-          snapshotAvailable: S.Boolean,
+          snapshotAvailable: S.optional(S.Boolean),
           snapshotCompletedAt: S.optional(S.NullOr(S.String)),
           snapshotVerifiedAt: S.optional(S.NullOr(S.String)),
           team: S.optional(S.NullOr(__S(2817, __c88, 1))),

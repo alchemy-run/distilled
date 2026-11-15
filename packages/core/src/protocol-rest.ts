@@ -19,6 +19,7 @@ import {
   mapKeys,
   mapsVerbatim,
   matchTypedError,
+  responseErrorFields,
   responseHeaderMembers,
   withResponseHeaders,
   type ResponseHeaderMember,
@@ -195,6 +196,13 @@ export interface RestProtocolOptions<C> {
    * envelopes).
    */
   readonly errorEnvelope?: (body: unknown) => RestErrorEnvelope | undefined;
+  /**
+   * JSON pointer to the object that holds a failure's fields when the
+   * provider nests them, e.g. `"/error"` for `{ error: { status, details } }`.
+   * A typed error's declared fields are read there first, then at the top
+   * level of the body.
+   */
+  readonly errorFieldsAt?: string;
   /**
    * HTTP status -> error class constructed as `new Cls({ message, retryAfter
    * })`. Default: core `HTTP_STATUS_MAP`. Consulted after per-op typed error
@@ -493,6 +501,9 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
         if (classified !== undefined) return { ok: false, error: classified };
       }
 
+      // The body and headers every error below carries.
+      const response = { body: nonJson ? text : json, headers, fieldsAt: options.errorFieldsAt };
+
       // 1. Per-operation typed error (matcher metadata on the class).
       const typed = matchTypedError(
         errorClasses,
@@ -503,7 +514,7 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
             message,
           },
         ],
-        { body: nonJson ? text : json, headers },
+        response,
       );
       if (typed !== undefined) return { ok: false, error: typed };
 
@@ -515,6 +526,7 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
           ok: false,
           error: new StatusErrorClass({
             message,
+            ...responseErrorFields(undefined, response),
             retryAfter: parseRetryAfterForStatus(status, headers),
           }),
         };
@@ -527,6 +539,7 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
           ok: false,
           error: new InternalServerError({
             message,
+            ...responseErrorFields(undefined, response),
             retryAfter: parseRetryAfterForStatus(status, headers),
           }),
         };

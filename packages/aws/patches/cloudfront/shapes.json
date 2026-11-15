@@ -1,0 +1,117 @@
+{
+  "description": "CloudFront: Members the API leaves out (not required); enum values the API returns.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.cloudfront#KeyValueStore/members/Comment/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.cloudfront#DistributionList/members/Marker/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.cloudfront#DistributionIdList/members/Marker/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.cloudfront#InvalidationList/members/Marker/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.cloudfront#RealtimeLogConfigs/members/Marker/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.cloudfront#AnycastIpListCollection/members/Marker/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.cloudfront#CloudFrontOriginAccessIdentityList/members/Marker/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.cloudfront#DistributionIdOwnerList/members/Marker/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.cloudfront#OriginAccessControlList/members/Marker/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.cloudfront#StreamingDistributionList/members/Marker/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.cloudfront#VpcOriginList/members/Marker/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.cloudfront#VpcOriginList/members/IsTruncated/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.cloudfront#VpcOriginList/members/MaxItems/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.cloudfront#VpcOriginList/members/Quantity/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.cloudfront#DistributionSummary/members/WebACLId/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.cloudfront#S3OriginConfig/members/OriginAccessIdentity/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.cloudfront#FunctionConfig/members/Comment/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.cloudfront#OriginAccessControlSummary/members/Description/traits/smithy.api#required"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.cloudfront#HttpVersion/members/HTTP1_1",
+      "value": {
+        "target": "smithy.api#Unit",
+        "traits": {
+          "smithy.api#enumValue": "HTTP1.1"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.cloudfront#HttpVersion/members/HTTP2",
+      "value": {
+        "target": "smithy.api#Unit",
+        "traits": {
+          "smithy.api#enumValue": "HTTP2"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.cloudfront#HttpVersion/members/HTTP3",
+      "value": {
+        "target": "smithy.api#Unit",
+        "traits": {
+          "smithy.api#enumValue": "HTTP3"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.cloudfront#HttpVersion/members/HTTP2AND3",
+      "value": {
+        "target": "smithy.api#Unit",
+        "traits": {
+          "smithy.api#enumValue": "HTTP2AND3"
+        }
+      }
+    }
+  ]
+}

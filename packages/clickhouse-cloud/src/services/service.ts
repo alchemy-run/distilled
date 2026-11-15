@@ -35,6 +35,8 @@ export class DeletionProtectionEnabled
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<DeletionProtectionEnabled>()("DeletionProtectionEnabled", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409, message: { includes: "Deletion protection is enabled" } }],
   ) {}
@@ -44,6 +46,8 @@ export class FeatureUnavailable
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<FeatureUnavailable>()("FeatureUnavailable", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [
       { status: 403, message: { includes: "pricing package" } },
@@ -57,6 +61,8 @@ export class InstanceLimitReached
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<InstanceLimitReached>()("InstanceLimitReached", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409, message: { includes: "INSTANCE_LIMIT_REACHED" } }],
   ) {}
@@ -66,6 +72,8 @@ export class ServiceNotIdle
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<ServiceNotIdle>()("ServiceNotIdle", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400, message: { includes: "Service must be in idle state to awake" } }],
   ) {}
@@ -75,6 +83,8 @@ export class ServiceNotTerminable
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<ServiceNotTerminable>()("ServiceNotTerminable", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409, message: { includes: "can be terminated" } }],
   ) {}

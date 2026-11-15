@@ -1,0 +1,56 @@
+name: Compatibility
+
+# Nightly run of compat-tests.yml on main. scripts/compat/report-issue.ts
+# keeps one issue for it: a failure opens it (or updates it, with a comment
+# only when the failing jobs change), and a passing night closes it.
+# release.yml runs the same tests before it publishes.
+
+on:
+  schedule:
+    - cron: "17 4 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: compat-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    uses: ./.github/workflows/compat-tests.yml
+
+  report:
+    name: Update the nightly issue
+    needs: tests
+    # A run started by hand reports only in Actions.
+    if: always() && github.event_name == 'schedule' && needs.tests.result != 'cancelled'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      issues: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          sparse-checkout: |
+            scripts/compat
+            package.json
+            .node-version
+
+      - name: Setup Node.js
+        uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
+        with:
+          install: false
+
+      - name: Open, update or close the issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          OUTCOME: ${{ needs.tests.result }}
+          RUN_ID: ${{ github.run_id }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          SHA: ${{ github.sha }}
+        run: node scripts/compat/report-issue.ts

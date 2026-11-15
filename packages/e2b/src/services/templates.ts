@@ -32,6 +32,8 @@ export class TemplateInUse
     /*@__PURE__*/ S.TaggedError<TemplateInUse>()("TemplateInUse", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400, message: { includes: "running sandboxes using it" } }],
   ) {}

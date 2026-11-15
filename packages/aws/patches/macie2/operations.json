@@ -1,0 +1,33 @@
+{
+  "description": "Macie2: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.macie2#CreateClassificationJob/errors/-",
+      "value": {
+        "target": "com.amazonaws.macie2#MacieNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.macie2#CreateAllowList/errors/-",
+      "value": {
+        "target": "com.amazonaws.macie2#MacieNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.macie2#CreateCustomDataIdentifier/errors/-",
+      "value": {
+        "target": "com.amazonaws.macie2#MacieNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.macie2#CreateFindingsFilter/errors/-",
+      "value": {
+        "target": "com.amazonaws.macie2#MacieNotEnabled"
+      }
+    }
+  ]
+}

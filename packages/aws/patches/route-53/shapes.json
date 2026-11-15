@@ -1,0 +1,41 @@
+{
+  "description": "Route 53: Members the API leaves out (not required).",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.route53#CreateHostedZoneResponse/members/DelegationSet/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.route53#ListResourceRecordSetsResponse/members/ResourceRecordSets/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.route53#ListHostedZonesResponse/members/HostedZones/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.route53#ListHostedZonesResponse/members/Marker/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.route53#ListHealthChecksResponse/members/HealthChecks/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.route53#ListHealthChecksResponse/members/Marker/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.route53#ListHostedZonesByNameResponse/members/HostedZones/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.route53#ListVPCAssociationAuthorizationsResponse/members/VPCs/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.route53#ListQueryLoggingConfigsResponse/members/QueryLoggingConfigs/traits/smithy.api#required"
+    }
+  ]
+}

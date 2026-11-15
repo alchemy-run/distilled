@@ -31,6 +31,8 @@ export class VolumesNotEnabled
     /*@__PURE__*/ S.TaggedError<VolumesNotEnabled>()("VolumesNotEnabled", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403, message: { includes: "use of volumes is not enabled" } }],
   ) {}

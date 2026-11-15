@@ -140,6 +140,8 @@ export class AiGatewaySpendingLimitDeprecated
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ message: { includes: "spending limits are deprecated" } }],
@@ -150,6 +152,8 @@ export class DatasetNameAlreadyExists
     /*@__PURE__*/ S.TaggedError<DatasetNameAlreadyExists>()("DatasetNameAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 400, message: { includes: "already exists" } }],
   ) {}
@@ -159,6 +163,8 @@ export class DatasetNotFound
     /*@__PURE__*/ S.TaggedError<DatasetNotFound>()("DatasetNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7002 }],
   ) {}
@@ -168,6 +174,8 @@ export class EvaluationNameAlreadyExists
     /*@__PURE__*/ S.TaggedError<EvaluationNameAlreadyExists>()("EvaluationNameAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 400, message: { includes: "already exists" } }],
   ) {}
@@ -177,6 +185,8 @@ export class EvaluationNotFound
     /*@__PURE__*/ S.TaggedError<EvaluationNotFound>()("EvaluationNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7002 }],
   ) {}
@@ -186,6 +196,8 @@ export class GatewayAlreadyExists
     /*@__PURE__*/ S.TaggedError<GatewayAlreadyExists>()("GatewayAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7001, message: { includes: "already exists" } }, { status: 504 }],
   ) {}
@@ -195,6 +207,8 @@ export class GatewayAuthenticationRequired
     /*@__PURE__*/ S.TaggedError<GatewayAuthenticationRequired>()("GatewayAuthenticationRequired", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7001, message: { includes: "must have authentication enabled" } }],
   ) {}
@@ -204,6 +218,8 @@ export class GatewayNotFound
     /*@__PURE__*/ S.TaggedError<GatewayNotFound>()("GatewayNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7002 }],
   ) {}
@@ -213,6 +229,8 @@ export class NoManualTopup
     /*@__PURE__*/ S.TaggedError<NoManualTopup>()("NoManualTopup", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1000, message: { includes: "NO_MANUAL_TOPUP" } }],
   ) {}
@@ -222,6 +240,8 @@ export class ProviderConfigAlreadyExists
     /*@__PURE__*/ S.TaggedError<ProviderConfigAlreadyExists>()("ProviderConfigAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7001, message: { includes: "already exists" } }],
   ) {}
@@ -231,6 +251,8 @@ export class ProviderConfigNotFound
     /*@__PURE__*/ S.TaggedError<ProviderConfigNotFound>()("ProviderConfigNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7002 }],
   ) {}
@@ -240,6 +262,8 @@ export class ProviderConfigSecretNotFound
     /*@__PURE__*/ S.TaggedError<ProviderConfigSecretNotFound>()("ProviderConfigSecretNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7001, message: { includes: "was not found" } }],
   ) {}
@@ -249,6 +273,8 @@ export class RouteAlreadyExists
     /*@__PURE__*/ S.TaggedError<RouteAlreadyExists>()("RouteAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [
       { code: 7005, message: { includes: "already exists" } },
@@ -261,6 +287,8 @@ export class RouteNotFound
     /*@__PURE__*/ S.TaggedError<RouteNotFound>()("RouteNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7005, message: { includes: "not found" } }],
   ) {}

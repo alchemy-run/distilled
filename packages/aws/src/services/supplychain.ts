@@ -696,6 +696,7 @@ export type CreateBillOfMaterialsImportJobError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | ResourceNotFoundException
   | CommonErrors;
 /**
  * CreateBillOfMaterialsImportJob creates an import job for the Product Bill Of Materials (BOM) entity. For information on the product_bom entity, see the AWS Supply Chain User Guide.
@@ -717,6 +718,7 @@ export const createBillOfMaterialsImportJob: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    ResourceNotFoundException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -732,6 +734,7 @@ export type CreateDataIntegrationFlowError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | ResourceNotFoundException
   | CommonErrors;
 /**
  * Enables you to programmatically create a data pipeline to ingest data from source systems such as Amazon S3 buckets, to a predefined Amazon Web Services Supply Chain dataset (product, inbound_order) or a temporary dataset along with the data transformation query provided with the API.
@@ -751,6 +754,7 @@ export const createDataIntegrationFlow: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    ResourceNotFoundException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -802,6 +806,7 @@ export type CreateDataLakeNamespaceError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | ResourceNotFoundException
   | CommonErrors;
 /**
  * Enables you to programmatically create an Amazon Web Services Supply Chain data lake namespace. Developers can create the namespaces for a given instance ID.
@@ -821,6 +826,7 @@ export const createDataLakeNamespace: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    ResourceNotFoundException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -836,6 +842,7 @@ export type CreateInstanceError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | ResourceNotFoundException
   | CommonErrors;
 /**
  * Enables you to programmatically create an Amazon Web Services Supply Chain instance by applying KMS keys and relevant information associated with the API without using the Amazon Web Services console.
@@ -857,6 +864,7 @@ export const createInstance: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    ResourceNotFoundException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -870,6 +878,9 @@ export type DeleteDataIntegrationFlowError =
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
+  | ConflictException
+  | ServiceQuotaExceededException
+  | ValidationException
   | CommonErrors;
 /**
  * Enable you to programmatically delete an existing data pipeline for the provided Amazon Web Services Supply Chain instance and DataIntegrationFlow name.
@@ -887,6 +898,9 @@ export const deleteDataIntegrationFlow: API.OperationMethod<
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
+    ConflictException,
+    ServiceQuotaExceededException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -901,6 +915,8 @@ export type DeleteDataLakeDatasetError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Enables you to programmatically delete an Amazon Web Services Supply Chain data lake dataset. Developers can delete the existing datasets for a given instance ID, namespace, and instance name.
@@ -919,6 +935,8 @@ export const deleteDataLakeDataset: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -933,6 +951,8 @@ export type DeleteDataLakeNamespaceError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Enables you to programmatically delete an Amazon Web Services Supply Chain data lake namespace and its underling datasets. Developers can delete the existing namespaces for a given instance ID and namespace name.
@@ -951,6 +971,8 @@ export const deleteDataLakeNamespace: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -965,6 +987,8 @@ export type DeleteInstanceError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Enables you to programmatically delete an Amazon Web Services Supply Chain instance by deleting the KMS keys and relevant information associated with the API without using the Amazon Web Services console.
@@ -985,6 +1009,8 @@ export const deleteInstance: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -999,6 +1025,8 @@ export type GetBillOfMaterialsImportJobError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Get status and details of a BillOfMaterialsImportJob.
@@ -1017,6 +1045,8 @@ export const getBillOfMaterialsImportJob: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1031,6 +1061,8 @@ export type GetDataIntegrationEventError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Enables you to programmatically view an Amazon Web Services Supply Chain Data Integration Event. Developers can view the eventType, eventGroupId, eventTimestamp, datasetTarget, datasetLoadExecution.
@@ -1049,6 +1081,8 @@ export const getDataIntegrationEvent: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1063,6 +1097,8 @@ export type GetDataIntegrationFlowError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Enables you to programmatically view a specific data pipeline for the provided Amazon Web Services Supply Chain instance and DataIntegrationFlow name.
@@ -1081,6 +1117,8 @@ export const getDataIntegrationFlow: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1095,6 +1133,8 @@ export type GetDataIntegrationFlowExecutionError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Get the flow execution.
@@ -1113,6 +1153,8 @@ export const getDataIntegrationFlowExecution: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1127,6 +1169,8 @@ export type GetDataLakeDatasetError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Enables you to programmatically view an Amazon Web Services Supply Chain data lake dataset. Developers can view the data lake dataset information such as namespace, schema, and so on for a given instance ID, namespace, and dataset name.
@@ -1145,6 +1189,8 @@ export const getDataLakeDataset: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1159,6 +1205,8 @@ export type GetDataLakeNamespaceError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Enables you to programmatically view an Amazon Web Services Supply Chain data lake namespace. Developers can view the data lake namespace information such as description for a given instance ID and namespace name.
@@ -1177,6 +1225,8 @@ export const getDataLakeNamespace: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1191,6 +1241,8 @@ export type GetInstanceError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Enables you to programmatically retrieve the information related to an Amazon Web Services Supply Chain instance ID.
@@ -1209,6 +1261,8 @@ export const getInstance: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1222,6 +1276,9 @@ export type ListDataIntegrationEventsError =
   | InternalServerException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Enables you to programmatically list all data integration events for the provided Amazon Web Services Supply Chain instance.
@@ -1240,6 +1297,9 @@ export const listDataIntegrationEvents: API.PaginatedOperationMethod<
     InternalServerException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1260,6 +1320,8 @@ export type ListDataIntegrationFlowExecutionsError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * List flow executions.
@@ -1279,6 +1341,8 @@ export const listDataIntegrationFlowExecutions: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1298,6 +1362,9 @@ export type ListDataIntegrationFlowsError =
   | InternalServerException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Enables you to programmatically list all data pipelines for the provided Amazon Web Services Supply Chain instance.
@@ -1316,6 +1383,9 @@ export const listDataIntegrationFlows: API.PaginatedOperationMethod<
     InternalServerException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1336,6 +1406,8 @@ export type ListDataLakeDatasetsError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Enables you to programmatically view the list of Amazon Web Services Supply Chain data lake datasets. Developers can view the datasets and the corresponding information such as namespace, schema, and so on for a given instance ID and namespace.
@@ -1355,6 +1427,8 @@ export const listDataLakeDatasets: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1374,6 +1448,9 @@ export type ListDataLakeNamespacesError =
   | InternalServerException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Enables you to programmatically view the list of Amazon Web Services Supply Chain data lake namespaces. Developers can view the namespaces and the corresponding information such as description for a given instance ID. Note that this API only return custom namespaces, instance pre-defined namespaces are not included.
@@ -1392,6 +1469,9 @@ export const listDataLakeNamespaces: API.PaginatedOperationMethod<
     InternalServerException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1411,6 +1491,9 @@ export type ListInstancesError =
   | InternalServerException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * List all Amazon Web Services Supply Chain instances for a specific account. Enables you to programmatically list all Amazon Web Services Supply Chain instances based on their account ID, instance name, and state of the instance (active or delete).
@@ -1429,6 +1512,9 @@ export const listInstances: API.PaginatedOperationMethod<
     InternalServerException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1449,6 +1535,8 @@ export type ListTagsForResourceError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * List all the tags for an Amazon Web ServicesSupply Chain resource. You can list all the tags added to a resource. By listing the tags, developers can view the tag level information on a resource and perform actions such as, deleting a resource associated with a particular tag.
@@ -1467,6 +1555,8 @@ export const listTagsForResource: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1517,6 +1607,8 @@ export type TagResourceError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * You can create tags during or after creating a resource such as instance, data flow, or dataset in AWS Supply chain. During the data ingestion process, you can add tags such as dev, test, or prod to data flows created during the data ingestion process in the AWS Supply Chain datasets. You can use these tags to identify a group of resources or a single resource used by the developer.
@@ -1535,6 +1627,8 @@ export const tagResource: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1549,6 +1643,8 @@ export type UntagResourceError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * You can delete tags for an Amazon Web Services Supply chain resource such as instance, data flow, or dataset in AWS Supply Chain. During the data ingestion process, you can delete tags such as dev, test, or prod to data flows created during the data ingestion process in the AWS Supply Chain datasets.
@@ -1567,6 +1663,8 @@ export const untagResource: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1581,6 +1679,8 @@ export type UpdateDataIntegrationFlowError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Enables you to programmatically update an existing data pipeline to ingest data from the source systems such as, Amazon S3 buckets, to a predefined Amazon Web Services Supply Chain dataset (product, inbound_order) or a temporary dataset along with the data transformation query provided with the API.
@@ -1599,6 +1699,8 @@ export const updateDataIntegrationFlow: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1613,6 +1715,8 @@ export type UpdateDataLakeDatasetError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Enables you to programmatically update an Amazon Web Services Supply Chain data lake dataset. Developers can update the description of a data lake dataset for a given instance ID, namespace, and dataset name.
@@ -1631,6 +1735,8 @@ export const updateDataLakeDataset: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1645,6 +1751,8 @@ export type UpdateDataLakeNamespaceError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Enables you to programmatically update an Amazon Web Services Supply Chain data lake namespace. Developers can update the description of a data lake namespace for a given instance ID and namespace name.
@@ -1663,6 +1771,8 @@ export const updateDataLakeNamespace: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1677,6 +1787,8 @@ export type UpdateInstanceError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Enables you to programmatically update an Amazon Web Services Supply Chain instance description by providing all the relevant information such as account ID, instance ID and so on without using the AWS console.
@@ -1695,6 +1807,8 @@ export const updateInstance: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,

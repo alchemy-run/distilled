@@ -1,5 +1,10 @@
+import * as Arbitrary from "effect/Arbitrary";
+import * as Duration from "effect/Duration";
+import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as EffectSchema from "effect/Schema";
 import { describe, expect, test } from "vitest";
+import * as L from "../src/schema-lite-impl.ts";
 import * as S from "../src/schema-lite-typed.ts";
 
 class Oops extends S.TaggedError<Oops>()("Oops", { message: S.optional(S.String) }) {}
@@ -40,5 +45,28 @@ describe("lite TaggedError", () => {
   test("make keeps only the declared fields", () => {
     const e = Oops.make({ message: "boom", extra: 1 } as never);
     expect(Object.keys(e)).not.toContain("extra");
+  });
+});
+
+describe("toEffect", () => {
+  test("rebuilds Effect's built-in declarations, so effect/Arbitrary can generate values", async () => {
+    const lite = L.Struct({
+      at: L.Date,
+      wait: L.Duration,
+      data: L.instanceOf(Uint8Array),
+      secret: L.Redacted(L.String),
+    });
+    const schema = L.toEffect(EffectSchema, lite.ast) as EffectSchema.Codec<any>;
+    const values = await Effect.runPromise(
+      Arbitrary.sampleEffect(Arbitrary.schema(schema), { count: 5, seed: 1 }),
+    );
+    expect(values.length).toBe(5);
+    for (const v of values) {
+      expect(v.at).toBeInstanceOf(Date);
+      expect(Duration.isDuration(v.wait)).toBe(true);
+      expect(v.data).toBeInstanceOf(Uint8Array);
+      expect(Redacted.isRedacted(v.secret)).toBe(true);
+      expect(EffectSchema.is(schema)(v)).toBe(true);
+    }
   });
 });

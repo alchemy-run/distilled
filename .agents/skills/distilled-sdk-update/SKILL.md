@@ -83,11 +83,8 @@ Verdicts are one-at-a-time. Two patches that add the same thing each look
 unused alone; only the second deletion changes the model. So: delete what
 it lists, `pnpm generate <pkg>`, audit again, until the list is empty.
 
-Two things the audit cannot judge:
+One thing the audit cannot judge:
 
-- **Typed patch configs.** `packages/aws/patches/<sdkId>.json` is
-  `applyAwsSpecPatches` config, not RFC-6902; the audit reports those files
-  as not audited. Judge them by reading the model.
 - **Whether a needed patch is *right*.** A patch that still changes the
   model may still be wrong about the wire. Patches that encode observed
   behaviour — error statuses the spec omits, required fields the API

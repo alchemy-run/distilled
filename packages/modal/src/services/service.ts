@@ -30,6 +30,8 @@ export class ServiceUserAlreadyExists
     /*@__PURE__*/ S.TaggedError<ServiceUserAlreadyExists>()("ServiceUserAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 6 }],
   ) {}
@@ -40,6 +42,8 @@ export class ServiceUserNotFound
     /*@__PURE__*/ S.TaggedError<ServiceUserNotFound>()("ServiceUserNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 5 }],
   ) {}
@@ -50,6 +54,8 @@ export class ServiceUsersNotAvailable
     /*@__PURE__*/ S.TaggedError<ServiceUsersNotAvailable>()("ServiceUsersNotAvailable", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 400, message: { includes: "Service users are not available" } }],
   ) {}

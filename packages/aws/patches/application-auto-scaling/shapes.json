@@ -1,0 +1,10 @@
+{
+  "description": "Application Auto Scaling: Members the API always returns (required).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.applicationautoscaling#ScheduledAction/members/ScalableDimension/traits/smithy.api#required",
+      "value": {}
+    }
+  ]
+}

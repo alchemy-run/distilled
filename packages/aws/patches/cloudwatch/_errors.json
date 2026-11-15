@@ -1,0 +1,26 @@
+{
+  "description": "CloudWatch: Error shapes the model does not declare, for the errors operations.json list; members the error responses carry; categories (distilled.errors#categories) the error traits do not express.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.cloudwatch#UnsupportedOperation",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.cloudwatch#UnsupportedOperation/members/Message",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.cloudwatch#ValidationException/traits/distilled.errors#categories",
+      "value": ["BadRequestError"]
+    }
+  ]
+}

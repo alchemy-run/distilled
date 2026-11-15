@@ -36,6 +36,8 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
   ) {}
@@ -45,6 +47,8 @@ export class Conflict
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
   ) {}
@@ -55,6 +59,8 @@ export class DatabaseNameNotAvailable
     /*@__PURE__*/ S.TaggedError<DatabaseNameNotAvailable>()("DatabaseNameNotAvailable", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422, message: { includes: "database name is not available" } }],
   ) {}
@@ -65,6 +71,8 @@ export class FirewallTagNotFound
     /*@__PURE__*/ S.TaggedError<FirewallTagNotFound>()("FirewallTagNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422, message: { matches: "^tag .+ does not exist" } }],
   ) {}
@@ -74,6 +82,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
   ) {}
@@ -84,6 +94,8 @@ export class GpuPlanUnavailable
     /*@__PURE__*/ S.TaggedError<GpuPlanUnavailable>()("GpuPlanUnavailable", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422, message: { includes: "is currently unavailable in this region" } }],
   ) {}
@@ -94,6 +106,8 @@ export class InvalidProviderKey
     /*@__PURE__*/ S.TaggedError<InvalidProviderKey>()("InvalidProviderKey", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [
       { status: 400, message: { includes: "invalid openai api key" } },
@@ -107,6 +121,8 @@ export class NamespaceDeleteConflict
     /*@__PURE__*/ S.TaggedError<NamespaceDeleteConflict>()("NamespaceDeleteConflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409, message: { includes: "conflict updating user doc" } }],
   ) {}
@@ -116,6 +132,8 @@ export class NotFound
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -126,6 +144,8 @@ export class SecretPendingDeletion
     /*@__PURE__*/ S.TaggedError<SecretPendingDeletion>()("SecretPendingDeletion", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409, message: { includes: "conflict with the current state" } }],
   ) {}
@@ -136,6 +156,8 @@ export class SshKeyAlreadyRegistered
     /*@__PURE__*/ S.TaggedError<SshKeyAlreadyRegistered>()("SshKeyAlreadyRegistered", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422, message: { includes: "already in use" } }],
   ) {}
@@ -145,6 +167,8 @@ export class UnprocessableEntity
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
   ) {}
@@ -155,6 +179,8 @@ export class UptimeCheckNotFound
     /*@__PURE__*/ S.TaggedError<UptimeCheckNotFound>()("UptimeCheckNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403, message: { includes: "not authorized to access this resource" } }],
   ) {}
@@ -165,6 +191,8 @@ export class VpcHasMembers
     /*@__PURE__*/ S.TaggedError<VpcHasMembers>()("VpcHasMembers", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409, message: { includes: "VPC with members" } }],
   ) {}
@@ -175,6 +203,8 @@ export class VpcIsDefault
     /*@__PURE__*/ S.TaggedError<VpcIsDefault>()("VpcIsDefault", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403, message: { includes: "delete default VPC" } }],
   ) {}

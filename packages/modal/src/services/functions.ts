@@ -30,6 +30,8 @@ export class FunctionCallNotFound
     /*@__PURE__*/ S.TaggedError<FunctionCallNotFound>()("FunctionCallNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 5 }],
   ) {}
@@ -40,6 +42,8 @@ export class FunctionNotFound
     /*@__PURE__*/ S.TaggedError<FunctionNotFound>()("FunctionNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 5 }],
   ) {}

@@ -4,7 +4,7 @@ import { lintAndFormatGenerated } from "@distilled.cloud/dev/codegen/format";
 /**
  * generate — turn the AWS Smithy models into an Effect SDK.
  *
- * Input:  .generated-specs/<sdkId>.json  (original Smithy + patches/,
+ * Input:  .generated-specs/<sdkId>.json  (original Smithy + patches/<sdkId>/,
  *         written by scripts/convert.ts)
  *         manual-specs/<service>.json  (hand-authored models for APIs AWS
  *         never published a Smithy model for — see manual-specs/README.md)
@@ -17,16 +17,13 @@ import { lintAndFormatGenerated } from "@distilled.cloud/dev/codegen/format";
  * at the end).
  *
  * The AWS provider spec — shape/error/operation emission, service consts —
- * lives in `./spec.ts`. Patch application (`applyAwsSpecPatches`) runs in
- * convert; `patches/{sdkId}.json` is loaded here only for
- * `errorCategories`.
+ * lives in `./spec.ts`. Patches (`patches/<sdkId>/`) apply in convert.
  *
  * Flags: `--resource <sdkId>` generates a single service (e.g. `s3`).
  */
 import { Schema as S } from "effect";
 import { eventsResourceName, eventsSpec, isEventsModel } from "./events-spec.ts";
 import { SmithyModel, type ServiceShape } from "./model-schema.ts";
-import { loadServiceSpecPatch } from "./spec-schema.ts";
 import { awsSpec } from "./spec.ts";
 
 /** The service shape and its sdkId — every AWS model has exactly one. */
@@ -84,6 +81,6 @@ runGeneratorCli({
     // Validate against the Smithy model schema before compiling. Throws,
     // which `continueOnModelError` records as this service's failure.
     S.decodeUnknownSync(SmithyModel)(model);
-    return awsSpec(model, loadServiceSpecPatch(sdkIdOf(model)));
+    return awsSpec(model);
   },
 });

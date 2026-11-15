@@ -3,9 +3,10 @@
 Hand-authored Smithy models for AWS APIs that `specs/api-models-aws` does
 not cover. They are **models, not modules**: `scripts/generate.ts` compiles
 them through the identical path as every published model — same `awsSpec`,
-same patch chain (`patches/<sdkId>.json`), same emitter — so the resulting
-`src/services/<sdkId>.ts` is generated output like any other and is
-regenerated on every run.
+same emitter — so the resulting `src/services/<sdkId>.ts` is generated output
+like any other and is regenerated on every run. They skip convert, so
+`patches/` does not apply to them: a fix goes in the model itself (for
+example a `distilled.errors#categories` trait on an error).
 
 A file here whose name collides with a directory in
 `specs/api-models-aws/models` fails the run: if AWS publishes the model,

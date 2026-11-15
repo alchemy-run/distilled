@@ -1,9 +1,0 @@
-{
-  "structures": {
-    "WorkloadIdentityDetails": {
-      "members": {
-        "workloadIdentityArn": { "optional": true }
-      }
-    }
-  }
-}

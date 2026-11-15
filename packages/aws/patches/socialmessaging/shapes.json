@@ -1,0 +1,10 @@
+{
+  "description": "SocialMessaging: Members that hold secrets (sensitive).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.socialmessaging#WhatsAppSignupCallback/members/accessToken/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

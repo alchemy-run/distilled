@@ -1,0 +1,9 @@
+{
+  "description": "InternetMonitor: Members the API leaves out (not required).",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.internetmonitor#GetQueryResultsOutput/members/Data/traits/smithy.api#required"
+    }
+  ]
+}

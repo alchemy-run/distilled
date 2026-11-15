@@ -14,9 +14,10 @@ npm install @distilled.cloud/kubernetes effect
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Kubernetes from "@distilled.cloud/kubernetes";
+import * as Core from "@distilled.cloud/kubernetes/core";
 
 const program = Effect.gen(function* () {
-  const result = yield* Kubernetes.core.listCoreV1NamespacedPod({ namespace: "default" });
+  const result = yield* Core.listCoreV1NamespacedPod({ namespace: "default" });
   return result;
 });
 
@@ -37,8 +38,11 @@ fields directly, as for `create*` and `replace*`. Every nested field is
 optional, and `null` removes a field:
 
 ```ts
+import * as Apps from "@distilled.cloud/kubernetes/apps";
+import * as Core from "@distilled.cloud/kubernetes/core";
+
 // Merge patch
-yield* Kubernetes.apps.patchAppsV1NamespacedStatefulSet({
+yield* Apps.patchAppsV1NamespacedStatefulSet({
   namespace: "default",
   name: "web",
   contentType: "application/merge-patch+json",
@@ -47,7 +51,7 @@ yield* Kubernetes.apps.patchAppsV1NamespacedStatefulSet({
 });
 
 // Server-side apply: the fields you own, with a field manager
-yield* Kubernetes.core.patchCoreV1Namespace({
+yield* Core.patchCoreV1Namespace({
   name: "web",
   contentType: "application/apply-patch+yaml",
   fieldManager: "my-controller",
@@ -61,7 +65,9 @@ yield* Kubernetes.core.patchCoreV1Namespace({
 A JSON patch is an array of operations, so it goes in `patch`:
 
 ```ts
-yield* Kubernetes.apps.patchAppsV1NamespacedStatefulSet({
+import * as Apps from "@distilled.cloud/kubernetes/apps";
+
+yield* Apps.patchAppsV1NamespacedStatefulSet({
   namespace: "default",
   name: "web",
   contentType: "application/json-patch+json",

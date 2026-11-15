@@ -1,0 +1,148 @@
+{
+  "description": "Scaleway's OpenAPI export drops query parameters that belong to a proto `oneOf`, so `GetResourceCounts`, `ListServers`, `DeleteServer` lose filters the API takes. The official JS SDK sends them through `resolveOneOf` in `urlParams` \u2014 scaleway-sdk-js packages_generated/instance/src/v2alpha1/api.gen.ts \u2014 with the types in the sibling types.gen.ts. They are added as optional query members; the API enforces the one-of.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.instance_v2alpha1#GetResourceCountsRequest/members/organization_id",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "organization_id",
+          "smithy.api#documentation": "Organization ID to count resources for. One-of `scope`: at most one of `organization_id`, `project_id`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.instance_v2alpha1#GetResourceCountsRequest/members/project_id",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "project_id",
+          "smithy.api#documentation": "Project ID to count resources for. One-of `scope`: at most one of `organization_id`, `project_id`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.instance_v2alpha1#ListServersRequestDedicatedPoolIdsList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "smithy.api#String"
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.instance_v2alpha1#ListServersRequest/members/dedicated_pool_ids",
+      "value": {
+        "target": "com.scaleway.instance_v2alpha1#ListServersRequestDedicatedPoolIdsList",
+        "traits": {
+          "smithy.api#httpQuery": "dedicated_pool_ids",
+          "smithy.api#documentation": "Filter servers by dedicated pool IDs."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.instance_v2alpha1#DeleteServerRequest/members/delete_all_ips",
+      "value": {
+        "target": "smithy.api#Boolean",
+        "traits": {
+          "smithy.api#httpQuery": "delete_all_ips",
+          "smithy.api#documentation": "Delete every IP attached to the server. One-of `ips`: at most one of `delete_all_ips`, `delete_ip_ids`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.instance_v2alpha1#DeleteServerRequestDeleteIpIdsList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "smithy.api#String"
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.instance_v2alpha1#DeleteServerRequest/members/delete_ip_ids",
+      "value": {
+        "target": "com.scaleway.instance_v2alpha1#DeleteServerRequestDeleteIpIdsList",
+        "traits": {
+          "smithy.api#httpQuery": "delete_ip_ids",
+          "smithy.api#documentation": "IDs of the attached IPs to delete with the server. One-of `ips`: at most one of `delete_all_ips`, `delete_ip_ids`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.instance_v2alpha1#DeleteServerRequest/members/delete_all_volumes",
+      "value": {
+        "target": "smithy.api#Boolean",
+        "traits": {
+          "smithy.api#httpQuery": "delete_all_volumes",
+          "smithy.api#documentation": "Delete every volume attached to the server. One-of `volumes`: at most one of `delete_all_volumes`, `delete_volume_ids`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.instance_v2alpha1#DeleteServerRequestDeleteVolumeIdsList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "smithy.api#String"
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.instance_v2alpha1#DeleteServerRequest/members/delete_volume_ids",
+      "value": {
+        "target": "com.scaleway.instance_v2alpha1#DeleteServerRequestDeleteVolumeIdsList",
+        "traits": {
+          "smithy.api#httpQuery": "delete_volume_ids",
+          "smithy.api#documentation": "IDs of the attached volumes to delete with the server. One-of `volumes`: at most one of `delete_all_volumes`, `delete_volume_ids`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.instance_v2alpha1#DeleteServerRequest/members/keep_all_private_nics",
+      "value": {
+        "target": "smithy.api#Boolean",
+        "traits": {
+          "smithy.api#httpQuery": "keep_all_private_nics",
+          "smithy.api#documentation": "Keep every private NIC attached to the server. One-of `private_nics`: at most one of `keep_all_private_nics`, `delete_private_nic_ids`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.instance_v2alpha1#DeleteServerRequestDeletePrivateNicIdsList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "smithy.api#String"
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.instance_v2alpha1#DeleteServerRequest/members/delete_private_nic_ids",
+      "value": {
+        "target": "com.scaleway.instance_v2alpha1#DeleteServerRequestDeletePrivateNicIdsList",
+        "traits": {
+          "smithy.api#httpQuery": "delete_private_nic_ids",
+          "smithy.api#documentation": "IDs of the private NICs to delete with the server. One-of `private_nics`: at most one of `keep_all_private_nics`, `delete_private_nic_ids`."
+        }
+      }
+    }
+  ]
+}

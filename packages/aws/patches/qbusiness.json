@@ -1,9 +1,0 @@
-{
-  "structures": {
-    "AutoSubscriptionConfiguration": {
-      "members": {
-        "autoSubscribe": { "optional": true }
-      }
-    }
-  }
-}

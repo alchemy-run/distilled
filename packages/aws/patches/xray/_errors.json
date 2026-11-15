@@ -1,0 +1,103 @@
+{
+  "description": "XRay: Error shapes the model does not declare, for the errors operations.json list (a shape with aws.codegen#synthetic matches its base wire error by message); categories (distilled.errors#categories) the error traits do not express.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.xray#GroupAlreadyExists",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "InvalidRequestException",
+            "message": {
+              "matches": " already exists$"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.xray#InvalidRequestException/members",
+      "path": "/shapes/com.amazonaws.xray#GroupAlreadyExists/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.xray#GroupNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "InvalidRequestException",
+            "message": "Group not found"
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.xray#InvalidRequestException/members",
+      "path": "/shapes/com.amazonaws.xray#GroupNotFound/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.xray#SamplingRuleAlreadyExists",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "InvalidRequestException",
+            "message": "Sampling rule already exists"
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.xray#InvalidRequestException/members",
+      "path": "/shapes/com.amazonaws.xray#SamplingRuleAlreadyExists/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.xray#SamplingRuleNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "InvalidRequestException",
+            "message": "Sampling rule does not exist"
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.xray#InvalidRequestException/members",
+      "path": "/shapes/com.amazonaws.xray#SamplingRuleNotFound/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.xray#GroupNotFound/traits/distilled.errors#categories",
+      "value": ["NotFoundError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.xray#GroupAlreadyExists/traits/distilled.errors#categories",
+      "value": ["AlreadyExistsError", "ConflictError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.xray#SamplingRuleNotFound/traits/distilled.errors#categories",
+      "value": ["NotFoundError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.xray#SamplingRuleAlreadyExists/traits/distilled.errors#categories",
+      "value": ["AlreadyExistsError", "ConflictError"]
+    }
+  ]
+}

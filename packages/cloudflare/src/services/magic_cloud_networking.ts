@@ -139,6 +139,8 @@ export class CatalogSyncNotFound
     /*@__PURE__*/ S.TaggedError<CatalogSyncNotFound>()("CatalogSyncNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404 }],
   ) {}
@@ -148,6 +150,8 @@ export class CloudIntegrationNotFound
     /*@__PURE__*/ S.TaggedError<CloudIntegrationNotFound>()("CloudIntegrationNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404 }],
   ) {}
@@ -157,6 +161,8 @@ export class FeatureNotEnabled
     /*@__PURE__*/ S.TaggedError<FeatureNotEnabled>()("FeatureNotEnabled", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [
       { code: 1012, status: 403 },
@@ -169,6 +175,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -178,6 +186,8 @@ export class OnRampNotFound
     /*@__PURE__*/ S.TaggedError<OnRampNotFound>()("OnRampNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404 }],
   ) {}

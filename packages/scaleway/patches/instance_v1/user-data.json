@@ -1,0 +1,45 @@
+{
+  "description": "Instance user data is a plain-text value per key, not a scaleway.std.File. The spec declares SetServerUserData's body as `*/*` `format: binary` (which the converter drops, leaving the PATCH with no body at all) and GetServerUserData's 200 as the JSON `scaleway.std.File` message. The wire is `PATCH …/user_data/{key}` with a `text/plain` body of the raw content, answered 204, and `GET …/user_data/{key}` answering the raw content as `text/plain`. Source: the official JS SDK replaces both generated methods by hand (packages_generated/instance/src/v1/api.utils.ts, `setServerUserData` sends `body: request.content` with `Content-Type: text/plain`; `getServerUserData` returns `fetch<string>`); the Go SDK does the same in instance/v1/instance_utils.go.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.instance_v1#SetServerUserData/traits/smithy.api#http/bodyMediaType",
+      "value": "text/plain"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.instance_v1#SetServerUserDataRequest/members/content",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#required": {},
+          "smithy.api#documentation": "The user data content, sent verbatim as `text/plain`."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.scaleway.instance_v1#GetServerUserData/output/target",
+      "value": "com.scaleway.instance_v1#GetServerUserDataResponse"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.instance_v1#GetServerUserDataResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "content": {
+            "target": "smithy.api#String",
+            "traits": {
+              "com.distilled.openapi#rawResponse": {},
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The user data content, as the `text/plain` body."
+            }
+          }
+        },
+        "traits": {}
+      }
+    }
+  ]
+}

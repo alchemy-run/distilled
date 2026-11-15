@@ -110,6 +110,8 @@ export class D1DatabaseNotFound
     /*@__PURE__*/ S.TaggedError<D1DatabaseNotFound>()("D1DatabaseNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10181 }],
   ) {}
@@ -121,6 +123,8 @@ export class DispatchNamespaceAlreadyExists
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ code: 100120 }],
@@ -131,6 +135,8 @@ export class DispatchNamespaceNotFound
     /*@__PURE__*/ S.TaggedError<DispatchNamespaceNotFound>()("DispatchNamespaceNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 100119 }],
   ) {}
@@ -142,6 +148,8 @@ export class DispatchNamespaceScriptNotFound
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ code: 10007 }],
@@ -152,6 +160,8 @@ export class DurableObjectClassNotFound
     /*@__PURE__*/ S.TaggedError<DurableObjectClassNotFound>()("DurableObjectClassNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10061 }],
   ) {}
@@ -161,6 +171,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -170,6 +182,8 @@ export class HyperdriveConfigNotFound
     /*@__PURE__*/ S.TaggedError<HyperdriveConfigNotFound>()("HyperdriveConfigNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10157 }],
   ) {}
@@ -179,6 +193,8 @@ export class KVNamespaceNotFound
     /*@__PURE__*/ S.TaggedError<KVNamespaceNotFound>()("KVNamespaceNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10041 }],
   ) {}
@@ -188,6 +204,8 @@ export class MtlsCertificateNotFound
     /*@__PURE__*/ S.TaggedError<MtlsCertificateNotFound>()("MtlsCertificateNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 100143 }],
   ) {}
@@ -197,6 +215,8 @@ export class QueueNotFound
     /*@__PURE__*/ S.TaggedError<QueueNotFound>()("QueueNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 11000 }],
   ) {}
@@ -206,6 +226,8 @@ export class R2BucketNotFound
     /*@__PURE__*/ S.TaggedError<R2BucketNotFound>()("R2BucketNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10085 }],
   ) {}
@@ -215,6 +237,8 @@ export class SecretsStoreBindingNotFound
     /*@__PURE__*/ S.TaggedError<SecretsStoreBindingNotFound>()("SecretsStoreBindingNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10182 }],
   ) {}
@@ -224,6 +248,8 @@ export class ServiceBindingNotFound
     /*@__PURE__*/ S.TaggedError<ServiceBindingNotFound>()("ServiceBindingNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10144 }],
   ) {}
@@ -233,6 +259,8 @@ export class UnknownWorkerEntrypoint
     /*@__PURE__*/ S.TaggedError<UnknownWorkerEntrypoint>()("UnknownWorkerEntrypoint", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10375 }],
   ) {}
@@ -242,6 +270,8 @@ export class VectorizeIndexNotFound
     /*@__PURE__*/ S.TaggedError<VectorizeIndexNotFound>()("VectorizeIndexNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10159 }],
   ) {}
@@ -251,6 +281,8 @@ export class WorkerHasNoVersions
     /*@__PURE__*/ S.TaggedError<WorkerHasNoVersions>()("WorkerHasNoVersions", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404, message: { includes: "has no versions" } }],
   ) {}

@@ -342,7 +342,7 @@ describe("Google error envelope decoding", () => {
     expect(error).toMatchObject({ message, status: "FAILED_PRECONDITION", code: 400 });
   });
 
-  test("undeclared statuses fall back to HTTP_STATUS_MAP with envelope fields", async () => {
+  test("undeclared statuses fall back to HTTP_STATUS_MAP with the envelope in the body", async () => {
     const { layer } = fakeGoogle(
       429,
       envelope(429, "RESOURCE_EXHAUSTED", "Quota exceeded for quota metric 'Requests'."),
@@ -352,7 +352,7 @@ describe("Google error envelope decoding", () => {
     expect(error).toBeInstanceOf(TooManyRequests);
     expect(error).toMatchObject({
       message: "Quota exceeded for quota metric 'Requests'.",
-      status: "RESOURCE_EXHAUSTED",
+      body: { error: { status: "RESOURCE_EXHAUSTED" } },
     });
     expect((error as TooManyRequests).retryAfter).toBeDefined();
   });

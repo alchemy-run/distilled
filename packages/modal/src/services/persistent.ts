@@ -31,6 +31,8 @@ export class PersistentSandboxAlreadyExists
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ code: 6 }],
@@ -42,6 +44,8 @@ export class PersistentSandboxBusy
     /*@__PURE__*/ S.TaggedError<PersistentSandboxBusy>()("PersistentSandboxBusy", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 14 }],
   ) {}
@@ -54,6 +58,8 @@ export class PersistentSandboxesNotAvailable
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ code: 7, message: { includes: "Persistent Sandboxes are not available" } }],
@@ -65,6 +71,8 @@ export class PersistentSandboxNotFound
     /*@__PURE__*/ S.TaggedError<PersistentSandboxNotFound>()("PersistentSandboxNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 5 }],
   ) {}

@@ -12,15 +12,17 @@
 // - `patch` / `minor` / `major`: the semver bump, so a prerelease graduates
 //   (`1.0.0-rc.13` with `major` becomes `1.0.0`).
 // - `x.y.z` or `x.y.z-<channel>.N`: exactly that version.
-// - anything else: `0.0.0-<spec>`, a tag release that is published but never
-//   committed, so it does not move the version later releases bump from.
+// - anything else: `0.0.0-<spec>`, a tag release that is published under the
+//   npm dist-tag `<spec>` but never committed, so it does not move the version
+//   later releases bump from, nor npm's `latest`.
 //
-// Every version except a tag release must be newer than the current one.
+// Every version except a tag release must be newer than the current one, and
+// is published under `latest`.
 //
 // Writes the version into each `packages/*/package.json`, records the
 // packages in `release-packages.json` and refreshes the lockfile. stdout
-// carries only `version=` and `channel=` lines for `$GITHUB_OUTPUT`;
-// everything else goes to stderr.
+// carries only `version=`, `channel=` and `dist-tag=` lines for
+// `$GITHUB_OUTPUT`; everything else goes to stderr.
 //
 // Usage: node scripts/release/prepare.ts [spec]
 import * as NodeRuntime from "@effect/platform-node/NodeRuntime";
@@ -138,12 +140,20 @@ const nextVersion = Effect.fn(function* (
 });
 
 const resolveVersion = Effect.fn(function* (currentText: string, spec: string) {
-  // Anything that is not a version bump is a tag release.
+  // Anything that is not a version bump is a tag release, published under the
+  // npm dist-tag `<spec>` so that it never becomes `latest`.
   if (
     /^[A-Za-z][A-Za-z0-9.-]*$/.test(spec) &&
     !/^(alpha|beta|rc)(\.\d+)?$|^(patch|minor|major)$/.test(spec)
   ) {
-    return { channel: "tag" as Channel, version: `0.0.0-${spec}` };
+    // npm refuses a dist-tag that is a semver range, such as `x` or `v1`.
+    if (spec === "latest" || /^v?([xX*]|\d+)(\.([xX*]|\d+)){0,2}$/.test(spec)) {
+      return yield* new InvalidReleaseSpec({
+        message: `Cannot release ${spec}: a tag release's name is its npm dist-tag, and ${spec} cannot be one`,
+        spec,
+      });
+    }
+    return { channel: "tag" as Channel, version: `0.0.0-${spec}`, distTag: spec };
   }
 
   const current = parse(currentText);
@@ -161,7 +171,11 @@ const resolveVersion = Effect.fn(function* (currentText: string, spec: string) {
       next: format(next),
     });
   }
-  return { channel: (next.pre?.channel ?? "release") as Channel, version: format(next) };
+  return {
+    channel: (next.pre?.channel ?? "release") as Channel,
+    version: format(next),
+    distTag: "latest",
+  };
 });
 
 /** Runs a command; stdout is captured (and echoed to stderr), stderr inherited. */
@@ -206,7 +220,7 @@ const command = Command.make(
     const packages = yield* publishablePackages(root, "packages");
     const current = yield* sharedVersion(packages);
 
-    const { channel, version } = yield* resolveVersion(
+    const { channel, version, distTag } = yield* resolveVersion(
       current,
       Option.getOrElse(spec, () => "").trim() || "rc",
     );
@@ -233,6 +247,7 @@ const command = Command.make(
 
     yield* Console.log(`version=${version}`);
     yield* Console.log(`channel=${channel}`);
+    yield* Console.log(`dist-tag=${distTag}`);
   }),
 ).pipe(Command.withDescription("Bump every package from the version they share"));
 

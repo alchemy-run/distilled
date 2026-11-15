@@ -79,6 +79,12 @@ const TELEMETRY = {
   propagate: TxXray.propagate,
 } as const;
 
+export class AccessDeniedException
+  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
+    "AccessDeniedException",
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(403),
+  ).pipe(C.withAuthError) {}
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
@@ -147,7 +153,7 @@ export class ValidationException
         identifier: "ValidationExceptionReason",
       }),
       fieldList: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.suspend(() => __S(53, __c13, 1)).annotate({
+        /*@__PURE__*/ S.suspend(() => __S(61, __c15, 1)).annotate({
           identifier: "ValidationExceptionFieldList",
         }),
       ),
@@ -433,6 +439,9 @@ export type CreateClusterError =
   | ConflictException
   | ServiceQuotaExceededException
   | ValidationException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
   | CommonErrors;
 /**
  * The CreateCluster API allows you to create both single-Region clusters and multi-Region clusters. With the addition of the *multiRegionProperties* parameter, you can create a cluster with witness Region support and establish peer relationships with clusters in other Regions during creation.
@@ -485,9 +494,16 @@ export const createCluster: API.OperationMethod<
   CreateClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c14, 0) as any as S.Schema<CreateClusterInput>,
-  output: __S(57, __c14, 1) as any as S.Schema<CreateClusterOutput>,
-  errors: [ConflictException, ServiceQuotaExceededException, ValidationException],
+  input: __S(64, __c16, 0) as any as S.Schema<CreateClusterInput>,
+  output: __S(65, __c16, 1) as any as S.Schema<CreateClusterOutput>,
+  errors: [
+    ConflictException,
+    ServiceQuotaExceededException,
+    ValidationException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCluster",
@@ -500,6 +516,9 @@ export type CreateStreamError =
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ValidationException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Creates a new change data capture (CDC) stream for a cluster. The stream captures database changes and delivers them to the specified target destination.
@@ -530,13 +549,16 @@ export const createStream: API.OperationMethod<
   CreateStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(76, __c19, 0) as any as S.Schema<CreateStreamInput>,
-  output: __S(77, __c19, 1) as any as S.Schema<CreateStreamOutput>,
+  input: __S(84, __c21, 0) as any as S.Schema<CreateStreamInput>,
+  output: __S(85, __c21, 1) as any as S.Schema<CreateStreamOutput>,
   errors: [
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ValidationException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -545,7 +567,14 @@ export const createStream: API.OperationMethod<
   span: "CreateStream",
 }));
 
-export type DeleteClusterError = ConflictException | ResourceNotFoundException | CommonErrors;
+export type DeleteClusterError =
+  | ConflictException
+  | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a cluster in Amazon Aurora DSQL.
  */
@@ -555,9 +584,16 @@ export const deleteCluster: API.OperationMethod<
   DeleteClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(84, __c21, 0) as any as S.Schema<DeleteClusterInput>,
-  output: __S(88, __c22, 0) as any as S.Schema<DeleteClusterOutput>,
-  errors: [ConflictException, ResourceNotFoundException],
+  input: __S(92, __c23, 0) as any as S.Schema<DeleteClusterInput>,
+  output: __S(96, __c24, 0) as any as S.Schema<DeleteClusterOutput>,
+  errors: [
+    ConflictException,
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCluster",
@@ -569,6 +605,9 @@ export type DeleteClusterPolicyError =
   | ConflictException
   | ResourceNotFoundException
   | ValidationException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Deletes the resource-based policy attached to a cluster. This removes all access permissions defined by the policy, reverting to default access controls.
@@ -579,9 +618,16 @@ export const deleteClusterPolicy: API.OperationMethod<
   DeleteClusterPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(92, __c23, 0) as any as S.Schema<DeleteClusterPolicyInput>,
-  output: __S(96, __c24, 0) as any as S.Schema<DeleteClusterPolicyOutput>,
-  errors: [ConflictException, ResourceNotFoundException, ValidationException],
+  input: __S(0, __c0, 0) as any as S.Schema<DeleteClusterPolicyInput>,
+  output: __S(4, __c1, 0) as any as S.Schema<DeleteClusterPolicyOutput>,
+  errors: [
+    ConflictException,
+    ResourceNotFoundException,
+    ValidationException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteClusterPolicy",
@@ -589,7 +635,14 @@ export const deleteClusterPolicy: API.OperationMethod<
   span: "DeleteClusterPolicy",
 }));
 
-export type DeleteStreamError = ConflictException | ResourceNotFoundException | CommonErrors;
+export type DeleteStreamError =
+  | ConflictException
+  | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a stream from a cluster.
  */
@@ -599,9 +652,16 @@ export const deleteStream: API.OperationMethod<
   DeleteStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<DeleteStreamInput>,
-  output: __S(1, __c0, 1) as any as S.Schema<DeleteStreamOutput>,
-  errors: [ConflictException, ResourceNotFoundException],
+  input: __S(8, __c2, 0) as any as S.Schema<DeleteStreamInput>,
+  output: __S(9, __c2, 1) as any as S.Schema<DeleteStreamOutput>,
+  errors: [
+    ConflictException,
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStream",
@@ -609,7 +669,13 @@ export const deleteStream: API.OperationMethod<
   span: "DeleteStream",
 }));
 
-export type GetClusterError = ResourceNotFoundException | CommonErrors;
+export type GetClusterError =
+  | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a cluster.
  */
@@ -619,9 +685,15 @@ export const getCluster: API.OperationMethod<
   GetClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<GetClusterInput>,
-  output: __S(5, __c1, 1) as any as S.Schema<GetClusterOutput>,
-  errors: [ResourceNotFoundException],
+  input: __S(12, __c3, 0) as any as S.Schema<GetClusterInput>,
+  output: __S(13, __c3, 1) as any as S.Schema<GetClusterOutput>,
+  errors: [
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCluster",
@@ -629,7 +701,13 @@ export const getCluster: API.OperationMethod<
   span: "GetCluster",
 }));
 
-export type GetClusterPolicyError = ResourceNotFoundException | ValidationException | CommonErrors;
+export type GetClusterPolicyError =
+  | ResourceNotFoundException
+  | ValidationException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves the resource-based policy document attached to a cluster. This policy defines the access permissions and conditions for the cluster.
  */
@@ -639,9 +717,15 @@ export const getClusterPolicy: API.OperationMethod<
   GetClusterPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<GetClusterPolicyInput>,
-  output: __S(9, __c2, 1) as any as S.Schema<GetClusterPolicyOutput>,
-  errors: [ResourceNotFoundException, ValidationException],
+  input: __S(16, __c4, 0) as any as S.Schema<GetClusterPolicyInput>,
+  output: __S(17, __c4, 1) as any as S.Schema<GetClusterPolicyOutput>,
+  errors: [
+    ResourceNotFoundException,
+    ValidationException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetClusterPolicy",
@@ -649,7 +733,13 @@ export const getClusterPolicy: API.OperationMethod<
   span: "GetClusterPolicy",
 }));
 
-export type GetStreamError = ResourceNotFoundException | CommonErrors;
+export type GetStreamError =
+  | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a stream.
  */
@@ -659,9 +749,15 @@ export const getStream: API.OperationMethod<
   GetStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<GetStreamInput>,
-  output: __S(14, __c3, 2) as any as S.Schema<GetStreamOutput>,
-  errors: [ResourceNotFoundException],
+  input: __S(20, __c5, 0) as any as S.Schema<GetStreamInput>,
+  output: __S(22, __c5, 2) as any as S.Schema<GetStreamOutput>,
+  errors: [
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStream",
@@ -674,6 +770,7 @@ export type GetVpcEndpointServiceNameError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | AccessDeniedException
   | CommonErrors;
 /**
  * Retrieves the VPC endpoint service name.
@@ -684,13 +781,14 @@ export const getVpcEndpointServiceName: API.OperationMethod<
   GetVpcEndpointServiceNameError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<GetVpcEndpointServiceNameInput>,
-  output: __S(17, __c4, 1) as any as S.Schema<GetVpcEndpointServiceNameOutput>,
+  input: __S(24, __c6, 0) as any as S.Schema<GetVpcEndpointServiceNameInput>,
+  output: __S(25, __c6, 1) as any as S.Schema<GetVpcEndpointServiceNameOutput>,
   errors: [
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    AccessDeniedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -699,7 +797,13 @@ export const getVpcEndpointServiceName: API.OperationMethod<
   span: "GetVpcEndpointServiceName",
 }));
 
-export type ListClustersError = ResourceNotFoundException | CommonErrors;
+export type ListClustersError =
+  | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a list of clusters.
  */
@@ -710,9 +814,15 @@ export const listClusters: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ClusterSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<ListClustersInput>,
-  output: __S(23, __c5, 3) as any as S.Schema<ListClustersOutput>,
-  errors: [ResourceNotFoundException],
+  input: __S(28, __c7, 0) as any as S.Schema<ListClustersInput>,
+  output: __S(31, __c7, 3) as any as S.Schema<ListClustersOutput>,
+  errors: [
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListClusters",
@@ -726,7 +836,13 @@ export const listClusters: API.PaginatedOperationMethod<
   span: "ListClusters",
 })) as any;
 
-export type ListStreamsError = ResourceNotFoundException | CommonErrors;
+export type ListStreamsError =
+  | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a list of streams for a cluster.
  */
@@ -737,9 +853,15 @@ export const listStreams: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   StreamSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<ListStreamsInput>,
-  output: __S(27, __c6, 3) as any as S.Schema<ListStreamsOutput>,
-  errors: [ResourceNotFoundException],
+  input: __S(32, __c8, 0) as any as S.Schema<ListStreamsInput>,
+  output: __S(35, __c8, 3) as any as S.Schema<ListStreamsOutput>,
+  errors: [
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListStreams",
@@ -753,7 +875,13 @@ export const listStreams: API.PaginatedOperationMethod<
   span: "ListStreams",
 })) as any;
 
-export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
+export type ListTagsForResourceError =
+  | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all of the tags for a resource.
  */
@@ -763,9 +891,15 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<ListTagsForResourceInput>,
-  output: __S(29, __c7, 1) as any as S.Schema<ListTagsForResourceOutput>,
-  errors: [ResourceNotFoundException],
+  input: __S(36, __c9, 0) as any as S.Schema<ListTagsForResourceInput>,
+  output: __S(37, __c9, 1) as any as S.Schema<ListTagsForResourceOutput>,
+  errors: [
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -777,6 +911,9 @@ export type PutClusterPolicyError =
   | ConflictException
   | ResourceNotFoundException
   | ValidationException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Attaches a resource-based policy to a cluster. This policy defines access permissions and conditions for the cluster, allowing you to control which principals can perform actions on the cluster.
@@ -787,9 +924,16 @@ export const putClusterPolicy: API.OperationMethod<
   PutClusterPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<PutClusterPolicyInput>,
-  output: __S(96, __c24, 0) as any as S.Schema<PutClusterPolicyOutput>,
-  errors: [ConflictException, ResourceNotFoundException, ValidationException],
+  input: __S(40, __c10, 0) as any as S.Schema<PutClusterPolicyInput>,
+  output: __S(4, __c1, 0) as any as S.Schema<PutClusterPolicyOutput>,
+  errors: [
+    ConflictException,
+    ResourceNotFoundException,
+    ValidationException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutClusterPolicy",
@@ -800,6 +944,10 @@ export const putClusterPolicy: API.OperationMethod<
 export type TagResourceError =
   | ResourceNotFoundException
   | ServiceQuotaExceededException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
   | CommonErrors;
 /**
  * Tags a resource with a map of key and value pairs.
@@ -810,9 +958,16 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<TagResourceInput>,
-  output: __S(40, __c10, 0) as any as S.Schema<TagResourceResponse>,
-  errors: [ResourceNotFoundException, ServiceQuotaExceededException],
+  input: __S(44, __c11, 0) as any as S.Schema<TagResourceInput>,
+  output: __S(48, __c12, 0) as any as S.Schema<TagResourceResponse>,
+  errors: [
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -820,7 +975,13 @@ export const tagResource: API.OperationMethod<
   span: "TagResource",
 }));
 
-export type UntagResourceError = ResourceNotFoundException | CommonErrors;
+export type UntagResourceError =
+  | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes a tag from a resource.
  */
@@ -830,9 +991,15 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(44, __c11, 0) as any as S.Schema<UntagResourceInput>,
-  output: __S(40, __c10, 0) as any as S.Schema<UntagResourceResponse>,
-  errors: [ResourceNotFoundException],
+  input: __S(52, __c13, 0) as any as S.Schema<UntagResourceInput>,
+  output: __S(48, __c12, 0) as any as S.Schema<UntagResourceResponse>,
+  errors: [
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -844,6 +1011,9 @@ export type UpdateClusterError =
   | ConflictException
   | ResourceNotFoundException
   | ValidationException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
   | CommonErrors;
 /**
  * The *UpdateCluster* API allows you to modify both single-Region and multi-Region cluster configurations. With the *multiRegionProperties* parameter, you can add or modify witness Region support and manage peer relationships with clusters in other Regions.
@@ -908,9 +1078,16 @@ export const updateCluster: API.OperationMethod<
   UpdateClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c12, 0) as any as S.Schema<UpdateClusterInput>,
-  output: __S(88, __c22, 0) as any as S.Schema<UpdateClusterOutput>,
-  errors: [ConflictException, ResourceNotFoundException, ValidationException],
+  input: __S(56, __c14, 0) as any as S.Schema<UpdateClusterInput>,
+  output: __S(96, __c24, 0) as any as S.Schema<UpdateClusterOutput>,
+  errors: [
+    ConflictException,
+    ResourceNotFoundException,
+    ValidationException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCluster",
@@ -920,6 +1097,35 @@ export const updateCluster: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          identifier: S.String.pipe(T.HttpLabel("identifier")),
+          expectedPolicyVersion: S.optional(S.String).pipe(T.HttpQuery("expected-policy-version")),
+          clientToken: S.optional(S.String).pipe(T.HttpQuery("client-token"), T.IdempotencyToken()),
+        }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/cluster/{identifier}/policy" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteClusterPolicyInput" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ policyVersion: S.String })).annotate({
+        identifier: "DeleteClusterPolicyOutput",
+      });
+  }
+}
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -950,7 +1156,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "DeleteStreamOutput" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -973,15 +1179,15 @@ function __c1(j: number): any {
           status: S.String,
           creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           deletionProtectionEnabled: S.Boolean,
-          multiRegionProperties: S.optional(__S(68, __c17, 0)),
-          tags: S.optional(__S(72, __c18, 0)),
-          encryptionDetails: S.optional(__S(60, __c15, 0)),
+          multiRegionProperties: S.optional(__S(76, __c19, 0)),
+          tags: S.optional(__S(80, __c20, 0)),
+          encryptionDetails: S.optional(__S(68, __c17, 0)),
           endpoint: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetClusterOutput" });
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1002,7 +1208,7 @@ function __c2(j: number): any {
       });
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1034,14 +1240,14 @@ function __c3(j: number): any {
           creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           ordering: S.String,
           format: S.String,
-          targetDefinition: S.optional(__S(81, __c20, 1)),
-          statusReason: S.optional(__S(13, __c3, 1)),
-          tags: S.optional(__S(72, __c18, 0)),
+          targetDefinition: S.optional(__S(89, __c22, 1)),
+          statusReason: S.optional(__S(21, __c5, 1)),
+          tags: S.optional(__S(80, __c20, 0)),
         }),
       ).annotate({ identifier: "GetStreamOutput" });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1062,7 +1268,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetVpcEndpointServiceNameOutput" });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1076,14 +1282,14 @@ function __c5(j: number): any {
         identifier: "ClusterSummary",
       });
     case 2:
-      return S.Array(__S(21, __c5, 1));
+      return S.Array(__S(29, __c7, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), clusters: __S(22, __c5, 2) }),
+        S.Struct({ nextToken: S.optional(S.String), clusters: __S(30, __c7, 2) }),
       ).annotate({ identifier: "ListClustersOutput" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1113,14 +1319,14 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "StreamSummary" });
     case 2:
-      return S.Array(__S(25, __c6, 1));
+      return S.Array(__S(33, __c8, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), streams: __S(26, __c6, 2) }),
+        S.Struct({ nextToken: S.optional(S.String), streams: __S(34, __c8, 2) }),
       ).annotate({ identifier: "ListStreamsOutput" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1136,12 +1342,12 @@ function __c7(j: number): any {
         ),
       ).annotate({ identifier: "ListTagsForResourceInput" });
     case 1:
-      return S.suspend(() => S.Struct({ tags: S.optional(__S(72, __c18, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ tags: S.optional(__S(80, __c20, 0)) })).annotate({
         identifier: "ListTagsForResourceOutput",
       });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1164,13 +1370,13 @@ function __c8(j: number): any {
       ).annotate({ identifier: "PutClusterPolicyInput" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-          tags: __S(72, __c18, 0),
+          tags: __S(80, __c20, 0),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
@@ -1184,19 +1390,19 @@ function __c9(j: number): any {
       ).annotate({ identifier: "TagResourceInput" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "TagResourceResponse" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-          tagKeys: __S(64, __c16, 0).pipe(T.HttpQuery("tagKeys")),
+          tagKeys: __S(72, __c18, 0).pipe(T.HttpQuery("tagKeys")),
         }).pipe(
           T.all(
             T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
@@ -1210,7 +1416,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "UntagResourceInput" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1219,7 +1425,7 @@ function __c12(j: number): any {
           deletionProtectionEnabled: S.optional(S.Boolean),
           kmsEncryptionKey: S.optional(S.String),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          multiRegionProperties: S.optional(__S(68, __c17, 0)),
+          multiRegionProperties: S.optional(__S(76, __c19, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/cluster/{identifier}" }),
@@ -1233,26 +1439,26 @@ function __c12(j: number): any {
       ).annotate({ identifier: "UpdateClusterInput" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ name: S.String, message: S.String })).annotate({
         identifier: "ValidationExceptionField",
       });
     case 1:
-      return S.Array(__S(52, __c13, 0));
+      return S.Array(__S(60, __c15, 0));
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           deletionProtectionEnabled: S.optional(S.Boolean),
           kmsEncryptionKey: S.optional(S.String),
-          tags: S.optional(__S(72, __c18, 0)),
+          tags: S.optional(__S(80, __c20, 0)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          multiRegionProperties: S.optional(__S(68, __c17, 0)),
+          multiRegionProperties: S.optional(__S(76, __c19, 0)),
           policy: S.optional(S.String),
           bypassPolicyLockoutSafetyCheck: S.optional(S.Boolean),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/cluster" }), svc, auth, proto, ver, rules)),
@@ -1264,15 +1470,15 @@ function __c14(j: number): any {
           arn: S.String,
           status: S.String,
           creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          multiRegionProperties: S.optional(__S(68, __c17, 0)),
-          encryptionDetails: S.optional(__S(60, __c15, 0)),
+          multiRegionProperties: S.optional(__S(76, __c19, 0)),
+          encryptionDetails: S.optional(__S(68, __c17, 0)),
           deletionProtectionEnabled: S.Boolean,
           endpoint: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateClusterOutput" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1284,36 +1490,36 @@ function __c15(j: number): any {
       ).annotate({ identifier: "EncryptionDetails" });
   }
 }
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c17(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ witnessRegion: S.optional(S.String), clusters: S.optional(__S(64, __c16, 0)) }),
-      ).annotate({ identifier: "MultiRegionProperties" });
-  }
-}
 function __c18(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+      return S.Array(S.String);
   }
 }
 function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({ witnessRegion: S.optional(S.String), clusters: S.optional(__S(72, __c18, 0)) }),
+      ).annotate({ identifier: "MultiRegionProperties" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Struct({
           clusterIdentifier: S.String.pipe(T.HttpLabel("clusterIdentifier")),
-          targetDefinition: __S(81, __c20, 1),
+          targetDefinition: __S(89, __c22, 1),
           ordering: S.String,
           format: S.String,
-          tags: S.optional(__S(72, __c18, 0)),
+          tags: S.optional(__S(80, __c20, 0)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -1340,17 +1546,17 @@ function __c19(j: number): any {
       ).annotate({ identifier: "CreateStreamOutput" });
   }
 }
-function __c20(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ streamArn: S.String, roleArn: S.String })).annotate({
         identifier: "KinesisTargetDefinition",
       });
     case 1:
-      return S.Union([/*@__PURE__*/ S.Struct({ kinesis: __S(80, __c20, 0) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ kinesis: __S(88, __c22, 0) })]);
   }
 }
-function __c21(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1370,7 +1576,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "DeleteClusterInput" });
   }
 }
-function __c22(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1381,35 +1587,6 @@ function __c22(j: number): any {
           creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
         }),
       ).annotate({ identifier: "DeleteClusterOutput" });
-  }
-}
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          identifier: S.String.pipe(T.HttpLabel("identifier")),
-          expectedPolicyVersion: S.optional(S.String).pipe(T.HttpQuery("expected-policy-version")),
-          clientToken: S.optional(S.String).pipe(T.HttpQuery("client-token"), T.IdempotencyToken()),
-        }).pipe(
-          T.all(
-            T.Http({ method: "DELETE", uri: "/cluster/{identifier}/policy" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "DeleteClusterPolicyInput" });
-  }
-}
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({ policyVersion: S.String })).annotate({
-        identifier: "DeleteClusterPolicyOutput",
-      });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

@@ -29,7 +29,6 @@ export {
 } from "./protocol.ts";
 export { paginateCursor } from "./pagination.ts";
 export * as Retry from "./retry.ts";
-export * as Services from "./services/index.ts";
 export * from "./services/clerk.ts";
 export {
   BadRequest,

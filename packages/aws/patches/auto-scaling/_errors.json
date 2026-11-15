@@ -1,0 +1,37 @@
+{
+  "description": "Auto Scaling: Error shapes the model does not declare, for the errors operations.json list (a shape with aws.codegen#synthetic matches its base wire error by message).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.autoscaling#InvalidIamInstanceProfile",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "ValidationError",
+            "message": {
+              "includes": "Invalid IAM Instance Profile"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.autoscaling#AutoScalingGroupNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "ValidationError",
+            "message": {
+              "includes": "not found"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

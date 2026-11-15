@@ -31,6 +31,8 @@ export class PrimaryIpLimitExceeded
     /*@__PURE__*/ S.TaggedError<PrimaryIpLimitExceeded>()("PrimaryIpLimitExceeded", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403, message: { includes: "IP limit" } }],
   ) {}

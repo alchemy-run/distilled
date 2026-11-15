@@ -1,0 +1,17 @@
+{
+  "description": "A cancelled sandbox is reported once by GET /sandboxes/{sandboxId} with only `id`, `state` and `error` (spec, Sandbox.state description), so `name`, `desktopAvailable` and `snapshotAvailable` cannot be required.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.boat.api#Sandbox/members/name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.boat.api#Sandbox/members/desktopAvailable/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.boat.api#Sandbox/members/snapshotAvailable/traits/smithy.api#required"
+    }
+  ]
+}

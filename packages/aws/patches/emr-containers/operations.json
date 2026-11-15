@@ -1,0 +1,187 @@
+{
+  "description": "EMR containers: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emrcontainers#CancelJobRun/errors/-",
+      "value": {
+        "target": "com.amazonaws.emrcontainers#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emrcontainers#CreateJobTemplate/errors/-",
+      "value": {
+        "target": "com.amazonaws.emrcontainers#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emrcontainers#CreateManagedEndpoint/errors/-",
+      "value": {
+        "target": "com.amazonaws.emrcontainers#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emrcontainers#CreateSecurityConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.emrcontainers#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emrcontainers#CreateVirtualCluster/errors/-",
+      "value": {
+        "target": "com.amazonaws.emrcontainers#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emrcontainers#CreateVirtualCluster/errors/-",
+      "value": {
+        "target": "com.amazonaws.emrcontainers#EksClusterConnectionUpdating"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emrcontainers#DeleteJobTemplate/errors/-",
+      "value": {
+        "target": "com.amazonaws.emrcontainers#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emrcontainers#DeleteManagedEndpoint/errors/-",
+      "value": {
+        "target": "com.amazonaws.emrcontainers#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emrcontainers#DeleteVirtualCluster/errors/-",
+      "value": {
+        "target": "com.amazonaws.emrcontainers#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emrcontainers#DescribeJobRun/errors/-",
+      "value": {
+        "target": "com.amazonaws.emrcontainers#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emrcontainers#DescribeJobTemplate/errors/-",
+      "value": {
+        "target": "com.amazonaws.emrcontainers#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emrcontainers#DescribeManagedEndpoint/errors/-",
+      "value": {
+        "target": "com.amazonaws.emrcontainers#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emrcontainers#DescribeSecurityConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.emrcontainers#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emrcontainers#DescribeVirtualCluster/errors/-",
+      "value": {
+        "target": "com.amazonaws.emrcontainers#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emrcontainers#GetManagedEndpointSessionCredentials/errors/-",
+      "value": {
+        "target": "com.amazonaws.emrcontainers#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emrcontainers#ListJobRuns/errors/-",
+      "value": {
+        "target": "com.amazonaws.emrcontainers#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emrcontainers#ListJobTemplates/errors/-",
+      "value": {
+        "target": "com.amazonaws.emrcontainers#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emrcontainers#ListManagedEndpoints/errors/-",
+      "value": {
+        "target": "com.amazonaws.emrcontainers#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emrcontainers#ListSecurityConfigurations/errors/-",
+      "value": {
+        "target": "com.amazonaws.emrcontainers#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emrcontainers#ListTagsForResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.emrcontainers#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emrcontainers#ListVirtualClusters/errors/-",
+      "value": {
+        "target": "com.amazonaws.emrcontainers#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emrcontainers#StartJobRun/errors/-",
+      "value": {
+        "target": "com.amazonaws.emrcontainers#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emrcontainers#TagResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.emrcontainers#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emrcontainers#TagResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.emrcontainers#InvalidResourceArn"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emrcontainers#UntagResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.emrcontainers#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emrcontainers#UntagResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.emrcontainers#InvalidResourceArn"
+      }
+    }
+  ]
+}

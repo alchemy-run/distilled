@@ -14,13 +14,14 @@
  * import { Effect, Layer } from "effect";
  * import * as FetchHttpClient from "effect/http/FetchHttpClient";
  * import * as StarburstGalaxy from "@distilled.cloud/starburst-galaxy";
+ * import * as Cluster from "@distilled.cloud/starburst-galaxy/cluster";
  *
  * const program = Effect.gen(function* () {
- *   const { result } = yield* StarburstGalaxy.cluster.listClusters({});
+ *   const { result } = yield* Cluster.listClusters({});
  *   const [first] = result;
  *   if (first === undefined) return undefined;
  *
- *   const cluster = yield* StarburstGalaxy.cluster.getCluster({ clusterId: first.clusterId });
+ *   const cluster = yield* Cluster.getCluster({ clusterId: first.clusterId });
  *   yield* Effect.log(`${cluster.name}: ${cluster.clusterState} at ${cluster.trinoUri}`);
  *   return cluster;
  * });
@@ -43,4 +44,3 @@ export {
 } from "./protocol.ts";
 export { paginateToken } from "./pagination.ts";
 export * as Retry from "./retry.ts";
-export * from "./services/index.ts";

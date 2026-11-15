@@ -1,21 +1,22 @@
 #!/usr/bin/env -S node --conditions=bun
 /**
- * convert — original AWS Smithy models + patches/{sdkId}.json →
+ * convert — original AWS Smithy models + patches/<sdkId>/ →
  * `.generated-specs/<sdkId>.json`, plus the endpoint rules engine's
  * partition data → `packages/s3/src/rules-engine/partitions.json`.
  *
- * generate.ts compiles those models and does not read the spec-mirror.
+ * Patches are RFC 6902 ops on the Smithy model, applied by the shared
+ * `finalizeConvert` like every other package's. generate.ts compiles the
+ * models and does not read the spec-mirror.
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
-import { writeModel } from "@distilled.cloud/dev/codegen/models";
+import { clearModels, writeModel } from "@distilled.cloud/dev/codegen/models";
 import { convertOpenApiToSmithy } from "@distilled.cloud/dev/codegen/openapi";
 import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
 import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
 import { applyTelemetryTraits } from "@distilled.cloud/dev/codegen/telemetry";
 import { AWS_EVENT_TRAIT } from "./events-spec.ts";
-import { loadServiceSpecPatch } from "./spec-schema.ts";
-import { applyAwsSpecPatches, dropForeignNamespaceShapes } from "./spec.ts";
+import { dropForeignNamespaceShapes } from "./spec.ts";
 import { awsTelemetry } from "./telemetry.ts";
 
 const root = path.resolve(import.meta.dirname, "..");
@@ -58,9 +59,36 @@ if (!fs.existsSync(modelsRoot)) {
   console.log("✅ partitions.json");
 }
 
+/**
+ * Every operation and the service get an `errors` list, so a patch appends
+ * with `/errors/-` and keeps the errors a later model adds.
+ */
+const ensureErrorLists = (model: { shapes: Record<string, any> }) => {
+  for (const shape of Object.values(model.shapes)) {
+    if ((shape.type === "operation" || shape.type === "service") && shape.errors === undefined) {
+      shape.errors = [];
+    }
+  }
+};
+
+/** A patched error the model later declares itself is listed once. */
+const dedupeErrorLists = (model: { shapes: Record<string, any> }) => {
+  for (const shape of Object.values(model.shapes)) {
+    if (!Array.isArray(shape.errors)) continue;
+    const seen = new Set<string>();
+    shape.errors = shape.errors.filter((e: { target: string }) => {
+      if (seen.has(e.target)) return false;
+      seen.add(e.target);
+      return true;
+    });
+  }
+};
+
+// finalizeConvert patches every model in outDir once; start empty.
+clearModels(outDir);
+
 const services = fs.readdirSync(modelsRoot).sort();
 let written = 0;
-let patched = 0;
 for (const service of services) {
   if (UNSUPPORTED_SERVICES.has(service)) continue;
   const base = path.join(modelsRoot, service, "service");
@@ -74,15 +102,8 @@ for (const service of services) {
 
   const model = JSON.parse(fs.readFileSync(path.join(base, version, file), "utf8"));
   const dropped = dropForeignNamespaceShapes(model);
-  const sdkId = sdkIdOf(model);
-  const patchFileBase = moduleName(sdkId);
-  const spec = loadServiceSpecPatch(sdkId, root);
-  applyAwsSpecPatches(model, spec, patchFileBase);
-  applyTelemetryTraits(model, patchFileBase, awsTelemetry(sdkId));
-  const hasPatch = fs.existsSync(path.join(root, "patches", `${patchFileBase}.json`));
-  if (hasPatch) patched++;
-
-  const outName = `${patchFileBase}.json`;
+  ensureErrorLists(model);
+  const outName = `${moduleName(sdkIdOf(model))}.json`;
   writeModel(path.join(outDir, outName), model);
   written++;
   if (dropped > 0) {
@@ -90,7 +111,7 @@ for (const service of services) {
   }
 }
 
-console.log(`✅ ${written} AWS Smithy models (${patched} with patches/) → ${outDir}`);
+console.log(`✅ ${written} AWS Smithy models → ${outDir}`);
 
 // ---- Event schemas ----------------------------------------------------------
 // The Smithy models describe API calls only. What a service SENDS (an SES
@@ -201,11 +222,17 @@ for (const [source, files] of bySource) {
 }
 console.log(`✅ ${eventModels.length} event models (${eventModels.join(", ")}) → ${outDir}`);
 
-// Patches for the event models are RFC-6902 ops on the converted model, in
-// `patches/<service>-events/`; the service models keep their own format.
+// Patches: `patches/<sdkId>/` and `patches/<service>-events/`. AWS names
+// are kept as published; telemetry comes from AWS's own table, after the
+// patches.
 await finalizeConvert({
   root,
-  include: (resource) => eventModels.includes(resource),
   operationNaming: "as-is",
   telemetry: false,
+  transform: (model, resource) => {
+    dedupeErrorLists(model);
+    if (!eventModels.includes(resource)) {
+      applyTelemetryTraits(model, resource, awsTelemetry(sdkIdOf(model)));
+    }
+  },
 });

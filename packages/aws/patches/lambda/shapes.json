@@ -1,0 +1,15 @@
+{
+  "description": "Lambda: Enum values the API returns.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#LastUpdateStatusReasonCode/members/Creating",
+      "value": {
+        "target": "smithy.api#Unit",
+        "traits": {
+          "smithy.api#enumValue": "Creating"
+        }
+      }
+    }
+  ]
+}

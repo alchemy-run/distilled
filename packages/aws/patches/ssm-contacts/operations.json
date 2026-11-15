@@ -1,0 +1,341 @@
+{
+  "description": "SSM Contacts: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#GetContact/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#IncidentManagerNotOnboarded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#GetContactChannel/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#IncidentManagerNotOnboarded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#GetRotation/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#IncidentManagerNotOnboarded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#GetRotation/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#InvalidRotationArn"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#CreateContact/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#IncidentManagerNotOnboarded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#CreateContactChannel/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#IncidentManagerNotOnboarded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#CreateRotation/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#ConflictException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#CreateRotation/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#IncidentManagerNotOnboarded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#UpdateContact/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#IncidentManagerNotOnboarded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#UpdateContactChannel/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#IncidentManagerNotOnboarded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#UpdateRotation/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#IncidentManagerNotOnboarded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#UpdateRotation/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#InvalidRotationArn"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#DeleteContact/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#IncidentManagerNotOnboarded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#DeleteContactChannel/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#IncidentManagerNotOnboarded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#DeleteRotation/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#IncidentManagerNotOnboarded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#DeleteRotation/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#InvalidRotationArn"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#ListContacts/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#IncidentManagerNotOnboarded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#ListContactChannels/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#IncidentManagerNotOnboarded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#ListRotations/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#IncidentManagerNotOnboarded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#ListTagsForResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#IncidentManagerNotOnboarded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#TagResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#IncidentManagerNotOnboarded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#UntagResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#IncidentManagerNotOnboarded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#StartEngagement/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#IncidentManagerNotOnboarded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#StopEngagement/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#IncidentManagerNotOnboarded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#DescribeEngagement/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#IncidentManagerNotOnboarded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#ListEngagements/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#IncidentManagerNotOnboarded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#AcceptPage/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#IncidentManagerNotOnboarded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#DescribePage/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#IncidentManagerNotOnboarded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#ListPagesByContact/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#IncidentManagerNotOnboarded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#ListPagesByEngagement/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#IncidentManagerNotOnboarded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#ListPageReceipts/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#IncidentManagerNotOnboarded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#ListPageResolutions/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#IncidentManagerNotOnboarded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#ActivateContactChannel/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#IncidentManagerNotOnboarded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#DeactivateContactChannel/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#IncidentManagerNotOnboarded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#SendActivationCode/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#IncidentManagerNotOnboarded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#CreateRotationOverride/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#IncidentManagerNotOnboarded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#CreateRotationOverride/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#InvalidRotationArn"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#DeleteRotationOverride/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#IncidentManagerNotOnboarded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#DeleteRotationOverride/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#InvalidRotationArn"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#GetRotationOverride/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#IncidentManagerNotOnboarded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#GetRotationOverride/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#InvalidRotationArn"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#ListRotationOverrides/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#IncidentManagerNotOnboarded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#ListRotationOverrides/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#InvalidRotationArn"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#ListRotationShifts/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#IncidentManagerNotOnboarded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#ListRotationShifts/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#InvalidRotationArn"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#ListPreviewRotationShifts/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#IncidentManagerNotOnboarded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#PutContactPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#IncidentManagerNotOnboarded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssmcontacts#GetContactPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.ssmcontacts#IncidentManagerNotOnboarded"
+      }
+    }
+  ]
+}
