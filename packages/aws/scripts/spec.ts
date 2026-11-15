@@ -961,6 +961,9 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
     protocol === "aws.protocols#awsJson1_1";
   const isQueryProtocol =
     protocol === "aws.protocols#awsQuery" || protocol === "aws.protocols#ec2Query";
+  // `@jsonName` renames a member on the wire only in restJson1; awsJson
+  // ignores it (https://smithy.io/2.0/aws/protocols/aws-json-1_1-protocol.html).
+  const honorsJsonName = protocol === "aws.protocols#restJson1";
 
   // --- Global collections (same order as the pre-port generator) ------------
   // Cycle analysis over TS-facing names (Tarjan, shared with the other SDK
@@ -1496,7 +1499,9 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
       allStructNames.has(memberTargetName) ? memberTargetName : undefined,
     );
 
-    const jsonName = traits["smithy.api#jsonName"] as string | undefined;
+    const jsonName = honorsJsonName
+      ? (traits["smithy.api#jsonName"] as string | undefined)
+      : undefined;
 
     return {
       name: memberName,
@@ -1822,7 +1827,14 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
               allStructNames.has(memberTargetName) ? memberTargetName : undefined,
             );
             // Smithy unions are tagged: wrap in a struct keyed by member name
-            wrappedMembers.push(`S.Struct({ ${memberName}: ${wrapped} })`);
+            const jsonName = honorsJsonName
+              ? (member.traits?.["smithy.api#jsonName"] as string | undefined)
+              : undefined;
+            const encodeKeys =
+              jsonName && jsonName !== memberName
+                ? `.pipe(S.encodeKeys({ ${memberName}: "${jsonName}" }))`
+                : "";
+            wrappedMembers.push(`S.Struct({ ${memberName}: ${wrapped} })${encodeKeys}`);
             variantTypes.push(
               generateUnionVariant(allMemberNames, memberName, tsTypeAt(member.target, name)),
             );

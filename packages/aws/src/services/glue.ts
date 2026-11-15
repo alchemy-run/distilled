@@ -22221,11 +22221,9 @@ function __c172(j: number): any {
         }),
       ).annotate({ identifier: "SessionEndpoint" });
     case 2:
-      return S.suspend(() =>
-        S.Struct({ SparkConnect: __S(5505, __c172, 1) }).pipe(
-          S.encodeKeys({ SparkConnect: "SPARK_CONNECT" }),
-        ),
-      ).annotate({ identifier: "GetSessionEndpointResponse" });
+      return S.suspend(() => S.Struct({ SparkConnect: __S(5505, __c172, 1) })).annotate({
+        identifier: "GetSessionEndpointResponse",
+      });
   }
 }
 function __c173(j: number): any {

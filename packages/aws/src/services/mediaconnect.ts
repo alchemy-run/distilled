@@ -8486,8 +8486,12 @@ function __c30(j: number): any {
       ).annotate({ identifier: "SecretsManagerEncryptionKeyConfiguration" });
     case 1:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ SecretsManager: __S(960, __c30, 0) }),
-        /*@__PURE__*/ S.Struct({ Automatic: __S(928, __c29, 0) }),
+        /*@__PURE__*/ S.Struct({ SecretsManager: __S(960, __c30, 0) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ SecretsManager: "secretsManager" }),
+        ),
+        /*@__PURE__*/ S.Struct({ Automatic: __S(928, __c29, 0) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Automatic: "automatic" }),
+        ),
       ]);
     case 2:
       return S.suspend(() =>
@@ -8506,7 +8510,11 @@ function __c30(j: number): any {
 function __c31(j: number): any {
   switch (j) {
     case 0:
-      return S.Union([/*@__PURE__*/ S.Struct({ Public: __S(928, __c29, 0) })]);
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ Public: __S(928, __c29, 0) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Public: "public" }),
+        ),
+      ]);
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -8892,8 +8900,12 @@ function __c39(j: number): any {
       ).annotate({ identifier: "ManualRtmpPushNamingConfiguration" });
     case 1:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ Manual: __S(1248, __c39, 0) }),
-        /*@__PURE__*/ S.Struct({ Automatic: __S(928, __c29, 0) }),
+        /*@__PURE__*/ S.Struct({ Manual: __S(1248, __c39, 0) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Manual: "manual" }),
+        ),
+        /*@__PURE__*/ S.Struct({ Automatic: __S(928, __c29, 0) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Automatic: "automatic" }),
+        ),
       ]);
   }
 }
@@ -9238,8 +9250,12 @@ function __c49(j: number): any {
       ).annotate({ identifier: "SecretsManagerEndpointEncryptionConfiguration" });
     case 2:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ SecretsManager: __S(1569, __c49, 1) }),
-        /*@__PURE__*/ S.Struct({ Automatic: __S(928, __c29, 0) }),
+        /*@__PURE__*/ S.Struct({ SecretsManager: __S(1569, __c49, 1) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ SecretsManager: "secretsManager" }),
+        ),
+        /*@__PURE__*/ S.Struct({ Automatic: __S(928, __c29, 0) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Automatic: "automatic" }),
+        ),
       ]);
   }
 }
@@ -9273,8 +9289,12 @@ function __c51(j: number): any {
       ).annotate({ identifier: "ConsumedResourceShareDetails" });
     case 2:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ Owned: __S(1632, __c51, 0) }),
-        /*@__PURE__*/ S.Struct({ Consumed: __S(1633, __c51, 1) }),
+        /*@__PURE__*/ S.Struct({ Owned: __S(1632, __c51, 0) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Owned: "owned" }),
+        ),
+        /*@__PURE__*/ S.Struct({ Consumed: __S(1633, __c51, 1) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Consumed: "consumed" }),
+        ),
       ]);
     case 3:
       return S.suspend(() =>
@@ -9304,8 +9324,12 @@ function __c52(j: number): any {
       ).annotate({ identifier: "PublicDestinationEndpointNetworkingConfiguration" });
     case 1:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ Public: __S(1664, __c52, 0) }),
-        /*@__PURE__*/ S.Struct({ Vpc: __S(1602, __c50, 2) }),
+        /*@__PURE__*/ S.Struct({ Public: __S(1664, __c52, 0) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Public: "public" }),
+        ),
+        /*@__PURE__*/ S.Struct({ Vpc: __S(1602, __c50, 2) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Vpc: "vpc" }),
+        ),
       ]);
     case 2:
       return S.suspend(() =>
@@ -9364,10 +9388,18 @@ function __c52(j: number): any {
       ).annotate({ identifier: "RtpStandardDestinationEndpointConfiguration" });
     case 6:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ Rist: __S(1666, __c52, 2) }),
-        /*@__PURE__*/ S.Struct({ SrtListener: __S(1667, __c52, 3) }),
-        /*@__PURE__*/ S.Struct({ SrtCaller: __S(1668, __c52, 4) }),
-        /*@__PURE__*/ S.Struct({ Rtp: __S(1669, __c52, 5) }),
+        /*@__PURE__*/ S.Struct({ Rist: __S(1666, __c52, 2) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Rist: "rist" }),
+        ),
+        /*@__PURE__*/ S.Struct({ SrtListener: __S(1667, __c52, 3) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ SrtListener: "srtListener" }),
+        ),
+        /*@__PURE__*/ S.Struct({ SrtCaller: __S(1668, __c52, 4) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ SrtCaller: "srtCaller" }),
+        ),
+        /*@__PURE__*/ S.Struct({ Rtp: __S(1669, __c52, 5) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Rtp: "rtp" }),
+        ),
       ]);
     case 7:
       return S.suspend(() =>
@@ -9395,8 +9427,12 @@ function __c52(j: number): any {
       ).annotate({ identifier: "RouterInputDestinationEndpointConfiguration" });
     case 9:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ Standard: __S(1671, __c52, 7) }),
-        /*@__PURE__*/ S.Struct({ RouterInput: __S(1672, __c52, 8) }),
+        /*@__PURE__*/ S.Struct({ Standard: __S(1671, __c52, 7) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Standard: "standard" }),
+        ),
+        /*@__PURE__*/ S.Struct({ RouterInput: __S(1672, __c52, 8) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ RouterInput: "routerInput" }),
+        ),
       ]);
     case 10:
       return S.suspend(() =>
@@ -9432,13 +9468,21 @@ function __c52(j: number): any {
       ).annotate({ identifier: "RouterInputDestinationEndpointConnectionDetails" });
     case 12:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ Standard: __S(1674, __c52, 10) }),
-        /*@__PURE__*/ S.Struct({ RouterInput: __S(1675, __c52, 11) }),
+        /*@__PURE__*/ S.Struct({ Standard: __S(1674, __c52, 10) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Standard: "standard" }),
+        ),
+        /*@__PURE__*/ S.Struct({ RouterInput: __S(1675, __c52, 11) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ RouterInput: "routerInput" }),
+        ),
       ]);
     case 13:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ Standard: __S(928, __c29, 0) }),
-        /*@__PURE__*/ S.Struct({ RouterInput: __S(1635, __c51, 3) }),
+        /*@__PURE__*/ S.Struct({ Standard: __S(928, __c29, 0) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Standard: "standard" }),
+        ),
+        /*@__PURE__*/ S.Struct({ RouterInput: __S(1635, __c51, 3) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ RouterInput: "routerInput" }),
+        ),
       ]);
     case 14:
       return S.suspend(() =>
@@ -9538,8 +9582,12 @@ function __c54(j: number): any {
       ).annotate({ identifier: "PreferredDayTimeMaintenanceConfiguration" });
     case 2:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ PreferredDayTime: __S(1729, __c54, 1) }),
-        /*@__PURE__*/ S.Struct({ Default: __S(928, __c29, 0) }),
+        /*@__PURE__*/ S.Struct({ PreferredDayTime: __S(1729, __c54, 1) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ PreferredDayTime: "preferredDayTime" }),
+        ),
+        /*@__PURE__*/ S.Struct({ Default: __S(928, __c29, 0) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Default: "default" }),
+        ),
       ]);
   }
 }
@@ -9554,7 +9602,11 @@ function __c55(j: number): any {
         }).pipe(S.encodeKeys({ Start: "start", End: "end", ScheduledTime: "scheduledTime" })),
       ).annotate({ identifier: "WindowMaintenanceSchedule" });
     case 1:
-      return S.Union([/*@__PURE__*/ S.Struct({ Window: __S(1760, __c55, 0) })]);
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ Window: __S(1760, __c55, 0) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Window: "window" }),
+        ),
+      ]);
   }
 }
 function __c56(j: number): any {
@@ -9636,11 +9688,21 @@ function __c56(j: number): any {
       ).annotate({ identifier: "RtpRouterInputConfiguration" });
     case 6:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ Rist: __S(1793, __c56, 1) }),
-        /*@__PURE__*/ S.Struct({ SrtListener: __S(1794, __c56, 2) }),
-        /*@__PURE__*/ S.Struct({ RtmpPush: __S(1795, __c56, 3) }),
-        /*@__PURE__*/ S.Struct({ SrtCaller: __S(1796, __c56, 4) }),
-        /*@__PURE__*/ S.Struct({ Rtp: __S(1797, __c56, 5) }),
+        /*@__PURE__*/ S.Struct({ Rist: __S(1793, __c56, 1) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Rist: "rist" }),
+        ),
+        /*@__PURE__*/ S.Struct({ SrtListener: __S(1794, __c56, 2) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ SrtListener: "srtListener" }),
+        ),
+        /*@__PURE__*/ S.Struct({ RtmpPush: __S(1795, __c56, 3) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ RtmpPush: "rtmpPush" }),
+        ),
+        /*@__PURE__*/ S.Struct({ SrtCaller: __S(1796, __c56, 4) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ SrtCaller: "srtCaller" }),
+        ),
+        /*@__PURE__*/ S.Struct({ Rtp: __S(1797, __c56, 5) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Rtp: "rtp" }),
+        ),
       ]);
     case 7:
       return S.suspend(() =>
@@ -9706,10 +9768,18 @@ function __c56(j: number): any {
       ).annotate({ identifier: "MediaConnectFlowRouterInputConfiguration" });
     case 12:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ Rtp: __S(1797, __c56, 5) }),
-        /*@__PURE__*/ S.Struct({ Rist: __S(1793, __c56, 1) }),
-        /*@__PURE__*/ S.Struct({ SrtListener: __S(1794, __c56, 2) }),
-        /*@__PURE__*/ S.Struct({ SrtCaller: __S(1796, __c56, 4) }),
+        /*@__PURE__*/ S.Struct({ Rtp: __S(1797, __c56, 5) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Rtp: "rtp" }),
+        ),
+        /*@__PURE__*/ S.Struct({ Rist: __S(1793, __c56, 1) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Rist: "rist" }),
+        ),
+        /*@__PURE__*/ S.Struct({ SrtListener: __S(1794, __c56, 2) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ SrtListener: "srtListener" }),
+        ),
+        /*@__PURE__*/ S.Struct({ SrtCaller: __S(1796, __c56, 4) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ SrtCaller: "srtCaller" }),
+        ),
       ]);
     case 13:
       return S.Array(__S(1804, __c56, 12));
@@ -9729,12 +9799,24 @@ function __c56(j: number): any {
       ).annotate({ identifier: "MergeRouterInputConfiguration" });
     case 15:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ DestinationEndpoint: __S(1792, __c56, 0) }),
-        /*@__PURE__*/ S.Struct({ Standard: __S(1799, __c56, 7) }),
-        /*@__PURE__*/ S.Struct({ MediaLiveChannel: __S(1800, __c56, 8) }),
-        /*@__PURE__*/ S.Struct({ Failover: __S(1802, __c56, 10) }),
-        /*@__PURE__*/ S.Struct({ MediaConnectFlow: __S(1803, __c56, 11) }),
-        /*@__PURE__*/ S.Struct({ Merge: __S(1806, __c56, 14) }),
+        /*@__PURE__*/ S.Struct({ DestinationEndpoint: __S(1792, __c56, 0) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ DestinationEndpoint: "destinationEndpoint" }),
+        ),
+        /*@__PURE__*/ S.Struct({ Standard: __S(1799, __c56, 7) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Standard: "standard" }),
+        ),
+        /*@__PURE__*/ S.Struct({ MediaLiveChannel: __S(1800, __c56, 8) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ MediaLiveChannel: "mediaLiveChannel" }),
+        ),
+        /*@__PURE__*/ S.Struct({ Failover: __S(1802, __c56, 10) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Failover: "failover" }),
+        ),
+        /*@__PURE__*/ S.Struct({ MediaConnectFlow: __S(1803, __c56, 11) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ MediaConnectFlow: "mediaConnectFlow" }),
+        ),
+        /*@__PURE__*/ S.Struct({ Merge: __S(1806, __c56, 14) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Merge: "merge" }),
+        ),
       ]);
     case 16:
       return S.suspend(() =>
@@ -9789,12 +9871,24 @@ function __c56(j: number): any {
       ).annotate({ identifier: "MergeRouterInputStreamDetails" });
     case 21:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ DestinationEndpoint: __S(928, __c29, 0) }),
-        /*@__PURE__*/ S.Struct({ Standard: __S(1808, __c56, 16) }),
-        /*@__PURE__*/ S.Struct({ MediaLiveChannel: __S(928, __c29, 0) }),
-        /*@__PURE__*/ S.Struct({ Failover: __S(1810, __c56, 18) }),
-        /*@__PURE__*/ S.Struct({ MediaConnectFlow: __S(928, __c29, 0) }),
-        /*@__PURE__*/ S.Struct({ Merge: __S(1812, __c56, 20) }),
+        /*@__PURE__*/ S.Struct({ DestinationEndpoint: __S(928, __c29, 0) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ DestinationEndpoint: "destinationEndpoint" }),
+        ),
+        /*@__PURE__*/ S.Struct({ Standard: __S(1808, __c56, 16) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Standard: "standard" }),
+        ),
+        /*@__PURE__*/ S.Struct({ MediaLiveChannel: __S(928, __c29, 0) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ MediaLiveChannel: "mediaLiveChannel" }),
+        ),
+        /*@__PURE__*/ S.Struct({ Failover: __S(1810, __c56, 18) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Failover: "failover" }),
+        ),
+        /*@__PURE__*/ S.Struct({ MediaConnectFlow: __S(928, __c29, 0) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ MediaConnectFlow: "mediaConnectFlow" }),
+        ),
+        /*@__PURE__*/ S.Struct({ Merge: __S(1812, __c56, 20) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Merge: "merge" }),
+        ),
       ]);
     case 22:
       return S.suspend(() =>
@@ -9817,7 +9911,11 @@ function __c56(j: number): any {
         ),
       ).annotate({ identifier: "ContentQualityAnalysisFeatureConfiguration" });
     case 24:
-      return S.Union([/*@__PURE__*/ S.Struct({ ContentLevel: __S(1815, __c56, 23) })]);
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ ContentLevel: __S(1815, __c56, 23) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ ContentLevel: "contentLevel" }),
+        ),
+      ]);
     case 25:
       return S.suspend(() =>
         S.Struct({
@@ -9928,8 +10026,12 @@ function __c58(j: number): any {
       ).annotate({ identifier: "PublicRouterNetworkInterfaceConfiguration" });
     case 1:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ Public: __S(1856, __c58, 0) }),
-        /*@__PURE__*/ S.Struct({ Vpc: __S(1602, __c50, 2) }),
+        /*@__PURE__*/ S.Struct({ Public: __S(1856, __c58, 0) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Public: "public" }),
+        ),
+        /*@__PURE__*/ S.Struct({ Vpc: __S(1602, __c50, 2) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Vpc: "vpc" }),
+        ),
       ]);
     case 2:
       return S.suspend(() =>
@@ -10068,11 +10170,21 @@ function __c60(j: number): any {
       ).annotate({ identifier: "RtpRouterOutputConfiguration" });
     case 5:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ Rist: __S(1920, __c60, 0) }),
-        /*@__PURE__*/ S.Struct({ SrtListener: __S(1921, __c60, 1) }),
-        /*@__PURE__*/ S.Struct({ RtmpPush: __S(1922, __c60, 2) }),
-        /*@__PURE__*/ S.Struct({ SrtCaller: __S(1923, __c60, 3) }),
-        /*@__PURE__*/ S.Struct({ Rtp: __S(1924, __c60, 4) }),
+        /*@__PURE__*/ S.Struct({ Rist: __S(1920, __c60, 0) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Rist: "rist" }),
+        ),
+        /*@__PURE__*/ S.Struct({ SrtListener: __S(1921, __c60, 1) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ SrtListener: "srtListener" }),
+        ),
+        /*@__PURE__*/ S.Struct({ RtmpPush: __S(1922, __c60, 2) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ RtmpPush: "rtmpPush" }),
+        ),
+        /*@__PURE__*/ S.Struct({ SrtCaller: __S(1923, __c60, 3) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ SrtCaller: "srtCaller" }),
+        ),
+        /*@__PURE__*/ S.Struct({ Rtp: __S(1924, __c60, 4) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Rtp: "rtp" }),
+        ),
       ]);
     case 6:
       return S.suspend(() =>
@@ -10132,10 +10244,18 @@ function __c60(j: number): any {
       ).annotate({ identifier: "SourceEndpointRouterOutputConfiguration" });
     case 10:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ Standard: __S(1926, __c60, 6) }),
-        /*@__PURE__*/ S.Struct({ MediaConnectFlow: __S(1927, __c60, 7) }),
-        /*@__PURE__*/ S.Struct({ MediaLiveInput: __S(1928, __c60, 8) }),
-        /*@__PURE__*/ S.Struct({ SourceEndpoint: __S(1929, __c60, 9) }),
+        /*@__PURE__*/ S.Struct({ Standard: __S(1926, __c60, 6) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Standard: "standard" }),
+        ),
+        /*@__PURE__*/ S.Struct({ MediaConnectFlow: __S(1927, __c60, 7) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ MediaConnectFlow: "mediaConnectFlow" }),
+        ),
+        /*@__PURE__*/ S.Struct({ MediaLiveInput: __S(1928, __c60, 8) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ MediaLiveInput: "mediaLiveInput" }),
+        ),
+        /*@__PURE__*/ S.Struct({ SourceEndpoint: __S(1929, __c60, 9) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ SourceEndpoint: "sourceEndpoint" }),
+        ),
       ]);
     case 11:
       return S.suspend(() =>
@@ -10145,10 +10265,18 @@ function __c60(j: number): any {
       ).annotate({ identifier: "StandardRouterOutputStreamDetails" });
     case 12:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ Standard: __S(1931, __c60, 11) }),
-        /*@__PURE__*/ S.Struct({ MediaConnectFlow: __S(928, __c29, 0) }),
-        /*@__PURE__*/ S.Struct({ MediaLiveInput: __S(928, __c29, 0) }),
-        /*@__PURE__*/ S.Struct({ SourceEndpoint: __S(928, __c29, 0) }),
+        /*@__PURE__*/ S.Struct({ Standard: __S(1931, __c60, 11) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Standard: "standard" }),
+        ),
+        /*@__PURE__*/ S.Struct({ MediaConnectFlow: __S(928, __c29, 0) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ MediaConnectFlow: "mediaConnectFlow" }),
+        ),
+        /*@__PURE__*/ S.Struct({ MediaLiveInput: __S(928, __c29, 0) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ MediaLiveInput: "mediaLiveInput" }),
+        ),
+        /*@__PURE__*/ S.Struct({ SourceEndpoint: __S(928, __c29, 0) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ SourceEndpoint: "sourceEndpoint" }),
+        ),
       ]);
     case 13:
       return S.suspend(() =>
@@ -10158,8 +10286,12 @@ function __c60(j: number): any {
       ).annotate({ identifier: "KeyFrameFabricSwitchingConfiguration" });
     case 14:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ Immediate: __S(928, __c29, 0) }),
-        /*@__PURE__*/ S.Struct({ KeyFrame: __S(1933, __c60, 13) }),
+        /*@__PURE__*/ S.Struct({ Immediate: __S(928, __c29, 0) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Immediate: "immediate" }),
+        ),
+        /*@__PURE__*/ S.Struct({ KeyFrame: __S(1933, __c60, 13) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ KeyFrame: "keyFrame" }),
+        ),
       ]);
     case 15:
       return S.suspend(() =>
@@ -10185,8 +10317,10 @@ function __c60(j: number): any {
       return S.Array(__S(1936, __c60, 16));
     case 18:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ Passthrough: __S(928, __c29, 0) }),
-        /*@__PURE__*/ S.Struct({ Set: S.Number }),
+        /*@__PURE__*/ S.Struct({ Passthrough: __S(928, __c29, 0) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Passthrough: "passthrough" }),
+        ),
+        /*@__PURE__*/ S.Struct({ Set: S.Number }).pipe(/*@__PURE__*/ S.encodeKeys({ Set: "set" })),
       ]);
     case 19:
       return S.suspend(() =>
@@ -10329,8 +10463,12 @@ function __c62(j: number): any {
       ).annotate({ identifier: "PublicSourceEndpointNetworkingConfiguration" });
     case 1:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ Public: __S(1984, __c62, 0) }),
-        /*@__PURE__*/ S.Struct({ Vpc: __S(1602, __c50, 2) }),
+        /*@__PURE__*/ S.Struct({ Public: __S(1984, __c62, 0) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Public: "public" }),
+        ),
+        /*@__PURE__*/ S.Struct({ Vpc: __S(1602, __c50, 2) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Vpc: "vpc" }),
+        ),
       ]);
     case 2:
       return S.suspend(() =>
@@ -10384,10 +10522,18 @@ function __c62(j: number): any {
       ).annotate({ identifier: "RtpStandardSourceEndpointConfiguration" });
     case 6:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ Rist: __S(1986, __c62, 2) }),
-        /*@__PURE__*/ S.Struct({ SrtListener: __S(1987, __c62, 3) }),
-        /*@__PURE__*/ S.Struct({ SrtCaller: __S(1988, __c62, 4) }),
-        /*@__PURE__*/ S.Struct({ Rtp: __S(1989, __c62, 5) }),
+        /*@__PURE__*/ S.Struct({ Rist: __S(1986, __c62, 2) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Rist: "rist" }),
+        ),
+        /*@__PURE__*/ S.Struct({ SrtListener: __S(1987, __c62, 3) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ SrtListener: "srtListener" }),
+        ),
+        /*@__PURE__*/ S.Struct({ SrtCaller: __S(1988, __c62, 4) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ SrtCaller: "srtCaller" }),
+        ),
+        /*@__PURE__*/ S.Struct({ Rtp: __S(1989, __c62, 5) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Rtp: "rtp" }),
+        ),
       ]);
     case 7:
       return S.suspend(() =>
@@ -10415,8 +10561,12 @@ function __c62(j: number): any {
       ).annotate({ identifier: "RouterOutputSourceEndpointConfiguration" });
     case 9:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ Standard: __S(1991, __c62, 7) }),
-        /*@__PURE__*/ S.Struct({ RouterOutput: __S(1992, __c62, 8) }),
+        /*@__PURE__*/ S.Struct({ Standard: __S(1991, __c62, 7) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Standard: "standard" }),
+        ),
+        /*@__PURE__*/ S.Struct({ RouterOutput: __S(1992, __c62, 8) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ RouterOutput: "routerOutput" }),
+        ),
       ]);
     case 10:
       return S.suspend(() =>
@@ -10452,13 +10602,21 @@ function __c62(j: number): any {
       ).annotate({ identifier: "RouterOutputSourceEndpointConnectionDetails" });
     case 12:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ Standard: __S(1994, __c62, 10) }),
-        /*@__PURE__*/ S.Struct({ RouterOutput: __S(1995, __c62, 11) }),
+        /*@__PURE__*/ S.Struct({ Standard: __S(1994, __c62, 10) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Standard: "standard" }),
+        ),
+        /*@__PURE__*/ S.Struct({ RouterOutput: __S(1995, __c62, 11) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ RouterOutput: "routerOutput" }),
+        ),
       ]);
     case 13:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ Standard: __S(928, __c29, 0) }),
-        /*@__PURE__*/ S.Struct({ RouterOutput: __S(1635, __c51, 3) }),
+        /*@__PURE__*/ S.Struct({ Standard: __S(928, __c29, 0) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Standard: "standard" }),
+        ),
+        /*@__PURE__*/ S.Struct({ RouterOutput: __S(1635, __c51, 3) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ RouterOutput: "routerOutput" }),
+        ),
       ]);
     case 14:
       return S.suspend(() =>
@@ -11982,8 +12140,12 @@ function __c114(j: number): any {
       ).annotate({ identifier: "GetRouterInputSourceMetadataRequest" });
     case 1:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ TransportStreamMediaInfo: __S(3206, __c100, 6) }),
-        /*@__PURE__*/ S.Struct({ RtmpInfo: __S(3210, __c100, 10) }),
+        /*@__PURE__*/ S.Struct({ TransportStreamMediaInfo: __S(3206, __c100, 6) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ TransportStreamMediaInfo: "transportStreamMediaInfo" }),
+        ),
+        /*@__PURE__*/ S.Struct({ RtmpInfo: __S(3210, __c100, 10) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ RtmpInfo: "rtmpInfo" }),
+        ),
       ]);
     case 2:
       return S.suspend(() =>
@@ -12187,9 +12349,15 @@ function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ RegionNames: StringList }),
-        /*@__PURE__*/ S.Struct({ DestinationTypes: __S(3936, __c123, 0) }),
-        /*@__PURE__*/ S.Struct({ NameContains: StringList }),
+        /*@__PURE__*/ S.Struct({ RegionNames: StringList }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ RegionNames: "regionNames" }),
+        ),
+        /*@__PURE__*/ S.Struct({ DestinationTypes: __S(3936, __c123, 0) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ DestinationTypes: "destinationTypes" }),
+        ),
+        /*@__PURE__*/ S.Struct({ NameContains: StringList }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ NameContains: "nameContains" }),
+        ),
       ]);
     case 1:
       return S.Array(__S(3904, __c122, 0));
@@ -12477,11 +12645,21 @@ function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ NameContains: StringList }),
-        /*@__PURE__*/ S.Struct({ RegionNames: StringList }),
-        /*@__PURE__*/ S.Struct({ NetworkInterfaceArns: RouterNetworkInterfaceArnList }),
-        /*@__PURE__*/ S.Struct({ RoutingScopes: __S(3936, __c123, 0) }),
-        /*@__PURE__*/ S.Struct({ InputTypes: __S(3936, __c123, 0) }),
+        /*@__PURE__*/ S.Struct({ NameContains: StringList }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ NameContains: "nameContains" }),
+        ),
+        /*@__PURE__*/ S.Struct({ RegionNames: StringList }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ RegionNames: "regionNames" }),
+        ),
+        /*@__PURE__*/ S.Struct({ NetworkInterfaceArns: RouterNetworkInterfaceArnList }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ NetworkInterfaceArns: "networkInterfaceArns" }),
+        ),
+        /*@__PURE__*/ S.Struct({ RoutingScopes: __S(3936, __c123, 0) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ RoutingScopes: "routingScopes" }),
+        ),
+        /*@__PURE__*/ S.Struct({ InputTypes: __S(3936, __c123, 0) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ InputTypes: "inputTypes" }),
+        ),
       ]);
     case 1:
       return S.Array(__S(4160, __c130, 0));
@@ -12558,9 +12736,15 @@ function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ RegionNames: StringList }),
-        /*@__PURE__*/ S.Struct({ NetworkInterfaceTypes: __S(3936, __c123, 0) }),
-        /*@__PURE__*/ S.Struct({ NameContains: StringList }),
+        /*@__PURE__*/ S.Struct({ RegionNames: StringList }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ RegionNames: "regionNames" }),
+        ),
+        /*@__PURE__*/ S.Struct({ NetworkInterfaceTypes: __S(3936, __c123, 0) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ NetworkInterfaceTypes: "networkInterfaceTypes" }),
+        ),
+        /*@__PURE__*/ S.Struct({ NameContains: StringList }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ NameContains: "nameContains" }),
+        ),
       ]);
     case 1:
       return S.Array(__S(4192, __c131, 0));
@@ -12631,12 +12815,24 @@ function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ RegionNames: StringList }),
-        /*@__PURE__*/ S.Struct({ NetworkInterfaceArns: RouterNetworkInterfaceArnList }),
-        /*@__PURE__*/ S.Struct({ RoutingScopes: __S(3936, __c123, 0) }),
-        /*@__PURE__*/ S.Struct({ OutputTypes: __S(3936, __c123, 0) }),
-        /*@__PURE__*/ S.Struct({ RoutedInputArns: RouterInputArnList }),
-        /*@__PURE__*/ S.Struct({ NameContains: StringList }),
+        /*@__PURE__*/ S.Struct({ RegionNames: StringList }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ RegionNames: "regionNames" }),
+        ),
+        /*@__PURE__*/ S.Struct({ NetworkInterfaceArns: RouterNetworkInterfaceArnList }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ NetworkInterfaceArns: "networkInterfaceArns" }),
+        ),
+        /*@__PURE__*/ S.Struct({ RoutingScopes: __S(3936, __c123, 0) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ RoutingScopes: "routingScopes" }),
+        ),
+        /*@__PURE__*/ S.Struct({ OutputTypes: __S(3936, __c123, 0) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ OutputTypes: "outputTypes" }),
+        ),
+        /*@__PURE__*/ S.Struct({ RoutedInputArns: RouterInputArnList }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ RoutedInputArns: "routedInputArns" }),
+        ),
+        /*@__PURE__*/ S.Struct({ NameContains: StringList }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ NameContains: "nameContains" }),
+        ),
       ]);
     case 1:
       return S.Array(__S(4224, __c132, 0));
@@ -12715,9 +12911,15 @@ function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ RegionNames: StringList }),
-        /*@__PURE__*/ S.Struct({ SourceTypes: __S(3936, __c123, 0) }),
-        /*@__PURE__*/ S.Struct({ NameContains: StringList }),
+        /*@__PURE__*/ S.Struct({ RegionNames: StringList }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ RegionNames: "regionNames" }),
+        ),
+        /*@__PURE__*/ S.Struct({ SourceTypes: __S(3936, __c123, 0) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ SourceTypes: "sourceTypes" }),
+        ),
+        /*@__PURE__*/ S.Struct({ NameContains: StringList }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ NameContains: "nameContains" }),
+        ),
       ]);
     case 1:
       return S.Array(__S(4256, __c133, 0));
