@@ -20,18 +20,14 @@ import {
 import type { Request } from "@distilled.cloud/s3/client/request";
 import type { Response } from "@distilled.cloud/s3/client/response";
 import type { InputEvent } from "@distilled.cloud/s3/eventstream/serializer";
-import {
-  getEncodedPropertySignatures,
-  getIdentifier,
-  isBooleanAST,
-  isNumberAST,
-} from "@distilled.cloud/s3/util/ast";
+import { getEncodedPropertySignatures, getIdentifier } from "@distilled.cloud/s3/util/ast";
 import { inputEncoderSync, outputBody } from "@distilled.cloud/s3/util/codec";
 import {
   extractJsonErrorCode,
   extractJsonErrorData,
   sanitizeErrorCode,
 } from "@distilled.cloud/s3/util/error";
+import { headerReader } from "@distilled.cloud/s3/util/headers";
 import { extractStaticQueryParams } from "@distilled.cloud/s3/util/query-params";
 import { applyHttpTrait, bindInputToRequest } from "@distilled.cloud/s3/util/serialize-input";
 import {
@@ -89,8 +85,8 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
     name: string;
     header: string;
     headerLower: string;
-    isNumber: boolean;
-    isBoolean: boolean;
+    /** The header's wire value: lists split, numbers and booleans parsed. */
+    read: (value: string) => unknown;
   };
   type PrefixHeaderProp = { name: string; prefix: string };
   type PayloadProp = {
@@ -123,8 +119,7 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
         name,
         header,
         headerLower: header.toLowerCase(),
-        isNumber: isNumberAST(prop.type),
-        isBoolean: isBooleanAST(prop.type),
+        read: headerReader(prop.type),
       });
     } else if (prefix !== undefined) {
       // An empty prefix binds every response header (Smithy
@@ -285,8 +280,7 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
     for (const hp of headerProps) {
       const v = response.headers[hp.headerLower] ?? response.headers[hp.header];
       if (v !== undefined) {
-        // Convert string header values to appropriate types
-        result[hp.name] = hp.isNumber ? Number(v) : hp.isBoolean ? v === "true" : v;
+        result[hp.name] = hp.read(v);
       }
     }
 

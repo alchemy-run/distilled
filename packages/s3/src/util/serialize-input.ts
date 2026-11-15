@@ -18,7 +18,8 @@ import {
   hasHttpPayload,
   hasHttpQueryParams,
 } from "../traits.ts";
-import { getEncodedPropertySignatures } from "./ast.ts";
+import { getArrayElementAST, getEncodedPropertySignatures, isDateAST } from "./ast.ts";
+import { formatHeaderList } from "./headers.ts";
 
 /**
  * Percent-encode a URI label value: everything except RFC 3986 unreserved
@@ -88,6 +89,8 @@ interface MemberBinding {
   readonly name: string;
   readonly type: AST.AST;
   readonly header: string | undefined;
+  /** Whether a list header quotes an element that holds a comma (every list but timestamps). */
+  readonly quoteHeader: boolean;
   /** The `{Label}` / `{Label+}` placeholder of an @httpLabel member. */
   readonly label: RegExp | undefined;
   /** Whether the placeholder is greedy (`{Label+}`), so the value keeps its `/`. */
@@ -109,10 +112,12 @@ const bindingsOf = (ast: AST.AST): ReadonlyArray<MemberBinding> => {
       const name = prop.name as string;
       // Use explicit label name if provided (needed when JsonName differs from URI template placeholder)
       const labelName = getHttpLabelName(prop) ?? name;
+      const element = getArrayElementAST(prop.type);
       return {
         name,
         type: prop.type,
         header: getHttpHeader(prop),
+        quoteHeader: element !== undefined && !isDateAST(element),
         label: hasHttpLabel(prop) ? new RegExp(`\\{${labelName}\\+?\\}`) : undefined,
         greedy: uri.includes(`{${labelName}+}`),
         queryParam: getHttpQuery(prop),
@@ -162,7 +167,9 @@ export function bindInputToRequest(
 
     if (member.header !== undefined) {
       // Value should already be encoded (dates as formatted strings, etc.)
-      request.headers[member.header] = String(value);
+      request.headers[member.header] = Array.isArray(value)
+        ? formatHeaderList(value, member.quoteHeader)
+        : String(value);
     } else if (member.label !== undefined) {
       const invalid = invalidAwsLabel(name, value, member.greedy);
       if (invalid !== undefined) return invalid;
