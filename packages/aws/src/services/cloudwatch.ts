@@ -5419,7 +5419,18 @@ function __c71(j: number): any {
           MetricData: S.optional(__S(570, __c71, 2)),
           EntityMetricData: S.optional(__S(573, __c71, 5)),
           StrictEntityValidation: S.optional(S.Boolean),
-        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+            T.RequestCompression({ encodings: ["gzip"] }),
+          ),
+        ),
       ).annotate({ identifier: "PutMetricDataInput" });
   }
 }
