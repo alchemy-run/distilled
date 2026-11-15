@@ -169,15 +169,8 @@ XmlEmptySelfClosedMaps (response)
 # XML element order.
 XmlNamespaceSimpleScalarProperties (request)
 
-# Empty values: an empty string, blob or prefix-header map in a response is
-# dropped, and an absent streaming body comes back as an empty one.
-Ec2SimpleScalarProperties (response)
-Ec2XmlEmptyBlobs (response)
-Ec2XmlEmptySelfClosedBlobs (response)
-HttpPrefixHeadersAreNotPresent (response)
-QuerySimpleScalarProperties (response)
-QueryXmlEmptyBlobs (response)
-QueryXmlEmptySelfClosedBlobs (response)
+# An empty streaming body comes back as an empty stream, as in the AWS
+# SDKs (S3 GetObject of an empty object); the case expects no member.
 RestJsonStreamingTraitsWithNoBlobBody (response)
 
 # A non-streaming blob `@httpPayload` is sent base64-encoded.
