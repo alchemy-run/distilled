@@ -1,5 +1,5 @@
 # Smithy AWS protocol test cases the AWS SDK fails today (see README.md).
-# packages/aws/test/protocol-tests.test.ts fails on a failing case missing
+# protocol-tests.test.ts fails on a failing case missing
 # from this list, and on a case in this list that passes: delete its line
 # when a fix makes it pass.
 #

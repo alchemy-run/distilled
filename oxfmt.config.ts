@@ -21,8 +21,8 @@ export default defineConfig({
     // Upstream conformance suites, submoduled (see packages/core/conformance).
     "packages/core/conformance/connect/**",
     "packages/core/conformance/protobuf/**",
-    // Smithy CLI output (see packages/aws/protocol-tests).
-    "packages/aws/protocol-tests/model.json",
+    // Smithy CLI output (see packages/aws/test/protocol-tests).
+    "packages/aws/test/protocol-tests/model.json",
     "dist/**",
     "./submodules/**",
     "*.min.js",

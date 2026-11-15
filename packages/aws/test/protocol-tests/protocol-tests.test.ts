@@ -1,5 +1,5 @@
 /**
- * The official Smithy AWS protocol tests (packages/aws/protocol-tests): each
+ * The official Smithy AWS protocol tests (see README.md): each
  * test service is generated with the AWS generator, and each client test case
  * is replayed through a fake HttpClient. A request case checks the request
  * the operation sends; a response case checks what the operation decodes
@@ -22,12 +22,12 @@ import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import * as Stream from "effect/Stream";
 import { afterAll, beforeAll, describe, expect, test, vi } from "vitest";
-import { awsSpec } from "../scripts/spec.ts";
-import * as Credentials from "../src/credentials.ts";
-import * as Endpoint from "../src/endpoint.ts";
-import * as Retry from "../src/retry.ts";
+import { awsSpec } from "../../scripts/spec.ts";
+import * as Credentials from "../../src/credentials.ts";
+import * as Endpoint from "../../src/endpoint.ts";
+import * as Retry from "../../src/retry.ts";
 
-const dir = path.resolve(import.meta.dirname, "../protocol-tests");
+const dir = import.meta.dirname;
 const generatedDir = path.join(dir, ".generated");
 const model: { shapes: Record<string, Shape> } = JSON.parse(
   fs.readFileSync(path.join(dir, "model.json"), "utf8"),
@@ -140,7 +140,7 @@ const loadService = async (name: string, smithy: ReturnType<typeof serviceModel>
   inheritServiceErrors(copy.shapes);
   const { code } = generateService(copy, awsSpec(copy));
   // Generated services live in src/services; these import the same modules.
-  const text = finishModule(code, `${name}.ts`).replaceAll('from "../', 'from "../../src/');
+  const text = finishModule(code, `${name}.ts`).replaceAll('from "../', 'from "../../../src/');
   const file = path.join(generatedDir, `${name}.ts`);
   fs.writeFileSync(file, text);
   return (await import(file)) as Record<string, any>;

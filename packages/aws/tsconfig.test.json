@@ -3,6 +3,12 @@
   // Tests live in test/ so they stay out of the published src/ and lib/.
   // Imports of ../src resolve through the reference to lib/*.d.ts.
   "include": ["test/**/*.ts", "test/**/*.json"],
+  // The Smithy protocol tests' 2 MB model and the services generated from it.
+  "exclude": [
+    "test/protocol-tests/*.json",
+    "test/protocol-tests/.generated",
+    "test/protocol-tests/.build"
+  ],
   "compilerOptions": {
     "composite": true,
     "noEmit": false,
