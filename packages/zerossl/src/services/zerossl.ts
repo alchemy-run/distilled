@@ -846,11 +846,11 @@ export class PermissionDeniedOnOriginalCertificate
 export class RateLimitExceeded
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<RateLimitExceeded>()("RateLimitExceeded", {
-      retryAfter: /*@__PURE__*/ S.optional(S.Duration),
       code: S.Number,
       message: S.String,
       body: /*@__PURE__*/ S.optional(S.Unknown),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+      retryAfter: /*@__PURE__*/ S.optional(S.Duration),
     }).pipe(C.withRetryableError, C.withThrottlingError),
     [{ message: { includes: "rate_limit" } }],
   ) {}
