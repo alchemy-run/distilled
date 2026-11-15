@@ -50,6 +50,8 @@ export class CertificateAlreadyDeleted
     /*@__PURE__*/ S.TaggedError<CertificateAlreadyDeleted>()("CertificateAlreadyDeleted", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 400, message: { includes: "already deleted" } }],
   ) {}
@@ -59,6 +61,8 @@ export class CertificateAlreadyExists
     /*@__PURE__*/ S.TaggedError<CertificateAlreadyExists>()("CertificateAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1406, message: { includes: "already exists" } }],
   ) {}
@@ -68,6 +72,8 @@ export class CertificateNotFound
     /*@__PURE__*/ S.TaggedError<CertificateNotFound>()("CertificateNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1552, message: { includes: "certificate not found" } }, { status: 404 }],
   ) {}
@@ -77,6 +83,8 @@ export class CertificatePendingDeletion
     /*@__PURE__*/ S.TaggedError<CertificatePendingDeletion>()("CertificatePendingDeletion", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1414, message: { includes: "pending deletion" } }],
   ) {}
@@ -86,6 +94,8 @@ export class CertificatePendingDeployment
     /*@__PURE__*/ S.TaggedError<CertificatePendingDeployment>()("CertificatePendingDeployment", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1434, message: { includes: "pending deployment" } }],
   ) {}
@@ -95,6 +105,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -104,6 +116,8 @@ export class HostnameAssociationNotFound
     /*@__PURE__*/ S.TaggedError<HostnameAssociationNotFound>()("HostnameAssociationNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1553, message: { includes: "setting for this hostname not found" } }, { status: 404 }],
   ) {}
@@ -113,6 +127,8 @@ export class HostnameCertificateIdRequired
     /*@__PURE__*/ S.TaggedError<HostnameCertificateIdRequired>()("HostnameCertificateIdRequired", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1404, message: { includes: "Certificate ID required" } }],
   ) {}
@@ -122,6 +138,8 @@ export class HostnameCertificateInUse
     /*@__PURE__*/ S.TaggedError<HostnameCertificateInUse>()("HostnameCertificateInUse", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1433, message: { includes: "in use" } }],
   ) {}
@@ -131,6 +149,8 @@ export class HostnameCertificateNotFound
     /*@__PURE__*/ S.TaggedError<HostnameCertificateNotFound>()("HostnameCertificateNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1552 }, { code: 1551 }, { status: 404 }],
   ) {}
@@ -140,6 +160,8 @@ export class InvalidCertificate
     /*@__PURE__*/ S.TaggedError<InvalidCertificate>()("InvalidCertificate", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1408, message: { includes: "Unable to parse certificate" } }],
   ) {}
@@ -149,6 +171,8 @@ export class InvalidCertificateId
     /*@__PURE__*/ S.TaggedError<InvalidCertificateId>()("InvalidCertificateId", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1415, message: { includes: "Invalid Certificate ID" } }],
   ) {}
@@ -158,6 +182,8 @@ export class InvalidHostnameConfig
     /*@__PURE__*/ S.TaggedError<InvalidHostnameConfig>()("InvalidHostnameConfig", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1415 }],
   ) {}
@@ -167,6 +193,8 @@ export class ZoneClientCertConflict
     /*@__PURE__*/ S.TaggedError<ZoneClientCertConflict>()("ZoneClientCertConflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 409 }],
   ) {}

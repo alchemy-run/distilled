@@ -29,6 +29,8 @@ export class AppAlreadyExists
     /*@__PURE__*/ S.TaggedError<AppAlreadyExists>()("AppAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 6 }],
   ) {}
@@ -39,6 +41,8 @@ export class AppNotFound
     /*@__PURE__*/ S.TaggedError<AppNotFound>()("AppNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 5 }],
   ) {}

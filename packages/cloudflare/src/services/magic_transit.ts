@@ -365,6 +365,8 @@ export class AppNotFound
     /*@__PURE__*/ S.TaggedError<AppNotFound>()("AppNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404 }],
   ) {}
@@ -374,6 +376,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -383,6 +387,8 @@ export class GreTunnelNotFound
     /*@__PURE__*/ S.TaggedError<GreTunnelNotFound>()("GreTunnelNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1029 }],
   ) {}
@@ -392,6 +398,8 @@ export class IpsecTunnelNotFound
     /*@__PURE__*/ S.TaggedError<IpsecTunnelNotFound>()("IpsecTunnelNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1032 }],
   ) {}
@@ -401,6 +409,8 @@ export class MagicTransitNotOnboarded
     /*@__PURE__*/ S.TaggedError<MagicTransitNotOnboarded>()("MagicTransitNotOnboarded", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1012 }],
   ) {}
@@ -410,6 +420,8 @@ export class MagicWanNotEnabled
     /*@__PURE__*/ S.TaggedError<MagicWanNotEnabled>()("MagicWanNotEnabled", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1101, message: { includes: "feature not enabled" } }],
   ) {}
@@ -419,6 +431,8 @@ export class MagicWanUnauthorized
     /*@__PURE__*/ S.TaggedError<MagicWanUnauthorized>()("MagicWanUnauthorized", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1025 }],
   ) {}
@@ -428,6 +442,8 @@ export class RouteNotFound
     /*@__PURE__*/ S.TaggedError<RouteNotFound>()("RouteNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1020 }],
   ) {}
@@ -437,6 +453,8 @@ export class SiteAclNotFound
     /*@__PURE__*/ S.TaggedError<SiteAclNotFound>()("SiteAclNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404 }],
   ) {}
@@ -446,6 +464,8 @@ export class SiteLanNotFound
     /*@__PURE__*/ S.TaggedError<SiteLanNotFound>()("SiteLanNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404 }],
   ) {}
@@ -455,6 +475,8 @@ export class SiteNotFound
     /*@__PURE__*/ S.TaggedError<SiteNotFound>()("SiteNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404 }],
   ) {}
@@ -464,6 +486,8 @@ export class SiteWanNotFound
     /*@__PURE__*/ S.TaggedError<SiteWanNotFound>()("SiteWanNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404 }],
   ) {}

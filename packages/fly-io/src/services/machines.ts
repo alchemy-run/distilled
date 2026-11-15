@@ -37,6 +37,8 @@ export class MachineReplacing
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<MachineReplacing>()("MachineReplacing", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 412, message: "failed_precondition: machine getting replaced, refusing to start" }],
   ) {}
@@ -45,6 +47,8 @@ export class MachineStartFromCreatedState
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<MachineStartFromCreatedState>()("MachineStartFromCreatedState", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: "failed_precondition: unable to start machine from current state: 'created'" }],
   ) {}
@@ -53,6 +57,8 @@ export class MachineWaitTimeout
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<MachineWaitTimeout>()("MachineWaitTimeout", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [
       {
@@ -68,6 +74,8 @@ export class NetworkNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NetworkNotFound>()("NetworkNotFound", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 400, message: { includes: "network not found" } }],
   ) {}
@@ -76,6 +84,8 @@ export class StorageHostCapacity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<StorageHostCapacity>()("StorageHostCapacity", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: { includes: "(command_capacity)" } }],
   ) {}
@@ -84,6 +94,8 @@ export class VolumeAttached
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<VolumeAttached>()("VolumeAttached", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: { includes: "failed_precondition: volume is currently bound to machine:" } }],
   ) {}

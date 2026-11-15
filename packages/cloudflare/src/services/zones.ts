@@ -85,6 +85,8 @@ export class CustomNameserverSetNotFound
     /*@__PURE__*/ S.TaggedError<CustomNameserverSetNotFound>()("CustomNameserverSetNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1001, message: { includes: "Custom Nameserver set doesn't exist" } }],
   ) {}
@@ -94,6 +96,8 @@ export class DomainNotRegistered
     /*@__PURE__*/ S.TaggedError<DomainNotRegistered>()("DomainNotRegistered", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1099 }],
   ) {}
@@ -103,6 +107,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -112,6 +118,8 @@ export class InvalidDomain
     /*@__PURE__*/ S.TaggedError<InvalidDomain>()("InvalidDomain", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1002 }],
   ) {}
@@ -121,6 +129,8 @@ export class InvalidZoneIdentifier
     /*@__PURE__*/ S.TaggedError<InvalidZoneIdentifier>()("InvalidZoneIdentifier", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 9109, message: { includes: "Invalid zone identifier" } }],
   ) {}
@@ -130,6 +140,8 @@ export class SubdomainNotAllowed
     /*@__PURE__*/ S.TaggedError<SubdomainNotAllowed>()("SubdomainNotAllowed", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1116 }],
   ) {}
@@ -139,6 +151,8 @@ export class ZoneAlreadyExists
     /*@__PURE__*/ S.TaggedError<ZoneAlreadyExists>()("ZoneAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1061 }],
   ) {}
@@ -148,6 +162,8 @@ export class ZoneCreationBlocked
     /*@__PURE__*/ S.TaggedError<ZoneCreationBlocked>()("ZoneCreationBlocked", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1052 }],
   ) {}
@@ -157,6 +173,8 @@ export class ZoneHoldNotFound
     /*@__PURE__*/ S.TaggedError<ZoneHoldNotFound>()("ZoneHoldNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1003, message: { includes: "No Zone Hold Found" } }],
   ) {}
@@ -166,6 +184,8 @@ export class ZoneHoldsRequireEnterprise
     /*@__PURE__*/ S.TaggedError<ZoneHoldsRequireEnterprise>()("ZoneHoldsRequireEnterprise", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1005, message: { includes: "Zone holds are only available on Enterprise zones" } }],
   ) {}
@@ -175,6 +195,8 @@ export class ZoneQuotaExceeded
     /*@__PURE__*/ S.TaggedError<ZoneQuotaExceeded>()("ZoneQuotaExceeded", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 400, message: { includes: "zone quota" } }],
   ) {}

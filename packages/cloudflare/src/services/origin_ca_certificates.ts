@@ -47,6 +47,8 @@ export class CertificateAlreadyRevoked
     /*@__PURE__*/ S.TaggedError<CertificateAlreadyRevoked>()("CertificateAlreadyRevoked", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1014 }],
   ) {}
@@ -56,6 +58,8 @@ export class CertificateNotFound
     /*@__PURE__*/ S.TaggedError<CertificateNotFound>()("CertificateNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1101 }],
   ) {}
@@ -65,6 +69,8 @@ export class CertificateRevocationFailed
     /*@__PURE__*/ S.TaggedError<CertificateRevocationFailed>()("CertificateRevocationFailed", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1000 }],
   ) {}
@@ -74,6 +80,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -83,6 +91,8 @@ export class HostnameNotAuthorized
     /*@__PURE__*/ S.TaggedError<HostnameNotAuthorized>()("HostnameNotAuthorized", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1010 }],
   ) {}

@@ -112,6 +112,8 @@ export class ActiveProductionDeployment
     /*@__PURE__*/ S.TaggedError<ActiveProductionDeployment>()("ActiveProductionDeployment", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 8000034 }],
   ) {}
@@ -121,6 +123,8 @@ export class DeploymentNotFound
     /*@__PURE__*/ S.TaggedError<DeploymentNotFound>()("DeploymentNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 8000009 }],
   ) {}
@@ -130,6 +134,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -139,6 +145,8 @@ export class PagesDomainAlreadyExists
     /*@__PURE__*/ S.TaggedError<PagesDomainAlreadyExists>()("PagesDomainAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 8000018 }],
   ) {}
@@ -148,6 +156,8 @@ export class PagesDomainNotFound
     /*@__PURE__*/ S.TaggedError<PagesDomainNotFound>()("PagesDomainNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 8000021 }],
   ) {}
@@ -157,6 +167,8 @@ export class ProjectAlreadyExists
     /*@__PURE__*/ S.TaggedError<ProjectAlreadyExists>()("ProjectAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 8000002 }],
   ) {}
@@ -166,6 +178,8 @@ export class ProjectNotFound
     /*@__PURE__*/ S.TaggedError<ProjectNotFound>()("ProjectNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 8000007 }],
   ) {}

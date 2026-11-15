@@ -72,6 +72,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -81,6 +83,8 @@ export class InvalidMember
     /*@__PURE__*/ S.TaggedError<InvalidMember>()("InvalidMember", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 400 }],
   ) {}
@@ -90,6 +94,8 @@ export class PolicyValidationFailed
     /*@__PURE__*/ S.TaggedError<PolicyValidationFailed>()("PolicyValidationFailed", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 400, message: { includes: "Policy validation failed" } }],
   ) {}
@@ -99,6 +105,8 @@ export class ResourceGroupNotFound
     /*@__PURE__*/ S.TaggedError<ResourceGroupNotFound>()("ResourceGroupNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 404, message: { includes: "Resource group" } }],
   ) {}
@@ -108,6 +116,8 @@ export class UserGroupMemberNotFound
     /*@__PURE__*/ S.TaggedError<UserGroupMemberNotFound>()("UserGroupMemberNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 404, message: { includes: "not found in user group" } }],
   ) {}
@@ -117,6 +127,8 @@ export class UserGroupNameInUse
     /*@__PURE__*/ S.TaggedError<UserGroupNameInUse>()("UserGroupNameInUse", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 400, message: { includes: "already in use" } }],
   ) {}
@@ -126,6 +138,8 @@ export class UserGroupNotFound
     /*@__PURE__*/ S.TaggedError<UserGroupNotFound>()("UserGroupNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 404, message: { includes: "User group" } }],
   ) {}

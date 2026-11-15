@@ -57,6 +57,8 @@ export class DnsFirewallNotEntitled
     /*@__PURE__*/ S.TaggedError<DnsFirewallNotEntitled>()("DnsFirewallNotEntitled", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10101 }],
   ) {}
@@ -66,6 +68,8 @@ export class DnsFirewallNotFound
     /*@__PURE__*/ S.TaggedError<DnsFirewallNotFound>()("DnsFirewallNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 11001 }],
   ) {}
@@ -75,6 +79,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}

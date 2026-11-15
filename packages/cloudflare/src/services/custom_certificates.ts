@@ -56,6 +56,8 @@ export class CustomCertificateNotFound
     /*@__PURE__*/ S.TaggedError<CustomCertificateNotFound>()("CustomCertificateNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404 }, { code: 1002, message: { includes: "Invalid certificate" } }],
   ) {}
@@ -65,6 +67,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -74,6 +78,8 @@ export class PlanLevelNotAllowed
     /*@__PURE__*/ S.TaggedError<PlanLevelNotAllowed>()("PlanLevelNotAllowed", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1011 }],
   ) {}
@@ -83,6 +89,8 @@ export class ZoneNotFound
     /*@__PURE__*/ S.TaggedError<ZoneNotFound>()("ZoneNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 400, message: { includes: "Cannot find a valid zone" } }],
   ) {}
