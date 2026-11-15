@@ -578,6 +578,25 @@ function collectInputEventStreamShapeIds(model: SmithyModel): Set<string> {
   return inputEventStreams;
 }
 
+/** Non-streaming union shape ids a member binds as its `@httpPayload`. */
+function collectPayloadUnionShapeIds(model: SmithyModel): Set<string> {
+  const ids = new Set<string>();
+  for (const shape of Object.values(model.shapes)) {
+    if (shape.type !== "structure" || !shape.members) continue;
+    for (const member of Object.values(shape.members)) {
+      const target = model.shapes[member.target];
+      if (
+        member.traits?.["smithy.api#httpPayload"] != null &&
+        target?.type === "union" &&
+        target.traits?.["smithy.api#streaming"] == null
+      ) {
+        ids.add(member.target);
+      }
+    }
+  }
+  return ids;
+}
+
 /** Shape ids carrying the @sensitive trait. */
 function collectSensitiveShapeIds(model: SmithyModel): Set<string> {
   const sensitiveShapeIds = new Set<string>();
@@ -992,6 +1011,10 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
   const { operationInputTraits, operationInputTraitOverrides } = collectOperationInputTraits(model);
   const operationOutputTraits = collectOperationOutputTraits(model);
   const inputEventStreamShapeIds = collectInputEventStreamShapeIds(model);
+  // restXml names a payload's root element after its shape: a union payload
+  // needs its name, as a structure has.
+  const payloadUnionShapeIds =
+    protocol === "aws.protocols#restXml" ? collectPayloadUnionShapeIds(model) : new Set<string>();
   const sensitiveShapeIds = collectSensitiveShapeIds(model);
   const operationErrorTypeNames = collectOperationErrorTypeNames(model);
   const softRequiredMembers = collectSoftRequiredMembers(model);
@@ -1752,7 +1775,9 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
             );
           }
           const typeAlias = `export type ${name} = ${variantTypes.join(" | ")};`;
-          const unionExpr = `S.Union([${wrappedMembers.join(", ")}])`;
+          const unionExpr = payloadUnionShapeIds.has(id)
+            ? `S.Union([${wrappedMembers.join(", ")}]).annotate({ identifier: "${name}" })`
+            : `S.Union([${wrappedMembers.join(", ")}])`;
 
           if (isEventStream) {
             const wrapper = inputEventStreamShapeIds.has(id)

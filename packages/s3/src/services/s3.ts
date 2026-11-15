@@ -17721,7 +17721,7 @@ function __c75(j: number): any {
             .pipe(/*@__PURE__*/ T.XmlName("SSE-KMS"))
             .annotate({ identifier: "SSEKMSEncryption" }),
         }),
-      ]);
+      ]).annotate({ identifier: "ObjectEncryption" });
     case 2:
       return S.suspend(() =>
         S.Struct({
