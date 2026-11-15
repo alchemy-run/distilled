@@ -7,8 +7,7 @@ import * as Redacted from "effect/Redacted";
 import * as Result from "effect/Result";
 import * as Schema from "effect/Schema";
 import { describe, expect, test } from "vitest";
-import * as API from "../src/api.ts";
-import { makeRestProtocol, SensitiveValue, validateSuccess } from "../src/protocol-rest.ts";
+import { makeRestProtocolImpl, SensitiveValue, validateSuccess } from "../src/protocol-rest.ts";
 import * as ResponseValidation from "../src/response-validation.ts";
 
 class TestParseError extends Schema.TaggedError<TestParseError>()("TestParseError", {
@@ -20,7 +19,8 @@ class TestUnknownError extends Schema.TaggedError<TestUnknownError>()("TestUnkno
   message: Schema.String,
 }) {}
 
-const TestProtocol = makeRestProtocol({
+// The protocol's typed methods, called directly.
+const testProtocol = makeRestProtocolImpl({
   credentials: Effect.succeed({}),
   baseUrl: () => "https://api.test",
   headers: () => ({}),
@@ -30,17 +30,15 @@ const TestProtocol = makeRestProtocol({
 
 const Output = Schema.Struct({ id: Schema.String });
 
-const decode = (body: string, outputAst = Output.ast) =>
-  Effect.gen(function* () {
-    const protocol = yield* API.Protocol;
-    const request = HttpClientRequest.get("https://api.test/thing");
-    return yield* protocol.decode({
-      response: HttpClientResponse.fromWeb(request, new Response(body, { status: 200 })),
-      outputAst,
-      errors: [],
-      config: {},
-    });
-  }).pipe(Effect.provide(TestProtocol));
+const decode = (body: string, outputAst = Output.ast) => {
+  const request = HttpClientRequest.get("https://api.test/thing");
+  return testProtocol.decode({
+    response: HttpClientResponse.fromWeb(request, new Response(body, { status: 200 })),
+    outputAst,
+    errors: [],
+    config: {},
+  });
+};
 
 const run = <A, E>(effect: Effect.Effect<A, E>, layer?: Layer.Layer<never>) =>
   Effect.runPromise(Effect.result(layer ? effect.pipe(Effect.provide(layer)) : effect));

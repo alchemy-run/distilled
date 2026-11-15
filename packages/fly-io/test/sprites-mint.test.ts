@@ -1,4 +1,3 @@
-import * as API from "@distilled.cloud/core/api";
 import * as Cause from "effect/Cause";
 import * as Deferred from "effect/Deferred";
 import * as Effect from "effect/Effect";
@@ -10,12 +9,11 @@ import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Redacted from "effect/Redacted";
 import { describe, expect, test } from "vitest";
 import { Credentials } from "../src/credentials.ts";
-import { SpritesProtocol } from "../src/protocol.ts";
+import { spritesProtocol } from "../src/protocol.ts";
 import { listSprites } from "../src/services/sprites.ts";
 
 const mintFixture = (apiKey: string) =>
   Effect.gen(function* () {
-    const protocol = yield* API.Protocol;
     const attempts = yield* Effect.forEach([0, 1], () =>
       Effect.gen(function* () {
         return {
@@ -50,11 +48,10 @@ const mintFixture = (apiKey: string) =>
         return HttpClientResponse.fromWeb(request, Response.json(body, { status }));
       }),
     );
-    const encode = protocol
+    const encode = spritesProtocol
       .encode({
         input: {},
         inputAst: listSprites.input.ast,
-        config: { input: listSprites.input },
       })
       .pipe(
         Effect.provideService(HttpClient.HttpClient, client),
@@ -78,7 +75,7 @@ const mintFixture = (apiKey: string) =>
       respond: (body: unknown, status = 200, attempt = 0) =>
         Deferred.succeed(attempts[attempt]!.response, { status, body }),
     };
-  }).pipe(Effect.provide(SpritesProtocol));
+  });
 
 describe("Sprites token mint coordination", () => {
   test("shares concurrent minting and reuses the successful token without exposing it in request JSON", () =>

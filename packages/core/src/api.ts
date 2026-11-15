@@ -133,13 +133,12 @@ export interface ProtocolImpl<E = never, R = never> {
 }
 
 /**
- * The Protocol service an operation's protocol layer provides. Its methods'
- * error type is erased here to `unknown` and their requirements to `never`
- * (the calling fiber provides them); the layer's type ({@link ProtocolLayer})
- * keeps both.
+ * The Protocol service an operation's protocol layer provides. One service
+ * serves every SDK, so its methods' error and requirement types are
+ * `unknown` here; the layer's type ({@link ProtocolLayer}) keeps the real ones.
  */
 export class Protocol
-  extends /*@__PURE__*/ Context.Service<Protocol, ProtocolImpl<unknown>>()("Protocol") {}
+  extends /*@__PURE__*/ Context.Service<Protocol, ProtocolImpl<unknown, unknown>>()("Protocol") {}
 
 /** The service a protocol layer provides. */
 export type ProtocolShape = (typeof Protocol)["Service"];
@@ -224,12 +223,8 @@ export function makeProtocol<E, R>(impl: ProtocolImpl<E, R>): ProtocolLayer<E, R
 export function makeProtocol(
   impl: ProtocolImpl<unknown, unknown>,
 ): ProtocolLayer<unknown, unknown> {
-  // The brand is type-only: the layer is the plain service layer, whose
-  // stored methods drop the requirement type (see Protocol).
-  return Layer.succeed(Protocol, impl as ProtocolShape) as Layer.Layer<Protocol> as ProtocolLayer<
-    unknown,
-    unknown
-  >;
+  // The brand is type-only: the layer is the plain service layer.
+  return Layer.succeed(Protocol, impl) as Layer.Layer<Protocol> as ProtocolLayer<unknown, unknown>;
 }
 
 /**
@@ -244,10 +239,7 @@ export const extendProtocol = <E, R, P extends ProtocolImpl<unknown, unknown>>(
   Layer.effect(
     Protocol,
     // The base layer's type states its methods' types (see makeProtocol).
-    Effect.map(
-      Effect.service(Protocol),
-      (impl) => f(impl as ProtocolImpl<E, R>) as ProtocolImpl<unknown, unknown> as ProtocolShape,
-    ),
+    Effect.map(Effect.service(Protocol), (impl): ProtocolShape => f(impl as ProtocolImpl<E, R>)),
   ).pipe(Layer.provide(base)) as Layer.Layer<Protocol> as ProtocolLayer<
     ProtocolError<P>,
     ProtocolServices<P>

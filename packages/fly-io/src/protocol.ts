@@ -590,8 +590,11 @@ const decodeSpritesResponse = ({
   });
 
 /** Sprites REST at `https://api.sprites.dev/v1`, minted from `FLY_API_TOKEN`. */
+/** The Sprites protocol's methods, typed (tests call them directly). */
+export const spritesProtocol = {
+  encode: encodeSpritesRequest,
+  decode: decodeSpritesResponse,
+};
+
 export const SpritesProtocol: API.ProtocolLayer<SpritesOpError, SpritesOpContext> =
-  /*@__PURE__*/ API.makeProtocol({
-    encode: encodeSpritesRequest,
-    decode: decodeSpritesResponse,
-  });
+  /*@__PURE__*/ API.makeProtocol(spritesProtocol);
