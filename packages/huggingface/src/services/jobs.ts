@@ -33,11 +33,16 @@ export class Conflict
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error409Body | string;
+}
 
 export interface CancelJobRequest {
   namespace: string;
@@ -2494,6 +2499,9 @@ export interface UpdateScheduledJobLabelsResponse {
   initiator?: UpdateScheduledJobLabelsResponseInitiator | undefined;
   jobSpec: UpdateScheduledJobLabelsResponseJobSpec;
 }
+export interface Error409Body {
+  error: string;
+}
 export type CancelJobError = HuggingFaceOpError;
 /** Cancel a job */
 export const cancelJob: API.OperationMethod<
@@ -2502,8 +2510,8 @@ export const cancelJob: API.OperationMethod<
   CancelJobError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CancelJobRequest>,
-  output: __S(2, __c0, 2) as any as S.Schema<CancelJobResponse>,
+  input: __S(16, __c1, 0) as any as S.Schema<CancelJobRequest>,
+  output: __S(18, __c1, 2) as any as S.Schema<CancelJobResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2519,8 +2527,8 @@ export const checkJobAccess: API.OperationMethod<
   CheckJobAccessError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<CheckJobAccessRequest>,
-  output: __S(240, __c15, 0) as any as S.Schema<CheckJobAccessResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<CheckJobAccessRequest>,
+  output: __S(256, __c16, 0) as any as S.Schema<CheckJobAccessResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2536,8 +2544,8 @@ export const checkNamespaceAccess: API.OperationMethod<
   CheckNamespaceAccessError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<CheckNamespaceAccessRequest>,
-  output: __S(240, __c15, 0) as any as S.Schema<CheckNamespaceAccessResponse>,
+  input: __S(336, __c21, 0) as any as S.Schema<CheckNamespaceAccessRequest>,
+  output: __S(256, __c16, 0) as any as S.Schema<CheckNamespaceAccessResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2553,8 +2561,8 @@ export const countJobs: API.OperationMethod<
   CountJobsError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<CountJobsRequest>,
-  output: __S(337, __c21, 1) as any as S.Schema<CountJobsResponse>,
+  input: __S(352, __c22, 0) as any as S.Schema<CountJobsRequest>,
+  output: __S(353, __c22, 1) as any as S.Schema<CountJobsResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2570,8 +2578,8 @@ export const createScheduledJob: API.OperationMethod<
   CreateScheduledJobError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<CreateScheduledJobRequest>,
-  output: __S(372, __c23, 4) as any as S.Schema<CreateScheduledJobResponse>,
+  input: __S(368, __c23, 0) as any as S.Schema<CreateScheduledJobRequest>,
+  output: __S(388, __c24, 4) as any as S.Schema<CreateScheduledJobResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2587,8 +2595,8 @@ export const deleteScheduledJob: API.OperationMethod<
   DeleteScheduledJobError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<DeleteScheduledJobRequest>,
-  output: __S(400, __c25, 0) as any as S.Schema<DeleteScheduledJobResponse>,
+  input: __S(400, __c25, 0) as any as S.Schema<DeleteScheduledJobRequest>,
+  output: __S(416, __c26, 0) as any as S.Schema<DeleteScheduledJobResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2604,8 +2612,8 @@ export const duplicateJob: API.OperationMethod<
   DuplicateJobError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<DuplicateJobRequest>,
-  output: __S(418, __c26, 2) as any as S.Schema<DuplicateJobResponse>,
+  input: __S(432, __c27, 0) as any as S.Schema<DuplicateJobRequest>,
+  output: __S(434, __c27, 2) as any as S.Schema<DuplicateJobResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2621,8 +2629,8 @@ export const getJob: API.OperationMethod<
   GetJobError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<GetJobRequest>,
-  output: __S(434, __c27, 2) as any as S.Schema<GetJobResponse>,
+  input: __S(448, __c28, 0) as any as S.Schema<GetJobRequest>,
+  output: __S(450, __c28, 2) as any as S.Schema<GetJobResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2638,8 +2646,8 @@ export const getJobHardware: API.OperationMethod<
   GetJobHardwareError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<GetJobHardwareRequest>,
-  output: __S(452, __c28, 4) as any as S.Schema<GetJobHardwareResponse>,
+  input: __S(464, __c29, 0) as any as S.Schema<GetJobHardwareRequest>,
+  output: __S(468, __c29, 4) as any as S.Schema<GetJobHardwareResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2655,8 +2663,8 @@ export const getScheduledJob: API.OperationMethod<
   GetScheduledJobError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<GetScheduledJobRequest>,
-  output: __S(372, __c23, 4) as any as S.Schema<GetScheduledJobResponse>,
+  input: __S(80, __c5, 0) as any as S.Schema<GetScheduledJobRequest>,
+  output: __S(388, __c24, 4) as any as S.Schema<GetScheduledJobResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2672,8 +2680,8 @@ export const listJobs: API.OperationMethod<
   ListJobsError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<ListJobsRequest>,
-  output: __S(84, __c5, 4) as any as S.Schema<ListJobsResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<ListJobsRequest>,
+  output: __S(100, __c6, 4) as any as S.Schema<ListJobsResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2689,8 +2697,8 @@ export const listScheduledJobs: API.OperationMethod<
   ListScheduledJobsError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<ListScheduledJobsRequest>,
-  output: __S(98, __c6, 2) as any as S.Schema<ListScheduledJobsResponse>,
+  input: __S(112, __c7, 0) as any as S.Schema<ListScheduledJobsRequest>,
+  output: __S(114, __c7, 2) as any as S.Schema<ListScheduledJobsResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2706,8 +2714,8 @@ export const resumeScheduledJob: API.OperationMethod<
   ResumeScheduledJobError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<ResumeScheduledJobRequest>,
-  output: __S(400, __c25, 0) as any as S.Schema<ResumeScheduledJobResponse>,
+  input: __S(128, __c8, 0) as any as S.Schema<ResumeScheduledJobRequest>,
+  output: __S(416, __c26, 0) as any as S.Schema<ResumeScheduledJobResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2723,8 +2731,8 @@ export const runJob: API.OperationMethod<
   RunJobError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<RunJobRequest>,
-  output: __S(130, __c8, 2) as any as S.Schema<RunJobResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<RunJobRequest>,
+  output: __S(146, __c9, 2) as any as S.Schema<RunJobResponse>,
   errors: [Conflict],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2740,8 +2748,8 @@ export const startJob: API.OperationMethod<
   StartJobError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<StartJobRequest>,
-  output: __S(146, __c9, 2) as any as S.Schema<StartJobResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<StartJobRequest>,
+  output: __S(162, __c10, 2) as any as S.Schema<StartJobResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2757,8 +2765,8 @@ export const streamJobEvents: API.OperationMethod<
   StreamJobEventsError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<StreamJobEventsRequest>,
-  output: __S(400, __c25, 0) as any as S.Schema<StreamJobEventsResponse>,
+  input: __S(176, __c11, 0) as any as S.Schema<StreamJobEventsRequest>,
+  output: __S(416, __c26, 0) as any as S.Schema<StreamJobEventsResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2774,8 +2782,8 @@ export const streamJobLogs: API.OperationMethod<
   StreamJobLogsError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<StreamJobLogsRequest>,
-  output: __S(400, __c25, 0) as any as S.Schema<StreamJobLogsResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<StreamJobLogsRequest>,
+  output: __S(416, __c26, 0) as any as S.Schema<StreamJobLogsResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2791,8 +2799,8 @@ export const streamJobMetrics: API.OperationMethod<
   StreamJobMetricsError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<StreamJobMetricsRequest>,
-  output: __S(400, __c25, 0) as any as S.Schema<StreamJobMetricsResponse>,
+  input: __S(208, __c13, 0) as any as S.Schema<StreamJobMetricsRequest>,
+  output: __S(416, __c26, 0) as any as S.Schema<StreamJobMetricsResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2808,8 +2816,8 @@ export const suspendScheduledJob: API.OperationMethod<
   SuspendScheduledJobError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<SuspendScheduledJobRequest>,
-  output: __S(400, __c25, 0) as any as S.Schema<SuspendScheduledJobResponse>,
+  input: __S(224, __c14, 0) as any as S.Schema<SuspendScheduledJobRequest>,
+  output: __S(416, __c26, 0) as any as S.Schema<SuspendScheduledJobResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2825,8 +2833,8 @@ export const updateJobExposedPorts: API.OperationMethod<
   UpdateJobExposedPortsError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<UpdateJobExposedPortsRequest>,
-  output: __S(258, __c16, 2) as any as S.Schema<UpdateJobExposedPortsResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<UpdateJobExposedPortsRequest>,
+  output: __S(274, __c17, 2) as any as S.Schema<UpdateJobExposedPortsResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2842,8 +2850,8 @@ export const updateJobLabels: API.OperationMethod<
   UpdateJobLabelsError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<UpdateJobLabelsRequest>,
-  output: __S(274, __c17, 2) as any as S.Schema<UpdateJobLabelsResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<UpdateJobLabelsRequest>,
+  output: __S(290, __c18, 2) as any as S.Schema<UpdateJobLabelsResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2859,8 +2867,8 @@ export const updateJobSchedule: API.OperationMethod<
   UpdateJobScheduleError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<UpdateJobScheduleRequest>,
-  output: __S(372, __c23, 4) as any as S.Schema<UpdateJobScheduleResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<UpdateJobScheduleRequest>,
+  output: __S(388, __c24, 4) as any as S.Schema<UpdateJobScheduleResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2876,8 +2884,8 @@ export const updateScheduledJobLabels: API.OperationMethod<
   UpdateScheduledJobLabelsError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<UpdateScheduledJobLabelsRequest>,
-  output: __S(372, __c23, 4) as any as S.Schema<UpdateScheduledJobLabelsResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<UpdateScheduledJobLabelsRequest>,
+  output: __S(388, __c24, 4) as any as S.Schema<UpdateScheduledJobLabelsResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2887,6 +2895,16 @@ export const updateScheduledJobLabels: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          error: S.String,
+        }),
+      ).annotate({ identifier: "Error409Body" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2902,7 +2920,7 @@ function __c0(j: number): any {
           message: S.NullOr(S.String),
           cancelReason: S.optional(S.Unknown),
           failureCount: S.optional(S.Number),
-          exposeUrls: S.optional(__S(33, __c2, 1)),
+          exposeUrls: S.optional(__S(49, __c3, 1)),
           sshUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "CancelJobResponseStatus" });
@@ -2914,33 +2932,33 @@ function __c0(j: number): any {
           spaceId: S.optional(S.String),
           dockerImage: S.optional(S.String),
           timeout: S.optional(S.Number),
-          environment: __S(32, __c2, 0),
-          command: S.optional(__S(33, __c2, 1)),
-          arguments: S.optional(__S(33, __c2, 1)),
+          environment: __S(48, __c3, 0),
+          command: S.optional(__S(49, __c3, 1)),
+          arguments: S.optional(__S(49, __c3, 1)),
           arch: S.optional(S.String),
           flavor: S.String,
-          createdBy: __S(16, __c1, 0),
+          createdBy: __S(32, __c2, 0),
           resourceGroupId: S.optional(S.String),
           retry: S.optional(S.Number),
           startedAt: S.optional(S.String),
           finishedAt: S.optional(S.String),
-          durations: S.optional(__S(34, __c2, 2)),
-          volumes: S.optional(__S(36, __c2, 4)),
-          expose: S.optional(__S(38, __c2, 6)),
-          network: S.optional(__S(39, __c2, 7)),
+          durations: S.optional(__S(50, __c3, 2)),
+          volumes: S.optional(__S(52, __c3, 4)),
+          expose: S.optional(__S(54, __c3, 6)),
+          network: S.optional(__S(55, __c3, 7)),
           type: S.String,
-          owner: __S(48, __c3, 0),
-          resourceGroup: S.optional(__S(40, __c2, 8)),
+          owner: __S(64, __c4, 0),
+          resourceGroup: S.optional(__S(56, __c3, 8)),
           initiator: S.optional(S.Unknown),
-          status: __S(1, __c0, 1),
-          secrets: S.optional(__S(33, __c2, 1)),
-          labels: S.optional(__S(32, __c2, 0)),
-          hfToken: S.optional(__S(41, __c2, 9)),
+          status: __S(17, __c1, 1),
+          secrets: S.optional(__S(49, __c3, 1)),
+          labels: S.optional(__S(48, __c3, 0)),
+          hfToken: S.optional(__S(57, __c3, 9)),
         }),
       ).annotate({ identifier: "CancelJobResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2951,7 +2969,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "CancelJobResponseCreatedBy" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
@@ -2977,21 +2995,21 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "CancelJobResponseVolumesItem" });
     case 4:
-      return S.Array(__S(35, __c2, 3));
+      return S.Array(__S(51, __c3, 3));
     case 5:
       return S.Array(S.Number);
     case 6:
       return S.suspend(() =>
         S.Struct({
-          ports: __S(37, __c2, 5),
-          portsPublic: S.optional(__S(37, __c2, 5)),
+          ports: __S(53, __c3, 5),
+          portsPublic: S.optional(__S(53, __c3, 5)),
         }),
       ).annotate({ identifier: "CancelJobResponseExpose" });
     case 7:
       return S.suspend(() =>
         S.Struct({
           group: S.String,
-          aliases: __S(33, __c2, 1),
+          aliases: __S(49, __c3, 1),
         }),
       ).annotate({ identifier: "CancelJobResponseNetwork" });
     case 8:
@@ -3014,7 +3032,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "CancelJobResponseHfToken" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3027,7 +3045,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "CancelJobResponseOwner" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3040,7 +3058,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetScheduledJobRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3058,7 +3076,7 @@ function __c5(j: number): any {
           message: S.NullOr(S.String),
           cancelReason: S.optional(S.Unknown),
           failureCount: S.optional(S.Number),
-          exposeUrls: S.optional(__S(33, __c2, 1)),
+          exposeUrls: S.optional(__S(49, __c3, 1)),
           sshUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListJobsResponseBodyItemStatus" });
@@ -3070,39 +3088,39 @@ function __c5(j: number): any {
           spaceId: S.optional(S.String),
           dockerImage: S.optional(S.String),
           timeout: S.optional(S.Number),
-          environment: __S(32, __c2, 0),
-          command: S.optional(__S(33, __c2, 1)),
-          arguments: S.optional(__S(33, __c2, 1)),
+          environment: __S(48, __c3, 0),
+          command: S.optional(__S(49, __c3, 1)),
+          arguments: S.optional(__S(49, __c3, 1)),
           arch: S.optional(S.String),
           flavor: S.String,
-          createdBy: __S(16, __c1, 0),
+          createdBy: __S(32, __c2, 0),
           resourceGroupId: S.optional(S.String),
           retry: S.optional(S.Number),
           startedAt: S.optional(S.String),
           finishedAt: S.optional(S.String),
-          durations: S.optional(__S(34, __c2, 2)),
-          volumes: S.optional(__S(36, __c2, 4)),
-          expose: S.optional(__S(38, __c2, 6)),
-          network: S.optional(__S(39, __c2, 7)),
+          durations: S.optional(__S(50, __c3, 2)),
+          volumes: S.optional(__S(52, __c3, 4)),
+          expose: S.optional(__S(54, __c3, 6)),
+          network: S.optional(__S(55, __c3, 7)),
           type: S.String,
-          owner: __S(48, __c3, 0),
-          resourceGroup: S.optional(__S(40, __c2, 8)),
+          owner: __S(64, __c4, 0),
+          resourceGroup: S.optional(__S(56, __c3, 8)),
           initiator: S.optional(S.Unknown),
-          status: __S(81, __c5, 1),
-          secrets: S.optional(__S(33, __c2, 1)),
-          labels: S.optional(__S(32, __c2, 0)),
-          hfToken: S.optional(__S(41, __c2, 9)),
+          status: __S(97, __c6, 1),
+          secrets: S.optional(__S(49, __c3, 1)),
+          labels: S.optional(__S(48, __c3, 0)),
+          hfToken: S.optional(__S(57, __c3, 9)),
         }),
       ).annotate({ identifier: "ListJobsResponseBodyItem" });
     case 3:
-      return S.Array(__S(82, __c5, 2));
+      return S.Array(__S(98, __c6, 2));
     case 4:
-      return S.suspend(() => __S(83, __c5, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(99, __c6, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListJobsResponse",
       });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3112,14 +3130,14 @@ function __c6(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/scheduled-jobs/{namespace}", code: 200 })),
       ).annotate({ identifier: "ListScheduledJobsRequest" });
     case 1:
-      return S.Array(__S(372, __c23, 4));
+      return S.Array(__S(388, __c24, 4));
     case 2:
-      return S.suspend(() => __S(97, __c6, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(113, __c7, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListScheduledJobsResponse",
       });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3136,7 +3154,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "ResumeScheduledJobRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3154,7 +3172,7 @@ function __c8(j: number): any {
           message: S.NullOr(S.String),
           cancelReason: S.optional(S.Unknown),
           failureCount: S.optional(S.Number),
-          exposeUrls: S.optional(__S(33, __c2, 1)),
+          exposeUrls: S.optional(__S(49, __c3, 1)),
           sshUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "RunJobResponseStatus" });
@@ -3166,33 +3184,33 @@ function __c8(j: number): any {
           spaceId: S.optional(S.String),
           dockerImage: S.optional(S.String),
           timeout: S.optional(S.Number),
-          environment: __S(32, __c2, 0),
-          command: S.optional(__S(33, __c2, 1)),
-          arguments: S.optional(__S(33, __c2, 1)),
+          environment: __S(48, __c3, 0),
+          command: S.optional(__S(49, __c3, 1)),
+          arguments: S.optional(__S(49, __c3, 1)),
           arch: S.optional(S.String),
           flavor: S.String,
-          createdBy: __S(16, __c1, 0),
+          createdBy: __S(32, __c2, 0),
           resourceGroupId: S.optional(S.String),
           retry: S.optional(S.Number),
           startedAt: S.optional(S.String),
           finishedAt: S.optional(S.String),
-          durations: S.optional(__S(34, __c2, 2)),
-          volumes: S.optional(__S(36, __c2, 4)),
-          expose: S.optional(__S(38, __c2, 6)),
-          network: S.optional(__S(39, __c2, 7)),
+          durations: S.optional(__S(50, __c3, 2)),
+          volumes: S.optional(__S(52, __c3, 4)),
+          expose: S.optional(__S(54, __c3, 6)),
+          network: S.optional(__S(55, __c3, 7)),
           type: S.String,
-          owner: __S(48, __c3, 0),
-          resourceGroup: S.optional(__S(40, __c2, 8)),
+          owner: __S(64, __c4, 0),
+          resourceGroup: S.optional(__S(56, __c3, 8)),
           initiator: S.optional(S.Unknown),
-          status: __S(129, __c8, 1),
-          secrets: S.optional(__S(33, __c2, 1)),
-          labels: S.optional(__S(32, __c2, 0)),
-          hfToken: S.optional(__S(41, __c2, 9)),
+          status: __S(145, __c9, 1),
+          secrets: S.optional(__S(49, __c3, 1)),
+          labels: S.optional(__S(48, __c3, 0)),
+          hfToken: S.optional(__S(57, __c3, 9)),
         }),
       ).annotate({ identifier: "RunJobResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3208,7 +3226,7 @@ function __c9(j: number): any {
           message: S.NullOr(S.String),
           cancelReason: S.optional(S.Unknown),
           failureCount: S.optional(S.Number),
-          exposeUrls: S.optional(__S(33, __c2, 1)),
+          exposeUrls: S.optional(__S(49, __c3, 1)),
           sshUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "StartJobResponseStatus" });
@@ -3220,33 +3238,33 @@ function __c9(j: number): any {
           spaceId: S.optional(S.String),
           dockerImage: S.optional(S.String),
           timeout: S.optional(S.Number),
-          environment: __S(32, __c2, 0),
-          command: S.optional(__S(33, __c2, 1)),
-          arguments: S.optional(__S(33, __c2, 1)),
+          environment: __S(48, __c3, 0),
+          command: S.optional(__S(49, __c3, 1)),
+          arguments: S.optional(__S(49, __c3, 1)),
           arch: S.optional(S.String),
           flavor: S.String,
-          createdBy: __S(16, __c1, 0),
+          createdBy: __S(32, __c2, 0),
           resourceGroupId: S.optional(S.String),
           retry: S.optional(S.Number),
           startedAt: S.optional(S.String),
           finishedAt: S.optional(S.String),
-          durations: S.optional(__S(34, __c2, 2)),
-          volumes: S.optional(__S(36, __c2, 4)),
-          expose: S.optional(__S(38, __c2, 6)),
-          network: S.optional(__S(39, __c2, 7)),
+          durations: S.optional(__S(50, __c3, 2)),
+          volumes: S.optional(__S(52, __c3, 4)),
+          expose: S.optional(__S(54, __c3, 6)),
+          network: S.optional(__S(55, __c3, 7)),
           type: S.String,
-          owner: __S(48, __c3, 0),
-          resourceGroup: S.optional(__S(40, __c2, 8)),
+          owner: __S(64, __c4, 0),
+          resourceGroup: S.optional(__S(56, __c3, 8)),
           initiator: S.optional(S.Unknown),
-          status: __S(145, __c9, 1),
-          secrets: S.optional(__S(33, __c2, 1)),
-          labels: S.optional(__S(32, __c2, 0)),
-          hfToken: S.optional(__S(41, __c2, 9)),
+          status: __S(161, __c10, 1),
+          secrets: S.optional(__S(49, __c3, 1)),
+          labels: S.optional(__S(48, __c3, 0)),
+          hfToken: S.optional(__S(57, __c3, 9)),
         }),
       ).annotate({ identifier: "StartJobResponse" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3257,7 +3275,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "StreamJobEventsRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3269,7 +3287,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "StreamJobLogsRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3280,7 +3298,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "StreamJobMetricsRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3297,7 +3315,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "SuspendScheduledJobRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3315,26 +3333,26 @@ function __c14(j: number): any {
       ).annotate({ identifier: "CheckJobAccessRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          namespace: __S(16, __c1, 0),
-          user: __S(16, __c1, 0),
+          namespace: __S(32, __c2, 0),
+          user: __S(32, __c2, 0),
         }),
       ).annotate({ identifier: "CheckJobAccessResponse" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           namespace: S.String.pipe(T.Label()),
           jobId: S.String.pipe(T.Label()),
-          ports: __S(37, __c2, 5),
-          portsPublic: S.optional(__S(37, __c2, 5)),
+          ports: __S(53, __c3, 5),
+          portsPublic: S.optional(__S(53, __c3, 5)),
         }).pipe(T.Http({ method: "PUT", uri: "/api/jobs/{namespace}/{jobId}/expose", code: 200 })),
       ).annotate({ identifier: "UpdateJobExposedPortsRequest" });
     case 1:
@@ -3344,7 +3362,7 @@ function __c16(j: number): any {
           message: S.NullOr(S.String),
           cancelReason: S.optional(S.Unknown),
           failureCount: S.optional(S.Number),
-          exposeUrls: S.optional(__S(33, __c2, 1)),
+          exposeUrls: S.optional(__S(49, __c3, 1)),
           sshUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateJobExposedPortsResponseStatus" });
@@ -3356,40 +3374,40 @@ function __c16(j: number): any {
           spaceId: S.optional(S.String),
           dockerImage: S.optional(S.String),
           timeout: S.optional(S.Number),
-          environment: __S(32, __c2, 0),
-          command: S.optional(__S(33, __c2, 1)),
-          arguments: S.optional(__S(33, __c2, 1)),
+          environment: __S(48, __c3, 0),
+          command: S.optional(__S(49, __c3, 1)),
+          arguments: S.optional(__S(49, __c3, 1)),
           arch: S.optional(S.String),
           flavor: S.String,
-          createdBy: __S(16, __c1, 0),
+          createdBy: __S(32, __c2, 0),
           resourceGroupId: S.optional(S.String),
           retry: S.optional(S.Number),
           startedAt: S.optional(S.String),
           finishedAt: S.optional(S.String),
-          durations: S.optional(__S(34, __c2, 2)),
-          volumes: S.optional(__S(36, __c2, 4)),
-          expose: S.optional(__S(38, __c2, 6)),
-          network: S.optional(__S(39, __c2, 7)),
+          durations: S.optional(__S(50, __c3, 2)),
+          volumes: S.optional(__S(52, __c3, 4)),
+          expose: S.optional(__S(54, __c3, 6)),
+          network: S.optional(__S(55, __c3, 7)),
           type: S.String,
-          owner: __S(48, __c3, 0),
-          resourceGroup: S.optional(__S(40, __c2, 8)),
+          owner: __S(64, __c4, 0),
+          resourceGroup: S.optional(__S(56, __c3, 8)),
           initiator: S.optional(S.Unknown),
-          status: __S(257, __c16, 1),
-          secrets: S.optional(__S(33, __c2, 1)),
-          labels: S.optional(__S(32, __c2, 0)),
-          hfToken: S.optional(__S(41, __c2, 9)),
+          status: __S(273, __c17, 1),
+          secrets: S.optional(__S(49, __c3, 1)),
+          labels: S.optional(__S(48, __c3, 0)),
+          hfToken: S.optional(__S(57, __c3, 9)),
         }),
       ).annotate({ identifier: "UpdateJobExposedPortsResponse" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           namespace: S.String.pipe(T.Label()),
           jobId: S.String.pipe(T.Label()),
-          labels: __S(32, __c2, 0),
+          labels: __S(48, __c3, 0),
         }).pipe(T.Http({ method: "PUT", uri: "/api/jobs/{namespace}/{jobId}/labels", code: 200 })),
       ).annotate({ identifier: "UpdateJobLabelsRequest" });
     case 1:
@@ -3399,7 +3417,7 @@ function __c17(j: number): any {
           message: S.NullOr(S.String),
           cancelReason: S.optional(S.Unknown),
           failureCount: S.optional(S.Number),
-          exposeUrls: S.optional(__S(33, __c2, 1)),
+          exposeUrls: S.optional(__S(49, __c3, 1)),
           sshUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateJobLabelsResponseStatus" });
@@ -3411,33 +3429,33 @@ function __c17(j: number): any {
           spaceId: S.optional(S.String),
           dockerImage: S.optional(S.String),
           timeout: S.optional(S.Number),
-          environment: __S(32, __c2, 0),
-          command: S.optional(__S(33, __c2, 1)),
-          arguments: S.optional(__S(33, __c2, 1)),
+          environment: __S(48, __c3, 0),
+          command: S.optional(__S(49, __c3, 1)),
+          arguments: S.optional(__S(49, __c3, 1)),
           arch: S.optional(S.String),
           flavor: S.String,
-          createdBy: __S(16, __c1, 0),
+          createdBy: __S(32, __c2, 0),
           resourceGroupId: S.optional(S.String),
           retry: S.optional(S.Number),
           startedAt: S.optional(S.String),
           finishedAt: S.optional(S.String),
-          durations: S.optional(__S(34, __c2, 2)),
-          volumes: S.optional(__S(36, __c2, 4)),
-          expose: S.optional(__S(38, __c2, 6)),
-          network: S.optional(__S(39, __c2, 7)),
+          durations: S.optional(__S(50, __c3, 2)),
+          volumes: S.optional(__S(52, __c3, 4)),
+          expose: S.optional(__S(54, __c3, 6)),
+          network: S.optional(__S(55, __c3, 7)),
           type: S.String,
-          owner: __S(48, __c3, 0),
-          resourceGroup: S.optional(__S(40, __c2, 8)),
+          owner: __S(64, __c4, 0),
+          resourceGroup: S.optional(__S(56, __c3, 8)),
           initiator: S.optional(S.Unknown),
-          status: __S(273, __c17, 1),
-          secrets: S.optional(__S(33, __c2, 1)),
-          labels: S.optional(__S(32, __c2, 0)),
-          hfToken: S.optional(__S(41, __c2, 9)),
+          status: __S(289, __c18, 1),
+          secrets: S.optional(__S(49, __c3, 1)),
+          labels: S.optional(__S(48, __c3, 0)),
+          hfToken: S.optional(__S(57, __c3, 9)),
         }),
       ).annotate({ identifier: "UpdateJobLabelsResponse" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3455,14 +3473,14 @@ function __c18(j: number): any {
       ).annotate({ identifier: "UpdateJobScheduleRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           namespace: S.String.pipe(T.Label()),
           jobId: S.String.pipe(T.Label()),
-          labels: __S(32, __c2, 0),
+          labels: __S(48, __c3, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -3473,7 +3491,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "UpdateScheduledJobLabelsRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3486,7 +3504,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "CheckNamespaceAccessRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3503,7 +3521,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "CountJobsResponse" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3517,7 +3535,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "CreateScheduledJobRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3529,7 +3547,7 @@ function __c23(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          lastJob: S.NullOr(__S(368, __c23, 0)),
+          lastJob: S.NullOr(__S(384, __c24, 0)),
           nextJobRunAt: S.String,
         }),
       ).annotate({ identifier: "CreateScheduledJobResponseStatus" });
@@ -3548,23 +3566,23 @@ function __c23(j: number): any {
           spaceId: S.optional(S.String),
           dockerImage: S.optional(S.String),
           timeout: S.optional(S.Number),
-          environment: __S(32, __c2, 0),
-          command: S.optional(__S(33, __c2, 1)),
-          arguments: S.optional(__S(33, __c2, 1)),
+          environment: __S(48, __c3, 0),
+          command: S.optional(__S(49, __c3, 1)),
+          arguments: S.optional(__S(49, __c3, 1)),
           arch: S.optional(S.String),
           flavor: S.String,
           resourceGroupId: S.optional(S.String),
           retry: S.optional(S.Number),
           startedAt: S.optional(S.String),
           finishedAt: S.optional(S.String),
-          durations: S.optional(__S(34, __c2, 2)),
-          volumes: S.optional(__S(36, __c2, 4)),
-          expose: S.optional(__S(38, __c2, 6)),
-          network: S.optional(__S(39, __c2, 7)),
-          resourceGroup: S.optional(__S(40, __c2, 8)),
-          secrets: S.optional(__S(33, __c2, 1)),
-          labels: S.optional(__S(32, __c2, 0)),
-          hfToken: S.optional(__S(41, __c2, 9)),
+          durations: S.optional(__S(50, __c3, 2)),
+          volumes: S.optional(__S(52, __c3, 4)),
+          expose: S.optional(__S(54, __c3, 6)),
+          network: S.optional(__S(55, __c3, 7)),
+          resourceGroup: S.optional(__S(56, __c3, 8)),
+          secrets: S.optional(__S(49, __c3, 1)),
+          labels: S.optional(__S(48, __c3, 0)),
+          hfToken: S.optional(__S(57, __c3, 9)),
         }),
       ).annotate({ identifier: "CreateScheduledJobResponseJobSpec" });
     case 4:
@@ -3576,16 +3594,16 @@ function __c23(j: number): any {
           suspend: S.Boolean,
           suspendReason: S.optional(S.String),
           concurrency: S.Boolean,
-          status: __S(369, __c23, 1),
+          status: __S(385, __c24, 1),
           type: S.String,
-          owner: __S(370, __c23, 2),
-          initiator: S.optional(__S(370, __c23, 2)),
-          jobSpec: __S(371, __c23, 3),
+          owner: __S(386, __c24, 2),
+          initiator: S.optional(__S(386, __c24, 2)),
+          jobSpec: __S(387, __c24, 3),
         }),
       ).annotate({ identifier: "CreateScheduledJobResponse" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3598,13 +3616,13 @@ function __c24(j: number): any {
       ).annotate({ identifier: "DeleteScheduledJobRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteScheduledJobResponse" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3622,7 +3640,7 @@ function __c26(j: number): any {
           message: S.NullOr(S.String),
           cancelReason: S.optional(S.Unknown),
           failureCount: S.optional(S.Number),
-          exposeUrls: S.optional(__S(33, __c2, 1)),
+          exposeUrls: S.optional(__S(49, __c3, 1)),
           sshUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "DuplicateJobResponseStatus" });
@@ -3634,33 +3652,33 @@ function __c26(j: number): any {
           spaceId: S.optional(S.String),
           dockerImage: S.optional(S.String),
           timeout: S.optional(S.Number),
-          environment: __S(32, __c2, 0),
-          command: S.optional(__S(33, __c2, 1)),
-          arguments: S.optional(__S(33, __c2, 1)),
+          environment: __S(48, __c3, 0),
+          command: S.optional(__S(49, __c3, 1)),
+          arguments: S.optional(__S(49, __c3, 1)),
           arch: S.optional(S.String),
           flavor: S.String,
-          createdBy: __S(16, __c1, 0),
+          createdBy: __S(32, __c2, 0),
           resourceGroupId: S.optional(S.String),
           retry: S.optional(S.Number),
           startedAt: S.optional(S.String),
           finishedAt: S.optional(S.String),
-          durations: S.optional(__S(34, __c2, 2)),
-          volumes: S.optional(__S(36, __c2, 4)),
-          expose: S.optional(__S(38, __c2, 6)),
-          network: S.optional(__S(39, __c2, 7)),
+          durations: S.optional(__S(50, __c3, 2)),
+          volumes: S.optional(__S(52, __c3, 4)),
+          expose: S.optional(__S(54, __c3, 6)),
+          network: S.optional(__S(55, __c3, 7)),
           type: S.String,
-          owner: __S(48, __c3, 0),
-          resourceGroup: S.optional(__S(40, __c2, 8)),
+          owner: __S(64, __c4, 0),
+          resourceGroup: S.optional(__S(56, __c3, 8)),
           initiator: S.optional(S.Unknown),
-          status: __S(417, __c26, 1),
-          secrets: S.optional(__S(33, __c2, 1)),
-          labels: S.optional(__S(32, __c2, 0)),
-          hfToken: S.optional(__S(41, __c2, 9)),
+          status: __S(433, __c27, 1),
+          secrets: S.optional(__S(49, __c3, 1)),
+          labels: S.optional(__S(48, __c3, 0)),
+          hfToken: S.optional(__S(57, __c3, 9)),
         }),
       ).annotate({ identifier: "DuplicateJobResponse" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3676,7 +3694,7 @@ function __c27(j: number): any {
           message: S.NullOr(S.String),
           cancelReason: S.optional(S.Unknown),
           failureCount: S.optional(S.Number),
-          exposeUrls: S.optional(__S(33, __c2, 1)),
+          exposeUrls: S.optional(__S(49, __c3, 1)),
           sshUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetJobResponseStatus" });
@@ -3688,33 +3706,33 @@ function __c27(j: number): any {
           spaceId: S.optional(S.String),
           dockerImage: S.optional(S.String),
           timeout: S.optional(S.Number),
-          environment: __S(32, __c2, 0),
-          command: S.optional(__S(33, __c2, 1)),
-          arguments: S.optional(__S(33, __c2, 1)),
+          environment: __S(48, __c3, 0),
+          command: S.optional(__S(49, __c3, 1)),
+          arguments: S.optional(__S(49, __c3, 1)),
           arch: S.optional(S.String),
           flavor: S.String,
-          createdBy: __S(16, __c1, 0),
+          createdBy: __S(32, __c2, 0),
           resourceGroupId: S.optional(S.String),
           retry: S.optional(S.Number),
           startedAt: S.optional(S.String),
           finishedAt: S.optional(S.String),
-          durations: S.optional(__S(34, __c2, 2)),
-          volumes: S.optional(__S(36, __c2, 4)),
-          expose: S.optional(__S(38, __c2, 6)),
-          network: S.optional(__S(39, __c2, 7)),
+          durations: S.optional(__S(50, __c3, 2)),
+          volumes: S.optional(__S(52, __c3, 4)),
+          expose: S.optional(__S(54, __c3, 6)),
+          network: S.optional(__S(55, __c3, 7)),
           type: S.String,
-          owner: __S(48, __c3, 0),
-          resourceGroup: S.optional(__S(40, __c2, 8)),
+          owner: __S(64, __c4, 0),
+          resourceGroup: S.optional(__S(56, __c3, 8)),
           initiator: S.optional(S.Unknown),
-          status: __S(433, __c27, 1),
-          secrets: S.optional(__S(33, __c2, 1)),
-          labels: S.optional(__S(32, __c2, 0)),
-          hfToken: S.optional(__S(41, __c2, 9)),
+          status: __S(449, __c28, 1),
+          secrets: S.optional(__S(49, __c3, 1)),
+          labels: S.optional(__S(48, __c3, 0)),
+          hfToken: S.optional(__S(57, __c3, 9)),
         }),
       ).annotate({ identifier: "GetJobResponse" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3738,16 +3756,16 @@ function __c28(j: number): any {
           cpu: S.String,
           ram: S.String,
           ephemeralStorage: S.String,
-          accelerator: S.NullOr(__S(449, __c28, 1)),
+          accelerator: S.NullOr(__S(465, __c29, 1)),
           unitCostMicroUSD: S.Number,
           unitCostUSD: S.Number,
           unitLabel: S.String,
         }),
       ).annotate({ identifier: "GetJobHardwareResponseBodyItem" });
     case 3:
-      return S.Array(__S(450, __c28, 2));
+      return S.Array(__S(466, __c29, 2));
     case 4:
-      return S.suspend(() => __S(451, __c28, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(467, __c29, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetJobHardwareResponse",
       });
   }

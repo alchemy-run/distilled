@@ -29,33 +29,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorBADREQUEST | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorFORBIDDEN | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorNOTFOUND | string;
+}
 
 export interface DeleteDockerContainerFileRequest {
   containerId: string;
@@ -157,6 +172,44 @@ export interface WriteDockerContainerFileRequest {
   serverId?: string | undefined;
 }
 export type WriteDockerContainerFileResponse = unknown;
+export interface ErrorBADREQUESTIssuesItem {
+  message: string;
+}
+/** An array of issues that were responsible for the error */
+export type ErrorBADREQUESTIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorBADREQUEST {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorBADREQUESTIssuesList | undefined;
+}
+export type ErrorFORBIDDENIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorFORBIDDENIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorFORBIDDEN {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorFORBIDDENIssuesList | undefined;
+}
+export type ErrorNOTFOUNDIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorNOTFOUNDIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorNOTFOUND {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorNOTFOUNDIssuesList | undefined;
+}
 export type DeleteDockerContainerFileError = BadRequest | Forbidden | DokployOpError;
 export const deleteDockerContainerFile: API.OperationMethod<
   DeleteDockerContainerFileRequest,
@@ -164,8 +217,8 @@ export const deleteDockerContainerFile: API.OperationMethod<
   DeleteDockerContainerFileError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22, __c11, 0) as any as S.Schema<DeleteDockerContainerFileRequest>,
-  output: __S(24, __c12, 0) as any as S.Schema<DeleteDockerContainerFileResponse>,
+  input: __S(48, __c12, 0) as any as S.Schema<DeleteDockerContainerFileRequest>,
+  output: __S(52, __c13, 0) as any as S.Schema<DeleteDockerContainerFileResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -180,8 +233,8 @@ export const getDockerConfig: API.OperationMethod<
   GetDockerConfigError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26, __c13, 0) as any as S.Schema<GetDockerConfigRequest>,
-  output: __S(24, __c12, 0) as any as S.Schema<GetDockerConfigResponse>,
+  input: __S(56, __c14, 0) as any as S.Schema<GetDockerConfigRequest>,
+  output: __S(52, __c13, 0) as any as S.Schema<GetDockerConfigResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -196,8 +249,8 @@ export const getDockerContainers: API.OperationMethod<
   GetDockerContainersError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c14, 0) as any as S.Schema<GetDockerContainersRequest>,
-  output: __S(24, __c12, 0) as any as S.Schema<GetDockerContainersResponse>,
+  input: __S(60, __c15, 0) as any as S.Schema<GetDockerContainersRequest>,
+  output: __S(52, __c13, 0) as any as S.Schema<GetDockerContainersResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -212,8 +265,8 @@ export const getDockerContainersByAppLabel: API.OperationMethod<
   GetDockerContainersByAppLabelError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30, __c15, 0) as any as S.Schema<GetDockerContainersByAppLabelRequest>,
-  output: __S(24, __c12, 0) as any as S.Schema<GetDockerContainersByAppLabelResponse>,
+  input: __S(64, __c16, 0) as any as S.Schema<GetDockerContainersByAppLabelRequest>,
+  output: __S(52, __c13, 0) as any as S.Schema<GetDockerContainersByAppLabelResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -232,8 +285,8 @@ export const getDockerContainersByAppNameMatch: API.OperationMethod<
   GetDockerContainersByAppNameMatchError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c16, 0) as any as S.Schema<GetDockerContainersByAppNameMatchRequest>,
-  output: __S(24, __c12, 0) as any as S.Schema<GetDockerContainersByAppNameMatchResponse>,
+  input: __S(68, __c17, 0) as any as S.Schema<GetDockerContainersByAppNameMatchRequest>,
+  output: __S(52, __c13, 0) as any as S.Schema<GetDockerContainersByAppNameMatchResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -248,8 +301,8 @@ export const getDockerEvents: API.OperationMethod<
   GetDockerEventsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34, __c17, 0) as any as S.Schema<GetDockerEventsRequest>,
-  output: __S(24, __c12, 0) as any as S.Schema<GetDockerEventsResponse>,
+  input: __S(72, __c18, 0) as any as S.Schema<GetDockerEventsRequest>,
+  output: __S(52, __c13, 0) as any as S.Schema<GetDockerEventsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -264,8 +317,8 @@ export const getDockerServerHealth: API.OperationMethod<
   GetDockerServerHealthError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c18, 0) as any as S.Schema<GetDockerServerHealthRequest>,
-  output: __S(24, __c12, 0) as any as S.Schema<GetDockerServerHealthResponse>,
+  input: __S(76, __c19, 0) as any as S.Schema<GetDockerServerHealthRequest>,
+  output: __S(52, __c13, 0) as any as S.Schema<GetDockerServerHealthResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -284,8 +337,8 @@ export const getDockerServiceContainersByAppName: API.OperationMethod<
   GetDockerServiceContainersByAppNameError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetDockerServiceContainersByAppNameRequest>,
-  output: __S(24, __c12, 0) as any as S.Schema<GetDockerServiceContainersByAppNameResponse>,
+  input: __S(4, __c1, 0) as any as S.Schema<GetDockerServiceContainersByAppNameRequest>,
+  output: __S(52, __c13, 0) as any as S.Schema<GetDockerServiceContainersByAppNameResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -304,8 +357,8 @@ export const getDockerStackContainersByAppName: API.OperationMethod<
   GetDockerStackContainersByAppNameError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2, __c1, 0) as any as S.Schema<GetDockerStackContainersByAppNameRequest>,
-  output: __S(24, __c12, 0) as any as S.Schema<GetDockerStackContainersByAppNameResponse>,
+  input: __S(8, __c2, 0) as any as S.Schema<GetDockerStackContainersByAppNameRequest>,
+  output: __S(52, __c13, 0) as any as S.Schema<GetDockerStackContainersByAppNameResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -320,8 +373,8 @@ export const killDockerContainer: API.OperationMethod<
   KillDockerContainerError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c2, 0) as any as S.Schema<KillDockerContainerRequest>,
-  output: __S(24, __c12, 0) as any as S.Schema<KillDockerContainerResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<KillDockerContainerRequest>,
+  output: __S(52, __c13, 0) as any as S.Schema<KillDockerContainerResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -336,8 +389,8 @@ export const listDockerContainerFiles: API.OperationMethod<
   ListDockerContainerFilesError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6, __c3, 0) as any as S.Schema<ListDockerContainerFilesRequest>,
-  output: __S(24, __c12, 0) as any as S.Schema<ListDockerContainerFilesResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<ListDockerContainerFilesRequest>,
+  output: __S(52, __c13, 0) as any as S.Schema<ListDockerContainerFilesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -352,8 +405,8 @@ export const readDockerContainerFile: API.OperationMethod<
   ReadDockerContainerFileError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c4, 0) as any as S.Schema<ReadDockerContainerFileRequest>,
-  output: __S(24, __c12, 0) as any as S.Schema<ReadDockerContainerFileResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<ReadDockerContainerFileRequest>,
+  output: __S(52, __c13, 0) as any as S.Schema<ReadDockerContainerFileResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -368,8 +421,8 @@ export const removeDockerContainer: API.OperationMethod<
   RemoveDockerContainerError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10, __c5, 0) as any as S.Schema<RemoveDockerContainerRequest>,
-  output: __S(24, __c12, 0) as any as S.Schema<RemoveDockerContainerResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<RemoveDockerContainerRequest>,
+  output: __S(52, __c13, 0) as any as S.Schema<RemoveDockerContainerResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -384,8 +437,8 @@ export const restartDockerContainer: API.OperationMethod<
   RestartDockerContainerError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c6, 0) as any as S.Schema<RestartDockerContainerRequest>,
-  output: __S(24, __c12, 0) as any as S.Schema<RestartDockerContainerResponse>,
+  input: __S(28, __c7, 0) as any as S.Schema<RestartDockerContainerRequest>,
+  output: __S(52, __c13, 0) as any as S.Schema<RestartDockerContainerResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -400,8 +453,8 @@ export const startDockerContainer: API.OperationMethod<
   StartDockerContainerError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14, __c7, 0) as any as S.Schema<StartDockerContainerRequest>,
-  output: __S(24, __c12, 0) as any as S.Schema<StartDockerContainerResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<StartDockerContainerRequest>,
+  output: __S(52, __c13, 0) as any as S.Schema<StartDockerContainerResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -416,8 +469,8 @@ export const stopDockerContainer: API.OperationMethod<
   StopDockerContainerError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c8, 0) as any as S.Schema<StopDockerContainerRequest>,
-  output: __S(24, __c12, 0) as any as S.Schema<StopDockerContainerResponse>,
+  input: __S(36, __c9, 0) as any as S.Schema<StopDockerContainerRequest>,
+  output: __S(52, __c13, 0) as any as S.Schema<StopDockerContainerResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -432,8 +485,8 @@ export const uploadDockerFileToContainer: API.OperationMethod<
   UploadDockerFileToContainerError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18, __c9, 0) as any as S.Schema<UploadDockerFileToContainerRequest>,
-  output: __S(24, __c12, 0) as any as S.Schema<UploadDockerFileToContainerResponse>,
+  input: __S(40, __c10, 0) as any as S.Schema<UploadDockerFileToContainerRequest>,
+  output: __S(52, __c13, 0) as any as S.Schema<UploadDockerFileToContainerResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -448,8 +501,8 @@ export const writeDockerContainerFile: API.OperationMethod<
   WriteDockerContainerFileError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c10, 0) as any as S.Schema<WriteDockerContainerFileRequest>,
-  output: __S(24, __c12, 0) as any as S.Schema<WriteDockerContainerFileResponse>,
+  input: __S(44, __c11, 0) as any as S.Schema<WriteDockerContainerFileRequest>,
+  output: __S(52, __c13, 0) as any as S.Schema<WriteDockerContainerFileResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -463,13 +516,33 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          message: S.String,
+        }),
+      ).annotate({ identifier: "ErrorBADREQUESTIssuesItem" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+          code: S.String,
+          issues: S.optional(__S(1, __c0, 1)),
+        }),
+      ).annotate({ identifier: "ErrorBADREQUEST" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           appName: S.String.pipe(T.Query()),
           serverId: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/docker.getServiceContainersByAppName", code: 200 })),
       ).annotate({ identifier: "GetDockerServiceContainersByAppNameRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -480,7 +553,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "GetDockerStackContainersByAppNameRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -491,7 +564,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "KillDockerContainerRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -503,7 +576,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "ListDockerContainerFilesRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -515,7 +588,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "ReadDockerContainerFileRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -526,7 +599,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "RemoveDockerContainerRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -537,7 +610,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "RestartDockerContainerRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -548,7 +621,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "StartDockerContainerRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -559,7 +632,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "StopDockerContainerRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -579,7 +652,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "UploadDockerFileToContainerRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -592,7 +665,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "WriteDockerContainerFileRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -604,7 +677,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "DeleteDockerContainerFileRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -612,7 +685,7 @@ function __c12(j: number): any {
       });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -623,7 +696,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetDockerConfigRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -633,7 +706,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetDockerContainersRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -645,7 +718,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetDockerContainersByAppLabelRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -657,7 +730,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetDockerContainersByAppNameMatchRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -668,7 +741,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GetDockerEventsRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

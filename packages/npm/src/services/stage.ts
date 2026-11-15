@@ -30,44 +30,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error500Body | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error500Body | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error500Body | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error500Body | string;
+}
 
 export interface ApproveStagePackageVersionRequest {
   /** Unique identifier for the staged package version. */
@@ -225,6 +245,9 @@ export interface StagePackageResponse {
   /** Unique identifier for the staged package version, used for subsequent review actions. */
   stageId?: string | undefined;
 }
+export interface Error500Body {
+  message?: string | undefined;
+}
 export type ApproveStagePackageVersionError = Forbidden | NotFound | Conflict | NpmOpError;
 /** Approve a staged package version, publishing it to the npm registry. Approve a staged package version and publish it to the npm registry. This endpoint moves a version from staged review state to a published package version. On success, the staged record will be processed and the package version will become installable. ## Requirements - `stage-id` MUST reference an existing staged package version - User MUST have permissions to approve and publish the package - User MUST be authenticated with a valid npm token - User MUST provide a valid `npm-otp` value for 2FA accounts */
 export const approveStagePackageVersion: API.OperationMethod<
@@ -233,8 +256,8 @@ export const approveStagePackageVersion: API.OperationMethod<
   ApproveStagePackageVersionError,
   NpmOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ApproveStagePackageVersionRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<ApproveStagePackageVersionResponse>,
+  input: __S(16, __c1, 0) as any as S.Schema<ApproveStagePackageVersionRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<ApproveStagePackageVersionResponse>,
   errors: [Forbidden, NotFound, Conflict, UnknownNpmError],
   protocol: NpmProtocol,
   retry: Retry.Retry,
@@ -250,8 +273,8 @@ export const deleteStagePackageVersion: API.OperationMethod<
   DeleteStagePackageVersionError,
   NpmOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c1, 0) as any as S.Schema<DeleteStagePackageVersionRequest>,
-  output: __S(17, __c1, 1) as any as S.Schema<DeleteStagePackageVersionResponse>,
+  input: __S(32, __c2, 0) as any as S.Schema<DeleteStagePackageVersionRequest>,
+  output: __S(33, __c2, 1) as any as S.Schema<DeleteStagePackageVersionResponse>,
   errors: [Forbidden, NotFound, Conflict, UnknownNpmError],
   protocol: NpmProtocol,
   retry: Retry.Retry,
@@ -267,8 +290,8 @@ export const getStageItems: API.OperationMethod<
   GetStageItemsError,
   NpmOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<GetStageItemsRequest>,
-  output: __S(34, __c2, 2) as any as S.Schema<StagePackageList>,
+  input: __S(48, __c3, 0) as any as S.Schema<GetStageItemsRequest>,
+  output: __S(50, __c3, 2) as any as S.Schema<StagePackageList>,
   errors: [UnknownNpmError],
   protocol: NpmProtocol,
   retry: Retry.Retry,
@@ -284,8 +307,8 @@ export const getStagePackageTarball: API.OperationMethod<
   GetStagePackageTarballError,
   NpmOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<GetStagePackageTarballRequest>,
-  output: __S(65, __c4, 1) as any as S.Schema<GetStagePackageTarballResponse>,
+  input: __S(80, __c5, 0) as any as S.Schema<GetStagePackageTarballRequest>,
+  output: __S(81, __c5, 1) as any as S.Schema<GetStagePackageTarballResponse>,
   errors: [NotFound, UnknownNpmError],
   protocol: NpmProtocol,
   retry: Retry.Retry,
@@ -301,8 +324,8 @@ export const getStagePackageVersion: API.OperationMethod<
   GetStagePackageVersionError,
   NpmOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<GetStagePackageVersionRequest>,
-  output: __S(48, __c3, 0) as any as S.Schema<StagePackageVersion>,
+  input: __S(96, __c6, 0) as any as S.Schema<GetStagePackageVersionRequest>,
+  output: __S(64, __c4, 0) as any as S.Schema<StagePackageVersion>,
   errors: [NotFound, UnknownNpmError],
   protocol: NpmProtocol,
   retry: Retry.Retry,
@@ -318,8 +341,8 @@ export const stagePackage: API.OperationMethod<
   StagePackageError,
   NpmOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c6, 8) as any as S.Schema<StagePackageRequest>,
-  output: __S(105, __c6, 9) as any as S.Schema<StagePackageResponse>,
+  input: __S(120, __c7, 8) as any as S.Schema<StagePackageRequest>,
+  output: __S(121, __c7, 9) as any as S.Schema<StagePackageResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownNpmError],
   protocol: NpmProtocol,
   retry: Retry.Retry,
@@ -331,13 +354,6 @@ export const stagePackage: API.OperationMethod<
 function __c0(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          stage_id: S.String.pipe(T.Label()),
-          npmOtp: S.String.pipe(T.Header("npm-otp")),
-        }).pipe(T.Http({ method: "POST", uri: "/-/stage/{stage_id}/approve", code: 200 })),
-      ).annotate({ identifier: "ApproveStagePackageVersionRequest" });
-    case 1:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
@@ -352,6 +368,17 @@ function __c1(j: number): any {
         S.Struct({
           stage_id: S.String.pipe(T.Label()),
           npmOtp: S.String.pipe(T.Header("npm-otp")),
+        }).pipe(T.Http({ method: "POST", uri: "/-/stage/{stage_id}/approve", code: 200 })),
+      ).annotate({ identifier: "ApproveStagePackageVersionRequest" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          stage_id: S.String.pipe(T.Label()),
+          npmOtp: S.String.pipe(T.Header("npm-otp")),
         }).pipe(T.Http({ method: "DELETE", uri: "/-/stage/{stage_id}", code: 200 })),
       ).annotate({ identifier: "DeleteStagePackageVersionRequest" });
     case 1:
@@ -360,7 +387,7 @@ function __c1(j: number): any {
       });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -371,11 +398,11 @@ function __c2(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/-/stage", code: 200 })),
       ).annotate({ identifier: "GetStageItemsRequest" });
     case 1:
-      return S.Array(__S(48, __c3, 0));
+      return S.Array(__S(64, __c4, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(33, __c2, 1)),
+          items: S.optional(__S(49, __c3, 1)),
           page: S.optional(S.Number),
           perPage: S.optional(S.Number),
           total: S.optional(S.Number),
@@ -383,7 +410,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "StagePackageList" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -402,7 +429,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "StagePackageVersion" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -414,7 +441,7 @@ function __c4(j: number): any {
       return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -424,7 +451,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetStagePackageVersionRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -433,7 +460,7 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "StagePackageRequestVersionsValue" });
     case 1:
-      return S.Record(S.String, __S(96, __c6, 0));
+      return S.Record(S.String, __S(112, __c7, 0));
     case 2:
       return S.Record(S.String, S.String);
     case 3:
@@ -444,7 +471,7 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "StagePackageRequestMaintainersItem" });
     case 4:
-      return S.Array(__S(99, __c6, 3));
+      return S.Array(__S(115, __c7, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -460,7 +487,7 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "StagePackageRequestAttachmentsValue" });
     case 7:
-      return S.Record(S.String, __S(102, __c6, 6));
+      return S.Record(S.String, __S(118, __c7, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -470,18 +497,18 @@ function __c6(j: number): any {
           description: S.optional(S.String),
           version: S.optional(S.String),
           access: S.optional(S.String),
-          versions: __S(97, __c6, 1),
-          dist_tags: S.optional(__S(98, __c6, 2).pipe(T.Body("dist-tags"))),
+          versions: __S(113, __c7, 1),
+          dist_tags: S.optional(__S(114, __c7, 2).pipe(T.Body("dist-tags"))),
           readme: S.optional(S.String),
-          maintainers: S.optional(__S(100, __c6, 4)),
+          maintainers: S.optional(__S(116, __c7, 4)),
           author: S.optional(S.String),
           license: S.optional(S.String),
-          repository: S.optional(__S(101, __c6, 5)),
+          repository: S.optional(__S(117, __c7, 5)),
           main: S.optional(S.String),
-          scripts: S.optional(__S(98, __c6, 2)),
+          scripts: S.optional(__S(114, __c7, 2)),
           _nodeVersion: S.optional(S.String),
           _npmVersion: S.optional(S.String),
-          _attachments: __S(103, __c6, 7),
+          _attachments: __S(119, __c7, 7),
           _rev: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/-/stage/package/{package_name}", code: 200 })),
       ).annotate({ identifier: "StagePackageRequest" });

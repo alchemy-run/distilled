@@ -29,11 +29,16 @@ export class Conflict
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: DataDeletionConflict | string;
+}
 
 export interface CreateDataDeletionRequestRequestVariablesValue {
   code_name: string;
@@ -134,6 +139,10 @@ export interface PaginatedDataDeletionRequestList {
   previous?: string | null | undefined;
   results: PaginatedDataDeletionRequestListResultsList;
 }
+export interface DataDeletionConflict {
+  /** Reason the deletion request could not be created in the current state. */
+  detail: string;
+}
 export type CreateDataDeletionRequestError = Conflict | PosthogOpError;
 /** Submit a one-column HogQL query for event deletion. */
 export const createDataDeletionRequest: API.OperationMethod<
@@ -142,8 +151,8 @@ export const createDataDeletionRequest: API.OperationMethod<
   CreateDataDeletionRequestError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateDataDeletionRequestRequest>,
-  output: __S(8, __c2, 0) as any as S.Schema<DataDeletionRequest>,
+  input: __S(4, __c1, 0) as any as S.Schema<CreateDataDeletionRequestRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<DataDeletionRequest>,
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -159,8 +168,8 @@ export const createDataDeletionRequestsPreview: API.OperationMethod<
   CreateDataDeletionRequestsPreviewError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<CreateDataDeletionRequestsPreviewRequest>,
-  output: __S(13, __c3, 1) as any as S.Schema<DataDeletionPreview>,
+  input: __S(16, __c4, 0) as any as S.Schema<CreateDataDeletionRequestsPreviewRequest>,
+  output: __S(17, __c4, 1) as any as S.Schema<DataDeletionPreview>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -176,8 +185,8 @@ export const getDataDeletionRequest: API.OperationMethod<
   GetDataDeletionRequestError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<GetDataDeletionRequestRequest>,
-  output: __S(8, __c2, 0) as any as S.Schema<DataDeletionRequest>,
+  input: __S(20, __c5, 0) as any as S.Schema<GetDataDeletionRequestRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<DataDeletionRequest>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -193,8 +202,8 @@ export const listDataDeletionRequests: API.OperationMethod<
   ListDataDeletionRequestsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<ListDataDeletionRequestsRequest>,
-  output: __S(22, __c5, 2) as any as S.Schema<PaginatedDataDeletionRequestList>,
+  input: __S(24, __c6, 0) as any as S.Schema<ListDataDeletionRequestsRequest>,
+  output: __S(26, __c6, 2) as any as S.Schema<PaginatedDataDeletionRequestList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -208,9 +217,19 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          detail: S.String,
+        }),
+      ).annotate({ identifier: "DataDeletionConflict" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           project_id: S.String.pipe(T.Label()),
           query: S.String,
-          variables: S.optional(__S(5, __c1, 1)),
+          variables: S.optional(__S(9, __c2, 1)),
           submission_id: S.String,
         }).pipe(
           T.Http({
@@ -222,7 +241,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateDataDeletionRequestRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -234,10 +253,10 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "CreateDataDeletionRequestRequestVariablesValue" });
     case 1:
-      return S.Record(S.String, __S(4, __c1, 0));
+      return S.Record(S.String, __S(8, __c2, 0));
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -245,7 +264,7 @@ function __c2(j: number): any {
           id: S.String,
           status: S.String,
           query: S.String,
-          variables: __S(5, __c1, 1),
+          variables: __S(9, __c2, 1),
           submission_id: S.NullOr(S.String),
           count: S.NullOr(S.Number),
           created_by_id: S.NullOr(S.Number),
@@ -258,14 +277,14 @@ function __c2(j: number): any {
       ).annotate({ identifier: "DataDeletionRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           query: S.String,
-          variables: S.optional(__S(5, __c1, 1)),
+          variables: S.optional(__S(9, __c2, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -282,7 +301,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "DataDeletionPreview" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -299,7 +318,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetDataDeletionRequestRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -316,14 +335,14 @@ function __c5(j: number): any {
         ),
       ).annotate({ identifier: "ListDataDeletionRequestsRequest" });
     case 1:
-      return S.Array(__S(8, __c2, 0));
+      return S.Array(__S(12, __c3, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(21, __c5, 1),
+          results: __S(25, __c6, 1),
         }),
       ).annotate({ identifier: "PaginatedDataDeletionRequestList" });
   }

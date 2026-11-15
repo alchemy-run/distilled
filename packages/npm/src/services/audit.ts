@@ -29,11 +29,16 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 /** Array of versions for this package */
 export type BulkAuditRequestBodyValueList = Array<string>;
@@ -76,6 +81,12 @@ export type BulkAuditResponseBodyMap = {
   [key: string]: BulkAuditResponseBodyValueList | undefined;
 };
 export type BulkAuditResponse = BulkAuditResponseBodyMap;
+export type Error400BodyStatusCode = 400;
+export interface Error400Body {
+  statusCode?: Error400BodyStatusCode | undefined;
+  error?: string | undefined;
+  message?: string | undefined;
+}
 export type BulkAuditError = BadRequest | NpmOpError;
 /** Get advisories for packages Get advisories for a list of packages and version ranges */
 export const bulkAudit: API.OperationMethod<
@@ -84,8 +95,8 @@ export const bulkAudit: API.OperationMethod<
   BulkAuditError,
   NpmOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2, __c0, 2) as any as S.Schema<BulkAuditRequest>,
-  output: __S(7, __c0, 7) as any as S.Schema<BulkAuditResponse>,
+  input: __S(10, __c1, 2) as any as S.Schema<BulkAuditRequest>,
+  output: __S(15, __c1, 7) as any as S.Schema<BulkAuditResponse>,
   errors: [BadRequest, UnknownNpmError],
   protocol: NpmProtocol,
   retry: Retry.Retry,
@@ -97,13 +108,25 @@ export const bulkAudit: API.OperationMethod<
 function __c0(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          statusCode: S.optional(S.Number),
+          error: S.optional(S.String),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Error400Body" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
       return S.Array(S.String);
     case 1:
-      return S.Record(S.String, __S(0, __c0, 0));
+      return S.Record(S.String, __S(8, __c1, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          body: __S(1, __c0, 1).pipe(T.HttpBody()),
+          body: __S(9, __c1, 1).pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "POST", uri: "/-/npm/v1/security/advisories/bulk", code: 200 })),
       ).annotate({ identifier: "BulkAuditRequest" });
     case 3:
@@ -121,16 +144,16 @@ function __c0(j: number): any {
           title: S.optional(S.String),
           severity: S.optional(S.String),
           vulnerable_versions: S.optional(S.String),
-          cwe: S.optional(__S(0, __c0, 0)),
-          cvss: S.optional(__S(3, __c0, 3)),
+          cwe: S.optional(__S(8, __c1, 0)),
+          cvss: S.optional(__S(11, __c1, 3)),
         }),
       ).annotate({ identifier: "BulkAuditResponseBodyValueItem" });
     case 5:
-      return S.Array(__S(4, __c0, 4));
+      return S.Array(__S(12, __c1, 4));
     case 6:
-      return S.Record(S.String, __S(5, __c0, 5));
+      return S.Record(S.String, __S(13, __c1, 5));
     case 7:
-      return S.suspend(() => __S(6, __c0, 6).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(14, __c1, 6).pipe(T.RawResponseRoot())).annotate({
         identifier: "BulkAuditResponse",
       });
   }

@@ -52,11 +52,16 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(193, __c12, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error401Body | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -841,6 +846,13 @@ export interface UpsertAiGatewayBudgetDefaultRequest {
   /** Why the budget is being changed, up to 500 characters. Recorded in the activity log and audit log drains, and sent in the ai-gateway.budget.updated webhook. */
   justification?: string | undefined;
 }
+export interface Error401BodyError {
+  code: string;
+  message: string;
+}
+export interface Error401Body {
+  error: Error401BodyError;
+}
 export type ArchiveAiGatewayBudgetError = BadRequest | Forbidden | NotFound | VercelOpError;
 /** Archive AI Gateway budget Archive a team-, project-, or user-scope AI Gateway budget. */
 export const archiveAiGatewayBudget: API.OperationMethod<
@@ -849,8 +861,8 @@ export const archiveAiGatewayBudget: API.OperationMethod<
   ArchiveAiGatewayBudgetError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<ArchiveAiGatewayBudgetRequest>,
-  output: __S(384, __c24, 0) as any as S.Schema<AiGatewayBudget>,
+  input: __S(368, __c23, 0) as any as S.Schema<ArchiveAiGatewayBudgetRequest>,
+  output: __S(400, __c25, 0) as any as S.Schema<AiGatewayBudget>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -866,8 +878,8 @@ export const archiveAiGatewayBudgetDefault: API.OperationMethod<
   ArchiveAiGatewayBudgetDefaultError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<ArchiveAiGatewayBudgetDefaultRequest>,
-  output: __S(401, __c25, 1) as any as S.Schema<ArchiveAiGatewayBudgetDefaultResponse>,
+  input: __S(416, __c26, 0) as any as S.Schema<ArchiveAiGatewayBudgetDefaultRequest>,
+  output: __S(417, __c26, 1) as any as S.Schema<ArchiveAiGatewayBudgetDefaultResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -883,8 +895,8 @@ export const createAiGatewayByokCredential: API.OperationMethod<
   CreateAiGatewayByokCredentialError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(418, __c26, 2) as any as S.Schema<CreateAiGatewayByokCredentialRequest>,
-  output: __S(432, __c27, 0) as any as S.Schema<CreateAiGatewayByokCredentialResponse>,
+  input: __S(434, __c27, 2) as any as S.Schema<CreateAiGatewayByokCredentialRequest>,
+  output: __S(448, __c28, 0) as any as S.Schema<CreateAiGatewayByokCredentialResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -900,8 +912,8 @@ export const createAiGatewayRule: API.OperationMethod<
   CreateAiGatewayRuleError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<CreateAiGatewayRuleRequest>,
-  output: __S(480, __c30, 0) as any as S.Schema<AiGatewayRule>,
+  input: __S(464, __c29, 0) as any as S.Schema<CreateAiGatewayRuleRequest>,
+  output: __S(496, __c31, 0) as any as S.Schema<AiGatewayRule>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -922,8 +934,8 @@ export const createAiGatewayVirtualModelConfig: API.OperationMethod<
   CreateAiGatewayVirtualModelConfigError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<CreateAiGatewayVirtualModelConfigRequest>,
-  output: __S(523, __c32, 11) as any as S.Schema<AiGatewayVirtualModelConfig>,
+  input: __S(512, __c32, 0) as any as S.Schema<CreateAiGatewayVirtualModelConfigRequest>,
+  output: __S(539, __c33, 11) as any as S.Schema<AiGatewayVirtualModelConfig>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -939,8 +951,8 @@ export const deleteAiGatewayByokCredential: API.OperationMethod<
   DeleteAiGatewayByokCredentialError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<DeleteAiGatewayByokCredentialRequest>,
-  output: __S(544, __c34, 0) as any as S.Schema<DeleteAiGatewayByokCredentialResponse>,
+  input: __S(544, __c34, 0) as any as S.Schema<DeleteAiGatewayByokCredentialRequest>,
+  output: __S(560, __c35, 0) as any as S.Schema<DeleteAiGatewayByokCredentialResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -957,7 +969,7 @@ export const deleteAiGatewayRule: API.OperationMethod<
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteAiGatewayRuleRequest>,
-  output: __S(544, __c34, 0) as any as S.Schema<DeleteAiGatewayRuleResponse>,
+  output: __S(560, __c35, 0) as any as S.Schema<DeleteAiGatewayRuleResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -978,7 +990,7 @@ export const deleteAiGatewayVirtualModelConfig: API.OperationMethod<
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c1, 0) as any as S.Schema<DeleteAiGatewayVirtualModelConfigRequest>,
-  output: __S(544, __c34, 0) as any as S.Schema<DeleteAiGatewayVirtualModelConfigResponse>,
+  output: __S(560, __c35, 0) as any as S.Schema<DeleteAiGatewayVirtualModelConfigResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -999,7 +1011,7 @@ export const deleteAiGatewayVirtualModelConfigBySlug: API.OperationMethod<
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<DeleteAiGatewayVirtualModelConfigBySlugRequest>,
-  output: __S(544, __c34, 0) as any as S.Schema<DeleteAiGatewayVirtualModelConfigBySlugResponse>,
+  output: __S(560, __c35, 0) as any as S.Schema<DeleteAiGatewayVirtualModelConfigBySlugResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -1016,7 +1028,7 @@ export const getAiGatewayByokCredential: API.OperationMethod<
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<GetAiGatewayByokCredentialRequest>,
-  output: __S(432, __c27, 0) as any as S.Schema<GetAiGatewayByokCredentialResponse>,
+  output: __S(448, __c28, 0) as any as S.Schema<GetAiGatewayByokCredentialResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -1054,7 +1066,7 @@ export const getAiGatewayVirtualModelConfigBySlug: API.OperationMethod<
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<GetAiGatewayVirtualModelConfigBySlugRequest>,
-  output: __S(523, __c32, 11) as any as S.Schema<AiGatewayVirtualModelConfig>,
+  output: __S(539, __c33, 11) as any as S.Schema<AiGatewayVirtualModelConfig>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -1138,8 +1150,8 @@ export const listAiGatewayRules: API.OperationMethod<
   ListAiGatewayRulesError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<ListAiGatewayRulesRequest>,
-  output: __S(195, __c12, 3) as any as S.Schema<AiGatewayRuleList>,
+  input: __S(208, __c13, 0) as any as S.Schema<ListAiGatewayRulesRequest>,
+  output: __S(211, __c13, 3) as any as S.Schema<AiGatewayRuleList>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -1159,8 +1171,8 @@ export const listAiGatewayVirtualModelConfigs: API.OperationMethod<
   ListAiGatewayVirtualModelConfigsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(209, __c13, 1) as any as S.Schema<ListAiGatewayVirtualModelConfigsRequest>,
-  output: __S(208, __c13, 0) as any as S.Schema<AiGatewayVirtualModelConfigList>,
+  input: __S(225, __c14, 1) as any as S.Schema<ListAiGatewayVirtualModelConfigsRequest>,
+  output: __S(224, __c14, 0) as any as S.Schema<AiGatewayVirtualModelConfigList>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -1176,8 +1188,8 @@ export const updateAiGatewayByokCredential: API.OperationMethod<
   UpdateAiGatewayByokCredentialError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<UpdateAiGatewayByokCredentialRequest>,
-  output: __S(432, __c27, 0) as any as S.Schema<UpdateAiGatewayByokCredentialResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<UpdateAiGatewayByokCredentialRequest>,
+  output: __S(448, __c28, 0) as any as S.Schema<UpdateAiGatewayByokCredentialResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -1193,8 +1205,8 @@ export const updateAiGatewayRule: API.OperationMethod<
   UpdateAiGatewayRuleError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<UpdateAiGatewayRuleRequest>,
-  output: __S(480, __c30, 0) as any as S.Schema<AiGatewayRule>,
+  input: __S(256, __c16, 0) as any as S.Schema<UpdateAiGatewayRuleRequest>,
+  output: __S(496, __c31, 0) as any as S.Schema<AiGatewayRule>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -1214,8 +1226,8 @@ export const updateAiGatewayVirtualModelConfig: API.OperationMethod<
   UpdateAiGatewayVirtualModelConfigError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<UpdateAiGatewayVirtualModelConfigRequest>,
-  output: __S(523, __c32, 11) as any as S.Schema<AiGatewayVirtualModelConfig>,
+  input: __S(272, __c17, 0) as any as S.Schema<UpdateAiGatewayVirtualModelConfigRequest>,
+  output: __S(539, __c33, 11) as any as S.Schema<AiGatewayVirtualModelConfig>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -1235,8 +1247,8 @@ export const updateAiGatewayVirtualModelConfigBySlug: API.OperationMethod<
   UpdateAiGatewayVirtualModelConfigBySlugError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<UpdateAiGatewayVirtualModelConfigBySlugRequest>,
-  output: __S(523, __c32, 11) as any as S.Schema<AiGatewayVirtualModelConfig>,
+  input: __S(288, __c18, 0) as any as S.Schema<UpdateAiGatewayVirtualModelConfigBySlugRequest>,
+  output: __S(539, __c33, 11) as any as S.Schema<AiGatewayVirtualModelConfig>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -1252,8 +1264,8 @@ export const updateApiKeyQuota: API.OperationMethod<
   UpdateApiKeyQuotaError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<UpdateApiKeyQuotaRequest>,
-  output: __S(291, __c18, 3) as any as S.Schema<UpdateApiKeyQuotaResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<UpdateApiKeyQuotaRequest>,
+  output: __S(307, __c19, 3) as any as S.Schema<UpdateApiKeyQuotaResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -1269,8 +1281,8 @@ export const upsertAiGatewayBudget: API.OperationMethod<
   UpsertAiGatewayBudgetError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<UpsertAiGatewayBudgetRequest>,
-  output: __S(384, __c24, 0) as any as S.Schema<AiGatewayBudget>,
+  input: __S(336, __c21, 0) as any as S.Schema<UpsertAiGatewayBudgetRequest>,
+  output: __S(400, __c25, 0) as any as S.Schema<AiGatewayBudget>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -1286,7 +1298,7 @@ export const upsertAiGatewayBudgetDefault: API.OperationMethod<
   UpsertAiGatewayBudgetDefaultError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<UpsertAiGatewayBudgetDefaultRequest>,
+  input: __S(352, __c22, 0) as any as S.Schema<UpsertAiGatewayBudgetDefaultRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<AiGatewayBudgetDefault>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
@@ -1420,7 +1432,7 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           active: S.Boolean,
-          alertThresholds: S.optional(__S(368, __c23, 0)),
+          alertThresholds: S.optional(__S(384, __c24, 0)),
           createdAt: S.Number,
           limitAmount: S.Number,
           refreshPeriod: S.String,
@@ -1444,7 +1456,7 @@ function __c8(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/ai-gateway/budgets/list", code: 200 })),
       ).annotate({ identifier: "ListAiGatewayBudgetsRequest" });
     case 1:
-      return S.Array(__S(384, __c24, 0));
+      return S.Array(__S(400, __c25, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1538,10 +1550,27 @@ function __c10(j: number): any {
 function __c11(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(523, __c32, 11));
+      return S.Array(__S(539, __c33, 11));
   }
 }
 function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.String,
+          message: S.String,
+        }),
+      ).annotate({ identifier: "Error401BodyError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(192, __c12, 0),
+        }),
+      ).annotate({ identifier: "Error401Body" });
+  }
+}
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1556,13 +1585,13 @@ function __c12(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          action: S.optional(__S(464, __c29, 0)),
+          action: S.optional(__S(480, __c30, 0)),
           createdAt: S.Number,
           createdBy: S.optional(S.String),
           deleted: S.optional(S.Boolean),
           description: S.optional(S.String),
           enabled: S.Boolean,
-          match: S.optional(__S(465, __c29, 1)),
+          match: S.optional(__S(481, __c30, 1)),
           ownerId: S.String,
           ruleId: S.String,
           shadowedBy: S.optional(S.String),
@@ -1572,17 +1601,17 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "AiGatewayRuleListItem" });
     case 2:
-      return S.Array(__S(193, __c12, 1));
+      return S.Array(__S(209, __c13, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           nextCursor: S.NullOr(S.String),
-          rules: __S(194, __c12, 2),
+          rules: __S(210, __c13, 2),
         }),
       ).annotate({ identifier: "AiGatewayRuleList" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1606,7 +1635,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "ListAiGatewayVirtualModelConfigsRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1629,7 +1658,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "UpdateAiGatewayByokCredentialRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1640,7 +1669,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "UpdateAiGatewayRuleRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1651,7 +1680,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "UpdateAiGatewayVirtualModelConfigRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1669,7 +1698,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "UpdateAiGatewayVirtualModelConfigBySlugRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1680,7 +1709,7 @@ function __c18(j: number): any {
           refreshPeriod: S.optional(S.String),
           active: S.optional(S.Boolean),
           archived: S.optional(S.Boolean),
-          alertThresholds: S.optional(__S(304, __c19, 0)),
+          alertThresholds: S.optional(__S(320, __c20, 0)),
           justification: S.optional(S.String),
         }).pipe(T.Http({ method: "PATCH", uri: "/api-keys/{apiKeyID}/quota", code: 200 })),
       ).annotate({ identifier: "UpdateApiKeyQuotaRequest" });
@@ -1695,7 +1724,7 @@ function __c18(j: number): any {
           refreshPeriod: S.String,
           active: S.Boolean,
           archived: S.Boolean,
-          alertThresholds: S.optional(__S(368, __c23, 0)),
+          alertThresholds: S.optional(__S(384, __c24, 0)),
           createdAt: S.Number,
           updatedAt: S.Number,
         }),
@@ -1716,26 +1745,26 @@ function __c18(j: number): any {
           leakedAt: S.NullOr(S.Number),
           leakedUrl: S.NullOr(S.String),
           createdByAppId: S.NullOr(S.String),
-          quota: S.optional(__S(289, __c18, 1)),
+          quota: S.optional(__S(305, __c19, 1)),
           metadata: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "APIKey" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          apiKey: __S(290, __c18, 2),
-          quota: __S(289, __c18, 1),
+          apiKey: __S(306, __c19, 2),
+          quota: __S(305, __c19, 1),
         }),
       ).annotate({ identifier: "UpdateApiKeyQuotaResponse" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1748,13 +1777,13 @@ function __c20(j: number): any {
           limitAmount: S.Number,
           refreshPeriod: S.optional(S.String),
           includeByokInQuota: S.optional(S.Boolean),
-          alertThresholds: S.optional(__S(304, __c19, 0)),
+          alertThresholds: S.optional(__S(320, __c20, 0)),
           justification: S.optional(S.String),
         }).pipe(T.Http({ method: "PUT", uri: "/ai-gateway/budgets", code: 200 })),
       ).annotate({ identifier: "UpsertAiGatewayBudgetRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1764,13 +1793,13 @@ function __c21(j: number): any {
           scopeType: S.String,
           limitAmount: S.Number,
           refreshPeriod: S.optional(S.String),
-          alertThresholds: S.optional(__S(304, __c19, 0)),
+          alertThresholds: S.optional(__S(320, __c20, 0)),
           justification: S.optional(S.String),
         }).pipe(T.Http({ method: "PUT", uri: "/ai-gateway/budgets/defaults", code: 200 })),
       ).annotate({ identifier: "UpsertAiGatewayBudgetDefaultRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1785,19 +1814,19 @@ function __c22(j: number): any {
       ).annotate({ identifier: "ArchiveAiGatewayBudgetRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           active: S.Boolean,
-          alertThresholds: S.optional(__S(368, __c23, 0)),
+          alertThresholds: S.optional(__S(384, __c24, 0)),
           archived: S.Boolean,
           createdAt: S.Number,
           currentByokSpend: S.Number,
@@ -1815,7 +1844,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "AiGatewayBudget" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1832,7 +1861,7 @@ function __c25(j: number): any {
       });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1842,7 +1871,7 @@ function __c26(j: number): any {
         }),
       ).annotate({ identifier: "CreateAiGatewayByokCredentialRequestMappingsItem" });
     case 1:
-      return S.Array(__S(416, __c26, 0));
+      return S.Array(__S(432, __c27, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1854,12 +1883,12 @@ function __c26(j: number): any {
           active: S.optional(S.Boolean),
           zeroDataRetention: S.optional(S.Boolean),
           userId: S.optional(S.String),
-          mappings: S.optional(__S(417, __c26, 1)),
+          mappings: S.optional(__S(433, __c27, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/ai-gateway/byok-credentials", code: 200 })),
       ).annotate({ identifier: "CreateAiGatewayByokCredentialRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1878,7 +1907,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "CreateAiGatewayByokCredentialResponse" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1889,7 +1918,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "CreateAiGatewayRuleRequest" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1906,18 +1935,18 @@ function __c29(j: number): any {
       ).annotate({ identifier: "AiGatewayRuleMatch" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          action: S.optional(__S(464, __c29, 0)),
+          action: S.optional(__S(480, __c30, 0)),
           createdAt: S.Number,
           createdBy: S.optional(S.String),
           deleted: S.optional(S.Boolean),
           description: S.optional(S.String),
           enabled: S.Boolean,
-          match: S.optional(__S(465, __c29, 1)),
+          match: S.optional(__S(481, __c30, 1)),
           ownerId: S.String,
           ruleId: S.String,
           type: S.String,
@@ -1927,7 +1956,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "AiGatewayRule" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1938,7 +1967,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "CreateAiGatewayVirtualModelConfigRequest" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -1953,13 +1982,13 @@ function __c32(j: number): any {
         }),
       ).annotate({ identifier: "AiGatewayVirtualModelConfigInferenceRegionProvidersValue" });
     case 3:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(514, __c32, 2)));
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(530, __c33, 2)));
     case 4:
       return S.suspend(() =>
         S.Struct({
           geoRegion: S.optional(S.String),
           providerRegion: S.optional(S.String),
-          providers: S.optional(__S(515, __c32, 3)),
+          providers: S.optional(__S(531, __c33, 3)),
           scope: S.optional(S.String),
         }),
       ).annotate({ identifier: "AiGatewayVirtualModelConfigInferenceRegion" });
@@ -1968,21 +1997,21 @@ function __c32(j: number): any {
     case 6:
       return S.Record(S.String, S.Unknown);
     case 7:
-      return S.Record(S.String, __S(518, __c32, 6));
+      return S.Record(S.String, __S(534, __c33, 6));
     case 8:
       return S.Record(S.String, S.Number);
     case 9:
       return S.suspend(() =>
         S.Struct({
-          byok: S.optional(__S(520, __c32, 8)),
+          byok: S.optional(__S(536, __c33, 8)),
         }),
       ).annotate({ identifier: "AiGatewayVirtualModelConfigProviderTimeouts" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          cost: S.optional(__S(518, __c32, 6)),
-          tps: S.optional(__S(518, __c32, 6)),
-          ttft: S.optional(__S(518, __c32, 6)),
+          cost: S.optional(__S(534, __c33, 6)),
+          tps: S.optional(__S(534, __c33, 6)),
+          ttft: S.optional(__S(534, __c33, 6)),
         }),
       ).annotate({ identifier: "AiGatewayVirtualModelConfigSelectorOptions" });
     case 11:
@@ -1990,7 +2019,7 @@ function __c32(j: number): any {
         S.Struct({
           allowFallbackFromFast: S.optional(S.Boolean),
           baseUrl: S.optional(S.String),
-          byokCredentialIds: S.optional(__S(512, __c32, 0)),
+          byokCredentialIds: S.optional(__S(528, __c33, 0)),
           caching: S.optional(S.String),
           createdAt: S.Number,
           createdBy: S.optional(S.String),
@@ -1998,21 +2027,21 @@ function __c32(j: number): any {
           description: S.optional(S.String),
           disallowPromptTraining: S.optional(S.Boolean),
           displayName: S.optional(S.String),
-          has: S.optional(__S(513, __c32, 1)),
+          has: S.optional(__S(529, __c33, 1)),
           hipaaCompliant: S.optional(S.Boolean),
-          inferenceRegion: S.optional(__S(516, __c32, 4)),
+          inferenceRegion: S.optional(__S(532, __c33, 4)),
           instanceId: S.optional(S.String),
           kind: S.String,
-          models: S.optional(__S(517, __c32, 5)),
+          models: S.optional(__S(533, __c33, 5)),
           modelSlug: S.optional(S.String),
-          observabilityTags: S.optional(__S(512, __c32, 0)),
+          observabilityTags: S.optional(__S(528, __c33, 0)),
           ownerId: S.String,
-          providerOnly: S.optional(__S(512, __c32, 0)),
-          providerOptions: S.optional(__S(519, __c32, 7)),
-          providerOrder: S.optional(__S(512, __c32, 0)),
-          providerTimeouts: S.optional(__S(521, __c32, 9)),
+          providerOnly: S.optional(__S(528, __c33, 0)),
+          providerOptions: S.optional(__S(535, __c33, 7)),
+          providerOrder: S.optional(__S(528, __c33, 0)),
+          providerTimeouts: S.optional(__S(537, __c33, 9)),
           selector: S.optional(S.String),
-          selectorOptions: S.optional(__S(522, __c32, 10)),
+          selectorOptions: S.optional(__S(538, __c33, 10)),
           serviceTier: S.optional(S.String),
           sort: S.optional(S.String),
           speed: S.optional(S.String),
@@ -2026,7 +2055,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "AiGatewayVirtualModelConfig" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2046,7 +2075,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "DeleteAiGatewayByokCredentialRequest" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.NullOr(S.Unknown).pipe(T.RawResponseRoot())).annotate({

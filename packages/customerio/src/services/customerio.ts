@@ -35,55 +35,129 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(18, __c1, 2)),
+          /*@__PURE__*/ S.suspend(() => __S(50, __c3, 2)),
+          /*@__PURE__*/ S.suspend(() => __S(82, __c5, 2)),
+          /*@__PURE__*/ S.suspend(() => __S(85, __c5, 5)),
+          /*@__PURE__*/ S.suspend(() => __S(82, __c5, 2)),
+          /*@__PURE__*/ S.suspend(() => __S(33, __c2, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(33, __c2, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(33, __c2, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(88, __c5, 8)),
+          /*@__PURE__*/ S.suspend(() => __S(88, __c5, 8)),
+          S.String,
+        ]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?:
+    | Error400Body5
+    | Error400Body
+    | Error400Body8
+    | Error429Body
+    | Error400Body9
+    | Error400Body3
+    | Error400Body2
+    | Error400Body4
+    | Error400Body6
+    | Error400Body7
+    | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(18, __c1, 2)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body5 | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(33, __c2, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(33, __c2, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(33, __c2, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(33, __c2, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(33, __c2, 1)),
+          S.String,
+        ]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?:
+    | Error403Body
+    | Error403Body2
+    | Error403Body3
+    | Error403Body4
+    | Error403Body5
+    | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(18, __c1, 2)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body5 | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(50, __c3, 2)),
+          /*@__PURE__*/ S.suspend(() => __S(2098, __c131, 2)),
+          /*@__PURE__*/ S.suspend(() => __S(2101, __c131, 5)),
+          /*@__PURE__*/ S.suspend(() => __S(2104, __c131, 8)),
+          /*@__PURE__*/ S.suspend(() => __S(2104, __c131, 8)),
+          S.String,
+        ]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?:
+    | Error400Body
+    | Error422Body4
+    | Error422Body
+    | Error422Body2
+    | Error422Body3
+    | string;
+}
 
 export type AddCollectionRequestBodyCase0DataItemMap = { [key: string]: unknown | undefined };
 /** An array of data objects that you want to reference in this collection. */
@@ -22904,6 +22978,214 @@ export interface UpdateWebhookResponse {
   /** Set to `true` to include message content in `sent` events and topic preferences in `cio_subscription_preferences_changed` events. This is the **Body content** option in the UI. */
   with_content?: boolean | undefined;
 }
+/** The request field that caused the error. Validation errors (`422`) include it. */
+export interface Error400BodyErrorsItemSource {
+  /** The path to the field that failed, like `/data/attributes/content`. */
+  pointer?: string | undefined;
+}
+export interface Error400BodyErrorsItem2 {
+  /** A human-readable description of the error. */
+  detail?: string | undefined;
+  /** Additional detail about the error, when there is any. A failed publish uses this to list Liquid errors per language. */
+  meta?: unknown | undefined;
+  /** The request field that caused the error. Validation errors (`422`) include it. */
+  source?: Error400BodyErrorsItemSource | undefined;
+  /** The HTTP status code for this error, as a string. */
+  status?: string | undefined;
+}
+/** A list of errors that occurred while processing the request. */
+export type Error400BodyErrorsList2 = Array<Error400BodyErrorsItem2>;
+/** An error response containing one or more error details. */
+export interface Error400Body5 {
+  /** A list of errors that occurred while processing the request. */
+  errors?: Error400BodyErrorsList2 | undefined;
+}
+export interface Error400BodyErrorsItem {
+  /** A message describing the error. */
+  detail?: string | undefined;
+}
+export type Error400BodyErrorsList = Array<Error400BodyErrorsItem>;
+/** Error response format for one-time send endpoints. */
+export interface Error400Body {
+  errors?: Error400BodyErrorsList | undefined;
+}
+export interface Error400BodyErrorsItem5 {
+  /** Describes the error. */
+  detail?: string | undefined;
+  /** The HTTP status code. */
+  status?: string | undefined;
+}
+/** Contains an array of error objects. */
+export type Error400BodyErrorsList5 = Array<Error400BodyErrorsItem5>;
+export interface Error400Body8 {
+  /** Contains an array of error objects. */
+  errors?: Error400BodyErrorsList5 | undefined;
+}
+/** Extra context (if available). */
+export type Error429BodyErrorsItemMetaMap = { [key: string]: unknown | undefined };
+/** The part of the request that the error refers to. */
+export interface Error429BodyErrorsItemSource {
+  /** A JSON pointer to the part of the request body that the error refers to. */
+  pointer?: string | undefined;
+}
+export interface Error429BodyErrorsItem {
+  /** What went wrong, in plain text. Most messages end with a support reference you can use if you need to contact support. */
+  detail: string;
+  /** The HTTP status code as a string. */
+  status: string;
+  /** A stable identifier for the failure, on the errors that carry one. Use this rather than the text in `detail` if you need to identify the error programmatically. */
+  code?: string | undefined;
+  /** Extra context (if available). */
+  meta?: Error429BodyErrorsItemMetaMap | undefined;
+  /** The part of the request that the error refers to. */
+  source?: Error429BodyErrorsItemSource | undefined;
+}
+/** One entry for each reason the request failed. */
+export type Error429BodyErrorsList = Array<Error429BodyErrorsItem>;
+/** An array/list of failures where each entry is a separate failure reason. */
+export interface Error429Body {
+  /** One entry for each reason the request failed. */
+  errors: Error429BodyErrorsList;
+}
+export interface Error400BodyErrorsItem6 {
+  detail?: string | undefined;
+  status?: string | undefined;
+}
+export type Error400BodyErrorsList6 = Array<Error400BodyErrorsItem6>;
+export interface Error400Body9 {
+  errors?: Error400BodyErrorsList6 | undefined;
+}
+/** Contains errors. */
+export interface Error400BodyMeta2 {
+  /** Describes the error that caused your request to fail. */
+  error?: string | undefined;
+}
+export interface Error400Body3 {
+  /** Contains errors. */
+  meta?: Error400BodyMeta2 | undefined;
+}
+/** Contains errors. */
+export type Error400BodyMeta = Error400BodyMeta2;
+export type Error400Body2 = Error400Body3;
+/** Contains errors. */
+export type Error400BodyMeta3 = Error400BodyMeta2;
+export type Error400Body4 = Error400Body3;
+/** The reason for failure. */
+export type Error400BodyErrorsItemDetail = "Invalid request format";
+/** The response code. */
+export type Error400BodyErrorsItemStatus = 400;
+export interface Error400BodyErrorsItem3 {
+  /** The reason for failure. */
+  detail?: Error400BodyErrorsItemDetail | undefined;
+  /** The response code. */
+  status?: Error400BodyErrorsItemStatus | undefined;
+}
+export type Error400BodyErrorsList3 = Array<Error400BodyErrorsItem3>;
+export interface Error400Body6 {
+  errors?: Error400BodyErrorsList3 | undefined;
+}
+/** The reason for the response. */
+export type Error400BodyErrorsItemDetail2 = "Invalid request format";
+/** The response code. */
+export type Error400BodyErrorsItemStatus2 = 400;
+export interface Error400BodyErrorsItem4 {
+  /** The reason for the response. */
+  detail?: Error400BodyErrorsItemDetail2 | undefined;
+  /** The response code. */
+  status?: Error400BodyErrorsItemStatus2 | undefined;
+}
+export type Error400BodyErrorsList4 = Array<Error400BodyErrorsItem4>;
+export interface Error400Body7 {
+  errors?: Error400BodyErrorsList4 | undefined;
+}
+export type Error403BodyMeta = Error400BodyMeta2;
+export interface Error403Body {
+  meta?: Error400BodyMeta2 | undefined;
+}
+export type Error403BodyMeta2 = Error400BodyMeta2;
+export type Error403Body2 = Error403Body;
+export type Error403BodyMeta3 = Error400BodyMeta2;
+export type Error403Body3 = Error403Body;
+export type Error403BodyMeta4 = Error400BodyMeta2;
+export type Error403Body4 = Error403Body;
+export type Error403BodyMeta5 = Error400BodyMeta2;
+export type Error403Body5 = Error403Body;
+/** The field or path that caused the error. */
+export interface Error422BodyErrorsItemSource4 {
+  pointer?: string | undefined;
+}
+export interface Error422BodyErrorsItem4 {
+  /** The reason for the response. */
+  detail?: string | undefined;
+  /** The field or path that caused the error. */
+  source?: Error422BodyErrorsItemSource4 | undefined;
+  /** The HTTP status code. */
+  status?: string | undefined;
+}
+/** Contains an array of error objects. */
+export type Error422BodyErrorsList4 = Array<Error422BodyErrorsItem4>;
+export interface Error422Body4 {
+  /** Contains an array of error objects. */
+  errors?: Error422BodyErrorsList4 | undefined;
+}
+export interface Error422BodyErrorsItemSource {
+  /** Points to the key in your payload that contained validation errors. */
+  pointer?: string | undefined;
+}
+/** The error code. */
+export type Error422BodyErrorsItemStatus = "422";
+export interface Error422BodyErrorsItem {
+  /** Describes the error and provides the trigger ID you can use to look up more information. */
+  detail?: string | undefined;
+  source?: Error422BodyErrorsItemSource | undefined;
+  /** The error code. */
+  status?: Error422BodyErrorsItemStatus | undefined;
+}
+/** Contains one or more validation errors found in your request payload. */
+export type Error422BodyErrorsList = Array<Error422BodyErrorsItem>;
+export interface Error422Body {
+  /** Contains one or more validation errors found in your request payload. */
+  errors?: Error422BodyErrorsList | undefined;
+}
+/** The reason for the response. */
+export type Error422BodyErrorsItemDetail =
+  | "Empty attributes array"
+  | "Too many attributes"
+  | "Privacy level feature not enabled";
+export interface Error422BodyErrorsItemSource2 {
+  /** The path to the attribute that caused the error. 0 is the first attribute, 1 is the second, and so on. */
+  pointer?: string | undefined;
+}
+/** The response code. */
+export type Error422BodyErrorsItemStatus2 = 422;
+export interface Error422BodyErrorsItem2 {
+  /** The reason for the response. */
+  detail?: Error422BodyErrorsItemDetail | undefined;
+  source?: Error422BodyErrorsItemSource2 | undefined;
+  /** The response code. */
+  status?: Error422BodyErrorsItemStatus2 | undefined;
+}
+export type Error422BodyErrorsList2 = Array<Error422BodyErrorsItem2>;
+export interface Error422Body2 {
+  errors?: Error422BodyErrorsList2 | undefined;
+}
+/** The reason for the response. */
+export type Error422BodyErrorsItemDetail2 = "Empty events array" | "Too many events";
+export interface Error422BodyErrorsItemSource3 {
+  /** The path to the event that caused the error. */
+  pointer?: string | undefined;
+}
+export type Error422BodyErrorsItemStatus3 = 422;
+export interface Error422BodyErrorsItem3 {
+  /** The reason for the response. */
+  detail?: Error422BodyErrorsItemDetail2 | undefined;
+  source?: Error422BodyErrorsItemSource3 | undefined;
+  status?: Error422BodyErrorsItemStatus3 | undefined;
+}
+export type Error422BodyErrorsList3 = Array<Error422BodyErrorsItem3>;
+export interface Error422Body3 {
+  errors?: Error422BodyErrorsList3 | undefined;
+}
 export type AddCollectionError = BadRequest | CustomerioOpError;
 /** Create a collection Create a new collection and provide the `data` that you'll access from the collection or the `url` that you'll download CSV or JSON data from. **Note**: A collection that you upload or send in an API request can be up to 10 MB. A collection that you load from files, with write requests or a sync, can be larger: each file can be up to 500 MB and 1,000,000 rows. Each top-level field in a row can hold up to 10,000 characters. The total size of all collections in your account can't exceed 5 GB. Customer.io rejects a request that would take your account over that limit. */
 export const addCollection: API.OperationMethod<
@@ -22912,8 +23194,8 @@ export const addCollection: API.OperationMethod<
   AddCollectionError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2224, __c139, 0) as any as S.Schema<AddCollectionRequest>,
-  output: __S(2240, __c140, 0) as any as S.Schema<AddCollectionResponse>,
+  input: __S(2320, __c145, 0) as any as S.Schema<AddCollectionRequest>,
+  output: __S(2336, __c146, 0) as any as S.Schema<AddCollectionResponse>,
   errors: [BadRequest, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -22929,8 +23211,8 @@ export const broadcastActionLinks: API.OperationMethod<
   BroadcastActionLinksError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c154, 0) as any as S.Schema<BroadcastActionLinksRequest>,
-  output: __S(2485, __c155, 5) as any as S.Schema<BroadcastActionLinksResponse>,
+  input: __S(2560, __c160, 0) as any as S.Schema<BroadcastActionLinksRequest>,
+  output: __S(2581, __c161, 5) as any as S.Schema<BroadcastActionLinksResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -22946,8 +23228,8 @@ export const broadcastActionMetrics: API.OperationMethod<
   BroadcastActionMetricsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2704, __c169, 0) as any as S.Schema<BroadcastActionMetricsRequest>,
-  output: __S(2705, __c169, 1) as any as S.Schema<BroadcastActionMetricsResponse>,
+  input: __S(2800, __c175, 0) as any as S.Schema<BroadcastActionMetricsRequest>,
+  output: __S(2801, __c175, 1) as any as S.Schema<BroadcastActionMetricsResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -22963,8 +23245,8 @@ export const broadcastActions: API.OperationMethod<
   BroadcastActionsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2992, __c187, 0) as any as S.Schema<BroadcastActionsRequest>,
-  output: __S(2994, __c187, 2) as any as S.Schema<BroadcastActionsResponse>,
+  input: __S(3088, __c193, 0) as any as S.Schema<BroadcastActionsRequest>,
+  output: __S(3090, __c193, 2) as any as S.Schema<BroadcastActionsResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -22980,8 +23262,8 @@ export const broadcastErrors: API.OperationMethod<
   BroadcastErrorsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c202, 0) as any as S.Schema<BroadcastErrorsRequest>,
-  output: __S(3233, __c202, 1) as any as S.Schema<BroadcastErrorsResponse>,
+  input: __S(3328, __c208, 0) as any as S.Schema<BroadcastErrorsRequest>,
+  output: __S(3329, __c208, 1) as any as S.Schema<BroadcastErrorsResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -22997,8 +23279,8 @@ export const broadcastLinks: API.OperationMethod<
   BroadcastLinksError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<BroadcastLinksRequest>,
-  output: __S(2485, __c155, 5) as any as S.Schema<BroadcastLinksResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<BroadcastLinksRequest>,
+  output: __S(2581, __c161, 5) as any as S.Schema<BroadcastLinksResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23014,8 +23296,8 @@ export const broadcastMessages: API.OperationMethod<
   BroadcastMessagesError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<BroadcastMessagesRequest>,
-  output: __S(305, __c19, 1) as any as S.Schema<BroadcastMessagesResponse>,
+  input: __S(352, __c22, 0) as any as S.Schema<BroadcastMessagesRequest>,
+  output: __S(401, __c25, 1) as any as S.Schema<BroadcastMessagesResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23031,8 +23313,8 @@ export const broadcastMetrics: API.OperationMethod<
   BroadcastMetricsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<BroadcastMetricsRequest>,
-  output: __S(512, __c32, 0) as any as S.Schema<BroadcastMetricsResponse>,
+  input: __S(592, __c37, 0) as any as S.Schema<BroadcastMetricsRequest>,
+  output: __S(608, __c38, 0) as any as S.Schema<BroadcastMetricsResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23048,8 +23330,8 @@ export const broadcastStatus: API.OperationMethod<
   BroadcastStatusError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<BroadcastStatusRequest>,
-  output: __S(704, __c44, 0) as any as S.Schema<BroadcastStatusResponse>,
+  input: __S(784, __c49, 0) as any as S.Schema<BroadcastStatusRequest>,
+  output: __S(800, __c50, 0) as any as S.Schema<BroadcastStatusResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23065,8 +23347,8 @@ export const campaignActionLinks: API.OperationMethod<
   CampaignActionLinksError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<CampaignActionLinksRequest>,
-  output: __S(2485, __c155, 5) as any as S.Schema<CampaignActionLinksResponse>,
+  input: __S(1008, __c63, 0) as any as S.Schema<CampaignActionLinksRequest>,
+  output: __S(2581, __c161, 5) as any as S.Schema<CampaignActionLinksResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23082,8 +23364,8 @@ export const campaignActionMetrics: API.OperationMethod<
   CampaignActionMetricsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<CampaignActionMetricsRequest>,
-  output: __S(1089, __c68, 1) as any as S.Schema<CampaignActionMetricsResponse>,
+  input: __S(1184, __c74, 0) as any as S.Schema<CampaignActionMetricsRequest>,
+  output: __S(1185, __c74, 1) as any as S.Schema<CampaignActionMetricsResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23099,8 +23381,8 @@ export const campaignJourneyMetrics: API.OperationMethod<
   CampaignJourneyMetricsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<CampaignJourneyMetricsRequest>,
-  output: __S(1266, __c79, 2) as any as S.Schema<CampaignJourneyMetricsResponse>,
+  input: __S(1360, __c85, 0) as any as S.Schema<CampaignJourneyMetricsRequest>,
+  output: __S(1362, __c85, 2) as any as S.Schema<CampaignJourneyMetricsResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23116,8 +23398,8 @@ export const campaignLinkMetrics: API.OperationMethod<
   CampaignLinkMetricsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<CampaignLinkMetricsRequest>,
-  output: __S(2485, __c155, 5) as any as S.Schema<CampaignLinkMetricsResponse>,
+  input: __S(1488, __c93, 0) as any as S.Schema<CampaignLinkMetricsRequest>,
+  output: __S(2581, __c161, 5) as any as S.Schema<CampaignLinkMetricsResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23133,8 +23415,8 @@ export const campaignMetrics: API.OperationMethod<
   CampaignMetricsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<CampaignMetricsRequest>,
-  output: __S(1409, __c88, 1) as any as S.Schema<CampaignMetricsResponse>,
+  input: __S(1504, __c94, 0) as any as S.Schema<CampaignMetricsRequest>,
+  output: __S(1505, __c94, 1) as any as S.Schema<CampaignMetricsResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23150,8 +23432,8 @@ export const cancelBroadcastTrigger: API.OperationMethod<
   CancelBroadcastTriggerError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<CancelBroadcastTriggerRequest>,
-  output: __S(704, __c44, 0) as any as S.Schema<CancelBroadcastTriggerResponse>,
+  input: __S(1520, __c95, 0) as any as S.Schema<CancelBroadcastTriggerRequest>,
+  output: __S(800, __c50, 0) as any as S.Schema<CancelBroadcastTriggerResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23171,8 +23453,8 @@ export const checkCollectionSource: API.OperationMethod<
   CheckCollectionSourceError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<CheckCollectionSourceRequest>,
-  output: __S(1441, __c90, 1) as any as S.Schema<CheckCollectionSourceResponse>,
+  input: __S(1536, __c96, 0) as any as S.Schema<CheckCollectionSourceRequest>,
+  output: __S(1537, __c96, 1) as any as S.Schema<CheckCollectionSourceResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23188,8 +23470,8 @@ export const createAsset: API.OperationMethod<
   CreateAssetError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<CreateAssetRequest>,
-  output: __S(1472, __c92, 0) as any as S.Schema<CreateAssetResponse>,
+  input: __S(1552, __c97, 0) as any as S.Schema<CreateAssetRequest>,
+  output: __S(1568, __c98, 0) as any as S.Schema<CreateAssetResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23205,8 +23487,8 @@ export const createAssetFolder: API.OperationMethod<
   CreateAssetFolderError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c94, 0) as any as S.Schema<CreateAssetFolderRequest>,
-  output: __S(1520, __c95, 0) as any as S.Schema<CreateAssetFolderResponse>,
+  input: __S(1600, __c100, 0) as any as S.Schema<CreateAssetFolderRequest>,
+  output: __S(1616, __c101, 0) as any as S.Schema<CreateAssetFolderResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23222,8 +23504,8 @@ export const createCollectionSource: API.OperationMethod<
   CreateCollectionSourceError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c97, 0) as any as S.Schema<CreateCollectionSourceRequest>,
-  output: __S(1568, __c98, 0) as any as S.Schema<CreateCollectionSourceResponse>,
+  input: __S(1648, __c103, 0) as any as S.Schema<CreateCollectionSourceRequest>,
+  output: __S(1664, __c104, 0) as any as S.Schema<CreateCollectionSourceResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23239,8 +23521,8 @@ export const createManSegment: API.OperationMethod<
   CreateManSegmentError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c100, 0) as any as S.Schema<CreateManSegmentRequest>,
-  output: __S(1648, __c103, 0) as any as S.Schema<CreateManSegmentResponse>,
+  input: __S(1696, __c106, 0) as any as S.Schema<CreateManSegmentRequest>,
+  output: __S(1728, __c108, 0) as any as S.Schema<CreateManSegmentResponse>,
   errors: [BadRequest, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23256,8 +23538,8 @@ export const createNewsletter: API.OperationMethod<
   CreateNewsletterError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1680, __c105, 0) as any as S.Schema<CreateNewsletterRequest>,
-  output: __S(1712, __c107, 0) as any as S.Schema<CreateNewsletterResponse>,
+  input: __S(1760, __c110, 0) as any as S.Schema<CreateNewsletterRequest>,
+  output: __S(1792, __c112, 0) as any as S.Schema<CreateNewsletterResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23277,8 +23559,8 @@ export const createNewsletterLanguageVariant: API.OperationMethod<
   CreateNewsletterLanguageVariantError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c108, 0) as any as S.Schema<CreateNewsletterLanguageVariantRequest>,
-  output: __S(1712, __c107, 0) as any as S.Schema<CreateNewsletterLanguageVariantResponse>,
+  input: __S(1808, __c113, 0) as any as S.Schema<CreateNewsletterLanguageVariantRequest>,
+  output: __S(1792, __c112, 0) as any as S.Schema<CreateNewsletterLanguageVariantResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23294,8 +23576,8 @@ export const createNewsletterTestGroup: API.OperationMethod<
   CreateNewsletterTestGroupError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1744, __c109, 0) as any as S.Schema<CreateNewsletterTestGroupRequest>,
-  output: __S(1712, __c107, 0) as any as S.Schema<CreateNewsletterTestGroupResponse>,
+  input: __S(1824, __c114, 0) as any as S.Schema<CreateNewsletterTestGroupRequest>,
+  output: __S(1792, __c112, 0) as any as S.Schema<CreateNewsletterTestGroupResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23315,8 +23597,8 @@ export const createNewsletterTestLanguageVariant: API.OperationMethod<
   CreateNewsletterTestLanguageVariantError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c110, 0) as any as S.Schema<CreateNewsletterTestLanguageVariantRequest>,
-  output: __S(1712, __c107, 0) as any as S.Schema<CreateNewsletterTestLanguageVariantResponse>,
+  input: __S(1840, __c115, 0) as any as S.Schema<CreateNewsletterTestLanguageVariantRequest>,
+  output: __S(1792, __c112, 0) as any as S.Schema<CreateNewsletterTestLanguageVariantResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23332,8 +23614,8 @@ export const createSnippet: API.OperationMethod<
   CreateSnippetError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1776, __c111, 0) as any as S.Schema<CreateSnippetRequest>,
-  output: __S(1808, __c113, 0) as any as S.Schema<CreateSnippetResponse>,
+  input: __S(1856, __c116, 0) as any as S.Schema<CreateSnippetRequest>,
+  output: __S(1888, __c118, 0) as any as S.Schema<CreateSnippetResponse>,
   errors: [UnprocessableEntity, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23349,8 +23631,8 @@ export const createWebhook: API.OperationMethod<
   CreateWebhookError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c114, 0) as any as S.Schema<CreateWebhookRequest>,
-  output: __S(1841, __c115, 1) as any as S.Schema<CreateWebhookResponse>,
+  input: __S(1904, __c119, 0) as any as S.Schema<CreateWebhookRequest>,
+  output: __S(1921, __c120, 1) as any as S.Schema<CreateWebhookResponse>,
   errors: [BadRequest, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23366,8 +23648,8 @@ export const deleteAsset: API.OperationMethod<
   DeleteAssetError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c116, 0) as any as S.Schema<DeleteAssetRequest>,
-  output: __S(1872, __c117, 0) as any as S.Schema<DeleteAssetResponse>,
+  input: __S(1936, __c121, 0) as any as S.Schema<DeleteAssetRequest>,
+  output: __S(1952, __c122, 0) as any as S.Schema<DeleteAssetResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23383,8 +23665,8 @@ export const deleteAssetFolder: API.OperationMethod<
   DeleteAssetFolderError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c118, 0) as any as S.Schema<DeleteAssetFolderRequest>,
-  output: __S(1872, __c117, 0) as any as S.Schema<DeleteAssetFolderResponse>,
+  input: __S(1968, __c123, 0) as any as S.Schema<DeleteAssetFolderRequest>,
+  output: __S(1952, __c122, 0) as any as S.Schema<DeleteAssetFolderResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23400,8 +23682,8 @@ export const deleteCollection: API.OperationMethod<
   DeleteCollectionError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1904, __c119, 0) as any as S.Schema<DeleteCollectionRequest>,
-  output: __S(1872, __c117, 0) as any as S.Schema<DeleteCollectionResponse>,
+  input: __S(1984, __c124, 0) as any as S.Schema<DeleteCollectionRequest>,
+  output: __S(1952, __c122, 0) as any as S.Schema<DeleteCollectionResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23417,8 +23699,8 @@ export const deleteCollectionSource: API.OperationMethod<
   DeleteCollectionSourceError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c120, 0) as any as S.Schema<DeleteCollectionSourceRequest>,
-  output: __S(1872, __c117, 0) as any as S.Schema<DeleteCollectionSourceResponse>,
+  input: __S(2000, __c125, 0) as any as S.Schema<DeleteCollectionSourceRequest>,
+  output: __S(1952, __c122, 0) as any as S.Schema<DeleteCollectionSourceResponse>,
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23434,8 +23716,8 @@ export const deleteCollectionSync: API.OperationMethod<
   DeleteCollectionSyncError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1936, __c121, 0) as any as S.Schema<DeleteCollectionSyncRequest>,
-  output: __S(1872, __c117, 0) as any as S.Schema<DeleteCollectionSyncResponse>,
+  input: __S(2016, __c126, 0) as any as S.Schema<DeleteCollectionSyncRequest>,
+  output: __S(1952, __c122, 0) as any as S.Schema<DeleteCollectionSyncResponse>,
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23451,8 +23733,8 @@ export const deleteManSegment: API.OperationMethod<
   DeleteManSegmentError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c122, 0) as any as S.Schema<DeleteManSegmentRequest>,
-  output: __S(1872, __c117, 0) as any as S.Schema<DeleteManSegmentResponse>,
+  input: __S(2032, __c127, 0) as any as S.Schema<DeleteManSegmentRequest>,
+  output: __S(1952, __c122, 0) as any as S.Schema<DeleteManSegmentResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23468,8 +23750,8 @@ export const deleteNewsletterLanguageVariant: API.OperationMethod<
   DeleteNewsletterLanguageVariantError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1968, __c123, 0) as any as S.Schema<DeleteNewsletterLanguageVariantRequest>,
-  output: __S(1872, __c117, 0) as any as S.Schema<DeleteNewsletterLanguageVariantResponse>,
+  input: __S(2048, __c128, 0) as any as S.Schema<DeleteNewsletterLanguageVariantRequest>,
+  output: __S(1952, __c122, 0) as any as S.Schema<DeleteNewsletterLanguageVariantResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23485,8 +23767,8 @@ export const deleteNewsletters: API.OperationMethod<
   DeleteNewslettersError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c124, 0) as any as S.Schema<DeleteNewslettersRequest>,
-  output: __S(1872, __c117, 0) as any as S.Schema<DeleteNewslettersResponse>,
+  input: __S(2064, __c129, 0) as any as S.Schema<DeleteNewslettersRequest>,
+  output: __S(1952, __c122, 0) as any as S.Schema<DeleteNewslettersResponse>,
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23502,8 +23784,8 @@ export const deleteNewsletterTestLanguageVariant: API.OperationMethod<
   DeleteNewsletterTestLanguageVariantError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2000, __c125, 0) as any as S.Schema<DeleteNewsletterTestLanguageVariantRequest>,
-  output: __S(1872, __c117, 0) as any as S.Schema<DeleteNewsletterTestLanguageVariantResponse>,
+  input: __S(2080, __c130, 0) as any as S.Schema<DeleteNewsletterTestLanguageVariantRequest>,
+  output: __S(1952, __c122, 0) as any as S.Schema<DeleteNewsletterTestLanguageVariantResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23519,8 +23801,8 @@ export const deleteSnippet: API.OperationMethod<
   DeleteSnippetError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c126, 0) as any as S.Schema<DeleteSnippetRequest>,
-  output: __S(1872, __c117, 0) as any as S.Schema<DeleteSnippetResponse>,
+  input: __S(2112, __c132, 0) as any as S.Schema<DeleteSnippetRequest>,
+  output: __S(1952, __c122, 0) as any as S.Schema<DeleteSnippetResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23536,8 +23818,8 @@ export const deleteSuppression: API.OperationMethod<
   DeleteSuppressionError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2032, __c127, 0) as any as S.Schema<DeleteSuppressionRequest>,
-  output: __S(1872, __c117, 0) as any as S.Schema<DeleteSuppressionResponse>,
+  input: __S(2128, __c133, 0) as any as S.Schema<DeleteSuppressionRequest>,
+  output: __S(1952, __c122, 0) as any as S.Schema<DeleteSuppressionResponse>,
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23553,8 +23835,8 @@ export const deleteWebhook: API.OperationMethod<
   DeleteWebhookError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c128, 0) as any as S.Schema<DeleteWebhookRequest>,
-  output: __S(1872, __c117, 0) as any as S.Schema<DeleteWebhookResponse>,
+  input: __S(2144, __c134, 0) as any as S.Schema<DeleteWebhookRequest>,
+  output: __S(1952, __c122, 0) as any as S.Schema<DeleteWebhookResponse>,
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23570,8 +23852,8 @@ export const downloadExport: API.OperationMethod<
   DownloadExportError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2064, __c129, 0) as any as S.Schema<DownloadExportRequest>,
-  output: __S(2065, __c129, 1) as any as S.Schema<DownloadExportResponse>,
+  input: __S(2160, __c135, 0) as any as S.Schema<DownloadExportRequest>,
+  output: __S(2161, __c135, 1) as any as S.Schema<DownloadExportResponse>,
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23587,8 +23869,8 @@ export const endLiveNotification: API.OperationMethod<
   EndLiveNotificationError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c130, 0) as any as S.Schema<EndLiveNotificationRequest>,
-  output: __S(2098, __c131, 2) as any as S.Schema<EndLiveNotificationResponse>,
+  input: __S(2176, __c136, 0) as any as S.Schema<EndLiveNotificationRequest>,
+  output: __S(2194, __c137, 2) as any as S.Schema<EndLiveNotificationResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23604,8 +23886,8 @@ export const exportDeliveriesData: API.OperationMethod<
   ExportDeliveriesDataError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c132, 0) as any as S.Schema<ExportDeliveriesDataRequest>,
-  output: __S(2128, __c133, 0) as any as S.Schema<ExportDeliveriesDataResponse>,
+  input: __S(2208, __c138, 0) as any as S.Schema<ExportDeliveriesDataRequest>,
+  output: __S(2224, __c139, 0) as any as S.Schema<ExportDeliveriesDataResponse>,
   errors: [BadRequest, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23621,8 +23903,8 @@ export const exportPeopleData: API.OperationMethod<
   ExportPeopleDataError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2160, __c135, 0) as any as S.Schema<ExportPeopleDataRequest>,
-  output: __S(2128, __c133, 0) as any as S.Schema<ExportPeopleDataResponse>,
+  input: __S(2256, __c141, 0) as any as S.Schema<ExportPeopleDataRequest>,
+  output: __S(2224, __c139, 0) as any as S.Schema<ExportPeopleDataResponse>,
   errors: [BadRequest, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23638,8 +23920,8 @@ export const getArchivedMessage: API.OperationMethod<
   GetArchivedMessageError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c136, 0) as any as S.Schema<GetArchivedMessageRequest>,
-  output: __S(2178, __c136, 2) as any as S.Schema<GetArchivedMessageResponse>,
+  input: __S(2272, __c142, 0) as any as S.Schema<GetArchivedMessageRequest>,
+  output: __S(2274, __c142, 2) as any as S.Schema<GetArchivedMessageResponse>,
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23655,8 +23937,8 @@ export const getAsset: API.OperationMethod<
   GetAssetError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2192, __c137, 0) as any as S.Schema<GetAssetRequest>,
-  output: __S(1472, __c92, 0) as any as S.Schema<GetAssetResponse>,
+  input: __S(2288, __c143, 0) as any as S.Schema<GetAssetRequest>,
+  output: __S(1568, __c98, 0) as any as S.Schema<GetAssetResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23672,8 +23954,8 @@ export const getAssetFolder: API.OperationMethod<
   GetAssetFolderError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c138, 0) as any as S.Schema<GetAssetFolderRequest>,
-  output: __S(1520, __c95, 0) as any as S.Schema<GetAssetFolderResponse>,
+  input: __S(2304, __c144, 0) as any as S.Schema<GetAssetFolderRequest>,
+  output: __S(1616, __c101, 0) as any as S.Schema<GetAssetFolderResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23689,8 +23971,8 @@ export const getBroadcast: API.OperationMethod<
   GetBroadcastError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2288, __c143, 0) as any as S.Schema<GetBroadcastRequest>,
-  output: __S(2289, __c143, 1) as any as S.Schema<GetBroadcastResponse>,
+  input: __S(2384, __c149, 0) as any as S.Schema<GetBroadcastRequest>,
+  output: __S(2385, __c149, 1) as any as S.Schema<GetBroadcastResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23706,8 +23988,8 @@ export const getBroadcastAction: API.OperationMethod<
   GetBroadcastActionError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2320, __c145, 0) as any as S.Schema<GetBroadcastActionRequest>,
-  output: __S(2321, __c145, 1) as any as S.Schema<GetBroadcastActionResponse>,
+  input: __S(2416, __c151, 0) as any as S.Schema<GetBroadcastActionRequest>,
+  output: __S(2417, __c151, 1) as any as S.Schema<GetBroadcastActionResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23723,8 +24005,8 @@ export const getBroadcastActionLanguage: API.OperationMethod<
   GetBroadcastActionLanguageError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c146, 0) as any as S.Schema<GetBroadcastActionLanguageRequest>,
-  output: __S(2337, __c146, 1) as any as S.Schema<GetBroadcastActionLanguageResponse>,
+  input: __S(2432, __c152, 0) as any as S.Schema<GetBroadcastActionLanguageRequest>,
+  output: __S(2433, __c152, 1) as any as S.Schema<GetBroadcastActionLanguageResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23740,8 +24022,8 @@ export const getCampaignAction: API.OperationMethod<
   GetCampaignActionError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2352, __c147, 0) as any as S.Schema<GetCampaignActionRequest>,
-  output: __S(2353, __c147, 1) as any as S.Schema<GetCampaignActionResponse>,
+  input: __S(2448, __c153, 0) as any as S.Schema<GetCampaignActionRequest>,
+  output: __S(2449, __c153, 1) as any as S.Schema<GetCampaignActionResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23757,8 +24039,8 @@ export const getCampaignActionTranslation: API.OperationMethod<
   GetCampaignActionTranslationError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c148, 0) as any as S.Schema<GetCampaignActionTranslationRequest>,
-  output: __S(2369, __c148, 1) as any as S.Schema<GetCampaignActionTranslationResponse>,
+  input: __S(2464, __c154, 0) as any as S.Schema<GetCampaignActionTranslationRequest>,
+  output: __S(2465, __c154, 1) as any as S.Schema<GetCampaignActionTranslationResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23774,8 +24056,8 @@ export const getCampaignMessages: API.OperationMethod<
   GetCampaignMessagesError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2384, __c149, 0) as any as S.Schema<GetCampaignMessagesRequest>,
-  output: __S(305, __c19, 1) as any as S.Schema<GetCampaignMessagesResponse>,
+  input: __S(2480, __c155, 0) as any as S.Schema<GetCampaignMessagesRequest>,
+  output: __S(401, __c25, 1) as any as S.Schema<GetCampaignMessagesResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23791,8 +24073,8 @@ export const getCampaigns: API.OperationMethod<
   GetCampaignsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c150, 0) as any as S.Schema<GetCampaignsRequest>,
-  output: __S(2401, __c150, 1) as any as S.Schema<GetCampaignsResponse>,
+  input: __S(2496, __c156, 0) as any as S.Schema<GetCampaignsRequest>,
+  output: __S(2497, __c156, 1) as any as S.Schema<GetCampaignsResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23808,8 +24090,8 @@ export const getChannels: API.OperationMethod<
   GetChannelsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2416, __c151, 0) as any as S.Schema<GetChannelsRequest>,
-  output: __S(2419, __c151, 3) as any as S.Schema<GetChannelsResponse>,
+  input: __S(2512, __c157, 0) as any as S.Schema<GetChannelsRequest>,
+  output: __S(2515, __c157, 3) as any as S.Schema<GetChannelsResponse>,
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23825,8 +24107,8 @@ export const getCioAllowlist: API.OperationMethod<
   GetCioAllowlistError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c152, 0) as any as S.Schema<GetCioAllowlistRequest>,
-  output: __S(2433, __c152, 1) as any as S.Schema<GetCioAllowlistResponse>,
+  input: __S(2528, __c158, 0) as any as S.Schema<GetCioAllowlistRequest>,
+  output: __S(2529, __c158, 1) as any as S.Schema<GetCioAllowlistResponse>,
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23842,8 +24124,8 @@ export const getCollection: API.OperationMethod<
   GetCollectionError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2448, __c153, 0) as any as S.Schema<GetCollectionRequest>,
-  output: __S(2240, __c140, 0) as any as S.Schema<GetCollectionResponse>,
+  input: __S(2544, __c159, 0) as any as S.Schema<GetCollectionRequest>,
+  output: __S(2336, __c146, 0) as any as S.Schema<GetCollectionResponse>,
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23859,8 +24141,8 @@ export const getCollectionContents: API.OperationMethod<
   GetCollectionContentsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2512, __c157, 0) as any as S.Schema<GetCollectionContentsRequest>,
-  output: __S(2513, __c157, 1) as any as S.Schema<GetCollectionContentsResponse>,
+  input: __S(2608, __c163, 0) as any as S.Schema<GetCollectionContentsRequest>,
+  output: __S(2609, __c163, 1) as any as S.Schema<GetCollectionContentsResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23876,8 +24158,8 @@ export const getCollections: API.OperationMethod<
   GetCollectionsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c158, 0) as any as S.Schema<GetCollectionsRequest>,
-  output: __S(2530, __c158, 2) as any as S.Schema<GetCollectionsResponse>,
+  input: __S(2624, __c164, 0) as any as S.Schema<GetCollectionsRequest>,
+  output: __S(2626, __c164, 2) as any as S.Schema<GetCollectionsResponse>,
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23893,8 +24175,8 @@ export const getCollectionSource: API.OperationMethod<
   GetCollectionSourceError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2544, __c159, 0) as any as S.Schema<GetCollectionSourceRequest>,
-  output: __S(1568, __c98, 0) as any as S.Schema<GetCollectionSourceResponse>,
+  input: __S(2640, __c165, 0) as any as S.Schema<GetCollectionSourceRequest>,
+  output: __S(1664, __c104, 0) as any as S.Schema<GetCollectionSourceResponse>,
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23910,8 +24192,8 @@ export const getCollectionSync: API.OperationMethod<
   GetCollectionSyncError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c160, 0) as any as S.Schema<GetCollectionSyncRequest>,
-  output: __S(2579, __c161, 3) as any as S.Schema<GetCollectionSyncResponse>,
+  input: __S(2656, __c166, 0) as any as S.Schema<GetCollectionSyncRequest>,
+  output: __S(2675, __c167, 3) as any as S.Schema<GetCollectionSyncResponse>,
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23927,8 +24209,8 @@ export const getCollectionSyncRejects: API.OperationMethod<
   GetCollectionSyncRejectsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c162, 0) as any as S.Schema<GetCollectionSyncRejectsRequest>,
-  output: __S(2595, __c162, 3) as any as S.Schema<GetCollectionSyncRejectsResponse>,
+  input: __S(2688, __c168, 0) as any as S.Schema<GetCollectionSyncRejectsRequest>,
+  output: __S(2691, __c168, 3) as any as S.Schema<GetCollectionSyncRejectsResponse>,
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23944,8 +24226,8 @@ export const getCollectionWrite: API.OperationMethod<
   GetCollectionWriteError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2608, __c163, 0) as any as S.Schema<GetCollectionWriteRequest>,
-  output: __S(2612, __c163, 4) as any as S.Schema<GetCollectionWriteResponse>,
+  input: __S(2704, __c169, 0) as any as S.Schema<GetCollectionWriteRequest>,
+  output: __S(2708, __c169, 4) as any as S.Schema<GetCollectionWriteResponse>,
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23961,8 +24243,8 @@ export const getDomainSuppressionsByType: API.OperationMethod<
   GetDomainSuppressionsByTypeError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c164, 0) as any as S.Schema<GetDomainSuppressionsByTypeRequest>,
-  output: __S(2625, __c164, 1) as any as S.Schema<GetDomainSuppressionsByTypeResponse>,
+  input: __S(2720, __c170, 0) as any as S.Schema<GetDomainSuppressionsByTypeRequest>,
+  output: __S(2721, __c170, 1) as any as S.Schema<GetDomainSuppressionsByTypeResponse>,
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23978,8 +24260,8 @@ export const getExport: API.OperationMethod<
   GetExportError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c166, 0) as any as S.Schema<GetExportRequest>,
-  output: __S(2128, __c133, 0) as any as S.Schema<GetExportResponse>,
+  input: __S(2752, __c172, 0) as any as S.Schema<GetExportRequest>,
+  output: __S(2224, __c139, 0) as any as S.Schema<GetExportResponse>,
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -23995,8 +24277,8 @@ export const getImport: API.OperationMethod<
   GetImportError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2672, __c167, 0) as any as S.Schema<GetImportRequest>,
-  output: __S(2674, __c167, 2) as any as S.Schema<GetImportResponse>,
+  input: __S(2768, __c173, 0) as any as S.Schema<GetImportRequest>,
+  output: __S(2770, __c173, 2) as any as S.Schema<GetImportResponse>,
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24012,8 +24294,8 @@ export const getLiveNotification: API.OperationMethod<
   GetLiveNotificationError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c168, 0) as any as S.Schema<GetLiveNotificationRequest>,
-  output: __S(2690, __c168, 2) as any as S.Schema<GetLiveNotificationResponse>,
+  input: __S(2784, __c174, 0) as any as S.Schema<GetLiveNotificationRequest>,
+  output: __S(2786, __c174, 2) as any as S.Schema<GetLiveNotificationResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24029,8 +24311,8 @@ export const getMessage: API.OperationMethod<
   GetMessageError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2768, __c173, 0) as any as S.Schema<GetMessageRequest>,
-  output: __S(2769, __c173, 1) as any as S.Schema<GetMessageResponse>,
+  input: __S(2864, __c179, 0) as any as S.Schema<GetMessageRequest>,
+  output: __S(2865, __c179, 1) as any as S.Schema<GetMessageResponse>,
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24046,8 +24328,8 @@ export const getNewsletterLinks: API.OperationMethod<
   GetNewsletterLinksError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c174, 0) as any as S.Schema<GetNewsletterLinksRequest>,
-  output: __S(2485, __c155, 5) as any as S.Schema<GetNewsletterLinksResponse>,
+  input: __S(2880, __c180, 0) as any as S.Schema<GetNewsletterLinksRequest>,
+  output: __S(2581, __c161, 5) as any as S.Schema<GetNewsletterLinksResponse>,
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24063,8 +24345,8 @@ export const getNewsletterMetrics: API.OperationMethod<
   GetNewsletterMetricsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2800, __c175, 0) as any as S.Schema<GetNewsletterMetricsRequest>,
-  output: __S(2817, __c176, 1) as any as S.Schema<GetNewsletterMetricsResponse>,
+  input: __S(2896, __c181, 0) as any as S.Schema<GetNewsletterMetricsRequest>,
+  output: __S(2913, __c182, 1) as any as S.Schema<GetNewsletterMetricsResponse>,
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24080,8 +24362,8 @@ export const getNewsletterMsgMeta: API.OperationMethod<
   GetNewsletterMsgMetaError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2832, __c177, 0) as any as S.Schema<GetNewsletterMsgMetaRequest>,
-  output: __S(305, __c19, 1) as any as S.Schema<GetNewsletterMsgMetaResponse>,
+  input: __S(2928, __c183, 0) as any as S.Schema<GetNewsletterMsgMetaRequest>,
+  output: __S(401, __c25, 1) as any as S.Schema<GetNewsletterMsgMetaResponse>,
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24097,8 +24379,8 @@ export const getNewsletters: API.OperationMethod<
   GetNewslettersError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c178, 0) as any as S.Schema<GetNewslettersRequest>,
-  output: __S(1712, __c107, 0) as any as S.Schema<GetNewslettersResponse>,
+  input: __S(2944, __c184, 0) as any as S.Schema<GetNewslettersRequest>,
+  output: __S(1792, __c112, 0) as any as S.Schema<GetNewslettersResponse>,
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24114,8 +24396,8 @@ export const getNewsletterTestGroups: API.OperationMethod<
   GetNewsletterTestGroupsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2864, __c179, 0) as any as S.Schema<GetNewsletterTestGroupsRequest>,
-  output: __S(2867, __c179, 3) as any as S.Schema<GetNewsletterTestGroupsResponse>,
+  input: __S(2960, __c185, 0) as any as S.Schema<GetNewsletterTestGroupsRequest>,
+  output: __S(2963, __c185, 3) as any as S.Schema<GetNewsletterTestGroupsResponse>,
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24131,8 +24413,8 @@ export const getNewsletterVariant: API.OperationMethod<
   GetNewsletterVariantError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c180, 0) as any as S.Schema<GetNewsletterVariantRequest>,
-  output: __S(2912, __c182, 0) as any as S.Schema<GetNewsletterVariantResponse>,
+  input: __S(2976, __c186, 0) as any as S.Schema<GetNewsletterVariantRequest>,
+  output: __S(3008, __c188, 0) as any as S.Schema<GetNewsletterVariantResponse>,
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24148,8 +24430,8 @@ export const getNewsletterVariantTranslation: API.OperationMethod<
   GetNewsletterVariantTranslationError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2928, __c183, 0) as any as S.Schema<GetNewsletterVariantTranslationRequest>,
-  output: __S(2912, __c182, 0) as any as S.Schema<GetNewsletterVariantTranslationResponse>,
+  input: __S(3024, __c189, 0) as any as S.Schema<GetNewsletterVariantTranslationRequest>,
+  output: __S(3008, __c188, 0) as any as S.Schema<GetNewsletterVariantTranslationResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24165,8 +24447,8 @@ export const getNewsletterVariantTranslationTest: API.OperationMethod<
   GetNewsletterVariantTranslationTestError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c184, 0) as any as S.Schema<GetNewsletterVariantTranslationTestRequest>,
-  output: __S(2912, __c182, 0) as any as S.Schema<GetNewsletterVariantTranslationTestResponse>,
+  input: __S(3040, __c190, 0) as any as S.Schema<GetNewsletterVariantTranslationTestRequest>,
+  output: __S(3008, __c188, 0) as any as S.Schema<GetNewsletterVariantTranslationTestResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24182,8 +24464,8 @@ export const getObjectAttributes: API.OperationMethod<
   GetObjectAttributesError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2960, __c185, 0) as any as S.Schema<GetObjectAttributesRequest>,
-  output: __S(2963, __c185, 3) as any as S.Schema<GetObjectAttributesResponse>,
+  input: __S(3056, __c191, 0) as any as S.Schema<GetObjectAttributesRequest>,
+  output: __S(3059, __c191, 3) as any as S.Schema<GetObjectAttributesResponse>,
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24199,8 +24481,8 @@ export const getObjectRelationships: API.OperationMethod<
   GetObjectRelationshipsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c188, 0) as any as S.Schema<GetObjectRelationshipsRequest>,
-  output: __S(3012, __c188, 4) as any as S.Schema<GetObjectRelationshipsResponse>,
+  input: __S(3104, __c194, 0) as any as S.Schema<GetObjectRelationshipsRequest>,
+  output: __S(3108, __c194, 4) as any as S.Schema<GetObjectRelationshipsResponse>,
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24216,8 +24498,8 @@ export const getObjectsFilter: API.OperationMethod<
   GetObjectsFilterError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3024, __c189, 0) as any as S.Schema<GetObjectsFilterRequest>,
-  output: __S(3026, __c189, 2) as any as S.Schema<GetObjectsFilterResponse>,
+  input: __S(3120, __c195, 0) as any as S.Schema<GetObjectsFilterRequest>,
+  output: __S(3122, __c195, 2) as any as S.Schema<GetObjectsFilterResponse>,
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24233,8 +24515,8 @@ export const getObjectTypes: API.OperationMethod<
   GetObjectTypesError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3056, __c191, 0) as any as S.Schema<GetObjectTypesRequest>,
-  output: __S(3059, __c191, 3) as any as S.Schema<GetObjectTypesResponse>,
+  input: __S(3152, __c197, 0) as any as S.Schema<GetObjectTypesRequest>,
+  output: __S(3155, __c197, 3) as any as S.Schema<GetObjectTypesResponse>,
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24250,8 +24532,8 @@ export const getOptouts: API.OperationMethod<
   GetOptoutsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c192, 0) as any as S.Schema<GetOptoutsRequest>,
-  output: __S(3075, __c192, 3) as any as S.Schema<GetOptoutsResponse>,
+  input: __S(3168, __c198, 0) as any as S.Schema<GetOptoutsRequest>,
+  output: __S(3171, __c198, 3) as any as S.Schema<GetOptoutsResponse>,
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24267,8 +24549,8 @@ export const getPeopleById: API.OperationMethod<
   GetPeopleByIdError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c194, 0) as any as S.Schema<GetPeopleByIdRequest>,
-  output: __S(3106, __c194, 2) as any as S.Schema<GetPeopleByIdResponse>,
+  input: __S(3200, __c200, 0) as any as S.Schema<GetPeopleByIdRequest>,
+  output: __S(3202, __c200, 2) as any as S.Schema<GetPeopleByIdResponse>,
   errors: [BadRequest, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24284,8 +24566,8 @@ export const getPeopleEmail: API.OperationMethod<
   GetPeopleEmailError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c196, 0) as any as S.Schema<GetPeopleEmailRequest>,
-  output: __S(3137, __c196, 1) as any as S.Schema<GetPeopleEmailResponse>,
+  input: __S(3232, __c202, 0) as any as S.Schema<GetPeopleEmailRequest>,
+  output: __S(3233, __c202, 1) as any as S.Schema<GetPeopleEmailResponse>,
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24301,8 +24583,8 @@ export const getPeopleFilter: API.OperationMethod<
   GetPeopleFilterError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c198, 0) as any as S.Schema<GetPeopleFilterRequest>,
-  output: __S(3169, __c198, 1) as any as S.Schema<GetPeopleFilterResponse>,
+  input: __S(3264, __c204, 0) as any as S.Schema<GetPeopleFilterRequest>,
+  output: __S(3265, __c204, 1) as any as S.Schema<GetPeopleFilterResponse>,
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24318,8 +24600,8 @@ export const getPersonActivities: API.OperationMethod<
   GetPersonActivitiesError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3184, __c199, 0) as any as S.Schema<GetPersonActivitiesRequest>,
-  output: __S(3187, __c199, 3) as any as S.Schema<GetPersonActivitiesResponse>,
+  input: __S(3280, __c205, 0) as any as S.Schema<GetPersonActivitiesRequest>,
+  output: __S(3283, __c205, 3) as any as S.Schema<GetPersonActivitiesResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24335,8 +24617,8 @@ export const getPersonAttributes: API.OperationMethod<
   GetPersonAttributesError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c200, 0) as any as S.Schema<GetPersonAttributesRequest>,
-  output: __S(3126, __c195, 6) as any as S.Schema<GetPersonAttributesResponse>,
+  input: __S(3296, __c206, 0) as any as S.Schema<GetPersonAttributesRequest>,
+  output: __S(3222, __c201, 6) as any as S.Schema<GetPersonAttributesResponse>,
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24352,8 +24634,8 @@ export const getPersonMessages: API.OperationMethod<
   GetPersonMessagesError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3216, __c201, 0) as any as S.Schema<GetPersonMessagesRequest>,
-  output: __S(3220, __c201, 4) as any as S.Schema<GetPersonMessagesResponse>,
+  input: __S(3312, __c207, 0) as any as S.Schema<GetPersonMessagesRequest>,
+  output: __S(3316, __c207, 4) as any as S.Schema<GetPersonMessagesResponse>,
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24369,8 +24651,8 @@ export const getPersonOptouts: API.OperationMethod<
   GetPersonOptoutsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3248, __c203, 0) as any as S.Schema<GetPersonOptoutsRequest>,
-  output: __S(3249, __c203, 1) as any as S.Schema<GetPersonOptoutsResponse>,
+  input: __S(3344, __c209, 0) as any as S.Schema<GetPersonOptoutsRequest>,
+  output: __S(3345, __c209, 1) as any as S.Schema<GetPersonOptoutsResponse>,
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24386,8 +24668,8 @@ export const getPersonRelationships: API.OperationMethod<
   GetPersonRelationshipsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c204, 0) as any as S.Schema<GetPersonRelationshipsRequest>,
-  output: __S(3267, __c204, 3) as any as S.Schema<GetPersonRelationshipsResponse>,
+  input: __S(3360, __c210, 0) as any as S.Schema<GetPersonRelationshipsRequest>,
+  output: __S(3363, __c210, 3) as any as S.Schema<GetPersonRelationshipsResponse>,
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24403,8 +24685,8 @@ export const getPersonSegments: API.OperationMethod<
   GetPersonSegmentsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3280, __c205, 0) as any as S.Schema<GetPersonSegmentsRequest>,
-  output: __S(3283, __c205, 3) as any as S.Schema<GetPersonSegmentsResponse>,
+  input: __S(3376, __c211, 0) as any as S.Schema<GetPersonSegmentsRequest>,
+  output: __S(3379, __c211, 3) as any as S.Schema<GetPersonSegmentsResponse>,
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24420,8 +24702,8 @@ export const getPersonSubscriptionPreferences: API.OperationMethod<
   GetPersonSubscriptionPreferencesError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c206, 0) as any as S.Schema<GetPersonSubscriptionPreferencesRequest>,
-  output: __S(3301, __c206, 5) as any as S.Schema<GetPersonSubscriptionPreferencesResponse>,
+  input: __S(3392, __c212, 0) as any as S.Schema<GetPersonSubscriptionPreferencesRequest>,
+  output: __S(3397, __c212, 5) as any as S.Schema<GetPersonSubscriptionPreferencesResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24437,8 +24719,8 @@ export const getSegment: API.OperationMethod<
   GetSegmentError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3312, __c207, 0) as any as S.Schema<GetSegmentRequest>,
-  output: __S(1648, __c103, 0) as any as S.Schema<GetSegmentResponse>,
+  input: __S(3408, __c213, 0) as any as S.Schema<GetSegmentRequest>,
+  output: __S(1728, __c108, 0) as any as S.Schema<GetSegmentResponse>,
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24454,8 +24736,8 @@ export const getSegmentCount: API.OperationMethod<
   GetSegmentCountError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c208, 0) as any as S.Schema<GetSegmentCountRequest>,
-  output: __S(3329, __c208, 1) as any as S.Schema<GetSegmentCountResponse>,
+  input: __S(3424, __c214, 0) as any as S.Schema<GetSegmentCountRequest>,
+  output: __S(3425, __c214, 1) as any as S.Schema<GetSegmentCountResponse>,
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24471,8 +24753,8 @@ export const getSegmentDependencies: API.OperationMethod<
   GetSegmentDependenciesError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3344, __c209, 0) as any as S.Schema<GetSegmentDependenciesRequest>,
-  output: __S(3346, __c209, 2) as any as S.Schema<GetSegmentDependenciesResponse>,
+  input: __S(3440, __c215, 0) as any as S.Schema<GetSegmentDependenciesRequest>,
+  output: __S(3442, __c215, 2) as any as S.Schema<GetSegmentDependenciesResponse>,
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24488,8 +24770,8 @@ export const getSegmentMembership: API.OperationMethod<
   GetSegmentMembershipError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c210, 0) as any as S.Schema<GetSegmentMembershipRequest>,
-  output: __S(3361, __c210, 1) as any as S.Schema<GetSegmentMembershipResponse>,
+  input: __S(3456, __c216, 0) as any as S.Schema<GetSegmentMembershipRequest>,
+  output: __S(3457, __c216, 1) as any as S.Schema<GetSegmentMembershipResponse>,
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24505,8 +24787,8 @@ export const getSender: API.OperationMethod<
   GetSenderError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3376, __c211, 0) as any as S.Schema<GetSenderRequest>,
-  output: __S(3377, __c211, 1) as any as S.Schema<GetSenderResponse>,
+  input: __S(3472, __c217, 0) as any as S.Schema<GetSenderRequest>,
+  output: __S(3473, __c217, 1) as any as S.Schema<GetSenderResponse>,
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24522,8 +24804,8 @@ export const getSenderUsage: API.OperationMethod<
   GetSenderUsageError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3408, __c213, 0) as any as S.Schema<GetSenderUsageRequest>,
-  output: __S(3409, __c213, 1) as any as S.Schema<GetSenderUsageResponse>,
+  input: __S(3504, __c219, 0) as any as S.Schema<GetSenderUsageRequest>,
+  output: __S(3505, __c219, 1) as any as S.Schema<GetSenderUsageResponse>,
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24539,8 +24821,8 @@ export const getSubscriptionCenterToken: API.OperationMethod<
   GetSubscriptionCenterTokenError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c1, 0) as any as S.Schema<GetSubscriptionCenterTokenRequest>,
-  output: __S(17, __c1, 1) as any as S.Schema<GetSubscriptionCenterTokenResponse>,
+  input: __S(112, __c7, 0) as any as S.Schema<GetSubscriptionCenterTokenRequest>,
+  output: __S(113, __c7, 1) as any as S.Schema<GetSubscriptionCenterTokenResponse>,
   errors: [BadRequest, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24556,8 +24838,8 @@ export const getSuppression: API.OperationMethod<
   GetSuppressionError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<GetSuppressionRequest>,
-  output: __S(48, __c3, 0) as any as S.Schema<GetSuppressionResponse>,
+  input: __S(128, __c8, 0) as any as S.Schema<GetSuppressionRequest>,
+  output: __S(144, __c9, 0) as any as S.Schema<GetSuppressionResponse>,
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24573,8 +24855,8 @@ export const getSuppressionByType: API.OperationMethod<
   GetSuppressionByTypeError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<GetSuppressionByTypeRequest>,
-  output: __S(48, __c3, 0) as any as S.Schema<GetSuppressionByTypeResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<GetSuppressionByTypeRequest>,
+  output: __S(144, __c9, 0) as any as S.Schema<GetSuppressionByTypeResponse>,
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24590,8 +24872,8 @@ export const getTopics: API.OperationMethod<
   GetTopicsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<GetTopicsRequest>,
-  output: __S(83, __c5, 3) as any as S.Schema<GetTopicsResponse>,
+  input: __S(176, __c11, 0) as any as S.Schema<GetTopicsRequest>,
+  output: __S(179, __c11, 3) as any as S.Schema<GetTopicsResponse>,
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24607,8 +24889,8 @@ export const getTransactional: API.OperationMethod<
   GetTransactionalError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<GetTransactionalRequest>,
-  output: __S(97, __c6, 1) as any as S.Schema<GetTransactionalResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<GetTransactionalRequest>,
+  output: __S(193, __c12, 1) as any as S.Schema<GetTransactionalResponse>,
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24624,8 +24906,8 @@ export const getTransactionalTranslationById: API.OperationMethod<
   GetTransactionalTranslationByIdError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<GetTransactionalTranslationByIdRequest>,
-  output: __S(129, __c8, 1) as any as S.Schema<GetTransactionalTranslationByIdResponse>,
+  input: __S(224, __c14, 0) as any as S.Schema<GetTransactionalTranslationByIdRequest>,
+  output: __S(225, __c14, 1) as any as S.Schema<GetTransactionalTranslationByIdResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24641,8 +24923,8 @@ export const getTransactionalVariant: API.OperationMethod<
   GetTransactionalVariantError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<GetTransactionalVariantRequest>,
-  output: __S(192, __c12, 0) as any as S.Schema<GetTransactionalVariantResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<GetTransactionalVariantRequest>,
+  output: __S(288, __c18, 0) as any as S.Schema<GetTransactionalVariantResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24658,8 +24940,8 @@ export const getVariantLinks: API.OperationMethod<
   GetVariantLinksError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<GetVariantLinksRequest>,
-  output: __S(2485, __c155, 5) as any as S.Schema<GetVariantLinksResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<GetVariantLinksRequest>,
+  output: __S(2581, __c161, 5) as any as S.Schema<GetVariantLinksResponse>,
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24675,8 +24957,8 @@ export const getVariantMetrics: API.OperationMethod<
   GetVariantMetricsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<GetVariantMetricsRequest>,
-  output: __S(2817, __c176, 1) as any as S.Schema<GetVariantMetricsResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<GetVariantMetricsRequest>,
+  output: __S(2913, __c182, 1) as any as S.Schema<GetVariantMetricsResponse>,
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24692,8 +24974,8 @@ export const getWebhook: API.OperationMethod<
   GetWebhookError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<GetWebhookRequest>,
-  output: __S(1841, __c115, 1) as any as S.Schema<GetWebhookResponse>,
+  input: __S(336, __c21, 0) as any as S.Schema<GetWebhookRequest>,
+  output: __S(1921, __c120, 1) as any as S.Schema<GetWebhookResponse>,
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24709,8 +24991,8 @@ export const Import: API.OperationMethod<
   ImportError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<ImportRequest>,
-  output: __S(322, __c20, 2) as any as S.Schema<ImportResponse>,
+  input: __S(416, __c26, 0) as any as S.Schema<ImportRequest>,
+  output: __S(418, __c26, 2) as any as S.Schema<ImportResponse>,
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24726,8 +25008,8 @@ export const listActivities: API.OperationMethod<
   ListActivitiesError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<ListActivitiesRequest>,
-  output: __S(339, __c21, 3) as any as S.Schema<ListActivitiesResponse>,
+  input: __S(432, __c27, 0) as any as S.Schema<ListActivitiesRequest>,
+  output: __S(435, __c27, 3) as any as S.Schema<ListActivitiesResponse>,
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24743,8 +25025,8 @@ export const listAssetFolders: API.OperationMethod<
   ListAssetFoldersError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<ListAssetFoldersRequest>,
-  output: __S(354, __c22, 2) as any as S.Schema<ListAssetFoldersResponse>,
+  input: __S(448, __c28, 0) as any as S.Schema<ListAssetFoldersRequest>,
+  output: __S(450, __c28, 2) as any as S.Schema<ListAssetFoldersResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24760,8 +25042,8 @@ export const listAssets: API.OperationMethod<
   ListAssetsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<ListAssetsRequest>,
-  output: __S(386, __c24, 2) as any as S.Schema<ListAssetsResponse>,
+  input: __S(480, __c30, 0) as any as S.Schema<ListAssetsRequest>,
+  output: __S(482, __c30, 2) as any as S.Schema<ListAssetsResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24777,8 +25059,8 @@ export const listBroadcasts: API.OperationMethod<
   ListBroadcastsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<ListBroadcastsRequest>,
-  output: __S(402, __c25, 2) as any as S.Schema<ListBroadcastsResponse>,
+  input: __S(496, __c31, 0) as any as S.Schema<ListBroadcastsRequest>,
+  output: __S(498, __c31, 2) as any as S.Schema<ListBroadcastsResponse>,
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24794,8 +25076,8 @@ export const listBroadcastTriggers: API.OperationMethod<
   ListBroadcastTriggersError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<ListBroadcastTriggersRequest>,
-  output: __S(418, __c26, 2) as any as S.Schema<ListBroadcastTriggersResponse>,
+  input: __S(512, __c32, 0) as any as S.Schema<ListBroadcastTriggersRequest>,
+  output: __S(514, __c32, 2) as any as S.Schema<ListBroadcastTriggersResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24811,8 +25093,8 @@ export const listCampaignActions: API.OperationMethod<
   ListCampaignActionsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<ListCampaignActionsRequest>,
-  output: __S(434, __c27, 2) as any as S.Schema<ListCampaignActionsResponse>,
+  input: __S(528, __c33, 0) as any as S.Schema<ListCampaignActionsRequest>,
+  output: __S(530, __c33, 2) as any as S.Schema<ListCampaignActionsResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24828,8 +25110,8 @@ export const listCampaigns: API.OperationMethod<
   ListCampaignsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<ListCampaignsRequest>,
-  output: __S(450, __c28, 2) as any as S.Schema<ListCampaignsResponse>,
+  input: __S(544, __c34, 0) as any as S.Schema<ListCampaignsRequest>,
+  output: __S(546, __c34, 2) as any as S.Schema<ListCampaignsResponse>,
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24845,8 +25127,8 @@ export const listCollectionSources: API.OperationMethod<
   ListCollectionSourcesError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<ListCollectionSourcesRequest>,
-  output: __S(466, __c29, 2) as any as S.Schema<ListCollectionSourcesResponse>,
+  input: __S(560, __c35, 0) as any as S.Schema<ListCollectionSourcesRequest>,
+  output: __S(562, __c35, 2) as any as S.Schema<ListCollectionSourcesResponse>,
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24862,8 +25144,8 @@ export const listExports: API.OperationMethod<
   ListExportsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<ListExportsRequest>,
-  output: __S(482, __c30, 2) as any as S.Schema<ListExportsResponse>,
+  input: __S(576, __c36, 0) as any as S.Schema<ListExportsRequest>,
+  output: __S(578, __c36, 2) as any as S.Schema<ListExportsResponse>,
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24879,8 +25161,8 @@ export const listMessages: API.OperationMethod<
   ListMessagesError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<ListMessagesRequest>,
-  output: __S(305, __c19, 1) as any as S.Schema<ListMessagesResponse>,
+  input: __S(624, __c39, 0) as any as S.Schema<ListMessagesRequest>,
+  output: __S(401, __c25, 1) as any as S.Schema<ListMessagesResponse>,
   errors: [BadRequest, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24896,8 +25178,8 @@ export const listNewsletters: API.OperationMethod<
   ListNewslettersError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<ListNewslettersRequest>,
-  output: __S(546, __c34, 2) as any as S.Schema<ListNewslettersResponse>,
+  input: __S(640, __c40, 0) as any as S.Schema<ListNewslettersRequest>,
+  output: __S(642, __c40, 2) as any as S.Schema<ListNewslettersResponse>,
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24913,8 +25195,8 @@ export const listNewsletterVariants: API.OperationMethod<
   ListNewsletterVariantsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<ListNewsletterVariantsRequest>,
-  output: __S(562, __c35, 2) as any as S.Schema<ListNewsletterVariantsResponse>,
+  input: __S(656, __c41, 0) as any as S.Schema<ListNewsletterVariantsRequest>,
+  output: __S(658, __c41, 2) as any as S.Schema<ListNewsletterVariantsResponse>,
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24930,8 +25212,8 @@ export const listSegments: API.OperationMethod<
   ListSegmentsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<ListSegmentsRequest>,
-  output: __S(578, __c36, 2) as any as S.Schema<ListSegmentsResponse>,
+  input: __S(672, __c42, 0) as any as S.Schema<ListSegmentsRequest>,
+  output: __S(674, __c42, 2) as any as S.Schema<ListSegmentsResponse>,
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24947,8 +25229,8 @@ export const listSenders: API.OperationMethod<
   ListSendersError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<ListSendersRequest>,
-  output: __S(594, __c37, 2) as any as S.Schema<ListSendersResponse>,
+  input: __S(688, __c43, 0) as any as S.Schema<ListSendersRequest>,
+  output: __S(690, __c43, 2) as any as S.Schema<ListSendersResponse>,
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24964,8 +25246,8 @@ export const listSnippets: API.OperationMethod<
   ListSnippetsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<ListSnippetsRequest>,
-  output: __S(610, __c38, 2) as any as S.Schema<ListSnippetsResponse>,
+  input: __S(704, __c44, 0) as any as S.Schema<ListSnippetsRequest>,
+  output: __S(706, __c44, 2) as any as S.Schema<ListSnippetsResponse>,
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24981,8 +25263,8 @@ export const listTransactional: API.OperationMethod<
   ListTransactionalError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<ListTransactionalRequest>,
-  output: __S(626, __c39, 2) as any as S.Schema<ListTransactionalResponse>,
+  input: __S(720, __c45, 0) as any as S.Schema<ListTransactionalRequest>,
+  output: __S(722, __c45, 2) as any as S.Schema<ListTransactionalResponse>,
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -24998,8 +25280,8 @@ export const listTransactionalVariants: API.OperationMethod<
   ListTransactionalVariantsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<ListTransactionalVariantsRequest>,
-  output: __S(641, __c40, 1) as any as S.Schema<ListTransactionalVariantsResponse>,
+  input: __S(736, __c46, 0) as any as S.Schema<ListTransactionalVariantsRequest>,
+  output: __S(737, __c46, 1) as any as S.Schema<ListTransactionalVariantsResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -25015,8 +25297,8 @@ export const listWebhooks: API.OperationMethod<
   ListWebhooksError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<ListWebhooksRequest>,
-  output: __S(658, __c41, 2) as any as S.Schema<ListWebhooksResponse>,
+  input: __S(752, __c47, 0) as any as S.Schema<ListWebhooksRequest>,
+  output: __S(754, __c47, 2) as any as S.Schema<ListWebhooksResponse>,
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -25032,8 +25314,8 @@ export const listWorkspaces: API.OperationMethod<
   ListWorkspacesError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<ListWorkspacesRequest>,
-  output: __S(675, __c42, 3) as any as S.Schema<ListWorkspacesResponse>,
+  input: __S(768, __c48, 0) as any as S.Schema<ListWorkspacesRequest>,
+  output: __S(771, __c48, 3) as any as S.Schema<ListWorkspacesResponse>,
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -25049,8 +25331,8 @@ export const pollCollectionSync: API.OperationMethod<
   PollCollectionSyncError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<PollCollectionSyncRequest>,
-  output: __S(1872, __c117, 0) as any as S.Schema<PollCollectionSyncResponse>,
+  input: __S(832, __c52, 0) as any as S.Schema<PollCollectionSyncRequest>,
+  output: __S(1952, __c122, 0) as any as S.Schema<PollCollectionSyncResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -25066,8 +25348,8 @@ export const postSuppression: API.OperationMethod<
   PostSuppressionError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<PostSuppressionRequest>,
-  output: __S(753, __c47, 1) as any as S.Schema<PostSuppressionResponse>,
+  input: __S(848, __c53, 0) as any as S.Schema<PostSuppressionRequest>,
+  output: __S(849, __c53, 1) as any as S.Schema<PostSuppressionResponse>,
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -25087,8 +25369,8 @@ export const putCollectionSync: API.OperationMethod<
   PutCollectionSyncError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<PutCollectionSyncRequest>,
-  output: __S(2579, __c161, 3) as any as S.Schema<PutCollectionSyncResponse>,
+  input: __S(864, __c54, 0) as any as S.Schema<PutCollectionSyncRequest>,
+  output: __S(2675, __c167, 3) as any as S.Schema<PutCollectionSyncResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -25108,8 +25390,8 @@ export const scheduleNewsletter: API.OperationMethod<
   ScheduleNewsletterError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<ScheduleNewsletterRequest>,
-  output: __S(1712, __c107, 0) as any as S.Schema<ScheduleNewsletterResponse>,
+  input: __S(880, __c55, 0) as any as S.Schema<ScheduleNewsletterRequest>,
+  output: __S(1792, __c112, 0) as any as S.Schema<ScheduleNewsletterResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -25125,8 +25407,8 @@ export const sendEmail: API.OperationMethod<
   SendEmailError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(801, __c50, 1) as any as S.Schema<SendEmailRequest>,
-  output: __S(816, __c51, 0) as any as S.Schema<SendEmailResponse>,
+  input: __S(897, __c56, 1) as any as S.Schema<SendEmailRequest>,
+  output: __S(912, __c57, 0) as any as S.Schema<SendEmailResponse>,
   errors: [BadRequest, Forbidden, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -25142,8 +25424,8 @@ export const sendInApp: API.OperationMethod<
   SendInAppError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<SendInAppRequest>,
-  output: __S(816, __c51, 0) as any as S.Schema<SendInAppResponse>,
+  input: __S(928, __c58, 0) as any as S.Schema<SendInAppRequest>,
+  output: __S(912, __c57, 0) as any as S.Schema<SendInAppResponse>,
   errors: [BadRequest, Forbidden, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -25159,8 +25441,8 @@ export const sendInboxMessage: API.OperationMethod<
   SendInboxMessageError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<SendInboxMessageRequest>,
-  output: __S(816, __c51, 0) as any as S.Schema<SendInboxMessageResponse>,
+  input: __S(944, __c59, 0) as any as S.Schema<SendInboxMessageRequest>,
+  output: __S(912, __c57, 0) as any as S.Schema<SendInboxMessageResponse>,
   errors: [BadRequest, Forbidden, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -25176,8 +25458,8 @@ export const sendNewsletter: API.OperationMethod<
   SendNewsletterError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c54, 0) as any as S.Schema<SendNewsletterRequest>,
-  output: __S(1712, __c107, 0) as any as S.Schema<SendNewsletterResponse>,
+  input: __S(960, __c60, 0) as any as S.Schema<SendNewsletterRequest>,
+  output: __S(1792, __c112, 0) as any as S.Schema<SendNewsletterResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -25193,8 +25475,8 @@ export const sendPush: API.OperationMethod<
   SendPushError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(889, __c55, 9) as any as S.Schema<SendPushRequest>,
-  output: __S(816, __c51, 0) as any as S.Schema<SendPushResponse>,
+  input: __S(985, __c61, 9) as any as S.Schema<SendPushRequest>,
+  output: __S(912, __c57, 0) as any as S.Schema<SendPushResponse>,
   errors: [BadRequest, Forbidden, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -25210,8 +25492,8 @@ export const sendSMS: API.OperationMethod<
   SendSMSError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<SendSMSRequest>,
-  output: __S(816, __c51, 0) as any as S.Schema<SendSMSResponse>,
+  input: __S(992, __c62, 0) as any as S.Schema<SendSMSRequest>,
+  output: __S(912, __c57, 0) as any as S.Schema<SendSMSResponse>,
   errors: [BadRequest, Forbidden, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -25227,8 +25509,8 @@ export const sendWhatsApp: API.OperationMethod<
   SendWhatsAppError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<SendWhatsAppRequest>,
-  output: __S(816, __c51, 0) as any as S.Schema<SendWhatsAppResponse>,
+  input: __S(1024, __c64, 0) as any as S.Schema<SendWhatsAppRequest>,
+  output: __S(912, __c57, 0) as any as S.Schema<SendWhatsAppResponse>,
   errors: [BadRequest, Forbidden, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -25244,8 +25526,8 @@ export const startLiveNotification: API.OperationMethod<
   StartLiveNotificationError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(945, __c59, 1) as any as S.Schema<StartLiveNotificationRequest>,
-  output: __S(2098, __c131, 2) as any as S.Schema<StartLiveNotificationResponse>,
+  input: __S(1041, __c65, 1) as any as S.Schema<StartLiveNotificationRequest>,
+  output: __S(2194, __c137, 2) as any as S.Schema<StartLiveNotificationResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -25261,8 +25543,8 @@ export const submitCollectionWrite: API.OperationMethod<
   SubmitCollectionWriteError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<SubmitCollectionWriteRequest>,
-  output: __S(1872, __c117, 0) as any as S.Schema<SubmitCollectionWriteResponse>,
+  input: __S(1056, __c66, 0) as any as S.Schema<SubmitCollectionWriteRequest>,
+  output: __S(1952, __c122, 0) as any as S.Schema<SubmitCollectionWriteResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -25278,8 +25560,8 @@ export const transactionalLinks: API.OperationMethod<
   TransactionalLinksError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<TransactionalLinksRequest>,
-  output: __S(2485, __c155, 5) as any as S.Schema<TransactionalLinksResponse>,
+  input: __S(1072, __c67, 0) as any as S.Schema<TransactionalLinksRequest>,
+  output: __S(2581, __c161, 5) as any as S.Schema<TransactionalLinksResponse>,
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -25295,8 +25577,8 @@ export const transactionalMessages: API.OperationMethod<
   TransactionalMessagesError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<TransactionalMessagesRequest>,
-  output: __S(305, __c19, 1) as any as S.Schema<TransactionalMessagesResponse>,
+  input: __S(1088, __c68, 0) as any as S.Schema<TransactionalMessagesRequest>,
+  output: __S(401, __c25, 1) as any as S.Schema<TransactionalMessagesResponse>,
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -25312,8 +25594,8 @@ export const transactionalMetrics: API.OperationMethod<
   TransactionalMetricsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<TransactionalMetricsRequest>,
-  output: __S(512, __c32, 0) as any as S.Schema<TransactionalMetricsResponse>,
+  input: __S(1104, __c69, 0) as any as S.Schema<TransactionalMetricsRequest>,
+  output: __S(608, __c38, 0) as any as S.Schema<TransactionalMetricsResponse>,
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -25329,8 +25611,8 @@ export const triggerBroadcast: API.OperationMethod<
   TriggerBroadcastError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1025, __c64, 1) as any as S.Schema<TriggerBroadcastRequest>,
-  output: __S(1024, __c64, 0) as any as S.Schema<TriggerBroadcastResponse>,
+  input: __S(1121, __c70, 1) as any as S.Schema<TriggerBroadcastRequest>,
+  output: __S(1120, __c70, 0) as any as S.Schema<TriggerBroadcastResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -25346,8 +25628,8 @@ export const updateAsset: API.OperationMethod<
   UpdateAssetError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<UpdateAssetRequest>,
-  output: __S(1872, __c117, 0) as any as S.Schema<UpdateAssetResponse>,
+  input: __S(1136, __c71, 0) as any as S.Schema<UpdateAssetRequest>,
+  output: __S(1952, __c122, 0) as any as S.Schema<UpdateAssetResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -25363,8 +25645,8 @@ export const updateAssetFolder: API.OperationMethod<
   UpdateAssetFolderError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<UpdateAssetFolderRequest>,
-  output: __S(1872, __c117, 0) as any as S.Schema<UpdateAssetFolderResponse>,
+  input: __S(1152, __c72, 0) as any as S.Schema<UpdateAssetFolderRequest>,
+  output: __S(1952, __c122, 0) as any as S.Schema<UpdateAssetFolderResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -25380,8 +25662,8 @@ export const updateAttributeMetadata: API.OperationMethod<
   UpdateAttributeMetadataError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1074, __c67, 2) as any as S.Schema<UpdateAttributeMetadataRequest>,
-  output: __S(1872, __c117, 0) as any as S.Schema<UpdateAttributeMetadataResponse>,
+  input: __S(1170, __c73, 2) as any as S.Schema<UpdateAttributeMetadataRequest>,
+  output: __S(1952, __c122, 0) as any as S.Schema<UpdateAttributeMetadataResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -25397,8 +25679,8 @@ export const updateBroadcastAction: API.OperationMethod<
   UpdateBroadcastActionError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c69, 0) as any as S.Schema<UpdateBroadcastActionRequest>,
-  output: __S(1105, __c69, 1) as any as S.Schema<UpdateBroadcastActionResponse>,
+  input: __S(1200, __c75, 0) as any as S.Schema<UpdateBroadcastActionRequest>,
+  output: __S(1201, __c75, 1) as any as S.Schema<UpdateBroadcastActionResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -25414,8 +25696,8 @@ export const updateBroadcastActionLanguage: API.OperationMethod<
   UpdateBroadcastActionLanguageError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<UpdateBroadcastActionLanguageRequest>,
-  output: __S(1121, __c70, 1) as any as S.Schema<UpdateBroadcastActionLanguageResponse>,
+  input: __S(1216, __c76, 0) as any as S.Schema<UpdateBroadcastActionLanguageRequest>,
+  output: __S(1217, __c76, 1) as any as S.Schema<UpdateBroadcastActionLanguageResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -25431,8 +25713,8 @@ export const updateCampaignAction: API.OperationMethod<
   UpdateCampaignActionError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<UpdateCampaignActionRequest>,
-  output: __S(1137, __c71, 1) as any as S.Schema<UpdateCampaignActionResponse>,
+  input: __S(1232, __c77, 0) as any as S.Schema<UpdateCampaignActionRequest>,
+  output: __S(1233, __c77, 1) as any as S.Schema<UpdateCampaignActionResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -25448,8 +25730,8 @@ export const updateCampaignActionTranslation: API.OperationMethod<
   UpdateCampaignActionTranslationError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<UpdateCampaignActionTranslationRequest>,
-  output: __S(1153, __c72, 1) as any as S.Schema<UpdateCampaignActionTranslationResponse>,
+  input: __S(1248, __c78, 0) as any as S.Schema<UpdateCampaignActionTranslationRequest>,
+  output: __S(1249, __c78, 1) as any as S.Schema<UpdateCampaignActionTranslationResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -25465,8 +25747,8 @@ export const updateCollection: API.OperationMethod<
   UpdateCollectionError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<UpdateCollectionRequest>,
-  output: __S(2240, __c140, 0) as any as S.Schema<UpdateCollectionResponse>,
+  input: __S(1264, __c79, 0) as any as S.Schema<UpdateCollectionRequest>,
+  output: __S(2336, __c146, 0) as any as S.Schema<UpdateCollectionResponse>,
   errors: [BadRequest, Conflict, UnprocessableEntity, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -25482,8 +25764,8 @@ export const updateCollectionContents: API.OperationMethod<
   UpdateCollectionContentsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1185, __c74, 1) as any as S.Schema<UpdateCollectionContentsRequest>,
-  output: __S(2240, __c140, 0) as any as S.Schema<UpdateCollectionContentsResponse>,
+  input: __S(1281, __c80, 1) as any as S.Schema<UpdateCollectionContentsRequest>,
+  output: __S(2336, __c146, 0) as any as S.Schema<UpdateCollectionContentsResponse>,
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -25499,8 +25781,8 @@ export const updateEventMetadata: API.OperationMethod<
   UpdateEventMetadataError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1201, __c75, 1) as any as S.Schema<UpdateEventMetadataRequest>,
-  output: __S(1872, __c117, 0) as any as S.Schema<UpdateEventMetadataResponse>,
+  input: __S(1297, __c81, 1) as any as S.Schema<UpdateEventMetadataRequest>,
+  output: __S(1952, __c122, 0) as any as S.Schema<UpdateEventMetadataResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -25516,8 +25798,8 @@ export const updateLiveNotification: API.OperationMethod<
   UpdateLiveNotificationError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c76, 0) as any as S.Schema<UpdateLiveNotificationRequest>,
-  output: __S(2098, __c131, 2) as any as S.Schema<UpdateLiveNotificationResponse>,
+  input: __S(1312, __c82, 0) as any as S.Schema<UpdateLiveNotificationRequest>,
+  output: __S(2194, __c137, 2) as any as S.Schema<UpdateLiveNotificationResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -25533,8 +25815,8 @@ export const updateNewsletterTestTranslation: API.OperationMethod<
   UpdateNewsletterTestTranslationError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<UpdateNewsletterTestTranslationRequest>,
-  output: __S(2912, __c182, 0) as any as S.Schema<UpdateNewsletterTestTranslationResponse>,
+  input: __S(1328, __c83, 0) as any as S.Schema<UpdateNewsletterTestTranslationRequest>,
+  output: __S(3008, __c188, 0) as any as S.Schema<UpdateNewsletterTestTranslationResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -25550,8 +25832,8 @@ export const updateNewsletterVariant: API.OperationMethod<
   UpdateNewsletterVariantError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<UpdateNewsletterVariantRequest>,
-  output: __S(2912, __c182, 0) as any as S.Schema<UpdateNewsletterVariantResponse>,
+  input: __S(1344, __c84, 0) as any as S.Schema<UpdateNewsletterVariantRequest>,
+  output: __S(3008, __c188, 0) as any as S.Schema<UpdateNewsletterVariantResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -25567,8 +25849,8 @@ export const updateNewsletterVariantTranslation: API.OperationMethod<
   UpdateNewsletterVariantTranslationError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c80, 0) as any as S.Schema<UpdateNewsletterVariantTranslationRequest>,
-  output: __S(2912, __c182, 0) as any as S.Schema<UpdateNewsletterVariantTranslationResponse>,
+  input: __S(1376, __c86, 0) as any as S.Schema<UpdateNewsletterVariantTranslationRequest>,
+  output: __S(3008, __c188, 0) as any as S.Schema<UpdateNewsletterVariantTranslationResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -25584,8 +25866,8 @@ export const updatePersonOptouts: API.OperationMethod<
   UpdatePersonOptoutsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1298, __c81, 2) as any as S.Schema<UpdatePersonOptoutsRequest>,
-  output: __S(1872, __c117, 0) as any as S.Schema<UpdatePersonOptoutsResponse>,
+  input: __S(1394, __c87, 2) as any as S.Schema<UpdatePersonOptoutsRequest>,
+  output: __S(1952, __c122, 0) as any as S.Schema<UpdatePersonOptoutsResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -25601,8 +25883,8 @@ export const updateSnippets: API.OperationMethod<
   UpdateSnippetsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c82, 0) as any as S.Schema<UpdateSnippetsRequest>,
-  output: __S(1808, __c113, 0) as any as S.Schema<UpdateSnippetsResponse>,
+  input: __S(1408, __c88, 0) as any as S.Schema<UpdateSnippetsRequest>,
+  output: __S(1888, __c118, 0) as any as S.Schema<UpdateSnippetsResponse>,
   errors: [BadRequest, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -25618,8 +25900,8 @@ export const updateTransactional: API.OperationMethod<
   UpdateTransactionalError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<UpdateTransactionalRequest>,
-  output: __S(192, __c12, 0) as any as S.Schema<UpdateTransactionalResponse>,
+  input: __S(1424, __c89, 0) as any as S.Schema<UpdateTransactionalRequest>,
+  output: __S(288, __c18, 0) as any as S.Schema<UpdateTransactionalResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -25635,8 +25917,8 @@ export const updateTransactionalVariant: API.OperationMethod<
   UpdateTransactionalVariantError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1360, __c85, 0) as any as S.Schema<UpdateTransactionalVariantRequest>,
-  output: __S(192, __c12, 0) as any as S.Schema<UpdateTransactionalVariantResponse>,
+  input: __S(1456, __c91, 0) as any as S.Schema<UpdateTransactionalVariantRequest>,
+  output: __S(288, __c18, 0) as any as S.Schema<UpdateTransactionalVariantResponse>,
   errors: [BadRequest, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -25652,8 +25934,8 @@ export const updateWebhook: API.OperationMethod<
   UpdateWebhookError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<UpdateWebhookRequest>,
-  output: __S(1841, __c115, 1) as any as S.Schema<UpdateWebhookResponse>,
+  input: __S(1472, __c92, 0) as any as S.Schema<UpdateWebhookRequest>,
+  output: __S(1921, __c120, 1) as any as S.Schema<UpdateWebhookResponse>,
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
@@ -25663,6 +25945,129 @@ export const updateWebhook: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          pointer: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Error400BodyErrorsItemSource" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          detail: S.optional(S.String),
+          meta: S.optional(S.Unknown),
+          source: S.optional(__S(0, __c0, 0)),
+          status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Error400BodyErrorsItem2" });
+    case 1:
+      return S.Array(__S(16, __c1, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          errors: S.optional(__S(17, __c1, 1)),
+        }),
+      ).annotate({ identifier: "Error400Body5" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          error: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Error400BodyMeta2" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          meta: S.optional(__S(32, __c2, 0)),
+        }),
+      ).annotate({ identifier: "Error400Body3" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          detail: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Error400BodyErrorsItem" });
+    case 1:
+      return S.Array(__S(48, __c3, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          errors: S.optional(__S(49, __c3, 1)),
+        }),
+      ).annotate({ identifier: "Error400Body" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          detail: S.optional(S.String),
+          status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Error400BodyErrorsItem5" });
+    case 1:
+      return S.Array(__S(80, __c5, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          errors: S.optional(__S(81, __c5, 1)),
+        }),
+      ).annotate({ identifier: "Error400Body8" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          detail: S.String,
+          status: S.String,
+          code: S.optional(S.String),
+          meta: S.optional(__S(64, __c4, 0)),
+          source: S.optional(__S(0, __c0, 0)),
+        }),
+      ).annotate({ identifier: "Error429BodyErrorsItem" });
+    case 4:
+      return S.Array(__S(83, __c5, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          errors: __S(84, __c5, 4),
+        }),
+      ).annotate({ identifier: "Error429Body" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          detail: S.optional(S.String),
+          status: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "Error400BodyErrorsItem3" });
+    case 7:
+      return S.Array(__S(86, __c5, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          errors: S.optional(__S(87, __c5, 7)),
+        }),
+      ).annotate({ identifier: "Error400Body6" });
+  }
+}
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25677,7 +26082,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "BroadcastLinksRequest" });
   }
 }
-function __c1(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25696,7 +26101,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "GetSubscriptionCenterTokenResponse" });
   }
 }
-function __c2(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25708,18 +26113,18 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetSuppressionRequest" });
   }
 }
-function __c3(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           category: S.optional(S.String),
-          suppressions: S.optional(S.NullOr(__S(2641, __c165, 1))),
+          suppressions: S.optional(S.NullOr(__S(2737, __c171, 1))),
         }),
       ).annotate({ identifier: "GetSuppressionResponse" });
   }
 }
-function __c4(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25734,7 +26139,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetSuppressionByTypeRequest" });
   }
 }
-function __c5(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25751,16 +26156,16 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "GetTopicsResponseTopicsItem" });
     case 2:
-      return S.Array(__S(81, __c5, 1));
+      return S.Array(__S(177, __c11, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          topics: S.optional(__S(82, __c5, 2)),
+          topics: S.optional(__S(178, __c11, 2)),
         }),
       ).annotate({ identifier: "GetTopicsResponse" });
   }
 }
-function __c6(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25771,12 +26176,12 @@ function __c6(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          message: S.optional(__S(112, __c7, 0)),
+          message: S.optional(__S(208, __c13, 0)),
         }),
       ).annotate({ identifier: "GetTransactionalResponse" });
   }
 }
-function __c7(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25795,7 +26200,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetTransactionalResponseMessage" });
   }
 }
-function __c8(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25813,12 +26218,12 @@ function __c8(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          content: S.optional(__S(144, __c9, 0)),
+          content: S.optional(__S(240, __c15, 0)),
         }),
       ).annotate({ identifier: "GetTransactionalTranslationByIdResponse" });
   }
 }
-function __c9(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25847,7 +26252,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetTransactionalTranslationByIdResponseContent" });
   }
 }
-function __c10(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25864,23 +26269,23 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetTransactionalVariantRequest" });
   }
 }
-function __c11(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(144, __c9, 0));
+      return S.Array(__S(240, __c15, 0));
   }
 }
-function __c12(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          content: S.optional(__S(176, __c11, 0)),
+          content: S.optional(__S(272, __c17, 0)),
         }),
       ).annotate({ identifier: "GetTransactionalVariantResponse" });
   }
 }
-function __c13(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25900,7 +26305,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetVariantLinksRequest" });
   }
 }
-function __c14(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25920,7 +26325,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetVariantMetricsRequest" });
   }
 }
-function __c15(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25930,7 +26335,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetWebhookRequest" });
   }
 }
-function __c16(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25950,7 +26355,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "BroadcastMessagesRequest" });
   }
 }
-function __c17(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25982,7 +26387,7 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "BroadcastMessagesResponseMessagesItemTrackedResponsesValue" });
     case 2:
-      return S.Record(S.String, __S(273, __c17, 1));
+      return S.Record(S.String, __S(369, __c23, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -25992,25 +26397,25 @@ function __c17(j: number): any {
           content_id: S.optional(S.Number),
           created: S.optional(S.Number),
           customer_id: S.optional(S.NullOr(S.String)),
-          customer_identifiers: S.optional(__S(288, __c18, 0)),
+          customer_identifiers: S.optional(__S(384, __c24, 0)),
           deduplicate_id: S.optional(S.String),
           failure_message: S.optional(S.NullOr(S.String)),
           forgotten: S.optional(S.Boolean),
           id: S.optional(S.String),
           message_template_id: S.optional(S.Number),
-          metrics: S.optional(__S(272, __c17, 0)),
+          metrics: S.optional(__S(368, __c23, 0)),
           newsletter_id: S.optional(S.NullOr(S.Number)),
           parent_action_id: S.optional(S.Number),
           recipient: S.optional(S.String),
           subject: S.optional(S.String),
-          tracked_responses: S.optional(__S(274, __c17, 2)),
+          tracked_responses: S.optional(__S(370, __c23, 2)),
           trigger_event_id: S.optional(S.String),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "BroadcastMessagesResponseMessagesItem" });
   }
 }
-function __c18(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26022,19 +26427,19 @@ function __c18(j: number): any {
       ).annotate({ identifier: "BroadcastMessagesResponseMessagesItemCustomerIdentifiers" });
   }
 }
-function __c19(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(275, __c17, 3));
+      return S.Array(__S(371, __c23, 3));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          messages: S.optional(__S(304, __c19, 0)),
+          messages: S.optional(__S(400, __c25, 0)),
         }),
       ).annotate({ identifier: "BroadcastMessagesResponse" });
   }
 }
-function __c20(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26066,12 +26471,12 @@ function __c20(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          import: __S(321, __c20, 1),
+          import: __S(417, __c26, 1),
         }),
       ).annotate({ identifier: "ImportResponse" });
   }
 }
-function __c21(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26089,7 +26494,7 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.Struct({
           customer_id: S.optional(S.NullOr(S.String)),
-          customer_identifiers: S.optional(__S(288, __c18, 0)),
+          customer_identifiers: S.optional(__S(384, __c24, 0)),
           data: S.optional(S.Unknown),
           delivery_id: S.optional(S.String),
           delivery_type: S.optional(S.String),
@@ -26101,17 +26506,17 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "ListActivitiesResponseActivitiesItem" });
     case 2:
-      return S.Array(__S(337, __c21, 1));
+      return S.Array(__S(433, __c27, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          activities: S.optional(__S(338, __c21, 2)),
+          activities: S.optional(__S(434, __c27, 2)),
           next: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListActivitiesResponse" });
   }
 }
-function __c22(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26123,17 +26528,17 @@ function __c22(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/assets/folders", code: 200 })),
       ).annotate({ identifier: "ListAssetFoldersRequest" });
     case 1:
-      return S.Array(__S(1536, __c96, 0));
+      return S.Array(__S(1632, __c102, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          folders: S.optional(__S(353, __c22, 1)),
-          meta: S.optional(__S(370, __c23, 2)),
+          folders: S.optional(__S(449, __c28, 1)),
+          meta: S.optional(__S(466, __c29, 2)),
         }),
       ).annotate({ identifier: "ListAssetFoldersResponse" });
   }
 }
-function __c23(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26153,13 +26558,13 @@ function __c23(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          filters: S.optional(__S(368, __c23, 0)),
-          pagination: S.optional(__S(369, __c23, 1)),
+          filters: S.optional(__S(464, __c29, 0)),
+          pagination: S.optional(__S(465, __c29, 1)),
         }),
       ).annotate({ identifier: "ListAssetFoldersResponseMeta" });
   }
 }
-function __c24(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26171,33 +26576,33 @@ function __c24(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/assets", code: 200 })),
       ).annotate({ identifier: "ListAssetsRequest" });
     case 1:
-      return S.Array(__S(1488, __c93, 0));
+      return S.Array(__S(1584, __c99, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          assets: S.optional(__S(385, __c24, 1)),
-          meta: S.optional(__S(370, __c23, 2)),
+          assets: S.optional(__S(481, __c30, 1)),
+          meta: S.optional(__S(466, __c29, 2)),
         }),
       ).annotate({ identifier: "ListAssetsResponse" });
   }
 }
-function __c25(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/broadcasts", code: 200 })),
       ).annotate({ identifier: "ListBroadcastsRequest" });
     case 1:
-      return S.Array(__S(2306, __c144, 2));
+      return S.Array(__S(2402, __c150, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          broadcasts: S.optional(__S(401, __c25, 1)),
+          broadcasts: S.optional(__S(497, __c31, 1)),
         }),
       ).annotate({ identifier: "ListBroadcastsResponse" });
   }
 }
-function __c26(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26208,16 +26613,16 @@ function __c26(j: number): any {
         ),
       ).annotate({ identifier: "ListBroadcastTriggersRequest" });
     case 1:
-      return S.Array(__S(721, __c45, 1));
+      return S.Array(__S(817, __c51, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          triggers: S.optional(__S(417, __c26, 1)),
+          triggers: S.optional(__S(513, __c32, 1)),
         }),
       ).annotate({ identifier: "ListBroadcastTriggersResponse" });
   }
 }
-function __c27(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26231,13 +26636,13 @@ function __c27(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          actions: S.optional(__S(433, __c27, 1)),
+          actions: S.optional(__S(529, __c33, 1)),
           next: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCampaignActionsResponse" });
   }
 }
-function __c28(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26248,44 +26653,44 @@ function __c28(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          campaigns: S.optional(__S(449, __c28, 1)),
+          campaigns: S.optional(__S(545, __c34, 1)),
         }),
       ).annotate({ identifier: "ListCampaignsResponse" });
   }
 }
-function __c29(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/collections/sources", code: 200 })),
       ).annotate({ identifier: "ListCollectionSourcesRequest" });
     case 1:
-      return S.Array(__S(1584, __c99, 0));
+      return S.Array(__S(1680, __c105, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          sources: S.optional(__S(465, __c29, 1)),
+          sources: S.optional(__S(561, __c35, 1)),
         }),
       ).annotate({ identifier: "ListCollectionSourcesResponse" });
   }
 }
-function __c30(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/exports", code: 200 })),
       ).annotate({ identifier: "ListExportsRequest" });
     case 1:
-      return S.Array(__S(2144, __c134, 0));
+      return S.Array(__S(2240, __c140, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          exports: S.optional(__S(481, __c30, 1)),
+          exports: S.optional(__S(577, __c36, 1)),
         }),
       ).annotate({ identifier: "ListExportsResponse" });
   }
 }
-function __c31(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26298,17 +26703,17 @@ function __c31(j: number): any {
       ).annotate({ identifier: "BroadcastMetricsRequest" });
   }
 }
-function __c32(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metric: S.optional(__S(2720, __c170, 0)),
+          metric: S.optional(__S(2816, __c176, 0)),
         }),
       ).annotate({ identifier: "BroadcastMetricsResponse" });
   }
 }
-function __c33(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26328,7 +26733,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "ListMessagesRequest" });
   }
 }
-function __c34(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26339,17 +26744,17 @@ function __c34(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/newsletters", code: 200 })),
       ).annotate({ identifier: "ListNewslettersRequest" });
     case 1:
-      return S.Array(__S(1696, __c106, 0));
+      return S.Array(__S(1776, __c111, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          newsletters: S.optional(__S(545, __c34, 1)),
+          newsletters: S.optional(__S(641, __c40, 1)),
           next: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListNewslettersResponse" });
   }
 }
-function __c35(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26360,32 +26765,32 @@ function __c35(j: number): any {
         ),
       ).annotate({ identifier: "ListNewsletterVariantsRequest" });
     case 1:
-      return S.Array(__S(2896, __c181, 0));
+      return S.Array(__S(2992, __c187, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          contents: S.optional(__S(561, __c35, 1)),
+          contents: S.optional(__S(657, __c41, 1)),
         }),
       ).annotate({ identifier: "ListNewsletterVariantsResponse" });
   }
 }
-function __c36(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/segments", code: 200 })),
       ).annotate({ identifier: "ListSegmentsRequest" });
     case 1:
-      return S.Array(__S(1664, __c104, 0));
+      return S.Array(__S(1744, __c109, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          segments: S.optional(__S(577, __c36, 1)),
+          segments: S.optional(__S(673, __c42, 1)),
         }),
       ).annotate({ identifier: "ListSegmentsResponse" });
   }
 }
-function __c37(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26397,49 +26802,49 @@ function __c37(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/sender_identities", code: 200 })),
       ).annotate({ identifier: "ListSendersRequest" });
     case 1:
-      return S.Array(__S(3392, __c212, 0));
+      return S.Array(__S(3488, __c218, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           next: S.optional(S.String),
-          sender_identities: S.optional(__S(593, __c37, 1)),
+          sender_identities: S.optional(__S(689, __c43, 1)),
         }),
       ).annotate({ identifier: "ListSendersResponse" });
   }
 }
-function __c38(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/snippets", code: 200 })),
       ).annotate({ identifier: "ListSnippetsRequest" });
     case 1:
-      return S.Array(__S(1792, __c112, 0));
+      return S.Array(__S(1872, __c117, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          snippets: S.optional(__S(609, __c38, 1)),
+          snippets: S.optional(__S(705, __c44, 1)),
         }),
       ).annotate({ identifier: "ListSnippetsResponse" });
   }
 }
-function __c39(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/transactional", code: 200 })),
       ).annotate({ identifier: "ListTransactionalRequest" });
     case 1:
-      return S.Array(__S(112, __c7, 0));
+      return S.Array(__S(208, __c13, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          messages: S.optional(__S(625, __c39, 1)),
+          messages: S.optional(__S(721, __c45, 1)),
         }),
       ).annotate({ identifier: "ListTransactionalResponse" });
   }
 }
-function __c40(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26456,28 +26861,28 @@ function __c40(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          contents: S.optional(__S(176, __c11, 0)),
+          contents: S.optional(__S(272, __c17, 0)),
         }),
       ).annotate({ identifier: "ListTransactionalVariantsResponse" });
   }
 }
-function __c41(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/reporting_webhooks", code: 200 })),
       ).annotate({ identifier: "ListWebhooksRequest" });
     case 1:
-      return S.Array(__S(1841, __c115, 1));
+      return S.Array(__S(1921, __c120, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          reporting_webhooks: S.optional(__S(657, __c41, 1)),
+          reporting_webhooks: S.optional(__S(753, __c47, 1)),
         }),
       ).annotate({ identifier: "ListWebhooksResponse" });
   }
 }
-function __c42(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26496,16 +26901,16 @@ function __c42(j: number): any {
         }),
       ).annotate({ identifier: "ListWorkspacesResponseWorkspacesItem" });
     case 2:
-      return S.Array(__S(673, __c42, 1));
+      return S.Array(__S(769, __c48, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          workspaces: S.optional(__S(674, __c42, 2)),
+          workspaces: S.optional(__S(770, __c48, 2)),
         }),
       ).annotate({ identifier: "ListWorkspacesResponse" });
   }
 }
-function __c43(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26522,17 +26927,17 @@ function __c43(j: number): any {
       ).annotate({ identifier: "BroadcastStatusRequest" });
   }
 }
-function __c44(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          trigger: S.optional(__S(721, __c45, 1)),
+          trigger: S.optional(__S(817, __c51, 1)),
         }),
       ).annotate({ identifier: "BroadcastStatusResponse" });
   }
 }
-function __c45(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26552,13 +26957,13 @@ function __c45(j: number): any {
           expires_after: S.optional(S.Number),
           id: S.optional(S.Number),
           processed_at: S.optional(S.Number),
-          rate_limit: S.optional(__S(720, __c45, 0)),
+          rate_limit: S.optional(__S(816, __c51, 0)),
           scheduled_at: S.optional(S.Number),
         }),
       ).annotate({ identifier: "BroadcastStatusResponseTrigger" });
   }
 }
-function __c46(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26570,7 +26975,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "PollCollectionSyncRequest" });
   }
 }
-function __c47(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26591,7 +26996,7 @@ function __c47(j: number): any {
       });
   }
 }
-function __c48(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26604,7 +27009,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "PutCollectionSyncRequest" });
   }
 }
-function __c49(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26623,7 +27028,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "ScheduleNewsletterRequest" });
   }
 }
-function __c50(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26635,7 +27040,7 @@ function __c50(j: number): any {
       return S.suspend(() =>
         S.Struct({
           to: S.String,
-          attachments: S.optional(__S(800, __c50, 0)),
+          attachments: S.optional(__S(896, __c56, 0)),
           auto_create: S.optional(S.Boolean),
           bcc: S.optional(S.String),
           body: S.optional(S.String),
@@ -26649,7 +27054,7 @@ function __c50(j: number): any {
           headers: S.optional(S.String),
           identifiers: S.optional(S.Unknown),
           language: S.optional(S.String),
-          message_data: S.optional(__S(1632, __c102, 0)),
+          message_data: S.optional(__S(64, __c4, 0)),
           preheader: S.optional(S.String),
           queue_draft: S.optional(S.Boolean),
           reply_to: S.optional(S.String),
@@ -26662,7 +27067,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "SendEmailRequest" });
   }
 }
-function __c51(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26674,7 +27079,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "SendEmailResponse" });
   }
 }
-function __c52(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26683,14 +27088,14 @@ function __c52(j: number): any {
           transactional_message_id: S.Unknown,
           auto_create: S.optional(S.Boolean),
           language: S.optional(S.String),
-          message_data: S.optional(__S(1632, __c102, 0)),
+          message_data: S.optional(__S(64, __c4, 0)),
           queue_draft: S.optional(S.Boolean),
           send_at: S.optional(S.Number),
         }).pipe(T.Http({ method: "POST", uri: "/v1/send/in_app", code: 200 })),
       ).annotate({ identifier: "SendInAppRequest" });
   }
 }
-function __c53(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26699,7 +27104,7 @@ function __c53(j: number): any {
           transactional_message_id: S.Unknown,
           auto_create: S.optional(S.Boolean),
           language: S.optional(S.String),
-          message_data: S.optional(__S(1632, __c102, 0)),
+          message_data: S.optional(__S(64, __c4, 0)),
           queue_draft: S.optional(S.Boolean),
           send_at: S.optional(S.Number),
           to: S.optional(S.String),
@@ -26707,7 +27112,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "SendInboxMessageRequest" });
   }
 }
-function __c54(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26721,7 +27126,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "SendNewsletterRequest" });
   }
 }
-function __c55(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26743,7 +27148,7 @@ function __c55(j: number): any {
         S.Struct({
           platform: S.String,
           token: S.String,
-          attributes: S.optional(__S(880, __c55, 0)),
+          attributes: S.optional(__S(976, __c61, 0)),
           last_used: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SendPushRequestCustomDevice" });
@@ -26764,7 +27169,7 @@ function __c55(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          notification: S.optional(__S(882, __c55, 2)),
+          notification: S.optional(__S(978, __c61, 2)),
         }),
       ).annotate({ identifier: "SendPushRequestCustomPayloadAndroidMessageAndroid" });
     case 4:
@@ -26779,21 +27184,21 @@ function __c55(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          android: S.optional(__S(883, __c55, 3)),
-          data: S.optional(__S(884, __c55, 4)),
-          notification: S.optional(__S(885, __c55, 5)),
+          android: S.optional(__S(979, __c61, 3)),
+          data: S.optional(__S(980, __c61, 4)),
+          notification: S.optional(__S(981, __c61, 5)),
         }),
       ).annotate({ identifier: "SendPushRequestCustomPayloadAndroidMessage" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          message: __S(886, __c55, 6),
+          message: __S(982, __c61, 6),
         }),
       ).annotate({ identifier: "SendPushRequestCustomPayloadAndroid" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          android: S.optional(__S(887, __c55, 7)),
+          android: S.optional(__S(983, __c61, 7)),
           ios: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "SendPushRequestCustomPayload" });
@@ -26804,14 +27209,14 @@ function __c55(j: number): any {
           transactional_message_id: S.Unknown,
           auto_create: S.optional(S.Boolean),
           custom_data: S.optional(S.Unknown),
-          custom_device: S.optional(__S(881, __c55, 1)),
-          custom_payload: S.optional(__S(888, __c55, 8)),
+          custom_device: S.optional(__S(977, __c61, 1)),
+          custom_payload: S.optional(__S(984, __c61, 8)),
           disable_message_retention: S.optional(S.Boolean),
           image_url: S.optional(S.String),
           language: S.optional(S.String),
           link: S.optional(S.String),
           message: S.optional(S.String),
-          message_data: S.optional(__S(1632, __c102, 0)),
+          message_data: S.optional(__S(64, __c4, 0)),
           platform: S.optional(S.String),
           queue_draft: S.optional(S.Boolean),
           send_at: S.optional(S.Number),
@@ -26823,7 +27228,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "SendPushRequest" });
   }
 }
-function __c56(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26835,7 +27240,7 @@ function __c56(j: number): any {
           disable_message_retention: S.optional(S.Boolean),
           from: S.optional(S.String),
           language: S.optional(S.String),
-          message_data: S.optional(__S(1632, __c102, 0)),
+          message_data: S.optional(__S(64, __c4, 0)),
           queue_draft: S.optional(S.Boolean),
           send_at: S.optional(S.Number),
           send_to_unsubscribed: S.optional(S.Boolean),
@@ -26844,7 +27249,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "SendSMSRequest" });
   }
 }
-function __c57(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26865,7 +27270,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "CampaignActionLinksRequest" });
   }
 }
-function __c58(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26876,7 +27281,7 @@ function __c58(j: number): any {
           disable_message_retention: S.optional(S.Boolean),
           from: S.optional(S.String),
           language: S.optional(S.String),
-          message_data: S.optional(__S(1632, __c102, 0)),
+          message_data: S.optional(__S(64, __c4, 0)),
           queue_draft: S.optional(S.Boolean),
           send_at: S.optional(S.Number),
           send_to_unsubscribed: S.optional(S.Boolean),
@@ -26885,7 +27290,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "SendWhatsAppRequest" });
   }
 }
-function __c59(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26901,19 +27306,19 @@ function __c59(j: number): any {
         S.Struct({
           attributes: S.Unknown,
           content_state: S.Unknown,
-          identifiers: __S(944, __c59, 0),
+          identifiers: __S(1040, __c65, 0),
           notification_type: S.String,
           app_identifier: S.optional(S.String),
           deep_link: S.optional(S.String),
           device_id: S.optional(S.String),
           expiration: S.optional(S.Number),
           platform: S.optional(S.String),
-          push_payload: S.optional(__S(2097, __c131, 1)),
+          push_payload: S.optional(__S(2193, __c137, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/live_notifications/start", code: 200 })),
       ).annotate({ identifier: "StartLiveNotificationRequest" });
   }
 }
-function __c60(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26926,7 +27331,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "SubmitCollectionWriteRequest" });
   }
 }
-function __c61(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26945,7 +27350,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "TransactionalLinksRequest" });
   }
 }
-function __c62(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26968,7 +27373,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "TransactionalMessagesRequest" });
   }
 }
-function __c63(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26982,7 +27387,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "TransactionalMetricsRequest" });
   }
 }
-function __c64(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27001,7 +27406,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "TriggerBroadcastRequest" });
   }
 }
-function __c65(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27013,7 +27418,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "UpdateAssetRequest" });
   }
 }
-function __c66(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27025,7 +27430,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "UpdateAssetFolderRequest" });
   }
 }
-function __c67(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27036,16 +27441,16 @@ function __c67(j: number): any {
         }),
       ).annotate({ identifier: "UpdateAttributeMetadataRequestAttributesItem" });
     case 1:
-      return S.Array(__S(1072, __c67, 0));
+      return S.Array(__S(1168, __c73, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          attributes: __S(1073, __c67, 1),
+          attributes: __S(1169, __c73, 1),
         }).pipe(T.Http({ method: "POST", uri: "/v1/data_index/attributes", code: 200 })),
       ).annotate({ identifier: "UpdateAttributeMetadataRequest" });
   }
 }
-function __c68(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27072,15 +27477,15 @@ function __c68(j: number): any {
       return S.suspend(() =>
         S.Struct({
           end: S.optional(S.String),
-          language_variants: S.optional(__S(2753, __c172, 1)),
-          metric: S.optional(__S(2720, __c170, 0)),
+          language_variants: S.optional(__S(2849, __c178, 1)),
+          metric: S.optional(__S(2816, __c176, 0)),
           res: S.optional(S.String),
           start: S.optional(S.String),
         }),
       ).annotate({ identifier: "CampaignActionMetricsResponse" });
   }
 }
-function __c69(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27104,7 +27509,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "UpdateBroadcastActionResponse" });
   }
 }
-function __c70(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27129,7 +27534,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "UpdateBroadcastActionLanguageResponse" });
   }
 }
-function __c71(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27153,7 +27558,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "UpdateCampaignActionResponse" });
   }
 }
-function __c72(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27178,7 +27583,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "UpdateCampaignActionTranslationResponse" });
   }
 }
-function __c73(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27189,48 +27594,48 @@ function __c73(j: number): any {
       ).annotate({ identifier: "UpdateCollectionRequest" });
   }
 }
-function __c74(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1632, __c102, 0));
+      return S.Array(__S(64, __c4, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           collection_id: S.Number.pipe(T.Label()),
-          body: S.optional(__S(1184, __c74, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1280, __c80, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({ method: "PUT", uri: "/v1/collections/{collection_id}/content", code: 200 }),
         ),
       ).annotate({ identifier: "UpdateCollectionContentsRequest" });
   }
 }
-function __c75(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1616, __c101, 0));
+      return S.Array(__S(1712, __c107, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          events: __S(1200, __c75, 0),
+          events: __S(1296, __c81, 0),
         }).pipe(T.Http({ method: "POST", uri: "/v1/data_index/events", code: 200 })),
       ).annotate({ identifier: "UpdateEventMetadataRequest" });
   }
 }
-function __c76(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           content_state: S.Unknown,
           instance_id: S.String,
-          attributes: S.optional(__S(1632, __c102, 0)),
+          attributes: S.optional(__S(64, __c4, 0)),
           deep_link: S.optional(S.String),
-          push_payload: S.optional(__S(2097, __c131, 1)),
+          push_payload: S.optional(__S(2193, __c137, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/live_notifications/update", code: 200 })),
       ).annotate({ identifier: "UpdateLiveNotificationRequest" });
   }
 }
-function __c77(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27249,7 +27654,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "UpdateNewsletterTestTranslationRequest" });
   }
 }
-function __c78(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27267,7 +27672,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "UpdateNewsletterVariantRequest" });
   }
 }
-function __c79(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27283,24 +27688,24 @@ function __c79(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          activated: S.optional(__S(2496, __c156, 0)),
-          converted: S.optional(__S(2496, __c156, 0)),
-          exited_early: S.optional(__S(2496, __c156, 0)),
-          finished: S.optional(__S(2496, __c156, 0)),
-          messaged: S.optional(__S(2496, __c156, 0)),
-          never_activated: S.optional(__S(2496, __c156, 0)),
-          started: S.optional(__S(2496, __c156, 0)),
+          activated: S.optional(__S(2592, __c162, 0)),
+          converted: S.optional(__S(2592, __c162, 0)),
+          exited_early: S.optional(__S(2592, __c162, 0)),
+          finished: S.optional(__S(2592, __c162, 0)),
+          messaged: S.optional(__S(2592, __c162, 0)),
+          never_activated: S.optional(__S(2592, __c162, 0)),
+          started: S.optional(__S(2592, __c162, 0)),
         }),
       ).annotate({ identifier: "CampaignJourneyMetricsResponseJourneyMetric" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          journey_metric: S.optional(__S(1265, __c79, 1)),
+          journey_metric: S.optional(__S(1361, __c85, 1)),
         }),
       ).annotate({ identifier: "CampaignJourneyMetricsResponse" });
   }
 }
-function __c80(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27318,7 +27723,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "UpdateNewsletterVariantTranslationRequest" });
   }
 }
-function __c81(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27329,18 +27734,18 @@ function __c81(j: number): any {
         }),
       ).annotate({ identifier: "UpdatePersonOptoutsRequestOptoutsItem" });
     case 1:
-      return S.Array(__S(1296, __c81, 0));
+      return S.Array(__S(1392, __c87, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           customer_id: S.String.pipe(T.Label()),
           id_type: S.optional(S.String.pipe(T.Query())),
-          optouts: __S(1297, __c81, 1),
+          optouts: __S(1393, __c87, 1),
         }).pipe(T.Http({ method: "PUT", uri: "/v1/customers/{customer_id}/optouts", code: 200 })),
       ).annotate({ identifier: "UpdatePersonOptoutsRequest" });
   }
 }
-function __c82(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27351,7 +27756,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "UpdateSnippetsRequest" });
   }
 }
-function __c83(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27361,7 +27766,7 @@ function __c83(j: number): any {
           body: S.optional(S.String),
           body_amp: S.optional(S.String),
           from_id: S.optional(S.Number),
-          headers: S.optional(__S(1345, __c84, 1)),
+          headers: S.optional(__S(1441, __c90, 1)),
           preheader_text: S.optional(S.String),
           recipient: S.optional(S.String),
           reply_to_id: S.optional(S.NullOr(S.Number)),
@@ -27376,7 +27781,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "UpdateTransactionalRequest" });
   }
 }
-function __c84(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27386,10 +27791,10 @@ function __c84(j: number): any {
         }),
       ).annotate({ identifier: "UpdateBroadcastActionRequestBodyCase0HeadersItem" });
     case 1:
-      return S.Array(__S(1344, __c84, 0));
+      return S.Array(__S(1440, __c90, 0));
   }
 }
-function __c85(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27399,7 +27804,7 @@ function __c85(j: number): any {
           body: S.optional(S.String),
           body_amp: S.optional(S.String),
           from_id: S.optional(S.Number),
-          headers: S.optional(__S(1345, __c84, 1)),
+          headers: S.optional(__S(1441, __c90, 1)),
           preheader_text: S.optional(S.String),
           recipient: S.optional(S.String),
           reply_to_id: S.optional(S.NullOr(S.Number)),
@@ -27414,14 +27819,14 @@ function __c85(j: number): any {
       ).annotate({ identifier: "UpdateTransactionalVariantRequest" });
   }
 }
-function __c86(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           webhook_id: S.Number.pipe(T.Label()),
           endpoint: S.String,
-          events: __S(1840, __c115, 0),
+          events: __S(1920, __c120, 0),
           name: S.String,
           disabled: S.optional(S.Boolean),
           full_resolution: S.optional(S.Boolean),
@@ -27430,7 +27835,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "UpdateWebhookRequest" });
   }
 }
-function __c87(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27445,7 +27850,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "CampaignLinkMetricsRequest" });
   }
 }
-function __c88(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27465,14 +27870,14 @@ function __c88(j: number): any {
       return S.suspend(() =>
         S.Struct({
           end: S.optional(S.String),
-          metric: S.optional(__S(2720, __c170, 0)),
+          metric: S.optional(__S(2816, __c176, 0)),
           res: S.optional(S.String),
           start: S.optional(S.String),
         }),
       ).annotate({ identifier: "CampaignMetricsResponse" });
   }
 }
-function __c89(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27489,7 +27894,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "CancelBroadcastTriggerRequest" });
   }
 }
-function __c90(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27507,7 +27912,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "CheckCollectionSourceResponse" });
   }
 }
-function __c91(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27521,17 +27926,17 @@ function __c91(j: number): any {
       ).annotate({ identifier: "CreateAssetRequest" });
   }
 }
-function __c92(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          asset: S.optional(__S(1488, __c93, 0)),
+          asset: S.optional(__S(1584, __c99, 0)),
         }),
       ).annotate({ identifier: "CreateAssetResponse" });
   }
 }
-function __c93(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27547,7 +27952,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "CreateAssetResponseAsset" });
   }
 }
-function __c94(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27558,17 +27963,17 @@ function __c94(j: number): any {
       ).annotate({ identifier: "CreateAssetFolderRequest" });
   }
 }
-function __c95(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          folder: S.optional(__S(1536, __c96, 0)),
+          folder: S.optional(__S(1632, __c102, 0)),
         }),
       ).annotate({ identifier: "CreateAssetFolderResponse" });
   }
 }
-function __c96(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27582,7 +27987,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "CreateAssetFolderResponseFolder" });
   }
 }
-function __c97(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27592,17 +27997,17 @@ function __c97(j: number): any {
       ).annotate({ identifier: "CreateCollectionSourceRequest" });
   }
 }
-function __c98(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          source: S.optional(__S(1584, __c99, 0)),
+          source: S.optional(__S(1680, __c105, 0)),
         }),
       ).annotate({ identifier: "CreateCollectionSourceResponse" });
   }
 }
-function __c99(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27619,17 +28024,17 @@ function __c99(j: number): any {
       ).annotate({ identifier: "CreateCollectionSourceResponseSource" });
   }
 }
-function __c100(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          segment: __S(1616, __c101, 0),
+          segment: __S(1712, __c107, 0),
         }).pipe(T.Http({ method: "POST", uri: "/v1/segments", code: 200 })),
       ).annotate({ identifier: "CreateManSegmentRequest" });
   }
 }
-function __c101(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27640,28 +28045,22 @@ function __c101(j: number): any {
       ).annotate({ identifier: "CreateManSegmentRequestSegment" });
   }
 }
-function __c102(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
-  }
-}
-function __c103(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          segment: S.optional(__S(1664, __c104, 0)),
+          segment: S.optional(__S(1744, __c109, 0)),
         }),
       ).annotate({ identifier: "CreateManSegmentResponse" });
   }
 }
-function __c104(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          conditions: S.optional(__S(1632, __c102, 0)),
+          conditions: S.optional(__S(64, __c4, 0)),
           created_at: S.optional(S.Number),
           deduplicate_id: S.optional(S.String),
           description: S.optional(S.String),
@@ -27669,14 +28068,14 @@ function __c104(j: number): any {
           name: S.optional(S.String),
           progress: S.optional(S.NullOr(S.Number)),
           state: S.optional(S.String),
-          tags: S.optional(S.NullOr(__S(2272, __c142, 0))),
+          tags: S.optional(S.NullOr(__S(2368, __c148, 0))),
           type: S.optional(S.String),
           updated_at: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CreateManSegmentResponseSegment" });
   }
 }
-function __c105(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27686,12 +28085,12 @@ function __c105(j: number): any {
       ).annotate({ identifier: "CreateNewsletterRequest" });
   }
 }
-function __c106(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          content_ids: S.optional(__S(2496, __c156, 0)),
+          content_ids: S.optional(__S(2592, __c162, 0)),
           created: S.optional(S.Number),
           deduplicate_id: S.optional(S.String),
           expires_after: S.optional(S.Number),
@@ -27699,12 +28098,12 @@ function __c106(j: number): any {
           name: S.optional(S.String),
           recipient_file_error: S.optional(S.String),
           recipient_file_status: S.optional(S.String),
-          recipient_segment_ids: S.optional(__S(2496, __c156, 0)),
+          recipient_segment_ids: S.optional(__S(2592, __c162, 0)),
           scheduled_at: S.optional(S.NullOr(S.Number)),
           send_state: S.optional(S.String),
           sent_at: S.optional(S.NullOr(S.Number)),
           subscription_topic_id: S.optional(S.Number),
-          tags: S.optional(__S(2272, __c142, 0)),
+          tags: S.optional(__S(2368, __c148, 0)),
           timezone: S.optional(S.String),
           type: S.optional(S.String),
           tz_match_enabled: S.optional(S.Boolean),
@@ -27713,17 +28112,17 @@ function __c106(j: number): any {
       ).annotate({ identifier: "CreateNewsletterResponseNewsletter" });
   }
 }
-function __c107(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          newsletter: S.optional(__S(1696, __c106, 0)),
+          newsletter: S.optional(__S(1776, __c111, 0)),
         }),
       ).annotate({ identifier: "CreateNewsletterResponse" });
   }
 }
-function __c108(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27736,7 +28135,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "CreateNewsletterLanguageVariantRequest" });
   }
 }
-function __c109(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27748,7 +28147,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "CreateNewsletterTestGroupRequest" });
   }
 }
-function __c110(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27766,7 +28165,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "CreateNewsletterTestLanguageVariantRequest" });
   }
 }
-function __c111(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27777,7 +28176,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "CreateSnippetRequest" });
   }
 }
-function __c112(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27789,23 +28188,23 @@ function __c112(j: number): any {
       ).annotate({ identifier: "CreateSnippetResponseSnippet" });
   }
 }
-function __c113(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          snippet: S.optional(__S(1792, __c112, 0)),
+          snippet: S.optional(__S(1872, __c117, 0)),
         }),
       ).annotate({ identifier: "CreateSnippetResponse" });
   }
 }
-function __c114(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           endpoint: S.String,
-          events: __S(1840, __c115, 0),
+          events: __S(1920, __c120, 0),
           name: S.String,
           disabled: S.optional(S.Boolean),
           full_resolution: S.optional(S.Boolean),
@@ -27814,7 +28213,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "CreateWebhookRequest" });
   }
 }
-function __c115(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -27822,7 +28221,7 @@ function __c115(j: number): any {
       return S.suspend(() =>
         S.Struct({
           endpoint: S.String,
-          events: __S(1840, __c115, 0),
+          events: __S(1920, __c120, 0),
           name: S.String,
           disabled: S.optional(S.Boolean),
           full_resolution: S.optional(S.Boolean),
@@ -27833,7 +28232,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "CreateWebhookResponse" });
   }
 }
-function __c116(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27843,13 +28242,13 @@ function __c116(j: number): any {
       ).annotate({ identifier: "DeleteAssetRequest" });
   }
 }
-function __c117(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteAssetResponse" });
   }
 }
-function __c118(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27859,7 +28258,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "DeleteAssetFolderRequest" });
   }
 }
-function __c119(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27869,7 +28268,7 @@ function __c119(j: number): any {
       ).annotate({ identifier: "DeleteCollectionRequest" });
   }
 }
-function __c120(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27881,7 +28280,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "DeleteCollectionSourceRequest" });
   }
 }
-function __c121(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27893,7 +28292,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "DeleteCollectionSyncRequest" });
   }
 }
-function __c122(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27903,7 +28302,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "DeleteManSegmentRequest" });
   }
 }
-function __c123(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27920,7 +28319,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "DeleteNewsletterLanguageVariantRequest" });
   }
 }
-function __c124(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27930,7 +28329,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "DeleteNewslettersRequest" });
   }
 }
-function __c125(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27948,7 +28347,59 @@ function __c125(j: number): any {
       ).annotate({ identifier: "DeleteNewsletterTestLanguageVariantRequest" });
   }
 }
-function __c126(j: number): any {
+function __c131(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          detail: S.optional(S.String),
+          source: S.optional(__S(0, __c0, 0)),
+          status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Error422BodyErrorsItem4" });
+    case 1:
+      return S.Array(__S(2096, __c131, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          errors: S.optional(__S(2097, __c131, 1)),
+        }),
+      ).annotate({ identifier: "Error422Body4" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          detail: S.optional(S.String),
+          source: S.optional(__S(0, __c0, 0)),
+          status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Error422BodyErrorsItem" });
+    case 4:
+      return S.Array(__S(2099, __c131, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          errors: S.optional(__S(2100, __c131, 4)),
+        }),
+      ).annotate({ identifier: "Error422Body" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          detail: S.optional(S.String),
+          source: S.optional(__S(0, __c0, 0)),
+          status: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "Error422BodyErrorsItem2" });
+    case 7:
+      return S.Array(__S(2102, __c131, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          errors: S.optional(__S(2103, __c131, 7)),
+        }),
+      ).annotate({ identifier: "Error422Body2" });
+  }
+}
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27958,7 +28409,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "DeleteSnippetRequest" });
   }
 }
-function __c127(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27975,7 +28426,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "DeleteSuppressionRequest" });
   }
 }
-function __c128(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27987,7 +28438,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "DeleteWebhookRequest" });
   }
 }
-function __c129(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28003,21 +28454,21 @@ function __c129(j: number): any {
       ).annotate({ identifier: "DownloadExportResponse" });
   }
 }
-function __c130(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           instance_id: S.String,
-          attributes: S.optional(__S(1632, __c102, 0)),
+          attributes: S.optional(__S(64, __c4, 0)),
           content_state: S.optional(S.Unknown),
           deep_link: S.optional(S.String),
-          push_payload: S.optional(__S(2097, __c131, 1)),
+          push_payload: S.optional(__S(2193, __c137, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/live_notifications/end", code: 200 })),
       ).annotate({ identifier: "EndLiveNotificationRequest" });
   }
 }
-function __c131(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28030,7 +28481,7 @@ function __c131(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          alert: S.optional(__S(2096, __c131, 0)),
+          alert: S.optional(__S(2192, __c137, 0)),
         }),
       ).annotate({ identifier: "EndLiveNotificationRequestPushPayload" });
     case 2:
@@ -28041,7 +28492,7 @@ function __c131(j: number): any {
       ).annotate({ identifier: "EndLiveNotificationResponse" });
   }
 }
-function __c132(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28051,17 +28502,17 @@ function __c132(j: number): any {
       ).annotate({ identifier: "ExportDeliveriesDataRequest" });
   }
 }
-function __c133(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          export: S.optional(__S(2144, __c134, 0)),
+          export: S.optional(__S(2240, __c140, 0)),
         }),
       ).annotate({ identifier: "ExportDeliveriesDataResponse" });
   }
 }
-function __c134(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28082,18 +28533,18 @@ function __c134(j: number): any {
       ).annotate({ identifier: "ExportDeliveriesDataResponseExport" });
   }
 }
-function __c135(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           filters: S.Unknown,
-          attributes: S.optional(__S(2272, __c142, 0)),
+          attributes: S.optional(__S(2368, __c148, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/exports/customers", code: 200 })),
       ).annotate({ identifier: "ExportPeopleDataRequest" });
   }
 }
-function __c136(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28125,12 +28576,12 @@ function __c136(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          archived_message: S.optional(__S(2177, __c136, 1)),
+          archived_message: S.optional(__S(2273, __c142, 1)),
         }),
       ).annotate({ identifier: "GetArchivedMessageResponse" });
   }
 }
-function __c137(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28140,7 +28591,7 @@ function __c137(j: number): any {
       ).annotate({ identifier: "GetAssetRequest" });
   }
 }
-function __c138(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28150,7 +28601,7 @@ function __c138(j: number): any {
       ).annotate({ identifier: "GetAssetFolderRequest" });
   }
 }
-function __c139(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28160,17 +28611,17 @@ function __c139(j: number): any {
       ).annotate({ identifier: "AddCollectionRequest" });
   }
 }
-function __c140(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          collection: S.optional(__S(2256, __c141, 0)),
+          collection: S.optional(__S(2352, __c147, 0)),
         }),
       ).annotate({ identifier: "AddCollectionResponse" });
   }
 }
-function __c141(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28182,19 +28633,19 @@ function __c141(j: number): any {
           key_field: S.optional(S.String),
           name: S.optional(S.String),
           rows: S.optional(S.Number),
-          schema: S.optional(__S(2272, __c142, 0)),
+          schema: S.optional(__S(2368, __c148, 0)),
           updated_at: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AddCollectionResponseCollection" });
   }
 }
-function __c142(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c143(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28205,12 +28656,12 @@ function __c143(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          broadcast: S.optional(__S(2306, __c144, 2)),
+          broadcast: S.optional(__S(2402, __c150, 2)),
         }),
       ).annotate({ identifier: "GetBroadcastResponse" });
   }
 }
-function __c144(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28220,27 +28671,27 @@ function __c144(j: number): any {
         }),
       ).annotate({ identifier: "GetBroadcastResponseBroadcastActionsItem" });
     case 1:
-      return S.Array(__S(2304, __c144, 0));
+      return S.Array(__S(2400, __c150, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          actions: S.optional(__S(2305, __c144, 1)),
+          actions: S.optional(__S(2401, __c150, 1)),
           active: S.optional(S.Boolean),
           created: S.optional(S.Number),
           deduplicate_id: S.optional(S.String),
           first_started: S.optional(S.Number),
           id: S.optional(S.Number),
-          msg_template_ids: S.optional(__S(2305, __c144, 1)),
+          msg_template_ids: S.optional(__S(2401, __c150, 1)),
           name: S.optional(S.String),
           state: S.optional(S.String),
-          tags: S.optional(__S(2272, __c142, 0)),
+          tags: S.optional(__S(2368, __c148, 0)),
           type: S.optional(S.String),
           updated: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GetBroadcastResponseBroadcast" });
   }
 }
-function __c145(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28263,7 +28714,7 @@ function __c145(j: number): any {
       ).annotate({ identifier: "GetBroadcastActionResponse" });
   }
 }
-function __c146(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28287,7 +28738,7 @@ function __c146(j: number): any {
       ).annotate({ identifier: "GetBroadcastActionLanguageResponse" });
   }
 }
-function __c147(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28310,7 +28761,7 @@ function __c147(j: number): any {
       ).annotate({ identifier: "GetCampaignActionResponse" });
   }
 }
-function __c148(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28334,7 +28785,7 @@ function __c148(j: number): any {
       ).annotate({ identifier: "GetCampaignActionTranslationResponse" });
   }
 }
-function __c149(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28352,7 +28803,7 @@ function __c149(j: number): any {
       ).annotate({ identifier: "GetCampaignMessagesRequest" });
   }
 }
-function __c150(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28368,7 +28819,7 @@ function __c150(j: number): any {
       ).annotate({ identifier: "GetCampaignsResponse" });
   }
 }
-function __c151(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28385,16 +28836,16 @@ function __c151(j: number): any {
         }),
       ).annotate({ identifier: "GetChannelsResponseChannelsItem" });
     case 2:
-      return S.Array(__S(2417, __c151, 1));
+      return S.Array(__S(2513, __c157, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          channels: S.optional(__S(2418, __c151, 2)),
+          channels: S.optional(__S(2514, __c157, 2)),
         }),
       ).annotate({ identifier: "GetChannelsResponse" });
   }
 }
-function __c152(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28403,12 +28854,12 @@ function __c152(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ip_addresses: S.optional(__S(2272, __c142, 0)),
+          ip_addresses: S.optional(__S(2368, __c148, 0)),
         }),
       ).annotate({ identifier: "GetCioAllowlistResponse" });
   }
 }
-function __c153(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28418,7 +28869,7 @@ function __c153(j: number): any {
       ).annotate({ identifier: "GetCollectionRequest" });
   }
 }
-function __c154(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28438,7 +28889,7 @@ function __c154(j: number): any {
       ).annotate({ identifier: "BroadcastActionLinksRequest" });
   }
 }
-function __c155(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28450,47 +28901,47 @@ function __c155(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          clicked: S.optional(__S(2496, __c156, 0)),
-          human_clicked: S.optional(__S(2496, __c156, 0)),
-          machine_clicked: S.optional(__S(2496, __c156, 0)),
+          clicked: S.optional(__S(2592, __c162, 0)),
+          human_clicked: S.optional(__S(2592, __c162, 0)),
+          machine_clicked: S.optional(__S(2592, __c162, 0)),
         }),
       ).annotate({ identifier: "BroadcastActionLinksResponseLinksItemMetricSeries" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          series: S.optional(__S(2481, __c155, 1)),
+          series: S.optional(__S(2577, __c161, 1)),
         }),
       ).annotate({ identifier: "BroadcastActionLinksResponseLinksItemMetric" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          link: S.optional(__S(2480, __c155, 0)),
-          metric: S.optional(__S(2482, __c155, 2)),
+          link: S.optional(__S(2576, __c161, 0)),
+          metric: S.optional(__S(2578, __c161, 2)),
         }),
       ).annotate({ identifier: "BroadcastActionLinksResponseLinksItem" });
     case 4:
-      return S.Array(__S(2483, __c155, 3));
+      return S.Array(__S(2579, __c161, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          links: S.optional(__S(2484, __c155, 4)),
+          links: S.optional(__S(2580, __c161, 4)),
         }),
       ).annotate({ identifier: "BroadcastActionLinksResponse" });
   }
 }
-function __c156(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
   }
 }
-function __c157(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           collection_id: S.Number.pipe(T.Label()),
-          keys: S.optional(__S(2272, __c142, 0).pipe(T.Query())),
+          keys: S.optional(__S(2368, __c148, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           cursor: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -28503,23 +28954,23 @@ function __c157(j: number): any {
       });
   }
 }
-function __c158(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/collections", code: 200 })),
       ).annotate({ identifier: "GetCollectionsRequest" });
     case 1:
-      return S.Array(__S(2256, __c141, 0));
+      return S.Array(__S(2352, __c147, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          collections: S.optional(__S(2529, __c158, 1)),
+          collections: S.optional(__S(2625, __c164, 1)),
         }),
       ).annotate({ identifier: "GetCollectionsResponse" });
   }
 }
-function __c159(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28529,7 +28980,7 @@ function __c159(j: number): any {
       ).annotate({ identifier: "GetCollectionSourceRequest" });
   }
 }
-function __c160(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28539,7 +28990,7 @@ function __c160(j: number): any {
       ).annotate({ identifier: "GetCollectionSyncRequest" });
   }
 }
-function __c161(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28561,8 +29012,8 @@ function __c161(j: number): any {
         S.Struct({
           collection_id: S.optional(S.Number),
           created_at: S.optional(S.String),
-          last_error: S.optional(__S(2576, __c161, 0)),
-          last_file: S.optional(__S(2577, __c161, 1)),
+          last_error: S.optional(__S(2672, __c167, 0)),
+          last_file: S.optional(__S(2673, __c167, 1)),
           next_run_at: S.optional(S.String),
           poll_hours: S.optional(S.Number),
           prefix: S.optional(S.String),
@@ -28574,12 +29025,12 @@ function __c161(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          sync: S.optional(__S(2578, __c161, 2)),
+          sync: S.optional(__S(2674, __c167, 2)),
         }),
       ).annotate({ identifier: "GetCollectionSyncResponse" });
   }
 }
-function __c162(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28603,17 +29054,17 @@ function __c162(j: number): any {
         }),
       ).annotate({ identifier: "GetCollectionSyncRejectsResponseRejectsItem" });
     case 2:
-      return S.Array(__S(2593, __c162, 1));
+      return S.Array(__S(2689, __c168, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           next_cursor: S.optional(S.String),
-          rejects: S.optional(__S(2594, __c162, 2)),
+          rejects: S.optional(__S(2690, __c168, 2)),
         }),
       ).annotate({ identifier: "GetCollectionSyncRejectsResponse" });
   }
 }
-function __c163(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28637,13 +29088,13 @@ function __c163(j: number): any {
         }),
       ).annotate({ identifier: "GetCollectionWriteResponseWriteItemsItem" });
     case 2:
-      return S.Array(__S(2609, __c163, 1));
+      return S.Array(__S(2705, __c169, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.String),
           id: S.optional(S.String),
-          items: S.optional(__S(2610, __c163, 2)),
+          items: S.optional(__S(2706, __c169, 2)),
           message: S.optional(S.String),
           state: S.optional(S.String),
         }),
@@ -28651,12 +29102,12 @@ function __c163(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          write: S.optional(__S(2611, __c163, 3)),
+          write: S.optional(__S(2707, __c169, 3)),
         }),
       ).annotate({ identifier: "GetCollectionWriteResponse" });
   }
 }
-function __c164(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28679,12 +29130,12 @@ function __c164(j: number): any {
         S.Struct({
           category: S.optional(S.String),
           next: S.optional(S.String),
-          suppressions: S.optional(__S(2641, __c165, 1)),
+          suppressions: S.optional(__S(2737, __c171, 1)),
         }),
       ).annotate({ identifier: "GetDomainSuppressionsByTypeResponse" });
   }
 }
-function __c165(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28696,10 +29147,10 @@ function __c165(j: number): any {
         }),
       ).annotate({ identifier: "GetDomainSuppressionsByTypeResponseSuppressionsItem" });
     case 1:
-      return S.Array(__S(2640, __c165, 0));
+      return S.Array(__S(2736, __c171, 0));
   }
 }
-function __c166(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28709,7 +29160,7 @@ function __c166(j: number): any {
       ).annotate({ identifier: "GetExportRequest" });
   }
 }
-function __c167(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28745,12 +29196,12 @@ function __c167(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          import: __S(2673, __c167, 1),
+          import: __S(2769, __c173, 1),
         }),
       ).annotate({ identifier: "GetImportResponse" });
   }
 }
-function __c168(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28775,7 +29226,7 @@ function __c168(j: number): any {
           expires_at: S.optional(S.NullOr(S.Number)),
           failure_reason: S.optional(S.NullOr(S.String)),
           instance_id: S.optional(S.String),
-          last_delivery: S.optional(S.NullOr(__S(2689, __c168, 1))),
+          last_delivery: S.optional(S.NullOr(__S(2785, __c174, 1))),
           notification_type: S.optional(S.String),
           platform: S.optional(S.String),
           started_at: S.optional(S.Number),
@@ -28784,7 +29235,7 @@ function __c168(j: number): any {
       ).annotate({ identifier: "GetLiveNotificationResponse" });
   }
 }
-function __c169(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28805,72 +29256,72 @@ function __c169(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          language_variants: S.optional(__S(2753, __c172, 1)),
-          metric: S.optional(__S(2720, __c170, 0)),
+          language_variants: S.optional(__S(2849, __c178, 1)),
+          metric: S.optional(__S(2816, __c176, 0)),
         }),
       ).annotate({ identifier: "BroadcastActionMetricsResponse" });
   }
 }
-function __c170(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          series: S.optional(__S(2736, __c171, 0)),
+          series: S.optional(__S(2832, __c177, 0)),
         }),
       ).annotate({ identifier: "BroadcastActionMetricsResponseMetric" });
   }
 }
-function __c171(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          attempted: S.optional(__S(2496, __c156, 0)),
-          bounced: S.optional(__S(2496, __c156, 0)),
-          clicked: S.optional(__S(2496, __c156, 0)),
-          converted: S.optional(__S(2496, __c156, 0)),
-          created: S.optional(__S(2496, __c156, 0)),
-          deferred: S.optional(__S(2496, __c156, 0)),
-          delivered: S.optional(__S(2496, __c156, 0)),
-          drafted: S.optional(__S(2496, __c156, 0)),
-          failed: S.optional(__S(2496, __c156, 0)),
-          human_clicked: S.optional(__S(2496, __c156, 0)),
-          human_opened: S.optional(__S(2496, __c156, 0)),
-          link_untracked: S.optional(__S(2496, __c156, 0)),
-          machine_clicked: S.optional(__S(2496, __c156, 0)),
-          open_untracked: S.optional(__S(2496, __c156, 0)),
-          opened: S.optional(__S(2496, __c156, 0)),
-          prefetch_opened: S.optional(__S(2496, __c156, 0)),
-          replied: S.optional(__S(2496, __c156, 0)),
-          sent: S.optional(__S(2496, __c156, 0)),
-          spammed: S.optional(__S(2496, __c156, 0)),
-          suppressed: S.optional(__S(2496, __c156, 0)),
-          topic_unsubscribed: S.optional(__S(2496, __c156, 0)),
-          tracking_consent_denied: S.optional(__S(2496, __c156, 0)),
-          tracking_consent_granted: S.optional(__S(2496, __c156, 0)),
-          undeliverable: S.optional(__S(2496, __c156, 0)),
-          unsubscribed: S.optional(__S(2496, __c156, 0)),
-          untracked: S.optional(__S(2496, __c156, 0)),
+          attempted: S.optional(__S(2592, __c162, 0)),
+          bounced: S.optional(__S(2592, __c162, 0)),
+          clicked: S.optional(__S(2592, __c162, 0)),
+          converted: S.optional(__S(2592, __c162, 0)),
+          created: S.optional(__S(2592, __c162, 0)),
+          deferred: S.optional(__S(2592, __c162, 0)),
+          delivered: S.optional(__S(2592, __c162, 0)),
+          drafted: S.optional(__S(2592, __c162, 0)),
+          failed: S.optional(__S(2592, __c162, 0)),
+          human_clicked: S.optional(__S(2592, __c162, 0)),
+          human_opened: S.optional(__S(2592, __c162, 0)),
+          link_untracked: S.optional(__S(2592, __c162, 0)),
+          machine_clicked: S.optional(__S(2592, __c162, 0)),
+          open_untracked: S.optional(__S(2592, __c162, 0)),
+          opened: S.optional(__S(2592, __c162, 0)),
+          prefetch_opened: S.optional(__S(2592, __c162, 0)),
+          replied: S.optional(__S(2592, __c162, 0)),
+          sent: S.optional(__S(2592, __c162, 0)),
+          spammed: S.optional(__S(2592, __c162, 0)),
+          suppressed: S.optional(__S(2592, __c162, 0)),
+          topic_unsubscribed: S.optional(__S(2592, __c162, 0)),
+          tracking_consent_denied: S.optional(__S(2592, __c162, 0)),
+          tracking_consent_granted: S.optional(__S(2592, __c162, 0)),
+          undeliverable: S.optional(__S(2592, __c162, 0)),
+          unsubscribed: S.optional(__S(2592, __c162, 0)),
+          untracked: S.optional(__S(2592, __c162, 0)),
         }),
       ).annotate({ identifier: "BroadcastActionMetricsResponseLanguageVariantsValueSeries" });
   }
 }
-function __c172(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           default: S.optional(S.Boolean),
           language: S.optional(S.String),
-          series: S.optional(__S(2736, __c171, 0)),
+          series: S.optional(__S(2832, __c177, 0)),
         }),
       ).annotate({ identifier: "BroadcastActionMetricsResponseLanguageVariantsValue" });
     case 1:
-      return S.Record(S.String, __S(2752, __c172, 0));
+      return S.Record(S.String, __S(2848, __c178, 0));
   }
 }
-function __c173(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28882,12 +29333,12 @@ function __c173(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          message: S.optional(__S(275, __c17, 3)),
+          message: S.optional(__S(371, __c23, 3)),
         }),
       ).annotate({ identifier: "GetMessageResponse" });
   }
 }
-function __c174(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28906,7 +29357,7 @@ function __c174(j: number): any {
       ).annotate({ identifier: "GetNewsletterLinksRequest" });
   }
 }
-function __c175(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28921,24 +29372,24 @@ function __c175(j: number): any {
       ).annotate({ identifier: "GetNewsletterMetricsRequest" });
   }
 }
-function __c176(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          series: S.optional(__S(2736, __c171, 0)),
+          series: S.optional(__S(2832, __c177, 0)),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetNewsletterMetricsResponseMetric" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          metric: S.optional(__S(2816, __c176, 0)),
+          metric: S.optional(__S(2912, __c182, 0)),
         }),
       ).annotate({ identifier: "GetNewsletterMetricsResponse" });
   }
 }
-function __c177(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28956,7 +29407,7 @@ function __c177(j: number): any {
       ).annotate({ identifier: "GetNewsletterMsgMetaRequest" });
   }
 }
-function __c178(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28966,7 +29417,7 @@ function __c178(j: number): any {
       ).annotate({ identifier: "GetNewslettersRequest" });
   }
 }
-function __c179(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28979,7 +29430,7 @@ function __c179(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          content_ids: S.optional(__S(2272, __c142, 0)),
+          content_ids: S.optional(__S(2368, __c148, 0)),
           id: S.optional(S.Number),
           label: S.optional(S.String),
           name: S.optional(S.String),
@@ -28987,16 +29438,16 @@ function __c179(j: number): any {
         }),
       ).annotate({ identifier: "GetNewsletterTestGroupsResponseTestGroupsItem" });
     case 2:
-      return S.Array(__S(2865, __c179, 1));
+      return S.Array(__S(2961, __c185, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          test_groups: S.optional(__S(2866, __c179, 2)),
+          test_groups: S.optional(__S(2962, __c185, 2)),
         }),
       ).annotate({ identifier: "GetNewsletterTestGroupsResponse" });
   }
 }
-function __c180(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29013,7 +29464,7 @@ function __c180(j: number): any {
       ).annotate({ identifier: "GetNewsletterVariantRequest" });
   }
 }
-function __c181(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29043,17 +29494,17 @@ function __c181(j: number): any {
       ).annotate({ identifier: "GetNewsletterVariantResponseContent" });
   }
 }
-function __c182(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          content: S.optional(__S(2896, __c181, 0)),
+          content: S.optional(__S(2992, __c187, 0)),
         }),
       ).annotate({ identifier: "GetNewsletterVariantResponse" });
   }
 }
-function __c183(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29070,7 +29521,7 @@ function __c183(j: number): any {
       ).annotate({ identifier: "GetNewsletterVariantTranslationRequest" });
   }
 }
-function __c184(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29088,7 +29539,7 @@ function __c184(j: number): any {
       ).annotate({ identifier: "GetNewsletterVariantTranslationTestRequest" });
   }
 }
-function __c185(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29115,27 +29566,27 @@ function __c185(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          attributes: S.optional(__S(1632, __c102, 0)),
-          identifiers: S.optional(__S(2961, __c185, 1)),
+          attributes: S.optional(__S(64, __c4, 0)),
+          identifiers: S.optional(__S(3057, __c191, 1)),
           object_type_id: S.optional(S.String),
-          timestamps: S.optional(__S(2976, __c186, 0)),
+          timestamps: S.optional(__S(3072, __c192, 0)),
         }),
       ).annotate({ identifier: "GetObjectAttributesResponseObject" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          object: S.optional(__S(2962, __c185, 2)),
+          object: S.optional(__S(3058, __c191, 2)),
         }),
       ).annotate({ identifier: "GetObjectAttributesResponse" });
   }
 }
-function __c186(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Number);
   }
 }
-function __c187(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29148,12 +29599,12 @@ function __c187(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          actions: S.optional(__S(2993, __c187, 1)),
+          actions: S.optional(__S(3089, __c193, 1)),
         }),
       ).annotate({ identifier: "BroadcastActionsResponse" });
   }
 }
-function __c188(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29182,23 +29633,23 @@ function __c188(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          identifiers: S.optional(__S(3009, __c188, 1)),
+          identifiers: S.optional(__S(3105, __c194, 1)),
           object_type_disabled: S.optional(S.Boolean),
           object_type_id: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetObjectRelationshipsResponseCioRelationshipsItem" });
     case 3:
-      return S.Array(__S(3010, __c188, 2));
+      return S.Array(__S(3106, __c194, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          cio_relationships: S.optional(__S(3011, __c188, 3)),
+          cio_relationships: S.optional(__S(3107, __c194, 3)),
           next: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetObjectRelationshipsResponse" });
   }
 }
-function __c189(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29210,18 +29661,18 @@ function __c189(j: number): any {
         }).pipe(T.Http({ method: "POST", uri: "/v1/objects", code: 200 })),
       ).annotate({ identifier: "GetObjectsFilterRequest" });
     case 1:
-      return S.Array(__S(3040, __c190, 0));
+      return S.Array(__S(3136, __c196, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          identifiers: S.optional(__S(3025, __c189, 1)),
-          ids: S.optional(__S(2272, __c142, 0)),
+          identifiers: S.optional(__S(3121, __c195, 1)),
+          ids: S.optional(__S(2368, __c148, 0)),
           next: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetObjectsFilterResponse" });
   }
 }
-function __c190(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29232,7 +29683,7 @@ function __c190(j: number): any {
       ).annotate({ identifier: "GetObjectsFilterResponseIdentifiersItem" });
   }
 }
-function __c191(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29251,16 +29702,16 @@ function __c191(j: number): any {
         }),
       ).annotate({ identifier: "GetObjectTypesResponseTypesItem" });
     case 2:
-      return S.Array(__S(3057, __c191, 1));
+      return S.Array(__S(3153, __c197, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          types: S.optional(__S(3058, __c191, 2)),
+          types: S.optional(__S(3154, __c197, 2)),
         }),
       ).annotate({ identifier: "GetObjectTypesResponse" });
   }
 }
-function __c192(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29275,21 +29726,21 @@ function __c192(j: number): any {
         S.Struct({
           cio_id: S.optional(S.String),
           customer_id: S.optional(S.String),
-          optouts: S.optional(__S(3089, __c193, 1)),
+          optouts: S.optional(__S(3185, __c199, 1)),
         }),
       ).annotate({ identifier: "GetOptoutsResponseOptoutsItem" });
     case 2:
-      return S.Array(__S(3073, __c192, 1));
+      return S.Array(__S(3169, __c198, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           next: S.optional(S.String),
-          optouts: S.optional(__S(3074, __c192, 2)),
+          optouts: S.optional(__S(3170, __c198, 2)),
         }),
       ).annotate({ identifier: "GetOptoutsResponse" });
   }
 }
-function __c193(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29299,29 +29750,29 @@ function __c193(j: number): any {
         }),
       ).annotate({ identifier: "GetOptoutsResponseOptoutsItemOptoutsItem" });
     case 1:
-      return S.Array(__S(3088, __c193, 0));
+      return S.Array(__S(3184, __c199, 0));
   }
 }
-function __c194(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id_type: S.optional(S.String.pipe(T.Query())),
-          ids: __S(2272, __c142, 0),
+          ids: __S(2368, __c148, 0),
         }).pipe(T.Http({ method: "POST", uri: "/v1/customers/attributes", code: 200 })),
       ).annotate({ identifier: "GetPeopleByIdRequest" });
     case 1:
-      return S.Array(__S(3126, __c195, 6));
+      return S.Array(__S(3222, __c201, 6));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          customers: S.optional(__S(3105, __c194, 1)),
+          customers: S.optional(__S(3201, __c200, 1)),
         }),
       ).annotate({ identifier: "GetPeopleByIdResponse" });
   }
 }
-function __c195(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29357,13 +29808,13 @@ function __c195(j: number): any {
         S.Struct({
           id: S.String,
           platform: S.String,
-          attributes: S.optional(__S(3121, __c195, 1)),
+          attributes: S.optional(__S(3217, __c201, 1)),
           last_used: S.optional(S.Number),
           token_type: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetPeopleByIdResponseCustomersItemCustomerDevicesItem" });
     case 3:
-      return S.Array(__S(3122, __c195, 2));
+      return S.Array(__S(3218, __c201, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -29380,23 +29831,23 @@ function __c195(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          attributes: S.optional(__S(3120, __c195, 0)),
-          devices: S.optional(__S(3123, __c195, 3)),
+          attributes: S.optional(__S(3216, __c201, 0)),
+          devices: S.optional(__S(3219, __c201, 3)),
           id: S.optional(S.String),
-          identifiers: S.optional(__S(288, __c18, 0)),
-          timestamps: S.optional(__S(3124, __c195, 4)),
+          identifiers: S.optional(__S(384, __c24, 0)),
+          timestamps: S.optional(__S(3220, __c201, 4)),
           unsubscribed: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GetPeopleByIdResponseCustomersItemCustomer" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          customer: S.optional(__S(3125, __c195, 5)),
+          customer: S.optional(__S(3221, __c201, 5)),
         }),
       ).annotate({ identifier: "GetPeopleByIdResponseCustomersItem" });
   }
 }
-function __c196(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29407,18 +29858,18 @@ function __c196(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          results: S.optional(__S(3152, __c197, 0)),
+          results: S.optional(__S(3248, __c203, 0)),
         }),
       ).annotate({ identifier: "GetPeopleEmailResponse" });
   }
 }
-function __c197(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(288, __c18, 0));
+      return S.Array(__S(384, __c24, 0));
   }
 }
-function __c198(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29431,14 +29882,14 @@ function __c198(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          identifiers: S.optional(__S(3152, __c197, 0)),
-          ids: S.optional(__S(2272, __c142, 0)),
+          identifiers: S.optional(__S(3248, __c203, 0)),
+          ids: S.optional(__S(2368, __c148, 0)),
           next: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetPeopleFilterResponse" });
   }
 }
-function __c199(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29457,7 +29908,7 @@ function __c199(j: number): any {
       return S.suspend(() =>
         S.Struct({
           customer_id: S.optional(S.NullOr(S.String)),
-          customer_identifiers: S.optional(__S(288, __c18, 0)),
+          customer_identifiers: S.optional(__S(384, __c24, 0)),
           data: S.optional(S.Unknown),
           delivery_id: S.optional(S.String),
           delivery_type: S.optional(S.String),
@@ -29469,16 +29920,16 @@ function __c199(j: number): any {
         }),
       ).annotate({ identifier: "GetPersonActivitiesResponseActivitiesItem" });
     case 2:
-      return S.Array(__S(3185, __c199, 1));
+      return S.Array(__S(3281, __c205, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          activities: S.optional(__S(3186, __c199, 2)),
+          activities: S.optional(__S(3282, __c205, 2)),
         }),
       ).annotate({ identifier: "GetPersonActivitiesResponse" });
   }
 }
-function __c200(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29491,7 +29942,7 @@ function __c200(j: number): any {
       ).annotate({ identifier: "GetPersonAttributesRequest" });
   }
 }
-function __c201(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29524,7 +29975,7 @@ function __c201(j: number): any {
           failure_message: S.optional(S.NullOr(S.String)),
           forgotten: S.optional(S.Boolean),
           id: S.optional(S.String),
-          metrics: S.optional(__S(3217, __c201, 1)),
+          metrics: S.optional(__S(3313, __c207, 1)),
           msg_template_id: S.optional(S.String),
           newsletter_id: S.optional(S.NullOr(S.Number)),
           recipient: S.optional(S.String),
@@ -29533,16 +29984,16 @@ function __c201(j: number): any {
         }),
       ).annotate({ identifier: "GetPersonMessagesResponseMessagesItem" });
     case 3:
-      return S.Array(__S(3218, __c201, 2));
+      return S.Array(__S(3314, __c207, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          messages: S.optional(__S(3219, __c201, 3)),
+          messages: S.optional(__S(3315, __c207, 3)),
         }),
       ).annotate({ identifier: "GetPersonMessagesResponse" });
   }
 }
-function __c202(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29562,13 +30013,13 @@ function __c202(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          errors: S.optional(__S(2272, __c142, 0)),
+          errors: S.optional(__S(2368, __c148, 0)),
           next: S.optional(S.Number),
         }),
       ).annotate({ identifier: "BroadcastErrorsResponse" });
   }
 }
-function __c203(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29580,12 +30031,12 @@ function __c203(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          optouts: S.optional(__S(3089, __c193, 1)),
+          optouts: S.optional(__S(3185, __c199, 1)),
         }),
       ).annotate({ identifier: "GetPersonOptoutsResponse" });
   }
 }
-function __c204(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29601,24 +30052,24 @@ function __c204(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          attributes: S.optional(__S(1632, __c102, 0)),
-          identifiers: S.optional(__S(3040, __c190, 0)),
+          attributes: S.optional(__S(64, __c4, 0)),
+          identifiers: S.optional(__S(3136, __c196, 0)),
           object_type_id: S.optional(S.Number),
-          timestamps: S.optional(__S(2976, __c186, 0)),
+          timestamps: S.optional(__S(3072, __c192, 0)),
         }),
       ).annotate({ identifier: "GetPersonRelationshipsResponseCioRelationshipsItem" });
     case 2:
-      return S.Array(__S(3265, __c204, 1));
+      return S.Array(__S(3361, __c210, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          cio_relationships: S.optional(__S(3266, __c204, 2)),
+          cio_relationships: S.optional(__S(3362, __c210, 2)),
           next: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetPersonRelationshipsResponse" });
   }
 }
-function __c205(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29636,16 +30087,16 @@ function __c205(j: number): any {
         }),
       ).annotate({ identifier: "GetPersonSegmentsResponseSegmentsItem" });
     case 2:
-      return S.Array(__S(3281, __c205, 1));
+      return S.Array(__S(3377, __c211, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          segments: S.optional(__S(3282, __c205, 2)),
+          segments: S.optional(__S(3378, __c211, 2)),
         }),
       ).annotate({ identifier: "GetPersonSegmentsResponse" });
   }
 }
-function __c206(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29678,26 +30129,26 @@ function __c206(j: number): any {
         }),
       ).annotate({ identifier: "GetPersonSubscriptionPreferencesResponseCustomerTopicsItem" });
     case 3:
-      return S.Array(__S(3298, __c206, 2));
+      return S.Array(__S(3394, __c212, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          header: S.optional(__S(3297, __c206, 1)),
+          header: S.optional(__S(3393, __c212, 1)),
           id: S.optional(S.NullOr(S.String)),
-          identifiers: S.optional(__S(288, __c18, 0)),
-          topics: S.optional(__S(3299, __c206, 3)),
+          identifiers: S.optional(__S(384, __c24, 0)),
+          topics: S.optional(__S(3395, __c212, 3)),
           unsubscribed: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GetPersonSubscriptionPreferencesResponseCustomer" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          customer: S.optional(__S(3300, __c206, 4)),
+          customer: S.optional(__S(3396, __c212, 4)),
         }),
       ).annotate({ identifier: "GetPersonSubscriptionPreferencesResponse" });
   }
 }
-function __c207(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29707,7 +30158,7 @@ function __c207(j: number): any {
       ).annotate({ identifier: "GetSegmentRequest" });
   }
 }
-function __c208(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29726,7 +30177,7 @@ function __c208(j: number): any {
       ).annotate({ identifier: "GetSegmentCountResponse" });
   }
 }
-function __c209(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29737,21 +30188,21 @@ function __c209(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          campaigns: S.optional(__S(2496, __c156, 0)),
-          draft_newsletters: S.optional(__S(2496, __c156, 0)),
+          campaigns: S.optional(__S(2592, __c162, 0)),
+          draft_newsletters: S.optional(__S(2592, __c162, 0)),
           segment_id: S.optional(S.Number),
-          sent_newsletters: S.optional(__S(2496, __c156, 0)),
+          sent_newsletters: S.optional(__S(2592, __c162, 0)),
         }),
       ).annotate({ identifier: "GetSegmentDependenciesResponseUsedBy" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          used_by: S.optional(__S(3345, __c209, 1)),
+          used_by: S.optional(__S(3441, __c215, 1)),
         }),
       ).annotate({ identifier: "GetSegmentDependenciesResponse" });
   }
 }
-function __c210(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29767,7 +30218,7 @@ function __c210(j: number): any {
       });
   }
 }
-function __c211(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29778,12 +30229,12 @@ function __c211(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sender_identity: S.optional(__S(3392, __c212, 0)),
+          sender_identity: S.optional(__S(3488, __c218, 0)),
         }),
       ).annotate({ identifier: "GetSenderResponse" });
   }
 }
-function __c212(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29801,7 +30252,7 @@ function __c212(j: number): any {
       ).annotate({ identifier: "GetSenderResponseSenderIdentity" });
   }
 }
-function __c213(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29814,9 +30265,9 @@ function __c213(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          campaigns: S.optional(__S(2496, __c156, 0)),
-          draft_newsletters: S.optional(__S(2496, __c156, 0)),
-          sent_newsletters: S.optional(__S(2496, __c156, 0)),
+          campaigns: S.optional(__S(2592, __c162, 0)),
+          draft_newsletters: S.optional(__S(2592, __c162, 0)),
+          sent_newsletters: S.optional(__S(2592, __c162, 0)),
         }),
       ).annotate({ identifier: "GetSenderUsageResponse" });
   }

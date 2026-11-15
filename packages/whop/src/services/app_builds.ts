@@ -30,44 +30,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 /** The uploaded build file: `{ id }` for an existing file or `{ direct_upload_id }` for a completed direct upload. */
 export interface CreateAppBuildRequestAttachment {
@@ -188,6 +208,17 @@ export interface PromoteAppBuildRequest {
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
   idempotency_key?: string | undefined;
 }
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
+}
 export type CreateAppBuildError = BadRequest | Forbidden | Conflict | WhopOpError;
 /** Create App Build Uploads a new build artifact for an app. Upload the file first (POST /files or a direct upload), then reference it here; iOS and Android take a .zip bundle, web takes a JavaScript file or a .zip archive of the hosted site. */
 export const createAppBuild: API.OperationMethod<
@@ -196,8 +227,8 @@ export const createAppBuild: API.OperationMethod<
   CreateAppBuildError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1, __c0, 1) as any as S.Schema<CreateAppBuildRequest>,
-  output: __S(5, __c1, 1) as any as S.Schema<AppBuild>,
+  input: __S(5, __c1, 1) as any as S.Schema<CreateAppBuildRequest>,
+  output: __S(9, __c2, 1) as any as S.Schema<AppBuild>,
   errors: [BadRequest, Forbidden, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -213,8 +244,8 @@ export const getAppBuild: API.OperationMethod<
   GetAppBuildError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<GetAppBuildRequest>,
-  output: __S(5, __c1, 1) as any as S.Schema<AppBuild>,
+  input: __S(12, __c3, 0) as any as S.Schema<GetAppBuildRequest>,
+  output: __S(9, __c2, 1) as any as S.Schema<AppBuild>,
   errors: [Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -232,8 +263,8 @@ export const listAppBuilds: API.PaginatedOperationMethod<
   AppBuild
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(12, __c3, 0) as any as S.Schema<ListAppBuildsRequest>,
-    output: __S(15, __c3, 3) as any as S.Schema<ListAppBuildsResponse>,
+    input: __S(16, __c4, 0) as any as S.Schema<ListAppBuildsRequest>,
+    output: __S(19, __c4, 3) as any as S.Schema<ListAppBuildsResponse>,
     errors: [BadRequest, Forbidden, NotFound],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -259,8 +290,8 @@ export const promoteAppBuild: API.OperationMethod<
   PromoteAppBuildError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<PromoteAppBuildRequest>,
-  output: __S(5, __c1, 1) as any as S.Schema<AppBuild>,
+  input: __S(20, __c5, 0) as any as S.Schema<PromoteAppBuildRequest>,
+  output: __S(9, __c2, 1) as any as S.Schema<AppBuild>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -274,6 +305,24 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           direct_upload_id: S.optional(S.String),
           id: S.optional(S.String),
         }),
@@ -283,17 +332,17 @@ function __c0(j: number): any {
         S.Struct({
           ai_prompt_id: S.optional(S.String),
           app_id: S.optional(S.String),
-          attachment: __S(0, __c0, 0),
+          attachment: __S(4, __c1, 0),
           checksum: S.String,
           platform: S.String,
-          source_attachment: S.optional(__S(0, __c0, 0)),
-          supported_app_view_types: S.optional(__S(4, __c1, 0)),
+          source_attachment: S.optional(__S(4, __c1, 0)),
+          supported_app_view_types: S.optional(__S(8, __c2, 0)),
           idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(T.Http({ method: "POST", uri: "/app_builds", code: 200 })),
       ).annotate({ identifier: "CreateAppBuildRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -309,12 +358,12 @@ function __c1(j: number): any {
           review_message: S.NullOr(S.String),
           source_url: S.NullOr(S.String),
           status: S.String,
-          supported_app_view_types: __S(4, __c1, 0),
+          supported_app_view_types: __S(8, __c2, 0),
         }),
       ).annotate({ identifier: "AppBuild" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -324,7 +373,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetAppBuildRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -341,7 +390,7 @@ function __c3(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/app_builds", code: 200 })),
       ).annotate({ identifier: "ListAppBuildsRequest" });
     case 1:
-      return S.Array(__S(5, __c1, 1));
+      return S.Array(__S(9, __c2, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -354,13 +403,13 @@ function __c3(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(13, __c3, 1),
-          page_info: __S(14, __c3, 2),
+          data: __S(17, __c4, 1),
+          page_info: __S(18, __c4, 2),
         }),
       ).annotate({ identifier: "ListAppBuildsResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

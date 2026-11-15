@@ -30,44 +30,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export type ListEconomicIntelligenceRequestStatus =
   | "queued"
@@ -164,6 +184,17 @@ export interface UpdateEconomicIntelligenceRequest {
   /** An optional explanation of the rating or rejection. Negative feedback informs replacement recommendations. */
   user_feedback?: string | undefined;
 }
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
+}
 export type ListEconomicIntelligenceError = BadRequest | Forbidden | NotFound | WhopOpError;
 /** List Economic Intelligence Lists an account's recommendations and generation requests, newest first. Without an account, signed-out visitors receive a business-setup template and eligible users receive their saved setup recommendation. */
 export const listEconomicIntelligence: API.PaginatedOperationMethod<
@@ -174,8 +205,8 @@ export const listEconomicIntelligence: API.PaginatedOperationMethod<
   EconomicIntelligence2
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(0, __c0, 0) as any as S.Schema<ListEconomicIntelligenceRequest>,
-    output: __S(3, __c0, 3) as any as S.Schema<ListEconomicIntelligenceResponse>,
+    input: __S(4, __c1, 0) as any as S.Schema<ListEconomicIntelligenceRequest>,
+    output: __S(7, __c1, 3) as any as S.Schema<ListEconomicIntelligenceResponse>,
     errors: [BadRequest, Forbidden, NotFound],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -206,8 +237,8 @@ export const updateEconomicIntelligence: API.OperationMethod<
   UpdateEconomicIntelligenceError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<UpdateEconomicIntelligenceRequest>,
-  output: __S(6, __c1, 2) as any as S.Schema<EconomicIntelligence2>,
+  input: __S(12, __c3, 0) as any as S.Schema<UpdateEconomicIntelligenceRequest>,
+  output: __S(10, __c2, 2) as any as S.Schema<EconomicIntelligence2>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -217,6 +248,24 @@ export const updateEconomicIntelligence: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -231,7 +280,7 @@ function __c0(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/economic_intelligence", code: 200 })),
       ).annotate({ identifier: "ListEconomicIntelligenceRequest" });
     case 1:
-      return S.Array(__S(6, __c1, 2));
+      return S.Array(__S(10, __c2, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -244,13 +293,13 @@ function __c0(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1, __c0, 1),
-          page_info: __S(2, __c0, 2),
+          data: __S(5, __c1, 1),
+          page_info: __S(6, __c1, 2),
         }),
       ).annotate({ identifier: "ListEconomicIntelligenceResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -260,7 +309,7 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "EconomicIntelligenceOperation" });
     case 1:
-      return S.Array(__S(4, __c1, 0));
+      return S.Array(__S(8, __c2, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -269,7 +318,7 @@ function __c1(j: number): any {
           ai_chat_id: S.NullOr(S.String),
           created_at: S.NullOr(S.String),
           executed_at: S.NullOr(S.String),
-          expected_tool_calls: S.NullOr(__S(5, __c1, 1)),
+          expected_tool_calls: S.NullOr(__S(9, __c2, 1)),
           id: S.String,
           input: S.NullOr(S.String),
           prompt: S.NullOr(S.String),
@@ -284,7 +333,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "EconomicIntelligence2" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

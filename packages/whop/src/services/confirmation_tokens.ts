@@ -29,11 +29,16 @@ export class NotFound
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export interface GetConfirmationTokenRequest {
   /** Confirmation token ID, prefixed `ctok_`. */
@@ -126,6 +131,17 @@ export interface ConfirmationToken {
   /** `pending` until it is used, then `consumed`; `expired` once its short lifetime elapses. Only a `pending` token can be charged. */
   status: ConfirmationTokenStatus;
 }
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
+}
 export type GetConfirmationTokenError = NotFound | WhopOpError;
 /** Retrieve Confirmation Token Retrieves a token's payment method and billing details -- never the underlying payment credential. Public and rate-limited: the account_id query param must match the account the token was minted for. A bearer credential with payment:basic:read on that account also receives the collected billing address. */
 export const getConfirmationToken: API.OperationMethod<
@@ -134,8 +150,8 @@ export const getConfirmationToken: API.OperationMethod<
   GetConfirmationTokenError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetConfirmationTokenRequest>,
-  output: __S(5, __c0, 5) as any as S.Schema<ConfirmationToken>,
+  input: __S(8, __c1, 0) as any as S.Schema<GetConfirmationTokenRequest>,
+  output: __S(13, __c1, 5) as any as S.Schema<ConfirmationToken>,
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -145,6 +161,24 @@ export const getConfirmationToken: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -185,26 +219,26 @@ function __c0(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          bank_debit: S.optional(__S(3, __c0, 3)),
-          card: S.optional(__S(3, __c0, 3)),
+          bank_debit: S.optional(__S(11, __c1, 3)),
+          card: S.optional(__S(11, __c1, 3)),
           category: S.String,
           display_name: S.String,
           id: S.NullOr(S.String),
-          saved: S.optional(__S(3, __c0, 3)),
+          saved: S.optional(__S(11, __c1, 3)),
           type: S.String,
-          wallet: S.optional(__S(3, __c0, 3)),
+          wallet: S.optional(__S(11, __c1, 3)),
         }),
       ).annotate({ identifier: "PaymentMethodDisplay" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          billing_address: S.NullOr(__S(1, __c0, 1)),
-          billing_details: S.NullOr(__S(2, __c0, 2)),
+          billing_address: S.NullOr(__S(9, __c1, 1)),
+          billing_details: S.NullOr(__S(10, __c1, 2)),
           created_at: S.String,
           expires_at: S.String,
           id: S.String,
           object: S.String,
-          payment_method_preview: __S(4, __c0, 4),
+          payment_method_preview: __S(12, __c1, 4),
           setup_future_usage: S.NullOr(S.String),
           status: S.String,
         }),

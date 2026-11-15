@@ -29,22 +29,32 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: APIForbiddenError | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(32, __c2, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: APINotFound | string;
+}
 
 export type NotifyGetListRequestStatusTypesList = Array<string>;
 export type NotifyGetListRequestSubjectTypeItem = "issue" | "pull" | "repository";
@@ -348,6 +358,16 @@ export interface NotifyReadThreadRequest {
   to_status?: string | undefined;
 }
 export interface NotifyReadThreadResponse {}
+export interface APIForbiddenError {
+  message?: string | undefined;
+  url?: string | undefined;
+}
+export type APINotFoundErrorsList = Array<string>;
+export interface APINotFound {
+  errors?: APINotFoundErrorsList | undefined;
+  message?: string | undefined;
+  url?: string | undefined;
+}
 export type NotifyGetListError = ForgejoOpError;
 /** List users's notification threads */
 export const notifyGetList: API.OperationMethod<
@@ -356,8 +376,8 @@ export const notifyGetList: API.OperationMethod<
   NotifyGetListError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<NotifyGetListRequest>,
-  output: __S(18, __c1, 2) as any as S.Schema<NotifyGetListResponse>,
+  input: __S(48, __c3, 0) as any as S.Schema<NotifyGetListRequest>,
+  output: __S(66, __c4, 2) as any as S.Schema<NotifyGetListResponse>,
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -373,8 +393,8 @@ export const notifyGetRepoList: API.OperationMethod<
   NotifyGetRepoListError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<NotifyGetRepoListRequest>,
-  output: __S(18, __c1, 2) as any as S.Schema<NotifyGetRepoListResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<NotifyGetRepoListRequest>,
+  output: __S(66, __c4, 2) as any as S.Schema<NotifyGetRepoListResponse>,
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -390,8 +410,8 @@ export const notifyGetThread: API.OperationMethod<
   NotifyGetThreadError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<NotifyGetThreadRequest>,
-  output: __S(44, __c2, 12) as any as S.Schema<NotificationThread>,
+  input: __S(112, __c7, 0) as any as S.Schema<NotifyGetThreadRequest>,
+  output: __S(92, __c5, 12) as any as S.Schema<NotificationThread>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -407,8 +427,8 @@ export const notifyNewAvailable: API.OperationMethod<
   NotifyNewAvailableError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<NotifyNewAvailableRequest>,
-  output: __S(97, __c6, 1) as any as S.Schema<NotificationCount>,
+  input: __S(128, __c8, 0) as any as S.Schema<NotifyNewAvailableRequest>,
+  output: __S(129, __c8, 1) as any as S.Schema<NotificationCount>,
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -424,8 +444,8 @@ export const notifyReadList: API.OperationMethod<
   NotifyReadListError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<NotifyReadListRequest>,
-  output: __S(128, __c8, 0) as any as S.Schema<NotifyReadListResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<NotifyReadListRequest>,
+  output: __S(160, __c10, 0) as any as S.Schema<NotifyReadListResponse>,
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -441,8 +461,8 @@ export const notifyReadRepoList: API.OperationMethod<
   NotifyReadRepoListError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<NotifyReadRepoListRequest>,
-  output: __S(128, __c8, 0) as any as S.Schema<NotifyReadRepoListResponse>,
+  input: __S(176, __c11, 0) as any as S.Schema<NotifyReadRepoListRequest>,
+  output: __S(160, __c10, 0) as any as S.Schema<NotifyReadRepoListResponse>,
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -458,8 +478,8 @@ export const notifyReadThread: API.OperationMethod<
   NotifyReadThreadError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<NotifyReadThreadRequest>,
-  output: __S(128, __c8, 0) as any as S.Schema<NotifyReadThreadResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<NotifyReadThreadRequest>,
+  output: __S(160, __c10, 0) as any as S.Schema<NotifyReadThreadResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -473,9 +493,38 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          message: S.optional(S.String),
+          url: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "APIForbiddenError" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          errors: S.optional(__S(16, __c1, 0)),
+          message: S.optional(S.String),
+          url: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "APINotFound" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           all: S.optional(S.Boolean.pipe(T.Query())),
-          status_types: S.optional(__S(48, __c3, 0).pipe(T.Query("status-types"))),
-          subject_type: S.optional(__S(16, __c1, 0).pipe(T.Query("subject-type"))),
+          status_types: S.optional(__S(16, __c1, 0).pipe(T.Query("status-types"))),
+          subject_type: S.optional(__S(64, __c4, 0).pipe(T.Query("subject-type"))),
           since: S.optional(S.String.pipe(T.Query())),
           before: S.optional(S.String.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
@@ -484,19 +533,19 @@ function __c0(j: number): any {
       ).annotate({ identifier: "NotifyGetListRequest" });
   }
 }
-function __c1(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
     case 1:
-      return S.Array(__S(44, __c2, 12));
+      return S.Array(__S(92, __c5, 12));
     case 2:
-      return S.suspend(() => __S(17, __c1, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(65, __c4, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "NotifyGetListResponse",
       });
   }
 }
-function __c2(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -584,20 +633,20 @@ function __c2(j: number): any {
           id: S.Number,
           includes_all_repositories: S.optional(S.Boolean),
           name: S.String,
-          organization: S.optional(__S(37, __c2, 5)),
+          organization: S.optional(__S(85, __c5, 5)),
           permission: S.optional(S.String),
-          units: S.optional(__S(48, __c3, 0)),
-          units_map: S.optional(__S(38, __c2, 6)),
+          units: S.optional(__S(16, __c1, 0)),
+          units_map: S.optional(__S(86, __c5, 6)),
         }),
       ).annotate({ identifier: "Team" });
     case 8:
-      return S.Array(__S(39, __c2, 7));
+      return S.Array(__S(87, __c5, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          doer: S.optional(__S(35, __c2, 3)),
-          recipient: S.optional(__S(35, __c2, 3)),
-          teams: S.optional(__S(40, __c2, 8)),
+          doer: S.optional(__S(83, __c5, 3)),
+          recipient: S.optional(__S(83, __c5, 3)),
+          teams: S.optional(__S(88, __c5, 8)),
         }),
       ).annotate({ identifier: "RepoTransfer" });
     case 10:
@@ -621,8 +670,8 @@ function __c2(j: number): any {
           default_update_style: S.optional(S.String),
           description: S.optional(S.String),
           empty: S.optional(S.Boolean),
-          external_tracker: S.optional(__S(32, __c2, 0)),
-          external_wiki: S.optional(__S(33, __c2, 1)),
+          external_tracker: S.optional(__S(80, __c5, 0)),
+          external_wiki: S.optional(__S(81, __c5, 1)),
           fork: S.optional(S.Boolean),
           forks_count: S.optional(S.Number),
           full_name: S.String,
@@ -639,7 +688,7 @@ function __c2(j: number): any {
           id: S.Number,
           ignore_whitespace_conflicts: S.optional(S.Boolean),
           internal: S.optional(S.Boolean),
-          internal_tracker: S.optional(__S(34, __c2, 2)),
+          internal_tracker: S.optional(__S(82, __c5, 2)),
           language: S.optional(S.String),
           languages_url: S.optional(S.String),
           link: S.optional(S.String),
@@ -651,17 +700,17 @@ function __c2(j: number): any {
           open_issues_count: S.optional(S.Number),
           open_pr_counter: S.optional(S.Number),
           original_url: S.optional(S.String),
-          owner: __S(35, __c2, 3),
-          parent: S.optional(__S(42, __c2, 10)),
-          permissions: S.optional(__S(36, __c2, 4)),
+          owner: __S(83, __c5, 3),
+          parent: S.optional(__S(90, __c5, 10)),
+          permissions: S.optional(__S(84, __c5, 4)),
           private: S.optional(S.Boolean),
           release_counter: S.optional(S.Number),
-          repo_transfer: S.optional(__S(41, __c2, 9)),
+          repo_transfer: S.optional(__S(89, __c5, 9)),
           size: S.optional(S.Number),
           ssh_url: S.String,
           stars_count: S.optional(S.Number),
           template: S.optional(S.Boolean),
-          topics: S.optional(__S(48, __c3, 0)),
+          topics: S.optional(__S(16, __c1, 0)),
           updated_at: S.String,
           url: S.optional(S.String),
           watchers_count: S.optional(S.Number),
@@ -688,8 +737,8 @@ function __c2(j: number): any {
         S.Struct({
           id: S.optional(S.Number),
           pinned: S.optional(S.Boolean),
-          repository: S.optional(__S(42, __c2, 10)),
-          subject: S.optional(__S(43, __c2, 11)),
+          repository: S.optional(__S(90, __c5, 10)),
+          subject: S.optional(__S(91, __c5, 11)),
           unread: S.optional(S.Boolean),
           updated_at: S.optional(S.String),
           url: S.optional(S.String),
@@ -697,13 +746,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "NotificationThread" });
   }
 }
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -711,8 +754,8 @@ function __c4(j: number): any {
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
           all: S.optional(S.Boolean.pipe(T.Query())),
-          status_types: S.optional(__S(48, __c3, 0).pipe(T.Query("status-types"))),
-          subject_type: S.optional(__S(16, __c1, 0).pipe(T.Query("subject-type"))),
+          status_types: S.optional(__S(16, __c1, 0).pipe(T.Query("status-types"))),
+          subject_type: S.optional(__S(64, __c4, 0).pipe(T.Query("subject-type"))),
           since: S.optional(S.String.pipe(T.Query())),
           before: S.optional(S.String.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
@@ -721,7 +764,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "NotifyGetRepoListRequest" });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -731,7 +774,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "NotifyGetThreadRequest" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -745,26 +788,26 @@ function __c6(j: number): any {
       ).annotate({ identifier: "NotificationCount" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           last_read_at: S.optional(S.String.pipe(T.Query())),
           all: S.optional(S.Boolean.pipe(T.Query())),
-          status_types: S.optional(__S(48, __c3, 0).pipe(T.Query("status-types"))),
+          status_types: S.optional(__S(16, __c1, 0).pipe(T.Query("status-types"))),
           to_status: S.optional(S.String.pipe(T.Query("to-status"))),
         }).pipe(T.Http({ method: "PUT", uri: "/notifications", code: 200 })),
       ).annotate({ identifier: "NotifyReadListRequest" });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "NotifyReadListResponse" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -772,14 +815,14 @@ function __c9(j: number): any {
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
           all: S.optional(S.Boolean.pipe(T.Query())),
-          status_types: S.optional(__S(48, __c3, 0).pipe(T.Query("status-types"))),
+          status_types: S.optional(__S(16, __c1, 0).pipe(T.Query("status-types"))),
           to_status: S.optional(S.String.pipe(T.Query("to-status"))),
           last_read_at: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "PUT", uri: "/repos/{owner}/{repo}/notifications", code: 200 })),
       ).annotate({ identifier: "NotifyReadRepoListRequest" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

@@ -2351,6 +2351,23 @@ export interface WaitMachineResponse {
   state?: string | undefined;
   version?: string | undefined;
 }
+export type MainStatusCode =
+  | "unknown"
+  | "insufficient_capacity"
+  | "volume_placement_capacity"
+  | "name_taken";
+export interface ErrorResponse {
+  /** Deprecated */
+  details?: unknown | undefined;
+  error?: string | undefined;
+  status?: MainStatusCode | undefined;
+}
+export interface PostgresErrorResponse {
+  /** Human-readable error message. */
+  error?: string | undefined;
+  /** Optional machine-readable error status. */
+  status?: string | undefined;
+}
 export type AuthenticateTokenError = BadRequest | FlyIoOpError;
 /** Authenticate token header Verify a token header without checking resource access. */
 export const authenticateToken: API.OperationMethod<

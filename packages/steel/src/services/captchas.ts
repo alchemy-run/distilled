@@ -30,11 +30,16 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export interface GetCaptchaStatusRequest {
   /** Session ID */
@@ -84,6 +89,27 @@ export interface SolveImageCaptchaRequest {
   /** URL where the captcha is located. Defaults to the current page URL */
   url?: string | undefined;
 }
+export interface ErrorResponseContextItem {
+  keyword: string;
+  message: string;
+  params: unknown;
+}
+export type ErrorResponseContextList = Array<ErrorResponseContextItem>;
+/** An error response from the API */
+export interface ErrorResponse {
+  /** Stable machine-readable reason, e.g. 'budget_exceeded' or 'profile_not_ready'. Branch on this instead of parsing the message. */
+  code?: string | undefined;
+  context?: ErrorResponseContextList | undefined;
+  error?: string | undefined;
+  linkToDocs?: string | undefined;
+  message: string;
+  /** The request field that caused the error, if any. */
+  param?: string | undefined;
+  /** Seconds to wait before retrying. Also sent as the Retry-After header. */
+  retryAfterSeconds?: number | undefined;
+  /** Whether the same request can succeed later without changes. False means fix the request or the account first. */
+  retryable?: boolean | undefined;
+}
 export type GetCaptchaStatusError = BadRequest | SteelOpError;
 /** Get captcha status Gets the current captcha status for a session */
 export const getCaptchaStatus: API.OperationMethod<
@@ -92,8 +118,8 @@ export const getCaptchaStatus: API.OperationMethod<
   GetCaptchaStatusError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetCaptchaStatusRequest>,
-  output: __S(4, __c0, 4) as any as S.Schema<GetCaptchaStatusResponse>,
+  input: __S(8, __c1, 0) as any as S.Schema<GetCaptchaStatusRequest>,
+  output: __S(12, __c1, 4) as any as S.Schema<GetCaptchaStatusResponse>,
   errors: [BadRequest, UnknownSteelError],
   protocol: SteelProtocol,
   retry: Retry.Retry,
@@ -109,8 +135,8 @@ export const solveCaptcha: API.OperationMethod<
   SolveCaptchaError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<SolveCaptchaRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<CaptchaActionResponse>,
+  input: __S(16, __c2, 0) as any as S.Schema<SolveCaptchaRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<CaptchaActionResponse>,
   errors: [BadRequest, UnknownSteelError],
   protocol: SteelProtocol,
   retry: Retry.Retry,
@@ -126,8 +152,8 @@ export const solveImageCaptcha: API.OperationMethod<
   SolveImageCaptchaError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<SolveImageCaptchaRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<CaptchaActionResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<SolveImageCaptchaRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<CaptchaActionResponse>,
   errors: [BadRequest, UnknownSteelError],
   protocol: SteelProtocol,
   retry: Retry.Retry,
@@ -137,6 +163,33 @@ export const solveImageCaptcha: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          keyword: S.String,
+          message: S.String,
+          params: S.Unknown,
+        }),
+      ).annotate({ identifier: "ErrorResponseContextItem" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          context: S.optional(__S(1, __c0, 1)),
+          error: S.optional(S.String),
+          linkToDocs: S.optional(S.String),
+          message: S.String,
+          param: S.optional(S.String),
+          retryAfterSeconds: S.optional(S.Number),
+          retryable: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -155,19 +208,19 @@ function __c0(j: number): any {
           isSolvingCaptcha: S.Boolean,
           lastUpdated: S.optional(S.Number),
           pageId: S.String,
-          tasks: __S(1, __c0, 1),
+          tasks: __S(9, __c1, 1),
           url: S.String,
         }),
       ).annotate({ identifier: "CaptchaStateResponseItem" });
     case 3:
-      return S.Array(__S(2, __c0, 2));
+      return S.Array(__S(10, __c1, 2));
     case 4:
-      return S.suspend(() => __S(3, __c0, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(11, __c1, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetCaptchaStatusResponse",
       });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -182,7 +235,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "SolveCaptchaRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -193,7 +246,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "CaptchaActionResponse" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

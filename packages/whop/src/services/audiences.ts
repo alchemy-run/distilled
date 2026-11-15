@@ -30,22 +30,32 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export interface AddAudiencePeopleRequest {
   /** Audience ID, prefixed `adaud_`. */
@@ -339,6 +349,17 @@ export interface UpdateAudienceRequest {
   /** New audience display name. A blank value is ignored rather than clearing the name. */
   name?: string | undefined;
 }
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
+}
 export type AddAudiencePeopleError = Conflict | WhopOpError;
 /** Add People Adds users from a new CSV file to an existing uploaded custom audience. The file uses the audience's saved column mapping, processing happens in the background, and existing audience members remain unchanged. */
 export const addAudiencePeople: API.OperationMethod<
@@ -347,8 +368,8 @@ export const addAudiencePeople: API.OperationMethod<
   AddAudiencePeopleError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<AddAudiencePeopleRequest>,
-  output: __S(20, __c2, 4) as any as S.Schema<Audience>,
+  input: __S(8, __c1, 0) as any as S.Schema<AddAudiencePeopleRequest>,
+  output: __S(28, __c3, 4) as any as S.Schema<Audience>,
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -364,8 +385,8 @@ export const createAudience: API.OperationMethod<
   CreateAudienceError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26, __c3, 2) as any as S.Schema<CreateAudienceRequest>,
-  output: __S(27, __c3, 3) as any as S.Schema<CreateAudienceResponse>,
+  input: __S(34, __c4, 2) as any as S.Schema<CreateAudienceRequest>,
+  output: __S(35, __c4, 3) as any as S.Schema<CreateAudienceResponse>,
   errors: [BadRequest, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -381,8 +402,8 @@ export const deleteAudience: API.OperationMethod<
   DeleteAudienceError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<DeleteAudienceRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<DeleteAudienceResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<DeleteAudienceRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<DeleteAudienceResponse>,
   errors: [],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -400,8 +421,8 @@ export const listAudiences: API.PaginatedOperationMethod<
   Audience
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(41, __c5, 1) as any as S.Schema<ListAudiencesRequest>,
-    output: __S(43, __c5, 3) as any as S.Schema<ListAudiencesResponse>,
+    input: __S(49, __c6, 1) as any as S.Schema<ListAudiencesRequest>,
+    output: __S(51, __c6, 3) as any as S.Schema<ListAudiencesResponse>,
     errors: [],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -427,8 +448,8 @@ export const updateAudience: API.OperationMethod<
   UpdateAudienceError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<UpdateAudienceRequest>,
-  output: __S(20, __c2, 4) as any as S.Schema<Audience>,
+  input: __S(56, __c7, 0) as any as S.Schema<UpdateAudienceRequest>,
+  output: __S(28, __c3, 4) as any as S.Schema<Audience>,
   errors: [],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -442,6 +463,24 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           id: S.String.pipe(T.Label()),
           file_id: S.String,
           idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
@@ -449,21 +488,21 @@ function __c0(j: number): any {
       ).annotate({ identifier: "AddAudiencePeopleRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          exclude: __S(8, __c1, 0),
-          include: __S(8, __c1, 0),
+          exclude: __S(16, __c2, 0),
+          include: __S(16, __c2, 0),
           platform: S.String,
         }),
       ).annotate({ identifier: "AudienceEngagement" });
@@ -477,24 +516,24 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "AudienceMatchRate" });
     case 3:
-      return S.Array(__S(18, __c2, 2));
+      return S.Array(__S(26, __c3, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           audience_type: S.String,
           auto_refresh: S.Boolean,
           created_at: S.String,
-          engagement: S.NullOr(__S(17, __c2, 1)),
+          engagement: S.NullOr(__S(25, __c3, 1)),
           error_message: S.NullOr(S.String),
           filters: S.NullOr(S.Unknown),
           id: S.String,
           last_refreshed_at: S.NullOr(S.String),
           lookalike_ratio: S.NullOr(S.Number),
           lookalike_starting_ratio: S.NullOr(S.Number),
-          match_rates: __S(19, __c2, 3),
+          match_rates: __S(27, __c3, 3),
           matched_rows: S.Number,
           name: S.String,
-          platform_audience_ids: __S(16, __c2, 0),
+          platform_audience_ids: __S(24, __c3, 0),
           processed_rows: S.Number,
           progress_percent: S.Number,
           source_audience_id: S.NullOr(S.String),
@@ -506,7 +545,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "Audience" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -522,8 +561,8 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          exclude: S.optional(__S(8, __c1, 0)),
-          include: __S(8, __c1, 0),
+          exclude: S.optional(__S(16, __c2, 0)),
+          include: __S(16, __c2, 0),
           platform: S.String,
         }),
       ).annotate({ identifier: "CreateAudienceRequestEngagement" });
@@ -533,9 +572,9 @@ function __c3(j: number): any {
           account_id: S.String,
           audience_type: S.optional(S.String),
           auto_refresh: S.optional(S.Boolean),
-          column_mapping: S.optional(__S(24, __c3, 0)),
+          column_mapping: S.optional(__S(32, __c4, 0)),
           count: S.optional(S.Number),
-          engagement: S.optional(__S(25, __c3, 1)),
+          engagement: S.optional(__S(33, __c4, 1)),
           file_id: S.optional(S.String),
           filters: S.optional(S.Unknown),
           name: S.optional(S.String),
@@ -551,7 +590,7 @@ function __c3(j: number): any {
       });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -567,10 +606,10 @@ function __c4(j: number): any {
       ).annotate({ identifier: "DeleteAudienceResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(20, __c2, 4));
+      return S.Array(__S(28, __c3, 4));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -594,13 +633,13 @@ function __c5(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(40, __c5, 0),
-          page_info: __S(42, __c5, 2),
+          data: __S(48, __c6, 0),
+          page_info: __S(50, __c6, 2),
         }),
       ).annotate({ identifier: "ListAudiencesResponse" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

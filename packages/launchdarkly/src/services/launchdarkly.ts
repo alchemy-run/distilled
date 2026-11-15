@@ -35,55 +35,114 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(34, __c1, 2)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(37, __c1, 5)),
+          S.String,
+        ]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?:
+    | ValidationFailedErrorRep
+    | InvalidRequestErrorRep
+    | Error
+    | StartEnvironmentReleaseBadRequest
+    | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(64, __c2, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(65, __c2, 1)),
+          S.String,
+        ]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?:
+    | StatusConflictErrorRep
+    | Error
+    | DataExportProjectIdentityIncompleteErrorRep
+    | DataExportProjectIdentityIncompleteError
+    | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)),
+          S.String,
+        ]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ForbiddenErrorRep | Error | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)),
+          S.String,
+        ]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: NotFoundErrorRep | Error | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)),
+          S.String,
+        ]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: PatchFailedErrorRep | Error | string;
+}
 
 export interface InsightsRepositoryProject {
   /** The repository key */
@@ -12463,6 +12522,61 @@ export interface IntegrationDeliveryConfigurationResponse {
   /** JSON response to the validation request */
   responseBody?: string | undefined;
 }
+export interface FailureReasonRep {
+  /** The attribute that failed validation */
+  attribute: string;
+  /** The reason the attribute failed validation */
+  reason: string;
+}
+/** List of validation errors */
+export type ValidationFailedErrorRepErrorsList = Array<FailureReasonRep>;
+export interface ValidationFailedErrorRep {
+  /** Specific error code encountered */
+  code: string;
+  /** Description of the error */
+  message: string;
+  /** List of validation errors */
+  errors: ValidationFailedErrorRepErrorsList;
+}
+export interface InvalidRequestErrorRep {
+  /** Specific error code encountered */
+  code: string;
+  /** Description of the error */
+  message: string;
+}
+export interface Error {
+  message: string;
+  code: string;
+}
+export interface ReleaseHealthCheckFailure {
+  kind: ReleaseHealthCheckKind;
+  /** The metric key associated with a metric event check. */
+  metricKey?: string | undefined;
+  /** A description of the failed health check. */
+  message: string;
+}
+/** Present when `code` is `health_checks_failed`. */
+export type StartEnvironmentReleaseBadRequestFailingChecksList = Array<ReleaseHealthCheckFailure>;
+export interface StartEnvironmentReleaseBadRequest {
+  code: string;
+  message: string;
+  /** Present when `code` is `health_checks_failed`. */
+  failingChecks?: StartEnvironmentReleaseBadRequestFailingChecksList | undefined;
+}
+export type StatusConflictErrorRep = InvalidRequestErrorRep;
+export interface DataExportProjectIdentityIncompleteErrorRep {
+  code?: string | undefined;
+  message?: string | undefined;
+}
+export type DataExportProjectIdentityIncompleteErrorCode =
+  "data_export_project_identity_incomplete";
+export interface DataExportProjectIdentityIncompleteError {
+  message: string;
+  code: DataExportProjectIdentityIncompleteErrorCode;
+}
+export type ForbiddenErrorRep = InvalidRequestErrorRep;
+export type NotFoundErrorRep = InvalidRequestErrorRep;
+export type PatchFailedErrorRep = InvalidRequestErrorRep;
 export type AssociateRepositoriesAndProjectsError =
   | BadRequest
   | Forbidden
@@ -12475,8 +12589,8 @@ export const associateRepositoriesAndProjects: API.OperationMethod<
   AssociateRepositoriesAndProjectsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14274, __c446, 2) as any as S.Schema<AssociateRepositoriesAndProjectsRequest>,
-  output: __S(14275, __c446, 3) as any as S.Schema<InsightsRepositoryProjectCollection>,
+  input: __S(14370, __c449, 2) as any as S.Schema<AssociateRepositoriesAndProjectsRequest>,
+  output: __S(14371, __c449, 3) as any as S.Schema<InsightsRepositoryProjectCollection>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -12492,8 +12606,8 @@ export const copyFeatureFlag: API.OperationMethod<
   CopyFeatureFlagError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14689, __c459, 1) as any as S.Schema<CopyFeatureFlagRequest>,
-  output: __S(14904, __c465, 24) as any as S.Schema<FeatureFlag>,
+  input: __S(14785, __c462, 1) as any as S.Schema<CopyFeatureFlagRequest>,
+  output: __S(15000, __c468, 24) as any as S.Schema<FeatureFlag>,
   errors: [BadRequest, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -12514,8 +12628,8 @@ export const createAnnouncementPublic: API.OperationMethod<
   CreateAnnouncementPublicError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15520, __c485, 0) as any as S.Schema<CreateAnnouncementPublicRequest>,
-  output: __S(15553, __c486, 1) as any as S.Schema<AnnouncementResponse>,
+  input: __S(15616, __c488, 0) as any as S.Schema<CreateAnnouncementPublicRequest>,
+  output: __S(15649, __c489, 1) as any as S.Schema<AnnouncementResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -12531,8 +12645,8 @@ export const createApprovalRequest: API.OperationMethod<
   CreateApprovalRequestError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15904, __c497, 0) as any as S.Schema<CreateApprovalRequestRequest>,
-  output: __S(15936, __c498, 0) as any as S.Schema<ApprovalRequestResponse>,
+  input: __S(16000, __c500, 0) as any as S.Schema<CreateApprovalRequestRequest>,
+  output: __S(16032, __c501, 0) as any as S.Schema<ApprovalRequestResponse>,
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -12552,8 +12666,8 @@ export const createApprovalRequestApply: API.OperationMethod<
   CreateApprovalRequestApplyError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16448, __c514, 0) as any as S.Schema<CreateApprovalRequestApplyRequest>,
-  output: __S(15936, __c498, 0) as any as S.Schema<ApprovalRequestResponse>,
+  input: __S(16544, __c517, 0) as any as S.Schema<CreateApprovalRequestApplyRequest>,
+  output: __S(16032, __c501, 0) as any as S.Schema<ApprovalRequestResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -12573,8 +12687,8 @@ export const createApprovalRequestReview: API.OperationMethod<
   CreateApprovalRequestReviewError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateApprovalRequestReviewRequest>,
-  output: __S(15936, __c498, 0) as any as S.Schema<ApprovalRequestResponse>,
+  input: __S(96, __c3, 0) as any as S.Schema<CreateApprovalRequestReviewRequest>,
+  output: __S(16032, __c501, 0) as any as S.Schema<ApprovalRequestResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -12590,8 +12704,8 @@ export const createBigSegmentExport: API.OperationMethod<
   CreateBigSegmentExportError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<CreateBigSegmentExportRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<CreateBigSegmentExportResponse>,
+  input: __S(768, __c24, 0) as any as S.Schema<CreateBigSegmentExportRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<CreateBigSegmentExportResponse>,
   errors: [BadRequest, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -12607,8 +12721,8 @@ export const createBigSegmentImport: API.OperationMethod<
   CreateBigSegmentImportError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<CreateBigSegmentImportRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<CreateBigSegmentImportResponse>,
+  input: __S(1344, __c42, 0) as any as S.Schema<CreateBigSegmentImportRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<CreateBigSegmentImportResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -12629,8 +12743,8 @@ export const createBigSegmentStoreIntegration: API.OperationMethod<
   CreateBigSegmentStoreIntegrationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<CreateBigSegmentStoreIntegrationRequest>,
-  output: __S(1697, __c53, 1) as any as S.Schema<BigSegmentStoreIntegration>,
+  input: __S(1760, __c55, 0) as any as S.Schema<CreateBigSegmentStoreIntegrationRequest>,
+  output: __S(1793, __c56, 1) as any as S.Schema<BigSegmentStoreIntegration>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -12646,8 +12760,8 @@ export const createDeploymentEvent: API.OperationMethod<
   CreateDeploymentEventError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<CreateDeploymentEventRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<CreateDeploymentEventResponse>,
+  input: __S(2368, __c74, 0) as any as S.Schema<CreateDeploymentEventRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<CreateDeploymentEventResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -12663,8 +12777,8 @@ export const createExperiment: API.OperationMethod<
   CreateExperimentError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2696, __c84, 8) as any as S.Schema<CreateExperimentRequest>,
-  output: __S(2738, __c85, 18) as any as S.Schema<Experiment>,
+  input: __S(2792, __c87, 8) as any as S.Schema<CreateExperimentRequest>,
+  output: __S(2834, __c88, 18) as any as S.Schema<Experiment>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -12685,8 +12799,8 @@ export const createFlagImportConfiguration: API.OperationMethod<
   CreateFlagImportConfigurationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<CreateFlagImportConfigurationRequest>,
-  output: __S(3460, __c108, 4) as any as S.Schema<FlagImportIntegration>,
+  input: __S(3520, __c110, 0) as any as S.Schema<CreateFlagImportConfigurationRequest>,
+  output: __S(3556, __c111, 4) as any as S.Schema<FlagImportIntegration>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -12702,8 +12816,8 @@ export const createFlagLink: API.OperationMethod<
   CreateFlagLinkError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3872, __c121, 0) as any as S.Schema<CreateFlagLinkRequest>,
-  output: __S(3906, __c122, 2) as any as S.Schema<FlagLinkRep>,
+  input: __S(3968, __c124, 0) as any as S.Schema<CreateFlagLinkRequest>,
+  output: __S(4002, __c125, 2) as any as S.Schema<FlagLinkRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -12724,8 +12838,8 @@ export const createInsightGroup: API.OperationMethod<
   CreateInsightGroupError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4320, __c135, 0) as any as S.Schema<CreateInsightGroupRequest>,
-  output: __S(4385, __c137, 1) as any as S.Schema<InsightGroup>,
+  input: __S(4416, __c138, 0) as any as S.Schema<CreateInsightGroupRequest>,
+  output: __S(4481, __c140, 1) as any as S.Schema<InsightGroup>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -12746,8 +12860,8 @@ export const createIntegrationConfiguration: API.OperationMethod<
   CreateIntegrationConfigurationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4896, __c153, 0) as any as S.Schema<CreateIntegrationConfigurationRequest>,
-  output: __S(4943, __c154, 15) as any as S.Schema<IntegrationConfigurationsRep>,
+  input: __S(4992, __c156, 0) as any as S.Schema<CreateIntegrationConfigurationRequest>,
+  output: __S(5039, __c157, 15) as any as S.Schema<IntegrationConfigurationsRep>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -12767,8 +12881,8 @@ export const createIntegrationDeliveryConfiguration: API.OperationMethod<
   CreateIntegrationDeliveryConfigurationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5376, __c168, 0) as any as S.Schema<CreateIntegrationDeliveryConfigurationRequest>,
-  output: __S(5409, __c169, 1) as any as S.Schema<IntegrationDeliveryConfiguration>,
+  input: __S(5472, __c171, 0) as any as S.Schema<CreateIntegrationDeliveryConfigurationRequest>,
+  output: __S(5505, __c172, 1) as any as S.Schema<IntegrationDeliveryConfiguration>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -12789,8 +12903,8 @@ export const createIpAllowlistEntry: API.OperationMethod<
   CreateIpAllowlistEntryError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5792, __c181, 0) as any as S.Schema<CreateIpAllowlistEntryRequest>,
-  output: __S(5824, __c182, 0) as any as S.Schema<IpAllowlistEntryResponse>,
+  input: __S(5888, __c184, 0) as any as S.Schema<CreateIpAllowlistEntryRequest>,
+  output: __S(5920, __c185, 0) as any as S.Schema<IpAllowlistEntryResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -12806,8 +12920,8 @@ export const createLayer: API.OperationMethod<
   CreateLayerError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6336, __c198, 0) as any as S.Schema<CreateLayerRequest>,
-  output: __S(6372, __c199, 4) as any as S.Schema<LayerRep>,
+  input: __S(6432, __c201, 0) as any as S.Schema<CreateLayerRequest>,
+  output: __S(6468, __c202, 4) as any as S.Schema<LayerRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -12823,8 +12937,8 @@ export const createMember: API.OperationMethod<
   CreateMemberError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6818, __c213, 2) as any as S.Schema<CreateMemberRequest>,
-  output: __S(6849, __c214, 1) as any as S.Schema<Members>,
+  input: __S(6914, __c216, 2) as any as S.Schema<CreateMemberRequest>,
+  output: __S(6945, __c217, 1) as any as S.Schema<Members>,
   errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -12845,8 +12959,8 @@ export const createMemberTeam: API.OperationMethod<
   CreateMemberTeamError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7264, __c227, 0) as any as S.Schema<CreateMemberTeamRequest>,
-  output: __S(6884, __c215, 4) as any as S.Schema<Member>,
+  input: __S(7360, __c230, 0) as any as S.Schema<CreateMemberTeamRequest>,
+  output: __S(6980, __c218, 4) as any as S.Schema<Member>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -12862,8 +12976,8 @@ export const createMetricGroup: API.OperationMethod<
   CreateMetricGroupError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7618, __c238, 2) as any as S.Schema<CreateMetricGroupRequest>,
-  output: __S(7680, __c240, 0) as any as S.Schema<MetricGroupRep>,
+  input: __S(7714, __c241, 2) as any as S.Schema<CreateMetricGroupRequest>,
+  output: __S(7776, __c243, 0) as any as S.Schema<MetricGroupRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -12879,8 +12993,8 @@ export const createOAuth2Client: API.OperationMethod<
   CreateOAuth2ClientError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8160, __c255, 0) as any as S.Schema<CreateOAuth2ClientRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<Client>,
+  input: __S(8256, __c258, 0) as any as S.Schema<CreateOAuth2ClientRequest>,
+  output: __S(8288, __c259, 0) as any as S.Schema<Client>,
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -12896,8 +13010,8 @@ export const createProject: API.OperationMethod<
   CreateProjectError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8643, __c270, 3) as any as S.Schema<CreateProjectRequest>,
-  output: __S(8768, __c274, 0) as any as S.Schema<ProjectRep>,
+  input: __S(8739, __c273, 3) as any as S.Schema<CreateProjectRequest>,
+  output: __S(8864, __c277, 0) as any as S.Schema<ProjectRep>,
   errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -12917,8 +13031,8 @@ export const createSegmentScheduledChange: API.OperationMethod<
   CreateSegmentScheduledChangeError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9184, __c287, 0) as any as S.Schema<CreateSegmentScheduledChangeRequest>,
-  output: __S(9216, __c288, 0) as any as S.Schema<SegmentScheduledChange>,
+  input: __S(9280, __c290, 0) as any as S.Schema<CreateSegmentScheduledChangeRequest>,
+  output: __S(9312, __c291, 0) as any as S.Schema<SegmentScheduledChange>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -12934,8 +13048,8 @@ export const createSubscription: API.OperationMethod<
   CreateSubscriptionError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9600, __c300, 0) as any as S.Schema<CreateSubscriptionRequest>,
-  output: __S(9635, __c301, 3) as any as S.Schema<Integration>,
+  input: __S(9696, __c303, 0) as any as S.Schema<CreateSubscriptionRequest>,
+  output: __S(9731, __c304, 3) as any as S.Schema<Integration>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -12951,8 +13065,8 @@ export const createTeam: API.OperationMethod<
   CreateTeamError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10114, __c316, 2) as any as S.Schema<CreateTeamRequest>,
-  output: __S(10273, __c321, 1) as any as S.Schema<Team>,
+  input: __S(10210, __c319, 2) as any as S.Schema<CreateTeamRequest>,
+  output: __S(10369, __c324, 1) as any as S.Schema<Team>,
   errors: [BadRequest, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -12968,8 +13082,8 @@ export const createTeamMember: API.OperationMethod<
   CreateTeamMemberError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10624, __c332, 0) as any as S.Schema<CreateTeamMemberRequest>,
-  output: __S(10627, __c332, 3) as any as S.Schema<TeamImportsRep>,
+  input: __S(10720, __c335, 0) as any as S.Schema<CreateTeamMemberRequest>,
+  output: __S(10723, __c335, 3) as any as S.Schema<TeamImportsRep>,
   errors: [BadRequest, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -12985,8 +13099,8 @@ export const createToken: API.OperationMethod<
   CreateTokenError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10976, __c343, 0) as any as S.Schema<CreateTokenRequest>,
-  output: __S(11008, __c344, 0) as any as S.Schema<Token>,
+  input: __S(11072, __c346, 0) as any as S.Schema<CreateTokenRequest>,
+  output: __S(11104, __c347, 0) as any as S.Schema<Token>,
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13002,8 +13116,8 @@ export const createTriggerWorkflow: API.OperationMethod<
   CreateTriggerWorkflowError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11360, __c355, 0) as any as S.Schema<CreateTriggerWorkflowRequest>,
-  output: __S(11394, __c356, 2) as any as S.Schema<TriggerWorkflowRep>,
+  input: __S(11456, __c358, 0) as any as S.Schema<CreateTriggerWorkflowRequest>,
+  output: __S(11490, __c359, 2) as any as S.Schema<TriggerWorkflowRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13019,8 +13133,8 @@ export const createView: API.OperationMethod<
   CreateViewError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11776, __c368, 0) as any as S.Schema<CreateViewRequest>,
-  output: __S(11867, __c370, 27) as any as S.Schema<View>,
+  input: __S(11872, __c371, 0) as any as S.Schema<CreateViewRequest>,
+  output: __S(11963, __c373, 27) as any as S.Schema<View>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13036,8 +13150,8 @@ export const createWebhook: API.OperationMethod<
   CreateWebhookError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12256, __c383, 0) as any as S.Schema<CreateWebhookRequest>,
-  output: __S(12288, __c384, 0) as any as S.Schema<Webhook>,
+  input: __S(12352, __c386, 0) as any as S.Schema<CreateWebhookRequest>,
+  output: __S(12384, __c387, 0) as any as S.Schema<Webhook>,
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13053,8 +13167,8 @@ export const createWorkflowTemplate: API.OperationMethod<
   CreateWorkflowTemplateError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12640, __c395, 0) as any as S.Schema<CreateWorkflowTemplateRequest>,
-  output: __S(12704, __c397, 0) as any as S.Schema<WorkflowTemplateOutput>,
+  input: __S(12736, __c398, 0) as any as S.Schema<CreateWorkflowTemplateRequest>,
+  output: __S(12800, __c400, 0) as any as S.Schema<WorkflowTemplateOutput>,
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13070,8 +13184,8 @@ export const deleteAdaptiveTrigger: API.OperationMethod<
   DeleteAdaptiveTriggerError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13088, __c409, 0) as any as S.Schema<DeleteAdaptiveTriggerRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteAdaptiveTriggerResponse>,
+  input: __S(13184, __c412, 0) as any as S.Schema<DeleteAdaptiveTriggerRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteAdaptiveTriggerResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13087,8 +13201,8 @@ export const deleteAgentGraph: API.OperationMethod<
   DeleteAgentGraphError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13472, __c421, 0) as any as S.Schema<DeleteAgentGraphRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteAgentGraphResponse>,
+  input: __S(13568, __c424, 0) as any as S.Schema<DeleteAgentGraphRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteAgentGraphResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13104,8 +13218,8 @@ export const deleteAgentOptimization: API.OperationMethod<
   DeleteAgentOptimizationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13856, __c433, 0) as any as S.Schema<DeleteAgentOptimizationRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteAgentOptimizationResponse>,
+  input: __S(13952, __c436, 0) as any as S.Schema<DeleteAgentOptimizationRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteAgentOptimizationResponse>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13121,8 +13235,8 @@ export const deleteAgentOptimizationRun: API.OperationMethod<
   DeleteAgentOptimizationRunError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13952, __c436, 0) as any as S.Schema<DeleteAgentOptimizationRunRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteAgentOptimizationRunResponse>,
+  input: __S(14048, __c439, 0) as any as S.Schema<DeleteAgentOptimizationRunRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteAgentOptimizationRunResponse>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13138,8 +13252,8 @@ export const deleteAgentSkill: API.OperationMethod<
   DeleteAgentSkillError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13984, __c437, 0) as any as S.Schema<DeleteAgentSkillRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteAgentSkillResponse>,
+  input: __S(14080, __c440, 0) as any as S.Schema<DeleteAgentSkillRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteAgentSkillResponse>,
   errors: [Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13155,8 +13269,8 @@ export const deleteAIConfig: API.OperationMethod<
   DeleteAIConfigError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14016, __c438, 0) as any as S.Schema<DeleteAIConfigRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteAIConfigResponse>,
+  input: __S(14112, __c441, 0) as any as S.Schema<DeleteAIConfigRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteAIConfigResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13172,8 +13286,8 @@ export const deleteAIConfigVariation: API.OperationMethod<
   DeleteAIConfigVariationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14048, __c439, 0) as any as S.Schema<DeleteAIConfigVariationRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteAIConfigVariationResponse>,
+  input: __S(14144, __c442, 0) as any as S.Schema<DeleteAIConfigVariationRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteAIConfigVariationResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13189,8 +13303,8 @@ export const deleteAITool: API.OperationMethod<
   DeleteAIToolError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14080, __c440, 0) as any as S.Schema<DeleteAIToolRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteAIToolResponse>,
+  input: __S(14176, __c443, 0) as any as S.Schema<DeleteAIToolRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteAIToolResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13206,8 +13320,8 @@ export const deleteAnnouncementPublic: API.OperationMethod<
   DeleteAnnouncementPublicError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14112, __c441, 0) as any as S.Schema<DeleteAnnouncementPublicRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteAnnouncementPublicResponse>,
+  input: __S(14208, __c444, 0) as any as S.Schema<DeleteAnnouncementPublicRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteAnnouncementPublicResponse>,
   errors: [NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13223,8 +13337,8 @@ export const deleteApplication: API.OperationMethod<
   DeleteApplicationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14144, __c442, 0) as any as S.Schema<DeleteApplicationRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteApplicationResponse>,
+  input: __S(14240, __c445, 0) as any as S.Schema<DeleteApplicationRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteApplicationResponse>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13240,8 +13354,8 @@ export const deleteApplicationVersion: API.OperationMethod<
   DeleteApplicationVersionError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14176, __c443, 0) as any as S.Schema<DeleteApplicationVersionRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteApplicationVersionResponse>,
+  input: __S(14272, __c446, 0) as any as S.Schema<DeleteApplicationVersionRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteApplicationVersionResponse>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13257,8 +13371,8 @@ export const deleteApprovalRequest: API.OperationMethod<
   DeleteApprovalRequestError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14208, __c444, 0) as any as S.Schema<DeleteApprovalRequestRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteApprovalRequestResponse>,
+  input: __S(14304, __c447, 0) as any as S.Schema<DeleteApprovalRequestRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteApprovalRequestResponse>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13274,8 +13388,8 @@ export const deleteApprovalRequestForFlag: API.OperationMethod<
   DeleteApprovalRequestForFlagError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14240, __c445, 0) as any as S.Schema<DeleteApprovalRequestForFlagRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteApprovalRequestForFlagResponse>,
+  input: __S(14336, __c448, 0) as any as S.Schema<DeleteApprovalRequestForFlagRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteApprovalRequestForFlagResponse>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13295,8 +13409,8 @@ export const deleteBigSegmentStoreIntegration: API.OperationMethod<
   DeleteBigSegmentStoreIntegrationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14368, __c449, 0) as any as S.Schema<DeleteBigSegmentStoreIntegrationRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteBigSegmentStoreIntegrationResponse>,
+  input: __S(14464, __c452, 0) as any as S.Schema<DeleteBigSegmentStoreIntegrationRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteBigSegmentStoreIntegrationResponse>,
   errors: [Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13312,8 +13426,8 @@ export const deleteBranches: API.OperationMethod<
   DeleteBranchesError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14400, __c450, 0) as any as S.Schema<DeleteBranchesRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteBranchesResponse>,
+  input: __S(14496, __c453, 0) as any as S.Schema<DeleteBranchesRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteBranchesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13329,8 +13443,8 @@ export const deleteCustomRole: API.OperationMethod<
   DeleteCustomRoleError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14432, __c451, 0) as any as S.Schema<DeleteCustomRoleRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteCustomRoleResponse>,
+  input: __S(14528, __c454, 0) as any as S.Schema<DeleteCustomRoleRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteCustomRoleResponse>,
   errors: [NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13346,8 +13460,8 @@ export const deleteDestination: API.OperationMethod<
   DeleteDestinationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14464, __c452, 0) as any as S.Schema<DeleteDestinationRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteDestinationResponse>,
+  input: __S(14560, __c455, 0) as any as S.Schema<DeleteDestinationRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteDestinationResponse>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13363,8 +13477,8 @@ export const deleteEnvironment: API.OperationMethod<
   DeleteEnvironmentError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14496, __c453, 0) as any as S.Schema<DeleteEnvironmentRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteEnvironmentResponse>,
+  input: __S(14592, __c456, 0) as any as S.Schema<DeleteEnvironmentRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteEnvironmentResponse>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13380,8 +13494,8 @@ export const deleteFeatureFlag: API.OperationMethod<
   DeleteFeatureFlagError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14528, __c454, 0) as any as S.Schema<DeleteFeatureFlagRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteFeatureFlagResponse>,
+  input: __S(14624, __c457, 0) as any as S.Schema<DeleteFeatureFlagRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteFeatureFlagResponse>,
   errors: [NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13401,8 +13515,8 @@ export const deleteFlagConfigScheduledChanges: API.OperationMethod<
   DeleteFlagConfigScheduledChangesError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14560, __c455, 0) as any as S.Schema<DeleteFlagConfigScheduledChangesRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteFlagConfigScheduledChangesResponse>,
+  input: __S(14656, __c458, 0) as any as S.Schema<DeleteFlagConfigScheduledChangesRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteFlagConfigScheduledChangesResponse>,
   errors: [Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13418,8 +13532,8 @@ export const deleteFlagFollower: API.OperationMethod<
   DeleteFlagFollowerError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14592, __c456, 0) as any as S.Schema<DeleteFlagFollowerRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteFlagFollowerResponse>,
+  input: __S(14688, __c459, 0) as any as S.Schema<DeleteFlagFollowerRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteFlagFollowerResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13439,8 +13553,8 @@ export const deleteFlagImportConfiguration: API.OperationMethod<
   DeleteFlagImportConfigurationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14624, __c457, 0) as any as S.Schema<DeleteFlagImportConfigurationRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteFlagImportConfigurationResponse>,
+  input: __S(14720, __c460, 0) as any as S.Schema<DeleteFlagImportConfigurationRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteFlagImportConfigurationResponse>,
   errors: [Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13456,8 +13570,8 @@ export const deleteFlagLink: API.OperationMethod<
   DeleteFlagLinkError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14656, __c458, 0) as any as S.Schema<DeleteFlagLinkRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteFlagLinkResponse>,
+  input: __S(14752, __c461, 0) as any as S.Schema<DeleteFlagLinkRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteFlagLinkResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13473,8 +13587,8 @@ export const deleteInsightGroup: API.OperationMethod<
   DeleteInsightGroupError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15200, __c475, 0) as any as S.Schema<DeleteInsightGroupRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteInsightGroupResponse>,
+  input: __S(15296, __c478, 0) as any as S.Schema<DeleteInsightGroupRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteInsightGroupResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13494,8 +13608,8 @@ export const deleteIntegrationConfiguration: API.OperationMethod<
   DeleteIntegrationConfigurationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15232, __c476, 0) as any as S.Schema<DeleteIntegrationConfigurationRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteIntegrationConfigurationResponse>,
+  input: __S(15328, __c479, 0) as any as S.Schema<DeleteIntegrationConfigurationRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteIntegrationConfigurationResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13515,8 +13629,8 @@ export const deleteIntegrationDeliveryConfiguration: API.OperationMethod<
   DeleteIntegrationDeliveryConfigurationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15264, __c477, 0) as any as S.Schema<DeleteIntegrationDeliveryConfigurationRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteIntegrationDeliveryConfigurationResponse>,
+  input: __S(15360, __c480, 0) as any as S.Schema<DeleteIntegrationDeliveryConfigurationRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteIntegrationDeliveryConfigurationResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13537,8 +13651,8 @@ export const deleteIpAllowlistEntry: API.OperationMethod<
   DeleteIpAllowlistEntryError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15296, __c478, 0) as any as S.Schema<DeleteIpAllowlistEntryRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteIpAllowlistEntryResponse>,
+  input: __S(15392, __c481, 0) as any as S.Schema<DeleteIpAllowlistEntryRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteIpAllowlistEntryResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13554,8 +13668,8 @@ export const deleteMember: API.OperationMethod<
   DeleteMemberError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15328, __c479, 0) as any as S.Schema<DeleteMemberRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteMemberResponse>,
+  input: __S(15424, __c482, 0) as any as S.Schema<DeleteMemberRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteMemberResponse>,
   errors: [Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13571,8 +13685,8 @@ export const deleteMetric: API.OperationMethod<
   DeleteMetricError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15360, __c480, 0) as any as S.Schema<DeleteMetricRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteMetricResponse>,
+  input: __S(15456, __c483, 0) as any as S.Schema<DeleteMetricRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteMetricResponse>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13588,8 +13702,8 @@ export const deleteMetricGroup: API.OperationMethod<
   DeleteMetricGroupError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15392, __c481, 0) as any as S.Schema<DeleteMetricGroupRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteMetricGroupResponse>,
+  input: __S(15488, __c484, 0) as any as S.Schema<DeleteMetricGroupRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteMetricGroupResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13605,8 +13719,8 @@ export const deleteModelConfig: API.OperationMethod<
   DeleteModelConfigError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15424, __c482, 0) as any as S.Schema<DeleteModelConfigRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteModelConfigResponse>,
+  input: __S(15520, __c485, 0) as any as S.Schema<DeleteModelConfigRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteModelConfigResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13622,8 +13736,8 @@ export const deleteOAuthClient: API.OperationMethod<
   DeleteOAuthClientError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15456, __c483, 0) as any as S.Schema<DeleteOAuthClientRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteOAuthClientResponse>,
+  input: __S(15552, __c486, 0) as any as S.Schema<DeleteOAuthClientRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteOAuthClientResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13639,8 +13753,8 @@ export const deleteProject: API.OperationMethod<
   DeleteProjectError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15488, __c484, 0) as any as S.Schema<DeleteProjectRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteProjectResponse>,
+  input: __S(15584, __c487, 0) as any as S.Schema<DeleteProjectRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteProjectResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13656,8 +13770,8 @@ export const deletePromptSnippet: API.OperationMethod<
   DeletePromptSnippetError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15584, __c487, 0) as any as S.Schema<DeletePromptSnippetRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeletePromptSnippetResponse>,
+  input: __S(15680, __c490, 0) as any as S.Schema<DeletePromptSnippetRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeletePromptSnippetResponse>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13673,8 +13787,8 @@ export const deleteRelayAutoConfig: API.OperationMethod<
   DeleteRelayAutoConfigError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15616, __c488, 0) as any as S.Schema<DeleteRelayAutoConfigRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteRelayAutoConfigResponse>,
+  input: __S(15712, __c491, 0) as any as S.Schema<DeleteRelayAutoConfigRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteRelayAutoConfigResponse>,
   errors: [NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13690,8 +13804,8 @@ export const deleteReleasePolicy: API.OperationMethod<
   DeleteReleasePolicyError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15648, __c489, 0) as any as S.Schema<DeleteReleasePolicyRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteReleasePolicyResponse>,
+  input: __S(15744, __c492, 0) as any as S.Schema<DeleteReleasePolicyRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteReleasePolicyResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13707,8 +13821,8 @@ export const deleteRepository: API.OperationMethod<
   DeleteRepositoryError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15680, __c490, 0) as any as S.Schema<DeleteRepositoryRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteRepositoryResponse>,
+  input: __S(15776, __c493, 0) as any as S.Schema<DeleteRepositoryRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteRepositoryResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13724,8 +13838,8 @@ export const deleteRepositoryProject: API.OperationMethod<
   DeleteRepositoryProjectError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15712, __c491, 0) as any as S.Schema<DeleteRepositoryProjectRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteRepositoryProjectResponse>,
+  input: __S(15808, __c494, 0) as any as S.Schema<DeleteRepositoryProjectRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteRepositoryProjectResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13741,8 +13855,8 @@ export const deleteRestrictedModels: API.OperationMethod<
   DeleteRestrictedModelsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15744, __c492, 0) as any as S.Schema<DeleteRestrictedModelsRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteRestrictedModelsResponse>,
+  input: __S(15840, __c495, 0) as any as S.Schema<DeleteRestrictedModelsRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteRestrictedModelsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13763,8 +13877,8 @@ export const deleteSdkKeyByKey: API.OperationMethod<
   DeleteSdkKeyByKeyError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15776, __c493, 0) as any as S.Schema<DeleteSdkKeyByKeyRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteSdkKeyByKeyResponse>,
+  input: __S(15872, __c496, 0) as any as S.Schema<DeleteSdkKeyByKeyRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteSdkKeyByKeyResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13780,8 +13894,8 @@ export const deleteSegment: API.OperationMethod<
   DeleteSegmentError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15808, __c494, 0) as any as S.Schema<DeleteSegmentRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteSegmentResponse>,
+  input: __S(15904, __c497, 0) as any as S.Schema<DeleteSegmentRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteSegmentResponse>,
   errors: [Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13802,8 +13916,8 @@ export const deleteSegmentScheduledChange: API.OperationMethod<
   DeleteSegmentScheduledChangeError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15840, __c495, 0) as any as S.Schema<DeleteSegmentScheduledChangeRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteSegmentScheduledChangeResponse>,
+  input: __S(15936, __c498, 0) as any as S.Schema<DeleteSegmentScheduledChangeRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteSegmentScheduledChangeResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13819,8 +13933,8 @@ export const deleteSubscription: API.OperationMethod<
   DeleteSubscriptionError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15872, __c496, 0) as any as S.Schema<DeleteSubscriptionRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteSubscriptionResponse>,
+  input: __S(15968, __c499, 0) as any as S.Schema<DeleteSubscriptionRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteSubscriptionResponse>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13836,8 +13950,8 @@ export const deleteTeam: API.OperationMethod<
   DeleteTeamError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16064, __c502, 0) as any as S.Schema<DeleteTeamRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteTeamResponse>,
+  input: __S(16160, __c505, 0) as any as S.Schema<DeleteTeamRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteTeamResponse>,
   errors: [NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13853,8 +13967,8 @@ export const deleteToken: API.OperationMethod<
   DeleteTokenError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16096, __c503, 0) as any as S.Schema<DeleteTokenRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteTokenResponse>,
+  input: __S(16192, __c506, 0) as any as S.Schema<DeleteTokenRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteTokenResponse>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13870,8 +13984,8 @@ export const deleteTriggerWorkflow: API.OperationMethod<
   DeleteTriggerWorkflowError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16128, __c504, 0) as any as S.Schema<DeleteTriggerWorkflowRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteTriggerWorkflowResponse>,
+  input: __S(16224, __c507, 0) as any as S.Schema<DeleteTriggerWorkflowRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteTriggerWorkflowResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13887,8 +14001,8 @@ export const deleteView: API.OperationMethod<
   DeleteViewError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16160, __c505, 0) as any as S.Schema<DeleteViewRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteViewResponse>,
+  input: __S(16256, __c508, 0) as any as S.Schema<DeleteViewRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteViewResponse>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13904,8 +14018,8 @@ export const deleteWebhook: API.OperationMethod<
   DeleteWebhookError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16192, __c506, 0) as any as S.Schema<DeleteWebhookRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteWebhookResponse>,
+  input: __S(16288, __c509, 0) as any as S.Schema<DeleteWebhookRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteWebhookResponse>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13921,8 +14035,8 @@ export const deleteWorkflow: API.OperationMethod<
   DeleteWorkflowError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16224, __c507, 0) as any as S.Schema<DeleteWorkflowRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteWorkflowResponse>,
+  input: __S(16320, __c510, 0) as any as S.Schema<DeleteWorkflowRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteWorkflowResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13938,8 +14052,8 @@ export const deleteWorkflowTemplate: API.OperationMethod<
   DeleteWorkflowTemplateError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16256, __c508, 0) as any as S.Schema<DeleteWorkflowTemplateRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteWorkflowTemplateResponse>,
+  input: __S(16352, __c511, 0) as any as S.Schema<DeleteWorkflowTemplateRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteWorkflowTemplateResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13955,8 +14069,8 @@ export const evaluateContextInstance: API.OperationMethod<
   EvaluateContextInstanceError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16288, __c509, 0) as any as S.Schema<EvaluateContextInstanceRequest>,
-  output: __S(16292, __c509, 4) as any as S.Schema<ContextInstanceEvaluations>,
+  input: __S(16384, __c512, 0) as any as S.Schema<EvaluateContextInstanceRequest>,
+  output: __S(16388, __c512, 4) as any as S.Schema<ContextInstanceEvaluations>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13972,8 +14086,8 @@ export const getAdaptiveTrigger: API.OperationMethod<
   GetAdaptiveTriggerError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16320, __c510, 0) as any as S.Schema<GetAdaptiveTriggerRequest>,
-  output: __S(16356, __c511, 4) as any as S.Schema<AdaptiveTrigger>,
+  input: __S(16416, __c513, 0) as any as S.Schema<GetAdaptiveTriggerRequest>,
+  output: __S(16452, __c514, 4) as any as S.Schema<AdaptiveTrigger>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -13989,8 +14103,8 @@ export const getAgentGraph: API.OperationMethod<
   GetAgentGraphError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16384, __c512, 0) as any as S.Schema<GetAgentGraphRequest>,
-  output: __S(16418, __c513, 2) as any as S.Schema<AgentGraph>,
+  input: __S(16480, __c515, 0) as any as S.Schema<GetAgentGraphRequest>,
+  output: __S(16514, __c516, 2) as any as S.Schema<AgentGraph>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14006,8 +14120,8 @@ export const getAgentOptimization: API.OperationMethod<
   GetAgentOptimizationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16480, __c515, 0) as any as S.Schema<GetAgentOptimizationRequest>,
-  output: __S(16516, __c516, 4) as any as S.Schema<AgentOptimization>,
+  input: __S(16576, __c518, 0) as any as S.Schema<GetAgentOptimizationRequest>,
+  output: __S(16612, __c519, 4) as any as S.Schema<AgentOptimization>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14023,8 +14137,8 @@ export const getAgentSkill: API.OperationMethod<
   GetAgentSkillError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16544, __c517, 0) as any as S.Schema<GetAgentSkillRequest>,
-  output: __S(16576, __c518, 0) as any as S.Schema<AgentSkill>,
+  input: __S(16640, __c520, 0) as any as S.Schema<GetAgentSkillRequest>,
+  output: __S(16672, __c521, 0) as any as S.Schema<AgentSkill>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14040,8 +14154,8 @@ export const getAIConfig: API.OperationMethod<
   GetAIConfigError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16608, __c519, 0) as any as S.Schema<GetAIConfigRequest>,
-  output: __S(16642, __c520, 2) as any as S.Schema<AIConfig>,
+  input: __S(16704, __c522, 0) as any as S.Schema<GetAIConfigRequest>,
+  output: __S(16738, __c523, 2) as any as S.Schema<AIConfig>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14057,8 +14171,8 @@ export const getAIConfigMetrics: API.OperationMethod<
   GetAIConfigMetricsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16736, __c523, 0) as any as S.Schema<GetAIConfigMetricsRequest>,
-  output: __S(16770, __c524, 2) as any as S.Schema<Metrics>,
+  input: __S(16832, __c526, 0) as any as S.Schema<GetAIConfigMetricsRequest>,
+  output: __S(16866, __c527, 2) as any as S.Schema<Metrics>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14078,8 +14192,8 @@ export const getAIConfigMetricsByVariation: API.OperationMethod<
   GetAIConfigMetricsByVariationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16800, __c525, 0) as any as S.Schema<GetAIConfigMetricsByVariationRequest>,
-  output: __S(16803, __c525, 3) as any as S.Schema<GetAIConfigMetricsByVariationResponse>,
+  input: __S(16896, __c528, 0) as any as S.Schema<GetAIConfigMetricsByVariationRequest>,
+  output: __S(16899, __c528, 3) as any as S.Schema<GetAIConfigMetricsByVariationResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14095,8 +14209,8 @@ export const getAIConfigQuickStats: API.OperationMethod<
   GetAIConfigQuickStatsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16832, __c526, 0) as any as S.Schema<GetAIConfigQuickStatsRequest>,
-  output: __S(16833, __c526, 1) as any as S.Schema<QuickStats>,
+  input: __S(16928, __c529, 0) as any as S.Schema<GetAIConfigQuickStatsRequest>,
+  output: __S(16929, __c529, 1) as any as S.Schema<QuickStats>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14112,8 +14226,8 @@ export const getAIConfigs: API.OperationMethod<
   GetAIConfigsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16864, __c527, 0) as any as S.Schema<GetAIConfigsRequest>,
-  output: __S(16866, __c527, 2) as any as S.Schema<AIConfigs>,
+  input: __S(16960, __c530, 0) as any as S.Schema<GetAIConfigsRequest>,
+  output: __S(16962, __c530, 2) as any as S.Schema<AIConfigs>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14129,8 +14243,8 @@ export const getAIConfigTargeting: API.OperationMethod<
   GetAIConfigTargetingError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16928, __c529, 0) as any as S.Schema<GetAIConfigTargetingRequest>,
-  output: __S(17010, __c531, 18) as any as S.Schema<AIConfigTargeting>,
+  input: __S(17024, __c532, 0) as any as S.Schema<GetAIConfigTargetingRequest>,
+  output: __S(17106, __c534, 18) as any as S.Schema<AIConfigTargeting>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14146,8 +14260,8 @@ export const getAIConfigVariation: API.OperationMethod<
   GetAIConfigVariationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17024, __c532, 0) as any as S.Schema<GetAIConfigVariationRequest>,
-  output: __S(17025, __c532, 1) as any as S.Schema<AIConfigVariationsResponse>,
+  input: __S(17120, __c535, 0) as any as S.Schema<GetAIConfigVariationRequest>,
+  output: __S(17121, __c535, 1) as any as S.Schema<AIConfigVariationsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14163,8 +14277,8 @@ export const getAIRunsUsage: API.OperationMethod<
   GetAIRunsUsageError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17056, __c533, 0) as any as S.Schema<GetAIRunsUsageRequest>,
-  output: __S(17120, __c535, 0) as any as S.Schema<SeriesListRep>,
+  input: __S(17152, __c536, 0) as any as S.Schema<GetAIRunsUsageRequest>,
+  output: __S(17216, __c538, 0) as any as S.Schema<SeriesListRep>,
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14180,8 +14294,8 @@ export const getAITool: API.OperationMethod<
   GetAIToolError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c1, 0) as any as S.Schema<GetAIToolRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<AITool>,
+  input: __S(128, __c4, 0) as any as S.Schema<GetAIToolRequest>,
+  output: __S(160, __c5, 0) as any as S.Schema<AITool>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14197,8 +14311,8 @@ export const getAllHoldouts: API.OperationMethod<
   GetAllHoldoutsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<GetAllHoldoutsRequest>,
-  output: __S(99, __c3, 3) as any as S.Schema<HoldoutsCollectionRep>,
+  input: __S(192, __c6, 0) as any as S.Schema<GetAllHoldoutsRequest>,
+  output: __S(195, __c6, 3) as any as S.Schema<HoldoutsCollectionRep>,
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14218,8 +14332,8 @@ export const getAllIntegrationConfigurations: API.OperationMethod<
   GetAllIntegrationConfigurationsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<GetAllIntegrationConfigurationsRequest>,
-  output: __S(162, __c5, 2) as any as S.Schema<IntegrationConfigurationCollectionRep>,
+  input: __S(256, __c8, 0) as any as S.Schema<GetAllIntegrationConfigurationsRequest>,
+  output: __S(258, __c8, 2) as any as S.Schema<IntegrationConfigurationCollectionRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14235,8 +14349,8 @@ export const getAllWebhooks: API.OperationMethod<
   GetAllWebhooksError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<GetAllWebhooksRequest>,
-  output: __S(194, __c6, 2) as any as S.Schema<Webhooks>,
+  input: __S(288, __c9, 0) as any as S.Schema<GetAllWebhooksRequest>,
+  output: __S(290, __c9, 2) as any as S.Schema<Webhooks>,
   errors: [Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14252,8 +14366,8 @@ export const getAnnouncementsPublic: API.OperationMethod<
   GetAnnouncementsPublicError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<GetAnnouncementsPublicRequest>,
-  output: __S(226, __c7, 2) as any as S.Schema<GetAnnouncementsPublic200Response>,
+  input: __S(320, __c10, 0) as any as S.Schema<GetAnnouncementsPublicRequest>,
+  output: __S(322, __c10, 2) as any as S.Schema<GetAnnouncementsPublic200Response>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14269,8 +14383,8 @@ export const getApplication: API.OperationMethod<
   GetApplicationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<GetApplicationRequest>,
-  output: __S(322, __c10, 2) as any as S.Schema<ApplicationRep>,
+  input: __S(352, __c11, 0) as any as S.Schema<GetApplicationRequest>,
+  output: __S(418, __c13, 2) as any as S.Schema<ApplicationRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14286,8 +14400,8 @@ export const getApplications: API.OperationMethod<
   GetApplicationsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<GetApplicationsRequest>,
-  output: __S(354, __c11, 2) as any as S.Schema<ApplicationCollectionRep>,
+  input: __S(448, __c14, 0) as any as S.Schema<GetApplicationsRequest>,
+  output: __S(450, __c14, 2) as any as S.Schema<ApplicationCollectionRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14303,8 +14417,8 @@ export const getApplicationVersions: API.OperationMethod<
   GetApplicationVersionsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<GetApplicationVersionsRequest>,
-  output: __S(386, __c12, 2) as any as S.Schema<ApplicationVersionsCollectionRep>,
+  input: __S(480, __c15, 0) as any as S.Schema<GetApplicationVersionsRequest>,
+  output: __S(482, __c15, 2) as any as S.Schema<ApplicationVersionsCollectionRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14320,8 +14434,8 @@ export const getApprovalForFlag: API.OperationMethod<
   GetApprovalForFlagError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<GetApprovalForFlagRequest>,
-  output: __S(480, __c15, 0) as any as S.Schema<FlagConfigApprovalRequestResponse>,
+  input: __S(544, __c17, 0) as any as S.Schema<GetApprovalForFlagRequest>,
+  output: __S(576, __c18, 0) as any as S.Schema<FlagConfigApprovalRequestResponse>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14337,8 +14451,8 @@ export const getApprovalRequest: API.OperationMethod<
   GetApprovalRequestError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<GetApprovalRequestRequest>,
-  output: __S(548, __c17, 4) as any as S.Schema<ExpandableApprovalRequestResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<GetApprovalRequestRequest>,
+  output: __S(644, __c20, 4) as any as S.Schema<ExpandableApprovalRequestResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14354,8 +14468,8 @@ export const getApprovalRequests: API.OperationMethod<
   GetApprovalRequestsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<GetApprovalRequestsRequest>,
-  output: __S(738, __c23, 2) as any as S.Schema<ExpandableApprovalRequestsResponse>,
+  input: __S(832, __c26, 0) as any as S.Schema<GetApprovalRequestsRequest>,
+  output: __S(834, __c26, 2) as any as S.Schema<ExpandableApprovalRequestsResponse>,
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14375,8 +14489,8 @@ export const getApprovalRequestSettings: API.OperationMethod<
   GetApprovalRequestSettingsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<GetApprovalRequestSettingsRequest>,
-  output: __S(804, __c25, 4) as any as S.Schema<GetApprovalRequestSettingsResponse>,
+  input: __S(864, __c27, 0) as any as S.Schema<GetApprovalRequestSettingsRequest>,
+  output: __S(900, __c28, 4) as any as S.Schema<GetApprovalRequestSettingsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14392,8 +14506,8 @@ export const getApprovalsForFlag: API.OperationMethod<
   GetApprovalsForFlagError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<GetApprovalsForFlagRequest>,
-  output: __S(834, __c26, 2) as any as S.Schema<FlagConfigApprovalRequestsResponse>,
+  input: __S(928, __c29, 0) as any as S.Schema<GetApprovalsForFlagRequest>,
+  output: __S(930, __c29, 2) as any as S.Schema<FlagConfigApprovalRequestsResponse>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14409,8 +14523,8 @@ export const getAuditLogEntries: API.OperationMethod<
   GetAuditLogEntriesError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<GetAuditLogEntriesRequest>,
-  output: __S(928, __c29, 0) as any as S.Schema<AuditLogEntryListingRepCollection>,
+  input: __S(960, __c30, 0) as any as S.Schema<GetAuditLogEntriesRequest>,
+  output: __S(1024, __c32, 0) as any as S.Schema<AuditLogEntryListingRepCollection>,
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14426,8 +14540,8 @@ export const getAuditLogEntry: API.OperationMethod<
   GetAuditLogEntryError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<GetAuditLogEntryRequest>,
-  output: __S(961, __c30, 1) as any as S.Schema<AuditLogEntryRep>,
+  input: __S(1056, __c33, 0) as any as S.Schema<GetAuditLogEntryRequest>,
+  output: __S(1057, __c33, 1) as any as S.Schema<AuditLogEntryRep>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14443,8 +14557,8 @@ export const getBigSegmentExport: API.OperationMethod<
   GetBigSegmentExportError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<GetBigSegmentExportRequest>,
-  output: __S(994, __c31, 2) as any as S.Schema<Export>,
+  input: __S(1088, __c34, 0) as any as S.Schema<GetBigSegmentExportRequest>,
+  output: __S(1090, __c34, 2) as any as S.Schema<Export>,
   errors: [BadRequest, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14460,8 +14574,8 @@ export const getBigSegmentImport: API.OperationMethod<
   GetBigSegmentImportError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<GetBigSegmentImportRequest>,
-  output: __S(1027, __c32, 3) as any as S.Schema<Import>,
+  input: __S(1120, __c35, 0) as any as S.Schema<GetBigSegmentImportRequest>,
+  output: __S(1123, __c35, 3) as any as S.Schema<Import>,
   errors: [BadRequest, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14477,8 +14591,8 @@ export const getBigSegmentStoreIntegration: API.OperationMethod<
   GetBigSegmentStoreIntegrationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<GetBigSegmentStoreIntegrationRequest>,
-  output: __S(1697, __c53, 1) as any as S.Schema<BigSegmentStoreIntegration>,
+  input: __S(1152, __c36, 0) as any as S.Schema<GetBigSegmentStoreIntegrationRequest>,
+  output: __S(1793, __c56, 1) as any as S.Schema<BigSegmentStoreIntegration>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14494,8 +14608,8 @@ export const getBigSegmentStoreIntegrations: API.OperationMethod<
   GetBigSegmentStoreIntegrationsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<GetBigSegmentStoreIntegrationsRequest>,
-  output: __S(1090, __c34, 2) as any as S.Schema<BigSegmentStoreIntegrationCollection>,
+  input: __S(1184, __c37, 0) as any as S.Schema<GetBigSegmentStoreIntegrationsRequest>,
+  output: __S(1186, __c37, 2) as any as S.Schema<BigSegmentStoreIntegrationCollection>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14511,8 +14625,8 @@ export const getBranch: API.OperationMethod<
   GetBranchError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<GetBranchRequest>,
-  output: __S(1184, __c37, 0) as any as S.Schema<BranchRep>,
+  input: __S(1248, __c39, 0) as any as S.Schema<GetBranchRequest>,
+  output: __S(1280, __c40, 0) as any as S.Schema<BranchRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14528,8 +14642,8 @@ export const getBranches: API.OperationMethod<
   GetBranchesError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<GetBranchesRequest>,
-  output: __S(1281, __c40, 1) as any as S.Schema<BranchCollectionRep>,
+  input: __S(1376, __c43, 0) as any as S.Schema<GetBranchesRequest>,
+  output: __S(1377, __c43, 1) as any as S.Schema<BranchCollectionRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14545,8 +14659,8 @@ export const getCallerIdentity: API.OperationMethod<
   GetCallerIdentityError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<GetCallerIdentityRequest>,
-  output: __S(1345, __c42, 1) as any as S.Schema<CallerIdentityRep>,
+  input: __S(1440, __c45, 0) as any as S.Schema<GetCallerIdentityRequest>,
+  output: __S(1441, __c45, 1) as any as S.Schema<CallerIdentityRep>,
   errors: [UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14562,8 +14676,8 @@ export const getContextAttributeNames: API.OperationMethod<
   GetContextAttributeNamesError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<GetContextAttributeNamesRequest>,
-  output: __S(1381, __c43, 5) as any as S.Schema<ContextAttributeNamesCollection>,
+  input: __S(1472, __c46, 0) as any as S.Schema<GetContextAttributeNamesRequest>,
+  output: __S(1477, __c46, 5) as any as S.Schema<ContextAttributeNamesCollection>,
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14579,8 +14693,8 @@ export const getContextAttributeValues: API.OperationMethod<
   GetContextAttributeValuesError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<GetContextAttributeValuesRequest>,
-  output: __S(1413, __c44, 5) as any as S.Schema<ContextAttributeValuesCollection>,
+  input: __S(1504, __c47, 0) as any as S.Schema<GetContextAttributeValuesRequest>,
+  output: __S(1509, __c47, 5) as any as S.Schema<ContextAttributeValuesCollection>,
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14599,8 +14713,8 @@ export const getContextInstanceSegmentsMembershipByEnv: API.OperationMethod<
   GetContextInstanceSegmentsMembershipByEnvError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<GetContextInstanceSegmentsMembershipByEnvRequest>,
-  output: __S(1443, __c45, 3) as any as S.Schema<ContextInstanceSegmentMemberships>,
+  input: __S(1536, __c48, 0) as any as S.Schema<GetContextInstanceSegmentsMembershipByEnvRequest>,
+  output: __S(1539, __c48, 3) as any as S.Schema<ContextInstanceSegmentMemberships>,
   errors: [BadRequest, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14616,8 +14730,8 @@ export const getContextKindsByProjectKey: API.OperationMethod<
   GetContextKindsByProjectKeyError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<GetContextKindsByProjectKeyRequest>,
-  output: __S(1477, __c46, 5) as any as S.Schema<ContextKindsCollectionRep>,
+  input: __S(1568, __c49, 0) as any as S.Schema<GetContextKindsByProjectKeyRequest>,
+  output: __S(1573, __c49, 5) as any as S.Schema<ContextKindsCollectionRep>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14633,8 +14747,8 @@ export const getContexts: API.OperationMethod<
   GetContextsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<GetContextsRequest>,
-  output: __S(1538, __c48, 2) as any as S.Schema<Contexts>,
+  input: __S(1600, __c50, 0) as any as S.Schema<GetContextsRequest>,
+  output: __S(1634, __c51, 2) as any as S.Schema<Contexts>,
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14650,8 +14764,8 @@ export const getContextsClientsideUsage: API.OperationMethod<
   GetContextsClientsideUsageError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<GetContextsClientsideUsageRequest>,
-  output: __S(17120, __c535, 0) as any as S.Schema<SeriesListRep>,
+  input: __S(1664, __c52, 0) as any as S.Schema<GetContextsClientsideUsageRequest>,
+  output: __S(17216, __c538, 0) as any as S.Schema<SeriesListRep>,
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14667,8 +14781,8 @@ export const getContextsServersideUsage: API.OperationMethod<
   GetContextsServersideUsageError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<GetContextsServersideUsageRequest>,
-  output: __S(17120, __c535, 0) as any as S.Schema<SeriesListRep>,
+  input: __S(1696, __c53, 0) as any as S.Schema<GetContextsServersideUsageRequest>,
+  output: __S(17216, __c538, 0) as any as S.Schema<SeriesListRep>,
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14684,8 +14798,8 @@ export const getContextsTotalUsage: API.OperationMethod<
   GetContextsTotalUsageError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<GetContextsTotalUsageRequest>,
-  output: __S(17120, __c535, 0) as any as S.Schema<SeriesListRep>,
+  input: __S(1728, __c54, 0) as any as S.Schema<GetContextsTotalUsageRequest>,
+  output: __S(17216, __c538, 0) as any as S.Schema<SeriesListRep>,
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14701,8 +14815,8 @@ export const getCustomRole: API.OperationMethod<
   GetCustomRoleError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<GetCustomRoleRequest>,
-  output: __S(1793, __c56, 1) as any as S.Schema<CustomRole>,
+  input: __S(1856, __c58, 0) as any as S.Schema<GetCustomRoleRequest>,
+  output: __S(1889, __c59, 1) as any as S.Schema<CustomRole>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14718,8 +14832,8 @@ export const getCustomRoles: API.OperationMethod<
   GetCustomRolesError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<GetCustomRolesRequest>,
-  output: __S(1826, __c57, 2) as any as S.Schema<CustomRoles>,
+  input: __S(1920, __c60, 0) as any as S.Schema<GetCustomRolesRequest>,
+  output: __S(1922, __c60, 2) as any as S.Schema<CustomRoles>,
   errors: [Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14735,8 +14849,8 @@ export const getCustomWorkflow: API.OperationMethod<
   GetCustomWorkflowError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<GetCustomWorkflowRequest>,
-  output: __S(1895, __c59, 7) as any as S.Schema<CustomWorkflowOutput>,
+  input: __S(1952, __c61, 0) as any as S.Schema<GetCustomWorkflowRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<CustomWorkflowOutput>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14752,8 +14866,8 @@ export const getDataExportEventsUsage: API.OperationMethod<
   GetDataExportEventsUsageError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<GetDataExportEventsUsageRequest>,
-  output: __S(1952, __c61, 0) as any as S.Schema<DataExportSeriesListRep>,
+  input: __S(2016, __c63, 0) as any as S.Schema<GetDataExportEventsUsageRequest>,
+  output: __S(2048, __c64, 0) as any as S.Schema<DataExportSeriesListRep>,
   errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14773,8 +14887,8 @@ export const getDataExportProjectRanking: API.OperationMethod<
   GetDataExportProjectRankingError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<GetDataExportProjectRankingRequest>,
-  output: __S(1990, __c62, 6) as any as S.Schema<DataExportProjectRankingRep>,
+  input: __S(2080, __c65, 0) as any as S.Schema<GetDataExportProjectRankingRequest>,
+  output: __S(2086, __c65, 6) as any as S.Schema<DataExportProjectRankingRep>,
   errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14790,8 +14904,8 @@ export const getDependentFlags: API.OperationMethod<
   GetDependentFlagsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<GetDependentFlagsRequest>,
-  output: __S(2019, __c63, 3) as any as S.Schema<MultiEnvironmentDependentFlags>,
+  input: __S(2112, __c66, 0) as any as S.Schema<GetDependentFlagsRequest>,
+  output: __S(2115, __c66, 3) as any as S.Schema<MultiEnvironmentDependentFlags>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14807,8 +14921,8 @@ export const getDependentFlagsByEnv: API.OperationMethod<
   GetDependentFlagsByEnvError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<GetDependentFlagsByEnvRequest>,
-  output: __S(2081, __c65, 1) as any as S.Schema<DependentFlagsByEnvironment>,
+  input: __S(2176, __c68, 0) as any as S.Schema<GetDependentFlagsByEnvRequest>,
+  output: __S(2177, __c68, 1) as any as S.Schema<DependentFlagsByEnvironment>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14824,8 +14938,8 @@ export const getDeployment: API.OperationMethod<
   GetDeploymentError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<GetDeploymentRequest>,
-  output: __S(2154, __c67, 10) as any as S.Schema<DeploymentRep>,
+  input: __S(2208, __c69, 0) as any as S.Schema<GetDeploymentRequest>,
+  output: __S(2250, __c70, 10) as any as S.Schema<DeploymentRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14845,8 +14959,8 @@ export const getDeploymentFrequencyChart: API.OperationMethod<
   GetDeploymentFrequencyChartError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<GetDeploymentFrequencyChartRequest>,
-  output: __S(2221, __c69, 13) as any as S.Schema<InsightsChart>,
+  input: __S(2272, __c71, 0) as any as S.Schema<GetDeploymentFrequencyChartRequest>,
+  output: __S(2317, __c72, 13) as any as S.Schema<InsightsChart>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14862,8 +14976,8 @@ export const getDeployments: API.OperationMethod<
   GetDeploymentsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<GetDeploymentsRequest>,
-  output: __S(2145, __c67, 1) as any as S.Schema<DeploymentCollectionRep>,
+  input: __S(2336, __c73, 0) as any as S.Schema<GetDeploymentsRequest>,
+  output: __S(2241, __c70, 1) as any as S.Schema<DeploymentCollectionRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14879,8 +14993,8 @@ export const getDestination: API.OperationMethod<
   GetDestinationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<GetDestinationRequest>,
-  output: __S(2337, __c73, 1) as any as S.Schema<Destination>,
+  input: __S(2400, __c75, 0) as any as S.Schema<GetDestinationRequest>,
+  output: __S(2433, __c76, 1) as any as S.Schema<Destination>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14896,8 +15010,8 @@ export const getDestinations: API.OperationMethod<
   GetDestinationsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<GetDestinationsRequest>,
-  output: __S(2370, __c74, 2) as any as S.Schema<Destinations>,
+  input: __S(2464, __c77, 0) as any as S.Schema<GetDestinationsRequest>,
+  output: __S(2466, __c77, 2) as any as S.Schema<Destinations>,
   errors: [Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14913,8 +15027,8 @@ export const getEnvironment: API.OperationMethod<
   GetEnvironmentError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<GetEnvironmentRequest>,
-  output: __S(4417, __c138, 1) as any as S.Schema<Environment>,
+  input: __S(2496, __c78, 0) as any as S.Schema<GetEnvironmentRequest>,
+  output: __S(4513, __c141, 1) as any as S.Schema<Environment>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14930,8 +15044,8 @@ export const getEnvironmentRelease: API.OperationMethod<
   GetEnvironmentReleaseError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<GetEnvironmentReleaseRequest>,
-  output: __S(2472, __c77, 8) as any as S.Schema<EnvironmentRelease>,
+  input: __S(2528, __c79, 0) as any as S.Schema<GetEnvironmentReleaseRequest>,
+  output: __S(2568, __c80, 8) as any as S.Schema<EnvironmentRelease>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14947,8 +15061,8 @@ export const getEnvironmentsByProject: API.OperationMethod<
   GetEnvironmentsByProjectError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<GetEnvironmentsByProjectRequest>,
-  output: __S(576, __c18, 0) as any as S.Schema<Environments>,
+  input: __S(2592, __c81, 0) as any as S.Schema<GetEnvironmentsByProjectRequest>,
+  output: __S(672, __c21, 0) as any as S.Schema<Environments>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14964,8 +15078,8 @@ export const getEvaluationsUsage: API.OperationMethod<
   GetEvaluationsUsageError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<GetEvaluationsUsageRequest>,
-  output: __S(17120, __c535, 0) as any as S.Schema<SeriesListRep>,
+  input: __S(2624, __c82, 0) as any as S.Schema<GetEvaluationsUsageRequest>,
+  output: __S(17216, __c538, 0) as any as S.Schema<SeriesListRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14981,8 +15095,8 @@ export const getEventsUsage: API.OperationMethod<
   GetEventsUsageError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<GetEventsUsageRequest>,
-  output: __S(17120, __c535, 0) as any as S.Schema<SeriesListRep>,
+  input: __S(2656, __c83, 0) as any as S.Schema<GetEventsUsageRequest>,
+  output: __S(17216, __c538, 0) as any as S.Schema<SeriesListRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -14998,8 +15112,8 @@ export const getExperiment: API.OperationMethod<
   GetExperimentError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<GetExperimentRequest>,
-  output: __S(2738, __c85, 18) as any as S.Schema<Experiment>,
+  input: __S(2688, __c84, 0) as any as S.Schema<GetExperimentRequest>,
+  output: __S(2834, __c88, 18) as any as S.Schema<Experiment>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15015,8 +15129,8 @@ export const getExperimentationEventsUsage: API.OperationMethod<
   GetExperimentationEventsUsageError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<GetExperimentationEventsUsageRequest>,
-  output: __S(17120, __c535, 0) as any as S.Schema<SeriesListRep>,
+  input: __S(2720, __c85, 0) as any as S.Schema<GetExperimentationEventsUsageRequest>,
+  output: __S(17216, __c538, 0) as any as S.Schema<SeriesListRep>,
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15032,8 +15146,8 @@ export const getExperimentationKeysUsage: API.OperationMethod<
   GetExperimentationKeysUsageError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<GetExperimentationKeysUsageRequest>,
-  output: __S(17120, __c535, 0) as any as S.Schema<SeriesListRep>,
+  input: __S(2752, __c86, 0) as any as S.Schema<GetExperimentationKeysUsageRequest>,
+  output: __S(17216, __c538, 0) as any as S.Schema<SeriesListRep>,
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15053,8 +15167,8 @@ export const getExperimentationSettings: API.OperationMethod<
   GetExperimentationSettingsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<GetExperimentationSettingsRequest>,
-  output: __S(2882, __c90, 2) as any as S.Schema<RandomizationSettingsRep>,
+  input: __S(2944, __c92, 0) as any as S.Schema<GetExperimentationSettingsRequest>,
+  output: __S(2978, __c93, 2) as any as S.Schema<RandomizationSettingsRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15070,8 +15184,8 @@ export const getExperiments: API.OperationMethod<
   GetExperimentsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<GetExperimentsRequest>,
-  output: __S(2944, __c92, 0) as any as S.Schema<ExperimentCollectionRep>,
+  input: __S(3008, __c94, 0) as any as S.Schema<GetExperimentsRequest>,
+  output: __S(3040, __c95, 0) as any as S.Schema<ExperimentCollectionRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15087,8 +15201,8 @@ export const getExperimentsAnyEnv: API.OperationMethod<
   GetExperimentsAnyEnvError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<GetExperimentsAnyEnvRequest>,
-  output: __S(2944, __c92, 0) as any as S.Schema<ExperimentCollectionRep>,
+  input: __S(3104, __c97, 0) as any as S.Schema<GetExperimentsAnyEnvRequest>,
+  output: __S(3040, __c95, 0) as any as S.Schema<ExperimentCollectionRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15104,8 +15218,8 @@ export const getExpiringContextTargets: API.OperationMethod<
   GetExpiringContextTargetsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<GetExpiringContextTargetsRequest>,
-  output: __S(3072, __c96, 0) as any as S.Schema<ExpiringTargetGetResponse>,
+  input: __S(3136, __c98, 0) as any as S.Schema<GetExpiringContextTargetsRequest>,
+  output: __S(3168, __c99, 0) as any as S.Schema<ExpiringTargetGetResponse>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15121,8 +15235,8 @@ export const getExpiringTargetsForSegment: API.OperationMethod<
   GetExpiringTargetsForSegmentError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<GetExpiringTargetsForSegmentRequest>,
-  output: __S(3072, __c96, 0) as any as S.Schema<ExpiringTargetGetResponse>,
+  input: __S(3232, __c101, 0) as any as S.Schema<GetExpiringTargetsForSegmentRequest>,
+  output: __S(3168, __c99, 0) as any as S.Schema<ExpiringTargetGetResponse>,
   errors: [NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15138,8 +15252,8 @@ export const getExpiringUserTargets: API.OperationMethod<
   GetExpiringUserTargetsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<GetExpiringUserTargetsRequest>,
-  output: __S(3200, __c100, 0) as any as S.Schema<ExpiringUserTargetGetResponse>,
+  input: __S(3264, __c102, 0) as any as S.Schema<GetExpiringUserTargetsRequest>,
+  output: __S(3296, __c103, 0) as any as S.Schema<ExpiringUserTargetGetResponse>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15155,8 +15269,8 @@ export const getExpiringUserTargetsForSegment: API.OperationMethod<
   GetExpiringUserTargetsForSegmentError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<GetExpiringUserTargetsForSegmentRequest>,
-  output: __S(3200, __c100, 0) as any as S.Schema<ExpiringUserTargetGetResponse>,
+  input: __S(3360, __c105, 0) as any as S.Schema<GetExpiringUserTargetsForSegmentRequest>,
+  output: __S(3296, __c103, 0) as any as S.Schema<ExpiringUserTargetGetResponse>,
   errors: [NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15172,8 +15286,8 @@ export const getExtinctions: API.OperationMethod<
   GetExtinctionsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c103, 0) as any as S.Schema<GetExtinctionsRequest>,
-  output: __S(3298, __c103, 2) as any as S.Schema<ExtinctionCollectionRep>,
+  input: __S(3392, __c106, 0) as any as S.Schema<GetExtinctionsRequest>,
+  output: __S(3394, __c106, 2) as any as S.Schema<ExtinctionCollectionRep>,
   errors: [Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15189,8 +15303,8 @@ export const getFeatureFlag: API.OperationMethod<
   GetFeatureFlagError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c105, 0) as any as S.Schema<GetFeatureFlagRequest>,
-  output: __S(14904, __c465, 24) as any as S.Schema<FeatureFlag>,
+  input: __S(3456, __c108, 0) as any as S.Schema<GetFeatureFlagRequest>,
+  output: __S(15000, __c468, 24) as any as S.Schema<FeatureFlag>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15206,8 +15320,8 @@ export const getFeatureFlags: API.OperationMethod<
   GetFeatureFlagsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c106, 0) as any as S.Schema<GetFeatureFlagsRequest>,
-  output: __S(3394, __c106, 2) as any as S.Schema<FeatureFlags>,
+  input: __S(3488, __c109, 0) as any as S.Schema<GetFeatureFlagsRequest>,
+  output: __S(3490, __c109, 2) as any as S.Schema<FeatureFlags>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15223,8 +15337,8 @@ export const getFeatureFlagScheduledChange: API.OperationMethod<
   GetFeatureFlagScheduledChangeError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<GetFeatureFlagScheduledChangeRequest>,
-  output: __S(3520, __c110, 0) as any as S.Schema<FeatureFlagScheduledChange>,
+  input: __S(3584, __c112, 0) as any as S.Schema<GetFeatureFlagScheduledChangeRequest>,
+  output: __S(3616, __c113, 0) as any as S.Schema<FeatureFlagScheduledChange>,
   errors: [NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15240,8 +15354,8 @@ export const getFeatureFlagStatus: API.OperationMethod<
   GetFeatureFlagStatusError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<GetFeatureFlagStatusRequest>,
-  output: __S(3584, __c112, 0) as any as S.Schema<FlagStatusRep>,
+  input: __S(3648, __c114, 0) as any as S.Schema<GetFeatureFlagStatusRequest>,
+  output: __S(3680, __c115, 0) as any as S.Schema<FlagStatusRep>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15260,8 +15374,8 @@ export const getFeatureFlagStatusAcrossEnvironments: API.OperationMethod<
   GetFeatureFlagStatusAcrossEnvironmentsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c113, 0) as any as S.Schema<GetFeatureFlagStatusAcrossEnvironmentsRequest>,
-  output: __S(3619, __c113, 3) as any as S.Schema<FeatureFlagStatusAcrossEnvironments>,
+  input: __S(3712, __c116, 0) as any as S.Schema<GetFeatureFlagStatusAcrossEnvironmentsRequest>,
+  output: __S(3715, __c116, 3) as any as S.Schema<FeatureFlagStatusAcrossEnvironments>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15277,8 +15391,8 @@ export const getFeatureFlagStatuses: API.OperationMethod<
   GetFeatureFlagStatusesError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<GetFeatureFlagStatusesRequest>,
-  output: __S(3650, __c114, 2) as any as S.Schema<FeatureFlagStatuses>,
+  input: __S(3744, __c117, 0) as any as S.Schema<GetFeatureFlagStatusesRequest>,
+  output: __S(3746, __c117, 2) as any as S.Schema<FeatureFlagStatuses>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15298,8 +15412,8 @@ export const getFlagConfigScheduledChanges: API.OperationMethod<
   GetFlagConfigScheduledChangesError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c115, 0) as any as S.Schema<GetFlagConfigScheduledChangesRequest>,
-  output: __S(3682, __c115, 2) as any as S.Schema<FeatureFlagScheduledChanges>,
+  input: __S(3776, __c118, 0) as any as S.Schema<GetFlagConfigScheduledChangesRequest>,
+  output: __S(3778, __c118, 2) as any as S.Schema<FeatureFlagScheduledChanges>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15315,8 +15429,8 @@ export const getFlagDefaultsByProject: API.OperationMethod<
   GetFlagDefaultsByProjectError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3712, __c116, 0) as any as S.Schema<GetFlagDefaultsByProjectRequest>,
-  output: __S(3714, __c116, 2) as any as S.Schema<FlagDefaultsRep>,
+  input: __S(3808, __c119, 0) as any as S.Schema<GetFlagDefaultsByProjectRequest>,
+  output: __S(3810, __c119, 2) as any as S.Schema<FlagDefaultsRep>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15332,8 +15446,8 @@ export const getFlagEvents: API.OperationMethod<
   GetFlagEventsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c117, 0) as any as S.Schema<GetFlagEventsRequest>,
-  output: __S(3756, __c117, 12) as any as S.Schema<FlagEventCollectionRep>,
+  input: __S(3840, __c120, 0) as any as S.Schema<GetFlagEventsRequest>,
+  output: __S(3852, __c120, 12) as any as S.Schema<FlagEventCollectionRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15349,8 +15463,8 @@ export const getFlagFollowers: API.OperationMethod<
   GetFlagFollowersError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c118, 0) as any as S.Schema<GetFlagFollowersRequest>,
-  output: __S(3777, __c118, 1) as any as S.Schema<FlagFollowersGetRep>,
+  input: __S(3872, __c121, 0) as any as S.Schema<GetFlagFollowersRequest>,
+  output: __S(3873, __c121, 1) as any as S.Schema<FlagFollowersGetRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15371,8 +15485,8 @@ export const getFlagImportConfiguration: API.OperationMethod<
   GetFlagImportConfigurationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3808, __c119, 0) as any as S.Schema<GetFlagImportConfigurationRequest>,
-  output: __S(3460, __c108, 4) as any as S.Schema<FlagImportIntegration>,
+  input: __S(3904, __c122, 0) as any as S.Schema<GetFlagImportConfigurationRequest>,
+  output: __S(3556, __c111, 4) as any as S.Schema<FlagImportIntegration>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15393,8 +15507,8 @@ export const getFlagImportConfigurations: API.OperationMethod<
   GetFlagImportConfigurationsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3840, __c120, 0) as any as S.Schema<GetFlagImportConfigurationsRequest>,
-  output: __S(3842, __c120, 2) as any as S.Schema<FlagImportIntegrationCollection>,
+  input: __S(3936, __c123, 0) as any as S.Schema<GetFlagImportConfigurationsRequest>,
+  output: __S(3938, __c123, 2) as any as S.Schema<FlagImportIntegrationCollection>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15410,8 +15524,8 @@ export const getFlagLinks: API.OperationMethod<
   GetFlagLinksError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3968, __c124, 0) as any as S.Schema<GetFlagLinksRequest>,
-  output: __S(3970, __c124, 2) as any as S.Schema<FlagLinkCollectionRep>,
+  input: __S(4064, __c127, 0) as any as S.Schema<GetFlagLinksRequest>,
+  output: __S(4066, __c127, 2) as any as S.Schema<FlagLinkCollectionRep>,
   errors: [Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15427,8 +15541,8 @@ export const getFlagStatusChart: API.OperationMethod<
   GetFlagStatusChartError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4000, __c125, 0) as any as S.Schema<GetFlagStatusChartRequest>,
-  output: __S(2221, __c69, 13) as any as S.Schema<InsightsChart>,
+  input: __S(4096, __c128, 0) as any as S.Schema<GetFlagStatusChartRequest>,
+  output: __S(2317, __c72, 13) as any as S.Schema<InsightsChart>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15444,8 +15558,8 @@ export const getFollowersByProjEnv: API.OperationMethod<
   GetFollowersByProjEnvError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c126, 0) as any as S.Schema<GetFollowersByProjEnvRequest>,
-  output: __S(4035, __c126, 3) as any as S.Schema<FlagFollowersByProjEnvGetRep>,
+  input: __S(4128, __c129, 0) as any as S.Schema<GetFollowersByProjEnvRequest>,
+  output: __S(4131, __c129, 3) as any as S.Schema<FlagFollowersByProjEnvGetRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15461,8 +15575,8 @@ export const getHoldout: API.OperationMethod<
   GetHoldoutError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<GetHoldoutRequest>,
-  output: __S(4065, __c127, 1) as any as S.Schema<HoldoutDetailRep>,
+  input: __S(4160, __c130, 0) as any as S.Schema<GetHoldoutRequest>,
+  output: __S(4161, __c130, 1) as any as S.Schema<HoldoutDetailRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15478,8 +15592,8 @@ export const getHoldoutById: API.OperationMethod<
   GetHoldoutByIdError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<GetHoldoutByIdRequest>,
-  output: __S(4128, __c129, 0) as any as S.Schema<HoldoutRep>,
+  input: __S(4192, __c131, 0) as any as S.Schema<GetHoldoutByIdRequest>,
+  output: __S(4224, __c132, 0) as any as S.Schema<HoldoutRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15495,8 +15609,8 @@ export const getInsightGroup: API.OperationMethod<
   GetInsightGroupError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c130, 0) as any as S.Schema<GetInsightGroupRequest>,
-  output: __S(4385, __c137, 1) as any as S.Schema<InsightGroup>,
+  input: __S(4256, __c133, 0) as any as S.Schema<GetInsightGroupRequest>,
+  output: __S(4481, __c140, 1) as any as S.Schema<InsightGroup>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15512,8 +15626,8 @@ export const getInsightGroups: API.OperationMethod<
   GetInsightGroupsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4192, __c131, 0) as any as S.Schema<GetInsightGroupsRequest>,
-  output: __S(4196, __c131, 4) as any as S.Schema<InsightGroupCollection>,
+  input: __S(4288, __c134, 0) as any as S.Schema<GetInsightGroupsRequest>,
+  output: __S(4292, __c134, 4) as any as S.Schema<InsightGroupCollection>,
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15529,8 +15643,8 @@ export const getInsightsRepositories: API.OperationMethod<
   GetInsightsRepositoriesError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4224, __c132, 0) as any as S.Schema<GetInsightsRepositoriesRequest>,
-  output: __S(4228, __c132, 4) as any as S.Schema<InsightsRepositoryCollection>,
+  input: __S(4320, __c135, 0) as any as S.Schema<GetInsightsRepositoriesRequest>,
+  output: __S(4324, __c135, 4) as any as S.Schema<InsightsRepositoryCollection>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15546,8 +15660,8 @@ export const getInsightsScores: API.OperationMethod<
   GetInsightsScoresError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c133, 0) as any as S.Schema<GetInsightsScoresRequest>,
-  output: __S(4257, __c133, 1) as any as S.Schema<InsightScores>,
+  input: __S(4352, __c136, 0) as any as S.Schema<GetInsightsScoresRequest>,
+  output: __S(4353, __c136, 1) as any as S.Schema<InsightScores>,
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15567,8 +15681,8 @@ export const getIntegrationConfiguration: API.OperationMethod<
   GetIntegrationConfigurationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4288, __c134, 0) as any as S.Schema<GetIntegrationConfigurationRequest>,
-  output: __S(4943, __c154, 15) as any as S.Schema<IntegrationConfigurationsRep>,
+  input: __S(4384, __c137, 0) as any as S.Schema<GetIntegrationConfigurationRequest>,
+  output: __S(5039, __c157, 15) as any as S.Schema<IntegrationConfigurationsRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15588,11 +15702,11 @@ export const getIntegrationDeliveryConfigurationByEnvironment: API.OperationMeth
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4448,
-    __c139,
+    4544,
+    __c142,
     0,
   ) as any as S.Schema<GetIntegrationDeliveryConfigurationByEnvironmentRequest>,
-  output: __S(4481, __c140, 1) as any as S.Schema<IntegrationDeliveryConfigurationCollection>,
+  output: __S(4577, __c143, 1) as any as S.Schema<IntegrationDeliveryConfigurationCollection>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15608,8 +15722,8 @@ export const getIntegrationDeliveryConfigurationById: API.OperationMethod<
   GetIntegrationDeliveryConfigurationByIdError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4512, __c141, 0) as any as S.Schema<GetIntegrationDeliveryConfigurationByIdRequest>,
-  output: __S(5409, __c169, 1) as any as S.Schema<IntegrationDeliveryConfiguration>,
+  input: __S(4608, __c144, 0) as any as S.Schema<GetIntegrationDeliveryConfigurationByIdRequest>,
+  output: __S(5505, __c172, 1) as any as S.Schema<IntegrationDeliveryConfiguration>,
   errors: [NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15625,8 +15739,8 @@ export const getIntegrationDeliveryConfigurations: API.OperationMethod<
   GetIntegrationDeliveryConfigurationsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4544, __c142, 0) as any as S.Schema<GetIntegrationDeliveryConfigurationsRequest>,
-  output: __S(4481, __c140, 1) as any as S.Schema<IntegrationDeliveryConfigurationCollection>,
+  input: __S(4640, __c145, 0) as any as S.Schema<GetIntegrationDeliveryConfigurationsRequest>,
+  output: __S(4577, __c143, 1) as any as S.Schema<IntegrationDeliveryConfigurationCollection>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15642,8 +15756,8 @@ export const getIpAllowlist: API.OperationMethod<
   GetIpAllowlistError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c143, 0) as any as S.Schema<GetIpAllowlistRequest>,
-  output: __S(4609, __c144, 1) as any as S.Schema<IpAllowlistResponse>,
+  input: __S(4672, __c146, 0) as any as S.Schema<GetIpAllowlistRequest>,
+  output: __S(4705, __c147, 1) as any as S.Schema<IpAllowlistResponse>,
   errors: [Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15659,8 +15773,8 @@ export const getIps: API.OperationMethod<
   GetIpsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4640, __c145, 0) as any as S.Schema<GetIpsRequest>,
-  output: __S(4641, __c145, 1) as any as S.Schema<IpList>,
+  input: __S(4736, __c148, 0) as any as S.Schema<GetIpsRequest>,
+  output: __S(4737, __c148, 1) as any as S.Schema<IpList>,
   errors: [UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15676,8 +15790,8 @@ export const getLayers: API.OperationMethod<
   GetLayersError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4672, __c146, 0) as any as S.Schema<GetLayersRequest>,
-  output: __S(4674, __c146, 2) as any as S.Schema<LayerCollectionRep>,
+  input: __S(4768, __c149, 0) as any as S.Schema<GetLayersRequest>,
+  output: __S(4770, __c149, 2) as any as S.Schema<LayerCollectionRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15693,8 +15807,8 @@ export const getLeadTimeChart: API.OperationMethod<
   GetLeadTimeChartError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4704, __c147, 0) as any as S.Schema<GetLeadTimeChartRequest>,
-  output: __S(2221, __c69, 13) as any as S.Schema<InsightsChart>,
+  input: __S(4800, __c150, 0) as any as S.Schema<GetLeadTimeChartRequest>,
+  output: __S(2317, __c72, 13) as any as S.Schema<InsightsChart>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15710,8 +15824,8 @@ export const getLinkedResources: API.OperationMethod<
   GetLinkedResourcesError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4736, __c148, 0) as any as S.Schema<GetLinkedResourcesRequest>,
-  output: __S(4771, __c149, 3) as any as S.Schema<ViewLinkedResources>,
+  input: __S(4832, __c151, 0) as any as S.Schema<GetLinkedResourcesRequest>,
+  output: __S(4867, __c152, 3) as any as S.Schema<ViewLinkedResources>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15727,8 +15841,8 @@ export const getLinkedViews: API.OperationMethod<
   GetLinkedViewsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4800, __c150, 0) as any as S.Schema<GetLinkedViewsRequest>,
-  output: __S(4833, __c151, 1) as any as S.Schema<Views>,
+  input: __S(4896, __c153, 0) as any as S.Schema<GetLinkedViewsRequest>,
+  output: __S(4929, __c154, 1) as any as S.Schema<Views>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15744,8 +15858,8 @@ export const getMAUClientsideUsage: API.OperationMethod<
   GetMAUClientsideUsageError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4864, __c152, 0) as any as S.Schema<GetMAUClientsideUsageRequest>,
-  output: __S(17120, __c535, 0) as any as S.Schema<SeriesListRep>,
+  input: __S(4960, __c155, 0) as any as S.Schema<GetMAUClientsideUsageRequest>,
+  output: __S(17216, __c538, 0) as any as S.Schema<SeriesListRep>,
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15761,8 +15875,8 @@ export const getMauSdksByType: API.OperationMethod<
   GetMauSdksByTypeError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4992, __c156, 0) as any as S.Schema<GetMauSdksByTypeRequest>,
-  output: __S(4993, __c156, 1) as any as S.Schema<SdkListRep>,
+  input: __S(5088, __c159, 0) as any as S.Schema<GetMauSdksByTypeRequest>,
+  output: __S(5089, __c159, 1) as any as S.Schema<SdkListRep>,
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15778,8 +15892,8 @@ export const getMAUTotalUsage: API.OperationMethod<
   GetMAUTotalUsageError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5024, __c157, 0) as any as S.Schema<GetMAUTotalUsageRequest>,
-  output: __S(17120, __c535, 0) as any as S.Schema<SeriesListRep>,
+  input: __S(5120, __c160, 0) as any as S.Schema<GetMAUTotalUsageRequest>,
+  output: __S(17216, __c538, 0) as any as S.Schema<SeriesListRep>,
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15795,8 +15909,8 @@ export const getMember: API.OperationMethod<
   GetMemberError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5056, __c158, 0) as any as S.Schema<GetMemberRequest>,
-  output: __S(6884, __c215, 4) as any as S.Schema<Member>,
+  input: __S(5152, __c161, 0) as any as S.Schema<GetMemberRequest>,
+  output: __S(6980, __c218, 4) as any as S.Schema<Member>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15812,8 +15926,8 @@ export const getMembers: API.OperationMethod<
   GetMembersError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5088, __c159, 0) as any as S.Schema<GetMembersRequest>,
-  output: __S(6849, __c214, 1) as any as S.Schema<Members>,
+  input: __S(5184, __c162, 0) as any as S.Schema<GetMembersRequest>,
+  output: __S(6945, __c217, 1) as any as S.Schema<Members>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15829,8 +15943,8 @@ export const getMetric: API.OperationMethod<
   GetMetricError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5120, __c160, 0) as any as S.Schema<GetMetricRequest>,
-  output: __S(5155, __c161, 3) as any as S.Schema<MetricRep>,
+  input: __S(5216, __c163, 0) as any as S.Schema<GetMetricRequest>,
+  output: __S(5251, __c164, 3) as any as S.Schema<MetricRep>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15846,8 +15960,8 @@ export const getMetricGroup: API.OperationMethod<
   GetMetricGroupError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5184, __c162, 0) as any as S.Schema<GetMetricGroupRequest>,
-  output: __S(7680, __c240, 0) as any as S.Schema<MetricGroupRep>,
+  input: __S(5280, __c165, 0) as any as S.Schema<GetMetricGroupRequest>,
+  output: __S(7776, __c243, 0) as any as S.Schema<MetricGroupRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15863,8 +15977,8 @@ export const getMetricGroups: API.OperationMethod<
   GetMetricGroupsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5216, __c163, 0) as any as S.Schema<GetMetricGroupsRequest>,
-  output: __S(5218, __c163, 2) as any as S.Schema<MetricGroupCollectionRep>,
+  input: __S(5312, __c166, 0) as any as S.Schema<GetMetricGroupsRequest>,
+  output: __S(5314, __c166, 2) as any as S.Schema<MetricGroupCollectionRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15880,8 +15994,8 @@ export const getMetrics: API.OperationMethod<
   GetMetricsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5248, __c164, 0) as any as S.Schema<GetMetricsRequest>,
-  output: __S(5250, __c164, 2) as any as S.Schema<MetricCollectionRep>,
+  input: __S(5344, __c167, 0) as any as S.Schema<GetMetricsRequest>,
+  output: __S(5346, __c167, 2) as any as S.Schema<MetricCollectionRep>,
   errors: [NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15897,8 +16011,8 @@ export const getModelConfig: API.OperationMethod<
   GetModelConfigError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5280, __c165, 0) as any as S.Schema<GetModelConfigRequest>,
-  output: __S(5312, __c166, 0) as any as S.Schema<ModelConfig>,
+  input: __S(5376, __c168, 0) as any as S.Schema<GetModelConfigRequest>,
+  output: __S(5408, __c169, 0) as any as S.Schema<ModelConfig>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15914,8 +16028,8 @@ export const getOAuthClientById: API.OperationMethod<
   GetOAuthClientByIdError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5344, __c167, 0) as any as S.Schema<GetOAuthClientByIdRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<Client>,
+  input: __S(5440, __c170, 0) as any as S.Schema<GetOAuthClientByIdRequest>,
+  output: __S(8288, __c259, 0) as any as S.Schema<Client>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15931,8 +16045,8 @@ export const getOAuthClients: API.OperationMethod<
   GetOAuthClientsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5440, __c170, 0) as any as S.Schema<GetOAuthClientsRequest>,
-  output: __S(5442, __c170, 2) as any as S.Schema<ClientCollection>,
+  input: __S(5536, __c173, 0) as any as S.Schema<GetOAuthClientsRequest>,
+  output: __S(5538, __c173, 2) as any as S.Schema<ClientCollection>,
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15952,8 +16066,8 @@ export const getObservabilityErrorsUsage: API.OperationMethod<
   GetObservabilityErrorsUsageError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5472, __c171, 0) as any as S.Schema<GetObservabilityErrorsUsageRequest>,
-  output: __S(17120, __c535, 0) as any as S.Schema<SeriesListRep>,
+  input: __S(5568, __c174, 0) as any as S.Schema<GetObservabilityErrorsUsageRequest>,
+  output: __S(17216, __c538, 0) as any as S.Schema<SeriesListRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15973,8 +16087,8 @@ export const getObservabilityLogsUsage: API.OperationMethod<
   GetObservabilityLogsUsageError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5504, __c172, 0) as any as S.Schema<GetObservabilityLogsUsageRequest>,
-  output: __S(17120, __c535, 0) as any as S.Schema<SeriesListRep>,
+  input: __S(5600, __c175, 0) as any as S.Schema<GetObservabilityLogsUsageRequest>,
+  output: __S(17216, __c538, 0) as any as S.Schema<SeriesListRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -15994,8 +16108,8 @@ export const getObservabilityMetricsUsage: API.OperationMethod<
   GetObservabilityMetricsUsageError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5536, __c173, 0) as any as S.Schema<GetObservabilityMetricsUsageRequest>,
-  output: __S(17120, __c535, 0) as any as S.Schema<SeriesListRep>,
+  input: __S(5632, __c176, 0) as any as S.Schema<GetObservabilityMetricsUsageRequest>,
+  output: __S(17216, __c538, 0) as any as S.Schema<SeriesListRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16015,8 +16129,8 @@ export const getObservabilitySessionsUsage: API.OperationMethod<
   GetObservabilitySessionsUsageError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5568, __c174, 0) as any as S.Schema<GetObservabilitySessionsUsageRequest>,
-  output: __S(17120, __c535, 0) as any as S.Schema<SeriesListRep>,
+  input: __S(5664, __c177, 0) as any as S.Schema<GetObservabilitySessionsUsageRequest>,
+  output: __S(17216, __c538, 0) as any as S.Schema<SeriesListRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16036,8 +16150,8 @@ export const getObservabilityTracesUsage: API.OperationMethod<
   GetObservabilityTracesUsageError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5600, __c175, 0) as any as S.Schema<GetObservabilityTracesUsageRequest>,
-  output: __S(17120, __c535, 0) as any as S.Schema<SeriesListRep>,
+  input: __S(5696, __c178, 0) as any as S.Schema<GetObservabilityTracesUsageRequest>,
+  output: __S(17216, __c538, 0) as any as S.Schema<SeriesListRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16053,8 +16167,8 @@ export const getOpenapiSpec: API.OperationMethod<
   GetOpenapiSpecError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5632, __c176, 0) as any as S.Schema<GetOpenapiSpecRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<GetOpenapiSpecResponse>,
+  input: __S(5728, __c179, 0) as any as S.Schema<GetOpenapiSpecRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<GetOpenapiSpecResponse>,
   errors: [UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16070,8 +16184,8 @@ export const getProject: API.OperationMethod<
   GetProjectError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5664, __c177, 0) as any as S.Schema<GetProjectRequest>,
-  output: __S(608, __c19, 0) as any as S.Schema<Project>,
+  input: __S(5760, __c180, 0) as any as S.Schema<GetProjectRequest>,
+  output: __S(704, __c22, 0) as any as S.Schema<Project>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16087,8 +16201,8 @@ export const getProjects: API.OperationMethod<
   GetProjectsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5696, __c178, 0) as any as S.Schema<GetProjectsRequest>,
-  output: __S(5698, __c178, 2) as any as S.Schema<Projects>,
+  input: __S(5792, __c181, 0) as any as S.Schema<GetProjectsRequest>,
+  output: __S(5794, __c181, 2) as any as S.Schema<Projects>,
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16104,8 +16218,8 @@ export const getProjectSdkKeys: API.OperationMethod<
   GetProjectSdkKeysError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5728, __c179, 0) as any as S.Schema<GetProjectSdkKeysRequest>,
-  output: __S(5732, __c179, 4) as any as S.Schema<SdkKeys>,
+  input: __S(5824, __c182, 0) as any as S.Schema<GetProjectSdkKeysRequest>,
+  output: __S(5828, __c182, 4) as any as S.Schema<SdkKeys>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16121,8 +16235,8 @@ export const getPromptSnippet: API.OperationMethod<
   GetPromptSnippetError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5856, __c183, 0) as any as S.Schema<GetPromptSnippetRequest>,
-  output: __S(5888, __c184, 0) as any as S.Schema<PromptSnippet>,
+  input: __S(5952, __c186, 0) as any as S.Schema<GetPromptSnippetRequest>,
+  output: __S(5984, __c187, 0) as any as S.Schema<PromptSnippet>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16138,8 +16252,8 @@ export const getPullRequests: API.OperationMethod<
   GetPullRequestsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5920, __c185, 0) as any as S.Schema<GetPullRequestsRequest>,
-  output: __S(2152, __c67, 8) as any as S.Schema<PullRequestCollectionRep>,
+  input: __S(6016, __c188, 0) as any as S.Schema<GetPullRequestsRequest>,
+  output: __S(2248, __c70, 8) as any as S.Schema<PullRequestCollectionRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16155,8 +16269,8 @@ export const getRelayProxyConfig: API.OperationMethod<
   GetRelayProxyConfigError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5952, __c186, 0) as any as S.Schema<GetRelayProxyConfigRequest>,
-  output: __S(5984, __c187, 0) as any as S.Schema<RelayAutoConfigRep>,
+  input: __S(6048, __c189, 0) as any as S.Schema<GetRelayProxyConfigRequest>,
+  output: __S(6080, __c190, 0) as any as S.Schema<RelayAutoConfigRep>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16172,8 +16286,8 @@ export const getRelayProxyConfigs: API.OperationMethod<
   GetRelayProxyConfigsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6016, __c188, 0) as any as S.Schema<GetRelayProxyConfigsRequest>,
-  output: __S(6018, __c188, 2) as any as S.Schema<RelayAutoConfigCollectionRep>,
+  input: __S(6112, __c191, 0) as any as S.Schema<GetRelayProxyConfigsRequest>,
+  output: __S(6114, __c191, 2) as any as S.Schema<RelayAutoConfigCollectionRep>,
   errors: [Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16189,8 +16303,8 @@ export const getReleaseFrequencyChart: API.OperationMethod<
   GetReleaseFrequencyChartError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6048, __c189, 0) as any as S.Schema<GetReleaseFrequencyChartRequest>,
-  output: __S(2221, __c69, 13) as any as S.Schema<InsightsChart>,
+  input: __S(6144, __c192, 0) as any as S.Schema<GetReleaseFrequencyChartRequest>,
+  output: __S(2317, __c72, 13) as any as S.Schema<InsightsChart>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16206,8 +16320,8 @@ export const getReleasePolicies: API.OperationMethod<
   GetReleasePoliciesError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6080, __c190, 0) as any as S.Schema<GetReleasePoliciesRequest>,
-  output: __S(6081, __c190, 1) as any as S.Schema<ReleasePoliciesResponse>,
+  input: __S(6176, __c193, 0) as any as S.Schema<GetReleasePoliciesRequest>,
+  output: __S(6177, __c193, 1) as any as S.Schema<ReleasePoliciesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16223,8 +16337,8 @@ export const getReleasePolicy: API.OperationMethod<
   GetReleasePolicyError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6176, __c193, 0) as any as S.Schema<GetReleasePolicyRequest>,
-  output: __S(6117, __c191, 5) as any as S.Schema<ReleasePolicy>,
+  input: __S(6272, __c196, 0) as any as S.Schema<GetReleasePolicyRequest>,
+  output: __S(6213, __c194, 5) as any as S.Schema<ReleasePolicy>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16240,8 +16354,8 @@ export const getRepositories: API.OperationMethod<
   GetRepositoriesError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6208, __c194, 0) as any as S.Schema<GetRepositoriesRequest>,
-  output: __S(6210, __c194, 2) as any as S.Schema<RepositoryCollectionRep>,
+  input: __S(6304, __c197, 0) as any as S.Schema<GetRepositoriesRequest>,
+  output: __S(6306, __c197, 2) as any as S.Schema<RepositoryCollectionRep>,
   errors: [Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16257,8 +16371,8 @@ export const getRepository: API.OperationMethod<
   GetRepositoryError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6272, __c196, 0) as any as S.Schema<GetRepositoryRequest>,
-  output: __S(6240, __c195, 0) as any as S.Schema<RepositoryRep>,
+  input: __S(6368, __c199, 0) as any as S.Schema<GetRepositoryRequest>,
+  output: __S(6336, __c198, 0) as any as S.Schema<RepositoryRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16274,8 +16388,8 @@ export const getRoot: API.OperationMethod<
   GetRootError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6304, __c197, 0) as any as S.Schema<GetRootRequest>,
-  output: __S(6305, __c197, 1) as any as S.Schema<RootResponse>,
+  input: __S(6400, __c200, 0) as any as S.Schema<GetRootRequest>,
+  output: __S(6401, __c200, 1) as any as S.Schema<RootResponse>,
   errors: [UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16291,8 +16405,8 @@ export const getRootStatistic: API.OperationMethod<
   GetRootStatisticError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6400, __c200, 0) as any as S.Schema<GetRootStatisticRequest>,
-  output: __S(6402, __c200, 2) as any as S.Schema<StatisticsRoot>,
+  input: __S(6496, __c203, 0) as any as S.Schema<GetRootStatisticRequest>,
+  output: __S(6498, __c203, 2) as any as S.Schema<StatisticsRoot>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16308,8 +16422,8 @@ export const getSdkAllVersions: API.OperationMethod<
   GetSdkAllVersionsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6432, __c201, 0) as any as S.Schema<GetSdkAllVersionsRequest>,
-  output: __S(6466, __c202, 2) as any as S.Schema<GetSdkAllVersionsResponse>,
+  input: __S(6528, __c204, 0) as any as S.Schema<GetSdkAllVersionsRequest>,
+  output: __S(6562, __c205, 2) as any as S.Schema<GetSdkAllVersionsResponse>,
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16325,8 +16439,8 @@ export const getSdkKeyByKey: API.OperationMethod<
   GetSdkKeyByKeyError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6496, __c203, 0) as any as S.Schema<GetSdkKeyByKeyRequest>,
-  output: __S(6528, __c204, 0) as any as S.Schema<SdkKey>,
+  input: __S(6592, __c206, 0) as any as S.Schema<GetSdkKeyByKeyRequest>,
+  output: __S(6624, __c207, 0) as any as S.Schema<SdkKey>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16342,8 +16456,8 @@ export const getSdkKeys: API.OperationMethod<
   GetSdkKeysError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6560, __c205, 0) as any as S.Schema<GetSdkKeysRequest>,
-  output: __S(6562, __c205, 2) as any as S.Schema<SdkKeysForGetSdkKeys>,
+  input: __S(6656, __c208, 0) as any as S.Schema<GetSdkKeysRequest>,
+  output: __S(6658, __c208, 2) as any as S.Schema<SdkKeysForGetSdkKeys>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16359,8 +16473,8 @@ export const getSdkVersionsDetails: API.OperationMethod<
   GetSdkVersionsDetailsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6592, __c206, 0) as any as S.Schema<GetSdkVersionsDetailsRequest>,
-  output: __S(6466, __c202, 2) as any as S.Schema<GetSdkVersionsDetailsResponse>,
+  input: __S(6688, __c209, 0) as any as S.Schema<GetSdkVersionsDetailsRequest>,
+  output: __S(6562, __c205, 2) as any as S.Schema<GetSdkVersionsDetailsResponse>,
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16376,8 +16490,8 @@ export const getSegment: API.OperationMethod<
   GetSegmentError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6624, __c207, 0) as any as S.Schema<GetSegmentRequest>,
-  output: __S(645, __c20, 5) as any as S.Schema<UserSegment>,
+  input: __S(6720, __c210, 0) as any as S.Schema<GetSegmentRequest>,
+  output: __S(741, __c23, 5) as any as S.Schema<UserSegment>,
   errors: [NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16393,8 +16507,8 @@ export const getSegmentMembershipForContext: API.OperationMethod<
   GetSegmentMembershipForContextError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6656, __c208, 0) as any as S.Schema<GetSegmentMembershipForContextRequest>,
-  output: __S(6688, __c209, 0) as any as S.Schema<BigSegmentTarget>,
+  input: __S(6752, __c211, 0) as any as S.Schema<GetSegmentMembershipForContextRequest>,
+  output: __S(6784, __c212, 0) as any as S.Schema<BigSegmentTarget>,
   errors: [BadRequest, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16410,8 +16524,8 @@ export const getSegmentMembershipForUser: API.OperationMethod<
   GetSegmentMembershipForUserError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6720, __c210, 0) as any as S.Schema<GetSegmentMembershipForUserRequest>,
-  output: __S(6688, __c209, 0) as any as S.Schema<BigSegmentTarget>,
+  input: __S(6816, __c213, 0) as any as S.Schema<GetSegmentMembershipForUserRequest>,
+  output: __S(6784, __c212, 0) as any as S.Schema<BigSegmentTarget>,
   errors: [BadRequest, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16427,8 +16541,8 @@ export const getSegments: API.OperationMethod<
   GetSegmentsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6752, __c211, 0) as any as S.Schema<GetSegmentsRequest>,
-  output: __S(6754, __c211, 2) as any as S.Schema<UserSegments>,
+  input: __S(6848, __c214, 0) as any as S.Schema<GetSegmentsRequest>,
+  output: __S(6850, __c214, 2) as any as S.Schema<UserSegments>,
   errors: [NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16448,8 +16562,8 @@ export const getSegmentScheduledChange: API.OperationMethod<
   GetSegmentScheduledChangeError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6784, __c212, 0) as any as S.Schema<GetSegmentScheduledChangeRequest>,
-  output: __S(9216, __c288, 0) as any as S.Schema<SegmentScheduledChange>,
+  input: __S(6880, __c215, 0) as any as S.Schema<GetSegmentScheduledChangeRequest>,
+  output: __S(9312, __c291, 0) as any as S.Schema<SegmentScheduledChange>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16469,8 +16583,8 @@ export const getSegmentScheduledChanges: API.OperationMethod<
   GetSegmentScheduledChangesError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6944, __c217, 0) as any as S.Schema<GetSegmentScheduledChangesRequest>,
-  output: __S(6946, __c217, 2) as any as S.Schema<SegmentScheduledChanges>,
+  input: __S(7040, __c220, 0) as any as S.Schema<GetSegmentScheduledChangesRequest>,
+  output: __S(7042, __c220, 2) as any as S.Schema<SegmentScheduledChanges>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16486,8 +16600,8 @@ export const getServiceConnectionsUsage: API.OperationMethod<
   GetServiceConnectionsUsageError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6976, __c218, 0) as any as S.Schema<GetServiceConnectionsUsageRequest>,
-  output: __S(6977, __c218, 1) as any as S.Schema<SeriesListRepFloat>,
+  input: __S(7072, __c221, 0) as any as S.Schema<GetServiceConnectionsUsageRequest>,
+  output: __S(7073, __c221, 1) as any as S.Schema<SeriesListRepFloat>,
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16503,8 +16617,8 @@ export const getStaleFlagsChart: API.OperationMethod<
   GetStaleFlagsChartError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7008, __c219, 0) as any as S.Schema<GetStaleFlagsChartRequest>,
-  output: __S(2221, __c69, 13) as any as S.Schema<InsightsChart>,
+  input: __S(7104, __c222, 0) as any as S.Schema<GetStaleFlagsChartRequest>,
+  output: __S(2317, __c72, 13) as any as S.Schema<InsightsChart>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16520,8 +16634,8 @@ export const getStatistics: API.OperationMethod<
   GetStatisticsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7040, __c220, 0) as any as S.Schema<GetStatisticsRequest>,
-  output: __S(7044, __c220, 4) as any as S.Schema<StatisticCollectionRep>,
+  input: __S(7136, __c223, 0) as any as S.Schema<GetStatisticsRequest>,
+  output: __S(7140, __c223, 4) as any as S.Schema<StatisticCollectionRep>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16537,8 +16651,8 @@ export const getStreamUsage: API.OperationMethod<
   GetStreamUsageError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7072, __c221, 0) as any as S.Schema<GetStreamUsageRequest>,
-  output: __S(17120, __c535, 0) as any as S.Schema<SeriesListRep>,
+  input: __S(7168, __c224, 0) as any as S.Schema<GetStreamUsageRequest>,
+  output: __S(17216, __c538, 0) as any as S.Schema<SeriesListRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16558,8 +16672,8 @@ export const getStreamUsageBySdkVersion: API.OperationMethod<
   GetStreamUsageBySdkVersionError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7104, __c222, 0) as any as S.Schema<GetStreamUsageBySdkVersionRequest>,
-  output: __S(17120, __c535, 0) as any as S.Schema<SeriesListRep>,
+  input: __S(7200, __c225, 0) as any as S.Schema<GetStreamUsageBySdkVersionRequest>,
+  output: __S(17216, __c538, 0) as any as S.Schema<SeriesListRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16575,8 +16689,8 @@ export const getStreamUsageSdkversion: API.OperationMethod<
   GetStreamUsageSdkversionError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7136, __c223, 0) as any as S.Schema<GetStreamUsageSdkversionRequest>,
-  output: __S(7139, __c223, 3) as any as S.Schema<SdkVersionListRep>,
+  input: __S(7232, __c226, 0) as any as S.Schema<GetStreamUsageSdkversionRequest>,
+  output: __S(7235, __c226, 3) as any as S.Schema<SdkVersionListRep>,
   errors: [Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16592,8 +16706,8 @@ export const getSubscriptionByID: API.OperationMethod<
   GetSubscriptionByIDError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7168, __c224, 0) as any as S.Schema<GetSubscriptionByIDRequest>,
-  output: __S(9635, __c301, 3) as any as S.Schema<Integration>,
+  input: __S(7264, __c227, 0) as any as S.Schema<GetSubscriptionByIDRequest>,
+  output: __S(9731, __c304, 3) as any as S.Schema<Integration>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16609,8 +16723,8 @@ export const getSubscriptions: API.OperationMethod<
   GetSubscriptionsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7200, __c225, 0) as any as S.Schema<GetSubscriptionsRequest>,
-  output: __S(7202, __c225, 2) as any as S.Schema<Integrations>,
+  input: __S(7296, __c228, 0) as any as S.Schema<GetSubscriptionsRequest>,
+  output: __S(7298, __c228, 2) as any as S.Schema<Integrations>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16626,8 +16740,8 @@ export const getTags: API.OperationMethod<
   GetTagsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7232, __c226, 0) as any as S.Schema<GetTagsRequest>,
-  output: __S(7233, __c226, 1) as any as S.Schema<TagsCollection>,
+  input: __S(7328, __c229, 0) as any as S.Schema<GetTagsRequest>,
+  output: __S(7329, __c229, 1) as any as S.Schema<TagsCollection>,
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16643,8 +16757,8 @@ export const getTeam: API.OperationMethod<
   GetTeamError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7296, __c228, 0) as any as S.Schema<GetTeamRequest>,
-  output: __S(10273, __c321, 1) as any as S.Schema<Team>,
+  input: __S(7392, __c231, 0) as any as S.Schema<GetTeamRequest>,
+  output: __S(10369, __c324, 1) as any as S.Schema<Team>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16660,8 +16774,8 @@ export const getTeamMaintainers: API.OperationMethod<
   GetTeamMaintainersError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7328, __c229, 0) as any as S.Schema<GetTeamMaintainersRequest>,
-  output: __S(10208, __c319, 0) as any as S.Schema<TeamMaintainers>,
+  input: __S(7424, __c232, 0) as any as S.Schema<GetTeamMaintainersRequest>,
+  output: __S(10304, __c322, 0) as any as S.Schema<TeamMaintainers>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16677,8 +16791,8 @@ export const getTeamRoles: API.OperationMethod<
   GetTeamRolesError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7360, __c230, 0) as any as S.Schema<GetTeamRolesRequest>,
-  output: __S(10243, __c320, 3) as any as S.Schema<TeamCustomRoles>,
+  input: __S(7456, __c233, 0) as any as S.Schema<GetTeamRolesRequest>,
+  output: __S(10339, __c323, 3) as any as S.Schema<TeamCustomRoles>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16694,8 +16808,8 @@ export const getTeams: API.OperationMethod<
   GetTeamsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7392, __c231, 0) as any as S.Schema<GetTeamsRequest>,
-  output: __S(7394, __c231, 2) as any as S.Schema<Teams>,
+  input: __S(7488, __c234, 0) as any as S.Schema<GetTeamsRequest>,
+  output: __S(7490, __c234, 2) as any as S.Schema<Teams>,
   errors: [UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16711,8 +16825,8 @@ export const getToken: API.OperationMethod<
   GetTokenError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7424, __c232, 0) as any as S.Schema<GetTokenRequest>,
-  output: __S(11008, __c344, 0) as any as S.Schema<Token>,
+  input: __S(7520, __c235, 0) as any as S.Schema<GetTokenRequest>,
+  output: __S(11104, __c347, 0) as any as S.Schema<Token>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16728,8 +16842,8 @@ export const getTokens: API.OperationMethod<
   GetTokensError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7456, __c233, 0) as any as S.Schema<GetTokensRequest>,
-  output: __S(7458, __c233, 2) as any as S.Schema<Tokens>,
+  input: __S(7552, __c236, 0) as any as S.Schema<GetTokensRequest>,
+  output: __S(7554, __c236, 2) as any as S.Schema<Tokens>,
   errors: [Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16745,8 +16859,8 @@ export const getTriggerWorkflowById: API.OperationMethod<
   GetTriggerWorkflowByIdError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7488, __c234, 0) as any as S.Schema<GetTriggerWorkflowByIdRequest>,
-  output: __S(11394, __c356, 2) as any as S.Schema<TriggerWorkflowRep>,
+  input: __S(7584, __c237, 0) as any as S.Schema<GetTriggerWorkflowByIdRequest>,
+  output: __S(11490, __c359, 2) as any as S.Schema<TriggerWorkflowRep>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16762,8 +16876,8 @@ export const getTriggerWorkflows: API.OperationMethod<
   GetTriggerWorkflowsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7520, __c235, 0) as any as S.Schema<GetTriggerWorkflowsRequest>,
-  output: __S(7522, __c235, 2) as any as S.Schema<TriggerWorkflowCollectionRep>,
+  input: __S(7616, __c238, 0) as any as S.Schema<GetTriggerWorkflowsRequest>,
+  output: __S(7618, __c238, 2) as any as S.Schema<TriggerWorkflowCollectionRep>,
   errors: [Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16779,8 +16893,8 @@ export const getVegaAIUsage: API.OperationMethod<
   GetVegaAIUsageError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7552, __c236, 0) as any as S.Schema<GetVegaAIUsageRequest>,
-  output: __S(17120, __c535, 0) as any as S.Schema<SeriesListRep>,
+  input: __S(7648, __c239, 0) as any as S.Schema<GetVegaAIUsageRequest>,
+  output: __S(17216, __c538, 0) as any as S.Schema<SeriesListRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16796,8 +16910,8 @@ export const getVersions: API.OperationMethod<
   GetVersionsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7584, __c237, 0) as any as S.Schema<GetVersionsRequest>,
-  output: __S(7586, __c237, 2) as any as S.Schema<VersionsRep>,
+  input: __S(7680, __c240, 0) as any as S.Schema<GetVersionsRequest>,
+  output: __S(7682, __c240, 2) as any as S.Schema<VersionsRep>,
   errors: [Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16813,8 +16927,8 @@ export const getView: API.OperationMethod<
   GetViewError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7744, __c242, 0) as any as S.Schema<GetViewRequest>,
-  output: __S(11867, __c370, 27) as any as S.Schema<View>,
+  input: __S(7840, __c245, 0) as any as S.Schema<GetViewRequest>,
+  output: __S(11963, __c373, 27) as any as S.Schema<View>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16830,8 +16944,8 @@ export const getViews: API.OperationMethod<
   GetViewsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7776, __c243, 0) as any as S.Schema<GetViewsRequest>,
-  output: __S(4833, __c151, 1) as any as S.Schema<Views>,
+  input: __S(7872, __c246, 0) as any as S.Schema<GetViewsRequest>,
+  output: __S(4929, __c154, 1) as any as S.Schema<Views>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16847,8 +16961,8 @@ export const getWarehouseExportUsage: API.OperationMethod<
   GetWarehouseExportUsageError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7808, __c244, 0) as any as S.Schema<GetWarehouseExportUsageRequest>,
-  output: __S(1952, __c61, 0) as any as S.Schema<DataExportSeriesListRep>,
+  input: __S(7904, __c247, 0) as any as S.Schema<GetWarehouseExportUsageRequest>,
+  output: __S(2048, __c64, 0) as any as S.Schema<DataExportSeriesListRep>,
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16864,8 +16978,8 @@ export const getWebhook: API.OperationMethod<
   GetWebhookError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7840, __c245, 0) as any as S.Schema<GetWebhookRequest>,
-  output: __S(12288, __c384, 0) as any as S.Schema<Webhook>,
+  input: __S(7936, __c248, 0) as any as S.Schema<GetWebhookRequest>,
+  output: __S(12384, __c387, 0) as any as S.Schema<Webhook>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16881,8 +16995,8 @@ export const getWorkflows: API.OperationMethod<
   GetWorkflowsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7872, __c246, 0) as any as S.Schema<GetWorkflowsRequest>,
-  output: __S(7874, __c246, 2) as any as S.Schema<CustomWorkflowsListingOutput>,
+  input: __S(7968, __c249, 0) as any as S.Schema<GetWorkflowsRequest>,
+  output: __S(7970, __c249, 2) as any as S.Schema<CustomWorkflowsListingOutput>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16898,8 +17012,8 @@ export const getWorkflowTemplates: API.OperationMethod<
   GetWorkflowTemplatesError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7904, __c247, 0) as any as S.Schema<GetWorkflowTemplatesRequest>,
-  output: __S(7906, __c247, 2) as any as S.Schema<WorkflowTemplatesListingOutputRep>,
+  input: __S(8000, __c250, 0) as any as S.Schema<GetWorkflowTemplatesRequest>,
+  output: __S(8002, __c250, 2) as any as S.Schema<WorkflowTemplatesListingOutputRep>,
   errors: [NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16915,8 +17029,8 @@ export const linkResource: API.OperationMethod<
   LinkResourceError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7936, __c248, 0) as any as S.Schema<LinkResourceRequest>,
-  output: __S(7937, __c248, 1) as any as S.Schema<LinkResourceSuccessResponse>,
+  input: __S(8032, __c251, 0) as any as S.Schema<LinkResourceRequest>,
+  output: __S(8033, __c251, 1) as any as S.Schema<LinkResourceSuccessResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16932,8 +17046,8 @@ export const listAdaptiveTriggers: API.OperationMethod<
   ListAdaptiveTriggersError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8000, __c250, 0) as any as S.Schema<ListAdaptiveTriggersRequest>,
-  output: __S(8002, __c250, 2) as any as S.Schema<AdaptiveTriggers>,
+  input: __S(8096, __c253, 0) as any as S.Schema<ListAdaptiveTriggersRequest>,
+  output: __S(8098, __c253, 2) as any as S.Schema<AdaptiveTriggers>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16949,8 +17063,8 @@ export const listAgentGraphs: API.OperationMethod<
   ListAgentGraphsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8032, __c251, 0) as any as S.Schema<ListAgentGraphsRequest>,
-  output: __S(8034, __c251, 2) as any as S.Schema<AgentGraphs>,
+  input: __S(8128, __c254, 0) as any as S.Schema<ListAgentGraphsRequest>,
+  output: __S(8130, __c254, 2) as any as S.Schema<AgentGraphs>,
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16966,8 +17080,8 @@ export const listAgentOptimizationResults: API.OperationMethod<
   ListAgentOptimizationResultsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8064, __c252, 0) as any as S.Schema<ListAgentOptimizationResultsRequest>,
-  output: __S(8097, __c253, 1) as any as S.Schema<AgentOptimizationResults>,
+  input: __S(8160, __c255, 0) as any as S.Schema<ListAgentOptimizationResultsRequest>,
+  output: __S(8193, __c256, 1) as any as S.Schema<AgentOptimizationResults>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -16983,8 +17097,8 @@ export const listAgentOptimizationResultsByRunId: API.OperationMethod<
   ListAgentOptimizationResultsByRunIdError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8224, __c257, 0) as any as S.Schema<ListAgentOptimizationResultsByRunIdRequest>,
-  output: __S(8097, __c253, 1) as any as S.Schema<AgentOptimizationResults>,
+  input: __S(8320, __c260, 0) as any as S.Schema<ListAgentOptimizationResultsByRunIdRequest>,
+  output: __S(8193, __c256, 1) as any as S.Schema<AgentOptimizationResults>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17004,8 +17118,8 @@ export const listAgentOptimizationRuns: API.OperationMethod<
   ListAgentOptimizationRunsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8256, __c258, 0) as any as S.Schema<ListAgentOptimizationRunsRequest>,
-  output: __S(8259, __c258, 3) as any as S.Schema<AgentOptimizationRuns>,
+  input: __S(8352, __c261, 0) as any as S.Schema<ListAgentOptimizationRunsRequest>,
+  output: __S(8355, __c261, 3) as any as S.Schema<AgentOptimizationRuns>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17021,8 +17135,8 @@ export const listAgentOptimizations: API.OperationMethod<
   ListAgentOptimizationsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8288, __c259, 0) as any as S.Schema<ListAgentOptimizationsRequest>,
-  output: __S(8290, __c259, 2) as any as S.Schema<AgentOptimizations>,
+  input: __S(8384, __c262, 0) as any as S.Schema<ListAgentOptimizationsRequest>,
+  output: __S(8386, __c262, 2) as any as S.Schema<AgentOptimizations>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17038,8 +17152,8 @@ export const listAgentSkillReferences: API.OperationMethod<
   ListAgentSkillReferencesError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8320, __c260, 0) as any as S.Schema<ListAgentSkillReferencesRequest>,
-  output: __S(8354, __c261, 2) as any as S.Schema<AgentSkillReferences>,
+  input: __S(8416, __c263, 0) as any as S.Schema<ListAgentSkillReferencesRequest>,
+  output: __S(8450, __c264, 2) as any as S.Schema<AgentSkillReferences>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17055,8 +17169,8 @@ export const listAgentSkills: API.OperationMethod<
   ListAgentSkillsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8384, __c262, 0) as any as S.Schema<ListAgentSkillsRequest>,
-  output: __S(8417, __c263, 1) as any as S.Schema<AgentSkills>,
+  input: __S(8480, __c265, 0) as any as S.Schema<ListAgentSkillsRequest>,
+  output: __S(8513, __c266, 1) as any as S.Schema<AgentSkills>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17072,8 +17186,8 @@ export const listAgentSkillVersions: API.OperationMethod<
   ListAgentSkillVersionsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8448, __c264, 0) as any as S.Schema<ListAgentSkillVersionsRequest>,
-  output: __S(8417, __c263, 1) as any as S.Schema<AgentSkills>,
+  input: __S(8544, __c267, 0) as any as S.Schema<ListAgentSkillVersionsRequest>,
+  output: __S(8513, __c266, 1) as any as S.Schema<AgentSkills>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17089,8 +17203,8 @@ export const listAIToolReferences: API.OperationMethod<
   ListAIToolReferencesError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8480, __c265, 0) as any as S.Schema<ListAIToolReferencesRequest>,
-  output: __S(8483, __c265, 3) as any as S.Schema<ToolReferences>,
+  input: __S(8576, __c268, 0) as any as S.Schema<ListAIToolReferencesRequest>,
+  output: __S(8579, __c268, 3) as any as S.Schema<ToolReferences>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17106,8 +17220,8 @@ export const listAITools: API.OperationMethod<
   ListAIToolsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8512, __c266, 0) as any as S.Schema<ListAIToolsRequest>,
-  output: __S(8545, __c267, 1) as any as S.Schema<AITools>,
+  input: __S(8608, __c269, 0) as any as S.Schema<ListAIToolsRequest>,
+  output: __S(8641, __c270, 1) as any as S.Schema<AITools>,
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17123,8 +17237,8 @@ export const listAIToolVersions: API.OperationMethod<
   ListAIToolVersionsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8576, __c268, 0) as any as S.Schema<ListAIToolVersionsRequest>,
-  output: __S(8545, __c267, 1) as any as S.Schema<AITools>,
+  input: __S(8672, __c271, 0) as any as S.Schema<ListAIToolVersionsRequest>,
+  output: __S(8641, __c270, 1) as any as S.Schema<AITools>,
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17140,8 +17254,8 @@ export const listAllAgentOptimizationResults: API.OperationMethod<
   ListAllAgentOptimizationResultsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8608, __c269, 0) as any as S.Schema<ListAllAgentOptimizationResultsRequest>,
-  output: __S(8097, __c253, 1) as any as S.Schema<AgentOptimizationResults>,
+  input: __S(8704, __c272, 0) as any as S.Schema<ListAllAgentOptimizationResultsRequest>,
+  output: __S(8193, __c256, 1) as any as S.Schema<AgentOptimizationResults>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17157,8 +17271,8 @@ export const listEnvironmentReleases: API.OperationMethod<
   ListEnvironmentReleasesError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8800, __c275, 0) as any as S.Schema<ListEnvironmentReleasesRequest>,
-  output: __S(8802, __c275, 2) as any as S.Schema<EnvironmentReleaseCollection>,
+  input: __S(8896, __c278, 0) as any as S.Schema<ListEnvironmentReleasesRequest>,
+  output: __S(8898, __c278, 2) as any as S.Schema<EnvironmentReleaseCollection>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17174,8 +17288,8 @@ export const listModelConfigs: API.OperationMethod<
   ListModelConfigsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8832, __c276, 0) as any as S.Schema<ListModelConfigsRequest>,
-  output: __S(8833, __c276, 1) as any as S.Schema<ListModelConfigsResponse>,
+  input: __S(8928, __c279, 0) as any as S.Schema<ListModelConfigsRequest>,
+  output: __S(8929, __c279, 1) as any as S.Schema<ListModelConfigsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17191,8 +17305,8 @@ export const listModelConfigVersions: API.OperationMethod<
   ListModelConfigVersionsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8896, __c278, 0) as any as S.Schema<ListModelConfigVersionsRequest>,
-  output: __S(8897, __c278, 1) as any as S.Schema<ModelConfigs>,
+  input: __S(8992, __c281, 0) as any as S.Schema<ListModelConfigVersionsRequest>,
+  output: __S(8993, __c281, 1) as any as S.Schema<ModelConfigs>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17208,8 +17322,8 @@ export const listPromptSnippetReferences: API.OperationMethod<
   ListPromptSnippetReferencesError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8928, __c279, 0) as any as S.Schema<ListPromptSnippetReferencesRequest>,
-  output: __S(8354, __c261, 2) as any as S.Schema<SnippetReferences>,
+  input: __S(9024, __c282, 0) as any as S.Schema<ListPromptSnippetReferencesRequest>,
+  output: __S(8450, __c264, 2) as any as S.Schema<SnippetReferences>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17225,8 +17339,8 @@ export const listPromptSnippets: API.OperationMethod<
   ListPromptSnippetsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8960, __c280, 0) as any as S.Schema<ListPromptSnippetsRequest>,
-  output: __S(8993, __c281, 1) as any as S.Schema<PromptSnippets>,
+  input: __S(9056, __c283, 0) as any as S.Schema<ListPromptSnippetsRequest>,
+  output: __S(9089, __c284, 1) as any as S.Schema<PromptSnippets>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17246,8 +17360,8 @@ export const listPromptSnippetVersions: API.OperationMethod<
   ListPromptSnippetVersionsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9024, __c282, 0) as any as S.Schema<ListPromptSnippetVersionsRequest>,
-  output: __S(8993, __c281, 1) as any as S.Schema<PromptSnippets>,
+  input: __S(9120, __c285, 0) as any as S.Schema<ListPromptSnippetVersionsRequest>,
+  output: __S(9089, __c284, 1) as any as S.Schema<PromptSnippets>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17263,8 +17377,8 @@ export const patchAdaptiveTrigger: API.OperationMethod<
   PatchAdaptiveTriggerError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9056, __c283, 0) as any as S.Schema<PatchAdaptiveTriggerRequest>,
-  output: __S(16356, __c511, 4) as any as S.Schema<AdaptiveTrigger>,
+  input: __S(9152, __c286, 0) as any as S.Schema<PatchAdaptiveTriggerRequest>,
+  output: __S(16452, __c514, 4) as any as S.Schema<AdaptiveTrigger>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17280,8 +17394,8 @@ export const patchAgentGraph: API.OperationMethod<
   PatchAgentGraphError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9088, __c284, 0) as any as S.Schema<PatchAgentGraphRequest>,
-  output: __S(16418, __c513, 2) as any as S.Schema<AgentGraph>,
+  input: __S(9184, __c287, 0) as any as S.Schema<PatchAgentGraphRequest>,
+  output: __S(16514, __c516, 2) as any as S.Schema<AgentGraph>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17302,8 +17416,8 @@ export const patchAgentOptimization: API.OperationMethod<
   PatchAgentOptimizationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9120, __c285, 0) as any as S.Schema<PatchAgentOptimizationRequest>,
-  output: __S(16516, __c516, 4) as any as S.Schema<AgentOptimization>,
+  input: __S(9216, __c288, 0) as any as S.Schema<PatchAgentOptimizationRequest>,
+  output: __S(16612, __c519, 4) as any as S.Schema<AgentOptimization>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17323,8 +17437,8 @@ export const patchAgentOptimizationResult: API.OperationMethod<
   PatchAgentOptimizationResultError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9152, __c286, 0) as any as S.Schema<PatchAgentOptimizationResultRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<AgentOptimizationResult>,
+  input: __S(9248, __c289, 0) as any as S.Schema<PatchAgentOptimizationResultRequest>,
+  output: __S(8224, __c257, 0) as any as S.Schema<AgentOptimizationResult>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17345,8 +17459,8 @@ export const patchAgentSkill: API.OperationMethod<
   PatchAgentSkillError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9248, __c289, 0) as any as S.Schema<PatchAgentSkillRequest>,
-  output: __S(16576, __c518, 0) as any as S.Schema<AgentSkill>,
+  input: __S(9344, __c292, 0) as any as S.Schema<PatchAgentSkillRequest>,
+  output: __S(16672, __c521, 0) as any as S.Schema<AgentSkill>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17362,8 +17476,8 @@ export const patchAIConfig: API.OperationMethod<
   PatchAIConfigError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9280, __c290, 0) as any as S.Schema<PatchAIConfigRequest>,
-  output: __S(16642, __c520, 2) as any as S.Schema<AIConfig>,
+  input: __S(9376, __c293, 0) as any as S.Schema<PatchAIConfigRequest>,
+  output: __S(16738, __c523, 2) as any as S.Schema<AIConfig>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17379,8 +17493,8 @@ export const patchAIConfigTargeting: API.OperationMethod<
   PatchAIConfigTargetingError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9312, __c291, 0) as any as S.Schema<PatchAIConfigTargetingRequest>,
-  output: __S(17010, __c531, 18) as any as S.Schema<AIConfigTargeting>,
+  input: __S(9408, __c294, 0) as any as S.Schema<PatchAIConfigTargetingRequest>,
+  output: __S(17106, __c534, 18) as any as S.Schema<AIConfigTargeting>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17396,8 +17510,8 @@ export const patchAIConfigVariation: API.OperationMethod<
   PatchAIConfigVariationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9344, __c292, 0) as any as S.Schema<PatchAIConfigVariationRequest>,
-  output: __S(16684, __c521, 12) as any as S.Schema<AIConfigVariation>,
+  input: __S(9440, __c295, 0) as any as S.Schema<PatchAIConfigVariationRequest>,
+  output: __S(16780, __c524, 12) as any as S.Schema<AIConfigVariation>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17413,8 +17527,8 @@ export const patchAITool: API.OperationMethod<
   PatchAIToolError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9376, __c293, 0) as any as S.Schema<PatchAIToolRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<AITool>,
+  input: __S(9472, __c296, 0) as any as S.Schema<PatchAIToolRequest>,
+  output: __S(160, __c5, 0) as any as S.Schema<AITool>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17434,8 +17548,8 @@ export const patchApprovalRequestSettings: API.OperationMethod<
   PatchApprovalRequestSettingsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9408, __c294, 0) as any as S.Schema<PatchApprovalRequestSettingsRequest>,
-  output: __S(804, __c25, 4) as any as S.Schema<PatchApprovalRequestSettingsResponse>,
+  input: __S(9504, __c297, 0) as any as S.Schema<PatchApprovalRequestSettingsRequest>,
+  output: __S(900, __c28, 4) as any as S.Schema<PatchApprovalRequestSettingsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17456,8 +17570,8 @@ export const patchBigSegmentStoreIntegration: API.OperationMethod<
   PatchBigSegmentStoreIntegrationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9440, __c295, 0) as any as S.Schema<PatchBigSegmentStoreIntegrationRequest>,
-  output: __S(1697, __c53, 1) as any as S.Schema<BigSegmentStoreIntegration>,
+  input: __S(9536, __c298, 0) as any as S.Schema<PatchBigSegmentStoreIntegrationRequest>,
+  output: __S(1793, __c56, 1) as any as S.Schema<BigSegmentStoreIntegration>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17473,8 +17587,8 @@ export const patchCustomRole: API.OperationMethod<
   PatchCustomRoleError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9504, __c297, 0) as any as S.Schema<PatchCustomRoleRequest>,
-  output: __S(1793, __c56, 1) as any as S.Schema<CustomRole>,
+  input: __S(9600, __c300, 0) as any as S.Schema<PatchCustomRoleRequest>,
+  output: __S(1889, __c59, 1) as any as S.Schema<CustomRole>,
   errors: [BadRequest, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17490,8 +17604,8 @@ export const patchEnvironment: API.OperationMethod<
   PatchEnvironmentError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9536, __c298, 0) as any as S.Schema<PatchEnvironmentRequest>,
-  output: __S(4417, __c138, 1) as any as S.Schema<Environment>,
+  input: __S(9632, __c301, 0) as any as S.Schema<PatchEnvironmentRequest>,
+  output: __S(4513, __c141, 1) as any as S.Schema<Environment>,
   errors: [BadRequest, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17513,8 +17627,8 @@ export const patchExperiment: API.OperationMethod<
   PatchExperimentError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9568, __c299, 0) as any as S.Schema<PatchExperimentRequest>,
-  output: __S(2738, __c85, 18) as any as S.Schema<Experiment>,
+  input: __S(9664, __c302, 0) as any as S.Schema<PatchExperimentRequest>,
+  output: __S(2834, __c88, 18) as any as S.Schema<Experiment>,
   errors: [
     BadRequest,
     Forbidden,
@@ -17537,8 +17651,8 @@ export const patchExpiringTargets: API.OperationMethod<
   PatchExpiringTargetsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9664, __c302, 0) as any as S.Schema<PatchExpiringTargetsRequest>,
-  output: __S(9696, __c303, 0) as any as S.Schema<ExpiringTargetPatchResponse>,
+  input: __S(9760, __c305, 0) as any as S.Schema<PatchExpiringTargetsRequest>,
+  output: __S(9792, __c306, 0) as any as S.Schema<ExpiringTargetPatchResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17559,8 +17673,8 @@ export const patchExpiringTargetsForSegment: API.OperationMethod<
   PatchExpiringTargetsForSegmentError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9762, __c305, 2) as any as S.Schema<PatchExpiringTargetsForSegmentRequest>,
-  output: __S(9696, __c303, 0) as any as S.Schema<ExpiringTargetPatchResponse>,
+  input: __S(9858, __c308, 2) as any as S.Schema<PatchExpiringTargetsForSegmentRequest>,
+  output: __S(9792, __c306, 0) as any as S.Schema<ExpiringTargetPatchResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17576,8 +17690,8 @@ export const patchExpiringUserTargets: API.OperationMethod<
   PatchExpiringUserTargetsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9792, __c306, 0) as any as S.Schema<PatchExpiringUserTargetsRequest>,
-  output: __S(9824, __c307, 0) as any as S.Schema<ExpiringUserTargetPatchResponse>,
+  input: __S(9888, __c309, 0) as any as S.Schema<PatchExpiringUserTargetsRequest>,
+  output: __S(9920, __c310, 0) as any as S.Schema<ExpiringUserTargetPatchResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17598,8 +17712,8 @@ export const patchExpiringUserTargetsForSegment: API.OperationMethod<
   PatchExpiringUserTargetsForSegmentError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9858, __c308, 2) as any as S.Schema<PatchExpiringUserTargetsForSegmentRequest>,
-  output: __S(9824, __c307, 0) as any as S.Schema<ExpiringUserTargetPatchResponse>,
+  input: __S(9954, __c311, 2) as any as S.Schema<PatchExpiringUserTargetsForSegmentRequest>,
+  output: __S(9920, __c310, 0) as any as S.Schema<ExpiringUserTargetPatchResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17615,8 +17729,8 @@ export const patchFeatureFlag: API.OperationMethod<
   PatchFeatureFlagError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9888, __c309, 0) as any as S.Schema<PatchFeatureFlagRequest>,
-  output: __S(14904, __c465, 24) as any as S.Schema<FeatureFlag>,
+  input: __S(9984, __c312, 0) as any as S.Schema<PatchFeatureFlagRequest>,
+  output: __S(15000, __c468, 24) as any as S.Schema<FeatureFlag>,
   errors: [BadRequest, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17632,8 +17746,8 @@ export const patchFlagConfigApprovalRequest: API.OperationMethod<
   PatchFlagConfigApprovalRequestError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9920, __c310, 0) as any as S.Schema<PatchFlagConfigApprovalRequestRequest>,
-  output: __S(480, __c15, 0) as any as S.Schema<FlagConfigApprovalRequestResponse>,
+  input: __S(10016, __c313, 0) as any as S.Schema<PatchFlagConfigApprovalRequestRequest>,
+  output: __S(576, __c18, 0) as any as S.Schema<FlagConfigApprovalRequestResponse>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17654,8 +17768,8 @@ export const patchFlagConfigScheduledChange: API.OperationMethod<
   PatchFlagConfigScheduledChangeError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9952, __c311, 0) as any as S.Schema<PatchFlagConfigScheduledChangeRequest>,
-  output: __S(3520, __c110, 0) as any as S.Schema<FeatureFlagScheduledChange>,
+  input: __S(10048, __c314, 0) as any as S.Schema<PatchFlagConfigScheduledChangeRequest>,
+  output: __S(3616, __c113, 0) as any as S.Schema<FeatureFlagScheduledChange>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17676,8 +17790,8 @@ export const patchFlagDefaultsByProject: API.OperationMethod<
   PatchFlagDefaultsByProjectError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9984, __c312, 0) as any as S.Schema<PatchFlagDefaultsByProjectRequest>,
-  output: __S(10018, __c313, 2) as any as S.Schema<UpsertPayloadRep>,
+  input: __S(10080, __c315, 0) as any as S.Schema<PatchFlagDefaultsByProjectRequest>,
+  output: __S(10114, __c316, 2) as any as S.Schema<UpsertPayloadRep>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17698,8 +17812,8 @@ export const patchFlagImportConfiguration: API.OperationMethod<
   PatchFlagImportConfigurationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10048, __c314, 0) as any as S.Schema<PatchFlagImportConfigurationRequest>,
-  output: __S(3460, __c108, 4) as any as S.Schema<FlagImportIntegration>,
+  input: __S(10144, __c317, 0) as any as S.Schema<PatchFlagImportConfigurationRequest>,
+  output: __S(3556, __c111, 4) as any as S.Schema<FlagImportIntegration>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17715,8 +17829,8 @@ export const patchHoldout: API.OperationMethod<
   PatchHoldoutError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10080, __c315, 0) as any as S.Schema<PatchHoldoutRequest>,
-  output: __S(4128, __c129, 0) as any as S.Schema<HoldoutRep>,
+  input: __S(10176, __c318, 0) as any as S.Schema<PatchHoldoutRequest>,
+  output: __S(4224, __c132, 0) as any as S.Schema<HoldoutRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17737,8 +17851,8 @@ export const patchInsightGroup: API.OperationMethod<
   PatchInsightGroupError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10304, __c322, 0) as any as S.Schema<PatchInsightGroupRequest>,
-  output: __S(4385, __c137, 1) as any as S.Schema<InsightGroup>,
+  input: __S(10400, __c325, 0) as any as S.Schema<PatchInsightGroupRequest>,
+  output: __S(4481, __c140, 1) as any as S.Schema<InsightGroup>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17759,8 +17873,8 @@ export const patchIntegrationDeliveryConfiguration: API.OperationMethod<
   PatchIntegrationDeliveryConfigurationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10336, __c323, 0) as any as S.Schema<PatchIntegrationDeliveryConfigurationRequest>,
-  output: __S(5409, __c169, 1) as any as S.Schema<IntegrationDeliveryConfiguration>,
+  input: __S(10432, __c326, 0) as any as S.Schema<PatchIntegrationDeliveryConfigurationRequest>,
+  output: __S(5505, __c172, 1) as any as S.Schema<IntegrationDeliveryConfiguration>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17776,8 +17890,8 @@ export const patchIpAllowlistConfig: API.OperationMethod<
   PatchIpAllowlistConfigError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10368, __c324, 0) as any as S.Schema<PatchIpAllowlistConfigRequest>,
-  output: __S(4609, __c144, 1) as any as S.Schema<IpAllowlistResponse>,
+  input: __S(10464, __c327, 0) as any as S.Schema<PatchIpAllowlistConfigRequest>,
+  output: __S(4705, __c147, 1) as any as S.Schema<IpAllowlistResponse>,
   errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17793,8 +17907,8 @@ export const patchIpAllowlistEntry: API.OperationMethod<
   PatchIpAllowlistEntryError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10400, __c325, 0) as any as S.Schema<PatchIpAllowlistEntryRequest>,
-  output: __S(5824, __c182, 0) as any as S.Schema<IpAllowlistEntryResponse>,
+  input: __S(10496, __c328, 0) as any as S.Schema<PatchIpAllowlistEntryRequest>,
+  output: __S(5920, __c185, 0) as any as S.Schema<IpAllowlistEntryResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17810,8 +17924,8 @@ export const patchMetric: API.OperationMethod<
   PatchMetricError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10432, __c326, 0) as any as S.Schema<PatchMetricRequest>,
-  output: __S(5155, __c161, 3) as any as S.Schema<MetricRep>,
+  input: __S(10528, __c329, 0) as any as S.Schema<PatchMetricRequest>,
+  output: __S(5251, __c164, 3) as any as S.Schema<MetricRep>,
   errors: [BadRequest, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17827,8 +17941,8 @@ export const patchMetricGroup: API.OperationMethod<
   PatchMetricGroupError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10464, __c327, 0) as any as S.Schema<PatchMetricGroupRequest>,
-  output: __S(7680, __c240, 0) as any as S.Schema<MetricGroupRep>,
+  input: __S(10560, __c330, 0) as any as S.Schema<PatchMetricGroupRequest>,
+  output: __S(7776, __c243, 0) as any as S.Schema<MetricGroupRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17844,8 +17958,8 @@ export const patchModelConfig: API.OperationMethod<
   PatchModelConfigError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10496, __c328, 0) as any as S.Schema<PatchModelConfigRequest>,
-  output: __S(5312, __c166, 0) as any as S.Schema<ModelConfig>,
+  input: __S(10592, __c331, 0) as any as S.Schema<PatchModelConfigRequest>,
+  output: __S(5408, __c169, 0) as any as S.Schema<ModelConfig>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17861,8 +17975,8 @@ export const patchOAuthClient: API.OperationMethod<
   PatchOAuthClientError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10528, __c329, 0) as any as S.Schema<PatchOAuthClientRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<Client>,
+  input: __S(10624, __c332, 0) as any as S.Schema<PatchOAuthClientRequest>,
+  output: __S(8288, __c259, 0) as any as S.Schema<Client>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17883,8 +17997,8 @@ export const patchPromptSnippet: API.OperationMethod<
   PatchPromptSnippetError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10560, __c330, 0) as any as S.Schema<PatchPromptSnippetRequest>,
-  output: __S(5888, __c184, 0) as any as S.Schema<PromptSnippet>,
+  input: __S(10656, __c333, 0) as any as S.Schema<PatchPromptSnippetRequest>,
+  output: __S(5984, __c187, 0) as any as S.Schema<PromptSnippet>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17905,8 +18019,8 @@ export const patchRelayAutoConfig: API.OperationMethod<
   PatchRelayAutoConfigError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10592, __c331, 0) as any as S.Schema<PatchRelayAutoConfigRequest>,
-  output: __S(5984, __c187, 0) as any as S.Schema<RelayAutoConfigRep>,
+  input: __S(10688, __c334, 0) as any as S.Schema<PatchRelayAutoConfigRequest>,
+  output: __S(6080, __c190, 0) as any as S.Schema<RelayAutoConfigRep>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17922,8 +18036,8 @@ export const patchRepository: API.OperationMethod<
   PatchRepositoryError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10656, __c333, 0) as any as S.Schema<PatchRepositoryRequest>,
-  output: __S(6240, __c195, 0) as any as S.Schema<RepositoryRep>,
+  input: __S(10752, __c336, 0) as any as S.Schema<PatchRepositoryRequest>,
+  output: __S(6336, __c198, 0) as any as S.Schema<RepositoryRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17944,8 +18058,8 @@ export const patchSdkKeyByKey: API.OperationMethod<
   PatchSdkKeyByKeyError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10688, __c334, 0) as any as S.Schema<PatchSdkKeyByKeyRequest>,
-  output: __S(6528, __c204, 0) as any as S.Schema<SdkKey>,
+  input: __S(10784, __c337, 0) as any as S.Schema<PatchSdkKeyByKeyRequest>,
+  output: __S(6624, __c207, 0) as any as S.Schema<SdkKey>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17966,8 +18080,8 @@ export const patchTriggerWorkflow: API.OperationMethod<
   PatchTriggerWorkflowError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10720, __c335, 0) as any as S.Schema<PatchTriggerWorkflowRequest>,
-  output: __S(11394, __c356, 2) as any as S.Schema<TriggerWorkflowRep>,
+  input: __S(10816, __c338, 0) as any as S.Schema<PatchTriggerWorkflowRequest>,
+  output: __S(11490, __c359, 2) as any as S.Schema<TriggerWorkflowRep>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -17988,8 +18102,8 @@ export const postAdaptiveTrigger: API.OperationMethod<
   PostAdaptiveTriggerError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10752, __c336, 0) as any as S.Schema<PostAdaptiveTriggerRequest>,
-  output: __S(16356, __c511, 4) as any as S.Schema<AdaptiveTrigger>,
+  input: __S(10848, __c339, 0) as any as S.Schema<PostAdaptiveTriggerRequest>,
+  output: __S(16452, __c514, 4) as any as S.Schema<AdaptiveTrigger>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18005,8 +18119,8 @@ export const postAgentGraph: API.OperationMethod<
   PostAgentGraphError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10784, __c337, 0) as any as S.Schema<PostAgentGraphRequest>,
-  output: __S(16418, __c513, 2) as any as S.Schema<AgentGraph>,
+  input: __S(10880, __c340, 0) as any as S.Schema<PostAgentGraphRequest>,
+  output: __S(16514, __c516, 2) as any as S.Schema<AgentGraph>,
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18022,8 +18136,8 @@ export const postAgentOptimization: API.OperationMethod<
   PostAgentOptimizationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10816, __c338, 0) as any as S.Schema<PostAgentOptimizationRequest>,
-  output: __S(16516, __c516, 4) as any as S.Schema<AgentOptimization>,
+  input: __S(10912, __c341, 0) as any as S.Schema<PostAgentOptimizationRequest>,
+  output: __S(16612, __c519, 4) as any as S.Schema<AgentOptimization>,
   errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18043,8 +18157,8 @@ export const postAgentOptimizationResult: API.OperationMethod<
   PostAgentOptimizationResultError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10848, __c339, 0) as any as S.Schema<PostAgentOptimizationResultRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<AgentOptimizationResult>,
+  input: __S(10944, __c342, 0) as any as S.Schema<PostAgentOptimizationResultRequest>,
+  output: __S(8224, __c257, 0) as any as S.Schema<AgentOptimizationResult>,
   errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18065,8 +18179,8 @@ export const postAgentSkill: API.OperationMethod<
   PostAgentSkillError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10880, __c340, 0) as any as S.Schema<PostAgentSkillRequest>,
-  output: __S(16576, __c518, 0) as any as S.Schema<AgentSkill>,
+  input: __S(10976, __c343, 0) as any as S.Schema<PostAgentSkillRequest>,
+  output: __S(16672, __c521, 0) as any as S.Schema<AgentSkill>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18082,8 +18196,8 @@ export const postAIConfig: API.OperationMethod<
   PostAIConfigError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10913, __c341, 1) as any as S.Schema<PostAIConfigRequest>,
-  output: __S(16642, __c520, 2) as any as S.Schema<AIConfig>,
+  input: __S(11009, __c344, 1) as any as S.Schema<PostAIConfigRequest>,
+  output: __S(16738, __c523, 2) as any as S.Schema<AIConfig>,
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18099,8 +18213,8 @@ export const postAIConfigVariation: API.OperationMethod<
   PostAIConfigVariationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10944, __c342, 0) as any as S.Schema<PostAIConfigVariationRequest>,
-  output: __S(16684, __c521, 12) as any as S.Schema<AIConfigVariation>,
+  input: __S(11040, __c345, 0) as any as S.Schema<PostAIConfigVariationRequest>,
+  output: __S(16780, __c524, 12) as any as S.Schema<AIConfigVariation>,
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18116,8 +18230,8 @@ export const postAITool: API.OperationMethod<
   PostAIToolError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11040, __c345, 0) as any as S.Schema<PostAIToolRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<AITool>,
+  input: __S(11136, __c348, 0) as any as S.Schema<PostAIToolRequest>,
+  output: __S(160, __c5, 0) as any as S.Schema<AITool>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18137,8 +18251,8 @@ export const postApprovalRequestApplyForFlag: API.OperationMethod<
   PostApprovalRequestApplyForFlagError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11072, __c346, 0) as any as S.Schema<PostApprovalRequestApplyForFlagRequest>,
-  output: __S(480, __c15, 0) as any as S.Schema<FlagConfigApprovalRequestResponse>,
+  input: __S(11168, __c349, 0) as any as S.Schema<PostApprovalRequestApplyForFlagRequest>,
+  output: __S(576, __c18, 0) as any as S.Schema<FlagConfigApprovalRequestResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18154,8 +18268,8 @@ export const postApprovalRequestForFlag: API.OperationMethod<
   PostApprovalRequestForFlagError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11104, __c347, 0) as any as S.Schema<PostApprovalRequestForFlagRequest>,
-  output: __S(480, __c15, 0) as any as S.Schema<FlagConfigApprovalRequestResponse>,
+  input: __S(11200, __c350, 0) as any as S.Schema<PostApprovalRequestForFlagRequest>,
+  output: __S(576, __c18, 0) as any as S.Schema<FlagConfigApprovalRequestResponse>,
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18175,8 +18289,8 @@ export const postApprovalRequestReviewForFlag: API.OperationMethod<
   PostApprovalRequestReviewForFlagError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11136, __c348, 0) as any as S.Schema<PostApprovalRequestReviewForFlagRequest>,
-  output: __S(480, __c15, 0) as any as S.Schema<FlagConfigApprovalRequestResponse>,
+  input: __S(11232, __c351, 0) as any as S.Schema<PostApprovalRequestReviewForFlagRequest>,
+  output: __S(576, __c18, 0) as any as S.Schema<FlagConfigApprovalRequestResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18192,8 +18306,8 @@ export const postAuditLogEntries: API.OperationMethod<
   PostAuditLogEntriesError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11168, __c349, 0) as any as S.Schema<PostAuditLogEntriesRequest>,
-  output: __S(928, __c29, 0) as any as S.Schema<AuditLogEntryListingRepCollection>,
+  input: __S(11264, __c352, 0) as any as S.Schema<PostAuditLogEntriesRequest>,
+  output: __S(1024, __c32, 0) as any as S.Schema<AuditLogEntryListingRepCollection>,
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18209,8 +18323,8 @@ export const postAuditLogEntryCounts: API.OperationMethod<
   PostAuditLogEntryCountsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11200, __c350, 0) as any as S.Schema<PostAuditLogEntryCountsRequest>,
-  output: __S(11203, __c350, 3) as any as S.Schema<CountBucketsResult>,
+  input: __S(11296, __c353, 0) as any as S.Schema<PostAuditLogEntryCountsRequest>,
+  output: __S(11299, __c353, 3) as any as S.Schema<CountBucketsResult>,
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18230,8 +18344,8 @@ export const postCompleteWarehouseDestinationSetup: API.OperationMethod<
   PostCompleteWarehouseDestinationSetupError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11232, __c351, 0) as any as S.Schema<PostCompleteWarehouseDestinationSetupRequest>,
-  output: __S(2337, __c73, 1) as any as S.Schema<Destination>,
+  input: __S(11328, __c354, 0) as any as S.Schema<PostCompleteWarehouseDestinationSetupRequest>,
+  output: __S(2433, __c76, 1) as any as S.Schema<Destination>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18247,8 +18361,8 @@ export const postCustomRole: API.OperationMethod<
   PostCustomRoleError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11264, __c352, 0) as any as S.Schema<PostCustomRoleRequest>,
-  output: __S(1793, __c56, 1) as any as S.Schema<CustomRole>,
+  input: __S(11360, __c355, 0) as any as S.Schema<PostCustomRoleRequest>,
+  output: __S(1889, __c59, 1) as any as S.Schema<CustomRole>,
   errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18268,8 +18382,8 @@ export const postDisableAdaptiveTrigger: API.OperationMethod<
   PostDisableAdaptiveTriggerError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11296, __c353, 0) as any as S.Schema<PostDisableAdaptiveTriggerRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<PostDisableAdaptiveTriggerResponse>,
+  input: __S(11392, __c356, 0) as any as S.Schema<PostDisableAdaptiveTriggerRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<PostDisableAdaptiveTriggerResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18289,8 +18403,8 @@ export const postEnableAdaptiveTrigger: API.OperationMethod<
   PostEnableAdaptiveTriggerError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11328, __c354, 0) as any as S.Schema<PostEnableAdaptiveTriggerRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<PostEnableAdaptiveTriggerResponse>,
+  input: __S(11424, __c357, 0) as any as S.Schema<PostEnableAdaptiveTriggerRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<PostEnableAdaptiveTriggerResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18311,8 +18425,8 @@ export const postEnvironment: API.OperationMethod<
   PostEnvironmentError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11424, __c357, 0) as any as S.Schema<PostEnvironmentRequest>,
-  output: __S(4417, __c138, 1) as any as S.Schema<Environment>,
+  input: __S(11520, __c360, 0) as any as S.Schema<PostEnvironmentRequest>,
+  output: __S(4513, __c141, 1) as any as S.Schema<Environment>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18328,8 +18442,8 @@ export const postExtinction: API.OperationMethod<
   PostExtinctionError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11456, __c358, 0) as any as S.Schema<PostExtinctionRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<PostExtinctionResponse>,
+  input: __S(11552, __c361, 0) as any as S.Schema<PostExtinctionRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<PostExtinctionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18345,8 +18459,8 @@ export const postFeatureFlag: API.OperationMethod<
   PostFeatureFlagError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11491, __c359, 3) as any as S.Schema<PostFeatureFlagRequest>,
-  output: __S(14904, __c465, 24) as any as S.Schema<FeatureFlag>,
+  input: __S(11587, __c362, 3) as any as S.Schema<PostFeatureFlagRequest>,
+  output: __S(15000, __c468, 24) as any as S.Schema<FeatureFlag>,
   errors: [BadRequest, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18367,8 +18481,8 @@ export const postFlagConfigScheduledChanges: API.OperationMethod<
   PostFlagConfigScheduledChangesError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11520, __c360, 0) as any as S.Schema<PostFlagConfigScheduledChangesRequest>,
-  output: __S(3520, __c110, 0) as any as S.Schema<FeatureFlagScheduledChange>,
+  input: __S(11616, __c363, 0) as any as S.Schema<PostFlagConfigScheduledChangesRequest>,
+  output: __S(3616, __c113, 0) as any as S.Schema<FeatureFlagScheduledChange>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18388,8 +18502,8 @@ export const postFlagCopyConfigApprovalRequest: API.OperationMethod<
   PostFlagCopyConfigApprovalRequestError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11552, __c361, 0) as any as S.Schema<PostFlagCopyConfigApprovalRequestRequest>,
-  output: __S(480, __c15, 0) as any as S.Schema<FlagConfigApprovalRequestResponse>,
+  input: __S(11648, __c364, 0) as any as S.Schema<PostFlagCopyConfigApprovalRequestRequest>,
+  output: __S(576, __c18, 0) as any as S.Schema<FlagConfigApprovalRequestResponse>,
   errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18410,11 +18524,11 @@ export const postGenerateProjectEnvWarehouseDestinationKeyPair: API.OperationMet
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11584,
-    __c362,
+    11680,
+    __c365,
     0,
   ) as any as S.Schema<PostGenerateProjectEnvWarehouseDestinationKeyPairRequest>,
-  output: __S(11616, __c363, 0) as any as S.Schema<GenerateWarehouseDestinationKeyPairPostRep>,
+  output: __S(11712, __c366, 0) as any as S.Schema<GenerateWarehouseDestinationKeyPairPostRep>,
   errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18430,8 +18544,8 @@ export const postGenerateTrustPolicy: API.OperationMethod<
   PostGenerateTrustPolicyError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11648, __c364, 0) as any as S.Schema<PostGenerateTrustPolicyRequest>,
-  output: __S(11652, __c364, 4) as any as S.Schema<GenerateTrustPolicyPostRep>,
+  input: __S(11744, __c367, 0) as any as S.Schema<PostGenerateTrustPolicyRequest>,
+  output: __S(11748, __c367, 4) as any as S.Schema<GenerateTrustPolicyPostRep>,
   errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18451,8 +18565,8 @@ export const postGenerateWarehouseDestinationKeyPair: API.OperationMethod<
   PostGenerateWarehouseDestinationKeyPairError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11680, __c365, 0) as any as S.Schema<PostGenerateWarehouseDestinationKeyPairRequest>,
-  output: __S(11616, __c363, 0) as any as S.Schema<GenerateWarehouseDestinationKeyPairPostRep>,
+  input: __S(11776, __c368, 0) as any as S.Schema<PostGenerateWarehouseDestinationKeyPairRequest>,
+  output: __S(11712, __c366, 0) as any as S.Schema<GenerateWarehouseDestinationKeyPairPostRep>,
   errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18472,11 +18586,11 @@ export const postGenerateWarehouseDestinationSetupScript: API.OperationMethod<
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11712,
-    __c366,
+    11808,
+    __c369,
     0,
   ) as any as S.Schema<PostGenerateWarehouseDestinationSetupScriptRequest>,
-  output: __S(11713, __c366, 1) as any as S.Schema<WarehouseDestinationSetupScriptRep>,
+  output: __S(11809, __c369, 1) as any as S.Schema<WarehouseDestinationSetupScriptRep>,
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18492,8 +18606,8 @@ export const postHoldout: API.OperationMethod<
   PostHoldoutError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11744, __c367, 0) as any as S.Schema<PostHoldoutRequest>,
-  output: __S(4128, __c129, 0) as any as S.Schema<HoldoutRep>,
+  input: __S(11840, __c370, 0) as any as S.Schema<PostHoldoutRequest>,
+  output: __S(4224, __c132, 0) as any as S.Schema<HoldoutRep>,
   errors: [BadRequest, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18509,8 +18623,8 @@ export const postMetric: API.OperationMethod<
   PostMetricError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11940, __c373, 4) as any as S.Schema<PostMetricRequest>,
-  output: __S(5155, __c161, 3) as any as S.Schema<MetricRep>,
+  input: __S(12036, __c376, 4) as any as S.Schema<PostMetricRequest>,
+  output: __S(5251, __c164, 3) as any as S.Schema<MetricRep>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18530,8 +18644,8 @@ export const postMigrationSafetyIssues: API.OperationMethod<
   PostMigrationSafetyIssuesError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11968, __c374, 0) as any as S.Schema<PostMigrationSafetyIssuesRequest>,
-  output: __S(11971, __c374, 3) as any as S.Schema<PostMigrationSafetyIssuesResponse>,
+  input: __S(12064, __c377, 0) as any as S.Schema<PostMigrationSafetyIssuesRequest>,
+  output: __S(12067, __c377, 3) as any as S.Schema<PostMigrationSafetyIssuesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18547,8 +18661,8 @@ export const postModelConfig: API.OperationMethod<
   PostModelConfigError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12000, __c375, 0) as any as S.Schema<PostModelConfigRequest>,
-  output: __S(5312, __c166, 0) as any as S.Schema<ModelConfig>,
+  input: __S(12096, __c378, 0) as any as S.Schema<PostModelConfigRequest>,
+  output: __S(5408, __c169, 0) as any as S.Schema<ModelConfig>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18569,8 +18683,8 @@ export const postPromptSnippet: API.OperationMethod<
   PostPromptSnippetError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12032, __c376, 0) as any as S.Schema<PostPromptSnippetRequest>,
-  output: __S(5888, __c184, 0) as any as S.Schema<PromptSnippet>,
+  input: __S(12128, __c379, 0) as any as S.Schema<PostPromptSnippetRequest>,
+  output: __S(5984, __c187, 0) as any as S.Schema<PromptSnippet>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18586,8 +18700,8 @@ export const postRelayAutoConfig: API.OperationMethod<
   PostRelayAutoConfigError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12064, __c377, 0) as any as S.Schema<PostRelayAutoConfigRequest>,
-  output: __S(5984, __c187, 0) as any as S.Schema<RelayAutoConfigRep>,
+  input: __S(12160, __c380, 0) as any as S.Schema<PostRelayAutoConfigRequest>,
+  output: __S(6080, __c190, 0) as any as S.Schema<RelayAutoConfigRep>,
   errors: [BadRequest, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18603,8 +18717,8 @@ export const postReleasePoliciesOrder: API.OperationMethod<
   PostReleasePoliciesOrderError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12096, __c378, 0) as any as S.Schema<PostReleasePoliciesOrderRequest>,
-  output: __S(12097, __c378, 1) as any as S.Schema<PostReleasePoliciesOrderResponse>,
+  input: __S(12192, __c381, 0) as any as S.Schema<PostReleasePoliciesOrderRequest>,
+  output: __S(12193, __c381, 1) as any as S.Schema<PostReleasePoliciesOrderResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18625,8 +18739,8 @@ export const postReleasePolicy: API.OperationMethod<
   PostReleasePolicyError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12128, __c379, 0) as any as S.Schema<PostReleasePolicyRequest>,
-  output: __S(6117, __c191, 5) as any as S.Schema<ReleasePolicy>,
+  input: __S(12224, __c382, 0) as any as S.Schema<PostReleasePolicyRequest>,
+  output: __S(6213, __c194, 5) as any as S.Schema<ReleasePolicy>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18642,8 +18756,8 @@ export const postRepository: API.OperationMethod<
   PostRepositoryError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12160, __c380, 0) as any as S.Schema<PostRepositoryRequest>,
-  output: __S(6240, __c195, 0) as any as S.Schema<RepositoryRep>,
+  input: __S(12256, __c383, 0) as any as S.Schema<PostRepositoryRequest>,
+  output: __S(6336, __c198, 0) as any as S.Schema<RepositoryRep>,
   errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18659,8 +18773,8 @@ export const postRestrictedModels: API.OperationMethod<
   PostRestrictedModelsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12192, __c381, 0) as any as S.Schema<PostRestrictedModelsRequest>,
-  output: __S(12195, __c381, 3) as any as S.Schema<RestrictedModelsResponse>,
+  input: __S(12288, __c384, 0) as any as S.Schema<PostRestrictedModelsRequest>,
+  output: __S(12291, __c384, 3) as any as S.Schema<RestrictedModelsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18676,8 +18790,8 @@ export const postSdkKey: API.OperationMethod<
   PostSdkKeyError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12224, __c382, 0) as any as S.Schema<PostSdkKeyRequest>,
-  output: __S(6528, __c204, 0) as any as S.Schema<SdkKey>,
+  input: __S(12320, __c385, 0) as any as S.Schema<PostSdkKeyRequest>,
+  output: __S(6624, __c207, 0) as any as S.Schema<SdkKey>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18693,8 +18807,8 @@ export const postWorkflow: API.OperationMethod<
   PostWorkflowError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12320, __c385, 0) as any as S.Schema<PostWorkflowRequest>,
-  output: __S(1895, __c59, 7) as any as S.Schema<CustomWorkflowOutput>,
+  input: __S(12416, __c388, 0) as any as S.Schema<PostWorkflowRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<CustomWorkflowOutput>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18710,8 +18824,8 @@ export const putBranch: API.OperationMethod<
   PutBranchError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12352, __c386, 0) as any as S.Schema<PutBranchRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<PutBranchResponse>,
+  input: __S(12448, __c389, 0) as any as S.Schema<PutBranchRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<PutBranchResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18732,8 +18846,8 @@ export const putContextFlagSetting: API.OperationMethod<
   PutContextFlagSettingError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12384, __c387, 0) as any as S.Schema<PutContextFlagSettingRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<PutContextFlagSettingResponse>,
+  input: __S(12480, __c390, 0) as any as S.Schema<PutContextFlagSettingRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<PutContextFlagSettingResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18749,8 +18863,8 @@ export const putContextKind: API.OperationMethod<
   PutContextKindError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12416, __c388, 0) as any as S.Schema<PutContextKindRequest>,
-  output: __S(12417, __c388, 1) as any as S.Schema<UpsertResponseRep>,
+  input: __S(12512, __c391, 0) as any as S.Schema<PutContextKindRequest>,
+  output: __S(12513, __c391, 1) as any as S.Schema<UpsertResponseRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18770,8 +18884,8 @@ export const putExperimentationSettings: API.OperationMethod<
   PutExperimentationSettingsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12450, __c389, 2) as any as S.Schema<PutExperimentationSettingsRequest>,
-  output: __S(2882, __c90, 2) as any as S.Schema<RandomizationSettingsRep>,
+  input: __S(12546, __c392, 2) as any as S.Schema<PutExperimentationSettingsRequest>,
+  output: __S(2978, __c93, 2) as any as S.Schema<RandomizationSettingsRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18792,8 +18906,8 @@ export const putFlagDefaultsByProject: API.OperationMethod<
   PutFlagDefaultsByProjectError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12480, __c390, 0) as any as S.Schema<PutFlagDefaultsByProjectRequest>,
-  output: __S(10018, __c313, 2) as any as S.Schema<UpsertPayloadRep>,
+  input: __S(12576, __c393, 0) as any as S.Schema<PutFlagDefaultsByProjectRequest>,
+  output: __S(10114, __c316, 2) as any as S.Schema<UpsertPayloadRep>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18809,8 +18923,8 @@ export const putFlagFollower: API.OperationMethod<
   PutFlagFollowerError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12512, __c391, 0) as any as S.Schema<PutFlagFollowerRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<PutFlagFollowerResponse>,
+  input: __S(12608, __c394, 0) as any as S.Schema<PutFlagFollowerRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<PutFlagFollowerResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18826,8 +18940,8 @@ export const putReleasePolicy: API.OperationMethod<
   PutReleasePolicyError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12544, __c392, 0) as any as S.Schema<PutReleasePolicyRequest>,
-  output: __S(6117, __c191, 5) as any as S.Schema<ReleasePolicy>,
+  input: __S(12640, __c395, 0) as any as S.Schema<PutReleasePolicyRequest>,
+  output: __S(6213, __c194, 5) as any as S.Schema<ReleasePolicy>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18843,8 +18957,8 @@ export const putSdkKeyViews: API.OperationMethod<
   PutSdkKeyViewsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12576, __c393, 0) as any as S.Schema<PutSdkKeyViewsRequest>,
-  output: __S(12577, __c393, 1) as any as S.Schema<PutSdkKeyViewsResponse>,
+  input: __S(12672, __c396, 0) as any as S.Schema<PutSdkKeyViewsRequest>,
+  output: __S(12673, __c396, 1) as any as S.Schema<PutSdkKeyViewsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18865,8 +18979,8 @@ export const resetEnvironmentMobileKey: API.OperationMethod<
   ResetEnvironmentMobileKeyError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12608, __c394, 0) as any as S.Schema<ResetEnvironmentMobileKeyRequest>,
-  output: __S(4417, __c138, 1) as any as S.Schema<Environment>,
+  input: __S(12704, __c397, 0) as any as S.Schema<ResetEnvironmentMobileKeyRequest>,
+  output: __S(4513, __c141, 1) as any as S.Schema<Environment>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18887,8 +19001,8 @@ export const resetEnvironmentSDKKey: API.OperationMethod<
   ResetEnvironmentSDKKeyError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12768, __c399, 0) as any as S.Schema<ResetEnvironmentSDKKeyRequest>,
-  output: __S(4417, __c138, 1) as any as S.Schema<Environment>,
+  input: __S(12864, __c402, 0) as any as S.Schema<ResetEnvironmentSDKKeyRequest>,
+  output: __S(4513, __c141, 1) as any as S.Schema<Environment>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18904,8 +19018,8 @@ export const resetRelayAutoConfig: API.OperationMethod<
   ResetRelayAutoConfigError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12800, __c400, 0) as any as S.Schema<ResetRelayAutoConfigRequest>,
-  output: __S(5984, __c187, 0) as any as S.Schema<RelayAutoConfigRep>,
+  input: __S(12896, __c403, 0) as any as S.Schema<ResetRelayAutoConfigRequest>,
+  output: __S(6080, __c190, 0) as any as S.Schema<RelayAutoConfigRep>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18921,8 +19035,8 @@ export const searchContexts: API.OperationMethod<
   SearchContextsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12832, __c401, 0) as any as S.Schema<SearchContextsRequest>,
-  output: __S(1538, __c48, 2) as any as S.Schema<Contexts>,
+  input: __S(12928, __c404, 0) as any as S.Schema<SearchContextsRequest>,
+  output: __S(1634, __c51, 2) as any as S.Schema<Contexts>,
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18944,8 +19058,8 @@ export const startEnvironmentRelease: API.OperationMethod<
   StartEnvironmentReleaseError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12867, __c402, 3) as any as S.Schema<StartEnvironmentReleaseRequest>,
-  output: __S(2472, __c77, 8) as any as S.Schema<EnvironmentRelease>,
+  input: __S(12963, __c405, 3) as any as S.Schema<StartEnvironmentReleaseRequest>,
+  output: __S(2568, __c80, 8) as any as S.Schema<EnvironmentRelease>,
   errors: [
     BadRequest,
     Forbidden,
@@ -18973,8 +19087,8 @@ export const stopEnvironmentRelease: API.OperationMethod<
   StopEnvironmentReleaseError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12896, __c403, 0) as any as S.Schema<StopEnvironmentReleaseRequest>,
-  output: __S(2472, __c77, 8) as any as S.Schema<EnvironmentRelease>,
+  input: __S(12992, __c406, 0) as any as S.Schema<StopEnvironmentReleaseRequest>,
+  output: __S(2568, __c80, 8) as any as S.Schema<EnvironmentRelease>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -18995,8 +19109,8 @@ export const triggerFlagImportJob: API.OperationMethod<
   TriggerFlagImportJobError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12928, __c404, 0) as any as S.Schema<TriggerFlagImportJobRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<TriggerFlagImportJobResponse>,
+  input: __S(13024, __c407, 0) as any as S.Schema<TriggerFlagImportJobRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<TriggerFlagImportJobResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -19012,8 +19126,8 @@ export const unlinkResource: API.OperationMethod<
   UnlinkResourceError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12960, __c405, 0) as any as S.Schema<UnlinkResourceRequest>,
-  output: __S(12961, __c405, 1) as any as S.Schema<UnlinkResourceSuccessResponse>,
+  input: __S(13056, __c408, 0) as any as S.Schema<UnlinkResourceRequest>,
+  output: __S(13057, __c408, 1) as any as S.Schema<UnlinkResourceSuccessResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -19034,8 +19148,8 @@ export const updateAnnouncementPublic: API.OperationMethod<
   UpdateAnnouncementPublicError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12992, __c406, 0) as any as S.Schema<UpdateAnnouncementPublicRequest>,
-  output: __S(15553, __c486, 1) as any as S.Schema<AnnouncementResponse>,
+  input: __S(13088, __c409, 0) as any as S.Schema<UpdateAnnouncementPublicRequest>,
+  output: __S(15649, __c489, 1) as any as S.Schema<AnnouncementResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -19051,8 +19165,8 @@ export const updateApplication: API.OperationMethod<
   UpdateApplicationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13024, __c407, 0) as any as S.Schema<UpdateApplicationRequest>,
-  output: __S(322, __c10, 2) as any as S.Schema<ApplicationRep>,
+  input: __S(13120, __c410, 0) as any as S.Schema<UpdateApplicationRequest>,
+  output: __S(418, __c13, 2) as any as S.Schema<ApplicationRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -19068,8 +19182,8 @@ export const updateApplicationVersion: API.OperationMethod<
   UpdateApplicationVersionError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13056, __c408, 0) as any as S.Schema<UpdateApplicationVersionRequest>,
-  output: __S(416, __c13, 0) as any as S.Schema<ApplicationVersionRep>,
+  input: __S(13152, __c411, 0) as any as S.Schema<UpdateApplicationVersionRequest>,
+  output: __S(512, __c16, 0) as any as S.Schema<ApplicationVersionRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -19085,8 +19199,8 @@ export const updateApprovalRequest: API.OperationMethod<
   UpdateApprovalRequestError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13120, __c410, 0) as any as S.Schema<UpdateApprovalRequestRequest>,
-  output: __S(480, __c15, 0) as any as S.Schema<FlagConfigApprovalRequestResponse>,
+  input: __S(13216, __c413, 0) as any as S.Schema<UpdateApprovalRequestRequest>,
+  output: __S(576, __c18, 0) as any as S.Schema<FlagConfigApprovalRequestResponse>,
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -19102,8 +19216,8 @@ export const updateBigSegmentContextTargets: API.OperationMethod<
   UpdateBigSegmentContextTargetsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13152, __c411, 0) as any as S.Schema<UpdateBigSegmentContextTargetsRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<UpdateBigSegmentContextTargetsResponse>,
+  input: __S(13248, __c414, 0) as any as S.Schema<UpdateBigSegmentContextTargetsRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<UpdateBigSegmentContextTargetsResponse>,
   errors: [BadRequest, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -19119,8 +19233,8 @@ export const updateBigSegmentTargets: API.OperationMethod<
   UpdateBigSegmentTargetsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13216, __c413, 0) as any as S.Schema<UpdateBigSegmentTargetsRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<UpdateBigSegmentTargetsResponse>,
+  input: __S(13312, __c416, 0) as any as S.Schema<UpdateBigSegmentTargetsRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<UpdateBigSegmentTargetsResponse>,
   errors: [BadRequest, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -19136,8 +19250,8 @@ export const updateDeployment: API.OperationMethod<
   UpdateDeploymentError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13248, __c414, 0) as any as S.Schema<UpdateDeploymentRequest>,
-  output: __S(2154, __c67, 10) as any as S.Schema<DeploymentRep>,
+  input: __S(13344, __c417, 0) as any as S.Schema<UpdateDeploymentRequest>,
+  output: __S(2250, __c70, 10) as any as S.Schema<DeploymentRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -19153,8 +19267,8 @@ export const updateDestination: API.OperationMethod<
   UpdateDestinationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13280, __c415, 0) as any as S.Schema<UpdateDestinationRequest>,
-  output: __S(2337, __c73, 1) as any as S.Schema<Destination>,
+  input: __S(13376, __c418, 0) as any as S.Schema<UpdateDestinationRequest>,
+  output: __S(2433, __c76, 1) as any as S.Schema<Destination>,
   errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -19175,8 +19289,8 @@ export const updateDestinationById: API.OperationMethod<
   UpdateDestinationByIdError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13312, __c416, 0) as any as S.Schema<UpdateDestinationByIdRequest>,
-  output: __S(2337, __c73, 1) as any as S.Schema<Destination>,
+  input: __S(13408, __c419, 0) as any as S.Schema<UpdateDestinationByIdRequest>,
+  output: __S(2433, __c76, 1) as any as S.Schema<Destination>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -19197,8 +19311,8 @@ export const updateFlagLink: API.OperationMethod<
   UpdateFlagLinkError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13344, __c417, 0) as any as S.Schema<UpdateFlagLinkRequest>,
-  output: __S(3906, __c122, 2) as any as S.Schema<FlagLinkRep>,
+  input: __S(13440, __c420, 0) as any as S.Schema<UpdateFlagLinkRequest>,
+  output: __S(4002, __c125, 2) as any as S.Schema<FlagLinkRep>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -19219,8 +19333,8 @@ export const updateIntegrationConfiguration: API.OperationMethod<
   UpdateIntegrationConfigurationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13376, __c418, 0) as any as S.Schema<UpdateIntegrationConfigurationRequest>,
-  output: __S(4943, __c154, 15) as any as S.Schema<IntegrationConfigurationsRep>,
+  input: __S(13472, __c421, 0) as any as S.Schema<UpdateIntegrationConfigurationRequest>,
+  output: __S(5039, __c157, 15) as any as S.Schema<IntegrationConfigurationsRep>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -19236,8 +19350,8 @@ export const updateLayer: API.OperationMethod<
   UpdateLayerError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13408, __c419, 0) as any as S.Schema<UpdateLayerRequest>,
-  output: __S(6372, __c199, 4) as any as S.Schema<LayerRep>,
+  input: __S(13504, __c422, 0) as any as S.Schema<UpdateLayerRequest>,
+  output: __S(6468, __c202, 4) as any as S.Schema<LayerRep>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -19253,8 +19367,8 @@ export const updateMember: API.OperationMethod<
   UpdateMemberError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13440, __c420, 0) as any as S.Schema<UpdateMemberRequest>,
-  output: __S(6884, __c215, 4) as any as S.Schema<Member>,
+  input: __S(13536, __c423, 0) as any as S.Schema<UpdateMemberRequest>,
+  output: __S(6980, __c218, 4) as any as S.Schema<Member>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -19270,8 +19384,8 @@ export const updateMembers: API.OperationMethod<
   UpdateMembersError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13504, __c422, 0) as any as S.Schema<UpdateMembersRequest>,
-  output: __S(13505, __c422, 1) as any as S.Schema<BulkEditMembersRep>,
+  input: __S(13600, __c425, 0) as any as S.Schema<UpdateMembersRequest>,
+  output: __S(13601, __c425, 1) as any as S.Schema<BulkEditMembersRep>,
   errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -19287,8 +19401,8 @@ export const updateProject: API.OperationMethod<
   UpdateProjectError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13568, __c424, 0) as any as S.Schema<UpdateProjectRequest>,
-  output: __S(8768, __c274, 0) as any as S.Schema<ProjectRep>,
+  input: __S(13664, __c427, 0) as any as S.Schema<UpdateProjectRequest>,
+  output: __S(8864, __c277, 0) as any as S.Schema<ProjectRep>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -19304,8 +19418,8 @@ export const updateSegment: API.OperationMethod<
   UpdateSegmentError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13600, __c425, 0) as any as S.Schema<UpdateSegmentRequest>,
-  output: __S(645, __c20, 5) as any as S.Schema<UserSegment>,
+  input: __S(13696, __c428, 0) as any as S.Schema<UpdateSegmentRequest>,
+  output: __S(741, __c23, 5) as any as S.Schema<UserSegment>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -19326,8 +19440,8 @@ export const updateSegmentBySegmentKey: API.OperationMethod<
   UpdateSegmentBySegmentKeyError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13632, __c426, 0) as any as S.Schema<UpdateSegmentBySegmentKeyRequest>,
-  output: __S(645, __c20, 5) as any as S.Schema<UserSegment>,
+  input: __S(13728, __c429, 0) as any as S.Schema<UpdateSegmentBySegmentKeyRequest>,
+  output: __S(741, __c23, 5) as any as S.Schema<UserSegment>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -19348,8 +19462,8 @@ export const updateSegmentScheduledChange: API.OperationMethod<
   UpdateSegmentScheduledChangeError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13664, __c427, 0) as any as S.Schema<UpdateSegmentScheduledChangeRequest>,
-  output: __S(9216, __c288, 0) as any as S.Schema<SegmentScheduledChange>,
+  input: __S(13760, __c430, 0) as any as S.Schema<UpdateSegmentScheduledChangeRequest>,
+  output: __S(9312, __c291, 0) as any as S.Schema<SegmentScheduledChange>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -19370,8 +19484,8 @@ export const updateSubscription: API.OperationMethod<
   UpdateSubscriptionError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13696, __c428, 0) as any as S.Schema<UpdateSubscriptionRequest>,
-  output: __S(9635, __c301, 3) as any as S.Schema<Integration>,
+  input: __S(13792, __c431, 0) as any as S.Schema<UpdateSubscriptionRequest>,
+  output: __S(9731, __c304, 3) as any as S.Schema<Integration>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -19387,8 +19501,8 @@ export const updateTeam: API.OperationMethod<
   UpdateTeamError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13728, __c429, 0) as any as S.Schema<UpdateTeamRequest>,
-  output: __S(10273, __c321, 1) as any as S.Schema<Team>,
+  input: __S(13824, __c432, 0) as any as S.Schema<UpdateTeamRequest>,
+  output: __S(10369, __c324, 1) as any as S.Schema<Team>,
   errors: [BadRequest, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -19404,8 +19518,8 @@ export const updateTeams: API.OperationMethod<
   UpdateTeamsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13760, __c430, 0) as any as S.Schema<UpdateTeamsRequest>,
-  output: __S(13761, __c430, 1) as any as S.Schema<BulkEditTeamsRep>,
+  input: __S(13856, __c433, 0) as any as S.Schema<UpdateTeamsRequest>,
+  output: __S(13857, __c433, 1) as any as S.Schema<BulkEditTeamsRep>,
   errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -19427,8 +19541,8 @@ export const updateToken: API.OperationMethod<
   UpdateTokenError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13792, __c431, 0) as any as S.Schema<UpdateTokenRequest>,
-  output: __S(11008, __c344, 0) as any as S.Schema<Token>,
+  input: __S(13888, __c434, 0) as any as S.Schema<UpdateTokenRequest>,
+  output: __S(11104, __c347, 0) as any as S.Schema<Token>,
   errors: [
     BadRequest,
     Forbidden,
@@ -19451,8 +19565,8 @@ export const updateView: API.OperationMethod<
   UpdateViewError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13824, __c432, 0) as any as S.Schema<UpdateViewRequest>,
-  output: __S(11867, __c370, 27) as any as S.Schema<View>,
+  input: __S(13920, __c435, 0) as any as S.Schema<UpdateViewRequest>,
+  output: __S(11963, __c373, 27) as any as S.Schema<View>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -19468,8 +19582,8 @@ export const updateWebhook: API.OperationMethod<
   UpdateWebhookError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13888, __c434, 0) as any as S.Schema<UpdateWebhookRequest>,
-  output: __S(12288, __c384, 0) as any as S.Schema<Webhook>,
+  input: __S(13984, __c437, 0) as any as S.Schema<UpdateWebhookRequest>,
+  output: __S(12384, __c387, 0) as any as S.Schema<Webhook>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -19489,8 +19603,8 @@ export const validateIntegrationDeliveryConfiguration: API.OperationMethod<
   ValidateIntegrationDeliveryConfigurationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13920, __c435, 0) as any as S.Schema<ValidateIntegrationDeliveryConfigurationRequest>,
-  output: __S(13921, __c435, 1) as any as S.Schema<IntegrationDeliveryConfigurationResponse>,
+  input: __S(14016, __c438, 0) as any as S.Schema<ValidateIntegrationDeliveryConfigurationRequest>,
+  output: __S(14017, __c438, 1) as any as S.Schema<IntegrationDeliveryConfigurationResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -19504,6 +19618,81 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          code: S.String,
+          message: S.String,
+        }),
+      ).annotate({ identifier: "InvalidRequestErrorRep" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+          code: S.String,
+        }),
+      ).annotate({ identifier: "Error" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          attribute: S.String,
+          reason: S.String,
+        }),
+      ).annotate({ identifier: "FailureReasonRep" });
+    case 1:
+      return S.Array(__S(32, __c1, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.String,
+          message: S.String,
+          errors: __S(33, __c1, 1),
+        }),
+      ).annotate({ identifier: "ValidationFailedErrorRep" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          metricKey: S.optional(S.String),
+          message: S.String,
+        }),
+      ).annotate({ identifier: "ReleaseHealthCheckFailure" });
+    case 4:
+      return S.Array(__S(35, __c1, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.String,
+          message: S.String,
+          failingChecks: S.optional(__S(36, __c1, 4)),
+        }),
+      ).annotate({ identifier: "StartEnvironmentReleaseBadRequest" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DataExportProjectIdentityIncompleteErrorRep" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+          code: S.String,
+        }),
+      ).annotate({ identifier: "DataExportProjectIdentityIncompleteError" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           id: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
           comment: S.optional(S.String),
@@ -19513,7 +19702,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateApprovalRequestReviewRequest" });
   }
 }
-function __c1(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19530,27 +19719,27 @@ function __c1(j: number): any {
       ).annotate({ identifier: "GetAIToolRequest" });
   }
 }
-function __c2(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
-          _access: S.optional(__S(14979, __c468, 3)),
-          _links: S.optional(__S(11904, __c372, 0)),
-          _site: S.optional(__S(11872, __c371, 0)),
+          _access: S.optional(__S(15075, __c471, 3)),
+          _links: S.optional(__S(12000, __c375, 0)),
+          _site: S.optional(__S(11968, __c374, 0)),
           _maintainer: S.optional(S.Unknown),
           description: S.optional(S.String),
           schema: S.Unknown,
           customParameters: S.optional(S.Unknown),
-          tags: S.optional(__S(15008, __c469, 0)),
+          tags: S.optional(__S(15104, __c472, 0)),
           version: S.Number,
           createdAt: S.Number,
         }),
       ).annotate({ identifier: "AITool" });
   }
 }
-function __c3(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19576,22 +19765,22 @@ function __c3(j: number): any {
           status: S.optional(S.String),
           createdAt: S.optional(S.Number),
           updatedAt: S.optional(S.Number),
-          experiments: S.optional(__S(129, __c4, 1)),
+          experiments: S.optional(__S(225, __c7, 1)),
         }),
       ).annotate({ identifier: "SimpleHoldoutRep" });
     case 2:
-      return S.Array(__S(97, __c3, 1));
+      return S.Array(__S(193, __c6, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(98, __c3, 2)),
-          _links: S.optional(__S(14304, __c447, 0)),
+          items: S.optional(__S(194, __c6, 2)),
+          _links: S.optional(__S(14400, __c450, 0)),
           total_count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "HoldoutsCollectionRep" });
   }
 }
-function __c4(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19602,10 +19791,10 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "RelatedExperimentRep" });
     case 1:
-      return S.Array(__S(128, __c4, 0));
+      return S.Array(__S(224, __c7, 0));
   }
 }
-function __c5(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19621,34 +19810,34 @@ function __c5(j: number): any {
         ),
       ).annotate({ identifier: "GetAllIntegrationConfigurationsRequest" });
     case 1:
-      return S.Array(__S(4943, __c154, 15));
+      return S.Array(__S(5039, __c157, 15));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(161, __c5, 1),
-          _links: __S(14304, __c447, 0),
+          items: __S(257, __c8, 1),
+          _links: __S(14400, __c450, 0),
         }),
       ).annotate({ identifier: "IntegrationConfigurationCollectionRep" });
   }
 }
-function __c6(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v2/webhooks", code: 200 })),
       ).annotate({ identifier: "GetAllWebhooksRequest" });
     case 1:
-      return S.Array(__S(12288, __c384, 0));
+      return S.Array(__S(12384, __c387, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(14304, __c447, 0),
-          items: __S(193, __c6, 1),
+          _links: __S(14400, __c450, 0),
+          items: __S(289, __c9, 1),
         }),
       ).annotate({ identifier: "Webhooks" });
   }
 }
-function __c7(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19659,17 +19848,17 @@ function __c7(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/announcements", code: 200 })),
       ).annotate({ identifier: "GetAnnouncementsPublicRequest" });
     case 1:
-      return S.Array(__S(15553, __c486, 1));
+      return S.Array(__S(15649, __c489, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(225, __c7, 1),
-          _links: __S(16896, __c528, 0),
+          items: __S(321, __c10, 1),
+          _links: __S(16992, __c531, 0),
         }),
       ).annotate({ identifier: "GetAnnouncementsPublic200Response" });
   }
 }
-function __c8(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19680,57 +19869,57 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetApplicationRequest" });
   }
 }
-function __c9(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           key: S.String,
-          _links: S.optional(__S(14304, __c447, 0)),
-          _site: S.optional(__S(14336, __c448, 0)),
+          _links: S.optional(__S(14400, __c450, 0)),
+          _site: S.optional(__S(14432, __c451, 0)),
         }),
       ).annotate({ identifier: "FlagListingRep" });
     case 1:
-      return S.Array(__S(288, __c9, 0));
+      return S.Array(__S(384, __c12, 0));
   }
 }
-function __c10(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(289, __c9, 1)),
+          items: S.optional(__S(385, __c12, 1)),
           totalCount: S.optional(S.Number),
-          _links: S.optional(__S(14304, __c447, 0)),
+          _links: S.optional(__S(14400, __c450, 0)),
         }),
       ).annotate({ identifier: "ApplicationFlagCollectionRep" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          member: S.optional(__S(14912, __c466, 0)),
-          team: S.optional(__S(6912, __c216, 0)),
+          member: S.optional(__S(15008, __c469, 0)),
+          team: S.optional(__S(7008, __c219, 0)),
         }),
       ).annotate({ identifier: "ApplicationMaintainerRep" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          flags: S.optional(__S(320, __c10, 0)),
-          _access: S.optional(__S(14979, __c468, 3)),
-          _links: S.optional(__S(14304, __c447, 0)),
+          flags: S.optional(__S(416, __c13, 0)),
+          _access: S.optional(__S(15075, __c471, 3)),
+          _links: S.optional(__S(14400, __c450, 0)),
           _version: S.optional(S.Number),
           autoAdded: S.Boolean,
           creationDate: S.optional(S.Number),
           description: S.optional(S.String),
           key: S.String,
           kind: S.String,
-          _maintainer: S.optional(__S(321, __c10, 1)),
+          _maintainer: S.optional(__S(417, __c13, 1)),
           name: S.String,
         }),
       ).annotate({ identifier: "ApplicationRep" });
   }
 }
-function __c11(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19743,18 +19932,18 @@ function __c11(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/applications", code: 200 })),
       ).annotate({ identifier: "GetApplicationsRequest" });
     case 1:
-      return S.Array(__S(322, __c10, 2));
+      return S.Array(__S(418, __c13, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(14304, __c447, 0)),
-          items: S.optional(__S(353, __c11, 1)),
+          _links: S.optional(__S(14400, __c450, 0)),
+          items: S.optional(__S(449, __c14, 1)),
           totalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ApplicationCollectionRep" });
   }
 }
-function __c12(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19773,24 +19962,24 @@ function __c12(j: number): any {
         ),
       ).annotate({ identifier: "GetApplicationVersionsRequest" });
     case 1:
-      return S.Array(__S(416, __c13, 0));
+      return S.Array(__S(512, __c16, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(14304, __c447, 0)),
-          items: S.optional(__S(385, __c12, 1)),
+          _links: S.optional(__S(14400, __c450, 0)),
+          items: S.optional(__S(481, __c15, 1)),
           totalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ApplicationVersionsCollectionRep" });
   }
 }
-function __c13(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          _access: S.optional(__S(14979, __c468, 3)),
-          _links: S.optional(__S(14304, __c447, 0)),
+          _access: S.optional(__S(15075, __c471, 3)),
+          _links: S.optional(__S(14400, __c450, 0)),
           _version: S.optional(S.Number),
           autoAdded: S.Boolean,
           creationDate: S.optional(S.Number),
@@ -19801,7 +19990,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "ApplicationVersionRep" });
   }
 }
-function __c14(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19820,7 +20009,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetApprovalForFlagRequest" });
   }
 }
-function __c15(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19832,26 +20021,26 @@ function __c15(j: number): any {
           requestorId: S.optional(S.String),
           description: S.optional(S.String),
           reviewStatus: S.String,
-          allReviews: __S(15969, __c499, 1),
-          notifyMemberIds: __S(15008, __c469, 0),
-          notifyTeamKeys: S.optional(__S(15008, __c469, 0)),
+          allReviews: __S(16065, __c502, 1),
+          notifyMemberIds: __S(15104, __c472, 0),
+          notifyTeamKeys: S.optional(__S(15104, __c472, 0)),
           appliedDate: S.optional(S.Number),
           appliedByMemberId: S.optional(S.String),
           appliedByServiceTokenId: S.optional(S.String),
           status: S.String,
-          instructions: __S(15072, __c471, 0),
-          conflicts: __S(15971, __c499, 3),
-          _links: __S(15040, __c470, 0),
+          instructions: __S(15168, __c474, 0),
+          conflicts: __S(16067, __c502, 3),
+          _links: __S(15136, __c473, 0),
           executionDate: S.optional(S.Number),
           operatingOnId: S.optional(S.String),
-          integrationMetadata: S.optional(__S(16033, __c501, 1)),
-          source: S.optional(__S(15972, __c499, 4)),
-          customWorkflowMetadata: S.optional(__S(15974, __c499, 6)),
+          integrationMetadata: S.optional(__S(16129, __c504, 1)),
+          source: S.optional(__S(16068, __c502, 4)),
+          customWorkflowMetadata: S.optional(__S(16070, __c502, 6)),
         }),
       ).annotate({ identifier: "FlagConfigApprovalRequestResponse" });
   }
 }
-function __c16(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19862,7 +20051,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetApprovalRequestRequest" });
   }
 }
-function __c17(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19881,17 +20070,17 @@ function __c17(j: number): any {
           _version: S.Number,
           creationDate: S.Number,
           includeInSnippet: S.optional(S.Boolean),
-          clientSideAvailability: S.optional(__S(14944, __c467, 0)),
-          variations: __S(14753, __c461, 1),
+          clientSideAvailability: S.optional(__S(15040, __c470, 0)),
+          variations: __S(14849, __c464, 1),
           temporary: S.Boolean,
-          tags: __S(15008, __c469, 0),
-          _links: __S(14304, __c447, 0),
+          tags: __S(15104, __c472, 0),
+          _links: __S(14400, __c450, 0),
           maintainerId: S.optional(S.String),
-          _maintainer: S.optional(__S(14912, __c466, 0)),
-          customProperties: __S(14755, __c461, 3),
+          _maintainer: S.optional(__S(15008, __c469, 0)),
+          customProperties: __S(14851, __c464, 3),
           archived: S.Boolean,
           archivedDate: S.optional(S.Number),
-          defaults: S.optional(__S(15104, __c472, 0)),
+          defaults: S.optional(__S(15200, __c475, 0)),
         }),
       ).annotate({ identifier: "ExpandedFlagRep" });
     case 2:
@@ -19899,17 +20088,17 @@ function __c17(j: number): any {
         S.Struct({
           key: S.String,
           name: S.String,
-          _access: S.optional(__S(14979, __c468, 3)),
+          _access: S.optional(__S(15075, __c471, 3)),
         }),
       ).annotate({ identifier: "ExpandedExperimentRep" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           kind: S.String,
-          aiConfig: S.optional(__S(544, __c17, 0)),
-          experiment: S.optional(__S(546, __c17, 2)),
-          flag: S.optional(__S(545, __c17, 1)),
-          segment: S.optional(__S(645, __c20, 5)),
+          aiConfig: S.optional(__S(640, __c20, 0)),
+          experiment: S.optional(__S(642, __c20, 2)),
+          flag: S.optional(__S(641, __c20, 1)),
+          segment: S.optional(__S(741, __c23, 5)),
         }),
       ).annotate({ identifier: "ExpandedResourceRep" });
     case 4:
@@ -19922,78 +20111,78 @@ function __c17(j: number): any {
           requestorId: S.optional(S.String),
           description: S.optional(S.String),
           reviewStatus: S.String,
-          allReviews: __S(15969, __c499, 1),
-          notifyMemberIds: __S(15008, __c469, 0),
-          notifyTeamKeys: S.optional(__S(15008, __c469, 0)),
+          allReviews: __S(16065, __c502, 1),
+          notifyMemberIds: __S(15104, __c472, 0),
+          notifyTeamKeys: S.optional(__S(15104, __c472, 0)),
           appliedDate: S.optional(S.Number),
           appliedByMemberId: S.optional(S.String),
           appliedByServiceTokenId: S.optional(S.String),
           status: S.String,
-          instructions: __S(15072, __c471, 0),
-          conflicts: __S(15971, __c499, 3),
-          _links: __S(15040, __c470, 0),
+          instructions: __S(15168, __c474, 0),
+          conflicts: __S(16067, __c502, 3),
+          _links: __S(15136, __c473, 0),
           executionDate: S.optional(S.Number),
           operatingOnId: S.optional(S.String),
-          integrationMetadata: S.optional(__S(16033, __c501, 1)),
-          source: S.optional(__S(15972, __c499, 4)),
-          customWorkflowMetadata: S.optional(__S(15974, __c499, 6)),
+          integrationMetadata: S.optional(__S(16129, __c504, 1)),
+          source: S.optional(__S(16068, __c502, 4)),
+          customWorkflowMetadata: S.optional(__S(16070, __c502, 6)),
           resourceId: S.optional(S.String),
-          approvalSettings: S.optional(__S(16000, __c500, 0)),
-          project: S.optional(__S(608, __c19, 0)),
-          environments: S.optional(__S(8672, __c271, 0)),
-          flag: S.optional(__S(545, __c17, 1)),
-          resource: S.optional(__S(547, __c17, 3)),
+          approvalSettings: S.optional(__S(16096, __c503, 0)),
+          project: S.optional(__S(704, __c22, 0)),
+          environments: S.optional(__S(8768, __c274, 0)),
+          flag: S.optional(__S(641, __c20, 1)),
+          resource: S.optional(__S(643, __c20, 3)),
         }),
       ).annotate({ identifier: "ExpandableApprovalRequestResponse" });
   }
 }
-function __c18(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(14304, __c447, 0)),
+          _links: S.optional(__S(14400, __c450, 0)),
           totalCount: S.optional(S.Number),
-          items: __S(8672, __c271, 0),
+          items: __S(8768, __c274, 0),
         }),
       ).annotate({ identifier: "Environments" });
   }
 }
-function __c19(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(14304, __c447, 0),
+          _links: __S(14400, __c450, 0),
           _id: S.String,
           key: S.String,
           includeInSnippetByDefault: S.Boolean,
-          defaultClientSideAvailability: S.optional(__S(14944, __c467, 0)),
+          defaultClientSideAvailability: S.optional(__S(15040, __c470, 0)),
           name: S.String,
-          _access: S.optional(__S(14979, __c468, 3)),
-          tags: __S(15008, __c469, 0),
+          _access: S.optional(__S(15075, __c471, 3)),
+          tags: __S(15104, __c472, 0),
           defaultReleasePipelineKey: S.optional(S.String),
-          environments: S.optional(__S(576, __c18, 0)),
+          environments: S.optional(__S(672, __c21, 0)),
         }),
       ).annotate({ identifier: "Project" });
   }
 }
-function __c20(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(15008, __c469, 0)),
+          values: S.optional(__S(15104, __c472, 0)),
           contextKind: S.optional(S.String),
         }),
       ).annotate({ identifier: "SegmentTarget" });
     case 1:
-      return S.Array(__S(640, __c20, 0));
+      return S.Array(__S(736, __c23, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           _id: S.optional(S.String),
-          clauses: __S(14721, __c460, 1),
+          clauses: __S(14817, __c463, 1),
           weight: S.optional(S.Number),
           rolloutContextKind: S.optional(S.String),
           bucketBy: S.optional(S.String),
@@ -20001,7 +20190,7 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "UserSegmentRule" });
     case 3:
-      return S.Array(__S(642, __c20, 2));
+      return S.Array(__S(738, __c23, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -20019,24 +20208,24 @@ function __c20(j: number): any {
         S.Struct({
           name: S.String,
           description: S.optional(S.String),
-          tags: __S(15008, __c469, 0),
+          tags: __S(15104, __c472, 0),
           creationDate: S.Number,
           lastModifiedDate: S.Number,
           key: S.String,
-          included: S.optional(__S(15008, __c469, 0)),
-          excluded: S.optional(__S(15008, __c469, 0)),
-          includedContexts: S.optional(__S(641, __c20, 1)),
-          excludedContexts: S.optional(__S(641, __c20, 1)),
-          _links: __S(14304, __c447, 0),
-          rules: __S(643, __c20, 3),
+          included: S.optional(__S(15104, __c472, 0)),
+          excluded: S.optional(__S(15104, __c472, 0)),
+          includedContexts: S.optional(__S(737, __c23, 1)),
+          excludedContexts: S.optional(__S(737, __c23, 1)),
+          _links: __S(14400, __c450, 0),
+          rules: __S(739, __c23, 3),
           version: S.Number,
           deleted: S.Boolean,
-          _access: S.optional(__S(14979, __c468, 3)),
-          _flags: S.optional(__S(289, __c9, 1)),
+          _access: S.optional(__S(15075, __c471, 3)),
+          _flags: S.optional(__S(385, __c12, 1)),
           unbounded: S.optional(S.Boolean),
           unboundedContextKind: S.optional(S.String),
           generation: S.Number,
-          _unboundedMetadata: S.optional(__S(644, __c20, 4)),
+          _unboundedMetadata: S.optional(__S(740, __c23, 4)),
           _external: S.optional(S.String),
           _externalLink: S.optional(S.String),
           _importInProgress: S.optional(S.Boolean),
@@ -20044,7 +20233,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "UserSegment" });
   }
 }
-function __c21(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20062,7 +20251,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "CreateBigSegmentExportRequest" });
   }
 }
-function __c22(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -20070,7 +20259,7 @@ function __c22(j: number): any {
       });
   }
 }
-function __c23(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20082,18 +20271,18 @@ function __c23(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/approval-requests", code: 200 })),
       ).annotate({ identifier: "GetApprovalRequestsRequest" });
     case 1:
-      return S.Array(__S(548, __c17, 4));
+      return S.Array(__S(644, __c20, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(737, __c23, 1),
+          items: __S(833, __c26, 1),
           totalCount: S.Number,
-          _links: __S(14304, __c447, 0),
+          _links: __S(14400, __c450, 0),
         }),
       ).annotate({ identifier: "ExpandableApprovalRequestsResponse" });
   }
 }
-function __c24(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20112,7 +20301,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "GetApprovalRequestSettingsRequest" });
   }
 }
-function __c25(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20124,30 +20313,30 @@ function __c25(j: number): any {
           canApplyDeclinedChanges: S.Boolean,
           autoApplyApprovedChanges: S.optional(S.NullOr(S.Boolean)),
           serviceKind: S.String,
-          serviceConfig: __S(15040, __c470, 0),
-          requiredApprovalTags: __S(15008, __c469, 0),
+          serviceConfig: __S(15136, __c473, 0),
+          requiredApprovalTags: __S(15104, __c472, 0),
           serviceKindConfigurationId: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ApprovalRequestSetting" });
     case 1:
-      return S.Record(S.String, __S(800, __c25, 0));
+      return S.Record(S.String, __S(896, __c28, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          environments: S.optional(__S(801, __c25, 1)),
-          _default: S.optional(__S(800, __c25, 0)),
-          _strict: S.optional(__S(800, __c25, 0)),
+          environments: S.optional(__S(897, __c28, 1)),
+          _default: S.optional(__S(896, __c28, 0)),
+          _strict: S.optional(__S(896, __c28, 0)),
         }),
       ).annotate({ identifier: "ApprovalRequestSettingWithEnvs" });
     case 3:
-      return S.Record(S.String, __S(802, __c25, 2));
+      return S.Record(S.String, __S(898, __c28, 2));
     case 4:
-      return S.suspend(() => __S(803, __c25, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(899, __c28, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetApprovalRequestSettingsResponse",
       });
   }
 }
-function __c26(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20164,17 +20353,17 @@ function __c26(j: number): any {
         ),
       ).annotate({ identifier: "GetApprovalsForFlagRequest" });
     case 1:
-      return S.Array(__S(480, __c15, 0));
+      return S.Array(__S(576, __c18, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(833, __c26, 1),
-          _links: __S(14304, __c447, 0),
+          items: __S(929, __c29, 1),
+          _links: __S(14400, __c450, 0),
         }),
       ).annotate({ identifier: "FlagConfigApprovalRequestsResponse" });
   }
 }
-function __c27(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20190,7 +20379,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "GetAuditLogEntriesRequest" });
   }
 }
-function __c28(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20200,7 +20389,7 @@ function __c28(j: number): any {
         }),
       ).annotate({ identifier: "ResourceAccess" });
     case 1:
-      return S.Array(__S(896, __c28, 0));
+      return S.Array(__S(992, __c31, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -20210,7 +20399,7 @@ function __c28(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(14304, __c447, 0)),
+          _links: S.optional(__S(14400, __c450, 0)),
           name: S.optional(S.String),
           avatarUrl: S.optional(S.String),
         }),
@@ -20218,7 +20407,7 @@ function __c28(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(14304, __c447, 0)),
+          _links: S.optional(__S(14400, __c450, 0)),
           _id: S.optional(S.String),
           email: S.optional(S.String),
           firstName: S.optional(S.String),
@@ -20228,7 +20417,7 @@ function __c28(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(14304, __c447, 0)),
+          _links: S.optional(__S(14400, __c450, 0)),
           _id: S.optional(S.String),
           name: S.optional(S.String),
           ending: S.optional(S.String),
@@ -20238,7 +20427,7 @@ function __c28(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(14304, __c447, 0)),
+          _links: S.optional(__S(14400, __c450, 0)),
           _id: S.optional(S.String),
           isScim: S.optional(S.Boolean),
           name: S.optional(S.String),
@@ -20250,15 +20439,15 @@ function __c28(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(14304, __c447, 0)),
+          _links: S.optional(__S(14400, __c450, 0)),
           name: S.optional(S.String),
-          resources: S.optional(__S(15008, __c469, 0)),
+          resources: S.optional(__S(15104, __c472, 0)),
         }),
       ).annotate({ identifier: "TargetResourceRep" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(14304, __c447, 0)),
+          _links: S.optional(__S(14400, __c450, 0)),
           name: S.optional(S.String),
           resource: S.optional(S.String),
         }),
@@ -20266,45 +20455,45 @@ function __c28(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(14304, __c447, 0),
+          _links: __S(14400, __c450, 0),
           _id: S.String,
           _accountId: S.String,
           date: S.Number,
-          accesses: __S(897, __c28, 1),
+          accesses: __S(993, __c31, 1),
           kind: S.String,
           name: S.String,
           description: S.String,
           shortDescription: S.String,
           comment: S.optional(S.String),
-          relatedFlag: S.optional(__S(898, __c28, 2)),
-          relatedExperiment: S.optional(__S(898, __c28, 2)),
-          relatedAIConfig: S.optional(__S(898, __c28, 2)),
-          subject: S.optional(__S(899, __c28, 3)),
-          member: S.optional(__S(900, __c28, 4)),
-          token: S.optional(__S(901, __c28, 5)),
-          app: S.optional(__S(902, __c28, 6)),
+          relatedFlag: S.optional(__S(994, __c31, 2)),
+          relatedExperiment: S.optional(__S(994, __c31, 2)),
+          relatedAIConfig: S.optional(__S(994, __c31, 2)),
+          subject: S.optional(__S(995, __c31, 3)),
+          member: S.optional(__S(996, __c31, 4)),
+          token: S.optional(__S(997, __c31, 5)),
+          app: S.optional(__S(998, __c31, 6)),
           titleVerb: S.optional(S.String),
           title: S.optional(S.String),
-          target: S.optional(__S(903, __c28, 7)),
-          parent: S.optional(__S(904, __c28, 8)),
+          target: S.optional(__S(999, __c31, 7)),
+          parent: S.optional(__S(1000, __c31, 8)),
         }),
       ).annotate({ identifier: "AuditLogEntryListingRep" });
     case 10:
-      return S.Array(__S(905, __c28, 9));
+      return S.Array(__S(1001, __c31, 9));
   }
 }
-function __c29(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          items: __S(906, __c28, 10),
-          _links: __S(14304, __c447, 0),
+          items: __S(1002, __c31, 10),
+          _links: __S(14400, __c450, 0),
         }),
       ).annotate({ identifier: "AuditLogEntryListingRepCollection" });
   }
 }
-function __c30(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20315,38 +20504,38 @@ function __c30(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(14304, __c447, 0),
+          _links: __S(14400, __c450, 0),
           _id: S.String,
           _accountId: S.String,
           date: S.Number,
-          accesses: __S(897, __c28, 1),
+          accesses: __S(993, __c31, 1),
           kind: S.String,
           name: S.String,
           description: S.String,
           shortDescription: S.String,
           comment: S.optional(S.String),
-          relatedFlag: S.optional(__S(898, __c28, 2)),
-          relatedExperiment: S.optional(__S(898, __c28, 2)),
-          relatedAIConfig: S.optional(__S(898, __c28, 2)),
-          subject: S.optional(__S(899, __c28, 3)),
-          member: S.optional(__S(900, __c28, 4)),
-          token: S.optional(__S(901, __c28, 5)),
-          app: S.optional(__S(902, __c28, 6)),
+          relatedFlag: S.optional(__S(994, __c31, 2)),
+          relatedExperiment: S.optional(__S(994, __c31, 2)),
+          relatedAIConfig: S.optional(__S(994, __c31, 2)),
+          subject: S.optional(__S(995, __c31, 3)),
+          member: S.optional(__S(996, __c31, 4)),
+          token: S.optional(__S(997, __c31, 5)),
+          app: S.optional(__S(998, __c31, 6)),
           titleVerb: S.optional(S.String),
           title: S.optional(S.String),
-          target: S.optional(__S(903, __c28, 7)),
-          parent: S.optional(__S(904, __c28, 8)),
+          target: S.optional(__S(999, __c31, 7)),
+          parent: S.optional(__S(1000, __c31, 8)),
           delta: S.optional(S.Unknown),
           triggerBody: S.optional(S.Unknown),
           merge: S.optional(S.Unknown),
           previousVersion: S.optional(S.Unknown),
           currentVersion: S.optional(S.Unknown),
-          subentries: S.optional(__S(906, __c28, 10)),
+          subentries: S.optional(__S(1002, __c31, 10)),
         }),
       ).annotate({ identifier: "AuditLogEntryRep" });
   }
 }
-function __c31(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20379,13 +20568,13 @@ function __c31(j: number): any {
           status: S.String,
           sizeBytes: S.Number,
           size: S.String,
-          initiator: __S(993, __c31, 1),
-          _links: __S(14304, __c447, 0),
+          initiator: __S(1089, __c34, 1),
+          _links: __S(14400, __c450, 0),
         }),
       ).annotate({ identifier: "Export" });
   }
 }
-function __c32(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20410,7 +20599,7 @@ function __c32(j: number): any {
         }),
       ).annotate({ identifier: "FileRep" });
     case 2:
-      return S.Array(__S(1025, __c32, 1));
+      return S.Array(__S(1121, __c35, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -20419,13 +20608,13 @@ function __c32(j: number): any {
           creationTime: S.Number,
           mode: S.String,
           status: S.String,
-          files: S.optional(__S(1026, __c32, 2)),
-          _links: __S(14304, __c447, 0),
+          files: S.optional(__S(1122, __c35, 2)),
+          _links: __S(14400, __c450, 0),
         }),
       ).annotate({ identifier: "Import" });
   }
 }
-function __c33(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20444,7 +20633,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "GetBigSegmentStoreIntegrationRequest" });
   }
 }
-function __c34(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20457,28 +20646,28 @@ function __c34(j: number): any {
         ),
       ).annotate({ identifier: "GetBigSegmentStoreIntegrationsRequest" });
     case 1:
-      return S.Array(__S(1697, __c53, 1));
+      return S.Array(__S(1793, __c56, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(1120, __c35, 0),
-          items: __S(1089, __c34, 1),
+          _links: __S(1216, __c38, 0),
+          items: __S(1185, __c37, 1),
         }),
       ).annotate({ identifier: "BigSegmentStoreIntegrationCollection" });
   }
 }
-function __c35(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          self: __S(14336, __c448, 0),
-          parent: S.optional(__S(14336, __c448, 0)),
+          self: __S(14432, __c451, 0),
+          parent: S.optional(__S(14432, __c451, 0)),
         }),
       ).annotate({ identifier: "BigSegmentStoreIntegrationCollectionLinks" });
   }
 }
-function __c36(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20497,7 +20686,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "GetBranchRequest" });
   }
 }
-function __c37(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20506,13 +20695,13 @@ function __c37(j: number): any {
           head: S.String,
           updateSequenceId: S.optional(S.Number),
           syncTime: S.Number,
-          references: S.optional(__S(1219, __c38, 3)),
-          _links: __S(15040, __c470, 0),
+          references: S.optional(__S(1315, __c41, 3)),
+          _links: __S(15136, __c473, 0),
         }),
       ).annotate({ identifier: "BranchRep" });
   }
 }
-function __c38(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20521,24 +20710,24 @@ function __c38(j: number): any {
           lines: S.optional(S.String),
           projKey: S.optional(S.String),
           flagKey: S.optional(S.String),
-          aliases: S.optional(__S(15008, __c469, 0)),
+          aliases: S.optional(__S(15104, __c472, 0)),
         }),
       ).annotate({ identifier: "HunkRep" });
     case 1:
-      return S.Array(__S(1216, __c38, 0));
+      return S.Array(__S(1312, __c41, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           path: S.String,
           hint: S.optional(S.String),
-          hunks: __S(1217, __c38, 1),
+          hunks: __S(1313, __c41, 1),
         }),
       ).annotate({ identifier: "ReferenceRep" });
     case 3:
-      return S.Array(__S(1218, __c38, 2));
+      return S.Array(__S(1314, __c41, 2));
   }
 }
-function __c39(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20560,7 +20749,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "CreateBigSegmentImportRequest" });
   }
 }
-function __c40(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20577,19 +20766,19 @@ function __c40(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(14304, __c447, 0),
-          items: __S(1312, __c41, 0),
+          _links: __S(14400, __c450, 0),
+          items: __S(1408, __c44, 0),
         }),
       ).annotate({ identifier: "BranchCollectionRep" });
   }
 }
-function __c41(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1184, __c37, 0));
+      return S.Array(__S(1280, __c40, 0));
   }
 }
-function __c42(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20607,18 +20796,18 @@ function __c42(j: number): any {
           tokenKind: S.optional(S.String),
           clientId: S.optional(S.String),
           clientName: S.optional(S.String),
-          audience: S.optional(__S(15008, __c469, 0)),
+          audience: S.optional(__S(15104, __c472, 0)),
           expiresAt: S.optional(S.Number),
           tokenName: S.optional(S.String),
           tokenId: S.optional(S.String),
           memberId: S.optional(S.String),
           serviceToken: S.optional(S.Boolean),
-          scopes: S.optional(__S(15008, __c469, 0)),
+          scopes: S.optional(__S(15104, __c472, 0)),
         }),
       ).annotate({ identifier: "CallerIdentityRep" });
   }
 }
-function __c43(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20644,25 +20833,25 @@ function __c43(j: number): any {
         }),
       ).annotate({ identifier: "ContextAttributeName" });
     case 2:
-      return S.Array(__S(1377, __c43, 1));
+      return S.Array(__S(1473, __c46, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           kind: S.String,
-          names: __S(1378, __c43, 2),
+          names: __S(1474, __c46, 2),
         }),
       ).annotate({ identifier: "ContextAttributeNames" });
     case 4:
-      return S.Array(__S(1379, __c43, 3));
+      return S.Array(__S(1475, __c46, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1380, __c43, 4),
+          items: __S(1476, __c46, 4),
         }),
       ).annotate({ identifier: "ContextAttributeNamesCollection" });
   }
 }
-function __c44(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20688,32 +20877,32 @@ function __c44(j: number): any {
         }),
       ).annotate({ identifier: "ContextAttributeValue" });
     case 2:
-      return S.Array(__S(1409, __c44, 1));
+      return S.Array(__S(1505, __c47, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           kind: S.String,
-          values: __S(1410, __c44, 2),
+          values: __S(1506, __c47, 2),
         }),
       ).annotate({ identifier: "ContextAttributeValues" });
     case 4:
-      return S.Array(__S(1411, __c44, 3));
+      return S.Array(__S(1507, __c47, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1412, __c44, 4),
+          items: __S(1508, __c47, 4),
         }),
       ).annotate({ identifier: "ContextAttributeValuesCollection" });
   }
 }
-function __c45(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectKey: S.String.pipe(T.Label()),
           environmentKey: S.String.pipe(T.Label()),
-          body: __S(15040, __c470, 0).pipe(T.HttpBody()),
+          body: __S(15136, __c473, 0).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "POST",
@@ -20733,21 +20922,21 @@ function __c45(j: number): any {
           isMember: S.Boolean,
           isIndividuallyTargeted: S.Boolean,
           isRuleTargeted: S.Boolean,
-          _links: __S(14304, __c447, 0),
+          _links: __S(14400, __c450, 0),
         }),
       ).annotate({ identifier: "ContextInstanceSegmentMembership" });
     case 2:
-      return S.Array(__S(1441, __c45, 1));
+      return S.Array(__S(1537, __c48, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1442, __c45, 2),
-          _links: __S(14304, __c447, 0),
+          items: __S(1538, __c48, 2),
+          _links: __S(14400, __c450, 0),
         }),
       ).annotate({ identifier: "ContextInstanceSegmentMemberships" });
   }
 }
-function __c46(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20766,7 +20955,7 @@ function __c46(j: number): any {
         }),
       ).annotate({ identifier: "ContextKindEnvironmentObservation" });
     case 2:
-      return S.Array(__S(1473, __c46, 1));
+      return S.Array(__S(1569, __c49, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -20777,25 +20966,25 @@ function __c46(j: number): any {
           creationDate: S.Number,
           lastModified: S.Number,
           lastSeen: S.optional(S.Number),
-          environmentObservations: S.optional(__S(1474, __c46, 2)),
+          environmentObservations: S.optional(__S(1570, __c49, 2)),
           createdFrom: S.String,
           hideInTargeting: S.optional(S.Boolean),
           archived: S.optional(S.Boolean),
-          _links: S.optional(__S(14304, __c447, 0)),
+          _links: S.optional(__S(14400, __c450, 0)),
         }),
       ).annotate({ identifier: "ContextKindRep" });
     case 4:
-      return S.Array(__S(1475, __c46, 3));
+      return S.Array(__S(1571, __c49, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1476, __c46, 4),
-          _links: __S(14304, __c447, 0),
+          items: __S(1572, __c49, 4),
+          _links: __S(14400, __c450, 0),
         }),
       ).annotate({ identifier: "ContextKindsCollectionRep" });
   }
 }
-function __c47(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20819,7 +21008,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "GetContextsRequest" });
   }
 }
-function __c48(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20827,26 +21016,26 @@ function __c48(j: number): any {
           lastSeen: S.optional(S.String),
           applicationId: S.optional(S.String),
           context: S.Unknown,
-          _links: S.optional(__S(14304, __c447, 0)),
-          _access: S.optional(__S(14979, __c468, 3)),
+          _links: S.optional(__S(14400, __c450, 0)),
+          _access: S.optional(__S(15075, __c471, 3)),
           associatedContexts: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ContextRecord" });
     case 1:
-      return S.Array(__S(1536, __c48, 0));
+      return S.Array(__S(1632, __c51, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(14304, __c447, 0)),
+          _links: S.optional(__S(14400, __c450, 0)),
           totalCount: S.optional(S.Number),
           _environmentId: S.String,
           continuationToken: S.optional(S.String),
-          items: __S(1537, __c48, 1),
+          items: __S(1633, __c51, 1),
         }),
       ).annotate({ identifier: "Contexts" });
   }
 }
-function __c49(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20865,7 +21054,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "GetContextsClientsideUsageRequest" });
   }
 }
-function __c50(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20884,7 +21073,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "GetContextsServersideUsageRequest" });
   }
 }
-function __c51(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20904,7 +21093,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "GetContextsTotalUsageRequest" });
   }
 }
-function __c52(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20913,8 +21102,8 @@ function __c52(j: number): any {
           environmentKey: S.String.pipe(T.Label()),
           integrationKey: S.String.pipe(T.Label()),
           on: S.optional(S.Boolean),
-          config: __S(15040, __c470, 0),
-          tags: S.optional(__S(15008, __c469, 0)),
+          config: __S(15136, __c473, 0),
+          tags: S.optional(__S(15104, __c472, 0)),
           name: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -20926,7 +21115,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "CreateBigSegmentStoreIntegrationRequest" });
   }
 }
-function __c53(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20935,37 +21124,37 @@ function __c53(j: number): any {
           potentiallyStale: S.optional(S.Boolean),
           lastSync: S.optional(S.Number),
           lastError: S.optional(S.Number),
-          errors: S.optional(__S(1730, __c54, 2)),
+          errors: S.optional(__S(1826, __c57, 2)),
         }),
       ).annotate({ identifier: "BigSegmentStoreStatus" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(1728, __c54, 0),
+          _links: __S(1824, __c57, 0),
           _id: S.String,
           integrationKey: S.String,
           projectKey: S.String,
           environmentKey: S.String,
-          config: __S(15040, __c470, 0),
+          config: __S(15136, __c473, 0),
           on: S.Boolean,
-          tags: __S(15008, __c469, 0),
+          tags: __S(15104, __c472, 0),
           name: S.String,
           version: S.Number,
-          _access: S.optional(__S(14979, __c468, 3)),
-          _status: __S(1696, __c53, 0),
+          _access: S.optional(__S(15075, __c471, 3)),
+          _status: __S(1792, __c56, 0),
         }),
       ).annotate({ identifier: "BigSegmentStoreIntegration" });
   }
 }
-function __c54(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          self: __S(14336, __c448, 0),
-          parent: __S(14336, __c448, 0),
-          project: __S(14336, __c448, 0),
-          environment: __S(14336, __c448, 0),
+          self: __S(14432, __c451, 0),
+          parent: __S(14432, __c451, 0),
+          project: __S(14432, __c451, 0),
+          environment: __S(14432, __c451, 0),
         }),
       ).annotate({ identifier: "BigSegmentStoreIntegrationLinks" });
     case 1:
@@ -20977,10 +21166,10 @@ function __c54(j: number): any {
         }),
       ).annotate({ identifier: "StoreIntegrationError" });
     case 2:
-      return S.Array(__S(1729, __c54, 1));
+      return S.Array(__S(1825, __c57, 1));
   }
 }
-function __c55(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20990,7 +21179,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "GetCustomRoleRequest" });
   }
 }
-function __c56(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21003,22 +21192,22 @@ function __c56(j: number): any {
       return S.suspend(() =>
         S.Struct({
           _id: S.String,
-          _links: __S(14304, __c447, 0),
-          _access: S.optional(__S(14979, __c468, 3)),
+          _links: __S(14400, __c450, 0),
+          _access: S.optional(__S(15075, __c471, 3)),
           description: S.optional(S.String),
           key: S.String,
           name: S.String,
-          policy: __S(4961, __c155, 1),
+          policy: __S(5057, __c158, 1),
           basePermissions: S.optional(S.String),
           resourceCategory: S.optional(S.String),
-          assignedTo: S.optional(__S(1792, __c56, 0)),
+          assignedTo: S.optional(__S(1888, __c59, 0)),
           _presetBundleVersion: S.optional(S.Number),
-          _presetStatements: S.optional(__S(4961, __c155, 1)),
+          _presetStatements: S.optional(__S(5057, __c158, 1)),
         }),
       ).annotate({ identifier: "CustomRole" });
   }
 }
-function __c57(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21028,18 +21217,18 @@ function __c57(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/roles", code: 200 })),
       ).annotate({ identifier: "GetCustomRolesRequest" });
     case 1:
-      return S.Array(__S(1793, __c56, 1));
+      return S.Array(__S(1889, __c59, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(14304, __c447, 0)),
-          items: __S(1825, __c57, 1),
+          _links: S.optional(__S(14400, __c450, 0)),
+          items: __S(1921, __c60, 1),
           totalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CustomRoles" });
   }
 }
-function __c58(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21058,7 +21247,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "GetCustomWorkflowRequest" });
   }
 }
-function __c59(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21068,7 +21257,7 @@ function __c59(j: number): any {
         }),
       ).annotate({ identifier: "ConflictOutput" });
     case 1:
-      return S.Array(__S(1888, __c59, 0));
+      return S.Array(__S(1984, __c62, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -21082,7 +21271,7 @@ function __c59(j: number): any {
         S.Struct({
           value: S.optional(S.Unknown),
           booleanVariationValue: S.optional(S.Boolean),
-          ruleClause: S.optional(__S(1890, __c59, 2)),
+          ruleClause: S.optional(__S(1986, __c62, 2)),
         }),
       ).annotate({ identifier: "ParameterDefault" });
     case 4:
@@ -21090,16 +21279,16 @@ function __c59(j: number): any {
         S.Struct({
           _id: S.optional(S.String),
           path: S.optional(S.String),
-          default: S.optional(__S(1891, __c59, 3)),
+          default: S.optional(__S(1987, __c62, 3)),
           valid: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "WorkflowTemplateParameter" });
     case 5:
-      return S.Array(__S(1892, __c59, 4));
+      return S.Array(__S(1988, __c62, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          parameters: S.optional(__S(1893, __c59, 5)),
+          parameters: S.optional(__S(1989, __c62, 5)),
         }),
       ).annotate({ identifier: "WorkflowTemplateMetadata" });
     case 7:
@@ -21107,22 +21296,22 @@ function __c59(j: number): any {
         S.Struct({
           _id: S.String,
           _version: S.Number,
-          _conflicts: __S(1889, __c59, 1),
+          _conflicts: __S(1985, __c62, 1),
           _creationDate: S.Number,
           _maintainerId: S.String,
-          _links: __S(14304, __c447, 0),
+          _links: __S(14400, __c450, 0),
           name: S.String,
           description: S.optional(S.String),
           kind: S.optional(S.String),
-          stages: S.optional(__S(12679, __c396, 7)),
-          _execution: __S(12672, __c396, 0),
-          meta: S.optional(__S(1894, __c59, 6)),
+          stages: S.optional(__S(12775, __c399, 7)),
+          _execution: __S(12768, __c399, 0),
+          meta: S.optional(__S(1990, __c62, 6)),
           templateKey: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomWorkflowOutput" });
   }
 }
-function __c60(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21140,21 +21329,21 @@ function __c60(j: number): any {
       ).annotate({ identifier: "GetDataExportEventsUsageRequest" });
   }
 }
-function __c61(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(15040, __c470, 0),
-          metadata: __S(15072, __c471, 0),
-          series: __S(17089, __c534, 1),
+          _links: __S(15136, __c473, 0),
+          metadata: __S(15168, __c474, 0),
+          series: __S(17185, __c537, 1),
           dataThrough: S.optional(S.String),
           delayed: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "DataExportSeriesListRep" });
   }
 }
-function __c62(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21163,7 +21352,7 @@ function __c62(j: number): any {
           to: S.Number.pipe(T.Query()),
           source: S.optional(S.String.pipe(T.Query())),
           dimension: S.optional(S.String.pipe(T.Query())),
-          projectKey: S.optional(__S(15008, __c469, 0).pipe(T.Query())),
+          projectKey: S.optional(__S(15104, __c472, 0).pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
           cursor: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
@@ -21188,11 +21377,11 @@ function __c62(j: number): any {
           projectName: S.String,
           rank: S.Number,
           usage: S.Number,
-          components: __S(1985, __c62, 1),
+          components: __S(2081, __c65, 1),
         }),
       ).annotate({ identifier: "DataExportProjectRankRep" });
     case 3:
-      return S.Array(__S(1986, __c62, 2));
+      return S.Array(__S(2082, __c65, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -21214,14 +21403,14 @@ function __c62(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1987, __c62, 3),
-          page: __S(1988, __c62, 4),
-          scope: __S(1989, __c62, 5),
+          items: __S(2083, __c65, 3),
+          page: __S(2084, __c65, 4),
+          scope: __S(2085, __c65, 5),
         }),
       ).annotate({ identifier: "DataExportProjectRankingRep" });
   }
 }
-function __c63(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21241,37 +21430,37 @@ function __c63(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           key: S.String,
-          environments: __S(2049, __c64, 1),
+          environments: __S(2145, __c67, 1),
         }),
       ).annotate({ identifier: "MultiEnvironmentDependentFlag" });
     case 2:
-      return S.Array(__S(2017, __c63, 1));
+      return S.Array(__S(2113, __c66, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: __S(2018, __c63, 2),
-          _links: __S(14304, __c447, 0),
-          _site: __S(14336, __c448, 0),
+          items: __S(2114, __c66, 2),
+          _links: __S(14400, __c450, 0),
+          _site: __S(14432, __c451, 0),
         }),
       ).annotate({ identifier: "MultiEnvironmentDependentFlags" });
   }
 }
-function __c64(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           key: S.String,
-          _links: __S(14304, __c447, 0),
-          _site: __S(14336, __c448, 0),
+          _links: __S(14400, __c450, 0),
+          _site: __S(14432, __c451, 0),
         }),
       ).annotate({ identifier: "DependentFlagEnvironment" });
     case 1:
-      return S.Array(__S(2048, __c64, 0));
+      return S.Array(__S(2144, __c67, 0));
   }
 }
-function __c65(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21290,14 +21479,14 @@ function __c65(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          items: __S(2049, __c64, 1),
-          _links: __S(14304, __c447, 0),
-          _site: __S(14336, __c448, 0),
+          items: __S(2145, __c67, 1),
+          _links: __S(14400, __c450, 0),
+          _site: __S(14432, __c451, 0),
         }),
       ).annotate({ identifier: "DependentFlagsByEnvironment" });
   }
 }
-function __c66(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21314,16 +21503,16 @@ function __c66(j: number): any {
       ).annotate({ identifier: "GetDeploymentRequest" });
   }
 }
-function __c67(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(2154, __c67, 10)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(2250, __c70, 10)));
     case 1:
       return S.suspend(() =>
         S.Struct({
           totalCount: S.Number,
-          items: __S(2144, __c67, 0),
-          _links: S.optional(__S(14304, __c447, 0)),
+          items: __S(2240, __c70, 0),
+          _links: S.optional(__S(14400, __c450, 0)),
         }),
       ).annotate({ identifier: "DeploymentCollectionRep" });
     case 2:
@@ -21336,12 +21525,12 @@ function __c67(j: number): any {
         }),
       ).annotate({ identifier: "FlagReferenceRep" });
     case 3:
-      return S.Array(__S(2146, __c67, 2));
+      return S.Array(__S(2242, __c70, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           totalCount: S.Number,
-          items: __S(2147, __c67, 3),
+          items: __S(2243, __c70, 3),
         }),
       ).annotate({ identifier: "FlagReferenceCollectionRep" });
     case 5:
@@ -21374,19 +21563,19 @@ function __c67(j: number): any {
           linesAdded: S.Number,
           linesDeleted: S.Number,
           url: S.String,
-          deployments: S.optional(__S(2145, __c67, 1)),
-          flagReferences: S.optional(__S(2148, __c67, 4)),
-          leadTime: S.optional(__S(2149, __c67, 5)),
+          deployments: S.optional(__S(2241, __c70, 1)),
+          flagReferences: S.optional(__S(2244, __c70, 4)),
+          leadTime: S.optional(__S(2245, __c70, 5)),
         }),
       ).annotate({ identifier: "PullRequestRep" });
     case 7:
-      return S.Array(__S(2150, __c67, 6));
+      return S.Array(__S(2246, __c70, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           totalCount: S.Number,
-          items: __S(2151, __c67, 7),
-          _links: S.optional(__S(14304, __c447, 0)),
+          items: __S(2247, __c70, 7),
+          _links: S.optional(__S(14400, __c450, 0)),
         }),
       ).annotate({ identifier: "PullRequestCollectionRep" });
     case 9:
@@ -21411,7 +21600,7 @@ function __c67(j: number): any {
           status: S.String,
           kind: S.String,
           active: S.Boolean,
-          metadata: S.optional(__S(15040, __c470, 0)),
+          metadata: S.optional(__S(15136, __c473, 0)),
           archived: S.Boolean,
           environmentKey: S.String,
           numberOfContributors: S.Number,
@@ -21419,14 +21608,14 @@ function __c67(j: number): any {
           linesAdded: S.Number,
           linesDeleted: S.Number,
           leadTime: S.Number,
-          pullRequests: S.optional(__S(2152, __c67, 8)),
-          flagReferences: S.optional(__S(2148, __c67, 4)),
-          leadTimeStages: S.optional(__S(2153, __c67, 9)),
+          pullRequests: S.optional(__S(2248, __c70, 8)),
+          flagReferences: S.optional(__S(2244, __c70, 4)),
+          leadTimeStages: S.optional(__S(2249, __c70, 9)),
         }),
       ).annotate({ identifier: "DeploymentRep" });
   }
 }
-function __c68(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21450,7 +21639,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "GetDeploymentFrequencyChartRequest" });
   }
 }
-function __c69(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21460,7 +21649,7 @@ function __c69(j: number): any {
         }),
       ).annotate({ identifier: "InsightsMetricTierDefinition" });
     case 1:
-      return S.Array(__S(2208, __c69, 0));
+      return S.Array(__S(2304, __c72, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -21468,11 +21657,11 @@ function __c69(j: number): any {
           value: S.Number,
           unit: S.String,
           modifier: S.String,
-          tiers: __S(2209, __c69, 1),
+          tiers: __S(2305, __c72, 1),
         }),
       ).annotate({ identifier: "InsightsChartMetric" });
     case 3:
-      return S.Record(S.String, __S(2210, __c69, 2));
+      return S.Record(S.String, __S(2306, __c72, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -21482,11 +21671,11 @@ function __c69(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          summary: __S(15040, __c470, 0),
+          summary: __S(15136, __c473, 0),
           name: S.optional(S.String),
-          metrics: S.optional(__S(2211, __c69, 3)),
-          xAxis: __S(2212, __c69, 4),
-          yAxis: __S(2212, __c69, 4),
+          metrics: S.optional(__S(2307, __c72, 3)),
+          xAxis: __S(2308, __c72, 4),
+          yAxis: __S(2308, __c72, 4),
         }),
       ).annotate({ identifier: "InsightsChartMetadata" });
     case 6:
@@ -21497,13 +21686,13 @@ function __c69(j: number): any {
         }),
       ).annotate({ identifier: "InsightsChartBounds" });
     case 7:
-      return S.Array(__S(2214, __c69, 6));
+      return S.Array(__S(2310, __c72, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           count: S.optional(S.Number),
-          bounds: S.optional(__S(2215, __c69, 7)),
+          bounds: S.optional(__S(2311, __c72, 7)),
         }),
       ).annotate({ identifier: "InsightsChartSeriesMetadata" });
     case 9:
@@ -21511,30 +21700,30 @@ function __c69(j: number): any {
         S.Struct({
           x: S.Number,
           y: S.Number,
-          values: S.optional(__S(15040, __c470, 0)),
+          values: S.optional(__S(15136, __c473, 0)),
         }),
       ).annotate({ identifier: "InsightsChartSeriesDataPoint" });
     case 10:
-      return S.Array(__S(2217, __c69, 9));
+      return S.Array(__S(2313, __c72, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          metadata: __S(2216, __c69, 8),
-          data: __S(2218, __c69, 10),
+          metadata: __S(2312, __c72, 8),
+          data: __S(2314, __c72, 10),
         }),
       ).annotate({ identifier: "InsightsChartSeries" });
     case 12:
-      return S.Array(__S(2219, __c69, 11));
+      return S.Array(__S(2315, __c72, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          metadata: __S(2213, __c69, 5),
-          series: __S(2220, __c69, 12),
+          metadata: __S(2309, __c72, 5),
+          series: __S(2316, __c72, 12),
         }),
       ).annotate({ identifier: "InsightsChart" });
   }
 }
-function __c70(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21556,7 +21745,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "GetDeploymentsRequest" });
   }
 }
-function __c71(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21570,8 +21759,8 @@ function __c71(j: number): any {
           versionName: S.optional(S.String),
           eventType: S.String,
           eventTime: S.optional(S.Number),
-          eventMetadata: S.optional(__S(15040, __c470, 0)),
-          deploymentMetadata: S.optional(__S(15040, __c470, 0)),
+          eventMetadata: S.optional(__S(15136, __c473, 0)),
+          deploymentMetadata: S.optional(__S(15136, __c473, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -21582,7 +21771,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "CreateDeploymentEventRequest" });
   }
 }
-function __c72(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21600,7 +21789,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "GetDestinationRequest" });
   }
 }
-function __c73(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21613,7 +21802,7 @@ function __c73(j: number): any {
       return S.suspend(() =>
         S.Struct({
           _id: S.optional(S.String),
-          _links: S.optional(__S(14304, __c447, 0)),
+          _links: S.optional(__S(14400, __c450, 0)),
           name: S.optional(S.String),
           kind: S.optional(S.String),
           version: S.optional(S.Number),
@@ -21621,30 +21810,30 @@ function __c73(j: number): any {
           on: S.optional(S.Boolean),
           createdAt: S.optional(S.Number),
           maintainerId: S.optional(S.String),
-          _access: S.optional(__S(14979, __c468, 3)),
-          completedArtifacts: S.optional(__S(2336, __c73, 0)),
+          _access: S.optional(__S(15075, __c471, 3)),
+          completedArtifacts: S.optional(__S(2432, __c76, 0)),
         }),
       ).annotate({ identifier: "Destination" });
   }
 }
-function __c74(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v2/destinations", code: 200 })),
       ).annotate({ identifier: "GetDestinationsRequest" });
     case 1:
-      return S.Array(__S(2337, __c73, 1));
+      return S.Array(__S(2433, __c76, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(14304, __c447, 0)),
-          items: S.optional(__S(2369, __c74, 1)),
+          _links: S.optional(__S(14400, __c450, 0)),
+          items: S.optional(__S(2465, __c77, 1)),
         }),
       ).annotate({ identifier: "Destinations" });
   }
 }
-function __c75(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21661,7 +21850,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "GetEnvironmentRequest" });
   }
 }
-function __c76(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21670,7 +21859,7 @@ function __c76(j: number): any {
           flagKey: S.String.pipe(T.Label()),
           environmentKey: S.String.pipe(T.Label()),
           releaseId: S.String.pipe(T.Label()),
-          expand: S.optional(__S(14784, __c462, 0).pipe(T.Query())),
+          expand: S.optional(__S(14880, __c465, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -21681,7 +21870,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "GetEnvironmentReleaseRequest" });
   }
 }
-function __c77(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21690,11 +21879,11 @@ function __c77(j: number): any {
           metricVersionId: S.optional(S.String),
           autoRollback: S.Boolean,
           analysisUnit: S.optional(S.String),
-          definition: S.optional(__S(16960, __c530, 0)),
+          definition: S.optional(__S(17056, __c533, 0)),
         }),
       ).annotate({ identifier: "ReleaseMetric" });
     case 1:
-      return S.Array(__S(2464, __c77, 0));
+      return S.Array(__S(2560, __c80, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -21706,7 +21895,7 @@ function __c77(j: number): any {
         }),
       ).annotate({ identifier: "ReleaseStep" });
     case 3:
-      return S.Array(__S(2466, __c77, 2));
+      return S.Array(__S(2562, __c80, 2));
     case 4:
       return S.Record(S.String, S.String);
     case 5:
@@ -21718,17 +21907,17 @@ function __c77(j: number): any {
           description: S.optional(S.String),
           status: S.String,
           statusReason: S.optional(S.String),
-          steps: __S(2467, __c77, 3),
+          steps: __S(2563, __c80, 3),
           currentStepIndex: S.optional(S.Number),
           startedAt: S.optional(S.Number),
           endedAt: S.optional(S.Number),
-          metricStatuses: __S(2468, __c77, 4),
+          metricStatuses: __S(2564, __c80, 4),
         }),
       ).annotate({ identifier: "EnvironmentReleasePhase" });
     case 6:
-      return S.Array(__S(2469, __c77, 5));
+      return S.Array(__S(2565, __c80, 5));
     case 7:
-      return S.Record(S.String, __S(11872, __c371, 0));
+      return S.Record(S.String, __S(11968, __c374, 0));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -21745,19 +21934,19 @@ function __c77(j: number): any {
           randomizationUnit: S.String,
           cleanupBehavior: S.String,
           kind: S.String,
-          metrics: __S(2465, __c77, 1),
-          phases: __S(2470, __c77, 6),
+          metrics: __S(2561, __c80, 1),
+          phases: __S(2566, __c80, 6),
           currentPhaseIndex: S.NullOr(S.Number),
           advancementMode: S.String,
           createdAt: S.Number,
           startedAt: S.optional(S.Number),
           endedAt: S.optional(S.Number),
-          _links: S.optional(__S(2471, __c77, 7)),
+          _links: S.optional(__S(2567, __c80, 7)),
         }),
       ).annotate({ identifier: "EnvironmentRelease" });
   }
 }
-function __c78(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21773,7 +21962,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "GetEnvironmentsByProjectRequest" });
   }
 }
-function __c79(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21794,7 +21983,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "GetEvaluationsUsageRequest" });
   }
 }
-function __c80(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21806,7 +21995,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "GetEventsUsageRequest" });
   }
 }
-function __c81(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21825,7 +22014,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "GetExperimentRequest" });
   }
 }
-function __c82(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21843,7 +22032,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "GetExperimentationEventsUsageRequest" });
   }
 }
-function __c83(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21860,7 +22049,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "GetExperimentationKeysUsageRequest" });
   }
 }
-function __c84(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21870,19 +22059,19 @@ function __c84(j: number): any {
         }),
       ).annotate({ identifier: "TreatmentParameterInput" });
     case 1:
-      return S.Array(__S(2688, __c84, 0));
+      return S.Array(__S(2784, __c87, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           baseline: S.Boolean,
           allocationPercent: S.String,
-          parameters: __S(2689, __c84, 1),
+          parameters: __S(2785, __c87, 1),
           assignmentVariantId: S.optional(S.String),
         }),
       ).annotate({ identifier: "TreatmentInput" });
     case 3:
-      return S.Array(__S(2690, __c84, 2));
+      return S.Array(__S(2786, __c87, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -21892,7 +22081,7 @@ function __c84(j: number): any {
         }),
       ).annotate({ identifier: "FlagInput" });
     case 5:
-      return S.Record(S.String, __S(2692, __c84, 4));
+      return S.Record(S.String, __S(2788, __c87, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -21907,16 +22096,16 @@ function __c84(j: number): any {
         S.Struct({
           hypothesis: S.String,
           canReshuffleTraffic: S.optional(S.Boolean),
-          metrics: __S(2817, __c88, 1),
+          metrics: __S(2913, __c91, 1),
           primarySingleMetricKey: S.optional(S.String),
           primaryFunnelKey: S.optional(S.String),
-          treatments: __S(2691, __c84, 3),
-          flags: __S(2693, __c84, 5),
-          assignmentDataSource: S.optional(__S(2694, __c84, 6)),
+          treatments: __S(2787, __c87, 3),
+          flags: __S(2789, __c87, 5),
+          assignmentDataSource: S.optional(__S(2790, __c87, 6)),
           randomizationUnit: S.optional(S.String),
           reallocationFrequencyMillis: S.optional(S.Number),
           covariateId: S.optional(S.String),
-          attributes: S.optional(__S(15008, __c469, 0)),
+          attributes: S.optional(__S(15104, __c472, 0)),
         }),
       ).annotate({ identifier: "IterationInput" });
     case 8:
@@ -21928,11 +22117,11 @@ function __c84(j: number): any {
           description: S.optional(S.String),
           maintainerId: S.optional(S.String),
           key: S.String,
-          iteration: __S(2695, __c84, 7),
+          iteration: __S(2791, __c87, 7),
           holdoutId: S.optional(S.String),
-          tags: S.optional(__S(15008, __c469, 0)),
+          tags: S.optional(__S(15104, __c472, 0)),
           methodology: S.optional(S.String),
-          analysisConfig: S.optional(__S(2720, __c85, 0)),
+          analysisConfig: S.optional(__S(2816, __c88, 0)),
           dataSource: S.optional(S.String),
           type: S.optional(S.String),
         }).pipe(
@@ -21945,7 +22134,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "CreateExperimentRequest" });
   }
 }
-function __c85(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21963,14 +22152,14 @@ function __c85(j: number): any {
         S.Struct({
           targetingRule: S.optional(S.String),
           targetingRuleDescription: S.optional(S.String),
-          targetingRuleClauses: S.optional(__S(14816, __c463, 0)),
+          targetingRuleClauses: S.optional(__S(14912, __c466, 0)),
           flagConfigVersion: S.optional(S.Number),
           notInExperimentVariationId: S.optional(S.String),
-          _links: __S(14304, __c447, 0),
+          _links: __S(14400, __c450, 0),
         }),
       ).annotate({ identifier: "FlagRep" });
     case 2:
-      return S.Record(S.String, __S(2721, __c85, 1));
+      return S.Record(S.String, __S(2817, __c88, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -21980,9 +22169,9 @@ function __c85(j: number): any {
           kind: S.String,
           isNumeric: S.optional(S.Boolean),
           eventKey: S.optional(S.String),
-          _links: __S(14304, __c447, 0),
+          _links: __S(14400, __c450, 0),
           isGroup: S.Boolean,
-          metrics: S.optional(__S(2785, __c87, 1)),
+          metrics: S.optional(__S(2881, __c90, 1)),
           analysisType: S.optional(S.String),
           analysisUnit: S.optional(S.String),
         }),
@@ -21999,7 +22188,7 @@ function __c85(j: number): any {
           analysisType: S.optional(S.String),
           eventKey: S.optional(S.String),
           analysisUnit: S.optional(S.String),
-          _links: __S(14304, __c447, 0),
+          _links: __S(14400, __c450, 0),
         }),
       ).annotate({ identifier: "MetricV2Rep" });
     case 5:
@@ -22008,8 +22197,8 @@ function __c85(j: number): any {
           key: S.String,
           name: S.String,
           kind: S.String,
-          _links: __S(14304, __c447, 0),
-          metrics: S.optional(__S(2785, __c87, 1)),
+          _links: __S(14400, __c450, 0),
+          metrics: S.optional(__S(2881, __c90, 1)),
         }),
       ).annotate({ identifier: "DependentMetricGroupRepWithMetrics" });
     case 6:
@@ -22020,7 +22209,7 @@ function __c85(j: number): any {
         }),
       ).annotate({ identifier: "ParameterRep" });
     case 7:
-      return S.Array(__S(2726, __c85, 6));
+      return S.Array(__S(2822, __c88, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -22028,16 +22217,16 @@ function __c85(j: number): any {
           name: S.String,
           allocationPercent: S.String,
           baseline: S.optional(S.Boolean),
-          parameters: S.optional(__S(2727, __c85, 7)),
+          parameters: S.optional(__S(2823, __c88, 7)),
           assignmentVariantId: S.optional(S.String),
         }),
       ).annotate({ identifier: "TreatmentRep" });
     case 9:
-      return S.Array(__S(2728, __c85, 8));
+      return S.Array(__S(2824, __c88, 8));
     case 10:
-      return S.Array(__S(2724, __c85, 4));
+      return S.Array(__S(2820, __c88, 4));
     case 11:
-      return S.Array(__S(2723, __c85, 3));
+      return S.Array(__S(2819, __c88, 3));
     case 12:
       return S.suspend(() =>
         S.Struct({
@@ -22077,30 +22266,30 @@ function __c85(j: number): any {
           winningTreatmentId: S.optional(S.String),
           winningReason: S.optional(S.String),
           canReshuffleTraffic: S.optional(S.Boolean),
-          flags: S.optional(__S(2722, __c85, 2)),
+          flags: S.optional(__S(2818, __c88, 2)),
           reallocationFrequencyMillis: S.optional(S.Number),
           version: S.optional(S.Number),
-          primaryMetric: S.optional(__S(2723, __c85, 3)),
-          primarySingleMetric: S.optional(__S(2724, __c85, 4)),
-          primaryFunnel: S.optional(__S(2725, __c85, 5)),
+          primaryMetric: S.optional(__S(2819, __c88, 3)),
+          primarySingleMetric: S.optional(__S(2820, __c88, 4)),
+          primaryFunnel: S.optional(__S(2821, __c88, 5)),
           randomizationUnit: S.optional(S.String),
-          attributes: S.optional(__S(15008, __c469, 0)),
-          treatments: S.optional(__S(2729, __c85, 9)),
-          secondaryMetrics: S.optional(__S(2730, __c85, 10)),
-          metrics: S.optional(__S(2731, __c85, 11)),
-          layerSnapshot: S.optional(__S(2732, __c85, 12)),
-          covariateInfo: S.optional(__S(2733, __c85, 13)),
-          assignmentDataSource: S.optional(__S(2734, __c85, 14)),
+          attributes: S.optional(__S(15104, __c472, 0)),
+          treatments: S.optional(__S(2825, __c88, 9)),
+          secondaryMetrics: S.optional(__S(2826, __c88, 10)),
+          metrics: S.optional(__S(2827, __c88, 11)),
+          layerSnapshot: S.optional(__S(2828, __c88, 12)),
+          covariateInfo: S.optional(__S(2829, __c88, 13)),
+          assignmentDataSource: S.optional(__S(2830, __c88, 14)),
         }),
       ).annotate({ identifier: "IterationRep" });
     case 16:
-      return S.Array(__S(2735, __c85, 15));
+      return S.Array(__S(2831, __c88, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
-          not_started: S.optional(__S(2752, __c86, 0)),
-          running: S.optional(__S(2752, __c86, 0)),
-          stopped: S.optional(__S(2752, __c86, 0)),
+          not_started: S.optional(__S(2848, __c89, 0)),
+          running: S.optional(__S(2848, __c89, 0)),
+          stopped: S.optional(__S(2848, __c89, 0)),
         }),
       ).annotate({ identifier: "MutableFieldsByStatusRep" });
     case 18:
@@ -22117,27 +22306,27 @@ function __c85(j: number): any {
           dataSource: S.optional(S.String),
           assignmentSourceType: S.optional(S.String),
           archivedDate: S.optional(S.Number),
-          tags: S.optional(__S(15008, __c469, 0)),
-          _links: __S(14304, __c447, 0),
+          tags: S.optional(__S(15104, __c472, 0)),
+          _links: __S(14400, __c450, 0),
           holdoutId: S.optional(S.String),
-          currentIteration: S.optional(__S(2735, __c85, 15)),
+          currentIteration: S.optional(__S(2831, __c88, 15)),
           type: S.optional(S.String),
-          _access: S.optional(__S(14979, __c468, 3)),
-          draftIteration: S.optional(__S(2735, __c85, 15)),
-          previousIterations: S.optional(__S(2736, __c85, 16)),
-          analysisConfig: S.optional(__S(2720, __c85, 0)),
-          mutableFieldsByStatus: S.optional(__S(2737, __c85, 17)),
+          _access: S.optional(__S(15075, __c471, 3)),
+          draftIteration: S.optional(__S(2831, __c88, 15)),
+          previousIterations: S.optional(__S(2832, __c88, 16)),
+          analysisConfig: S.optional(__S(2816, __c88, 0)),
+          mutableFieldsByStatus: S.optional(__S(2833, __c88, 17)),
         }),
       ).annotate({ identifier: "Experiment" });
   }
 }
-function __c86(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, __S(15008, __c469, 0));
+      return S.Record(S.String, __S(15104, __c472, 0));
   }
 }
-function __c87(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22151,17 +22340,17 @@ function __c87(j: number): any {
           analysisType: S.optional(S.String),
           eventKey: S.optional(S.String),
           analysisUnit: S.optional(S.String),
-          _links: __S(14304, __c447, 0),
+          _links: __S(14400, __c450, 0),
           nameInGroup: S.optional(S.String),
-          randomizationUnits: S.optional(__S(15008, __c469, 0)),
-          analysisUnits: S.optional(__S(15008, __c469, 0)),
+          randomizationUnits: S.optional(__S(15104, __c472, 0)),
+          analysisUnits: S.optional(__S(15104, __c472, 0)),
         }),
       ).annotate({ identifier: "MetricInGroupRep" });
     case 1:
-      return S.Array(__S(2784, __c87, 0));
+      return S.Array(__S(2880, __c90, 0));
   }
 }
-function __c88(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22173,10 +22362,10 @@ function __c88(j: number): any {
         }),
       ).annotate({ identifier: "MetricInput" });
     case 1:
-      return S.Array(__S(2816, __c88, 0));
+      return S.Array(__S(2912, __c91, 0));
   }
 }
-function __c89(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22192,7 +22381,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "GetExperimentationSettingsRequest" });
   }
 }
-function __c90(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22204,20 +22393,20 @@ function __c90(j: number): any {
         }),
       ).annotate({ identifier: "RandomizationUnitRep" });
     case 1:
-      return S.Array(__S(2880, __c90, 0));
+      return S.Array(__S(2976, __c93, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           _projectId: S.optional(S.String),
           _projectKey: S.optional(S.String),
-          randomizationUnits: S.optional(__S(2881, __c90, 1)),
+          randomizationUnits: S.optional(__S(2977, __c93, 1)),
           _creationDate: S.optional(S.Number),
-          _links: S.optional(__S(14304, __c447, 0)),
+          _links: S.optional(__S(14400, __c450, 0)),
         }),
       ).annotate({ identifier: "RandomizationSettingsRep" });
   }
 }
-function __c91(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22239,25 +22428,25 @@ function __c91(j: number): any {
       ).annotate({ identifier: "GetExperimentsRequest" });
   }
 }
-function __c92(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          items: __S(2976, __c93, 0),
+          items: __S(3072, __c96, 0),
           total_count: S.optional(S.Number),
-          _links: S.optional(__S(14304, __c447, 0)),
+          _links: S.optional(__S(14400, __c450, 0)),
         }),
       ).annotate({ identifier: "ExperimentCollectionRep" });
   }
 }
-function __c93(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2738, __c85, 18));
+      return S.Array(__S(2834, __c88, 18));
   }
 }
-function __c94(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22274,7 +22463,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "GetExperimentsAnyEnvRequest" });
   }
 }
-function __c95(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22292,18 +22481,18 @@ function __c95(j: number): any {
       ).annotate({ identifier: "GetExpiringContextTargetsRequest" });
   }
 }
-function __c96(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          items: __S(3106, __c97, 2),
-          _links: S.optional(__S(14304, __c447, 0)),
+          items: __S(3202, __c100, 2),
+          _links: S.optional(__S(14400, __c450, 0)),
         }),
       ).annotate({ identifier: "ExpiringTargetGetResponse" });
   }
 }
-function __c97(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22325,14 +22514,14 @@ function __c97(j: number): any {
           contextKey: S.String,
           targetType: S.optional(S.String),
           variationId: S.optional(S.String),
-          _resourceId: __S(3104, __c97, 0),
+          _resourceId: __S(3200, __c100, 0),
         }),
       ).annotate({ identifier: "ExpiringTarget" });
     case 2:
-      return S.Array(__S(3105, __c97, 1));
+      return S.Array(__S(3201, __c100, 1));
   }
 }
-function __c98(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22350,7 +22539,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "GetExpiringTargetsForSegmentRequest" });
   }
 }
-function __c99(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22368,18 +22557,18 @@ function __c99(j: number): any {
       ).annotate({ identifier: "GetExpiringUserTargetsRequest" });
   }
 }
-function __c100(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          items: __S(3234, __c101, 2),
-          _links: S.optional(__S(14304, __c447, 0)),
+          items: __S(3330, __c104, 2),
+          _links: S.optional(__S(14400, __c450, 0)),
         }),
       ).annotate({ identifier: "ExpiringUserTargetGetResponse" });
   }
 }
-function __c101(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22400,14 +22589,14 @@ function __c101(j: number): any {
           userKey: S.String,
           targetType: S.optional(S.String),
           variationId: S.optional(S.String),
-          _resourceId: __S(3232, __c101, 0),
+          _resourceId: __S(3328, __c104, 0),
         }),
       ).annotate({ identifier: "ExpiringUserTargetItem" });
     case 2:
-      return S.Array(__S(3233, __c101, 1));
+      return S.Array(__S(3329, __c104, 1));
   }
 }
-function __c102(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22425,7 +22614,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "GetExpiringUserTargetsForSegmentRequest" });
   }
 }
-function __c103(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22439,17 +22628,17 @@ function __c103(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/code-refs/extinctions", code: 200 })),
       ).annotate({ identifier: "GetExtinctionsRequest" });
     case 1:
-      return S.Record(S.String, __S(3329, __c104, 1));
+      return S.Record(S.String, __S(3425, __c107, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(14304, __c447, 0),
-          items: __S(3297, __c103, 1),
+          _links: __S(14400, __c450, 0),
+          items: __S(3393, __c106, 1),
         }),
       ).annotate({ identifier: "ExtinctionCollectionRep" });
   }
 }
-function __c104(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22462,10 +22651,10 @@ function __c104(j: number): any {
         }),
       ).annotate({ identifier: "Extinction" });
     case 1:
-      return S.Array(__S(3328, __c104, 0));
+      return S.Array(__S(3424, __c107, 0));
   }
 }
-function __c105(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22480,7 +22669,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "GetFeatureFlagRequest" });
   }
 }
-function __c106(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22499,27 +22688,27 @@ function __c106(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/flags/{projectKey}", code: 200 })),
       ).annotate({ identifier: "GetFeatureFlagsRequest" });
     case 1:
-      return S.Array(__S(14904, __c465, 24));
+      return S.Array(__S(15000, __c468, 24));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(3393, __c106, 1),
-          _links: __S(14304, __c447, 0),
+          items: __S(3489, __c109, 1),
+          _links: __S(14400, __c450, 0),
           totalCount: S.optional(S.Number),
           totalCountWithDifferences: S.optional(S.Number),
         }),
       ).annotate({ identifier: "FeatureFlags" });
   }
 }
-function __c107(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectKey: S.String.pipe(T.Label()),
           integrationKey: S.String.pipe(T.Label()),
-          config: __S(15040, __c470, 0),
-          tags: S.optional(__S(15008, __c469, 0)),
+          config: __S(15136, __c473, 0),
+          tags: S.optional(__S(15104, __c472, 0)),
           name: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -22531,14 +22720,14 @@ function __c107(j: number): any {
       ).annotate({ identifier: "CreateFlagImportConfigurationRequest" });
   }
 }
-function __c108(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          self: __S(14336, __c448, 0),
-          parent: __S(14336, __c448, 0),
-          project: __S(14336, __c448, 0),
+          self: __S(14432, __c451, 0),
+          parent: __S(14432, __c451, 0),
+          project: __S(14432, __c451, 0),
         }),
       ).annotate({ identifier: "FlagImportIntegrationLinks" });
     case 1:
@@ -22551,34 +22740,34 @@ function __c108(j: number): any {
         }),
       ).annotate({ identifier: "StatusResponse" });
     case 2:
-      return S.Array(__S(3457, __c108, 1));
+      return S.Array(__S(3553, __c111, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
           lastImport: S.optional(S.Number),
           lastError: S.optional(S.Number),
-          errors: S.optional(__S(3458, __c108, 2)),
+          errors: S.optional(__S(3554, __c111, 2)),
         }),
       ).annotate({ identifier: "FlagImportStatus" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(3456, __c108, 0),
+          _links: __S(3552, __c111, 0),
           _id: S.String,
           integrationKey: S.String,
           projectKey: S.String,
-          config: __S(15040, __c470, 0),
-          tags: __S(15008, __c469, 0),
+          config: __S(15136, __c473, 0),
+          tags: __S(15104, __c472, 0),
           name: S.String,
           version: S.Number,
-          _access: S.optional(__S(14979, __c468, 3)),
-          _status: __S(3459, __c108, 3),
+          _access: S.optional(__S(15075, __c471, 3)),
+          _status: __S(3555, __c111, 3),
         }),
       ).annotate({ identifier: "FlagImportIntegration" });
   }
 }
-function __c109(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22597,7 +22786,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "GetFeatureFlagScheduledChangeRequest" });
   }
 }
-function __c110(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22608,14 +22797,14 @@ function __c110(j: number): any {
           _maintainerServiceTokenId: S.optional(S.String),
           _version: S.Number,
           executionDate: S.Number,
-          instructions: __S(15072, __c471, 0),
+          instructions: __S(15168, __c474, 0),
           conflicts: S.optional(S.Unknown),
-          _links: S.optional(__S(14304, __c447, 0)),
+          _links: S.optional(__S(14400, __c450, 0)),
         }),
       ).annotate({ identifier: "FeatureFlagScheduledChange" });
   }
 }
-function __c111(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22633,7 +22822,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "GetFeatureFlagStatusRequest" });
   }
 }
-function __c112(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22641,12 +22830,12 @@ function __c112(j: number): any {
           name: S.String,
           lastRequested: S.optional(S.String),
           default: S.optional(S.Unknown),
-          _links: __S(14304, __c447, 0),
+          _links: __S(14400, __c450, 0),
         }),
       ).annotate({ identifier: "FlagStatusRep" });
   }
 }
-function __c113(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22671,18 +22860,18 @@ function __c113(j: number): any {
         }),
       ).annotate({ identifier: "FeatureFlagStatus" });
     case 2:
-      return S.Record(S.String, __S(3617, __c113, 1));
+      return S.Record(S.String, __S(3713, __c116, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          environments: __S(3618, __c113, 2),
+          environments: __S(3714, __c116, 2),
           key: S.String,
-          _links: __S(14304, __c447, 0),
+          _links: __S(14400, __c450, 0),
         }),
       ).annotate({ identifier: "FeatureFlagStatusAcrossEnvironments" });
   }
 }
-function __c114(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22698,17 +22887,17 @@ function __c114(j: number): any {
         ),
       ).annotate({ identifier: "GetFeatureFlagStatusesRequest" });
     case 1:
-      return S.Array(__S(3584, __c112, 0));
+      return S.Array(__S(3680, __c115, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(14304, __c447, 0),
-          items: S.optional(__S(3649, __c114, 1)),
+          _links: __S(14400, __c450, 0),
+          items: S.optional(__S(3745, __c117, 1)),
         }),
       ).annotate({ identifier: "FeatureFlagStatuses" });
   }
 }
-function __c115(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22725,17 +22914,17 @@ function __c115(j: number): any {
         ),
       ).annotate({ identifier: "GetFlagConfigScheduledChangesRequest" });
     case 1:
-      return S.Array(__S(3520, __c110, 0));
+      return S.Array(__S(3616, __c113, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(3681, __c115, 1),
-          _links: S.optional(__S(14304, __c447, 0)),
+          items: __S(3777, __c118, 1),
+          _links: S.optional(__S(14400, __c450, 0)),
         }),
       ).annotate({ identifier: "FeatureFlagScheduledChanges" });
   }
 }
-function __c116(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22759,17 +22948,17 @@ function __c116(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(14304, __c447, 0)),
+          _links: S.optional(__S(14400, __c450, 0)),
           key: S.optional(S.String),
-          tags: S.optional(__S(15008, __c469, 0)),
+          tags: S.optional(__S(15104, __c472, 0)),
           temporary: S.optional(S.Boolean),
-          defaultClientSideAvailability: S.optional(__S(14944, __c467, 0)),
-          booleanDefaults: S.optional(__S(3713, __c116, 1)),
+          defaultClientSideAvailability: S.optional(__S(15040, __c470, 0)),
+          booleanDefaults: S.optional(__S(3809, __c119, 1)),
         }),
       ).annotate({ identifier: "FlagDefaultsRep" });
   }
 }
-function __c117(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22809,11 +22998,11 @@ function __c117(j: number): any {
         }),
       ).annotate({ identifier: "VariationEvalSummary" });
     case 3:
-      return S.Array(__S(3746, __c117, 2));
+      return S.Array(__S(3842, __c120, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          variations: S.optional(__S(3747, __c117, 3)),
+          variations: S.optional(__S(3843, __c120, 3)),
         }),
       ).annotate({ identifier: "EvaluationsSummary" });
     case 5:
@@ -22822,7 +23011,7 @@ function __c117(j: number): any {
           size: S.optional(S.String),
           percentage: S.optional(S.Number),
           reason: S.optional(S.String),
-          evaluationsSummary: S.optional(__S(3748, __c117, 4)),
+          evaluationsSummary: S.optional(__S(3844, __c120, 4)),
         }),
       ).annotate({ identifier: "FlagEventImpactRep" });
     case 6:
@@ -22832,7 +23021,7 @@ function __c117(j: number): any {
           status: S.String,
           startedAt: S.Number,
           endedAt: S.optional(S.Number),
-          _links: S.optional(__S(14304, __c447, 0)),
+          _links: S.optional(__S(14400, __c450, 0)),
         }),
       ).annotate({ identifier: "FlagEventExperimentIteration" });
     case 7:
@@ -22840,17 +23029,17 @@ function __c117(j: number): any {
         S.Struct({
           key: S.String,
           name: S.String,
-          iteration: __S(3750, __c117, 6),
-          _links: S.optional(__S(14304, __c447, 0)),
+          iteration: __S(3846, __c120, 6),
+          _links: S.optional(__S(14400, __c450, 0)),
         }),
       ).annotate({ identifier: "FlagEventExperiment" });
     case 8:
-      return S.Array(__S(3751, __c117, 7));
+      return S.Array(__S(3847, __c120, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           totalCount: S.Number,
-          items: __S(3752, __c117, 8),
+          items: __S(3848, __c120, 8),
         }),
       ).annotate({ identifier: "FlagEventExperimentCollection" });
     case 10:
@@ -22866,25 +23055,25 @@ function __c117(j: number): any {
           eventTime: S.Number,
           description: S.String,
           auditLogEntryId: S.optional(S.String),
-          member: S.optional(__S(3745, __c117, 1)),
-          actions: S.optional(__S(15008, __c469, 0)),
-          impact: __S(3749, __c117, 5),
-          experiments: S.optional(__S(3753, __c117, 9)),
+          member: S.optional(__S(3841, __c120, 1)),
+          actions: S.optional(__S(15104, __c472, 0)),
+          impact: __S(3845, __c120, 5),
+          experiments: S.optional(__S(3849, __c120, 9)),
         }),
       ).annotate({ identifier: "FlagEventRep" });
     case 11:
-      return S.Array(__S(3754, __c117, 10));
+      return S.Array(__S(3850, __c120, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
           totalCount: S.Number,
-          items: __S(3755, __c117, 11),
-          _links: S.optional(__S(14304, __c447, 0)),
+          items: __S(3851, __c120, 11),
+          _links: S.optional(__S(14400, __c450, 0)),
         }),
       ).annotate({ identifier: "FlagEventCollectionRep" });
   }
 }
-function __c118(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22903,13 +23092,13 @@ function __c118(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(14304, __c447, 0),
-          items: __S(10144, __c317, 0),
+          _links: __S(14400, __c450, 0),
+          items: __S(10240, __c320, 0),
         }),
       ).annotate({ identifier: "FlagFollowersGetRep" });
   }
 }
-function __c119(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22927,7 +23116,7 @@ function __c119(j: number): any {
       ).annotate({ identifier: "GetFlagImportConfigurationRequest" });
   }
 }
-function __c120(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22936,17 +23125,17 @@ function __c120(j: number): any {
         ),
       ).annotate({ identifier: "GetFlagImportConfigurationsRequest" });
     case 1:
-      return S.Array(__S(3460, __c108, 4));
+      return S.Array(__S(3556, __c111, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(1120, __c35, 0),
-          items: __S(3841, __c120, 1),
+          _links: __S(1216, __c38, 0),
+          items: __S(3937, __c123, 1),
         }),
       ).annotate({ identifier: "FlagImportIntegrationCollection" });
   }
 }
-function __c121(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22959,7 +23148,7 @@ function __c121(j: number): any {
           deepLink: S.optional(S.String),
           title: S.optional(S.String),
           description: S.optional(S.String),
-          metadata: S.optional(__S(3936, __c123, 0)),
+          metadata: S.optional(__S(4032, __c126, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -22970,7 +23159,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "CreateFlagLinkRequest" });
   }
 }
-function __c122(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22984,7 +23173,7 @@ function __c122(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(14304, __c447, 0),
+          _links: __S(14400, __c450, 0),
           _id: S.String,
           firstName: S.optional(S.String),
           lastName: S.optional(S.String),
@@ -22993,28 +23182,28 @@ function __c122(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(14304, __c447, 0),
+          _links: __S(14400, __c450, 0),
           _key: S.optional(S.String),
           _integrationKey: S.optional(S.String),
           _id: S.String,
           _deepLink: S.String,
-          _timestamp: __S(3904, __c122, 0),
+          _timestamp: __S(4000, __c125, 0),
           title: S.optional(S.String),
           description: S.optional(S.String),
-          _metadata: S.optional(__S(3936, __c123, 0)),
+          _metadata: S.optional(__S(4032, __c126, 0)),
           _createdAt: S.Number,
-          _member: S.optional(__S(3905, __c122, 1)),
+          _member: S.optional(__S(4001, __c125, 1)),
         }),
       ).annotate({ identifier: "FlagLinkRep" });
   }
 }
-function __c123(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c124(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23030,17 +23219,17 @@ function __c124(j: number): any {
         ),
       ).annotate({ identifier: "GetFlagLinksRequest" });
     case 1:
-      return S.Array(__S(3906, __c122, 2));
+      return S.Array(__S(4002, __c125, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(3969, __c124, 1),
-          _links: __S(14304, __c447, 0),
+          items: __S(4065, __c127, 1),
+          _links: __S(14400, __c450, 0),
         }),
       ).annotate({ identifier: "FlagLinkCollectionRep" });
   }
 }
-function __c125(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23058,7 +23247,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "GetFlagStatusChartRequest" });
   }
 }
-function __c126(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23077,21 +23266,21 @@ function __c126(j: number): any {
       return S.suspend(() =>
         S.Struct({
           flagKey: S.optional(S.String),
-          followers: S.optional(__S(10144, __c317, 0)),
+          followers: S.optional(__S(10240, __c320, 0)),
         }),
       ).annotate({ identifier: "FollowersPerFlag" });
     case 2:
-      return S.Array(__S(4033, __c126, 1));
+      return S.Array(__S(4129, __c129, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(14304, __c447, 0),
-          items: S.optional(__S(4034, __c126, 2)),
+          _links: __S(14400, __c450, 0),
+          items: S.optional(__S(4130, __c129, 2)),
         }),
       ).annotate({ identifier: "FlagFollowersByProjEnvGetRep" });
   }
 }
-function __c127(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23118,13 +23307,13 @@ function __c127(j: number): any {
           isDirty: S.optional(S.Boolean),
           createdAt: S.Number,
           updatedAt: S.Number,
-          baseExperiment: __S(2738, __c85, 18),
-          relatedExperiments: S.optional(__S(2976, __c93, 0)),
+          baseExperiment: __S(2834, __c88, 18),
+          relatedExperiments: S.optional(__S(3072, __c96, 0)),
         }),
       ).annotate({ identifier: "HoldoutDetailRep" });
   }
 }
-function __c128(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23142,7 +23331,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "GetHoldoutByIdRequest" });
   }
 }
-function __c129(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23153,13 +23342,13 @@ function __c129(j: number): any {
           holdoutAmount: S.String,
           createdAt: S.Number,
           updatedAt: S.Number,
-          baseExperiment: __S(2738, __c85, 18),
-          experiments: S.optional(__S(129, __c4, 1)),
+          baseExperiment: __S(2834, __c88, 18),
+          experiments: S.optional(__S(225, __c7, 1)),
         }),
       ).annotate({ identifier: "HoldoutRep" });
   }
 }
-function __c130(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23176,7 +23365,7 @@ function __c130(j: number): any {
       ).annotate({ identifier: "GetInsightGroupRequest" });
   }
 }
-function __c131(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23191,7 +23380,7 @@ function __c131(j: number): any {
         ),
       ).annotate({ identifier: "GetInsightGroupsRequest" });
     case 1:
-      return S.Array(__S(4385, __c137, 1));
+      return S.Array(__S(4481, __c140, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -23207,22 +23396,22 @@ function __c131(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          countByIndicator: __S(4194, __c131, 2),
+          countByIndicator: __S(4290, __c134, 2),
         }),
       ).annotate({ identifier: "InsightGroupCollectionMetadata" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           totalCount: S.Number,
-          items: __S(4193, __c131, 1),
-          _links: S.optional(__S(14304, __c447, 0)),
-          metadata: S.optional(__S(4195, __c131, 3)),
-          scoreMetadata: S.optional(__S(4384, __c137, 0)),
+          items: __S(4289, __c134, 1),
+          _links: S.optional(__S(14400, __c450, 0)),
+          metadata: S.optional(__S(4291, __c134, 3)),
+          scoreMetadata: S.optional(__S(4480, __c140, 0)),
         }),
       ).annotate({ identifier: "InsightGroupCollection" });
   }
 }
-function __c132(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23236,8 +23425,8 @@ function __c132(j: number): any {
       return S.suspend(() =>
         S.Struct({
           totalCount: S.Number,
-          items: __S(10177, __c318, 1),
-          _links: S.optional(__S(14304, __c447, 0)),
+          items: __S(10273, __c321, 1),
+          _links: S.optional(__S(14400, __c450, 0)),
         }),
       ).annotate({ identifier: "ProjectSummaryCollection" });
     case 2:
@@ -23249,22 +23438,22 @@ function __c132(j: number): any {
           type: S.String,
           url: S.String,
           mainBranch: S.String,
-          projects: S.optional(__S(4225, __c132, 1)),
+          projects: S.optional(__S(4321, __c135, 1)),
         }),
       ).annotate({ identifier: "InsightsRepository" });
     case 3:
-      return S.Array(__S(4226, __c132, 2));
+      return S.Array(__S(4322, __c135, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           totalCount: S.Number,
-          items: __S(4227, __c132, 3),
-          _links: S.optional(__S(14304, __c447, 0)),
+          items: __S(4323, __c135, 3),
+          _links: S.optional(__S(14400, __c450, 0)),
         }),
       ).annotate({ identifier: "InsightsRepositoryCollection" });
   }
 }
-function __c133(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23279,15 +23468,15 @@ function __c133(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          period: __S(4355, __c136, 3),
-          lastPeriod: __S(4355, __c136, 3),
-          scores: __S(4354, __c136, 2),
-          _links: S.optional(__S(14304, __c447, 0)),
+          period: __S(4451, __c139, 3),
+          lastPeriod: __S(4451, __c139, 3),
+          scores: __S(4450, __c139, 2),
+          _links: S.optional(__S(14400, __c450, 0)),
         }),
       ).annotate({ identifier: "InsightScores" });
   }
 }
-function __c134(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23303,7 +23492,7 @@ function __c134(j: number): any {
       ).annotate({ identifier: "GetIntegrationConfigurationRequest" });
   }
 }
-function __c135(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23312,14 +23501,14 @@ function __c135(j: number): any {
           key: S.String,
           projectKey: S.String,
           environmentKey: S.String,
-          applicationKeys: S.optional(__S(15008, __c469, 0)),
+          applicationKeys: S.optional(__S(15104, __c472, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/v2/engineering-insights/insights/group", code: 200 }),
         ),
       ).annotate({ identifier: "CreateInsightGroupRequest" });
   }
 }
-function __c136(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23332,27 +23521,27 @@ function __c136(j: number): any {
       return S.suspend(() =>
         S.Struct({
           score: S.Number,
-          aggregateOf: S.optional(__S(15008, __c469, 0)),
+          aggregateOf: S.optional(__S(15104, __c472, 0)),
           diffVsLastPeriod: S.optional(S.Number),
           indicator: S.String,
-          indicatorRange: __S(4352, __c136, 0),
-          lastPeriod: S.optional(__S(4353, __c136, 1)),
+          indicatorRange: __S(4448, __c139, 0),
+          lastPeriod: S.optional(__S(4449, __c139, 1)),
         }),
       ).annotate({ identifier: "InsightsMetricScore" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          overall: __S(4353, __c136, 1),
-          deploymentFrequency: __S(4353, __c136, 1),
-          deploymentFailureRate: __S(4353, __c136, 1),
-          leadTime: __S(4353, __c136, 1),
-          impactSize: __S(4353, __c136, 1),
-          experimentationCoverage: __S(4353, __c136, 1),
-          flagHealth: __S(4353, __c136, 1),
-          velocity: __S(4353, __c136, 1),
-          risk: __S(4353, __c136, 1),
-          efficiency: __S(4353, __c136, 1),
-          creationRatio: S.optional(__S(4353, __c136, 1)),
+          overall: __S(4449, __c139, 1),
+          deploymentFrequency: __S(4449, __c139, 1),
+          deploymentFailureRate: __S(4449, __c139, 1),
+          leadTime: __S(4449, __c139, 1),
+          impactSize: __S(4449, __c139, 1),
+          experimentationCoverage: __S(4449, __c139, 1),
+          flagHealth: __S(4449, __c139, 1),
+          velocity: __S(4449, __c139, 1),
+          risk: __S(4449, __c139, 1),
+          efficiency: __S(4449, __c139, 1),
+          creationRatio: S.optional(__S(4449, __c139, 1)),
         }),
       ).annotate({ identifier: "InsightGroupScores" });
     case 3:
@@ -23364,39 +23553,39 @@ function __c136(j: number): any {
       ).annotate({ identifier: "InsightPeriod" });
   }
 }
-function __c137(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          period: __S(4355, __c136, 3),
-          lastPeriod: __S(4355, __c136, 3),
+          period: __S(4451, __c139, 3),
+          lastPeriod: __S(4451, __c139, 3),
         }),
       ).annotate({ identifier: "InsightGroupCollectionScoreMetadata" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          environment: S.optional(__S(4417, __c138, 1)),
-          scores: S.optional(__S(4354, __c136, 2)),
-          scoreMetadata: S.optional(__S(4384, __c137, 0)),
+          environment: S.optional(__S(4513, __c141, 1)),
+          scores: S.optional(__S(4450, __c139, 2)),
+          scoreMetadata: S.optional(__S(4480, __c140, 0)),
           key: S.String,
           name: S.String,
           projectKey: S.String,
           environmentKey: S.String,
-          applicationKeys: S.optional(__S(15008, __c469, 0)),
+          applicationKeys: S.optional(__S(15104, __c472, 0)),
           createdAt: S.Number,
         }),
       ).annotate({ identifier: "InsightGroup" });
   }
 }
-function __c138(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, __S(16000, __c500, 0));
+      return S.Record(S.String, __S(16096, __c503, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(14304, __c447, 0),
+          _links: __S(14400, __c450, 0),
           _id: S.String,
           key: S.String,
           name: S.String,
@@ -23405,19 +23594,19 @@ function __c138(j: number): any {
           color: S.String,
           defaultTtl: S.Number,
           secureMode: S.Boolean,
-          _access: S.optional(__S(14979, __c468, 3)),
+          _access: S.optional(__S(15075, __c471, 3)),
           defaultTrackEvents: S.Boolean,
           requireComments: S.Boolean,
           confirmChanges: S.Boolean,
-          tags: __S(15008, __c469, 0),
-          approvalSettings: S.optional(__S(16000, __c500, 0)),
-          resourceApprovalSettings: S.optional(__S(4416, __c138, 0)),
+          tags: __S(15104, __c472, 0),
+          approvalSettings: S.optional(__S(16096, __c503, 0)),
+          resourceApprovalSettings: S.optional(__S(4512, __c141, 0)),
           critical: S.Boolean,
         }),
       ).annotate({ identifier: "Environment" });
   }
 }
-function __c139(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23434,20 +23623,20 @@ function __c139(j: number): any {
       ).annotate({ identifier: "GetIntegrationDeliveryConfigurationByEnvironmentRequest" });
   }
 }
-function __c140(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(5409, __c169, 1));
+      return S.Array(__S(5505, __c172, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(1120, __c35, 0),
-          items: __S(4480, __c140, 0),
+          _links: __S(1216, __c38, 0),
+          items: __S(4576, __c143, 0),
         }),
       ).annotate({ identifier: "IntegrationDeliveryConfigurationCollection" });
   }
 }
-function __c141(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23466,7 +23655,7 @@ function __c141(j: number): any {
       ).annotate({ identifier: "GetIntegrationDeliveryConfigurationByIdRequest" });
   }
 }
-function __c142(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23480,7 +23669,7 @@ function __c142(j: number): any {
       ).annotate({ identifier: "GetIntegrationDeliveryConfigurationsRequest" });
   }
 }
-function __c143(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23492,23 +23681,23 @@ function __c143(j: number): any {
       ).annotate({ identifier: "GetIpAllowlistRequest" });
   }
 }
-function __c144(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(5824, __c182, 0));
+      return S.Array(__S(5920, __c185, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(11808, __c369, 0)),
+          _links: S.optional(__S(11904, __c372, 0)),
           sessionAllowlistEnabled: S.Boolean,
           apiTokenAllowlistEnabled: S.Boolean,
           totalCount: S.optional(S.Number),
-          entries: __S(4608, __c144, 0),
+          entries: __S(4704, __c147, 0),
         }),
       ).annotate({ identifier: "IpAllowlistResponse" });
   }
 }
-function __c145(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23517,13 +23706,13 @@ function __c145(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          addresses: __S(15008, __c469, 0),
-          outboundAddresses: __S(15008, __c469, 0),
+          addresses: __S(15104, __c472, 0),
+          outboundAddresses: __S(15104, __c472, 0),
         }),
       ).annotate({ identifier: "IpList" });
   }
 }
-function __c146(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23533,18 +23722,18 @@ function __c146(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/projects/{projectKey}/layers", code: 200 })),
       ).annotate({ identifier: "GetLayersRequest" });
     case 1:
-      return S.Array(__S(6372, __c199, 4));
+      return S.Array(__S(6468, __c202, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(4673, __c146, 1),
+          items: __S(4769, __c149, 1),
           totalCount: S.Number,
-          _links: __S(14304, __c447, 0),
+          _links: __S(14400, __c450, 0),
         }),
       ).annotate({ identifier: "LayerCollectionRep" });
   }
 }
-function __c147(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23568,7 +23757,7 @@ function __c147(j: number): any {
       ).annotate({ identifier: "GetLeadTimeChartRequest" });
   }
 }
-function __c148(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23581,7 +23770,7 @@ function __c148(j: number): any {
           sort: S.optional(S.String.pipe(T.Query())),
           query: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          expand: S.optional(__S(14784, __c462, 0).pipe(T.Query())),
+          expand: S.optional(__S(14880, __c465, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -23592,43 +23781,43 @@ function __c148(j: number): any {
       ).annotate({ identifier: "GetLinkedResourcesRequest" });
   }
 }
-function __c149(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          view: S.optional(__S(11867, __c370, 27)),
-          flag: S.optional(__S(11853, __c370, 13)),
-          segment: S.optional(__S(11856, __c370, 16)),
-          aiConfig: S.optional(__S(11862, __c370, 22)),
-          metric: S.optional(__S(11859, __c370, 19)),
+          view: S.optional(__S(11963, __c373, 27)),
+          flag: S.optional(__S(11949, __c373, 13)),
+          segment: S.optional(__S(11952, __c373, 16)),
+          aiConfig: S.optional(__S(11958, __c373, 22)),
+          metric: S.optional(__S(11955, __c373, 19)),
         }),
       ).annotate({ identifier: "ViewLinkedResourceDetails" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(11904, __c372, 0),
+          _links: __S(12000, __c375, 0),
           resourceKey: S.String,
           environmentId: S.optional(S.String),
           environmentKey: S.optional(S.String),
           resourceType: S.String,
           linkedAt: S.Number,
-          resourceDetails: S.optional(__S(4768, __c149, 0)),
+          resourceDetails: S.optional(__S(4864, __c152, 0)),
         }),
       ).annotate({ identifier: "ViewLinkedResource" });
     case 2:
-      return S.Array(__S(4769, __c149, 1));
+      return S.Array(__S(4865, __c152, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(16896, __c528, 0)),
-          items: __S(4770, __c149, 2),
+          _links: S.optional(__S(16992, __c531, 0)),
+          items: __S(4866, __c152, 2),
           totalCount: S.Number,
         }),
       ).annotate({ identifier: "ViewLinkedResources" });
   }
 }
-function __c150(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23649,21 +23838,21 @@ function __c150(j: number): any {
       ).annotate({ identifier: "GetLinkedViewsRequest" });
   }
 }
-function __c151(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(11867, __c370, 27));
+      return S.Array(__S(11963, __c373, 27));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(16896, __c528, 0)),
-          items: __S(4832, __c151, 0),
+          _links: S.optional(__S(16992, __c531, 0)),
+          items: __S(4928, __c154, 0),
           totalCount: S.Number,
         }),
       ).annotate({ identifier: "Views" });
   }
 }
-function __c152(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23681,7 +23870,7 @@ function __c152(j: number): any {
       ).annotate({ identifier: "GetMAUClientsideUsageRequest" });
   }
 }
-function __c153(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23689,9 +23878,9 @@ function __c153(j: number): any {
           integrationKey: S.String.pipe(T.Label()),
           name: S.String,
           enabled: S.optional(S.Boolean),
-          tags: S.optional(__S(15008, __c469, 0)),
-          configValues: __S(15040, __c470, 0),
-          capabilityConfig: S.optional(__S(4942, __c154, 14)),
+          tags: S.optional(__S(15104, __c472, 0)),
+          configValues: __S(15136, __c473, 0),
+          capabilityConfig: S.optional(__S(5038, __c157, 14)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -23702,7 +23891,7 @@ function __c153(j: number): any {
       ).annotate({ identifier: "CreateIntegrationConfigurationRequest" });
   }
 }
-function __c154(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23712,7 +23901,7 @@ function __c154(j: number): any {
         }),
       ).annotate({ identifier: "HeaderItems" });
     case 1:
-      return S.Array(__S(4928, __c154, 0));
+      return S.Array(__S(5024, __c157, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -23723,8 +23912,8 @@ function __c154(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          headers: S.optional(__S(4929, __c154, 1)),
-          hmacSignature: S.optional(__S(4930, __c154, 2)),
+          headers: S.optional(__S(5025, __c157, 1)),
+          hmacSignature: S.optional(__S(5026, __c157, 2)),
           method: S.optional(S.String),
           url: S.optional(S.String),
         }),
@@ -23737,7 +23926,7 @@ function __c154(j: number): any {
         }),
       ).annotate({ identifier: "DynamicOptionFiltersItems" });
     case 5:
-      return S.Array(__S(4932, __c154, 4));
+      return S.Array(__S(5028, __c157, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -23748,7 +23937,7 @@ function __c154(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          optionsItems: S.optional(__S(4934, __c154, 6)),
+          optionsItems: S.optional(__S(5030, __c157, 6)),
           optionsPath: S.optional(S.String),
         }),
       ).annotate({ identifier: "DynamicOptionsParser" });
@@ -23763,10 +23952,10 @@ function __c154(j: number): any {
       return S.suspend(() =>
         S.Struct({
           allowUnknownValue: S.optional(S.Boolean),
-          endpoint: S.optional(__S(4931, __c154, 3)),
-          filters: S.optional(__S(4933, __c154, 5)),
-          parser: S.optional(__S(4935, __c154, 7)),
-          source: S.optional(__S(4936, __c154, 8)),
+          endpoint: S.optional(__S(5027, __c157, 3)),
+          filters: S.optional(__S(5029, __c157, 5)),
+          parser: S.optional(__S(5031, __c157, 7)),
+          source: S.optional(__S(5032, __c157, 8)),
         }),
       ).annotate({ identifier: "DynamicOptions" });
     case 10:
@@ -23779,46 +23968,46 @@ function __c154(j: number): any {
           placeholder: S.optional(S.String),
           isOptional: S.optional(S.Boolean),
           defaultValue: S.optional(S.Unknown),
-          allowedValues: S.optional(__S(15008, __c469, 0)),
-          dynamicOptions: S.optional(__S(4937, __c154, 9)),
+          allowedValues: S.optional(__S(15104, __c472, 0)),
+          dynamicOptions: S.optional(__S(5033, __c157, 9)),
         }),
       ).annotate({ identifier: "FormVariable" });
     case 11:
-      return S.Array(__S(4938, __c154, 10));
+      return S.Array(__S(5034, __c157, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          additionalFormVariables: S.optional(__S(4939, __c154, 11)),
+          additionalFormVariables: S.optional(__S(5035, __c157, 11)),
         }),
       ).annotate({ identifier: "ApprovalsCapabilityConfig" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          statements: S.optional(__S(4961, __c155, 1)),
+          statements: S.optional(__S(5057, __c158, 1)),
         }),
       ).annotate({ identifier: "AuditLogEventsHookCapabilityConfigPost" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          approvals: S.optional(__S(4940, __c154, 12)),
-          auditLogEventsHook: S.optional(__S(4941, __c154, 13)),
+          approvals: S.optional(__S(5036, __c157, 12)),
+          auditLogEventsHook: S.optional(__S(5037, __c157, 13)),
         }),
       ).annotate({ identifier: "CapabilityConfigPost" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(14304, __c447, 0),
+          _links: __S(14400, __c450, 0),
           _id: S.String,
           name: S.String,
           _createdAt: S.optional(S.Number),
           _integrationKey: S.optional(S.String),
-          tags: S.optional(__S(15008, __c469, 0)),
+          tags: S.optional(__S(15104, __c472, 0)),
           enabled: S.optional(S.Boolean),
-          _access: S.optional(__S(14979, __c468, 3)),
-          configValues: S.optional(__S(15040, __c470, 0)),
-          capabilityConfig: S.optional(__S(4942, __c154, 14)),
+          _access: S.optional(__S(15075, __c471, 3)),
+          configValues: S.optional(__S(15136, __c473, 0)),
+          capabilityConfig: S.optional(__S(5038, __c157, 14)),
           snowflakeSetupScript: S.optional(S.String),
-          redshiftSetupScripts: S.optional(__S(15008, __c469, 0)),
+          redshiftSetupScripts: S.optional(__S(15104, __c472, 0)),
           redshiftIAMPermissionsPolicy: S.optional(S.String),
           redshiftIAMTrustPolicy: S.optional(S.String),
           clickHouseSetupScript: S.optional(S.String),
@@ -23827,23 +24016,23 @@ function __c154(j: number): any {
       ).annotate({ identifier: "IntegrationConfigurationsRep" });
   }
 }
-function __c155(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resources: S.optional(__S(15008, __c469, 0)),
-          notResources: S.optional(__S(15008, __c469, 0)),
-          actions: S.optional(__S(15008, __c469, 0)),
-          notActions: S.optional(__S(15008, __c469, 0)),
+          resources: S.optional(__S(15104, __c472, 0)),
+          notResources: S.optional(__S(15104, __c472, 0)),
+          actions: S.optional(__S(15104, __c472, 0)),
+          notActions: S.optional(__S(15104, __c472, 0)),
           effect: S.String,
         }),
       ).annotate({ identifier: "StatementPost" });
     case 1:
-      return S.Array(__S(4960, __c155, 0));
+      return S.Array(__S(5056, __c158, 0));
   }
 }
-function __c156(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23856,13 +24045,13 @@ function __c156(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(15040, __c470, 0),
-          sdks: __S(15008, __c469, 0),
+          _links: __S(15136, __c473, 0),
+          sdks: __S(15104, __c472, 0),
         }),
       ).annotate({ identifier: "SdkListRep" });
   }
 }
-function __c157(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23881,7 +24070,7 @@ function __c157(j: number): any {
       ).annotate({ identifier: "GetMAUTotalUsageRequest" });
   }
 }
-function __c158(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23892,7 +24081,7 @@ function __c158(j: number): any {
       ).annotate({ identifier: "GetMemberRequest" });
   }
 }
-function __c159(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23906,7 +24095,7 @@ function __c159(j: number): any {
       ).annotate({ identifier: "GetMembersRequest" });
   }
 }
-function __c160(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23921,7 +24110,7 @@ function __c160(j: number): any {
       ).annotate({ identifier: "GetMetricRequest" });
   }
 }
-function __c161(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23929,11 +24118,11 @@ function __c161(j: number): any {
           key: S.String,
           name: S.String,
           kind: S.String,
-          _links: __S(14304, __c447, 0),
+          _links: __S(14400, __c450, 0),
         }),
       ).annotate({ identifier: "DependentMetricGroupRep" });
     case 1:
-      return S.Array(__S(5152, __c161, 0));
+      return S.Array(__S(5248, __c164, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -23945,7 +24134,7 @@ function __c161(j: number): any {
           environmentName: S.String,
           status: S.String,
           creationDate: S.Number,
-          _links: __S(14304, __c447, 0),
+          _links: __S(14400, __c450, 0),
         }),
       ).annotate({ identifier: "DependentReleasePhaseRep" });
     case 3:
@@ -23962,33 +24151,33 @@ function __c161(j: number): any {
           name: S.String,
           kind: S.String,
           _attachedFlagCount: S.optional(S.Number),
-          _links: __S(14304, __c447, 0),
-          _site: S.optional(__S(14336, __c448, 0)),
-          _access: S.optional(__S(14979, __c468, 3)),
-          tags: __S(15008, __c469, 0),
+          _links: __S(14400, __c450, 0),
+          _site: S.optional(__S(14432, __c451, 0)),
+          _access: S.optional(__S(15075, __c471, 3)),
+          tags: __S(15104, __c472, 0),
           _creationDate: S.Number,
-          lastModified: S.optional(__S(15136, __c473, 0)),
+          lastModified: S.optional(__S(15232, __c476, 0)),
           maintainerId: S.optional(S.String),
-          _maintainer: S.optional(__S(14912, __c466, 0)),
+          _maintainer: S.optional(__S(15008, __c469, 0)),
           description: S.optional(S.String),
           category: S.optional(S.String),
           isNumeric: S.optional(S.Boolean),
           successCriteria: S.optional(S.String),
           unit: S.optional(S.String),
           eventKey: S.optional(S.String),
-          randomizationUnits: S.optional(__S(15008, __c469, 0)),
-          analysisUnits: S.optional(__S(15008, __c469, 0)),
-          filters: S.optional(__S(15137, __c473, 1)),
+          randomizationUnits: S.optional(__S(15104, __c472, 0)),
+          analysisUnits: S.optional(__S(15104, __c472, 0)),
+          filters: S.optional(__S(15233, __c476, 1)),
           unitAggregationType: S.optional(S.String),
           analysisType: S.optional(S.String),
           percentileValue: S.optional(S.Number),
-          eventDefault: S.optional(__S(15138, __c473, 2)),
-          dataSource: __S(15139, __c473, 3),
+          eventDefault: S.optional(__S(15234, __c476, 2)),
+          dataSource: __S(15235, __c476, 3),
           lastSeen: S.optional(S.Number),
           archived: S.optional(S.Boolean),
           archivedAt: S.optional(S.Number),
           selector: S.optional(S.String),
-          urls: S.optional(__S(15072, __c471, 0)),
+          urls: S.optional(__S(15168, __c474, 0)),
           windowStartOffset: S.optional(S.Number),
           windowEndOffset: S.optional(S.Number),
           winsorLowerPercentile: S.optional(S.Number),
@@ -23997,18 +24186,18 @@ function __c161(j: number): any {
           traceQuery: S.optional(S.String),
           traceValueLocation: S.optional(S.String),
           unitAggregationField: S.optional(S.String),
-          denominator: S.optional(__S(15140, __c473, 4)),
-          experiments: S.optional(__S(7649, __c239, 1)),
-          metricGroups: S.optional(__S(5153, __c161, 1)),
-          lastUsedInExperiment: S.optional(__S(7648, __c239, 0)),
-          lastUsedInGuardedRollout: S.optional(__S(5154, __c161, 2)),
+          denominator: S.optional(__S(15236, __c476, 4)),
+          experiments: S.optional(__S(7745, __c242, 1)),
+          metricGroups: S.optional(__S(5249, __c164, 1)),
+          lastUsedInExperiment: S.optional(__S(7744, __c242, 0)),
+          lastUsedInGuardedRollout: S.optional(__S(5250, __c164, 2)),
           isActive: S.optional(S.Boolean),
-          _attachedFeatures: S.optional(__S(289, __c9, 1)),
+          _attachedFeatures: S.optional(__S(385, __c12, 1)),
         }),
       ).annotate({ identifier: "MetricRep" });
   }
 }
-function __c162(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24026,7 +24215,7 @@ function __c162(j: number): any {
       ).annotate({ identifier: "GetMetricGroupRequest" });
   }
 }
-function __c163(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24042,18 +24231,18 @@ function __c163(j: number): any {
         ),
       ).annotate({ identifier: "GetMetricGroupsRequest" });
     case 1:
-      return S.Array(__S(7680, __c240, 0));
+      return S.Array(__S(7776, __c243, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(5217, __c163, 1),
-          _links: S.optional(__S(14304, __c447, 0)),
+          items: __S(5313, __c166, 1),
+          _links: S.optional(__S(14400, __c450, 0)),
           totalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "MetricGroupCollectionRep" });
   }
 }
-function __c164(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24067,18 +24256,18 @@ function __c164(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/metrics/{projectKey}", code: 200 })),
       ).annotate({ identifier: "GetMetricsRequest" });
     case 1:
-      return S.Array(__S(14848, __c464, 0));
+      return S.Array(__S(14944, __c467, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(5249, __c164, 1)),
-          _links: S.optional(__S(14304, __c447, 0)),
+          items: S.optional(__S(5345, __c167, 1)),
+          _links: S.optional(__S(14400, __c450, 0)),
           totalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "MetricCollectionRep" });
   }
 }
-function __c165(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24096,12 +24285,12 @@ function __c165(j: number): any {
       ).annotate({ identifier: "GetModelConfigRequest" });
   }
 }
-function __c166(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          _access: S.optional(__S(14979, __c468, 3)),
+          _access: S.optional(__S(15075, __c471, 3)),
           _maintainer: S.optional(S.Unknown),
           name: S.String,
           key: S.String,
@@ -24111,7 +24300,7 @@ function __c166(j: number): any {
           global: S.Boolean,
           params: S.optional(S.Unknown),
           customParams: S.optional(S.Unknown),
-          tags: __S(15008, __c469, 0),
+          tags: __S(15104, __c472, 0),
           version: S.Number,
           costPerInputToken: S.optional(S.Number),
           costPerOutputToken: S.optional(S.Number),
@@ -24122,7 +24311,7 @@ function __c166(j: number): any {
       ).annotate({ identifier: "ModelConfig" });
   }
 }
-function __c167(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24132,7 +24321,7 @@ function __c167(j: number): any {
       ).annotate({ identifier: "GetOAuthClientByIdRequest" });
   }
 }
-function __c168(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24141,8 +24330,8 @@ function __c168(j: number): any {
           environmentKey: S.String.pipe(T.Label()),
           integrationKey: S.String.pipe(T.Label()),
           on: S.optional(S.Boolean),
-          config: __S(15040, __c470, 0),
-          tags: S.optional(__S(15008, __c469, 0)),
+          config: __S(15136, __c473, 0),
+          tags: S.optional(__S(15104, __c472, 0)),
           name: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -24154,7 +24343,7 @@ function __c168(j: number): any {
       ).annotate({ identifier: "CreateIntegrationDeliveryConfigurationRequest" });
   }
 }
-function __c169(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24163,46 +24352,46 @@ function __c169(j: number): any {
           potentiallyStale: S.Boolean,
           lastSync: S.optional(S.Number),
           lastError: S.optional(S.Number),
-          errors: S.optional(__S(1730, __c54, 2)),
+          errors: S.optional(__S(1826, __c57, 2)),
         }),
       ).annotate({ identifier: "IntegrationDeliveryConfigurationStatus" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(1728, __c54, 0),
+          _links: __S(1824, __c57, 0),
           _id: S.String,
           integrationKey: S.String,
           projectKey: S.String,
           environmentKey: S.String,
-          config: __S(15040, __c470, 0),
+          config: __S(15136, __c473, 0),
           on: S.Boolean,
-          tags: __S(15008, __c469, 0),
+          tags: __S(15104, __c472, 0),
           name: S.String,
           version: S.Number,
-          _access: S.optional(__S(14979, __c468, 3)),
-          _status: S.optional(__S(5408, __c169, 0)),
+          _access: S.optional(__S(15075, __c471, 3)),
+          _status: S.optional(__S(5504, __c172, 0)),
         }),
       ).annotate({ identifier: "IntegrationDeliveryConfiguration" });
   }
 }
-function __c170(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v2/oauth/clients", code: 200 })),
       ).annotate({ identifier: "GetOAuthClientsRequest" });
     case 1:
-      return S.Array(__S(8192, __c256, 0));
+      return S.Array(__S(8288, __c259, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(14304, __c447, 0),
-          items: __S(5441, __c170, 1),
+          _links: __S(14400, __c450, 0),
+          items: __S(5537, __c173, 1),
         }),
       ).annotate({ identifier: "ClientCollection" });
   }
 }
-function __c171(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24216,7 +24405,7 @@ function __c171(j: number): any {
       ).annotate({ identifier: "GetObservabilityErrorsUsageRequest" });
   }
 }
-function __c172(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24230,7 +24419,7 @@ function __c172(j: number): any {
       ).annotate({ identifier: "GetObservabilityLogsUsageRequest" });
   }
 }
-function __c173(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24244,7 +24433,7 @@ function __c173(j: number): any {
       ).annotate({ identifier: "GetObservabilityMetricsUsageRequest" });
   }
 }
-function __c174(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24258,7 +24447,7 @@ function __c174(j: number): any {
       ).annotate({ identifier: "GetObservabilitySessionsUsageRequest" });
   }
 }
-function __c175(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24272,7 +24461,7 @@ function __c175(j: number): any {
       ).annotate({ identifier: "GetObservabilityTracesUsageRequest" });
   }
 }
-function __c176(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24280,7 +24469,7 @@ function __c176(j: number): any {
       ).annotate({ identifier: "GetOpenapiSpecRequest" });
   }
 }
-function __c177(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24291,7 +24480,7 @@ function __c177(j: number): any {
       ).annotate({ identifier: "GetProjectRequest" });
   }
 }
-function __c178(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24304,18 +24493,18 @@ function __c178(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/projects", code: 200 })),
       ).annotate({ identifier: "GetProjectsRequest" });
     case 1:
-      return S.Array(__S(608, __c19, 0));
+      return S.Array(__S(704, __c22, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(14304, __c447, 0),
-          items: __S(5697, __c178, 1),
+          _links: __S(14400, __c450, 0),
+          items: __S(5793, __c181, 1),
           totalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Projects" });
   }
 }
-function __c179(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24333,7 +24522,7 @@ function __c179(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(14304, __c447, 0),
+          _links: __S(14400, __c450, 0),
           key: S.String,
           name: S.String,
           color: S.String,
@@ -24342,7 +24531,7 @@ function __c179(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(11904, __c372, 0)),
+          _links: S.optional(__S(12000, __c375, 0)),
           kind: S.String,
           key: S.String,
           name: S.String,
@@ -24354,23 +24543,23 @@ function __c179(j: number): any {
           _createdAt: S.Number,
           _updatedAt: S.Number,
           _version: S.Number,
-          environmentSummary: S.optional(__S(5729, __c179, 1)),
-          viewSummaries: S.optional(__S(5762, __c180, 2)),
+          environmentSummary: S.optional(__S(5825, __c182, 1)),
+          viewSummaries: S.optional(__S(5858, __c183, 2)),
         }),
       ).annotate({ identifier: "SdkKeyListItem" });
     case 3:
-      return S.Array(__S(5730, __c179, 2));
+      return S.Array(__S(5826, __c182, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(11808, __c369, 0)),
-          items: __S(5731, __c179, 3),
+          _links: S.optional(__S(11904, __c372, 0)),
+          items: __S(5827, __c182, 3),
           totalCount: S.Number,
         }),
       ).annotate({ identifier: "SdkKeys" });
   }
 }
-function __c180(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24382,17 +24571,17 @@ function __c180(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(11904, __c372, 0)),
+          _links: S.optional(__S(12000, __c375, 0)),
           key: S.String,
           name: S.String,
-          resourceSummary: __S(5760, __c180, 0),
+          resourceSummary: __S(5856, __c183, 0),
         }),
       ).annotate({ identifier: "ViewSummary" });
     case 2:
-      return S.Array(__S(5761, __c180, 1));
+      return S.Array(__S(5857, __c183, 1));
   }
 }
-function __c181(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24403,7 +24592,7 @@ function __c181(j: number): any {
       ).annotate({ identifier: "CreateIpAllowlistEntryRequest" });
   }
 }
-function __c182(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24418,7 +24607,7 @@ function __c182(j: number): any {
       ).annotate({ identifier: "IpAllowlistEntryResponse" });
   }
 }
-function __c183(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24435,27 +24624,27 @@ function __c183(j: number): any {
       ).annotate({ identifier: "GetPromptSnippetRequest" });
   }
 }
-function __c184(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
-          _access: S.optional(__S(14979, __c468, 3)),
-          _links: S.optional(__S(11904, __c372, 0)),
-          _site: S.optional(__S(11872, __c371, 0)),
+          _access: S.optional(__S(15075, __c471, 3)),
+          _links: S.optional(__S(12000, __c375, 0)),
+          _site: S.optional(__S(11968, __c374, 0)),
           _maintainer: S.optional(S.Unknown),
           name: S.String,
           description: S.optional(S.String),
           text: S.String,
-          tags: __S(15008, __c469, 0),
+          tags: __S(15104, __c472, 0),
           version: S.Number,
           createdAt: S.Number,
         }),
       ).annotate({ identifier: "PromptSnippet" });
   }
 }
-function __c185(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24478,7 +24667,7 @@ function __c185(j: number): any {
       ).annotate({ identifier: "GetPullRequestsRequest" });
   }
 }
-function __c186(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24490,16 +24679,16 @@ function __c186(j: number): any {
       ).annotate({ identifier: "GetRelayProxyConfigRequest" });
   }
 }
-function __c187(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           _id: S.String,
-          _creator: S.optional(__S(14912, __c466, 0)),
-          _access: S.optional(__S(14979, __c468, 3)),
+          _creator: S.optional(__S(15008, __c469, 0)),
+          _access: S.optional(__S(15075, __c471, 3)),
           name: S.String,
-          policy: __S(4961, __c155, 1),
+          policy: __S(5057, __c158, 1),
           fullKey: S.optional(S.String),
           displayKey: S.String,
           creationDate: S.Number,
@@ -24508,7 +24697,7 @@ function __c187(j: number): any {
       ).annotate({ identifier: "RelayAutoConfigRep" });
   }
 }
-function __c188(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24517,16 +24706,16 @@ function __c188(j: number): any {
         ),
       ).annotate({ identifier: "GetRelayProxyConfigsRequest" });
     case 1:
-      return S.Array(__S(5984, __c187, 0));
+      return S.Array(__S(6080, __c190, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(6017, __c188, 1),
+          items: __S(6113, __c191, 1),
         }),
       ).annotate({ identifier: "RelayAutoConfigCollectionRep" });
   }
 }
-function __c189(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24552,7 +24741,7 @@ function __c189(j: number): any {
       ).annotate({ identifier: "GetReleaseFrequencyChartRequest" });
   }
 }
-function __c190(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24570,19 +24759,19 @@ function __c190(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          items: __S(6144, __c192, 0),
+          items: __S(6240, __c195, 0),
           totalCount: S.Number,
         }),
       ).annotate({ identifier: "ReleasePoliciesResponse" });
   }
 }
-function __c191(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          environmentKeys: S.optional(__S(15008, __c469, 0)),
-          flagTagKeys: S.optional(__S(15008, __c469, 0)),
+          environmentKeys: S.optional(__S(15104, __c472, 0)),
+          flagTagKeys: S.optional(__S(15104, __c472, 0)),
         }),
       ).annotate({ identifier: "ReleasePolicyScope" });
     case 1:
@@ -24593,48 +24782,48 @@ function __c191(j: number): any {
         }),
       ).annotate({ identifier: "ReleasePolicyStage" });
     case 2:
-      return S.Array(__S(6113, __c191, 1));
+      return S.Array(__S(6209, __c194, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           rolloutContextKindKey: S.optional(S.String),
           minSampleSize: S.optional(S.Number),
           rollbackOnRegression: S.optional(S.Boolean),
-          metricKeys: S.optional(__S(15008, __c469, 0)),
-          metricGroupKeys: S.optional(__S(15008, __c469, 0)),
-          stages: S.optional(__S(6114, __c191, 2)),
+          metricKeys: S.optional(__S(15104, __c472, 0)),
+          metricGroupKeys: S.optional(__S(15104, __c472, 0)),
+          stages: S.optional(__S(6210, __c194, 2)),
         }),
       ).annotate({ identifier: "GuardedReleaseConfig" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           rolloutContextKindKey: S.optional(S.String),
-          stages: S.optional(__S(6114, __c191, 2)),
+          stages: S.optional(__S(6210, __c194, 2)),
         }),
       ).annotate({ identifier: "ProgressiveReleaseConfig" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          _access: S.optional(__S(14979, __c468, 3)),
+          _access: S.optional(__S(15075, __c471, 3)),
           _id: S.String,
-          scope: S.optional(__S(6112, __c191, 0)),
+          scope: S.optional(__S(6208, __c194, 0)),
           rank: S.Number,
           releaseMethod: S.String,
-          guardedReleaseConfig: S.optional(__S(6115, __c191, 3)),
-          progressiveReleaseConfig: S.optional(__S(6116, __c191, 4)),
+          guardedReleaseConfig: S.optional(__S(6211, __c194, 3)),
+          progressiveReleaseConfig: S.optional(__S(6212, __c194, 4)),
           name: S.String,
           key: S.String,
         }),
       ).annotate({ identifier: "ReleasePolicy" });
   }
 }
-function __c192(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6117, __c191, 5));
+      return S.Array(__S(6213, __c194, 5));
   }
 }
-function __c193(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24651,7 +24840,7 @@ function __c193(j: number): any {
       ).annotate({ identifier: "GetReleasePolicyRequest" });
   }
 }
-function __c194(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24663,17 +24852,17 @@ function __c194(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/code-refs/repositories", code: 200 })),
       ).annotate({ identifier: "GetRepositoriesRequest" });
     case 1:
-      return S.Array(__S(6240, __c195, 0));
+      return S.Array(__S(6336, __c198, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(14304, __c447, 0),
-          items: __S(6209, __c194, 1),
+          _links: __S(14400, __c450, 0),
+          items: __S(6305, __c197, 1),
         }),
       ).annotate({ identifier: "RepositoryCollectionRep" });
   }
 }
-function __c195(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24686,14 +24875,14 @@ function __c195(j: number): any {
           defaultBranch: S.String,
           enabled: S.Boolean,
           version: S.Number,
-          branches: S.optional(__S(1312, __c41, 0)),
-          _links: __S(15040, __c470, 0),
-          _access: S.optional(__S(14979, __c468, 3)),
+          branches: S.optional(__S(1408, __c44, 0)),
+          _links: __S(15136, __c473, 0),
+          _access: S.optional(__S(15075, __c471, 3)),
         }),
       ).annotate({ identifier: "RepositoryRep" });
   }
 }
-function __c196(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24703,7 +24892,7 @@ function __c196(j: number): any {
       ).annotate({ identifier: "GetRepositoryRequest" });
   }
 }
-function __c197(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24712,12 +24901,12 @@ function __c197(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          links: __S(14304, __c447, 0),
+          links: __S(14400, __c450, 0),
         }),
       ).annotate({ identifier: "RootResponse" });
   }
 }
-function __c198(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24730,7 +24919,7 @@ function __c198(j: number): any {
       ).annotate({ identifier: "CreateLayerRequest" });
   }
 }
-function __c199(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24741,15 +24930,15 @@ function __c199(j: number): any {
         }),
       ).annotate({ identifier: "LayerReservationRep" });
     case 1:
-      return S.Array(__S(6368, __c199, 0));
+      return S.Array(__S(6464, __c202, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          reservations: __S(6369, __c199, 1),
+          reservations: __S(6465, __c202, 1),
         }),
       ).annotate({ identifier: "LayerConfigurationRep" });
     case 3:
-      return S.Record(S.String, __S(6370, __c199, 2));
+      return S.Record(S.String, __S(6466, __c202, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -24758,12 +24947,12 @@ function __c199(j: number): any {
           description: S.String,
           createdAt: S.Number,
           randomizationUnit: S.optional(S.String),
-          environments: S.optional(__S(6371, __c199, 3)),
+          environments: S.optional(__S(6467, __c202, 3)),
         }),
       ).annotate({ identifier: "LayerRep" });
   }
 }
-function __c200(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24772,17 +24961,17 @@ function __c200(j: number): any {
         ),
       ).annotate({ identifier: "GetRootStatisticRequest" });
     case 1:
-      return S.Array(__S(14336, __c448, 0));
+      return S.Array(__S(14432, __c451, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          projects: S.optional(__S(6401, __c200, 1)),
-          self: S.optional(__S(14336, __c448, 0)),
+          projects: S.optional(__S(6497, __c203, 1)),
+          self: S.optional(__S(14432, __c451, 0)),
         }),
       ).annotate({ identifier: "StatisticsRoot" });
   }
 }
-function __c201(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24797,7 +24986,7 @@ function __c201(j: number): any {
       ).annotate({ identifier: "GetSdkAllVersionsRequest" });
   }
 }
-function __c202(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24823,14 +25012,14 @@ function __c202(j: number): any {
         }),
       ).annotate({ identifier: "SdkVersionDetailsRep" });
     case 1:
-      return S.Array(__S(6464, __c202, 0));
+      return S.Array(__S(6560, __c205, 0));
     case 2:
-      return S.suspend(() => __S(6465, __c202, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(6561, __c205, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetSdkAllVersionsResponse",
       });
   }
 }
-function __c203(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24848,12 +25037,12 @@ function __c203(j: number): any {
       ).annotate({ identifier: "GetSdkKeyByKeyRequest" });
   }
 }
-function __c204(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(11904, __c372, 0)),
+          _links: S.optional(__S(12000, __c375, 0)),
           kind: S.String,
           key: S.String,
           name: S.String,
@@ -24869,7 +25058,7 @@ function __c204(j: number): any {
       ).annotate({ identifier: "SdkKey" });
   }
 }
-function __c205(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24889,18 +25078,18 @@ function __c205(j: number): any {
         ),
       ).annotate({ identifier: "GetSdkKeysRequest" });
     case 1:
-      return S.Array(__S(6528, __c204, 0));
+      return S.Array(__S(6624, __c207, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(11808, __c369, 0)),
-          items: __S(6561, __c205, 1),
+          _links: S.optional(__S(11904, __c372, 0)),
+          items: __S(6657, __c208, 1),
           totalCount: S.Number,
         }),
       ).annotate({ identifier: "SdkKeysForGetSdkKeys" });
   }
 }
-function __c206(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24910,7 +25099,7 @@ function __c206(j: number): any {
       ).annotate({ identifier: "GetSdkVersionsDetailsRequest" });
   }
 }
-function __c207(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24928,7 +25117,7 @@ function __c207(j: number): any {
       ).annotate({ identifier: "GetSegmentRequest" });
   }
 }
-function __c208(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24947,7 +25136,7 @@ function __c208(j: number): any {
       ).annotate({ identifier: "GetSegmentMembershipForContextRequest" });
   }
 }
-function __c209(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24959,7 +25148,7 @@ function __c209(j: number): any {
       ).annotate({ identifier: "BigSegmentTarget" });
   }
 }
-function __c210(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24978,7 +25167,7 @@ function __c210(j: number): any {
       ).annotate({ identifier: "GetSegmentMembershipForUserRequest" });
   }
 }
-function __c211(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24998,18 +25187,18 @@ function __c211(j: number): any {
         ),
       ).annotate({ identifier: "GetSegmentsRequest" });
     case 1:
-      return S.Array(__S(645, __c20, 5));
+      return S.Array(__S(741, __c23, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(6753, __c211, 1),
-          _links: __S(14304, __c447, 0),
+          items: __S(6849, __c214, 1),
+          _links: __S(14400, __c450, 0),
           totalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "UserSegments" });
   }
 }
-function __c212(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25028,7 +25217,7 @@ function __c212(j: number): any {
       ).annotate({ identifier: "GetSegmentScheduledChangeRequest" });
   }
 }
-function __c213(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25038,36 +25227,36 @@ function __c213(j: number): any {
           firstName: S.optional(S.String),
           lastName: S.optional(S.String),
           role: S.optional(S.String),
-          customRoles: S.optional(__S(15008, __c469, 0)),
-          teamKeys: S.optional(__S(15008, __c469, 0)),
-          roleAttributes: S.optional(__S(2752, __c86, 0)),
+          customRoles: S.optional(__S(15104, __c472, 0)),
+          teamKeys: S.optional(__S(15104, __c472, 0)),
+          roleAttributes: S.optional(__S(2848, __c89, 0)),
         }),
       ).annotate({ identifier: "NewMemberForm" });
     case 1:
-      return S.Array(__S(6816, __c213, 0));
+      return S.Array(__S(6912, __c216, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          body: __S(6817, __c213, 1).pipe(T.HttpBody()),
+          body: __S(6913, __c216, 1).pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "POST", uri: "/api/v2/members", code: 200 })),
       ).annotate({ identifier: "CreateMemberRequest" });
   }
 }
-function __c214(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6884, __c215, 4));
+      return S.Array(__S(6980, __c218, 4));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          items: __S(6848, __c214, 0),
-          _links: __S(14304, __c447, 0),
+          items: __S(6944, __c217, 0),
+          _links: __S(14400, __c450, 0),
           totalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Members" });
   }
 }
-function __c215(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25076,21 +25265,21 @@ function __c215(j: number): any {
         }),
       ).annotate({ identifier: "LastSeenMetadata" });
     case 1:
-      return S.Array(__S(6912, __c216, 0));
+      return S.Array(__S(7008, __c219, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           actionSet: S.optional(S.String),
-          actions: S.optional(__S(15008, __c469, 0)),
+          actions: S.optional(__S(15104, __c472, 0)),
           resource: S.String,
         }),
       ).annotate({ identifier: "MemberPermissionGrantSummaryRep" });
     case 3:
-      return S.Array(__S(6882, __c215, 2));
+      return S.Array(__S(6978, __c218, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(14304, __c447, 0),
+          _links: __S(14400, __c450, 0),
           _id: S.String,
           firstName: S.optional(S.String),
           lastName: S.optional(S.String),
@@ -25099,39 +25288,39 @@ function __c215(j: number): any {
           _pendingInvite: S.Boolean,
           _verified: S.Boolean,
           _pendingEmail: S.optional(S.String),
-          customRoles: __S(15008, __c469, 0),
+          customRoles: __S(15104, __c472, 0),
           mfa: S.String,
-          excludedDashboards: S.optional(__S(15008, __c469, 0)),
+          excludedDashboards: S.optional(__S(15104, __c472, 0)),
           _lastSeen: S.Number,
-          _lastSeenMetadata: S.optional(__S(6880, __c215, 0)),
-          _integrationMetadata: S.optional(__S(16033, __c501, 1)),
-          teams: S.optional(__S(6881, __c215, 1)),
-          permissionGrants: S.optional(__S(6883, __c215, 3)),
+          _lastSeenMetadata: S.optional(__S(6976, __c218, 0)),
+          _integrationMetadata: S.optional(__S(16129, __c504, 1)),
+          teams: S.optional(__S(6977, __c218, 1)),
+          permissionGrants: S.optional(__S(6979, __c218, 3)),
           creationDate: S.Number,
-          oauthProviders: S.optional(__S(15008, __c469, 0)),
+          oauthProviders: S.optional(__S(15104, __c472, 0)),
           hasPassword: S.optional(S.Boolean),
           version: S.optional(S.Number),
-          roleAttributes: S.optional(__S(2752, __c86, 0)),
+          roleAttributes: S.optional(__S(2848, __c89, 0)),
           mfaEnforced: S.optional(S.Boolean),
           mfaGracePeriodExpiresAt: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Member" });
   }
 }
-function __c216(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          customRoleKeys: __S(15008, __c469, 0),
+          customRoleKeys: __S(15104, __c472, 0),
           key: S.String,
-          _links: S.optional(__S(14304, __c447, 0)),
+          _links: S.optional(__S(14400, __c450, 0)),
           name: S.String,
         }),
       ).annotate({ identifier: "MemberTeamSummaryRep" });
   }
 }
-function __c217(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25148,17 +25337,17 @@ function __c217(j: number): any {
         ),
       ).annotate({ identifier: "GetSegmentScheduledChangesRequest" });
     case 1:
-      return S.Array(__S(9216, __c288, 0));
+      return S.Array(__S(9312, __c291, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(14304, __c447, 0),
-          items: __S(6945, __c217, 1),
+          _links: __S(14400, __c450, 0),
+          items: __S(7041, __c220, 1),
         }),
       ).annotate({ identifier: "SegmentScheduledChanges" });
   }
 }
-function __c218(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25181,15 +25370,15 @@ function __c218(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(15040, __c470, 0),
-          metadata: __S(15072, __c471, 0),
-          series: __S(17089, __c534, 1),
-          projectedSeries: S.optional(__S(17089, __c534, 1)),
+          _links: __S(15136, __c473, 0),
+          metadata: __S(15168, __c474, 0),
+          series: __S(17185, __c537, 1),
+          projectedSeries: S.optional(__S(17185, __c537, 1)),
         }),
       ).annotate({ identifier: "SeriesListRepFloat" });
   }
 }
-function __c219(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25211,7 +25400,7 @@ function __c219(j: number): any {
       ).annotate({ identifier: "GetStaleFlagsChartRequest" });
   }
 }
-function __c220(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25233,24 +25422,24 @@ function __c220(j: number): any {
           version: S.Number,
           hunkCount: S.Number,
           fileCount: S.Number,
-          _links: __S(14304, __c447, 0),
+          _links: __S(14400, __c450, 0),
           latestCommitTime: S.optional(S.Number),
         }),
       ).annotate({ identifier: "StatisticRep" });
     case 2:
-      return S.Array(__S(7041, __c220, 1));
+      return S.Array(__S(7137, __c223, 1));
     case 3:
-      return S.Record(S.String, __S(7042, __c220, 2));
+      return S.Record(S.String, __S(7138, __c223, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          flags: __S(7043, __c220, 3),
-          _links: __S(14304, __c447, 0),
+          flags: __S(7139, __c223, 3),
+          _links: __S(14400, __c450, 0),
         }),
       ).annotate({ identifier: "StatisticCollectionRep" });
   }
 }
-function __c221(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25263,7 +25452,7 @@ function __c221(j: number): any {
       ).annotate({ identifier: "GetStreamUsageRequest" });
   }
 }
-function __c222(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25280,7 +25469,7 @@ function __c222(j: number): any {
       ).annotate({ identifier: "GetStreamUsageBySdkVersionRequest" });
   }
 }
-function __c223(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25298,17 +25487,17 @@ function __c223(j: number): any {
         }),
       ).annotate({ identifier: "SdkVersionRep" });
     case 2:
-      return S.Array(__S(7137, __c223, 1));
+      return S.Array(__S(7233, __c226, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(15040, __c470, 0),
-          sdkVersions: __S(7138, __c223, 2),
+          _links: __S(15136, __c473, 0),
+          sdkVersions: __S(7234, __c226, 2),
         }),
       ).annotate({ identifier: "SdkVersionListRep" });
   }
 }
-function __c224(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25321,7 +25510,7 @@ function __c224(j: number): any {
       ).annotate({ identifier: "GetSubscriptionByIDRequest" });
   }
 }
-function __c225(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25330,23 +25519,23 @@ function __c225(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/integrations/{integrationKey}", code: 200 })),
       ).annotate({ identifier: "GetSubscriptionsRequest" });
     case 1:
-      return S.Array(__S(9635, __c301, 3));
+      return S.Array(__S(9731, __c304, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(14304, __c447, 0)),
-          items: S.optional(__S(7201, __c225, 1)),
+          _links: S.optional(__S(14400, __c450, 0)),
+          items: S.optional(__S(7297, __c228, 1)),
           key: S.optional(S.String),
         }),
       ).annotate({ identifier: "Integrations" });
   }
 }
-function __c226(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          kind: S.optional(__S(15008, __c469, 0).pipe(T.Query())),
+          kind: S.optional(__S(15104, __c472, 0).pipe(T.Query())),
           pre: S.optional(S.String.pipe(T.Query())),
           archived: S.optional(S.Boolean.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
@@ -25357,25 +25546,25 @@ function __c226(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          items: __S(15008, __c469, 0),
-          _links: __S(14304, __c447, 0),
+          items: __S(15104, __c472, 0),
+          _links: __S(14400, __c450, 0),
           totalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "TagsCollection" });
   }
 }
-function __c227(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          teamKeys: __S(15008, __c469, 0),
+          teamKeys: __S(15104, __c472, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v2/members/{id}/teams", code: 200 })),
       ).annotate({ identifier: "CreateMemberTeamRequest" });
   }
 }
-function __c228(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25386,7 +25575,7 @@ function __c228(j: number): any {
       ).annotate({ identifier: "GetTeamRequest" });
   }
 }
-function __c229(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25398,7 +25587,7 @@ function __c229(j: number): any {
       ).annotate({ identifier: "GetTeamMaintainersRequest" });
   }
 }
-function __c230(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25410,7 +25599,7 @@ function __c230(j: number): any {
       ).annotate({ identifier: "GetTeamRolesRequest" });
   }
 }
-function __c231(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25423,18 +25612,18 @@ function __c231(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/teams", code: 200 })),
       ).annotate({ identifier: "GetTeamsRequest" });
     case 1:
-      return S.Array(__S(10273, __c321, 1));
+      return S.Array(__S(10369, __c324, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(7393, __c231, 1),
-          _links: S.optional(__S(14304, __c447, 0)),
+          items: __S(7489, __c234, 1),
+          _links: S.optional(__S(14400, __c450, 0)),
           totalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Teams" });
   }
 }
-function __c232(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25444,7 +25633,7 @@ function __c232(j: number): any {
       ).annotate({ identifier: "GetTokenRequest" });
   }
 }
-function __c233(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25455,18 +25644,18 @@ function __c233(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/tokens", code: 200 })),
       ).annotate({ identifier: "GetTokensRequest" });
     case 1:
-      return S.Array(__S(11008, __c344, 0));
+      return S.Array(__S(11104, __c347, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(7457, __c233, 1)),
-          _links: S.optional(__S(14304, __c447, 0)),
+          items: S.optional(__S(7553, __c236, 1)),
+          _links: S.optional(__S(14400, __c450, 0)),
           totalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Tokens" });
   }
 }
-function __c234(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25485,7 +25674,7 @@ function __c234(j: number): any {
       ).annotate({ identifier: "GetTriggerWorkflowByIdRequest" });
   }
 }
-function __c235(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25502,17 +25691,17 @@ function __c235(j: number): any {
         ),
       ).annotate({ identifier: "GetTriggerWorkflowsRequest" });
     case 1:
-      return S.Array(__S(11394, __c356, 2));
+      return S.Array(__S(11490, __c359, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(7521, __c235, 1)),
-          _links: S.optional(__S(14304, __c447, 0)),
+          items: S.optional(__S(7617, __c238, 1)),
+          _links: S.optional(__S(14400, __c450, 0)),
         }),
       ).annotate({ identifier: "TriggerWorkflowCollectionRep" });
   }
 }
-function __c236(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25526,7 +25715,7 @@ function __c236(j: number): any {
       ).annotate({ identifier: "GetVegaAIUsageRequest" });
   }
 }
-function __c237(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25537,7 +25726,7 @@ function __c237(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          validVersions: __S(7585, __c237, 1),
+          validVersions: __S(7681, __c240, 1),
           latestVersion: S.Number,
           currentVersion: S.Number,
           beta: S.optional(S.Boolean),
@@ -25545,7 +25734,7 @@ function __c237(j: number): any {
       ).annotate({ identifier: "VersionsRep" });
   }
 }
-function __c238(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25555,7 +25744,7 @@ function __c238(j: number): any {
         }),
       ).annotate({ identifier: "MetricInMetricGroupInput" });
     case 1:
-      return S.Array(__S(7616, __c238, 0));
+      return S.Array(__S(7712, __c241, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -25565,15 +25754,15 @@ function __c238(j: number): any {
           kind: S.String,
           description: S.optional(S.String),
           maintainerId: S.String,
-          tags: __S(15008, __c469, 0),
-          metrics: __S(7617, __c238, 1),
+          tags: __S(15104, __c472, 0),
+          metrics: __S(7713, __c241, 1),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/v2/projects/{projectKey}/metric-groups", code: 200 }),
         ),
       ).annotate({ identifier: "CreateMetricGroupRequest" });
   }
 }
-function __c239(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25584,14 +25773,14 @@ function __c239(j: number): any {
           environmentKey: S.String,
           creationDate: S.Number,
           archivedDate: S.optional(S.Number),
-          _links: __S(14304, __c447, 0),
+          _links: __S(14400, __c450, 0),
         }),
       ).annotate({ identifier: "DependentExperimentRep" });
     case 1:
-      return S.Array(__S(7648, __c239, 0));
+      return S.Array(__S(7744, __c242, 0));
   }
 }
-function __c240(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25601,15 +25790,15 @@ function __c240(j: number): any {
           name: S.String,
           kind: S.String,
           description: S.optional(S.String),
-          _links: __S(14304, __c447, 0),
-          _access: S.optional(__S(14979, __c468, 3)),
-          tags: __S(15008, __c469, 0),
+          _links: __S(14400, __c450, 0),
+          _access: S.optional(__S(15075, __c471, 3)),
+          tags: __S(15104, __c472, 0),
           _creationDate: S.Number,
           _lastModified: S.Number,
-          maintainer: __S(7712, __c241, 0),
-          metrics: __S(2785, __c87, 1),
+          maintainer: __S(7808, __c244, 0),
+          metrics: __S(2881, __c90, 1),
           _version: S.Number,
-          experiments: S.optional(__S(7649, __c239, 1)),
+          experiments: S.optional(__S(7745, __c242, 1)),
           experimentCount: S.optional(S.Number),
           activeExperimentCount: S.optional(S.Number),
           activeGuardedRolloutCount: S.optional(S.Number),
@@ -25617,20 +25806,20 @@ function __c240(j: number): any {
       ).annotate({ identifier: "MetricGroupRep" });
   }
 }
-function __c241(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
           kind: S.String,
-          _member: S.optional(__S(14912, __c466, 0)),
-          _team: S.optional(__S(6912, __c216, 0)),
+          _member: S.optional(__S(15008, __c469, 0)),
+          _team: S.optional(__S(7008, __c219, 0)),
         }),
       ).annotate({ identifier: "MaintainerRep" });
   }
 }
-function __c242(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25641,7 +25830,7 @@ function __c242(j: number): any {
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          expand: S.optional(__S(14784, __c462, 0).pipe(T.Query())),
+          expand: S.optional(__S(14880, __c465, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -25652,7 +25841,7 @@ function __c242(j: number): any {
       ).annotate({ identifier: "GetViewRequest" });
   }
 }
-function __c243(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25662,12 +25851,12 @@ function __c243(j: number): any {
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          expand: S.optional(__S(14784, __c462, 0).pipe(T.Query())),
+          expand: S.optional(__S(14880, __c465, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/projects/{projectKey}/views", code: 200 })),
       ).annotate({ identifier: "GetViewsRequest" });
   }
 }
-function __c244(j: number): any {
+function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25685,7 +25874,7 @@ function __c244(j: number): any {
       ).annotate({ identifier: "GetWarehouseExportUsageRequest" });
   }
 }
-function __c245(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25695,7 +25884,7 @@ function __c245(j: number): any {
       ).annotate({ identifier: "GetWebhookRequest" });
   }
 }
-function __c246(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25716,18 +25905,18 @@ function __c246(j: number): any {
         ),
       ).annotate({ identifier: "GetWorkflowsRequest" });
     case 1:
-      return S.Array(__S(1895, __c59, 7));
+      return S.Array(__S(1991, __c62, 7));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(7873, __c246, 1),
+          items: __S(7969, __c249, 1),
           totalCount: S.Number,
-          _links: __S(14304, __c447, 0),
+          _links: __S(14400, __c450, 0),
         }),
       ).annotate({ identifier: "CustomWorkflowsListingOutput" });
   }
 }
-function __c247(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25737,16 +25926,16 @@ function __c247(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/templates", code: 200 })),
       ).annotate({ identifier: "GetWorkflowTemplatesRequest" });
     case 1:
-      return S.Array(__S(12704, __c397, 0));
+      return S.Array(__S(12800, __c400, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(7905, __c247, 1),
+          items: __S(8001, __c250, 1),
         }),
       ).annotate({ identifier: "WorkflowTemplatesListingOutputRep" });
   }
 }
-function __c248(j: number): any {
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25768,13 +25957,13 @@ function __c248(j: number): any {
         S.Struct({
           successCount: S.Number,
           failureCount: S.Number,
-          linkedResources: S.optional(__S(4771, __c149, 3)),
-          failedResources: S.optional(__S(7969, __c249, 1)),
+          linkedResources: S.optional(__S(4867, __c152, 3)),
+          failedResources: S.optional(__S(8065, __c252, 1)),
         }),
       ).annotate({ identifier: "LinkResourceSuccessResponse" });
   }
 }
-function __c249(j: number): any {
+function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25786,10 +25975,10 @@ function __c249(j: number): any {
         }),
       ).annotate({ identifier: "FailedResourceLink" });
     case 1:
-      return S.Array(__S(7968, __c249, 0));
+      return S.Array(__S(8064, __c252, 0));
   }
 }
-function __c250(j: number): any {
+function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25809,18 +25998,18 @@ function __c250(j: number): any {
         ),
       ).annotate({ identifier: "ListAdaptiveTriggersRequest" });
     case 1:
-      return S.Array(__S(16356, __c511, 4));
+      return S.Array(__S(16452, __c514, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(16896, __c528, 0)),
-          items: __S(8001, __c250, 1),
+          _links: S.optional(__S(16992, __c531, 0)),
+          items: __S(8097, __c253, 1),
           totalCount: S.Number,
         }),
       ).annotate({ identifier: "AdaptiveTriggers" });
   }
 }
-function __c251(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25834,18 +26023,18 @@ function __c251(j: number): any {
         ),
       ).annotate({ identifier: "ListAgentGraphsRequest" });
     case 1:
-      return S.Array(__S(16418, __c513, 2));
+      return S.Array(__S(16514, __c516, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(16896, __c528, 0)),
-          items: __S(8033, __c251, 1),
+          _links: S.optional(__S(16992, __c531, 0)),
+          items: __S(8129, __c254, 1),
           totalCount: S.Number,
         }),
       ).annotate({ identifier: "AgentGraphs" });
   }
 }
-function __c252(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25864,27 +26053,27 @@ function __c252(j: number): any {
       ).annotate({ identifier: "ListAgentOptimizationResultsRequest" });
   }
 }
-function __c253(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(8128, __c254, 0));
+      return S.Array(__S(8224, __c257, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(16896, __c528, 0)),
-          items: __S(8096, __c253, 0),
+          _links: S.optional(__S(16992, __c531, 0)),
+          items: __S(8192, __c256, 0),
           totalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AgentOptimizationResults" });
   }
 }
-function __c254(j: number): any {
+function __c257(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          _access: S.optional(__S(14979, __c468, 3)),
-          _links: S.optional(__S(11904, __c372, 0)),
+          _access: S.optional(__S(15075, __c471, 3)),
+          _links: S.optional(__S(12000, __c375, 0)),
           id: S.String,
           runId: S.String,
           agentOptimizationId: S.String,
@@ -25893,15 +26082,15 @@ function __c254(j: number): any {
           activity: S.String,
           iteration: S.Number,
           instructions: S.String,
-          parameters: S.optional(__S(15040, __c470, 0)),
+          parameters: S.optional(__S(15136, __c473, 0)),
           userInput: S.String,
           completionResponse: S.optional(S.String),
-          variation: S.optional(__S(15040, __c470, 0)),
-          scores: S.optional(__S(15040, __c470, 0)),
-          generationTokens: S.optional(__S(15040, __c470, 0)),
-          evaluationTokens: S.optional(__S(15040, __c470, 0)),
+          variation: S.optional(__S(15136, __c473, 0)),
+          scores: S.optional(__S(15136, __c473, 0)),
+          generationTokens: S.optional(__S(15136, __c473, 0)),
+          evaluationTokens: S.optional(__S(15136, __c473, 0)),
           generationLatency: S.optional(S.Number),
-          evaluationLatencies: S.optional(__S(15040, __c470, 0)),
+          evaluationLatencies: S.optional(__S(15136, __c473, 0)),
           completedAt: S.optional(S.Number),
           createdVariationKey: S.optional(S.String),
           createdAt: S.Number,
@@ -25910,7 +26099,7 @@ function __c254(j: number): any {
       ).annotate({ identifier: "AgentOptimizationResult" });
   }
 }
-function __c255(j: number): any {
+function __c258(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25922,12 +26111,12 @@ function __c255(j: number): any {
       ).annotate({ identifier: "CreateOAuth2ClientRequest" });
   }
 }
-function __c256(j: number): any {
+function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(14304, __c447, 0),
+          _links: __S(14400, __c450, 0),
           name: S.String,
           description: S.optional(S.String),
           _accountId: S.String,
@@ -25939,7 +26128,7 @@ function __c256(j: number): any {
       ).annotate({ identifier: "Client" });
   }
 }
-function __c257(j: number): any {
+function __c260(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25957,7 +26146,7 @@ function __c257(j: number): any {
       ).annotate({ identifier: "ListAgentOptimizationResultsByRunIdRequest" });
   }
 }
-function __c258(j: number): any {
+function __c261(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25988,18 +26177,18 @@ function __c258(j: number): any {
         }),
       ).annotate({ identifier: "AgentOptimizationRun" });
     case 2:
-      return S.Array(__S(8257, __c258, 1));
+      return S.Array(__S(8353, __c261, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(16896, __c528, 0)),
-          items: __S(8258, __c258, 2),
+          _links: S.optional(__S(16992, __c531, 0)),
+          items: __S(8354, __c261, 2),
           totalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AgentOptimizationRuns" });
   }
 }
-function __c259(j: number): any {
+function __c262(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26017,18 +26206,18 @@ function __c259(j: number): any {
         ),
       ).annotate({ identifier: "ListAgentOptimizationsRequest" });
     case 1:
-      return S.Array(__S(16516, __c516, 4));
+      return S.Array(__S(16612, __c519, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(16896, __c528, 0)),
-          items: __S(8289, __c259, 1),
+          _links: S.optional(__S(16992, __c531, 0)),
+          items: __S(8385, __c262, 1),
           totalCount: S.Number,
         }),
       ).annotate({ identifier: "AgentOptimizations" });
   }
 }
-function __c260(j: number): any {
+function __c263(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26047,7 +26236,7 @@ function __c260(j: number): any {
       ).annotate({ identifier: "ListAgentSkillReferencesRequest" });
   }
 }
-function __c261(j: number): any {
+function __c264(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26061,20 +26250,20 @@ function __c261(j: number): any {
         }),
       ).annotate({ identifier: "AgentSkillReference" });
     case 1:
-      return S.Array(__S(8352, __c261, 0));
+      return S.Array(__S(8448, __c264, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(16896, __c528, 0)),
+          _links: S.optional(__S(16992, __c531, 0)),
           resourceKey: S.String,
           resourceType: S.String,
-          items: __S(8353, __c261, 1),
+          items: __S(8449, __c264, 1),
           totalCount: S.Number,
         }),
       ).annotate({ identifier: "AgentSkillReferences" });
   }
 }
-function __c262(j: number): any {
+function __c265(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26094,21 +26283,21 @@ function __c262(j: number): any {
       ).annotate({ identifier: "ListAgentSkillsRequest" });
   }
 }
-function __c263(j: number): any {
+function __c266(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(16576, __c518, 0));
+      return S.Array(__S(16672, __c521, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(16896, __c528, 0)),
-          items: __S(8416, __c263, 0),
+          _links: S.optional(__S(16992, __c531, 0)),
+          items: __S(8512, __c266, 0),
           totalCount: S.Number,
         }),
       ).annotate({ identifier: "AgentSkills" });
   }
 }
-function __c264(j: number): any {
+function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26127,7 +26316,7 @@ function __c264(j: number): any {
       ).annotate({ identifier: "ListAgentSkillVersionsRequest" });
   }
 }
-function __c265(j: number): any {
+function __c268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26156,20 +26345,20 @@ function __c265(j: number): any {
         }),
       ).annotate({ identifier: "ToolReference" });
     case 2:
-      return S.Array(__S(8481, __c265, 1));
+      return S.Array(__S(8577, __c268, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(16896, __c528, 0)),
+          _links: S.optional(__S(16992, __c531, 0)),
           resourceKey: S.String,
           resourceType: S.String,
-          items: __S(8482, __c265, 2),
+          items: __S(8578, __c268, 2),
           totalCount: S.Number,
         }),
       ).annotate({ identifier: "ToolReferences" });
   }
 }
-function __c266(j: number): any {
+function __c269(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26185,21 +26374,21 @@ function __c266(j: number): any {
       ).annotate({ identifier: "ListAIToolsRequest" });
   }
 }
-function __c267(j: number): any {
+function __c270(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(64, __c2, 0));
+      return S.Array(__S(160, __c5, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(16896, __c528, 0)),
-          items: __S(8544, __c267, 0),
+          _links: S.optional(__S(16992, __c531, 0)),
+          items: __S(8640, __c270, 0),
           totalCount: S.Number,
         }),
       ).annotate({ identifier: "AITools" });
   }
 }
-function __c268(j: number): any {
+function __c271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26219,7 +26408,7 @@ function __c268(j: number): any {
       ).annotate({ identifier: "ListAIToolVersionsRequest" });
   }
 }
-function __c269(j: number): any {
+function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26238,7 +26427,7 @@ function __c269(j: number): any {
       ).annotate({ identifier: "ListAllAgentOptimizationResultsRequest" });
   }
 }
-function __c270(j: number): any {
+function __c273(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26251,13 +26440,13 @@ function __c270(j: number): any {
           defaultTrackEvents: S.optional(S.Boolean),
           confirmChanges: S.optional(S.Boolean),
           requireComments: S.optional(S.Boolean),
-          tags: S.optional(__S(15008, __c469, 0)),
-          source: S.optional(__S(8704, __c272, 0)),
+          tags: S.optional(__S(15104, __c472, 0)),
+          source: S.optional(__S(8800, __c275, 0)),
           critical: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "EnvironmentPost" });
     case 1:
-      return S.Array(__S(8640, __c270, 0));
+      return S.Array(__S(8736, __c273, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -26271,21 +26460,21 @@ function __c270(j: number): any {
           name: S.String,
           key: S.String,
           includeInSnippetByDefault: S.optional(S.Boolean),
-          defaultClientSideAvailability: S.optional(__S(8736, __c273, 0)),
-          tags: S.optional(__S(15008, __c469, 0)),
-          environments: S.optional(__S(8641, __c270, 1)),
-          namingConvention: S.optional(__S(8642, __c270, 2)),
+          defaultClientSideAvailability: S.optional(__S(8832, __c276, 0)),
+          tags: S.optional(__S(15104, __c472, 0)),
+          environments: S.optional(__S(8737, __c273, 1)),
+          namingConvention: S.optional(__S(8738, __c273, 2)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v2/projects", code: 200 })),
       ).annotate({ identifier: "CreateProjectRequest" });
   }
 }
-function __c271(j: number): any {
+function __c274(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(4417, __c138, 1));
+      return S.Array(__S(4513, __c141, 1));
   }
 }
-function __c272(j: number): any {
+function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26296,7 +26485,7 @@ function __c272(j: number): any {
       ).annotate({ identifier: "SourceEnv" });
   }
 }
-function __c273(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26307,26 +26496,26 @@ function __c273(j: number): any {
       ).annotate({ identifier: "DefaultClientSideAvailabilityPost" });
   }
 }
-function __c274(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(14304, __c447, 0),
+          _links: __S(14400, __c450, 0),
           _id: S.String,
           key: S.String,
           includeInSnippetByDefault: S.Boolean,
-          defaultClientSideAvailability: S.optional(__S(14944, __c467, 0)),
+          defaultClientSideAvailability: S.optional(__S(15040, __c470, 0)),
           name: S.String,
-          _access: S.optional(__S(14979, __c468, 3)),
-          tags: __S(15008, __c469, 0),
+          _access: S.optional(__S(15075, __c471, 3)),
+          tags: __S(15104, __c472, 0),
           defaultReleasePipelineKey: S.optional(S.String),
-          environments: __S(8672, __c271, 0),
+          environments: __S(8768, __c274, 0),
         }),
       ).annotate({ identifier: "ProjectRep" });
   }
 }
-function __c275(j: number): any {
+function __c278(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26347,18 +26536,18 @@ function __c275(j: number): any {
         ),
       ).annotate({ identifier: "ListEnvironmentReleasesRequest" });
     case 1:
-      return S.Array(__S(2472, __c77, 8));
+      return S.Array(__S(2568, __c80, 8));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(8801, __c275, 1),
+          items: __S(8897, __c278, 1),
           totalCount: S.Number,
-          _links: S.optional(__S(2471, __c77, 7)),
+          _links: S.optional(__S(2567, __c80, 7)),
         }),
       ).annotate({ identifier: "EnvironmentReleaseCollection" });
   }
 }
-function __c276(j: number): any {
+function __c279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26376,18 +26565,18 @@ function __c276(j: number): any {
         ),
       ).annotate({ identifier: "ListModelConfigsRequest" });
     case 1:
-      return S.suspend(() => __S(8864, __c277, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(8960, __c280, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListModelConfigsResponse",
       });
   }
 }
-function __c277(j: number): any {
+function __c280(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(5312, __c166, 0));
+      return S.Array(__S(5408, __c169, 0));
   }
 }
-function __c278(j: number): any {
+function __c281(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26407,14 +26596,14 @@ function __c278(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(16896, __c528, 0)),
-          items: __S(8864, __c277, 0),
+          _links: S.optional(__S(16992, __c531, 0)),
+          items: __S(8960, __c280, 0),
           totalCount: S.Number,
         }),
       ).annotate({ identifier: "ModelConfigs" });
   }
 }
-function __c279(j: number): any {
+function __c282(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26433,7 +26622,7 @@ function __c279(j: number): any {
       ).annotate({ identifier: "ListPromptSnippetReferencesRequest" });
   }
 }
-function __c280(j: number): any {
+function __c283(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26452,21 +26641,21 @@ function __c280(j: number): any {
       ).annotate({ identifier: "ListPromptSnippetsRequest" });
   }
 }
-function __c281(j: number): any {
+function __c284(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(5888, __c184, 0));
+      return S.Array(__S(5984, __c187, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(16896, __c528, 0)),
-          items: __S(8992, __c281, 0),
+          _links: S.optional(__S(16992, __c531, 0)),
+          items: __S(9088, __c284, 0),
           totalCount: S.Number,
         }),
       ).annotate({ identifier: "PromptSnippets" });
   }
 }
-function __c282(j: number): any {
+function __c285(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26485,7 +26674,7 @@ function __c282(j: number): any {
       ).annotate({ identifier: "ListPromptSnippetVersionsRequest" });
   }
 }
-function __c283(j: number): any {
+function __c286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26494,7 +26683,7 @@ function __c283(j: number): any {
           environmentKey: S.String.pipe(T.Label()),
           triggerID: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          task: S.optional(__S(16355, __c511, 3)),
+          task: S.optional(__S(16451, __c514, 3)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -26505,7 +26694,7 @@ function __c283(j: number): any {
       ).annotate({ identifier: "PatchAdaptiveTriggerRequest" });
   }
 }
-function __c284(j: number): any {
+function __c287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26517,7 +26706,7 @@ function __c284(j: number): any {
           maintainerId: S.optional(S.String),
           maintainerTeamKey: S.optional(S.String),
           rootConfigKey: S.optional(S.String),
-          edges: S.optional(__S(16417, __c513, 1)),
+          edges: S.optional(__S(16513, __c516, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -26528,7 +26717,7 @@ function __c284(j: number): any {
       ).annotate({ identifier: "PatchAgentGraphRequest" });
   }
 }
-function __c285(j: number): any {
+function __c288(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26536,13 +26725,13 @@ function __c285(j: number): any {
           projectKey: S.String.pipe(T.Label()),
           optimizationKey: S.String.pipe(T.Label()),
           maxAttempts: S.optional(S.Number),
-          modelChoices: S.optional(__S(15008, __c469, 0)),
+          modelChoices: S.optional(__S(15104, __c472, 0)),
           judgeModel: S.optional(S.String),
-          variableChoices: S.optional(__S(15072, __c471, 0)),
-          acceptanceStatements: S.optional(__S(16513, __c516, 1)),
-          judges: S.optional(__S(16515, __c516, 3)),
-          userInputOptions: S.optional(__S(15008, __c469, 0)),
-          groundTruthResponses: S.optional(__S(15008, __c469, 0)),
+          variableChoices: S.optional(__S(15168, __c474, 0)),
+          acceptanceStatements: S.optional(__S(16609, __c519, 1)),
+          judges: S.optional(__S(16611, __c519, 3)),
+          userInputOptions: S.optional(__S(15104, __c472, 0)),
+          groundTruthResponses: S.optional(__S(15104, __c472, 0)),
           metricKey: S.optional(S.String),
           tokenLimit: S.optional(S.Number),
           variationKey: S.optional(S.String),
@@ -26560,7 +26749,7 @@ function __c285(j: number): any {
       ).annotate({ identifier: "PatchAgentOptimizationRequest" });
   }
 }
-function __c286(j: number): any {
+function __c289(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26571,12 +26760,12 @@ function __c286(j: number): any {
           status: S.optional(S.String),
           activity: S.optional(S.String),
           completionResponse: S.optional(S.String),
-          variation: S.optional(__S(15040, __c470, 0)),
-          scores: S.optional(__S(15040, __c470, 0)),
-          generationTokens: S.optional(__S(15040, __c470, 0)),
-          evaluationTokens: S.optional(__S(15040, __c470, 0)),
+          variation: S.optional(__S(15136, __c473, 0)),
+          scores: S.optional(__S(15136, __c473, 0)),
+          generationTokens: S.optional(__S(15136, __c473, 0)),
+          evaluationTokens: S.optional(__S(15136, __c473, 0)),
           generationLatency: S.optional(S.Number),
-          evaluationLatencies: S.optional(__S(15040, __c470, 0)),
+          evaluationLatencies: S.optional(__S(15136, __c473, 0)),
           createdVariationKey: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -26588,7 +26777,7 @@ function __c286(j: number): any {
       ).annotate({ identifier: "PatchAgentOptimizationResultRequest" });
   }
 }
-function __c287(j: number): any {
+function __c290(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26598,7 +26787,7 @@ function __c287(j: number): any {
           segmentKey: S.String.pipe(T.Label()),
           executionDate: S.Number,
           comment: S.optional(S.String),
-          instructions: __S(15072, __c471, 0),
+          instructions: __S(15168, __c474, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -26609,12 +26798,12 @@ function __c287(j: number): any {
       ).annotate({ identifier: "CreateSegmentScheduledChangeRequest" });
   }
 }
-function __c288(j: number): any {
+function __c291(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(14304, __c447, 0),
+          _links: __S(14400, __c450, 0),
           status: S.String,
           _id: S.String,
           _creationDate: S.Number,
@@ -26622,12 +26811,12 @@ function __c288(j: number): any {
           _maintainerServiceTokenId: S.optional(S.String),
           executionDate: S.Number,
           comment: S.optional(S.String),
-          instructions: __S(15072, __c471, 0),
+          instructions: __S(15168, __c474, 0),
         }),
       ).annotate({ identifier: "SegmentScheduledChange" });
   }
 }
-function __c289(j: number): any {
+function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26639,7 +26828,7 @@ function __c289(j: number): any {
           markdown: S.optional(S.String),
           maintainerId: S.optional(S.String),
           maintainerTeamKey: S.optional(S.String),
-          tags: S.optional(__S(15008, __c469, 0)),
+          tags: S.optional(__S(15104, __c472, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -26650,7 +26839,7 @@ function __c289(j: number): any {
       ).annotate({ identifier: "PatchAgentSkillRequest" });
   }
 }
-function __c290(j: number): any {
+function __c293(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26662,7 +26851,7 @@ function __c290(j: number): any {
           maintainerId: S.optional(S.String),
           maintainerTeamKey: S.optional(S.String),
           name: S.optional(S.String),
-          tags: S.optional(__S(15008, __c469, 0)),
+          tags: S.optional(__S(15104, __c472, 0)),
           evaluationMetricKey: S.optional(S.String),
           isInverted: S.optional(S.Boolean),
         }).pipe(
@@ -26675,7 +26864,7 @@ function __c290(j: number): any {
       ).annotate({ identifier: "PatchAIConfigRequest" });
   }
 }
-function __c291(j: number): any {
+function __c294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26684,7 +26873,7 @@ function __c291(j: number): any {
           configKey: S.String.pipe(T.Label()),
           comment: S.optional(S.String),
           environmentKey: S.String,
-          instructions: __S(15072, __c471, 0),
+          instructions: __S(15168, __c474, 0),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -26695,7 +26884,7 @@ function __c291(j: number): any {
       ).annotate({ identifier: "PatchAIConfigTargetingRequest" });
   }
 }
-function __c292(j: number): any {
+function __c295(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26703,22 +26892,22 @@ function __c292(j: number): any {
           projectKey: S.String.pipe(T.Label()),
           configKey: S.String.pipe(T.Label()),
           variationKey: S.String.pipe(T.Label()),
-          classifiers: S.optional(__S(16674, __c521, 2)),
+          classifiers: S.optional(__S(16770, __c524, 2)),
           comment: S.optional(S.String),
           description: S.optional(S.String),
           instructions: S.optional(S.String),
-          messages: S.optional(__S(16676, __c521, 4)),
+          messages: S.optional(__S(16772, __c524, 4)),
           model: S.optional(S.Unknown),
           modelConfigKey: S.optional(S.String),
           modelConfigVersion: S.optional(S.Number),
           name: S.optional(S.String),
-          outputFormat: S.optional(__S(15040, __c470, 0)),
+          outputFormat: S.optional(__S(15136, __c473, 0)),
           published: S.optional(S.Boolean),
           state: S.optional(S.String),
-          tools: S.optional(__S(16680, __c521, 8)),
-          toolKeys: S.optional(__S(15008, __c469, 0)),
-          skills: S.optional(__S(16680, __c521, 8)),
-          judgeConfiguration: S.optional(__S(16683, __c521, 11)),
+          tools: S.optional(__S(16776, __c524, 8)),
+          toolKeys: S.optional(__S(15104, __c472, 0)),
+          skills: S.optional(__S(16776, __c524, 8)),
+          judgeConfiguration: S.optional(__S(16779, __c524, 11)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -26729,7 +26918,7 @@ function __c292(j: number): any {
       ).annotate({ identifier: "PatchAIConfigVariationRequest" });
   }
 }
-function __c293(j: number): any {
+function __c296(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26741,7 +26930,7 @@ function __c293(j: number): any {
           description: S.optional(S.String),
           schema: S.optional(S.Unknown),
           customParameters: S.optional(S.Unknown),
-          tags: S.optional(__S(15008, __c469, 0)),
+          tags: S.optional(__S(15104, __c472, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -26752,7 +26941,7 @@ function __c293(j: number): any {
       ).annotate({ identifier: "PatchAIToolRequest" });
   }
 }
-function __c294(j: number): any {
+function __c297(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26765,9 +26954,9 @@ function __c294(j: number): any {
           environmentKey: S.String,
           minNumApprovals: S.optional(S.Number),
           required: S.optional(S.Boolean),
-          requiredApprovalTags: S.optional(__S(15008, __c469, 0)),
+          requiredApprovalTags: S.optional(__S(15104, __c472, 0)),
           resourceKind: S.String,
-          serviceConfig: S.optional(__S(15040, __c470, 0)),
+          serviceConfig: S.optional(__S(15136, __c473, 0)),
           serviceKind: S.optional(S.String),
           serviceKindConfigurationId: S.optional(S.NullOr(S.String)),
         }).pipe(
@@ -26780,7 +26969,7 @@ function __c294(j: number): any {
       ).annotate({ identifier: "PatchApprovalRequestSettingsRequest" });
   }
 }
-function __c295(j: number): any {
+function __c298(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26789,7 +26978,7 @@ function __c295(j: number): any {
           environmentKey: S.String.pipe(T.Label()),
           integrationKey: S.String.pipe(T.Label()),
           integrationId: S.String.pipe(T.Label()),
-          body: __S(9473, __c296, 1).pipe(T.HttpBody()),
+          body: __S(9569, __c299, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -26800,7 +26989,7 @@ function __c295(j: number): any {
       ).annotate({ identifier: "PatchBigSegmentStoreIntegrationRequest" });
   }
 }
-function __c296(j: number): any {
+function __c299(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26811,29 +27000,29 @@ function __c296(j: number): any {
         }),
       ).annotate({ identifier: "PatchOperation" });
     case 1:
-      return S.Array(__S(9472, __c296, 0));
+      return S.Array(__S(9568, __c299, 0));
   }
 }
-function __c297(j: number): any {
+function __c300(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           customRoleKey: S.String.pipe(T.Label()),
-          patch: __S(9473, __c296, 1),
+          patch: __S(9569, __c299, 1),
           comment: S.optional(S.String),
         }).pipe(T.Http({ method: "PATCH", uri: "/api/v2/roles/{customRoleKey}", code: 200 })),
       ).annotate({ identifier: "PatchCustomRoleRequest" });
   }
 }
-function __c298(j: number): any {
+function __c301(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectKey: S.String.pipe(T.Label()),
           environmentKey: S.String.pipe(T.Label()),
-          body: __S(9473, __c296, 1).pipe(T.HttpBody()),
+          body: __S(9569, __c299, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -26844,7 +27033,7 @@ function __c298(j: number): any {
       ).annotate({ identifier: "PatchEnvironmentRequest" });
   }
 }
-function __c299(j: number): any {
+function __c302(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26853,7 +27042,7 @@ function __c299(j: number): any {
           environmentKey: S.String.pipe(T.Label()),
           experimentKey: S.String.pipe(T.Label()),
           comment: S.optional(S.String),
-          instructions: __S(15072, __c471, 0),
+          instructions: __S(15168, __c474, 0),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -26864,17 +27053,17 @@ function __c299(j: number): any {
       ).annotate({ identifier: "PatchExperimentRequest" });
   }
 }
-function __c300(j: number): any {
+function __c303(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           integrationKey: S.String.pipe(T.Label()),
           name: S.String,
-          statements: S.optional(__S(4961, __c155, 1)),
+          statements: S.optional(__S(5057, __c158, 1)),
           on: S.optional(S.Boolean),
-          tags: S.optional(__S(15008, __c469, 0)),
-          config: __S(15040, __c470, 0),
+          tags: S.optional(__S(15104, __c472, 0)),
+          config: __S(15136, __c473, 0),
           url: S.optional(S.String),
           apiKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
@@ -26883,7 +27072,7 @@ function __c300(j: number): any {
       ).annotate({ identifier: "CreateSubscriptionRequest" });
   }
 }
-function __c301(j: number): any {
+function __c304(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26894,7 +27083,7 @@ function __c301(j: number): any {
         }),
       ).annotate({ identifier: "IntegrationStatusRep" });
     case 1:
-      return S.Array(__S(9632, __c301, 0));
+      return S.Array(__S(9728, __c304, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -26902,29 +27091,29 @@ function __c301(j: number): any {
           lastSuccess: S.optional(S.Number),
           lastError: S.optional(S.Number),
           errorCount: S.optional(S.Number),
-          errors: S.optional(__S(9633, __c301, 1)),
+          errors: S.optional(__S(9729, __c304, 1)),
         }),
       ).annotate({ identifier: "IntegrationSubscriptionStatusRep" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(14304, __c447, 0)),
+          _links: S.optional(__S(14400, __c450, 0)),
           _id: S.optional(S.String),
           kind: S.optional(S.String),
           name: S.optional(S.String),
-          config: S.optional(__S(15040, __c470, 0)),
-          statements: S.optional(__S(4961, __c155, 1)),
+          config: S.optional(__S(15136, __c473, 0)),
+          statements: S.optional(__S(5057, __c158, 1)),
           on: S.optional(S.Boolean),
-          tags: S.optional(__S(15008, __c469, 0)),
-          _access: S.optional(__S(14979, __c468, 3)),
-          _status: S.optional(__S(9634, __c301, 2)),
+          tags: S.optional(__S(15104, __c472, 0)),
+          _access: S.optional(__S(15075, __c471, 3)),
+          _status: S.optional(__S(9730, __c304, 2)),
           url: S.optional(S.String),
           apiKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "Integration" });
   }
 }
-function __c302(j: number): any {
+function __c305(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26933,7 +27122,7 @@ function __c302(j: number): any {
           featureFlagKey: S.String.pipe(T.Label()),
           environmentKey: S.String.pipe(T.Label()),
           comment: S.optional(S.String),
-          instructions: __S(15072, __c471, 0),
+          instructions: __S(15168, __c474, 0),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -26944,22 +27133,22 @@ function __c302(j: number): any {
       ).annotate({ identifier: "PatchExpiringTargetsRequest" });
   }
 }
-function __c303(j: number): any {
+function __c306(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          items: __S(3106, __c97, 2),
-          _links: S.optional(__S(14304, __c447, 0)),
+          items: __S(3202, __c100, 2),
+          _links: S.optional(__S(14400, __c450, 0)),
           totalInstructions: S.optional(S.Number),
           successfulInstructions: S.optional(S.Number),
           failedInstructions: S.optional(S.Number),
-          errors: S.optional(__S(9729, __c304, 1)),
+          errors: S.optional(__S(9825, __c307, 1)),
         }),
       ).annotate({ identifier: "ExpiringTargetPatchResponse" });
   }
 }
-function __c304(j: number): any {
+function __c307(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26969,10 +27158,10 @@ function __c304(j: number): any {
         }),
       ).annotate({ identifier: "ExpiringTargetError" });
     case 1:
-      return S.Array(__S(9728, __c304, 0));
+      return S.Array(__S(9824, __c307, 0));
   }
 }
-function __c305(j: number): any {
+function __c308(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26986,73 +27175,6 @@ function __c305(j: number): any {
         }),
       ).annotate({ identifier: "PatchSegmentExpiringTargetInstruction" });
     case 1:
-      return S.Array(__S(9760, __c305, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          projectKey: S.String.pipe(T.Label()),
-          segmentKey: S.String.pipe(T.Label()),
-          environmentKey: S.String.pipe(T.Label()),
-          comment: S.optional(S.String),
-          instructions: __S(9761, __c305, 1),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/api/v2/segments/{projectKey}/{segmentKey}/expiring-targets/{environmentKey}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "PatchExpiringTargetsForSegmentRequest" });
-  }
-}
-function __c306(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectKey: S.String.pipe(T.Label()),
-          featureFlagKey: S.String.pipe(T.Label()),
-          environmentKey: S.String.pipe(T.Label()),
-          comment: S.optional(S.String),
-          instructions: __S(15072, __c471, 0),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/api/v2/flags/{projectKey}/{featureFlagKey}/expiring-user-targets/{environmentKey}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "PatchExpiringUserTargetsRequest" });
-  }
-}
-function __c307(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          items: __S(3234, __c101, 2),
-          _links: S.optional(__S(14304, __c447, 0)),
-          totalInstructions: S.optional(S.Number),
-          successfulInstructions: S.optional(S.Number),
-          failedInstructions: S.optional(S.Number),
-          errors: S.optional(__S(9729, __c304, 1)),
-        }),
-      ).annotate({ identifier: "ExpiringUserTargetPatchResponse" });
-  }
-}
-function __c308(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          kind: S.String,
-          userKey: S.String,
-          targetType: S.String,
-          value: S.optional(S.Number),
-          version: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "PatchSegmentInstruction" });
-    case 1:
       return S.Array(__S(9856, __c308, 0));
     case 2:
       return S.suspend(() =>
@@ -27065,11 +27187,11 @@ function __c308(j: number): any {
         }).pipe(
           T.Http({
             method: "PATCH",
-            uri: "/api/v2/segments/{projectKey}/{segmentKey}/expiring-user-targets/{environmentKey}",
+            uri: "/api/v2/segments/{projectKey}/{segmentKey}/expiring-targets/{environmentKey}",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "PatchExpiringUserTargetsForSegmentRequest" });
+      ).annotate({ identifier: "PatchExpiringTargetsForSegmentRequest" });
   }
 }
 function __c309(j: number): any {
@@ -27079,9 +27201,76 @@ function __c309(j: number): any {
         S.Struct({
           projectKey: S.String.pipe(T.Label()),
           featureFlagKey: S.String.pipe(T.Label()),
+          environmentKey: S.String.pipe(T.Label()),
+          comment: S.optional(S.String),
+          instructions: __S(15168, __c474, 0),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/v2/flags/{projectKey}/{featureFlagKey}/expiring-user-targets/{environmentKey}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "PatchExpiringUserTargetsRequest" });
+  }
+}
+function __c310(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          items: __S(3330, __c104, 2),
+          _links: S.optional(__S(14400, __c450, 0)),
+          totalInstructions: S.optional(S.Number),
+          successfulInstructions: S.optional(S.Number),
+          failedInstructions: S.optional(S.Number),
+          errors: S.optional(__S(9825, __c307, 1)),
+        }),
+      ).annotate({ identifier: "ExpiringUserTargetPatchResponse" });
+  }
+}
+function __c311(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          userKey: S.String,
+          targetType: S.String,
+          value: S.optional(S.Number),
+          version: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "PatchSegmentInstruction" });
+    case 1:
+      return S.Array(__S(9952, __c311, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          projectKey: S.String.pipe(T.Label()),
+          segmentKey: S.String.pipe(T.Label()),
+          environmentKey: S.String.pipe(T.Label()),
+          comment: S.optional(S.String),
+          instructions: __S(9953, __c311, 1),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/v2/segments/{projectKey}/{segmentKey}/expiring-user-targets/{environmentKey}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "PatchExpiringUserTargetsForSegmentRequest" });
+  }
+}
+function __c312(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectKey: S.String.pipe(T.Label()),
+          featureFlagKey: S.String.pipe(T.Label()),
           ignoreConflicts: S.optional(S.Boolean.pipe(T.Query())),
           dryRun: S.optional(S.Boolean.pipe(T.Query())),
-          patch: __S(9473, __c296, 1),
+          patch: __S(9569, __c299, 1),
           comment: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -27093,7 +27282,7 @@ function __c309(j: number): any {
       ).annotate({ identifier: "PatchFeatureFlagRequest" });
   }
 }
-function __c310(j: number): any {
+function __c313(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27112,7 +27301,7 @@ function __c310(j: number): any {
       ).annotate({ identifier: "PatchFlagConfigApprovalRequestRequest" });
   }
 }
-function __c311(j: number): any {
+function __c314(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27123,7 +27312,7 @@ function __c311(j: number): any {
           id: S.String.pipe(T.Label()),
           ignoreConflicts: S.optional(S.Boolean.pipe(T.Query())),
           comment: S.optional(S.String),
-          instructions: __S(15072, __c471, 0),
+          instructions: __S(15168, __c474, 0),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -27134,13 +27323,13 @@ function __c311(j: number): any {
       ).annotate({ identifier: "PatchFlagConfigScheduledChangeRequest" });
   }
 }
-function __c312(j: number): any {
+function __c315(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectKey: S.String.pipe(T.Label()),
-          body: __S(9473, __c296, 1).pipe(T.HttpBody()),
+          body: __S(9569, __c299, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -27151,7 +27340,7 @@ function __c312(j: number): any {
       ).annotate({ identifier: "PatchFlagDefaultsByProjectRequest" });
   }
 }
-function __c313(j: number): any {
+function __c316(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27174,16 +27363,16 @@ function __c313(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(14304, __c447, 0)),
-          tags: __S(15008, __c469, 0),
+          _links: S.optional(__S(14400, __c450, 0)),
+          tags: __S(15104, __c472, 0),
           temporary: S.Boolean,
-          booleanDefaults: __S(10016, __c313, 0),
-          defaultClientSideAvailability: __S(10017, __c313, 1),
+          booleanDefaults: __S(10112, __c316, 0),
+          defaultClientSideAvailability: __S(10113, __c316, 1),
         }),
       ).annotate({ identifier: "UpsertPayloadRep" });
   }
 }
-function __c314(j: number): any {
+function __c317(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27191,7 +27380,7 @@ function __c314(j: number): any {
           projectKey: S.String.pipe(T.Label()),
           integrationKey: S.String.pipe(T.Label()),
           integrationId: S.String.pipe(T.Label()),
-          body: __S(9473, __c296, 1).pipe(T.HttpBody()),
+          body: __S(9569, __c299, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -27202,7 +27391,7 @@ function __c314(j: number): any {
       ).annotate({ identifier: "PatchFlagImportConfigurationRequest" });
   }
 }
-function __c315(j: number): any {
+function __c318(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27211,7 +27400,7 @@ function __c315(j: number): any {
           environmentKey: S.String.pipe(T.Label()),
           holdoutKey: S.String.pipe(T.Label()),
           comment: S.optional(S.String),
-          instructions: __S(15072, __c471, 0),
+          instructions: __S(15168, __c474, 0),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -27222,73 +27411,73 @@ function __c315(j: number): any {
       ).annotate({ identifier: "PatchHoldoutRequest" });
   }
 }
-function __c316(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          actionSet: S.optional(S.String),
-          actions: S.optional(__S(15008, __c469, 0)),
-          memberIDs: S.optional(__S(15008, __c469, 0)),
-        }),
-      ).annotate({ identifier: "PermissionGrantInput" });
-    case 1:
-      return S.Array(__S(10112, __c316, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          expand: S.optional(S.String.pipe(T.Query())),
-          customRoleKeys: S.optional(__S(15008, __c469, 0)),
-          description: S.optional(S.String),
-          key: S.String,
-          memberIDs: S.optional(__S(15008, __c469, 0)),
-          name: S.String,
-          permissionGrants: S.optional(__S(10113, __c316, 1)),
-          roleAttributes: S.optional(__S(2752, __c86, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/api/v2/teams", code: 200 })),
-      ).annotate({ identifier: "CreateTeamRequest" });
-  }
-}
-function __c317(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(14912, __c466, 0));
-  }
-}
-function __c318(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          _id: S.String,
-          _links: __S(14304, __c447, 0),
-          key: S.String,
-          name: S.String,
-        }),
-      ).annotate({ identifier: "ProjectSummary" });
-    case 1:
-      return S.Array(__S(10176, __c318, 0));
-  }
-}
 function __c319(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          totalCount: S.optional(S.Number),
-          items: S.optional(__S(10144, __c317, 0)),
-          _links: S.optional(__S(14304, __c447, 0)),
+          actionSet: S.optional(S.String),
+          actions: S.optional(__S(15104, __c472, 0)),
+          memberIDs: S.optional(__S(15104, __c472, 0)),
         }),
-      ).annotate({ identifier: "TeamMaintainers" });
+      ).annotate({ identifier: "PermissionGrantInput" });
+    case 1:
+      return S.Array(__S(10208, __c319, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          expand: S.optional(S.String.pipe(T.Query())),
+          customRoleKeys: S.optional(__S(15104, __c472, 0)),
+          description: S.optional(S.String),
+          key: S.String,
+          memberIDs: S.optional(__S(15104, __c472, 0)),
+          name: S.String,
+          permissionGrants: S.optional(__S(10209, __c319, 1)),
+          roleAttributes: S.optional(__S(2848, __c89, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/api/v2/teams", code: 200 })),
+      ).annotate({ identifier: "CreateTeamRequest" });
   }
 }
 function __c320(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(__S(15008, __c469, 0));
+  }
+}
+function __c321(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          _id: S.String,
+          _links: __S(14400, __c450, 0),
+          key: S.String,
+          name: S.String,
+        }),
+      ).annotate({ identifier: "ProjectSummary" });
+    case 1:
+      return S.Array(__S(10272, __c321, 0));
+  }
+}
+function __c322(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           totalCount: S.optional(S.Number),
-          items: S.optional(__S(10177, __c318, 1)),
+          items: S.optional(__S(10240, __c320, 0)),
+          _links: S.optional(__S(14400, __c450, 0)),
+        }),
+      ).annotate({ identifier: "TeamMaintainers" });
+  }
+}
+function __c323(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          totalCount: S.optional(S.Number),
+          items: S.optional(__S(10273, __c321, 1)),
         }),
       ).annotate({ identifier: "TeamProjects" });
     case 1:
@@ -27296,23 +27485,23 @@ function __c320(j: number): any {
         S.Struct({
           key: S.optional(S.String),
           name: S.optional(S.String),
-          projects: S.optional(__S(10240, __c320, 0)),
+          projects: S.optional(__S(10336, __c323, 0)),
           appliedOn: S.optional(S.Number),
         }),
       ).annotate({ identifier: "TeamCustomRole" });
     case 2:
-      return S.Array(__S(10241, __c320, 1));
+      return S.Array(__S(10337, __c323, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           totalCount: S.optional(S.Number),
-          items: S.optional(__S(10242, __c320, 2)),
-          _links: S.optional(__S(14304, __c447, 0)),
+          items: S.optional(__S(10338, __c323, 2)),
+          _links: S.optional(__S(14400, __c450, 0)),
         }),
       ).annotate({ identifier: "TeamCustomRoles" });
   }
 }
-function __c321(j: number): any {
+function __c324(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27326,28 +27515,28 @@ function __c321(j: number): any {
           description: S.optional(S.String),
           key: S.optional(S.String),
           name: S.optional(S.String),
-          _access: S.optional(__S(14979, __c468, 3)),
+          _access: S.optional(__S(15075, __c471, 3)),
           _creationDate: S.optional(S.Number),
-          _links: S.optional(__S(14304, __c447, 0)),
+          _links: S.optional(__S(14400, __c450, 0)),
           _lastModified: S.optional(S.Number),
           _version: S.optional(S.Number),
           _idpSynced: S.optional(S.Boolean),
-          roleAttributes: S.optional(__S(2752, __c86, 0)),
-          roles: S.optional(__S(10243, __c320, 3)),
-          members: S.optional(__S(10272, __c321, 0)),
-          projects: S.optional(__S(10240, __c320, 0)),
-          maintainers: S.optional(__S(10208, __c319, 0)),
+          roleAttributes: S.optional(__S(2848, __c89, 0)),
+          roles: S.optional(__S(10339, __c323, 3)),
+          members: S.optional(__S(10368, __c324, 0)),
+          projects: S.optional(__S(10336, __c323, 0)),
+          maintainers: S.optional(__S(10304, __c322, 0)),
         }),
       ).annotate({ identifier: "Team" });
   }
 }
-function __c322(j: number): any {
+function __c325(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           insightGroupKey: S.String.pipe(T.Label()),
-          body: __S(9473, __c296, 1).pipe(T.HttpBody()),
+          body: __S(9569, __c299, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -27358,7 +27547,7 @@ function __c322(j: number): any {
       ).annotate({ identifier: "PatchInsightGroupRequest" });
   }
 }
-function __c323(j: number): any {
+function __c326(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27367,7 +27556,7 @@ function __c323(j: number): any {
           environmentKey: S.String.pipe(T.Label()),
           integrationKey: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          body: __S(9473, __c296, 1).pipe(T.HttpBody()),
+          body: __S(9569, __c299, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -27378,7 +27567,7 @@ function __c323(j: number): any {
       ).annotate({ identifier: "PatchIntegrationDeliveryConfigurationRequest" });
   }
 }
-function __c324(j: number): any {
+function __c327(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27389,7 +27578,7 @@ function __c324(j: number): any {
       ).annotate({ identifier: "PatchIpAllowlistConfigRequest" });
   }
 }
-function __c325(j: number): any {
+function __c328(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27400,28 +27589,28 @@ function __c325(j: number): any {
       ).annotate({ identifier: "PatchIpAllowlistEntryRequest" });
   }
 }
-function __c326(j: number): any {
+function __c329(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectKey: S.String.pipe(T.Label()),
           metricKey: S.String.pipe(T.Label()),
-          body: __S(9473, __c296, 1).pipe(T.HttpBody()),
+          body: __S(9569, __c299, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v2/metrics/{projectKey}/{metricKey}", code: 200 }),
         ),
       ).annotate({ identifier: "PatchMetricRequest" });
   }
 }
-function __c327(j: number): any {
+function __c330(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectKey: S.String.pipe(T.Label()),
           metricGroupKey: S.String.pipe(T.Label()),
-          body: __S(9473, __c296, 1).pipe(T.HttpBody()),
+          body: __S(9569, __c299, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -27432,7 +27621,7 @@ function __c327(j: number): any {
       ).annotate({ identifier: "PatchMetricGroupRequest" });
   }
 }
-function __c328(j: number): any {
+function __c331(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27447,7 +27636,7 @@ function __c328(j: number): any {
           costPerCachedInputToken: S.optional(S.Number),
           params: S.optional(S.Unknown),
           customParams: S.optional(S.Unknown),
-          tags: S.optional(__S(15008, __c469, 0)),
+          tags: S.optional(__S(15104, __c472, 0)),
           maintainerId: S.optional(S.String),
           maintainerTeamKey: S.optional(S.String),
         }).pipe(
@@ -27460,18 +27649,18 @@ function __c328(j: number): any {
       ).annotate({ identifier: "PatchModelConfigRequest" });
   }
 }
-function __c329(j: number): any {
+function __c332(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           clientId: S.String.pipe(T.Label()),
-          body: __S(9473, __c296, 1).pipe(T.HttpBody()),
+          body: __S(9569, __c299, 1).pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "PATCH", uri: "/api/v2/oauth/clients/{clientId}", code: 200 })),
       ).annotate({ identifier: "PatchOAuthClientRequest" });
   }
 }
-function __c330(j: number): any {
+function __c333(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27483,7 +27672,7 @@ function __c330(j: number): any {
           text: S.optional(S.String),
           maintainerId: S.optional(S.String),
           maintainerTeamKey: S.optional(S.String),
-          tags: S.optional(__S(15008, __c469, 0)),
+          tags: S.optional(__S(15104, __c472, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -27494,13 +27683,13 @@ function __c330(j: number): any {
       ).annotate({ identifier: "PatchPromptSnippetRequest" });
   }
 }
-function __c331(j: number): any {
+function __c334(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          patch: __S(9473, __c296, 1),
+          patch: __S(9569, __c299, 1),
           comment: S.optional(S.String),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v2/account/relay-auto-configs/{id}", code: 200 }),
@@ -27508,7 +27697,7 @@ function __c331(j: number): any {
       ).annotate({ identifier: "PatchRelayAutoConfigRequest" });
   }
 }
-function __c332(j: number): any {
+function __c335(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27533,29 +27722,29 @@ function __c332(j: number): any {
         }),
       ).annotate({ identifier: "MemberImportItem" });
     case 2:
-      return S.Array(__S(10625, __c332, 1));
+      return S.Array(__S(10721, __c335, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(10626, __c332, 2)),
+          items: S.optional(__S(10722, __c335, 2)),
         }),
       ).annotate({ identifier: "TeamImportsRep" });
   }
 }
-function __c333(j: number): any {
+function __c336(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           repo: S.String.pipe(T.Label()),
-          body: __S(9473, __c296, 1).pipe(T.HttpBody()),
+          body: __S(9569, __c299, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v2/code-refs/repositories/{repo}", code: 200 }),
         ),
       ).annotate({ identifier: "PatchRepositoryRequest" });
   }
 }
-function __c334(j: number): any {
+function __c337(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27577,7 +27766,7 @@ function __c334(j: number): any {
       ).annotate({ identifier: "PatchSdkKeyByKeyRequest" });
   }
 }
-function __c335(j: number): any {
+function __c338(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27587,7 +27776,7 @@ function __c335(j: number): any {
           environmentKey: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           comment: S.optional(S.String),
-          instructions: S.optional(__S(15072, __c471, 0)),
+          instructions: S.optional(__S(15168, __c474, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -27598,7 +27787,7 @@ function __c335(j: number): any {
       ).annotate({ identifier: "PatchTriggerWorkflowRequest" });
   }
 }
-function __c336(j: number): any {
+function __c339(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27608,8 +27797,8 @@ function __c336(j: number): any {
           name: S.String,
           resourceKind: S.String,
           resourceKey: S.String,
-          triggerSource: __S(16352, __c511, 0),
-          task: __S(16355, __c511, 3),
+          triggerSource: __S(16448, __c514, 0),
+          task: __S(16451, __c514, 3),
         }).pipe(
           T.Http({
             method: "POST",
@@ -27620,7 +27809,7 @@ function __c336(j: number): any {
       ).annotate({ identifier: "PostAdaptiveTriggerRequest" });
   }
 }
-function __c337(j: number): any {
+function __c340(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27632,14 +27821,14 @@ function __c337(j: number): any {
           maintainerId: S.optional(S.String),
           maintainerTeamKey: S.optional(S.String),
           rootConfigKey: S.optional(S.String),
-          edges: S.optional(__S(16417, __c513, 1)),
+          edges: S.optional(__S(16513, __c516, 1)),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/v2/projects/{projectKey}/agent-graphs", code: 200 }),
         ),
       ).annotate({ identifier: "PostAgentGraphRequest" });
   }
 }
-function __c338(j: number): any {
+function __c341(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27648,13 +27837,13 @@ function __c338(j: number): any {
           key: S.String,
           aiConfigKey: S.String,
           maxAttempts: S.Number,
-          modelChoices: S.optional(__S(15008, __c469, 0)),
+          modelChoices: S.optional(__S(15104, __c472, 0)),
           judgeModel: S.String,
-          variableChoices: S.optional(__S(15072, __c471, 0)),
-          acceptanceStatements: S.optional(__S(16513, __c516, 1)),
-          judges: S.optional(__S(16515, __c516, 3)),
-          userInputOptions: S.optional(__S(15008, __c469, 0)),
-          groundTruthResponses: S.optional(__S(15008, __c469, 0)),
+          variableChoices: S.optional(__S(15168, __c474, 0)),
+          acceptanceStatements: S.optional(__S(16609, __c519, 1)),
+          judges: S.optional(__S(16611, __c519, 3)),
+          userInputOptions: S.optional(__S(15104, __c472, 0)),
+          groundTruthResponses: S.optional(__S(15104, __c472, 0)),
           metricKey: S.optional(S.String),
           tokenLimit: S.optional(S.Number),
           variationKey: S.optional(S.String),
@@ -27672,7 +27861,7 @@ function __c338(j: number): any {
       ).annotate({ identifier: "PostAgentOptimizationRequest" });
   }
 }
-function __c339(j: number): any {
+function __c342(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27684,7 +27873,7 @@ function __c339(j: number): any {
           iteration: S.Number,
           instructions: S.String,
           userInput: S.String,
-          parameters: S.optional(__S(15040, __c470, 0)),
+          parameters: S.optional(__S(15136, __c473, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -27695,7 +27884,7 @@ function __c339(j: number): any {
       ).annotate({ identifier: "PostAgentOptimizationResultRequest" });
   }
 }
-function __c340(j: number): any {
+function __c343(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27707,7 +27896,7 @@ function __c340(j: number): any {
           markdown: S.String,
           maintainerId: S.optional(S.String),
           maintainerTeamKey: S.optional(S.String),
-          tags: S.optional(__S(15008, __c469, 0)),
+          tags: S.optional(__S(15104, __c472, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -27718,26 +27907,26 @@ function __c340(j: number): any {
       ).annotate({ identifier: "PostAgentSkillRequest" });
   }
 }
-function __c341(j: number): any {
+function __c344(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          classifiers: S.optional(__S(16674, __c521, 2)),
+          classifiers: S.optional(__S(16770, __c524, 2)),
           comment: S.optional(S.String),
           description: S.optional(S.String),
           instructions: S.optional(S.String),
           key: S.String,
-          messages: S.optional(__S(16676, __c521, 4)),
+          messages: S.optional(__S(16772, __c524, 4)),
           model: S.optional(S.Unknown),
           name: S.String,
           modelConfigKey: S.optional(S.String),
           modelConfigVersion: S.optional(S.Number),
-          outputFormat: S.optional(__S(15040, __c470, 0)),
-          tools: S.optional(__S(16680, __c521, 8)),
-          toolKeys: S.optional(__S(15008, __c469, 0)),
-          skills: S.optional(__S(16680, __c521, 8)),
-          judgeConfiguration: S.optional(__S(16683, __c521, 11)),
+          outputFormat: S.optional(__S(15136, __c473, 0)),
+          tools: S.optional(__S(16776, __c524, 8)),
+          toolKeys: S.optional(__S(15104, __c472, 0)),
+          skills: S.optional(__S(16776, __c524, 8)),
+          judgeConfiguration: S.optional(__S(16779, __c524, 11)),
         }),
       ).annotate({ identifier: "AIConfigVariationPost" });
     case 1:
@@ -27750,9 +27939,9 @@ function __c341(j: number): any {
           maintainerTeamKey: S.optional(S.String),
           mode: S.optional(S.String),
           name: S.String,
-          tags: S.optional(__S(15008, __c469, 0)),
-          viewKeys: S.optional(__S(15008, __c469, 0)),
-          defaultVariation: S.optional(__S(10912, __c341, 0)),
+          tags: S.optional(__S(15104, __c472, 0)),
+          viewKeys: S.optional(__S(15104, __c472, 0)),
+          defaultVariation: S.optional(__S(11008, __c344, 0)),
           evaluationMetricKey: S.optional(S.String),
           isInverted: S.optional(S.Boolean),
         }).pipe(
@@ -27761,28 +27950,28 @@ function __c341(j: number): any {
       ).annotate({ identifier: "PostAIConfigRequest" });
   }
 }
-function __c342(j: number): any {
+function __c345(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectKey: S.String.pipe(T.Label()),
           configKey: S.String.pipe(T.Label()),
-          classifiers: S.optional(__S(16674, __c521, 2)),
+          classifiers: S.optional(__S(16770, __c524, 2)),
           comment: S.optional(S.String),
           description: S.optional(S.String),
           instructions: S.optional(S.String),
           key: S.String,
-          messages: S.optional(__S(16676, __c521, 4)),
+          messages: S.optional(__S(16772, __c524, 4)),
           model: S.optional(S.Unknown),
           name: S.String,
           modelConfigKey: S.optional(S.String),
           modelConfigVersion: S.optional(S.Number),
-          outputFormat: S.optional(__S(15040, __c470, 0)),
-          tools: S.optional(__S(16680, __c521, 8)),
-          toolKeys: S.optional(__S(15008, __c469, 0)),
-          skills: S.optional(__S(16680, __c521, 8)),
-          judgeConfiguration: S.optional(__S(16683, __c521, 11)),
+          outputFormat: S.optional(__S(15136, __c473, 0)),
+          tools: S.optional(__S(16776, __c524, 8)),
+          toolKeys: S.optional(__S(15104, __c472, 0)),
+          skills: S.optional(__S(16776, __c524, 8)),
+          judgeConfiguration: S.optional(__S(16779, __c524, 11)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -27793,7 +27982,7 @@ function __c342(j: number): any {
       ).annotate({ identifier: "PostAIConfigVariationRequest" });
   }
 }
-function __c343(j: number): any {
+function __c346(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27801,8 +27990,8 @@ function __c343(j: number): any {
           name: S.optional(S.String),
           description: S.optional(S.String),
           role: S.optional(S.String),
-          customRoleIds: S.optional(__S(15008, __c469, 0)),
-          inlineRole: S.optional(__S(4961, __c155, 1)),
+          customRoleIds: S.optional(__S(15104, __c472, 0)),
+          inlineRole: S.optional(__S(5057, __c158, 1)),
           serviceToken: S.optional(S.Boolean),
           defaultApiVersion: S.optional(S.Number),
           expiry: S.optional(S.Number),
@@ -27810,7 +27999,7 @@ function __c343(j: number): any {
       ).annotate({ identifier: "CreateTokenRequest" });
   }
 }
-function __c344(j: number): any {
+function __c347(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27818,17 +28007,17 @@ function __c344(j: number): any {
           _id: S.String,
           ownerId: S.String,
           memberId: S.String,
-          _member: S.optional(__S(14912, __c466, 0)),
+          _member: S.optional(__S(15008, __c469, 0)),
           name: S.optional(S.String),
           description: S.optional(S.String),
           creationDate: S.Number,
           lastModified: S.Number,
-          customRoleIds: S.optional(__S(15008, __c469, 0)),
-          inlineRole: S.optional(__S(4961, __c155, 1)),
+          customRoleIds: S.optional(__S(15104, __c472, 0)),
+          inlineRole: S.optional(__S(5057, __c158, 1)),
           role: S.optional(S.String),
           token: S.optional(S.String),
           serviceToken: S.optional(S.Boolean),
-          _links: __S(14304, __c447, 0),
+          _links: __S(14400, __c450, 0),
           defaultApiVersion: S.optional(S.Number),
           lastUsed: S.optional(S.Number),
           expiry: S.optional(S.Number),
@@ -27836,7 +28025,7 @@ function __c344(j: number): any {
       ).annotate({ identifier: "Token" });
   }
 }
-function __c345(j: number): any {
+function __c348(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27848,14 +28037,14 @@ function __c345(j: number): any {
           description: S.optional(S.String),
           schema: S.Unknown,
           customParameters: S.optional(S.Unknown),
-          tags: S.optional(__S(15008, __c469, 0)),
+          tags: S.optional(__S(15104, __c472, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/v2/projects/{projectKey}/ai-tools", code: 200 }),
         ),
       ).annotate({ identifier: "PostAIToolRequest" });
   }
 }
-function __c346(j: number): any {
+function __c349(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27875,7 +28064,7 @@ function __c346(j: number): any {
       ).annotate({ identifier: "PostApprovalRequestApplyForFlagRequest" });
   }
 }
-function __c347(j: number): any {
+function __c350(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27885,12 +28074,12 @@ function __c347(j: number): any {
           environmentKey: S.String.pipe(T.Label()),
           comment: S.optional(S.String),
           description: S.String,
-          instructions: __S(15072, __c471, 0),
-          notifyMemberIds: S.optional(__S(15008, __c469, 0)),
-          notifyTeamKeys: S.optional(__S(15008, __c469, 0)),
+          instructions: __S(15168, __c474, 0),
+          notifyMemberIds: S.optional(__S(15104, __c472, 0)),
+          notifyTeamKeys: S.optional(__S(15104, __c472, 0)),
           executionDate: S.optional(S.Number),
           operatingOnId: S.optional(S.String),
-          integrationConfig: S.optional(__S(15040, __c470, 0)),
+          integrationConfig: S.optional(__S(15136, __c473, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -27901,7 +28090,7 @@ function __c347(j: number): any {
       ).annotate({ identifier: "PostApprovalRequestForFlagRequest" });
   }
 }
-function __c348(j: number): any {
+function __c351(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27922,7 +28111,7 @@ function __c348(j: number): any {
       ).annotate({ identifier: "PostApprovalRequestReviewForFlagRequest" });
   }
 }
-function __c349(j: number): any {
+function __c352(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27933,12 +28122,12 @@ function __c349(j: number): any {
           limit: S.optional(S.Number.pipe(T.Query())),
           member: S.optional(S.String.pipe(T.Query())),
           token: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4961, __c155, 1).pipe(T.HttpBody())),
+          body: S.optional(__S(5057, __c158, 1).pipe(T.HttpBody())),
         }).pipe(T.Http({ method: "POST", uri: "/api/v2/auditlog", code: 200 })),
       ).annotate({ identifier: "PostAuditLogEntriesRequest" });
   }
 }
-function __c350(j: number): any {
+function __c353(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27948,7 +28137,7 @@ function __c350(j: number): any {
           buckets: S.optional(S.Number.pipe(T.Query())),
           member: S.optional(S.String.pipe(T.Query())),
           token: S.optional(S.String.pipe(T.Query())),
-          body: __S(4961, __c155, 1).pipe(T.HttpBody()),
+          body: __S(5057, __c158, 1).pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "POST", uri: "/api/v2/auditlog/counts", code: 200 })),
       ).annotate({ identifier: "PostAuditLogEntryCountsRequest" });
     case 1:
@@ -27959,18 +28148,18 @@ function __c350(j: number): any {
         }),
       ).annotate({ identifier: "CountBucket" });
     case 2:
-      return S.Array(__S(11201, __c350, 1));
+      return S.Array(__S(11297, __c353, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          buckets: __S(11202, __c350, 2),
+          buckets: __S(11298, __c353, 2),
           totalCount: S.Number,
           bucketIntervalMs: S.Number,
         }),
       ).annotate({ identifier: "CountBucketsResult" });
   }
 }
-function __c351(j: number): any {
+function __c354(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27989,7 +28178,7 @@ function __c351(j: number): any {
       ).annotate({ identifier: "PostCompleteWarehouseDestinationSetupRequest" });
   }
 }
-function __c352(j: number): any {
+function __c355(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27997,14 +28186,14 @@ function __c352(j: number): any {
           name: S.String,
           key: S.String,
           description: S.optional(S.String),
-          policy: __S(4961, __c155, 1),
+          policy: __S(5057, __c158, 1),
           basePermissions: S.optional(S.String),
           resourceCategory: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/api/v2/roles", code: 200 })),
       ).annotate({ identifier: "PostCustomRoleRequest" });
   }
 }
-function __c353(j: number): any {
+function __c356(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28022,7 +28211,7 @@ function __c353(j: number): any {
       ).annotate({ identifier: "PostDisableAdaptiveTriggerRequest" });
   }
 }
-function __c354(j: number): any {
+function __c357(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28040,7 +28229,7 @@ function __c354(j: number): any {
       ).annotate({ identifier: "PostEnableAdaptiveTriggerRequest" });
   }
 }
-function __c355(j: number): any {
+function __c358(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28049,7 +28238,7 @@ function __c355(j: number): any {
           featureFlagKey: S.String.pipe(T.Label()),
           environmentKey: S.String.pipe(T.Label()),
           comment: S.optional(S.String),
-          instructions: S.optional(__S(15072, __c471, 0)),
+          instructions: S.optional(__S(15168, __c474, 0)),
           integrationKey: S.String,
         }).pipe(
           T.Http({
@@ -28061,17 +28250,17 @@ function __c355(j: number): any {
       ).annotate({ identifier: "CreateTriggerWorkflowRequest" });
   }
 }
-function __c356(j: number): any {
+function __c359(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           timestamp: S.optional(S.Number),
-          jsonBody: S.optional(__S(15040, __c470, 0)),
+          jsonBody: S.optional(__S(15136, __c473, 0)),
         }),
       ).annotate({ identifier: "RecentTriggerBody" });
     case 1:
-      return S.Array(__S(11392, __c356, 0));
+      return S.Array(__S(11488, __c359, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -28079,22 +28268,22 @@ function __c356(j: number): any {
           _version: S.optional(S.Number),
           _creationDate: S.optional(S.Number),
           _maintainerId: S.optional(S.String),
-          _maintainer: S.optional(__S(14912, __c466, 0)),
+          _maintainer: S.optional(__S(15008, __c469, 0)),
           enabled: S.optional(S.Boolean),
           _status: S.optional(S.String),
           _lastFailedAt: S.optional(S.Number),
           _integrationKey: S.optional(S.String),
-          instructions: S.optional(__S(15072, __c471, 0)),
+          instructions: S.optional(__S(15168, __c474, 0)),
           _lastTriggeredAt: S.optional(S.Number),
-          _recentTriggerBodies: S.optional(__S(11393, __c356, 1)),
+          _recentTriggerBodies: S.optional(__S(11489, __c359, 1)),
           _triggerCount: S.optional(S.Number),
           triggerURL: S.optional(S.String),
-          _links: S.optional(__S(14304, __c447, 0)),
+          _links: S.optional(__S(14400, __c450, 0)),
         }),
       ).annotate({ identifier: "TriggerWorkflowRep" });
   }
 }
-function __c357(j: number): any {
+function __c360(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28108,8 +28297,8 @@ function __c357(j: number): any {
           defaultTrackEvents: S.optional(S.Boolean),
           confirmChanges: S.optional(S.Boolean),
           requireComments: S.optional(S.Boolean),
-          tags: S.optional(__S(15008, __c469, 0)),
-          source: S.optional(__S(8704, __c272, 0)),
+          tags: S.optional(__S(15104, __c472, 0)),
+          source: S.optional(__S(8800, __c275, 0)),
           critical: S.optional(S.Boolean),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/v2/projects/{projectKey}/environments", code: 200 }),
@@ -28117,14 +28306,14 @@ function __c357(j: number): any {
       ).annotate({ identifier: "PostEnvironmentRequest" });
   }
 }
-function __c358(j: number): any {
+function __c361(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           repo: S.String.pipe(T.Label()),
           branch: S.String.pipe(T.Label()),
-          body: __S(3329, __c104, 1).pipe(T.HttpBody()),
+          body: __S(3425, __c107, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "POST",
@@ -28135,7 +28324,7 @@ function __c358(j: number): any {
       ).annotate({ identifier: "PostExtinctionRequest" });
   }
 }
-function __c359(j: number): any {
+function __c362(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28152,7 +28341,7 @@ function __c359(j: number): any {
         }),
       ).annotate({ identifier: "FlagPrerequisitePost" });
     case 2:
-      return S.Array(__S(11489, __c359, 1));
+      return S.Array(__S(11585, __c362, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -28162,23 +28351,23 @@ function __c359(j: number): any {
           key: S.String,
           description: S.optional(S.String),
           includeInSnippet: S.optional(S.Boolean),
-          clientSideAvailability: S.optional(__S(8736, __c273, 0)),
-          variations: S.optional(__S(14753, __c461, 1)),
+          clientSideAvailability: S.optional(__S(8832, __c276, 0)),
+          variations: S.optional(__S(14849, __c464, 1)),
           temporary: S.optional(S.Boolean),
-          tags: S.optional(__S(15008, __c469, 0)),
-          customProperties: S.optional(__S(14755, __c461, 3)),
-          defaults: S.optional(__S(15104, __c472, 0)),
+          tags: S.optional(__S(15104, __c472, 0)),
+          customProperties: S.optional(__S(14851, __c464, 3)),
+          defaults: S.optional(__S(15200, __c475, 0)),
           purpose: S.optional(S.String),
-          migrationSettings: S.optional(__S(11488, __c359, 0)),
+          migrationSettings: S.optional(__S(11584, __c362, 0)),
           maintainerId: S.optional(S.String),
           maintainerTeamKey: S.optional(S.String),
-          initialPrerequisites: S.optional(__S(11490, __c359, 2)),
+          initialPrerequisites: S.optional(__S(11586, __c362, 2)),
           isFlagOn: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/api/v2/flags/{projectKey}", code: 200 })),
       ).annotate({ identifier: "PostFeatureFlagRequest" });
   }
 }
-function __c360(j: number): any {
+function __c363(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28189,7 +28378,7 @@ function __c360(j: number): any {
           ignoreConflicts: S.optional(S.Boolean.pipe(T.Query())),
           comment: S.optional(S.String),
           executionDate: S.Number,
-          instructions: __S(15072, __c471, 0),
+          instructions: __S(15168, __c474, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -28200,7 +28389,7 @@ function __c360(j: number): any {
       ).annotate({ identifier: "PostFlagConfigScheduledChangesRequest" });
   }
 }
-function __c361(j: number): any {
+function __c364(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28210,11 +28399,11 @@ function __c361(j: number): any {
           environmentKey: S.String.pipe(T.Label()),
           comment: S.optional(S.String),
           description: S.String,
-          notifyMemberIds: S.optional(__S(15008, __c469, 0)),
-          notifyTeamKeys: S.optional(__S(15008, __c469, 0)),
-          source: __S(15972, __c499, 4),
-          includedActions: S.optional(__S(14784, __c462, 0)),
-          excludedActions: S.optional(__S(14784, __c462, 0)),
+          notifyMemberIds: S.optional(__S(15104, __c472, 0)),
+          notifyTeamKeys: S.optional(__S(15104, __c472, 0)),
+          source: __S(16068, __c502, 4),
+          includedActions: S.optional(__S(14880, __c465, 0)),
+          excludedActions: S.optional(__S(14880, __c465, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -28225,7 +28414,7 @@ function __c361(j: number): any {
       ).annotate({ identifier: "PostFlagCopyConfigApprovalRequestRequest" });
   }
 }
-function __c362(j: number): any {
+function __c365(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28242,7 +28431,7 @@ function __c362(j: number): any {
       ).annotate({ identifier: "PostGenerateProjectEnvWarehouseDestinationKeyPairRequest" });
   }
 }
-function __c363(j: number): any {
+function __c366(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28253,7 +28442,7 @@ function __c363(j: number): any {
       ).annotate({ identifier: "GenerateWarehouseDestinationKeyPairPostRep" });
   }
 }
-function __c364(j: number): any {
+function __c367(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28272,29 +28461,29 @@ function __c364(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Effect: S.optional(S.String),
-          Action: S.optional(__S(15008, __c469, 0)),
+          Action: S.optional(__S(15104, __c472, 0)),
           Principal: S.optional(S.Unknown),
           Condition: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "TrustPolicyStatement" });
     case 2:
-      return S.Array(__S(11649, __c364, 1));
+      return S.Array(__S(11745, __c367, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           Version: S.optional(S.String),
-          Statement: S.optional(__S(11650, __c364, 2)),
+          Statement: S.optional(__S(11746, __c367, 2)),
         }),
       ).annotate({ identifier: "TrustPolicyDetails" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          awsTrustPolicy: S.optional(__S(11651, __c364, 3)),
+          awsTrustPolicy: S.optional(__S(11747, __c367, 3)),
         }),
       ).annotate({ identifier: "GenerateTrustPolicyPostRep" });
   }
 }
-function __c365(j: number): any {
+function __c368(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28308,7 +28497,7 @@ function __c365(j: number): any {
       ).annotate({ identifier: "PostGenerateWarehouseDestinationKeyPairRequest" });
   }
 }
-function __c366(j: number): any {
+function __c369(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28356,7 +28545,7 @@ function __c366(j: number): any {
       ).annotate({ identifier: "WarehouseDestinationSetupScriptRep" });
   }
 }
-function __c367(j: number): any {
+function __c370(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28367,10 +28556,10 @@ function __c367(j: number): any {
           key: S.optional(S.String),
           description: S.optional(S.String),
           randomizationunit: S.optional(S.String),
-          attributes: S.optional(__S(15008, __c469, 0)),
+          attributes: S.optional(__S(15104, __c472, 0)),
           holdoutamount: S.optional(S.String),
           primarymetrickey: S.optional(S.String),
-          metrics: S.optional(__S(2817, __c88, 1)),
+          metrics: S.optional(__S(2913, __c91, 1)),
           prerequisiteflagkey: S.optional(S.String),
           maintainerId: S.optional(S.String),
         }).pipe(
@@ -28383,7 +28572,7 @@ function __c367(j: number): any {
       ).annotate({ identifier: "PostHoldoutRequest" });
   }
 }
-function __c368(j: number): any {
+function __c371(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28394,22 +28583,22 @@ function __c368(j: number): any {
           description: S.optional(S.String),
           maintainerId: S.optional(S.String),
           maintainerTeamKey: S.optional(S.String),
-          tags: S.optional(__S(15008, __c469, 0)),
+          tags: S.optional(__S(15104, __c472, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v2/projects/{projectKey}/views", code: 200 })),
       ).annotate({ identifier: "CreateViewRequest" });
   }
 }
-function __c369(j: number): any {
+function __c372(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          self: __S(11872, __c371, 0),
+          self: __S(11968, __c374, 0),
         }),
       ).annotate({ identifier: "ViewsSelfLink" });
   }
 }
-function __c370(j: number): any {
+function __c373(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28434,8 +28623,8 @@ function __c370(j: number): any {
         S.Struct({
           id: S.String,
           kind: S.String,
-          maintainerMember: S.optional(__S(11840, __c370, 0)),
-          maintainerTeam: S.optional(__S(11841, __c370, 1)),
+          maintainerMember: S.optional(__S(11936, __c373, 0)),
+          maintainerTeam: S.optional(__S(11937, __c373, 1)),
         }),
       ).annotate({ identifier: "Maintainer" });
     case 3:
@@ -28443,15 +28632,15 @@ function __c370(j: number): any {
         S.Struct({
           key: S.String,
           name: S.String,
-          links: __S(11808, __c369, 0),
+          links: __S(11904, __c372, 0),
         }),
       ).annotate({ identifier: "ExpandedDirectlyLinkedFlag" });
     case 4:
-      return S.Array(__S(11843, __c370, 3));
+      return S.Array(__S(11939, __c373, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          items: __S(11844, __c370, 4),
+          items: __S(11940, __c373, 4),
           totalCount: S.Number,
         }),
       ).annotate({ identifier: "ExpandedDirectlyLinkedFlags" });
@@ -28459,7 +28648,7 @@ function __c370(j: number): any {
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
-          linkedFlags: S.optional(__S(11845, __c370, 5)),
+          linkedFlags: S.optional(__S(11941, __c373, 5)),
         }),
       ).annotate({ identifier: "FlagsSummary" });
     case 7:
@@ -28468,15 +28657,15 @@ function __c370(j: number): any {
           key: S.String,
           name: S.String,
           environmentId: S.String,
-          links: __S(11808, __c369, 0),
+          links: __S(11904, __c372, 0),
         }),
       ).annotate({ identifier: "ExpandedDirectlyLinkedSegment" });
     case 8:
-      return S.Array(__S(11847, __c370, 7));
+      return S.Array(__S(11943, __c373, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          items: __S(11848, __c370, 8),
+          items: __S(11944, __c373, 8),
           totalCount: S.Number,
         }),
       ).annotate({ identifier: "ExpandedDirectlyLinkedSegments" });
@@ -28484,7 +28673,7 @@ function __c370(j: number): any {
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
-          linkedSegments: S.optional(__S(11849, __c370, 9)),
+          linkedSegments: S.optional(__S(11945, __c373, 9)),
         }),
       ).annotate({ identifier: "SegmentsSummary" });
     case 11:
@@ -28510,19 +28699,19 @@ function __c370(j: number): any {
           creationDate: S.optional(S.Number),
           _version: S.optional(S.Number),
           archived: S.optional(S.Boolean),
-          tags: S.optional(__S(15008, __c469, 0)),
+          tags: S.optional(__S(15104, __c472, 0)),
           temporary: S.optional(S.Boolean),
           includeInSnippet: S.optional(S.Boolean),
-          maintainer: S.optional(__S(7712, __c241, 0)),
-          _links: S.optional(__S(11904, __c372, 0)),
+          maintainer: S.optional(__S(7808, __c244, 0)),
+          _links: S.optional(__S(12000, __c375, 0)),
         }),
       ).annotate({ identifier: "ExpandedFlag" });
     case 14:
-      return S.Array(__S(11853, __c370, 13));
+      return S.Array(__S(11949, __c373, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
-          items: __S(11854, __c370, 14),
+          items: __S(11950, __c373, 14),
           totalCount: S.Number,
         }),
       ).annotate({ identifier: "ExpandedLinkedFlags" });
@@ -28537,19 +28726,19 @@ function __c370(j: number): any {
           creationDate: S.optional(S.Number),
           lastModifiedDate: S.optional(S.Number),
           deleted: S.optional(S.Boolean),
-          tags: S.optional(__S(15008, __c469, 0)),
+          tags: S.optional(__S(15104, __c472, 0)),
           unbounded: S.optional(S.Boolean),
           version: S.optional(S.Number),
           generation: S.optional(S.Number),
-          _links: S.optional(__S(11904, __c372, 0)),
+          _links: S.optional(__S(12000, __c375, 0)),
         }),
       ).annotate({ identifier: "ExpandedSegment" });
     case 17:
-      return S.Array(__S(11856, __c370, 16));
+      return S.Array(__S(11952, __c373, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
-          items: __S(11857, __c370, 17),
+          items: __S(11953, __c373, 17),
           totalCount: S.Number,
         }),
       ).annotate({ identifier: "ExpandedLinkedSegments" });
@@ -28569,15 +28758,15 @@ function __c370(j: number): any {
           description: S.optional(S.String),
           isNumeric: S.optional(S.Boolean),
           lastSeen: S.optional(S.Number),
-          _links: S.optional(__S(11904, __c372, 0)),
+          _links: S.optional(__S(12000, __c375, 0)),
         }),
       ).annotate({ identifier: "ExpandedMetric" });
     case 20:
-      return S.Array(__S(11859, __c370, 19));
+      return S.Array(__S(11955, __c373, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
-          items: __S(11860, __c370, 20),
+          items: __S(11956, __c373, 20),
           totalCount: S.Number,
         }),
       ).annotate({ identifier: "ExpandedLinkedMetrics" });
@@ -28586,43 +28775,43 @@ function __c370(j: number): any {
         S.Struct({
           key: S.optional(S.String),
           name: S.optional(S.String),
-          tags: S.optional(__S(15008, __c469, 0)),
+          tags: S.optional(__S(15104, __c472, 0)),
           description: S.optional(S.String),
           version: S.optional(S.Number),
           createdAt: S.optional(S.Number),
           updatedAt: S.optional(S.Number),
           flagKey: S.optional(S.String),
-          _links: S.optional(__S(11904, __c372, 0)),
+          _links: S.optional(__S(12000, __c375, 0)),
         }),
       ).annotate({ identifier: "ExpandedAIConfig" });
     case 23:
-      return S.Array(__S(11862, __c370, 22));
+      return S.Array(__S(11958, __c373, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
-          items: __S(11863, __c370, 23),
+          items: __S(11959, __c373, 23),
           totalCount: S.Number,
         }),
       ).annotate({ identifier: "ExpandedLinkedAIConfigs" });
     case 25:
       return S.suspend(() =>
         S.Struct({
-          flags: __S(11855, __c370, 15),
-          segments: S.optional(__S(11858, __c370, 18)),
+          flags: __S(11951, __c373, 15),
+          segments: S.optional(__S(11954, __c373, 18)),
         }),
       ).annotate({ identifier: "ExpandedLinkedResourcesItems" });
     case 26:
       return S.suspend(() =>
         S.Struct({
-          items: __S(11865, __c370, 25),
+          items: __S(11961, __c373, 25),
           totalCount: S.Number,
         }),
       ).annotate({ identifier: "ExpandedLinkedResources" });
     case 27:
       return S.suspend(() =>
         S.Struct({
-          _access: S.optional(__S(14979, __c468, 3)),
-          _links: S.optional(__S(11904, __c372, 0)),
+          _access: S.optional(__S(15075, __c471, 3)),
+          _links: S.optional(__S(12000, __c375, 0)),
           id: S.String,
           accountId: S.String,
           projectId: S.String,
@@ -28633,27 +28822,27 @@ function __c370(j: number): any {
           _affectsSdkPayload: S.Boolean,
           generateSdkKeys: S.optional(S.Boolean),
           version: S.Number,
-          tags: __S(15008, __c469, 0),
+          tags: __S(15104, __c472, 0),
           createdAt: S.Number,
           updatedAt: S.Number,
           deletedAt: S.optional(S.Number),
           deleted: S.Boolean,
-          maintainer: S.optional(__S(11842, __c370, 2)),
-          flagsSummary: S.optional(__S(11846, __c370, 6)),
-          segmentsSummary: S.optional(__S(11850, __c370, 10)),
-          metricsSummary: S.optional(__S(11851, __c370, 11)),
-          aiConfigsSummary: S.optional(__S(11851, __c370, 11)),
-          resourceSummary: S.optional(__S(11852, __c370, 12)),
-          flagsExpanded: S.optional(__S(11855, __c370, 15)),
-          segmentsExpanded: S.optional(__S(11858, __c370, 18)),
-          metricsExpanded: S.optional(__S(11861, __c370, 21)),
-          aiConfigsExpanded: S.optional(__S(11864, __c370, 24)),
-          resourcesExpanded: S.optional(__S(11866, __c370, 26)),
+          maintainer: S.optional(__S(11938, __c373, 2)),
+          flagsSummary: S.optional(__S(11942, __c373, 6)),
+          segmentsSummary: S.optional(__S(11946, __c373, 10)),
+          metricsSummary: S.optional(__S(11947, __c373, 11)),
+          aiConfigsSummary: S.optional(__S(11947, __c373, 11)),
+          resourceSummary: S.optional(__S(11948, __c373, 12)),
+          flagsExpanded: S.optional(__S(11951, __c373, 15)),
+          segmentsExpanded: S.optional(__S(11954, __c373, 18)),
+          metricsExpanded: S.optional(__S(11957, __c373, 21)),
+          aiConfigsExpanded: S.optional(__S(11960, __c373, 24)),
+          resourcesExpanded: S.optional(__S(11962, __c373, 26)),
         }),
       ).annotate({ identifier: "View" });
   }
 }
-function __c371(j: number): any {
+function __c374(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28664,18 +28853,18 @@ function __c371(j: number): any {
       ).annotate({ identifier: "CoreLink" });
   }
 }
-function __c372(j: number): any {
+function __c375(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          self: __S(11872, __c371, 0),
-          parent: __S(11872, __c371, 0),
+          self: __S(11968, __c374, 0),
+          parent: __S(11968, __c374, 0),
         }),
       ).annotate({ identifier: "ParentAndSelfLinks" });
   }
 }
-function __c373(j: number): any {
+function __c376(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28687,14 +28876,14 @@ function __c373(j: number): any {
         }),
       ).annotate({ identifier: "UrlPost" });
     case 1:
-      return S.Array(__S(11936, __c373, 0));
+      return S.Array(__S(12032, __c376, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
           attribute: S.optional(S.String),
           op: S.String,
-          values: __S(14816, __c463, 0),
+          values: __S(14912, __c466, 0),
           contextKind: S.optional(S.String),
           negate: S.Boolean,
         }),
@@ -28704,11 +28893,11 @@ function __c373(j: number): any {
         S.Struct({
           eventName: S.optional(S.String),
           isNumeric: S.optional(S.Boolean),
-          dataSource: S.optional(__S(15139, __c473, 3)),
+          dataSource: S.optional(__S(15235, __c476, 3)),
           unitAggregationType: S.optional(S.String),
           unitAggregationField: S.optional(S.String),
           valueColumn: S.optional(S.String),
-          filters: S.optional(__S(11938, __c373, 2)),
+          filters: S.optional(__S(12034, __c376, 2)),
           windowStartOffset: S.optional(S.Number),
           windowEndOffset: S.optional(S.Number),
           winsorLowerPercentile: S.optional(S.Number),
@@ -28725,21 +28914,21 @@ function __c373(j: number): any {
           description: S.optional(S.String),
           kind: S.String,
           selector: S.optional(S.String),
-          urls: S.optional(__S(11937, __c373, 1)),
+          urls: S.optional(__S(12033, __c376, 1)),
           isNumeric: S.optional(S.Boolean),
           unit: S.optional(S.String),
           eventKey: S.optional(S.String),
           successCriteria: S.optional(S.String),
-          tags: S.optional(__S(15008, __c469, 0)),
-          randomizationUnits: S.optional(__S(15008, __c469, 0)),
-          analysisUnits: S.optional(__S(15008, __c469, 0)),
+          tags: S.optional(__S(15104, __c472, 0)),
+          randomizationUnits: S.optional(__S(15104, __c472, 0)),
+          analysisUnits: S.optional(__S(15104, __c472, 0)),
           maintainerId: S.optional(S.String),
           unitAggregationType: S.optional(S.String),
           analysisType: S.optional(S.String),
           percentileValue: S.optional(S.Number),
-          eventDefault: S.optional(__S(15138, __c473, 2)),
-          dataSource: S.optional(__S(15139, __c473, 3)),
-          filters: S.optional(__S(11938, __c373, 2)),
+          eventDefault: S.optional(__S(15234, __c476, 2)),
+          dataSource: S.optional(__S(15235, __c476, 3)),
+          filters: S.optional(__S(12034, __c376, 2)),
           windowStartOffset: S.optional(S.Number),
           windowEndOffset: S.optional(S.Number),
           winsorLowerPercentile: S.optional(S.Number),
@@ -28749,12 +28938,12 @@ function __c373(j: number): any {
           traceValueLocation: S.optional(S.String),
           unitAggregationField: S.optional(S.String),
           valueColumn: S.optional(S.String),
-          denominator: S.optional(__S(11939, __c373, 3)),
+          denominator: S.optional(__S(12035, __c376, 3)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v2/metrics/{projectKey}", code: 200 })),
       ).annotate({ identifier: "PostMetricRequest" });
   }
 }
-function __c374(j: number): any {
+function __c377(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28762,7 +28951,7 @@ function __c374(j: number): any {
           projectKey: S.String.pipe(T.Label()),
           flagKey: S.String.pipe(T.Label()),
           environmentKey: S.String.pipe(T.Label()),
-          instructions: __S(15072, __c471, 0),
+          instructions: __S(15168, __c474, 0),
           comment: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -28776,20 +28965,20 @@ function __c374(j: number): any {
       return S.suspend(() =>
         S.Struct({
           causingRuleId: S.optional(S.String),
-          affectedRuleIds: S.optional(__S(15008, __c469, 0)),
+          affectedRuleIds: S.optional(__S(15104, __c472, 0)),
           issue: S.optional(S.String),
           oldSystemAffected: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "MigrationSafetyIssueRep" });
     case 2:
-      return S.Array(__S(11969, __c374, 1));
+      return S.Array(__S(12065, __c377, 1));
     case 3:
-      return S.suspend(() => __S(11970, __c374, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(12066, __c377, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "PostMigrationSafetyIssuesResponse",
       });
   }
 }
-function __c375(j: number): any {
+function __c378(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28804,7 +28993,7 @@ function __c375(j: number): any {
           provider: S.optional(S.String),
           params: S.optional(S.Unknown),
           customParams: S.optional(S.Unknown),
-          tags: S.optional(__S(15008, __c469, 0)),
+          tags: S.optional(__S(15104, __c472, 0)),
           costPerInputToken: S.optional(S.Number),
           costPerOutputToken: S.optional(S.Number),
           costPerCachedInputToken: S.optional(S.Number),
@@ -28818,7 +29007,7 @@ function __c375(j: number): any {
       ).annotate({ identifier: "PostModelConfigRequest" });
   }
 }
-function __c376(j: number): any {
+function __c379(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28830,7 +29019,7 @@ function __c376(j: number): any {
           text: S.String,
           maintainerId: S.optional(S.String),
           maintainerTeamKey: S.optional(S.String),
-          tags: S.optional(__S(15008, __c469, 0)),
+          tags: S.optional(__S(15104, __c472, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -28841,24 +29030,24 @@ function __c376(j: number): any {
       ).annotate({ identifier: "PostPromptSnippetRequest" });
   }
 }
-function __c377(j: number): any {
+function __c380(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          policy: __S(4961, __c155, 1),
+          policy: __S(5057, __c158, 1),
         }).pipe(T.Http({ method: "POST", uri: "/api/v2/account/relay-auto-configs", code: 200 })),
       ).annotate({ identifier: "PostRelayAutoConfigRequest" });
   }
 }
-function __c378(j: number): any {
+function __c381(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectKey: S.String.pipe(T.Label()),
-          body: __S(15008, __c469, 0).pipe(T.HttpBody()),
+          body: __S(15104, __c472, 0).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "POST",
@@ -28868,21 +29057,21 @@ function __c378(j: number): any {
         ),
       ).annotate({ identifier: "PostReleasePoliciesOrderRequest" });
     case 1:
-      return S.suspend(() => __S(6144, __c192, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(6240, __c195, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "PostReleasePoliciesOrderResponse",
       });
   }
 }
-function __c379(j: number): any {
+function __c382(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectKey: S.String.pipe(T.Label()),
-          scope: S.optional(__S(6112, __c191, 0)),
+          scope: S.optional(__S(6208, __c194, 0)),
           releaseMethod: S.String,
-          guardedReleaseConfig: S.optional(__S(6115, __c191, 3)),
-          progressiveReleaseConfig: S.optional(__S(6116, __c191, 4)),
+          guardedReleaseConfig: S.optional(__S(6211, __c194, 3)),
+          progressiveReleaseConfig: S.optional(__S(6212, __c194, 4)),
           name: S.String,
           key: S.String,
         }).pipe(
@@ -28895,7 +29084,7 @@ function __c379(j: number): any {
       ).annotate({ identifier: "PostReleasePolicyRequest" });
   }
 }
-function __c380(j: number): any {
+function __c383(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28910,13 +29099,13 @@ function __c380(j: number): any {
       ).annotate({ identifier: "PostRepositoryRequest" });
   }
 }
-function __c381(j: number): any {
+function __c384(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectKey: S.String.pipe(T.Label()),
-          keys: __S(15008, __c469, 0),
+          keys: __S(15104, __c472, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -28934,17 +29123,17 @@ function __c381(j: number): any {
         }),
       ).annotate({ identifier: "RestrictedModelError" });
     case 2:
-      return S.Array(__S(12193, __c381, 1));
+      return S.Array(__S(12289, __c384, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          successes: __S(15008, __c469, 0),
-          errors: __S(12194, __c381, 2),
+          successes: __S(15104, __c472, 0),
+          errors: __S(12290, __c384, 2),
         }),
       ).annotate({ identifier: "RestrictedModelsResponse" });
   }
 }
-function __c382(j: number): any {
+function __c385(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28956,7 +29145,7 @@ function __c382(j: number): any {
           name: S.String,
           description: S.optional(S.String),
           expiry: S.optional(S.Number),
-          viewKeys: S.optional(__S(15008, __c469, 0)),
+          viewKeys: S.optional(__S(15104, __c472, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -28967,7 +29156,7 @@ function __c382(j: number): any {
       ).annotate({ identifier: "PostSdkKeyRequest" });
   }
 }
-function __c383(j: number): any {
+function __c386(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28975,33 +29164,33 @@ function __c383(j: number): any {
           name: S.optional(S.String),
           url: S.String,
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          statements: S.optional(__S(4961, __c155, 1)),
+          statements: S.optional(__S(5057, __c158, 1)),
           sign: S.Boolean,
           on: S.Boolean,
-          tags: S.optional(__S(15008, __c469, 0)),
+          tags: S.optional(__S(15104, __c472, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v2/webhooks", code: 200 })),
       ).annotate({ identifier: "CreateWebhookRequest" });
   }
 }
-function __c384(j: number): any {
+function __c387(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(14304, __c447, 0),
+          _links: __S(14400, __c450, 0),
           _id: S.String,
           name: S.optional(S.String),
           url: S.String,
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          statements: S.optional(__S(4961, __c155, 1)),
+          statements: S.optional(__S(5057, __c158, 1)),
           on: S.Boolean,
-          tags: __S(15008, __c469, 0),
-          _access: S.optional(__S(14979, __c468, 3)),
+          tags: __S(15104, __c472, 0),
+          _access: S.optional(__S(15075, __c471, 3)),
         }),
       ).annotate({ identifier: "Webhook" });
   }
 }
-function __c385(j: number): any {
+function __c388(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29014,7 +29203,7 @@ function __c385(j: number): any {
           maintainerId: S.optional(S.String),
           name: S.String,
           description: S.optional(S.String),
-          stages: S.optional(__S(12740, __c398, 4)),
+          stages: S.optional(__S(12836, __c401, 4)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -29025,7 +29214,7 @@ function __c385(j: number): any {
       ).annotate({ identifier: "PostWorkflowRequest" });
   }
 }
-function __c386(j: number): any {
+function __c389(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29036,7 +29225,7 @@ function __c386(j: number): any {
           head: S.String,
           updateSequenceId: S.optional(S.Number),
           syncTime: S.Number,
-          references: S.optional(__S(1219, __c38, 3)),
+          references: S.optional(__S(1315, __c41, 3)),
           commitTime: S.optional(S.Number),
         }).pipe(
           T.Http({
@@ -29048,7 +29237,7 @@ function __c386(j: number): any {
       ).annotate({ identifier: "PutBranchRequest" });
   }
 }
-function __c387(j: number): any {
+function __c390(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29070,7 +29259,7 @@ function __c387(j: number): any {
       ).annotate({ identifier: "PutContextFlagSettingRequest" });
   }
 }
-function __c388(j: number): any {
+function __c391(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29094,12 +29283,12 @@ function __c388(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          _links: S.optional(__S(14304, __c447, 0)),
+          _links: S.optional(__S(14400, __c450, 0)),
         }),
       ).annotate({ identifier: "UpsertResponseRep" });
   }
 }
-function __c389(j: number): any {
+function __c392(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29110,12 +29299,12 @@ function __c389(j: number): any {
         }),
       ).annotate({ identifier: "RandomizationUnitInput" });
     case 1:
-      return S.Array(__S(12448, __c389, 0));
+      return S.Array(__S(12544, __c392, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           projectKey: S.String.pipe(T.Label()),
-          randomizationUnits: __S(12449, __c389, 1),
+          randomizationUnits: __S(12545, __c392, 1),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -29126,23 +29315,23 @@ function __c389(j: number): any {
       ).annotate({ identifier: "PutExperimentationSettingsRequest" });
   }
 }
-function __c390(j: number): any {
+function __c393(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectKey: S.String.pipe(T.Label()),
-          tags: __S(15008, __c469, 0),
+          tags: __S(15104, __c472, 0),
           temporary: S.Boolean,
-          booleanDefaults: __S(10016, __c313, 0),
-          defaultClientSideAvailability: __S(10017, __c313, 1),
+          booleanDefaults: __S(10112, __c316, 0),
+          defaultClientSideAvailability: __S(10113, __c316, 1),
         }).pipe(
           T.Http({ method: "PUT", uri: "/api/v2/projects/{projectKey}/flag-defaults", code: 200 }),
         ),
       ).annotate({ identifier: "PutFlagDefaultsByProjectRequest" });
   }
 }
-function __c391(j: number): any {
+function __c394(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29161,17 +29350,17 @@ function __c391(j: number): any {
       ).annotate({ identifier: "PutFlagFollowerRequest" });
   }
 }
-function __c392(j: number): any {
+function __c395(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectKey: S.String.pipe(T.Label()),
           policyKey: S.String.pipe(T.Label()),
-          scope: S.optional(__S(6112, __c191, 0)),
+          scope: S.optional(__S(6208, __c194, 0)),
           releaseMethod: S.String,
-          guardedReleaseConfig: S.optional(__S(6115, __c191, 3)),
-          progressiveReleaseConfig: S.optional(__S(6116, __c191, 4)),
+          guardedReleaseConfig: S.optional(__S(6211, __c194, 3)),
+          progressiveReleaseConfig: S.optional(__S(6212, __c194, 4)),
           name: S.String,
         }).pipe(
           T.Http({
@@ -29183,7 +29372,7 @@ function __c392(j: number): any {
       ).annotate({ identifier: "PutReleasePolicyRequest" });
   }
 }
-function __c393(j: number): any {
+function __c396(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29192,7 +29381,7 @@ function __c393(j: number): any {
           environmentKey: S.String.pipe(T.Label()),
           sdkKeyKey: S.String.pipe(T.Label()),
           expand: S.optional(S.String.pipe(T.Query())),
-          viewKeys: __S(15008, __c469, 0),
+          viewKeys: __S(15104, __c472, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -29204,7 +29393,7 @@ function __c393(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(11904, __c372, 0)),
+          _links: S.optional(__S(12000, __c375, 0)),
           kind: S.String,
           key: S.String,
           name: S.String,
@@ -29216,12 +29405,12 @@ function __c393(j: number): any {
           _createdAt: S.Number,
           _updatedAt: S.Number,
           _version: S.Number,
-          viewSummaries: S.optional(__S(5762, __c180, 2)),
+          viewSummaries: S.optional(__S(5858, __c183, 2)),
         }),
       ).annotate({ identifier: "PutSdkKeyViewsResponse" });
   }
 }
-function __c394(j: number): any {
+function __c397(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29238,7 +29427,7 @@ function __c394(j: number): any {
       ).annotate({ identifier: "ResetEnvironmentMobileKeyRequest" });
   }
 }
-function __c395(j: number): any {
+function __c398(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29247,7 +29436,7 @@ function __c395(j: number): any {
           name: S.optional(S.String),
           description: S.optional(S.String),
           workflowId: S.optional(S.String),
-          stages: S.optional(__S(12740, __c398, 4)),
+          stages: S.optional(__S(12836, __c401, 4)),
           projectKey: S.optional(S.String),
           environmentKey: S.optional(S.String),
           flagKey: S.optional(S.String),
@@ -29255,7 +29444,7 @@ function __c395(j: number): any {
       ).annotate({ identifier: "CreateWorkflowTemplateRequest" });
   }
 }
-function __c396(j: number): any {
+function __c399(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29276,32 +29465,32 @@ function __c396(j: number): any {
         }),
       ).annotate({ identifier: "ReviewOutput" });
     case 2:
-      return S.Array(__S(12673, __c396, 1));
+      return S.Array(__S(12769, __c399, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           _id: S.String,
           kind: S.optional(S.String),
-          _execution: __S(12672, __c396, 0),
+          _execution: __S(12768, __c399, 0),
           scheduleKind: S.optional(S.String),
           executionDate: S.optional(S.Number),
           waitDuration: S.optional(S.Number),
           waitDurationUnit: S.optional(S.String),
           description: S.String,
-          notifyMemberIds: __S(15008, __c469, 0),
-          allReviews: __S(12674, __c396, 2),
+          notifyMemberIds: __S(15104, __c472, 0),
+          allReviews: __S(12770, __c399, 2),
           reviewStatus: S.String,
           appliedDate: S.optional(S.Number),
-          creationConfig: S.optional(__S(15040, __c470, 0)),
+          creationConfig: S.optional(__S(15136, __c473, 0)),
         }),
       ).annotate({ identifier: "ConditionOutput" });
     case 4:
-      return S.Array(__S(12675, __c396, 3));
+      return S.Array(__S(12771, __c399, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           kind: S.String,
-          instructions: __S(15072, __c471, 0),
+          instructions: __S(15168, __c474, 0),
         }),
       ).annotate({ identifier: "ActionOutput" });
     case 6:
@@ -29309,16 +29498,16 @@ function __c396(j: number): any {
         S.Struct({
           _id: S.String,
           name: S.optional(S.String),
-          conditions: __S(12676, __c396, 4),
-          action: __S(12677, __c396, 5),
-          _execution: __S(12672, __c396, 0),
+          conditions: __S(12772, __c399, 4),
+          action: __S(12773, __c399, 5),
+          _execution: __S(12768, __c399, 0),
         }),
       ).annotate({ identifier: "StageOutput" });
     case 7:
-      return S.Array(__S(12678, __c396, 6));
+      return S.Array(__S(12774, __c399, 6));
   }
 }
-function __c397(j: number): any {
+function __c400(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29329,14 +29518,14 @@ function __c397(j: number): any {
           _creationDate: S.Number,
           _ownerId: S.String,
           _maintainerId: S.String,
-          _links: __S(14304, __c447, 0),
+          _links: __S(14400, __c450, 0),
           description: S.optional(S.String),
-          stages: S.optional(__S(12679, __c396, 7)),
+          stages: S.optional(__S(12775, __c399, 7)),
         }),
       ).annotate({ identifier: "WorkflowTemplateOutput" });
   }
 }
-function __c398(j: number): any {
+function __c401(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29347,14 +29536,14 @@ function __c398(j: number): any {
           waitDurationUnit: S.optional(S.String),
           executeNow: S.optional(S.Boolean),
           description: S.optional(S.String),
-          notifyMemberIds: S.optional(__S(15008, __c469, 0)),
-          notifyTeamKeys: S.optional(__S(15008, __c469, 0)),
-          integrationConfig: S.optional(__S(15040, __c470, 0)),
+          notifyMemberIds: S.optional(__S(15104, __c472, 0)),
+          notifyTeamKeys: S.optional(__S(15104, __c472, 0)),
+          integrationConfig: S.optional(__S(15136, __c473, 0)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConditionInput" });
     case 1:
-      return S.Array(__S(12736, __c398, 0));
+      return S.Array(__S(12832, __c401, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -29366,15 +29555,15 @@ function __c398(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           executeConditionsInSequence: S.optional(S.Boolean),
-          conditions: S.optional(__S(12737, __c398, 1)),
-          action: S.optional(__S(12738, __c398, 2)),
+          conditions: S.optional(__S(12833, __c401, 1)),
+          action: S.optional(__S(12834, __c401, 2)),
         }),
       ).annotate({ identifier: "StageInput" });
     case 4:
-      return S.Array(__S(12739, __c398, 3));
+      return S.Array(__S(12835, __c401, 3));
   }
 }
-function __c399(j: number): any {
+function __c402(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29392,7 +29581,7 @@ function __c399(j: number): any {
       ).annotate({ identifier: "ResetEnvironmentSDKKeyRequest" });
   }
 }
-function __c400(j: number): any {
+function __c403(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29409,7 +29598,7 @@ function __c400(j: number): any {
       ).annotate({ identifier: "ResetRelayAutoConfigRequest" });
   }
 }
-function __c401(j: number): any {
+function __c404(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29431,7 +29620,7 @@ function __c401(j: number): any {
       ).annotate({ identifier: "SearchContextsRequest" });
   }
 }
-function __c402(j: number): any {
+function __c405(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -29444,7 +29633,7 @@ function __c402(j: number): any {
         }),
       ).annotate({ identifier: "EnvironmentReleaseMetricInput" });
     case 2:
-      return S.Array(__S(12865, __c402, 1));
+      return S.Array(__S(12961, __c405, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -29457,9 +29646,9 @@ function __c402(j: number): any {
           releasePlanKey: S.optional(S.String),
           randomizationUnit: S.optional(S.String),
           advancementMode: S.optional(S.String),
-          phases: S.optional(__S(12864, __c402, 0)),
-          metrics: S.optional(__S(12866, __c402, 2)),
-          bypassHealthChecks: S.optional(__S(14784, __c462, 0)),
+          phases: S.optional(__S(12960, __c405, 0)),
+          metrics: S.optional(__S(12962, __c405, 2)),
+          bypassHealthChecks: S.optional(__S(14880, __c465, 0)),
           cleanupBehavior: S.optional(S.String),
           comment: S.optional(S.String),
         }).pipe(
@@ -29472,7 +29661,7 @@ function __c402(j: number): any {
       ).annotate({ identifier: "StartEnvironmentReleaseRequest" });
   }
 }
-function __c403(j: number): any {
+function __c406(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29493,7 +29682,7 @@ function __c403(j: number): any {
       ).annotate({ identifier: "StopEnvironmentReleaseRequest" });
   }
 }
-function __c404(j: number): any {
+function __c407(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29511,7 +29700,7 @@ function __c404(j: number): any {
       ).annotate({ identifier: "TriggerFlagImportJobRequest" });
   }
 }
-function __c405(j: number): any {
+function __c408(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29533,45 +29722,45 @@ function __c405(j: number): any {
         S.Struct({
           successCount: S.Number,
           failureCount: S.Number,
-          failedResources: S.optional(__S(7969, __c249, 1)),
+          failedResources: S.optional(__S(8065, __c252, 1)),
         }),
       ).annotate({ identifier: "UnlinkResourceSuccessResponse" });
   }
 }
-function __c406(j: number): any {
+function __c409(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           announcementId: S.String.pipe(T.Label()),
-          body: __S(9473, __c296, 1).pipe(T.HttpBody()),
+          body: __S(9569, __c299, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v2/announcements/{announcementId}", code: 200 }),
         ),
       ).annotate({ identifier: "UpdateAnnouncementPublicRequest" });
   }
 }
-function __c407(j: number): any {
+function __c410(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           applicationKey: S.String.pipe(T.Label()),
-          body: __S(9473, __c296, 1).pipe(T.HttpBody()),
+          body: __S(9569, __c299, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v2/applications/{applicationKey}", code: 200 }),
         ),
       ).annotate({ identifier: "UpdateApplicationRequest" });
   }
 }
-function __c408(j: number): any {
+function __c411(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           applicationKey: S.String.pipe(T.Label()),
           versionKey: S.String.pipe(T.Label()),
-          body: __S(9473, __c296, 1).pipe(T.HttpBody()),
+          body: __S(9569, __c299, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -29582,7 +29771,7 @@ function __c408(j: number): any {
       ).annotate({ identifier: "UpdateApplicationVersionRequest" });
   }
 }
-function __c409(j: number): any {
+function __c412(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29600,19 +29789,19 @@ function __c409(j: number): any {
       ).annotate({ identifier: "DeleteAdaptiveTriggerRequest" });
   }
 }
-function __c410(j: number): any {
+function __c413(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           comment: S.optional(S.String),
-          instructions: __S(15072, __c471, 0),
+          instructions: __S(15168, __c474, 0),
         }).pipe(T.Http({ method: "PATCH", uri: "/api/v2/approval-requests/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateApprovalRequestRequest" });
   }
 }
-function __c411(j: number): any {
+function __c414(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29620,8 +29809,8 @@ function __c411(j: number): any {
           projectKey: S.String.pipe(T.Label()),
           environmentKey: S.String.pipe(T.Label()),
           segmentKey: S.String.pipe(T.Label()),
-          included: S.optional(__S(13184, __c412, 0)),
-          excluded: S.optional(__S(13184, __c412, 0)),
+          included: S.optional(__S(13280, __c415, 0)),
+          excluded: S.optional(__S(13280, __c415, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -29632,18 +29821,18 @@ function __c411(j: number): any {
       ).annotate({ identifier: "UpdateBigSegmentContextTargetsRequest" });
   }
 }
-function __c412(j: number): any {
+function __c415(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          add: S.optional(__S(15008, __c469, 0)),
-          remove: S.optional(__S(15008, __c469, 0)),
+          add: S.optional(__S(15104, __c472, 0)),
+          remove: S.optional(__S(15104, __c472, 0)),
         }),
       ).annotate({ identifier: "SegmentUserList" });
   }
 }
-function __c413(j: number): any {
+function __c416(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29651,8 +29840,8 @@ function __c413(j: number): any {
           projectKey: S.String.pipe(T.Label()),
           environmentKey: S.String.pipe(T.Label()),
           segmentKey: S.String.pipe(T.Label()),
-          included: S.optional(__S(13184, __c412, 0)),
-          excluded: S.optional(__S(13184, __c412, 0)),
+          included: S.optional(__S(13280, __c415, 0)),
+          excluded: S.optional(__S(13280, __c415, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -29663,13 +29852,13 @@ function __c413(j: number): any {
       ).annotate({ identifier: "UpdateBigSegmentTargetsRequest" });
   }
 }
-function __c414(j: number): any {
+function __c417(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           deploymentID: S.String.pipe(T.Label()),
-          body: __S(9473, __c296, 1).pipe(T.HttpBody()),
+          body: __S(9569, __c299, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -29680,7 +29869,7 @@ function __c414(j: number): any {
       ).annotate({ identifier: "UpdateDeploymentRequest" });
   }
 }
-function __c415(j: number): any {
+function __c418(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29701,7 +29890,7 @@ function __c415(j: number): any {
       ).annotate({ identifier: "UpdateDestinationRequest" });
   }
 }
-function __c416(j: number): any {
+function __c419(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29709,7 +29898,7 @@ function __c416(j: number): any {
           projectKey: S.String.pipe(T.Label()),
           environmentKey: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          body: __S(9473, __c296, 1).pipe(T.HttpBody()),
+          body: __S(9569, __c299, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -29720,7 +29909,7 @@ function __c416(j: number): any {
       ).annotate({ identifier: "UpdateDestinationByIdRequest" });
   }
 }
-function __c417(j: number): any {
+function __c420(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29728,7 +29917,7 @@ function __c417(j: number): any {
           projectKey: S.String.pipe(T.Label()),
           featureFlagKey: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          body: __S(9473, __c296, 1).pipe(T.HttpBody()),
+          body: __S(9569, __c299, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -29739,13 +29928,13 @@ function __c417(j: number): any {
       ).annotate({ identifier: "UpdateFlagLinkRequest" });
   }
 }
-function __c418(j: number): any {
+function __c421(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           integrationConfigurationId: S.String.pipe(T.Label()),
-          body: __S(9473, __c296, 1).pipe(T.HttpBody()),
+          body: __S(9569, __c299, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -29756,7 +29945,7 @@ function __c418(j: number): any {
       ).annotate({ identifier: "UpdateIntegrationConfigurationRequest" });
   }
 }
-function __c419(j: number): any {
+function __c422(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29765,7 +29954,7 @@ function __c419(j: number): any {
           layerKey: S.String.pipe(T.Label()),
           comment: S.optional(S.String),
           environmentKey: S.optional(S.String),
-          instructions: __S(15072, __c471, 0),
+          instructions: __S(15168, __c474, 0),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -29776,18 +29965,18 @@ function __c419(j: number): any {
       ).annotate({ identifier: "UpdateLayerRequest" });
   }
 }
-function __c420(j: number): any {
+function __c423(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          body: __S(9473, __c296, 1).pipe(T.HttpBody()),
+          body: __S(9569, __c299, 1).pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "PATCH", uri: "/api/v2/members/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateMemberRequest" });
   }
 }
-function __c421(j: number): any {
+function __c424(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29804,42 +29993,42 @@ function __c421(j: number): any {
       ).annotate({ identifier: "DeleteAgentGraphRequest" });
   }
 }
-function __c422(j: number): any {
+function __c425(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           comment: S.optional(S.String),
-          instructions: __S(15072, __c471, 0),
+          instructions: __S(15168, __c474, 0),
         }).pipe(T.Http({ method: "PATCH", uri: "/api/v2/members", code: 200 })),
       ).annotate({ identifier: "UpdateMembersRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          members: S.optional(__S(15008, __c469, 0)),
-          errors: S.optional(__S(13536, __c423, 0)),
+          members: S.optional(__S(15104, __c472, 0)),
+          errors: S.optional(__S(13632, __c426, 0)),
         }),
       ).annotate({ identifier: "BulkEditMembersRep" });
   }
 }
-function __c423(j: number): any {
+function __c426(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(3936, __c123, 0));
+      return S.Array(__S(4032, __c126, 0));
   }
 }
-function __c424(j: number): any {
+function __c427(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectKey: S.String.pipe(T.Label()),
-          body: __S(9473, __c296, 1).pipe(T.HttpBody()),
+          body: __S(9569, __c299, 1).pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "PATCH", uri: "/api/v2/projects/{projectKey}", code: 200 })),
       ).annotate({ identifier: "UpdateProjectRequest" });
   }
 }
-function __c425(j: number): any {
+function __c428(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29849,7 +30038,7 @@ function __c425(j: number): any {
           name: S.String,
           key: S.String,
           description: S.optional(S.String),
-          tags: S.optional(__S(15008, __c469, 0)),
+          tags: S.optional(__S(15104, __c472, 0)),
           unbounded: S.optional(S.Boolean),
           unboundedContextKind: S.optional(S.String),
         }).pipe(
@@ -29862,7 +30051,7 @@ function __c425(j: number): any {
       ).annotate({ identifier: "UpdateSegmentRequest" });
   }
 }
-function __c426(j: number): any {
+function __c429(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29871,7 +30060,7 @@ function __c426(j: number): any {
           environmentKey: S.String.pipe(T.Label()),
           segmentKey: S.String.pipe(T.Label()),
           dryRun: S.optional(S.Boolean.pipe(T.Query())),
-          patch: __S(9473, __c296, 1),
+          patch: __S(9569, __c299, 1),
           comment: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -29883,7 +30072,7 @@ function __c426(j: number): any {
       ).annotate({ identifier: "UpdateSegmentBySegmentKeyRequest" });
   }
 }
-function __c427(j: number): any {
+function __c430(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29904,21 +30093,21 @@ function __c427(j: number): any {
       ).annotate({ identifier: "UpdateSegmentScheduledChangeRequest" });
   }
 }
-function __c428(j: number): any {
+function __c431(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           integrationKey: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          body: __S(9473, __c296, 1).pipe(T.HttpBody()),
+          body: __S(9569, __c299, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v2/integrations/{integrationKey}/{id}", code: 200 }),
         ),
       ).annotate({ identifier: "UpdateSubscriptionRequest" });
   }
 }
-function __c429(j: number): any {
+function __c432(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29926,42 +30115,42 @@ function __c429(j: number): any {
           teamKey: S.String.pipe(T.Label()),
           expand: S.optional(S.String.pipe(T.Query())),
           comment: S.optional(S.String),
-          instructions: __S(15072, __c471, 0),
+          instructions: __S(15168, __c474, 0),
         }).pipe(T.Http({ method: "PATCH", uri: "/api/v2/teams/{teamKey}", code: 200 })),
       ).annotate({ identifier: "UpdateTeamRequest" });
   }
 }
-function __c430(j: number): any {
+function __c433(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           comment: S.optional(S.String),
-          instructions: __S(15072, __c471, 0),
+          instructions: __S(15168, __c474, 0),
         }).pipe(T.Http({ method: "PATCH", uri: "/api/v2/teams", code: 200 })),
       ).annotate({ identifier: "UpdateTeamsRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          memberIDs: S.optional(__S(15008, __c469, 0)),
-          teamKeys: S.optional(__S(15008, __c469, 0)),
-          errors: S.optional(__S(13536, __c423, 0)),
+          memberIDs: S.optional(__S(15104, __c472, 0)),
+          teamKeys: S.optional(__S(15104, __c472, 0)),
+          errors: S.optional(__S(13632, __c426, 0)),
         }),
       ).annotate({ identifier: "BulkEditTeamsRep" });
   }
 }
-function __c431(j: number): any {
+function __c434(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          body: __S(9473, __c296, 1).pipe(T.HttpBody()),
+          body: __S(9569, __c299, 1).pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "PATCH", uri: "/api/v2/tokens/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateTokenRequest" });
   }
 }
-function __c432(j: number): any {
+function __c435(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29972,7 +30161,7 @@ function __c432(j: number): any {
           description: S.optional(S.String),
           maintainerId: S.optional(S.String),
           maintainerTeamKey: S.optional(S.String),
-          tags: S.optional(__S(15008, __c469, 0)),
+          tags: S.optional(__S(15104, __c472, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -29983,7 +30172,7 @@ function __c432(j: number): any {
       ).annotate({ identifier: "UpdateViewRequest" });
   }
 }
-function __c433(j: number): any {
+function __c436(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30000,18 +30189,18 @@ function __c433(j: number): any {
       ).annotate({ identifier: "DeleteAgentOptimizationRequest" });
   }
 }
-function __c434(j: number): any {
+function __c437(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          body: __S(9473, __c296, 1).pipe(T.HttpBody()),
+          body: __S(9569, __c299, 1).pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "PATCH", uri: "/api/v2/webhooks/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateWebhookRequest" });
   }
 }
-function __c435(j: number): any {
+function __c438(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30039,7 +30228,7 @@ function __c435(j: number): any {
       ).annotate({ identifier: "IntegrationDeliveryConfigurationResponse" });
   }
 }
-function __c436(j: number): any {
+function __c439(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30057,7 +30246,7 @@ function __c436(j: number): any {
       ).annotate({ identifier: "DeleteAgentOptimizationRunRequest" });
   }
 }
-function __c437(j: number): any {
+function __c440(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30074,7 +30263,7 @@ function __c437(j: number): any {
       ).annotate({ identifier: "DeleteAgentSkillRequest" });
   }
 }
-function __c438(j: number): any {
+function __c441(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30091,7 +30280,7 @@ function __c438(j: number): any {
       ).annotate({ identifier: "DeleteAIConfigRequest" });
   }
 }
-function __c439(j: number): any {
+function __c442(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30109,7 +30298,7 @@ function __c439(j: number): any {
       ).annotate({ identifier: "DeleteAIConfigVariationRequest" });
   }
 }
-function __c440(j: number): any {
+function __c443(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30126,7 +30315,7 @@ function __c440(j: number): any {
       ).annotate({ identifier: "DeleteAIToolRequest" });
   }
 }
-function __c441(j: number): any {
+function __c444(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30138,7 +30327,7 @@ function __c441(j: number): any {
       ).annotate({ identifier: "DeleteAnnouncementPublicRequest" });
   }
 }
-function __c442(j: number): any {
+function __c445(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30150,7 +30339,7 @@ function __c442(j: number): any {
       ).annotate({ identifier: "DeleteApplicationRequest" });
   }
 }
-function __c443(j: number): any {
+function __c446(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30167,7 +30356,7 @@ function __c443(j: number): any {
       ).annotate({ identifier: "DeleteApplicationVersionRequest" });
   }
 }
-function __c444(j: number): any {
+function __c447(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30177,7 +30366,7 @@ function __c444(j: number): any {
       ).annotate({ identifier: "DeleteApprovalRequestRequest" });
   }
 }
-function __c445(j: number): any {
+function __c448(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30196,7 +30385,7 @@ function __c445(j: number): any {
       ).annotate({ identifier: "DeleteApprovalRequestForFlagRequest" });
   }
 }
-function __c446(j: number): any {
+function __c449(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30206,11 +30395,11 @@ function __c446(j: number): any {
         }),
       ).annotate({ identifier: "InsightsRepositoryProject" });
     case 1:
-      return S.Array(__S(14272, __c446, 0));
+      return S.Array(__S(14368, __c449, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          mappings: __S(14273, __c446, 1),
+          mappings: __S(14369, __c449, 1),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -30223,19 +30412,19 @@ function __c446(j: number): any {
       return S.suspend(() =>
         S.Struct({
           totalCount: S.Number,
-          items: __S(14273, __c446, 1),
-          _links: S.optional(__S(14304, __c447, 0)),
+          items: __S(14369, __c449, 1),
+          _links: S.optional(__S(14400, __c450, 0)),
         }),
       ).annotate({ identifier: "InsightsRepositoryProjectCollection" });
   }
 }
-function __c447(j: number): any {
+function __c450(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, __S(14336, __c448, 0));
+      return S.Record(S.String, __S(14432, __c451, 0));
   }
 }
-function __c448(j: number): any {
+function __c451(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30246,7 +30435,7 @@ function __c448(j: number): any {
       ).annotate({ identifier: "Link" });
   }
 }
-function __c449(j: number): any {
+function __c452(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30265,13 +30454,13 @@ function __c449(j: number): any {
       ).annotate({ identifier: "DeleteBigSegmentStoreIntegrationRequest" });
   }
 }
-function __c450(j: number): any {
+function __c453(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           repo: S.String.pipe(T.Label()),
-          body: __S(15008, __c469, 0).pipe(T.HttpBody()),
+          body: __S(15104, __c472, 0).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "POST",
@@ -30282,7 +30471,7 @@ function __c450(j: number): any {
       ).annotate({ identifier: "DeleteBranchesRequest" });
   }
 }
-function __c451(j: number): any {
+function __c454(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30292,7 +30481,7 @@ function __c451(j: number): any {
       ).annotate({ identifier: "DeleteCustomRoleRequest" });
   }
 }
-function __c452(j: number): any {
+function __c455(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30310,7 +30499,7 @@ function __c452(j: number): any {
       ).annotate({ identifier: "DeleteDestinationRequest" });
   }
 }
-function __c453(j: number): any {
+function __c456(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30327,7 +30516,7 @@ function __c453(j: number): any {
       ).annotate({ identifier: "DeleteEnvironmentRequest" });
   }
 }
-function __c454(j: number): any {
+function __c457(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30344,7 +30533,7 @@ function __c454(j: number): any {
       ).annotate({ identifier: "DeleteFeatureFlagRequest" });
   }
 }
-function __c455(j: number): any {
+function __c458(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30363,7 +30552,7 @@ function __c455(j: number): any {
       ).annotate({ identifier: "DeleteFlagConfigScheduledChangesRequest" });
   }
 }
-function __c456(j: number): any {
+function __c459(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30382,7 +30571,7 @@ function __c456(j: number): any {
       ).annotate({ identifier: "DeleteFlagFollowerRequest" });
   }
 }
-function __c457(j: number): any {
+function __c460(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30400,7 +30589,7 @@ function __c457(j: number): any {
       ).annotate({ identifier: "DeleteFlagImportConfigurationRequest" });
   }
 }
-function __c458(j: number): any {
+function __c461(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30418,7 +30607,7 @@ function __c458(j: number): any {
       ).annotate({ identifier: "DeleteFlagLinkRequest" });
   }
 }
-function __c459(j: number): any {
+function __c462(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30432,11 +30621,11 @@ function __c459(j: number): any {
         S.Struct({
           projectKey: S.String.pipe(T.Label()),
           featureFlagKey: S.String.pipe(T.Label()),
-          source: __S(14688, __c459, 0),
-          target: __S(14688, __c459, 0),
+          source: __S(14784, __c462, 0),
+          target: __S(14784, __c462, 0),
           comment: S.optional(S.String),
-          includedActions: S.optional(__S(14784, __c462, 0)),
-          excludedActions: S.optional(__S(14784, __c462, 0)),
+          includedActions: S.optional(__S(14880, __c465, 0)),
+          excludedActions: S.optional(__S(14880, __c465, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -30447,7 +30636,7 @@ function __c459(j: number): any {
       ).annotate({ identifier: "CopyFeatureFlagRequest" });
   }
 }
-function __c460(j: number): any {
+function __c463(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30455,16 +30644,16 @@ function __c460(j: number): any {
           _id: S.optional(S.String),
           attribute: S.String,
           op: S.String,
-          values: __S(14816, __c463, 0),
+          values: __S(14912, __c466, 0),
           contextKind: S.optional(S.String),
           negate: S.Boolean,
         }),
       ).annotate({ identifier: "Clause" });
     case 1:
-      return S.Array(__S(14720, __c460, 0));
+      return S.Array(__S(14816, __c463, 0));
   }
 }
-function __c461(j: number): any {
+function __c464(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30477,31 +30666,31 @@ function __c461(j: number): any {
         }),
       ).annotate({ identifier: "Variation" });
     case 1:
-      return S.Array(__S(14752, __c461, 0));
+      return S.Array(__S(14848, __c464, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          value: __S(15008, __c469, 0),
+          value: __S(15104, __c472, 0),
         }),
       ).annotate({ identifier: "CustomProperty" });
     case 3:
-      return S.Record(S.String, __S(14754, __c461, 2));
+      return S.Record(S.String, __S(14850, __c464, 2));
   }
 }
-function __c462(j: number): any {
+function __c465(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c463(j: number): any {
+function __c466(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
   }
 }
-function __c464(j: number): any {
+function __c467(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30517,33 +30706,33 @@ function __c464(j: number): any {
           name: S.String,
           kind: S.String,
           _attachedFlagCount: S.optional(S.Number),
-          _links: __S(14304, __c447, 0),
-          _site: S.optional(__S(14336, __c448, 0)),
-          _access: S.optional(__S(14979, __c468, 3)),
-          tags: __S(15008, __c469, 0),
+          _links: __S(14400, __c450, 0),
+          _site: S.optional(__S(14432, __c451, 0)),
+          _access: S.optional(__S(15075, __c471, 3)),
+          tags: __S(15104, __c472, 0),
           _creationDate: S.Number,
-          lastModified: S.optional(__S(15136, __c473, 0)),
+          lastModified: S.optional(__S(15232, __c476, 0)),
           maintainerId: S.optional(S.String),
-          _maintainer: S.optional(__S(14912, __c466, 0)),
+          _maintainer: S.optional(__S(15008, __c469, 0)),
           description: S.optional(S.String),
           category: S.optional(S.String),
           isNumeric: S.optional(S.Boolean),
           successCriteria: S.optional(S.String),
           unit: S.optional(S.String),
           eventKey: S.optional(S.String),
-          randomizationUnits: S.optional(__S(15008, __c469, 0)),
-          analysisUnits: S.optional(__S(15008, __c469, 0)),
-          filters: S.optional(__S(15137, __c473, 1)),
+          randomizationUnits: S.optional(__S(15104, __c472, 0)),
+          analysisUnits: S.optional(__S(15104, __c472, 0)),
+          filters: S.optional(__S(15233, __c476, 1)),
           unitAggregationType: S.optional(S.String),
           analysisType: S.optional(S.String),
           percentileValue: S.optional(S.Number),
-          eventDefault: S.optional(__S(15138, __c473, 2)),
-          dataSource: __S(15139, __c473, 3),
+          eventDefault: S.optional(__S(15234, __c476, 2)),
+          dataSource: __S(15235, __c476, 3),
           lastSeen: S.optional(S.Number),
           archived: S.optional(S.Boolean),
           archivedAt: S.optional(S.Number),
           selector: S.optional(S.String),
-          urls: S.optional(__S(15072, __c471, 0)),
+          urls: S.optional(__S(15168, __c474, 0)),
           windowStartOffset: S.optional(S.Number),
           windowEndOffset: S.optional(S.Number),
           winsorLowerPercentile: S.optional(S.Number),
@@ -30552,37 +30741,37 @@ function __c464(j: number): any {
           traceQuery: S.optional(S.String),
           traceValueLocation: S.optional(S.String),
           unitAggregationField: S.optional(S.String),
-          denominator: S.optional(__S(15140, __c473, 4)),
+          denominator: S.optional(__S(15236, __c476, 4)),
         }),
       ).annotate({ identifier: "MetricListingRep" });
   }
 }
-function __c465(j: number): any {
+function __c468(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
           name: S.String,
-          _links: S.optional(__S(14304, __c447, 0)),
+          _links: S.optional(__S(14400, __c450, 0)),
         }),
       ).annotate({ identifier: "MaintainerTeam" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           metricKey: S.optional(S.String),
-          _metric: S.optional(__S(14848, __c464, 0)),
-          environments: S.optional(__S(15008, __c469, 0)),
-          _environmentSettings: S.optional(__S(15171, __c474, 3)),
+          _metric: S.optional(__S(14944, __c467, 0)),
+          environments: S.optional(__S(15104, __c472, 0)),
+          _environmentSettings: S.optional(__S(15267, __c477, 3)),
         }),
       ).annotate({ identifier: "LegacyExperimentRep" });
     case 2:
-      return S.Array(__S(14881, __c465, 1));
+      return S.Array(__S(14977, __c468, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           baselineIdx: S.Number,
-          items: __S(14882, __c465, 2),
+          items: __S(14978, __c468, 2),
         }),
       ).annotate({ identifier: "ExperimentInfoRep" });
     case 4:
@@ -30603,13 +30792,13 @@ function __c465(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          values: __S(15008, __c469, 0),
+          values: __S(15104, __c472, 0),
           variation: S.Number,
           contextKind: S.optional(S.String),
         }),
       ).annotate({ identifier: "Target" });
     case 7:
-      return S.Array(__S(14886, __c465, 6));
+      return S.Array(__S(14982, __c468, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -30619,7 +30808,7 @@ function __c465(j: number): any {
         }),
       ).annotate({ identifier: "WeightedVariation" });
     case 9:
-      return S.Array(__S(14888, __c465, 8));
+      return S.Array(__S(14984, __c468, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -30630,8 +30819,8 @@ function __c465(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          variations: __S(14889, __c465, 9),
-          experimentAllocation: S.optional(__S(14890, __c465, 10)),
+          variations: __S(14985, __c468, 9),
+          experimentAllocation: S.optional(__S(14986, __c468, 10)),
           seed: S.optional(S.Number),
           bucketBy: S.optional(S.String),
           contextKind: S.optional(S.String),
@@ -30643,20 +30832,20 @@ function __c465(j: number): any {
           _id: S.optional(S.String),
           disabled: S.optional(S.Boolean),
           variation: S.optional(S.Number),
-          rollout: S.optional(__S(14891, __c465, 11)),
-          clauses: __S(14721, __c460, 1),
+          rollout: S.optional(__S(14987, __c468, 11)),
+          clauses: __S(14817, __c463, 1),
           trackEvents: S.Boolean,
           description: S.optional(S.String),
           ref: S.optional(S.String),
         }),
       ).annotate({ identifier: "Rule" });
     case 13:
-      return S.Array(__S(14892, __c465, 12));
+      return S.Array(__S(14988, __c468, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
           variation: S.optional(S.Number),
-          rollout: S.optional(__S(14891, __c465, 11)),
+          rollout: S.optional(__S(14987, __c468, 11)),
         }),
       ).annotate({ identifier: "VariationOrRolloutRep" });
     case 15:
@@ -30667,7 +30856,7 @@ function __c465(j: number): any {
         }),
       ).annotate({ identifier: "Prerequisite" });
     case 16:
-      return S.Array(__S(14895, __c465, 15));
+      return S.Array(__S(14991, __c468, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
@@ -30682,18 +30871,18 @@ function __c465(j: number): any {
         }),
       ).annotate({ identifier: "VariationSummary" });
     case 18:
-      return S.Record(S.String, __S(14897, __c465, 17));
+      return S.Record(S.String, __S(14993, __c468, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
-          variations: __S(14898, __c465, 18),
+          variations: __S(14994, __c468, 18),
           prerequisites: S.Number,
         }),
       ).annotate({ identifier: "FlagSummary" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          contextKinds: S.optional(__S(15008, __c469, 0)),
+          contextKinds: S.optional(__S(15104, __c472, 0)),
         }),
       ).annotate({ identifier: "FlagConfigEvaluation" });
     case 21:
@@ -30711,25 +30900,25 @@ function __c465(j: number): any {
           sel: S.String,
           lastModified: S.Number,
           version: S.Number,
-          targets: S.optional(__S(14887, __c465, 7)),
-          contextTargets: S.optional(__S(14887, __c465, 7)),
-          rules: S.optional(__S(14893, __c465, 13)),
-          fallthrough: S.optional(__S(14894, __c465, 14)),
+          targets: S.optional(__S(14983, __c468, 7)),
+          contextTargets: S.optional(__S(14983, __c468, 7)),
+          rules: S.optional(__S(14989, __c468, 13)),
+          fallthrough: S.optional(__S(14990, __c468, 14)),
           offVariation: S.optional(S.Number),
-          prerequisites: S.optional(__S(14896, __c465, 16)),
-          _site: __S(14336, __c448, 0),
-          _access: S.optional(__S(14979, __c468, 3)),
+          prerequisites: S.optional(__S(14992, __c468, 16)),
+          _site: __S(14432, __c451, 0),
+          _access: S.optional(__S(15075, __c471, 3)),
           _environmentName: S.String,
           trackEvents: S.Boolean,
           trackEventsFallthrough: S.Boolean,
           _debugEventsUntilDate: S.optional(S.Number),
-          _summary: S.optional(__S(14899, __c465, 19)),
-          evaluation: S.optional(__S(14900, __c465, 20)),
-          migrationSettings: S.optional(__S(14901, __c465, 21)),
+          _summary: S.optional(__S(14995, __c468, 19)),
+          evaluation: S.optional(__S(14996, __c468, 20)),
+          migrationSettings: S.optional(__S(14997, __c468, 21)),
         }),
       ).annotate({ identifier: "FeatureFlagConfig" });
     case 23:
-      return S.Record(S.String, __S(14902, __c465, 22));
+      return S.Record(S.String, __S(14998, __c468, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
@@ -30740,37 +30929,37 @@ function __c465(j: number): any {
           _version: S.Number,
           creationDate: S.Number,
           includeInSnippet: S.optional(S.Boolean),
-          clientSideAvailability: S.optional(__S(14944, __c467, 0)),
-          variations: __S(14753, __c461, 1),
+          clientSideAvailability: S.optional(__S(15040, __c470, 0)),
+          variations: __S(14849, __c464, 1),
           temporary: S.Boolean,
-          tags: __S(15008, __c469, 0),
-          _links: __S(14304, __c447, 0),
+          tags: __S(15104, __c472, 0),
+          _links: __S(14400, __c450, 0),
           maintainerId: S.optional(S.String),
-          _maintainer: S.optional(__S(14912, __c466, 0)),
+          _maintainer: S.optional(__S(15008, __c469, 0)),
           maintainerTeamKey: S.optional(S.String),
-          _maintainerTeam: S.optional(__S(14880, __c465, 0)),
-          goalIds: S.optional(__S(15008, __c469, 0)),
-          experiments: __S(14883, __c465, 3),
-          customProperties: __S(14755, __c461, 3),
+          _maintainerTeam: S.optional(__S(14976, __c468, 0)),
+          goalIds: S.optional(__S(15104, __c472, 0)),
+          experiments: __S(14979, __c468, 3),
+          customProperties: __S(14851, __c464, 3),
           archived: S.Boolean,
           archivedDate: S.optional(S.Number),
           deprecated: S.optional(S.Boolean),
           deprecatedDate: S.optional(S.Number),
-          defaults: S.optional(__S(15104, __c472, 0)),
+          defaults: S.optional(__S(15200, __c475, 0)),
           _purpose: S.optional(S.String),
-          migrationSettings: S.optional(__S(14884, __c465, 4)),
-          stale: S.optional(__S(14885, __c465, 5)),
-          environments: S.optional(__S(14903, __c465, 23)),
+          migrationSettings: S.optional(__S(14980, __c468, 4)),
+          stale: S.optional(__S(14981, __c468, 5)),
+          environments: S.optional(__S(14999, __c468, 23)),
         }),
       ).annotate({ identifier: "FeatureFlag" });
   }
 }
-function __c466(j: number): any {
+function __c469(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(14304, __c447, 0),
+          _links: __S(14400, __c450, 0),
           _id: S.String,
           firstName: S.optional(S.String),
           lastName: S.optional(S.String),
@@ -30780,7 +30969,7 @@ function __c466(j: number): any {
       ).annotate({ identifier: "MemberSummary" });
   }
 }
-function __c467(j: number): any {
+function __c470(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30791,15 +30980,15 @@ function __c467(j: number): any {
       ).annotate({ identifier: "ClientSideAvailability" });
   }
 }
-function __c468(j: number): any {
+function __c471(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resources: S.optional(__S(15008, __c469, 0)),
-          notResources: S.optional(__S(15008, __c469, 0)),
-          actions: S.optional(__S(15008, __c469, 0)),
-          notActions: S.optional(__S(15008, __c469, 0)),
+          resources: S.optional(__S(15104, __c472, 0)),
+          notResources: S.optional(__S(15104, __c472, 0)),
+          actions: S.optional(__S(15104, __c472, 0)),
+          notActions: S.optional(__S(15104, __c472, 0)),
           effect: S.String,
           role_name: S.optional(S.String),
         }),
@@ -30808,39 +30997,39 @@ function __c468(j: number): any {
       return S.suspend(() =>
         S.Struct({
           action: S.String,
-          reason: __S(14976, __c468, 0),
+          reason: __S(15072, __c471, 0),
         }),
       ).annotate({ identifier: "AccessDenied" });
     case 2:
-      return S.Array(__S(14977, __c468, 1));
+      return S.Array(__S(15073, __c471, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          denied: __S(14978, __c468, 2),
-          allowed: __S(14978, __c468, 2),
+          denied: __S(15074, __c471, 2),
+          allowed: __S(15074, __c471, 2),
         }),
       ).annotate({ identifier: "Access" });
   }
 }
-function __c469(j: number): any {
+function __c472(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c470(j: number): any {
+function __c473(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c471(j: number): any {
+function __c474(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(15040, __c470, 0));
+      return S.Array(__S(15136, __c473, 0));
   }
 }
-function __c472(j: number): any {
+function __c475(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30851,7 +31040,7 @@ function __c472(j: number): any {
       ).annotate({ identifier: "Defaults" });
   }
 }
-function __c473(j: number): any {
+function __c476(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30865,7 +31054,7 @@ function __c473(j: number): any {
           type: S.String,
           attribute: S.optional(S.String),
           op: S.String,
-          values: __S(14816, __c463, 0),
+          values: __S(14912, __c466, 0),
           contextKind: S.optional(S.String),
           negate: S.Boolean,
         }),
@@ -30894,8 +31083,8 @@ function __c473(j: number): any {
           unitAggregationType: S.optional(S.String),
           unitAggregationField: S.optional(S.String),
           valueColumn: S.optional(S.String),
-          dataSource: S.optional(__S(15139, __c473, 3)),
-          filters: S.optional(__S(15137, __c473, 1)),
+          dataSource: S.optional(__S(15235, __c476, 3)),
+          filters: S.optional(__S(15233, __c476, 1)),
           windowStartOffset: S.optional(S.Number),
           windowEndOffset: S.optional(S.Number),
           winsorLowerPercentile: S.optional(S.Number),
@@ -30905,7 +31094,7 @@ function __c473(j: number): any {
       ).annotate({ identifier: "MetricDenominatorRep" });
   }
 }
-function __c474(j: number): any {
+function __c477(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30915,20 +31104,20 @@ function __c474(j: number): any {
         }),
       ).annotate({ identifier: "ExperimentEnabledPeriodRep" });
     case 1:
-      return S.Array(__S(15168, __c474, 0));
+      return S.Array(__S(15264, __c477, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           startDate: S.optional(S.Number),
           stopDate: S.optional(S.Number),
-          enabledPeriods: S.optional(__S(15169, __c474, 1)),
+          enabledPeriods: S.optional(__S(15265, __c477, 1)),
         }),
       ).annotate({ identifier: "ExperimentEnvironmentSettingRep" });
     case 3:
-      return S.Record(S.String, __S(15170, __c474, 2));
+      return S.Record(S.String, __S(15266, __c477, 2));
   }
 }
-function __c475(j: number): any {
+function __c478(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30944,7 +31133,7 @@ function __c475(j: number): any {
       ).annotate({ identifier: "DeleteInsightGroupRequest" });
   }
 }
-function __c476(j: number): any {
+function __c479(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30960,7 +31149,7 @@ function __c476(j: number): any {
       ).annotate({ identifier: "DeleteIntegrationConfigurationRequest" });
   }
 }
-function __c477(j: number): any {
+function __c480(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30979,7 +31168,7 @@ function __c477(j: number): any {
       ).annotate({ identifier: "DeleteIntegrationDeliveryConfigurationRequest" });
   }
 }
-function __c478(j: number): any {
+function __c481(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30989,7 +31178,7 @@ function __c478(j: number): any {
       ).annotate({ identifier: "DeleteIpAllowlistEntryRequest" });
   }
 }
-function __c479(j: number): any {
+function __c482(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30999,7 +31188,7 @@ function __c479(j: number): any {
       ).annotate({ identifier: "DeleteMemberRequest" });
   }
 }
-function __c480(j: number): any {
+function __c483(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31012,7 +31201,7 @@ function __c480(j: number): any {
       ).annotate({ identifier: "DeleteMetricRequest" });
   }
 }
-function __c481(j: number): any {
+function __c484(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31029,7 +31218,7 @@ function __c481(j: number): any {
       ).annotate({ identifier: "DeleteMetricGroupRequest" });
   }
 }
-function __c482(j: number): any {
+function __c485(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31046,7 +31235,7 @@ function __c482(j: number): any {
       ).annotate({ identifier: "DeleteModelConfigRequest" });
   }
 }
-function __c483(j: number): any {
+function __c486(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31056,7 +31245,7 @@ function __c483(j: number): any {
       ).annotate({ identifier: "DeleteOAuthClientRequest" });
   }
 }
-function __c484(j: number): any {
+function __c487(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31066,7 +31255,7 @@ function __c484(j: number): any {
       ).annotate({ identifier: "DeleteProjectRequest" });
   }
 }
-function __c485(j: number): any {
+function __c488(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31081,12 +31270,12 @@ function __c485(j: number): any {
       ).annotate({ identifier: "CreateAnnouncementPublicRequest" });
   }
 }
-function __c486(j: number): any {
+function __c489(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: __S(14336, __c448, 0),
+          parent: __S(14432, __c451, 0),
         }),
       ).annotate({ identifier: "AnnouncementResponseLinks" });
     case 1:
@@ -31100,13 +31289,13 @@ function __c486(j: number): any {
           endTime: S.optional(S.Number),
           severity: S.String,
           _status: S.String,
-          _access: S.optional(__S(14979, __c468, 3)),
-          _links: __S(15552, __c486, 0),
+          _access: S.optional(__S(15075, __c471, 3)),
+          _links: __S(15648, __c489, 0),
         }),
       ).annotate({ identifier: "AnnouncementResponse" });
   }
 }
-function __c487(j: number): any {
+function __c490(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31123,7 +31312,7 @@ function __c487(j: number): any {
       ).annotate({ identifier: "DeletePromptSnippetRequest" });
   }
 }
-function __c488(j: number): any {
+function __c491(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31135,7 +31324,7 @@ function __c488(j: number): any {
       ).annotate({ identifier: "DeleteRelayAutoConfigRequest" });
   }
 }
-function __c489(j: number): any {
+function __c492(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31152,7 +31341,7 @@ function __c489(j: number): any {
       ).annotate({ identifier: "DeleteReleasePolicyRequest" });
   }
 }
-function __c490(j: number): any {
+function __c493(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31164,7 +31353,7 @@ function __c490(j: number): any {
       ).annotate({ identifier: "DeleteRepositoryRequest" });
   }
 }
-function __c491(j: number): any {
+function __c494(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31181,13 +31370,13 @@ function __c491(j: number): any {
       ).annotate({ identifier: "DeleteRepositoryProjectRequest" });
   }
 }
-function __c492(j: number): any {
+function __c495(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectKey: S.String.pipe(T.Label()),
-          keys: __S(15008, __c469, 0),
+          keys: __S(15104, __c472, 0),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -31198,7 +31387,7 @@ function __c492(j: number): any {
       ).annotate({ identifier: "DeleteRestrictedModelsRequest" });
   }
 }
-function __c493(j: number): any {
+function __c496(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31216,7 +31405,7 @@ function __c493(j: number): any {
       ).annotate({ identifier: "DeleteSdkKeyByKeyRequest" });
   }
 }
-function __c494(j: number): any {
+function __c497(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31234,7 +31423,7 @@ function __c494(j: number): any {
       ).annotate({ identifier: "DeleteSegmentRequest" });
   }
 }
-function __c495(j: number): any {
+function __c498(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31253,7 +31442,7 @@ function __c495(j: number): any {
       ).annotate({ identifier: "DeleteSegmentScheduledChangeRequest" });
   }
 }
-function __c496(j: number): any {
+function __c499(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31270,7 +31459,7 @@ function __c496(j: number): any {
       ).annotate({ identifier: "DeleteSubscriptionRequest" });
   }
 }
-function __c497(j: number): any {
+function __c500(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31278,15 +31467,15 @@ function __c497(j: number): any {
           resourceId: S.String,
           comment: S.optional(S.String),
           description: S.String,
-          instructions: __S(15072, __c471, 0),
-          notifyMemberIds: S.optional(__S(15008, __c469, 0)),
-          notifyTeamKeys: S.optional(__S(15008, __c469, 0)),
-          integrationConfig: S.optional(__S(15040, __c470, 0)),
+          instructions: __S(15168, __c474, 0),
+          notifyMemberIds: S.optional(__S(15104, __c472, 0)),
+          notifyTeamKeys: S.optional(__S(15104, __c472, 0)),
+          integrationConfig: S.optional(__S(15136, __c473, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v2/approval-requests", code: 200 })),
       ).annotate({ identifier: "CreateApprovalRequestRequest" });
   }
 }
-function __c498(j: number): any {
+function __c501(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31298,28 +31487,28 @@ function __c498(j: number): any {
           requestorId: S.optional(S.String),
           description: S.optional(S.String),
           reviewStatus: S.String,
-          allReviews: __S(15969, __c499, 1),
-          notifyMemberIds: __S(15008, __c469, 0),
-          notifyTeamKeys: S.optional(__S(15008, __c469, 0)),
+          allReviews: __S(16065, __c502, 1),
+          notifyMemberIds: __S(15104, __c472, 0),
+          notifyTeamKeys: S.optional(__S(15104, __c472, 0)),
           appliedDate: S.optional(S.Number),
           appliedByMemberId: S.optional(S.String),
           appliedByServiceTokenId: S.optional(S.String),
           status: S.String,
-          instructions: __S(15072, __c471, 0),
-          conflicts: __S(15971, __c499, 3),
-          _links: __S(15040, __c470, 0),
+          instructions: __S(15168, __c474, 0),
+          conflicts: __S(16067, __c502, 3),
+          _links: __S(15136, __c473, 0),
           executionDate: S.optional(S.Number),
           operatingOnId: S.optional(S.String),
-          integrationMetadata: S.optional(__S(16033, __c501, 1)),
-          source: S.optional(__S(15972, __c499, 4)),
-          customWorkflowMetadata: S.optional(__S(15974, __c499, 6)),
+          integrationMetadata: S.optional(__S(16129, __c504, 1)),
+          source: S.optional(__S(16068, __c502, 4)),
+          customWorkflowMetadata: S.optional(__S(16070, __c502, 6)),
           resourceId: S.optional(S.String),
-          approvalSettings: S.optional(__S(16000, __c500, 0)),
+          approvalSettings: S.optional(__S(16096, __c503, 0)),
         }),
       ).annotate({ identifier: "ApprovalRequestResponse" });
   }
 }
-function __c499(j: number): any {
+function __c502(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31333,16 +31522,16 @@ function __c499(j: number): any {
         }),
       ).annotate({ identifier: "ReviewResponse" });
     case 1:
-      return S.Array(__S(15968, __c499, 0));
+      return S.Array(__S(16064, __c502, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          instruction: S.optional(__S(15040, __c470, 0)),
+          instruction: S.optional(__S(15136, __c473, 0)),
           reason: S.optional(S.String),
         }),
       ).annotate({ identifier: "Conflict2" });
     case 3:
-      return S.Array(__S(15970, __c499, 2));
+      return S.Array(__S(16066, __c502, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -31361,12 +31550,12 @@ function __c499(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          stage: S.optional(__S(15973, __c499, 5)),
+          stage: S.optional(__S(16069, __c502, 5)),
         }),
       ).annotate({ identifier: "CustomWorkflowMeta" });
   }
 }
-function __c500(j: number): any {
+function __c503(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31378,14 +31567,14 @@ function __c500(j: number): any {
           canApplyDeclinedChanges: S.Boolean,
           autoApplyApprovedChanges: S.optional(S.Boolean),
           serviceKind: S.String,
-          serviceConfig: __S(15040, __c470, 0),
-          requiredApprovalTags: __S(15008, __c469, 0),
+          serviceConfig: __S(15136, __c473, 0),
+          requiredApprovalTags: __S(15104, __c472, 0),
           serviceKindConfigurationId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApprovalSettings" });
   }
 }
-function __c501(j: number): any {
+function __c504(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31398,14 +31587,14 @@ function __c501(j: number): any {
       return S.suspend(() =>
         S.Struct({
           externalId: S.String,
-          externalStatus: __S(16032, __c501, 0),
+          externalStatus: __S(16128, __c504, 0),
           externalUrl: S.String,
           lastChecked: S.Number,
         }),
       ).annotate({ identifier: "IntegrationMetadata" });
   }
 }
-function __c502(j: number): any {
+function __c505(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31415,7 +31604,7 @@ function __c502(j: number): any {
       ).annotate({ identifier: "DeleteTeamRequest" });
   }
 }
-function __c503(j: number): any {
+function __c506(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31425,7 +31614,7 @@ function __c503(j: number): any {
       ).annotate({ identifier: "DeleteTokenRequest" });
   }
 }
-function __c504(j: number): any {
+function __c507(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31444,7 +31633,7 @@ function __c504(j: number): any {
       ).annotate({ identifier: "DeleteTriggerWorkflowRequest" });
   }
 }
-function __c505(j: number): any {
+function __c508(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31461,7 +31650,7 @@ function __c505(j: number): any {
       ).annotate({ identifier: "DeleteViewRequest" });
   }
 }
-function __c506(j: number): any {
+function __c509(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31471,7 +31660,7 @@ function __c506(j: number): any {
       ).annotate({ identifier: "DeleteWebhookRequest" });
   }
 }
-function __c507(j: number): any {
+function __c510(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31490,7 +31679,7 @@ function __c507(j: number): any {
       ).annotate({ identifier: "DeleteWorkflowRequest" });
   }
 }
-function __c508(j: number): any {
+function __c511(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31500,7 +31689,7 @@ function __c508(j: number): any {
       ).annotate({ identifier: "DeleteWorkflowTemplateRequest" });
   }
 }
-function __c509(j: number): any {
+function __c512(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31511,7 +31700,7 @@ function __c509(j: number): any {
           offset: S.optional(S.Number.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          body: __S(15040, __c470, 0).pipe(T.HttpBody()),
+          body: __S(15136, __c473, 0).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "POST",
@@ -31537,23 +31726,23 @@ function __c509(j: number): any {
           name: S.String,
           key: S.String,
           _value: S.Unknown,
-          reason: S.optional(__S(16289, __c509, 1)),
-          _links: __S(14304, __c447, 0),
+          reason: S.optional(__S(16385, __c512, 1)),
+          _links: __S(14400, __c450, 0),
         }),
       ).annotate({ identifier: "ContextInstanceEvaluation" });
     case 3:
-      return S.Array(__S(16290, __c509, 2));
+      return S.Array(__S(16386, __c512, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          items: __S(16291, __c509, 3),
+          items: __S(16387, __c512, 3),
           totalCount: S.optional(S.Number),
-          _links: __S(14304, __c447, 0),
+          _links: __S(14400, __c450, 0),
         }),
       ).annotate({ identifier: "ContextInstanceEvaluations" });
   }
 }
-function __c510(j: number): any {
+function __c513(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31571,7 +31760,7 @@ function __c510(j: number): any {
       ).annotate({ identifier: "GetAdaptiveTriggerRequest" });
   }
 }
-function __c511(j: number): any {
+function __c514(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31589,11 +31778,11 @@ function __c511(j: number): any {
         }),
       ).annotate({ identifier: "AdaptiveTriggerInstruction" });
     case 2:
-      return S.Array(__S(16353, __c511, 1));
+      return S.Array(__S(16449, __c514, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          instructions: __S(16354, __c511, 2),
+          instructions: __S(16450, __c514, 2),
         }),
       ).annotate({ identifier: "AdaptiveTriggerTask" });
     case 4:
@@ -31604,15 +31793,15 @@ function __c511(j: number): any {
           resourceKind: S.String,
           resourceKey: S.String,
           enabled: S.Boolean,
-          triggerSource: __S(16352, __c511, 0),
-          task: __S(16355, __c511, 3),
+          triggerSource: __S(16448, __c514, 0),
+          task: __S(16451, __c514, 3),
           createdAt: S.Number,
           updatedAt: S.Number,
         }),
       ).annotate({ identifier: "AdaptiveTrigger" });
   }
 }
-function __c512(j: number): any {
+function __c515(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31629,7 +31818,7 @@ function __c512(j: number): any {
       ).annotate({ identifier: "GetAgentGraphRequest" });
   }
 }
-function __c513(j: number): any {
+function __c516(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31641,25 +31830,25 @@ function __c513(j: number): any {
         }),
       ).annotate({ identifier: "AgentGraphEdge" });
     case 1:
-      return S.Array(__S(16416, __c513, 0));
+      return S.Array(__S(16512, __c516, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _access: S.optional(__S(14979, __c468, 3)),
-          _site: S.optional(__S(11872, __c371, 0)),
+          _access: S.optional(__S(15075, __c471, 3)),
+          _site: S.optional(__S(11968, __c374, 0)),
           key: S.String,
           name: S.String,
           description: S.optional(S.String),
           _maintainer: S.optional(S.Unknown),
           rootConfigKey: S.optional(S.String),
-          edges: S.optional(__S(16417, __c513, 1)),
+          edges: S.optional(__S(16513, __c516, 1)),
           createdAt: S.Number,
           updatedAt: S.Number,
         }),
       ).annotate({ identifier: "AgentGraph" });
   }
 }
-function __c514(j: number): any {
+function __c517(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31670,7 +31859,7 @@ function __c514(j: number): any {
       ).annotate({ identifier: "CreateApprovalRequestApplyRequest" });
   }
 }
-function __c515(j: number): any {
+function __c518(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31687,7 +31876,7 @@ function __c515(j: number): any {
       ).annotate({ identifier: "GetAgentOptimizationRequest" });
   }
 }
-function __c516(j: number): any {
+function __c519(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31697,7 +31886,7 @@ function __c516(j: number): any {
         }),
       ).annotate({ identifier: "AgentOptimizationAcceptanceStatement" });
     case 1:
-      return S.Array(__S(16512, __c516, 0));
+      return S.Array(__S(16608, __c519, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -31706,23 +31895,23 @@ function __c516(j: number): any {
         }),
       ).annotate({ identifier: "AgentOptimizationJudge" });
     case 3:
-      return S.Array(__S(16514, __c516, 2));
+      return S.Array(__S(16610, __c519, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          _access: S.optional(__S(14979, __c468, 3)),
-          _links: S.optional(__S(11904, __c372, 0)),
+          _access: S.optional(__S(15075, __c471, 3)),
+          _links: S.optional(__S(12000, __c375, 0)),
           id: S.String,
           key: S.String,
           aiConfigKey: S.String,
           maxAttempts: S.Number,
-          modelChoices: __S(15008, __c469, 0),
+          modelChoices: __S(15104, __c472, 0),
           judgeModel: S.String,
-          variableChoices: __S(15072, __c471, 0),
-          acceptanceStatements: __S(16513, __c516, 1),
-          judges: __S(16515, __c516, 3),
-          userInputOptions: __S(15008, __c469, 0),
-          groundTruthResponses: __S(15008, __c469, 0),
+          variableChoices: __S(15168, __c474, 0),
+          acceptanceStatements: __S(16609, __c519, 1),
+          judges: __S(16611, __c519, 3),
+          userInputOptions: __S(15104, __c472, 0),
+          groundTruthResponses: __S(15104, __c472, 0),
           metricKey: S.optional(S.String),
           tokenLimit: S.optional(S.Number),
           variationKey: S.optional(S.String),
@@ -31736,7 +31925,7 @@ function __c516(j: number): any {
       ).annotate({ identifier: "AgentOptimization" });
   }
 }
-function __c517(j: number): any {
+function __c520(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31753,26 +31942,26 @@ function __c517(j: number): any {
       ).annotate({ identifier: "GetAgentSkillRequest" });
   }
 }
-function __c518(j: number): any {
+function __c521(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
-          _access: S.optional(__S(14979, __c468, 3)),
-          _links: S.optional(__S(11904, __c372, 0)),
+          _access: S.optional(__S(15075, __c471, 3)),
+          _links: S.optional(__S(12000, __c375, 0)),
           _maintainer: S.optional(S.Unknown),
           name: S.String,
           description: S.optional(S.String),
           markdown: S.String,
-          tags: __S(15008, __c469, 0),
+          tags: __S(15104, __c472, 0),
           version: S.Number,
           createdAt: S.Number,
         }),
       ).annotate({ identifier: "AgentSkill" });
   }
 }
-function __c519(j: number): any {
+function __c522(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31789,7 +31978,7 @@ function __c519(j: number): any {
       ).annotate({ identifier: "GetAIConfigRequest" });
   }
 }
-function __c520(j: number): any {
+function __c523(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31799,37 +31988,37 @@ function __c520(j: number): any {
         }),
       ).annotate({ identifier: "AIConfigDependency" });
     case 1:
-      return S.Array(__S(16640, __c520, 0));
+      return S.Array(__S(16736, __c523, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _access: S.optional(__S(14979, __c468, 3)),
-          _links: S.optional(__S(11904, __c372, 0)),
-          _site: S.optional(__S(11872, __c371, 0)),
+          _access: S.optional(__S(15075, __c471, 3)),
+          _links: S.optional(__S(12000, __c375, 0)),
+          _site: S.optional(__S(11968, __c374, 0)),
           description: S.String,
           key: S.String,
           _maintainer: S.optional(S.Unknown),
           mode: S.optional(S.String),
           name: S.String,
-          tags: __S(15008, __c469, 0),
+          tags: __S(15104, __c472, 0),
           version: S.Number,
-          variations: __S(16704, __c522, 0),
+          variations: __S(16800, __c525, 0),
           createdAt: S.Number,
           updatedAt: S.Number,
           evaluationMetricKey: S.optional(S.String),
-          evaluationMetricKeys: S.optional(__S(15008, __c469, 0)),
+          evaluationMetricKeys: S.optional(__S(15104, __c472, 0)),
           isInverted: S.optional(S.Boolean),
-          dependencies: S.optional(__S(16641, __c520, 1)),
+          dependencies: S.optional(__S(16737, __c523, 1)),
         }),
       ).annotate({ identifier: "AIConfig" });
   }
 }
-function __c521(j: number): any {
+function __c524(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: __S(11872, __c371, 0),
+          parent: __S(11968, __c374, 0),
         }),
       ).annotate({ identifier: "ParentLink" });
     case 1:
@@ -31842,7 +32031,7 @@ function __c521(j: number): any {
         }),
       ).annotate({ identifier: "Classifier" });
     case 2:
-      return S.Array(__S(16673, __c521, 1));
+      return S.Array(__S(16769, __c524, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -31851,17 +32040,17 @@ function __c521(j: number): any {
         }),
       ).annotate({ identifier: "Message" });
     case 4:
-      return S.Array(__S(16675, __c521, 3));
+      return S.Array(__S(16771, __c524, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
           version: S.Number,
-          customParameters: S.optional(__S(15040, __c470, 0)),
+          customParameters: S.optional(__S(15136, __c473, 0)),
         }),
       ).annotate({ identifier: "VariationTool" });
     case 6:
-      return S.Array(__S(16677, __c521, 5));
+      return S.Array(__S(16773, __c524, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -31870,7 +32059,7 @@ function __c521(j: number): any {
         }),
       ).annotate({ identifier: "VariationSkill" });
     case 8:
-      return S.Array(__S(16679, __c521, 7));
+      return S.Array(__S(16775, __c524, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -31879,50 +32068,50 @@ function __c521(j: number): any {
         }),
       ).annotate({ identifier: "JudgeAttachment" });
     case 10:
-      return S.Array(__S(16681, __c521, 9));
+      return S.Array(__S(16777, __c524, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          judges: S.optional(__S(16682, __c521, 10)),
+          judges: S.optional(__S(16778, __c524, 10)),
         }),
       ).annotate({ identifier: "JudgeConfiguration" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(16672, __c521, 0)),
+          _links: S.optional(__S(16768, __c524, 0)),
           color: S.optional(S.String),
-          classifiers: S.optional(__S(16674, __c521, 2)),
+          classifiers: S.optional(__S(16770, __c524, 2)),
           comment: S.optional(S.String),
           description: S.optional(S.String),
           instructions: S.optional(S.String),
           key: S.String,
           _id: S.String,
-          messages: S.optional(__S(16676, __c521, 4)),
+          messages: S.optional(__S(16772, __c524, 4)),
           model: S.Unknown,
           modelConfigKey: S.optional(S.String),
           modelConfigVersion: S.optional(S.Number),
           name: S.String,
-          outputFormat: S.optional(__S(15040, __c470, 0)),
+          outputFormat: S.optional(__S(15136, __c473, 0)),
           createdAt: S.Number,
           version: S.Number,
           state: S.optional(S.String),
           _archivedAt: S.optional(S.Number),
           _publishedAt: S.optional(S.Number),
-          tools: S.optional(__S(16678, __c521, 6)),
-          skills: S.optional(__S(16680, __c521, 8)),
-          judgeConfiguration: S.optional(__S(16683, __c521, 11)),
-          judgingConfigKeys: S.optional(__S(15008, __c469, 0)),
+          tools: S.optional(__S(16774, __c524, 6)),
+          skills: S.optional(__S(16776, __c524, 8)),
+          judgeConfiguration: S.optional(__S(16779, __c524, 11)),
+          judgingConfigKeys: S.optional(__S(15104, __c472, 0)),
         }),
       ).annotate({ identifier: "AIConfigVariation" });
   }
 }
-function __c522(j: number): any {
+function __c525(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(16684, __c521, 12));
+      return S.Array(__S(16780, __c524, 12));
   }
 }
-function __c523(j: number): any {
+function __c526(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31944,7 +32133,7 @@ function __c523(j: number): any {
       ).annotate({ identifier: "GetAIConfigMetricsRequest" });
   }
 }
-function __c524(j: number): any {
+function __c527(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31955,7 +32144,7 @@ function __c524(j: number): any {
         }),
       ).annotate({ identifier: "JudgeScore" });
     case 1:
-      return S.Array(__S(16768, __c524, 0));
+      return S.Array(__S(16864, __c527, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -31975,12 +32164,12 @@ function __c524(j: number): any {
           judgeAccuracy: S.optional(S.Number),
           judgeRelevance: S.optional(S.Number),
           judgeToxicity: S.optional(S.Number),
-          judgeScores: S.optional(__S(16769, __c524, 1)),
+          judgeScores: S.optional(__S(16865, __c527, 1)),
         }),
       ).annotate({ identifier: "Metrics" });
   }
 }
-function __c525(j: number): any {
+function __c528(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32004,18 +32193,18 @@ function __c525(j: number): any {
       return S.suspend(() =>
         S.Struct({
           variationKey: S.optional(S.String),
-          metrics: S.optional(__S(16770, __c524, 2)),
+          metrics: S.optional(__S(16866, __c527, 2)),
         }),
       ).annotate({ identifier: "MetricByVariation" });
     case 2:
-      return S.Array(__S(16801, __c525, 1));
+      return S.Array(__S(16897, __c528, 1));
     case 3:
-      return S.suspend(() => __S(16802, __c525, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(16898, __c528, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetAIConfigMetricsByVariationResponse",
       });
   }
 }
-function __c526(j: number): any {
+function __c529(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32041,7 +32230,7 @@ function __c526(j: number): any {
       ).annotate({ identifier: "QuickStats" });
   }
 }
-function __c527(j: number): any {
+function __c530(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32056,32 +32245,32 @@ function __c527(j: number): any {
         ),
       ).annotate({ identifier: "GetAIConfigsRequest" });
     case 1:
-      return S.Array(__S(16642, __c520, 2));
+      return S.Array(__S(16738, __c523, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(16896, __c528, 0)),
-          items: __S(16865, __c527, 1),
+          _links: S.optional(__S(16992, __c531, 0)),
+          items: __S(16961, __c530, 1),
           totalCount: S.Number,
         }),
       ).annotate({ identifier: "AIConfigs" });
   }
 }
-function __c528(j: number): any {
+function __c531(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          first: S.optional(__S(14336, __c448, 0)),
-          last: S.optional(__S(14336, __c448, 0)),
-          next: S.optional(__S(14336, __c448, 0)),
-          prev: S.optional(__S(14336, __c448, 0)),
-          self: __S(14336, __c448, 0),
+          first: S.optional(__S(14432, __c451, 0)),
+          last: S.optional(__S(14432, __c451, 0)),
+          next: S.optional(__S(14432, __c451, 0)),
+          prev: S.optional(__S(14432, __c451, 0)),
+          self: __S(14432, __c451, 0),
         }),
       ).annotate({ identifier: "PaginatedLinks" });
   }
 }
-function __c529(j: number): any {
+function __c532(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32098,7 +32287,7 @@ function __c529(j: number): any {
       ).annotate({ identifier: "GetAIConfigTargetingRequest" });
   }
 }
-function __c530(j: number): any {
+function __c533(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32116,33 +32305,33 @@ function __c530(j: number): any {
           name: S.String,
           kind: S.String,
           _attachedFlagCount: S.optional(S.Number),
-          _links: __S(14304, __c447, 0),
-          _site: S.optional(__S(14336, __c448, 0)),
-          _access: S.optional(__S(14979, __c468, 3)),
-          tags: __S(15008, __c469, 0),
+          _links: __S(14400, __c450, 0),
+          _site: S.optional(__S(14432, __c451, 0)),
+          _access: S.optional(__S(15075, __c471, 3)),
+          tags: __S(15104, __c472, 0),
           _creationDate: S.Number,
-          lastModified: S.optional(__S(15136, __c473, 0)),
+          lastModified: S.optional(__S(15232, __c476, 0)),
           maintainerId: S.optional(S.String),
-          _maintainer: S.optional(__S(14912, __c466, 0)),
+          _maintainer: S.optional(__S(15008, __c469, 0)),
           description: S.optional(S.String),
           category: S.optional(S.String),
           isNumeric: S.optional(S.Boolean),
           successCriteria: S.optional(S.String),
           unit: S.optional(S.String),
           eventKey: S.optional(S.String),
-          randomizationUnits: S.optional(__S(15008, __c469, 0)),
-          analysisUnits: S.optional(__S(15008, __c469, 0)),
-          filters: S.optional(__S(15137, __c473, 1)),
+          randomizationUnits: S.optional(__S(15104, __c472, 0)),
+          analysisUnits: S.optional(__S(15104, __c472, 0)),
+          filters: S.optional(__S(15233, __c476, 1)),
           unitAggregationType: S.optional(S.String),
           analysisType: S.optional(S.String),
           percentileValue: S.optional(S.Number),
-          eventDefault: S.optional(__S(15138, __c473, 2)),
-          dataSource: __S(15139, __c473, 3),
+          eventDefault: S.optional(__S(15234, __c476, 2)),
+          dataSource: __S(15235, __c476, 3),
           lastSeen: S.optional(S.Number),
           archived: S.optional(S.Boolean),
           archivedAt: S.optional(S.Number),
           selector: S.optional(S.String),
-          urls: S.optional(__S(15072, __c471, 0)),
+          urls: S.optional(__S(15168, __c474, 0)),
           windowStartOffset: S.optional(S.Number),
           windowEndOffset: S.optional(S.Number),
           winsorLowerPercentile: S.optional(S.Number),
@@ -32151,23 +32340,23 @@ function __c530(j: number): any {
           traceQuery: S.optional(S.String),
           traceValueLocation: S.optional(S.String),
           unitAggregationField: S.optional(S.String),
-          denominator: S.optional(__S(15140, __c473, 4)),
+          denominator: S.optional(__S(15236, __c476, 4)),
         }),
       ).annotate({ identifier: "AiConfigsMetricListingRep" });
   }
 }
-function __c531(j: number): any {
+function __c534(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           contextKind: S.String,
-          values: __S(15008, __c469, 0),
+          values: __S(15104, __c472, 0),
           variation: S.Number,
         }),
       ).annotate({ identifier: "AIConfigTargetingEnvironmentTarget" });
     case 1:
-      return S.Array(__S(16992, __c531, 0));
+      return S.Array(__S(17088, __c534, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -32187,22 +32376,22 @@ function __c531(j: number): any {
         }),
       ).annotate({ identifier: "AIConfigTargetingEnvironmentFallthroughRolloutVariation" });
     case 4:
-      return S.Array(__S(16995, __c531, 3));
+      return S.Array(__S(17091, __c534, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           bucketBy: S.optional(S.String),
           contextKind: S.String,
-          experimentAllocation: S.optional(__S(16994, __c531, 2)),
+          experimentAllocation: S.optional(__S(17090, __c534, 2)),
           seed: S.optional(S.Number),
-          variations: __S(16996, __c531, 4),
+          variations: __S(17092, __c534, 4),
         }),
       ).annotate({ identifier: "AIConfigTargetingEnvironmentFallthroughRollout" });
     case 6:
       return S.suspend(() =>
         S.Struct({
           variation: S.optional(S.Number),
-          rollout: S.optional(__S(16997, __c531, 5)),
+          rollout: S.optional(__S(17093, __c534, 5)),
         }),
       ).annotate({ identifier: "AIConfigTargetingEnvironmentFallthrough" });
     case 7:
@@ -32212,31 +32401,31 @@ function __c531(j: number): any {
           id: S.String,
           negate: S.Boolean,
           op: S.String,
-          values: __S(14816, __c463, 0),
+          values: __S(14912, __c466, 0),
         }),
       ).annotate({ identifier: "AIConfigTargetingEnvironmentRuleClause" });
     case 8:
-      return S.Array(__S(16999, __c531, 7));
+      return S.Array(__S(17095, __c534, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           _id: S.String,
-          clauses: __S(17000, __c531, 8),
+          clauses: __S(17096, __c534, 8),
           trackEvents: S.Boolean,
         }),
       ).annotate({ identifier: "AIConfigTargetingEnvironmentRule" });
     case 10:
-      return S.Array(__S(17001, __c531, 9));
+      return S.Array(__S(17097, __c534, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          contextTargets: __S(16993, __c531, 1),
+          contextTargets: __S(17089, __c534, 1),
           enabled: S.Boolean,
-          fallthrough: __S(16998, __c531, 6),
+          fallthrough: __S(17094, __c534, 6),
           lastModified: S.Number,
           offVariation: S.optional(S.Number),
-          rules: __S(17002, __c531, 10),
-          targets: __S(16993, __c531, 1),
+          rules: __S(17098, __c534, 10),
+          targets: __S(17089, __c534, 1),
           trackEvents: S.Boolean,
           trackEventsFallthrough: S.Boolean,
           _environmentName: S.String,
@@ -32244,23 +32433,23 @@ function __c531(j: number): any {
         }),
       ).annotate({ identifier: "AIConfigTargetingEnvironment" });
     case 12:
-      return S.Record(S.String, __S(17003, __c531, 11));
+      return S.Record(S.String, __S(17099, __c534, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
           metricKey: S.optional(S.String),
-          _metric: S.optional(__S(16960, __c530, 0)),
-          environments: S.optional(__S(15008, __c469, 0)),
-          _environmentSettings: S.optional(__S(15171, __c474, 3)),
+          _metric: S.optional(__S(17056, __c533, 0)),
+          environments: S.optional(__S(15104, __c472, 0)),
+          _environmentSettings: S.optional(__S(15267, __c477, 3)),
         }),
       ).annotate({ identifier: "AiConfigsLegacyExperimentRep" });
     case 14:
-      return S.Array(__S(17005, __c531, 13));
+      return S.Array(__S(17101, __c534, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
           baselineIdx: S.Number,
-          items: __S(17006, __c531, 14),
+          items: __S(17102, __c534, 14),
         }),
       ).annotate({ identifier: "AiConfigsExperimentInfoRep" });
     case 16:
@@ -32273,24 +32462,24 @@ function __c531(j: number): any {
         }),
       ).annotate({ identifier: "AIConfigTargetingVariation" });
     case 17:
-      return S.Array(__S(17008, __c531, 16));
+      return S.Array(__S(17104, __c534, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
           createdAt: S.Number,
-          defaults: S.optional(__S(15104, __c472, 0)),
-          environments: __S(17004, __c531, 12),
-          experiments: __S(17007, __c531, 15),
+          defaults: S.optional(__S(15200, __c475, 0)),
+          environments: __S(17100, __c534, 12),
+          experiments: __S(17103, __c534, 15),
           key: S.String,
           name: S.String,
-          tags: __S(15008, __c469, 0),
-          variations: __S(17009, __c531, 17),
+          tags: __S(15104, __c472, 0),
+          variations: __S(17105, __c534, 17),
           _version: S.Number,
         }),
       ).annotate({ identifier: "AIConfigTargeting" });
   }
 }
-function __c532(j: number): any {
+function __c535(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32309,13 +32498,13 @@ function __c532(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          items: __S(16704, __c522, 0),
+          items: __S(16800, __c525, 0),
           totalCount: S.Number,
         }),
       ).annotate({ identifier: "AIConfigVariationsResponse" });
   }
 }
-function __c533(j: number): any {
+function __c536(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32334,22 +32523,22 @@ function __c533(j: number): any {
       ).annotate({ identifier: "GetAIRunsUsageRequest" });
   }
 }
-function __c534(j: number): any {
+function __c537(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Number);
     case 1:
-      return S.Array(__S(17088, __c534, 0));
+      return S.Array(__S(17184, __c537, 0));
   }
 }
-function __c535(j: number): any {
+function __c538(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(15040, __c470, 0),
-          metadata: __S(15072, __c471, 0),
-          series: __S(17089, __c534, 1),
+          _links: __S(15136, __c473, 0),
+          metadata: __S(15168, __c474, 0),
+          series: __S(17185, __c537, 1),
         }),
       ).annotate({ identifier: "SeriesListRep" });
   }

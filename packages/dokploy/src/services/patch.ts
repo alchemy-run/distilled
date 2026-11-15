@@ -29,33 +29,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorBADREQUEST | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorFORBIDDEN | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorNOTFOUND | string;
+}
 
 export interface CleanPatchReposRequest {
   serverId?: string | undefined;
@@ -138,6 +153,44 @@ export interface UpdatePatchRequest {
   updatedAt?: string | null | undefined;
 }
 export type UpdatePatchResponse = unknown;
+export interface ErrorBADREQUESTIssuesItem {
+  message: string;
+}
+/** An array of issues that were responsible for the error */
+export type ErrorBADREQUESTIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorBADREQUEST {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorBADREQUESTIssuesList | undefined;
+}
+export type ErrorFORBIDDENIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorFORBIDDENIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorFORBIDDEN {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorFORBIDDENIssuesList | undefined;
+}
+export type ErrorNOTFOUNDIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorNOTFOUNDIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorNOTFOUND {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorNOTFOUNDIssuesList | undefined;
+}
 export type CleanPatchReposError = BadRequest | Forbidden | DokployOpError;
 export const cleanPatchRepos: API.OperationMethod<
   CleanPatchReposRequest,
@@ -145,8 +198,8 @@ export const cleanPatchRepos: API.OperationMethod<
   CleanPatchReposError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10, __c5, 0) as any as S.Schema<CleanPatchReposRequest>,
-  output: __S(12, __c6, 0) as any as S.Schema<CleanPatchReposResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<CleanPatchReposRequest>,
+  output: __S(28, __c7, 0) as any as S.Schema<CleanPatchReposResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -161,8 +214,8 @@ export const createPatch: API.OperationMethod<
   CreatePatchError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14, __c7, 0) as any as S.Schema<CreatePatchRequest>,
-  output: __S(12, __c6, 0) as any as S.Schema<CreatePatchResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<CreatePatchRequest>,
+  output: __S(28, __c7, 0) as any as S.Schema<CreatePatchResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -177,8 +230,8 @@ export const deletePatch: API.OperationMethod<
   DeletePatchError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c8, 0) as any as S.Schema<DeletePatchRequest>,
-  output: __S(12, __c6, 0) as any as S.Schema<DeletePatchResponse>,
+  input: __S(36, __c9, 0) as any as S.Schema<DeletePatchRequest>,
+  output: __S(28, __c7, 0) as any as S.Schema<DeletePatchResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -193,8 +246,8 @@ export const ensurePatchRepo: API.OperationMethod<
   EnsurePatchRepoError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18, __c9, 0) as any as S.Schema<EnsurePatchRepoRequest>,
-  output: __S(12, __c6, 0) as any as S.Schema<EnsurePatchRepoResponse>,
+  input: __S(40, __c10, 0) as any as S.Schema<EnsurePatchRepoRequest>,
+  output: __S(28, __c7, 0) as any as S.Schema<EnsurePatchRepoResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -209,8 +262,8 @@ export const getPatch: API.OperationMethod<
   GetPatchError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c10, 0) as any as S.Schema<GetPatchRequest>,
-  output: __S(12, __c6, 0) as any as S.Schema<GetPatchResponse>,
+  input: __S(44, __c11, 0) as any as S.Schema<GetPatchRequest>,
+  output: __S(28, __c7, 0) as any as S.Schema<GetPatchResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -225,8 +278,8 @@ export const listPatchesByEntityId: API.OperationMethod<
   ListPatchesByEntityIdError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22, __c11, 0) as any as S.Schema<ListPatchesByEntityIdRequest>,
-  output: __S(12, __c6, 0) as any as S.Schema<ListPatchesByEntityIdResponse>,
+  input: __S(48, __c12, 0) as any as S.Schema<ListPatchesByEntityIdRequest>,
+  output: __S(28, __c7, 0) as any as S.Schema<ListPatchesByEntityIdResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -241,8 +294,8 @@ export const markPatchFileForDeletion: API.OperationMethod<
   MarkPatchFileForDeletionError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c12, 0) as any as S.Schema<MarkPatchFileForDeletionRequest>,
-  output: __S(12, __c6, 0) as any as S.Schema<MarkPatchFileForDeletionResponse>,
+  input: __S(52, __c13, 0) as any as S.Schema<MarkPatchFileForDeletionRequest>,
+  output: __S(28, __c7, 0) as any as S.Schema<MarkPatchFileForDeletionResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -257,8 +310,8 @@ export const readPatchRepoDirectories: API.OperationMethod<
   ReadPatchRepoDirectoriesError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ReadPatchRepoDirectoriesRequest>,
-  output: __S(12, __c6, 0) as any as S.Schema<ReadPatchRepoDirectoriesResponse>,
+  input: __S(4, __c1, 0) as any as S.Schema<ReadPatchRepoDirectoriesRequest>,
+  output: __S(28, __c7, 0) as any as S.Schema<ReadPatchRepoDirectoriesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -273,8 +326,8 @@ export const readPatchRepoFile: API.OperationMethod<
   ReadPatchRepoFileError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2, __c1, 0) as any as S.Schema<ReadPatchRepoFileRequest>,
-  output: __S(12, __c6, 0) as any as S.Schema<ReadPatchRepoFileResponse>,
+  input: __S(8, __c2, 0) as any as S.Schema<ReadPatchRepoFileRequest>,
+  output: __S(28, __c7, 0) as any as S.Schema<ReadPatchRepoFileResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -289,8 +342,8 @@ export const saveFileAsPatch: API.OperationMethod<
   SaveFileAsPatchError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c2, 0) as any as S.Schema<SaveFileAsPatchRequest>,
-  output: __S(12, __c6, 0) as any as S.Schema<SaveFileAsPatchResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<SaveFileAsPatchRequest>,
+  output: __S(28, __c7, 0) as any as S.Schema<SaveFileAsPatchResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -305,8 +358,8 @@ export const togglePatchEnabled: API.OperationMethod<
   TogglePatchEnabledError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6, __c3, 0) as any as S.Schema<TogglePatchEnabledRequest>,
-  output: __S(12, __c6, 0) as any as S.Schema<TogglePatchEnabledResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<TogglePatchEnabledRequest>,
+  output: __S(28, __c7, 0) as any as S.Schema<TogglePatchEnabledResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -321,8 +374,8 @@ export const updatePatch: API.OperationMethod<
   UpdatePatchError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c4, 0) as any as S.Schema<UpdatePatchRequest>,
-  output: __S(12, __c6, 0) as any as S.Schema<UpdatePatchResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<UpdatePatchRequest>,
+  output: __S(28, __c7, 0) as any as S.Schema<UpdatePatchResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -336,6 +389,26 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          message: S.String,
+        }),
+      ).annotate({ identifier: "ErrorBADREQUESTIssuesItem" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+          code: S.String,
+          issues: S.optional(__S(1, __c0, 1)),
+        }),
+      ).annotate({ identifier: "ErrorBADREQUEST" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           id: S.String.pipe(T.Query()),
           type: S.String.pipe(T.Query()),
           repoPath: S.String.pipe(T.Query()),
@@ -343,7 +416,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "ReadPatchRepoDirectoriesRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -355,7 +428,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "ReadPatchRepoFileRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -369,7 +442,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "SaveFileAsPatchRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -380,7 +453,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "TogglePatchEnabledRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -396,7 +469,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "UpdatePatchRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -406,7 +479,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CleanPatchReposRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -414,7 +487,7 @@ function __c6(j: number): any {
       });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -429,7 +502,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "CreatePatchRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -439,7 +512,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "DeletePatchRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -450,7 +523,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "EnsurePatchRepoRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -460,7 +533,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetPatchRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -471,7 +544,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "ListPatchesByEntityIdRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

@@ -31,22 +31,32 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error404Body | string;
+}
 
 export interface ExchangeOidcTokenRequest {
   /** Name of the npm package, url-encoded */
@@ -59,6 +69,10 @@ export interface ExchangeOidcTokenResponse {
   created: string;
   expires: string;
 }
+export interface Error400Body {
+  message?: string | undefined;
+}
+export type Error404Body = Error400Body;
 export type ExchangeOidcTokenError = BadRequest | NotFound | NpmOpError;
 /** Exchange OIDC id_token for npm registry token Exchange a valid OIDC id_token (provided as a Bearer token) for a short-lived npm registry access token for the specified package. The returned npm token can also be used for dist-tag operations when its trusted publisher configuration explicitly grants `manageDistTags`. This permission is disabled by default and is independent of direct-publish permission. **OIDC Token Requirements:** - The Bearer token must be an OIDC id_token from a [supported Identity Provider (IdP)](https://docs.npmjs.com/trusted-publishers#supported-cicd-providers) - The `aud` (audience) claim must be set to `npm:registry.npmjs.org` **Important:** The Bearer token must be an OIDC id_token from an Identity Provider (IdP) npm supports. This endpoint differs from the rest of the API, which expects a standard npm access token. */
 export const exchangeOidcToken: API.OperationMethod<
@@ -67,8 +81,8 @@ export const exchangeOidcToken: API.OperationMethod<
   ExchangeOidcTokenError,
   NpmOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ExchangeOidcTokenRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<ExchangeOidcTokenResponse>,
+  input: __S(2, __c1, 0) as any as S.Schema<ExchangeOidcTokenRequest>,
+  output: __S(3, __c1, 1) as any as S.Schema<ExchangeOidcTokenResponse>,
   errors: [BadRequest, NotFound, UnknownNpmError],
   protocol: NpmProtocol,
   retry: Retry.Retry,
@@ -78,6 +92,16 @@ export const exchangeOidcToken: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Error400Body" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

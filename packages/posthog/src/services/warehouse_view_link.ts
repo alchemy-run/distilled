@@ -29,11 +29,16 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ViewLinkValidationError | string;
+}
 
 export interface CreateWarehouseViewLinkRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -203,6 +208,18 @@ export interface ViewLinkValidationResponse {
   /** matched_rows divided by total_rows, between 0 and 1. Null when the match-rate query failed or no rows were sampled. */
   match_rate: number | null;
 }
+export interface ViewLinkValidationError {
+  /** Request field the error relates to, if any. */
+  attr: string | null;
+  /** Machine-readable error code, for example QueryError. */
+  code: string;
+  /** Why the join failed to validate. */
+  detail: string;
+  /** Error category; always query_error for validation failures. */
+  type: string;
+  /** The HogQL statement that failed to validate. */
+  hogql: string | null;
+}
 export type CreateWarehouseViewLinkError = PosthogOpError;
 /** Create, Read, Update and Delete View Columns. */
 export const createWarehouseViewLink: API.OperationMethod<
@@ -211,8 +228,8 @@ export const createWarehouseViewLink: API.OperationMethod<
   CreateWarehouseViewLinkError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateWarehouseViewLinkRequest>,
-  output: __S(10, __c1, 2) as any as S.Schema<ViewLink>,
+  input: __S(8, __c1, 0) as any as S.Schema<CreateWarehouseViewLinkRequest>,
+  output: __S(18, __c2, 2) as any as S.Schema<ViewLink>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -228,8 +245,8 @@ export const getWarehouseViewLink: API.OperationMethod<
   GetWarehouseViewLinkError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<GetWarehouseViewLinkRequest>,
-  output: __S(10, __c1, 2) as any as S.Schema<ViewLink>,
+  input: __S(24, __c3, 0) as any as S.Schema<GetWarehouseViewLinkRequest>,
+  output: __S(18, __c2, 2) as any as S.Schema<ViewLink>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -245,8 +262,8 @@ export const listWarehouseViewLink: API.OperationMethod<
   ListWarehouseViewLinkError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<ListWarehouseViewLinkRequest>,
-  output: __S(26, __c3, 2) as any as S.Schema<PaginatedViewLinkList>,
+  input: __S(32, __c4, 0) as any as S.Schema<ListWarehouseViewLinkRequest>,
+  output: __S(34, __c4, 2) as any as S.Schema<PaginatedViewLinkList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -262,8 +279,8 @@ export const updateWarehouseViewLink: API.OperationMethod<
   UpdateWarehouseViewLinkError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<UpdateWarehouseViewLinkRequest>,
-  output: __S(10, __c1, 2) as any as S.Schema<ViewLink>,
+  input: __S(40, __c5, 0) as any as S.Schema<UpdateWarehouseViewLinkRequest>,
+  output: __S(18, __c2, 2) as any as S.Schema<ViewLink>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -279,8 +296,8 @@ export const updateWarehouseViewLinkPartial: API.OperationMethod<
   UpdateWarehouseViewLinkPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<UpdateWarehouseViewLinkPartialRequest>,
-  output: __S(10, __c1, 2) as any as S.Schema<ViewLink>,
+  input: __S(48, __c6, 0) as any as S.Schema<UpdateWarehouseViewLinkPartialRequest>,
+  output: __S(18, __c2, 2) as any as S.Schema<ViewLink>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -296,8 +313,8 @@ export const warehouseViewLinkDestroy: API.OperationMethod<
   WarehouseViewLinkDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<WarehouseViewLinkDestroyRequest>,
-  output: __S(49, __c6, 1) as any as S.Schema<WarehouseViewLinkDestroyResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<WarehouseViewLinkDestroyRequest>,
+  output: __S(57, __c7, 1) as any as S.Schema<WarehouseViewLinkDestroyResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -313,8 +330,8 @@ export const warehouseViewLinkValidateCreate: API.OperationMethod<
   WarehouseViewLinkValidateCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<WarehouseViewLinkValidateCreateRequest>,
-  output: __S(60, __c7, 4) as any as S.Schema<ViewLinkValidationResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<WarehouseViewLinkValidateCreateRequest>,
+  output: __S(68, __c8, 4) as any as S.Schema<ViewLinkValidationResponse>,
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -324,6 +341,20 @@ export const warehouseViewLinkValidateCreate: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          attr: S.NullOr(S.String),
+          code: S.String,
+          detail: S.String,
+          type: S.String,
+          hogql: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "ViewLinkValidationError" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -346,7 +377,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateWarehouseViewLinkRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -360,7 +391,7 @@ function __c1(j: number): any {
           last_name: S.optional(S.String),
           email: S.optional(S.String),
           is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.optional(S.NullOr(__S(8, __c1, 0))),
+          hedgehog_config: S.optional(S.NullOr(__S(16, __c2, 0))),
           role_at_organization: S.optional(S.NullOr(S.Unknown)),
         }),
       ).annotate({ identifier: "UserBasic" });
@@ -369,7 +400,7 @@ function __c1(j: number): any {
         S.Struct({
           id: S.String,
           deleted: S.optional(S.NullOr(S.Boolean)),
-          created_by: __S(9, __c1, 1),
+          created_by: __S(17, __c2, 1),
           created_at: S.String,
           source_table_name: S.String,
           source_table_key: S.String,
@@ -381,7 +412,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "ViewLink" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -398,7 +429,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetWarehouseViewLinkRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -416,19 +447,19 @@ function __c3(j: number): any {
         ),
       ).annotate({ identifier: "ListWarehouseViewLinkRequest" });
     case 1:
-      return S.Array(__S(10, __c1, 2));
+      return S.Array(__S(18, __c2, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(25, __c3, 1),
+          results: __S(33, __c4, 1),
         }),
       ).annotate({ identifier: "PaginatedViewLinkList" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -452,7 +483,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "UpdateWarehouseViewLinkRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -476,7 +507,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "UpdateWarehouseViewLinkPartialRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -497,7 +528,7 @@ function __c6(j: number): any {
       });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -520,15 +551,15 @@ function __c7(j: number): any {
     case 2:
       return S.Array(S.Unknown);
     case 3:
-      return S.Array(__S(58, __c7, 2));
+      return S.Array(__S(66, __c8, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           is_valid: S.Boolean,
           msg: S.NullOr(S.String),
           hogql: S.NullOr(S.String),
-          columns: __S(57, __c7, 1),
-          results: __S(59, __c7, 3),
+          columns: __S(65, __c8, 1),
+          results: __S(67, __c8, 3),
           total_rows: S.NullOr(S.Number),
           matched_rows: S.NullOr(S.Number),
           match_rate: S.NullOr(S.Number),

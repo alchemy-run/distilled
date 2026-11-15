@@ -31,33 +31,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: BadRequest2 | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: Conflict2 | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: NotFound2 | string;
+}
 
 export interface CreateACLRequest {
   /** The STACKIT portal project UUID the Secrets Manager instance is part of. */
@@ -388,6 +403,18 @@ export interface UpdateUserRequest {
   write?: boolean | undefined;
 }
 export interface UpdateUserResponse {}
+export interface BadRequest2 {
+  /** The error message for bad requests */
+  message: string;
+}
+export interface Conflict2 {
+  /** The error message for conflicts */
+  message: string;
+}
+export interface NotFound2 {
+  /** The error message for not found resources */
+  message: string;
+}
 export type CreateACLError = BadRequest | NotFound | Conflict | StackitOpError;
 /** Creates a new Secrets Manager acl within the project. */
 export const createACL: API.OperationMethod<
@@ -396,8 +423,8 @@ export const createACL: API.OperationMethod<
   CreateACLError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(76, __c19, 0) as any as S.Schema<CreateACLRequest>,
-  output: __S(80, __c20, 0) as any as S.Schema<ACL>,
+  input: __S(80, __c20, 0) as any as S.Schema<CreateACLRequest>,
+  output: __S(84, __c21, 0) as any as S.Schema<ACL>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -413,8 +440,8 @@ export const createApprole: API.OperationMethod<
   CreateApproleError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(84, __c21, 0) as any as S.Schema<CreateApproleRequest>,
-  output: __S(88, __c22, 0) as any as S.Schema<Approle>,
+  input: __S(88, __c22, 0) as any as S.Schema<CreateApproleRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<Approle>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -430,8 +457,8 @@ export const createApproleSecretId: API.OperationMethod<
   CreateApproleSecretIdError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(92, __c23, 0) as any as S.Schema<CreateApproleSecretIdRequest>,
-  output: __S(96, __c24, 0) as any as S.Schema<ApproleSecret>,
+  input: __S(96, __c24, 0) as any as S.Schema<CreateApproleSecretIdRequest>,
+  output: __S(100, __c25, 0) as any as S.Schema<ApproleSecret>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -447,8 +474,8 @@ export const createInstance: API.OperationMethod<
   CreateInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(100, __c25, 0) as any as S.Schema<CreateInstanceRequest>,
-  output: __S(104, __c26, 0) as any as S.Schema<Instance>,
+  input: __S(104, __c26, 0) as any as S.Schema<CreateInstanceRequest>,
+  output: __S(108, __c27, 0) as any as S.Schema<Instance>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -464,8 +491,8 @@ export const createUser: API.OperationMethod<
   CreateUserError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c28, 0) as any as S.Schema<CreateUserRequest>,
-  output: __S(116, __c29, 0) as any as S.Schema<User>,
+  input: __S(116, __c29, 0) as any as S.Schema<CreateUserRequest>,
+  output: __S(120, __c30, 0) as any as S.Schema<User>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -481,8 +508,8 @@ export const deleteACL: API.OperationMethod<
   DeleteACLError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c30, 0) as any as S.Schema<DeleteACLRequest>,
-  output: __S(124, __c31, 0) as any as S.Schema<DeleteACLResponse>,
+  input: __S(124, __c31, 0) as any as S.Schema<DeleteACLRequest>,
+  output: __S(128, __c32, 0) as any as S.Schema<DeleteACLResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -498,8 +525,8 @@ export const deleteApprole: API.OperationMethod<
   DeleteApproleError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c32, 0) as any as S.Schema<DeleteApproleRequest>,
-  output: __S(124, __c31, 0) as any as S.Schema<DeleteApproleResponse>,
+  input: __S(132, __c33, 0) as any as S.Schema<DeleteApproleRequest>,
+  output: __S(128, __c32, 0) as any as S.Schema<DeleteApproleResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -515,8 +542,8 @@ export const deleteApproleSecretId: API.OperationMethod<
   DeleteApproleSecretIdError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<DeleteApproleSecretIdRequest>,
-  output: __S(124, __c31, 0) as any as S.Schema<DeleteApproleSecretIdResponse>,
+  input: __S(4, __c1, 0) as any as S.Schema<DeleteApproleSecretIdRequest>,
+  output: __S(128, __c32, 0) as any as S.Schema<DeleteApproleSecretIdResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -532,8 +559,8 @@ export const deleteInstance: API.OperationMethod<
   DeleteInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<DeleteInstanceRequest>,
-  output: __S(124, __c31, 0) as any as S.Schema<DeleteInstanceResponse>,
+  input: __S(8, __c2, 0) as any as S.Schema<DeleteInstanceRequest>,
+  output: __S(128, __c32, 0) as any as S.Schema<DeleteInstanceResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -549,8 +576,8 @@ export const deleteUser: API.OperationMethod<
   DeleteUserError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<DeleteUserRequest>,
-  output: __S(124, __c31, 0) as any as S.Schema<DeleteUserResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<DeleteUserRequest>,
+  output: __S(128, __c32, 0) as any as S.Schema<DeleteUserResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -562,8 +589,8 @@ export type GetACLError = BadRequest | NotFound | StackitOpError;
 /** Returns the details for the given acl. */
 export const getACL: API.OperationMethod<GetACLRequest, ACL, GetACLError, StackitOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(12, __c3, 0) as any as S.Schema<GetACLRequest>,
-    output: __S(80, __c20, 0) as any as S.Schema<ACL>,
+    input: __S(16, __c4, 0) as any as S.Schema<GetACLRequest>,
+    output: __S(84, __c21, 0) as any as S.Schema<ACL>,
     errors: [BadRequest, NotFound, UnknownStackitError],
     protocol: StackitProtocol,
     retry: Retry.Retry,
@@ -579,8 +606,8 @@ export const getApprole: API.OperationMethod<
   GetApproleError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<GetApproleRequest>,
-  output: __S(88, __c22, 0) as any as S.Schema<Approle>,
+  input: __S(20, __c5, 0) as any as S.Schema<GetApproleRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<Approle>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -596,8 +623,8 @@ export const getApproles: API.OperationMethod<
   GetApprolesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<GetApprolesRequest>,
-  output: __S(22, __c5, 2) as any as S.Schema<ApproleList>,
+  input: __S(24, __c6, 0) as any as S.Schema<GetApprolesRequest>,
+  output: __S(26, __c6, 2) as any as S.Schema<ApproleList>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -613,8 +640,8 @@ export const getApproleSecretId: API.OperationMethod<
   GetApproleSecretIdError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<GetApproleSecretIdRequest>,
-  output: __S(96, __c24, 0) as any as S.Schema<ApproleSecret>,
+  input: __S(28, __c7, 0) as any as S.Schema<GetApproleSecretIdRequest>,
+  output: __S(100, __c25, 0) as any as S.Schema<ApproleSecret>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -630,8 +657,8 @@ export const getInstance: API.OperationMethod<
   GetInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<GetInstanceRequest>,
-  output: __S(104, __c26, 0) as any as S.Schema<Instance>,
+  input: __S(32, __c8, 0) as any as S.Schema<GetInstanceRequest>,
+  output: __S(108, __c27, 0) as any as S.Schema<Instance>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -643,8 +670,8 @@ export type GetUserError = BadRequest | NotFound | StackitOpError;
 /** Returns the details for the given user. */
 export const getUser: API.OperationMethod<GetUserRequest, User, GetUserError, StackitOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(32, __c8, 0) as any as S.Schema<GetUserRequest>,
-    output: __S(116, __c29, 0) as any as S.Schema<User>,
+    input: __S(36, __c9, 0) as any as S.Schema<GetUserRequest>,
+    output: __S(120, __c30, 0) as any as S.Schema<User>,
     errors: [BadRequest, NotFound, UnknownStackitError],
     protocol: StackitProtocol,
     retry: Retry.Retry,
@@ -660,8 +687,8 @@ export const listACLs: API.OperationMethod<
   ListACLsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<ListACLsRequest>,
-  output: __S(38, __c9, 2) as any as S.Schema<ListACLsResponse>,
+  input: __S(40, __c10, 0) as any as S.Schema<ListACLsRequest>,
+  output: __S(42, __c10, 2) as any as S.Schema<ListACLsResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -677,8 +704,8 @@ export const listApproleSecretIds: API.OperationMethod<
   ListApproleSecretIdsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<ListApproleSecretIdsRequest>,
-  output: __S(42, __c10, 2) as any as S.Schema<ApproleSecretList>,
+  input: __S(44, __c11, 0) as any as S.Schema<ListApproleSecretIdsRequest>,
+  output: __S(46, __c11, 2) as any as S.Schema<ApproleSecretList>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -694,8 +721,8 @@ export const listInstances: API.OperationMethod<
   ListInstancesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(44, __c11, 0) as any as S.Schema<ListInstancesRequest>,
-  output: __S(46, __c11, 2) as any as S.Schema<ListInstancesResponse>,
+  input: __S(48, __c12, 0) as any as S.Schema<ListInstancesRequest>,
+  output: __S(50, __c12, 2) as any as S.Schema<ListInstancesResponse>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -711,8 +738,8 @@ export const listUsers: API.OperationMethod<
   ListUsersError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c12, 0) as any as S.Schema<ListUsersRequest>,
-  output: __S(50, __c12, 2) as any as S.Schema<ListUsersResponse>,
+  input: __S(52, __c13, 0) as any as S.Schema<ListUsersRequest>,
+  output: __S(54, __c13, 2) as any as S.Schema<ListUsersResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -728,8 +755,8 @@ export const updateACL: API.OperationMethod<
   UpdateACLError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(52, __c13, 0) as any as S.Schema<UpdateACLRequest>,
-  output: __S(124, __c31, 0) as any as S.Schema<UpdateACLResponse>,
+  input: __S(56, __c14, 0) as any as S.Schema<UpdateACLRequest>,
+  output: __S(128, __c32, 0) as any as S.Schema<UpdateACLResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -745,8 +772,8 @@ export const updateACLs: API.OperationMethod<
   UpdateACLsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(58, __c14, 2) as any as S.Schema<UpdateACLsRequest>,
-  output: __S(124, __c31, 0) as any as S.Schema<UpdateACLsResponse>,
+  input: __S(62, __c15, 2) as any as S.Schema<UpdateACLsRequest>,
+  output: __S(128, __c32, 0) as any as S.Schema<UpdateACLsResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -762,8 +789,8 @@ export const updateApprole: API.OperationMethod<
   UpdateApproleError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(60, __c15, 0) as any as S.Schema<UpdateApproleRequest>,
-  output: __S(88, __c22, 0) as any as S.Schema<Approle>,
+  input: __S(64, __c16, 0) as any as S.Schema<UpdateApproleRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<Approle>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -779,8 +806,8 @@ export const updateApproleSecretId: API.OperationMethod<
   UpdateApproleSecretIdError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c16, 0) as any as S.Schema<UpdateApproleSecretIdRequest>,
-  output: __S(96, __c24, 0) as any as S.Schema<ApproleSecret>,
+  input: __S(68, __c17, 0) as any as S.Schema<UpdateApproleSecretIdRequest>,
+  output: __S(100, __c25, 0) as any as S.Schema<ApproleSecret>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -796,8 +823,8 @@ export const updateInstance: API.OperationMethod<
   UpdateInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(68, __c17, 0) as any as S.Schema<UpdateInstanceRequest>,
-  output: __S(124, __c31, 0) as any as S.Schema<UpdateInstanceResponse>,
+  input: __S(72, __c18, 0) as any as S.Schema<UpdateInstanceRequest>,
+  output: __S(128, __c32, 0) as any as S.Schema<UpdateInstanceResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -813,8 +840,8 @@ export const updateUser: API.OperationMethod<
   UpdateUserError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c18, 0) as any as S.Schema<UpdateUserRequest>,
-  output: __S(124, __c31, 0) as any as S.Schema<UpdateUserResponse>,
+  input: __S(76, __c19, 0) as any as S.Schema<UpdateUserRequest>,
+  output: __S(128, __c32, 0) as any as S.Schema<UpdateUserResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -824,6 +851,16 @@ export const updateUser: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+        }),
+      ).annotate({ identifier: "BadRequest2" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -843,7 +880,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "DeleteApproleSecretIdRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -861,7 +898,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "DeleteInstanceRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -880,7 +917,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "DeleteUserRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -899,7 +936,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetACLRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -918,7 +955,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetApproleRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -935,16 +972,16 @@ function __c5(j: number): any {
         ),
       ).annotate({ identifier: "GetApprolesRequest" });
     case 1:
-      return S.Array(__S(88, __c22, 0));
+      return S.Array(__S(92, __c23, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          approles: __S(21, __c5, 1),
+          approles: __S(25, __c6, 1),
         }),
       ).annotate({ identifier: "ApproleList" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -964,7 +1001,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetApproleSecretIdRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -982,7 +1019,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetInstanceRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1001,7 +1038,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetUserRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1018,16 +1055,16 @@ function __c9(j: number): any {
         ),
       ).annotate({ identifier: "ListACLsRequest" });
     case 1:
-      return S.Array(__S(80, __c20, 0));
+      return S.Array(__S(84, __c21, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          acls: __S(37, __c9, 1),
+          acls: __S(41, __c10, 1),
         }),
       ).annotate({ identifier: "ListACLsResponse" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1045,16 +1082,16 @@ function __c10(j: number): any {
         ),
       ).annotate({ identifier: "ListApproleSecretIdsRequest" });
     case 1:
-      return S.Array(__S(96, __c24, 0));
+      return S.Array(__S(100, __c25, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          secretIds: __S(41, __c10, 1),
+          secretIds: __S(45, __c11, 1),
         }),
       ).annotate({ identifier: "ApproleSecretList" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1070,16 +1107,16 @@ function __c11(j: number): any {
         ),
       ).annotate({ identifier: "ListInstancesRequest" });
     case 1:
-      return S.Array(__S(104, __c26, 0));
+      return S.Array(__S(108, __c27, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          instances: __S(45, __c11, 1),
+          instances: __S(49, __c12, 1),
         }),
       ).annotate({ identifier: "ListInstancesResponse" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1096,16 +1133,16 @@ function __c12(j: number): any {
         ),
       ).annotate({ identifier: "ListUsersRequest" });
     case 1:
-      return S.Array(__S(116, __c29, 0));
+      return S.Array(__S(120, __c30, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          users: __S(49, __c12, 1),
+          users: __S(53, __c13, 1),
         }),
       ).annotate({ identifier: "ListUsersResponse" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1125,7 +1162,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "UpdateACLRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1134,13 +1171,13 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "UpdateACLPayload" });
     case 1:
-      return S.Array(__S(56, __c14, 0));
+      return S.Array(__S(60, __c15, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
-          cidrs: S.optional(__S(57, __c14, 1)),
+          cidrs: S.optional(__S(61, __c15, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -1152,7 +1189,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "UpdateACLsRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1175,7 +1212,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "UpdateApproleRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1196,14 +1233,14 @@ function __c16(j: number): any {
       ).annotate({ identifier: "UpdateApproleSecretIdRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
-          kmsKey: S.optional(__S(108, __c27, 0)),
+          kmsKey: S.optional(__S(112, __c28, 0)),
           name: S.String,
         }).pipe(
           T.Http({
@@ -1216,7 +1253,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "UpdateInstanceRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1237,7 +1274,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "UpdateUserRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1256,7 +1293,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "CreateACLRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1267,7 +1304,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "ACL" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1289,7 +1326,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "CreateApproleRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1303,7 +1340,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "Approle" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1323,7 +1360,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "CreateApproleSecretIdRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1337,13 +1374,13 @@ function __c24(j: number): any {
       ).annotate({ identifier: "ApproleSecret" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          kmsKey: S.optional(__S(108, __c27, 0)),
+          kmsKey: S.optional(__S(112, __c28, 0)),
           name: S.String,
         }).pipe(
           T.Http({
@@ -1356,7 +1393,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "CreateInstanceRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1365,7 +1402,7 @@ function __c26(j: number): any {
           creationFinishedDate: S.optional(S.String),
           creationStartDate: S.String,
           id: S.String,
-          kmsKey: S.optional(__S(108, __c27, 0)),
+          kmsKey: S.optional(__S(112, __c28, 0)),
           name: S.String,
           secretCount: S.Number,
           secretsEngine: S.String,
@@ -1376,7 +1413,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "Instance" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1389,7 +1426,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "KmsKeyPayload" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1409,7 +1446,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "CreateUserRequest" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1423,7 +1460,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "User" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1442,13 +1479,13 @@ function __c30(j: number): any {
       ).annotate({ identifier: "DeleteACLRequest" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteACLResponse" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

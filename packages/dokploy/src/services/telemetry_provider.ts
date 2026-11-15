@@ -29,33 +29,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorBADREQUEST | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorFORBIDDEN | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorNOTFOUND | string;
+}
 
 export type CreateTelemetryProviderRequestProviderType =
   | "loki"
@@ -171,6 +186,44 @@ export interface UpdateTelemetryProviderRequest {
   telemetryProviderId: string;
 }
 export type UpdateTelemetryProviderResponse = unknown;
+export interface ErrorBADREQUESTIssuesItem {
+  message: string;
+}
+/** An array of issues that were responsible for the error */
+export type ErrorBADREQUESTIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorBADREQUEST {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorBADREQUESTIssuesList | undefined;
+}
+export type ErrorFORBIDDENIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorFORBIDDENIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorFORBIDDEN {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorFORBIDDENIssuesList | undefined;
+}
+export type ErrorNOTFOUNDIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorNOTFOUNDIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorNOTFOUND {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorNOTFOUNDIssuesList | undefined;
+}
 export type CreateTelemetryProviderError = BadRequest | Forbidden | DokployOpError;
 export const createTelemetryProvider: API.OperationMethod<
   CreateTelemetryProviderRequest,
@@ -178,8 +231,8 @@ export const createTelemetryProvider: API.OperationMethod<
   CreateTelemetryProviderError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c4, 0) as any as S.Schema<CreateTelemetryProviderRequest>,
-  output: __S(14, __c7, 0) as any as S.Schema<CreateTelemetryProviderResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<CreateTelemetryProviderRequest>,
+  output: __S(32, __c8, 0) as any as S.Schema<CreateTelemetryProviderResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -194,8 +247,8 @@ export const deleteTelemetryProvider: API.OperationMethod<
   DeleteTelemetryProviderError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c8, 0) as any as S.Schema<DeleteTelemetryProviderRequest>,
-  output: __S(14, __c7, 0) as any as S.Schema<DeleteTelemetryProviderResponse>,
+  input: __S(36, __c9, 0) as any as S.Schema<DeleteTelemetryProviderRequest>,
+  output: __S(32, __c8, 0) as any as S.Schema<DeleteTelemetryProviderResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -210,8 +263,8 @@ export const deployTelemetryProviderOnServer: API.OperationMethod<
   DeployTelemetryProviderOnServerError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19, __c9, 1) as any as S.Schema<DeployTelemetryProviderOnServerRequest>,
-  output: __S(14, __c7, 0) as any as S.Schema<DeployTelemetryProviderOnServerResponse>,
+  input: __S(41, __c10, 1) as any as S.Schema<DeployTelemetryProviderOnServerRequest>,
+  output: __S(32, __c8, 0) as any as S.Schema<DeployTelemetryProviderOnServerResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -226,8 +279,8 @@ export const getTelemetryProvider: API.OperationMethod<
   GetTelemetryProviderError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c10, 0) as any as S.Schema<GetTelemetryProviderRequest>,
-  output: __S(14, __c7, 0) as any as S.Schema<GetTelemetryProviderResponse>,
+  input: __S(44, __c11, 0) as any as S.Schema<GetTelemetryProviderRequest>,
+  output: __S(32, __c8, 0) as any as S.Schema<GetTelemetryProviderResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -246,8 +299,8 @@ export const getTelemetryProviderAvailableTypes: API.OperationMethod<
   GetTelemetryProviderAvailableTypesError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22, __c11, 0) as any as S.Schema<GetTelemetryProviderAvailableTypesRequest>,
-  output: __S(14, __c7, 0) as any as S.Schema<GetTelemetryProviderAvailableTypesResponse>,
+  input: __S(48, __c12, 0) as any as S.Schema<GetTelemetryProviderAvailableTypesRequest>,
+  output: __S(32, __c8, 0) as any as S.Schema<GetTelemetryProviderAvailableTypesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -266,8 +319,8 @@ export const getTelemetryProviderServerStatus: API.OperationMethod<
   GetTelemetryProviderServerStatusError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c12, 0) as any as S.Schema<GetTelemetryProviderServerStatusRequest>,
-  output: __S(14, __c7, 0) as any as S.Schema<GetTelemetryProviderServerStatusResponse>,
+  input: __S(52, __c13, 0) as any as S.Schema<GetTelemetryProviderServerStatusRequest>,
+  output: __S(32, __c8, 0) as any as S.Schema<GetTelemetryProviderServerStatusResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -282,8 +335,8 @@ export const listTelemetryProviders: API.OperationMethod<
   ListTelemetryProvidersError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26, __c13, 0) as any as S.Schema<ListTelemetryProvidersRequest>,
-  output: __S(14, __c7, 0) as any as S.Schema<ListTelemetryProvidersResponse>,
+  input: __S(56, __c14, 0) as any as S.Schema<ListTelemetryProvidersRequest>,
+  output: __S(32, __c8, 0) as any as S.Schema<ListTelemetryProvidersResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -298,8 +351,8 @@ export const removeTelemetryProviderOnServer: API.OperationMethod<
   RemoveTelemetryProviderOnServerError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<RemoveTelemetryProviderOnServerRequest>,
-  output: __S(14, __c7, 0) as any as S.Schema<RemoveTelemetryProviderOnServerResponse>,
+  input: __S(4, __c1, 0) as any as S.Schema<RemoveTelemetryProviderOnServerRequest>,
+  output: __S(32, __c8, 0) as any as S.Schema<RemoveTelemetryProviderOnServerResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -314,8 +367,8 @@ export const testTelemetryProviderConnection: API.OperationMethod<
   TestTelemetryProviderConnectionError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2, __c1, 0) as any as S.Schema<TestTelemetryProviderConnectionRequest>,
-  output: __S(14, __c7, 0) as any as S.Schema<TestTelemetryProviderConnectionResponse>,
+  input: __S(8, __c2, 0) as any as S.Schema<TestTelemetryProviderConnectionRequest>,
+  output: __S(32, __c8, 0) as any as S.Schema<TestTelemetryProviderConnectionResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -330,8 +383,8 @@ export const testTelemetryProviderConnectionById: API.OperationMethod<
   TestTelemetryProviderConnectionByIdError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c2, 0) as any as S.Schema<TestTelemetryProviderConnectionByIdRequest>,
-  output: __S(14, __c7, 0) as any as S.Schema<TestTelemetryProviderConnectionByIdResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<TestTelemetryProviderConnectionByIdRequest>,
+  output: __S(32, __c8, 0) as any as S.Schema<TestTelemetryProviderConnectionByIdResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -346,8 +399,8 @@ export const updateTelemetryProvider: API.OperationMethod<
   UpdateTelemetryProviderError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6, __c3, 0) as any as S.Schema<UpdateTelemetryProviderRequest>,
-  output: __S(14, __c7, 0) as any as S.Schema<UpdateTelemetryProviderResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<UpdateTelemetryProviderRequest>,
+  output: __S(32, __c8, 0) as any as S.Schema<UpdateTelemetryProviderResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -361,9 +414,19 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          serverId: S.optional(S.NullOr(S.String)),
-        }).pipe(T.Http({ method: "POST", uri: "/telemetryProvider.removeOnServer", code: 200 })),
-      ).annotate({ identifier: "RemoveTelemetryProviderOnServerRequest" });
+          message: S.String,
+        }),
+      ).annotate({ identifier: "ErrorBADREQUESTIssuesItem" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+          code: S.String,
+          issues: S.optional(__S(1, __c0, 1)),
+        }),
+      ).annotate({ identifier: "ErrorBADREQUEST" });
   }
 }
 function __c1(j: number): any {
@@ -371,16 +434,9 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          providerType: S.String,
-          signals: __S(10, __c5, 0),
-          endpoint: S.optional(S.NullOr(S.String)),
-          apiKey: S.optional(S.NullOr(S.String)),
-          apiSecret: S.optional(S.NullOr(S.String)),
-          extraConfig: S.optional(S.NullOr(__S(12, __c6, 0))),
-          enabled: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/telemetryProvider.testConnection", code: 200 })),
-      ).annotate({ identifier: "TestTelemetryProviderConnectionRequest" });
+          serverId: S.optional(S.NullOr(S.String)),
+        }).pipe(T.Http({ method: "POST", uri: "/telemetryProvider.removeOnServer", code: 200 })),
+      ).annotate({ identifier: "RemoveTelemetryProviderOnServerRequest" });
   }
 }
 function __c2(j: number): any {
@@ -388,12 +444,16 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          telemetryProviderId: S.String,
-          signals: S.optional(__S(10, __c5, 0)),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/telemetryProvider.testConnectionById", code: 200 }),
-        ),
-      ).annotate({ identifier: "TestTelemetryProviderConnectionByIdRequest" });
+          name: S.optional(S.String),
+          providerType: S.String,
+          signals: __S(24, __c6, 0),
+          endpoint: S.optional(S.NullOr(S.String)),
+          apiKey: S.optional(S.NullOr(S.String)),
+          apiSecret: S.optional(S.NullOr(S.String)),
+          extraConfig: S.optional(S.NullOr(__S(28, __c7, 0))),
+          enabled: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/telemetryProvider.testConnection", code: 200 })),
+      ).annotate({ identifier: "TestTelemetryProviderConnectionRequest" });
   }
 }
 function __c3(j: number): any {
@@ -401,17 +461,12 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          providerType: S.optional(S.String),
-          signals: S.optional(__S(10, __c5, 0)),
-          endpoint: S.optional(S.NullOr(S.String)),
-          apiKey: S.optional(S.NullOr(S.String)),
-          apiSecret: S.optional(S.NullOr(S.String)),
-          extraConfig: S.optional(S.NullOr(__S(12, __c6, 0))),
-          enabled: S.optional(S.Boolean),
           telemetryProviderId: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/telemetryProvider.update", code: 200 })),
-      ).annotate({ identifier: "UpdateTelemetryProviderRequest" });
+          signals: S.optional(__S(24, __c6, 0)),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/telemetryProvider.testConnectionById", code: 200 }),
+        ),
+      ).annotate({ identifier: "TestTelemetryProviderConnectionByIdRequest" });
   }
 }
 function __c4(j: number): any {
@@ -419,31 +474,49 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String,
-          providerType: S.String,
-          signals: __S(10, __c5, 0),
+          name: S.optional(S.String),
+          providerType: S.optional(S.String),
+          signals: S.optional(__S(24, __c6, 0)),
           endpoint: S.optional(S.NullOr(S.String)),
           apiKey: S.optional(S.NullOr(S.String)),
           apiSecret: S.optional(S.NullOr(S.String)),
-          extraConfig: S.optional(S.NullOr(__S(12, __c6, 0))),
+          extraConfig: S.optional(S.NullOr(__S(28, __c7, 0))),
           enabled: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/telemetryProvider.create", code: 200 })),
-      ).annotate({ identifier: "CreateTelemetryProviderRequest" });
+          telemetryProviderId: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/telemetryProvider.update", code: 200 })),
+      ).annotate({ identifier: "UpdateTelemetryProviderRequest" });
   }
 }
 function __c5(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          providerType: S.String,
+          signals: __S(24, __c6, 0),
+          endpoint: S.optional(S.NullOr(S.String)),
+          apiKey: S.optional(S.NullOr(S.String)),
+          apiSecret: S.optional(S.NullOr(S.String)),
+          extraConfig: S.optional(S.NullOr(__S(28, __c7, 0))),
+          enabled: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/telemetryProvider.create", code: 200 })),
+      ).annotate({ identifier: "CreateTelemetryProviderRequest" });
   }
 }
 function __c6(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.Unknown);
+      return S.Array(S.String);
   }
 }
 function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -451,7 +524,7 @@ function __c7(j: number): any {
       });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -461,7 +534,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "DeleteTelemetryProviderRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -469,12 +542,12 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           serverId: S.optional(S.NullOr(S.String)),
-          providerIds: __S(18, __c9, 0),
+          providerIds: __S(40, __c10, 0),
         }).pipe(T.Http({ method: "POST", uri: "/telemetryProvider.deployOnServer", code: 200 })),
       ).annotate({ identifier: "DeployTelemetryProviderOnServerRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -484,7 +557,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetTelemetryProviderRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -494,7 +567,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetTelemetryProviderAvailableTypesRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -504,7 +577,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetTelemetryProviderServerStatusRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

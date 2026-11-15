@@ -35,11 +35,16 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(3, __c0, 3)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ClerkErrors | string;
+}
 
 /** The supplied If-Match config version does not match the current version (Clerk config_version_conflict, HTTP 409). Re-fetch the config and retry with its current version. */
 export class ConfigVersionConflict
@@ -47,44 +52,64 @@ export class ConfigVersionConflict
     /*@__PURE__*/ S.TaggedError<ConfigVersionConflict>()("ConfigVersionConflict", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(3, __c0, 3)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409, body: { "/errors/0/code": "config_version_conflict" } }],
-  ) {}
+  )
+{
+  declare readonly body?: ClerkErrors | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(3, __c0, 3)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: ClerkErrors | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(3, __c0, 3)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ClerkErrors | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(3, __c0, 3)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ClerkErrors | string;
+}
 
 /** The requested resource was not found (Clerk resource_not_found, HTTP 404). */
 export class ResourceNotFound
@@ -92,22 +117,32 @@ export class ResourceNotFound
     /*@__PURE__*/ S.TaggedError<ResourceNotFound>()("ResourceNotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(3, __c0, 3)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404, body: { "/errors/0/code": "resource_not_found" } }],
-  ) {}
+  )
+{
+  declare readonly body?: ClerkErrors | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(3, __c0, 3)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: ClerkErrors | string;
+}
 
 export interface BanUserRequest {
   /** Application ID. */
@@ -2378,6 +2413,13 @@ export interface UploadApplicationLogoRequest {
   applicationID: string;
   file: Blob | Uint8Array | ArrayBuffer;
 }
+export type ClerkErrorsErrorsList = Array<ClerkError>;
+export type ClerkErrorsMetaMap = { [key: string]: unknown | undefined };
+export interface ClerkErrors {
+  errors: ClerkErrorsErrorsList;
+  meta?: ClerkErrorsMetaMap | undefined;
+  clerk_trace_id?: string | undefined;
+}
 export type BanUserError = BadRequest | Forbidden | NotFound | ResourceNotFound | ClerkOpError;
 /** Ban a user Marks a user as banned within an application instance. This terminates their active sessions (marks them as revoked), revokes their OAuth grants, and prevents them from signing in again. Revoked OAuth grants are not restored if the user is unbanned. Requires the `users:manage` scope. */
 export const banUser: API.OperationMethod<
@@ -2386,7 +2428,7 @@ export const banUser: API.OperationMethod<
   BanUserError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<BanUserRequest>,
+  input: __S(2560, __c80, 0) as any as S.Schema<BanUserRequest>,
   output: __S(2710, __c84, 22) as any as S.Schema<User>,
   errors: [BadRequest, Forbidden, NotFound, ResourceNotFound, UnknownClerkError],
   protocol: ClerkPlatformProtocol,
@@ -2453,8 +2495,8 @@ export const claimAccountlessApplication: API.OperationMethod<
   ClaimAccountlessApplicationError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ClaimAccountlessApplicationRequest>,
-  output: __S(34, __c1, 2) as any as S.Schema<PlatformApplicationResponse>,
+  input: __S(32, __c1, 0) as any as S.Schema<ClaimAccountlessApplicationRequest>,
+  output: __S(66, __c2, 2) as any as S.Schema<PlatformApplicationResponse>,
   errors: [
     BadRequest,
     Forbidden,
@@ -2483,8 +2525,8 @@ export const createAndroidApplication: API.OperationMethod<
   CreateAndroidApplicationError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<CreateAndroidApplicationRequest>,
-  output: __S(96, __c3, 0) as any as S.Schema<PlatformAndroidApplication>,
+  input: __S(96, __c3, 0) as any as S.Schema<CreateAndroidApplicationRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<PlatformAndroidApplication>,
   errors: [
     BadRequest,
     Forbidden,
@@ -2507,8 +2549,8 @@ export const createApplication: API.OperationMethod<
   CreateApplicationError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<CreateApplicationRequest>,
-  output: __S(34, __c1, 2) as any as S.Schema<PlatformApplicationResponse>,
+  input: __S(160, __c5, 0) as any as S.Schema<CreateApplicationRequest>,
+  output: __S(66, __c2, 2) as any as S.Schema<PlatformApplicationResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkPlatformProtocol,
   retry: Retry.Retry,
@@ -2531,8 +2573,8 @@ export const createApplicationDomain: API.OperationMethod<
   CreateApplicationDomainError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<CreateApplicationDomainRequest>,
-  output: __S(224, __c7, 0) as any as S.Schema<PlatformDomainResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<CreateApplicationDomainRequest>,
+  output: __S(256, __c8, 0) as any as S.Schema<PlatformDomainResponse>,
   errors: [
     BadRequest,
     Forbidden,
@@ -2556,7 +2598,7 @@ export const createApplicationTransfer: API.OperationMethod<
   CreateApplicationTransferError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<CreateApplicationTransferRequest>,
+  input: __S(288, __c9, 0) as any as S.Schema<CreateApplicationTransferRequest>,
   output: __S(3040, __c95, 0) as any as S.Schema<PlatformApplicationTransferResponse>,
   errors: [Forbidden, Conflict, UnknownClerkError],
   protocol: ClerkPlatformProtocol,
@@ -2573,7 +2615,7 @@ export const createDomainIntent: API.OperationMethod<
   CreateDomainIntentError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<CreateDomainIntentRequest>,
+  input: __S(320, __c10, 0) as any as S.Schema<CreateDomainIntentRequest>,
   output: __S(3136, __c98, 0) as any as S.Schema<PlatformDomainIntentResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkPlatformProtocol,
@@ -2596,8 +2638,8 @@ export const createInstance: API.OperationMethod<
   CreateInstanceError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<CreateInstanceRequest>,
-  output: __S(321, __c10, 1) as any as S.Schema<CreateInstanceResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<CreateInstanceRequest>,
+  output: __S(353, __c11, 1) as any as S.Schema<CreateInstanceResponse>,
   errors: [
     BadRequest,
     Forbidden,
@@ -2626,7 +2668,7 @@ export const createInstanceUser: API.OperationMethod<
   CreateInstanceUserError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<CreateInstanceUserRequest>,
+  input: __S(384, __c12, 0) as any as S.Schema<CreateInstanceUserRequest>,
   output: __S(2710, __c84, 22) as any as S.Schema<User>,
   errors: [
     BadRequest,
@@ -2656,8 +2698,8 @@ export const createIOSApplication: API.OperationMethod<
   CreateIOSApplicationError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<CreateIOSApplicationRequest>,
-  output: __S(448, __c14, 0) as any as S.Schema<PlatformIOSApplication>,
+  input: __S(448, __c14, 0) as any as S.Schema<CreateIOSApplicationRequest>,
+  output: __S(480, __c15, 0) as any as S.Schema<PlatformIOSApplication>,
   errors: [
     BadRequest,
     Forbidden,
@@ -2686,8 +2728,8 @@ export const createJWTTemplate: API.OperationMethod<
   CreateJWTTemplateError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<CreateJWTTemplateRequest>,
-  output: __S(512, __c16, 0) as any as S.Schema<JWTTemplate>,
+  input: __S(512, __c16, 0) as any as S.Schema<CreateJWTTemplateRequest>,
+  output: __S(544, __c17, 0) as any as S.Schema<JWTTemplate>,
   errors: [
     BadRequest,
     Forbidden,
@@ -2716,8 +2758,8 @@ export const createOAuthResource: API.OperationMethod<
   CreateOAuthResourceError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<CreateOAuthResourceRequest>,
-  output: __S(576, __c18, 0) as any as S.Schema<PlatformOAuthResource>,
+  input: __S(576, __c18, 0) as any as S.Schema<CreateOAuthResourceRequest>,
+  output: __S(608, __c19, 0) as any as S.Schema<PlatformOAuthResource>,
   errors: [
     BadRequest,
     Forbidden,
@@ -2746,8 +2788,8 @@ export const createRedirectURL: API.OperationMethod<
   CreateRedirectURLError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<CreateRedirectURLRequest>,
-  output: __S(640, __c20, 0) as any as S.Schema<RedirectURL>,
+  input: __S(640, __c20, 0) as any as S.Schema<CreateRedirectURLRequest>,
+  output: __S(672, __c21, 0) as any as S.Schema<RedirectURL>,
   errors: [
     BadRequest,
     Forbidden,
@@ -2775,8 +2817,8 @@ export const deleteApplication: API.OperationMethod<
   DeleteApplicationError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<DeleteApplicationRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<PlatformDeletedObjectResponse>,
+  input: __S(704, __c22, 0) as any as S.Schema<DeleteApplicationRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<PlatformDeletedObjectResponse>,
   errors: [BadRequest, Forbidden, NotFound, ResourceNotFound, UnknownClerkError],
   protocol: ClerkPlatformProtocol,
   retry: Retry.Retry,
@@ -2798,8 +2840,8 @@ export const deleteApplicationDomain: API.OperationMethod<
   DeleteApplicationDomainError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<DeleteApplicationDomainRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<PlatformDeletedObjectResponse>,
+  input: __S(768, __c24, 0) as any as S.Schema<DeleteApplicationDomainRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<PlatformDeletedObjectResponse>,
   errors: [
     BadRequest,
     Forbidden,
@@ -2827,8 +2869,8 @@ export const deleteApplicationFavicon: API.OperationMethod<
   DeleteApplicationFaviconError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<DeleteApplicationFaviconRequest>,
-  output: __S(34, __c1, 2) as any as S.Schema<PlatformApplicationResponse>,
+  input: __S(800, __c25, 0) as any as S.Schema<DeleteApplicationFaviconRequest>,
+  output: __S(66, __c2, 2) as any as S.Schema<PlatformApplicationResponse>,
   errors: [BadRequest, Forbidden, NotFound, ResourceNotFound, UnknownClerkError],
   protocol: ClerkPlatformProtocol,
   retry: Retry.Retry,
@@ -2849,8 +2891,8 @@ export const deleteApplicationLogo: API.OperationMethod<
   DeleteApplicationLogoError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<DeleteApplicationLogoRequest>,
-  output: __S(34, __c1, 2) as any as S.Schema<PlatformApplicationResponse>,
+  input: __S(832, __c26, 0) as any as S.Schema<DeleteApplicationLogoRequest>,
+  output: __S(66, __c2, 2) as any as S.Schema<PlatformApplicationResponse>,
   errors: [BadRequest, Forbidden, NotFound, ResourceNotFound, UnknownClerkError],
   protocol: ClerkPlatformProtocol,
   retry: Retry.Retry,
@@ -2871,8 +2913,8 @@ export const deleteJWTTemplate: API.OperationMethod<
   DeleteJWTTemplateError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<DeleteJWTTemplateRequest>,
-  output: __S(864, __c27, 0) as any as S.Schema<DeletedObject>,
+  input: __S(864, __c27, 0) as any as S.Schema<DeleteJWTTemplateRequest>,
+  output: __S(896, __c28, 0) as any as S.Schema<DeletedObject>,
   errors: [BadRequest, Forbidden, NotFound, ResourceNotFound, UnknownClerkError],
   protocol: ClerkPlatformProtocol,
   retry: Retry.Retry,
@@ -2894,8 +2936,8 @@ export const deleteOAuthResource: API.OperationMethod<
   DeleteOAuthResourceError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<DeleteOAuthResourceRequest>,
-  output: __S(864, __c27, 0) as any as S.Schema<DeletedObject>,
+  input: __S(928, __c29, 0) as any as S.Schema<DeleteOAuthResourceRequest>,
+  output: __S(896, __c28, 0) as any as S.Schema<DeletedObject>,
   errors: [
     BadRequest,
     Forbidden,
@@ -2923,8 +2965,8 @@ export const deleteRedirectURL: API.OperationMethod<
   DeleteRedirectURLError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<DeleteRedirectURLRequest>,
-  output: __S(864, __c27, 0) as any as S.Schema<DeletedObject>,
+  input: __S(960, __c30, 0) as any as S.Schema<DeleteRedirectURLRequest>,
+  output: __S(896, __c28, 0) as any as S.Schema<DeletedObject>,
   errors: [BadRequest, Forbidden, NotFound, ResourceNotFound, UnknownClerkError],
   protocol: ClerkPlatformProtocol,
   retry: Retry.Retry,
@@ -2940,8 +2982,8 @@ export const deleteUser: API.OperationMethod<
   DeleteUserError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<DeleteUserRequest>,
-  output: __S(864, __c27, 0) as any as S.Schema<DeletedObject>,
+  input: __S(992, __c31, 0) as any as S.Schema<DeleteUserRequest>,
+  output: __S(896, __c28, 0) as any as S.Schema<DeletedObject>,
   errors: [BadRequest, Forbidden, NotFound, ResourceNotFound, UnknownClerkError],
   protocol: ClerkPlatformProtocol,
   retry: Retry.Retry,
@@ -2962,7 +3004,7 @@ export const deleteUserProfileImage: API.OperationMethod<
   DeleteUserProfileImageError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<DeleteUserProfileImageRequest>,
+  input: __S(1024, __c32, 0) as any as S.Schema<DeleteUserProfileImageRequest>,
   output: __S(2710, __c84, 22) as any as S.Schema<User>,
   errors: [BadRequest, Forbidden, NotFound, ResourceNotFound, UnknownClerkError],
   protocol: ClerkPlatformProtocol,
@@ -2984,8 +3026,8 @@ export const getApplication: API.OperationMethod<
   GetApplicationError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<GetApplicationRequest>,
-  output: __S(34, __c1, 2) as any as S.Schema<PlatformApplicationResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<GetApplicationRequest>,
+  output: __S(66, __c2, 2) as any as S.Schema<PlatformApplicationResponse>,
   errors: [BadRequest, Forbidden, NotFound, ResourceNotFound, UnknownClerkError],
   protocol: ClerkPlatformProtocol,
   retry: Retry.Retry,
@@ -3006,8 +3048,8 @@ export const getApplicationDomain: API.OperationMethod<
   GetApplicationDomainError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<GetApplicationDomainRequest>,
-  output: __S(224, __c7, 0) as any as S.Schema<PlatformDomainResponse>,
+  input: __S(1088, __c34, 0) as any as S.Schema<GetApplicationDomainRequest>,
+  output: __S(256, __c8, 0) as any as S.Schema<PlatformDomainResponse>,
   errors: [BadRequest, Forbidden, NotFound, ResourceNotFound, UnknownClerkError],
   protocol: ClerkPlatformProtocol,
   retry: Retry.Retry,
@@ -3028,8 +3070,8 @@ export const getApplicationDomainStatus: API.OperationMethod<
   GetApplicationDomainStatusError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<GetApplicationDomainStatusRequest>,
-  output: __S(1089, __c34, 1) as any as S.Schema<PlatformDomainStatusResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<GetApplicationDomainStatusRequest>,
+  output: __S(1121, __c35, 1) as any as S.Schema<PlatformDomainStatusResponse>,
   errors: [BadRequest, Forbidden, NotFound, ResourceNotFound, UnknownClerkError],
   protocol: ClerkPlatformProtocol,
   retry: Retry.Retry,
@@ -3045,7 +3087,7 @@ export const getApplicationTransfer: API.OperationMethod<
   GetApplicationTransferError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<GetApplicationTransferRequest>,
+  input: __S(1184, __c37, 0) as any as S.Schema<GetApplicationTransferRequest>,
   output: __S(3040, __c95, 0) as any as S.Schema<PlatformApplicationTransferResponse>,
   errors: [Forbidden, NotFound, ResourceNotFound, UnknownClerkError],
   protocol: ClerkPlatformProtocol,
@@ -3062,8 +3104,8 @@ export const getConfig: API.OperationMethod<
   GetConfigError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<GetConfigRequest>,
-  output: __S(1185, __c37, 1) as any as S.Schema<PlatformConfigResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<GetConfigRequest>,
+  output: __S(1217, __c38, 1) as any as S.Schema<PlatformConfigResponse>,
   errors: [BadRequest, Forbidden, NotFound, ResourceNotFound, UnknownClerkError],
   protocol: ClerkPlatformProtocol,
   retry: Retry.Retry,
@@ -3084,8 +3126,8 @@ export const getConfigSchema: API.OperationMethod<
   GetConfigSchemaError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<GetConfigSchemaRequest>,
-  output: __S(1217, __c38, 1) as any as S.Schema<PlatformConfigSchemaResponse>,
+  input: __S(1248, __c39, 0) as any as S.Schema<GetConfigSchemaRequest>,
+  output: __S(1249, __c39, 1) as any as S.Schema<PlatformConfigSchemaResponse>,
   errors: [BadRequest, Forbidden, NotFound, ResourceNotFound, UnknownClerkError],
   protocol: ClerkPlatformProtocol,
   retry: Retry.Retry,
@@ -3101,8 +3143,8 @@ export const getDomain: API.OperationMethod<
   GetDomainError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<GetDomainRequest>,
-  output: __S(1280, __c40, 0) as any as S.Schema<GetDomainResponse>,
+  input: __S(1280, __c40, 0) as any as S.Schema<GetDomainRequest>,
+  output: __S(1312, __c41, 0) as any as S.Schema<GetDomainResponse>,
   errors: [Forbidden, NotFound, ResourceNotFound, UnknownClerkError],
   protocol: ClerkPlatformProtocol,
   retry: Retry.Retry,
@@ -3118,7 +3160,7 @@ export const getDomainIntent: API.OperationMethod<
   GetDomainIntentError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<GetDomainIntentRequest>,
+  input: __S(1344, __c42, 0) as any as S.Schema<GetDomainIntentRequest>,
   output: __S(3136, __c98, 0) as any as S.Schema<PlatformDomainIntentResponse>,
   errors: [Forbidden, NotFound, ResourceNotFound, UnknownClerkError],
   protocol: ClerkPlatformProtocol,
@@ -3140,8 +3182,8 @@ export const getInstanceUsage: API.OperationMethod<
   GetInstanceUsageError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<GetInstanceUsageRequest>,
-  output: __S(1348, __c42, 4) as any as S.Schema<PlatformInstanceUsageResponse>,
+  input: __S(1376, __c43, 0) as any as S.Schema<GetInstanceUsageRequest>,
+  output: __S(1380, __c43, 4) as any as S.Schema<PlatformInstanceUsageResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, ResourceNotFound, UnknownClerkError],
   protocol: ClerkPlatformProtocol,
   retry: Retry.Retry,
@@ -3162,8 +3204,8 @@ export const getJWTTemplate: API.OperationMethod<
   GetJWTTemplateError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<GetJWTTemplateRequest>,
-  output: __S(512, __c16, 0) as any as S.Schema<JWTTemplate>,
+  input: __S(1408, __c44, 0) as any as S.Schema<GetJWTTemplateRequest>,
+  output: __S(544, __c17, 0) as any as S.Schema<JWTTemplate>,
   errors: [BadRequest, Forbidden, NotFound, ResourceNotFound, UnknownClerkError],
   protocol: ClerkPlatformProtocol,
   retry: Retry.Retry,
@@ -3179,8 +3221,8 @@ export const getMe: API.OperationMethod<
   GetMeError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<GetMeRequest>,
-  output: __S(1409, __c44, 1) as any as S.Schema<PlatformPrincipalResponse>,
+  input: __S(1440, __c45, 0) as any as S.Schema<GetMeRequest>,
+  output: __S(1441, __c45, 1) as any as S.Schema<PlatformPrincipalResponse>,
   errors: [Forbidden, UnknownClerkError],
   protocol: ClerkPlatformProtocol,
   retry: Retry.Retry,
@@ -3201,8 +3243,8 @@ export const getNativeSettings: API.OperationMethod<
   GetNativeSettingsError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<GetNativeSettingsRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<PlatformNativeSettings>,
+  input: __S(1472, __c46, 0) as any as S.Schema<GetNativeSettingsRequest>,
+  output: __S(1504, __c47, 0) as any as S.Schema<PlatformNativeSettings>,
   errors: [BadRequest, Forbidden, NotFound, ResourceNotFound, UnknownClerkError],
   protocol: ClerkPlatformProtocol,
   retry: Retry.Retry,
@@ -3223,8 +3265,8 @@ export const getOAuthApplicationSettings: API.OperationMethod<
   GetOAuthApplicationSettingsError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<GetOAuthApplicationSettingsRequest>,
-  output: __S(1536, __c48, 0) as any as S.Schema<PlatformOAuthApplicationSettings>,
+  input: __S(1536, __c48, 0) as any as S.Schema<GetOAuthApplicationSettingsRequest>,
+  output: __S(1568, __c49, 0) as any as S.Schema<PlatformOAuthApplicationSettings>,
   errors: [BadRequest, Forbidden, NotFound, ResourceNotFound, UnknownClerkError],
   protocol: ClerkPlatformProtocol,
   retry: Retry.Retry,
@@ -3245,8 +3287,8 @@ export const getOAuthResource: API.OperationMethod<
   GetOAuthResourceError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<GetOAuthResourceRequest>,
-  output: __S(576, __c18, 0) as any as S.Schema<PlatformOAuthResource>,
+  input: __S(1600, __c50, 0) as any as S.Schema<GetOAuthResourceRequest>,
+  output: __S(608, __c19, 0) as any as S.Schema<PlatformOAuthResource>,
   errors: [BadRequest, Forbidden, NotFound, ResourceNotFound, UnknownClerkError],
   protocol: ClerkPlatformProtocol,
   retry: Retry.Retry,
@@ -3267,8 +3309,8 @@ export const getRedirectURL: API.OperationMethod<
   GetRedirectURLError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<GetRedirectURLRequest>,
-  output: __S(640, __c20, 0) as any as S.Schema<RedirectURL>,
+  input: __S(1632, __c51, 0) as any as S.Schema<GetRedirectURLRequest>,
+  output: __S(672, __c21, 0) as any as S.Schema<RedirectURL>,
   errors: [BadRequest, Forbidden, NotFound, ResourceNotFound, UnknownClerkError],
   protocol: ClerkPlatformProtocol,
   retry: Retry.Retry,
@@ -3289,8 +3331,8 @@ export const listAndroidApplications: API.OperationMethod<
   ListAndroidApplicationsError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<ListAndroidApplicationsRequest>,
-  output: __S(1634, __c51, 2) as any as S.Schema<ListAndroidApplicationsResponse>,
+  input: __S(1664, __c52, 0) as any as S.Schema<ListAndroidApplicationsRequest>,
+  output: __S(1666, __c52, 2) as any as S.Schema<ListAndroidApplicationsResponse>,
   errors: [BadRequest, Forbidden, NotFound, ResourceNotFound, UnknownClerkError],
   protocol: ClerkPlatformProtocol,
   retry: Retry.Retry,
@@ -3306,8 +3348,8 @@ export const listApplicationDomains: API.OperationMethod<
   ListApplicationDomainsError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<ListApplicationDomainsRequest>,
-  output: __S(1666, __c52, 2) as any as S.Schema<PlatformListApplicationDomainsResponse>,
+  input: __S(1696, __c53, 0) as any as S.Schema<ListApplicationDomainsRequest>,
+  output: __S(1698, __c53, 2) as any as S.Schema<PlatformListApplicationDomainsResponse>,
   errors: [Forbidden, NotFound, ResourceNotFound, UnknownClerkError],
   protocol: ClerkPlatformProtocol,
   retry: Retry.Retry,
@@ -3323,8 +3365,8 @@ export const listApplications: API.OperationMethod<
   ListApplicationsError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<ListApplicationsRequest>,
-  output: __S(1697, __c53, 1) as any as S.Schema<ListApplicationsResponse>,
+  input: __S(1728, __c54, 0) as any as S.Schema<ListApplicationsRequest>,
+  output: __S(1729, __c54, 1) as any as S.Schema<ListApplicationsResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkPlatformProtocol,
   retry: Retry.Retry,
@@ -3340,8 +3382,8 @@ export const listApplicationTransfers: API.OperationMethod<
   ListApplicationTransfersError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<ListApplicationTransfersRequest>,
-  output: __S(1730, __c54, 2) as any as S.Schema<PlatformListApplicationTransfersResponse>,
+  input: __S(1760, __c55, 0) as any as S.Schema<ListApplicationTransfersRequest>,
+  output: __S(1762, __c55, 2) as any as S.Schema<PlatformListApplicationTransfersResponse>,
   errors: [Forbidden, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkPlatformProtocol,
   retry: Retry.Retry,
@@ -3357,8 +3399,8 @@ export const listDomainIntents: API.OperationMethod<
   ListDomainIntentsError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<ListDomainIntentsRequest>,
-  output: __S(1762, __c55, 2) as any as S.Schema<PlatformListDomainIntentsResponse>,
+  input: __S(1792, __c56, 0) as any as S.Schema<ListDomainIntentsRequest>,
+  output: __S(1794, __c56, 2) as any as S.Schema<PlatformListDomainIntentsResponse>,
   errors: [Forbidden, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkPlatformProtocol,
   retry: Retry.Retry,
@@ -3374,8 +3416,8 @@ export const listDomains: API.OperationMethod<
   ListDomainsError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<ListDomainsRequest>,
-  output: __S(1794, __c56, 2) as any as S.Schema<PlatformListDomainsResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<ListDomainsRequest>,
+  output: __S(1826, __c57, 2) as any as S.Schema<PlatformListDomainsResponse>,
   errors: [Forbidden, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkPlatformProtocol,
   retry: Retry.Retry,
@@ -3397,8 +3439,8 @@ export const listInstanceLogGroupEvents: API.OperationMethod<
   ListInstanceLogGroupEventsError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<ListInstanceLogGroupEventsRequest>,
-  output: __S(1834, __c57, 10) as any as S.Schema<GroupEventList>,
+  input: __S(1856, __c58, 0) as any as S.Schema<ListInstanceLogGroupEventsRequest>,
+  output: __S(1866, __c58, 10) as any as S.Schema<GroupEventList>,
   errors: [
     BadRequest,
     Forbidden,
@@ -3427,8 +3469,8 @@ export const listInstanceLogs: API.OperationMethod<
   ListInstanceLogsError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<ListInstanceLogsRequest>,
-  output: __S(1890, __c59, 2) as any as S.Schema<GroupedLogList>,
+  input: __S(1920, __c60, 0) as any as S.Schema<ListInstanceLogsRequest>,
+  output: __S(1922, __c60, 2) as any as S.Schema<GroupedLogList>,
   errors: [
     BadRequest,
     Forbidden,
@@ -3457,8 +3499,8 @@ export const listInstanceOrganizationMemberships: API.OperationMethod<
   ListInstanceOrganizationMembershipsError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<ListInstanceOrganizationMembershipsRequest>,
-  output: __S(1952, __c61, 0) as any as S.Schema<OrganizationMemberships>,
+  input: __S(1952, __c61, 0) as any as S.Schema<ListInstanceOrganizationMembershipsRequest>,
+  output: __S(1984, __c62, 0) as any as S.Schema<OrganizationMemberships>,
   errors: [
     BadRequest,
     Forbidden,
@@ -3487,8 +3529,8 @@ export const listInstanceOrganizations: API.OperationMethod<
   ListInstanceOrganizationsError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<ListInstanceOrganizationsRequest>,
-  output: __S(1986, __c62, 2) as any as S.Schema<Organizations>,
+  input: __S(2016, __c63, 0) as any as S.Schema<ListInstanceOrganizationsRequest>,
+  output: __S(2018, __c63, 2) as any as S.Schema<Organizations>,
   errors: [
     BadRequest,
     Forbidden,
@@ -3517,8 +3559,8 @@ export const listInstanceUsers: API.OperationMethod<
   ListInstanceUsersError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<ListInstanceUsersRequest>,
-  output: __S(2017, __c63, 1) as any as S.Schema<ListInstanceUsersResponse>,
+  input: __S(2048, __c64, 0) as any as S.Schema<ListInstanceUsersRequest>,
+  output: __S(2049, __c64, 1) as any as S.Schema<ListInstanceUsersResponse>,
   errors: [
     BadRequest,
     Forbidden,
@@ -3546,8 +3588,8 @@ export const listIOSApplications: API.OperationMethod<
   ListIOSApplicationsError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<ListIOSApplicationsRequest>,
-  output: __S(2050, __c64, 2) as any as S.Schema<ListIOSApplicationsResponse>,
+  input: __S(2080, __c65, 0) as any as S.Schema<ListIOSApplicationsRequest>,
+  output: __S(2082, __c65, 2) as any as S.Schema<ListIOSApplicationsResponse>,
   errors: [BadRequest, Forbidden, NotFound, ResourceNotFound, UnknownClerkError],
   protocol: ClerkPlatformProtocol,
   retry: Retry.Retry,
@@ -3568,8 +3610,8 @@ export const listJWTTemplates: API.OperationMethod<
   ListJWTTemplatesError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<ListJWTTemplatesRequest>,
-  output: __S(2082, __c65, 2) as any as S.Schema<ListJWTTemplatesResponse>,
+  input: __S(2112, __c66, 0) as any as S.Schema<ListJWTTemplatesRequest>,
+  output: __S(2114, __c66, 2) as any as S.Schema<ListJWTTemplatesResponse>,
   errors: [BadRequest, Forbidden, NotFound, ResourceNotFound, UnknownClerkError],
   protocol: ClerkPlatformProtocol,
   retry: Retry.Retry,
@@ -3591,8 +3633,8 @@ export const listOAuthResources: API.OperationMethod<
   ListOAuthResourcesError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<ListOAuthResourcesRequest>,
-  output: __S(2114, __c66, 2) as any as S.Schema<PlatformListOAuthResourcesResponse>,
+  input: __S(2144, __c67, 0) as any as S.Schema<ListOAuthResourcesRequest>,
+  output: __S(2146, __c67, 2) as any as S.Schema<PlatformListOAuthResourcesResponse>,
   errors: [
     BadRequest,
     Forbidden,
@@ -3621,8 +3663,8 @@ export const listRedirectURLs: API.OperationMethod<
   ListRedirectURLsError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<ListRedirectURLsRequest>,
-  output: __S(2146, __c67, 2) as any as S.Schema<PlatformListRedirectURLsResponse>,
+  input: __S(2176, __c68, 0) as any as S.Schema<ListRedirectURLsRequest>,
+  output: __S(2178, __c68, 2) as any as S.Schema<PlatformListRedirectURLsResponse>,
   errors: [
     BadRequest,
     Forbidden,
@@ -3651,8 +3693,8 @@ export const listUserOrganizationMemberships: API.OperationMethod<
   ListUserOrganizationMembershipsError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<ListUserOrganizationMembershipsRequest>,
-  output: __S(1952, __c61, 0) as any as S.Schema<OrganizationMemberships>,
+  input: __S(2208, __c69, 0) as any as S.Schema<ListUserOrganizationMembershipsRequest>,
+  output: __S(1984, __c62, 0) as any as S.Schema<OrganizationMemberships>,
   errors: [
     BadRequest,
     Forbidden,
@@ -3683,8 +3725,8 @@ export const patchConfig: API.OperationMethod<
   PatchConfigError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<PatchConfigRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<PlatformConfigPatchResponse>,
+  input: __S(2240, __c70, 0) as any as S.Schema<PatchConfigRequest>,
+  output: __S(2272, __c71, 0) as any as S.Schema<PlatformConfigPatchResponse>,
   errors: [
     BadRequest,
     Forbidden,
@@ -3717,8 +3759,8 @@ export const putConfig: API.OperationMethod<
   PutConfigError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<PutConfigRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<PlatformConfigPatchResponse>,
+  input: __S(2304, __c72, 0) as any as S.Schema<PutConfigRequest>,
+  output: __S(2272, __c71, 0) as any as S.Schema<PlatformConfigPatchResponse>,
   errors: [
     BadRequest,
     Forbidden,
@@ -3748,8 +3790,8 @@ export const rotateInstanceSecretKeys: API.OperationMethod<
   RotateInstanceSecretKeysError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<RotateInstanceSecretKeysRequest>,
-  output: __S(2338, __c73, 2) as any as S.Schema<PlatformRotateSecretKeysResponse>,
+  input: __S(2336, __c73, 0) as any as S.Schema<RotateInstanceSecretKeysRequest>,
+  output: __S(2370, __c74, 2) as any as S.Schema<PlatformRotateSecretKeysResponse>,
   errors: [BadRequest, Forbidden, NotFound, ResourceNotFound, UnknownClerkError],
   protocol: ClerkPlatformProtocol,
   retry: Retry.Retry,
@@ -3770,8 +3812,8 @@ export const rotateSecretKeys: API.OperationMethod<
   RotateSecretKeysError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<RotateSecretKeysRequest>,
-  output: __S(2338, __c73, 2) as any as S.Schema<PlatformRotateSecretKeysResponse>,
+  input: __S(2400, __c75, 0) as any as S.Schema<RotateSecretKeysRequest>,
+  output: __S(2370, __c74, 2) as any as S.Schema<PlatformRotateSecretKeysResponse>,
   errors: [BadRequest, Forbidden, NotFound, ResourceNotFound, UnknownClerkError],
   protocol: ClerkPlatformProtocol,
   retry: Retry.Retry,
@@ -3792,7 +3834,7 @@ export const setUserProfileImage: API.OperationMethod<
   SetUserProfileImageError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<SetUserProfileImageRequest>,
+  input: __S(2432, __c76, 0) as any as S.Schema<SetUserProfileImageRequest>,
   output: __S(2710, __c84, 22) as any as S.Schema<User>,
   errors: [BadRequest, Forbidden, NotFound, ResourceNotFound, UnknownClerkError],
   protocol: ClerkPlatformProtocol,
@@ -3815,8 +3857,8 @@ export const triggerDNSCheck: API.OperationMethod<
   TriggerDNSCheckError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<TriggerDNSCheckRequest>,
-  output: __S(2433, __c76, 1) as any as S.Schema<TriggerDNSCheckResponse>,
+  input: __S(2464, __c77, 0) as any as S.Schema<TriggerDNSCheckRequest>,
+  output: __S(2465, __c77, 1) as any as S.Schema<TriggerDNSCheckResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, ResourceNotFound, UnknownClerkError],
   protocol: ClerkPlatformProtocol,
   retry: Retry.Retry,
@@ -3832,7 +3874,7 @@ export const unbanUser: API.OperationMethod<
   UnbanUserError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<UnbanUserRequest>,
+  input: __S(2496, __c78, 0) as any as S.Schema<UnbanUserRequest>,
   output: __S(2710, __c84, 22) as any as S.Schema<User>,
   errors: [BadRequest, Forbidden, NotFound, ResourceNotFound, UnknownClerkError],
   protocol: ClerkPlatformProtocol,
@@ -3855,8 +3897,8 @@ export const updateApplication: API.OperationMethod<
   UpdateApplicationError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<UpdateApplicationRequest>,
-  output: __S(34, __c1, 2) as any as S.Schema<PlatformApplicationResponse>,
+  input: __S(2528, __c79, 0) as any as S.Schema<UpdateApplicationRequest>,
+  output: __S(66, __c2, 2) as any as S.Schema<PlatformApplicationResponse>,
   errors: [
     BadRequest,
     Forbidden,
@@ -3886,7 +3928,7 @@ export const updateApplicationDomain: API.OperationMethod<
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<UpdateApplicationDomainRequest>,
-  output: __S(224, __c7, 0) as any as S.Schema<PlatformDomainResponse>,
+  output: __S(256, __c8, 0) as any as S.Schema<PlatformDomainResponse>,
   errors: [
     BadRequest,
     Forbidden,
@@ -3946,7 +3988,7 @@ export const updateJWTTemplate: API.OperationMethod<
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2784, __c87, 0) as any as S.Schema<UpdateJWTTemplateRequest>,
-  output: __S(512, __c16, 0) as any as S.Schema<JWTTemplate>,
+  output: __S(544, __c17, 0) as any as S.Schema<JWTTemplate>,
   errors: [
     BadRequest,
     Forbidden,
@@ -3976,7 +4018,7 @@ export const updateNativeSettings: API.OperationMethod<
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2816, __c88, 0) as any as S.Schema<UpdateNativeSettingsRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<PlatformNativeSettings>,
+  output: __S(1504, __c47, 0) as any as S.Schema<PlatformNativeSettings>,
   errors: [
     BadRequest,
     Forbidden,
@@ -4006,7 +4048,7 @@ export const updateOAuthApplicationSettings: API.OperationMethod<
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c89, 0) as any as S.Schema<UpdateOAuthApplicationSettingsRequest>,
-  output: __S(1536, __c48, 0) as any as S.Schema<PlatformOAuthApplicationSettings>,
+  output: __S(1568, __c49, 0) as any as S.Schema<PlatformOAuthApplicationSettings>,
   errors: [
     BadRequest,
     Forbidden,
@@ -4036,7 +4078,7 @@ export const updateOAuthResource: API.OperationMethod<
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2880, __c90, 0) as any as S.Schema<UpdateOAuthResourceRequest>,
-  output: __S(576, __c18, 0) as any as S.Schema<PlatformOAuthResource>,
+  output: __S(608, __c19, 0) as any as S.Schema<PlatformOAuthResource>,
   errors: [
     BadRequest,
     Forbidden,
@@ -4096,7 +4138,7 @@ export const uploadApplicationFavicon: API.OperationMethod<
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c92, 0) as any as S.Schema<UploadApplicationFaviconRequest>,
-  output: __S(34, __c1, 2) as any as S.Schema<PlatformApplicationResponse>,
+  output: __S(66, __c2, 2) as any as S.Schema<PlatformApplicationResponse>,
   errors: [
     BadRequest,
     Forbidden,
@@ -4126,7 +4168,7 @@ export const uploadApplicationLogo: API.OperationMethod<
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2976, __c93, 0) as any as S.Schema<UploadApplicationLogoRequest>,
-  output: __S(34, __c1, 2) as any as S.Schema<PlatformApplicationResponse>,
+  output: __S(66, __c2, 2) as any as S.Schema<PlatformApplicationResponse>,
   errors: [
     BadRequest,
     Forbidden,
@@ -4145,6 +4187,31 @@ export const uploadApplicationLogo: API.OperationMethod<
 function __c0(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, S.Unknown);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+          long_message: S.String,
+          code: S.String,
+          meta: S.optional(__S(0, __c0, 0)),
+        }),
+      ).annotate({ identifier: "ClerkError" });
+    case 2:
+      return S.Array(__S(1, __c0, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          errors: __S(2, __c0, 2),
+          meta: S.optional(__S(0, __c0, 0)),
+          clerk_trace_id: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ClerkErrors" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           token: S.String.pipe(T.SensitiveValue({})),
@@ -4155,7 +4222,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "ClaimAccountlessApplicationRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4168,18 +4235,18 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "PlatformApplicationInstance" });
     case 1:
-      return S.Array(__S(32, __c1, 0));
+      return S.Array(__S(64, __c2, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           application_id: S.String,
           name: S.String,
-          instances: __S(33, __c1, 1),
+          instances: __S(65, __c2, 1),
         }),
       ).annotate({ identifier: "PlatformApplicationResponse" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4189,7 +4256,7 @@ function __c2(j: number): any {
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
           namespace: S.String,
           package_name: S.String,
-          fingerprints: S.optional(__S(2560, __c80, 0)),
+          fingerprints: S.optional(__S(2592, __c81, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4200,7 +4267,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "CreateAndroidApplicationRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4209,14 +4276,14 @@ function __c3(j: number): any {
           id: S.String,
           namespace: S.String,
           package_name: S.String,
-          fingerprints: __S(2560, __c80, 0),
+          fingerprints: __S(2592, __c81, 0),
           created_at: S.Number,
           updated_at: S.Number,
         }),
       ).annotate({ identifier: "PlatformAndroidApplication" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4227,13 +4294,13 @@ function __c4(j: number): any {
           name: S.String,
           domain: S.optional(S.String),
           proxy_path: S.optional(S.String),
-          environment_types: S.optional(__S(2560, __c80, 0)),
+          environment_types: S.optional(__S(2592, __c81, 0)),
           template: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/platform/applications", code: 200 })),
       ).annotate({ identifier: "CreateApplicationRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4252,7 +4319,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CreateApplicationDomainRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4263,7 +4330,7 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "PlatformCNameTarget" });
     case 1:
-      return S.Array(__S(192, __c6, 0));
+      return S.Array(__S(224, __c7, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -4285,7 +4352,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "PlatformDomainInstanceSummary" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4299,23 +4366,23 @@ function __c7(j: number): any {
           development_origin: S.String,
           accounts_portal_url: S.optional(S.String),
           proxy_url: S.optional(S.String),
-          cname_targets: S.optional(__S(193, __c6, 1)),
+          cname_targets: S.optional(__S(225, __c7, 1)),
           dns_targets: S.optional(__S(3105, __c97, 1)),
           created_at: S.String,
           updated_at: S.String,
-          application: S.optional(__S(194, __c6, 2)),
-          instance: S.optional(__S(195, __c6, 3)),
+          application: S.optional(__S(226, __c7, 2)),
+          instance: S.optional(__S(227, __c7, 3)),
         }),
       ).annotate({ identifier: "PlatformDomainResponse" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           applicationID: S.String.pipe(T.Label()),
-          body: S.optional(__S(2592, __c81, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(0, __c0, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4326,7 +4393,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "CreateApplicationTransferRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4337,7 +4404,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "CreateDomainIntentRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4364,7 +4431,7 @@ function __c10(j: number): any {
           object: S.String,
           id: S.String,
           environment_type: S.String,
-          active_domain: __S(224, __c7, 0),
+          active_domain: __S(256, __c8, 0),
           secret_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
           encrypted_secret_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
           publishable_key: S.String,
@@ -4374,7 +4441,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "CreateInstanceResponse" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4385,11 +4452,11 @@ function __c11(j: number): any {
           first_name: S.optional(S.NullOr(S.String)),
           last_name: S.optional(S.NullOr(S.String)),
           locale: S.optional(S.NullOr(S.String)),
-          email_address: S.optional(__S(2560, __c80, 0)),
-          email_address_identification_status: S.optional(__S(384, __c12, 0)),
-          phone_number: S.optional(__S(2560, __c80, 0)),
-          phone_number_identification_status: S.optional(__S(384, __c12, 0)),
-          web3_wallet: S.optional(__S(2560, __c80, 0)),
+          email_address: S.optional(__S(2592, __c81, 0)),
+          email_address_identification_status: S.optional(__S(416, __c13, 0)),
+          phone_number: S.optional(__S(2592, __c81, 0)),
+          phone_number_identification_status: S.optional(__S(416, __c13, 0)),
+          web3_wallet: S.optional(__S(2592, __c81, 0)),
           username: S.optional(S.NullOr(S.String)),
           password: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           password_digest: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
@@ -4398,9 +4465,9 @@ function __c11(j: number): any {
           skip_password_requirement: S.optional(S.NullOr(S.Boolean)),
           totp_secret: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           backup_codes: S.optional(__S(2692, __c84, 4)),
-          public_metadata: S.optional(__S(2592, __c81, 0)),
-          private_metadata: S.optional(__S(2592, __c81, 0)),
-          unsafe_metadata: S.optional(__S(2592, __c81, 0)),
+          public_metadata: S.optional(__S(0, __c0, 0)),
+          private_metadata: S.optional(__S(0, __c0, 0)),
+          unsafe_metadata: S.optional(__S(0, __c0, 0)),
           delete_self_enabled: S.optional(S.NullOr(S.Boolean)),
           legal_accepted_at: S.optional(S.NullOr(S.String)),
           skip_legal_checks: S.optional(S.NullOr(S.Boolean)),
@@ -4421,13 +4488,13 @@ function __c11(j: number): any {
       ).annotate({ identifier: "CreateInstanceUserRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4447,7 +4514,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "CreateIOSApplicationRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4462,7 +4529,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "PlatformIOSApplication" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4486,7 +4553,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "CreateJWTTemplateRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4505,7 +4572,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "JWTTemplate" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4514,7 +4581,7 @@ function __c17(j: number): any {
           envOrInsID: S.String.pipe(T.Label()),
           uri: S.String,
           name: S.String,
-          scopes: S.optional(__S(2560, __c80, 0)),
+          scopes: S.optional(__S(2592, __c81, 0)),
           mcp_server: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -4526,7 +4593,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "CreateOAuthResourceRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4535,7 +4602,7 @@ function __c18(j: number): any {
           id: S.String,
           uri: S.String,
           name: S.String,
-          scopes: __S(2560, __c80, 0),
+          scopes: __S(2592, __c81, 0),
           oauth_application_id: S.NullOr(S.String),
           reserved_oauth_application_id: S.NullOr(S.String),
           mcp_server: S.Boolean,
@@ -4545,7 +4612,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "PlatformOAuthResource" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4563,7 +4630,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "CreateRedirectURLRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4577,7 +4644,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "RedirectURL" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4589,7 +4656,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "DeleteApplicationRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4601,7 +4668,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "PlatformDeletedObjectResponse" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4618,7 +4685,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "DeleteApplicationDomainRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4634,7 +4701,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "DeleteApplicationFaviconRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4650,7 +4717,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "DeleteApplicationLogoRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4668,7 +4735,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "DeleteJWTTemplateRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4682,7 +4749,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "DeletedObject" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4700,7 +4767,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "DeleteOAuthResourceRequest" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4718,7 +4785,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "DeleteRedirectURLRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4736,7 +4803,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "DeleteUserRequest" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4754,7 +4821,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "DeleteUserProfileImageRequest" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4767,7 +4834,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "GetApplicationRequest" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4784,7 +4851,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "GetApplicationDomainRequest" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4802,17 +4869,17 @@ function __c34(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          dns: __S(1124, __c35, 4),
-          ssl: __S(1125, __c35, 5),
-          ssl_hosts: S.optional(__S(1127, __c35, 7)),
-          mail: S.optional(__S(1128, __c35, 8)),
-          proxy: S.optional(__S(1128, __c35, 8)),
+          dns: __S(1156, __c36, 4),
+          ssl: __S(1157, __c36, 5),
+          ssl_hosts: S.optional(__S(1159, __c36, 7)),
+          mail: S.optional(__S(1160, __c36, 8)),
+          proxy: S.optional(__S(1160, __c36, 8)),
           status: S.String,
         }),
       ).annotate({ identifier: "PlatformDomainStatusResponse" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4822,36 +4889,36 @@ function __c35(j: number): any {
         }),
       ).annotate({ identifier: "FailureHint" });
     case 1:
-      return S.Array(__S(1120, __c35, 0));
+      return S.Array(__S(1152, __c36, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          actual: S.optional(__S(2560, __c80, 0)),
+          actual: S.optional(__S(2592, __c81, 0)),
           clerk_subdomain: S.String,
           from: S.String,
           to: S.String,
           record_type: S.String,
           verified: S.Boolean,
           required: S.Boolean,
-          failure_hints: S.NullOr(__S(1121, __c35, 1)),
+          failure_hints: S.NullOr(__S(1153, __c36, 1)),
         }),
       ).annotate({ identifier: "CNAMEStatus" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          accounts: S.optional(__S(1122, __c35, 2)),
-          clerk: S.optional(__S(1122, __c35, 2)),
-          clk__domainkey: S.optional(__S(1122, __c35, 2).pipe(T.Body("clk._domainkey"))),
-          clk2__domainkey: S.optional(__S(1122, __c35, 2).pipe(T.Body("clk2._domainkey"))),
-          clkmail: S.optional(__S(1122, __c35, 2)),
-          _dmarc: S.optional(__S(1122, __c35, 2)),
+          accounts: S.optional(__S(1154, __c36, 2)),
+          clerk: S.optional(__S(1154, __c36, 2)),
+          clk__domainkey: S.optional(__S(1154, __c36, 2).pipe(T.Body("clk._domainkey"))),
+          clk2__domainkey: S.optional(__S(1154, __c36, 2).pipe(T.Body("clk2._domainkey"))),
+          clkmail: S.optional(__S(1154, __c36, 2)),
+          _dmarc: S.optional(__S(1154, __c36, 2)),
         }),
       ).annotate({ identifier: "DNSStatusCnames" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           status: S.String,
-          cnames: __S(1123, __c35, 3),
+          cnames: __S(1155, __c36, 3),
         }),
       ).annotate({ identifier: "DNSStatus" });
     case 5:
@@ -4859,7 +4926,7 @@ function __c35(j: number): any {
         S.Struct({
           status: S.optional(S.String),
           required: S.optional(S.Boolean),
-          failure_hints: S.optional(S.NullOr(__S(1121, __c35, 1))),
+          failure_hints: S.optional(S.NullOr(__S(1153, __c36, 1))),
         }),
       ).annotate({ identifier: "PlatformDomainStatusResponseSsl" });
     case 6:
@@ -4867,11 +4934,11 @@ function __c35(j: number): any {
         S.Struct({
           status: S.String,
           required: S.Boolean,
-          failure_hints: S.NullOr(__S(1121, __c35, 1)),
+          failure_hints: S.NullOr(__S(1153, __c36, 1)),
         }),
       ).annotate({ identifier: "SSLStatus" });
     case 7:
-      return S.Record(S.String, __S(1126, __c35, 6));
+      return S.Record(S.String, __S(1158, __c36, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -4881,7 +4948,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "PlatformDomainStatusResponseMail" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4898,14 +4965,14 @@ function __c36(j: number): any {
       ).annotate({ identifier: "GetApplicationTransferRequest" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           applicationID: S.String.pipe(T.Label()),
           envOrInsID: S.String.pipe(T.Label()),
-          keys: S.optional(__S(2560, __c80, 0).pipe(T.Query())),
+          keys: S.optional(__S(2592, __c81, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4925,14 +4992,14 @@ function __c37(j: number): any {
       ).annotate({ identifier: "PlatformConfigResponse" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           applicationID: S.String.pipe(T.Label()),
           envOrInsID: S.String.pipe(T.Label()),
-          keys: S.optional(__S(2560, __c80, 0).pipe(T.Query())),
+          keys: S.optional(__S(2592, __c81, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4948,14 +5015,14 @@ function __c38(j: number): any {
             _schema: S.optional(S.String.pipe(T.Body("$schema"))),
             _id: S.optional(S.String.pipe(T.Body("$id"))),
             type: S.optional(S.String),
-            properties: S.optional(__S(2592, __c81, 0)),
+            properties: S.optional(__S(0, __c0, 0)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "PlatformConfigSchemaResponse" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4965,7 +5032,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "GetDomainRequest" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4979,17 +5046,17 @@ function __c40(j: number): any {
           development_origin: S.String,
           accounts_portal_url: S.optional(S.String),
           proxy_url: S.optional(S.String),
-          cname_targets: S.optional(__S(193, __c6, 1)),
+          cname_targets: S.optional(__S(225, __c7, 1)),
           dns_targets: S.optional(__S(3105, __c97, 1)),
           created_at: S.String,
           updated_at: S.String,
-          application: __S(194, __c6, 2),
-          instance: __S(195, __c6, 3),
+          application: __S(226, __c7, 2),
+          instance: __S(227, __c7, 3),
         }),
       ).annotate({ identifier: "GetDomainResponse" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5001,7 +5068,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "GetDomainIntentRequest" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5035,12 +5102,12 @@ function __c42(j: number): any {
       return S.suspend(() =>
         S.Struct({
           total_usage: S.Number,
-          tier_a: __S(1346, __c42, 2),
-          tier_b: __S(1346, __c42, 2),
-          tier_c: __S(1346, __c42, 2),
-          tier_d: __S(1346, __c42, 2),
-          tier_e: __S(1346, __c42, 2),
-          tier_f: __S(1346, __c42, 2),
+          tier_a: __S(1378, __c43, 2),
+          tier_b: __S(1378, __c43, 2),
+          tier_c: __S(1378, __c43, 2),
+          tier_d: __S(1378, __c43, 2),
+          tier_e: __S(1378, __c43, 2),
+          tier_f: __S(1378, __c43, 2),
         }),
       ).annotate({ identifier: "InstanceSMSUsage" });
     case 4:
@@ -5050,16 +5117,16 @@ function __c42(j: number): any {
           instance_id: S.String,
           period_start: S.String,
           period_end: S.String,
-          mau: __S(1345, __c42, 1),
-          mao: __S(1345, __c42, 1),
-          custom_domains: __S(1346, __c42, 2),
-          sms_messages: __S(1347, __c42, 3),
-          enterprise_connections: __S(1346, __c42, 2),
+          mau: __S(1377, __c43, 1),
+          mao: __S(1377, __c43, 1),
+          custom_domains: __S(1378, __c43, 2),
+          sms_messages: __S(1379, __c43, 3),
+          enterprise_connections: __S(1378, __c43, 2),
         }),
       ).annotate({ identifier: "PlatformInstanceUsageResponse" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5077,7 +5144,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "GetJWTTemplateRequest" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5090,12 +5157,12 @@ function __c44(j: number): any {
           auth_strategy: S.String,
           subject: S.String,
           actor: S.NullOr(S.String),
-          scopes: __S(2560, __c80, 0),
+          scopes: __S(2592, __c81, 0),
         }),
       ).annotate({ identifier: "PlatformPrincipalResponse" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5112,7 +5179,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "GetNativeSettingsRequest" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5123,7 +5190,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "PlatformNativeSettings" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5140,15 +5207,15 @@ function __c47(j: number): any {
       ).annotate({ identifier: "GetOAuthApplicationSettingsRequest" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
           dynamic_oauth_client_registration: S.Boolean,
-          dynamic_client_allowed_scopes: S.NullOr(__S(2560, __c80, 0)),
-          default_scopes: S.NullOr(__S(2560, __c80, 0)),
+          dynamic_client_allowed_scopes: S.NullOr(__S(2592, __c81, 0)),
+          default_scopes: S.NullOr(__S(2592, __c81, 0)),
           oauth_jwt_access_tokens: S.Boolean,
           oidc_sign_out_enabled: S.Boolean,
           aud_claim_enabled: S.Boolean,
@@ -5161,7 +5228,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "PlatformOAuthApplicationSettings" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5179,7 +5246,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "GetOAuthResourceRequest" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5197,7 +5264,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "GetRedirectURLRequest" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5213,14 +5280,14 @@ function __c51(j: number): any {
         ),
       ).annotate({ identifier: "ListAndroidApplicationsRequest" });
     case 1:
-      return S.Array(__S(96, __c3, 0));
+      return S.Array(__S(128, __c4, 0));
     case 2:
-      return S.suspend(() => __S(1633, __c51, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1665, __c52, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListAndroidApplicationsResponse",
       });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5235,17 +5302,17 @@ function __c52(j: number): any {
         ),
       ).annotate({ identifier: "ListApplicationDomainsRequest" });
     case 1:
-      return S.Array(__S(224, __c7, 0));
+      return S.Array(__S(256, __c8, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1665, __c52, 1),
+          data: __S(1697, __c53, 1),
           total_count: S.Number,
         }),
       ).annotate({ identifier: "PlatformListApplicationDomainsResponse" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5263,12 +5330,12 @@ function __c53(j: number): any {
       });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          status: S.optional(__S(384, __c12, 0).pipe(T.Query())),
+          status: S.optional(__S(416, __c13, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           starting_after: S.optional(S.String.pipe(T.Query())),
           ending_before: S.optional(S.String.pipe(T.Query())),
@@ -5279,19 +5346,19 @@ function __c54(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1729, __c54, 1),
+          data: __S(1761, __c55, 1),
           total_count: S.Number,
         }),
       ).annotate({ identifier: "PlatformListApplicationTransfersResponse" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String.pipe(T.Query())),
-          status: S.optional(__S(384, __c12, 0).pipe(T.Query())),
+          status: S.optional(__S(416, __c13, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           starting_after: S.optional(S.String.pipe(T.Query())),
           ending_before: S.optional(S.String.pipe(T.Query())),
@@ -5302,13 +5369,13 @@ function __c55(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1761, __c55, 1),
+          data: __S(1793, __c56, 1),
           total_count: S.Number,
         }),
       ).annotate({ identifier: "PlatformListDomainIntentsResponse" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5321,17 +5388,17 @@ function __c56(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/platform/domains", code: 200 })),
       ).annotate({ identifier: "ListDomainsRequest" });
     case 1:
-      return S.Array(__S(1280, __c40, 0));
+      return S.Array(__S(1312, __c41, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1793, __c56, 1),
+          data: __S(1825, __c57, 1),
           total_count: S.Number,
         }),
       ).annotate({ identifier: "PlatformListDomainsResponse" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5380,9 +5447,9 @@ function __c57(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.NullOr(S.String)),
-          application: S.optional(__S(1826, __c57, 2)),
-          domain: S.optional(__S(1826, __c57, 2)),
-          primary_domain: S.optional(__S(1826, __c57, 2)),
+          application: S.optional(__S(1858, __c58, 2)),
+          domain: S.optional(__S(1858, __c58, 2)),
+          primary_domain: S.optional(__S(1858, __c58, 2)),
         }),
       ).annotate({ identifier: "LogEnvironmentContext" });
     case 4:
@@ -5405,10 +5472,10 @@ function __c57(j: number): any {
         S.Struct({
           ip_address: S.optional(S.NullOr(S.String)),
           user_agent: S.optional(S.NullOr(S.String)),
-          browser: S.optional(__S(1828, __c57, 4)),
+          browser: S.optional(__S(1860, __c58, 4)),
           device_type: S.optional(S.NullOr(S.String)),
           is_mobile: S.optional(S.NullOr(S.Boolean)),
-          location: S.optional(__S(1829, __c57, 5)),
+          location: S.optional(__S(1861, __c58, 5)),
           clerk_js_version: S.optional(S.NullOr(S.String)),
           is_native: S.optional(S.NullOr(S.Boolean)),
         }),
@@ -5416,8 +5483,8 @@ function __c57(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          environment: S.optional(__S(1827, __c57, 3)),
-          device: S.optional(S.NullOr(__S(1830, __c57, 6))),
+          environment: S.optional(__S(1859, __c58, 3)),
+          device: S.optional(S.NullOr(__S(1862, __c58, 6))),
         }),
       ).annotate({ identifier: "LogContext" });
     case 8:
@@ -5428,7 +5495,7 @@ function __c57(j: number): any {
           event_time: S.Number,
           actor: S.String,
           actor_type: S.optional(S.String),
-          impersonator: S.optional(S.NullOr(__S(1825, __c57, 1))),
+          impersonator: S.optional(S.NullOr(__S(1857, __c58, 1))),
           subject: S.String,
           type: S.String,
           client_id: S.optional(S.NullOr(S.String)),
@@ -5437,24 +5504,24 @@ function __c57(j: number): any {
           trace_id: S.String,
           span_id: S.String,
           parent_span_id: S.optional(S.NullOr(S.String)),
-          event_context: __S(1831, __c57, 7),
+          event_context: __S(1863, __c58, 7),
           group_id: S.optional(S.NullOr(S.String)),
           group_type: S.optional(S.NullOr(S.String)),
           group_started_at: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "Log" });
     case 9:
-      return S.Array(__S(1832, __c57, 8));
+      return S.Array(__S(1864, __c58, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1833, __c57, 9),
-          cursor: __S(1856, __c58, 0),
+          data: __S(1865, __c58, 9),
+          cursor: __S(1888, __c59, 0),
         }),
       ).annotate({ identifier: "GroupEventList" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5472,7 +5539,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "LogCursor" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5494,8 +5561,8 @@ function __c59(j: number): any {
           event_time_before: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           starting_after: S.optional(S.String.pipe(T.Query())),
-          group_type: S.optional(__S(384, __c12, 0).pipe(T.Query())),
-          status: S.optional(__S(384, __c12, 0).pipe(T.Query())),
+          group_type: S.optional(__S(416, __c13, 0).pipe(T.Query())),
+          status: S.optional(__S(416, __c13, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5509,13 +5576,13 @@ function __c59(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1889, __c59, 1),
-          cursor: __S(1856, __c58, 0),
+          data: __S(1921, __c60, 1),
+          cursor: __S(1888, __c59, 0),
         }),
       ).annotate({ identifier: "GroupedLogList" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5524,12 +5591,12 @@ function __c60(j: number): any {
           envOrInsID: S.String.pipe(T.Label()),
           organizationID: S.String.pipe(T.Label()),
           order_by: S.optional(S.String.pipe(T.Query())),
-          user_id: S.optional(__S(2560, __c80, 0).pipe(T.Query())),
-          email_address: S.optional(__S(2560, __c80, 0).pipe(T.Query())),
-          phone_number: S.optional(__S(2560, __c80, 0).pipe(T.Query())),
-          username: S.optional(__S(2560, __c80, 0).pipe(T.Query())),
-          web3_wallet: S.optional(__S(2560, __c80, 0).pipe(T.Query())),
-          role: S.optional(__S(2560, __c80, 0).pipe(T.Query())),
+          user_id: S.optional(__S(2592, __c81, 0).pipe(T.Query())),
+          email_address: S.optional(__S(2592, __c81, 0).pipe(T.Query())),
+          phone_number: S.optional(__S(2592, __c81, 0).pipe(T.Query())),
+          username: S.optional(__S(2592, __c81, 0).pipe(T.Query())),
+          web3_wallet: S.optional(__S(2592, __c81, 0).pipe(T.Query())),
+          role: S.optional(__S(2592, __c81, 0).pipe(T.Query())),
           query: S.optional(S.String.pipe(T.Query())),
           email_address_query: S.optional(S.String.pipe(T.Query())),
           phone_number_query: S.optional(S.String.pipe(T.Query())),
@@ -5551,7 +5618,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "ListInstanceOrganizationMembershipsRequest" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5562,7 +5629,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "OrganizationMemberships" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5572,8 +5639,8 @@ function __c62(j: number): any {
           include_members_count: S.optional(S.Boolean.pipe(T.Query())),
           include_missing_member_with_elevated_permissions: S.optional(S.Boolean.pipe(T.Query())),
           query: S.optional(S.String.pipe(T.Query())),
-          user_id: S.optional(__S(2560, __c80, 0).pipe(T.Query())),
-          organization_id: S.optional(__S(2560, __c80, 0).pipe(T.Query())),
+          user_id: S.optional(__S(2592, __c81, 0).pipe(T.Query())),
+          organization_id: S.optional(__S(2592, __c81, 0).pipe(T.Query())),
           order_by: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
@@ -5581,7 +5648,7 @@ function __c62(j: number): any {
           slug: S.optional(S.String.pipe(T.Query())),
           created_at_before: S.optional(S.String.pipe(T.Query())),
           created_at_after: S.optional(S.String.pipe(T.Query())),
-          filter_by: S.optional(__S(2560, __c80, 0).pipe(T.Query())),
+          filter_by: S.optional(__S(2592, __c81, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5595,13 +5662,13 @@ function __c62(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1985, __c62, 1),
+          data: __S(2017, __c63, 1),
           total_count: S.Number,
         }),
       ).annotate({ identifier: "Organizations" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5628,7 +5695,7 @@ function __c63(j: number): any {
       });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5644,14 +5711,14 @@ function __c64(j: number): any {
         ),
       ).annotate({ identifier: "ListIOSApplicationsRequest" });
     case 1:
-      return S.Array(__S(448, __c14, 0));
+      return S.Array(__S(480, __c15, 0));
     case 2:
-      return S.suspend(() => __S(2049, __c64, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2081, __c65, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListIOSApplicationsResponse",
       });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5667,14 +5734,14 @@ function __c65(j: number): any {
         ),
       ).annotate({ identifier: "ListJWTTemplatesRequest" });
     case 1:
-      return S.Array(__S(512, __c16, 0));
+      return S.Array(__S(544, __c17, 0));
     case 2:
-      return S.suspend(() => __S(2081, __c65, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2113, __c66, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListJWTTemplatesResponse",
       });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5694,17 +5761,17 @@ function __c66(j: number): any {
         ),
       ).annotate({ identifier: "ListOAuthResourcesRequest" });
     case 1:
-      return S.Array(__S(576, __c18, 0));
+      return S.Array(__S(608, __c19, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2113, __c66, 1),
+          data: __S(2145, __c67, 1),
           total_count: S.Number,
         }),
       ).annotate({ identifier: "PlatformListOAuthResourcesResponse" });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5722,17 +5789,17 @@ function __c67(j: number): any {
         ),
       ).annotate({ identifier: "ListRedirectURLsRequest" });
     case 1:
-      return S.Array(__S(640, __c20, 0));
+      return S.Array(__S(672, __c21, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2145, __c67, 1),
+          data: __S(2177, __c68, 1),
           total_count: S.Number,
         }),
       ).annotate({ identifier: "PlatformListRedirectURLsResponse" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5752,7 +5819,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "ListUserOrganizationMembershipsRequest" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5761,9 +5828,9 @@ function __c69(j: number): any {
           envOrInsID: S.String.pipe(T.Label()),
           dry_run: S.optional(S.Boolean.pipe(T.Query())),
           destructive: S.optional(S.Boolean.pipe(T.Query())),
-          keys: S.optional(__S(2560, __c80, 0).pipe(T.Query())),
+          keys: S.optional(__S(2592, __c81, 0).pipe(T.Query())),
           ifMatch: S.optional(S.String.pipe(T.Header("If-Match"))),
-          body: __S(2592, __c81, 0).pipe(T.HttpBody()),
+          body: __S(0, __c0, 0).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -5774,7 +5841,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "PatchConfigRequest" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5782,15 +5849,15 @@ function __c70(j: number): any {
           S.Struct({
             config_version: S.optional(S.String),
             dry_run: S.optional(S.Boolean),
-            before: S.optional(__S(2592, __c81, 0)),
-            after: S.optional(__S(2592, __c81, 0)),
+            before: S.optional(__S(0, __c0, 0)),
+            after: S.optional(__S(0, __c0, 0)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "PlatformConfigPatchResponse" });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5800,7 +5867,7 @@ function __c71(j: number): any {
           dry_run: S.optional(S.Boolean.pipe(T.Query())),
           destructive: S.optional(S.Boolean.pipe(T.Query())),
           ifMatch: S.optional(S.String.pipe(T.Header("If-Match"))),
-          body: __S(2592, __c81, 0).pipe(T.HttpBody()),
+          body: __S(0, __c0, 0).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -5811,7 +5878,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "PutConfigRequest" });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5833,7 +5900,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "RotateInstanceSecretKeysRequest" });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5845,18 +5912,18 @@ function __c73(j: number): any {
         }),
       ).annotate({ identifier: "PlatformRotateSecretKeysInstance" });
     case 1:
-      return S.Array(__S(2336, __c73, 0));
+      return S.Array(__S(2368, __c74, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           application_id: S.String,
           name: S.String,
-          instances: __S(2337, __c73, 1),
+          instances: __S(2369, __c74, 1),
         }),
       ).annotate({ identifier: "PlatformRotateSecretKeysResponse" });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5877,7 +5944,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "RotateSecretKeysRequest" });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5897,7 +5964,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "SetUserProfileImageRequest" });
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5915,11 +5982,11 @@ function __c76(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          dns: __S(1124, __c35, 4),
-          ssl: __S(1125, __c35, 5),
-          ssl_hosts: S.optional(__S(1127, __c35, 7)),
-          mail: S.optional(__S(1128, __c35, 8)),
-          proxy: S.optional(__S(1128, __c35, 8)),
+          dns: __S(1156, __c36, 4),
+          ssl: __S(1157, __c36, 5),
+          ssl_hosts: S.optional(__S(1159, __c36, 7)),
+          mail: S.optional(__S(1160, __c36, 8)),
+          proxy: S.optional(__S(1160, __c36, 8)),
           status: S.String,
           domain_id: S.String,
           last_run_at: S.NullOr(S.Number),
@@ -5927,7 +5994,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "TriggerDNSCheckResponse" });
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5945,7 +6012,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "UnbanUserRequest" });
   }
 }
-function __c78(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5958,7 +6025,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "UpdateApplicationRequest" });
   }
 }
-function __c79(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5976,16 +6043,10 @@ function __c79(j: number): any {
       ).annotate({ identifier: "BanUserRequest" });
   }
 }
-function __c80(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
 function __c81(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.Unknown);
+      return S.Array(S.String);
   }
 }
 function __c82(j: number): any {
@@ -6006,8 +6067,8 @@ function __c82(j: number): any {
           admin_delete_enabled: S.Boolean,
           self_serve_sso_enabled: S.optional(S.Boolean),
           self_serve_directory_sync_enabled: S.optional(S.Boolean),
-          public_metadata: __S(2592, __c81, 0),
-          private_metadata: S.optional(__S(2592, __c81, 0)),
+          public_metadata: __S(0, __c0, 0),
+          private_metadata: S.optional(__S(0, __c0, 0)),
           created_by: S.optional(S.String),
           created_at: S.Number,
           updated_at: S.Number,
@@ -6041,9 +6102,9 @@ function __c83(j: number): any {
           object: S.String,
           role: S.String,
           role_name: S.optional(S.String),
-          permissions: __S(2560, __c80, 0),
-          public_metadata: __S(2592, __c81, 0),
-          private_metadata: S.optional(__S(2592, __c81, 0)),
+          permissions: __S(2592, __c81, 0),
+          public_metadata: __S(0, __c0, 0),
+          private_metadata: S.optional(__S(0, __c0, 0)),
           organization: __S(2624, __c82, 0),
           public_user_data: S.optional(__S(2656, __c83, 0)),
           created_at: S.Number,
@@ -6157,7 +6218,7 @@ function __c84(j: number): any {
             image_url: S.optional(S.NullOr(S.String)),
             username: S.optional(S.NullOr(S.String)),
             phone_number: S.optional(S.NullOr(S.String)),
-            public_metadata: __S(2592, __c81, 0),
+            public_metadata: __S(0, __c0, 0),
             label: S.optional(S.NullOr(S.String)),
             created_at: S.Number,
             updated_at: S.Number,
@@ -6180,7 +6241,7 @@ function __c84(j: number): any {
           last_name: S.optional(S.NullOr(S.String)),
           provider_user_id: S.optional(S.NullOr(S.String)),
           last_authenticated_at: S.optional(S.NullOr(S.Number)),
-          public_metadata: S.optional(__S(2592, __c81, 0)),
+          public_metadata: S.optional(__S(0, __c0, 0)),
           verification: S.NullOr(S.Unknown),
           saml_connection: S.optional(S.NullOr(S.Unknown)),
         }),
@@ -6200,7 +6261,7 @@ function __c84(j: number): any {
           last_name: S.optional(S.NullOr(S.String)),
           provider_user_id: S.optional(S.NullOr(S.String)),
           enterprise_connection_id: S.optional(S.NullOr(S.String)),
-          public_metadata: S.optional(__S(2592, __c81, 0)),
+          public_metadata: S.optional(__S(0, __c0, 0)),
           verification: S.NullOr(S.Unknown),
           enterprise_connection: S.optional(S.NullOr(S.Unknown)),
           last_authenticated_at: S.optional(S.NullOr(S.Number)),
@@ -6249,9 +6310,9 @@ function __c84(j: number): any {
           profile_image_url: S.optional(S.String),
           image_url: S.optional(S.String),
           has_image: S.Boolean,
-          public_metadata: __S(2592, __c81, 0),
-          private_metadata: S.optional(S.NullOr(__S(2592, __c81, 0))),
-          unsafe_metadata: S.optional(__S(2592, __c81, 0)),
+          public_metadata: __S(0, __c0, 0),
+          private_metadata: S.optional(S.NullOr(__S(0, __c0, 0))),
+          unsafe_metadata: S.optional(__S(0, __c0, 0)),
           email_addresses: __S(2691, __c84, 3),
           phone_numbers: __S(2694, __c84, 6),
           web3_wallets: __S(2696, __c84, 8),
@@ -6382,8 +6443,8 @@ function __c89(j: number): any {
           applicationID: S.String.pipe(T.Label()),
           envOrInsID: S.String.pipe(T.Label()),
           dynamic_oauth_client_registration: S.optional(S.NullOr(S.Boolean)),
-          dynamic_client_allowed_scopes: S.optional(S.NullOr(__S(2560, __c80, 0))),
-          default_scopes: S.optional(S.NullOr(__S(2560, __c80, 0))),
+          dynamic_client_allowed_scopes: S.optional(S.NullOr(__S(2592, __c81, 0))),
+          default_scopes: S.optional(S.NullOr(__S(2592, __c81, 0))),
           oauth_jwt_access_tokens: S.optional(S.NullOr(S.Boolean)),
           oidc_sign_out_enabled: S.optional(S.NullOr(S.Boolean)),
           aud_claim_enabled: S.optional(S.NullOr(S.Boolean)),
@@ -6415,7 +6476,7 @@ function __c90(j: number): any {
           envOrInsID: S.String.pipe(T.Label()),
           oauthResourceID: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          scopes: S.optional(__S(2560, __c80, 0)),
+          scopes: S.optional(__S(2592, __c81, 0)),
           mcp_server: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -6436,9 +6497,9 @@ function __c91(j: number): any {
           envOrInsID: S.String.pipe(T.Label()),
           userID: S.String.pipe(T.Label()),
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          public_metadata: S.optional(S.NullOr(__S(2592, __c81, 0))),
-          private_metadata: S.optional(S.NullOr(__S(2592, __c81, 0))),
-          unsafe_metadata: S.optional(S.NullOr(__S(2592, __c81, 0))),
+          public_metadata: S.optional(S.NullOr(__S(0, __c0, 0))),
+          private_metadata: S.optional(S.NullOr(__S(0, __c0, 0))),
+          unsafe_metadata: S.optional(S.NullOr(__S(0, __c0, 0))),
         }).pipe(
           T.Http({
             method: "PATCH",
