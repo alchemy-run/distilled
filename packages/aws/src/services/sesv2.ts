@@ -8027,8 +8027,12 @@ function __c108(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Domain: S.String.pipe(T.HttpLabel("Domain")),
-          StartDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("StartDate")),
-          EndDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("EndDate")),
+          StartDate: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
+            T.HttpQuery("StartDate"),
+          ),
+          EndDate: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
+            T.HttpQuery("EndDate"),
+          ),
         }).pipe(
           T.all(
             T.Http({
@@ -8743,8 +8747,12 @@ function __c129(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          StartDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("StartDate")),
-          EndDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("EndDate")),
+          StartDate: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
+            T.HttpQuery("StartDate"),
+          ),
+          EndDate: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
+            T.HttpQuery("EndDate"),
+          ),
           SubscribedDomain: S.String.pipe(T.HttpLabel("SubscribedDomain")),
           NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
           PageSize: S.optional(S.Number).pipe(T.HttpQuery("PageSize")),
@@ -9121,10 +9129,10 @@ function __c139(j: number): any {
         S.Struct({
           TenantName: S.optional(S.String).pipe(T.HttpQuery("TenantName")),
           Reasons: S.optional(__S(592, __c37, 0)).pipe(T.HttpQuery("Reason")),
-          StartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          StartDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("StartDate"),
           ),
-          EndDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          EndDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("EndDate"),
           ),
           NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),

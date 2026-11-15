@@ -84,26 +84,6 @@ RestJsonSparseListsSerializeNull (response)
 
 # Timestamps: labels and query values use the wrong format, and date-time
 # values carry ".000" milliseconds.
-AllQueryStringTypes (request)
-Ec2TimestampsInput (request)
-HttpRequestLabelEscaping (request)
-HttpRequestWithLabelsAndTimestampFormat (request)
-InputWithHeadersAndAllParams (request)
-QueryTimestampsInput (request)
-RestJsonHttpRequestLabelEscaping (request)
-RestJsonHttpRequestWithLabelsAndTimestampFormat (request)
-RestJsonInputWithHeadersAndAllParams (request)
-RestJsonJsonTimestampsWithDateTimeFormat (request)
-RestJsonJsonTimestampsWithDateTimeOnTargetFormat (request)
-RestJsonTimestampFormatHeaders (request)
-RestJsonTimestampFormatHeaders (response)
-TimestampFormatHeaders (request)
-TimestampFormatHeaders (response)
-XmlLists (request)
-XmlTimestamps (request)
-XmlTimestampsWithDateTimeFormat (request)
-XmlTimestampsWithDateTimeOnTargetFormat (request)
-serializes_timestamp_shapes_with_iso8601_timestampformat (request)
 
 # Content-Type is sent with no body, and a payload's `@mediaType` is ignored.
 HttpPayloadTraitsWithMediaTypeWithBlob (request)

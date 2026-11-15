@@ -7034,10 +7034,10 @@ function __c56(j: number): any {
         S.Struct({
           agentSpaceId: S.String.pipe(T.HttpLabel("agentSpaceId")),
           assetType: S.optional(S.String).pipe(T.HttpQuery("assetType")),
-          updatedAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          updatedAfter: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("updatedAfter"),
           ),
-          updatedBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          updatedBefore: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("updatedBefore"),
           ),
           nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),

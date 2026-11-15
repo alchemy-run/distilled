@@ -6835,10 +6835,10 @@ function __c23(j: number): any {
           Qualifier: S.optional(S.String).pipe(T.HttpQuery("Qualifier")),
           DurableExecutionName: S.optional(S.String).pipe(T.HttpQuery("DurableExecutionName")),
           Statuses: S.optional(__S(2336, __c73, 0)).pipe(T.HttpQuery("Statuses")),
-          StartedAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          StartedAfter: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("StartedAfter"),
           ),
-          StartedBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          StartedBefore: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("StartedBefore"),
           ),
           ReverseOrder: S.optional(S.Boolean).pipe(T.HttpQuery("ReverseOrder")),

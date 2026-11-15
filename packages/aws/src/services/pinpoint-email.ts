@@ -2668,8 +2668,12 @@ function __c30(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Domain: S.String.pipe(T.HttpLabel("Domain")),
-          StartDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("StartDate")),
-          EndDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("EndDate")),
+          StartDate: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
+            T.HttpQuery("StartDate"),
+          ),
+          EndDate: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
+            T.HttpQuery("EndDate"),
+          ),
         }).pipe(
           T.all(
             T.Http({
@@ -2853,8 +2857,12 @@ function __c35(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          StartDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("StartDate")),
-          EndDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("EndDate")),
+          StartDate: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
+            T.HttpQuery("StartDate"),
+          ),
+          EndDate: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
+            T.HttpQuery("EndDate"),
+          ),
           SubscribedDomain: S.String.pipe(T.HttpLabel("SubscribedDomain")),
           NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
           PageSize: S.optional(S.Number).pipe(T.HttpQuery("PageSize")),

@@ -5072,12 +5072,12 @@ function __c54(j: number): any {
           maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
           name: S.optional(S.String).pipe(T.HttpQuery("name")),
           appArn: S.optional(S.String).pipe(T.HttpQuery("appArn")),
-          fromLastAssessmentTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-            T.HttpQuery("fromLastAssessmentTime"),
-          ),
-          toLastAssessmentTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-            T.HttpQuery("toLastAssessmentTime"),
-          ),
+          fromLastAssessmentTime: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ).pipe(T.HttpQuery("fromLastAssessmentTime")),
+          toLastAssessmentTime: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ).pipe(T.HttpQuery("toLastAssessmentTime")),
           reverseOrder: S.optional(S.Boolean).pipe(T.HttpQuery("reverseOrder")),
           awsApplicationArn: S.optional(S.String).pipe(T.HttpQuery("awsApplicationArn")),
         }).pipe(T.all(T.Http({ method: "GET", uri: "/list-apps" }), svc, auth, proto, ver, rules)),
