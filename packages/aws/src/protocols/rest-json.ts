@@ -178,6 +178,9 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
   // The @mediaType of the input's payload member: its Content-Type.
   const payloadMember = getEncodedPropertySignatures(inputAst).find(hasHttpPayload);
   const payloadMediaType = payloadMember ? getMediaType(payloadMember) : undefined;
+  // An unset structure payload is sent as an empty JSON document, like body
+  // members (AWS SDK v3; Smithy RestJsonHttpWithEmptyStructurePayload).
+  const payloadIsStructure = payloadMember !== undefined && isStructure(payloadMember.type);
 
   const serialize = (input: unknown): Request | InvalidInput => {
     const encoded = encodeInput(input);
@@ -255,7 +258,7 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
       if (!userSetContentType) {
         request.headers["Content-Type"] = "application/json";
       }
-    } else if (hasBodyCapableInputMembers) {
+    } else if (hasBodyCapableInputMembers || payloadIsStructure) {
       // Body-capable members exist but none were set: send an explicit
       // empty JSON document, matching AWS SDK v3 / botocore.
       request.body = "{}";
@@ -435,6 +438,20 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
     return result;
   }
 };
+
+/**
+ * Whether the AST is a structure, optional or not: a union (even of one
+ * member), a map or a document is not.
+ */
+function isStructure(ast: AST.AST): boolean {
+  if (ast._tag === "Suspend") return isStructure(ast.thunk());
+  if (ast._tag === "Union") {
+    // S.optional(X) is X | undefined; any other union is a Smithy union.
+    const [only, ...rest] = ast.types.filter((t) => t._tag !== "Undefined");
+    return only !== undefined && rest.length === 0 && only._tag !== "Union" && isStructure(only);
+  }
+  return ast._tag === "Objects" && ast.indexSignatures.length === 0;
+}
 
 /** Check if AST represents a raw payload type (string, blob, stream) */
 function isRawPayload(ast: AST.AST): boolean {
