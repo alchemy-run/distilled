@@ -1,6 +1,6 @@
 import { getPath, type PaginationStrategy } from "@distilled.cloud/core/pagination";
 /**
- * Scaleway pagination — hand-written.
+ * Scaleway pagination -- hand-written.
  *
  * Most Scaleway list operations page by NUMBER: `?page=N&page_size=M` in
  * (Instance v1 spells the size `per_page`), the collection beside
@@ -15,17 +15,18 @@ import { getPath, type PaginationStrategy } from "@distilled.cloud/core/paginati
  * protocol folds it into the body before this strategy reads it.
  *
  * The few lists that page by cursor (`page_token` in, `next_page_token`
- * out — Audit Trail, Cockpit, Key Manager, …) use core's `paginateToken`.
+ * out -- Audit Trail, Cockpit, Key Manager, ...) use core's `paginateToken`.
  */
 import * as Effect from "effect/Effect";
 import * as Stream from "effect/Stream";
 
 export type { PaginatedTrait, PaginationStrategy } from "@distilled.cloud/core/pagination";
 export { paginateToken } from "@distilled.cloud/core/pagination";
+import { missingPaginationConfig } from "@distilled.cloud/core/pagination";
 
 /**
  * Stream of pages using Scaleway's `page` / `total_count` envelope: request
- * `page`, `page+1`, … until the pages read cover `total_count` or a page
+ * `page`, `page+1`, ... until the pages read cover `total_count` or a page
  * comes back empty.
  */
 export const paginateByTotalCount: PaginationStrategy = (operation, input, pagination) => {
@@ -33,8 +34,8 @@ export const paginateByTotalCount: PaginationStrategy = (operation, input, pagin
   const totalCountPath = pagination.outputToken;
   const itemsPath = pagination.items;
   if (!inputToken || !totalCountPath || !itemsPath) {
-    return Stream.die(
-      new Error("Total-count pagination requires inputToken, outputToken and items"),
+    return missingPaginationConfig(
+      "Total-count pagination requires inputToken, outputToken and items",
     );
   }
 

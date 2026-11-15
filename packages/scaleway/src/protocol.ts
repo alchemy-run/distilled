@@ -4,6 +4,7 @@ import {
   InternalServerError,
   TooManyRequests,
   type ConfigError,
+  type InvalidInput,
 } from "@distilled.cloud/core/errors";
 import {
   buildRequest,
@@ -14,13 +15,13 @@ import {
 import {
   binaryResponseSymbol,
   unwrapRedactedDeep,
-  wrapSensitive,
+  validateSuccess,
 } from "@distilled.cloud/core/protocol-rest";
-import { validateResponse } from "@distilled.cloud/core/response-validation";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import { SdkError } from "@distilled.cloud/core/sdk-error";
 import { httpSymbol } from "@distilled.cloud/core/trait";
 /**
- * ScalewayProtocol — JSON over HTTPS, authenticated by `X-Auth-Token`.
+ * ScalewayProtocol -- JSON over HTTPS, authenticated by `X-Auth-Token`.
  *
  * Every Scaleway API lives under one host (`https://api.scaleway.com`,
  * overridable with `SCW_API_URL`) with the product and version in the path
@@ -37,8 +38,8 @@ import { httpSymbol } from "@distilled.cloud/core/trait";
  * Responses: success bodies are the payload, no envelope. Scaleway's
  * proto3 JSON writes every unset message or wrapper field as `null` where
  * the specs declare a plain optional member (`gpu_info`, `price_per_month`,
- * `float_min`, …), so `null` properties are dropped before decoding — the
- * same thing the official SDKs' unmarshallers do (`null` → `undefined`).
+ * `float_min`, ...), so `null` properties are dropped before decoding -- the
+ * same thing the official SDKs' unmarshallers do (`null` -> `undefined`).
  * Instance v1 list endpoints answer their count as `X-Total-Count` rather
  * than in the body; it is folded into the body as `total_count`
  * (scaleway-sdk-js `fixLegacyTotalCount`). A non-JSON success body (Instance user data is
@@ -81,7 +82,12 @@ import type { ScalewayHttpTrait } from "./traits.ts";
  * ScalewayOpError, ScalewayOpContext>` explicitly so the compiler never
  * infers these back out of the schema generics.
  */
-export type ScalewayOpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError;
+export type ScalewayOpError =
+  | DefaultErrors
+  | ConfigError
+  | HttpClientError.HttpClientError
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Scaleway operation. */
 export type ScalewayOpContext = Credentials | HttpClient.HttpClient;
@@ -263,10 +269,12 @@ const failureMessage = (body: unknown, status: number, text: string): string => 
 
 const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
 
-const httpTraitOf = (inputAst: AST.AST): ScalewayHttpTrait => {
+const httpTraitOf = (inputAst: AST.AST): ScalewayHttpTrait | SdkError => {
   const http = getAnn(inputAst, httpSymbol) as ScalewayHttpTrait | undefined;
   if (http === undefined || typeof http.baseUrl !== "string" || http.baseUrl === "") {
-    throw new Error("Scaleway operation is missing T.Http({ baseUrl }) — regenerate from convert");
+    return new SdkError({
+      message: "Scaleway operation is missing T.Http({ baseUrl }) -- regenerate from convert",
+    });
   }
   return http;
 };
@@ -306,22 +314,26 @@ const isJsonContentType = (contentType: string | undefined): boolean =>
   contentType === undefined || contentType === "" || /[/+]json\b/i.test(contentType);
 
 /**
- * The HTTP request for an operation input — shared by the protocol and the
- * streaming helpers (`streaming.ts`). Resolves credentials, fills the
- * default region / zone, picks the host and sets the auth headers; a `…Raw`
+ * The HTTP request for an operation input. Resolves credentials, fills the
+ * default region / zone, picks the host and sets the auth headers; a `...Raw`
  * download also asks for the file itself with `dl=1`.
  */
 export const encodeRequest = (
   input: unknown,
   inputAst: AST.AST,
   extraHeaders: Record<string, string> = {},
-): Effect.Effect<HttpClientRequest.HttpClientRequest, never, Credentials> =>
+): Effect.Effect<
+  HttpClientRequest.HttpClientRequest,
+  ConfigError | InvalidInput | SdkError,
+  Credentials
+> =>
   Effect.gen(function* () {
     const resolve = yield* Credentials;
     const creds = yield* resolve;
     const http = httpTraitOf(inputAst);
+    if (http instanceof SdkError) return yield* http;
     const secretKey = Redacted.value(creds.secretKey);
-    const request = buildRequest({
+    const request = yield* buildRequest({
       input: withLocality(unwrapRedactedDeep(input), http.uri, creds),
       inputAst,
       baseUrl: baseUrlFor(creds, http),
@@ -413,19 +425,16 @@ export const ScalewayProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
         const status = response.status;
         const headers = response.headers as Record<string, string | undefined>;
 
-        // `…Raw` downloads: the body is the file.
+        // `...Raw` downloads: the body is the file.
         if (
           status >= 200 &&
           status < 300 &&
           getAnn(outputAst, binaryResponseSymbol) !== undefined
         ) {
-          return new Uint8Array(yield* response.arrayBuffer.pipe(Effect.orDie));
+          return new Uint8Array(yield* response.arrayBuffer.pipe(Effect.catch(fail)));
         }
 
-        const text = (yield* response.text.pipe(Effect.orDie)) ?? "";
-        if (process.env.DISTILLED_DEBUG_HTTP) {
-          console.error(`[distilled] <- ${status} ${text.slice(0, 400)}`);
-        }
+        const text = (yield* response.text.pipe(Effect.catch(fail))) ?? "";
         if (status >= 400) return yield* fail(failureFor(status, text, headers, errorClasses));
 
         // A success body is JSON only when it says so (user data is
@@ -451,13 +460,14 @@ export const ScalewayProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
           if (!Number.isNaN(n)) body = { ...body, total_count: n };
         }
 
-        // Strict mode checks the mapped body against the output schema.
-        const mapped = yield* validateResponse(
+        // Strict mode checks the mapped body against the output schema, and
+        // parse errors withhold a body that can hold a secret (core
+        // `validateSuccess`).
+        return yield* validateSuccess(
           outputAst,
-          mapKeys(outputAst, body, "decode"),
-          (cause) => new ScalewayParseError({ body: nonJson ? text : json, cause }),
+          { value: mapKeys(outputAst, body, "decode"), body: nonJson ? text : json, nonJson },
+          (info) => new ScalewayParseError(info),
         ).pipe(Effect.catch(fail));
-        return wrapSensitive(outputAst, mapped);
       }),
   }),
 );

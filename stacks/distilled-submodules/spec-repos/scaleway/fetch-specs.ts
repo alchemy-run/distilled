@@ -421,7 +421,9 @@ async function deriveFromSdkJs(source: DerivedSource): Promise<DerivedDocument[]
     const components: Record<string, Schema> = {};
 
     const schemaFor = (expr: string): Schema => {
-      const t = expr.replace(/\s*\|\s*undefined$/, "").trim();
+      // `| null`: the protocol drops `null` properties before decoding, so a
+      // nullable member is an optional one.
+      const t = expr.replace(/(\s*\|\s*(?:undefined|null))+$/, "").trim();
       if (t.endsWith("[]")) return { type: "array", items: schemaFor(t.slice(0, -2)) };
       const record = /^Record<string, (.+)>$/.exec(t);
       if (record) return { type: "object", additionalProperties: schemaFor(record[1]!) };

@@ -2,12 +2,12 @@
  * Scaleway error types.
  *
  * Re-exports the common HTTP errors from core and adds Scaleway's own.
- * Every Scaleway API answers a failure with one JSON envelope —
- * `{ "type": "...", "message": "...", ... }` — whose `type` names the
+ * Every Scaleway API answers a failure with one JSON envelope --
+ * `{ "type": "...", "message": "...", ... }` -- whose `type` names the
  * failure and decides which fields come with it (`resource` /
  * `resource_id` for `not_found`, `current_state` for `transient_state`,
  * `details[]` for `invalid_arguments` / `quotas_exceeded` /
- * `permissions_denied`, …). The protocol dispatches on `type` first, the
+ * `permissions_denied`, ...). The protocol dispatches on `type` first, the
  * same table the official SDKs use (scaleway-sdk-js
  * `packages/client/src/scw/errors/error-parser.ts`, scaleway-sdk-go
  * `scw/errors.go`), then on the HTTP status, so a `409` is a
@@ -69,7 +69,7 @@ export const PermissionDetail = Schema.Struct({
 });
 
 /**
- * `invalid_arguments` (400) — one or more request fields were missing,
+ * `invalid_arguments` (400) -- one or more request fields were missing,
  * malformed or out of range; `details` names each one. Also raised for the
  * legacy `invalid_request_error` envelope (Instance v1) when it lists
  * `fields`.
@@ -84,10 +84,10 @@ export class InvalidArgumentsError extends Schema.TaggedError<InvalidArgumentsEr
 ).pipe(Category.withBadRequestError) {}
 
 /**
- * `denied_authentication` (401) — the secret key is missing, unknown,
+ * `denied_authentication` (401) -- the secret key is missing, unknown,
  * expired or the wrong kind for this API. `method` is the authentication
  * method tried, `reason` why it failed (`invalid_argument`, `not_found`,
- * `expired`, …).
+ * `expired`, ...).
  */
 export class DeniedAuthenticationError extends Schema.TaggedError<DeniedAuthenticationError>()(
   "DeniedAuthenticationError",
@@ -100,7 +100,7 @@ export class DeniedAuthenticationError extends Schema.TaggedError<DeniedAuthenti
 ).pipe(Category.withAuthError) {}
 
 /**
- * `permissions_denied` (403) — the key authenticated, but its IAM policy
+ * `permissions_denied` (403) -- the key authenticated, but its IAM policy
  * does not grant the listed actions.
  */
 export class PermissionsDeniedError extends Schema.TaggedError<PermissionsDeniedError>()(
@@ -113,7 +113,7 @@ export class PermissionsDeniedError extends Schema.TaggedError<PermissionsDenied
 ).pipe(Category.withAuthError) {}
 
 /**
- * `quotas_exceeded` (403) — creating the resource would exceed an
+ * `quotas_exceeded` (403) -- creating the resource would exceed an
  * Organization quota (`details[].quota` vs `details[].current`). Raise the
  * quota in the console or free capacity; retrying does not help.
  */
@@ -127,7 +127,7 @@ export class QuotasExceededError extends Schema.TaggedError<QuotasExceededError>
 ).pipe(Category.withQuotaError) {}
 
 /**
- * `not_found` (404) — no `resource` with `resource_id` is visible to this
+ * `not_found` (404) -- no `resource` with `resource_id` is visible to this
  * key. Also raised for the legacy `unknown_resource` envelope when its
  * message names the missing UUID.
  */
@@ -141,7 +141,7 @@ export class ResourceNotFoundError extends Schema.TaggedError<ResourceNotFoundEr
   },
 ).pipe(Category.withNotFoundError) {}
 
-/** `expired` (410) — the resource existed but expired at `expired_since`. */
+/** `expired` (410) -- the resource existed but expired at `expired_since`. */
 export class ResourceExpiredError extends Schema.TaggedError<ResourceExpiredError>()(
   "ResourceExpiredError",
   {
@@ -154,7 +154,7 @@ export class ResourceExpiredError extends Schema.TaggedError<ResourceExpiredErro
 ).pipe(Category.withNotFoundError) {}
 
 /**
- * `locked` (423) — Scaleway has locked the resource (abuse, billing or
+ * `locked` (423) -- Scaleway has locked the resource (abuse, billing or
  * legal hold); it cannot be changed until the lock is lifted.
  */
 export class ResourceLockedError extends Schema.TaggedError<ResourceLockedError>()(
@@ -168,8 +168,8 @@ export class ResourceLockedError extends Schema.TaggedError<ResourceLockedError>
 ).pipe(Category.withLockedError) {}
 
 /**
- * `transient_state` (409) — the resource is mid-transition
- * (`current_state`: `starting`, `stopping`, `deleting`, …) and refuses the
+ * `transient_state` (409) -- the resource is mid-transition
+ * (`current_state`: `starting`, `stopping`, `deleting`, ...) and refuses the
  * change until it settles. Retryable: the default policy retries it with
  * backoff, the way the official SDKs' `waitFor*` helpers poll.
  */
@@ -185,7 +185,7 @@ export class TransientStateError extends Schema.TaggedError<TransientStateError>
 ).pipe(Category.withConflictError, Category.withRetryable()) {}
 
 /**
- * `already_exists` (409) — a `resource` with that identity (name, domain,
+ * `already_exists` (409) -- a `resource` with that identity (name, domain,
  * key) already exists, as `resource_id`.
  */
 export class AlreadyExistsError extends Schema.TaggedError<AlreadyExistsError>()(
@@ -200,7 +200,7 @@ export class AlreadyExistsError extends Schema.TaggedError<AlreadyExistsError>()
 ).pipe(Category.withAlreadyExistsError) {}
 
 /**
- * `precondition_failed` (412) — the resource is in a state that forbids the
+ * `precondition_failed` (412) -- the resource is in a state that forbids the
  * call (`precondition`, e.g. `resource_still_in_use`, `attribute_must_be_set`)
  * and will stay that way until the caller changes something.
  */
@@ -215,7 +215,7 @@ export class PreconditionFailedError extends Schema.TaggedError<PreconditionFail
 ).pipe(Category.withConflictError) {}
 
 /**
- * `out_of_stock` — the zone has no capacity left for `resource` (an
+ * `out_of_stock` -- the zone has no capacity left for `resource` (an
  * Instance or Elastic Metal offer). Try another zone or offer.
  */
 export class OutOfStockError extends Schema.TaggedError<OutOfStockError>()("OutOfStockError", {
@@ -225,7 +225,7 @@ export class OutOfStockError extends Schema.TaggedError<OutOfStockError>()("OutO
 }).pipe(Category.withQuotaError) {}
 
 /**
- * Unknown Scaleway error — returned when nothing else matches the failure.
+ * Unknown Scaleway error -- returned when nothing else matches the failure.
  * `code` is the envelope's `type` when it had one.
  */
 export class UnknownScalewayError extends Schema.TaggedError<UnknownScalewayError>()(
@@ -264,7 +264,7 @@ export type ScalewayErrors =
  * Default Scaleway operation errors.
  *
  * EVERY operation carries the whole set: the specs declare no failures, and
- * any Scaleway API can answer with any `type` — the error channel says so
+ * any Scaleway API can answer with any `type` -- the error channel says so
  * rather than pretending a `404` is impossible on a route that never
  * declared one. The status classes cover failures whose body has no
  * recognised `type` (a proxy error page, a gateway timeout).

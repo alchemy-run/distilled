@@ -1,6 +1,6 @@
 import { ConfigError } from "@distilled.cloud/core/errors";
 /**
- * Scaleway credentials — hand-written.
+ * Scaleway credentials -- hand-written.
  *
  * The `Credentials` service resolves {@link Config} per request; the
  * protocol sends the secret key as `X-Auth-Token` (and as
@@ -21,7 +21,7 @@ import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 
-/** Scaleway's API host — what `SCW_API_URL` overrides. */
+/** Scaleway's API host -- what `SCW_API_URL` overrides. */
 export const DEFAULT_API_URL = "https://api.scaleway.com";
 /** Region used when neither the call nor `SCW_DEFAULT_REGION` names one (the CLI's and Terraform's default). */
 export const DEFAULT_REGION = "fr-par";
@@ -43,7 +43,7 @@ export interface Config {
   readonly apiUrl?: string;
 }
 
-export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
   "ScalewayCredentials",
 ) {}
 
@@ -75,7 +75,6 @@ export const CredentialsFromEnv = Layer.succeed(
       projectId: Option.getOrUndefined(env.projectId),
       apiUrl: Option.getOrUndefined(env.apiUrl),
     })),
-    Effect.orDie,
   ),
 );
 

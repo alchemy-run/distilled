@@ -1,9 +1,9 @@
 /**
- * Scaleway SDK trait surface — hand-written.
+ * Scaleway SDK trait surface -- hand-written.
  *
  * Re-exports the generic protocol traits from core and extends `Http` with
  * the API host: `scripts/convert.ts` bakes each document's `servers` entry
- * into every operation's `T.Http({ ... baseUrl })` pipe —
+ * into every operation's `T.Http({ ... baseUrl })` pipe --
  * `https://api.scaleway.com` for everything but Generative APIs, which
  * answer on `https://api.scaleway.ai`. `ScalewayProtocol` reads it.
  */
@@ -55,7 +55,7 @@ export {
  */
 export interface ScalewayHttpTrait extends HttpTrait {
   readonly baseUrl: string;
-  /** A `…Raw` file download: the protocol appends `dl=1`. */
+  /** A `...Raw` file download: the protocol appends `dl=1`. */
   readonly rawDownload?: boolean;
 }
 

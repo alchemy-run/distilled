@@ -115,28 +115,6 @@ Scaleway.instanceV1.getServer({ server_id }).pipe(
 );
 ```
 
-## Streaming (Generative APIs)
-
-`createChatCompletion` / `createResponse` with `stream: true` answer
-server-sent events, which a generated operation cannot decode. Use the
-streaming helpers instead:
-
-```ts
-import * as Stream from "effect/Stream";
-
-const text = Scaleway.streamChatCompletion({
-  project_id,
-  model: "llama-3.1-8b-instruct",
-  messages: [{ role: "user", content: "Say hello" }],
-}).pipe(
-  Stream.map((chunk) => chunk.choices[0]?.delta.content ?? ""),
-  Stream.mkString,
-);
-```
-
-`streamResponse` does the same for the Responses API. A failure before the
-first event is the usual typed error.
-
 ## File downloads
 
 Operations that answer a file (kubeconfigs, database certificates, invoices,

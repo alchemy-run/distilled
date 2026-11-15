@@ -46,8 +46,10 @@
  *      from the configured default (`SCW_DEFAULT_REGION` /
  *      `SCW_DEFAULT_ZONE`), as the official SDKs do — see
  *      {@link relaxLocality}.
- *   7. Add a `…Raw` sibling to every file download (`?dl=1`) — see
- *      {@link RAW_DOWNLOADS}.
+ *   7. Add a `…Raw` sibling to the file downloads the mirror derived from
+ *      scaleway-sdk-js (`x-distilled-raw-download`, a `Blob` response there)
+ *      — see {@link addRawDownload}. Downloads in the published documents
+ *      get theirs from `patches/<slug>/raw-downloads.json`.
  *
  * Operation names are verbNoun from Scaleway's PascalCase operationIds
  * (`ListServers` → `listServers`). Patches live in
@@ -56,13 +58,16 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 import {
-  RAW_RESPONSE_TRAIT,
-  SENSITIVE_FIELD_PATTERNS,
-} from "@distilled.cloud/core/codegen/openapi";
-import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
-import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
-import { RENAME_METADATA_KEY } from "@distilled.cloud/core/codegen/rewrite-operation-ids";
-import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
+  modelExists,
+  readModel,
+  removeModel,
+  writeModel,
+} from "@distilled.cloud/dev/codegen/models";
+import { RAW_RESPONSE_TRAIT, SENSITIVE_FIELD_PATTERNS } from "@distilled.cloud/dev/codegen/openapi";
+import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
+import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
+import { RENAME_METADATA_KEY } from "@distilled.cloud/dev/codegen/rewrite-operation-ids";
+import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
 
 const root = path.resolve(import.meta.dirname, "..");
 const manifestPath = resolveSpecPath(root, "specs/spec-mirror-scaleway/specs/_manifest.json");
@@ -352,48 +357,6 @@ const relaxLocality = (model: any, inputShape: string | undefined): number => {
 };
 
 /**
- * Operations that also answer the file itself with `?dl=1` — the routes
- * scaleway-sdk-js calls with `urlParams(['dl', 1])` and
- * `responseType: 'blob'`. Without `dl` they answer the JSON
- * `scaleway.std.File` (`content` base64), which is what the Go SDK and the
- * CLI read and what the generated operation keeps. Each gets a `…Raw`
- * sibling whose output is the bytes; see {@link addRawDownload}.
- */
-const RAW_DOWNLOADS: Record<string, readonly string[]> = {
-  account_contract_v3: ["GET /account/v3/contract-signatures/{contract_signature_id}/download"],
-  billing_v2beta1: [
-    "GET /billing/v2beta1/export-invoices",
-    "GET /billing/v2beta1/invoices/{invoice_id}/download",
-  ],
-  containers_v1: ["GET /containers/v1/regions/{region}/private-endpoint-ca"],
-  datawarehouse_v1beta1: [
-    "GET /datawarehouse/v1beta1/regions/{region}/deployments/{deployment_id}/certificate",
-  ],
-  domain_v2beta1: ["GET /domain/v2beta1/dns-zones/{dns_zone}/raw"],
-  environmental_footprint_user_v1alpha1: [
-    "POST /environmental-footprint/v1alpha1/reports/download",
-  ],
-  inference_v1: ["GET /inference/v1/regions/{region}/deployments/{deployment_id}/certificate"],
-  k8s_v1: [
-    "GET /k8s/v1/regions/{region}/clusters/{cluster_id}/kubeconfig",
-    "GET /k8s/v1/regions/{region}/pools/{pool_id}/user-data/{key}",
-  ],
-  kafka_v1alpha1: [
-    "GET /kafka/v1alpha1/regions/{region}/clusters/{cluster_id}/certificate-authority",
-  ],
-  messageq_v1alpha1: [
-    "GET /messageq/v1alpha1/regions/{region}/deployments/{deployment_id}/certificate-authority",
-  ],
-  mongodb_v1: ["GET /mongodb/v1/regions/{region}/instances/{instance_id}/certificate"],
-  mongodb_v1alpha1: ["GET /mongodb/v1alpha1/regions/{region}/instances/{instance_id}/certificate"],
-  rdb_v1: ["GET /rdb/v1/regions/{region}/instances/{instance_id}/certificate"],
-  redis_v1: ["GET /redis/v1/zones/{zone}/clusters/{cluster_id}/certificate"],
-  searchdb_v1alpha1: [
-    "GET /searchdb/v1alpha1/regions/{region}/deployments/{deployment_id}/certificate-authority",
-  ],
-};
-
-/**
  * Add `<Op>Raw` beside a file-download operation: the same input, the
  * `rawDownload` flag on its http trait (the protocol appends `dl=1`), and
  * an output that is the response body's bytes (generate.ts emits it as
@@ -445,13 +408,13 @@ for (const entry of manifest) {
   const slug = entry.output.replace(/\.json$/, "");
   const spec = JSON.parse(fs.readFileSync(path.join(specsDir, entry.output), "utf8"));
   const modelPath = path.join(outDir, `${slug}.json`);
-  if (!fs.existsSync(modelPath)) continue;
-  const model = JSON.parse(fs.readFileSync(modelPath, "utf8"));
+  if (!modelExists(modelPath)) continue;
+  const model = readModel(modelPath);
   if (!Object.values<any>(model.shapes ?? {}).some((s) => s?.type === "operation")) {
     // Serverless Containers v1beta1 is fully deprecated (v1 replaced it);
     // drop the model rather than generate a hollow module.
     console.warn(`   ⚠️  ${slug}: no operations (all deprecated?) — dropped`);
-    fs.unlinkSync(modelPath);
+    removeModel(modelPath);
     continue;
   }
   const serverUrl = specServerUrl(spec);
@@ -459,7 +422,7 @@ for (const entry of manifest) {
   const prepared = preprocess(entry)(structuredClone(spec));
 
   const byRoute = new Map<string, Record<string, string>>();
-  const rawRoutes = new Set<string>(RAW_DOWNLOADS[slug] ?? []);
+  const rawRoutes = new Set<string>();
   for (const [pathTemplate, pathItem] of Object.entries<any>(prepared.paths ?? {})) {
     for (const method of HTTP_METHODS) {
       const op = pathItem?.[method];
@@ -519,7 +482,7 @@ for (const entry of manifest) {
     addRawDownload(model, `com.scaleway.${slug}`, found[0]);
     rawDownloads++;
   }
-  fs.writeFileSync(modelPath, JSON.stringify(model, null, 2) + "\n");
+  writeModel(modelPath, model);
 }
 
 console.log(
