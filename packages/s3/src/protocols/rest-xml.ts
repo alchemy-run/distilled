@@ -42,10 +42,12 @@ import {
   getArrayElementAST,
   getEncodedPropertySignatures,
   getIdentifier,
+  getMapKeyValueAST,
   getXmlNameFromAST,
   getXmlNamespace,
   isArrayAST,
   isBooleanAST,
+  isMapAST,
   isNumberAST,
   isStringAST,
   unwrapUnion,
@@ -57,10 +59,12 @@ import { applyHttpTrait, bindInputToRequest } from "../util/serialize-input.ts";
 import { convertStreamingInput, readableToEffectStream, readStreamAsText } from "../util/stream.ts";
 import { formatTimestamp } from "../util/timestamp.ts";
 import {
+  elementText,
   escapeXml,
   parseXml,
   parseXmlSync,
   readXml,
+  readXmlMap,
   unwrapArrayValue,
   wrapTag,
 } from "../util/xml.ts";
@@ -412,6 +416,11 @@ function serializeValue(ast: AST.AST, value: unknown, tagName?: string, xmlns?: 
     return tagName ? wrapTag(tagName, content, xmlns) : content;
   }
 
+  // Maps
+  if (tagName && isMapAST(ast)) {
+    return serializeMap(ast, value as Record<string, unknown>, tagName, false, xmlns);
+  }
+
   // Arrays
   if (Array.isArray(value)) {
     const elementAST = getArrayElementAST(ast);
@@ -446,6 +455,12 @@ function serializeObject(
     }
 
     const xmlName = getXmlNameProp(prop) ?? key;
+    if (isMapAST(prop.type)) {
+      elems.push(
+        serializeMap(prop.type, v as Record<string, unknown>, xmlName, hasXmlFlattened(prop)),
+      );
+      continue;
+    }
     if (!Array.isArray(v)) {
       elems.push(serializeValue(prop.type, v, xmlName));
       continue;
@@ -471,6 +486,34 @@ function serializeObject(
   return `<${tagName}${attrStr}>${elems.join("")}</${tagName}>`;
 }
 
+/**
+ * A map: `<Map><entry><key>k</key><value>v</value></entry>...</Map>`, or for
+ * a flattened map the member element once per entry,
+ * `<Map><key>k</key><value>v</value></Map>...`. `@xmlName` on the map's key
+ * and value renames `<key>` and `<value>`.
+ */
+function serializeMap(
+  ast: AST.AST,
+  value: Record<string, unknown>,
+  tagName: string,
+  flattened: boolean,
+  xmlns?: string,
+): string {
+  const kv = getMapKeyValueAST(ast);
+  const keyTag = (kv && getXmlNameFromAST(kv.keyAST)) ?? "key";
+  const valueTag = (kv && getXmlNameFromAST(kv.valueAST)) ?? "value";
+  const entries: string[] = [];
+  for (const [k, v] of Object.entries(value)) {
+    if (v === undefined) continue;
+    entries.push(
+      wrapTag(keyTag, escapeXml(k), kv && getXmlNamespace(kv.keyAST)) +
+        serializeValue(kv?.valueAST ?? ast, v, valueTag, kv && getXmlNamespace(kv.valueAST)),
+    );
+  }
+  if (flattened) return entries.map((entry) => wrapTag(tagName, entry, xmlns)).join("");
+  return wrapTag(tagName, entries.map((entry) => `<entry>${entry}</entry>`).join(""), xmlns);
+}
+
 // =============================================================================
 // XML Deserialization
 // =============================================================================
@@ -488,6 +531,14 @@ function isStructureAST(ast: AST.AST): boolean {
 /** What deserializing a value of a schema needs to know about it, read once per schema. */
 interface ValuePlan {
   readonly structure: boolean;
+  /** Maps: the key and value schemas, and the tags of the key and value. */
+  readonly map:
+    | {
+        readonly value: AST.AST;
+        readonly keyTag: string;
+        readonly valueTag: string;
+      }
+    | undefined;
   readonly string: boolean;
   readonly array: boolean;
   readonly number: boolean;
@@ -509,10 +560,16 @@ const valuePlans = /*@__PURE__*/ new WeakMap<AST.AST, ValuePlan>();
 const valuePlanOf = (ast: AST.AST): ValuePlan => {
   let plan = valuePlans.get(ast);
   if (plan === undefined) {
-    const array = isArrayAST(ast);
+    const kv = isMapAST(ast) ? getMapKeyValueAST(ast) : undefined;
+    const array = !kv && isArrayAST(ast);
     const element = array ? getArrayElementAST(ast) : undefined;
     plan = {
       structure: isStructureAST(ast),
+      map: kv && {
+        value: kv.valueAST,
+        keyTag: getXmlNameFromAST(kv.keyAST) ?? "key",
+        valueTag: getXmlNameFromAST(kv.valueAST) ?? "value",
+      },
       string: isStringAST(ast),
       array,
       number: isNumberAST(ast),
@@ -532,9 +589,19 @@ const isEmptyObject = (value: object): boolean => {
   return true;
 };
 
-function deserializeValue(ast: AST.AST, value: unknown): unknown {
+function deserializeValue(ast: AST.AST, value: unknown, flattened = false): unknown {
   if (value == null) return undefined;
   const plan = valuePlanOf(ast);
+
+  // Maps; an empty element reads as absent, like an empty list
+  const map = plan.map;
+  if (map) {
+    if (value === "") return undefined;
+    return readXmlMap(value, flattened, map.keyTag, map.valueTag, (v) =>
+      deserializeValue(map.value, v),
+    );
+  }
+  if (!plan.structure) value = elementText(value);
 
   // An empty XML element can represent a present structure, but not a map.
   if (
@@ -595,6 +662,8 @@ interface MemberPlan {
   readonly attribute: string | undefined;
   /** Flattened lists: the element schema. */
   readonly flattened: AST.AST | undefined;
+  /** Flattened maps: each entry is a member element. */
+  readonly flattenedMap: boolean;
 }
 
 const memberPlans = /*@__PURE__*/ new WeakMap<AST.AST, ReadonlyArray<MemberPlan>>();
@@ -626,6 +695,7 @@ const memberPlansOf = (ast: AST.AST): ReadonlyArray<MemberPlan> => {
           hasXmlFlattened(prop) && isArrayAST(prop.type)
             ? (getArrayElementAST(prop.type) ?? prop.type)
             : undefined,
+        flattenedMap: hasXmlFlattened(prop) && isMapAST(prop.type),
       });
     }
     plans = out;
@@ -661,7 +731,7 @@ function deserializeObject(ast: AST.AST, value: Record<string, unknown>): Record
       const items = Array.isArray(propValue) ? propValue : [propValue];
       result[key] = items.map((item) => deserializeValue(elAST, item));
     } else {
-      const deserialized = deserializeValue(member.type, propValue);
+      const deserialized = deserializeValue(member.type, propValue, member.flattenedMap);
       if (deserialized !== undefined) {
         result[key] = deserialized;
       }

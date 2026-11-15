@@ -155,45 +155,20 @@ PostUnionWithJsonNameResponse1 (response)
 PostUnionWithJsonNameResponse2 (response)
 serializes_structure_members_with_locationname_traits (request)
 
-# XML maps, flattened or nested, are not encoded or decoded.
-Ec2XmlEnums (response)
-Ec2XmlIntEnums (response)
-FlatNestedXmlMapRequest (request)
-FlatNestedXmlMapResponse (response)
-FlattenedXmlMap (request)
-FlattenedXmlMap (response)
-FlattenedXmlMapWithXmlName (request)
-FlattenedXmlMapWithXmlName (response)
-NestedXmlMapRequest (request)
-NestedXmlMapResponse (response)
-NestedXmlMapWithXmlNameDeserializes (response)
-NestedXmlMapWithXmlNameSerializes (request)
-QueryQueryFlattenedXmlMap (response)
-QueryQueryFlattenedXmlMapWithXmlName (response)
-QueryQueryFlattenedXmlMapWithXmlNamespace (response)
+# An empty map element reads as an absent member; Smithy expects an empty
+# map. packages/aws/test/protocols/xml.test.ts asserts the absent member for
+# S3 Control.
 QueryXmlEmptySelfClosedMaps (response)
-RestXmlFlattenedXmlMapWithXmlNamespace (response)
-RestXmlXmlMapWithXmlNamespace (request)
-RestXmlXmlMapWithXmlNamespace (response)
 XmlEmptyMaps (response)
 XmlEmptySelfClosedMaps (response)
-XmlEnums (request)
-XmlEnums (response)
-XmlIntEnums (request)
-XmlIntEnums (response)
-XmlMaps (request)
-XmlMaps (response)
-XmlMapsXmlName (request)
-XmlMapsXmlName (response)
 
 # XML lists: list members are concatenated into one text node on input, and
 # some list shapes are not decoded.
-Ec2XmlLists (response)
 EmptyQueryLists (request)
-QueryXmlLists (response)
 XmlEmptyLists (response)
+XmlEnums (request)
+XmlIntEnums (request)
 XmlLists (request)
-XmlLists (response)
 
 # XML unions are not encoded or decoded.
 RestXmlHttpPayloadWithUnion (request)
@@ -210,12 +185,10 @@ XmlUnionsWithUnionMember (response)
 # XML namespaces and `@xmlName` on the input structure are not written.
 BodyWithXmlName (request)
 BodyWithXmlName (response)
-Ec2XmlNamespaces (response)
 HttpPayloadWithXmlNamespaceAndPrefix (request)
-QueryXmlNamespaces (response)
+RestXmlXmlMapWithXmlNamespace (request)
 XmlNamespaceSimpleScalarProperties (request)
 XmlNamespaces (request)
-XmlNamespaces (response)
 
 # Empty values: an empty string, blob or prefix-header map in a response is
 # dropped, and an absent streaming body comes back as an empty one.
