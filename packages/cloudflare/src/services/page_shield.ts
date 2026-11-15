@@ -67,6 +67,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -76,6 +78,8 @@ export class NotEntitled
     /*@__PURE__*/ S.TaggedError<NotEntitled>()("NotEntitled", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403, message: { includes: "not entitled" } }],
   ) {}
@@ -85,6 +89,8 @@ export class PolicyNotFound
     /*@__PURE__*/ S.TaggedError<PolicyNotFound>()("PolicyNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404, message: { includes: "Could not find Policy" } }],
   ) {}
@@ -94,6 +100,8 @@ export class PolicyQuotaExceeded
     /*@__PURE__*/ S.TaggedError<PolicyQuotaExceeded>()("PolicyQuotaExceeded", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [
       {

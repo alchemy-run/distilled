@@ -7,9 +7,9 @@
  *
  * @example
  * ```ts
- * import * as Ovh from "@distilled.cloud/ovh";
+ * import * as Vps from "@distilled.cloud/ovh/vps";
  *
- * const servers = yield* Ovh.vps.getVps({});
+ * const servers = yield* Vps.getVps({});
  * ```
  */
 export * from "./credentials.ts";
@@ -18,4 +18,3 @@ export * as T from "./traits.ts";
 export { OvhProtocol, type OvhOpError, type OvhOpContext } from "./protocol.ts";
 export { paginateCursor } from "./pagination.ts";
 export * as Retry from "./retry.ts";
-export * from "./services/index.ts";

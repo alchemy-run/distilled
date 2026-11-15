@@ -15,9 +15,9 @@
  *
  * @example
  * ```ts
- * import * as Polymarket from "@distilled.cloud/polymarket";
+ * import * as Gamma from "@distilled.cloud/polymarket/gamma";
  *
- * const markets = yield* Polymarket.gamma.listMarkets({ limit: 5, closed: false });
+ * const markets = yield* Gamma.listMarkets({ limit: 5, closed: false });
  * ```
  */
 export * from "./credentials.ts";
@@ -36,4 +36,3 @@ export {
 } from "./protocol.ts";
 export { signL2 } from "./signing.ts";
 export * as Retry from "./retry.ts";
-export * from "./services/index.ts";

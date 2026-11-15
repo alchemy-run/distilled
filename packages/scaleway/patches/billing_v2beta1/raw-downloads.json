@@ -1,0 +1,121 @@
+{
+  "description": "ExportInvoices, DownloadInvoice: Scaleway answers the file itself when the request adds `?dl=1` (scaleway-sdk-js sends it for these downloads; the Go SDK and CLI read the JSON `scaleway.std.File` instead). Each gets a `…Raw` twin that sends `dl=1` (the `rawDownload` flag on its http trait) and returns the body as bytes.",
+  "patches": [
+    {
+      "op": "copy",
+      "from": "/shapes/com.scaleway.billing_v2beta1#ExportInvoicesRequest",
+      "path": "/shapes/com.scaleway.billing_v2beta1#ExportInvoicesRawRequest"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.billing_v2beta1#ExportInvoicesRawResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "body": {
+            "target": "smithy.api#Blob",
+            "traits": {
+              "com.distilled.openapi#rawResponse": {},
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.scaleway.billing_v2beta1#ExportInvoices",
+      "path": "/shapes/com.scaleway.billing_v2beta1#ExportInvoicesRaw"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.scaleway.billing_v2beta1#ExportInvoicesRaw/input",
+      "value": {
+        "target": "com.scaleway.billing_v2beta1#ExportInvoicesRawRequest"
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.scaleway.billing_v2beta1#ExportInvoicesRaw/output",
+      "value": {
+        "target": "com.scaleway.billing_v2beta1#ExportInvoicesRawResponse"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.billing_v2beta1#ExportInvoicesRaw/traits/smithy.api#http/rawDownload",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.billing_v2beta1#ExportInvoicesRaw/traits/smithy.api#documentation",
+      "value": "The file `exportInvoices` returns, as bytes (`?dl=1`), rather than the JSON file object."
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.billing_v2beta1#BillingV2beta1/operations/-",
+      "value": {
+        "target": "com.scaleway.billing_v2beta1#ExportInvoicesRaw"
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.scaleway.billing_v2beta1#DownloadInvoiceRequest",
+      "path": "/shapes/com.scaleway.billing_v2beta1#DownloadInvoiceRawRequest"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.billing_v2beta1#DownloadInvoiceRawResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "body": {
+            "target": "smithy.api#Blob",
+            "traits": {
+              "com.distilled.openapi#rawResponse": {},
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.scaleway.billing_v2beta1#DownloadInvoice",
+      "path": "/shapes/com.scaleway.billing_v2beta1#DownloadInvoiceRaw"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.scaleway.billing_v2beta1#DownloadInvoiceRaw/input",
+      "value": {
+        "target": "com.scaleway.billing_v2beta1#DownloadInvoiceRawRequest"
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.scaleway.billing_v2beta1#DownloadInvoiceRaw/output",
+      "value": {
+        "target": "com.scaleway.billing_v2beta1#DownloadInvoiceRawResponse"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.billing_v2beta1#DownloadInvoiceRaw/traits/smithy.api#http/rawDownload",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.billing_v2beta1#DownloadInvoiceRaw/traits/smithy.api#documentation",
+      "value": "The file `downloadInvoice` returns, as bytes (`?dl=1`), rather than the JSON file object."
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.billing_v2beta1#BillingV2beta1/operations/-",
+      "value": {
+        "target": "com.scaleway.billing_v2beta1#DownloadInvoiceRaw"
+      }
+    }
+  ]
+}

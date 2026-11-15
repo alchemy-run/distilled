@@ -16,6 +16,7 @@ import type * as AST from "effect/SchemaAST";
 import { getAnn, getProps, resolveNode } from "./annotations.ts";
 import * as Category from "./category.ts";
 import { isOpaqueValue } from "./plain-values.ts";
+import { parseServerRetryHint } from "./retry-after.ts";
 import * as Schema from "./schema-lite-typed.ts";
 import { SdkError } from "./sdk-error.ts";
 import { restoreStack, suppressStack } from "./telemetry.ts";
@@ -813,33 +814,36 @@ const requestOrInvalid = ({
   const bodied = !BODYLESS.has(http.method);
   if (http.contentType === "multipart") {
     // Multipart upload: each body member is a form part (objects
-    // JSON-encoded under their wire name), each file appends under its own
-    // filename. A whole-body member (T.HttpBody) that is a record of files
-    // becomes one part per entry (e.g. asset upload: { <hash>: File }).
-    // Files and byte buffers become binary parts; objects become JSON parts.
+    // JSON-encoded under their wire name). Files and byte buffers become
+    // binary parts under the member's wire name, with a File's own filename
+    // (the wire name for a nameless Blob or a byte buffer); a list of them is
+    // one such part per element, the repeated-field form multipart APIs read
+    // (`-F documents=@a.pdf -F documents=@b.txt`). `FormDataFile()` members
+    // append under each file's own filename instead (below). A whole-body
+    // member (T.HttpBody) that is a record of files becomes one part per
+    // entry (e.g. asset upload: { <hash>: File }).
     const form = new FormData();
     const parts =
       rawBody !== undefined && typeof rawBody === "object"
         ? (rawBody as Record<string, unknown>)
         : body;
-    const isFileOrBlob = (v: unknown): v is Blob => v instanceof Blob || v instanceof File;
-    for (const [key, value] of Object.entries(parts)) {
-      if (value === undefined || value === null) continue;
-      if (isFileOrBlob(value)) {
+    const isBinary = (v: unknown): v is Blob | Uint8Array | ArrayBuffer =>
+      v instanceof Blob || v instanceof Uint8Array || v instanceof ArrayBuffer;
+    const appendBinary = (key: string, value: Blob | Uint8Array | ArrayBuffer) => {
+      if (value instanceof Blob) {
         form.append(key, value, value instanceof File ? value.name : key);
-      } else if (value instanceof Uint8Array || value instanceof ArrayBuffer) {
+      } else {
+        // Copy a Uint8Array view's own bytes (a subarray shares a larger buffer).
         const bytes = value instanceof Uint8Array ? new Uint8Array(value).buffer : value;
         form.append(key, new Blob([bytes]), key);
-      } else if (Array.isArray(value) && value.length > 0 && isFileOrBlob(value[0])) {
-        for (const file of value as Blob[]) {
-          if (isFileOrBlob(file)) {
-            form.append(
-              file instanceof File ? file.name : key,
-              file,
-              file instanceof File ? file.name : undefined,
-            );
-          }
-        }
+      }
+    };
+    for (const [key, value] of Object.entries(parts)) {
+      if (value === undefined || value === null) continue;
+      if (isBinary(value)) {
+        appendBinary(key, value);
+      } else if (Array.isArray(value) && value.length > 0 && value.every(isBinary)) {
+        for (const element of value) appendBinary(key, element);
       } else if (typeof value === "object") {
         form.append(key, JSON.stringify(value));
       } else {
@@ -926,6 +930,11 @@ const requestOrInvalid = ({
 export interface ErrorResponse {
   readonly body?: unknown;
   readonly headers?: Readonly<Record<string, string | undefined>>;
+  /**
+   * JSON pointer to the object that holds the error's fields when the
+   * provider nests them, e.g. `"/error"` for `{ error: { status, details } }`.
+   */
+  readonly fieldsAt?: string;
 }
 
 const matchesText = (matcher: ErrorTextMatcher, value: unknown): boolean => {
@@ -1003,6 +1012,47 @@ export const matchesExpression = (
   return true;
 };
 
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === "object" && value !== null && !Array.isArray(value);
+
+/**
+ * The body values whose keys the error class declares as fields: from the
+ * object at `fieldsAt` first, then from the top level.
+ */
+const declaredBodyFields = (
+  fields: Record<string, unknown> | undefined,
+  body: unknown,
+  fieldsAt: string | undefined,
+): Record<string, unknown> => {
+  if (fields === undefined) return {};
+  const nested = fieldsAt === undefined ? undefined : atPointer(body, fieldsAt);
+  const out: Record<string, unknown> = {};
+  for (const key of Object.keys(fields)) {
+    if (isRecord(nested) && Object.hasOwn(nested, key)) out[key] = nested[key];
+    else if (isRecord(body) && Object.hasOwn(body, key)) out[key] = body[key];
+  }
+  return out;
+};
+
+/**
+ * The fields every error built from a response gets, when its class declares
+ * them: the body, the headers, and the server's retry hint from
+ * `Retry-After` or `RateLimit`.
+ */
+export const responseErrorFields = (
+  fields: Record<string, unknown> | undefined,
+  response: ErrorResponse,
+): Record<string, unknown> => {
+  const out: Record<string, unknown> = {
+    body: response.body,
+    headers: response.headers,
+  };
+  if (fields !== undefined && Object.hasOwn(fields, "retryAfter") && response.headers) {
+    out.retryAfter = parseServerRetryHint(response.headers);
+  }
+  return out;
+};
+
 /**
  * Pick the operation's typed error class for a failed response: among all
  * declared classes whose matchers (see `applyErrorMatchers`) match the wire
@@ -1010,6 +1060,11 @@ export const matchesExpression = (
  * Empty error lists use an HTTP-status message so body/header-only failures can
  * still match. The constructor receives the raw body and headers as well as
  * code/message; error schemas can declare these fields to expose them to callers.
+ * Any other field the class declares is read from the JSON body's key of the
+ * same name -- at `response.fieldsAt` first, then at the top level -- so a
+ * patch that adds `requestId` to an error gets the body's `requestId`. A
+ * declared `retryAfter` gets the `Retry-After` / `RateLimit` header hint. The
+ * matched `code` and `message` always win over the body's.
  */
 export const matchTypedError = (
   errorClasses: ReadonlyArray<unknown>,
@@ -1033,13 +1088,14 @@ export const matchTypedError = (
     }
   }
   if (!best) return undefined;
+  const fields = (best.cls as { fields?: Record<string, unknown> }).fields;
   const saved = suppressStack();
   try {
     return new (best.cls as new (args: any) => unknown)({
+      ...declaredBodyFields(fields, response.body, response.fieldsAt),
       code: best.code ?? 0,
       message: best.message,
-      body: response.body,
-      headers: response.headers,
+      ...responseErrorFields(fields, response),
     });
   } finally {
     restoreStack(saved);

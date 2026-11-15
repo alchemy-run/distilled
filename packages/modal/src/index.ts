@@ -17,4 +17,3 @@ export {
   type ModalOpContext,
 } from "./protocol.ts";
 export * as Retry from "./retry.ts";
-export * from "./services/index.ts";

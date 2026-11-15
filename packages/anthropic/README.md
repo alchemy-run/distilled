@@ -25,12 +25,15 @@ session's events back:
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Anthropic from "@distilled.cloud/anthropic";
+import * as BetaAgents from "@distilled.cloud/anthropic/beta_agents";
+import * as BetaEnvironments from "@distilled.cloud/anthropic/beta_environments";
+import * as BetaSessions from "@distilled.cloud/anthropic/beta_sessions";
 
 // Every managed agents call names its beta.
 const anthropicBeta = ["managed-agents-2026-04-01"];
 
 const program = Effect.gen(function* () {
-  const agent = yield* Anthropic.betaAgents.createAgent({
+  const agent = yield* BetaAgents.createAgent({
     anthropicBeta,
     name: "Coding Assistant",
     model: "claude-opus-5-5",
@@ -38,20 +41,20 @@ const program = Effect.gen(function* () {
     tools: [{ type: "agent_toolset_20260401" }],
   });
 
-  const environment = yield* Anthropic.betaEnvironments.createEnvironment({
+  const environment = yield* BetaEnvironments.createEnvironment({
     anthropicBeta,
     name: "quickstart-env",
     config: { type: "cloud", networking: { type: "limited", allow_package_managers: true } },
   });
 
-  const session = yield* Anthropic.betaSessions.createSession({
+  const session = yield* BetaSessions.createSession({
     anthropicBeta,
     agent: agent.id,
     environment_id: environment.id,
     title: "Quickstart session",
   });
 
-  yield* Anthropic.betaSessions.sendSessionEvents({
+  yield* BetaSessions.sendSessionEvents({
     anthropicBeta,
     session_id: session.id,
     events: [
@@ -62,7 +65,7 @@ const program = Effect.gen(function* () {
     ],
   });
 
-  const events = yield* Anthropic.betaSessions.listSessionEvents({
+  const events = yield* BetaSessions.listSessionEvents({
     anthropicBeta,
     session_id: session.id,
   });
@@ -81,7 +84,9 @@ program.pipe(Effect.provide(Live), Effect.runPromise);
 A plain Messages API call takes the same layer:
 
 ```ts
-const message = yield* Anthropic.messages.createMessage({
+import * as Messages from "@distilled.cloud/anthropic/messages";
+
+const message = yield* Messages.createMessage({
   model: "claude-opus-4-8",
   max_tokens: 1024,
   messages: [{ role: "user", content: "Hello, Claude" }],

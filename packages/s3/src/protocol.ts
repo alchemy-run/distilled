@@ -78,6 +78,7 @@ import {
 } from "./traits.ts";
 import { getIdentifier, getPropertySignatures } from "./util/ast.ts";
 import { invalidHostLabel } from "./util/serialize-input.ts";
+import { bodyStream, isStreamBody, type StreamBody } from "./util/stream.ts";
 
 /**
  * Context (requirements) shared by every generated AWS operation.
@@ -100,7 +101,7 @@ interface Prepared {
     status: number;
     statusText: string;
     headers: Record<string, string>;
-    body: string | ReadableStream<Uint8Array>;
+    body: string | StreamBody;
   }) => Effect.Effect<any, any, any>;
   readonly sigv4: { name: string } | undefined;
   /** Legacy SigV2 (SimpleDB only) -- signs via body parameters, no header. */
@@ -348,9 +349,9 @@ const toHttpRequest = (
     return sigv2.sign(resolvedRequest, endpoint, fullPath, credentials);
   }
 
-  // For streaming bodies (ReadableStream), we can't compute a hash
+  // For streaming bodies, we can't compute a hash
   // so we use UNSIGNED-PAYLOAD and don't pass the body to the signer
-  const isStreamingBody = resolvedRequest.body instanceof ReadableStream;
+  const isStreamingBody = isStreamBody(resolvedRequest.body);
   // Check if content-sha256 header is already set (e.g., by checksum middleware)
   // Check if service provides its own checksum (e.g., EBS x-amz-Checksum header)
   // In this case, the body should not be included in SigV4 signing
@@ -449,16 +450,11 @@ const httpRequestOf = (
   // We must pass the content type to avoid HttpBody overriding the signed Content-Type header,
   // and a stream's content length, or setBody removes Content-Length and the body goes out chunked
   let httpBody: HttpBody.HttpBody;
-  if (isStreamingBody) {
-    // Convert ReadableStream to Effect Stream for HttpClient
-    const effectStream = Stream.fromReadableStream({
-      evaluate: () => body as ReadableStream<Uint8Array>,
-      onError: (error) =>
-        error instanceof Error ? error : new Error(String(error), { cause: error }),
-    });
+  if (isStreamingBody && isStreamBody(body)) {
+    // An Effect stream goes to the HttpClient as is, so it runs in this fiber.
     const contentLength = signedHeaders["content-length"];
     httpBody = HttpBody.stream(
-      effectStream,
+      bodyStream(body),
       contentType,
       contentLength === undefined ? undefined : Number(contentLength),
     );
@@ -651,7 +647,7 @@ const decodeWith = (
     response.request.method === "HEAD" ||
     (response.headers as Record<string, string>)["content-length"] === "0" ||
     response.status === 204;
-  const parse = (body: string | ReadableStream<Uint8Array>) =>
+  const parse = (body: string | StreamBody) =>
     Effect.mapError(
       prepared.parseResponse({
         status: response.status,
@@ -673,8 +669,9 @@ const decodeWith = (
       ? fromText("")
       : Effect.flatMap(response.text, fromText)
     : empty
-      ? parse(new ReadableStream<Uint8Array>({ start: (c) => c.close() }))
-      : Effect.flatMap(Stream.toReadableStreamEffect(response.stream), parse);
+      ? parse(Stream.empty)
+      : // The HttpClient's stream as is: the caller reads it in its own fiber.
+        parse(response.stream);
   return decoded;
 };
 

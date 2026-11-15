@@ -30,6 +30,9 @@ export class CommandDeadlineElapsed
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<CommandDeadlineElapsed>()("CommandDeadlineElapsed", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+      retryAfter: /*@__PURE__*/ S.optional(S.Duration),
     }).pipe(C.withServerError, C.withRetryableError, C.withThrottlingError),
     [{ status: 400, message: { includes: "command deadline elapsed" } }],
   ) {}
@@ -39,6 +42,8 @@ export class NamespaceAlreadyExists
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NamespaceAlreadyExists>()("NamespaceAlreadyExists", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409, headers: { "x-rivet-error": "namespace.name_not_unique" } }],
   ) {}
@@ -48,6 +53,9 @@ export class StorageCommandCapacity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<StorageCommandCapacity>()("StorageCommandCapacity", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+      retryAfter: /*@__PURE__*/ S.optional(S.Duration),
     }).pipe(C.withServerError, C.withRetryableError, C.withThrottlingError),
     [{ status: 400, message: { includes: "(command_capacity)" } }],
   ) {}
@@ -57,6 +65,9 @@ export class StorageOverloaded
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<StorageOverloaded>()("StorageOverloaded", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+      retryAfter: /*@__PURE__*/ S.optional(S.Duration),
     }).pipe(C.withServerError, C.withRetryableError, C.withThrottlingError),
     [{ status: 400, headers: { "x-rivet-error": "depot.overloaded" } }],
   ) {}

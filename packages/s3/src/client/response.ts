@@ -1,3 +1,5 @@
+import type { StreamBody } from "../util/stream.ts";
+
 /**
  * A protocol-agnostic HTTP response representation.
  * This is what the protocol deserializer consumes.
@@ -13,5 +15,6 @@ export interface Response {
   /** Response headers */
   headers: Record<string, string>;
   /** Response body as a stream - protocols consume as needed */
-  body: string | ReadableStream<Uint8Array>;
+  /** The body as text, or the HttpClient's stream (read in the caller's fiber). */
+  body: string | StreamBody;
 }

@@ -16,11 +16,12 @@ npm install @distilled.cloud/rivet effect
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Rivet from "@distilled.cloud/rivet";
+import * as Pools from "@distilled.cloud/rivet/pools";
 
 const program = Effect.gen(function* () {
   // Nodes can only join a pool that exists.
-  const { pool } = yield* Rivet.pools.upsertPool({ pool: "default", namespace: "default" });
-  const { nodes } = yield* Rivet.pools.listPoolNodes({ pool: pool.name, namespace: "default" });
+  const { pool } = yield* Pools.upsertPool({ pool: "default", namespace: "default" });
+  const { nodes } = yield* Pools.listPoolNodes({ pool: pool.name, namespace: "default" });
   return nodes.filter((node) => node.connected).length;
 });
 

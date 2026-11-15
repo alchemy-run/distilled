@@ -30,6 +30,8 @@ export class OrgCreationLimitReached
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<OrgCreationLimitReached>()("OrgCreationLimitReached", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 409, message: { includes: "organization creation limit reached" } }],
   ) {}
@@ -39,6 +41,8 @@ export class OrgNameInvalid
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<OrgNameInvalid>()("OrgNameInvalid", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 400, message: { includes: "invalid org name" } }],
   ) {}

@@ -88,6 +88,8 @@ export class FiltersRequired
     /*@__PURE__*/ S.TaggedError<FiltersRequired>()("FiltersRequired", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 17103 }],
   ) {}
@@ -98,6 +100,8 @@ export class InvalidAlertQuery
     /*@__PURE__*/ S.TaggedError<InvalidAlertQuery>()("InvalidAlertQuery", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 17203 }],
   ) {}
@@ -107,6 +111,8 @@ export class InvalidAlertType
     /*@__PURE__*/ S.TaggedError<InvalidAlertType>()("InvalidAlertType", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 17004 }],
   ) {}
@@ -117,6 +123,8 @@ export class InvalidPolicyFilters
     /*@__PURE__*/ S.TaggedError<InvalidPolicyFilters>()("InvalidPolicyFilters", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [
       { code: 17501 },
@@ -132,6 +140,8 @@ export class InvalidRoute
     /*@__PURE__*/ S.TaggedError<InvalidRoute>()("InvalidRoute", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7003 }],
   ) {}
@@ -141,6 +151,8 @@ export class InvalidSilence
     /*@__PURE__*/ S.TaggedError<InvalidSilence>()("InvalidSilence", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 0, message: { includes: "invalid silence" } }],
   ) {}
@@ -150,6 +162,8 @@ export class InvalidWebhookId
     /*@__PURE__*/ S.TaggedError<InvalidWebhookId>()("InvalidWebhookId", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 0, message: { includes: "invalid Webhook ID" } }],
   ) {}
@@ -159,6 +173,8 @@ export class MechanismRequired
     /*@__PURE__*/ S.TaggedError<MechanismRequired>()("MechanismRequired", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 17102 }],
   ) {}
@@ -168,6 +184,8 @@ export class PolicyNotFound
     /*@__PURE__*/ S.TaggedError<PolicyNotFound>()("PolicyNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 0, message: { includes: "Policy not found" } }],
   ) {}
@@ -177,6 +195,8 @@ export class SilenceAlreadyExists
     /*@__PURE__*/ S.TaggedError<SilenceAlreadyExists>()("SilenceAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 15000 }],
   ) {}
@@ -186,6 +206,8 @@ export class SilenceNotFound
     /*@__PURE__*/ S.TaggedError<SilenceNotFound>()("SilenceNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 0, message: { includes: "silence not found" } }],
   ) {}
@@ -195,6 +217,8 @@ export class WebhookNotFound
     /*@__PURE__*/ S.TaggedError<WebhookNotFound>()("WebhookNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 0, message: { includes: "Webhook not found" } }],
   ) {}
@@ -204,6 +228,8 @@ export class WebhookTestFailed
     /*@__PURE__*/ S.TaggedError<WebhookTestFailed>()("WebhookTestFailed", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [
       { code: 0, message: { includes: "Webhook test failed" } },

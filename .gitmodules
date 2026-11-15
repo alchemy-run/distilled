@@ -568,3 +568,13 @@ shallow = true
 	url = https://github.com/distilled-mirror/spec-mirror-opensearch.git
 	ignore = dirty
 	shallow = true
+[submodule "packages/scaleway/specs/spec-mirror-scaleway"]
+	path = packages/scaleway/specs/spec-mirror-scaleway
+	url = https://github.com/distilled-mirror/spec-mirror-scaleway.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/hydradb/specs/spec-mirror-hydradb"]
+	path = packages/hydradb/specs/spec-mirror-hydradb
+	url = https://github.com/distilled-mirror/spec-mirror-hydradb.git
+	ignore = dirty
+	shallow = true

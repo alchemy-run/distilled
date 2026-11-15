@@ -31,6 +31,9 @@ export class CommandDeadlineElapsed
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<CommandDeadlineElapsed>()("CommandDeadlineElapsed", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+      retryAfter: /*@__PURE__*/ S.optional(S.Duration),
     }).pipe(C.withServerError, C.withRetryableError, C.withThrottlingError),
     [{ status: 400, message: { includes: "command deadline elapsed" } }],
   ) {}
@@ -40,6 +43,8 @@ export class NamespaceNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NamespaceNotFound>()("NamespaceNotFound", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404, headers: { "x-rivet-error": "namespace.not_found" } }],
   ) {}
@@ -49,6 +54,8 @@ export class PoolNodesConnected
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<PoolNodesConnected>()("PoolNodesConnected", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409, headers: { "x-rivet-error": "pool.nodes_connected" } }],
   ) {}
@@ -58,6 +65,8 @@ export class PoolNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<PoolNotFound>()("PoolNotFound", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404, headers: { "x-rivet-error": "pool.not_found" } }],
   ) {}
@@ -67,6 +76,9 @@ export class StorageCommandCapacity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<StorageCommandCapacity>()("StorageCommandCapacity", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+      retryAfter: /*@__PURE__*/ S.optional(S.Duration),
     }).pipe(C.withServerError, C.withRetryableError, C.withThrottlingError),
     [{ status: 400, message: { includes: "(command_capacity)" } }],
   ) {}
@@ -76,6 +88,9 @@ export class StorageOverloaded
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<StorageOverloaded>()("StorageOverloaded", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+      retryAfter: /*@__PURE__*/ S.optional(S.Duration),
     }).pipe(C.withServerError, C.withRetryableError, C.withThrottlingError),
     [{ status: 400, headers: { "x-rivet-error": "depot.overloaded" } }],
   ) {}

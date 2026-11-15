@@ -1,12 +1,14 @@
-// Publishes the release tarballs to npm under the default `latest` dist-tag,
-// authenticating through the job's OIDC token (npm trusted publishing).
+// Publishes the release tarballs to npm under the dist-tag `--tag` names
+// (`latest`, or a tag release's own name; see prepare.ts), authenticating
+// through the job's OIDC token (npm trusted publishing). The tag is always
+// passed, so pnpm never falls back to its default, `latest`.
 //
 // Versions already on npm are skipped, so a release that failed part-way can
 // be re-run. Every tarball is attempted; the command fails afterwards if any
 // publish failed. Results are logged and, in GitHub Actions, written to the
 // job summary.
 //
-// Usage: node scripts/release/publish.ts [--dir release-packages]
+// Usage: node scripts/release/publish.ts --tag <dist-tag> [--dir release-packages]
 import * as NodeRuntime from "@effect/platform-node/NodeRuntime";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import { Command, Flag } from "effect/cli";
@@ -87,7 +89,7 @@ const specOf = Effect.fn(function* (tarball: string) {
   return `${name}@${version}`;
 });
 
-const publishOne = Effect.fn(function* (tarball: string) {
+const publishOne = Effect.fn(function* (tarball: string, tag: string) {
   const spec = yield* specOf(tarball);
 
   const existing = yield* run("pnpm", ["view", spec, "version"]);
@@ -99,7 +101,7 @@ const publishOne = Effect.fn(function* (tarball: string) {
   yield* Console.log(`- ${spec}: publishing`);
   const published = yield* run(
     "pnpm",
-    ["publish", tarball, "--access", "public", "--no-git-checks"],
+    ["publish", tarball, "--access", "public", "--tag", tag, "--no-git-checks"],
     { inherit: true },
   );
   if (published.exitCode !== 0) {
@@ -110,8 +112,8 @@ const publishOne = Effect.fn(function* (tarball: string) {
       detail: `exit code ${published.exitCode}`,
     } satisfies Result;
   }
-  yield* Console.log(`- ${spec}: published to latest`);
-  return { spec, outcome: "published", detail: "latest" } satisfies Result;
+  yield* Console.log(`- ${spec}: published to ${tag}`);
+  return { spec, outcome: "published", detail: tag } satisfies Result;
 });
 
 const summarize = Effect.fn(function* (results: ReadonlyArray<Result>) {
@@ -151,8 +153,9 @@ const command = Command.make(
       Flag.withDescription("Directory holding the release tarballs"),
       Flag.withDefault("release-packages"),
     ),
+    tag: Flag.String("tag").pipe(Flag.withDescription("npm dist-tag to publish under")),
   },
-  Effect.fn(function* ({ dir }) {
+  Effect.fn(function* ({ dir, tag }) {
     const fs = yield* FileSystem.FileSystem;
     const path = yield* Path.Path;
 
@@ -163,9 +166,9 @@ const command = Command.make(
     if (tarballs.length === 0) {
       return yield* new NoTarballs({ message: `No tarballs in ${dir}`, dir });
     }
-    yield* Console.log(`Publishing ${tarballs.length} tarball(s) from ${dir}:`);
+    yield* Console.log(`Publishing ${tarballs.length} tarball(s) from ${dir} under ${tag}:`);
 
-    const results = yield* Effect.forEach(tarballs, publishOne);
+    const results = yield* Effect.forEach(tarballs, (tarball) => publishOne(tarball, tag));
     yield* summarize(results);
 
     const failed = results.filter((result) => result.outcome === "failed").map((r) => r.spec);
@@ -176,7 +179,7 @@ const command = Command.make(
       });
     }
   }),
-).pipe(Command.withDescription("Publish the release tarballs to npm under latest"));
+).pipe(Command.withDescription("Publish the release tarballs to npm under a dist-tag"));
 
 Command.run(command, { version: "0.0.0" }).pipe(
   Effect.provide(NodeServices.layer),

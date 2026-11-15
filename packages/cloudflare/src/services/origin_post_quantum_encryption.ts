@@ -39,6 +39,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -48,6 +50,8 @@ export class InvalidSettingValue
     /*@__PURE__*/ S.TaggedError<InvalidSettingValue>()("InvalidSettingValue", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1146, message: { includes: "origin_post_quantum_encryption" } }],
   ) {}
@@ -57,6 +61,8 @@ export class InvalidZoneIdentifier
     /*@__PURE__*/ S.TaggedError<InvalidZoneIdentifier>()("InvalidZoneIdentifier", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7003 }],
   ) {}

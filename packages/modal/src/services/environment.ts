@@ -29,6 +29,8 @@ export class EnvironmentAlreadyExists
     /*@__PURE__*/ S.TaggedError<EnvironmentAlreadyExists>()("EnvironmentAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 6 }],
   ) {}
@@ -39,6 +41,8 @@ export class EnvironmentBudgetsNotEnabled
     /*@__PURE__*/ S.TaggedError<EnvironmentBudgetsNotEnabled>()("EnvironmentBudgetsNotEnabled", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7, message: { includes: "budgets are not enabled" } }],
   ) {}
@@ -49,6 +53,8 @@ export class EnvironmentNotFound
     /*@__PURE__*/ S.TaggedError<EnvironmentNotFound>()("EnvironmentNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 5 }],
   ) {}

@@ -12,9 +12,9 @@
  *
  * @example
  * ```ts
- * import * as Proxmox from "@distilled.cloud/proxmox";
+ * import * as Cluster from "@distilled.cloud/proxmox/cluster";
  *
- * const guests = yield* Proxmox.cluster.getClusterResources({ type: "vm" });
+ * const guests = yield* Cluster.getClusterResources({ type: "vm" });
  * ```
  */
 export * from "./credentials.ts";
@@ -22,4 +22,3 @@ export * from "./errors.ts";
 export * as T from "./traits.ts";
 export { ProxmoxProtocol, type ProxmoxOpError, type ProxmoxOpContext } from "./protocol.ts";
 export { waitForTask, TaskFailed, TaskTimeout, type WaitForTaskOptions } from "./tasks.ts";
-export * from "./services/index.ts";

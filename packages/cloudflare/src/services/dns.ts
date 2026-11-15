@@ -101,6 +101,8 @@ export class AclNotFound
     /*@__PURE__*/ S.TaggedError<AclNotFound>()("AclNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404 }],
   ) {}
@@ -110,6 +112,8 @@ export class DnsRecordAlreadyExists
     /*@__PURE__*/ S.TaggedError<DnsRecordAlreadyExists>()("DnsRecordAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [
       { code: 81057 },
@@ -123,6 +127,8 @@ export class DnsSettingNotAvailable
     /*@__PURE__*/ S.TaggedError<DnsSettingNotAvailable>()("DnsSettingNotAvailable", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1003 }],
   ) {}
@@ -132,6 +138,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -141,6 +149,8 @@ export class IncomingZoneTransferNotFound
     /*@__PURE__*/ S.TaggedError<IncomingZoneTransferNotFound>()("IncomingZoneTransferNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404 }],
   ) {}
@@ -150,6 +160,8 @@ export class InternalDnsNotAvailable
     /*@__PURE__*/ S.TaggedError<InternalDnsNotAvailable>()("InternalDnsNotAvailable", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1029 }],
   ) {}
@@ -159,6 +171,8 @@ export class OutgoingZoneTransferNotFound
     /*@__PURE__*/ S.TaggedError<OutgoingZoneTransferNotFound>()("OutgoingZoneTransferNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404 }],
   ) {}
@@ -170,6 +184,8 @@ export class OutgoingZoneTransfersNotAllowed
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ status: 401 }],
@@ -180,6 +196,8 @@ export class PeerNotFound
     /*@__PURE__*/ S.TaggedError<PeerNotFound>()("PeerNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404 }],
   ) {}
@@ -189,6 +207,8 @@ export class RecordNotFound
     /*@__PURE__*/ S.TaggedError<RecordNotFound>()("RecordNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 81044 }],
   ) {}
@@ -198,6 +218,8 @@ export class TsigNotFound
     /*@__PURE__*/ S.TaggedError<TsigNotFound>()("TsigNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404 }],
   ) {}
@@ -207,6 +229,8 @@ export class ViewNotFound
     /*@__PURE__*/ S.TaggedError<ViewNotFound>()("ViewNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1015 }, { status: 404 }],
   ) {}
