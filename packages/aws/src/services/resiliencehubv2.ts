@@ -5951,10 +5951,10 @@ function __c47(j: number): any {
       return S.suspend(() =>
         S.Struct({
           serviceArn: S.optional(S.String).pipe(T.HttpQuery("serviceArn")),
-          queryRangeStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-            T.HttpQuery("queryRangeStartTime"),
-          ),
-          queryRangeEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          queryRangeStartTime: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ).pipe(T.HttpQuery("queryRangeStartTime")),
+          queryRangeEndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("queryRangeEndTime"),
           ),
           queryRangeGranularity: S.optional(S.String).pipe(T.HttpQuery("queryRangeGranularity")),
@@ -6022,10 +6022,10 @@ function __c48(j: number): any {
           assessmentStatuses: S.optional(__S(1568, __c49, 0)).pipe(
             T.HttpQuery("assessmentStatuses"),
           ),
-          startedAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          startedAfter: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("startedAfter"),
           ),
-          endedBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          endedBefore: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("endedBefore"),
           ),
           sortBy: S.optional(S.String).pipe(T.HttpQuery("sortBy")),
@@ -6203,10 +6203,10 @@ function __c53(j: number): any {
         S.Struct({
           policyArn: S.String.pipe(T.HttpQuery("policyArn")),
           eventTypes: S.optional(__S(1568, __c49, 0)).pipe(T.HttpQuery("eventTypes")),
-          startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          startTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("startTime"),
           ),
-          endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("endTime"),
           ),
           maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -6395,10 +6395,10 @@ function __c58(j: number): any {
         S.Struct({
           serviceArn: S.String.pipe(T.HttpQuery("serviceArn")),
           eventTypes: S.optional(__S(1568, __c49, 0)).pipe(T.HttpQuery("eventTypes")),
-          startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          startTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("startTime"),
           ),
-          endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("endTime"),
           ),
           maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -6668,10 +6668,10 @@ function __c62(j: number): any {
         S.Struct({
           systemArn: S.String.pipe(T.HttpQuery("systemArn")),
           eventTypes: S.optional(__S(1568, __c49, 0)).pipe(T.HttpQuery("eventTypes")),
-          startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          startTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("startTime"),
           ),
-          endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("endTime"),
           ),
           maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -6895,10 +6895,10 @@ function __c66(j: number): any {
         S.Struct({
           testRunId: S.String.pipe(T.HttpLabel("testRunId")),
           serviceArn: S.String.pipe(T.HttpQuery("serviceArn")),
-          startedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          startedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("startedAt"),
           ),
-          endedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("endedAt"),
           ),
           maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),

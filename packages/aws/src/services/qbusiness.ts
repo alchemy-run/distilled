@@ -7899,10 +7899,10 @@ function __c87(j: number): any {
           indexId: S.String.pipe(T.HttpLabel("indexId")),
           nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
           maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-          startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          startTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("startTime"),
           ),
-          endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("endTime"),
           ),
           statusFilter: S.optional(S.String).pipe(T.HttpQuery("syncStatus")),
@@ -8002,7 +8002,7 @@ function __c89(j: number): any {
         S.Struct({
           applicationId: S.String.pipe(T.HttpLabel("applicationId")),
           indexId: S.String.pipe(T.HttpLabel("indexId")),
-          updatedEarlierThan: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(
+          updatedEarlierThan: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
             T.HttpQuery("updatedEarlierThan"),
           ),
           dataSourceId: S.optional(S.String).pipe(T.HttpQuery("dataSourceId")),

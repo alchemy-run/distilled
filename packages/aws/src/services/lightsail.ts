@@ -14952,10 +14952,10 @@ function __c195(j: number): any {
         S.Struct({
           serviceName: S.String.pipe(T.HttpLabel("serviceName")),
           containerName: S.String.pipe(T.HttpLabel("containerName")),
-          startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          startTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("startTime"),
           ),
-          endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("endTime"),
           ),
           filterPattern: S.optional(S.String).pipe(T.HttpQuery("filterPattern")),
@@ -15029,8 +15029,12 @@ function __c198(j: number): any {
         S.Struct({
           serviceName: S.String.pipe(T.HttpLabel("serviceName")),
           metricName: S.String.pipe(T.HttpQuery("metricName")),
-          startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("startTime")),
-          endTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("endTime")),
+          startTime: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
+            T.HttpQuery("startTime"),
+          ),
+          endTime: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
+            T.HttpQuery("endTime"),
+          ),
           period: S.Number.pipe(T.HttpQuery("period")),
           statistics: __S(1920, __c120, 0).pipe(T.HttpQuery("statistics")),
         }).pipe(

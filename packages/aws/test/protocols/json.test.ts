@@ -218,7 +218,7 @@ describe("awsJson request serialization", () => {
     expect(JSON.parse(request.body as string)).toEqual({
       logGroupName: "/aws/lambda/example",
       startTime: 1704164645,
-      EndTime: "2024-01-02T04:00:00.000Z",
+      EndTime: "2024-01-02T04:00:00Z",
       Payload: "AP8=",
     });
   });
@@ -627,7 +627,7 @@ describe("restJson1 request serialization: HTTP bindings", () => {
       query: {
         maxResults: "10",
         includeDeleted: "false",
-        after: "2024-01-02T03:04:05.000Z",
+        after: "2024-01-02T03:04:05Z",
         before: "1704164645",
         status: "RUNNING",
       },

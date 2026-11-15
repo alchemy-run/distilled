@@ -158,7 +158,7 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          signatureTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(
+          signatureTimestamp: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
             T.HttpQuery("signatureTimestamp"),
           ),
           platformId: S.String.pipe(T.HttpQuery("platformId")),

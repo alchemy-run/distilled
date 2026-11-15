@@ -1372,29 +1372,45 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
       tsType = tsTypeAt(member.target, ownerName);
     }
 
-    // Timestamp members: HTTP header bindings default to http-date; an
-    // explicit member-level format overrides the target's.
+    // Timestamp members: the protocol's body format is the default only in
+    // the body. Header bindings default to http-date, and label and query
+    // bindings to date-time, unless the member or its target shape names a
+    // format; an explicit member-level format overrides the target's.
     const isTimestampSchema =
       schema.includes("S.Date") ||
       schema.includes("DateFromString") ||
       schema.includes("TimestampFormat") ||
       member.target === "smithy.api#Timestamp";
-    if (isTimestampSchema && hasHttpHeader && !explicitFormat) {
-      schema = `S.Date.pipe(T.TimestampFormat("http-date"))`;
+    const bindingFormat = hasHttpHeader
+      ? "http-date"
+      : traits["smithy.api#httpLabel"] != null || traits["smithy.api#httpQuery"] != null
+        ? "date-time"
+        : undefined;
+    const timestampExpr = (format: string) =>
+      format === "date-time"
+        ? `T.DateFromString.pipe(T.TimestampFormat("date-time"))`
+        : `S.Date.pipe(T.TimestampFormat("${format}"))`;
+    const targetFormat = memberTargetShape?.traits?.["smithy.api#timestampFormat"];
+    if (isTimestampSchema && explicitFormat) {
+      schema = timestampExpr(explicitFormat);
       tsType = "Date";
-    } else if (isTimestampSchema && explicitFormat) {
-      if (explicitFormat === "date-time") {
-        schema = `T.DateFromString.pipe(T.TimestampFormat("date-time"))`;
-      } else {
-        schema = `S.Date.pipe(T.TimestampFormat("${explicitFormat}"))`;
-      }
+    } else if (
+      isTimestampSchema &&
+      bindingFormat &&
+      targetFormat === undefined &&
+      // The XML protocols' default is already ISO 8601.
+      !(bindingFormat === "date-time" && schema === "T.DateFromString")
+    ) {
+      schema = timestampExpr(bindingFormat);
       tsType = "Date";
     }
 
-    // A header list of timestamps: its timestamps default to http-date too,
-    // unless the list member or its timestamp shape names a format.
+    // A header or query list of timestamps: its timestamps take the
+    // binding's default too, unless the list member or its timestamp shape
+    // names a format.
     const listMember =
-      hasHttpHeader && (memberTargetShape?.type === "list" || memberTargetShape?.type === "set")
+      bindingFormat !== undefined &&
+      (memberTargetShape?.type === "list" || memberTargetShape?.type === "set")
         ? memberTargetShape.member
         : undefined;
     if (
@@ -1404,7 +1420,7 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
       listMember.traits?.["smithy.api#timestampFormat"] === undefined &&
       shapes[listMember.target]?.traits?.["smithy.api#timestampFormat"] === undefined
     ) {
-      schema = `S.Array(S.Date.pipe(T.TimestampFormat("http-date")))`;
+      schema = `S.Array(${timestampExpr(bindingFormat!)})`;
       tsType = "Date[]";
     }
 
