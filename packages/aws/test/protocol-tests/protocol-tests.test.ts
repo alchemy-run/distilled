@@ -130,6 +130,11 @@ const serviceModel = (serviceId: string) => {
   for (const [from, to] of Object.entries(shapes[serviceId]!.rename ?? {})) {
     json = json.replaceAll(`"${from}"`, `"${from.split("#")[0]}#${to}"`);
   }
+  // No AWS model uses byte or short, so the generator has no schema for them.
+  // On every AWS protocol they travel exactly like an integer.
+  json = json
+    .replaceAll('"smithy.api#Byte"', '"smithy.api#Integer"')
+    .replaceAll('"smithy.api#Short"', '"smithy.api#Integer"');
   return { smithy: "2.0", shapes: JSON.parse(json) as Record<string, Shape> };
 };
 

@@ -1097,8 +1097,6 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
       switch (target) {
         case "smithy.api#String":
           return "S.String";
-        case "smithy.api#Byte":
-        case "smithy.api#Short":
         case "smithy.api#Integer":
         case "smithy.api#Double":
         case "smithy.api#Long":
