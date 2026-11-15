@@ -23,13 +23,18 @@ export interface DeserializedError {
   data: Record<string, unknown>;
 }
 
+/** What {@link ProtocolHandler.serialize} returns. */
+export type Serialized = Request | InvalidInput | Effect.Effect<Request>;
+
 export interface ProtocolHandler {
   /**
-   * Serialize an input object into a request, without effects. Returns the
-   * `InvalidInput` of a path label that would address another resource, and
-   * throws the `ParseError` an input that does not match the schema fails with.
+   * Serialize an input object into a request. Returns the `InvalidInput` of
+   * a path label that would address another resource, and throws the
+   * `ParseError` an input that does not match the schema fails with. A
+   * request whose body needs a lazily loaded module (an input event stream)
+   * comes back as an effect that loads it.
    */
-  readonly serialize: (input: unknown) => Request | InvalidInput;
+  readonly serialize: (input: unknown) => Serialized;
 
   /**
    * Deserialize a 2xx response whose body has been read as text, without
@@ -114,11 +119,15 @@ export const serializeFailure = (
  * `ParseError` fails as is, anything else thrown fails as `InvalidInput`.
  */
 export const serializeEffect =
-  (serialize: (input: unknown) => Request | InvalidInput) =>
+  (serialize: (input: unknown) => Serialized) =>
   (input: unknown): Effect.Effect<Request, ParseError | InvalidInput> => {
     try {
       const request = serialize(input);
-      return request instanceof InvalidInput ? Effect.fail(request) : Effect.succeed(request);
+      return request instanceof InvalidInput
+        ? Effect.fail(request)
+        : Effect.isEffect(request)
+          ? request
+          : Effect.succeed(request);
     } catch (e) {
       return serializeFailure(undefined, e);
     }

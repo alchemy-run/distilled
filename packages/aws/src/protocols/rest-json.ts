@@ -15,6 +15,7 @@ import {
   Unreadable,
   type ProtocolImpl,
   type ProtocolHandler,
+  type Serialized,
   type TextResponse,
 } from "@distilled.cloud/s3/client/protocol";
 import type { Request } from "@distilled.cloud/s3/client/request";
@@ -179,7 +180,7 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
       !hasHttpPayload(prop),
   );
 
-  const serialize = (input: unknown): Request | InvalidInput => {
+  const serialize = (input: unknown): Serialized => {
     const encoded = encodeInput(input);
 
     // Start without Content-Type - we'll set it based on the body type
@@ -199,6 +200,8 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
 
     // Track if user set Content-Type explicitly via httpHeader binding
     const userSetContentType = request.headers["Content-Type"] !== undefined;
+    // An input event stream's body, once its codec has loaded.
+    let eventBody: Effect.Effect<Stream.Stream<Uint8Array, unknown>> | undefined;
 
     // Serialize body
     if (payloadValue !== undefined && payloadAst !== undefined) {
@@ -210,7 +213,7 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
       if (isInputEventStreamPayload) {
         // Input event stream - frame each event per its eventPayload /
         // eventHeader member annotations (as the output side does).
-        request.body = eventStreamBody(getEventSchema(payloadAst), (codec) =>
+        eventBody = eventStreamBody(getEventSchema(payloadAst), (codec) =>
           codec.serializeInputEventStreamWithSchema(
             payloadValue as Stream.Stream<InputEvent, unknown>,
             getEventSchema(payloadAst),
@@ -270,7 +273,8 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
       request = applyGlacierCustomizations(request, serviceVersion);
     }
 
-    return request;
+    const built = request;
+    return eventBody === undefined ? built : Effect.map(eventBody, (body) => ({ ...built, body }));
   };
 
   /** The members bound to the status code and headers. */

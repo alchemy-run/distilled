@@ -91,8 +91,12 @@ const streamOf = (frames: Uint8Array[]) =>
   });
 
 /** Decode every event-stream frame in a request body. */
+/** An input event stream body, the Effect stream the HttpClient sends, read to the end. */
+const bodyBytes = (body: Request["body"]) =>
+  run(Stream.mkUint8Array(body as Stream.Stream<Uint8Array, unknown>));
+
 const readFrames = async (body: Request["body"]) => {
-  const data = new Uint8Array(await new globalThis.Response(body as ReadableStream).arrayBuffer());
+  const data = await bodyBytes(body);
   const frames: { headers: Record<string, string | undefined>; payload: string }[] = [];
   for (let offset = 0; offset < data.length;) {
     const [message, length] = await run(decodeMessage(data.subarray(offset)));
@@ -110,7 +114,7 @@ const readFrames = async (body: Request["body"]) => {
 
 /** Decode every event-stream frame in a request body, string headers flattened. */
 const readMessages = async (body: Request["body"]) => {
-  const data = new Uint8Array(await new globalThis.Response(body as ReadableStream).arrayBuffer());
+  const data = await bodyBytes(body);
   const messages: { headers: Record<string, unknown>; payload: Uint8Array }[] = [];
   for (let offset = 0; offset < data.length;) {
     const [message, length] = await run(decodeMessage(data.subarray(offset)));
@@ -1028,9 +1032,7 @@ describe("restJson1 request serialization: input event streams", () => {
         ]),
       }),
     );
-    const data = new Uint8Array(
-      await new globalThis.Response(request.body as ReadableStream).arrayBuffer(),
-    );
+    const data = await bodyBytes(request.body);
     const [text, length] = await run(decodeMessage(data));
     expect(text.headers.Seq).toEqual({ type: HeaderType.Int, value: 7 });
     expect(text.headers.Final).toEqual({ type: HeaderType.BoolTrue, value: true });
