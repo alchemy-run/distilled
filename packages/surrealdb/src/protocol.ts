@@ -1,14 +1,15 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
- * SurrealdbProtocol — hand-written.
+ * SurrealdbProtocol -- hand-written.
  *
  * SurrealDB speaks bearer-authenticated JSON REST (no response envelope),
  * so the whole protocol is one `makeRestProtocol` call from
  * `core/protocol-rest`:
  *
- *   request:  credentials → `Authorization: Bearer <apiKey>` +
+ *   request:  credentials -> `Authorization: Bearer <apiKey>` +
  *             `Accept: application/json` + base URL (default
  *             http://127.0.0.1:8000), resolved from the calling fiber on
  *             every request. Namespace/database selection is per-call via
@@ -38,31 +39,25 @@ export type SurrealdbOpError =
   | UnknownSurrealdbError
   | ConfigError
   | HttpClientError.HttpClientError
-  | SurrealdbParseError;
+  | SurrealdbParseError
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated SurrealDB operation. */
 export type SurrealdbOpContext = Credentials | HttpClient.HttpClient;
 
-export const SurrealdbProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
-  // The Credentials service holds an effect — resolving it here (per
+export const SurrealdbProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+  // The Credentials service holds an effect -- resolving it here (per
   // request, on the calling fiber) picks up context-provided credentials.
-  credentials: Effect.gen(function* () {
-    const resolve = yield* Credentials;
-    return yield* resolve;
-  }),
+  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => ({
     Accept: "application/json",
     Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
   }),
   // SurrealDB's error body is `{ code?: string, details?: string,
-  // description?: string, information?: string }` — the factory's default
+  // description?: string, information?: string }` -- the factory's default
   // lenient envelope covers `message`/`error`/`details`.
-  unknownError: ({ code, message, body }) =>
-    new UnknownSurrealdbError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownSurrealdbError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new SurrealdbParseError({ body, cause }),
 });

@@ -1,0 +1,162 @@
+{
+  "description": "Kubernetes cluster and node pool responses always carry their envelope, id, status, endpoint, network ranges and tags (and a node pool its id, tags and nodes); the spec marks every readOnly property optional. The credentials endpoint returns a bearer token and a client key, which are credentials, so they are marked sensitive. Evidence: the response examples in DigitalOcean's API reference, and the live responses the alchemy DigitalOcean suite decodes.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#KubernetesCreateClusterResponse/members/kubernetes_cluster/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#KubernetesGetClusterResponse/members/kubernetes_cluster/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#KubernetesUpdateClusterResponse/members/kubernetes_cluster/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#KubernetesAddNodePoolResponse/members/node_pool/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#KubernetesGetNodePoolResponse/members/node_pool/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#KubernetesUpdateNodePoolResponse/members/node_pool/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ClusterOutput/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ClusterOutput/members/status/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ClusterOutput/members/created_at/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ClusterOutput/members/endpoint/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ClusterOutput/members/ipv4/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ClusterOutput/members/vpc_uuid/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ClusterOutput/members/tags/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ClusterOutput/members/cluster_subnet/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ClusterOutput/members/service_subnet/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ClusterRead/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ClusterRead/members/status/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ClusterRead/members/created_at/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ClusterRead/members/endpoint/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ClusterRead/members/ipv4/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ClusterRead/members/vpc_uuid/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ClusterRead/members/tags/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ClusterRead/members/cluster_subnet/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ClusterRead/members/service_subnet/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#KubernetesNodePool/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#KubernetesNodePool/members/tags/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#KubernetesNodePool/members/nodes/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#Credentials/members/token/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#Credentials/members/client_key_data/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

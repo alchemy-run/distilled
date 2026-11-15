@@ -1,0 +1,26 @@
+{
+  "description": "CodePipeline: Members the API leaves out (not required); members that hold secrets (sensitive).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.codepipeline#WebhookAuthConfiguration/members/SecretToken/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.codepipeline#ActionRevision/members/revisionChangeId/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.codepipeline#ActionRevision/members/created/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.codepipeline#RuleRevision/members/revisionChangeId/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.codepipeline#RuleRevision/members/created/traits/smithy.api#required"
+    }
+  ]
+}

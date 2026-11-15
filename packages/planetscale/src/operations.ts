@@ -1,5 +1,5 @@
 /**
- * Flat operation surface — v0 parity.
+ * Flat operation surface -- v0 parity.
  *
  * The distilled v0 SDK exposed every operation from
  * `@distilled.cloud/planetscale/Operations`; alchemy imports it heavily.

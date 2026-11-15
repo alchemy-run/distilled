@@ -1,15 +1,20 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { ConfigError } from "@distilled.cloud/core/errors";
+import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import {
+  makeRestProtocol,
+  type RestErrorEnvelope,
+  unknownErrorProps,
+} from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
- * IcebergProtocol — the shared bearer-REST protocol instantiated for the
+ * IcebergProtocol -- the shared bearer-REST protocol instantiated for the
  * Apache Iceberg REST Catalog API.
  *
  * request:  `<uri>/v1/<prefix><route>`. The generated routes carry neither
  *           the `/v1` version nor the per-warehouse `{prefix}` (see
  *           scripts/convert.ts); both come from the credentials. `/config`
- *           is the one route without a prefix — it is how a client learns
+ *           is the one route without a prefix -- it is how a client learns
  *           the prefix. Auth is an optional `Authorization: Bearer` token.
  *
  * response: plain JSON, no success envelope. Failures are
@@ -37,13 +42,18 @@ import {
  * IcebergOpError, IcebergOpContext>` explicitly so the compiler never infers
  * these back out of the schema generics.
  */
-export type IcebergOpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError;
+export type IcebergOpError =
+  | DefaultErrors
+  | ConfigError
+  | HttpClientError.HttpClientError
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Iceberg operation. */
 export type IcebergOpContext = Credentials | HttpClient.HttpClient;
 
 /** Routes that are not scoped to a warehouse prefix. */
-const UNPREFIXED_ROUTES = new Set(["/config"]);
+const UNPREFIXED_ROUTES = /*@__PURE__*/ new Set(["/config"]);
 
 /** `<uri>/v1` or `<uri>/v1/<prefix>` for a route. Exported for tests. */
 export const baseUrlFor = (creds: Config, uri: string): string => {
@@ -68,13 +78,10 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   };
 };
 
-export const IcebergProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
+export const IcebergProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
   // Resolved on the CALLING fiber per request; the Credentials service holds
   // an effect, so a token rotated between calls is picked up.
-  credentials: Effect.gen(function* () {
-    const resolve = yield* Credentials;
-    return yield* resolve;
-  }),
+  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
   baseUrl: (creds, target) => baseUrlFor(creds, target.uri),
   headers: (creds): Record<string, string> =>
     creds.token ? { Authorization: `Bearer ${Redacted.value(creds.token)}` } : {},
@@ -83,11 +90,6 @@ export const IcebergProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Confi
     ...HTTP_STATUS_MAP,
     419: AuthenticationTimeout,
   },
-  unknownError: ({ code, message, body }) =>
-    new UnknownIcebergError({
-      code: code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownIcebergError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new IcebergParseError({ body, cause }),
 });

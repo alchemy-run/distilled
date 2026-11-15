@@ -1,0 +1,133 @@
+name: Benchmarks comment
+
+# Posts the Benchmarks job's result on its PR: the headline numbers as text
+# plus one PNG per chart, in the bench dashboard's style.
+#
+# Split from bench.yml so fork PRs get the comment too. bench.yml runs the
+# PR's code with no secrets and uploads its results; this workflow runs main's
+# code with a write token and only reads those results as data. It never
+# checks out or runs the PR's code. Every string from the results is cleaned
+# (`ci.ts --untrusted`) before it reaches the comment or the images.
+#
+# A PR comment can only show an image from a URL, so the images are committed
+# to the orphan `bench-images` branch (pr-<number>/<head sha>/<chart>.png).
+
+on:
+  workflow_run:
+    workflows: [Benchmarks]
+    types: [completed]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: bench-comment-${{ github.event.workflow_run.head_branch }}-${{ github.event.workflow_run.head_repository.full_name }}
+  cancel-in-progress: true
+
+jobs:
+  comment:
+    name: Comment benchmarks on the PR
+    if: >-
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.conclusion == 'success'
+    runs-on: blacksmith-8vcpu-ubuntu-2404
+    # github.token, as github-actions[bot]: a workflow_run job runs in this
+    # repo, so it can write even when a fork PR triggered the Benchmarks run.
+    permissions:
+      contents: write # push the images to bench-images
+      pull-requests: write # comment
+      actions: read # download the Benchmarks artifact
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup pnpm, Node.js and install dependencies
+        uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
+        with:
+          cache: true
+          install: true
+          require-lockfile: true
+
+      - name: Download the benchmark results
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: benchmarks
+          path: ${{ runner.temp }}/results
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+
+      # The artifact names its PR, so check it against GitHub: the PR must be
+      # open and its head must be the commit the Benchmarks run measured.
+      - name: Find the PR
+        id: pr
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RESULTS: ${{ runner.temp }}/results
+          RUN_SHA: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          pr=$(node -p 'const n = require(process.env.RESULTS + "/pr.json").number; Number.isInteger(n) && n > 0 ? n : ""')
+          [ -n "$pr" ] || { echo "::error::pr.json has no PR number"; exit 1; }
+          read -r state head < <(gh api "repos/$GITHUB_REPOSITORY/pulls/$pr" --jq '"\(.state) \(.head.sha)"')
+          if [ "$state" != open ] || [ "$head" != "$RUN_SHA" ]; then
+            echo "PR #$pr is $state at $head; the run measured $RUN_SHA. Nothing to post."
+            exit 0
+          fi
+          title=$(gh api "repos/$GITHUB_REPOSITORY/pulls/$pr" --jq .title)
+          { echo "number=$pr"; echo "sha=$RUN_SHA"; echo "title<<EOF_TITLE"; echo "$title"; echo "EOF_TITLE"; } >> "$GITHUB_OUTPUT"
+
+      - name: Publish the images
+        id: image
+        if: steps.pr.outputs.number != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RESULTS: ${{ runner.temp }}/results
+          PR: ${{ steps.pr.outputs.number }}
+          SHA: ${{ steps.pr.outputs.sha }}
+          TITLE: ${{ steps.pr.outputs.title }}
+        run: |
+          base=""; [ -f "$RESULTS/main.json" ] && base="--base $RESULTS/main.json"
+          node benches/sdks/ci.ts image --untrusted --head "$RESULTS/head.json" $base \
+            --history "$RESULTS/history.json" --pr "$PR" --title "$TITLE" --out-dir "$RUNNER_TEMP/images"
+          remote="https://x-access-token:$GH_TOKEN@github.com/$GITHUB_REPOSITORY.git"
+          dir="$RUNNER_TEMP/bench-images"
+          if git ls-remote --exit-code "$remote" refs/heads/bench-images > /dev/null; then
+            git clone -q --depth 1 --branch bench-images "$remote" "$dir"
+          else
+            git init -q -b bench-images "$dir" && git -C "$dir" remote add origin "$remote"
+          fi
+          mkdir -p "$dir/pr-$PR/$SHA" && cp "$RUNNER_TEMP"/images/*.png "$dir/pr-$PR/$SHA/"
+          # The retry's rebase also commits, so set the identity on the repo.
+          git -C "$dir" config user.name "github-actions[bot]"
+          git -C "$dir" config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git -C "$dir" add -A
+          git -C "$dir" commit -q -m "bench: PR #$PR at $SHA"
+          # Other PRs push here too: rebase and retry on a race.
+          pushed=""
+          for attempt in 1 2 3 4 5; do
+            if git -C "$dir" push -q origin bench-images; then pushed=1; break; fi
+            sleep $((attempt * 2))
+            git -C "$dir" pull -q --rebase origin bench-images
+          done
+          [ -n "$pushed" ] || { echo "::error::could not push to bench-images"; exit 1; }
+          echo "url=https://raw.githubusercontent.com/$GITHUB_REPOSITORY/bench-images/pr-$PR/$SHA" >> "$GITHUB_OUTPUT"
+
+      # One comment per PR, edited on every push.
+      - name: Comment on the PR
+        if: steps.pr.outputs.number != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RESULTS: ${{ runner.temp }}/results
+          PR: ${{ steps.pr.outputs.number }}
+          IMAGE_URL: ${{ steps.image.outputs.url }}
+          BENCH_RUN_URL: ${{ github.event.workflow_run.html_url }}
+        run: |
+          base=""; [ -f "$RESULTS/main.json" ] && base="--base $RESULTS/main.json"
+          node benches/sdks/ci.ts report --untrusted --head "$RESULTS/head.json" $base \
+            --image-base "$IMAGE_URL" --out "$RUNNER_TEMP/comment.md"
+          id=$(gh api "repos/$GITHUB_REPOSITORY/issues/$PR/comments" --paginate \
+            --jq '.[] | select(.user.login == "github-actions[bot]" and (.body | startswith("<!-- distilled-bench -->"))) | .id' | head -n 1)
+          if [ -n "$id" ]; then
+            gh api -X PATCH "repos/$GITHUB_REPOSITORY/issues/comments/$id" -F body=@"$RUNNER_TEMP/comment.md" > /dev/null
+          else
+            gh api "repos/$GITHUB_REPOSITORY/issues/$PR/comments" -F body=@"$RUNNER_TEMP/comment.md" > /dev/null
+          fi

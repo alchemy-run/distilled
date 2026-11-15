@@ -17,14 +17,12 @@
       "value": "com.cloudflare.r2#GetBucketObjectRequest"
     },
     {
-      "op": "move",
-      "from": "/shapes/com.cloudflare.r2#GetBucketObjectRequest/members/If_Modified_Since",
-      "path": "/shapes/com.cloudflare.r2#GetBucketObjectRequest/members/ifModifiedSince"
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.r2#GetBucketObjectRequest/members/If_Modified_Since"
     },
     {
-      "op": "move",
-      "from": "/shapes/com.cloudflare.r2#GetBucketObjectRequest/members/If_None_Match",
-      "path": "/shapes/com.cloudflare.r2#GetBucketObjectRequest/members/ifNoneMatch"
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.r2#GetBucketObjectRequest/members/If_None_Match"
     },
     {
       "op": "move",
@@ -35,6 +33,11 @@
       "op": "replace",
       "path": "/shapes/com.cloudflare.r2#GetBucketObject/traits/smithy.api#http/uri",
       "value": "/accounts/{account_id}/r2/buckets/{bucket_name}/objects/{object_name}"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.r2#GetBucketObjectRequest/members/cf_r2_jurisdiction",
+      "path": "/shapes/com.cloudflare.r2#GetBucketObjectRequest/members/jurisdiction"
     }
   ]
 }

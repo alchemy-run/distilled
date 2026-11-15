@@ -1,0 +1,30 @@
+{
+  "description": "Mark minted secrets sensitive so they decode as Redacted: disk tokens (addDiskUser, createDisk's generated user), sandbox port tokens, created API tokens, and the credential-bearing sandbox connection and share URLs.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.archil.api#AuthorizedUser/members/token/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.archil.api#CreatedSandboxPortToken/members/token/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.archil.api#ApiResponseTokenCreatedData/members/token/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.archil.api#SandboxConnection/members/url/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.archil.api#ApiResponseShareUrlData/members/url/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

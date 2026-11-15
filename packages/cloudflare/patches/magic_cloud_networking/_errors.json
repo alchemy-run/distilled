@@ -66,6 +66,12 @@
             {
               "code": 1012,
               "status": 403
+            },
+            {
+              "status": 404,
+              "message": {
+                "includes": "No route for that URI"
+              }
             }
           ]
         }

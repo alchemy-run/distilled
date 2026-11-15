@@ -17,7 +17,7 @@ export const fromSSO = (profileName: string = "default") =>
     Auth.use((auth) =>
       Effect.succeed(
         createCachedCredentialsEffect(
-          // The resolved credentials carry the profile's own region — see
+          // The resolved credentials carry the profile's own region -- see
           // `loadProfileCredentials` in auth.ts.
           auth.loadProfileCredentials(profileName),
         ),

@@ -1,0 +1,182 @@
+{
+  "description": "Typed not-found / already-exists errors for the volume RPCs. The gRPC protocol reports a non-zero grpc-status as `code` (5 = NOT_FOUND, 6 = ALREADY_EXISTS), which these matchers key on.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.volume#VolumeNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The volume doesn't exist (gRPC NOT_FOUND).",
+          "com.modal.protocols#errorMatchers": [
+            {
+              "code": 5
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.volume#VolumeFileNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The path doesn't exist in the volume, or the volume is gone (gRPC NOT_FOUND).",
+          "com.modal.protocols#errorMatchers": [
+            {
+              "code": 5
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.volume#VolumeAlreadyExists",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "A volume with this name already exists in the environment (gRPC ALREADY_EXISTS).",
+          "com.modal.protocols#errorMatchers": [
+            {
+              "code": 6
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.volume#VolumeGetOrCreate/errors",
+      "value": [
+        {
+          "target": "com.modal.volume#VolumeNotFound"
+        },
+        {
+          "target": "com.modal.volume#VolumeAlreadyExists"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.volume#VolumeGetById/errors",
+      "value": [
+        {
+          "target": "com.modal.volume#VolumeNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.volume#VolumeDelete/errors",
+      "value": [
+        {
+          "target": "com.modal.volume#VolumeNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.volume#VolumeRename/errors",
+      "value": [
+        {
+          "target": "com.modal.volume#VolumeNotFound"
+        },
+        {
+          "target": "com.modal.volume#VolumeAlreadyExists"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.volume#VolumeCommit/errors",
+      "value": [
+        {
+          "target": "com.modal.volume#VolumeNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.volume#VolumeReload/errors",
+      "value": [
+        {
+          "target": "com.modal.volume#VolumeNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.volume#VolumeGetFile2/errors",
+      "value": [
+        {
+          "target": "com.modal.volume#VolumeFileNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.volume#VolumeListFiles2/errors",
+      "value": [
+        {
+          "target": "com.modal.volume#VolumeFileNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.volume#VolumeRemoveFile2/errors",
+      "value": [
+        {
+          "target": "com.modal.volume#VolumeFileNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.volume#VolumeCopyFiles2/errors",
+      "value": [
+        {
+          "target": "com.modal.volume#VolumeFileNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.volume#VolumePutFiles2/errors",
+      "value": [
+        {
+          "target": "com.modal.volume#VolumeFileNotFound"
+        }
+      ]
+    }
+  ]
+}

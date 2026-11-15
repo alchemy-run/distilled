@@ -1,7 +1,7 @@
 /**
- * A user's OAuth refresh token (AIP-4113) — what
+ * A user's OAuth refresh token (AIP-4113) -- what
  * `gcloud auth application-default login` writes as an `authorized_user`
- * file — exchanged for access tokens at Google's OAuth endpoint.
+ * file -- exchanged for access tokens at Google's OAuth endpoint.
  */
 import * as Effect from "effect/Effect";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";

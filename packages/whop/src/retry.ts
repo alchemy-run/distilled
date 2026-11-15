@@ -1,6 +1,6 @@
 import * as Retries from "@distilled.cloud/core/retry";
 /**
- * Whop retry surface — a veneer over `@distilled.cloud/core/retry`.
+ * Whop retry surface -- a veneer over `@distilled.cloud/core/retry`.
  *
  * The `Retry` service tag is threaded into every generated operation via
  * `API.make({ retry: Retry })`, so a caller-installed policy applies to all
@@ -11,13 +11,13 @@ import * as Retries from "@distilled.cloud/core/retry";
  * default) and answers a tripped limit with `429` and
  * `{ "error": { "type": "rate_limit_exceeded", "message": "Try again in 12
  * seconds." } }`. The delay is PROSE IN THE MESSAGE, not a `Retry-After`
- * header — so there is nothing for the protocol to stamp onto the error, and
+ * header -- so there is nothing for the protocol to stamp onto the error, and
  * the default policy falls back to its own capped exponential backoff with
  * jitter. That is the documented advice ("retry with exponential backoff")
  * for idempotent requests.
  *
  * A `POST` is only safe to retry if you sent an `Idempotency-Key` with it
- * (every generated create/mutate input takes one) — otherwise a retry after
+ * (every generated create/mutate input takes one) -- otherwise a retry after
  * a timeout risks a duplicate charge, transfer, or resource. Whop replays
  * the stored response for 24 hours, failures included.
  *
@@ -40,7 +40,7 @@ export type Factory = Retries.Factory;
 export type Policy = Retries.Policy;
 
 /** Context tag for configuring retry behavior of Whop API calls. */
-export class Retry extends Context.Service<Retry, Policy>()("WhopRetry") {}
+export class Retry extends /*@__PURE__*/ Context.Service<Retry, Policy>()("WhopRetry") {}
 
 /** Provides a custom retry policy to every Whop API call below it. */
 export const policy: {
@@ -55,8 +55,8 @@ export const policy: {
 /** Disables all automatic retries. */
 export const none: <A, E, R>(
   effect: Effect.Effect<A, E, R>,
-) => Effect.Effect<A, E, Exclude<R, Retry>> = Effect.provide(
-  Layer.succeed(Retry, { while: () => false }),
+) => Effect.Effect<A, E, Exclude<R, Retry>> = /*@__PURE__*/ Effect.provide(
+  /*@__PURE__*/ Layer.succeed(Retry, { while: () => false }),
 );
 
 /**
@@ -75,7 +75,7 @@ export const throttlingOptions: Options = Retries.throttlingOptions;
 /** Retries all throttling errors indefinitely (honoring server hints). */
 export const throttling: <A, E, R>(
   effect: Effect.Effect<A, E, R>,
-) => Effect.Effect<A, E, Exclude<R, Retry>> = policy(Retries.throttlingFactory);
+) => Effect.Effect<A, E, Exclude<R, Retry>> = /*@__PURE__*/ policy(Retries.throttlingFactory);
 
 /** Retry options that retry all transient errors indefinitely. */
 export const transientOptions: Options = Retries.transientOptions;
@@ -83,4 +83,4 @@ export const transientOptions: Options = Retries.transientOptions;
 /** Retries all transient errors indefinitely (honoring server hints). */
 export const transient: <A, E, R>(
   effect: Effect.Effect<A, E, R>,
-) => Effect.Effect<A, E, Exclude<R, Retry>> = policy(Retries.transientFactory);
+) => Effect.Effect<A, E, Exclude<R, Retry>> = /*@__PURE__*/ policy(Retries.transientFactory);

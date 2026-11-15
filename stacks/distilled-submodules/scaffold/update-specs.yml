@@ -33,8 +33,14 @@ jobs:
         working-directory: .meta
         run: pnpm install --no-frozen-lockfile
 
+      # Only spec-mirror-aws holds these secrets: its fetch script reads the
+      # EventBridge schema registry, an AWS API. They are minted and written
+      # by stacks/distilled-monorepo. Every other mirror sees them empty.
       - name: Fetch specs
         working-directory: .meta
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: pnpm run fetch-specs
 
       - name: Commit and push if changed

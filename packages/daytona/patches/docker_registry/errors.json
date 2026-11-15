@@ -1,0 +1,57 @@
+{
+  "description": "Type the not-found and already-exists failures of the docker_registry operations. Daytona's API (NestJS) throws NotFoundException (404) / ConflictException (409) with a `{ statusCode, message, error }` body; observed in the open-source daytonaio/daytona apps/api controllers/services at v0.190.0 (AGPL, archived June 2026). The OpenAPI document declares no error responses, so every failure surfaced as the generic status union. Each tag matches on status alone because every listed operation addresses exactly one resource of that kind by id or name. To be confirmed against the live API before merge.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.docker_registry#RegistryNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The registry does not exist (HTTP 404).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.docker_registry#DeleteRegistry/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.docker_registry#RegistryNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.docker_registry#GetRegistry/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.docker_registry#RegistryNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.docker_registry#UpdateRegistry/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.docker_registry#RegistryNotFound"
+        }
+      ]
+    }
+  ]
+}

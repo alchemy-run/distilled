@@ -88,7 +88,8 @@ export const getHttpCredentials = (
           if (body.Code || body.Message)
             detail = ` ${body.Code ?? ""} ${body.Message ?? ""}`.trimEnd();
         } catch {
-          // The body is optional and need not be JSON.
+          // The body is optional and need not be JSON: no detail.
+          detail = "";
         }
       }
       return Effect.fail(

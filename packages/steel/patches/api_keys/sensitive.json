@@ -1,0 +1,10 @@
+{
+  "description": "Mark the minted API key sensitive so it decodes as Redacted. The spec documents ApiKeyResponse.key as \"The full secret on creation or rotation only ... Store a newly created secret securely; it cannot be retrieved later\" but does not mark it.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/dev.steel.api_keys#ApiKeyResponse/members/key/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

@@ -3,7 +3,7 @@
  * Adds Accept: application/json header on all requests.
  */
 
-import type { Request } from "../client/request.ts";
+import type { Request } from "@distilled.cloud/s3/client/request";
 
 /**
  * Check if a service is API Gateway by its SDK ID.

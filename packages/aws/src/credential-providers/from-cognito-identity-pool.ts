@@ -2,6 +2,7 @@
  * Credentials for an Amazon Cognito identity pool, which mints the identity
  * id before exchanging it for credentials.
  */
+import { loadModule } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
 import { createLazyProvider, regionFromEnv } from "../credentials-service.ts";
@@ -29,7 +30,7 @@ export interface IdentityIdCache {
   readonly remove: (key: string) => Effect.Effect<void>;
 }
 
-const memoryStore = new Map<string, string>();
+const memoryStore = /*@__PURE__*/ new Map<string, string>();
 
 /** `localStorage` where the runtime has a usable one; Node does not. */
 const storage = (): Storage | undefined => {
@@ -41,17 +42,35 @@ const storage = (): Storage | undefined => {
   }
 };
 
+/**
+ * `f` on `localStorage`, or `undefined` without one. A call that throws
+ * (quota exceeded, storage disabled) counts as no storage too: a failed read
+ * is a cache miss and a failed write or remove is skipped.
+ */
+const withStorage = <A>(f: (storage: Storage) => A): A | undefined => {
+  const store = storage();
+  if (store === undefined) return undefined;
+  try {
+    return f(store);
+  } catch {
+    return undefined;
+  }
+};
+
 export const defaultIdentityIdCache: IdentityIdCache = {
-  get: (key) => Effect.sync(() => storage()?.getItem(key) ?? memoryStore.get(key) ?? undefined),
+  get: (key) =>
+    Effect.sync(
+      () => withStorage((store) => store.getItem(key)) ?? memoryStore.get(key) ?? undefined,
+    ),
   set: (key, value) =>
     Effect.sync(() => {
       memoryStore.set(key, value);
-      storage()?.setItem(key, value);
+      withStorage((store) => store.setItem(key, value));
     }),
   remove: (key) =>
     Effect.sync(() => {
       memoryStore.delete(key);
-      storage()?.removeItem(key);
+      withStorage((store) => store.removeItem(key));
     }),
 };
 
@@ -88,7 +107,15 @@ export const cognitoIdentityPoolSource = (
       : undefined;
 
     const getId = Effect.gen(function* () {
-      const Cognito = yield* Effect.promise(() => import("../services/cognito-identity.ts"));
+      const Cognito = yield* loadModule(() => import("../services/cognito-identity.ts")).pipe(
+        Effect.mapError(
+          (e) =>
+            new CredentialSourceError({
+              message: `could not load the Cognito Identity client: ${e.message}`,
+              cause: e,
+            }),
+        ),
+      );
       const logins = yield* resolveLogins(options.logins);
       const response = yield* Cognito.getId({
         IdentityPoolId: options.identityPoolId,

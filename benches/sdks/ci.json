@@ -1,0 +1,8 @@
+{
+  "$comment": "SDKs the PR benchmark job (benches/sdks/ci.ts) always measures. `runtime` SDKs are built (tsrs + bundle-lib) and probed; `bundle` SDKs are only bundled from src/, which needs no build. SDKs a PR changes are added to both sets; a changed SDK whose src/ is over `runtimeMaxSrcMB` is only bundled, because its bundle-lib build alone takes longer than the job budget.",
+  "runtime": ["resend", "neon", "github", "fly-io"],
+  "bundle": ["aws", "cloudflare", "gcp", "azure", "stripe"],
+  "runtimeMaxSrcMB": 6,
+  "$providers": "Whole SDKs whose every service module is imported in one process (what Alchemy loads). Built only when their inputs differ from the run in --reuse; otherwise that run's numbers are copied.",
+  "providers": ["aws", "cloudflare", "gcp"]
+}

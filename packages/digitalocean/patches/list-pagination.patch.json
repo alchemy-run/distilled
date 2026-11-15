@@ -1,0 +1,49 @@
+{
+  "description": "DigitalOcean list endpoints page by number (`?page=N&per_page=M`) and signal more pages with the `links.pages.next` URL in the response; the spec carries no pagination metadata, so the converter emits plain operations. Stamp `smithy.api#paginated` (Smithy-model ops, applied after conversion) so the SDK emits `API.makePaginated` with core's `paginatePageNumber`: a non-numeric `next` URL advances the page by one, and the stream stops when `next` is absent (last page) or a page comes back empty.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#DropletsList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "droplets",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#FirewallsList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "firewalls",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#SshKeysList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "ssh_keys",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#TagsList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "tags",
+        "pageSize": "per_page"
+      }
+    }
+  ]
+}

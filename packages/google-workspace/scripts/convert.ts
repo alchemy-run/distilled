@@ -24,7 +24,8 @@
  *     default `lowerFirst` export naming reproduces the v0 function names.
  *   • inputs `ns#<Op>Request`: path params → `smithy.api#httpLabel`
  *     (+required), query params → `smithy.api#httpQuery`, request body →
- *     optional `body` member with `smithy.api#httpPayload`.
+ *     optional `body` member with `smithy.api#httpPayload` (generate.ts
+ *     flattens a structure body into top-level input fields).
  *   • outputs reference the response schema directly (none → synthesized
  *     empty `<Op>Response`).
  *   • pagination → `smithy.api#paginated { inputToken: "pageToken",
@@ -45,8 +46,9 @@
 
 import * as fs from "node:fs";
 import * as path from "node:path";
-import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
-import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
+import { clearModels, writeModel } from "@distilled.cloud/dev/codegen/models";
+import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
+import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
 
 // =============================================================================
 // Discovery document types (the subset the converter reads)
@@ -682,11 +684,9 @@ const UNSTABLE_DIR = path.join(root, ".generated-specs", "unstable");
 // Full (unfiltered) runs rebuild the output dirs from scratch so removed
 // upstream services don't leave stale models behind.
 if (!serviceFilter) {
-  fs.rmSync(STABLE_DIR, { recursive: true, force: true });
-  fs.rmSync(UNSTABLE_DIR, { recursive: true, force: true });
+  clearModels(STABLE_DIR);
+  clearModels(UNSTABLE_DIR);
 }
-fs.mkdirSync(STABLE_DIR, { recursive: true });
-fs.mkdirSync(UNSTABLE_DIR, { recursive: true });
 
 let converted = 0;
 let failed = 0;
@@ -698,7 +698,7 @@ for (const entry of entries) {
     const model = convertDoc(doc);
     const outName = `${ident(entry.name)}_${ident(entry.version)}.json`;
     const outDir = entry.preferred ? STABLE_DIR : UNSTABLE_DIR;
-    fs.writeFileSync(path.join(outDir, outName), JSON.stringify(model, null, 2) + "\n", "utf-8");
+    writeModel(path.join(outDir, outName), model);
     converted++;
   } catch (err) {
     failed++;

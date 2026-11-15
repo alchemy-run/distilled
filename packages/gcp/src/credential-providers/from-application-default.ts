@@ -78,11 +78,15 @@ const readCredentialsFile = (path: string): Effect.Effect<Json | undefined, GCPC
     ),
     Effect.flatMap((text) => {
       if (text === undefined) return Effect.succeed(undefined);
+      const notAnObject = fail(`The credentials file ${path} is not a JSON object.`);
       try {
         const json: unknown = JSON.parse(text);
-        if (typeof json === "object" && json !== null) return Effect.succeed(json as Json);
-      } catch {}
-      return fail(`The credentials file ${path} is not a JSON object.`);
+        return typeof json === "object" && json !== null
+          ? Effect.succeed(json as Json)
+          : notAnObject;
+      } catch {
+        return notAnObject;
+      }
     }),
   );
 
@@ -124,10 +128,22 @@ const serviceAccountKey = (json: Json, path: string, scopes?: ReadonlyArray<stri
     ),
   );
 
-/** `…/serviceAccounts/<email>:generateAccessToken` → `<email>`. */
-const impersonatedEmail = (url: string): string | undefined => {
+/** `.../serviceAccounts/<email>:generateAccessToken` -> `<email>`. */
+const impersonatedEmail = (
+  url: string,
+  path: string,
+): Effect.Effect<string | undefined, GCPCredentialsError> => {
   const match = /\/serviceAccounts\/([^/:]+):generateAccessToken$/.exec(url);
-  return match ? decodeURIComponent(match[1]) : undefined;
+  if (!match) return Effect.succeed(undefined);
+  const encoded = match[1];
+  return Effect.try({
+    try: () => decodeURIComponent(encoded),
+    catch: (cause) =>
+      new GCPCredentialsError({
+        message: `The service_account_impersonation_url in ${path} has a malformed percent-escape: ${url}.`,
+        cause,
+      }),
+  });
 };
 
 /** The subject token an `external_account` file's `credential_source` points at. */
@@ -158,10 +174,18 @@ const subjectToken = (
       );
     }
     if (str(format, "type") !== "json") return Redacted.make(text.trim());
-    let token: unknown;
-    try {
-      token = field ? (JSON.parse(text) as Json)[field] : undefined;
-    } catch {}
+    // No `cause`: a JSON SyntaxError message quotes the text, which is a secret.
+    const json: unknown = field
+      ? yield* Effect.try({
+          try: (): unknown => JSON.parse(text),
+          catch: () =>
+            new GCPCredentialsError({
+              message: `The subject token for ${path} is not valid JSON, but its credential_source format is "json".`,
+            }),
+        })
+      : undefined;
+    const token =
+      field && typeof json === "object" && json !== null ? (json as Json)[field] : undefined;
     return typeof token === "string"
       ? Redacted.make(token)
       : yield* fail(`The subject token for ${path} has no string field ${field ?? "(unnamed)"}.`);
@@ -177,7 +201,8 @@ const externalAccount = (json: Json, path: string, scopes?: ReadonlyArray<string
       );
     }
     const impersonationUrl = str(json, "service_account_impersonation_url");
-    const serviceAccountEmail = impersonationUrl && impersonatedEmail(impersonationUrl);
+    const serviceAccountEmail =
+      impersonationUrl && (yield* impersonatedEmail(impersonationUrl, path));
     if (impersonationUrl && !serviceAccountEmail) {
       return yield* fail(`Could not read a service account from ${impersonationUrl}.`);
     }
@@ -208,7 +233,7 @@ const impersonatedServiceAccount = (
 ): TokenSource =>
   Effect.gen(function* () {
     const url = str(json, "service_account_impersonation_url");
-    const email = url && impersonatedEmail(url);
+    const email = url && (yield* impersonatedEmail(url, path));
     if (!email) {
       return yield* fail(
         `The impersonated service account in ${path} has no valid service_account_impersonation_url.`,

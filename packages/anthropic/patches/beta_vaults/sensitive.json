@@ -1,0 +1,45 @@
+{
+  "description": "Vault credential secrets the spec does not mark sensitive: an environment variable's `secret_value` (\"write-only and never returned\"), a static bearer `token` (\"such as an API key or personal access token\"), and the `access_token`, `refresh_token` and `client_secret` of the MCP OAuth update params. The name-based detection marks the create params' `access_token`, `refresh_token` and `client_secret` but misses these (the update params are nullable). Mark them sensitive so they are accepted as `Redacted` and never logged.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.anthropic.beta_vaults#BetaManagedAgentsEnvironmentVariableCreateParams/members/secret_value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.anthropic.beta_vaults#BetaManagedAgentsEnvironmentVariableUpdateParams/members/secret_value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.anthropic.beta_vaults#BetaManagedAgentsMcpOauthUpdateParams/members/access_token/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.anthropic.beta_vaults#BetaManagedAgentsMcpOauthRefreshUpdateParams/members/refresh_token/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.anthropic.beta_vaults#BetaManagedAgentsStaticBearerCreateParams/members/token/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.anthropic.beta_vaults#BetaManagedAgentsStaticBearerUpdateParams/members/token/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.anthropic.beta_vaults#BetaManagedAgentsTokenEndpointAuthBasicUpdateParam/members/client_secret/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.anthropic.beta_vaults#BetaManagedAgentsTokenEndpointAuthPostUpdateParam/members/client_secret/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

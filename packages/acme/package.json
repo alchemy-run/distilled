@@ -1,6 +1,6 @@
 {
   "name": "@distilled.cloud/acme",
-  "version": "1.0.0-rc.15",
+  "version": "1.0.0-rc.20",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -65,24 +65,25 @@
     }
   },
   "scripts": {
-    "build": "tsc -b",
+    "build": "tsrs -b",
     "convert": "node --conditions=bun scripts/convert.ts",
     "generate": "node --conditions=bun scripts/generate.ts",
     "specs:fetch": "git submodule update --force --init --depth=1 specs/spec-mirror-acme",
     "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-acme",
-    "typecheck": "tsc -p tsconfig.json"
+    "typecheck": "tsrs -p tsconfig.json"
   },
   "dependencies": {
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
+    "@distilled.cloud/dev": "workspace:*",
     "@types/node": "catalog:"
   },
   "peerDependencies": {
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-10-08",
+    "generatedAt": "2026-11-10",
     "specUpdatedAt": "2026-10-08"
   }
 }

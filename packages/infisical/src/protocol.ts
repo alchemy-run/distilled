@@ -1,14 +1,15 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
- * InfisicalProtocol — hand-written.
+ * InfisicalProtocol -- hand-written.
  *
  * Infisical speaks plain bearer-authenticated JSON REST (no response
  * envelope), so the whole protocol is one `makeRestProtocol` call from
  * `core/protocol-rest`:
  *
- *   request:  credentials → `Authorization: Bearer <apiKey>` + base URL
+ *   request:  credentials -> `Authorization: Bearer <apiKey>` + base URL
  *             (default https://us.infisical.com), resolved from the
  *             calling fiber on every request
  *
@@ -36,18 +37,17 @@ export type InfisicalOpError =
   | UnknownInfisicalError
   | ConfigError
   | HttpClientError.HttpClientError
-  | InfisicalParseError;
+  | InfisicalParseError
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Infisical operation. */
 export type InfisicalOpContext = Credentials | HttpClient.HttpClient;
 
-export const InfisicalProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
-  // The Credentials service holds an effect — resolving it here (per
+export const InfisicalProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+  // The Credentials service holds an effect -- resolving it here (per
   // request, on the calling fiber) picks up context-provided credentials.
-  credentials: Effect.gen(function* () {
-    const resolve = yield* Credentials;
-    return yield* resolve;
-  }),
+  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => {
     const headers: Record<string, string> = {};
@@ -56,13 +56,8 @@ export const InfisicalProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Con
     }
     return headers;
   },
-  // Infisical's error body is `{ message: string }` — the factory's default
+  // Infisical's error body is `{ message: string }` -- the factory's default
   // lenient envelope covers it.
-  unknownError: ({ code, message, body }) =>
-    new UnknownInfisicalError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownInfisicalError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new InfisicalParseError({ body, cause }),
 });

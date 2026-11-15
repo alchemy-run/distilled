@@ -1,0 +1,686 @@
+{
+  "description": "Only the inheritable and inherits responses declare a config's slug and its inheritance state, and they declare `inherits` and `inheritedBy` as arrays with no item schema. Every config endpoint returns the same config object: a live GET /v3/configs/config on 2026-10-13 returned slug, inheritable, inheriting, inherits and inheritedBy, and GET /v3/configs returned every one of them except inheritedBy. Both clients read the same object from create, rename, clone, lock and unlock (DopplerHQ/cli pkg/models/parse.go:107-155; DopplerHQ/terraform-provider-doppler doppler/models.go:247-266), and both read inherits and inheritedBy items as {project, config} (DopplerHQ/cli pkg/models/parse.go:142-150).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#CreateConfigResponseConfigInheritsItem",
+      "before": "com.doppler.api#ConfigsCreateResponseConfig",
+      "value": {
+        "type": "structure",
+        "members": {
+          "project": {
+            "target": "smithy.api#String"
+          },
+          "config": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#CreateConfigResponseConfigInheritsList",
+      "before": "com.doppler.api#ConfigsCreateResponseConfig",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.doppler.api#CreateConfigResponseConfigInheritsItem"
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#CreateConfigResponseConfigInheritedByItem",
+      "before": "com.doppler.api#ConfigsCreateResponseConfig",
+      "value": {
+        "type": "structure",
+        "members": {
+          "project": {
+            "target": "smithy.api#String"
+          },
+          "config": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#CreateConfigResponseConfigInheritedByList",
+      "before": "com.doppler.api#ConfigsCreateResponseConfig",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.doppler.api#CreateConfigResponseConfigInheritedByItem"
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#ConfigsCreateResponseConfig/members/slug",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#ConfigsCreateResponseConfig/members/inheritable",
+      "value": {
+        "target": "smithy.api#Boolean"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#ConfigsCreateResponseConfig/members/inheriting",
+      "value": {
+        "target": "smithy.api#Boolean"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#ConfigsCreateResponseConfig/members/inherits",
+      "value": {
+        "target": "com.doppler.api#CreateConfigResponseConfigInheritsList"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#ConfigsCreateResponseConfig/members/inheritedBy",
+      "value": {
+        "target": "com.doppler.api#CreateConfigResponseConfigInheritedByList"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#GetConfigResponseConfigInheritsItem",
+      "before": "com.doppler.api#ConfigsGetResponseConfig",
+      "value": {
+        "type": "structure",
+        "members": {
+          "project": {
+            "target": "smithy.api#String"
+          },
+          "config": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#GetConfigResponseConfigInheritsList",
+      "before": "com.doppler.api#ConfigsGetResponseConfig",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.doppler.api#GetConfigResponseConfigInheritsItem"
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#GetConfigResponseConfigInheritedByItem",
+      "before": "com.doppler.api#ConfigsGetResponseConfig",
+      "value": {
+        "type": "structure",
+        "members": {
+          "project": {
+            "target": "smithy.api#String"
+          },
+          "config": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#GetConfigResponseConfigInheritedByList",
+      "before": "com.doppler.api#ConfigsGetResponseConfig",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.doppler.api#GetConfigResponseConfigInheritedByItem"
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#ConfigsGetResponseConfig/members/slug",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#ConfigsGetResponseConfig/members/inheritable",
+      "value": {
+        "target": "smithy.api#Boolean"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#ConfigsGetResponseConfig/members/inheriting",
+      "value": {
+        "target": "smithy.api#Boolean"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#ConfigsGetResponseConfig/members/inherits",
+      "value": {
+        "target": "com.doppler.api#GetConfigResponseConfigInheritsList"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#ConfigsGetResponseConfig/members/inheritedBy",
+      "value": {
+        "target": "com.doppler.api#GetConfigResponseConfigInheritedByList"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#UpdateConfigResponseConfigInheritsItem",
+      "before": "com.doppler.api#ConfigsUpdateResponseConfig",
+      "value": {
+        "type": "structure",
+        "members": {
+          "project": {
+            "target": "smithy.api#String"
+          },
+          "config": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#UpdateConfigResponseConfigInheritsList",
+      "before": "com.doppler.api#ConfigsUpdateResponseConfig",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.doppler.api#UpdateConfigResponseConfigInheritsItem"
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#UpdateConfigResponseConfigInheritedByItem",
+      "before": "com.doppler.api#ConfigsUpdateResponseConfig",
+      "value": {
+        "type": "structure",
+        "members": {
+          "project": {
+            "target": "smithy.api#String"
+          },
+          "config": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#UpdateConfigResponseConfigInheritedByList",
+      "before": "com.doppler.api#ConfigsUpdateResponseConfig",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.doppler.api#UpdateConfigResponseConfigInheritedByItem"
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#ConfigsUpdateResponseConfig/members/slug",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#ConfigsUpdateResponseConfig/members/inheritable",
+      "value": {
+        "target": "smithy.api#Boolean"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#ConfigsUpdateResponseConfig/members/inheriting",
+      "value": {
+        "target": "smithy.api#Boolean"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#ConfigsUpdateResponseConfig/members/inherits",
+      "value": {
+        "target": "com.doppler.api#UpdateConfigResponseConfigInheritsList"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#ConfigsUpdateResponseConfig/members/inheritedBy",
+      "value": {
+        "target": "com.doppler.api#UpdateConfigResponseConfigInheritedByList"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#CloneConfigResponseConfigInheritsItem",
+      "before": "com.doppler.api#ConfigsCloneResponseConfig",
+      "value": {
+        "type": "structure",
+        "members": {
+          "project": {
+            "target": "smithy.api#String"
+          },
+          "config": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#CloneConfigResponseConfigInheritsList",
+      "before": "com.doppler.api#ConfigsCloneResponseConfig",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.doppler.api#CloneConfigResponseConfigInheritsItem"
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#CloneConfigResponseConfigInheritedByItem",
+      "before": "com.doppler.api#ConfigsCloneResponseConfig",
+      "value": {
+        "type": "structure",
+        "members": {
+          "project": {
+            "target": "smithy.api#String"
+          },
+          "config": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#CloneConfigResponseConfigInheritedByList",
+      "before": "com.doppler.api#ConfigsCloneResponseConfig",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.doppler.api#CloneConfigResponseConfigInheritedByItem"
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#ConfigsCloneResponseConfig/members/slug",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#ConfigsCloneResponseConfig/members/inheritable",
+      "value": {
+        "target": "smithy.api#Boolean"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#ConfigsCloneResponseConfig/members/inheriting",
+      "value": {
+        "target": "smithy.api#Boolean"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#ConfigsCloneResponseConfig/members/inherits",
+      "value": {
+        "target": "com.doppler.api#CloneConfigResponseConfigInheritsList"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#ConfigsCloneResponseConfig/members/inheritedBy",
+      "value": {
+        "target": "com.doppler.api#CloneConfigResponseConfigInheritedByList"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#LockConfigResponseConfigInheritsItem",
+      "before": "com.doppler.api#ConfigsLockResponseConfig",
+      "value": {
+        "type": "structure",
+        "members": {
+          "project": {
+            "target": "smithy.api#String"
+          },
+          "config": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#LockConfigResponseConfigInheritsList",
+      "before": "com.doppler.api#ConfigsLockResponseConfig",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.doppler.api#LockConfigResponseConfigInheritsItem"
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#LockConfigResponseConfigInheritedByItem",
+      "before": "com.doppler.api#ConfigsLockResponseConfig",
+      "value": {
+        "type": "structure",
+        "members": {
+          "project": {
+            "target": "smithy.api#String"
+          },
+          "config": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#LockConfigResponseConfigInheritedByList",
+      "before": "com.doppler.api#ConfigsLockResponseConfig",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.doppler.api#LockConfigResponseConfigInheritedByItem"
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#ConfigsLockResponseConfig/members/slug",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#ConfigsLockResponseConfig/members/inheritable",
+      "value": {
+        "target": "smithy.api#Boolean"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#ConfigsLockResponseConfig/members/inheriting",
+      "value": {
+        "target": "smithy.api#Boolean"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#ConfigsLockResponseConfig/members/inherits",
+      "value": {
+        "target": "com.doppler.api#LockConfigResponseConfigInheritsList"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#ConfigsLockResponseConfig/members/inheritedBy",
+      "value": {
+        "target": "com.doppler.api#LockConfigResponseConfigInheritedByList"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#UnlockConfigResponseConfigInheritsItem",
+      "before": "com.doppler.api#ConfigsUnlockResponseConfig",
+      "value": {
+        "type": "structure",
+        "members": {
+          "project": {
+            "target": "smithy.api#String"
+          },
+          "config": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#UnlockConfigResponseConfigInheritsList",
+      "before": "com.doppler.api#ConfigsUnlockResponseConfig",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.doppler.api#UnlockConfigResponseConfigInheritsItem"
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#UnlockConfigResponseConfigInheritedByItem",
+      "before": "com.doppler.api#ConfigsUnlockResponseConfig",
+      "value": {
+        "type": "structure",
+        "members": {
+          "project": {
+            "target": "smithy.api#String"
+          },
+          "config": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#UnlockConfigResponseConfigInheritedByList",
+      "before": "com.doppler.api#ConfigsUnlockResponseConfig",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.doppler.api#UnlockConfigResponseConfigInheritedByItem"
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#ConfigsUnlockResponseConfig/members/slug",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#ConfigsUnlockResponseConfig/members/inheritable",
+      "value": {
+        "target": "smithy.api#Boolean"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#ConfigsUnlockResponseConfig/members/inheriting",
+      "value": {
+        "target": "smithy.api#Boolean"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#ConfigsUnlockResponseConfig/members/inherits",
+      "value": {
+        "target": "com.doppler.api#UnlockConfigResponseConfigInheritsList"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#ConfigsUnlockResponseConfig/members/inheritedBy",
+      "value": {
+        "target": "com.doppler.api#UnlockConfigResponseConfigInheritedByList"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#ListConfigsResponseConfigsItemInheritsItem",
+      "before": "com.doppler.api#ConfigsListResponseConfigsItem",
+      "value": {
+        "type": "structure",
+        "members": {
+          "project": {
+            "target": "smithy.api#String"
+          },
+          "config": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#ListConfigsResponseConfigsItemInheritsList",
+      "before": "com.doppler.api#ConfigsListResponseConfigsItem",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.doppler.api#ListConfigsResponseConfigsItemInheritsItem"
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#ConfigsListResponseConfigsItem/members/slug",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#ConfigsListResponseConfigsItem/members/inheritable",
+      "value": {
+        "target": "smithy.api#Boolean"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#ConfigsListResponseConfigsItem/members/inheriting",
+      "value": {
+        "target": "smithy.api#Boolean"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#ConfigsListResponseConfigsItem/members/inherits",
+      "value": {
+        "target": "com.doppler.api#ListConfigsResponseConfigsItemInheritsList"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#ConfigsInheritableResponseConfigInheritsItem",
+      "before": "com.doppler.api#ConfigsInheritableResponseConfigInheritsList",
+      "value": {
+        "type": "structure",
+        "members": {
+          "project": {
+            "target": "smithy.api#String"
+          },
+          "config": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.doppler.api#ConfigsInheritableResponseConfigInheritsList/member/target",
+      "value": "com.doppler.api#ConfigsInheritableResponseConfigInheritsItem"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#ConfigsInheritableResponseConfigInheritedByItem",
+      "before": "com.doppler.api#ConfigsInheritableResponseConfigInheritedByList",
+      "value": {
+        "type": "structure",
+        "members": {
+          "project": {
+            "target": "smithy.api#String"
+          },
+          "config": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.doppler.api#ConfigsInheritableResponseConfigInheritedByList/member/target",
+      "value": "com.doppler.api#ConfigsInheritableResponseConfigInheritedByItem"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#ConfigsInheritsResponseConfigInheritedByItem",
+      "before": "com.doppler.api#ConfigsInheritsResponseConfigInheritedByList",
+      "value": {
+        "type": "structure",
+        "members": {
+          "project": {
+            "target": "smithy.api#String"
+          },
+          "config": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.doppler.api#ConfigsInheritsResponseConfigInheritedByList/member/target",
+      "value": "com.doppler.api#ConfigsInheritsResponseConfigInheritedByItem"
+    }
+  ]
+}

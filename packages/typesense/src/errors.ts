@@ -25,26 +25,22 @@ export {
 } from "@distilled.cloud/core/errors";
 import * as Category from "@distilled.cloud/core/category";
 import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
-import * as Schema from "effect/Schema";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
+import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 // Unknown Typesense error - returned when an error code is not recognized
-export class UnknownTypesenseError extends Schema.TaggedError<UnknownTypesenseError>()(
-  "UnknownTypesenseError",
-  {
-    code: Schema.optional(Schema.String),
-    message: Schema.optional(Schema.String),
-    body: Schema.Unknown,
-  },
-).pipe(Category.withServerError) {}
+export class UnknownTypesenseError
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownTypesenseError>()(
+    "UnknownTypesenseError",
+    UnknownErrorFields,
+  ) {}
 
 // Schema parse error wrapper
-export class TypesenseParseError extends Schema.TaggedError<TypesenseParseError>()(
-  "TypesenseParseError",
-  {
+export class TypesenseParseError
+  extends /*@__PURE__*/ Schema.TaggedError<TypesenseParseError>()("TypesenseParseError", {
     body: Schema.Unknown,
     cause: Schema.Unknown,
-  },
-).pipe(Category.withParseError) {}
+  }).pipe(Category.withParseError) {}
 
 /**
  * Errors that any Typesense operation may surface in addition to

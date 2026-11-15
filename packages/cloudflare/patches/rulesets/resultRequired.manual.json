@@ -1,0 +1,285 @@
+{
+  "description": "Since the 2026-10-29 docs, every ruleset field in a get response is optional, and get results are a oneOf of five identical rulesets. The 2026-10-21 docs marked them required, and every ruleset the API returns carries id, kind, last_updated, name, phase, rules and version (exercised by the Ruleset, CustomRuleset and AccountEntrypoint live tests). Restore required.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#GetForAccountResult/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#GetForZoneResult/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#GetForAccountResult/members/kind/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#GetForZoneResult/members/kind/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#GetForAccountResult/members/last_updated/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#GetForZoneResult/members/last_updated/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#GetForAccountResult/members/name/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#GetForZoneResult/members/name/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#GetForAccountResult/members/phase/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#GetForZoneResult/members/phase/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#GetForAccountResult/members/rules/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#GetForZoneResult/members/rules/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#GetForAccountResult/members/version/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#GetForZoneResult/members/version/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#PhasesGetForAccountResult/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#PhasesGetForZoneResult/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#PhasesGetForAccountResult/members/kind/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#PhasesGetForZoneResult/members/kind/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#PhasesGetForAccountResult/members/last_updated/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#PhasesGetForZoneResult/members/last_updated/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#PhasesGetForAccountResult/members/name/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#PhasesGetForZoneResult/members/name/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#PhasesGetForAccountResult/members/phase/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#PhasesGetForZoneResult/members/phase/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#PhasesGetForAccountResult/members/rules/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#PhasesGetForZoneResult/members/rules/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#PhasesGetForAccountResult/members/version/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#PhasesGetForZoneResult/members/version/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#PhasesVersionsGetForAccountResult/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#PhasesVersionsGetForZoneResult/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#PhasesVersionsGetForAccountResult/members/kind/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#PhasesVersionsGetForZoneResult/members/kind/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#PhasesVersionsGetForAccountResult/members/last_updated/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#PhasesVersionsGetForZoneResult/members/last_updated/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#PhasesVersionsGetForAccountResult/members/name/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#PhasesVersionsGetForZoneResult/members/name/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#PhasesVersionsGetForAccountResult/members/phase/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#PhasesVersionsGetForZoneResult/members/phase/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#PhasesVersionsGetForAccountResult/members/rules/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#PhasesVersionsGetForZoneResult/members/rules/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#PhasesVersionsGetForAccountResult/members/version/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#PhasesVersionsGetForZoneResult/members/version/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#VersionsGetForAccountResult/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#VersionsGetForZoneResult/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#VersionsGetForAccountResult/members/kind/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#VersionsGetForZoneResult/members/kind/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#VersionsGetForAccountResult/members/last_updated/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#VersionsGetForZoneResult/members/last_updated/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#VersionsGetForAccountResult/members/name/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#VersionsGetForZoneResult/members/name/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#VersionsGetForAccountResult/members/phase/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#VersionsGetForZoneResult/members/phase/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#VersionsGetForAccountResult/members/rules/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#VersionsGetForZoneResult/members/rules/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#VersionsGetForAccountResult/members/version/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#VersionsGetForZoneResult/members/version/traits/smithy.api#required",
+      "value": {}
+    }
+  ]
+}

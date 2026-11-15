@@ -1,5 +1,5 @@
 /**
- * Neon pagination — hand-written.
+ * Neon pagination -- hand-written.
  *
  * Neon's paginated list operations are all cursor-mode (`cursor` in,
  * `pagination.cursor` or `pagination.next` out); generated operations pass core's

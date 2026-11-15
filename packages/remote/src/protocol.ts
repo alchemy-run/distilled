@@ -1,14 +1,15 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
- * RemoteProtocol — hand-written.
+ * RemoteProtocol -- hand-written.
  *
  * Remote speaks plain bearer-authenticated JSON REST (no response envelope),
  * so the whole protocol is one `makeRestProtocol` call from
  * `core/protocol-rest`:
  *
- *   request:  credentials → `Authorization: Bearer <token>` + base URL
+ *   request:  credentials -> `Authorization: Bearer <token>` + base URL
  *             (default https://gateway.remote.com), resolved from the
  *             calling fiber on every request
  *
@@ -36,30 +37,24 @@ export type RemoteOpError =
   | UnknownRemoteError
   | ConfigError
   | HttpClientError.HttpClientError
-  | RemoteParseError;
+  | RemoteParseError
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Remote operation. */
 export type RemoteOpContext = Credentials | HttpClient.HttpClient;
 
-export const RemoteProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
-  // The Credentials service holds an effect — resolving it here (per
+export const RemoteProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+  // The Credentials service holds an effect -- resolving it here (per
   // request, on the calling fiber) picks up context-provided credentials.
-  credentials: Effect.gen(function* () {
-    const resolve = yield* Credentials;
-    return yield* resolve;
-  }),
+  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => ({
     Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
   }),
   // Remote's error body is `{ code?: string, message: string }` (or
-  // `{ errors }` / `{ message }` depending on status) — the factory's
+  // `{ errors }` / `{ message }` depending on status) -- the factory's
   // default lenient envelope covers it.
-  unknownError: ({ code, message, body }) =>
-    new UnknownRemoteError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownRemoteError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new RemoteParseError({ body, cause }),
 });

@@ -1,5 +1,6 @@
 #!/usr/bin/env -S node --conditions=bun
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import * as fs from "node:fs";
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into the Stripe
  * Effect SDK.
@@ -8,7 +9,7 @@ import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
  * Output: src/services/stripe.ts  +  src/services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is Stripe's provider spec.
+ * `@distilled.cloud/dev/codegen`; this script is Stripe's provider spec.
  *
  * v0 parity notes:
  *   • Operation exports keep their PascalCase names (`GetChargesSearch`) —
@@ -24,7 +25,11 @@ import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
  *     Stripe's regular starting_after/ending_before list endpoints are
  *     deliberately NOT wrapped — mirroring v0.
  */
-import type { SdkSpec } from "@distilled.cloud/core/codegen/generator";
+import type { SdkSpec } from "@distilled.cloud/dev/codegen/generator";
+import {
+  CORE_STRATEGY_FIELDS,
+  defaultStrategyFields,
+} from "@distilled.cloud/dev/codegen/pagination";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
@@ -78,6 +83,9 @@ const stripeSpec: SdkSpec = {
   paginationProfiles: {
     search: {
       strategy: "stripeSearchPaginate",
+      // Search ("page" mode) follows the cursor.
+      requires: (t) =>
+        t.mode === "page" ? CORE_STRATEGY_FIELDS.paginateCursor! : defaultStrategyFields(t),
       itemsFallback: "data",
     },
   },
@@ -96,19 +104,37 @@ const stripeSpec: SdkSpec = {
   postProcess: (code) =>
     code.includes("Redacted.Redacted<")
       ? code.replace(
-          `import * as S from "@distilled.cloud/core/schema";\n`,
-          `import * as S from "@distilled.cloud/core/schema";\nimport * as Redacted from "effect/Redacted";\n`,
+          `import * as S from "@distilled.cloud/core/schema-lite";\n`,
+          `import * as S from "@distilled.cloud/core/schema-lite";\nimport * as Redacted from "effect/Redacted";\n`,
         )
       : code,
 };
 
 runGeneratorCli({
   description: "Generate the Stripe Effect SDK from the Smithy model",
+  convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   // patches/ holds OpenAPI-document patches consumed by scripts/convert.ts;
   // there is no smithy-model patch chain.
   patchesDir: false,
   spec: (model) => {
+    // The protocol sends API_VERSION as Stripe-Version on every call, so it
+    // must be the version the schemas below are generated from: keep it
+    // equal to the spec's info.version.
+    const service = Object.values<any>(model.shapes ?? {}).find((s) => s?.type === "service");
+    if (typeof service?.version !== "string") {
+      throw new Error("the Stripe model has no service version (the spec's info.version)");
+    }
+    const versionFile = `${import.meta.dirname}/../src/api-version.ts`;
+    const source = fs.readFileSync(versionFile, "utf8");
+    const pinned = source.replace(
+      /export const API_VERSION = "[^"]*";/,
+      `export const API_VERSION = "${service.version}";`,
+    );
+    if (pinned === source && !source.includes(`API_VERSION = "${service.version}"`)) {
+      throw new Error(`no \`export const API_VERSION = "…";\` line in ${versionFile}`);
+    }
+    if (pinned !== source) fs.writeFileSync(versionFile, pinned);
     // Merge the converter's contentType trait into each operation's http
     // trait so the emitted `T.Http({ … })` carries it (the converter only
     // merges "multipart" itself; "form-urlencoded" is provider policy).

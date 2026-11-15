@@ -1,0 +1,75 @@
+{
+  "description": "Type the 502 envd calls get on a paused (or killed) sandbox. E2B's proxy answers {\"sandboxId\", \"message\": \"The sandbox was not found\", \"code\": 502}; through a Cloudflare Worker the same failure arrives as Cloudflare's plain-text \"error code: 502\", so the status alone is matched. Observed live 2026-11-04.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.e2b.envd#SandboxNotRunning",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "The sandbox is paused or no longer exists: envd calls through E2B's proxy answer 502 (\"The sandbox was not found\"). Resume a paused sandbox (sandboxes.connectSandbox) before calling envd.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 502
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.e2b.envd#GetFiles/errors",
+      "value": [
+        {
+          "target": "com.e2b.envd#SandboxNotRunning"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.e2b.envd#PostFiles/errors",
+      "value": [
+        {
+          "target": "com.e2b.envd#SandboxNotRunning"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.e2b.envd#PostFilesCompose/errors",
+      "value": [
+        {
+          "target": "com.e2b.envd#SandboxNotRunning"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.e2b.envd#GetEnvs/errors",
+      "value": [
+        {
+          "target": "com.e2b.envd#SandboxNotRunning"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.e2b.envd#GetMetrics/errors",
+      "value": [
+        {
+          "target": "com.e2b.envd#SandboxNotRunning"
+        }
+      ]
+    }
+  ]
+}

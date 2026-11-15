@@ -1,5 +1,5 @@
 #!/usr/bin/env -S node --conditions=bun
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into the Polar
  * Effect SDK.
@@ -8,11 +8,11 @@ import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
  * Output: src/services/polar.ts  +  src/services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is Polar's provider spec.
+ * `@distilled.cloud/dev/codegen`; this script is Polar's provider spec.
  * Polar keeps the wire's snake_case member names on the TS surface, so no
  * member renaming or wire dictionaries appear here.
  */
-import type { SdkSpec } from "@distilled.cloud/core/codegen/generator";
+import type { SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
@@ -63,6 +63,7 @@ const polarSpec: SdkSpec = {
   paginationProfiles: {
     page: {
       strategy: "paginatePolar",
+      requires: () => ["inputToken", "outputToken"],
       itemsFallback: "items",
     },
   },
@@ -81,14 +82,15 @@ const polarSpec: SdkSpec = {
   postProcess: (code) =>
     code.includes("Redacted.Redacted<")
       ? code.replace(
-          `import * as S from "@distilled.cloud/core/schema";\n`,
-          `import * as S from "@distilled.cloud/core/schema";\nimport * as Redacted from "effect/Redacted";\n`,
+          `import * as S from "@distilled.cloud/core/schema-lite";\n`,
+          `import * as S from "@distilled.cloud/core/schema-lite";\nimport * as Redacted from "effect/Redacted";\n`,
         )
       : code,
 };
 
 runGeneratorCli({
   description: "Generate the Polar Effect SDK from the Smithy model",
+  convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   // patches/ holds OpenAPI-document patches consumed by scripts/convert.ts;
   // there is no smithy-model patch chain.

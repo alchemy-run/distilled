@@ -1,0 +1,40 @@
+{
+  "description": "Mark the API key secret sensitive where the spec returns it under a non-secret name. The spec documents each `apiKey.id` as \"The API key's secret. Despite the field name it is not an identifier\" (list, get, update) or \"Same value as `secret`\" (create, rotate), and the usage response's `api_key_id` as \"The API key's secret, kept for backward compatibility\". `secret` itself is already sensitive by name.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.exa.team_management#ListApiKeysResponseBodyCase0ApiKeysItem/members/id/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.exa.team_management#ListApiKeysResponseBodyCase1ApiKey/members/id/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.exa.team_management#CreateApiKeyResponseApiKey/members/id/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.exa.team_management#GetApiKeyResponseApiKey/members/id/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.exa.team_management#UpdateApiKeyResponseApiKey/members/id/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.exa.team_management#RotateApiKeyResponseApiKey/members/id/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.exa.team_management#GetApiKeyUsageResponse/members/api_key_id/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

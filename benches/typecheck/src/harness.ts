@@ -6,8 +6,8 @@
  * per-child `ru_maxrss`: on Linux it is the kernel's high-water mark
  * (`VmHWM` in `/proc/<pid>/status`), which is exact unless the peak lands in
  * the last sampling interval; elsewhere it is the largest `ps -o rss` seen.
- * The child is `node node_modules/typescript/bin/tsc`, exactly what
- * `pnpm typecheck` runs; that shim `execve`s into the native `tsc` binary
+ * The child is `node node_modules/tsrs/bin/tsrs`, exactly what
+ * `pnpm typecheck` runs; that shim `execve`s into the native `tsrs` binary
  * (same pid), so the numbers are the compiler's, not node's.
  *
  * `--extendedDiagnostics` is passed so tsc's own phase split (parse / check /
@@ -99,7 +99,7 @@ export interface Measurement {
   readonly error?: string;
 }
 
-const TSC = ["node", join(REPO_ROOT, "node_modules/typescript/bin/tsc")];
+const TSC = ["node", join(REPO_ROOT, "node_modules/tsrs/bin/tsrs")];
 
 const tscArgs = (target: Target, mode: Mode): ReadonlyArray<string> => [
   "-b",

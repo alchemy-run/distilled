@@ -1,0 +1,296 @@
+{
+  "description": "Add instances.executeSql (POST v1/{instance}:executeSql). The RPC is in google/cloud/alloydb/v1/service.proto and the client libraries but missing from the public discovery document. It runs SQL over the Data API (Instance.dataApiAccess) as a built-in user with a plain password; every statement of one call commits or rolls back together.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.alloydb_v1#ExecuteSqlProjectsLocationsClustersInstances",
+      "value": {
+        "type": "operation",
+        "input": {
+          "target": "com.gcp.alloydb_v1#ExecuteSqlProjectsLocationsClustersInstancesRequest"
+        },
+        "output": {
+          "target": "com.gcp.alloydb_v1#ExecuteSqlResponse"
+        },
+        "errors": [
+          {
+            "target": "com.gcp.alloydb_v1#NotFound"
+          },
+          {
+            "target": "com.gcp.alloydb_v1#Forbidden"
+          },
+          {
+            "target": "com.gcp.alloydb_v1#BadRequest"
+          },
+          {
+            "target": "com.gcp.alloydb_v1#Conflict"
+          }
+        ],
+        "traits": {
+          "smithy.api#http": {
+            "method": "POST",
+            "uri": "v1/{+instance}:executeSql"
+          },
+          "smithy.api#documentation": "Executes a SQL statement in a database inside an AlloyDB instance.",
+          "com.distilled.telemetry#operation": {
+            "name": "Alloydb.ExecuteSqlProjectsLocationsClustersInstances",
+            "method": "alloydb/ExecuteSqlProjectsLocationsClustersInstances",
+            "attributes": {
+              "url.template": "v1/{+instance}:executeSql"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.alloydb_v1#ExecuteSqlProjectsLocationsClustersInstancesRequest",
+      "value": {
+        "type": "structure",
+        "members": {
+          "instance": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Required. The instance where the SQL will be executed: projects/{project}/locations/{location}/clusters/{cluster}/instances/{instance}",
+              "smithy.api#httpLabel": {},
+              "smithy.api#required": {},
+              "com.distilled.telemetry#attributes": [
+                {
+                  "name": "gcp.instance"
+                }
+              ]
+            }
+          },
+          "body": {
+            "target": "com.gcp.alloydb_v1#ExecuteSqlRequest",
+            "traits": {
+              "smithy.api#httpPayload": {},
+              "smithy.api#documentation": "Request body"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.alloydb_v1#ExecuteSqlRequest",
+      "value": {
+        "type": "structure",
+        "members": {
+          "database": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Required. Name of the database where the query will be executed, as `SELECT current_database()` reports it."
+            }
+          },
+          "user": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Database user to execute the SQL as, as `SELECT current_user` reports it."
+            }
+          },
+          "password": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Optional. The database native user's password.",
+              "smithy.api#sensitive": {}
+            }
+          },
+          "sqlStatement": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Required. SQL to execute. Any valid statement is permitted, including DDL, DML, and DQL."
+            }
+          },
+          "validateOnly": {
+            "target": "smithy.api#Boolean",
+            "traits": {
+              "smithy.api#documentation": "Optional. Validate the statement's syntax and semantics without executing it."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Request for ExecuteSql rpc."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.alloydb_v1#ExecuteSqlResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "sqlResults": {
+            "target": "com.gcp.alloydb_v1#SqlResultList",
+            "traits": {
+              "smithy.api#documentation": "Results of the executed statements."
+            }
+          },
+          "metadata": {
+            "target": "com.gcp.alloydb_v1#ExecuteSqlMetadata",
+            "traits": {
+              "smithy.api#documentation": "Execution status and timing."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Execute a SQL statement response."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.alloydb_v1#SqlResultList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.gcp.alloydb_v1#SqlResult"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.alloydb_v1#SqlResult",
+      "value": {
+        "type": "structure",
+        "members": {
+          "columns": {
+            "target": "com.gcp.alloydb_v1#SqlResultColumnList",
+            "traits": {
+              "smithy.api#documentation": "Columns of the result, with their data types."
+            }
+          },
+          "rows": {
+            "target": "com.gcp.alloydb_v1#SqlResultRowList",
+            "traits": {
+              "smithy.api#documentation": "Rows returned by the statement."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The result of one SQL statement."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.alloydb_v1#SqlResultColumnList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.gcp.alloydb_v1#SqlResultColumn"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.alloydb_v1#SqlResultColumn",
+      "value": {
+        "type": "structure",
+        "members": {
+          "name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Name of the column."
+            }
+          },
+          "type": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Data type of the column as reported by the postgres driver."
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.alloydb_v1#SqlResultRowList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.gcp.alloydb_v1#SqlResultRow"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.alloydb_v1#SqlResultRow",
+      "value": {
+        "type": "structure",
+        "members": {
+          "values": {
+            "target": "com.gcp.alloydb_v1#SqlResultValueList",
+            "traits": {
+              "smithy.api#documentation": "Values of the row."
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.alloydb_v1#SqlResultValueList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.gcp.alloydb_v1#SqlResultValue"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.alloydb_v1#SqlResultValue",
+      "value": {
+        "type": "structure",
+        "members": {
+          "value": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The cell value as a string. Timestamps use RFC3339Nano."
+            }
+          },
+          "nullValue": {
+            "target": "smithy.api#Boolean",
+            "traits": {
+              "smithy.api#documentation": "True if the cell is null."
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.alloydb_v1#ExecuteSqlMetadata",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Postgres's error for the first failing statement, or why results were truncated."
+            }
+          },
+          "partialResult": {
+            "target": "smithy.api#Boolean",
+            "traits": {
+              "smithy.api#documentation": "True when the result set was truncated."
+            }
+          },
+          "sqlStatementExecutionDuration": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Time taken to execute the statement."
+            }
+          },
+          "status": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "`OK`, `PARTIAL`, or `ERROR`. On `ERROR` every statement of the call is rolled back."
+            }
+          }
+        }
+      }
+    }
+  ]
+}

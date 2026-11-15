@@ -1,19 +1,24 @@
 import * as API from "@distilled.cloud/core/api";
-import * as S from "@distilled.cloud/core/schema";
-import * as HttpClient from "effect/http/HttpClient";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
+import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const svc = /*@__PURE__*/ T.AwsApiService({
   sdkId: "Marketplace Commerce Analytics",
   serviceShapeName: "MarketplaceCommerceAnalytics20150701",
 });
-const auth = T.AwsAuthSigv4({ name: "marketplacecommerceanalytics" });
-const ver = T.ServiceVersion("2015-07-01");
-const proto = T.AwsProtocolsAwsJson1_1();
-const rules = T.EndpointResolver((p, _) => {
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "marketplacecommerceanalytics" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2015-07-01");
+const proto = /*@__PURE__*/ T.AwsProtocolsAwsJson1_1();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -72,12 +77,27 @@ const rules = T.EndpointResolver((p, _) => {
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://marketplacecommerceanalytics.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "MarketplaceCommerceAnalytics",
+  service: "MarketplaceCommerceAnalytics",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class MarketplaceCommerceAnalyticsException
   extends /*@__PURE__*/ S.TaggedError<MarketplaceCommerceAnalyticsException>()(
     "MarketplaceCommerceAnalyticsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export type DataSetType =
   | "customer_subscriber_hourly_monthly_subscriptions"
@@ -106,8 +126,6 @@ export type DataSetType =
   | "sales_compensation_billed_revenue"
   | "us_sales_and_use_tax_records"
   | (string & {});
-export const DataSetType = S.String;
-
 export type DataSetPublicationDate = Date;
 export type RoleNameArn = string;
 export type DestinationS3BucketName = string;
@@ -116,71 +134,36 @@ export type SnsTopicArn = string;
 export type OptionalKey = string;
 export type OptionalValue = string;
 export type CustomerDefinedValues = { [key: string]: string | undefined };
-export const CustomerDefinedValues = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface GenerateDataSetRequest {
   dataSetType: DataSetType;
   dataSetPublicationDate: Date;
   roleNameArn: string;
   destinationS3BucketName: string;
-  destinationS3Prefix?: string;
+  destinationS3Prefix?: string | undefined;
   snsTopicArn: string;
-  customerDefinedValues?: { [key: string]: string | undefined };
+  customerDefinedValues?: { [key: string]: string | undefined } | undefined;
 }
-export const GenerateDataSetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dataSetType: DataSetType,
-    dataSetPublicationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    roleNameArn: S.String,
-    destinationS3BucketName: S.String,
-    destinationS3Prefix: S.optional(S.String),
-    snsTopicArn: S.String,
-    customerDefinedValues: S.optional(CustomerDefinedValues),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "GenerateDataSetRequest" }) as any as S.Schema<GenerateDataSetRequest>;
 export type DataSetRequestId = string;
 export interface GenerateDataSetResult {
-  dataSetRequestId?: string;
+  dataSetRequestId?: string | undefined;
 }
-export const GenerateDataSetResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ dataSetRequestId: S.optional(S.String) }),
-).annotate({ identifier: "GenerateDataSetResult" }) as any as S.Schema<GenerateDataSetResult>;
 export type SupportDataSetType =
   | "customer_support_contacts_data"
   | "test_customer_support_contacts_data"
   | (string & {});
-export const SupportDataSetType = S.String;
-
 export type FromDate = Date;
 export interface StartSupportDataExportRequest {
   dataSetType: SupportDataSetType;
   fromDate: Date;
   roleNameArn: string;
   destinationS3BucketName: string;
-  destinationS3Prefix?: string;
+  destinationS3Prefix?: string | undefined;
   snsTopicArn: string;
-  customerDefinedValues?: { [key: string]: string | undefined };
+  customerDefinedValues?: { [key: string]: string | undefined } | undefined;
 }
-export const StartSupportDataExportRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dataSetType: SupportDataSetType,
-    fromDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    roleNameArn: S.String,
-    destinationS3BucketName: S.String,
-    destinationS3Prefix: S.optional(S.String),
-    snsTopicArn: S.String,
-    customerDefinedValues: S.optional(CustomerDefinedValues),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "StartSupportDataExportRequest",
-}) as any as S.Schema<StartSupportDataExportRequest>;
 export interface StartSupportDataExportResult {
-  dataSetRequestId?: string;
+  dataSetRequestId?: string | undefined;
 }
-export const StartSupportDataExportResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ dataSetRequestId: S.optional(S.String) }),
-).annotate({
-  identifier: "StartSupportDataExportResult",
-}) as any as S.Schema<StartSupportDataExportResult>;
 export type ExceptionMessage = string;
 export type GenerateDataSetError = MarketplaceCommerceAnalyticsException | CommonErrors;
 /**
@@ -194,17 +177,19 @@ export type GenerateDataSetError = MarketplaceCommerceAnalyticsException | Commo
  * s3:PutObject, s3:GetBucketLocation, sns:GetTopicAttributes, sns:Publish, iam:GetRolePolicy.
  */
 export const generateDataSet: API.OperationMethod<
-  GenerateDataSetRequest,
+  GenerateDataSetRequest & RegionInput,
   GenerateDataSetResult,
   GenerateDataSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GenerateDataSetRequest,
-  output: GenerateDataSetResult,
+  input: __S(0, __c0, 0) as any as S.Schema<GenerateDataSetRequest>,
+  output: __S(3, __c1, 1) as any as S.Schema<GenerateDataSetResult>,
   errors: [MarketplaceCommerceAnalyticsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateDataSet",
+  telemetry: TELEMETRY,
+  span: "GenerateDataSet",
 }));
 
 export type StartSupportDataExportError = MarketplaceCommerceAnalyticsException | CommonErrors;
@@ -219,15 +204,65 @@ export type StartSupportDataExportError = MarketplaceCommerceAnalyticsException 
  * s3:PutObject, s3:GetBucketLocation, sns:GetTopicAttributes, sns:Publish, iam:GetRolePolicy.
  */
 export const startSupportDataExport: API.OperationMethod<
-  StartSupportDataExportRequest,
+  StartSupportDataExportRequest & RegionInput,
   StartSupportDataExportResult,
   StartSupportDataExportError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartSupportDataExportRequest,
-  output: StartSupportDataExportResult,
+  input: __S(4, __c2, 0) as any as S.Schema<StartSupportDataExportRequest>,
+  output: __S(3, __c1, 1) as any as S.Schema<StartSupportDataExportResult>,
   errors: [MarketplaceCommerceAnalyticsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSupportDataExport",
+  telemetry: TELEMETRY,
+  span: "StartSupportDataExport",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          dataSetType: S.String,
+          dataSetPublicationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          roleNameArn: S.String,
+          destinationS3BucketName: S.String,
+          destinationS3Prefix: S.optional(S.String),
+          snsTopicArn: S.String,
+          customerDefinedValues: S.optional(__S(2, __c1, 0)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "GenerateDataSetRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+    case 1:
+      return S.suspend(() => S.Struct({ dataSetRequestId: S.optional(S.String) })).annotate({
+        identifier: "GenerateDataSetResult",
+      });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          dataSetType: S.String,
+          fromDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          roleNameArn: S.String,
+          destinationS3BucketName: S.String,
+          destinationS3Prefix: S.optional(S.String),
+          snsTopicArn: S.String,
+          customerDefinedValues: S.optional(__S(2, __c1, 0)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "StartSupportDataExportRequest" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

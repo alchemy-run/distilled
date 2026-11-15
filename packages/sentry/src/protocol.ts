@@ -1,14 +1,15 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
- * SentryProtocol — hand-written.
+ * SentryProtocol -- hand-written.
  *
  * Sentry speaks plain bearer-authenticated JSON REST (no response envelope),
  * so the whole protocol is one `makeRestProtocol` call from
  * `core/protocol-rest`:
  *
- *   request:  credentials → `Authorization: Bearer <apiKey>` + base URL
+ *   request:  credentials -> `Authorization: Bearer <apiKey>` + base URL
  *             (default https://sentry.io), resolved from the
  *             calling fiber on every request. Paths already include `/api/0`.
  *
@@ -36,29 +37,23 @@ export type SentryOpError =
   | UnknownSentryError
   | ConfigError
   | HttpClientError.HttpClientError
-  | SentryParseError;
+  | SentryParseError
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Sentry operation. */
 export type SentryOpContext = Credentials | HttpClient.HttpClient;
 
-export const SentryProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
-  // The Credentials service holds an effect — resolving it here (per
+export const SentryProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+  // The Credentials service holds an effect -- resolving it here (per
   // request, on the calling fiber) picks up context-provided credentials.
-  credentials: Effect.gen(function* () {
-    const resolve = yield* Credentials;
-    return yield* resolve;
-  }),
+  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => ({
     Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
   }),
-  // Sentry's error body is typically `{ detail?: string }` — the
+  // Sentry's error body is typically `{ detail?: string }` -- the
   // factory's default lenient envelope covers it.
-  unknownError: ({ code, message, body }) =>
-    new UnknownSentryError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownSentryError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new SentryParseError({ body, cause }),
 });

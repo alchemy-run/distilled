@@ -7,7 +7,7 @@ import {
 import { getAnn, getProps, hasPropAnn, mapKeys } from "@distilled.cloud/core/protocol-http";
 import { unwrapRedactedDeep } from "@distilled.cloud/core/protocol-rest";
 /**
- * AcmeProtocol — hand-written.
+ * AcmeProtocol -- hand-written.
  *
  * ACME (RFC 8555) is JSON over HTTPS with two twists the generic REST
  * protocol cannot express:
@@ -32,8 +32,13 @@ import { unwrapRedactedDeep } from "@distilled.cloud/core/protocol-rest";
  * RFC 7807 problem documents matched on their `type` URN against the
  * operation's typed error classes; an unmatched URN is `UnknownAcmeError`.
  */
-import { isStrict, validateResponse } from "@distilled.cloud/core/response-validation";
+import {
+  failUnlessLenient,
+  isValidating,
+  validateResponse,
+} from "@distilled.cloud/core/response-validation";
 import { parseRetryAfter, parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import { getErrorMatchers, httpSymbol, labelSymbol } from "@distilled.cloud/core/trait";
 import * as Effect from "effect/Effect";
 import type * as HttpBody from "effect/http/HttpBody";
@@ -61,7 +66,7 @@ import { parseJwk, signExternalAccountBinding, signRequest, type SignOptions } f
  * AcmeOpContext>` explicitly so the compiler never infers these back out of
  * the schema generics.
  */
-export type AcmeOpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError;
+export type AcmeOpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError | SdkError;
 
 /** Context (requirements) shared by every generated ACME operation. */
 export type AcmeOpContext = Credentials | HttpClient.HttpClient;
@@ -70,28 +75,28 @@ export type AcmeOpContext = Credentials | HttpClient.HttpClient;
 // Directory + nonce caches (per CA, process-wide)
 // =============================================================================
 
-const DirectorySchema = Schema.Struct({
+const DirectorySchema = /*@__PURE__*/ Schema.Struct({
   newNonce: Schema.String,
   newAccount: Schema.String,
   newOrder: Schema.String,
   revokeCert: Schema.String,
-  newAuthz: Schema.optional(Schema.String),
-  keyChange: Schema.optional(Schema.String),
-  meta: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  newAuthz: /*@__PURE__*/ Schema.optional(Schema.String),
+  keyChange: /*@__PURE__*/ Schema.optional(Schema.String),
+  meta: /*@__PURE__*/ Schema.optional(/*@__PURE__*/ Schema.Record(Schema.String, Schema.Unknown)),
 });
 type Directory = typeof DirectorySchema.Type;
 
-const directories = new Map<string, Directory>();
+const directories = /*@__PURE__*/ new Map<string, Directory>();
 /** The last unused `Replay-Nonce` per directory URL. Nonces are single-use. */
-const nonces = new Map<string, string>();
+const nonces = /*@__PURE__*/ new Map<string, string>();
 
 type SigningContext = Omit<SignOptions, "nonce"> & {
   readonly directoryUrl: string;
 };
 // HTTP request copies preserve the body identity; entries live only with a request.
-const signedRequests = new WeakMap<HttpBody.HttpBody, SigningContext>();
+const signedRequests = /*@__PURE__*/ new WeakMap<HttpBody.HttpBody, SigningContext>();
 
-const resolveCredentials = Effect.gen(function* () {
+const resolveCredentials = /*@__PURE__*/ Effect.gen(function* () {
   const resolve = yield* Credentials;
   return yield* resolve as Effect.Effect<Config>;
 });
@@ -193,7 +198,7 @@ const DIRECTORY_OPERATIONS: Record<string, keyof Directory> = {
 };
 
 /** Operations whose payload is the empty POST-as-GET. */
-const POST_AS_GET = new Set(["GetOrder", "GetAuthorization", "DownloadCertificate"]);
+const POST_AS_GET = /*@__PURE__*/ new Set(["GetOrder", "GetAuthorization", "DownloadCertificate"]);
 
 const JOSE_ACCEPT = "application/json, application/pem-certificate-chain";
 
@@ -403,14 +408,12 @@ const decode = ({
         isNewNonce || (isCertificate && status < 400)
           ? undefined
           : yield* parseJson(text).pipe(
-              // A non-JSON 2xx fails only in strict mode; lenient returns
+              // A non-JSON 2xx fails unless lenient; lenient returns
               // the text as read.
               Effect.catchTag("AcmeParseError", (error) =>
                 status >= 400
                   ? Effect.succeed(undefined)
-                  : Effect.flatMap(isStrict, (strict) =>
-                      strict ? Effect.fail(error) : Effect.succeed<unknown>(text),
-                    ),
+                  : failUnlessLenient<unknown, typeof error>(error, text),
               ),
             );
       const problem = status >= 400 && isProblem(json) ? json : undefined;
@@ -484,14 +487,17 @@ const decode = ({
         };
       } else if (isObject(json)) {
         body = json;
+        // Only outputs that declare `location` get it; elsewhere strict mode
+        // would reject it as an unmodeled key.
         const location = headers["location"];
-        if (location) body = { ...body, location };
+        if (location && getProps(outputAst).some((p) => p.name === "location"))
+          body = { ...body, location };
       } else {
         // Lenient mode returns a non-object body as read.
-        if (!(yield* isStrict)) return json;
+        if (!(yield* isValidating)) return json;
         return yield* fail(parseError("Expected a JSON object"));
       }
-      // Strict mode (core/response-validation) checks the output schema.
+      // Validating modes (core/response-validation) check the output schema.
       return yield* validateResponse(outputAst, mapKeys(outputAst, body, "decode"), () =>
         parseError("Response does not match the output schema"),
       );
@@ -515,9 +521,9 @@ const parseJson = (text: string) =>
 
 const fail = <E>(error: E) => Effect.fail(error) as Effect.Effect<never, E>;
 
-export const AcmeProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
+export const AcmeProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(
   API.Protocol,
-  API.Protocol.of({
+  /*@__PURE__*/ API.Protocol.of({
     encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
     decode: (args) => decode(args) as Effect.Effect<unknown>,
   }),

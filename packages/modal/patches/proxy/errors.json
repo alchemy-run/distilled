@@ -1,0 +1,110 @@
+{
+  "description": "Typed not-found / already-exists errors for the proxy RPCs. The gRPC protocol reports a non-zero grpc-status as `code` (5 = NOT_FOUND, 6 = ALREADY_EXISTS), which these matchers key on.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.proxy#ProxyNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The proxy or proxy IP doesn't exist (gRPC NOT_FOUND).",
+          "com.modal.protocols#errorMatchers": [
+            {
+              "code": 5
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.proxy#ProxyAlreadyExists",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "A proxy with this name already exists in the environment (gRPC ALREADY_EXISTS).",
+          "com.modal.protocols#errorMatchers": [
+            {
+              "code": 6
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.proxy#ProxyGet/errors",
+      "value": [
+        {
+          "target": "com.modal.proxy#ProxyNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.proxy#ProxyDelete/errors",
+      "value": [
+        {
+          "target": "com.modal.proxy#ProxyNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.proxy#ProxyGetOrCreate/errors",
+      "value": [
+        {
+          "target": "com.modal.proxy#ProxyNotFound"
+        },
+        {
+          "target": "com.modal.proxy#ProxyAlreadyExists"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.proxy#ProxyAddIp/errors",
+      "value": [
+        {
+          "target": "com.modal.proxy#ProxyNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.proxy#ProxyRemoveIp/errors",
+      "value": [
+        {
+          "target": "com.modal.proxy#ProxyNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.proxy#ProxyCreate/errors",
+      "value": [
+        {
+          "target": "com.modal.proxy#ProxyAlreadyExists"
+        }
+      ]
+    }
+  ]
+}

@@ -141,7 +141,10 @@
           "smithy.api#error": "client",
           "com.cloudflare.protocols#errorMatchers": [
             {
-              "code": 7001
+              "code": 7001,
+              "message": {
+                "includes": "already exists"
+              }
             },
             {
               "status": 504
@@ -326,6 +329,32 @@
               "code": 7005,
               "message": {
                 "includes": "not found"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.ai_gateway#GatewayAuthenticationRequired",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "com.cloudflare.protocols#errorMatchers": [
+            {
+              "code": 7001,
+              "message": {
+                "includes": "must have authentication enabled"
               }
             }
           ]

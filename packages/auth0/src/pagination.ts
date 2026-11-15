@@ -1,5 +1,5 @@
 /**
- * Auth0 pagination — hand-written.
+ * Auth0 pagination -- hand-written.
  *
  * Auth0's paginated list operations are typically page-number mode (`page`
  * / `per_page` in); some endpoints also use checkpoint/cursor style

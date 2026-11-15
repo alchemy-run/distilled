@@ -1,0 +1,10 @@
+{
+  "description": "`updateCluster`'s `resultCacheDefaultVisibilitySeconds` must be sent as JSON `null` to turn the result cache off: a PATCH with `resultCacheEnabled: false` and the field absent keeps the stored visibility and fails with 400 \"resultsCacheDefaultVisibilitySeconds must be empty when resultCacheEnabled is false\", while the same PATCH with the field `null` succeeds (live calls, 2026-11-12). Galaxy's Terraform provider sends `null` for the same reason. Marking the member nullable lets callers send `null`.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.starburst.galaxy.cluster#PatchUpdateClusterRequest/members/resultCacheDefaultVisibilitySeconds/traits/com.distilled.openapi#nullable",
+      "value": {}
+    }
+  ]
+}

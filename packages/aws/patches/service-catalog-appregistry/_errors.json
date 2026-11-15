@@ -1,0 +1,24 @@
+{
+  "description": "Service Catalog AppRegistry: Members the error responses carry; categories (distilled.errors#categories) the error traits do not express.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.servicecatalogappregistry#ThrottlingException/members/message",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.servicecatalogappregistry#ThrottlingException/members/serviceCode",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.servicecatalogappregistry#ThrottlingException/traits/distilled.errors#categories",
+      "value": ["ThrottlingError", "RetryableError"]
+    }
+  ]
+}

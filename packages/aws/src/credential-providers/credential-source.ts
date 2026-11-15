@@ -2,9 +2,9 @@ import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
 import * as Redacted from "effect/Redacted";
 /**
- * What every provider in this directory produces — an
+ * What every provider in this directory produces -- an
  * `Effect<AwsCredentialIdentity, CredentialSourceError>` that needs nothing
- * from the environment it runs in — and how several of them are combined
+ * from the environment it runs in -- and how several of them are combined
  * into a chain.
  */
 import type { AwsCredentialIdentity } from "../credentials-service.ts";
@@ -16,16 +16,17 @@ import type { AwsCredentialIdentity } from "../credentials-service.ts";
  * final (e.g. a malformed URL, an MFA prompt that cannot be answered) and
  * the chain stops there instead of trying the next source.
  */
-export class CredentialSourceError extends Data.TaggedError("AWS::CredentialSourceError")<{
-  message: string;
-  tryNextLink?: boolean;
-  cause?: unknown;
-}> {}
+export class CredentialSourceError
+  extends /*@__PURE__*/ Data.TaggedError("AWS::CredentialSourceError")<{
+    message: string;
+    tryNextLink?: boolean;
+    cause?: unknown;
+  }> {}
 
 export type CredentialSource = Effect.Effect<AwsCredentialIdentity, CredentialSourceError, never>;
 
 /**
- * A secret a provider takes from the caller — a token, for instance. An
+ * A secret a provider takes from the caller -- a token, for instance. An
  * `Effect` is re-run on every credential resolution, for a secret that has
  * to be refreshed or that lives in a secret store.
  */

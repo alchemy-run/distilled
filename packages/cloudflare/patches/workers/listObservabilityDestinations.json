@@ -1,5 +1,5 @@
 {
-  "description": "Align workers#ObservabilityDestinationsList with distilled cloudflare/workers listObservabilityDestinations",
+  "description": "Cloudflare's Workers observability destination endpoint paginates with a `page` query but omits `result_info` (verified live 2026-10-18); mark it page-paginated and align the operation name and forbidden error.",
   "patches": [
     {
       "op": "move",
@@ -30,8 +30,9 @@
       "op": "add",
       "path": "/shapes/com.cloudflare.workers#ListObservabilityDestinations/traits/smithy.api#paginated",
       "value": {
-        "mode": "single",
-        "items": "result"
+        "mode": "page",
+        "items": "result",
+        "inputToken": "page"
       }
     },
     {

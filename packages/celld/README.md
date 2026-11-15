@@ -68,7 +68,7 @@ pnpm generate celld
 ```
 
 `convert` validates and finalizes the committed Smithy source, and `generate`
-uses `@distilled.cloud/core/codegen`. Update the specification rather than
+uses `@distilled.cloud/dev/codegen`. Update the specification rather than
 editing `src/services/`. Regeneration requires neither a Celld deployment command
 nor an upstream checkout.
 

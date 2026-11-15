@@ -32,6 +32,9 @@
       "value": [
         {
           "target": "com.cloudflare.ai_gateway#GatewayAlreadyExists"
+        },
+        {
+          "target": "com.cloudflare.ai_gateway#GatewayAuthenticationRequired"
         }
       ]
     }

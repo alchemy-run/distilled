@@ -1,10 +1,10 @@
 import * as Pagination from "@distilled.cloud/core/pagination";
 /**
- * Resend pagination — hand-written.
+ * Resend pagination -- hand-written.
  *
  * Resend's paginated list operations are cursor-mode (`after`/`limit` in,
  * `has_more` + last `data[].id` out). There is no next-cursor field on the
- * response — the docs say to pass the last item's `id` as `after` — so
+ * response -- the docs say to pass the last item's `id` as `after` -- so
  * generated operations pass {@link paginateResend} rather than core's
  * paginateCursor.
  */
@@ -19,7 +19,7 @@ import * as Stream from "effect/Stream";
 export const paginateResend: Pagination.PaginationStrategy = (operation, input, pagination) => {
   const inputToken = pagination.inputToken;
   if (!inputToken) {
-    return Stream.die(new Error("Resend cursor pagination requires inputToken"));
+    return Pagination.missingPaginationConfig("Resend cursor pagination requires inputToken");
   }
   const hasNextPath = pagination.hasNextPage ?? "has_more";
   const itemsPath = pagination.items ?? "data";

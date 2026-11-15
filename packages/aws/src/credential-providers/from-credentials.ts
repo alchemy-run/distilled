@@ -23,14 +23,18 @@ export const fromCredentials = (
   credentials: StaticCredentials,
   /** Defaults to the environment, like every other provider. */
   region?: RegionName,
-): Layer.Layer<Credentials> =>
-  Layer.succeed(
+): Layer.Layer<Credentials> => {
+  const resolve = (resolved: RegionName) => ({
+    accessKeyId: credentials.accessKeyId,
+    secretAccessKey: credentials.secretAccessKey,
+    sessionToken: credentials.sessionToken,
+    region: resolved,
+    expiration: credentials.expiration?.getTime(),
+  });
+  // With the region given, the credentials are a plain value: operations
+  // read it without a fiber step.
+  return Layer.succeed(
     Credentials,
-    Effect.map(region === undefined ? regionFromEnv : Effect.succeed(region), (resolved) => ({
-      accessKeyId: credentials.accessKeyId,
-      secretAccessKey: credentials.secretAccessKey,
-      sessionToken: credentials.sessionToken,
-      region: resolved,
-      expiration: credentials.expiration?.getTime(),
-    })),
+    region === undefined ? Effect.map(regionFromEnv, resolve) : Effect.succeed(resolve(region)),
   );
+};

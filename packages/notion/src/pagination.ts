@@ -1,5 +1,5 @@
 /**
- * Notion pagination — hand-written.
+ * Notion pagination -- hand-written.
  *
  * Notion's paginated operations take `start_cursor` + `page_size` (query
  * string on GETs, JSON body on POST queries) and answer `{ results,

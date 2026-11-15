@@ -1,5 +1,5 @@
 /**
- * Intercom pagination — hand-written.
+ * Intercom pagination -- hand-written.
  *
  * Intercom's paginated list operations are cursor-mode (`starting_after` in,
  * `pages.next.starting_after` out); generated operations pass core's

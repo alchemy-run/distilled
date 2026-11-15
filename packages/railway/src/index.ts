@@ -1,10 +1,10 @@
 /**
- * @distilled.cloud/railway — Railway GraphQL SDK for Effect.
+ * @distilled.cloud/railway -- Railway GraphQL SDK for Effect.
  *
- * Roots (`me`, `project`, `projectCreate`, …) are lazy {@link Query} lenses.
+ * Roots (`me`, `project`, `projectCreate`, ...) are lazy {@link Query} lenses.
  * Combinators (`Query.fn`, `Query.map`, `Query.filter`, `Query.flatMap`)
  * live in `@distilled.cloud/core/query`. Each root carries the typed errors
- * it can return (`RailwayNotFound`, `RailwayRateLimited`, …), so the Effect
+ * it can return (`RailwayNotFound`, `RailwayRateLimited`, ...), so the Effect
  * `Query.fn` produces can be handled with `Effect.catchTag`.
  *
  * @example

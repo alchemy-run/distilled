@@ -1,6 +1,6 @@
 {
   "name": "@distilled.cloud/railway",
-  "version": "1.0.0-rc.15",
+  "version": "1.0.0-rc.20",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -23,10 +23,10 @@
     }
   },
   "scripts": {
-    "build": "tsc -b",
+    "build": "tsrs -b",
     "convert": "node --conditions=bun scripts/convert.ts",
     "generate": "node --conditions=bun scripts/generate.ts",
-    "typecheck": "tsc -p tsconfig.json",
+    "typecheck": "tsrs -p tsconfig.json",
     "specs:fetch": "git submodule update --force --init --depth=1 specs/spec-mirror-railway",
     "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-railway"
   },
@@ -34,13 +34,14 @@
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
+    "@distilled.cloud/dev": "workspace:*",
     "@types/node": "catalog:"
   },
   "peerDependencies": {
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-10-07",
-    "specUpdatedAt": "2026-10-04"
+    "generatedAt": "2026-11-13",
+    "specUpdatedAt": "2026-11-07"
   }
 }

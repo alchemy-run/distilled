@@ -1,0 +1,12 @@
+{
+  "description": "S3: Errors every operation returns (Smithy service errors).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#AmazonS3/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#InvalidAccessKeyId"
+      }
+    }
+  ]
+}

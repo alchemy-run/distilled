@@ -1,0 +1,140 @@
+{
+  "description": "Stream executeSandboxCommand. POST /sandboxes/{sandboxId}/commands with `stream: true` answers 200 application/x-ndjson, one CommandStreamFrame per line (the spec's own components.schemas.CommandStreamFrame), and JSON without it, but the converter reads only application/json bodies, so the operation generated with only its JSON output. Mark it as streaming when its input asks, with CommandStreamFrame as its frame, so it generates as API.makeStreaming: the plain call keeps its JSON output, and `.stream(input)` sends `stream: true` and emits each frame as Boat writes it. The frame is CommandStreamFrame plus the members of CommandResponse that the spec says the `exit` frame carries (\"the synchronous result without stdout/stderr\"). @boatdev/sdk's streamCommand reads the same stream.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#CommandStreamFrameType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "STARTED": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "started"
+            }
+          },
+          "STDOUT": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "stdout"
+            }
+          },
+          "STDERR": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "stderr"
+            }
+          },
+          "EXIT": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "exit"
+            }
+          },
+          "ERROR": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "error"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#CommandStreamFrame",
+      "value": {
+        "type": "structure",
+        "members": {
+          "type": {
+            "target": "com.boat.api#CommandStreamFrameType",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          },
+          "commandId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "started: the command's record in the command history."
+            }
+          },
+          "data": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "stdout/stderr: the chunk of output, UTF-8."
+            }
+          },
+          "exitCode": {
+            "target": "smithy.api#Integer",
+            "traits": {
+              "com.distilled.openapi#nullable": {}
+            }
+          },
+          "signal": {
+            "target": "smithy.api#String",
+            "traits": {
+              "com.distilled.openapi#nullable": {}
+            }
+          },
+          "oomKilled": {
+            "target": "smithy.api#Boolean",
+            "traits": {
+              "smithy.api#documentation": "True when the memory ceiling killed the command or one of its processes and the command failed."
+            }
+          },
+          "success": {
+            "target": "smithy.api#Boolean"
+          },
+          "timedOut": {
+            "target": "smithy.api#Boolean"
+          },
+          "stdoutTruncated": {
+            "target": "smithy.api#Boolean"
+          },
+          "stderrTruncated": {
+            "target": "smithy.api#Boolean"
+          },
+          "cwd": {
+            "target": "smithy.api#String"
+          },
+          "startedAt": {
+            "target": "smithy.api#String"
+          },
+          "finishedAt": {
+            "target": "smithy.api#String"
+          },
+          "error": {
+            "target": "smithy.api#String"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          },
+          "retryable": {
+            "target": "smithy.api#Boolean",
+            "traits": {
+              "smithy.api#documentation": "error: true when the command provably never ran (the sandbox is still restoring its disk), so sending it again is safe."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "One line of a streamed command (`POST /sandboxes/{sandboxId}/commands` with `stream: true`, application/x-ndjson).\n- `started`: first line. `commandId`.\n- `stdout` / `stderr`: a chunk of output in `data`.\n- `exit`: last line when the command ended. The synchronous result without stdout/stderr: `success`, `exitCode`, `signal`, `oomKilled`, `timedOut`, ...\n- `error`: last line on a failure. `error`, `message`, `retryable`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#Command/traits/com.distilled.openapi#streamWhen",
+      "value": {
+        "input": {
+          "stream": true
+        },
+        "items": "com.boat.api#CommandStreamFrame"
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.boat.api#CommandRequest/members/stream/traits/smithy.api#documentation",
+      "value": "Stream the output as the command writes it: the response is newline-delimited JSON (application/x-ndjson), one CommandStreamFrame per line. Ignored with detached. `executeSandboxCommand.stream(input)` sends it for you and emits each frame; a plain call with it set fails to decode the stream."
+    }
+  ]
+}

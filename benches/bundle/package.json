@@ -7,7 +7,7 @@
   "scripts": {
     "bench": "node run.ts",
     "record": "node run.ts --out results/latest.json",
-    "typecheck": "tsc --noEmit -p tsconfig.json"
+    "typecheck": "tsrs --noEmit -p tsconfig.json"
   },
   "dependencies": {
     "@distilled.cloud/aws": "workspace:*",
@@ -19,6 +19,6 @@
     "@oxc-project/types": "catalog:",
     "@types/node": "catalog:",
     "rolldown": "catalog:",
-    "typescript": "catalog:"
+    "tsrs": "catalog:"
   }
 }

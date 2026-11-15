@@ -19,39 +19,28 @@
  *             → .generated-specs/mpg.json
  *             patches: patches/mpg/*.patch.json (Smithy)
  *
- *   addons    GraphQL  specs/spec-mirror-fly-io/specs/graphql.json (the
- *             api.fly.io/graphql introspection), reduced to the add-on types
- *             in addons-selection.ts
- *             → .generated-specs/addons.json
- *             patches: patches/addons/*.patch.json (Smithy)
+ * The GraphQL API (add-ons, remote builders, and the rest of
+ * api.fly.io/graphql) is a Query SDK: scripts/convert-graphql.ts.
  *
  * Every patch is a Smithy op on upstream names, applied by the
  * finalizeConvert at the end. `scripts/generate.ts` only compiles
  * `.generated-specs`.
  */
-import * as fs from "node:fs/promises";
-import * as path from "node:path";
-import {
-  convertGraphQLToSmithy,
-  PRELUDE,
-  readIntrospection,
-} from "@distilled.cloud/core/codegen/graphql";
-import { ERROR_MATCHERS_TRAIT } from "@distilled.cloud/core/codegen/openapi";
-import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
-import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
-import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
-import { selectAddons } from "./addons-selection.ts";
+import { ERROR_MATCHERS_TRAIT } from "@distilled.cloud/dev/codegen/openapi";
+import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
+import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
 import { MACHINES_OPERATION_NAMES } from "./machines-operation-ids.ts";
 import { SPRITES_OPERATION_NAMES, stripSpritesV1 } from "./sprites-operation-ids.ts";
 
+// `convert --resource machines` (run directly) converts machines alone;
+// generate imports this module with its own argv and converts everything.
 const resourceIndex = process.argv.indexOf("--resource");
-const machinesOnly = resourceIndex !== -1;
+const machinesOnly = import.meta.main && resourceIndex !== -1;
 if (machinesOnly && process.argv[resourceIndex + 1] !== "machines") {
   throw new Error("Only --resource machines is supported");
 }
 
 const root = `${import.meta.dirname}/..`;
-const generatedDir = path.join(root, ".generated-specs");
 
 const STATUS_TO_ERROR = {
   400: "BadRequest",
@@ -218,77 +207,9 @@ const stampSprites = (model: { shapes: Record<string, any> }): string => {
   return `stamped ${notes.join(", ")}`;
 };
 
-// ---------------------------------------------------------------------------
-// addons — GraphQL thin client
-// ---------------------------------------------------------------------------
-
-const graphqlTraits = {
-  operation: "com.flyio.graphql#operation",
-  responsePath: "com.flyio.graphql#responsePath",
-  nullable: "com.flyio.graphql#nullable",
-  nullableItems: "com.flyio.graphql#nullableItems",
-  payload: "com.flyio.graphql#payload",
-} as const;
-
-const addonsSchema = selectAddons(
-  readIntrospection(
-    JSON.parse(
-      await fs.readFile(
-        resolveSpecPath(root, "specs/spec-mirror-fly-io/specs/graphql.json"),
-        "utf8",
-      ),
-    ),
-  ),
-);
-
-const addonsResult = convertGraphQLToSmithy({
-  schema: addonsSchema,
-  namespace: "com.flyio.addons",
-  serviceName: "FlyAddons",
-  serviceTitle: "Fly GraphQL add-ons",
-  serviceDocumentation:
-    "Thin Fly.io GraphQL client for managed extensions (Tigris, Upstash Redis) " +
-    "at POST https://api.fly.io/graphql. Auth is the same FLY_API_TOKEN bearer " +
-    "as Machines. Documents are baked from flyctl's add-on operations.",
-  endpoint: "/graphql",
-  traits: graphqlTraits,
-  maxDepth: 2,
-  maxNamespaceDepth: 1,
-  skipDeprecated: true,
-  customScalars: {
-    JSON: PRELUDE.Document,
-    ISO8601DateTime: PRELUDE.String,
-  },
-  relay: { after: "after", first: "first" },
-});
-
-const addonsOut = path.join(generatedDir, "addons.json");
-await fs.mkdir(generatedDir, { recursive: true });
-await fs.writeFile(addonsOut, `${JSON.stringify(addonsResult.model, null, 2)}\n`);
-console.log(
-  `✅ addons: ${addonsResult.converted} GraphQL operations ` +
-    `(${addonsResult.paginated} paginated, ${addonsResult.failed} failed, ` +
-    `${addonsResult.shapeCount} shapes) → ${addonsOut}`,
-);
-
 await finalizeConvert({
   root,
   transform: (model, resource) => {
     if (resource === "sprites") return stampSprites(model);
-    if (resource !== "addons") return;
-    let n = 0;
-    for (const def of Object.values(model.shapes ?? {}) as any[]) {
-      if (def?.type !== "structure") continue;
-      for (const [name, member] of Object.entries(def.members ?? {}) as any[]) {
-        if (name === "password" || name === "publicUrl") {
-          member.traits = {
-            ...member.traits,
-            "smithy.api#sensitive": {},
-          };
-          n++;
-        }
-      }
-    }
-    if (n) return `stamped smithy.api#sensitive on ${n} add-on secret member(s)`;
   },
 });

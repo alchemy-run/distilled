@@ -1,0 +1,13 @@
+{
+  "description": "`GET /v1/sessions/{session_id}/events/stream` and `GET /v1/sessions/{session_id}/threads/{thread_id}/stream` answer with a server-sent event stream (`text/event-stream`) that stays open while the session runs; the spec types the 200 body as a single JSON event. A REST call reads the body to its end, so it would wait on the open stream. The official SDKs call both routes with `stream: true` (src/resources/beta/sessions/events.ts and threads/events.ts in anthropics/anthropic-sdk-typescript), and the docs describe the stream as SSE (https://platform.claude.com/docs/en/managed-agents/overview). Remove the two operations; `listSessionEvents` and `listSessionThreadEvents` read the same events by page.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.anthropic.beta_sessions#BetaStreamSessionEvents"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.anthropic.beta_sessions#BetaStreamSessionThreadEvents"
+    }
+  ]
+}

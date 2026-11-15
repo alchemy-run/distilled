@@ -1,6 +1,6 @@
 # spec-mirror-railway
 
-A git mirror of Railway's API spec. The spec is fetched (or, for GraphQL, introspected) and committed as a JSON file so the repo serves as a versioned snapshot. GraphQL sources also produce an SDL (`.graphql`) sibling file.
+A git mirror of Railway's API spec. The spec is fetched (or, for GraphQL, introspected) and committed as a JSON file so the repo serves as a versioned snapshot.
 
 The mirror is updated every 24 hours and is designed to be used as a stable git submodule.
 

@@ -1,0 +1,20 @@
+{
+  "description": "Sandbox.envdAccessToken / trafficAccessToken and SandboxDetail.envdAccessToken are the credentials for a sandbox's envd daemon and its public URLs (sent as X-Access-Token / e2b-traffic-access-token by the official SDK, packages/js-sdk/src/sandbox/index.ts), but the spec carries no sensitive mark. Source: spec/openapi.yml (e2b-dev/E2B, 2026-11-02).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.e2b.sandboxes#Sandbox/members/envdAccessToken/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.e2b.sandboxes#Sandbox/members/trafficAccessToken/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.e2b.sandboxes#SandboxDetail/members/envdAccessToken/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

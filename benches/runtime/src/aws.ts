@@ -29,12 +29,12 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
 import * as Layer from "effect/Layer";
-import type { Operation } from "../../../packages/aws/src/client/operation.ts";
-// The request builder is internal to the AWS package (not in its export map);
+import type { Operation } from "../../../packages/s3/src/client/operation.ts";
+// The request builder is internal to @distilled.cloud/s3 (not in its export map);
 // reach it through the workspace so the "build" stage times the real
 // serializer the protocol layer uses.
-import { makeRequestBuilder } from "../../../packages/aws/src/client/request-builder.ts";
-import { makeResponseParser } from "../../../packages/aws/src/client/response-parser.ts";
+import { makeRequestBuilder } from "../../../packages/s3/src/client/request-builder.ts";
+import { makeResponseParser } from "../../../packages/s3/src/client/response-parser.ts";
 import {
   type Case,
   buildLayer,

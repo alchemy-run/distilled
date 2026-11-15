@@ -1,14 +1,15 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
- * PlaidProtocol — hand-written.
+ * PlaidProtocol -- hand-written.
  *
  * Plaid speaks header-authenticated JSON REST (no response envelope), so
  * the whole protocol is one `makeRestProtocol` call from
  * `core/protocol-rest`:
  *
- *   request:  credentials → `PLAID-CLIENT-ID` / `PLAID-SECRET` /
+ *   request:  credentials -> `PLAID-CLIENT-ID` / `PLAID-SECRET` /
  *             `Plaid-Version` + base URL (default
  *             https://sandbox.plaid.com), resolved from the calling fiber
  *             on every request
@@ -36,18 +37,17 @@ export type PlaidOpError =
   | UnknownPlaidError
   | ConfigError
   | HttpClientError.HttpClientError
-  | PlaidParseError;
+  | PlaidParseError
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Plaid operation. */
 export type PlaidOpContext = Credentials | HttpClient.HttpClient;
 
-export const PlaidProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
-  // The Credentials service holds an effect — resolving it here (per
+export const PlaidProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+  // The Credentials service holds an effect -- resolving it here (per
   // request, on the calling fiber) picks up context-provided credentials.
-  credentials: Effect.gen(function* () {
-    const resolve = yield* Credentials;
-    return yield* resolve;
-  }),
+  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => formatHeaders(creds),
   // Plaid's error body is `{ error_type, error_code, error_message }`.
@@ -68,11 +68,6 @@ export const PlaidProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>
           : undefined;
     return { code, message };
   },
-  unknownError: ({ code, message, body }) =>
-    new UnknownPlaidError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownPlaidError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new PlaidParseError({ body, cause }),
 });

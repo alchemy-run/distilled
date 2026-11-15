@@ -1,0 +1,27 @@
+{
+  "description": "Paginate ImageListTags, ImageTagRevisions. Token pagination: `pageToken` takes the previous reply's `nextPageToken`, which is empty on the last page.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.image#ImageListTags/traits/smithy.api#paginated",
+      "value": {
+        "mode": "token",
+        "inputToken": "pageToken",
+        "outputToken": "nextPageToken",
+        "items": "items",
+        "pageSize": "maxObjects"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.image#ImageTagRevisions/traits/smithy.api#paginated",
+      "value": {
+        "mode": "token",
+        "inputToken": "pageToken",
+        "outputToken": "nextPageToken",
+        "items": "items",
+        "pageSize": "maxObjects"
+      }
+    }
+  ]
+}

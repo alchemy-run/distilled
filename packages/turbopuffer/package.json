@@ -1,6 +1,6 @@
 {
   "name": "@distilled.cloud/turbopuffer",
-  "version": "1.0.0-rc.15",
+  "version": "1.0.0-rc.20",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -18,6 +18,7 @@
       "types": "./lib/index.d.ts",
       "bun": "./src/index.ts",
       "worker": "./src/index.ts",
+      "distilled-lazy": "./lib/index.lazy.js",
       "default": "./lib/index.js"
     },
     "./Credentials": {
@@ -60,14 +61,15 @@
       "types": "./lib/services/*.d.ts",
       "bun": "./src/services/*.ts",
       "worker": "./src/services/*.ts",
+      "distilled-lazy": "./lib/services.lazy/*.js",
       "default": "./lib/services/*.js"
     }
   },
   "scripts": {
-    "build": "tsc -b",
+    "build": "tsrs -b",
     "convert": "node --conditions=bun scripts/convert.ts",
-    "generate": "node --conditions=bun scripts/convert.ts && node --conditions=bun scripts/generate.ts",
-    "typecheck": "tsc -p tsconfig.json",
+    "generate": "node --conditions=bun scripts/generate.ts",
+    "typecheck": "tsrs -p tsconfig.json",
     "specs:fetch": "git submodule update --force --init --depth=1 specs/spec-mirror-turbopuffer",
     "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-turbopuffer"
   },
@@ -75,13 +77,14 @@
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
+    "@distilled.cloud/dev": "workspace:*",
     "@types/node": "catalog:"
   },
   "peerDependencies": {
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-10-06",
-    "specUpdatedAt": "2026-09-23"
+    "generatedAt": "2026-11-10",
+    "specUpdatedAt": "2026-10-10"
   }
 }

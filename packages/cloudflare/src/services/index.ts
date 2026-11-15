@@ -73,6 +73,7 @@ export * as magic_transit from "./magic_transit.ts";
 export * as managed_defense from "./managed_defense.ts";
 export * as managed_transforms from "./managed_transforms.ts";
 export * as memberships from "./memberships.ts";
+export * as monetization from "./monetization.ts";
 export * as moq from "./moq.ts";
 export * as mtls_certificates from "./mtls_certificates.ts";
 export * as network_interconnects from "./network_interconnects.ts";

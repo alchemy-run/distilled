@@ -169,6 +169,7 @@ program.«f:pipe»(
           code={`«k:import» { ResponseValidation } «k:from» «s:"@distilled.cloud/core"»
 
 «m:// every SDK checks each response against its schema»
+«m:// (additionalProperties: allow fields the spec does not list)»
 program.«f:pipe»(Effect.«f:provide»(ResponseValidation.strict))
 
 «m:// a response that drifted from the spec is a typed error»
@@ -177,9 +178,10 @@ Neon.«f:getProject»({ project_id }).«f:pipe»(
 )`}
         >
           Responses are lenient by default and come back as the API sent them. Provide one layer and
-          every SDK in your program checks each response against its schema. When an API changes
-          shape, the call fails with a typed <code>ParseError</code> instead of handing you the
-          wrong type.
+          every SDK in your program checks each response against its schema: <code>strict</code>{" "}
+          also rejects fields the spec does not list, <code>additionalProperties</code> lets them
+          through. When an API changes shape, the call fails with a typed <code>ParseError</code>{" "}
+          instead of handing you the wrong type.
         </Cap>
 
         <article

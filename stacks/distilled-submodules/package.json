@@ -4,16 +4,19 @@
   "type": "module",
   "scripts": {
     "deploy": "pnpm exec alchemy deploy",
-    "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.spec-repos.json"
+    "typecheck": "tsrs -p tsconfig.json && tsrs -p tsconfig.spec-repos.json"
   },
   "dependencies": {
+    "@alchemy.run/cloudflare": "catalog:",
+    "@alchemy.run/github": "catalog:",
     "@effect/platform-node": "catalog:",
     "alchemy": "catalog:",
     "effect": "catalog:"
   },
   "devDependencies": {
+    "@distilled.cloud/aws": "1.0.0-rc.18",
     "graphql": "catalog:",
-    "typescript": "catalog:",
+    "tsrs": "catalog:",
     "yaml": "catalog:"
   }
 }

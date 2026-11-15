@@ -3,14 +3,6 @@
   "patches": [
     {
       "op": "remove",
-      "path": "/shapes/com.posthog.actions#PaginatedActionListOutput/members/count/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.actions#PaginatedActionListOutput/members/results/traits"
-    },
-    {
-      "op": "remove",
       "path": "/shapes/com.posthog.actions#ActionOutput/members/id/traits"
     },
     {
@@ -128,6 +120,14 @@
     {
       "op": "remove",
       "path": "/shapes/com.posthog.actions#ActionReference/members/created_by/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.actions#ActionListResponseOutput/members/count/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.actions#ActionListResponseOutput/members/results/traits/smithy.api#required"
     }
   ]
 }

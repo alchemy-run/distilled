@@ -28,7 +28,10 @@ export interface FromInstanceMetadataOptions {
    * `ec2_metadata_v1_disabled`). The Node entry point reads them; the
    * environment always wins.
    */
-  readonly profileConfig?: Effect.Effect<Readonly<Record<string, string | undefined>> | undefined>;
+  readonly profileConfig?: Effect.Effect<
+    Readonly<Record<string, string | undefined>> | undefined,
+    CredentialSourceError
+  >;
 }
 
 const instanceMetadataEndpoint = (
@@ -59,7 +62,7 @@ const STATIC_STABILITY_DOC_URL =
 
 /**
  * When IMDS is unreachable, keep using the last credentials it handed out
- * and retry in 5–10 minutes rather than failing the request outright.
+ * and retry in 5-10 minutes rather than failing the request outright.
  */
 const extendCredentials = (credentials: AwsCredentialIdentity): AwsCredentialIdentity => {
   const refreshInterval =

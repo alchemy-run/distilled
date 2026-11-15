@@ -1,0 +1,53 @@
+{
+  "description": "Type the 429 a create, resume or fork gets when the account has used every sandbox start its plan includes in the last hour: {\"code\": \"rate_limited\", \"message\": \"You used all 60 sandbox starts included in the last hour.\\nYour running sandboxes keep running. New ones can start again at 17:23 UTC.\u2026\"}. Observed live 2026-11-07 on POST /sandboxes. It matches only the hourly quota (\"in the last hour\") and carries no httpError trait on purpose: as a 429 it would be classed as throttling and retried until the hour is up, so it fails at once. The per-minute limit (\"12 sandbox starts included in the last minute\") clears within a minute and stays the generic, retried TooManyRequests.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#SandboxStartLimitExceeded",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The account used every sandbox start its plan includes in the last hour (resumes and forks count). The message says when starts are available again; extra starts can be enabled in Boat's billing settings. The per-minute limit is the generic TooManyRequests, which is retried.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 429,
+              "body": {
+                "/code": "rate_limited"
+              },
+              "message": {
+                "includes": "sandbox starts included in the last hour"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#Create/errors/-",
+      "value": {
+        "target": "com.boat.api#SandboxStartLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#Resume/errors/-",
+      "value": {
+        "target": "com.boat.api#SandboxStartLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#Fork/errors/-",
+      "value": {
+        "target": "com.boat.api#SandboxStartLimitExceeded"
+      }
+    }
+  ]
+}

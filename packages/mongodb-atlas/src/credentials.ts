@@ -1,6 +1,6 @@
 import { ConfigError } from "@distilled.cloud/core/errors";
 /**
- * MongoDB Atlas credentials — hand-written.
+ * MongoDB Atlas credentials -- hand-written.
  *
  * Port of the distilled v0 Atlas credentials module: an OAuth2
  * client_credentials service-account flow. `MONGODB_ATLAS_CLIENT_ID` +
@@ -16,6 +16,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  */
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
+import * as Base64 from "effect/encoding/Base64";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 
@@ -31,9 +32,10 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
-  "Mongodb-atlasCredentials",
-) {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+    "Mongodb-atlasCredentials",
+  ) {}
 
 export interface ClientCredentialsConfig {
   readonly clientId: string;
@@ -61,7 +63,7 @@ const exchangeToken = (
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
-          Authorization: `Basic ${btoa(`${config.clientId}:${Redacted.value(config.clientSecret)}`)}`,
+          Authorization: `Basic ${Base64.encode(`${config.clientId}:${Redacted.value(config.clientSecret)}`)}`,
         },
         body: "grant_type=client_credentials",
       }),
@@ -88,9 +90,9 @@ const exchangeToken = (
             message: "OAuth2 token exchange returned a non-JSON response",
           }),
       ),
-    )) as { access_token?: string; expires_in?: number };
+    )) as { access_token?: unknown; expires_in?: unknown } | null;
 
-    if (typeof data.access_token !== "string") {
+    if (typeof data?.access_token !== "string") {
       return yield* new ConfigError({
         message: "OAuth2 token exchange response is missing access_token",
       });
@@ -189,4 +191,4 @@ export const fromEnv = (): Layer.Layer<Credentials> =>
     ),
   );
 
-export const CredentialsFromEnv: Layer.Layer<Credentials> = fromEnv();
+export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ fromEnv();

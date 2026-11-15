@@ -1,13 +1,18 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import {
+  makeRestProtocol,
+  type RestErrorEnvelope,
+  unknownErrorProps,
+} from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
- * ClerkProtocol — hand-written.
+ * ClerkProtocol -- hand-written.
  *
  * Clerk speaks bearer-authenticated JSON REST (no response envelope), so the
  * protocol is one `makeRestProtocol` call from `core/protocol-rest`:
  *
- *   request:  credentials → `Authorization: Bearer <secret>` +
+ *   request:  credentials -> `Authorization: Bearer <secret>` +
  *             `Clerk-API-Version` + base URL (default
  *             https://api.clerk.com/v1), resolved from the calling fiber on
  *             every request
@@ -22,7 +27,12 @@ import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
+import {
+  Credentials,
+  PlatformCredentials,
+  type Config,
+  type PlatformConfig,
+} from "./credentials.ts";
 import { UnknownClerkError, ClerkParseError } from "./errors.ts";
 
 /**
@@ -36,10 +46,17 @@ export type ClerkOpError =
   | UnknownClerkError
   | ConfigError
   | HttpClientError.HttpClientError
-  | ClerkParseError;
+  | ClerkParseError
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Clerk operation. */
 export type ClerkOpContext = Credentials | HttpClient.HttpClient;
+
+/**
+ * Context required by Platform operations; Backend credentials cannot satisfy it.
+ */
+export type ClerkPlatformOpContext = PlatformCredentials | HttpClient.HttpClient;
 
 /**
  * Clerk's error body is `{ errors: [{ message, long_message?, code }],
@@ -70,24 +87,35 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return { code, message };
 };
 
-export const ClerkProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
-  // The Credentials service holds an effect — resolving it here (per
+export const ClerkProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+  // The Credentials service holds an effect -- resolving it here (per
   // request, on the calling fiber) picks up context-provided credentials.
-  credentials: Effect.gen(function* () {
-    const resolve = yield* Credentials;
-    return yield* resolve;
-  }),
+  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => ({
     Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
     "Clerk-API-Version": creds.apiVersion,
   }),
   errorEnvelope,
-  unknownError: ({ code, message, body }) =>
-    new UnknownClerkError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownClerkError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new ClerkParseError({ body, cause }),
 });
+
+/**
+ * Platform JSON REST protocol using a supplied bearer access token.
+ * Accepts a host or /v1 base URL and does not send the Backend API version header.
+ */
+export const ClerkPlatformProtocol: Layer.Layer<API.Protocol> =
+  /*@__PURE__*/ makeRestProtocol<PlatformConfig>({
+    credentials: /*@__PURE__*/ Effect.flatMap(PlatformCredentials, (resolve) => resolve),
+    baseUrl: (creds) => {
+      const baseUrl = creds.apiBaseUrl.replace(/\/+$/, "");
+      return baseUrl.endsWith("/v1") ? baseUrl : `${baseUrl}/v1`;
+    },
+    headers: (creds) => ({
+      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+    }),
+    errorEnvelope,
+    unknownError: (info) => new UnknownClerkError(unknownErrorProps(info)),
+    parseError: ({ body, cause }) => new ClerkParseError({ body, cause }),
+  });

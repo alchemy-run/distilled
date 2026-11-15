@@ -1,6 +1,10 @@
-import { getPath, type PaginationStrategy } from "@distilled.cloud/core/pagination";
+import {
+  getPath,
+  missingPaginationConfig,
+  type PaginationStrategy,
+} from "@distilled.cloud/core/pagination";
 /**
- * STACKIT pagination — hand-written.
+ * STACKIT pagination -- hand-written.
  *
  * Several STACKIT list operations page by NUMBER: `?page=N&pageSize=M` in,
  * and a response carrying the collection beside `totalPages` (DNS zones /
@@ -16,7 +20,7 @@ export type { PaginatedTrait, PaginationStrategy } from "@distilled.cloud/core/p
 
 /**
  * Stream of pages using STACKIT's `page` / `totalPages` envelope: request
- * `page`, `page+1`, … while `page < totalPages` and the collection is
+ * `page`, `page+1`, ... while `page < totalPages` and the collection is
  * non-empty.
  */
 export const paginateByTotalPages: PaginationStrategy = (operation, input, pagination) => {
@@ -24,8 +28,8 @@ export const paginateByTotalPages: PaginationStrategy = (operation, input, pagin
   const totalPagesPath = pagination.outputToken;
   const itemsPath = pagination.items;
   if (!inputToken || !totalPagesPath) {
-    return Stream.die(
-      new Error("Total-pages pagination requires inputToken and outputToken (totalPages)"),
+    return missingPaginationConfig(
+      "Total-pages pagination requires inputToken and outputToken (totalPages)",
     );
   }
 

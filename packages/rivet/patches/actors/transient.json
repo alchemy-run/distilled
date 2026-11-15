@@ -1,0 +1,89 @@
+{
+  "description": "The engine answers `400` with \"The command deadline elapsed; its outcome may be unknown.\" when a storage command times out inside a control plane that is still forming or under load (observed against rivet-engine 3.0.0-preview.4 on Fly.io, with Tigris object storage). Type it as a retryable CommandDeadlineElapsed on every operation.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.rivet.actors#CommandDeadlineElapsed",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "server",
+          "smithy.api#httpError": 503,
+          "smithy.api#retryable": {
+            "throttling": true
+          },
+          "smithy.api#documentation": "A storage command timed out inside the control plane (its outcome may be unknown): answered while the control plane is still forming or under load. Retry after a short delay.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "command deadline elapsed"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.rivet.actors#ActorsList/errors/-",
+      "value": {
+        "target": "com.rivet.actors#CommandDeadlineElapsed"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.rivet.actors#ActorsCreate/errors/-",
+      "value": {
+        "target": "com.rivet.actors#CommandDeadlineElapsed"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.rivet.actors#ActorsGetOrCreate/errors/-",
+      "value": {
+        "target": "com.rivet.actors#CommandDeadlineElapsed"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.rivet.actors#ActorsListNames/errors/-",
+      "value": {
+        "target": "com.rivet.actors#CommandDeadlineElapsed"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.rivet.actors#ActorsGet/errors/-",
+      "value": {
+        "target": "com.rivet.actors#CommandDeadlineElapsed"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.rivet.actors#ActorsDelete/errors/-",
+      "value": {
+        "target": "com.rivet.actors#CommandDeadlineElapsed"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.rivet.actors#ActorsSleep/errors/-",
+      "value": {
+        "target": "com.rivet.actors#CommandDeadlineElapsed"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.rivet.actors#ActorsReschedule/errors/-",
+      "value": {
+        "target": "com.rivet.actors#CommandDeadlineElapsed"
+      }
+    }
+  ]
+}

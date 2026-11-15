@@ -1,0 +1,26 @@
+{
+  "description": "DELETE /v2/functions/namespaces/{namespace_id} answers 409 `conflict updating user doc with removed namespace: conflict` when another namespace of the same team is deleted at the same moment; the same delete succeeds when retried. Type it as NamespaceDeleteConflict so a delete can retry it.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#NamespaceDeleteConflict",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "Another change to the team's namespaces raced this delete (409 `conflict updating user doc with removed namespace`). Retry it.",
+          "com.distilled.openapi#errorMatchers": [
+            { "status": 409, "message": { "includes": "conflict updating user doc" } }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#FunctionsDeleteNamespace/errors/-",
+      "value": { "target": "com.digitalocean.api#NamespaceDeleteConflict" }
+    }
+  ]
+}

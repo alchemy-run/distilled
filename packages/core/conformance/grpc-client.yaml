@@ -1,0 +1,20 @@
+# What core's gRPC client supports, for `connectconformance --mode client`.
+features:
+  versions:
+    - HTTP_VERSION_2
+  protocols:
+    - PROTOCOL_GRPC
+  codecs:
+    - CODEC_PROTO
+  compressions:
+    - COMPRESSION_IDENTITY
+  streamTypes:
+    - STREAM_TYPE_UNARY
+    - STREAM_TYPE_SERVER_STREAM
+  supportsH2c: true
+  supportsTls: false
+  supportsTlsClientCerts: false
+  supportsTrailers: true
+  supportsHalfDuplexBidiOverHttp1: false
+  supportsConnectGet: false
+  supportsMessageReceiveLimit: false

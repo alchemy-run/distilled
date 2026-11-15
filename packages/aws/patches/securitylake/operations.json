@@ -1,0 +1,187 @@
+{
+  "description": "SecurityLake: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.securitylake#CreateAwsLogSource/errors/-",
+      "value": {
+        "target": "com.amazonaws.securitylake#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.securitylake#DeleteAwsLogSource/errors/-",
+      "value": {
+        "target": "com.amazonaws.securitylake#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.securitylake#ListLogSources/errors/-",
+      "value": {
+        "target": "com.amazonaws.securitylake#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.securitylake#CreateCustomLogSource/errors/-",
+      "value": {
+        "target": "com.amazonaws.securitylake#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.securitylake#DeleteCustomLogSource/errors/-",
+      "value": {
+        "target": "com.amazonaws.securitylake#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.securitylake#CreateDataLake/errors/-",
+      "value": {
+        "target": "com.amazonaws.securitylake#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.securitylake#UpdateDataLake/errors/-",
+      "value": {
+        "target": "com.amazonaws.securitylake#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.securitylake#DeleteDataLake/errors/-",
+      "value": {
+        "target": "com.amazonaws.securitylake#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.securitylake#ListDataLakes/errors/-",
+      "value": {
+        "target": "com.amazonaws.securitylake#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.securitylake#GetDataLakeSources/errors/-",
+      "value": {
+        "target": "com.amazonaws.securitylake#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.securitylake#ListDataLakeExceptions/errors/-",
+      "value": {
+        "target": "com.amazonaws.securitylake#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.securitylake#CreateDataLakeExceptionSubscription/errors/-",
+      "value": {
+        "target": "com.amazonaws.securitylake#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.securitylake#GetDataLakeExceptionSubscription/errors/-",
+      "value": {
+        "target": "com.amazonaws.securitylake#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.securitylake#UpdateDataLakeExceptionSubscription/errors/-",
+      "value": {
+        "target": "com.amazonaws.securitylake#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.securitylake#DeleteDataLakeExceptionSubscription/errors/-",
+      "value": {
+        "target": "com.amazonaws.securitylake#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.securitylake#CreateSubscriber/errors/-",
+      "value": {
+        "target": "com.amazonaws.securitylake#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.securitylake#GetSubscriber/errors/-",
+      "value": {
+        "target": "com.amazonaws.securitylake#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.securitylake#UpdateSubscriber/errors/-",
+      "value": {
+        "target": "com.amazonaws.securitylake#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.securitylake#DeleteSubscriber/errors/-",
+      "value": {
+        "target": "com.amazonaws.securitylake#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.securitylake#ListSubscribers/errors/-",
+      "value": {
+        "target": "com.amazonaws.securitylake#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.securitylake#CreateSubscriberNotification/errors/-",
+      "value": {
+        "target": "com.amazonaws.securitylake#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.securitylake#UpdateSubscriberNotification/errors/-",
+      "value": {
+        "target": "com.amazonaws.securitylake#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.securitylake#DeleteSubscriberNotification/errors/-",
+      "value": {
+        "target": "com.amazonaws.securitylake#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.securitylake#ListTagsForResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.securitylake#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.securitylake#TagResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.securitylake#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.securitylake#UntagResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.securitylake#UnauthorizedException"
+      }
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 /**
- * Zendesk SDK trait surface — hand-written.
+ * Zendesk SDK trait surface -- hand-written.
  *
  * Re-exports the generic protocol traits from core (so generated operations
  * import everything from one place). Zendesk has no envelope of its own; the

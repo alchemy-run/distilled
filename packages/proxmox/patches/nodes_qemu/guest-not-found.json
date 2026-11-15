@@ -1,0 +1,983 @@
+{
+  "description": "Type the failure for a VMID that names no virtual machine on the node. Calls under /nodes/{node}/qemu/{vmid} load the guest's configuration, and PVE::AbstractConfig::load_config dies with \"Configuration file 'nodes/<node>/qemu-server/<vmid>.conf' does not exist\\n\", which the API server answers as HTTP 500 with that message in the JSON body (PVE::APIServer::Formatter::Standard). As a 500 it would surface as a retryable InternalServerError; it is a not-found. Sources: https://git.proxmox.com/?p=pve-guest-common.git;a=blob;f=src/PVE/AbstractConfig.pm (load_config), https://git.proxmox.com/?p=pve-http-server.git;a=blob;f=src/PVE/APIServer/Formatter/Standard.pm (prepare_response_data).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#GuestNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The VMID names no virtual machine on this node: Proxmox answers HTTP 500 \"Configuration file 'nodes/<node>/qemu-server/<vmid>.conf' does not exist\".",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 500,
+              "message": {
+                "matches": "^Configuration file 'nodes/[^/']+/qemu-server/[0-9]+\\.conf' does not exist$"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#DeleteNodesByNodeQemuByVmid/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#DeleteNodesByNodeQemuByVmidFirewallAliasesByName/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#DeleteNodesByNodeQemuByVmidFirewallIpsetByName/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#DeleteNodesByNodeQemuByVmidFirewallIpsetByNameByCidr/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#DeleteNodesByNodeQemuByVmidFirewallRulesByPos/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#DeleteNodesByNodeQemuByVmidSnapshotBySnapname/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#GetNodesByNodeQemuByVmid/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#GetNodesByNodeQemuByVmidAgent/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#GetNodesByNodeQemuByVmidAgentExecStatus/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#GetNodesByNodeQemuByVmidAgentFileRead/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#GetNodesByNodeQemuByVmidAgentGetFsinfo/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#GetNodesByNodeQemuByVmidAgentGetHostName/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#GetNodesByNodeQemuByVmidAgentGetMemoryBlockInfo/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#GetNodesByNodeQemuByVmidAgentGetMemoryBlocks/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#GetNodesByNodeQemuByVmidAgentGetOsinfo/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#GetNodesByNodeQemuByVmidAgentGetTime/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#GetNodesByNodeQemuByVmidAgentGetTimezone/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#GetNodesByNodeQemuByVmidAgentGetUsers/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#GetNodesByNodeQemuByVmidAgentGetVcpus/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#GetNodesByNodeQemuByVmidAgentInfo/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#GetNodesByNodeQemuByVmidAgentNetworkGetInterfaces/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#GetNodesByNodeQemuByVmidCloudinit/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#GetNodesByNodeQemuByVmidCloudinitDump/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#GetNodesByNodeQemuByVmidConfig/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#GetNodesByNodeQemuByVmidFeature/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#GetNodesByNodeQemuByVmidFirewall/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#GetNodesByNodeQemuByVmidFirewallAliases/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#GetNodesByNodeQemuByVmidFirewallAliasesByName/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#GetNodesByNodeQemuByVmidFirewallIpset/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#GetNodesByNodeQemuByVmidFirewallIpsetByName/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#GetNodesByNodeQemuByVmidFirewallIpsetByNameByCidr/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#GetNodesByNodeQemuByVmidFirewallLog/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#GetNodesByNodeQemuByVmidFirewallOptions/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#GetNodesByNodeQemuByVmidFirewallRefs/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#GetNodesByNodeQemuByVmidFirewallRules/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#GetNodesByNodeQemuByVmidFirewallRulesByPos/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#GetNodesByNodeQemuByVmidMigrate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#GetNodesByNodeQemuByVmidMtunnelwebsocket/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#GetNodesByNodeQemuByVmidPending/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#GetNodesByNodeQemuByVmidRrd/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#GetNodesByNodeQemuByVmidRrddata/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#GetNodesByNodeQemuByVmidSnapshot/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#GetNodesByNodeQemuByVmidSnapshotBySnapname/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#GetNodesByNodeQemuByVmidSnapshotBySnapnameConfig/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#GetNodesByNodeQemuByVmidStatus/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#GetNodesByNodeQemuByVmidStatusCurrent/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#GetNodesByNodeQemuByVmidVncwebsocket/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PostNodesByNodeQemuByVmidAgent/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PostNodesByNodeQemuByVmidAgentExec/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PostNodesByNodeQemuByVmidAgentFileWrite/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PostNodesByNodeQemuByVmidAgentFsfreezeFreeze/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PostNodesByNodeQemuByVmidAgentFsfreezeStatus/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PostNodesByNodeQemuByVmidAgentFsfreezeThaw/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PostNodesByNodeQemuByVmidAgentFstrim/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PostNodesByNodeQemuByVmidAgentPing/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PostNodesByNodeQemuByVmidAgentSetUserPassword/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PostNodesByNodeQemuByVmidAgentShutdown/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PostNodesByNodeQemuByVmidAgentSuspendDisk/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PostNodesByNodeQemuByVmidAgentSuspendHybrid/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PostNodesByNodeQemuByVmidAgentSuspendRam/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PostNodesByNodeQemuByVmidClone/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PostNodesByNodeQemuByVmidConfig/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PostNodesByNodeQemuByVmidDbusVmstate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PostNodesByNodeQemuByVmidFirewallAliases/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PostNodesByNodeQemuByVmidFirewallIpset/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PostNodesByNodeQemuByVmidFirewallIpsetByName/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PostNodesByNodeQemuByVmidFirewallRules/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PostNodesByNodeQemuByVmidMigrate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PostNodesByNodeQemuByVmidMonitor/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PostNodesByNodeQemuByVmidMoveDisk/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PostNodesByNodeQemuByVmidMtunnel/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PostNodesByNodeQemuByVmidRemoteMigrate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PostNodesByNodeQemuByVmidSnapshot/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PostNodesByNodeQemuByVmidSnapshotBySnapnameRollback/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PostNodesByNodeQemuByVmidSpiceproxy/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PostNodesByNodeQemuByVmidStatusReboot/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PostNodesByNodeQemuByVmidStatusReset/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PostNodesByNodeQemuByVmidStatusResume/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PostNodesByNodeQemuByVmidStatusShutdown/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PostNodesByNodeQemuByVmidStatusStart/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PostNodesByNodeQemuByVmidStatusStop/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PostNodesByNodeQemuByVmidStatusSuspend/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PostNodesByNodeQemuByVmidTemplate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PostNodesByNodeQemuByVmidTermproxy/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PostNodesByNodeQemuByVmidVncproxy/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PutNodesByNodeQemuByVmidCloudinit/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PutNodesByNodeQemuByVmidConfig/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PutNodesByNodeQemuByVmidFirewallAliasesByName/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PutNodesByNodeQemuByVmidFirewallIpsetByNameByCidr/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PutNodesByNodeQemuByVmidFirewallOptions/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PutNodesByNodeQemuByVmidFirewallRulesByPos/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PutNodesByNodeQemuByVmidResize/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PutNodesByNodeQemuByVmidSendkey/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PutNodesByNodeQemuByVmidSnapshotBySnapnameConfig/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_qemu#PutNodesByNodeQemuByVmidUnlink/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_qemu#GuestNotFound"
+        }
+      ]
+    }
+  ]
+}

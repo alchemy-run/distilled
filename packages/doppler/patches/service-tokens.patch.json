@@ -1,0 +1,37 @@
+{
+  "description": "A service token's `key` is the bearer credential (example `dp.st.…`) and is returned only by create (DopplerHQ/terraform-provider-doppler doppler/resource_service_token.go:117; DopplerHQ/cli pkg/models/parse.go:308-309). Delete accepts the same credential as `token` instead of `slug`: the spec describes it as \"The token value.\", and `doppler configs tokens revoke` sends any argument that is not a UUID slug as `token` (DopplerHQ/cli pkg/cmd/configs_tokens.go:151-157, pkg/http/api.go:1594-1601). Neither is marked sensitive. `expires_at` has no type because its examples are null, which is what a token without an expiry returns; the CLI reads it only when non-null (DopplerHQ/cli pkg/models/parse.go:326-328).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#ServiceTokensCreateResponseToken/members/key/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#ServiceTokensDeleteRequest/members/token/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.doppler.api#ServiceTokensCreateResponseToken/members/expires_at",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.doppler.api#ServiceTokensListResponseTokensItem/members/expires_at",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    }
+  ]
+}

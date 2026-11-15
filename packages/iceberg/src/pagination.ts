@@ -1,5 +1,5 @@
 /**
- * Iceberg pagination — hand-written.
+ * Iceberg pagination -- hand-written.
  *
  * List routes page by token: `pageToken` in, `next-page-token`
  * (`next_page_token`) out, items under `namespaces` or `identifiers`. A

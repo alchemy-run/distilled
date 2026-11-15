@@ -67,6 +67,7 @@ captured log did not contain.
 | [50-bucket-credentials.json](50-bucket-credentials.json): `RailwayBucketCredentialsNotReady` | `Query.bucketS3Credentials` | Exact message `BucketInstanceCredential not found`; no code required. | Observed immediately after bucket creation. Marked retryable not-found: bounded retries of the read-only credentials query can wait for credentials to appear. This contract is not attached to bucket mutations and does not authorize repeating bucket creation. |
 | [60-request-processing.json](60-request-processing.json): `RailwayRequestProcessingError` | Global; the response supplied no field path | Exact message `Problem processing request`. Raw response: HTTP 200, `data: null`, no code/extensions/path, trace ID `5527782523421805956`. | Observed while invoking `enableServiceCdn`, but absence of a path prevents attribution to that field. Nonretryable because the underlying cause remains unknown; preserve the trace and surface the failure. It does not identify entitlement, domain readiness, or an input-validation cause. |
 | [80-login-session.json](80-login-session.json): `RailwayLoginSessionNotFound` | `Mutation.loginSessionConsume` | Code `BAD_USER_INPUT` **and** message contains `does not exist`. Observed 2026-10-07 after `loginSessionCancel`: `Login session <code> does not exist`, trace ID `724937980177422481`. | The session was cancelled, consumed, or expired; previously misclassified as `RailwayValidationError`. Nonretryable: polling a missing session never yields a token. `loginSessionVerify` returns `false` and `loginSessionCancel` returns `true` for the same session, so neither carries this contract. |
+| [85-environment-create-rate-limit.json](85-environment-create-rate-limit.json): `RailwayRateLimited` | Global; observed at `Mutation.environmentCreate` | Code `BAD_USER_INPUT` **and** message contains `creating environments too quickly`. Observed 2026-11-13 on the second create within 30s in one project: `You are creating environments too quickly. This workspace allows 1 environment per 30 seconds. Try again shortly.`, trace ID `8214199911063030682`. | The workspace's environment-create throttle; previously misclassified as `RailwayValidationError` because the existing message matcher required `INTERNAL_SERVER_ERROR`. Retryable throttling: wait out the 30s window, then create again. No environment was created by the rejected call. |
 
 `retryable: true` supplies classification metadata. The native client retries
 eligible queries with a bounded policy; it never automatically retries
@@ -85,3 +86,15 @@ preserve the captured response shapes and verify classification scope, trace
 retention, scalar representations, and the absence of automatic mutation
 retries. The numeric-string BigInt fixture is a compatibility case, explicitly
 separate from the observed numeric IDs.
+
+## Sensitive fields
+
+A string field that returns a credential is marked with
+`{ "op": "add", "path": "/types/<Type>/fields/<field>/sensitive", "value": true }`
+([90-sensitive-fields.json](90-sensitive-fields.json)). The generated type
+becomes `Redacted.Redacted<string>`, and the client wraps the value in
+`Redacted` when it reads the response. Conversion rejects the mark on an
+argument or input field, and on an output field that is not a string scalar,
+so fields typed `EnvironmentVariables`
+(`variables`, `variablesForServiceDeployment`, `DeploymentSnapshot.variables`)
+and JSON fields such as `Environment.config` stay unmarked.

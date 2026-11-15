@@ -1,0 +1,19 @@
+{
+  "description": "SWF: Per-operation retry policies.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.swf#PollForActivityTask/traits/distilled.retry#policy",
+      "value": {
+        "longPoll": true
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.swf#PollForDecisionTask/traits/distilled.retry#policy",
+      "value": {
+        "longPoll": true
+      }
+    }
+  ]
+}

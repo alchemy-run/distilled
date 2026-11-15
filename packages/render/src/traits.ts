@@ -1,5 +1,5 @@
 /**
- * Render SDK trait surface — hand-written.
+ * Render SDK trait surface -- hand-written.
  *
  * Re-exports the generic protocol traits from core (so generated operations
  * import everything from one place). Render has no envelope of its own; the

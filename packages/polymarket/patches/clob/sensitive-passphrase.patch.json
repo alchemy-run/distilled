@@ -1,0 +1,15 @@
+{
+  "description": "The L2 `passphrase` returned by `createApiKey`/`deriveApiKey` (ApiKeyResponse) and by `createBuilderApiKey` (BuilderApiKeyResponse) is a credential: Polymarket's docs send it as the `POLY_PASSPHRASE` header on every authenticated request (https://docs.polymarket.com/getting-started/api.md, \"Create L2 Credentials\"). The spec does not mark it sensitive; `secret` in the same shapes already is.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.polymarket.clob#ApiKeyResponse/members/passphrase/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.polymarket.clob#BuilderApiKeyResponse/members/passphrase/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

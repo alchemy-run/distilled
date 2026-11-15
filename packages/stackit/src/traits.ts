@@ -1,5 +1,5 @@
 /**
- * STACKIT SDK trait surface — hand-written.
+ * STACKIT SDK trait surface -- hand-written.
  *
  * Re-exports the generic protocol traits from core and extends `Http` with
  * the per-product base URL: every STACKIT service has its own host (from

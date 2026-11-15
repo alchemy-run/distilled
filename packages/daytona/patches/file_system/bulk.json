@@ -1,0 +1,35 @@
+{
+  "description": "Bulk upload and download are multipart, which the REST protocol does not encode or decode: POST /files/bulk-upload takes multipart/form-data with `files[i].path` and `files[i].file` fields (the spec declares no input), and POST /files/bulk-download answers multipart/form-data with one `file` part per path and an `error` part (JSON) per failed path. The generated operations sent an empty body and decoded the multipart reply as JSON. Remove them; `uploadFiles` and `downloadFiles` in src/toolbox.ts implement both, checked live 2026-11-04.",
+  "patches": [
+    {
+      "op": "test",
+      "path": "/shapes/com.daytona.file_system#FileSystem/operations/3",
+      "value": {
+        "target": "com.daytona.file_system#UploadFiles"
+      }
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.daytona.file_system#FileSystem/operations/3"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.daytona.file_system#UploadFiles"
+    },
+    {
+      "op": "test",
+      "path": "/shapes/com.daytona.file_system#FileSystem/operations/2",
+      "value": {
+        "target": "com.daytona.file_system#DownloadFiles"
+      }
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.daytona.file_system#FileSystem/operations/2"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.daytona.file_system#DownloadFiles"
+    }
+  ]
+}

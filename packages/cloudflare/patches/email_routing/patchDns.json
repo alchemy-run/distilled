@@ -1,5 +1,5 @@
 {
-  "description": "Align email_routing#DnsEdit with distilled cloudflare/email-routing patchDns",
+  "description": "Align email_routing#DnsEdit with distilled cloudflare/email-routing patchDns, and type the missing-subdomain error",
   "patches": [
     {
       "op": "move",
@@ -25,6 +25,41 @@
       "op": "replace",
       "path": "/shapes/com.cloudflare.email_routing#PatchDns/output/target",
       "value": "com.cloudflare.email_routing#PatchDnsResponse"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.email_routing#EmailRoutingSubdomainNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "com.cloudflare.protocols#errorMatchers": [
+            {
+              "status": 404,
+              "message": {
+                "includes": "Subdomain not found"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.email_routing#PatchDns/errors",
+      "value": [
+        {
+          "target": "com.cloudflare.email_routing#EmailRoutingSubdomainNotFound"
+        }
+      ]
     }
   ]
 }

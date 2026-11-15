@@ -24,26 +24,25 @@ export {
 } from "@distilled.cloud/core/errors";
 import * as Category from "@distilled.cloud/core/category";
 import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
-import * as Schema from "effect/Schema";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
+import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
- * Unknown WorkOS error — returned when a failed response's HTTP status has no
+ * Unknown WorkOS error -- returned when a failed response's HTTP status has no
  * mapped error class. Carries the raw body for later cataloging.
  */
-export class UnknownWorkosError extends Schema.TaggedError<UnknownWorkosError>()(
-  "UnknownWorkosError",
-  {
-    code: Schema.optional(Schema.String),
-    message: Schema.optional(Schema.String),
-    body: Schema.Unknown,
-  },
-).pipe(Category.withServerError) {}
+export class UnknownWorkosError
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownWorkosError>()(
+    "UnknownWorkosError",
+    UnknownErrorFields,
+  ) {}
 
 /** Schema parse error wrapper. */
-export class WorkosParseError extends Schema.TaggedError<WorkosParseError>()("WorkosParseError", {
-  body: Schema.Unknown,
-  cause: Schema.Unknown,
-}).pipe(Category.withParseError) {}
+export class WorkosParseError
+  extends /*@__PURE__*/ Schema.TaggedError<WorkosParseError>()("WorkosParseError", {
+    body: Schema.Unknown,
+    cause: Schema.Unknown,
+  }).pipe(Category.withParseError) {}
 
 /**
  * Errors any WorkOS operation may surface in addition to the per-operation

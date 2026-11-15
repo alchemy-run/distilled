@@ -1,5 +1,5 @@
 /**
- * Forgejo SDK trait surface — hand-written.
+ * Forgejo SDK trait surface -- hand-written.
  *
  * Re-exports the generic protocol traits from core so generated operations
  * import everything from one place. Forgejo speaks plain token-REST JSON with

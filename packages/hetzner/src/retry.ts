@@ -1,6 +1,6 @@
 import * as Retries from "@distilled.cloud/core/retry";
 /**
- * Hetzner retry surface — a veneer over `@distilled.cloud/core/retry`.
+ * Hetzner retry surface -- a veneer over `@distilled.cloud/core/retry`.
  *
  * The `Retry` service tag is threaded into every generated operation via
  * `API.make({ retry: Retry })`, so a caller-installed policy applies to all
@@ -9,7 +9,7 @@ import * as Retries from "@distilled.cloud/core/retry";
  *
  * Hetzner answers a tripped rate limit with `429 rate_limit_exceeded` and no
  * `Retry-After`, so `TooManyRequests` arrives without a server hint and the
- * default policy's own capped backoff drives the wait — which is what you
+ * default policy's own capped backoff drives the wait -- which is what you
  * want here, since the `RateLimit-Reset` header Hetzner does send points at
  * the FULL quota refill rather than at the next available request (see
  * protocol.ts).
@@ -30,7 +30,7 @@ export type Factory = Retries.Factory;
 export type Policy = Retries.Policy;
 
 /** Context tag for configuring retry behavior of Hetzner API calls. */
-export class Retry extends Context.Service<Retry, Policy>()("HetznerRetry") {}
+export class Retry extends /*@__PURE__*/ Context.Service<Retry, Policy>()("HetznerRetry") {}
 
 /** Provides a custom retry policy to every Hetzner API call below it. */
 export const policy: {
@@ -45,8 +45,8 @@ export const policy: {
 /** Disables all automatic retries. */
 export const none: <A, E, R>(
   effect: Effect.Effect<A, E, R>,
-) => Effect.Effect<A, E, Exclude<R, Retry>> = Effect.provide(
-  Layer.succeed(Retry, { while: () => false }),
+) => Effect.Effect<A, E, Exclude<R, Retry>> = /*@__PURE__*/ Effect.provide(
+  /*@__PURE__*/ Layer.succeed(Retry, { while: () => false }),
 );
 
 /**
@@ -65,7 +65,7 @@ export const throttlingOptions: Options = Retries.throttlingOptions;
 /** Retries all throttling errors indefinitely (honoring server hints). */
 export const throttling: <A, E, R>(
   effect: Effect.Effect<A, E, R>,
-) => Effect.Effect<A, E, Exclude<R, Retry>> = policy(Retries.throttlingFactory);
+) => Effect.Effect<A, E, Exclude<R, Retry>> = /*@__PURE__*/ policy(Retries.throttlingFactory);
 
 /** Retry options that retry all transient errors indefinitely. */
 export const transientOptions: Options = Retries.transientOptions;
@@ -73,4 +73,4 @@ export const transientOptions: Options = Retries.transientOptions;
 /** Retries all transient errors indefinitely (honoring server hints). */
 export const transient: <A, E, R>(
   effect: Effect.Effect<A, E, R>,
-) => Effect.Effect<A, E, Exclude<R, Retry>> = policy(Retries.transientFactory);
+) => Effect.Effect<A, E, Exclude<R, Retry>> = /*@__PURE__*/ policy(Retries.transientFactory);

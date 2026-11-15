@@ -32,6 +32,9 @@
       "value": [
         {
           "target": "com.cloudflare.workers#WorkerNotFound"
+        },
+        {
+          "target": "com.cloudflare.workers#UnknownWorkerEntrypoint"
         }
       ]
     }

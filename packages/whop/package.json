@@ -1,6 +1,6 @@
 {
   "name": "@distilled.cloud/whop",
-  "version": "1.0.0-rc.15",
+  "version": "1.0.0-rc.20",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -19,6 +19,7 @@
       "types": "./lib/index.d.ts",
       "bun": "./src/index.ts",
       "worker": "./src/index.ts",
+      "distilled-lazy": "./lib/index.lazy.js",
       "default": "./lib/index.js"
     },
     "./Credentials": {
@@ -61,6 +62,7 @@
       "types": "./lib/services/*.d.ts",
       "bun": "./src/services/*.ts",
       "worker": "./src/services/*.ts",
+      "distilled-lazy": "./lib/services.lazy/*.js",
       "default": "./lib/services/*.js"
     },
     "./ApiVersion": {
@@ -71,15 +73,16 @@
     }
   },
   "scripts": {
-    "build": "tsc -b",
+    "build": "tsrs -b",
     "convert": "node --conditions=bun scripts/convert.ts",
     "generate": "node --conditions=bun scripts/generate.ts",
-    "typecheck": "tsc -p tsconfig.json"
+    "typecheck": "tsrs -p tsconfig.json"
   },
   "dependencies": {
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
+    "@distilled.cloud/dev": "workspace:*",
     "@effect/platform-node": "catalog:",
     "@types/node": "catalog:"
   },
@@ -87,7 +90,7 @@
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-10-08",
+    "generatedAt": "2026-11-10",
     "specUpdatedAt": "2026-09-28"
   }
 }

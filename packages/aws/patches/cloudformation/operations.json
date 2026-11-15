@@ -1,0 +1,19 @@
+{
+  "description": "CloudFormation: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.cloudformation#DescribeStacks/errors/-",
+      "value": {
+        "target": "com.amazonaws.cloudformation#StackNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.cloudformation#UpdateStack/errors/-",
+      "value": {
+        "target": "com.amazonaws.cloudformation#NoUpdateToPerform"
+      }
+    }
+  ]
+}

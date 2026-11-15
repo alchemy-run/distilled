@@ -1,9 +1,9 @@
 /**
- * Slack pagination — hand-written.
+ * Slack pagination -- hand-written.
  *
  * Slack's cursor convention: pass `cursor` (from the previous response's
  * `response_metadata.next_cursor`), and an EMPTY `next_cursor` means the
- * last page — which is exactly core's cursor traversal (`isTerminalToken`
+ * last page -- which is exactly core's cursor traversal (`isTerminalToken`
  * treats `""` as terminal). Paginated operations are compiled with this
  * strategy by scripts/generate.ts from the `smithy.api#paginated` traits the
  * converter stamps.

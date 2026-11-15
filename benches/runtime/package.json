@@ -6,7 +6,7 @@
     "bench": "node --conditions=bun run.ts",
     "bench:full": "node --conditions=bun run.ts --full",
     "bench:record": "node --conditions=bun run.ts --record",
-    "typecheck": "tsc -p tsconfig.json"
+    "typecheck": "tsrs -p tsconfig.json"
   },
   "dependencies": {
     "@distilled.cloud/aws": "workspace:*",
@@ -17,6 +17,6 @@
   },
   "devDependencies": {
     "@types/node": "catalog:",
-    "typescript": "catalog:"
+    "tsrs": "catalog:"
   }
 }

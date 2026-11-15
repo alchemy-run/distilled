@@ -1,5 +1,5 @@
 /**
- * Axiom SDK trait surface — hand-written.
+ * Axiom SDK trait surface -- hand-written.
  *
  * Re-exports the generic protocol traits from core (so generated operations
  * import everything from one place). Axiom has no envelope of its own; the

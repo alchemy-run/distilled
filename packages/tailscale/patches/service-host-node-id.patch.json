@@ -1,0 +1,19 @@
+{
+  "description": "Rename ServiceHostInfo.stableNodeID to nodeId, the key listServiceHosts actually returns (live, 2026-10-03).",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.tailscale.api#ServiceHostInfo/members/stableNodeID"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#ServiceHostInfo/members/nodeId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The preferred identifier for a device.\n"
+        }
+      }
+    }
+  ]
+}

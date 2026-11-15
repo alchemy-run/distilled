@@ -1,0 +1,16 @@
+{
+  "description": "Cursor pagination on listUsers. The spec documents page_token / next_page_token / max_page_size in prose; the converter's auto-detect looks for next_token / NextToken and misses them. next_page_token is omitted on the last page, which ends the traversal.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.onepassword.users#ListUsers/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "page_token",
+        "outputToken": "next_page_token",
+        "items": "results",
+        "pageSize": "max_page_size",
+        "mode": "cursor"
+      }
+    }
+  ]
+}

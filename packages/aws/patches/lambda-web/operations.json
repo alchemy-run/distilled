@@ -1,0 +1,19 @@
+{
+  "description": "Lambda Web: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambdaweb#CreateWebFunction/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambdaweb#ExecutionRoleNotAssumable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambdaweb#CreateWebFunctionRevision/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambdaweb#ExecutionRoleNotAssumable"
+      }
+    }
+  ]
+}

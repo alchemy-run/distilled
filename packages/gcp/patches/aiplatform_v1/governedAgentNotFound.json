@@ -1,0 +1,26 @@
+{
+  "description": "Type the 400 a semantic governance policy create answers while its agent isn't visible yet. Observed live 2026-10-30: one second after the agent's create operation finished, create answered 400 'Agent projects/{number}/locations/global/agents/{id} not found.' It surfaced as an out-of-union BadRequest. The agent becomes visible within seconds, so callers retry.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GovernedAgentNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The policy's agent doesn't exist, or isn't visible yet just after its create (HTTP 400: 'Agent ... not found.').",
+          "com.gcp.protocols#errorMatchers": [
+            { "status": 400, "message": { "matches": "^Agent \\S+/agents/\\S+ not found" } }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#CreateProjectsLocationsSemanticGovernancePolicies/errors/-",
+      "value": { "target": "com.gcp.aiplatform_v1#GovernedAgentNotFound" }
+    }
+  ]
+}

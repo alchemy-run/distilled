@@ -24,9 +24,10 @@
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
-import { convertOpenApiToSmithy } from "@distilled.cloud/core/codegen/openapi";
-import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
-import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
+import { clearModels, writeModel } from "@distilled.cloud/dev/codegen/models";
+import { convertOpenApiToSmithy } from "@distilled.cloud/dev/codegen/openapi";
+import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
+import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
 
 const rootDir = path.resolve(import.meta.dirname, "..");
 const specPath = resolveSpecPath(rootDir, "specs/spec-mirror-notion/specs/openapi.json");
@@ -98,6 +99,7 @@ const OPERATION_NAMES: Record<string, string> = {
   "POST /v1/agents/query": "queryAgents",
   "GET /v1/agents/{agent_id}": "getAgent",
   "DELETE /v1/agents/{agent_id}": "deleteAgent",
+  "PATCH /v1/agents/{agent_id}": "updateAgent",
   "GET /v1/agents/{agent_id}/insights": "getAgentInsights",
   "PATCH /v1/agents/{agent_id}/status": "updateAgentStatus",
   "PATCH /v1/agents/{agent_id}/credit_limit": "updateAgentCreditLimit",
@@ -105,6 +107,7 @@ const OPERATION_NAMES: Record<string, string> = {
   "GET /v1/ai/plugins": "listPlugins",
   "GET /v1/ai/plugins/{id}": "getPluginDirectory",
   "GET /v1/ai/skills/{id}": "getSkillDirectory",
+  "POST /v1/ai/skills/{id}/upload": "uploadSkill",
   "POST /v1/sessions": "updateSession",
   "GET /v1/sessions/{session_id}": "getSession",
   "POST /v1/sessions/query": "querySessions",
@@ -241,8 +244,7 @@ const paginationFor = (op: any): Record<string, string> | undefined => {
 };
 
 // ---- 4. Convert each bucket ------------------------------------------------
-fs.rmSync(outDir, { recursive: true, force: true });
-fs.mkdirSync(outDir, { recursive: true });
+clearModels(outDir);
 
 let written = 0;
 let totalOps = 0;
@@ -295,7 +297,7 @@ for (const slug of [...tagBuckets.keys()].sort()) {
     );
   }
 
-  fs.writeFileSync(path.join(outDir, `${slug}.json`), JSON.stringify(model, null, 2) + "\n");
+  writeModel(path.join(outDir, `${slug}.json`), model);
   written++;
   totalOps += operations.length;
   totalPaginated += paginated;

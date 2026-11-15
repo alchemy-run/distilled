@@ -31,4 +31,4 @@ program.pipe(Effect.provide(Live), Effect.runPromise);
 
 ## Auth
 
-Required: `DIGITALOCEAN_ACCESS_TOKEN`, `DIGITALOCEAN_API_KEY`. Optional: `DIGITALOCEAN_API_BASE_URL`. Sent as `Authorization: Bearer`.
+Required: one of `DIGITALOCEAN_TOKEN`, `DIGITALOCEAN_ACCESS_TOKEN` or `DIGITALOCEAN_API_KEY` (first set wins). Optional: `DIGITALOCEAN_API_BASE_URL`. Sent as `Authorization: Bearer`.

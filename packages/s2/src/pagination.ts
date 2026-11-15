@@ -1,11 +1,16 @@
-import { getItems, getPath, type PaginationStrategy } from "@distilled.cloud/core/pagination";
+import {
+  getItems,
+  getPath,
+  missingPaginationConfig,
+  type PaginationStrategy,
+} from "@distilled.cloud/core/pagination";
 /**
- * S2 (s2.dev) pagination — hand-written.
+ * S2 (s2.dev) pagination -- hand-written.
  *
  * Every paginated S2 list operation pages the same way: `start_after` and
  * `limit` in, and a response carrying the collection (`access_tokens`,
  * `basins`, `streams`) beside a `has_more` boolean. There is no cursor on
- * the response — the next page's `start_after` is the IDENTITY OF THE LAST
+ * the response -- the next page's `start_after` is the IDENTITY OF THE LAST
  * ITEM returned (the access token's `id`, the basin's/stream's `name`), so
  * none of core's token/cursor strategies apply. Generated operations pass
  * {@link paginateStartAfter} to `API.makePaginated`, with the trait's
@@ -28,10 +33,8 @@ export const paginateStartAfter: PaginationStrategy = (operation, input, paginat
   const cursorField = pagination.outputToken;
   const hasMorePath = pagination.hasNextPage ?? "has_more";
   if (!inputToken || !itemsPath || !cursorField) {
-    return Stream.die(
-      new Error(
-        "Start-after pagination requires inputToken, items and outputToken (the item's cursor field)",
-      ),
+    return missingPaginationConfig(
+      "Start-after pagination requires inputToken, items and outputToken (the item's cursor field)",
     );
   }
 
@@ -61,7 +64,7 @@ export const paginateStartAfter: PaginationStrategy = (operation, input, paginat
       const nextState: State = {
         cursor: nextCursor,
         // A page that reports more but yields no new cursor would loop
-        // forever re-requesting the same window — stop instead.
+        // forever re-requesting the same window -- stop instead.
         done:
           !hasMore || items.length === 0 || nextCursor === undefined || nextCursor === state.cursor,
       };

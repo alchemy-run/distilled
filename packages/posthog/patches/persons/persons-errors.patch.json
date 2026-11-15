@@ -99,22 +99,6 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.posthog.persons#PersonsPropertiesTimelineRetrieve/errors",
-      "before": "traits",
-      "value": [
-        {
-          "target": "com.posthog.persons#BadRequest"
-        },
-        {
-          "target": "com.posthog.persons#Forbidden"
-        },
-        {
-          "target": "com.posthog.persons#NotFound"
-        }
-      ]
-    },
-    {
-      "op": "add",
       "path": "/shapes/com.posthog.persons#PersonsSplitCreate/errors",
       "before": "traits",
       "value": [
@@ -247,22 +231,6 @@
       "value": {
         "target": "com.posthog.persons#Forbidden"
       }
-    },
-    {
-      "op": "add",
-      "path": "/shapes/com.posthog.persons#PersonsResetPersonDistinctIdCreate/errors",
-      "before": "traits",
-      "value": [
-        {
-          "target": "com.posthog.persons#BadRequest"
-        },
-        {
-          "target": "com.posthog.persons#Forbidden"
-        },
-        {
-          "target": "com.posthog.persons#NotFound"
-        }
-      ]
     },
     {
       "op": "add",

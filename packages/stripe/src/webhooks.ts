@@ -43,8 +43,8 @@ interface ParsedSignatureHeader {
   readonly signatures: ReadonlyArray<string>;
 }
 
-const textEncoder = new TextEncoder();
-const textDecoder = new TextDecoder("utf-8", { fatal: true });
+const textEncoder = /*@__PURE__*/ new TextEncoder();
+const textDecoder = /*@__PURE__*/ new TextDecoder("utf-8", { fatal: true });
 
 const payloadToBytes = (payload: WebhookPayload): Uint8Array => {
   if (typeof payload === "string") {

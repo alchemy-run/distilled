@@ -1,0 +1,38 @@
+{
+  "description": "Typed not-found error for class lookups (gRPC NOT_FOUND = code 5).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.classes#ClassNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The class doesn't exist in the deployed app (gRPC NOT_FOUND).",
+          "com.modal.protocols#errorMatchers": [
+            {
+              "code": 5
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.classes#ClassGet/errors",
+      "value": [
+        {
+          "target": "com.modal.classes#ClassNotFound"
+        }
+      ]
+    }
+  ]
+}

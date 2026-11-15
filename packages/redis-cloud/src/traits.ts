@@ -1,5 +1,5 @@
 /**
- * Redis Cloud SDK trait surface — hand-written.
+ * Redis Cloud SDK trait surface -- hand-written.
  *
  * Re-exports the generic protocol traits from core (so generated operations
  * import everything from one place). Redis Cloud has no envelope of its own;

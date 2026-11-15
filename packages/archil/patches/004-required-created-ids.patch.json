@@ -1,0 +1,20 @@
+{
+  "description": "Mark the identifiers a successful create always returns as required: createDisk's diskId (live: present on both the 201 create and the 200 idempotent replay), and createApiToken's id and token (the spec documents the token as shown only at creation). Callers then read them without checking for undefined.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.archil.api#ApiResponseCreateDiskData/members/diskId/traits",
+      "value": { "smithy.api#required": {} }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.archil.api#ApiResponseTokenCreatedData/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.archil.api#ApiResponseTokenCreatedData/members/token/traits/smithy.api#required",
+      "value": {}
+    }
+  ]
+}

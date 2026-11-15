@@ -1,0 +1,167 @@
+{
+  "description": "Docs gap: R2 Local Uploads (https://developers.cloudflare.com/r2/buckets/local-uploads/) has no page in the Cloudflare API reference, nor in cloudflare/api-schemas or the official Cloudflare SDKs (checked 2026-10-21). Wrangler's `r2 bucket local-uploads get|enable|disable` call GET and PUT /accounts/{account_id}/r2/buckets/{bucket_name}/local-uploads; the PUT body is `{ \"enabled\": boolean }` and both answer `{ \"enabled\": boolean }` in the v4 envelope. Route and shapes transcribed from cloudflare/workers-sdk packages/wrangler/src/r2/helpers/local-uploads.ts and its tests (commit 253a85de5e). No cf-r2-jurisdiction header: Wrangler sends none, and the feature is unsupported on jurisdiction-restricted buckets. See alchemy-run/distilled#883.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.r2#GetBucketLocalUploadsRequest",
+      "value": {
+        "type": "structure",
+        "members": {
+          "account_id": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Cloudflare account ID that owns the R2 resource.",
+              "smithy.api#httpLabel": {},
+              "smithy.api#required": {}
+            }
+          },
+          "bucket_name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Name of the bucket.",
+              "smithy.api#httpLabel": {},
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#input": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.r2#GetBucketLocalUploadsResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "enabled": {
+            "target": "smithy.api#Boolean",
+            "traits": {
+              "smithy.api#documentation": "Whether Local Uploads is enabled for the bucket.",
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#output": {},
+          "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.r2#GetBucketLocalUploads",
+      "value": {
+        "type": "operation",
+        "input": {
+          "target": "com.cloudflare.r2#GetBucketLocalUploadsRequest"
+        },
+        "output": {
+          "target": "com.cloudflare.r2#GetBucketLocalUploadsResponse"
+        },
+        "errors": [
+          {
+            "target": "com.cloudflare.r2#NoSuchBucket"
+          },
+          {
+            "target": "com.cloudflare.r2#InvalidRoute"
+          }
+        ],
+        "traits": {
+          "smithy.api#http": {
+            "method": "GET",
+            "uri": "/accounts/{account_id}/r2/buckets/{bucket_name}/local-uploads",
+            "code": 200
+          },
+          "smithy.api#documentation": "Get the Local Uploads configuration for a bucket.",
+          "smithy.api#readonly": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.r2#PutBucketLocalUploadsRequest",
+      "value": {
+        "type": "structure",
+        "members": {
+          "account_id": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Cloudflare account ID that owns the R2 resource.",
+              "smithy.api#httpLabel": {},
+              "smithy.api#required": {}
+            }
+          },
+          "bucket_name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Name of the bucket.",
+              "smithy.api#httpLabel": {},
+              "smithy.api#required": {}
+            }
+          },
+          "enabled": {
+            "target": "smithy.api#Boolean",
+            "traits": {
+              "smithy.api#documentation": "Enable (`true`) or disable (`false`) Local Uploads for the bucket.",
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#input": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.r2#PutBucketLocalUploadsResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "enabled": {
+            "target": "smithy.api#Boolean",
+            "traits": {
+              "smithy.api#documentation": "Whether Local Uploads is enabled for the bucket. The live API omits it from the PUT response (observed 2026-10-22); read it back with getBucketLocalUploads."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#output": {},
+          "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.r2#PutBucketLocalUploads",
+      "value": {
+        "type": "operation",
+        "input": {
+          "target": "com.cloudflare.r2#PutBucketLocalUploadsRequest"
+        },
+        "output": {
+          "target": "com.cloudflare.r2#PutBucketLocalUploadsResponse"
+        },
+        "errors": [
+          {
+            "target": "com.cloudflare.r2#NoSuchBucket"
+          },
+          {
+            "target": "com.cloudflare.r2#InvalidRoute"
+          }
+        ],
+        "traits": {
+          "smithy.api#http": {
+            "method": "PUT",
+            "uri": "/accounts/{account_id}/r2/buckets/{bucket_name}/local-uploads",
+            "code": 200
+          },
+          "smithy.api#documentation": "Enable or disable Local Uploads for a bucket. Upload data from clients outside the bucket's region is written near the client first, then replicated to the bucket.",
+          "smithy.api#idempotent": {}
+        }
+      }
+    }
+  ]
+}

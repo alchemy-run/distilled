@@ -1,0 +1,47 @@
+{
+  "description": "SES: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses#CreateReceiptRule/errors/-",
+      "value": {
+        "target": "com.amazonaws.ses#InvalidParameterValue"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses#CreateReceiptRule/errors/-",
+      "value": {
+        "target": "com.amazonaws.ses#IdentityNotVerified"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses#CreateReceiptRule/errors/-",
+      "value": {
+        "target": "com.amazonaws.ses#ReceiptRuleRoleNotAssumable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses#UpdateReceiptRule/errors/-",
+      "value": {
+        "target": "com.amazonaws.ses#InvalidParameterValue"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses#UpdateReceiptRule/errors/-",
+      "value": {
+        "target": "com.amazonaws.ses#IdentityNotVerified"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses#UpdateReceiptRule/errors/-",
+      "value": {
+        "target": "com.amazonaws.ses#ReceiptRuleRoleNotAssumable"
+      }
+    }
+  ]
+}

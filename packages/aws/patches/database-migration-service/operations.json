@@ -1,0 +1,33 @@
+{
+  "description": "Database Migration Service: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databasemigrationservice#CreateReplicationInstance/errors/-",
+      "value": {
+        "target": "com.amazonaws.databasemigrationservice#InvalidParameterValueException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databasemigrationservice#CreateReplicationInstance/errors/-",
+      "value": {
+        "target": "com.amazonaws.databasemigrationservice#InvalidReplicationInstanceClass"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databasemigrationservice#ModifyReplicationInstance/errors/-",
+      "value": {
+        "target": "com.amazonaws.databasemigrationservice#InvalidParameterValueException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databasemigrationservice#ModifyReplicationInstance/errors/-",
+      "value": {
+        "target": "com.amazonaws.databasemigrationservice#InvalidReplicationInstanceClass"
+      }
+    }
+  ]
+}

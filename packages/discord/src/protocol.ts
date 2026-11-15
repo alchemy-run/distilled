@@ -1,13 +1,18 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { ConfigError } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import {
+  makeRestProtocol,
+  type RestErrorEnvelope,
+  unknownErrorProps,
+} from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
- * DiscordProtocol — the shared bearer-REST protocol instantiated for Discord.
+ * DiscordProtocol -- the shared bearer-REST protocol instantiated for Discord.
  *
  * Discord speaks plain JSON with no response envelope: successful responses
  * are the resource (or a bare array) verbatim. Failures carry
  * `{ code, message, errors? }` where `code` is Discord's own numeric JSON
- * error code — the shared HTTP status map turns the status into the error
+ * error code -- the shared HTTP status map turns the status into the error
  * class, and anything unmapped becomes {@link UnknownDiscordError} with the
  * code and per-field `errors` detail preserved.
  *
@@ -29,7 +34,12 @@ import { UnknownDiscordError, type DefaultErrors, DiscordParseError } from "./er
  * DiscordOpError, DiscordOpContext>` explicitly so the compiler never infers
  * these back out of the schema generics.
  */
-export type DiscordOpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError;
+export type DiscordOpError =
+  | DefaultErrors
+  | ConfigError
+  | HttpClientError.HttpClientError
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Discord operation. */
 export type DiscordOpContext = Credentials | HttpClient.HttpClient;
@@ -62,7 +72,7 @@ const errorDetails = (body: unknown): unknown => {
 
 /**
  * Discord's JSON error code as a number. The OAuth2 endpoints answer with a
- * string `error` slug instead of a numeric `code` — those carry no numeric
+ * string `error` slug instead of a numeric `code` -- those carry no numeric
  * code at all, so anything unparseable is dropped rather than surfaced as
  * NaN.
  */
@@ -73,25 +83,21 @@ const numericCode = (code: string | number | undefined): number | undefined => {
   return Number.isFinite(n) ? n : undefined;
 };
 
-export const DiscordProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
+export const DiscordProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
   // Resolved on the CALLING fiber per request (the layer is memoized per
   // process); the Credentials service holds an effect so rotating tokens
   // Just Work.
-  credentials: Effect.gen(function* () {
-    const resolve = yield* Credentials;
-    return yield* resolve;
-  }),
+  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => ({
     Authorization: `${creds.tokenType} ${Redacted.value(creds.token)}`,
   }),
   errorEnvelope,
-  unknownError: ({ code, message, body }) =>
+  unknownError: (info) =>
     new UnknownDiscordError({
-      code: numericCode(code),
-      message,
-      errors: errorDetails(body),
-      body,
+      ...unknownErrorProps(info),
+      code: numericCode(info.code),
+      errors: errorDetails(info.body),
     }),
   parseError: ({ body, cause }) => new DiscordParseError({ body, cause }),
 });

@@ -1,9 +1,12 @@
 /**
- * The `Credentials` service every operation signs with, the errors resolving
- * it can fail with, and `createLazyProvider`, which turns a credential source
- * into a cached `Credentials` layer. Each provider under
- * `credential-providers/` builds its layer from this module.
+ * The `Credentials` service every operation signs with (from
+ * `@distilled.cloud/s3`), the errors AWS's providers can fail with, and
+ * `createLazyProvider`, which turns a credential source into a cached
+ * `Credentials` layer. Each provider under `credential-providers/` builds its
+ * layer from this module.
  */
+import { Credentials, type ResolvedCredentials } from "@distilled.cloud/s3/Credentials";
+import type { SourceError } from "effect/ConfigProvider";
 import * as Context from "effect/Context";
 import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
@@ -12,11 +15,13 @@ import * as Layer from "effect/Layer";
 import type { PlatformError } from "effect/PlatformError";
 import * as Redacted from "effect/Redacted";
 import type { CredentialSource } from "./credential-providers/credential-source.ts";
-import { fromEnvironment as regionFromEnvironment } from "./region.ts";
+import { MissingRegion, fromEnvironment as regionFromEnvironment } from "./region.ts";
 import type { RegionName } from "./region.ts";
 
+export * from "@distilled.cloud/s3/Credentials";
+
 /**
- * AWS credentials as a credential source returns them — the same shape as
+ * AWS credentials as a credential source returns them -- the same shape as
  * `AwsCredentialIdentity` in `@smithy/types`, so identities from the AWS SDK
  * are accepted as they are.
  */
@@ -37,33 +42,13 @@ export interface AwsCredentials {
 }
 
 /**
- * Resolved credential values ready for request signing.
- *
- * `region` is not optional. Authenticating always establishes one — from the
- * environment, the profile, or the SSO session — and carrying it here is what
- * lets operations drop `Region` from their requirements: the region an
- * operation uses is the one its credentials came with, unless a `Region`
- * override says otherwise.
- */
-export interface ResolvedCredentials {
-  readonly accessKeyId: Redacted.Redacted<string>;
-  readonly secretAccessKey: Redacted.Redacted<string>;
-  readonly sessionToken: Redacted.Redacted<string> | undefined;
-  readonly region: RegionName;
-  readonly expiration?: number;
-}
-
-/**
- * The requirements for resolving credentials (HttpClient for SSO, FileSystem for cache).
- */
-
-/**
  * Error types that can occur during credential resolution.
  */
 export type CredentialsError =
   | AwsCredentialProviderError
   | MissingRegion
   | ProfileNotFound
+  | SharedConfigError
   | InvalidSSOProfile
   | InvalidSSOToken
   | ExpiredSSOToken
@@ -73,17 +58,20 @@ export type CredentialsError =
   | HttpClientError
   | PlatformError;
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<ResolvedCredentials, CredentialsError>
->()("AWS::Credentials") {}
+// Every operation's error type includes these in programs that use this
+// package (see `ProviderErrors` in @distilled.cloud/s3).
+declare module "@distilled.cloud/s3/Credentials" {
+  interface ProviderErrors {
+    aws: CredentialsError | SourceError;
+  }
+}
 
-export const mock = Layer.succeed(
+export const mock = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  Effect.succeed({
-    accessKeyId: Redacted.make("test"),
-    secretAccessKey: Redacted.make("test"),
-    sessionToken: Redacted.make("test"),
+  /*@__PURE__*/ Effect.succeed({
+    accessKeyId: /*@__PURE__*/ Redacted.make("test"),
+    secretAccessKey: /*@__PURE__*/ Redacted.make("test"),
+    sessionToken: /*@__PURE__*/ Redacted.make("test"),
     region: "us-east-1" as RegionName,
   }),
 );
@@ -91,7 +79,7 @@ export const mock = Layer.succeed(
 /**
  * Create resolved credentials from an AWS credential identity.
  *
- * The identity carries no region — `AwsCredentialIdentity` never has one —
+ * The identity carries no region -- `AwsCredentialIdentity` never has one --
  * so the provider that resolved it supplies the region it authenticated
  * against.
  */
@@ -106,26 +94,16 @@ export const fromAwsCredentialIdentity = (
   expiration: identity.expiration?.getTime(),
 });
 
-/**
- * A credentials layer resolved a set of credentials but could not determine
- * which region they belong to.
- *
- * A credential-resolution failure like any other, rather than a defect: the
- * caller's fix is the same shape as for a missing key — configure the
- * environment, the profile, or pass it explicitly.
- */
-export class MissingRegion extends Data.TaggedError("Alchemy::AWS::MissingRegion")<{
-  message: string;
-  hints?: ReadonlyArray<string>;
-}> {}
+// Defined with the Region service, which fails with it too.
+export { MissingRegion };
 
 /**
  * The region a credentials provider authenticated against, from the
  * environment. Node providers that read a profile override this with the
  * profile's own region.
  */
-export const regionFromEnv = regionFromEnvironment.pipe(
-  Effect.catchCause(
+export const regionFromEnv = /*@__PURE__*/ regionFromEnvironment.pipe(
+  /*@__PURE__*/ Effect.catchCause(
     () =>
       new MissingRegion({
         message: "Resolved credentials, but no region is configured.",
@@ -201,60 +179,78 @@ export const createLazyProvider = (
 
 export const ssoRegion = (region: string) => Layer.succeed(SsoRegion, region);
 
-export class SsoRegion extends Context.Service<SsoRegion, string>()("AWS::SsoRegion") {}
-export class SsoStartUrl extends Context.Service<SsoStartUrl, string>()("AWS::SsoStartUrl") {}
+export class SsoRegion
+  extends /*@__PURE__*/ Context.Service<SsoRegion, string>()("AWS::SsoRegion") {}
+export class SsoStartUrl
+  extends /*@__PURE__*/ Context.Service<SsoStartUrl, string>()("AWS::SsoStartUrl") {}
 
-export class ProfileNotFound extends Data.TaggedError("Alchemy::AWS::ProfileNotFound")<{
-  message: string;
-  profile: string;
-}> {}
+export class ProfileNotFound
+  extends /*@__PURE__*/ Data.TaggedError("Alchemy::AWS::ProfileNotFound")<{
+    message: string;
+    profile: string;
+  }> {}
 
-export class ConflictingSSORegion extends Data.TaggedError("Alchemy::AWS::ConflictingSSORegion")<{
-  message: string;
-  ssoRegion: string;
-  profile: string;
-}> {}
+/** A shared config or credentials file exists but cannot be read or parsed. */
+export class SharedConfigError
+  extends /*@__PURE__*/ Data.TaggedError("Alchemy::AWS::SharedConfigError")<{
+    message: string;
+    path: string;
+    cause?: unknown;
+  }> {}
 
-export class ConflictingSSOStartUrl extends Data.TaggedError(
-  "Alchemy::AWS::ConflictingSSOStartUrl",
-)<{
-  message: string;
-  ssoStartUrl: string;
-  profile: string;
-}> {}
+export class ConflictingSSORegion
+  extends /*@__PURE__*/ Data.TaggedError("Alchemy::AWS::ConflictingSSORegion")<{
+    message: string;
+    ssoRegion: string;
+    profile: string;
+  }> {}
 
-export class InvalidSSOProfile extends Data.TaggedError("Alchemy::AWS::InvalidSSOProfile")<{
-  message: string;
-  profile: string;
-  missingFields: string[];
-}> {}
+export class ConflictingSSOStartUrl
+  extends /*@__PURE__*/ Data.TaggedError("Alchemy::AWS::ConflictingSSOStartUrl")<{
+    message: string;
+    ssoStartUrl: string;
+    profile: string;
+  }> {}
 
-export class InvalidSSOToken extends Data.TaggedError("Alchemy::AWS::InvalidSSOToken")<{
-  message: string;
-  sso_session: string;
-}> {}
+export class InvalidSSOProfile
+  extends /*@__PURE__*/ Data.TaggedError("Alchemy::AWS::InvalidSSOProfile")<{
+    message: string;
+    profile: string;
+    missingFields: string[];
+  }> {}
 
-export class ExpiredSSOToken extends Data.TaggedError("Alchemy::AWS::ExpiredSSOToken")<{
-  message: string;
-  profile: string;
-}> {}
+export class InvalidSSOToken
+  extends /*@__PURE__*/ Data.TaggedError("Alchemy::AWS::InvalidSSOToken")<{
+    message: string;
+    sso_session: string;
+  }> {}
 
-export class AwsCredentialProviderError extends Data.TaggedError("AWS::CredentialProviderError")<{
-  message: string;
-  provider: string;
-  cause?: unknown;
-  hints?: ReadonlyArray<string>;
-}> {}
+export class ExpiredSSOToken
+  extends /*@__PURE__*/ Data.TaggedError("Alchemy::AWS::ExpiredSSOToken")<{
+    message: string;
+    profile: string;
+    /** The failed SSO OIDC refresh, when one was attempted. */
+    cause?: unknown;
+  }> {}
+
+export class AwsCredentialProviderError
+  extends /*@__PURE__*/ Data.TaggedError("AWS::CredentialProviderError")<{
+    message: string;
+    provider: string;
+    cause?: unknown;
+    hints?: ReadonlyArray<string>;
+  }> {}
 
 /**
  * The AWS SSO portal returned a response with no `roleCredentials`, e.g. a
  * `ForbiddenException` when an IAM Identity Center role assignment is in a
  * stale state.
  */
-export class SsoPortalError extends Data.TaggedError("Alchemy::AWS::SsoPortalError")<{
-  message: string;
-  profile: string;
-  account_id?: string;
-  role_name?: string;
-  status?: number;
-}> {}
+export class SsoPortalError
+  extends /*@__PURE__*/ Data.TaggedError("Alchemy::AWS::SsoPortalError")<{
+    message: string;
+    profile: string;
+    account_id?: string;
+    role_name?: string;
+    status?: number;
+  }> {}

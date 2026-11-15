@@ -64,6 +64,17 @@ jobs:
       - name: Typecheck and build all packages
         run: pnpm typecheck:ci
 
+      # The chunked lib/ that preview packages ship (`pnpm build`), with
+      # the opt-in `distilled-lazy` stubs in lib/services.lazy that the
+      # packages' `exports` name.
+      - name: Bundle compiled JavaScript
+        run: node scripts/bundle-lib.ts
+
+      # Doc comments stay in .d.ts; shipping them in .js costs heap in every
+      # process that imports an SDK (V8 keeps module source text).
+      - name: Strip doc comments from compiled JavaScript
+        run: node scripts/strip-lib-docs.ts
+
       - name: Pack release artifacts
         run: |
           set -euo pipefail

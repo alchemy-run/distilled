@@ -10,61 +10,60 @@ import {
   Locked,
   NotFound,
   UnprocessableEntity,
+  type InvalidInput,
 } from "@distilled.cloud/core/errors";
 import {
   buildRequest,
-  getAnn,
-  getProps,
-  hasPropAnn,
   mapKeys,
+  mapsVerbatim,
   matchTypedError,
-  nameOf,
 } from "@distilled.cloud/core/protocol-http";
-import { unwrapRedactedDeep, wrapSensitive } from "@distilled.cloud/core/protocol-rest";
-import { validateResponse } from "@distilled.cloud/core/response-validation";
+import { checkSuccess, unwrapRedactedDeep } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import { SdkError } from "@distilled.cloud/core/sdk-error";
+import * as Send from "@distilled.cloud/core/send";
+import * as Telemetry from "@distilled.cloud/core/telemetry";
 /**
- * StripeProtocol — hand-written.
+ * StripeProtocol -- hand-written.
  *
  * Speaks Stripe's REST protocol. The generic trait helpers live in
  * `@distilled.cloud/core/protocol-http`; this module supplies what is
  * Stripe's own (ported from the distilled v0 stripe client):
  *
- *   request:  credentials → `Authorization: Bearer <apiKey>` + API base URL;
- *             per-call {@link StripeRequestOptions} (resolved from the
- *             calling fiber via {@link RequestOptions}) → Idempotency-Key /
- *             Stripe-Account / Stripe-Context / Stripe-Version headers;
- *             GET inputs flatten body-bound members into the query string
- *             with Stripe bracket notation (`created[gte]`, `expand[]`);
- *             non-GET bodies encode as `application/x-www-form-urlencoded`
- *             with Stripe deepObject bracket expansion (`shipping[address]
- *             [city]=SF`, `expand[0]=data`) when the operation's `T.Http`
- *             trait says `contentType: "form-urlencoded"` (every /v1 op),
- *             as JSON otherwise (the /v2 ops), and as multipart form-data
- *             for `contentType: "multipart"` (POST /v1/files)
+ *   request:  credentials -> `Authorization: Bearer <apiKey>` + API base URL
+ *             + `Stripe-Context` (when `context` is set); `Stripe-Version`
+ *             from the calling fiber's {@link ApiVersion}, else the spec's
+ *             {@link API_VERSION}; an operation's `idempotencyKey` member is
+ *             its `Idempotency-Key` header;
+ *             core's `buildRequest` with `queryStyle: "brackets"` builds
+ *             the rest: query members as `created[gte]=1` / `expand[0]=a`,
+ *             bodies as `application/x-www-form-urlencoded` with the same
+ *             brackets (`shipping[address][city]=SF`) when the operation's
+ *             `T.Http` trait says `contentType: "form-urlencoded"` (every
+ *             /v1 op), as JSON otherwise (the /v2 ops), and as multipart
+ *             form-data for `contentType: "multipart"` (POST /v1/files)
  *
- *   response: 2xx JSON is the payload (no envelope) → wire→TS key mapping →
+ *   response: 2xx JSON is the payload (no envelope) -> wire->TS key mapping ->
  *             Redacted wrapping of sensitive members; failures parse the
- *             `{ error: { type, code, message, … } }` envelope and dispatch
+ *             `{ error: { type, code, message, ... } }` envelope and dispatch
  *             by per-op matcher classes first (`matchTypedError`, e.g.
- *             ProductHasPrices), then `error.type` (card_error → CardError,
- *             idempotency_error → IdempotencyError, invalid_request_error →
- *             InvalidRequestError, api_error → ApiError), then the
- *             Stripe-specific status map (402 → PaymentError, 424 →
+ *             ProductHasPrices), then `error.type` (card_error -> CardError,
+ *             idempotency_error -> IdempotencyError, invalid_request_error ->
+ *             InvalidRequestError, api_error -> ApiError), then the
+ *             Stripe-specific status map (402 -> PaymentError, 424 ->
  *             ExternalDependencyFailed), then core's HTTP status map (with
  *             retryAfter hints), then UnknownStripeError.
  */
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as HttpBody from "effect/http/HttpBody";
-import type * as HttpClient from "effect/http/HttpClient";
+import * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
-import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 import type * as AST from "effect/SchemaAST";
+import { API_VERSION, ApiVersion } from "./api-version.ts";
 import { Credentials, type Config } from "./credentials.ts";
 import {
   ApiError,
@@ -77,72 +76,14 @@ import {
   StripeParseError,
   UnknownStripeError,
 } from "./errors.ts";
-import {
-  bodySymbol,
-  headerSymbol,
-  httpSymbol,
-  labelSymbol,
-  querySymbol,
-  type HttpTrait,
-} from "./traits.ts";
 
-// =============================================================================
-// Per-call request options (v0's StripeRequestOptions, fiber-context style)
-// =============================================================================
-
-export type StripeConnectRequestOptions =
-  | {
-      readonly stripeAccount?: string | undefined;
-      readonly stripeContext?: never;
-    }
-  | {
-      readonly stripeAccount?: never;
-      readonly stripeContext?: string | undefined;
-    };
-
-export type StripeRequestOptions = {
-  readonly idempotencyKey?: string | undefined;
-  readonly apiVersion?: string | undefined;
-} & StripeConnectRequestOptions;
-
-/**
- * Per-call request options service. distilled v0 passed these as a second
- * call argument; v1 operations take only their input, so options travel on
- * the calling fiber's context instead — see {@link withRequestOptions}.
- */
-export class RequestOptions extends Context.Service<RequestOptions, StripeRequestOptions>()(
-  "StripeRequestOptions",
-) {}
-
-/**
- * Provide {@link StripeRequestOptions} to every Stripe API call below it.
- *
- * @example
- * ```ts
- * yield* PostCharges({ amount: 2000, currency: "usd" }).pipe(
- *   Stripe.withRequestOptions({ idempotencyKey: "ch-create-1" }),
- * );
- * ```
- */
-export const withRequestOptions = (options: StripeRequestOptions) =>
-  Effect.provide(Layer.succeed(RequestOptions, options));
-
-const stripeRequestHeaders = (
-  options: StripeRequestOptions | undefined,
-): Record<string, string> => {
-  const headers: Record<string, string> = {};
-  if (options?.idempotencyKey !== undefined) {
-    headers["Idempotency-Key"] = options.idempotencyKey;
-  }
-  if (options?.stripeAccount !== undefined) {
-    headers["Stripe-Account"] = options.stripeAccount;
-  }
-  if (options?.stripeContext !== undefined) {
-    headers["Stripe-Context"] = options.stripeContext;
-  }
-  if (options?.apiVersion !== undefined) {
-    headers["Stripe-Version"] = options.apiVersion;
-  }
+const stripeHeaders = (creds: Config, apiVersion: string): Record<string, string> => {
+  const headers: Record<string, string> = {
+    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+    "Stripe-Version": apiVersion,
+    Accept: "application/json",
+  };
+  if (creds.context !== undefined) headers["Stripe-Context"] = creds.context;
   return headers;
 };
 
@@ -173,7 +114,9 @@ export type StripeOpError =
   | Locked
   | CoreDefaultErrors
   | ConfigError
-  | HttpClientError.HttpClientError;
+  | HttpClientError.HttpClientError
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Stripe operation. */
 export type StripeOpContext = Credentials | HttpClient.HttpClient;
@@ -185,197 +128,48 @@ export type StripeOpContext = Credentials | HttpClient.HttpClient;
 const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
 
 // =============================================================================
-// Stripe query / form encoding (ported from distilled v0)
-// =============================================================================
-
-const BODYLESS = new Set(["GET", "HEAD"]);
-
-const appendQueryValue = (query: URLSearchParams, key: string, value: unknown): void => {
-  if (value === undefined || value === null) return;
-  query.append(key, typeof value === "boolean" ? (value ? "true" : "false") : String(value));
-};
-
-/**
- * Stripe GET-query bracket expansion (v0's `appendStripeQuery`): arrays as
- * repeated `key[]` entries, nested objects as `key[nested]`, recursively.
- */
-const appendStripeQuery = (query: URLSearchParams, key: string, value: unknown): void => {
-  if (value === undefined || value === null) return;
-  if (Array.isArray(value)) {
-    for (const item of value) appendQueryValue(query, `${key}[]`, item);
-    return;
-  }
-  if (typeof value === "object" && !(value instanceof Date)) {
-    for (const [nestedKey, nestedValue] of Object.entries(value as Record<string, unknown>)) {
-      appendStripeQuery(query, `${key}[${nestedKey}]`, nestedValue);
-    }
-    return;
-  }
-  appendQueryValue(query, key, value);
-};
-
-/**
- * Recursively flatten a nested object into Stripe-style bracket notation
- * for application/x-www-form-urlencoded encoding (v0's `flattenToFormPairs`).
- *
- * Examples:
- *   { amount: 2000 } -> "amount=2000"
- *   { shipping: { address: { city: "SF" } } } -> "shipping[address][city]=SF"
- *   { expand: ["data"] } -> "expand[0]=data"
- *   { metadata: { key: "val" } } -> "metadata[key]=val"
- */
-const flattenToFormPairs = (
-  obj: Record<string, unknown>,
-  prefix: string = "",
-): Array<[string, string]> => {
-  const pairs: Array<[string, string]> = [];
-
-  for (const [key, value] of Object.entries(obj)) {
-    if (value === undefined || value === null) continue;
-
-    const fullKey = prefix ? `${prefix}[${key}]` : key;
-
-    if (Array.isArray(value)) {
-      for (let i = 0; i < value.length; i++) {
-        const item = value[i];
-        if (
-          item !== null &&
-          item !== undefined &&
-          typeof item === "object" &&
-          !Array.isArray(item)
-        ) {
-          pairs.push(...flattenToFormPairs(item as Record<string, unknown>, `${fullKey}[${i}]`));
-        } else if (item !== undefined && item !== null) {
-          pairs.push([`${fullKey}[${i}]`, String(item)]);
-        }
-      }
-    } else if (typeof value === "object") {
-      pairs.push(...flattenToFormPairs(value as Record<string, unknown>, fullKey));
-    } else if (typeof value === "boolean") {
-      pairs.push([fullKey, value ? "true" : "false"]);
-    } else {
-      pairs.push([fullKey, String(value)]);
-    }
-  }
-
-  return pairs;
-};
-
-/** Build the urlencoded body from a nested object (Stripe deepObject style). */
-const buildFormUrlEncoded = (body: Record<string, unknown>): string => {
-  const params = new URLSearchParams();
-  for (const [key, value] of flattenToFormPairs(body)) {
-    params.append(key, value);
-  }
-  return params.toString();
-};
-
-// =============================================================================
 // Request building
 // =============================================================================
 
-// The protocol layer is memoized per process by `API.make`, so the build
-// must not capture credentials — `encode` resolves Credentials (and the
-// per-call RequestOptions) from the calling fiber's context on every
-// request. The requirement is erased at this boundary and reintroduced for
-// callers by the generated `StripeOpContext` annotations.
+/**
+ * Core's `buildRequest` with Stripe's wire rules: the API key as a Bearer
+ * token, the context and version headers, and bracket query style
+ * (`created[gte]=1`, `expand[0]=a`) -- Stripe's v2 API refuses `key[]` and
+ * repeated keys. Bodies follow the operation's `T.Http` content type:
+ * form-urlencoded with the same brackets (every /v1 op), multipart for
+ * POST /v1/files, JSON for the /v2 ops.
+ */
+const requestFor = (
+  creds: Config,
+  context: Context.Context<any>,
+  input: unknown,
+  inputAst: AST.AST,
+): Effect.Effect<HttpClientRequest.HttpClientRequest, InvalidInput | SdkError> =>
+  buildRequest({
+    input: unwrapRedactedDeep(input),
+    inputAst,
+    baseUrl: creds.apiBaseUrl,
+    headers: stripeHeaders(creds, Context.getOrUndefined(context, ApiVersion) ?? API_VERSION),
+    queryStyle: "brackets",
+  });
+
+/**
+ * The calling fiber's credentials, then `f` on them. The protocol layer is
+ * memoized per process by `API.make`, so credentials (and the
+ * {@link ApiVersion} override) are resolved from the calling fiber's context on every
+ * request. The requirement is erased at this boundary and reintroduced for
+ * callers by the generated `StripeOpContext` annotations.
+ */
+const withCredentials = <B>(
+  context: Context.Context<any>,
+  f: (creds: Config) => Effect.Effect<B, any, any>,
+): Effect.Effect<B, any, any> =>
+  API.withValue(Context.get(context, Credentials) as Effect.Effect<Config, any, any>, f);
+
 const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
-  Effect.gen(function* () {
-    const resolveCredentials = yield* Credentials;
-    const creds = yield* resolveCredentials as Effect.Effect<Config>;
-    const options = Option.getOrUndefined(yield* Effect.serviceOption(RequestOptions));
-
-    const http = getAnn(inputAst, httpSymbol) as HttpTrait | undefined;
-    if (!http) {
-      throw new Error("operation input is missing the Http() trait");
-    }
-
-    const baseHeaders: Record<string, string> = {
-      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-      ...stripeRequestHeaders(options),
-      Accept: "application/json",
-    };
-
-    // Multipart (POST /v1/files): core's buildRequest speaks multipart
-    // form-data (file parts + JSON-encoded object parts) — same behavior as
-    // v0's buildFormData.
-    if (http.contentType === "multipart") {
-      return buildRequest({
-        input: unwrapRedactedDeep(input),
-        inputAst,
-        baseUrl: creds.apiBaseUrl,
-        headers: baseHeaders,
-      });
-    }
-
-    const inputObj = (unwrapRedactedDeep(input) ?? {}) as Record<string, unknown>;
-    const headers: Record<string, string> = { ...baseHeaders };
-    const body: Record<string, unknown> = {};
-    const query = new URLSearchParams();
-    let uri = http.uri;
-    const consumed = new Set<string>();
-
-    for (const prop of getProps(inputAst)) {
-      const key = String(prop.name);
-      consumed.add(key);
-      const value = inputObj[key];
-      if (value === undefined) continue;
-
-      if (hasPropAnn(prop, labelSymbol)) {
-        const token = nameOf(prop, labelSymbol);
-        uri = uri.replace(`{${token}}`, encodeURIComponent(String(value)));
-      } else if (hasPropAnn(prop, headerSymbol)) {
-        headers[nameOf(prop, headerSymbol).toLowerCase()] = String(value);
-      } else if (hasPropAnn(prop, querySymbol)) {
-        // Stripe bracket expansion, not dotted params (`created[gte]=1`).
-        appendStripeQuery(query, nameOf(prop, querySymbol), value);
-      } else {
-        body[nameOf(prop, bodySymbol)] = mapKeys(prop.type, value, "encode");
-      }
-    }
-
-    // Input keys the schema doesn't know pass through as body fields — the
-    // generated schemas can lag the real API, and silently dropping them
-    // would break working callers.
-    for (const [key, value] of Object.entries(inputObj)) {
-      if (consumed.has(key) || value === undefined) continue;
-      body[key] = value;
-    }
-
-    // v0's normalizeStripeGetQuery: GET inputs carry no body — flatten the
-    // body-bound members into the query string with bracket notation.
-    if (BODYLESS.has(http.method)) {
-      for (const [key, value] of Object.entries(body)) {
-        appendStripeQuery(query, key, value);
-      }
-    }
-
-    const qs = query.toString();
-    const url = `${creds.apiBaseUrl}${uri}${qs ? `?${qs}` : ""}`;
-    if (process.env.DISTILLED_DEBUG_HTTP) {
-      console.error(
-        `[distilled] ${http.method} ${url}` +
-          (Object.keys(body).length && !BODYLESS.has(http.method)
-            ? ` body=${JSON.stringify(body).slice(0, 400)}`
-            : ""),
-      );
-    }
-
-    let request = HttpClientRequest.make(http.method)(url).pipe(
-      HttpClientRequest.setHeaders(headers),
-    );
-    if (!BODYLESS.has(http.method) && Object.keys(body).length > 0) {
-      request =
-        http.contentType === "form-urlencoded"
-          ? request.pipe(
-              HttpClientRequest.setBody(
-                HttpBody.text(buildFormUrlEncoded(body), "application/x-www-form-urlencoded"),
-              ),
-            )
-          : // The /v2/* operations are plain JSON.
-            request.pipe(HttpClientRequest.bodyJsonUnsafe(body));
-    }
-    return request;
+  Effect.withFiber((fiber) => {
+    const context = fiber.context as Context.Context<any>;
+    return withCredentials(context, (creds) => requestFor(creds, context, input, inputAst));
   });
 
 // =============================================================================
@@ -391,7 +185,7 @@ const stripeStatusMap: Readonly<Record<number, (new (args: any) => unknown) | un
 const coreStatusMap: Readonly<Record<number, (new (args: any) => unknown) | undefined>> =
   HTTP_STATUS_MAP;
 
-/** Stripe's `{ error: { type, message, … } }` object, when present. */
+/** Stripe's `{ error: { type, message, ... } }` object, when present. */
 const stripeErrorEnvelope = (errorBody: unknown): Record<string, unknown> | undefined => {
   const envelope =
     errorBody !== null && typeof errorBody === "object"
@@ -411,7 +205,7 @@ const stripeErrorMessage = (errorBody: unknown): string | undefined => {
  * Match a Stripe API error response to the appropriate error class.
  *
  * Stripe dispatches errors by:
- * 1. Per-operation matcher classes (`matchTypedError`) — see decode
+ * 1. Per-operation matcher classes (`matchTypedError`) -- see decode
  * 2. The `error.type` field (card_error, idempotency_error,
  *    invalid_request_error, api_error)
  * 3. HTTP status code (402/424 Stripe-specific, then the core status map)
@@ -425,7 +219,15 @@ const matchStripeError = (
   // v0 parity: an unparseable envelope (no `error.type` string) is an
   // UnknownStripeError carrying the raw body.
   if (!err || typeof err.type !== "string") {
-    return new UnknownStripeError({ body: errorBody });
+    // A 5xx without an envelope (a proxy page) is a server fault worth a
+    // retry, as below.
+    if (status >= 500) {
+      return new InternalServerError({
+        message: `HTTP ${status}`,
+        retryAfter: parseRetryAfterForStatus(status, headers),
+      });
+    }
+    return new UnknownStripeError({ status, body: errorBody });
   }
 
   const common = {
@@ -451,7 +253,7 @@ const matchStripeError = (
     case "idempotency_error":
       return new IdempotencyError(common);
     case "invalid_request_error":
-      return new InvalidRequestError({ ...common, param: str(err.param) });
+      return new InvalidRequestError({ ...common, param: str(err.param), status });
     case "api_error":
       return new ApiError({ ...common, param: str(err.param) });
   }
@@ -470,7 +272,7 @@ const matchStripeError = (
     });
   }
 
-  // Fall back to standard HTTP status errors (400, 401, 403, 404, …).
+  // Fall back to standard HTTP status errors (400, 401, 403, 404, ...).
   const CoreErrorClass = coreStatusMap[status];
   if (CoreErrorClass) {
     return new CoreErrorClass({
@@ -479,7 +281,7 @@ const matchStripeError = (
     } as any);
   }
 
-  // Unmapped 5xx (e.g. proxy statuses) → retryable server error (v1
+  // Unmapped 5xx (e.g. proxy statuses) -> retryable server error (v1
   // convention; v0 fell through to UnknownStripeError here).
   if (status >= 500) {
     return new InternalServerError({
@@ -489,6 +291,7 @@ const matchStripeError = (
   }
 
   return new UnknownStripeError({
+    status,
     type: str(err.type),
     code: common.code,
     message: common.message,
@@ -497,62 +300,86 @@ const matchStripeError = (
   });
 };
 
-const decode = ({
-  response,
-  outputAst,
-  errors: errorClasses,
-}: {
-  readonly response: HttpClientResponse.HttpClientResponse;
-  readonly outputAst: AST.AST;
-  readonly errors: ReadonlyArray<unknown>;
-}) =>
-  Effect.gen(function* () {
-    // Read as text and parse tolerantly — error pages can be non-JSON.
-    const text = (yield* response.text.pipe(Effect.orDie)) ?? "";
-    if (process.env.DISTILLED_DEBUG_HTTP) {
-      console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
-    }
-    let json: unknown;
-    let nonJson = false;
-    if (text.trim().length > 0) {
-      try {
-        json = JSON.parse(text);
-      } catch {
-        nonJson = true;
+const decodeResponse = (
+  context: Context.Context<any>,
+  response: HttpClientResponse.HttpClientResponse,
+  outputAst: AST.AST,
+  errorClasses: ReadonlyArray<unknown>,
+): Effect.Effect<unknown> =>
+  Effect.matchEffect(response.text, {
+    onFailure: fail,
+    onSuccess: (read): Effect.Effect<unknown> => {
+      // Read as text and parse tolerantly -- error pages can be non-JSON.
+      const text = read ?? "";
+      let json: unknown;
+      let nonJson = false;
+      if (text.trim().length > 0) {
+        try {
+          json = JSON.parse(text);
+        } catch {
+          nonJson = true;
+        }
       }
-    }
-    const status = response.status;
-    const headers = response.headers as Record<string, string | undefined>;
+      const status = response.status;
+      const headers = response.headers as Record<string, string | undefined>;
 
-    if (status >= 400) {
-      const errorBody: unknown = nonJson ? text : json;
-      const message =
-        stripeErrorMessage(errorBody) ?? (nonJson && text.trim() ? text.trim() : `HTTP ${status}`);
-      const typed = matchTypedError(errorClasses, status, [{ message }], {
+      if (status >= 400) {
+        const errorBody: unknown = nonJson ? text : json;
+        const message =
+          stripeErrorMessage(errorBody) ??
+          (nonJson && text.trim() ? text.trim() : `HTTP ${status}`);
+        const typed = matchTypedError(errorClasses, status, [{ message }], {
+          body: nonJson ? text : json,
+          headers,
+        });
+        if (typed !== undefined) return fail(typed);
+        // Its own frames would point into this decoder; the failure frame
+        // names the operation at the caller's line instead.
+        const saved = Telemetry.suppressStack();
+        try {
+          return fail(matchStripeError(status, errorBody, headers));
+        } finally {
+          Telemetry.restoreStack(saved);
+        }
+      }
+
+      // 2xx: the response body IS the payload (no envelope). Wire->TS key
+      // mapping is schema-driven; sensitive members come back Redacted.
+      // Strict mode checks the mapped body against the output schema first,
+      // and parse errors withhold a body that can hold a secret (core
+      // `checkSuccess`).
+      const body: unknown = nonJson ? text : json === undefined ? {} : json;
+      const checked = checkSuccess(context, outputAst, {
+        value: mapsVerbatim(outputAst, "decode") ? body : mapKeys(outputAst, body, "decode"),
         body: nonJson ? text : json,
-        headers,
+        nonJson,
       });
-      if (typed !== undefined) return yield* fail(typed);
-      return yield* fail(matchStripeError(status, errorBody, headers));
-    }
-
-    // 2xx: the response body IS the payload (no envelope). Wire→TS key
-    // mapping is schema-driven; sensitive members come back Redacted.
-    // Strict mode checks the mapped body against the output schema first.
-    const body: unknown = nonJson ? text : (json ?? {});
-    const mapped = yield* validateResponse(
-      outputAst,
-      mapKeys(outputAst, body, "decode"),
-      (cause) => new StripeParseError({ body: nonJson ? text : json, cause }),
-    ).pipe(Effect.catch(fail));
-    return wrapSensitive(outputAst, mapped);
+      return checked.ok ? Effect.succeed(checked.value) : fail(new StripeParseError(checked.error));
+    },
   });
 
-export const StripeProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
+const call = (op: API.PreparedOperation, input: unknown): Effect.Effect<unknown> =>
+  Effect.withFiber((fiber) => {
+    const context = fiber.context as Context.Context<any>;
+    return withCredentials(context, (creds) => {
+      const client = Context.get(context, HttpClient.HttpClient);
+      return Effect.flatMap(requestFor(creds, context, input, op.inputAst), (request) =>
+        Effect.flatMap(Send.send(context, client, request), (response) =>
+          decodeResponse(context, response, op.outputAst, op.errors),
+        ),
+      );
+    });
+  }) as Effect.Effect<unknown>;
+
+export const StripeProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(
   API.Protocol,
-  API.Protocol.of({
+  /*@__PURE__*/ API.Protocol.of({
     // Erase encode's Credentials requirement (see comment above).
     encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
-    decode,
+    decode: ({ response, outputAst, errors }) =>
+      Effect.withFiber((fiber) =>
+        decodeResponse(fiber.context as Context.Context<any>, response, outputAst, errors),
+      ),
+    call,
   }),
 );

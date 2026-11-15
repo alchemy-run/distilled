@@ -1,0 +1,59 @@
+{
+  "description": "Hand-authored: type Durable Object code_update_strategy on Worker upload metadata (PUT /workers/scripts/{script_name}) and on deployment creation. The spec models it as an opaque `{ mode } | { mode, max_delay } | unknown` union (smithy.api#Document); Cloudflare unions use opaque key-set schemas, so model it as one structure with a mode enum and an optional max_delay. Wrangler (4.156.0, createWorkerUploadForm + createDeployment) sends it in upload metadata whenever it deploys through PUT /scripts and in the deployment body on the versions path. max_delay is seconds, 0-86400, millisecond precision, and only valid with mode deferred. Keep in sync with workers_for_platforms/putDispatchNamespaceScriptCodeUpdateStrategy.manual.json.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#CodeUpdateStrategyMode",
+      "value": {
+        "type": "enum",
+        "members": {
+          "IMMEDIATE": {
+            "target": "smithy.api#Unit",
+            "traits": { "smithy.api#enumValue": "immediate" }
+          },
+          "DEFERRED": {
+            "target": "smithy.api#Unit",
+            "traits": { "smithy.api#enumValue": "deferred" }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#CodeUpdateStrategy",
+      "value": {
+        "type": "structure",
+        "members": {
+          "mode": {
+            "target": "com.cloudflare.workers#CodeUpdateStrategyMode",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "`immediate` applies Durable Object code updates right away; `deferred` lets active Durable Objects hibernate before updating their code."
+            }
+          },
+          "max_delay": {
+            "target": "smithy.api#Double",
+            "traits": {
+              "smithy.api#documentation": "Maximum number of seconds (0-86400, millisecond precision) to wait before forcing the update. Only valid with mode `deferred`. When omitted, the default maximum delay (300) applies."
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#PutScriptMetadata/members/code_update_strategy",
+      "value": {
+        "target": "com.cloudflare.workers#CodeUpdateStrategy",
+        "traits": {
+          "smithy.api#documentation": "Choose whether to apply Durable Object code updates immediately or defer them. When omitted, the default strategy applies."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.workers#CreateScriptDeploymentRequest/members/code_update_strategy/target",
+      "value": "com.cloudflare.workers#CodeUpdateStrategy"
+    }
+  ]
+}

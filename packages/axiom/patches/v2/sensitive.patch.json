@@ -1,0 +1,54 @@
+{
+  "description": "Mark notifier credentials (Discord bot token and webhook URL, Slack and Microsoft Teams webhook URLs, PagerDuty routing key and token) and the one-time API tokens returned by createAPIToken, regenerateAPIToken and provisionOrg sensitive. The spec types them as plain strings; api.axiom.co returned discordToken and slackUrl unmasked (live run, 2026-10-08).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.axiom.api#DiscordConfig/members/discordToken/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.axiom.api#DiscordWebhookConfig/members/discordWebhookUrl/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.axiom.api#SlackConfig/members/slackUrl/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.axiom.api#MicrosoftTeamsConfig/members/microsoftTeamsUrl/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.axiom.api#PagerDutyConfig/members/routingKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.axiom.api#PagerDutyConfig/members/token/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.axiom.api#CreateAPITokenResponse/members/token/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.axiom.api#RegenerateAPITokenResponse/members/token/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.axiom.api#ProvisionOrgResponse/members/token/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

@@ -3,7 +3,7 @@
  * The dated API version these services were generated from.
  *
  * Whop pins request and response SHAPES to a date, and defaults an unpinned
- * caller to the original `2025-01-01` ones — which are NOT the shapes the
+ * caller to the original `2025-01-01` ones -- which are NOT the shapes the
  * generated schemas describe. WhopProtocol therefore sends this on every
  * request, exactly as Whop's own generated SDKs do.
  *

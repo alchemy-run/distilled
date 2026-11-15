@@ -1,14 +1,14 @@
 /**
- * GraphQL Query algebra — the runtime generated GraphQL SDKs target.
+ * GraphQL Query algebra -- the runtime generated GraphQL SDKs target.
  *
- * ── Why this exists ────────────────────────────────────────────────────────
+ * U+2500U+2500 Why this exists U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500
  * A GraphQL document is a *selection*, not an RPC. Distilled used to bake a
  * max-depth selection into every operation (`Railway.me({})` downloaded the
  * world). This module instead treats every field as a lazy `Query<Value>`:
  * reading `user.email` records that field, and nothing is posted until
  * `Query.fn` evaluates the plan you returned.
  *
- * ── The two phases ─────────────────────────────────────────────────────────
+ * U+2500U+2500 The two phases U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500
  * 1. Build (your function). `Railway.me()` / `user.email` / `Query.map` do
  *    not talk to the network. They construct an expression tree:
  *      Of | Map | Filter | FlatMap | Prop | Root
@@ -21,31 +21,31 @@
  *    against the JSON. Effects reached via FlatMap (e.g.
  *    `usernameIsAvailable(name)`) run *after* the POST, with real values.
  *
- * ── Combinators ────────────────────────────────────────────────────────────
- * - `Query.of(x)` — a literal; never selected.
- * - `Query.map` on a list — callback receives `Query<Item>` so `p.name` is
+ * U+2500U+2500 Combinators U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500
+ * - `Query.of(x)` -- a literal; never selected.
+ * - `Query.map` on a list -- callback receives `Query<Item>` so `p.name` is
  *   still a Query (selected). On a scalar, callback receives the value
  *   after extract (`stars => stars > 5`). Relay connections (`edges { node }`)
  *   are lists of the node type, so `projects({ first: 20 }).pipe(Query.map)`
  *   maps projects, not edges.
- * - `Query.filter` — predicate is `Query<Item> => Query<boolean>`; the
+ * - `Query.filter` -- predicate is `Query<Item> => Query<boolean>`; the
  *   boolean Query is walked for fields, then run per row after the POST.
- * - `Query.flatMap` — after extract, run `(value) => Effect | Query`.
- * - `Query.pages` / `Query.items` — a Stream over every page / node of a
+ * - `Query.flatMap` -- after extract, run `(value) => Effect | Query`.
+ * - `Query.pages` / `Query.items` -- a Stream over every page / node of a
  *   Relay connection, one POST per page (see "Pagination").
  *
- * ── Types ──────────────────────────────────────────────────────────────────
+ * U+2500U+2500 Types U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500
  * `Query<Value>` is `QueryNode<Value>` plus the GraphQL fields of `Value`,
  * so `user.name` type-checks. That copy is a circular type alias
  * (`Query<User>` contains `Query<Project[]>` which contains `Query<User>`
  * again). TypeScript leaves the cycle lazy; there is no depth cap.
  *
- * ── Transport ──────────────────────────────────────────────────────────────
+ * U+2500U+2500 Transport U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500
  * {@link GqlTransport.execute} posts `{ query, variables, operationName }`.
  * The Effect it returns may require Credentials / HttpClient; those leak
  * into `Query.fn`'s requirements. It returns the parsed `data` and raw
- * `errors`; `Query.fn` classifies the errors (see "Errors" below). Compile
- * failures are {@link GqlError} defects.
+ * `errors`; `Query.fn` classifies the errors (see "Errors" below). A plan
+ * that can't be compiled fails with {@link GqlError}.
  *
  * Generated SDKs export *roots* (`Railway.me`, `Railway.project`).
  * Combinators live in `@distilled.cloud/core/query`.
@@ -54,23 +54,40 @@ import * as Context from "effect/Context";
 import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
+import * as Redacted from "effect/Redacted";
 import * as Schedule from "effect/Schedule";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
+import { unwrapRedactedDeep } from "./plain-values.ts";
+import * as Telemetry from "./telemetry.ts";
 
-export const QuerySymbol = Symbol.for("@distilled.cloud/graphql/Query");
-const inspect = Symbol.for("nodejs.util.inspect.custom");
+export const QuerySymbol = /*@__PURE__*/ Symbol.for("@distilled.cloud/graphql/Query");
+const inspect = /*@__PURE__*/ Symbol.for("nodejs.util.inspect.custom");
 
-/** A plan that cannot be compiled (a programming error, raised as a defect). */
-export class GqlError {
-  readonly _tag = "GqlError" as const;
-  readonly message: string;
+/**
+ * A plan that cannot be compiled (a programming error in the query). The
+ * compiler throws it; `Query.fn`, `Query.pages` and `Query.items` fail with
+ * it (see {@link compiling}).
+ */
+export class GqlError
+  extends /*@__PURE__*/ Data.TaggedError("GqlError")<{
+    readonly message: string;
+  }>
+{
   constructor(message: string) {
-    this.message = message;
+    super({ message });
   }
 }
 
-// ── Errors ──────────────────────────────────────────────────────────────────
+/** `f()`, with what the compiler throws failed as a {@link GqlError}. */
+const compiling = <A>(f: () => A): Effect.Effect<A, GqlError> =>
+  Effect.try({
+    try: f,
+    catch: (e) =>
+      e instanceof GqlError ? e : new GqlError(e instanceof Error ? e.message : String(e)),
+  });
+
+// U+2500U+2500 Errors U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500
 //
 // Every entry of a GraphQL `errors` array becomes one typed issue. Generated
 // SDKs declare tagged error classes plus the matchers that recognize them,
@@ -81,14 +98,18 @@ export class GqlError {
 /** Fields every classified GraphQL error carries. */
 export const errorFields = {
   message: S.String,
-  code: S.optional(S.String),
-  path: S.optional(S.Array(S.Union([S.String, S.Number]))),
-  locations: S.optional(S.Array(S.Struct({ line: S.Number, column: S.Number }))),
-  extensions: S.optional(S.Unknown),
-  traceId: S.optional(S.String),
-  status: S.optional(S.Number),
+  code: /*@__PURE__*/ S.optional(S.String),
+  path: /*@__PURE__*/ S.optional(
+    /*@__PURE__*/ S.Array(/*@__PURE__*/ S.Union([S.String, S.Number])),
+  ),
+  locations: /*@__PURE__*/ S.optional(
+    /*@__PURE__*/ S.Array(/*@__PURE__*/ S.Struct({ line: S.Number, column: S.Number })),
+  ),
+  extensions: /*@__PURE__*/ S.optional(S.Unknown),
+  traceId: /*@__PURE__*/ S.optional(S.String),
+  status: /*@__PURE__*/ S.optional(S.Number),
   /** Server retry hint in seconds. */
-  retryAfter: S.optional(S.Number),
+  retryAfter: /*@__PURE__*/ S.optional(S.Number),
 };
 
 /** The shape shared by every classified GraphQL error. */
@@ -110,23 +131,22 @@ export interface GraphQLIssue {
 export type GraphQLIssueProps = Omit<GraphQLIssue, "_tag">;
 
 /** A GraphQL error no declared matcher recognizes. */
-export class UnknownGraphQLError extends S.TaggedError<UnknownGraphQLError>()(
-  "UnknownGraphQLError",
-  {
+export class UnknownGraphQLError
+  extends /*@__PURE__*/ S.TaggedError<UnknownGraphQLError>()("UnknownGraphQLError", {
     ...errorFields,
     /** Root field the error path points at, when the path is known. */
-    coordinate: S.optional(S.String),
-  },
-) {}
+    coordinate: /*@__PURE__*/ S.optional(S.String),
+  }) {}
 
 /** One response carried errors with different tags; none is hidden. */
-export class GraphQLFailure<E extends GraphQLIssue = GraphQLIssue> extends Data.TaggedError(
-  "GraphQLFailure",
-)<{
-  readonly errors: readonly [E, ...E[]];
-  readonly data: unknown;
-  readonly status?: number;
-}> {
+export class GraphQLFailure<E extends GraphQLIssue = GraphQLIssue>
+  extends /*@__PURE__*/ Data.TaggedError("GraphQLFailure")<{
+    readonly errors: readonly [E, ...E[]];
+    /** The partial response data, with sensitive fields wrapped in `Redacted`. */
+    readonly data: unknown;
+    readonly status?: number;
+  }>
+{
   get message(): string {
     return this.errors
       .map((e) => `${e._tag}${e.path?.length ? ` at ${e.path.join(".")}` : ""}: ${e.message}`)
@@ -135,19 +155,21 @@ export class GraphQLFailure<E extends GraphQLIssue = GraphQLIssue> extends Data.
 }
 
 /** The request never produced a GraphQL response (network, HTTP, non-JSON). */
-export class GraphQLTransportError extends Data.TaggedError("GraphQLTransportError")<{
-  readonly message: string;
-  readonly status?: number;
-  /** Server retry hint in seconds. */
-  readonly retryAfter?: number;
-  readonly cause?: unknown;
-}> {}
+export class GraphQLTransportError
+  extends /*@__PURE__*/ Data.TaggedError("GraphQLTransportError")<{
+    readonly message: string;
+    readonly status?: number;
+    /** Server retry hint in seconds. */
+    readonly retryAfter?: number;
+    readonly cause?: unknown;
+  }> {}
 
 /** A paginated connection reported more pages without a new cursor. */
-export class GraphQLPaginationError extends Data.TaggedError("GraphQLPaginationError")<{
-  readonly message: string;
-  readonly cursor: string | null;
-}> {}
+export class GraphQLPaginationError
+  extends /*@__PURE__*/ Data.TaggedError("GraphQLPaginationError")<{
+    readonly message: string;
+    readonly cursor: string | null;
+  }> {}
 
 /** Recognizes a raw GraphQL error. Every present property must match. */
 export interface ErrorMatcher {
@@ -207,6 +229,8 @@ export type FieldMeta = {
   readonly kind: "scalar" | "object" | "list" | "connection";
   readonly of?: TypeMeta;
   readonly argTypes?: ArgMeta;
+  /** The value is a secret: extracted values are wrapped in `Redacted`. */
+  readonly sensitive?: boolean;
 };
 
 export type TypeMeta = {
@@ -214,14 +238,20 @@ export type TypeMeta = {
   readonly fields: Record<string, FieldMeta>;
 };
 
-export const scalarField = (name: string): FieldMeta => ({
+export const scalarField = (
+  name: string,
+  options: { readonly sensitive?: boolean; readonly argTypes?: ArgMeta } = {},
+): FieldMeta => ({
   name,
   kind: "scalar",
+  ...(options.argTypes ? { argTypes: options.argTypes } : {}),
+  ...(options.sensitive ? { sensitive: true } : {}),
 });
-export const objectField = (name: string, objectType: TypeMeta): FieldMeta => ({
+export const objectField = (name: string, objectType: TypeMeta, argTypes?: ArgMeta): FieldMeta => ({
   name,
   kind: "object",
   of: objectType,
+  ...(argTypes ? { argTypes } : {}),
 });
 export const listField = (name: string, itemType: TypeMeta, argTypes?: ArgMeta): FieldMeta => ({
   name,
@@ -279,6 +309,8 @@ export interface SelNode {
   children: Map<string, SelNode>;
   isScalar: boolean;
   isList: boolean;
+  /** The value is a secret: its strings are wrapped in `Redacted`. */
+  sensitive?: boolean;
 }
 
 export interface CompiledOperation {
@@ -289,27 +321,45 @@ export interface CompiledOperation {
   readonly tree: SelNode;
 }
 
-export class GqlTransport extends Context.Service<
-  GqlTransport,
-  {
-    readonly execute: (
-      req: CompiledOperation,
-    ) => Effect.Effect<GraphQLResponse, GraphQLTransportError, any>;
-  }
->()("@distilled.cloud/graphql/Transport") {}
+/**
+ * What a GraphQL SDK's document spans carry, generated from its GraphQL
+ * model's `telemetry` entry (see `packages/dev/src/codegen/telemetry-traits.md`).
+ * One span per document: `<prefix>.<rootField>`, or `<prefix>.<kind>` when
+ * the document selects several root fields.
+ */
+export interface GraphQLTelemetry extends Telemetry.ServiceTelemetry {
+  readonly prefix: string;
+  /** `<kind>.<rootField>`, then argument name, then the attributes read from its value. */
+  readonly fields?: Readonly<
+    Record<string, Readonly<Record<string, ReadonlyArray<Telemetry.AttributeRule>>>>
+  >;
+}
+
+export class GqlTransport
+  extends /*@__PURE__*/ Context.Service<
+    GqlTransport,
+    {
+      readonly execute: (
+        req: CompiledOperation,
+      ) => Effect.Effect<GraphQLResponse, GraphQLTransportError, any>;
+      /** The SDK's span facts; no spans without it. */
+      readonly telemetry?: GraphQLTelemetry;
+    }
+  >()("@distilled.cloud/graphql/Transport") {}
 
 const log = (..._args: Array<unknown>): void => {};
 
 /**
  * GraphQL fields copied onto a Query so `user.name` type-checks.
  * `Query<User>` contains `projects: Query<Project[]>`, which contains
- * `owner: Query<User>` again — TypeScript leaves the cycle lazy. Fields
+ * `owner: Query<User>` again -- TypeScript leaves the cycle lazy. Fields
  * inherit the errors of the root they were read from.
  */
 type QueryFields<Value, Error> = [NonNullable<Value>] extends [ReadonlyArray<infer Item>]
   ? {
-      readonly [Field in keyof NonNullable<Item>]: Query<
-        NonNullable<Item>[Field] | Nullish<Item>,
+      readonly [Field in keyof NonNullable<Item>]: FieldQuery<
+        NonNullable<Item>[Field],
+        Nullish<Item>,
         Error
       >;
     } & {
@@ -317,12 +367,35 @@ type QueryFields<Value, Error> = [NonNullable<Value>] extends [ReadonlyArray<inf
     }
   : [NonNullable<Value>] extends [object]
     ? {
-        readonly [Field in keyof NonNullable<Value>]: Query<
-          NonNullable<Value>[Field] | Nullish<Value>,
+        readonly [Field in keyof NonNullable<Value>]: FieldQuery<
+          NonNullable<Value>[Field],
+          Nullish<Value>,
           Error
         >;
       }
     : {};
+
+/**
+ * A field that takes arguments, as it appears in a generated data type.
+ * Through a Query it is a call: `account.byId({ accountId })`. When every
+ * argument is optional (`Required` false) the field also reads bare.
+ */
+export interface FieldWithArgs<Value, Args, Required extends boolean = true> {
+  readonly "~fieldArgs": {
+    readonly value: Value;
+    readonly args: Args;
+    readonly required: Required;
+  };
+}
+
+/** The Query for one field: a call for a field with arguments, else a property. */
+type FieldQuery<Field, ParentNull, Error> = [Field] extends [
+  FieldWithArgs<infer Value, infer Args, infer Required>,
+]
+  ? [Required] extends [true]
+    ? (args: Args) => Query<Value | ParentNull, Error>
+    : Query<Value | ParentNull, Error> & ((args?: Args) => Query<Value | ParentNull, Error>)
+  : Query<Field | ParentNull, Error>;
 
 /** A field read through a `null` parent is `null`. */
 type Nullish<Value> = Extract<Value, null | undefined>;
@@ -362,7 +435,8 @@ export type QueryError<Error> =
   | Error
   | GraphQLFailure<Extract<Error, GraphQLIssue> | UnknownGraphQLError>
   | UnknownGraphQLError
-  | GraphQLTransportError;
+  | GraphQLTransportError
+  | GqlError;
 
 type Expr =
   | RootExpr
@@ -385,6 +459,8 @@ type RootExpr = {
   readonly connection?: boolean;
   /** Errors this root field can return, including global errors. */
   readonly errors: ReadonlyArray<ErrorSpec>;
+  /** Leaf root whose value is a secret: extracted strings are wrapped in `Redacted`. */
+  readonly sensitive?: boolean;
 };
 
 type PropExpr = {
@@ -651,6 +727,7 @@ export const rootLeaf = <Value, Error = never>(
   args?: Record<string, unknown>,
   argTypes?: ArgMeta,
   errors: ReadonlyArray<ErrorSpec> = [],
+  options: { readonly sensitive?: boolean } = {},
 ): Query<Value, Error> =>
   make({
     _tag: "Root",
@@ -660,6 +737,7 @@ export const rootLeaf = <Value, Error = never>(
     argTypes,
     type: list ? listRef({ tag: "scalar" }) : { tag: "scalar" },
     errors,
+    ...(options.sensitive ? { sensitive: true } : {}),
   });
 
 const printExpr = (expr: Expr): string => {
@@ -706,7 +784,7 @@ type Forest = {
   varI: number;
   aliasI: number;
   rootAlias: WeakMap<object, string>;
-  /** Response key of each root → the root field and its declared errors. */
+  /** Response key of each root -> the root field and its declared errors. */
   rootErrors: Map<string, RootErrors>;
 };
 
@@ -744,9 +822,11 @@ const ensureChild = (
     argTypes?: ArgMeta;
     isScalar?: boolean;
     isList?: boolean;
+    sensitive?: boolean;
   },
 ): SelNode => {
-  const key = options.args === undefined ? field : `${field}:${stableStringify(options.args)}`;
+  const args = unwrapRedactedDeep(options.args) as Record<string, unknown> | undefined;
+  const key = args === undefined ? field : `${field}:${stableStringify(args)}`;
   const existing = parent.children.get(key);
   if (existing) return existing;
   const taken = new Set([...parent.children.values()].map((c) => c.alias ?? c.field));
@@ -759,10 +839,11 @@ const ensureChild = (
   const sel: SelNode = {
     field,
     alias,
-    args: bindArgs(forest, options.args, options.argTypes),
+    args: bindArgs(forest, args, options.argTypes),
     children: new Map(),
     isScalar: options.isScalar ?? false,
     isList: options.isList ?? false,
+    ...(options.sensitive ? { sensitive: true } : {}),
   };
   parent.children.set(key, sel);
   return sel;
@@ -790,6 +871,7 @@ const paintAbs = (forest: Forest, expr: Expr): Path => {
         isScalar:
           expr.type.tag === "scalar" || (expr.type.tag === "list" && expr.type.of.tag === "scalar"),
         isList: expr.type.tag === "list" && !expr.connection,
+        sensitive: expr.sensitive,
       });
       const key = node.alias ?? node.field;
       forest.rootAlias.set(expr, key);
@@ -804,8 +886,11 @@ const paintAbs = (forest: Forest, expr: Expr): Path => {
         argTypes: expr.field.argTypes,
         isScalar: expr.field.kind === "scalar",
         isList: expr.field.kind === "list",
+        sensitive: expr.field.sensitive,
       });
-      const path = [...parentPath, node.alias ?? node.field];
+      const key = node.alias ?? node.field;
+      forest.rootAlias.set(expr, key);
+      const path = [...parentPath, key];
       return expr.field.kind === "connection" ? [...path, ...paintConnection(forest, node)] : path;
     }
     default:
@@ -835,13 +920,14 @@ const connectionNodeSel = (connection: SelNode): SelNode => {
   return node;
 };
 
-const relSel = (expr: Expr, listSel: SelNode): SelNode => {
+const relSel = (forest: Forest, expr: Expr, listSel: SelNode): SelNode => {
   switch (expr._tag) {
     case "Item":
       return listSel;
     case "Prop": {
-      const parent = relSel(expr.parent, listSel);
-      const child = [...parent.children.values()].find((c) => c.field === expr.field.name);
+      const parent = relSel(forest, expr.parent, listSel);
+      const key = forest.rootAlias.get(expr) ?? expr.field.name;
+      const child = [...parent.children.values()].find((c) => (c.alias ?? c.field) === key);
       if (!child) {
         throw new GqlError(`missing ${expr.field.name} in list selection`);
       }
@@ -859,12 +945,14 @@ const paintRel = (forest: Forest, expr: Expr, listSel: SelNode): void => {
       return;
     case "Prop": {
       paintRel(forest, expr.parent, listSel);
-      const child = ensureChild(forest, relSel(expr.parent, listSel), expr.field.name, {
+      const child = ensureChild(forest, relSel(forest, expr.parent, listSel), expr.field.name, {
         args: expr.args,
         argTypes: expr.field.argTypes,
         isScalar: expr.field.kind === "scalar",
         isList: expr.field.kind === "list",
+        sensitive: expr.field.sensitive,
       });
+      forest.rootAlias.set(expr, child.alias ?? child.field);
       if (expr.field.kind === "connection") paintConnection(forest, child);
       return;
     }
@@ -874,11 +962,11 @@ const paintRel = (forest: Forest, expr: Expr, listSel: SelNode): void => {
       return;
     case "MapItems":
       paintRel(forest, expr.parent, listSel);
-      visitRel(expr.mapped, forest, relSel(expr.parent, listSel));
+      visitRel(expr.mapped, forest, relSel(forest, expr.parent, listSel));
       return;
     case "Filter":
       paintRel(forest, expr.parent, listSel);
-      paintRel(forest, expr.predicate, relSel(expr.parent, listSel));
+      paintRel(forest, expr.predicate, relSel(forest, expr.parent, listSel));
       return;
     case "Root":
       throw new GqlError("root inside list item");
@@ -1044,6 +1132,29 @@ const readField = (parent: unknown, name: string): unknown => {
   return (parent as Record<string, unknown>)[name];
 };
 
+/**
+ * Wrap a sensitive scalar in `Redacted`: a string, a JSON object, or each
+ * item of a list of them.
+ */
+const redactValues = (value: unknown): unknown =>
+  value === null || value === undefined
+    ? value
+    : Array.isArray(value)
+      ? value.map(redactValues)
+      : Redacted.make(value);
+
+/** Copy `data` with the value of every sensitive field `sel` selects wrapped in `Redacted`. */
+const redactSelected = (sel: SelNode, data: unknown): unknown => {
+  if (sel.children.size === 0 || data === null || typeof data !== "object") return data;
+  if (Array.isArray(data)) return data.map((item) => redactSelected(sel, item));
+  const out: Record<string, unknown> = { ...data };
+  for (const child of sel.children.values()) {
+    const key = child.alias ?? child.field;
+    out[key] = child.sensitive ? redactValues(out[key]) : redactSelected(child, out[key]);
+  }
+  return out;
+};
+
 const extractAbs = (expr: Expr, data: unknown, rootAlias: WeakMap<object, string>): unknown => {
   switch (expr._tag) {
     case "Root": {
@@ -1051,7 +1162,10 @@ const extractAbs = (expr: Expr, data: unknown, rootAlias: WeakMap<object, string
       return expr.connection ? nodesFromConnection(raw) : raw;
     }
     case "Prop": {
-      const value = readField(extractAbs(expr.parent, data, rootAlias), expr.field.name);
+      const value = readField(
+        extractAbs(expr.parent, data, rootAlias),
+        rootAlias.get(expr) ?? expr.field.name,
+      );
       return expr.field.kind === "connection" ? nodesFromConnection(value) : value;
     }
     default:
@@ -1059,12 +1173,15 @@ const extractAbs = (expr: Expr, data: unknown, rootAlias: WeakMap<object, string
   }
 };
 
-const extractRel = (expr: Expr, item: unknown): unknown => {
+const extractRel = (expr: Expr, item: unknown, rootAlias: WeakMap<object, string>): unknown => {
   switch (expr._tag) {
     case "Item":
       return item;
     case "Prop": {
-      const value = readField(extractRel(expr.parent, item), expr.field.name);
+      const value = readField(
+        extractRel(expr.parent, item, rootAlias),
+        rootAlias.get(expr) ?? expr.field.name,
+      );
       return expr.field.kind === "connection" ? nodesFromConnection(value) : value;
     }
     default:
@@ -1100,7 +1217,7 @@ const interpretExpr = (
       return item;
     case "Root":
     case "Prop":
-      return inItem(expr) ? extractRel(expr, item) : extractAbs(expr, data, rootAlias);
+      return inItem(expr) ? extractRel(expr, item, rootAlias) : extractAbs(expr, data, rootAlias);
     case "MapValue":
       return expr.mapFn(interpretExpr(expr.parent, data, rootAlias, item));
     case "Filter": {
@@ -1149,13 +1266,15 @@ const interpretPlan = (
     if (isQuery(plan)) {
       const expr = (plan as QueryNode).expr;
       if (expr._tag === "FlatMap") {
-        const resolved = interpretExpr(expr.parent, data, rootAlias, undefined);
+        const resolved = yield* compiling(() =>
+          interpretExpr(expr.parent, data, rootAlias, undefined),
+        );
         const next = expr.flatMapFn(resolved);
         if (Effect.isEffect(next)) return yield* next;
         if (isQuery(next)) return yield* interpretPlan(next, data, rootAlias);
         return next;
       }
-      return interpretExpr(expr, data, rootAlias, undefined);
+      return yield* compiling(() => interpretExpr(expr, data, rootAlias, undefined));
     }
     if (Effect.isEffect(plan)) return yield* plan;
     if (plan !== null && typeof plan === "object" && !Array.isArray(plan)) {
@@ -1177,11 +1296,13 @@ const evaluatePlan = <Plan>(
 ): Effect.Effect<UnwrapPlan<Plan>, QueryError<PlanError<Plan>>, GqlTransport> =>
   Effect.gen(function* () {
     const forest = emptyForest();
-    visitPlan(plan, forest);
+    const compiled = yield* compiling(() => {
+      visitPlan(plan, forest);
+      return forest.roots.children.size > 0 ? emit(forest) : undefined;
+    });
     let data: unknown = {};
     let rootAlias: WeakMap<object, string> = new WeakMap();
-    if (forest.roots.children.size > 0) {
-      const compiled = emit(forest);
+    if (compiled !== undefined) {
       log("document\n" + compiled.document);
       data = yield* execute(compiled);
       rootAlias = compiled.rootAlias;
@@ -1198,8 +1319,20 @@ const execute = (compiled: Compiled): Effect.Effect<unknown, ExecuteError, GqlTr
   const once = Effect.gen(function* () {
     const transport = yield* GqlTransport;
     const response = yield* transport.execute(compiled);
+    const data = redactSelected(compiled.tree, response.data);
     const raw = response.errors ?? [];
-    if (raw.length === 0) return response.data;
+    if (raw.length === 0) {
+      // Without errors, a GraphQL response must carry a `data` object.
+      if (!isRecord(response.data)) {
+        return yield* Effect.fail(
+          new GraphQLTransportError({
+            message: "GraphQL response has no data object and no errors",
+            status: response.status,
+          }),
+        );
+      }
+      return data;
+    }
     const issues = raw.map((error) => classify(compiled, error, response));
     const [first, ...rest] = issues as [GraphQLIssue, ...GraphQLIssue[]];
     return yield* Effect.fail(
@@ -1207,20 +1340,76 @@ const execute = (compiled: Compiled): Effect.Effect<unknown, ExecuteError, GqlTr
         ? first
         : new GraphQLFailure({
             errors: [first, ...rest],
-            data: response.data,
+            data,
             status: response.status,
           }),
     );
   });
-  return compiled.kind === "query"
-    ? once.pipe(
-        Effect.retry({
-          while: (error) => isRetryable(compiled, error),
-          times: 5,
-          schedule: Schedule.exponential("200 millis"),
-        }),
-      )
-    : once;
+  const attempts = Effect.withFiber((fiber) => {
+    if (compiled.kind !== "query") return once;
+    const context = fiber.context as Context.Context<any>;
+    let retries = 0;
+    return once.pipe(
+      Effect.retry({
+        while: (error) => {
+          const retry = isRetryable(compiled, error) && retries < 5;
+          // Schedule.exponential("200 millis"): 200 ms, then doubling.
+          if (retry) Telemetry.retried(context, ++retries, error, 200 * 2 ** (retries - 1));
+          return retry;
+        },
+        times: 5,
+        schedule: Schedule.exponential("200 millis"),
+      }),
+    );
+  });
+  return Effect.withFiber((fiber) => {
+    const debug = fiber.getRef(Telemetry.Debug);
+    const telemetry = Context.getOrUndefined(fiber.context, GqlTransport)?.telemetry;
+    if (telemetry === undefined) return attempts;
+    const [info, input] = documentInfo(telemetry, compiled);
+    return Telemetry.operationSpan(fiber, debug, info, undefined, input, () => attempts);
+  }) as Effect.Effect<unknown, ExecuteError, GqlTransport>;
+};
+
+/**
+ * One document's span facts: its root fields name it, and their arguments
+ * fill the attributes the SDK's `fields` rules name (an input object keyed
+ * `<kind>.<field>.<argument>`).
+ */
+const documentInfo = (
+  telemetry: GraphQLTelemetry,
+  compiled: Compiled,
+): readonly [Telemetry.OperationInfo, Record<string, unknown>] => {
+  const roots = [...new Set([...compiled.tree.children.values()].map((node) => node.field))];
+  const single = roots.length === 1 ? roots[0] : undefined;
+  const target = single ?? compiled.kind;
+  const input: Record<string, unknown> = {};
+  const rules: Record<string, ReadonlyArray<Telemetry.AttributeRule>> = {};
+  for (const node of compiled.tree.children.values()) {
+    const fieldRules = telemetry.fields?.[`${compiled.kind}.${node.field}`];
+    if (fieldRules === undefined || node.args === undefined) continue;
+    for (const arg in node.args) {
+      const argRules = fieldRules[arg];
+      if (argRules === undefined) continue;
+      const key = `${compiled.kind}.${node.field}.${arg}`;
+      input[key] = compiled.variables[node.args[arg]!];
+      rules[key] = argRules;
+    }
+  }
+  const info = Telemetry.operationInfo(
+    telemetry,
+    {
+      name: `${telemetry.prefix}.${target}`,
+      method: `${telemetry.prefix}/${target}`,
+      attributes: {
+        "graphql.operation.type": compiled.kind,
+        ...(single !== undefined ? { "graphql.operation.name": single } : {}),
+      },
+      input: rules,
+    },
+    undefined,
+  );
+  return [info, input];
 };
 
 type ExecuteError = GraphQLIssue | GraphQLFailure | GraphQLTransportError;
@@ -1247,13 +1436,34 @@ const isRecord = (value: unknown): value is Record<string, unknown> =>
  * declares (or the global errors for a path-less error). A tie between
  * different tags is ambiguous and stays {@link UnknownGraphQLError}.
  */
-const classify = (
-  compiled: Compiled,
-  raw: RawGraphQLError,
-  response: GraphQLResponse,
-): GraphQLIssue => {
-  const path = Array.isArray(raw.path) ? raw.path : undefined;
-  const root = typeof path?.[0] === "string" ? compiled.rootErrors.get(path[0]) : undefined;
+const classify = (compiled: Compiled, entry: unknown, response: GraphQLResponse): GraphQLIssue => {
+  // The entry comes from the wire: anything that is not an object (`null`,
+  // a bare string) is read as an error with only a message.
+  const raw: Partial<RawGraphQLError> = isRecord(entry)
+    ? (entry as Partial<RawGraphQLError>)
+    : {
+        message:
+          typeof entry === "string"
+            ? entry
+            : `malformed GraphQL error entry (${entry === null ? "null" : typeof entry})`,
+      };
+  const rawPath = Array.isArray(raw.path) ? (raw.path as ReadonlyArray<unknown>) : undefined;
+  const root = typeof rawPath?.[0] === "string" ? compiled.rootErrors.get(rawPath[0]) : undefined;
+  // The error classes validate `path` and `locations`, so a malformed value
+  // is left out instead of making the constructor throw.
+  const path = rawPath?.every((key) => typeof key === "string" || typeof key === "number")
+    ? (rawPath as ReadonlyArray<string | number>)
+    : undefined;
+  const locations =
+    Array.isArray(raw.locations) &&
+    raw.locations.every(
+      (location: unknown) =>
+        isRecord(location) &&
+        typeof location.line === "number" &&
+        typeof location.column === "number",
+    )
+      ? raw.locations
+      : undefined;
   const candidates = root
     ? root.errors
     : uniqueByTag(
@@ -1274,7 +1484,7 @@ const classify = (
     message,
     code,
     path,
-    locations: raw.locations,
+    locations,
     extensions: raw.extensions,
     traceId:
       typeof extensions.traceId === "string"
@@ -1448,7 +1658,7 @@ export function flatMapQuery(sourceOrFlatMapFn: any, flatMapFn?: any): any {
 }
 
 /**
- * Builder → Effect. The inner function is *not* a generator; it returns a
+ * Builder -> Effect. The inner function is *not* a generator; it returns a
  * plan of Query/Effect values. Query.fn visits the plan, POSTs one document,
  * then interprets Map/Filter/FlatMap/Of.
  */
@@ -1463,7 +1673,7 @@ export const queryFn =
     return evaluatePlan(plan);
   };
 
-// ── Pagination ──────────────────────────────────────────────────────────────
+// U+2500U+2500 Pagination U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500
 //
 // A connection lens hides `edges`/`pageInfo`. `Query.pages` re-evaluates the
 // query once per page: it sets the connection's `after` argument, paints
@@ -1526,15 +1736,17 @@ const fetchPage = <Item>(
   state: PageState,
 ) =>
   Effect.gen(function* () {
-    const pageExpr = withCursor(query.expr, connection, state.after);
-    const forest = emptyForest();
-    visitExpr(forest, pageExpr);
-    const nodePath = paintAbs(forest, withCursor(connection, connection, state.after));
-    const connectionPath = nodePath.slice(0, -2);
-    const pageInfo = ensureChild(forest, selAt(forest.roots, connectionPath), "pageInfo", {});
-    ensureChild(forest, pageInfo, "hasNextPage", { isScalar: true });
-    ensureChild(forest, pageInfo, "endCursor", { isScalar: true });
-    const compiled = emit(forest);
+    const { pageExpr, connectionPath, compiled } = yield* compiling(() => {
+      const pageExpr = withCursor(query.expr, connection, state.after);
+      const forest = emptyForest();
+      visitExpr(forest, pageExpr);
+      const nodePath = paintAbs(forest, withCursor(connection, connection, state.after));
+      const connectionPath = nodePath.slice(0, -2);
+      const pageInfo = ensureChild(forest, selAt(forest.roots, connectionPath), "pageInfo", {});
+      ensureChild(forest, pageInfo, "hasNextPage", { isScalar: true });
+      ensureChild(forest, pageInfo, "endCursor", { isScalar: true });
+      return { pageExpr, connectionPath, compiled: emit(forest) };
+    });
     log("page\n" + compiled.document);
     const data = yield* execute(compiled);
     const items = (yield* interpretPlan(make(pageExpr), data, compiled.rootAlias)) as
@@ -1571,29 +1783,31 @@ export const pagesQuery = <Item, Error>(
   query: QueryNode<ReadonlyArray<Item> | null, Error>,
 ): Stream.Stream<ReadonlyArray<Item>, QueryError<Error> | GraphQLPaginationError, GqlTransport> =>
   Stream.unwrap(
-    Effect.sync(() => {
-      const connection = connectionOf(query.expr);
-      const after = connection.args?.after;
-      return Stream.paginate<
-        PageState,
-        ReadonlyArray<Item>,
-        QueryError<Error> | GraphQLPaginationError,
-        GqlTransport
-      >(
-        {
-          after: typeof after === "string" ? after : undefined,
-          seen: new Set(),
-        },
-        (state) =>
-          fetchPage(query, connection, state).pipe(
-            Effect.map(([items, next]) => [[items], next] as const),
-          ) as Effect.Effect<
-            readonly [ReadonlyArray<ReadonlyArray<Item>>, Option.Option<PageState>],
-            QueryError<Error> | GraphQLPaginationError,
-            GqlTransport
-          >,
-      );
-    }),
+    Effect.map(
+      compiling(() => connectionOf(query.expr)),
+      (connection) => {
+        const after = connection.args?.after;
+        return Stream.paginate<
+          PageState,
+          ReadonlyArray<Item>,
+          QueryError<Error> | GraphQLPaginationError,
+          GqlTransport
+        >(
+          {
+            after: typeof after === "string" ? after : undefined,
+            seen: new Set(),
+          },
+          (state) =>
+            fetchPage(query, connection, state).pipe(
+              Effect.map(([items, next]) => [[items], next] as const),
+            ) as Effect.Effect<
+              readonly [ReadonlyArray<ReadonlyArray<Item>>, Option.Option<PageState>],
+              QueryError<Error> | GraphQLPaginationError,
+              GqlTransport
+            >,
+        );
+      },
+    ),
   );
 
 /** Every node of a Relay connection, across all pages. */

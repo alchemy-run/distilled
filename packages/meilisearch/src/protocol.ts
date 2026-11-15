@@ -1,14 +1,15 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
- * MeilisearchProtocol — hand-written.
+ * MeilisearchProtocol -- hand-written.
  *
  * Meilisearch speaks plain bearer-authenticated JSON REST (no response
  * envelope), so the whole protocol is one `makeRestProtocol` call from
  * `core/protocol-rest`:
  *
- *   request:  credentials → `Authorization: Bearer <apiKey>` + base URL
+ *   request:  credentials -> `Authorization: Bearer <apiKey>` + base URL
  *             (default http://localhost:7700), resolved from the calling
  *             fiber on every request
  *
@@ -36,29 +37,24 @@ export type MeilisearchOpError =
   | UnknownMeilisearchError
   | ConfigError
   | HttpClientError.HttpClientError
-  | MeilisearchParseError;
+  | MeilisearchParseError
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Meilisearch operation. */
 export type MeilisearchOpContext = Credentials | HttpClient.HttpClient;
 
-export const MeilisearchProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
-  // The Credentials service holds an effect — resolving it here (per
-  // request, on the calling fiber) picks up context-provided credentials.
-  credentials: Effect.gen(function* () {
-    const resolve = yield* Credentials;
-    return yield* resolve;
-  }),
-  baseUrl: (creds) => creds.apiBaseUrl,
-  headers: (creds) => ({
-    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-  }),
-  // Meilisearch's error body is `{ message, code, type, link }` — the
-  // factory's default lenient envelope covers `code`/`message`.
-  unknownError: ({ code, message, body }) =>
-    new UnknownMeilisearchError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
+export const MeilisearchProtocol: Layer.Layer<API.Protocol> =
+  /*@__PURE__*/ makeRestProtocol<Config>({
+    // The Credentials service holds an effect -- resolving it here (per
+    // request, on the calling fiber) picks up context-provided credentials.
+    credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+    baseUrl: (creds) => creds.apiBaseUrl,
+    headers: (creds) => ({
+      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
     }),
-  parseError: ({ body, cause }) => new MeilisearchParseError({ body, cause }),
-});
+    // Meilisearch's error body is `{ message, code, type, link }` -- the
+    // factory's default lenient envelope covers `code`/`message`.
+    unknownError: (info) => new UnknownMeilisearchError(unknownErrorProps(info)),
+    parseError: ({ body, cause }) => new MeilisearchParseError({ body, cause }),
+  });

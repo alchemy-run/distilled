@@ -1,0 +1,15 @@
+{
+  "description": "The GitHub repository resource's `authorization_token` (\"GitHub authorization token used to clone the repository\") is not marked sensitive. Mark it on the create params and on `updateSessionResource` so it is accepted as `Redacted` and never logged.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.anthropic.beta_sessions#BetaManagedAgentsGitHubRepositoryResourceParams/members/authorization_token/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.anthropic.beta_sessions#BetaUpdateResourceRequest/members/authorization_token/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

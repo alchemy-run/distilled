@@ -1,0 +1,66 @@
+{
+  "description": "Type the 403 the snapshot read operations answer on an organization without the early access: {\"status\": 403, \"error\": \"FORBIDDEN: early access API endpoint\"}. The spec types it only as the shared envelope, so it surfaced as the generic Forbidden, which is also what a missing permission answers. Observed live 2026-11-12 on GET /v1/organizations/{organizationId}/services/{serviceId}/snapshots, .../snapshots/{snapshotId} and .../snapshotConfiguration, and on PATCH .../snapshotConfiguration (49221856-ffc3-40e3-8fa7-2e84d9adbb3b).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.snapshot#FeatureUnavailable",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The feature is not available to this organization or service: its plan does not include it, it is not enabled for the organization, or it is not set up. The message says which.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "early access API endpoint"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.snapshot#SnapshotGetList/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.snapshot#FeatureUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.snapshot#SnapshotGet/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.snapshot#FeatureUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.snapshot#SnapshotConfigurationGet/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.snapshot#FeatureUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.snapshot#SnapshotConfigurationUpdate/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.snapshot#FeatureUnavailable"
+        }
+      ]
+    }
+  ]
+}

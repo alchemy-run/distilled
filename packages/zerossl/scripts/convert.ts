@@ -27,9 +27,10 @@
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
-import { ERROR_MATCHERS_TRAIT, NULLABLE_TRAIT } from "@distilled.cloud/core/codegen/openapi";
-import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
-import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
+import { writeModel } from "@distilled.cloud/dev/codegen/models";
+import { ERROR_MATCHERS_TRAIT, NULLABLE_TRAIT } from "@distilled.cloud/dev/codegen/openapi";
+import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
+import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
 
 const root = path.resolve(import.meta.dirname, "..");
 const specsDir = resolveSpecPath(root, "specs/spec-mirror-zerossl/specs");
@@ -360,8 +361,7 @@ const model = {
   metadata: { zerossl: { repository: manifest.repository, commit: manifest.commit } },
   shapes,
 };
-fs.mkdirSync(outDir, { recursive: true });
-fs.writeFileSync(path.join(outDir, "zerossl.json"), `${JSON.stringify(model, null, 2)}\n`);
+writeModel(path.join(outDir, "zerossl.json"), model);
 console.log(
   `✅ zerossl: ${operations.length} operations from ${manifest.repository}@${manifest.commit.slice(0, 7)}`,
 );

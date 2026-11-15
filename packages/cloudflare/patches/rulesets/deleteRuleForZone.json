@@ -25,6 +25,42 @@
       "op": "replace",
       "path": "/shapes/com.cloudflare.rulesets#DeleteRuleForZone/output/target",
       "value": "com.cloudflare.rulesets#DeleteRuleForZoneResponse"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#RulesetRuleNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The rule is not in the ruleset (`could not find rule with public id`), e.g. it was already deleted.",
+          "smithy.api#error": "client",
+          "com.cloudflare.protocols#errorMatchers": [
+            {
+              "status": 404,
+              "message": {
+                "includes": "could not find rule"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#DeleteRuleForZone/errors",
+      "value": [
+        {
+          "target": "com.cloudflare.rulesets#RulesetRuleNotFound"
+        }
+      ]
     }
   ]
 }

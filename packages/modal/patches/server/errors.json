@@ -1,0 +1,47 @@
+{
+  "description": "Typed not-found error for server stats (gRPC NOT_FOUND = code 5).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.server#ServerNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The server function doesn't exist (gRPC NOT_FOUND).",
+          "com.modal.protocols#errorMatchers": [
+            {
+              "code": 5
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.server#ServerGetTimeRangeStats/errors",
+      "value": [
+        {
+          "target": "com.modal.server#ServerNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.server#ServerRequestFetch/errors",
+      "value": [
+        {
+          "target": "com.modal.server#ServerNotFound"
+        }
+      ]
+    }
+  ]
+}

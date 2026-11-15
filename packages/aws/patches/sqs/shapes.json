@@ -1,0 +1,29 @@
+{
+  "description": "SQS: Members the API leaves out (not required).",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.sqs#SendMessageBatchResult/members/Successful/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.sqs#SendMessageBatchResult/members/Failed/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.sqs#DeleteMessageBatchResult/members/Successful/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.sqs#DeleteMessageBatchResult/members/Failed/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.sqs#ChangeMessageVisibilityBatchResult/members/Successful/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.sqs#ChangeMessageVisibilityBatchResult/members/Failed/traits/smithy.api#required"
+    }
+  ]
+}

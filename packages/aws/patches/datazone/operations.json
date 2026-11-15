@@ -1,0 +1,33 @@
+{
+  "description": "DataZone: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.datazone#ListEnvironments/errors/-",
+      "value": {
+        "target": "com.amazonaws.datazone#ResourceNotFoundException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.datazone#ListProjects/errors/-",
+      "value": {
+        "target": "com.amazonaws.datazone#ResourceNotFoundException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.datazone#DeleteEnvironmentBlueprintConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.datazone#ResourceNotFoundException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.datazone#DeleteEnvironmentBlueprintConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.datazone#EnvironmentBlueprintConfigurationInUse"
+      }
+    }
+  ]
+}

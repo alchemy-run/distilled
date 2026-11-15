@@ -3,75 +3,75 @@
   "patches": [
     {
       "op": "remove",
-      "path": "/shapes/com.posthog.external_data_schemas#PaginatedExternalDataSchemaList/members/count/traits"
+      "path": "/shapes/com.posthog.external_data_schemas#PaginatedExternalDataSchemaListOutput/members/count/traits"
     },
     {
       "op": "remove",
-      "path": "/shapes/com.posthog.external_data_schemas#PaginatedExternalDataSchemaList/members/results/traits"
+      "path": "/shapes/com.posthog.external_data_schemas#PaginatedExternalDataSchemaListOutput/members/results/traits"
     },
     {
       "op": "remove",
-      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchema/members/id/traits"
+      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchemaOutput/members/id/traits"
     },
     {
       "op": "remove",
-      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchema/members/name/traits"
+      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchemaOutput/members/name/traits"
     },
     {
       "op": "remove",
-      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchema/members/label/traits/smithy.api#required"
+      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchemaOutput/members/label/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchema/members/table/traits/smithy.api#required"
+      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchemaOutput/members/table/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchema/members/last_synced_at/traits/smithy.api#required"
+      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchemaOutput/members/last_synced_at/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchema/members/latest_error/traits/smithy.api#required"
+      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchemaOutput/members/latest_error/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchema/members/incremental/traits"
+      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchemaOutput/members/incremental/traits"
     },
     {
       "op": "remove",
-      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchema/members/status/traits/smithy.api#required"
+      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchemaOutput/members/status/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchema/members/next_full_refresh_at/traits/smithy.api#required"
+      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchemaOutput/members/next_full_refresh_at/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchema/members/description/traits/smithy.api#required"
+      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchemaOutput/members/description/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchema/members/incremental_sync_blocked/traits/smithy.api#required"
+      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchemaOutput/members/incremental_sync_blocked/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchema/members/available_columns/traits/smithy.api#required"
+      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchemaOutput/members/available_columns/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchema/members/source_column_metadata_available/traits/smithy.api#required"
+      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchemaOutput/members/source_column_metadata_available/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchema/members/source/traits/smithy.api#required"
+      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchemaOutput/members/source/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchema/members/api_version_deprecation/traits/smithy.api#required"
+      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchemaOutput/members/api_version_deprecation/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchema/members/user_access_level/traits/smithy.api#required"
+      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchemaOutput/members/user_access_level/traits/smithy.api#required"
     }
   ]
 }

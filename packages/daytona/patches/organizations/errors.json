@@ -1,0 +1,584 @@
+{
+  "description": "Type the not-found and already-exists failures of the organizations operations. Daytona's API (NestJS) throws NotFoundException (404) / ConflictException (409) with a `{ statusCode, message, error }` body; observed in the open-source daytonaio/daytona apps/api controllers/services at v0.190.0 (AGPL, archived June 2026). The OpenAPI document declares no error responses, so every failure surfaced as the generic status union. Each tag matches on status alone because every listed operation addresses exactly one resource of that kind by id or name. To be confirmed against the live API before merge.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#IdentityProviderNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The identity provider does not exist (HTTP 404).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#OrganizationInvitationNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The organization invitation does not exist (HTTP 404).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#OrganizationMemberNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The organization member does not exist (HTTP 404).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#OrganizationNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The organization does not exist (HTTP 404).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#OrganizationRoleAlreadyExists",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "A organization role with that name already exists (HTTP 409).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#OrganizationRoleNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The organization role does not exist (HTTP 404).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#RegionAlreadyExists",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "A region with that name already exists (HTTP 409).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#RegionNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The region does not exist (HTTP 404).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#AcceptOrganizationInvitation/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.organizations#OrganizationInvitationNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#CancelOrganizationInvitation/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.organizations#OrganizationInvitationNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#CreateOrganizationIdentityProvider/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.organizations#OrganizationNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#CreateOrganizationInvitation/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.organizations#OrganizationNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#CreateOrganizationRole/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.organizations#OrganizationNotFound"
+        },
+        {
+          "target": "com.daytona.organizations#OrganizationRoleAlreadyExists"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#CreateRegion/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.organizations#RegionAlreadyExists"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#DeclineOrganizationInvitation/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.organizations#OrganizationInvitationNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#DeleteOrganization/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.organizations#OrganizationNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#DeleteOrganizationIdentityProvider/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.organizations#IdentityProviderNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#DeleteOrganizationMember/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.organizations#OrganizationMemberNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#DeleteOrganizationOtelConfig/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.organizations#OrganizationNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#DeleteOrganizationRole/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.organizations#OrganizationRoleNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#DeleteRegion/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.organizations#RegionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#GenerateWorkosAdminPortalLink/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.organizations#OrganizationNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#GetGpuCapacity/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.organizations#OrganizationNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#GetOrganization/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.organizations#OrganizationNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#GetOrganizationIdentityProvider/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.organizations#IdentityProviderNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#GetOrganizationOtelConfig/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.organizations#OrganizationNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#GetOrganizationUsageOverview/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.organizations#OrganizationNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#GetRegionById/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.organizations#RegionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#LeaveOrganization/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.organizations#OrganizationNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#ListAvailableSandboxClasses/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.organizations#OrganizationNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#ListOrganizationIdentityProviders/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.organizations#OrganizationNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#ListOrganizationInvitations/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.organizations#OrganizationNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#ListOrganizationMembers/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.organizations#OrganizationNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#ListOrganizationRoles/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.organizations#OrganizationNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#ListWorkosSsoConnections/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.organizations#OrganizationNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#RegenerateProxyApiKey/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.organizations#RegionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#RegenerateSnapshotManagerCredentials/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.organizations#RegionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#RegenerateSshGatewayApiKey/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.organizations#RegionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#SetOrganizationDefaultRegion/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.organizations#OrganizationNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#TestOrganizationIdentityProviderConnection/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.organizations#OrganizationNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#UpdateAccessForOrganizationMember/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.organizations#OrganizationMemberNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#UpdateExperimentalConfig/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.organizations#OrganizationNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#UpdateOrganizationDefaultQueueTimeout/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.organizations#OrganizationNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#UpdateOrganizationIdentityProvider/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.organizations#IdentityProviderNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#UpdateOrganizationInvitation/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.organizations#OrganizationInvitationNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#UpdateOrganizationOtelConfig/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.organizations#OrganizationNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#UpdateOrganizationRole/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.organizations#OrganizationRoleNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#UpdateRegion/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.organizations#RegionNotFound"
+        }
+      ]
+    }
+  ]
+}

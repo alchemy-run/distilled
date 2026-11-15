@@ -1,0 +1,101 @@
+{
+  "description": "Secrets in the DNS settings: the TLS certificate passwords of the DNS and web services, the proxy password and the TSIG keys. Technitium's documentation marks no member as secret. settings/get and settings/set write dnsTlsCertificatePassword and webServiceTlsCertificatePassword (documented with a null example, so their target becomes a string) and each TSIG key's sharedSecret; settings/set reads tsigKeys as one string that holds the key names and shared secrets, and proxyPassword (APIDOCS.md, v15.5.0). Inputs accept a string or a Redacted value; outputs are always Redacted (technitium.api#redactedOutput). The tsigKeys list in responses is not marked as a whole, because it is a list of objects; its sharedSecret members are.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/technitium.settings#GetDnsSettingsResponse/members/dnsTlsCertificatePassword/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.settings#GetDnsSettingsResponse/members/dnsTlsCertificatePassword/traits",
+      "value": {
+        "smithy.api#sensitive": {},
+        "technitium.api#redactedOutput": {}
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/technitium.settings#GetDnsSettingsResponse/members/webServiceTlsCertificatePassword/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.settings#GetDnsSettingsResponse/members/webServiceTlsCertificatePassword/traits",
+      "value": {
+        "smithy.api#sensitive": {},
+        "technitium.api#redactedOutput": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.settings#GetDnsSettingsResponseTsigKeysItem/members/sharedSecret/traits",
+      "value": {
+        "smithy.api#sensitive": {},
+        "technitium.api#redactedOutput": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.settings#SetDnsSettingsRequest/members/webServiceTlsCertificatePassword/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.settings#SetDnsSettingsRequest/members/dnsTlsCertificatePassword/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.settings#SetDnsSettingsRequest/members/tsigKeys/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.settings#SetDnsSettingsRequest/members/proxyPassword/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/technitium.settings#SetDnsSettingsResponse/members/dnsTlsCertificatePassword/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.settings#SetDnsSettingsResponse/members/dnsTlsCertificatePassword/traits",
+      "value": {
+        "smithy.api#sensitive": {},
+        "technitium.api#redactedOutput": {}
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/technitium.settings#SetDnsSettingsResponse/members/webServiceTlsCertificatePassword/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.settings#SetDnsSettingsResponse/members/webServiceTlsCertificatePassword/traits",
+      "value": {
+        "smithy.api#sensitive": {},
+        "technitium.api#redactedOutput": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.settings#SetDnsSettingsResponseTsigKeysItem/members/sharedSecret/traits",
+      "value": {
+        "smithy.api#sensitive": {},
+        "technitium.api#redactedOutput": {}
+      }
+    }
+  ]
+}

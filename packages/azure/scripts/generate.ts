@@ -1,5 +1,5 @@
 #!/usr/bin/env -S node --conditions=bun
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the per-service Smithy JSON models in .generated-specs
  * into the Azure Effect SDK.
@@ -8,7 +8,7 @@ import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
  * Output: src/services/<service>.ts  +  src/services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is Azure's provider spec.
+ * `@distilled.cloud/dev/codegen`; this script is Azure's provider spec.
  *
  * v0 parity notes:
  *   • operation exports keep the ARM operationId casing
@@ -23,7 +23,7 @@ import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
  *   • the operation's `T.Http` trait carries the baked `apiVersion`
  *     (folded in by convert.ts); the protocol appends `?api-version=`
  */
-import type { SdkSpec } from "@distilled.cloud/core/codegen/generator";
+import type { SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
@@ -61,12 +61,12 @@ const azureSpec: SdkSpec = {
       ? `string | Redacted.Redacted<string>${m.nullable ? " | null" : ""}`
       : undefined,
 
-  // Unions surface as TS type unions over an opaque schema — the protocol
-  // passes union content through verbatim.
-  union: ({ name, caseTargets, tsRef }) => [
-    `export type ${name} = ${caseTargets.map(tsRef).join(" | ") || "unknown"};`,
-    `export const ${name} = S.Unknown as any as S.Schema<${name}>;\n`,
-  ],
+  // Unions are ARM's polymorphic hierarchies (a base with
+  // `discriminator` + `x-ms-discriminator-value` subtypes), which the shared
+  // converter turns into unions of the subtypes. Each arm is a real schema,
+  // so the protocol wraps the sensitive members of every arm (a linked
+  // service password, a storage account key) in Redacted.
+  unionStyle: "untagged",
 
   operationDecl: {
     contextType: "AzureOpContext",
@@ -82,8 +82,8 @@ const azureSpec: SdkSpec = {
   postProcess: (code) =>
     code.includes("Redacted.Redacted<")
       ? code.replace(
-          `import * as S from "@distilled.cloud/core/schema";\n`,
-          `import * as S from "@distilled.cloud/core/schema";\nimport * as Redacted from "effect/Redacted";\n`,
+          `import * as S from "@distilled.cloud/core/schema-lite";\n`,
+          `import * as S from "@distilled.cloud/core/schema-lite";\nimport * as Redacted from "effect/Redacted";\n`,
         )
       : code,
 };
@@ -105,6 +105,7 @@ const markScopeLabelsGreedy = (model: any): void => {
 
 runGeneratorCli({
   description: "Generate the Azure Effect SDK from the Smithy models",
+  convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   // patches/<service>/*.json apply in convert (finalizeConvert), so the
   // models here are already patched.

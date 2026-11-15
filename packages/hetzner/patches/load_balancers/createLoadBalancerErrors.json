@@ -1,0 +1,31 @@
+{
+  "description": "Type createLoadBalancer's Primary IP quota failure. A Load Balancer takes two of the project's public IPv4 addresses, so an exhausted quota fails the create with Forbidden (403 resource_limit_exceeded, message 'Primary IP limit exceeded'), the same error createPrimaryIp types as PrimaryIpLimitExceeded.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.hetzner.load_balancers#PrimaryIpLimitExceeded",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": { "target": "smithy.api#Integer" },
+          "message": { "target": "smithy.api#String" }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The project has no remaining Primary IP quota for the Load Balancer's public IPs (Hetzner `resource_limit_exceeded`, HTTP 403). Servers and Load Balancers share it; it frees up as they are deleted.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403,
+              "message": { "includes": "IP limit" }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.hetzner.load_balancers#CreateLoadBalancer/errors",
+      "value": [{ "target": "com.hetzner.load_balancers#PrimaryIpLimitExceeded" }]
+    }
+  ]
+}

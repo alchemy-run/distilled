@@ -1,18 +1,23 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { ConfigError } from "@distilled.cloud/core/errors";
+import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import {
+  makeRestProtocol,
+  type RestErrorEnvelope,
+  unknownErrorProps,
+} from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
- * HuggingFaceProtocol — the shared bearer-REST protocol instantiated for the
+ * HuggingFaceProtocol -- the shared bearer-REST protocol instantiated for the
  * Hugging Face Hub.
  *
  * The Hub speaks plain JSON with no success envelope: a list endpoint returns
  * its array, a single resource returns the object itself. Failures usually
- * carry `{ "error": "<message>" }` — a bare string — though a few surfaces
+ * carry `{ "error": "<message>" }` -- a bare string -- though a few surfaces
  * (Spaces control plane, SCIM) answer with `{ "error": { "code", "message" } }`
  * objects instead; both forms are unwrapped below.
  *
- * There is no API version anywhere on the wire — no versioned path segment,
+ * There is no API version anywhere on the wire -- no versioned path segment,
  * no version header. The document at
  * https://huggingface.co/.well-known/openapi.json is the moving target the
  * SDK regenerates against.
@@ -31,7 +36,12 @@ import { UnknownHuggingFaceError, type DefaultErrors, HuggingFaceParseError } fr
  * HuggingFaceOpError, HuggingFaceOpContext>` explicitly so the compiler never
  * infers these back out of the schema generics.
  */
-export type HuggingFaceOpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError;
+export type HuggingFaceOpError =
+  | DefaultErrors
+  | ConfigError
+  | HttpClientError.HttpClientError
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Hugging Face operation. */
 export type HuggingFaceOpContext = Credentials | HttpClient.HttpClient;
@@ -54,25 +64,18 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   };
 };
 
-export const HuggingFaceProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
-  // Resolved on the CALLING fiber per request (the layer is memoized per
-  // process); the Credentials service holds an effect, so a token rotated
-  // between calls is picked up without rebuilding the layer.
-  credentials: Effect.gen(function* () {
-    const resolve = yield* Credentials;
-    return yield* resolve;
-  }),
-  baseUrl: (creds) => creds.apiBaseUrl,
-  headers: (creds) => ({
-    Authorization: `Bearer ${Redacted.value(creds.token)}`,
-  }),
-  errorEnvelope,
-  statusMap: HTTP_STATUS_MAP,
-  unknownError: ({ code, message, body }) =>
-    new UnknownHuggingFaceError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
+export const HuggingFaceProtocol: Layer.Layer<API.Protocol> =
+  /*@__PURE__*/ makeRestProtocol<Config>({
+    // Resolved on the CALLING fiber per request (the layer is memoized per
+    // process); the Credentials service holds an effect, so a token rotated
+    // between calls is picked up without rebuilding the layer.
+    credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+    baseUrl: (creds) => creds.apiBaseUrl,
+    headers: (creds) => ({
+      Authorization: `Bearer ${Redacted.value(creds.token)}`,
     }),
-  parseError: ({ body, cause }) => new HuggingFaceParseError({ body, cause }),
-});
+    errorEnvelope,
+    statusMap: HTTP_STATUS_MAP,
+    unknownError: (info) => new UnknownHuggingFaceError(unknownErrorProps(info)),
+    parseError: ({ body, cause }) => new HuggingFaceParseError({ body, cause }),
+  });

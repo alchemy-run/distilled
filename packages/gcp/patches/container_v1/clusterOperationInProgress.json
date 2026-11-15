@@ -1,0 +1,54 @@
+{
+  "description": "Type GKE's 400 for a cluster busy with another operation. Observed live 2026-10-29: deleting a node pool while a node-pool resize ran answered 400 'Cluster is running incompatible operation operation-...'. It surfaced as an out-of-union BadRequest, so providers could not wait the operation out.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.container_v1#ClusterOperationInProgress",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The cluster is running another operation that conflicts with this one (HTTP 400: 'Cluster is running incompatible operation ...'). Retryable once it finishes.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "is running incompatible operation"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.container_v1#DeleteProjectsLocationsClustersNodePools/errors/-",
+      "value": {
+        "target": "com.gcp.container_v1#ClusterOperationInProgress"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.container_v1#DeleteProjectsLocationsClusters/errors/-",
+      "value": {
+        "target": "com.gcp.container_v1#ClusterOperationInProgress"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.container_v1#CreateProjectsLocationsClustersNodePools/errors/-",
+      "value": {
+        "target": "com.gcp.container_v1#ClusterOperationInProgress"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.container_v1#UpdateProjectsLocationsClustersNodePools/errors/-",
+      "value": {
+        "target": "com.gcp.container_v1#ClusterOperationInProgress"
+      }
+    }
+  ]
+}

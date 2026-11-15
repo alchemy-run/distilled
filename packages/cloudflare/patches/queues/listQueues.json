@@ -1,5 +1,5 @@
 {
-  "description": "Align queues#List with distilled cloudflare/queues listQueues",
+  "description": "Align queues#List with distilled cloudflare/queues listQueues. The endpoint pages with `page`/`per_page` and reports `result_info` (wrangler's listQueues sends `page`: https://github.com/cloudflare/workers-sdk/blob/main/packages/deploy-helpers/src/triggers/queue-consumers.ts, 2026-10-23), so mark it page-paginated instead of single.",
   "patches": [
     {
       "op": "move",
@@ -17,6 +17,28 @@
       "value": "com.cloudflare.queues#ListQueuesRequest"
     },
     {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.queues#ListQueuesRequest/members/page",
+      "value": {
+        "target": "smithy.api#Double",
+        "traits": {
+          "smithy.api#documentation": "Page number.",
+          "smithy.api#httpQuery": "page"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.queues#ListQueuesRequest/members/per_page",
+      "value": {
+        "target": "smithy.api#Double",
+        "traits": {
+          "smithy.api#documentation": "Number of queues to return per page.",
+          "smithy.api#httpQuery": "per_page"
+        }
+      }
+    },
+    {
       "op": "move",
       "from": "/shapes/com.cloudflare.queues#ListResponse",
       "path": "/shapes/com.cloudflare.queues#ListQueuesResponse"
@@ -30,8 +52,11 @@
       "op": "add",
       "path": "/shapes/com.cloudflare.queues#ListQueues/traits/smithy.api#paginated",
       "value": {
-        "mode": "single",
-        "items": "result"
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "resultInfo.page",
+        "items": "result",
+        "pageSize": "perPage"
       }
     },
     {

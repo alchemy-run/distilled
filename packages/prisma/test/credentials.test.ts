@@ -23,7 +23,7 @@ test("reads PRISMA_API_TOKEN through the renamed package", () =>
     credentials({ PRISMA_API_TOKEN: "primary-token" }).pipe(
       Effect.tap((config) =>
         Effect.sync(() => {
-          expect(Redacted.value(config.apiToken)).toBe("primary-token");
+          expect(Redacted.value(config.apiToken!)).toBe("primary-token");
           expect(config.apiBaseUrl).toBe("https://api.prisma.io");
         }),
       ),
@@ -35,7 +35,7 @@ test("preserves the legacy token environment variable", () =>
     credentials({ PRISMA_POSTGRES_API_TOKEN: "legacy-token" }).pipe(
       Effect.tap((config) =>
         Effect.sync(() => {
-          expect(Redacted.value(config.apiToken)).toBe("legacy-token");
+          expect(Redacted.value(config.apiToken!)).toBe("legacy-token");
         }),
       ),
     ),
@@ -49,7 +49,7 @@ test("prefers the Prisma token when both names are configured", () =>
     }).pipe(
       Effect.tap((config) =>
         Effect.sync(() => {
-          expect(Redacted.value(config.apiToken)).toBe("primary-token");
+          expect(Redacted.value(config.apiToken!)).toBe("primary-token");
         }),
       ),
     ),

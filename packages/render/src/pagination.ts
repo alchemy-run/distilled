@@ -1,6 +1,6 @@
 import * as Pagination from "@distilled.cloud/core/pagination";
 /**
- * Render pagination — hand-written.
+ * Render pagination -- hand-written.
  *
  * Render's list operations are cursor-mode (`cursor`/`limit` in). Most lists
  * return a bare array of `{ cursor, <resource> }` objects; the next page is
@@ -20,7 +20,7 @@ export { paginateCursor } from "@distilled.cloud/core/pagination";
 export const paginateRender: Pagination.PaginationStrategy = (operation, input, pagination) => {
   const inputToken = pagination.inputToken;
   if (!inputToken) {
-    return Stream.die(new Error("Render cursor pagination requires inputToken"));
+    return Pagination.missingPaginationConfig("Render cursor pagination requires inputToken");
   }
   const itemsPath = pagination.items ?? "body";
 

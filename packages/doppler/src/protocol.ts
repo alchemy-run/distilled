@@ -1,14 +1,15 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
- * DopplerProtocol — hand-written.
+ * DopplerProtocol -- hand-written.
  *
  * Doppler speaks plain bearer-authenticated JSON REST (no response envelope),
  * so the whole protocol is one `makeRestProtocol` call from
  * `core/protocol-rest`:
  *
- *   request:  credentials → `Authorization: Bearer <token>` + base URL
+ *   request:  credentials -> `Authorization: Bearer <token>` + base URL
  *             (default https://api.doppler.com), resolved from the
  *             calling fiber on every request
  *
@@ -37,18 +38,17 @@ export type DopplerOpError =
   | UnknownDopplerError
   | ConfigError
   | HttpClientError.HttpClientError
-  | DopplerParseError;
+  | DopplerParseError
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Doppler operation. */
 export type DopplerOpContext = Credentials | HttpClient.HttpClient;
 
-export const DopplerProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
-  // The Credentials service holds an effect — resolving it here (per
+export const DopplerProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+  // The Credentials service holds an effect -- resolving it here (per
   // request, on the calling fiber) picks up context-provided credentials.
-  credentials: Effect.gen(function* () {
-    const resolve = yield* Credentials;
-    return yield* resolve;
-  }),
+  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => ({
     Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
@@ -80,26 +80,16 @@ export const DopplerProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Confi
     if (code === undefined && message === undefined) return undefined;
     return { code, message };
   },
-  unknownError: ({ code, message, body }) =>
-    new UnknownDopplerError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownDopplerError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new DopplerParseError({ body, cause }),
 });
 
 /** Unauthenticated browser-login operations never resolve or send credentials. */
 export type DopplerPublicOpContext = HttpClient.HttpClient;
-export const DopplerPublicProtocol: Layer.Layer<API.Protocol> = makeRestProtocol({
-  credentials: Effect.succeed(undefined),
+export const DopplerPublicProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol({
+  credentials: /*@__PURE__*/ Effect.succeed(undefined),
   baseUrl: () => "https://api.doppler.com",
   headers: () => ({ Accept: "application/json" }),
-  unknownError: ({ code, message }) =>
-    new UnknownDopplerError({
-      code: code === undefined ? undefined : String(code),
-      message,
-      body: undefined,
-    }),
+  unknownError: (info) => new UnknownDopplerError({ ...unknownErrorProps(info), body: undefined }),
   parseError: ({ body, cause }) => new DopplerParseError({ body, cause }),
 });

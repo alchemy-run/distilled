@@ -1,0 +1,16 @@
+{
+  "description": "Add the `page` cursor to GET /v2/core/event_destinations. The spec lists only `limit`, but the response's `next_page_url` is `/v2/core/event_destinations?page=page_…&limit=1`, so without `page` a client can only read the first page.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#GetV2CoreEventDestinationsRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page cursor from a previous response's `next_page_url`."
+        }
+      }
+    }
+  ]
+}

@@ -112,6 +112,17 @@ tree never exists.
 provider and closes the selection over external `$ref`s, so the mirror is
 self-contained: 338,547 upstream paths in, 777 documents out.
 
+### Mirrors that need credentials
+
+`aws` also mirrors the EventBridge `aws.events` schema registry (the events
+AWS services send, such as an SES bounce or complaint). The registry is an AWS
+API and takes signed requests only, so the shared workflow passes the
+repository's `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` Actions secrets
+to the fetch step. Only `spec-mirror-aws` holds them; every other mirror sees
+them empty. They are minted and written by
+[`stacks/distilled-monorepo`](../distilled-monorepo), not by this stack: its
+token has no Secrets permission, and minting an AWS key is an admin deploy.
+
 ## Working on a mirror locally
 
 The mirrors live in an org most contributors cannot write to, and a new one
@@ -136,7 +147,7 @@ Local mode is an environment variable rather than an edit to the package's
 spec path. Nothing committed points at `.local` — `specs:check` fails the
 build if anything does — so there is no local-only reference to forget to
 revert, and a package that reads from a gitignored directory can never reach
-`main`. See `@distilled.cloud/core/codegen/spec-path` and
+`main`. See `@distilled.cloud/dev/codegen/spec-path` and
 `.claude/skills/distilled-sdk`.
 
 ## Deploying

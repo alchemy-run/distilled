@@ -1,0 +1,10 @@
+{
+  "description": "The spec's CreatedTeamAPIKey.key is documented as the raw value of the new API key, returned once at creation, but carries no sensitive mark, so it surfaces as a plain string. Source: spec/openapi.yml (e2b-dev/E2B, 2026-11-02).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.e2b.api_keys#CreatedTeamAPIKey/members/key/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

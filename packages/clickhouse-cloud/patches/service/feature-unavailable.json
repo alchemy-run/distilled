@@ -1,0 +1,159 @@
+{
+  "description": "Type the 403s the service operations answer for a feature the organization's plan or settings do not include: GET and POST .../jwtProviders, PUT and DELETE .../jwtProviders/{name}: {\"status\": 403, \"error\": \"FORBIDDEN: Cannot use JWT authentication providers in SCALE pricing package\"} (get by name 757cc0d9-26b4-40ad-ad16-6086367c9b52, list 6e7d7036-e65c-428b-8eec-269a6d5d8122, create ad6f643b-5312-417a-b03b-14324410a734); GET and PATCH .../clickhouseSettings, GET .../clickhouseSettings/schema, GET and DELETE .../clickhouseSettings/{settingName}: \"FORBIDDEN: ClickHouse settings API is not enabled for this organization. Please contact support to enable this feature\" (update 4b53bb2b-ff97-4638-849b-7d6120c306fa); GET and PATCH .../replicaAwareRouting: \"FORBIDDEN: early access API endpoint\" (update dda6edb8-7251-4d0d-8b3c-fe149714225a); PUT .../upgradeWindow: \"FORBIDDEN: Cannot use scheduled upgrades in SCALE pricing package\" (dec211d0-e105-443e-821c-e817b38773e8). The spec types them only as the shared envelope, so they surfaced as the generic Forbidden, which is also what a missing permission answers. Observed live 2026-11-12 on a SCALE-package organization. The scaling schedule, replica scaling (horizontal autoscaling), backup configuration and backup bucket operations are not gated there and carry no error.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.service#FeatureUnavailable",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The feature is not available to this organization or service: its plan does not include it, it is not enabled for the organization, or it is not set up. The message says which.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "pricing package"
+              }
+            },
+            {
+              "status": 403,
+              "message": {
+                "includes": "is not enabled for this organization"
+              }
+            },
+            {
+              "status": 403,
+              "message": {
+                "includes": "early access API endpoint"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.service#JwtProviderGetList/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.service#FeatureUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.service#JwtProviderGet/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.service#FeatureUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.service#JwtProviderCreate/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.service#FeatureUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.service#JwtProviderUpdate/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.service#FeatureUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.service#JwtProviderDelete/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.service#FeatureUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.service#ServiceClickhouseSettingsListGet/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.service#FeatureUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.service#ServiceClickhouseSettingsSchemaGet/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.service#FeatureUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.service#ServiceClickhouseSettingGet/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.service#FeatureUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.service#ServiceClickhouseSettingsUpdate/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.service#FeatureUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.service#ServiceClickhouseSettingDelete/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.service#FeatureUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.service#ReplicaAwareRoutingGet/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.service#FeatureUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.service#ReplicaAwareRoutingUpdate/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.service#FeatureUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.service#UpgradeWindowUpdate/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.service#FeatureUnavailable"
+        }
+      ]
+    }
+  ]
+}

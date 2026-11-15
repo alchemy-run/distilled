@@ -1,0 +1,31 @@
+{
+  "description": "Type createServer's Primary IP quota failure. A Server takes a Primary IPv4 (and IPv6) on create, so an exhausted project quota fails the create with Forbidden (403 resource_limit_exceeded, message 'Primary IP limit exceeded'), the same error createPrimaryIp already types as PrimaryIpLimitExceeded.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.hetzner.servers#PrimaryIpLimitExceeded",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": { "target": "smithy.api#Integer" },
+          "message": { "target": "smithy.api#String" }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The project has no remaining Primary IP quota for the Server's public IPs (Hetzner `resource_limit_exceeded`, HTTP 403). Servers and Load Balancers share it; it frees up as they are deleted.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403,
+              "message": { "includes": "IP limit" }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.hetzner.servers#CreateServer/errors/-",
+      "value": { "target": "com.hetzner.servers#PrimaryIpLimitExceeded" }
+    }
+  ]
+}

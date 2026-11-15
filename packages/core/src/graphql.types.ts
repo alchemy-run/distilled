@@ -3,11 +3,13 @@ import type * as Stream from "effect/Stream";
 import { mapQuery } from "./graphql.ts";
 import type {
   itemsQuery,
+  GqlError,
   GraphQLFailure,
   GraphQLTransportError,
   UnknownGraphQLError,
 } from "./graphql.ts";
 /** Compile-only: Query.fn unwraps Query/Effect fields on the returned plan. */
+import type { FieldWithArgs } from "./graphql.ts";
 import type { PlanError, Query, QueryError, UnwrapPlan } from "./query.ts";
 
 type Plan = {
@@ -26,7 +28,7 @@ type _Projects = Assert<
 >;
 type _Flag = Assert<Equal<Unwrapped["flag"], boolean>>;
 
-// ── Errors ──────────────────────────────────────────────────────────────────
+// U+2500U+2500 Errors U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500
 declare class NotFound {
   readonly _tag: "NotFound";
   readonly message: string;
@@ -58,13 +60,16 @@ type _QueryError = Assert<
   Equal<
     Exclude<
       QueryError<NotFound>,
-      GraphQLFailure<NotFound | UnknownGraphQLError> | UnknownGraphQLError | GraphQLTransportError
+      | GraphQLFailure<NotFound | UnknownGraphQLError>
+      | UnknownGraphQLError
+      | GraphQLTransportError
+      | GqlError
     >,
     NotFound
   >
 >;
 
-// ── Pagination ──────────────────────────────────────────────────────────────
+// U+2500U+2500 Pagination U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500
 declare const services: Query<ReadonlyArray<{ name: string }>, NotFound>;
 type PagedItems = ReturnType<typeof itemsQuery<{ name: string }, NotFound>>;
 type _ItemsValue = Assert<Equal<Stream.Success<PagedItems>, { name: string }>>;
@@ -76,24 +81,40 @@ type _ItemsError = Assert<
 >;
 export type _Services = typeof services;
 
-// ── Nullability ─────────────────────────────────────────────────────────────
+// U+2500U+2500 Nullability U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500
 declare const nullable: Query<{
   owner: { name: string; tags: ReadonlyArray<string> | null } | null;
 }>;
 type _NullParent = Assert<Equal<UnwrapPlan<typeof nullable.owner.name>, string | null>>;
 
-// ── Query.map on objects ────────────────────────────────────────────────────
+// U+2500U+2500 Query.map on objects U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500
 declare const service: Query<{
   name: string;
   stars: number;
   latestDeployment: { id: string; status: string } | null;
   tags: ReadonlyArray<{ label: string }>;
 }>;
-const deployment = service.latestDeployment.pipe(mapQuery((d) => ({ id: d.id, status: d.status })));
+const deployment = /*@__PURE__*/ service.latestDeployment.pipe(
+  /*@__PURE__*/ mapQuery((d) => ({ id: d.id, status: d.status })),
+);
 type _ObjectMap = Assert<
   Equal<UnwrapPlan<typeof deployment>, { id: string; status: string } | null>
 >;
-const popular = service.stars.pipe(mapQuery((stars) => stars > 5));
+const popular = /*@__PURE__*/ service.stars.pipe(/*@__PURE__*/ mapQuery((stars) => stars > 5));
 type _ScalarMap = Assert<Equal<UnwrapPlan<typeof popular>, boolean>>;
-const labels = service.tags.pipe(mapQuery((tag) => tag.label));
+const labels = /*@__PURE__*/ service.tags.pipe(/*@__PURE__*/ mapQuery((tag) => tag.label));
 type _ListMap = Assert<Equal<UnwrapPlan<typeof labels>, ReadonlyArray<string>>>;
+
+// Fields with arguments: a required argument makes the field a call only;
+// all-optional arguments also allow the bare read.
+declare const accountQuery: Query<{
+  byId: FieldWithArgs<{ name: string }, { readonly accountId: string }>;
+  avatarUrl: FieldWithArgs<string, { readonly size?: number | undefined }, false>;
+}>;
+type _ById = Assert<Equal<UnwrapPlan<ReturnType<typeof accountQuery.byId>["name"]>, string>>;
+type _AvatarCall = Assert<Equal<UnwrapPlan<ReturnType<typeof accountQuery.avatarUrl>>, string>>;
+type _AvatarBare = Assert<Equal<UnwrapPlan<typeof accountQuery.avatarUrl>, string>>;
+// @ts-expect-error a required argument cannot be left out
+accountQuery.byId({});
+// @ts-expect-error a field with a required argument has no bare read
+type _NoBareRead = (typeof accountQuery.byId)["pipe"];

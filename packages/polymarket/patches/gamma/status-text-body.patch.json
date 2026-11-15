@@ -1,0 +1,29 @@
+{
+  "description": "`GET /status` answers `200` with a `text/plain` body, `OK` (the spec's own response: `content: text/plain: schema: { type: string, example: OK }`, and a live call returns `OK`). The converter reads JSON bodies only, so the operation came out with no output; this gives it the string body.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.polymarket.gamma#GetGammaStatusResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "body": {
+            "target": "smithy.api#String",
+            "traits": {
+              "com.distilled.openapi#rawResponse": {},
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#output": {}
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.polymarket.gamma#GetGammaStatus/output/target",
+      "value": "com.polymarket.gamma#GetGammaStatusResponse"
+    }
+  ]
+}

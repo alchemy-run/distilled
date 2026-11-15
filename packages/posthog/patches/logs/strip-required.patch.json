@@ -567,10 +567,6 @@
     },
     {
       "op": "remove",
-      "path": "/shapes/com.posthog.logs#LogsSparklineResponse/members/results/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
       "path": "/shapes/com.posthog.logs#LogsSparklineBucket/members/time/traits/smithy.api#required"
     },
     {

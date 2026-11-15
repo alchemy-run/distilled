@@ -20,9 +20,10 @@ description: Build or update a distilled SDK for an API provider — sourcing it
     │
     │  packages/<pkg>/scripts/convert.ts       spec dialect → Smithy
     ▼
-  packages/<pkg>/.generated-specs/*.json       Smithy 2.0 models      (committed)
+  Smithy 2.0 models                            in memory (never committed)
     │
     │  packages/<pkg>/scripts/generate.ts      Smithy → Effect SDK
+    │                                          (runs convert in-process)
     ▼
   packages/<pkg>/src/services/*.ts                                   (committed)
 ```
@@ -117,7 +118,7 @@ Create `packages/<pkg>/` from the closest existing package. In `convert.ts`,
 declare the **production** spec path and resolve it:
 
 ```ts
-import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
+import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
 
 const specPath = resolveSpecPath(root, "specs/spec-mirror-<pkg>/specs/openapi.json");
 ```
@@ -127,6 +128,10 @@ OpenAPI package gets it for free — just declare the mirror path.
 
 Then register the package: `pnpm-workspace.yaml` needs nothing (it globs
 `packages/*`), but add both tsconfig references to the root `tsconfig.json`.
+The generator is the unpublished `@distilled.cloud/dev` package: the new
+package lists it in `devDependencies` (`"workspace:*"`) and its
+`tsconfig.scripts.json` references `../dev`. Copying an existing package
+carries both.
 
 Public surface: re-export the generated barrel at the package root
 (`export * from "./services/index.ts"`) so callers write `Pkg.vms.createVm`,
@@ -175,6 +180,14 @@ ended up declaring a `<Pkg>ParseError` no code path created.
 (`<Pkg>OpError` / `DefaultErrors`) includes:
 
 - `Unknown<Pkg>Error` — built by the protocol's `unknownError` fallback.
+  Its fields are core's `UnknownErrorFields` (`status`, `code`, `message`,
+  `body`), spread first, then any field the provider adds:
+  `Schema.TaggedError<UnknownPkgError>()("UnknownPkgError",
+  UnknownErrorFields)`. With `makeRestProtocol`, build it as
+  `unknownError: (info) => new UnknownPkgError(unknownErrorProps(info))`.
+  Give it no `Category`. The protocol turns an unmapped 5xx into core
+  `InternalServerError` (retried), so only non-5xx statuses reach the
+  unknown error, and those must not be retried.
 - `<Pkg>ParseError` with `{ body: Schema.Unknown, cause: Schema.Unknown }`,
   `.pipe(Category.withParseError)` — built by the protocol's `parseError`
   (copy `packages/s2/src/errors.ts`).
@@ -191,23 +204,36 @@ The protocol wires every one of them:
   the operation output — after wire→TS key mapping, before `wrapSensitive`.
   `packages/core/src/protocol-rest.ts` is the reference.
 
-2xx responses are validated only in strict mode. `ResponseValidation`
-(`import { ResponseValidation } from "@distilled.cloud/core"`) is one context
-reference shared by every SDK: lenient by default, switched with
-`Effect.provide(ResponseValidation.strict)` — only ever by layer. A new
-protocol reads the mode through `validateResponse`; it never adds its own
-flag or environment variable.
+`ResponseValidation` (`import { ResponseValidation } from
+"@distilled.cloud/core"`) is one context reference shared by every SDK, with
+three modes, switched only by layer (`Effect.provide(ResponseValidation.strict)`):
+
+| Mode | 2xx response |
+| --- | --- |
+| `lenient` (default) | returned as the protocol read it |
+| `additionalProperties` | checked against the output schema; keys the schema does not model pass |
+| `strict` | checked, and a key the schema does not model also fails, at any depth (open objects and `{}` outputs excepted) |
+
+A new protocol reads the mode through `validateResponse` (and
+`isValidating` / `failUnlessLenient` for bodies it cannot read); it never
+adds its own flag or environment variable. Pass the mapped body with every
+key the wire sent: a protocol that builds the output from modeled members
+only (Cloudflare's envelope reader, AWS's decoder) must reject the keys it
+drops in `strict` mode itself, and a protocol must not add keys the output
+does not model (acme adds `Location` only where the output declares it).
 
 Lenient mode checks only what the protocol needs in order to transform the
 body (unwrap an envelope, map keys, wrap sensitive members) and nothing
 more: a non-JSON body comes back as text, a body missing members comes back
 as read. Never decode against the output schema outside `validateResponse`.
-Strict mode surfaces every spec inaccuracy (an undocumented `null`, a new
-enum member) as a `<Pkg>ParseError`; that is the cost of opting in, and why
-strict is never the default.
+The validating modes surface every spec inaccuracy (an undocumented `null`,
+a new enum member, and in `strict` an undocumented field) as a
+`<Pkg>ParseError`; that is the cost of opting in, and why neither is ever the
+default.
 
 Do not add tests to a generated SDK. Generated code is tested once, through
-the generator and the protocols in `packages/core`. `packages/core/src/sdks.test.ts`
+the generator in `packages/dev` and the protocols in `packages/core`.
+`packages/core/test/sdks.test.ts`
 runs against every package and checks the glue a new SDK hand-writes: its
 `<Pkg>OpError` union reaches `<Pkg>ParseError` (so `catchTag` on a strict
 call typechecks), something outside `src/services/` constructs it, and
@@ -245,26 +271,32 @@ for a real one, and it lives in one command's environment — **never** in a
 file. Without it the same command reads the submodule, which is what you want
 once the mirror exists.
 
-Iterate on `convert.ts` (spec → Smithy) and `generate.ts` (Smithy → TS)
-separately: `pnpm --filter @distilled.cloud/<pkg> run convert` stops after the
-Smithy models, which is usually where the interesting bugs are.
+`pnpm --filter @distilled.cloud/<pkg> run generate` runs the package's
+convert in-process and compiles its models straight from memory; the models
+are never written to disk or committed. To read them (writing a patch,
+debugging a converter), run `pnpm --filter @distilled.cloud/<pkg> run
+convert`: the same convert, writing the models to the gitignored
+`.generated-specs/`. That is usually where the interesting bugs are. Every
+convert writes models through `@distilled.cloud/core/codegen/models`
+(`writeModel`, `readModel`, `clearModels`, …), never `node:fs`, and awaits
+every step at the top level, so one script serves both.
 
 Patches go in `packages/<pkg>/patches/` as RFC-6902 `*.json` and apply in
 **convert** (`finalizeConvert` at the end of every dialect — OpenAPI,
-GraphQL, discovery, proto, Cloudflare markdown), so `.generated-specs` is
-the patched Smithy model. Every op targets the Smithy model (`/shapes`,
+GraphQL, discovery, proto, Cloudflare markdown), so the models generate
+compiles are patched. Every op targets the Smithy model (`/shapes`,
 `/metadata`) and names shapes the way the spec does: the pipeline is
-convert (upstream names) → patches → verbNoun rename → `.generated-specs`.
+convert (upstream names) → patches → verbNoun rename → generate.
 A new OpenAPI convert passes `deferNaming: true` to
 `convertOpenApiToSmithy` (`runOpenApiConvert` does) so the rename waits for
 the patches. finalizeConvert rejects an op on the spec. generate does not
-patch — it only compiles the committed models.
+patch — it only compiles the models convert hands it.
 
 `finalizeConvert` is **not idempotent** — `move` patches and model transforms
 only make sense on freshly converted models — so it stamps
 `metadata["distilled.finalized"]` and refuses to run over a model that
 already carries it. To re-apply patches or naming, re-run the package's
-`convert`; never post-process a committed `.generated-specs` file. It also
+`convert`; never post-process a dumped `.generated-specs` file. It also
 fails if any `target` in a model points at a shape that does not exist.
 **Stale patch pointers fail the run** (they used to warn-and-skip, which is
 how Fly's whole chain vanished after the spec-mirror prefixed paths with
@@ -279,7 +311,7 @@ leaves anything already verb-first or ambiguous (`WatchPodList`,
 `AppGetOrCreate`, `accountById`) unchanged. Irregulars go in
 `operationNames` (lookup by `"METHOD path"`, then operationId) — PUT vs
 PATCH that share an upstream id need the path key. Cases live in
-`packages/core/src/codegen/rewrite-operation-ids.test.ts` (`pnpm vitest run`); add
+`packages/dev/test/codegen/rewrite-operation-ids.test.ts` (`pnpm vitest run`); add
 one before changing the heuristic. Do not rename operations with a patch.
 Patch the model, not the generated TypeScript. Writing and checking a
 patch is the `distilled-sdk-patch` skill
@@ -416,7 +448,7 @@ say so in the PR when this environment is not.
 
 ```sh
 pnpm specs:check     # mirror manifest ↔ spec-repos/ ↔ .gitmodules ↔ packages/
-pnpm typecheck       # tsc -b
+pnpm typecheck       # tsrs -b
 pnpm format          # generated output is committed formatted
 ```
 
@@ -441,7 +473,7 @@ Body, in order:
    `CredentialsFromEnv`, `<Pkg>Protocol`, a real call, `Effect.runPromise`.
    A PR whose only snippet is `listX({})` is incomplete; paste the README
    quick start.
-4. `Checks: pnpm specs:check` green, `tsc -b packages/<pkg> --noCheck false`
+4. `Checks: pnpm specs:check` green, `tsrs -b packages/<pkg> --noCheck false`
    green, `DISTILLED_SPECS_LOCAL=1 pnpm generate <pkg>` reproduces output,
    and the error-construction check from step 4 finds both classes.
 
@@ -507,10 +539,9 @@ segment, which is why every package's declared path is
 A path that reads through some other layout resolves to a file the mirror
 does not have, and `resolveSpecPath` says so rather than failing later.
 
-`aws` convert reads the spec-mirror Smithy models, applies the typed
-`patches/{sdkId}.json` config (`applyAwsSpecPatches`), copies
-`partitions.json`, and writes `.generated-specs/<sdkId>.json`. generate
-compiles those and reads the patch file only for `errorCategories`. `cloudflare`
+`aws` convert reads the spec-mirror Smithy models, copies
+`partitions.json`, and writes the `<sdkId>.json` models; `finalizeConvert`
+applies `patches/<sdkId>/` like every other package's patches. `cloudflare`
 takes its spec root as a `--specs` flag whose default is the mirror path, and
 resolves it through `resolveSpecPath` like everything else.
 

@@ -1,9 +1,10 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { ConfigError } from "@distilled.cloud/core/errors";
+import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { HTTP_STATUS_MAP, ServiceUnavailable } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
- * NotionProtocol — the shared bearer-REST protocol instantiated for Notion.
+ * NotionProtocol -- the shared bearer-REST protocol instantiated for Notion.
  *
  * Notion speaks plain JSON with no success envelope. Every request carries
  * `Authorization: Bearer <token>` and the required `Notion-Version` header.
@@ -25,19 +26,21 @@ import { NotionParseError, UnknownNotionError, type DefaultErrors } from "./erro
  * NotionOpError, NotionOpContext>` explicitly so the compiler never infers
  * these back out of the schema generics.
  */
-export type NotionOpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError;
+export type NotionOpError =
+  | DefaultErrors
+  | ConfigError
+  | HttpClientError.HttpClientError
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Notion operation. */
 export type NotionOpContext = Credentials | HttpClient.HttpClient;
 
-export const NotionProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
+export const NotionProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
   // Resolved on the CALLING fiber per request (the layer is memoized per
   // process); the Credentials service holds an effect, so a token rotated
   // between calls is picked up without rebuilding the layer.
-  credentials: Effect.gen(function* () {
-    const resolve = yield* Credentials;
-    return yield* resolve;
-  }),
+  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => ({
     Authorization: `Bearer ${Redacted.value(creds.token)}`,
@@ -47,11 +50,6 @@ export const NotionProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config
     ...HTTP_STATUS_MAP,
     529: ServiceUnavailable,
   },
-  unknownError: ({ code, message, body }) =>
-    new UnknownNotionError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownNotionError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new NotionParseError({ body, cause }),
 });

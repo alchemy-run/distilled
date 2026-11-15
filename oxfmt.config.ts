@@ -18,6 +18,9 @@ export default defineConfig({
   ignorePatterns: [
     "**/.vendor/**",
     "**/specs/**",
+    // Upstream conformance suites, submoduled (see packages/core/conformance).
+    "packages/core/conformance/connect/**",
+    "packages/core/conformance/protobuf/**",
     "dist/**",
     "./submodules/**",
     "*.min.js",
@@ -32,5 +35,7 @@ export default defineConfig({
     "examples/prisma-tanstack-start/src/prisma/contract.d.ts",
     "examples/prisma-tanstack-start/src/prisma/contract.json",
     "**/fixtures/chart/templates/**",
+    // Benchmark runs: slim, single-line JSON written by benches/dashboard/scripts/slim.mjs.
+    "benches/dashboard/runs/**",
   ],
 } satisfies OxfmtConfig);

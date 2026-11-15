@@ -33,7 +33,7 @@ export interface RecordFile {
   /** short git sha the suite ran against */
   readonly commit: string;
   readonly machine: {
-    /** the bench runner; the compiler is `typescript` */
+    /** the bench runner; the compiler (tsrs) version is in `typescript` */
     readonly runtime: string;
     readonly node: string;
     readonly typescript: string;
@@ -77,8 +77,7 @@ export const toRecordFile = (
     runtime: `node ${process.versions.node}`,
     node: capture(["node", "--version"]) || "unknown",
     typescript:
-      capture(["node", "node_modules/typescript/bin/tsc", "-v"]).replace(/^Version\s+/, "") ||
-      "unknown",
+      capture(["node", "node_modules/tsrs/bin/tsrs", "-v"]).replace(/^Version\s+/, "") || "unknown",
     cpu: cpus()[0]?.model ?? "unknown",
     cpus: cpus().length,
     os: `${platform()} ${release()} ${arch()}`,

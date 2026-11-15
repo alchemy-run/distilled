@@ -40,8 +40,10 @@ DISTILLED_SPECS_LOCAL=1 pnpm generate forgejo
 
 - `scripts/convert.ts` — buckets the document's operations by tag, applies
   the RFC-6902 patch chain under `patches/<tag>/<operationId>.json`, and
-  writes one Smithy model per tag to `.generated-specs/`.
-- `scripts/generate.ts` — compiles the models into `src/services/<tag>.ts`.
+  produces one Smithy model per tag (`pnpm convert` writes them to the
+  gitignored `.generated-specs/` to read).
+- `scripts/generate.ts` — runs convert in-process and compiles the models
+  into `src/services/<tag>.ts`.
 - `src/credentials.ts`, `src/protocol.ts`, `src/errors.ts`, `src/retry.ts`,
   `src/traits.ts` — hand-written; everything under `src/services/` is
   generated and never edited by hand.

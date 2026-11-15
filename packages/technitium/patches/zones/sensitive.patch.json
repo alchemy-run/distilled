@@ -1,0 +1,47 @@
+{
+  "description": "Secrets in the zone calls: DNSSEC private keys (pemPrivateKey, pemKskPrivateKey, pemZskPrivateKey) and the proxy password of forwarder records and conditional forwarder zones (proxyPassword in APIDOCS.md, v15.5.0). Technitium's documentation marks no member as secret. Inputs accept a string or a Redacted value.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#AddPrivateKeyRequest/members/pemPrivateKey/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#AddRecordRequest/members/proxyPassword/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#CreateZoneRequest/members/proxyPassword/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#SignZoneRequest/members/pemKskPrivateKey/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#SignZoneRequest/members/pemZskPrivateKey/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#UpdateRecordRequest/members/proxyPassword/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    }
+  ]
+}

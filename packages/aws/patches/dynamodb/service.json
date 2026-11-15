@@ -1,0 +1,13 @@
+{
+  "description": "DynamoDB: The service retry policy.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.dynamodb#DynamoDB_20120810/traits/distilled.retry#policy",
+      "value": {
+        "maxAttempts": 4,
+        "baseMs": 25
+      }
+    }
+  ]
+}

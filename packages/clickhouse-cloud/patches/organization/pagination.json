@@ -1,0 +1,16 @@
+{
+  "description": "Page listOrganizations by cursor. The operation takes `cursor` and `limit` query parameters and answers { status, requestId, result: [...], limit, nextCursor } (the spec describes nextCursor as 'Cursor for the next page, to be sent as the `cursor` query parameter. Null on the last page.'). The converter's cursor detection does not recognise `nextCursor`, so the list was a single-page call. Observed live 2026-11-12 on GET /v1/organizations with limit=1 (request id 0364a0dd-a4a6-47d3-b0bf-a9aba534e45c) and without it (01d298e0-979f-4296-ae45-7802f8e30c49): one organization, nextCursor null.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.organization#OrganizationGetList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "cursor",
+        "outputToken": "nextCursor",
+        "items": "result",
+        "pageSize": "limit"
+      }
+    }
+  ]
+}

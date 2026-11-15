@@ -1,0 +1,26 @@
+{
+  "description": "SageMaker FeatureStore Runtime: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sagemakerfeaturestoreruntime#GetRecord/errors/-",
+      "value": {
+        "target": "com.amazonaws.sagemakerfeaturestoreruntime#FeatureGroupNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sagemakerfeaturestoreruntime#PutRecord/errors/-",
+      "value": {
+        "target": "com.amazonaws.sagemakerfeaturestoreruntime#FeatureGroupNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sagemakerfeaturestoreruntime#DeleteRecord/errors/-",
+      "value": {
+        "target": "com.amazonaws.sagemakerfeaturestoreruntime#FeatureGroupNotFound"
+      }
+    }
+  ]
+}

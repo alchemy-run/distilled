@@ -1,0 +1,40 @@
+{
+  "description": "ECS: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecs#PutClusterCapacityProviders/errors/-",
+      "value": {
+        "target": "com.amazonaws.ecs#ServiceLinkedRoleNotAssumable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecs#CreateService/errors/-",
+      "value": {
+        "target": "com.amazonaws.ecs#ServiceRoleNotAssumable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecs#UpdateService/errors/-",
+      "value": {
+        "target": "com.amazonaws.ecs#ServiceRoleNotAssumable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecs#CreateCapacityProvider/errors/-",
+      "value": {
+        "target": "com.amazonaws.ecs#InfrastructureRoleAccessDenied"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecs#UpdateCapacityProvider/errors/-",
+      "value": {
+        "target": "com.amazonaws.ecs#InfrastructureRoleAccessDenied"
+      }
+    }
+  ]
+}

@@ -8,7 +8,10 @@
   "compilerOptions": {
     "noEmit": true,
     "paths": {
-      "@distilled.cloud/core/*": ["../core/src/*"]
+      "@distilled.cloud/core/*": ["../core/src/*"],
+      "@distilled.cloud/s3": ["../s3/src/index.ts"],
+      "@distilled.cloud/s3/Credentials": ["../s3/src/credentials.ts"],
+      "@distilled.cloud/s3/Endpoint": ["../s3/src/endpoint.ts"]
     }
   }
 }

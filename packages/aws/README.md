@@ -8,6 +8,11 @@ Effect-native AWS SDK generated from [Smithy](https://smithy.io) models with ful
 npm install @distilled.cloud/aws effect
 ```
 
+Only need S3, or an S3-compatible store such as Cloudflare R2? Install
+[`@distilled.cloud/s3`](../s3) instead: the S3 client and the runtime it
+needs, without the other services or the credential providers. This package
+builds on it, and `@distilled.cloud/aws/s3` re-exports it.
+
 ## Quick Start
 
 ```typescript
@@ -54,6 +59,12 @@ program.pipe(Effect.provide(AwsLive), Effect.runPromise);
 
 ```bash
 AWS_REGION=us-east-1
+```
+
+`Region.of("eu-west-1")` sets the region for every call in a scope. One call can set its own with `region`, which wins over the layer:
+
+```typescript
+S3.getObject({ Bucket: "my-bucket", Key: "a.txt", region: "eu-west-1" });
 ```
 
 ### Credentials
@@ -105,6 +116,32 @@ S3.getObject({ Bucket: "my-bucket", Key: "missing.txt" }).pipe(
     AccessDenied: (e) => Effect.fail(new Error(`Access denied: ${e.message}`)),
   }),
 );
+```
+
+## Service events
+
+`@distilled.cloud/aws/ses-events` types the events SES sends: bounces,
+complaints, deliveries, opens, clicks and the rest. It comes from the
+EventBridge `aws.events` schema registry. The module is types only. `Event` is
+the union of every event an EventBridge rule can deliver, narrowed by
+`detail-type`. An event's `detail` (`EmailBounced`, `EmailComplaintReceived`, …)
+is also the record SES publishes to SNS and Firehose.
+
+```typescript
+import type * as SesEvents from "@distilled.cloud/aws/ses-events";
+
+const onEvent = (event: SesEvents.Event) => {
+  switch (event["detail-type"]) {
+    case "Email Bounced":
+      return event.detail.bounce.bounceType === "Permanent"
+        ? event.detail.bounce.bouncedRecipients.map((r) => r.emailAddress)
+        : [];
+    case "Email Complaint Received":
+      return event.detail.complaint.complainedRecipients.map((r) => r.emailAddress);
+    default:
+      return [];
+  }
+};
 ```
 
 ## Protocols

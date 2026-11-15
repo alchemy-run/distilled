@@ -3,6 +3,7 @@ import {
   type ConfigError,
   HTTP_STATUS_MAP,
   InternalServerError,
+  type InvalidInput,
 } from "@distilled.cloud/core/errors";
 import {
   buildRequest,
@@ -10,19 +11,19 @@ import {
   mapKeys,
   matchTypedError,
 } from "@distilled.cloud/core/protocol-http";
-import { unwrapRedactedDeep, wrapSensitive } from "@distilled.cloud/core/protocol-rest";
-import { validateResponse } from "@distilled.cloud/core/response-validation";
+import { unwrapRedactedDeep, validateSuccess } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import { httpSymbol, type HttpTrait } from "@distilled.cloud/core/trait";
 /**
- * SupabaseProtocol — hand-written.
+ * SupabaseProtocol -- hand-written.
  *
  * Speaks the Supabase Management API's plain-JSON REST protocol. This is
  * `core/protocol-rest`'s bearer-REST behavior with two Supabase error quirks
  * the factory's hooks can't express (both ported from the distilled v0
  * client, which tests rely on):
  *
- *   1. message substring "active free projects" → FreeProjectLimitReached
+ *   1. message substring "active free projects" -> FreeProjectLimitReached
  *      (quota error), checked BEFORE any status mapping so callers can react
  *      to the free-tier active-project ceiling as a typed error;
  *   2. status 406 is remapped to 404/NotFound before per-op matcher and
@@ -30,14 +31,14 @@ import { httpSymbol, type HttpTrait } from "@distilled.cloud/core/trait";
  *
  * Everything else mirrors `makeRestProtocol`:
  *
- *   request:  credentials resolved from the calling fiber per request →
+ *   request:  credentials resolved from the calling fiber per request ->
  *             `Authorization: Bearer <accessToken>` + API base URL (default
  *             `https://api.supabase.com`), `Redacted` input values deep-
  *             unwrapped, request built by `buildRequest`
  *
- *   response: no envelope — 2xx bodies decode directly against the output
- *             schema (wire→TS via `mapKeys`, sensitive members wrapped in
- *             `Redacted`); non-2xx → typed error: per-op matcher classes,
+ *   response: no envelope -- 2xx bodies decode directly against the output
+ *             schema (wire->TS via `mapKeys`, sensitive members wrapped in
+ *             `Redacted`); non-2xx -> typed error: per-op matcher classes,
  *             core HTTP_STATUS_MAP (retryAfter honored), InternalServerError
  *             for unmapped 5xx, UnknownSupabaseError fallback.
  */
@@ -63,7 +64,12 @@ import {
  * SupabaseOpError, SupabaseOpContext>` explicitly so the compiler never
  * infers these back out of the schema generics.
  */
-export type SupabaseOpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError;
+export type SupabaseOpError =
+  | DefaultErrors
+  | ConfigError
+  | HttpClientError.HttpClientError
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Supabase operation. */
 export type SupabaseOpContext = Credentials | HttpClient.HttpClient;
@@ -75,7 +81,7 @@ export type SupabaseOpContext = Credentials | HttpClient.HttpClient;
 const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
 
 // The protocol layer is memoized per process by `API.make` (see
-// `OperationConfig.protocol`), so the build must not capture credentials —
+// `OperationConfig.protocol`), so the build must not capture credentials --
 // `encode` resolves Credentials from the calling fiber's context on every
 // request instead. Like the error channel above, the requirement is erased
 // at this boundary (Protocol effects are typed with no requirements) and
@@ -83,7 +89,7 @@ const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effe
 /**
  * Re-encode a JSON request body as `application/x-www-form-urlencoded`.
  * `buildRequest` understands `multipart` but leaves other non-JSON
- * encodings to the provider protocol — Supabase's OAuth token exchange
+ * encodings to the provider protocol -- Supabase's OAuth token exchange
  * (`POST /v1/oauth/token`) takes a urlencoded form (v0 parity: the same
  * op carried `contentType: "form-urlencoded"` there too).
  */
@@ -114,7 +120,7 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
   Effect.gen(function* () {
     const resolveCredentials = yield* Credentials;
     const creds = yield* resolveCredentials as Effect.Effect<Config>;
-    const request = buildRequest({
+    const request = yield* buildRequest({
       input: unwrapRedactedDeep(input),
       inputAst,
       baseUrl: creds.apiBaseUrl,
@@ -136,11 +142,8 @@ const decode = ({
   readonly errors: ReadonlyArray<unknown>;
 }) =>
   Effect.gen(function* () {
-    // Read as text and parse tolerantly — error pages are often non-JSON.
-    const text = (yield* response.text.pipe(Effect.orDie)) ?? "";
-    if (process.env.DISTILLED_DEBUG_HTTP) {
-      console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
-    }
+    // Read as text and parse tolerantly -- error pages are often non-JSON.
+    const text = (yield* response.text.pipe(Effect.catch(fail))) ?? "";
     let json: unknown;
     let nonJson = false;
     if (text.trim().length > 0) {
@@ -174,7 +177,7 @@ const decode = ({
       }
 
       // Supabase returns 406 for some "not found" conditions (e.g.
-      // snippets) — remap before matcher/status evaluation.
+      // snippets) -- remap before matcher/status evaluation.
       const effectiveStatus = status === 406 ? 404 : status;
 
       // 2. Per-operation typed error (matcher metadata on the class).
@@ -196,7 +199,7 @@ const decode = ({
         );
       }
 
-      // 4. Unmapped 5xx → retryable server error.
+      // 4. Unmapped 5xx -> retryable server error.
       if (status >= 500) {
         return yield* fail(
           new InternalServerError({
@@ -207,26 +210,26 @@ const decode = ({
       }
 
       // 5. Unknown Supabase error.
-      return yield* fail(new UnknownSupabaseError({ message, body }));
+      return yield* fail(new UnknownSupabaseError({ status, message, body }));
     }
 
-    // 2xx: the response body IS the payload (no envelope). Wire→TS key
+    // 2xx: the response body IS the payload (no envelope). Wire->TS key
     // mapping is schema-driven; `RawResponseRoot` responses are the body
     // verbatim (mapKeys handles arrays/scalars structurally either way).
     // Strict mode (core/response-validation) checks the mapped body against
-    // the output schema.
-    const body: unknown = nonJson ? text : (json ?? {});
-    const mapped = yield* validateResponse(
+    // the output schema, and parse errors withhold a body that can hold a
+    // secret (core `validateSuccess`).
+    const body: unknown = nonJson ? text : json === undefined ? {} : json;
+    return yield* validateSuccess(
       outputAst,
-      mapKeys(outputAst, body, "decode"),
-      (cause) => new SupabaseParseError({ body: nonJson ? text : json, cause }),
+      { value: mapKeys(outputAst, body, "decode"), body: nonJson ? text : json, nonJson },
+      (info) => new SupabaseParseError(info),
     ).pipe(Effect.catch(fail));
-    return wrapSensitive(outputAst, mapped);
   });
 
-export const SupabaseProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
+export const SupabaseProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(
   API.Protocol,
-  API.Protocol.of({
+  /*@__PURE__*/ API.Protocol.of({
     // Erase encode's Credentials requirement (see comment above).
     encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
     decode,

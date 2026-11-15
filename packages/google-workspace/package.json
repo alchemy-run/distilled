@@ -1,6 +1,6 @@
 {
   "name": "@distilled.cloud/google-workspace",
-  "version": "1.0.0-rc.15",
+  "version": "1.0.0-rc.20",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -54,21 +54,23 @@
       "types": "./lib/unstable-services/*.d.ts",
       "bun": "./src/unstable-services/*.ts",
       "worker": "./src/unstable-services/*.ts",
+      "distilled-lazy": "./lib/unstable-services.lazy/*.js",
       "default": "./lib/unstable-services/*.js"
     },
     "./*": {
       "types": "./lib/services/*.d.ts",
       "bun": "./src/services/*.ts",
       "worker": "./src/services/*.ts",
+      "distilled-lazy": "./lib/services.lazy/*.js",
       "default": "./lib/services/*.js"
     }
   },
   "scripts": {
-    "build": "tsc -b",
+    "build": "tsrs -b",
     "convert": "node --conditions=bun scripts/convert.ts",
-    "generate": "node --conditions=bun scripts/generate.ts && node --conditions=bun scripts/generate.ts --smithy .generated-specs/unstable --out src/unstable-services",
-    "typecheck": "tsc -p tsconfig.json",
-    "typecheck:strict": "tsc -p tsconfig.strict.json",
+    "generate": "node --conditions=bun scripts/generate.ts",
+    "typecheck": "tsrs -p tsconfig.json",
+    "typecheck:strict": "tsrs -p tsconfig.strict.json",
     "specs:fetch": "git submodule update --force --init --depth=1 specs/spec-mirror-google-workspace",
     "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-google-workspace"
   },
@@ -76,13 +78,14 @@
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
+    "@distilled.cloud/dev": "workspace:*",
     "@types/node": "catalog:"
   },
   "peerDependencies": {
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-10-06",
-    "specUpdatedAt": "2026-10-06"
+    "generatedAt": "2026-11-13",
+    "specUpdatedAt": "2026-11-08"
   }
 }

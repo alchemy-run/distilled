@@ -1,5 +1,5 @@
 /**
- * OpenCode credentials — hand-written.
+ * OpenCode credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
  * credentials on every request (the protocol layer resolves it per request
@@ -21,9 +21,10 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
-  "OpencodeCredentials",
-) {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+    "OpencodeCredentials",
+  ) {}
 
 /** Layer from an optional password + optional base URL. */
 export const fromPassword = (config: {
@@ -46,12 +47,12 @@ export const fromPassword = (config: {
  * (optional). Defaults to {@link DEFAULT_API_BASE_URL} with no
  * Authorization header.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  Effect.succeed({
+  /*@__PURE__*/ Effect.succeed({
     username: process.env.OPENCODE_SERVER_USERNAME ?? DEFAULT_USERNAME,
     password: process.env.OPENCODE_SERVER_PASSWORD
-      ? Redacted.make(process.env.OPENCODE_SERVER_PASSWORD)
+      ? /*@__PURE__*/ Redacted.make(process.env.OPENCODE_SERVER_PASSWORD)
       : undefined,
     apiBaseUrl: process.env.OPENCODE_API_BASE_URL ?? DEFAULT_API_BASE_URL,
   }),

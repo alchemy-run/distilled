@@ -1,0 +1,15 @@
+{
+  "description": "repos.update accepts has_discussions (documented on the endpoint, missing from its request body schema).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.github.repos#UpdateRequest/members/has_discussions",
+      "value": {
+        "target": "smithy.api#Boolean",
+        "traits": {
+          "smithy.api#documentation": "Whether GitHub Discussions are enabled for the repository."
+        }
+      }
+    }
+  ]
+}

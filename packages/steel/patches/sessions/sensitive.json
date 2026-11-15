@@ -1,0 +1,25 @@
+{
+  "description": "Mark the credential-bearing session URLs sensitive so they decode as Redacted (observed live 2026-11-10). createSession's `websocketUrl` carries a session JWT (`wss://connect.steel.dev?sessionId=\u2026&token=\u2026`) that grants CDP control of the browser. `debugUrl` (`\u2026/sessions/<id>/player/<token>`) opens the session player without an API key: a request with no key returned 200, while the same URL with the token altered returned 404. Both shapes that carry them, single sessions and list items, are marked.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/dev.steel.sessions#SessionResponse/members/websocketUrl/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/dev.steel.sessions#SessionResponse/members/debugUrl/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/dev.steel.sessions#SessionsResponseSessionsItem/members/websocketUrl/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/dev.steel.sessions#SessionsResponseSessionsItem/members/debugUrl/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

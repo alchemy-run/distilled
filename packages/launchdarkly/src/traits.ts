@@ -1,5 +1,5 @@
 /**
- * LaunchDarkly SDK trait surface — hand-written.
+ * LaunchDarkly SDK trait surface -- hand-written.
  *
  * Re-exports the generic protocol traits from core (so generated operations
  * import everything from one place). LaunchDarkly has no envelope of its own;

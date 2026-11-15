@@ -29,7 +29,7 @@ export interface FromWebTokenOptions {
 
 /**
  * Credentials for a role assumed with an OIDC or OAuth token the caller
- * already holds — the same exchange `fromTokenFile` performs, without the
+ * already holds -- the same exchange `fromTokenFile` performs, without the
  * token having to come from a file.
  */
 export const webTokenSource = (options: FromWebTokenOptions): CredentialSource =>

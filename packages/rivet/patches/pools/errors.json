@@ -1,0 +1,137 @@
+{
+  "description": "Type the node pool errors the engine returns as `{ group, code }` envelopes (observed against rivet-engine 3.0.0-preview.4): `pool.not_found` (404) when the pool is missing, `namespace.not_found` (404) when the namespace is missing, and `pool.nodes_connected` (409) when deleting a pool whose nodes are still connected, which callers retry while the nodes drain.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.rivet.pools#PoolNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The node pool does not exist (`pool.not_found`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "headers": {
+                "x-rivet-error": "pool.not_found"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.rivet.pools#NamespaceNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The namespace does not exist (`namespace.not_found`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "headers": {
+                "x-rivet-error": "namespace.not_found"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.rivet.pools#PoolNodesConnected",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "The node pool still has connected nodes (`pool.nodes_connected`). Retry once its nodes have drained.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "headers": {
+                "x-rivet-error": "pool.nodes_connected"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.rivet.pools#PoolsGet/errors",
+      "value": [
+        {
+          "target": "com.rivet.pools#PoolNotFound"
+        },
+        {
+          "target": "com.rivet.pools#NamespaceNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.rivet.pools#PoolsDelete/errors",
+      "value": [
+        {
+          "target": "com.rivet.pools#PoolNotFound"
+        },
+        {
+          "target": "com.rivet.pools#NamespaceNotFound"
+        },
+        {
+          "target": "com.rivet.pools#PoolNodesConnected"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.rivet.pools#PoolsListNodes/errors",
+      "value": [
+        {
+          "target": "com.rivet.pools#PoolNotFound"
+        },
+        {
+          "target": "com.rivet.pools#NamespaceNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.rivet.pools#PoolsUpsert/errors",
+      "value": [
+        {
+          "target": "com.rivet.pools#NamespaceNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.rivet.pools#PoolsList/errors",
+      "value": [
+        {
+          "target": "com.rivet.pools#NamespaceNotFound"
+        }
+      ]
+    }
+  ]
+}

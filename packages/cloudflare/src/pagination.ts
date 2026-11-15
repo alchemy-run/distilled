@@ -1,6 +1,6 @@
 import * as Pagination from "@distilled.cloud/core/pagination";
 /**
- * Cloudflare pagination — hand-written.
+ * Cloudflare pagination -- hand-written.
  *
  * Paginated operations use `CloudflarePaginatedProtocol` (see ./protocol.ts),
  * which keeps the envelope's `result_info` on the response as `resultInfo`
@@ -12,7 +12,7 @@ import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 
 // =============================================================================
-// ResultInfo — the envelope's `result_info`, shared by every paginated op
+// ResultInfo -- the envelope's `result_info`, shared by every paginated op
 // =============================================================================
 
 export interface ResultInfoCursors {
@@ -22,9 +22,10 @@ export interface ResultInfoCursors {
 
 /**
  * The v4 envelope's `result_info` block (camelCased by the paginated
- * protocol). Cloudflare varies the exact fields per endpoint — page-mode
+ * protocol). Cloudflare varies the exact fields per endpoint -- page-mode
  * endpoints report `page`/`perPage`/`totalCount`, cursor-mode endpoints
- * report `cursor` or `cursors` — so all fields are optional here.
+ * report `cursor`, `cursors`, or `nextPageToken` with the `pageToken` the
+ * request sent -- so all fields are optional here.
  */
 export interface ResultInfo {
   readonly count?: number | null;
@@ -34,20 +35,24 @@ export interface ResultInfo {
   readonly totalPages?: number | null;
   readonly cursor?: string | null;
   readonly cursors?: ResultInfoCursors | null;
+  readonly nextPageToken?: string | null;
+  readonly pageToken?: string | null;
 }
 
-export const ResultInfo: S.Schema<ResultInfo> = S.Struct({
-  count: S.optional(S.NullOr(S.Number)),
-  page: S.optional(S.NullOr(S.Number)),
-  perPage: S.optional(S.NullOr(S.Number)),
-  totalCount: S.optional(S.NullOr(S.Number)),
-  totalPages: S.optional(S.NullOr(S.Number)),
-  cursor: S.optional(S.NullOr(S.String)),
-  cursors: S.optional(
-    S.NullOr(
-      S.Struct({
-        after: S.optional(S.NullOr(S.String)),
-        before: S.optional(S.NullOr(S.String)),
+export const ResultInfo: S.Schema<ResultInfo> = /*@__PURE__*/ S.Struct({
+  count: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.NullOr(S.Number)),
+  page: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.NullOr(S.Number)),
+  perPage: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.NullOr(S.Number)),
+  totalCount: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.NullOr(S.Number)),
+  totalPages: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.NullOr(S.Number)),
+  cursor: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.NullOr(S.String)),
+  nextPageToken: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.NullOr(S.String)),
+  pageToken: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.NullOr(S.String)),
+  cursors: /*@__PURE__*/ S.optional(
+    /*@__PURE__*/ S.NullOr(
+      /*@__PURE__*/ S.Struct({
+        after: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.NullOr(S.String)),
+        before: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.NullOr(S.String)),
       }),
     ),
   ),
@@ -64,17 +69,28 @@ export const ResultInfo: S.Schema<ResultInfo> = S.Struct({
  * request schemas that don't carry the page param (the server would return
  * page 1 forever): if the server reports a page other than the one
  * requested, stop without re-emitting the duplicate page.
+ *
+ * When `result_info` shows the listing is exhausted, stop without asking for
+ * the empty page: either `total_pages` says this was the last page, or the
+ * page came back short of `per_page` and the items seen so far reach
+ * `total_count`. A short page alone is not trusted -- some endpoints omit
+ * `result_info` or cap page sizes below what they report -- so the count
+ * check needs both signals.
  */
 const paginatePageByItems: Pagination.PaginationStrategy = (operation, input, pagination) => {
   const inputToken = pagination.inputToken;
   if (!inputToken) {
-    return Stream.die(new Error("Cloudflare page pagination requires an inputToken"));
+    return Pagination.missingPaginationConfig("Cloudflare page pagination requires an inputToken");
   }
 
-  type State = { page: number; done: boolean };
+  type State = { page: number; seen: number; done: boolean };
   const startPage = typeof input[inputToken] === "number" ? (input[inputToken] as number) : 1;
+  const requestedPageSize =
+    pagination.pageSize && typeof input[pagination.pageSize] === "number"
+      ? (input[pagination.pageSize] as number)
+      : undefined;
 
-  return Stream.unfold({ page: startPage, done: false } as State, (state) =>
+  return Stream.unfold({ page: startPage, seen: 0, done: false } as State, (state) =>
     Effect.gen(function* () {
       if (state.done) return undefined;
 
@@ -96,7 +112,18 @@ const paginatePageByItems: Pagination.PaginationStrategy = (operation, input, pa
         return undefined;
       }
 
-      return [response, { page: state.page + 1, done: (items ?? []).length === 0 }] as const;
+      const count = (items ?? []).length;
+      const seen = state.seen + count;
+      const info = Pagination.getPath(response, "resultInfo") as ResultInfo | null | undefined;
+      const perPage = info?.perPage ?? requestedPageSize;
+      const lastPage =
+        (typeof info?.totalPages === "number" && state.page >= info.totalPages) ||
+        (typeof info?.totalCount === "number" &&
+          typeof perPage === "number" &&
+          count < perPage &&
+          seen >= info.totalCount);
+
+      return [response, { page: state.page + 1, seen, done: count === 0 || lastPage }] as const;
     }),
   );
 };

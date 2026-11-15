@@ -1,0 +1,44 @@
+{
+  "description": "Type the tier rejection of sandbox network settings. Organizations on Daytona's lower tiers have restricted egress, and the API rejects networkAllowList / domainAllowList / networkBlockAll with HTTP 400 \"Network access is restricted and cannot be overridden at the sandbox level. Remove domainAllowList from the request.\" (observed live 2026-11-03 on createSandbox; https://www.daytona.io/docs/en/network-limits/#tier-based-network-restrictions).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#NetworkAccessRestricted",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The organization's tier restricts network access, so sandbox-level network settings are refused (HTTP 400).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "Network access is restricted"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#CreateSandbox/errors/-",
+      "value": {
+        "target": "com.daytona.sandbox#NetworkAccessRestricted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#UpdateNetworkSettings/errors/-",
+      "value": {
+        "target": "com.daytona.sandbox#NetworkAccessRestricted"
+      }
+    }
+  ]
+}

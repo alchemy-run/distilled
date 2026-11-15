@@ -1,5 +1,5 @@
 {
-  "description": "The OIDC identity login (https://docs.doppler.com/docs/service-account-identities) always returns the short-lived token and its expiry; the token is a credential and must be delivered redacted. (The endpoint is public — the OIDC token is the credential — which scripts/generate.ts enforces through PUBLIC_OPERATIONS; the converter does not read operation-level `security`.)",
+  "description": "The OIDC identity login (https://docs.doppler.com/docs/service-account-identities) always returns the short-lived token and its expiry; the token is a credential and must be delivered redacted. The request's `token` is the OIDC token issued by the caller's provider, the credential the login exchanges, so it is sensitive too. (The endpoint is public — the OIDC token is the credential — which scripts/generate.ts enforces through PUBLIC_OPERATIONS; the converter does not read operation-level `security`.)",
   "patches": [
     {
       "op": "add",
@@ -15,6 +15,11 @@
       "value": {
         "smithy.api#required": {}
       }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#AuthOidcRequest/members/token/traits/smithy.api#sensitive",
+      "value": {}
     }
   ]
 }

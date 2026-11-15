@@ -1,14 +1,19 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import {
+  makeRestProtocol,
+  type RestErrorEnvelope,
+  unknownErrorProps,
+} from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
- * SquarespaceProtocol — hand-written.
+ * SquarespaceProtocol -- hand-written.
  *
  * Squarespace Commerce APIs speak bearer-authenticated JSON REST (no
  * response envelope), so the whole protocol is one `makeRestProtocol` call
  * from `core/protocol-rest`:
  *
- *   request:  credentials → `Authorization: Bearer <apiKey>` + `User-Agent`
+ *   request:  credentials -> `Authorization: Bearer <apiKey>` + `User-Agent`
  *             + base URL (default https://api.squarespace.com), resolved
  *             from the calling fiber on every request
  *
@@ -36,7 +41,9 @@ export type SquarespaceOpError =
   | UnknownSquarespaceError
   | ConfigError
   | HttpClientError.HttpClientError
-  | SquarespaceParseError;
+  | SquarespaceParseError
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Squarespace operation. */
 export type SquarespaceOpContext = Credentials | HttpClient.HttpClient;
@@ -60,24 +67,17 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return { code, message };
 };
 
-export const SquarespaceProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
-  // The Credentials service holds an effect — resolving it here (per
-  // request, on the calling fiber) picks up context-provided credentials.
-  credentials: Effect.gen(function* () {
-    const resolve = yield* Credentials;
-    return yield* resolve;
-  }),
-  baseUrl: (creds) => creds.apiBaseUrl,
-  headers: (creds) => ({
-    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-    "User-Agent": creds.userAgent,
-  }),
-  errorEnvelope,
-  unknownError: ({ code, message, body }) =>
-    new UnknownSquarespaceError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
+export const SquarespaceProtocol: Layer.Layer<API.Protocol> =
+  /*@__PURE__*/ makeRestProtocol<Config>({
+    // The Credentials service holds an effect -- resolving it here (per
+    // request, on the calling fiber) picks up context-provided credentials.
+    credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+    baseUrl: (creds) => creds.apiBaseUrl,
+    headers: (creds) => ({
+      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+      "User-Agent": creds.userAgent,
     }),
-  parseError: ({ body, cause }) => new SquarespaceParseError({ body, cause }),
-});
+    errorEnvelope,
+    unknownError: (info) => new UnknownSquarespaceError(unknownErrorProps(info)),
+    parseError: ({ body, cause }) => new SquarespaceParseError({ body, cause }),
+  });

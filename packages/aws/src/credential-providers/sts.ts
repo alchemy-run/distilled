@@ -1,3 +1,4 @@
+import { loadModule } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import * as Redacted from "effect/Redacted";
 /**
@@ -21,19 +22,28 @@ const unredact = (value: string | Redacted.Redacted<string>): string =>
 
 /**
  * The region STS is called in: the explicit one, else the environment, else
- * `fallback` (the profile's `region` in the Node build), else `us-east-1` —
+ * `fallback` (the profile's `region` in the Node build), else `us-east-1` --
  * the order of the SDK's `stsRegionDefaultResolver`.
  */
-export const stsRegion = (
+export const stsRegion = <E = never>(
   region: string | undefined,
-  fallback: Effect.Effect<string | undefined> = Effect.succeed(undefined),
-): Effect.Effect<Region.RegionName> =>
+  fallback: Effect.Effect<string | undefined, E> = Effect.succeed(undefined),
+): Effect.Effect<Region.RegionName, E | CredentialSourceError> =>
   region
     ? Effect.succeed(region as Region.RegionName)
     : Region.fromEnvironment.pipe(
-        Effect.catch(() =>
-          Effect.map(fallback, (resolved) => (resolved ?? "us-east-1") as Region.RegionName),
-        ),
+        Effect.catchTags({
+          ConfigError: () =>
+            Effect.map(fallback, (resolved) => (resolved ?? "us-east-1") as Region.RegionName),
+          SourceError: (cause) =>
+            Effect.fail(
+              new CredentialSourceError({
+                message: `Could not read the STS region: ${cause.message}`,
+                tryNextLink: false,
+                cause,
+              }),
+            ),
+        }),
       );
 
 interface StsResponse {
@@ -90,7 +100,15 @@ export const assumeRole = (
   region: Region.RegionName,
 ): CredentialSource =>
   Effect.gen(function* () {
-    const STS = yield* Effect.promise(() => import("../services/sts.ts"));
+    const STS = yield* loadModule(() => import("../services/sts.ts")).pipe(
+      Effect.mapError(
+        (e) =>
+          new CredentialSourceError({
+            message: `could not load the STS client: ${e.message}`,
+            cause: e,
+          }),
+      ),
+    );
     const response = yield* STS.assumeRole(params).pipe(
       Effect.provideService(
         Credentials,
@@ -114,7 +132,15 @@ export const assumeRoleWithWebIdentity = (
   region: Region.RegionName,
 ): CredentialSource =>
   Effect.gen(function* () {
-    const STS = yield* Effect.promise(() => import("../services/sts.ts"));
+    const STS = yield* loadModule(() => import("../services/sts.ts")).pipe(
+      Effect.mapError(
+        (e) =>
+          new CredentialSourceError({
+            message: `could not load the STS client: ${e.message}`,
+            cause: e,
+          }),
+      ),
+    );
     const response = yield* STS.assumeRoleWithWebIdentity(params).pipe(
       Effect.provideService(
         Credentials,

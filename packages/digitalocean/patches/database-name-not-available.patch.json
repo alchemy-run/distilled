@@ -1,0 +1,26 @@
+{
+  "description": "POST /v2/databases/{uuid}/dbs answers 422 `database name is not available` for a moment after a new MySQL cluster comes online, then accepts the same name. Type it as DatabaseNameNotAvailable so a create can retry it; other 422s stay UnprocessableEntity.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#DatabaseNameNotAvailable",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 422,
+          "smithy.api#documentation": "The database name can't be used right now (422 `database name is not available`), as on a MySQL cluster that just came online.",
+          "com.distilled.openapi#errorMatchers": [
+            { "status": 422, "message": { "includes": "database name is not available" } }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#DatabasesAdd/errors/-",
+      "value": { "target": "com.digitalocean.api#DatabaseNameNotAvailable" }
+    }
+  ]
+}

@@ -1,12 +1,17 @@
 # spec-mirror-onepassword
 
-A git mirror of the 1Password Connect [OpenAPI spec](https://github.com/1Password/connect/blob/main/docs/openapi/spec.yaml), reduced to exactly the file the
+A git mirror of 1Password's published OpenAPI specs, reduced to exactly the files the
 [`@distilled.cloud/onepassword`](https://github.com/alchemy-run/distilled) generator reads:
 
-- `specs/openapi.json` — Connect REST API (parsed from upstream YAML)
-- `specs/docs/` — vendor Connect API docs snapshotted at fetch time
+- `specs/openapi.json` — Connect server API ([`1Password/connect` `docs/openapi/spec.yaml`](https://github.com/1Password/connect/blob/main/docs/openapi/spec.yaml))
+- `specs/events.json` — Events API ([`events_api.yaml`](https://www.1password.dev/openapi/events_api.yaml))
+- `specs/users.json` — Users API ([`users_api.yaml`](https://www.1password.dev/openapi/users_api.yaml))
+- `specs/oauth.json` — OAuth API used by the Users API ([`oauth_api.yaml`](https://www.1password.dev/openapi/oauth_api.yaml))
+- `specs/partnership.json` — Partnership API ([`partnership_api.yaml`](https://www.1password.dev/openapi/partnership_api.yaml))
+- `specs/docs/` — vendor API docs snapshotted at fetch time
 
-Nothing else from `1Password/connect` is mirrored, so this repository stays small
+Each upstream YAML document is parsed and written as JSON.
+Nothing else from `1Password/connect` or 1password.dev is mirrored, so this repository stays small
 enough to use as a git submodule — the upstream repository is never cloned.
 
 The mirror is updated every 24 hours by

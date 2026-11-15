@@ -3,11 +3,7 @@
  * award. Read-only over `packages/<dir>/{patches,src/services}`.
  *
  * "Fixes" are counted from the committed patch files, not by running the
- * generator:
- * - RFC-6902 files (`{ patches: [...] }`, every package but AWS): one fix per
- *   operation in `patches`.
- * - AWS's declarative `patches/<sdkId>.json`: one fix per named entry under
- *   `operations`, `structures`, `errors` and `errorCategories`.
+ * generator: one fix per RFC-6902 operation in a file's `patches`.
  *
  * "Operations" are the `API.OperationMethod` / `API.PaginatedOperationMethod`
  * exports in the generated services, plus the `client.operation(…)` exports a
@@ -42,17 +38,6 @@ const walk = async (dir: string, out: string[] = []): Promise<string[]> => {
     else out.push(p);
   }
   return out;
-};
-
-const countDeclarativeAws = (doc: Record<string, unknown>): number => {
-  let n = 0;
-  for (const key of ["operations", "structures", "errors", "errorCategories"]) {
-    const section = doc[key];
-    if (section && typeof section === "object") {
-      n += Object.keys(section as object).length;
-    }
-  }
-  return n;
 };
 
 const REST_OPERATION = /^export const [A-Za-z0-9_]+: API\.(?:Paginated)?OperationMethod</gm;
@@ -109,10 +94,6 @@ export const readPatchStats = async (packagesDir: string, dir: string): Promise<
       if (Array.isArray(rec.patches)) {
         fixes += rec.patches.length;
         for (const op of rec.patches) tally(ops, op);
-      } else {
-        const n = countDeclarativeAws(rec);
-        fixes += n;
-        ops.declare = (ops.declare ?? 0) + n;
       }
     }
   }

@@ -1,0 +1,19 @@
+{
+  "name": "@distilled.cloud/bench-dashboard",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Hot-reloading dashboard for the per-SDK benchmarks in benches/sdks. Run files live in runs/.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 5199 --strictPort",
+    "bench": "node scripts/bench.mjs",
+    "build": "vite build",
+    "history": "node scripts/history.mjs",
+    "work": "node scripts/work.mjs",
+    "single": "node scripts/single.mjs",
+    "slim": "node scripts/slim.mjs"
+  },
+  "devDependencies": {
+    "vite": "8.3.0"
+  }
+}

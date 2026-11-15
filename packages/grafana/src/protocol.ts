@@ -1,14 +1,15 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
- * GrafanaProtocol — hand-written.
+ * GrafanaProtocol -- hand-written.
  *
  * Grafana speaks bearer-authenticated JSON REST (no response envelope),
  * so the whole protocol is one `makeRestProtocol` call from
  * `core/protocol-rest`:
  *
- *   request:  credentials → `Authorization: Bearer <token>` + optional
+ *   request:  credentials -> `Authorization: Bearer <token>` + optional
  *             `X-Grafana-Org-Id`, resolved from the calling fiber on every
  *             request. Paths in the spec are relative to `/api`, so the
  *             instance origin is joined with that prefix.
@@ -37,7 +38,9 @@ export type GrafanaOpError =
   | UnknownGrafanaError
   | ConfigError
   | HttpClientError.HttpClientError
-  | GrafanaParseError;
+  | GrafanaParseError
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Grafana operation. */
 export type GrafanaOpContext = Credentials | HttpClient.HttpClient;
@@ -48,13 +51,10 @@ const apiBaseUrl = (origin: string): string => {
   return trimmed.endsWith("/api") ? trimmed : `${trimmed}/api`;
 };
 
-export const GrafanaProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
-  // The Credentials service holds an effect — resolving it here (per
+export const GrafanaProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+  // The Credentials service holds an effect -- resolving it here (per
   // request, on the calling fiber) picks up context-provided credentials.
-  credentials: Effect.gen(function* () {
-    const resolve = yield* Credentials;
-    return yield* resolve;
-  }),
+  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
   baseUrl: (creds) => apiBaseUrl(creds.apiBaseUrl),
   headers: (creds) => {
     const headers: Record<string, string> = {
@@ -66,13 +66,8 @@ export const GrafanaProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Confi
     }
     return headers;
   },
-  // Grafana's error body is `{ message?: string, status?: string }` — the
+  // Grafana's error body is `{ message?: string, status?: string }` -- the
   // factory's default lenient envelope covers it.
-  unknownError: ({ code, message, body }) =>
-    new UnknownGrafanaError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownGrafanaError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new GrafanaParseError({ body, cause }),
 });

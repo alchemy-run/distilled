@@ -1,0 +1,39 @@
+{
+  "description": "Type the 400 PATCH /v1/organizations/{organizationId}/postgres/{postgresId} answers when a request turns deletion protection on for an organization that does not have it: {\"status\": 400, \"error\": \"BAD_REQUEST: Deletion protection is not enabled for this organization.\"}. The spec types it only as the shared envelope, so it surfaced as the generic BadRequest, which every invalid request body also answers. Observed live 2026-11-12 sending deletionProtection: true to a just-created Postgres service (request id 70b22266-6d60-4e37-b5a4-6cbf9af44402), which is why no Postgres service on this organization can have deletion protection, and why deletePostgresService never answers the 409 deleteService does: it deleted the unprotected service with 200.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.postgres#DeletionProtectionNotEnabled",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The organization does not have the deletion protection feature, so a service cannot turn it on. Ask ClickHouse to enable it for the organization.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "Deletion protection is not enabled for this organization"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.postgres#PostgresServicePatch/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.postgres#DeletionProtectionNotEnabled"
+        }
+      ]
+    }
+  ]
+}

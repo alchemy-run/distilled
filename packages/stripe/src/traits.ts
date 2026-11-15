@@ -1,11 +1,11 @@
 /**
- * Stripe SDK trait surface — hand-written.
+ * Stripe SDK trait surface -- hand-written.
  *
  * Re-exports the generic protocol traits from core (so generated operations
  * import everything from one place). The only Stripe-specific piece is the
  * widened `Http` trait: nearly every Stripe operation's request body is
  * `application/x-www-form-urlencoded` (with Stripe's deep bracket
- * expansion), which core's `HttpTrait` doesn't model — the Stripe protocol
+ * expansion), which core's `HttpTrait` doesn't model -- the Stripe protocol
  * keys its body encoding on `contentType: "form-urlencoded"`.
  */
 import { Http as CoreHttp, type HttpTrait as CoreHttpTrait } from "@distilled.cloud/core/trait";

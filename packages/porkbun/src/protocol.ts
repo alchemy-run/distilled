@@ -1,14 +1,19 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import {
+  makeRestProtocol,
+  type RestErrorEnvelope,
+  unknownErrorProps,
+} from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
- * PorkbunProtocol — hand-written.
+ * PorkbunProtocol -- hand-written.
  *
  * Porkbun speaks JSON REST authenticated with `X-API-Key` /
  * `X-Secret-API-Key` (no success envelope), so the whole protocol is one
  * `makeRestProtocol` call from `core/protocol-rest`:
  *
- *   request:  credentials → `X-API-Key` + `X-Secret-API-Key` + base URL
+ *   request:  credentials -> `X-API-Key` + `X-Secret-API-Key` + base URL
  *             (default https://api.porkbun.com/api/json/v3), resolved from
  *             the calling fiber on every request
  *
@@ -36,7 +41,9 @@ export type PorkbunOpError =
   | UnknownPorkbunError
   | ConfigError
   | HttpClientError.HttpClientError
-  | PorkbunParseError;
+  | PorkbunParseError
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Porkbun operation. */
 export type PorkbunOpContext = Credentials | HttpClient.HttpClient;
@@ -56,21 +63,13 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   };
 };
 
-export const PorkbunProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
-  // The Credentials service holds an effect — resolving it here (per
+export const PorkbunProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+  // The Credentials service holds an effect -- resolving it here (per
   // request, on the calling fiber) picks up context-provided credentials.
-  credentials: Effect.gen(function* () {
-    const resolve = yield* Credentials;
-    return yield* resolve;
-  }),
+  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => formatHeaders(creds),
   errorEnvelope,
-  unknownError: ({ code, message, body }) =>
-    new UnknownPorkbunError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownPorkbunError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new PorkbunParseError({ body, cause }),
 });

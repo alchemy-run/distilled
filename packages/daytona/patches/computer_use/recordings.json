@@ -1,0 +1,55 @@
+{
+  "description": "Recordings download as bytes, and type the accessibility refusal. Observed live 2026-11-04 (daemon on Daytona Cloud v0.229.2): GET /computeruse/recordings/{id}/download answers `video/mp4` bytes, which the spec types as a JSON document; POST /computeruse/a11y/node/focus and /a11y/node/value on a node without that capability answer 400 \"bad request: action not supported by node[: node has no EditableText ...]\".",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.computer_use#AccessibilityActionNotSupported",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The accessibility node doesn't support the action: it can't take focus, or has no editable text or numeric value (HTTP 400).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "action not supported by node"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.computer_use#FocusAccessibilityNode/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.computer_use#AccessibilityActionNotSupported"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.computer_use#SetAccessibilityNodeValue/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.computer_use#AccessibilityActionNotSupported"
+        }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.daytona.computer_use#DownloadRecordingResponse/members/body/target",
+      "value": "smithy.api#Blob"
+    }
+  ]
+}

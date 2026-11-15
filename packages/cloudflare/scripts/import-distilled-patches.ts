@@ -20,11 +20,16 @@
  * error-metadata oracle, never as the type source.
  *
  * Usage:
- *   node scripts/import-distilled-patches.ts [--distilled D:/code/alchemy/distilled]
+ *   node --conditions=bun scripts/import-distilled-patches.ts [--distilled D:/code/alchemy/distilled]
+ *
+ * It runs scripts/spec-to-smithy.ts in memory (as generate does) and reads
+ * the converted models from there, so it needs no `.generated-specs` dump.
  */
 
 import * as fs from "node:fs";
 import * as path from "node:path";
+import { collectModels } from "@distilled.cloud/dev/codegen/models";
+import { convert } from "./spec-to-smithy.ts";
 
 const args = process.argv.slice(2);
 const flag = (name: string, dflt: string): string => {
@@ -248,10 +253,13 @@ const serviceVotes = new Map<string, Map<string, number>>();
 /** our resource → alias exports (same route, extra distilled export names) */
 const opAliases = new Map<string, Array<{ alias: string; target: string }>>();
 
-for (const file of fs.readdirSync(SMITHY_DIR)) {
-  if (!file.endsWith(".json") || file === "cloudflare.protocols.json") continue;
+const converted = await collectModels(() => convert());
+for (const [modelPath, text] of [...converted].sort(([a], [b]) => a.localeCompare(b))) {
+  if (path.dirname(modelPath) !== SMITHY_DIR) continue;
+  const file = path.basename(modelPath);
+  if (file === "cloudflare.protocols.json") continue;
   const resource = file.replace(/\.json$/, "");
-  const model = JSON.parse(fs.readFileSync(path.join(SMITHY_DIR, file), "utf8"));
+  const model = JSON.parse(text);
   const shapes: Record<string, any> = model.shapes;
   const shapeNames = new Set(Object.keys(shapes).map((id) => id.split("#")[1]));
 

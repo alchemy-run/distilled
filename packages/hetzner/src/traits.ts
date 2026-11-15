@@ -1,5 +1,5 @@
 /**
- * Hetzner Cloud SDK trait surface — hand-written.
+ * Hetzner Cloud SDK trait surface -- hand-written.
  *
  * Re-exports the generic protocol traits from core so generated operations
  * import everything from one place. Hetzner speaks plain bearer-REST JSON

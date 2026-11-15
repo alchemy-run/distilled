@@ -56,6 +56,9 @@
         },
         {
           "target": "com.cloudflare.ai_search#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.ai_search#InstanceDeletionInProgress"
         }
       ]
     }

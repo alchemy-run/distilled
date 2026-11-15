@@ -11,11 +11,11 @@
  * Output: .generated-specs/workos.json
  *
  * The OpenAPI→Smithy converter lives in
- * `@distilled.cloud/core/codegen/openapi`; this script is WorkOS's pipeline
+ * `@distilled.cloud/dev/codegen/openapi`; this script is WorkOS's pipeline
  * config. `scripts/generate.ts` compiles the model into src/services.
  */
 import * as path from "node:path";
-import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
+import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
 import { parse as parseYaml } from "yaml";
 
 await runOpenApiConvert({

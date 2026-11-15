@@ -1,18 +1,19 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
- * PlanetScaleProtocol — hand-written.
+ * PlanetScaleProtocol -- hand-written.
  *
  * PlanetScale speaks plain JSON REST (no response envelope), so the whole
  * protocol is one `makeRestProtocol` call from `core/protocol-rest`. What is
  * PlanetScale's own is the dual-mode `Authorization` header:
  *
- *   service token → `Authorization: <tokenId>:<token>` (non-standard scheme)
- *   OAuth         → `Authorization: Bearer <accessToken>`
+ *   service token -> `Authorization: <tokenId>:<token>` (non-standard scheme)
+ *   OAuth         -> `Authorization: Bearer <accessToken>`
  *
  * built by {@link formatHeaders} from the credentials resolved on the
- * calling fiber for every request (rotations/refreshes Just Work — refresh
+ * calling fiber for every request (rotations/refreshes Just Work -- refresh
  * itself is the caller's job, see `credentials.ts`).
  *
  * response: 2xx JSON is the payload (sensitive members like a password's
@@ -38,27 +39,22 @@ export type PlanetScaleOpError =
   | UnknownPlanetScaleError
   | ConfigError
   | HttpClientError.HttpClientError
-  | PlanetScaleParseError;
+  | PlanetScaleParseError
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated PlanetScale operation. */
 export type PlanetScaleOpContext = Credentials | HttpClient.HttpClient;
 
-export const PlanetScaleProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
-  // The Credentials service holds an effect — resolving it here (per
-  // request, on the calling fiber) picks up context-provided credentials.
-  credentials: Effect.gen(function* () {
-    const resolve = yield* Credentials;
-    return yield* resolve;
-  }),
-  baseUrl: (creds) => creds.apiBaseUrl,
-  headers: (creds) => formatHeaders(creds),
-  // PlanetScale's error body is `{ code: string, message?: string }` — the
-  // factory's default lenient envelope covers it.
-  unknownError: ({ code, message, body }) =>
-    new UnknownPlanetScaleError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
-  parseError: ({ body, cause }) => new PlanetScaleParseError({ body, cause }),
-});
+export const PlanetScaleProtocol: Layer.Layer<API.Protocol> =
+  /*@__PURE__*/ makeRestProtocol<Config>({
+    // The Credentials service holds an effect -- resolving it here (per
+    // request, on the calling fiber) picks up context-provided credentials.
+    credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+    baseUrl: (creds) => creds.apiBaseUrl,
+    headers: (creds) => formatHeaders(creds),
+    // PlanetScale's error body is `{ code: string, message?: string }` -- the
+    // factory's default lenient envelope covers it.
+    unknownError: (info) => new UnknownPlanetScaleError(unknownErrorProps(info)),
+    parseError: ({ body, cause }) => new PlanetScaleParseError({ body, cause }),
+  });

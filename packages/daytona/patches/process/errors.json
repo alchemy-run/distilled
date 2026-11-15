@@ -1,0 +1,152 @@
+{
+  "description": "Type the daemon's session 404s. Observed live 2026-11-04 (daemon v0.225.2 on Daytona Cloud v0.229.2): DELETE /process/session/{id} and the session's command routes answer 404 {\"message\":\"session not found\",\"code\":\"PROCESS_NOT_FOUND\"} for an unknown session, and 404 {\"message\":\"command not found\",\"code\":\"PROCESS_NOT_FOUND\"} for an unknown command in a known session. POST /process/session/{sessionId}/command/{commandId}/input right after a command starts answers 500 \"failed to open input pipe: open \u2026/input.pipe: no such file or directory\" until the daemon creates the command's input pipe (observed live 2026-11-04).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.process#SessionNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "No session has this ID (HTTP 404 \"session not found\").",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "message": {
+                "includes": "session not found"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.process#SessionCommandNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The session has no command with this ID (HTTP 404 \"command not found\").",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "message": {
+                "includes": "command not found"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.process#SessionInputNotReady",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "server",
+          "smithy.api#httpError": 500,
+          "smithy.api#documentation": "The command's input pipe doesn't exist yet: it was just started (HTTP 500 \"failed to open input pipe\"). Retry shortly.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 500,
+              "message": {
+                "includes": "failed to open input pipe"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.process#DeleteSession/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.process#SessionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.process#GetSession/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.process#SessionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.process#SessionExecuteCommand/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.process#SessionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.process#GetSessionCommand/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.process#SessionNotFound"
+        },
+        {
+          "target": "com.daytona.process#SessionCommandNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.process#GetSessionCommandLogs/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.process#SessionNotFound"
+        },
+        {
+          "target": "com.daytona.process#SessionCommandNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.process#SendInput/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.process#SessionNotFound"
+        },
+        {
+          "target": "com.daytona.process#SessionCommandNotFound"
+        },
+        {
+          "target": "com.daytona.process#SessionInputNotReady"
+        }
+      ]
+    }
+  ]
+}

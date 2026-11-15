@@ -1,0 +1,294 @@
+{
+  "description": "Since the 2026-10-29 docs, the rulesets, ruleset versions and entry point versions list endpoints document `result` as `unknown or array of unknown or string or 2 more`, so it converts to a Document. The 2026-10-21 docs described it as an array of ruleset summaries { id, kind, last_updated, name, phase, version, description }, which is what the API returns (exercised by the Ruleset, CustomRuleset and AccountEntrypoint live tests). Restore it as one RulesetSummary list shared by the three endpoints.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#RulesetKind",
+      "value": {
+        "type": "enum",
+        "members": {
+          "MANAGED": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "managed"
+            }
+          },
+          "CUSTOM": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "custom"
+            }
+          },
+          "ROOT": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "root"
+            }
+          },
+          "ZONE": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "zone"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#RulesetPhase",
+      "value": {
+        "type": "enum",
+        "members": {
+          "DDOS_L4": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "ddos_l4"
+            }
+          },
+          "DDOS_L7": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "ddos_l7"
+            }
+          },
+          "HTTP_CONFIG_SETTINGS": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "http_config_settings"
+            }
+          },
+          "HTTP_CUSTOM_ERRORS": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "http_custom_errors"
+            }
+          },
+          "HTTP_LOG_CUSTOM_FIELDS": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "http_log_custom_fields"
+            }
+          },
+          "HTTP_RATELIMIT": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "http_ratelimit"
+            }
+          },
+          "HTTP_REQUEST_CACHE_SETTINGS": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "http_request_cache_settings"
+            }
+          },
+          "HTTP_REQUEST_DYNAMIC_REDIRECT": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "http_request_dynamic_redirect"
+            }
+          },
+          "HTTP_REQUEST_FIREWALL_CUSTOM": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "http_request_firewall_custom"
+            }
+          },
+          "HTTP_REQUEST_FIREWALL_MANAGED": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "http_request_firewall_managed"
+            }
+          },
+          "HTTP_REQUEST_LATE_TRANSFORM": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "http_request_late_transform"
+            }
+          },
+          "HTTP_REQUEST_ORIGIN": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "http_request_origin"
+            }
+          },
+          "HTTP_REQUEST_REDIRECT": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "http_request_redirect"
+            }
+          },
+          "HTTP_REQUEST_SANITIZE": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "http_request_sanitize"
+            }
+          },
+          "HTTP_REQUEST_SBFM": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "http_request_sbfm"
+            }
+          },
+          "HTTP_REQUEST_TRANSFORM": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "http_request_transform"
+            }
+          },
+          "HTTP_RESPONSE_CACHE_SETTINGS": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "http_response_cache_settings"
+            }
+          },
+          "HTTP_RESPONSE_COMPRESSION": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "http_response_compression"
+            }
+          },
+          "HTTP_RESPONSE_FIREWALL_CUSTOM": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "http_response_firewall_custom"
+            }
+          },
+          "HTTP_RESPONSE_FIREWALL_MANAGED": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "http_response_firewall_managed"
+            }
+          },
+          "HTTP_RESPONSE_HEADERS_TRANSFORM": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "http_response_headers_transform"
+            }
+          },
+          "MAGIC_TRANSIT": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "magic_transit"
+            }
+          },
+          "MAGIC_TRANSIT_IDS_MANAGED": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "magic_transit_ids_managed"
+            }
+          },
+          "MAGIC_TRANSIT_MANAGED": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "magic_transit_managed"
+            }
+          },
+          "MAGIC_TRANSIT_RATELIMIT": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "magic_transit_ratelimit"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#RulesetSummary",
+      "value": {
+        "type": "structure",
+        "members": {
+          "id": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The unique ID of the ruleset.",
+              "smithy.api#required": {}
+            }
+          },
+          "kind": {
+            "target": "com.cloudflare.rulesets#RulesetKind",
+            "traits": {
+              "smithy.api#documentation": "The kind of the ruleset.",
+              "smithy.api#required": {}
+            }
+          },
+          "last_updated": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The timestamp of when the ruleset was last modified.",
+              "smithy.api#required": {}
+            }
+          },
+          "name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The human-readable name of the ruleset.",
+              "smithy.api#required": {}
+            }
+          },
+          "phase": {
+            "target": "com.cloudflare.rulesets#RulesetPhase",
+            "traits": {
+              "smithy.api#documentation": "The phase of the ruleset.",
+              "smithy.api#required": {}
+            }
+          },
+          "version": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The version of the ruleset.",
+              "smithy.api#required": {}
+            }
+          },
+          "description": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "An informative description of the ruleset."
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#RulesetSummaryList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.cloudflare.rulesets#RulesetSummary"
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.rulesets#ListRulesetsForAccountResponse/members/result/target",
+      "value": "com.cloudflare.rulesets#RulesetSummaryList"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.rulesets#ListRulesetsForZoneResponse/members/result/target",
+      "value": "com.cloudflare.rulesets#RulesetSummaryList"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.rulesets#ListVersionsForAccountResponse/members/result/target",
+      "value": "com.cloudflare.rulesets#RulesetSummaryList"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.rulesets#ListVersionsForZoneResponse/members/result/target",
+      "value": "com.cloudflare.rulesets#RulesetSummaryList"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.rulesets#ListPhasVersionsForAccountResponse/members/result/target",
+      "value": "com.cloudflare.rulesets#RulesetSummaryList"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.rulesets#ListPhasVersionsForZoneResponse/members/result/target",
+      "value": "com.cloudflare.rulesets#RulesetSummaryList"
+    }
+  ]
+}

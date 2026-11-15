@@ -8,7 +8,7 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.posthog.hog_flows#HogFlow/members/created_by/traits/com.distilled.openapi#nullable",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowOutput/members/created_by/traits/com.distilled.openapi#nullable",
       "value": {}
     }
   ]

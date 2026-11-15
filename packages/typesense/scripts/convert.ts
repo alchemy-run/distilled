@@ -6,11 +6,11 @@
  * Output: .generated-specs/typesense.json       (Smithy 2.0 model)
  *
  * The OpenAPI→Smithy converter and the patch-then-convert pipeline live in
- * `@distilled.cloud/core/codegen`; this script only names the spec file and
+ * `@distilled.cloud/dev/codegen`; this script only names the spec file and
  * the YAML parse seam. The RFC-6902 patches in `patches/*.patch.json` are
  * applied to the OpenAPI document before conversion (v0 semantics).
  */
-import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
+import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
 import { parse as parseYaml } from "yaml";
 
 await runOpenApiConvert({

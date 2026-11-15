@@ -1,0 +1,1643 @@
+{
+  "description": "SES publishes every email event in the aws.events registry with an untyped `detail` (`{\"type\": \"object\"}`). Type it from the SES developer guide: https://docs.aws.amazon.com/ses/latest/dg/event-publishing-retrieving-sns-contents.html (fields) and https://docs.aws.amazon.com/ses/latest/dg/event-publishing-retrieving-sns-examples.html (example records). The same record is what SES publishes to SNS and Firehose.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#StringList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#MailTags",
+      "value": {
+        "type": "map",
+        "key": {
+          "target": "smithy.api#String"
+        },
+        "value": {
+          "target": "com.amazonaws.ses.events#StringList"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#MailHeader",
+      "value": {
+        "type": "structure",
+        "members": {
+          "name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The header name."
+            }
+          },
+          "value": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The header value."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "One of the email's original headers."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#MailHeaderList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.amazonaws.ses.events#MailHeader"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#CommonHeaders",
+      "value": {
+        "type": "structure",
+        "members": {
+          "from": {
+            "target": "com.amazonaws.ses.events#StringList",
+            "traits": {
+              "smithy.api#documentation": "The From header."
+            }
+          },
+          "to": {
+            "target": "com.amazonaws.ses.events#StringList",
+            "traits": {
+              "smithy.api#documentation": "The To header."
+            }
+          },
+          "cc": {
+            "target": "com.amazonaws.ses.events#StringList",
+            "traits": {
+              "smithy.api#documentation": "The Cc header."
+            }
+          },
+          "bcc": {
+            "target": "com.amazonaws.ses.events#StringList",
+            "traits": {
+              "smithy.api#documentation": "The Bcc header."
+            }
+          },
+          "sender": {
+            "target": "com.amazonaws.ses.events#StringList",
+            "traits": {
+              "smithy.api#documentation": "The Sender header."
+            }
+          },
+          "replyTo": {
+            "target": "com.amazonaws.ses.events#StringList",
+            "traits": {
+              "smithy.api#documentation": "The Reply-To header."
+            }
+          },
+          "returnPath": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The Return-Path header."
+            }
+          },
+          "messageId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The message ID Amazon SES assigned to the message."
+            }
+          },
+          "date": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The Date header."
+            }
+          },
+          "subject": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The Subject header."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The email's original, commonly used headers. Its messageId is the one Amazon SES assigned."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#Mail",
+      "value": {
+        "type": "structure",
+        "members": {
+          "timestamp": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "When the message was sent, in ISO 8601 format."
+            }
+          },
+          "messageId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The unique ID Amazon SES assigned to the message."
+            }
+          },
+          "source": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The envelope MAIL FROM address the message was sent from."
+            }
+          },
+          "sourceArn": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The ARN of the identity used to send the email."
+            }
+          },
+          "sendingAccountId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The AWS account ID of the account that sent the email."
+            }
+          },
+          "destination": {
+            "target": "com.amazonaws.ses.events#StringList",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The recipients of the original mail."
+            }
+          },
+          "headersTruncated": {
+            "target": "smithy.api#Boolean",
+            "traits": {
+              "smithy.api#documentation": "Whether the headers are truncated, which happens above 10 KB."
+            }
+          },
+          "headers": {
+            "target": "com.amazonaws.ses.events#MailHeaderList",
+            "traits": {
+              "smithy.api#documentation": "The email's original headers."
+            }
+          },
+          "commonHeaders": {
+            "target": "com.amazonaws.ses.events#CommonHeaders",
+            "traits": {
+              "smithy.api#documentation": "The email's original, commonly used headers."
+            }
+          },
+          "tags": {
+            "target": "com.amazonaws.ses.events#MailTags",
+            "traits": {
+              "smithy.api#documentation": "The tags associated with the email."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The original email that produced the event."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#BounceType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "UNDETERMINED": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "Undetermined"
+            }
+          },
+          "PERMANENT": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "Permanent"
+            }
+          },
+          "TRANSIENT": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "Transient"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The type of bounce, as determined by Amazon SES."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#BounceSubType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "UNDETERMINED": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "Undetermined"
+            }
+          },
+          "GENERAL": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "General"
+            }
+          },
+          "NOEMAIL": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "NoEmail"
+            }
+          },
+          "SUPPRESSED": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "Suppressed"
+            }
+          },
+          "ONACCOUNTSUPPRESSIONLIST": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "OnAccountSuppressionList"
+            }
+          },
+          "EMAILVALIDATIONSUPPRESSED": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "EmailValidationSuppressed"
+            }
+          },
+          "ONTENANTSUPPRESSIONLIST": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "OnTenantSuppressionList"
+            }
+          },
+          "MAILBOXFULL": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "MailboxFull"
+            }
+          },
+          "MESSAGETOOLARGE": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "MessageTooLarge"
+            }
+          },
+          "CUSTOMTIMEOUTEXCEEDED": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "CustomTimeoutExceeded"
+            }
+          },
+          "CONTENTREJECTED": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "ContentRejected"
+            }
+          },
+          "ATTACHMENTREJECTED": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "AttachmentRejected"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The subtype of the bounce, as determined by Amazon SES."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#BouncedRecipient",
+      "value": {
+        "type": "structure",
+        "members": {
+          "emailAddress": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The recipient's address; the DSN's Final-Recipient field when a DSN is attached."
+            }
+          },
+          "action": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The DSN's Action field."
+            }
+          },
+          "status": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The DSN's Status field, e.g. `5.1.1`."
+            }
+          },
+          "diagnosticCode": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The DSN's Diagnostic-Code field."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "A recipient whose address produced a bounce."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#BouncedRecipientList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.amazonaws.ses.events#BouncedRecipient"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#Bounce",
+      "value": {
+        "type": "structure",
+        "members": {
+          "bounceType": {
+            "target": "com.amazonaws.ses.events#BounceType",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The type of bounce."
+            }
+          },
+          "bounceSubType": {
+            "target": "com.amazonaws.ses.events#BounceSubType",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The subtype of the bounce."
+            }
+          },
+          "bouncedRecipients": {
+            "target": "com.amazonaws.ses.events#BouncedRecipientList",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The recipients that bounced."
+            }
+          },
+          "timestamp": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "When the ISP sent the bounce notification, in ISO 8601 format."
+            }
+          },
+          "feedbackId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "A unique ID for the bounce."
+            }
+          },
+          "reportingMTA": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The DSN's Reporting-MTA field, present only when a DSN is attached."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "A hard bounce, or a soft bounce Amazon SES no longer retries."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#ComplaintFeedbackType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "ABUSE": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "abuse"
+            }
+          },
+          "AUTH_FAILURE": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "auth-failure"
+            }
+          },
+          "FRAUD": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "fraud"
+            }
+          },
+          "NOT_SPAM": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "not-spam"
+            }
+          },
+          "OTHER": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "other"
+            }
+          },
+          "VIRUS": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "virus"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The Feedback-Type of the ISP's feedback report (IANA MARF feedback types)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#ComplainedRecipient",
+      "value": {
+        "type": "structure",
+        "members": {
+          "emailAddress": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The recipient's address."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "A recipient that may have submitted the complaint."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#ComplainedRecipientList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.amazonaws.ses.events#ComplainedRecipient"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#Complaint",
+      "value": {
+        "type": "structure",
+        "members": {
+          "complainedRecipients": {
+            "target": "com.amazonaws.ses.events#ComplainedRecipientList",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The recipients that may have submitted the complaint."
+            }
+          },
+          "timestamp": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "When the ISP sent the complaint notification, in ISO 8601 format."
+            }
+          },
+          "feedbackId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "A unique ID for the complaint."
+            }
+          },
+          "complaintSubType": {
+            "target": "smithy.api#String",
+            "traits": {
+              "com.distilled.openapi#nullable": {},
+              "smithy.api#documentation": "Null, or `OnAccountSuppressionList` / `OnTenantSuppressionList` when Amazon SES accepted but did not send the message."
+            }
+          },
+          "userAgent": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The feedback report's User-Agent field."
+            }
+          },
+          "complaintFeedbackType": {
+            "target": "com.amazonaws.ses.events#ComplaintFeedbackType",
+            "traits": {
+              "smithy.api#documentation": "The feedback report's Feedback-Type field."
+            }
+          },
+          "arrivalDate": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The feedback report's Arrival-Date or Received-Date, in ISO 8601 format."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "A complaint a recipient's ISP reported."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#Delivery",
+      "value": {
+        "type": "structure",
+        "members": {
+          "timestamp": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "When Amazon SES delivered the email, in ISO 8601 format."
+            }
+          },
+          "processingTimeMillis": {
+            "target": "smithy.api#Long",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Milliseconds from accepting the request to passing the message on."
+            }
+          },
+          "recipients": {
+            "target": "com.amazonaws.ses.events#StringList",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The recipients the delivery applies to."
+            }
+          },
+          "smtpResponse": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The SMTP response of the remote ISP that accepted the email."
+            }
+          },
+          "reportingMTA": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The host name of the Amazon SES mail server that sent the mail."
+            }
+          },
+          "remoteMtaIp": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The IP address of the MTA Amazon SES delivered the email to."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Amazon SES delivered the email to the recipient's mail server."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#Send",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#documentation": "The send request succeeded. Always empty."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#Reject",
+      "value": {
+        "type": "structure",
+        "members": {
+          "reason": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Why the email was rejected. The only value is `Bad content`."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Amazon SES rejected the email and did not attempt delivery."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#IsBotEvent",
+      "value": {
+        "type": "enum",
+        "members": {
+          "LIKELY": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "Likely"
+            }
+          },
+          "UNLIKELY": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "Unlikely"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "How likely the event came from an automated system rather than a human."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#Open",
+      "value": {
+        "type": "structure",
+        "members": {
+          "ipAddress": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The recipient's IP address."
+            }
+          },
+          "timestamp": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "When the open occurred, in ISO 8601 format."
+            }
+          },
+          "userAgent": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The user agent of the client that opened the email."
+            }
+          },
+          "isBotEvent": {
+            "target": "com.amazonaws.ses.events#IsBotEvent",
+            "traits": {
+              "smithy.api#documentation": "How likely the open came from a bot."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The recipient opened the email."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#Click",
+      "value": {
+        "type": "structure",
+        "members": {
+          "ipAddress": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The recipient's IP address."
+            }
+          },
+          "timestamp": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "When the click occurred, in ISO 8601 format."
+            }
+          },
+          "userAgent": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The user agent of the client that clicked."
+            }
+          },
+          "link": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The URL of the link that was clicked."
+            }
+          },
+          "linkTags": {
+            "target": "com.amazonaws.ses.events#MailTags",
+            "traits": {
+              "smithy.api#documentation": "The tags added to the link with the `ses:tags` attribute."
+            }
+          },
+          "isBotEvent": {
+            "target": "com.amazonaws.ses.events#IsBotEvent",
+            "traits": {
+              "smithy.api#documentation": "How likely the click came from a bot."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The recipient clicked a link in the email."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#RenderingFailure",
+      "value": {
+        "type": "structure",
+        "members": {
+          "templateName": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The name of the template used to send the email."
+            }
+          },
+          "errorMessage": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "More information about the rendering failure."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The email was not sent because of a template rendering problem."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#DelayType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "INTERNALFAILURE": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "InternalFailure"
+            }
+          },
+          "GENERAL": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "General"
+            }
+          },
+          "MAILBOXFULL": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "MailboxFull"
+            }
+          },
+          "SPAMDETECTED": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "SpamDetected"
+            }
+          },
+          "RECIPIENTSERVERERROR": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "RecipientServerError"
+            }
+          },
+          "IPFAILURE": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "IPFailure"
+            }
+          },
+          "TRANSIENTCOMMUNICATIONFAILURE": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "TransientCommunicationFailure"
+            }
+          },
+          "BYOIPHOSTNAMELOOKUPUNAVAILABLE": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "BYOIPHostNameLookupUnavailable"
+            }
+          },
+          "UNDETERMINED": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "Undetermined"
+            }
+          },
+          "SENDINGDEFERRAL": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "SendingDeferral"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The type of delivery delay."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#DelayedRecipient",
+      "value": {
+        "type": "structure",
+        "members": {
+          "emailAddress": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The address whose delivery is delayed."
+            }
+          },
+          "status": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The SMTP status code of the delay."
+            }
+          },
+          "diagnosticCode": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The diagnostic code from the receiving MTA."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "A recipient whose delivery is delayed."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#DelayedRecipientList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.amazonaws.ses.events#DelayedRecipient"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#DeliveryDelay",
+      "value": {
+        "type": "structure",
+        "members": {
+          "delayType": {
+            "target": "com.amazonaws.ses.events#DelayType",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The type of delay."
+            }
+          },
+          "delayedRecipients": {
+            "target": "com.amazonaws.ses.events#DelayedRecipientList",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The recipients that are delayed."
+            }
+          },
+          "expirationTime": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "When Amazon SES stops trying to deliver, in ISO 8601 format."
+            }
+          },
+          "reportingMTA": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The IP address of the MTA that reported the delay."
+            }
+          },
+          "timestamp": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "When the delay occurred, in ISO 8601 format."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The email could not be delivered yet; Amazon SES keeps trying."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#SubscriptionStatus",
+      "value": {
+        "type": "enum",
+        "members": {
+          "OPTIN": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "OptIn"
+            }
+          },
+          "OPTOUT": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "OptOut"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "A topic subscription status."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#TopicSubscriptionStatus",
+      "value": {
+        "type": "structure",
+        "members": {
+          "topicName": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The topic."
+            }
+          },
+          "subscriptionStatus": {
+            "target": "com.amazonaws.ses.events#SubscriptionStatus",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Whether the contact is subscribed."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The subscription status of one topic in the contact list."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#TopicSubscriptionStatusList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.amazonaws.ses.events#TopicSubscriptionStatus"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#TopicPreferences",
+      "value": {
+        "type": "structure",
+        "members": {
+          "unsubscribeAll": {
+            "target": "smithy.api#Boolean",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Whether the contact unsubscribed from all topics."
+            }
+          },
+          "topicSubscriptionStatus": {
+            "target": "com.amazonaws.ses.events#TopicSubscriptionStatusList",
+            "traits": {
+              "smithy.api#documentation": "The subscription status of each topic."
+            }
+          },
+          "topicDefaultSubscriptionStatus": {
+            "target": "com.amazonaws.ses.events#TopicSubscriptionStatusList",
+            "traits": {
+              "smithy.api#documentation": "The default subscription status of each topic."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The contact's subscription status for every topic in the contact list."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#Subscription",
+      "value": {
+        "type": "structure",
+        "members": {
+          "contactList": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The name of the contact list."
+            }
+          },
+          "timestamp": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "When the change happened, in ISO 8601 format."
+            }
+          },
+          "source": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "How the change was made, e.g. `UnsubscribeHeader`."
+            }
+          },
+          "newTopicPreferences": {
+            "target": "com.amazonaws.ses.events#TopicPreferences",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The preferences after the change."
+            }
+          },
+          "oldTopicPreferences": {
+            "target": "com.amazonaws.ses.events#TopicPreferences",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The preferences before the change."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The contact changed its subscription preferences."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#BounceEventType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "BOUNCE": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "Bounce"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The `eventType` of a Bounce event."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#EmailBounced",
+      "value": {
+        "type": "structure",
+        "members": {
+          "eventType": {
+            "target": "com.amazonaws.ses.events#BounceEventType",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The type of event."
+            }
+          },
+          "mail": {
+            "target": "com.amazonaws.ses.events#Mail",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The original email that produced the event."
+            }
+          },
+          "bounce": {
+            "target": "com.amazonaws.ses.events#Bounce",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The Bounce event."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The `detail` of an SES Bounce event: the event record SES publishes to EventBridge, SNS and Firehose."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.amazonaws.ses.events#EmailBouncedEvent/members/detail/target",
+      "value": "com.amazonaws.ses.events#EmailBounced"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#ComplaintEventType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "COMPLAINT": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "Complaint"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The `eventType` of a Complaint event."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#EmailComplaintReceived",
+      "value": {
+        "type": "structure",
+        "members": {
+          "eventType": {
+            "target": "com.amazonaws.ses.events#ComplaintEventType",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The type of event."
+            }
+          },
+          "mail": {
+            "target": "com.amazonaws.ses.events#Mail",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The original email that produced the event."
+            }
+          },
+          "complaint": {
+            "target": "com.amazonaws.ses.events#Complaint",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The Complaint event."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The `detail` of an SES Complaint event: the event record SES publishes to EventBridge, SNS and Firehose."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.amazonaws.ses.events#EmailComplaintReceivedEvent/members/detail/target",
+      "value": "com.amazonaws.ses.events#EmailComplaintReceived"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#DeliveryEventType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "DELIVERY": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "Delivery"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The `eventType` of a Delivery event."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#EmailDelivered",
+      "value": {
+        "type": "structure",
+        "members": {
+          "eventType": {
+            "target": "com.amazonaws.ses.events#DeliveryEventType",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The type of event."
+            }
+          },
+          "mail": {
+            "target": "com.amazonaws.ses.events#Mail",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The original email that produced the event."
+            }
+          },
+          "delivery": {
+            "target": "com.amazonaws.ses.events#Delivery",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The Delivery event."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The `detail` of an SES Delivery event: the event record SES publishes to EventBridge, SNS and Firehose."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.amazonaws.ses.events#EmailDeliveredEvent/members/detail/target",
+      "value": "com.amazonaws.ses.events#EmailDelivered"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#SendEventType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "SEND": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "Send"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The `eventType` of a Send event."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#EmailSent",
+      "value": {
+        "type": "structure",
+        "members": {
+          "eventType": {
+            "target": "com.amazonaws.ses.events#SendEventType",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The type of event."
+            }
+          },
+          "mail": {
+            "target": "com.amazonaws.ses.events#Mail",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The original email that produced the event."
+            }
+          },
+          "send": {
+            "target": "com.amazonaws.ses.events#Send",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The Send event."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The `detail` of an SES Send event: the event record SES publishes to EventBridge, SNS and Firehose."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.amazonaws.ses.events#EmailSentEvent/members/detail/target",
+      "value": "com.amazonaws.ses.events#EmailSent"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#RejectEventType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "REJECT": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "Reject"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The `eventType` of a Reject event."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#EmailRejected",
+      "value": {
+        "type": "structure",
+        "members": {
+          "eventType": {
+            "target": "com.amazonaws.ses.events#RejectEventType",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The type of event."
+            }
+          },
+          "mail": {
+            "target": "com.amazonaws.ses.events#Mail",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The original email that produced the event."
+            }
+          },
+          "reject": {
+            "target": "com.amazonaws.ses.events#Reject",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The Reject event."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The `detail` of an SES Reject event: the event record SES publishes to EventBridge, SNS and Firehose."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.amazonaws.ses.events#EmailRejectedEvent/members/detail/target",
+      "value": "com.amazonaws.ses.events#EmailRejected"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#OpenEventType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "OPEN": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "Open"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The `eventType` of a Open event."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#EmailOpened",
+      "value": {
+        "type": "structure",
+        "members": {
+          "eventType": {
+            "target": "com.amazonaws.ses.events#OpenEventType",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The type of event."
+            }
+          },
+          "mail": {
+            "target": "com.amazonaws.ses.events#Mail",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The original email that produced the event."
+            }
+          },
+          "open": {
+            "target": "com.amazonaws.ses.events#Open",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The Open event."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The `detail` of an SES Open event: the event record SES publishes to EventBridge, SNS and Firehose."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.amazonaws.ses.events#EmailOpenedEvent/members/detail/target",
+      "value": "com.amazonaws.ses.events#EmailOpened"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#ClickEventType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "CLICK": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "Click"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The `eventType` of a Click event."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#EmailClicked",
+      "value": {
+        "type": "structure",
+        "members": {
+          "eventType": {
+            "target": "com.amazonaws.ses.events#ClickEventType",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The type of event."
+            }
+          },
+          "mail": {
+            "target": "com.amazonaws.ses.events#Mail",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The original email that produced the event."
+            }
+          },
+          "click": {
+            "target": "com.amazonaws.ses.events#Click",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The Click event."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The `detail` of an SES Click event: the event record SES publishes to EventBridge, SNS and Firehose."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.amazonaws.ses.events#EmailClickedEvent/members/detail/target",
+      "value": "com.amazonaws.ses.events#EmailClicked"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#RenderingFailureEventType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "RENDERING_FAILURE": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "Rendering Failure"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The `eventType` of a Rendering Failure event."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#EmailRenderingFailed",
+      "value": {
+        "type": "structure",
+        "members": {
+          "eventType": {
+            "target": "com.amazonaws.ses.events#RenderingFailureEventType",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The type of event."
+            }
+          },
+          "mail": {
+            "target": "com.amazonaws.ses.events#Mail",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The original email that produced the event."
+            }
+          },
+          "failure": {
+            "target": "com.amazonaws.ses.events#RenderingFailure",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The Rendering Failure event."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The `detail` of an SES Rendering Failure event: the event record SES publishes to EventBridge, SNS and Firehose."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.amazonaws.ses.events#EmailRenderingFailedEvent/members/detail/target",
+      "value": "com.amazonaws.ses.events#EmailRenderingFailed"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#DeliveryDelayEventType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "DELIVERYDELAY": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "DeliveryDelay"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The `eventType` of a DeliveryDelay event."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#EmailDeliveryDelayed",
+      "value": {
+        "type": "structure",
+        "members": {
+          "eventType": {
+            "target": "com.amazonaws.ses.events#DeliveryDelayEventType",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The type of event."
+            }
+          },
+          "mail": {
+            "target": "com.amazonaws.ses.events#Mail",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The original email that produced the event."
+            }
+          },
+          "deliveryDelay": {
+            "target": "com.amazonaws.ses.events#DeliveryDelay",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The DeliveryDelay event."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The `detail` of an SES DeliveryDelay event: the event record SES publishes to EventBridge, SNS and Firehose."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.amazonaws.ses.events#EmailDeliveryDelayedEvent/members/detail/target",
+      "value": "com.amazonaws.ses.events#EmailDeliveryDelayed"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#SubscriptionEventType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "SUBSCRIPTION": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "Subscription"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The `eventType` of a Subscription event."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ses.events#EmailSubscribed",
+      "value": {
+        "type": "structure",
+        "members": {
+          "eventType": {
+            "target": "com.amazonaws.ses.events#SubscriptionEventType",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The type of event."
+            }
+          },
+          "mail": {
+            "target": "com.amazonaws.ses.events#Mail",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The original email that produced the event."
+            }
+          },
+          "subscription": {
+            "target": "com.amazonaws.ses.events#Subscription",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The Subscription event."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The `detail` of an SES Subscription event: the event record SES publishes to EventBridge, SNS and Firehose."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.amazonaws.ses.events#EmailSubscribedEvent/members/detail/target",
+      "value": "com.amazonaws.ses.events#EmailSubscribed"
+    }
+  ]
+}

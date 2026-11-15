@@ -1,0 +1,89 @@
+{
+  "description": "SageMaker: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sagemaker#CreateModel/errors/-",
+      "value": {
+        "target": "com.amazonaws.sagemaker#ModelAlreadyExists"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sagemaker#DescribeModel/errors/-",
+      "value": {
+        "target": "com.amazonaws.sagemaker#ModelNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sagemaker#DeleteModel/errors/-",
+      "value": {
+        "target": "com.amazonaws.sagemaker#ModelNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sagemaker#CreateEndpointConfig/errors/-",
+      "value": {
+        "target": "com.amazonaws.sagemaker#EndpointConfigAlreadyExists"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sagemaker#DescribeEndpointConfig/errors/-",
+      "value": {
+        "target": "com.amazonaws.sagemaker#EndpointConfigNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sagemaker#DeleteEndpointConfig/errors/-",
+      "value": {
+        "target": "com.amazonaws.sagemaker#EndpointConfigNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sagemaker#CreateEndpoint/errors/-",
+      "value": {
+        "target": "com.amazonaws.sagemaker#EndpointConfigNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sagemaker#CreateEndpoint/errors/-",
+      "value": {
+        "target": "com.amazonaws.sagemaker#EndpointAlreadyExists"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sagemaker#DescribeEndpoint/errors/-",
+      "value": {
+        "target": "com.amazonaws.sagemaker#EndpointNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sagemaker#DeleteEndpoint/errors/-",
+      "value": {
+        "target": "com.amazonaws.sagemaker#EndpointNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sagemaker#UpdateEndpoint/errors/-",
+      "value": {
+        "target": "com.amazonaws.sagemaker#EndpointConfigNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sagemaker#UpdateEndpoint/errors/-",
+      "value": {
+        "target": "com.amazonaws.sagemaker#EndpointNotFound"
+      }
+    }
+  ]
+}

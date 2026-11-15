@@ -1,5 +1,5 @@
 /**
- * Intercom SDK trait surface — hand-written.
+ * Intercom SDK trait surface -- hand-written.
  *
  * Re-exports the generic protocol traits from core (so generated operations
  * import everything from one place). Intercom has no envelope of its own; the

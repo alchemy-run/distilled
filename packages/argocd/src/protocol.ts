@@ -1,14 +1,15 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
- * ArgocdProtocol — hand-written.
+ * ArgocdProtocol -- hand-written.
  *
  * Argo CD speaks plain bearer-authenticated JSON REST (no response envelope),
  * so the whole protocol is one `makeRestProtocol` call from
  * `core/protocol-rest`:
  *
- *   request:  credentials → `Authorization: Bearer <token>` + instance origin
+ *   request:  credentials -> `Authorization: Bearer <token>` + instance origin
  *             (default https://localhost:8080), resolved from the calling
  *             fiber on every request. Spec paths already include `/api/v1`.
  *
@@ -36,29 +37,23 @@ export type ArgocdOpError =
   | UnknownArgocdError
   | ConfigError
   | HttpClientError.HttpClientError
-  | ArgocdParseError;
+  | ArgocdParseError
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Argo CD operation. */
 export type ArgocdOpContext = Credentials | HttpClient.HttpClient;
 
-export const ArgocdProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
-  // The Credentials service holds an effect — resolving it here (per
+export const ArgocdProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+  // The Credentials service holds an effect -- resolving it here (per
   // request, on the calling fiber) picks up context-provided credentials.
-  credentials: Effect.gen(function* () {
-    const resolve = yield* Credentials;
-    return yield* resolve;
-  }),
+  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => ({
     Authorization: `Bearer ${Redacted.value(creds.token)}`,
   }),
   // grpc-gateway error body is `{ code?: number|string, message, error? }`
-  // — the factory's default lenient envelope covers it.
-  unknownError: ({ code, message, body }) =>
-    new UnknownArgocdError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  // -- the factory's default lenient envelope covers it.
+  unknownError: (info) => new UnknownArgocdError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new ArgocdParseError({ body, cause }),
 });

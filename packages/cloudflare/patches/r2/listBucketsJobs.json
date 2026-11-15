@@ -1,0 +1,10 @@
+{
+  "description": "Name the cf-r2-jurisdiction header member `jurisdiction` on listBucketsJobs, as on the other R2 operations",
+  "patches": [
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.r2#BucketsJobsListRequest/members/cf_r2_jurisdiction",
+      "path": "/shapes/com.cloudflare.r2#BucketsJobsListRequest/members/jurisdiction"
+    }
+  ]
+}

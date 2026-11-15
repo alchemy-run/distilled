@@ -1,0 +1,68 @@
+{
+  "description": "The engine answers `400` with `x-rivet-error: depot.overloaded` while its storage layer is starting (about a minute after a fresh control plane reports healthy) or under load (observed against rivet-engine 3.0.0-preview.4). Type it as a retryable StorageOverloaded on every operation so the default retry policy rides it out instead of surfacing BadRequest.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.rivet.pools#StorageOverloaded",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "server",
+          "smithy.api#httpError": 503,
+          "smithy.api#retryable": {
+            "throttling": true
+          },
+          "smithy.api#documentation": "The control plane's storage refused the command (`depot.overloaded`) \u2014 answered while the storage layer is still starting or under load. Retry after a short delay.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400,
+              "headers": {
+                "x-rivet-error": "depot.overloaded"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.rivet.pools#PoolsList/errors/-",
+      "value": {
+        "target": "com.rivet.pools#StorageOverloaded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.rivet.pools#PoolsGet/errors/-",
+      "value": {
+        "target": "com.rivet.pools#StorageOverloaded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.rivet.pools#PoolsUpsert/errors/-",
+      "value": {
+        "target": "com.rivet.pools#StorageOverloaded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.rivet.pools#PoolsDelete/errors/-",
+      "value": {
+        "target": "com.rivet.pools#StorageOverloaded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.rivet.pools#PoolsListNodes/errors/-",
+      "value": {
+        "target": "com.rivet.pools#StorageOverloaded"
+      }
+    }
+  ]
+}

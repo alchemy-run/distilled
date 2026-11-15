@@ -1,0 +1,89 @@
+{
+  "description": "EMR: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emr#DescribeCluster/errors/-",
+      "value": {
+        "target": "com.amazonaws.emr#ClusterNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emr#TerminateJobFlows/errors/-",
+      "value": {
+        "target": "com.amazonaws.emr#JobFlowNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emr#SetTerminationProtection/errors/-",
+      "value": {
+        "target": "com.amazonaws.emr#JobFlowNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emr#CreateSecurityConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.emr#SecurityConfigurationAlreadyExists"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emr#DescribeSecurityConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.emr#SecurityConfigurationNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emr#DeleteSecurityConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.emr#SecurityConfigurationNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emr#CreateStudio/errors/-",
+      "value": {
+        "target": "com.amazonaws.emr#StudioServiceRoleNotAssumable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emr#CreateStudio/errors/-",
+      "value": {
+        "target": "com.amazonaws.emr#StudioServiceRoleMissingS3Access"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emr#DescribeStudio/errors/-",
+      "value": {
+        "target": "com.amazonaws.emr#StudioNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emr#DeleteStudio/errors/-",
+      "value": {
+        "target": "com.amazonaws.emr#StudioNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emr#UpdateStudio/errors/-",
+      "value": {
+        "target": "com.amazonaws.emr#StudioNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emr#RunJobFlow/errors/-",
+      "value": {
+        "target": "com.amazonaws.emr#EmrInstanceProfileNotReady"
+      }
+    }
+  ]
+}

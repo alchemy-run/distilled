@@ -6,10 +6,10 @@
     "bench": "node run.ts",
     "bench:full": "node run.ts --full",
     "bench:record": "node run.ts --record",
-    "typecheck": "tsc -p tsconfig.json"
+    "typecheck": "tsrs -p tsconfig.json"
   },
   "devDependencies": {
     "@types/node": "catalog:",
-    "typescript": "catalog:"
+    "tsrs": "catalog:"
   }
 }

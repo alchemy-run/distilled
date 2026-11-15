@@ -16,32 +16,32 @@ import type { GCPCredentialsError } from "./errors.ts";
 
 export interface Config {
   readonly accessToken: Redacted.Redacted<string>;
-  readonly project?: string;
+  readonly project?: string | undefined;
   /**
    * Default region that comes with the credentials (e.g. a profile's
    * region). `Region` overrides it; see `./region.ts`.
    */
-  readonly region?: string;
+  readonly region?: string | undefined;
   /**
    * Project billed for quota, sent as `X-Goog-User-Project`. User
    * credentials from `gcloud auth application-default login` need one for
    * many APIs.
    */
-  readonly quotaProject?: string;
+  readonly quotaProject?: string | undefined;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config, GCPCredentialsError>
->()("GCPCredentials") {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, GCPCredentialsError>>()(
+    "GCPCredentials",
+  ) {}
 
 /** An access token a provider minted, and what it learned on the way. */
 export interface Token {
   readonly accessToken: Redacted.Redacted<string>;
   /** Epoch milliseconds. */
   readonly expiresAt: number;
-  readonly project?: string;
-  readonly quotaProject?: string;
+  readonly project?: string | undefined;
+  readonly quotaProject?: string | undefined;
 }
 
 /** Mints a {@link Token}; a refreshing provider runs it when the cache is stale. */
@@ -49,9 +49,9 @@ export type TokenSource = Effect.Effect<Token, GCPCredentialsError, HttpClient.H
 
 /** Values the caller sets explicitly; each wins over what the source learned. */
 export interface ProviderOverrides {
-  readonly project?: string;
-  readonly region?: string;
-  readonly quotaProject?: string;
+  readonly project?: string | undefined;
+  readonly region?: string | undefined;
+  readonly quotaProject?: string | undefined;
 }
 
 /** Refresh this long before the access token expires. */

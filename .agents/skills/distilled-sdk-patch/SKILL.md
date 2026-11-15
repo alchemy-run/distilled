@@ -7,15 +7,17 @@ description: Add or change a patch in packages/<pkg>/patches/ to correct a disti
 
 A patch is a claim that the upstream description is wrong about the wire.
 It lives in `packages/<pkg>/patches/` and is committed together with the
-`.generated-specs/` and `src/services/` it produces. Every package runs the
-same pipeline (engine: `packages/core/src/codegen/patches.ts`):
+`src/services/` it produces. Every package runs the same pipeline (engine:
+`packages/dev/src/codegen/patches.ts`):
 
 1. convert the spec to a Smithy model, shapes named the way the spec names
    them;
 2. apply the patches: RFC-6902 ops on that model (`/shapes`, `/metadata`),
    in `finalizeConvert`;
-3. rename operations to verbNoun;
-4. write `.generated-specs/` — the patched, renamed model generate compiles.
+3. rename operations to verbNoun (AWS keeps the names AWS publishes);
+4. hand the patched, renamed models to generate, in memory. `pnpm convert`
+   instead writes them to the gitignored `.generated-specs/` for you to
+   read; they are never committed.
 
 A patch never edits the spec (`/paths`, `/components`, `/definitions`);
 convert rejects one that does. Stale pointers fail the run, and operation
@@ -43,9 +45,9 @@ callers a type they trust.
 | Package shape | Where the patch goes |
 | --- | --- |
 | One model (`planetscale`, `neon`) | flat `patches/<topic>.patch.json` |
-| Several models (`posthog`, `kubernetes`, `azure`, `gcp`, `fly-io`) | `patches/<model>/<topic>.json` — `<model>` is the `.generated-specs/<model>.json` it patches. `axiom` passes one patches dir per spec (`patches/v1-edge-ingest/`); follow its `convert.ts` |
+| Several models (`posthog`, `kubernetes`, `azure`, `gcp`, `fly-io`) | `patches/<model>/<topic>.json` — `<model>` is the model (`.generated-specs/<model>.json` in a `pnpm convert` dump) it patches. `axiom` passes one patches dir per spec (`patches/v1-edge-ingest/`); follow its `convert.ts` |
 | Cloudflare | `patches/<service>/<operation>.json`; error shapes shared by a service go once in `patches/<service>/_errors.json` |
-| AWS | `patches/<sdkId>.json` — a typed config for `applyAwsSpecPatches` (`errors`, `syntheticErrors`, `errorCategories`, `enums`, …), not RFC-6902. Follow the neighbours. |
+| AWS | `patches/<module>/` (`s3`, `api-gateway`): `_errors.json` adds the error shapes the model lacks, their members and categories; `operations.json` appends operation errors and retry policies; `service.json` holds errors every operation returns and the service retry policy; `shapes.json` fixes structures, enums and unions. Pointers use the published ids (`com.amazonaws.s3#GetObject`). Manual models (`manual-specs/`) skip convert: edit them directly. |
 
 Read the package's existing patches first and extend the file that already
 covers the same kind of fix: one file for every omitted error status, one
@@ -62,15 +64,15 @@ file changes.
 
 Every pointer is `/shapes/<namespace>#<Shape>/…` on the converted model.
 Patches apply *before* the verbNoun rename, so they name shapes the way the
-spec does (`AppIPAssignmentsCreate`, not the `CreateAppIPAssignment` in
-`.generated-specs/`). Find the id with:
+spec does (`AppIPAssignmentsCreate`, not the `CreateAppIPAssignment` that
+`pnpm convert` writes to `.generated-specs/`). Find the id with:
 
 ```sh
 pnpm patches:names <pkg> CreateAppIPAssignment
 # machines: com.flyio.machines#CreateAppIPAssignment ← com.flyio.machines#AppIPAssignmentsCreate
 ```
 
-A shape `names` does not list keeps its `.generated-specs` id. A shape a
+A shape `names` does not list keeps its converted id. A shape a
 patch adds keeps the id the patch gives it — use the final name you want;
 one that takes an id the rename needs fails the convert.
 
@@ -132,9 +134,12 @@ operation's `errors`:
   numeric code or an error type — before free text.
 - The error's category (`BadRequestError`, `ServerError`, `RetryableError`,
   …) comes from `smithy.api#httpError` and `smithy.api#retryable`
-  (`errorCategories` in `packages/core/src/codegen/generator.ts`), and
+  (`errorCategories` in `packages/dev/src/codegen/generator.ts`), and
   retry policies act on those categories. Set them deliberately: a client
-  error that arrives as a 5xx should not be retried as a server error.
+  error that arrives as a 5xx should not be retried as a server error. A
+  category the status can't say goes in the
+  `distilled.errors#categories` trait, e.g. `["AlreadyExistsError"]` on a
+  409 that means "already exists".
 - `add` at an array index inserts (RFC 6902), so `…/errors/0` puts a class
   first; `-` appends.
 - `add` of a new object key appends it. The extension `"before": "<key>"`
@@ -157,8 +162,42 @@ Say which fields changed in the description.
 …/members/<name>/traits/smithy.api#sensitive` with `{}`. Convert already
 marks names matching its default patterns (`password`, `api_token`,
 `plain_text`, …; `isSensitiveProperty` in
-`packages/core/src/codegen/openapi.ts`), so check the generated type is not
+`packages/dev/src/codegen/openapi.ts`), so check the generated type is not
 already `Redacted` before adding one.
+
+**Object is open, or should not be.** OpenAPI convert marks a structure
+with `com.distilled.openapi#additionalProperties` when the spec sets
+`additionalProperties` (`true` or a schema) next to `properties`; the
+generated interface then gains `[key: string]: unknown` and the schema an
+`unknown` rest. A spec that says so carelessly loses the marker with
+`remove …/shapes/<id>/traits/com.distilled.openapi#additionalProperties`; an
+object the wire extends but the spec closes gains it with `add` and `{}`.
+
+**Trace span carries the wrong thing.** Span names, kinds and attributes
+are the `com.distilled.telemetry#…` traits (spec:
+`packages/dev/src/codegen/telemetry-traits.md`). Convert stamps defaults
+after the patches and keeps any field a patch set, so a patch adds or
+replaces just the trait or field it means: `[]` as a member's
+`com.distilled.telemetry#attributes` stops recording that member, and an
+operation's `com.distilled.telemetry#operation` `{ "kind": "producer" }`
+changes only its kind. AWS's defaults come from the table in
+`packages/aws/scripts/telemetry.ts`.
+
+**AWS errors.** AWS matches an error by its wire code, the shape name.
+- An error every operation returns (S3's `InvalidAccessKeyId`) goes once
+  in `service.json`: `add /shapes/com.amazonaws.s3#AmazonS3/errors/-`.
+  The generator gives a service's `errors` to every operation, including
+  ones a later model adds.
+- Convert gives every operation and service an `errors` list, so always
+  append with `…/errors/-`, never replace the list.
+- A wire code that is not a valid shape name (EC2's
+  `InvalidVpcID.NotFound`) is the shape `InvalidVpcIDNotFound` with the
+  trait `"aws.codegen#errorTag": "InvalidVpcID.NotFound"`.
+- One wire error that means several things: add a shape with
+  `"aws.codegen#synthetic": { "from": "InvalidRequestException",
+  "message": { "matches": "WorkGroup.*not found" } }`, `copy` the base
+  error's `members` onto it, and append it to the operation's `errors`.
+  The runtime checks it before the base error.
 
 **One operation returns more than the shared shape promises.** Add a copy
 of the shape under a new name, change the copy, and re-point only that
@@ -172,9 +211,7 @@ pnpm generate <pkg>
 ```
 
 Always regenerate with `pnpm generate <pkg>`, even for one service. It
-converts, generates and formats; a bare `convert` (with or without
-`--resource`) leaves `.generated-specs/` unformatted, and the diff then
-shows every file as changed.
+converts in memory, generates and formats.
 
 Do not add a per-package test for the patch. The generated diff in the next
 step shows what the patch changes, and the behaviour it relies on (error
@@ -185,11 +222,13 @@ that test in the same update.
 ## Step 5 — check the change
 
 ```sh
-git diff origin/main -- packages/<pkg>/.generated-specs packages/<pkg>/src/services
+git diff origin/main -- packages/<pkg>/src/services
 ```
 
 Diff against `origin/main` so a patch already committed on a PR branch
-still shows up. Read the diff against the description:
+still shows up. To see the patch at the model level, run `pnpm convert` in
+the package on both sides and diff the two `.generated-specs/` dumps. Read
+the diff against the description:
 
 - exactly the shapes and members meant changed — done.
 - nothing changed — the spec already says this (drop the patch), or the
@@ -203,7 +242,7 @@ a different question — which patches the spec has absorbed — once the spec
 has moved underneath them. That is the `distilled-sdk-update` skill's job.
 
 Then check the generated TypeScript reads the way a caller needs, run
-`pnpm exec tsc -b packages/<pkg> --noCheck false`, and commit the patch
-with the `.generated-specs/` and `src/services/` it produced, as
+`pnpm exec tsrs -b packages/<pkg> --noCheck false`, and commit the patch
+with the `src/services/` it produced, as
 `fix(<pkg>): …` naming what callers gain ("type 422s observed on the live
 API").

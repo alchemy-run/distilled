@@ -37,17 +37,18 @@
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
+import { clearModels, writeModel } from "@distilled.cloud/dev/codegen/models";
 import {
   API_VERSION_TRAIT,
   convertOpenApiToSmithy,
   type SmithyModel,
-} from "@distilled.cloud/core/codegen/openapi";
-import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
+} from "@distilled.cloud/dev/codegen/openapi";
+import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
 import {
   RENAME_METADATA_KEY,
   renameShapes,
-} from "@distilled.cloud/core/codegen/rewrite-operation-ids";
-import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
+} from "@distilled.cloud/dev/codegen/rewrite-operation-ids";
+import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
 
 const rootDir = path.resolve(import.meta.dirname, "..");
 const specsRoot = resolveSpecPath(rootDir, "specs/spec-mirror-azure/specs/specification");
@@ -750,8 +751,7 @@ async function main() {
     process.exit(1);
   }
 
-  fs.rmSync(outDir, { recursive: true, force: true });
-  fs.mkdirSync(outDir, { recursive: true });
+  clearModels(outDir);
 
   // Group by service, preserving discovery order.
   const byService = new Map<string, SpecFile[]>();
@@ -837,6 +837,10 @@ async function main() {
           // `?api-version=` on every call). Drops the api-version query
           // param from the user-facing input schema.
           apiVersion: spec.apiVersion,
+          // ARM answers long-running operations with 202 and the status
+          // monitor in `Azure-AsyncOperation` / `Location`; expose them so
+          // callers can follow the operation (distilled does not poll).
+          responseHeaders: ["Azure-AsyncOperation", "Location", "Retry-After"],
         });
         const rename: Record<string, string> = model.metadata?.[RENAME_METADATA_KEY] ?? {};
         delete model.metadata?.[RENAME_METADATA_KEY];
@@ -885,7 +889,7 @@ async function main() {
     const upstreamModel = withUpstreamNames(model, merged.upstream);
 
     const outPath = path.join(outDir, `${sanitizeNsSegment(service)}.json`);
-    fs.writeFileSync(outPath, JSON.stringify(upstreamModel, null, 2) + "\n");
+    writeModel(outPath, upstreamModel);
     serviceCount++;
     totalOps += merged.ops.length;
     totalSkipped += merged.skippedOps;
@@ -910,4 +914,4 @@ async function main() {
   await finalizeConvert({ root: rootDir });
 }
 
-main();
+await main();

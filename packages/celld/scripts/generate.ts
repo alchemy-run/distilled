@@ -1,8 +1,9 @@
 #!/usr/bin/env -S node --conditions=bun
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 
 runGeneratorCli({
   description: "Generate the Celld SDK from the source-derived Smithy models",
+  convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   patchesDir: false,
   spec: (model) => ({

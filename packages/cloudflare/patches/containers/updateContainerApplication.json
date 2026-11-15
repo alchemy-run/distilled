@@ -1,0 +1,287 @@
+{
+  "description": "Keep the SDK's name updateContainerApplication for PATCH /accounts/{account_id}/containers/applications/{application_id}. The docs list only the Durable Object configuration keys (authorized_keys, wrangler_ssh) and leave out instances, scheduling_policy and affinities; Wrangler's ModifyApplicationRequestBody takes all of them and the full deployment configuration (https://github.com/cloudflare/workers-sdk/blob/main/packages/containers-shared/src/client/models/ModifyApplicationRequestBody.ts). Return the shared ContainerApplicationItem.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditRequest/members/configuration/target",
+      "value": "com.cloudflare.containers#ContainerApplicationConfiguration"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditRequest/members/constraints/target",
+      "value": "com.cloudflare.containers#ScheduledApplicationConstraints"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditRequest/members/observability/target",
+      "value": "com.cloudflare.containers#ContainerApplicationObservability"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditRequest/members/instances",
+      "value": {
+        "target": "smithy.api#Double"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditRequest/members/scheduling_policy",
+      "value": {
+        "target": "com.cloudflare.containers#ContainerSchedulingPolicy"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditRequest/members/affinities",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Not in the API reference. Wrangler's ModifyApplicationRequestBody has it (https://github.com/cloudflare/workers-sdk/blob/main/packages/containers-shared/src/client/models/ModifyApplicationRequestBody.ts)."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResponse/members/result/target",
+      "value": "com.cloudflare.containers#ContainerApplicationItem"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEdit/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.cloudflare.containers#InvalidRoute"
+        },
+        {
+          "target": "com.cloudflare.containers#ContainerApplicationNotFound"
+        }
+      ]
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsEdit",
+      "path": "/shapes/com.cloudflare.containers#UpdateContainerApplication"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#UpdateContainerApplication/input/target",
+      "value": "com.cloudflare.containers#UpdateContainerApplicationRequest"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsEditRequest",
+      "path": "/shapes/com.cloudflare.containers#UpdateContainerApplicationRequest"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#UpdateContainerApplication/output/target",
+      "value": "com.cloudflare.containers#UpdateContainerApplicationResponse"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsEditResponse",
+      "path": "/shapes/com.cloudflare.containers#UpdateContainerApplicationResponse"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditRequestConfigurationAuthorizedKeysItem"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditRequestConfigurationAuthorizedKeysList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditRequestConfigurationWranglerSsh"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditRequestConfiguration"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditRequestConstraintsRegionsList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditRequestConstraints"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditRequestObservabilityLogs"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditRequestObservability"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResultCcScheduledApplicationConfigurationAuthorizedKeysItem"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResultCcScheduledApplicationConfigurationAuthorizedKeysList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResultCcScheduledApplicationConfigurationCommandList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResultCcScheduledApplicationConfigurationEntrypointList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResultCcScheduledApplicationConfigurationEnvironmentVariablesItem"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResultCcScheduledApplicationConfigurationEnvironmentVariablesList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResultCcScheduledApplicationConfigurationInstanceType"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResultCcScheduledApplicationConfigurationObservabilityLogs"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResultCcScheduledApplicationConfigurationObservability"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResultCcScheduledApplicationConfiguration"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResultCcScheduledApplicationSchedulingPolicy"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResultCcScheduledApplicationConstraintsRegionsList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResultCcScheduledApplicationConstraints"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResultCcScheduledApplicationDurableObjects"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResultCcScheduledApplicationHealthErrorsItemEventDetailsMap"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResultCcScheduledApplicationHealthErrorsItemEventName"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResultCcScheduledApplicationHealthErrorsItemEventStatusChangeMap"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResultCcScheduledApplicationHealthErrorsItemEventType"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResultCcScheduledApplicationHealthErrorsItemEvent"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResultCcScheduledApplicationHealthErrorsItem"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResultCcScheduledApplicationHealthErrorsList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResultCcScheduledApplicationHealthInstances"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResultCcScheduledApplicationHealthSummary"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResultCcScheduledApplicationHealth"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResultCcScheduledApplicationObservabilityLogs"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResultCcScheduledApplicationObservability"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResultCcScheduledApplication"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResultCcDurableObjectApplicationDurableObjects"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResultCcDurableObjectApplicationSchedulingPolicy"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResultCcDurableObjectApplicationConfigurationAuthorizedKeysItem"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResultCcDurableObjectApplicationConfigurationAuthorizedKeysList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResultCcDurableObjectApplicationConfigurationWranglerSsh"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResultCcDurableObjectApplicationConfiguration"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResultCcDurableObjectApplicationConstraintsJurisdiction"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResultCcDurableObjectApplicationConstraints"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResultCcDurableObjectApplicationHealthInstances"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResultCcDurableObjectApplicationHealthSummary"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResultCcDurableObjectApplicationHealth"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResultCcDurableObjectApplicationObservabilityLogs"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResultCcDurableObjectApplicationObservability"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResultCcDurableObjectApplication"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsEditResult"
+    }
+  ]
+}

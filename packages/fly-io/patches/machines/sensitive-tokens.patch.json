@@ -1,0 +1,12 @@
+{
+  "description": "POST /v1/apps/{app_name}/deploy_token mints a new deploy token (a FlyV1 macaroon scoped to the app) and returns it in `token`, but the spec marks nothing sensitive, so the SDK returned it as a plain string that prints and logs. Marked sensitive so it decodes to Redacted. Observed live 2026-10-09 on a throwaway app: the response body is `{ \"token\": \"FlyV1 fm2_…\" }`.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#CreateAppDeployTokenResponse/members/token/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    }
+  ]
+}

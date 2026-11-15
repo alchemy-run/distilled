@@ -7,11 +7,11 @@
  * Output: .generated-specs/porkbun.json
  *
  * The OpenAPI→Smithy converter lives in
- * `@distilled.cloud/core/codegen/openapi`; this script is Porkbun's pipeline
+ * `@distilled.cloud/dev/codegen/openapi`; this script is Porkbun's pipeline
  * config. `scripts/generate.ts` compiles the model into src/services.
  */
 import * as path from "node:path";
-import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
+import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
 
 const AUTH_HEADERS = new Set(["X-API-Key", "X-Secret-API-Key"]);
 const AUTH_BODY_FIELDS = new Set(["apikey", "secretapikey"]);

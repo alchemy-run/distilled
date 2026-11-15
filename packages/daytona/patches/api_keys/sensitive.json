@@ -1,0 +1,10 @@
+{
+  "description": "createApiKey returns the new key's full value exactly once (the list call masks it); mark it sensitive so it is Redacted.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.api_keys#ApiKeyResponse/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

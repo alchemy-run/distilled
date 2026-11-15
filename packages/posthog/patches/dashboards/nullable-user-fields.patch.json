@@ -13,11 +13,6 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.posthog.dashboards#DashboardCollaboratorOutput/members/user/traits/com.distilled.openapi#nullable",
-      "value": {}
-    },
-    {
-      "op": "add",
       "path": "/shapes/com.posthog.dashboards#InsightOutput/members/created_by/traits/com.distilled.openapi#nullable",
       "value": {}
     },

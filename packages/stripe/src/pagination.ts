@@ -1,10 +1,10 @@
 /**
- * Stripe pagination — hand-written.
+ * Stripe pagination -- hand-written.
  *
- * Only the GET …/search operations paginate (v0 parity): the converter
+ * Only the GET .../search operations paginate (v0 parity): the converter
  * detects them as `mode: "page"` (inputToken `page`, outputToken
  * `next_page`, items `data`), but Stripe's `page` parameter is an OPAQUE
- * CURSOR — `next_page` is the next cursor string, not a page number — so
+ * CURSOR -- `next_page` is the next cursor string, not a page number -- so
  * "page" mode traverses by following the cursor, exactly core's
  * `paginateCursor` semantics.
  *

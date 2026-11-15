@@ -2,6 +2,32 @@
   "description": "Align zones#Create with distilled cloudflare/zones createZone",
   "patches": [
     {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.zones#ZoneQuotaExceeded",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "com.cloudflare.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "zone quota"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
       "op": "move",
       "from": "/shapes/com.cloudflare.zones#Create",
       "path": "/shapes/com.cloudflare.zones#CreateZone"
@@ -44,6 +70,9 @@
         },
         {
           "target": "com.cloudflare.zones#SubdomainNotAllowed"
+        },
+        {
+          "target": "com.cloudflare.zones#ZoneQuotaExceeded"
         }
       ]
     }

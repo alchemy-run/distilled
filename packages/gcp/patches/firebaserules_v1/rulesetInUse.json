@@ -1,0 +1,33 @@
+{
+  "description": "Type the refusal to delete a ruleset a release still refers to (HTTP 400 INVALID_ARGUMENT: 'Cannot delete the ruleset ... because there are releases referring to this ruleset.'). Right after the release that referred to it is deleted, the reference lingers briefly; it surfaced as the generic BadRequest, so callers could not wait it out.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaserules_v1#RulesetInUse",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "A release still refers to the ruleset (HTTP 400 INVALID_ARGUMENT).",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "there are releases referring to this ruleset"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaserules_v1#DeleteProjectsRulesets/errors/-",
+      "value": {
+        "target": "com.gcp.firebaserules_v1#RulesetInUse"
+      }
+    }
+  ]
+}

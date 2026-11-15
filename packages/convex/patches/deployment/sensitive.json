@@ -1,0 +1,30 @@
+{
+  "description": "Mark secrets sensitive. Log stream request arguments are safe to mark inside union cases, because the protocol unwraps Redacted anywhere in a request; convert already marks `apiKey`, so this adds `ddApiKey` and `dsn`. Responses are different: union cases decode opaque, so a Redacted type there is false. `hmacSecret` in create responses and configs stays a plain string for callers to wrap. The rotated webhook secret decodes as Redacted.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#RotateLogStreamSecretResponse/members/hmacSecret/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#CreateLogStreamArgsCase0/members/ddApiKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#CreateLogStreamArgsCase3/members/dsn/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#UpdateLogStreamArgsCase0/members/ddApiKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#UpdateLogStreamArgsCase3/members/dsn/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}
