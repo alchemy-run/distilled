@@ -133,6 +133,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "revenuecat" },
   { package: "rivet" },
   { package: "s2" },
+  { package: "scaleway" },
   { package: "sentry" },
   // Slack publishes no OpenAPI document; the mirror snapshots the JSON twins
   // of the docs.slack.dev reference pages.

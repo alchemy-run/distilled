@@ -1,0 +1,15 @@
+{
+  "description": "InitiateUserConnection answers a one-time `token` that JoinUserConnection redeems to link two users' accounts (https://www.scaleway.com/en/developers/api/iam/). It grants account access while it is valid, so it is marked sensitive.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.iam_v1alpha1#InitiateUserConnectionResponse/members/token/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.iam_v1alpha1#JoinUserConnectionRequest/members/token/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}
