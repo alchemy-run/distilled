@@ -3,10 +3,13 @@
  *
  *   OUTCOME=success|failure RUN_ID=... RUN_URL=... SHA=... node scripts/compat/report-issue.ts
  *
- * - A failed night with no open issue opens one.
  * - A failed night with the issue open updates its body (the last failed
  *   run). It comments only when the set of failing jobs changed, so three
  *   weeks of the same failure is one issue and no new comments.
+ * - A failed night with the issue closed (a passing night closed it, or
+ *   someone closed it while the run still failed) reopens it with a comment.
+ *   The repo gets a second issue only if someone deletes or renames the
+ *   first.
  * - A passing night closes the open issue with a comment.
  *
  * Uses the `gh` CLI with GH_TOKEN and GH_REPO.
@@ -28,20 +31,26 @@ const today = new Date().toISOString().slice(0, 10);
 
 const gh = (...args: string[]) => execFileSync("gh", args, { encoding: "utf8" });
 
-const open = (
+/** The open issue, else the newest closed one. */
+const issue = (
   JSON.parse(
     gh(
       "issue",
       "list",
       "--state",
-      "open",
+      "all",
       "--search",
       `"${TITLE}" in:title`,
       "--json",
-      "number,title,body",
+      "number,title,body,state",
     ),
-  ) as Array<{ number: number; title: string; body: string }>
-).find((issue) => issue.title === TITLE);
+  ) as Array<{ number: number; title: string; body: string; state: string }>
+)
+  .filter((i) => i.title === TITLE)
+  .sort(
+    (a, b) => Number(b.state === "OPEN") - Number(a.state === "OPEN") || b.number - a.number,
+  )[0];
+const open = issue?.state === "OPEN" ? issue : undefined;
 
 if (outcome === "success") {
   if (open) {
@@ -79,8 +88,23 @@ const body = [
   `<!-- compat-first: ${first} -->`,
 ].join("\n");
 
-if (!open) {
+if (!issue) {
   console.log(gh("issue", "create", "--title", TITLE, "--body", body).trim());
+} else if (!open) {
+  gh("issue", "reopen", String(issue.number));
+  gh("issue", "edit", String(issue.number), "--body", body);
+  gh(
+    "issue",
+    "comment",
+    String(issue.number),
+    "--body",
+    [
+      `Failing again on ${sha} (${today}): ${runUrl}`,
+      "",
+      ...failed.map((job) => `- ${job.name}`),
+    ].join("\n"),
+  );
+  console.log(`reopened #${issue.number}`);
 } else {
   gh("issue", "edit", String(open.number), "--body", body);
   if (marker("compat-failed", open.body) !== key) {

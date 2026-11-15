@@ -105,7 +105,9 @@ const GITHUB_ACTIONS_APP_ID = 15368;
 /**
  * The checks a pull request must pass before it can enter main's merge
  * queue, and again on the queue's merge commit before it lands: every job of
- * `ci.yml`, plus the benchmark. Preview packages (`pkg.yml`) and the website
+ * `ci.yml`, plus the benchmark. A job of a reusable workflow reports as
+ * `<caller job name> / <job name>` (ci.yml's `compat` job runs
+ * compat-tests.yml). Preview packages (`pkg.yml`) and the website
  * preview deploy are not required. Each name is a job's `name:` in its
  * workflow; rename a job there and here together, or the queue waits for a
  * check that never reports.
@@ -119,6 +121,12 @@ const REQUIRED_CHECKS = [
   "Typecheck (deployment stacks)",
   "Website (typecheck & static build)",
   "Check formatting",
+  "Compatibility / Effect (lowest in the peer range)",
+  "Compatibility / Node 22.19.0",
+  "Compatibility / Node 22",
+  "Compatibility / Node 26",
+  "Compatibility / Bun (core tests)",
+  "Compatibility / workerd (the published SDKs in a Worker)",
   "Benchmarks (PR vs main)",
 ] as const;
 

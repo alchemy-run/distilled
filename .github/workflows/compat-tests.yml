@@ -5,13 +5,21 @@ name: Compatibility tests
 # effect supports, Bun (the `bun` export condition) and workerd (the
 # `worker` / `workerd` conditions).
 #
-# Called by compat.yml (nightly, opens an issue on failure) and by
-# release.yml (a failure stops the release). No AI and no network beyond
-# the npm registry and the Bun download: each job passes or fails on its own
-# checks.
+# Called by ci.yml on every PR and push (required checks, without the latest
+# effect), by compat.yml (nightly, with it; keeps one issue while it fails)
+# and by release.yml (with it; a failure stops the release). No AI and no
+# network beyond the npm registry and the Node and Bun downloads: each job
+# passes or fails on its own checks.
 
 on:
   workflow_call:
+    inputs:
+      effect-latest:
+        description: >-
+          Also test the newest effect in the peer range. Off in PR CI: a new
+          effect release would fail every open PR, whatever it changes.
+        type: boolean
+        default: true
 
 permissions:
   contents: read
@@ -23,7 +31,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        effect: [lowest, latest]
+        effect: ${{ fromJSON(inputs.effect-latest && '["lowest","latest"]' || '["lowest"]') }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1

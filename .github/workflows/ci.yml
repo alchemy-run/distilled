@@ -162,6 +162,14 @@ jobs:
       - name: Run the gRPC conformance suite
         run: packages/core/conformance/run.sh grpc
 
+  # The effect peer range's floor, Node 22.19.0 / 22 / 26, Bun and workerd.
+  # The newest effect runs nightly (compat.yml) and before a release.
+  compat:
+    name: Compatibility
+    uses: ./.github/workflows/compat-tests.yml
+    with:
+      effect-latest: false
+
   typecheck-stacks:
     name: Typecheck (deployment stacks)
     runs-on: blacksmith-4vcpu-ubuntu-2404
