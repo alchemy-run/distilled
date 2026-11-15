@@ -1003,6 +1003,19 @@ export const matchesExpression = (
   return true;
 };
 
+/** The top-level body values whose keys the error class declares as fields. */
+const declaredBodyFields = (cls: unknown, body: unknown): Record<string, unknown> => {
+  const fields = (cls as { fields?: Record<string, unknown> }).fields;
+  if (fields === undefined || typeof body !== "object" || body === null || Array.isArray(body)) {
+    return {};
+  }
+  const out: Record<string, unknown> = {};
+  for (const key of Object.keys(fields)) {
+    if (Object.hasOwn(body, key)) out[key] = (body as Record<string, unknown>)[key];
+  }
+  return out;
+};
+
 /**
  * Pick the operation's typed error class for a failed response: among all
  * declared classes whose matchers (see `applyErrorMatchers`) match the wire
@@ -1010,6 +1023,9 @@ export const matchesExpression = (
  * Empty error lists use an HTTP-status message so body/header-only failures can
  * still match. The constructor receives the raw body and headers as well as
  * code/message; error schemas can declare these fields to expose them to callers.
+ * Any other field the class declares is read from the JSON body's key of the
+ * same name, so a patch that adds `requestId` to an error gets the body's
+ * `requestId`. The matched `code` and `message` always win over the body's.
  */
 export const matchTypedError = (
   errorClasses: ReadonlyArray<unknown>,
@@ -1036,6 +1052,7 @@ export const matchTypedError = (
   const saved = suppressStack();
   try {
     return new (best.cls as new (args: any) => unknown)({
+      ...declaredBodyFields(best.cls, response.body),
       code: best.code ?? 0,
       message: best.message,
       body: response.body,
