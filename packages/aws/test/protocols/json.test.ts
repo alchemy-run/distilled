@@ -530,7 +530,7 @@ describe("restJson1 request serialization: HTTP bindings", () => {
     const handler = restJson1Protocol(op(Lambda.invoke.input, Lambda.invoke.output));
     const request = await run(handler.serializeRequest({ FunctionName: "f" }));
     expect(request.body).toBeUndefined();
-    expect(request.headers).toEqual({ "Content-Type": "application/json" });
+    expect(request.headers).toEqual({});
     expect(request.hasStreamingInput).toBeUndefined();
   });
 
@@ -631,7 +631,6 @@ describe("restJson1 request serialization: HTTP bindings", () => {
         "If-Modified-Since": "Tue, 02 Jan 2024 03:04:05 GMT",
         "X-Amz-Priority": "3",
         "X-Amz-Dry-Run": "true",
-        "Content-Type": "application/json",
       },
     });
   });
@@ -679,7 +678,7 @@ describe("restJson1 request serialization: HTTP bindings", () => {
         "x-amzn-dataexchange-http-method": "PUT",
         "x-amzn-dataexchange-path": "/v1/items",
         "x-amzn-dataexchange-header-Accept": "text/csv",
-        "Content-Type": "application/json",
+        "Content-Type": "text/plain",
       },
       body: "plain text",
     });
@@ -756,7 +755,7 @@ describe("restJson1 request serialization: bodies", () => {
       method: "GET",
       path: "/v2/tiles/vector.basemap/1/2/3",
       query: { "additional-features": ["Buildings", "ContourLines"] },
-      headers: { "Content-Type": "application/json" },
+      headers: {},
     });
   });
 
@@ -798,10 +797,7 @@ describe("restJson1 request serialization: bodies", () => {
       ),
     );
     const request = await run(restJson1Protocol(op(input)).serializeRequest({ restapi_id: "abc" }));
-    expect(request.headers).toEqual({
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    });
+    expect(request.headers).toEqual({ Accept: "application/json" });
   });
 
   test("Glacier adds X-Amz-Glacier-Version", async () => {

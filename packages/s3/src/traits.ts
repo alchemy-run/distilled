@@ -133,6 +133,13 @@ export const httpPrefixHeadersSymbol = "distilled-aws/http-prefix-headers" as co
 export const HttpPrefixHeaders = (prefix: string) =>
   makeAnnotation(httpPrefixHeadersSymbol, prefix);
 
+/**
+ * smithy.api#mediaType - The media type of a header or payload member's
+ * value (from its target shape): a payload's Content-Type.
+ */
+export const mediaTypeSymbol = "distilled-aws/media-type" as const;
+export const MediaType = (mediaType: string) => makeAnnotation(mediaTypeSymbol, mediaType);
+
 /** smithy.api#httpResponseCode - Bind member to the HTTP response status code */
 export const httpResponseCodeSymbol = coreResponseCodeSymbol;
 export const HttpResponseCode = () => makeAnnotation(httpResponseCodeSymbol, true);
@@ -1118,6 +1125,9 @@ export const hasHttpQueryParams = (prop: AST.PropertySignature): boolean =>
 
 export const getHttpPrefixHeaders = (prop: AST.PropertySignature): string | undefined =>
   getPropAnnotation<string>(prop, httpPrefixHeadersSymbol);
+
+export const getMediaType = (prop: AST.PropertySignature): string | undefined =>
+  getPropAnnotation<string>(prop, mediaTypeSymbol);
 
 export const hasHttpPayload = (prop: AST.PropertySignature): boolean =>
   hasPropAnnotation(prop, httpPayloadSymbol);

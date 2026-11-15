@@ -24,6 +24,7 @@ import {
   getEventSchema,
   getHttpHeader,
   getHttpPrefixHeaders,
+  getMediaType,
   getMemberAnnotation,
   getOwnAnnotation,
   getPropAnnotations,
@@ -102,6 +103,7 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
       getIdentifier(payloadProp.type))
     : undefined;
   const payloadIsStreaming = payloadProp ? isStreamingType(payloadProp.type) : false;
+  const payloadMediaType = payloadProp ? getMediaType(payloadProp) : undefined;
   // A document root carries its shape's namespace, or the service's.
   const inputXmlNamespace = rootNs(inputAst);
   const payloadXmlNamespace = payloadProp
@@ -189,6 +191,10 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
     if (payloadValue !== undefined && payloadAst !== undefined) {
       if (payloadIsStreaming) {
         request.body = convertStreamingInput(payloadValue as StreamingInputBody);
+        // A blob payload's @mediaType is its Content-Type, unless a header member set one.
+        if (payloadMediaType !== undefined && request.headers["Content-Type"] === undefined) {
+          request.headers["Content-Type"] = payloadMediaType;
+        }
       } else if (typeof payloadValue === "string") {
         request.body = payloadValue;
       } else {

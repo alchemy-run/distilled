@@ -819,15 +819,18 @@ function __c4(j: number): any {
           userId: S.String.pipe(T.HttpLabel("userId")),
           sessionAttributes: S.optional(SensitiveString).pipe(
             T.HttpHeader("x-amz-lex-session-attributes"),
+            T.MediaType("application/json"),
           ),
           requestAttributes: S.optional(SensitiveString).pipe(
             T.HttpHeader("x-amz-lex-request-attributes"),
+            T.MediaType("application/json"),
           ),
           contentType: S.String.pipe(T.HttpHeader("Content-Type")),
           accept: S.optional(S.String).pipe(T.HttpHeader("Accept")),
           inputStream: T.StreamingInput.pipe(T.HttpPayload()),
           activeContexts: S.optional(SensitiveString).pipe(
             T.HttpHeader("x-amz-lex-active-contexts"),
+            T.MediaType("application/json"),
           ),
         }).pipe(
           T.all(
@@ -850,13 +853,19 @@ function __c4(j: number): any {
           intentName: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-intent-name")),
           nluIntentConfidence: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-lex-nlu-intent-confidence"),
+            T.MediaType("application/json"),
           ),
           alternativeIntents: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-lex-alternative-intents"),
+            T.MediaType("application/json"),
           ),
-          slots: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-slots")),
+          slots: S.optional(S.String).pipe(
+            T.HttpHeader("x-amz-lex-slots"),
+            T.MediaType("application/json"),
+          ),
           sessionAttributes: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-lex-session-attributes"),
+            T.MediaType("application/json"),
           ),
           sentimentResponse: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-sentiment")),
           message: S.optional(SensitiveString).pipe(T.HttpHeader("x-amz-lex-message")),
@@ -875,6 +884,7 @@ function __c4(j: number): any {
           sessionId: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-session-id")),
           activeContexts: S.optional(SensitiveString).pipe(
             T.HttpHeader("x-amz-lex-active-contexts"),
+            T.MediaType("application/json"),
           ),
         }),
       ).annotate({ identifier: "PostContentResponse" });
@@ -1000,9 +1010,13 @@ function __c6(j: number): any {
         S.Struct({
           contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
           intentName: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-intent-name")),
-          slots: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-slots")),
+          slots: S.optional(S.String).pipe(
+            T.HttpHeader("x-amz-lex-slots"),
+            T.MediaType("application/json"),
+          ),
           sessionAttributes: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-lex-session-attributes"),
+            T.MediaType("application/json"),
           ),
           message: S.optional(SensitiveString).pipe(T.HttpHeader("x-amz-lex-message")),
           encodedMessage: S.optional(SensitiveString).pipe(
@@ -1015,6 +1029,7 @@ function __c6(j: number): any {
           sessionId: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-session-id")),
           activeContexts: S.optional(SensitiveString).pipe(
             T.HttpHeader("x-amz-lex-active-contexts"),
+            T.MediaType("application/json"),
           ),
         }),
       ).annotate({ identifier: "PutSessionResponse" });
