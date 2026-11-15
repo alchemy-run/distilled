@@ -31,33 +31,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export type AddRecipientToSuppressionListRequestRegionId = "eu01" | "eu02";
 export interface AddRecipientToSuppressionListRequest {
@@ -461,6 +476,12 @@ export interface ValidateSendingDomainRequest {
   sendingDomainId: string;
 }
 export interface ValidateSendingDomainResponse {}
+export interface ErrorResponse {
+  /** A specific, machine-readable string representing the exact error condition. */
+  code: string;
+  /** A human-readable explanation of the error. */
+  message: string;
+}
 export type AddRecipientToSuppressionListError = BadRequest | NotFound | Conflict | StackitOpError;
 /** Add a recipient to the suppression list */
 export const addRecipientToSuppressionList: API.OperationMethod<
@@ -469,8 +490,8 @@ export const addRecipientToSuppressionList: API.OperationMethod<
   AddRecipientToSuppressionListError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<AddRecipientToSuppressionListRequest>,
-  output: __S(176, __c11, 0) as any as S.Schema<Suppression>,
+  input: __S(176, __c11, 0) as any as S.Schema<AddRecipientToSuppressionListRequest>,
+  output: __S(192, __c12, 0) as any as S.Schema<Suppression>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -486,8 +507,8 @@ export const createAuthorizedSender: API.OperationMethod<
   CreateAuthorizedSenderError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<CreateAuthorizedSenderRequest>,
-  output: __S(193, __c12, 1) as any as S.Schema<CreateAuthorizedSenderResponse>,
+  input: __S(208, __c13, 0) as any as S.Schema<CreateAuthorizedSenderRequest>,
+  output: __S(209, __c13, 1) as any as S.Schema<CreateAuthorizedSenderResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -503,8 +524,8 @@ export const createSendingDomain: API.OperationMethod<
   CreateSendingDomainError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<CreateSendingDomainRequest>,
-  output: __S(240, __c15, 0) as any as S.Schema<CreateSendingDomainResponse>,
+  input: __S(224, __c14, 0) as any as S.Schema<CreateSendingDomainRequest>,
+  output: __S(256, __c16, 0) as any as S.Schema<CreateSendingDomainResponse>,
   errors: [BadRequest, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -520,8 +541,8 @@ export const deleteAuthorizedSender: API.OperationMethod<
   DeleteAuthorizedSenderError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<DeleteAuthorizedSenderRequest>,
-  output: __S(272, __c17, 0) as any as S.Schema<DeleteAuthorizedSenderResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<DeleteAuthorizedSenderRequest>,
+  output: __S(288, __c18, 0) as any as S.Schema<DeleteAuthorizedSenderResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -537,8 +558,8 @@ export const deleteSendingDomain: API.OperationMethod<
   DeleteSendingDomainError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<DeleteSendingDomainRequest>,
-  output: __S(272, __c17, 0) as any as S.Schema<DeleteSendingDomainResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<DeleteSendingDomainRequest>,
+  output: __S(288, __c18, 0) as any as S.Schema<DeleteSendingDomainResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -554,8 +575,8 @@ export const exportSendingDomainDNSRecords: API.OperationMethod<
   ExportSendingDomainDNSRecordsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<ExportSendingDomainDNSRecordsRequest>,
-  output: __S(305, __c19, 1) as any as S.Schema<ExportSendingDomainDNSRecordsResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<ExportSendingDomainDNSRecordsRequest>,
+  output: __S(321, __c20, 1) as any as S.Schema<ExportSendingDomainDNSRecordsResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -571,8 +592,8 @@ export const getAuthorizedSender: API.OperationMethod<
   GetAuthorizedSenderError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<GetAuthorizedSenderRequest>,
-  output: __S(336, __c21, 0) as any as S.Schema<GetAuthorizedSenderResponse>,
+  input: __S(336, __c21, 0) as any as S.Schema<GetAuthorizedSenderRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<GetAuthorizedSenderResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -588,8 +609,8 @@ export const getSendingDomain: API.OperationMethod<
   GetSendingDomainError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetSendingDomainRequest>,
-  output: __S(10, __c0, 10) as any as S.Schema<GetSendingDomainResponse>,
+  input: __S(16, __c1, 0) as any as S.Schema<GetSendingDomainRequest>,
+  output: __S(26, __c1, 10) as any as S.Schema<GetSendingDomainResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -605,8 +626,8 @@ export const getSendingDomainMessage: API.OperationMethod<
   GetSendingDomainMessageError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c1, 0) as any as S.Schema<GetSendingDomainMessageRequest>,
-  output: __S(34, __c2, 2) as any as S.Schema<SendingDomainMessage>,
+  input: __S(32, __c2, 0) as any as S.Schema<GetSendingDomainMessageRequest>,
+  output: __S(50, __c3, 2) as any as S.Schema<SendingDomainMessage>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -622,8 +643,8 @@ export const getSendingDomainMetrics: API.OperationMethod<
   GetSendingDomainMetricsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<GetSendingDomainMetricsRequest>,
-  output: __S(49, __c3, 1) as any as S.Schema<MetricsResponse>,
+  input: __S(64, __c4, 0) as any as S.Schema<GetSendingDomainMetricsRequest>,
+  output: __S(65, __c4, 1) as any as S.Schema<MetricsResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -639,8 +660,8 @@ export const listAuthorizedSenders: API.OperationMethod<
   ListAuthorizedSendersError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<ListAuthorizedSendersRequest>,
-  output: __S(66, __c4, 2) as any as S.Schema<ListAuthorizedSendersResponse>,
+  input: __S(80, __c5, 0) as any as S.Schema<ListAuthorizedSendersRequest>,
+  output: __S(82, __c5, 2) as any as S.Schema<ListAuthorizedSendersResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -656,8 +677,8 @@ export const listSendingDomainMessages: API.OperationMethod<
   ListSendingDomainMessagesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<ListSendingDomainMessagesRequest>,
-  output: __S(82, __c5, 2) as any as S.Schema<ListMessagesResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<ListSendingDomainMessagesRequest>,
+  output: __S(98, __c6, 2) as any as S.Schema<ListMessagesResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -673,8 +694,8 @@ export const listSendingDomains: API.OperationMethod<
   ListSendingDomainsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<ListSendingDomainsRequest>,
-  output: __S(98, __c6, 2) as any as S.Schema<ListSendingDomainsResponse>,
+  input: __S(112, __c7, 0) as any as S.Schema<ListSendingDomainsRequest>,
+  output: __S(114, __c7, 2) as any as S.Schema<ListSendingDomainsResponse>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -690,8 +711,8 @@ export const listSuppressedRecipients: API.OperationMethod<
   ListSuppressedRecipientsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<ListSuppressedRecipientsRequest>,
-  output: __S(114, __c7, 2) as any as S.Schema<ListSuppressedRecipientsResponse>,
+  input: __S(128, __c8, 0) as any as S.Schema<ListSuppressedRecipientsRequest>,
+  output: __S(130, __c8, 2) as any as S.Schema<ListSuppressedRecipientsResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -707,8 +728,8 @@ export const removeRecipientFromSuppressionList: API.OperationMethod<
   RemoveRecipientFromSuppressionListError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<RemoveRecipientFromSuppressionListRequest>,
-  output: __S(272, __c17, 0) as any as S.Schema<RemoveRecipientFromSuppressionListResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<RemoveRecipientFromSuppressionListRequest>,
+  output: __S(288, __c18, 0) as any as S.Schema<RemoveRecipientFromSuppressionListResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -724,8 +745,8 @@ export const validateSendingDomain: API.OperationMethod<
   ValidateSendingDomainError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<ValidateSendingDomainRequest>,
-  output: __S(272, __c17, 0) as any as S.Schema<ValidateSendingDomainResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<ValidateSendingDomainRequest>,
+  output: __S(288, __c18, 0) as any as S.Schema<ValidateSendingDomainResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -735,6 +756,17 @@ export const validateSendingDomain: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.String,
+          message: S.String,
+        }),
+      ).annotate({ identifier: "ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -760,14 +792,14 @@ function __c0(j: number): any {
         }),
       ).annotate({ identifier: "DNSRecord" });
     case 2:
-      return S.Array(__S(1, __c0, 1));
+      return S.Array(__S(17, __c1, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          dkim: S.optional(__S(2, __c0, 2)),
-          dmarc: S.optional(__S(1, __c0, 1)),
-          returnPath: S.optional(__S(1, __c0, 1)),
-          spf: S.optional(__S(1, __c0, 1)),
+          dkim: S.optional(__S(18, __c1, 2)),
+          dmarc: S.optional(__S(17, __c1, 1)),
+          returnPath: S.optional(__S(17, __c1, 1)),
+          spf: S.optional(__S(17, __c1, 1)),
         }),
       ).annotate({ identifier: "DNSRecords" });
     case 4:
@@ -779,7 +811,7 @@ function __c0(j: number): any {
         }),
       ).annotate({ identifier: "DKIMValidationReport" });
     case 5:
-      return S.Array(__S(4, __c0, 4));
+      return S.Array(__S(20, __c1, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -790,10 +822,10 @@ function __c0(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          dkim: S.optional(__S(5, __c0, 5)),
-          dmarc: S.optional(__S(6, __c0, 6)),
-          returnPath: S.optional(__S(6, __c0, 6)),
-          spf: S.optional(__S(6, __c0, 6)),
+          dkim: S.optional(__S(21, __c1, 5)),
+          dmarc: S.optional(__S(22, __c1, 6)),
+          returnPath: S.optional(__S(22, __c1, 6)),
+          spf: S.optional(__S(22, __c1, 6)),
         }),
       ).annotate({ identifier: "DomainValidationReport" });
     case 8:
@@ -801,14 +833,14 @@ function __c0(j: number): any {
         S.Struct({
           lastValidationTime: S.optional(S.String),
           status: S.optional(S.String),
-          validationReport: S.optional(__S(7, __c0, 7)),
+          validationReport: S.optional(__S(23, __c1, 7)),
         }),
       ).annotate({ identifier: "DomainValidationStatus" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          dnsRecords: S.optional(__S(3, __c0, 3)),
-          domainValidationStatus: S.optional(__S(8, __c0, 8)),
+          dnsRecords: S.optional(__S(19, __c1, 3)),
+          domainValidationStatus: S.optional(__S(24, __c1, 8)),
           region: S.optional(S.String),
         }),
       ).annotate({ identifier: "SendingDomainConfig" });
@@ -818,14 +850,14 @@ function __c0(j: number): any {
           blockedUntil: S.optional(S.String),
           domain: S.String,
           id: S.String,
-          messages: S.optional(__S(224, __c14, 0)),
+          messages: S.optional(__S(240, __c15, 0)),
           state: S.String,
-          config: __S(9, __c0, 9),
+          config: __S(25, __c1, 9),
         }),
       ).annotate({ identifier: "GetSendingDomainResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -845,7 +877,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "GetSendingDomainMessageRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -875,13 +907,13 @@ function __c2(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          details: __S(32, __c2, 0),
-          headers: __S(33, __c2, 1),
+          details: __S(48, __c3, 0),
+          headers: __S(49, __c3, 1),
         }),
       ).annotate({ identifier: "SendingDomainMessage" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -914,7 +946,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "MetricsResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -932,16 +964,16 @@ function __c4(j: number): any {
         ),
       ).annotate({ identifier: "ListAuthorizedSendersRequest" });
     case 1:
-      return S.Array(__S(336, __c21, 0));
+      return S.Array(__S(352, __c22, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(65, __c4, 1),
+          items: __S(81, __c5, 1),
         }),
       ).annotate({ identifier: "ListAuthorizedSendersResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -965,17 +997,17 @@ function __c5(j: number): any {
         ),
       ).annotate({ identifier: "ListSendingDomainMessagesRequest" });
     case 1:
-      return S.Array(__S(34, __c2, 2));
+      return S.Array(__S(50, __c3, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(81, __c5, 1),
+          items: __S(97, __c6, 1),
           nextCursor: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListMessagesResponse" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -992,16 +1024,16 @@ function __c6(j: number): any {
         ),
       ).annotate({ identifier: "ListSendingDomainsRequest" });
     case 1:
-      return S.Array(__S(240, __c15, 0));
+      return S.Array(__S(256, __c16, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(97, __c6, 1),
+          items: __S(113, __c7, 1),
         }),
       ).annotate({ identifier: "ListSendingDomainsResponse" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1019,16 +1051,16 @@ function __c7(j: number): any {
         ),
       ).annotate({ identifier: "ListSuppressedRecipientsRequest" });
     case 1:
-      return S.Array(__S(176, __c11, 0));
+      return S.Array(__S(192, __c12, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(113, __c7, 1),
+          items: __S(129, __c8, 1),
         }),
       ).annotate({ identifier: "ListSuppressedRecipientsResponse" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1048,7 +1080,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "RemoveRecipientFromSuppressionListRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1067,7 +1099,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "ValidateSendingDomainRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1087,7 +1119,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "AddRecipientToSuppressionListRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1102,7 +1134,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "Suppression" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1133,7 +1165,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "CreateAuthorizedSenderResponse" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1152,13 +1184,13 @@ function __c13(j: number): any {
       ).annotate({ identifier: "CreateSendingDomainRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1166,13 +1198,13 @@ function __c15(j: number): any {
           blockedUntil: S.optional(S.String),
           domain: S.String,
           id: S.String,
-          messages: S.optional(__S(224, __c14, 0)),
+          messages: S.optional(__S(240, __c15, 0)),
           state: S.String,
         }),
       ).annotate({ identifier: "CreateSendingDomainResponse" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1192,7 +1224,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "DeleteAuthorizedSenderRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -1200,7 +1232,7 @@ function __c17(j: number): any {
       });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1219,7 +1251,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "DeleteSendingDomainRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1243,7 +1275,7 @@ function __c19(j: number): any {
       });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1263,7 +1295,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "GetAuthorizedSenderRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

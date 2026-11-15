@@ -30,33 +30,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorBADREQUEST | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorFORBIDDEN | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorNOTFOUND | string;
+}
 
 export type ChangeLibsqlStatusRequestApplicationStatus = "idle" | "running" | "done" | "error";
 export interface ChangeLibsqlStatusRequest {
@@ -252,6 +267,44 @@ export interface UpdateLibsqlRequest {
   createdAt?: string | undefined;
 }
 export type UpdateLibsqlResponse = unknown;
+export interface ErrorBADREQUESTIssuesItem {
+  message: string;
+}
+/** An array of issues that were responsible for the error */
+export type ErrorBADREQUESTIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorBADREQUEST {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorBADREQUESTIssuesList | undefined;
+}
+export type ErrorFORBIDDENIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorFORBIDDENIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorFORBIDDEN {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorFORBIDDENIssuesList | undefined;
+}
+export type ErrorNOTFOUNDIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorNOTFOUNDIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorNOTFOUND {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorNOTFOUNDIssuesList | undefined;
+}
 export type ChangeLibsqlStatusError = BadRequest | Forbidden | DokployOpError;
 export const changeLibsqlStatus: API.OperationMethod<
   ChangeLibsqlStatusRequest,
@@ -259,8 +312,8 @@ export const changeLibsqlStatus: API.OperationMethod<
   ChangeLibsqlStatusError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<ChangeLibsqlStatusRequest>,
-  output: __S(256, __c8, 0) as any as S.Schema<ChangeLibsqlStatusResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<ChangeLibsqlStatusRequest>,
+  output: __S(288, __c9, 0) as any as S.Schema<ChangeLibsqlStatusResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -275,8 +328,8 @@ export const createLibsql: API.OperationMethod<
   CreateLibsqlError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<CreateLibsqlRequest>,
-  output: __S(256, __c8, 0) as any as S.Schema<CreateLibsqlResponse>,
+  input: __S(320, __c10, 0) as any as S.Schema<CreateLibsqlRequest>,
+  output: __S(288, __c9, 0) as any as S.Schema<CreateLibsqlResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -291,8 +344,8 @@ export const deleteLibsql: API.OperationMethod<
   DeleteLibsqlError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<DeleteLibsqlRequest>,
-  output: __S(256, __c8, 0) as any as S.Schema<DeleteLibsqlResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<DeleteLibsqlRequest>,
+  output: __S(288, __c9, 0) as any as S.Schema<DeleteLibsqlResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -307,8 +360,8 @@ export const deployLibsql: API.OperationMethod<
   DeployLibsqlError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<DeployLibsqlRequest>,
-  output: __S(256, __c8, 0) as any as S.Schema<DeployLibsqlResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<DeployLibsqlRequest>,
+  output: __S(288, __c9, 0) as any as S.Schema<DeployLibsqlResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -323,8 +376,8 @@ export const getLibsql: API.OperationMethod<
   GetLibsqlError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<GetLibsqlRequest>,
-  output: __S(256, __c8, 0) as any as S.Schema<GetLibsqlResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<GetLibsqlRequest>,
+  output: __S(288, __c9, 0) as any as S.Schema<GetLibsqlResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -339,8 +392,8 @@ export const moveLibsql: API.OperationMethod<
   MoveLibsqlError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<MoveLibsqlRequest>,
-  output: __S(256, __c8, 0) as any as S.Schema<MoveLibsqlResponse>,
+  input: __S(448, __c14, 0) as any as S.Schema<MoveLibsqlRequest>,
+  output: __S(288, __c9, 0) as any as S.Schema<MoveLibsqlResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -355,8 +408,8 @@ export const readLibsqlLogs: API.OperationMethod<
   ReadLibsqlLogsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<ReadLibsqlLogsRequest>,
-  output: __S(256, __c8, 0) as any as S.Schema<ReadLibsqlLogsResponse>,
+  input: __S(480, __c15, 0) as any as S.Schema<ReadLibsqlLogsRequest>,
+  output: __S(288, __c9, 0) as any as S.Schema<ReadLibsqlLogsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -371,8 +424,8 @@ export const rebuildLibsql: API.OperationMethod<
   RebuildLibsqlError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<RebuildLibsqlRequest>,
-  output: __S(256, __c8, 0) as any as S.Schema<RebuildLibsqlResponse>,
+  input: __S(32, __c1, 0) as any as S.Schema<RebuildLibsqlRequest>,
+  output: __S(288, __c9, 0) as any as S.Schema<RebuildLibsqlResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -387,8 +440,8 @@ export const reloadLibsql: API.OperationMethod<
   ReloadLibsqlError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c1, 0) as any as S.Schema<ReloadLibsqlRequest>,
-  output: __S(256, __c8, 0) as any as S.Schema<ReloadLibsqlResponse>,
+  input: __S(64, __c2, 0) as any as S.Schema<ReloadLibsqlRequest>,
+  output: __S(288, __c9, 0) as any as S.Schema<ReloadLibsqlResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -403,8 +456,8 @@ export const saveLibsqlEnvironment: API.OperationMethod<
   SaveLibsqlEnvironmentError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<SaveLibsqlEnvironmentRequest>,
-  output: __S(256, __c8, 0) as any as S.Schema<SaveLibsqlEnvironmentResponse>,
+  input: __S(96, __c3, 0) as any as S.Schema<SaveLibsqlEnvironmentRequest>,
+  output: __S(288, __c9, 0) as any as S.Schema<SaveLibsqlEnvironmentResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -419,8 +472,8 @@ export const saveLibsqlExternalPorts: API.OperationMethod<
   SaveLibsqlExternalPortsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<SaveLibsqlExternalPortsRequest>,
-  output: __S(256, __c8, 0) as any as S.Schema<SaveLibsqlExternalPortsResponse>,
+  input: __S(128, __c4, 0) as any as S.Schema<SaveLibsqlExternalPortsRequest>,
+  output: __S(288, __c9, 0) as any as S.Schema<SaveLibsqlExternalPortsResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -435,8 +488,8 @@ export const startLibsql: API.OperationMethod<
   StartLibsqlError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<StartLibsqlRequest>,
-  output: __S(256, __c8, 0) as any as S.Schema<StartLibsqlResponse>,
+  input: __S(160, __c5, 0) as any as S.Schema<StartLibsqlRequest>,
+  output: __S(288, __c9, 0) as any as S.Schema<StartLibsqlResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -451,8 +504,8 @@ export const stopLibsql: API.OperationMethod<
   StopLibsqlError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<StopLibsqlRequest>,
-  output: __S(256, __c8, 0) as any as S.Schema<StopLibsqlResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<StopLibsqlRequest>,
+  output: __S(288, __c9, 0) as any as S.Schema<StopLibsqlResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -467,8 +520,8 @@ export const updateLibsql: API.OperationMethod<
   UpdateLibsqlError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(211, __c6, 19) as any as S.Schema<UpdateLibsqlRequest>,
-  output: __S(256, __c8, 0) as any as S.Schema<UpdateLibsqlResponse>,
+  input: __S(243, __c7, 19) as any as S.Schema<UpdateLibsqlRequest>,
+  output: __S(288, __c9, 0) as any as S.Schema<UpdateLibsqlResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -482,12 +535,32 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          message: S.String,
+        }),
+      ).annotate({ identifier: "ErrorBADREQUESTIssuesItem" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+          code: S.String,
+          issues: S.optional(__S(1, __c0, 1)),
+        }),
+      ).annotate({ identifier: "ErrorBADREQUEST" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           libsqlId: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/libsql.rebuild", code: 200 })),
       ).annotate({ identifier: "RebuildLibsqlRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -498,7 +571,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "ReloadLibsqlRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -509,7 +582,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "SaveLibsqlEnvironmentRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -522,7 +595,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "SaveLibsqlExternalPortsRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -532,7 +605,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "StartLibsqlRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -542,14 +615,14 @@ function __c5(j: number): any {
       ).annotate({ identifier: "StopLibsqlRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Test: S.optional(__S(192, __c6, 0)),
+          Test: S.optional(__S(224, __c7, 0)),
           Interval: S.optional(S.Number),
           Timeout: S.optional(S.Number),
           StartPeriod: S.optional(S.Number),
@@ -574,11 +647,11 @@ function __c6(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Spread: __S(195, __c6, 3),
+          Spread: __S(227, __c7, 3),
         }),
       ).annotate({ identifier: "UpdateLibsqlRequestPlacementSwarmPreferencesItem" });
     case 5:
-      return S.Array(__S(196, __c6, 4));
+      return S.Array(__S(228, __c7, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -587,14 +660,14 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "UpdateLibsqlRequestPlacementSwarmPlatformsItem" });
     case 7:
-      return S.Array(__S(198, __c6, 6));
+      return S.Array(__S(230, __c7, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          Constraints: S.optional(__S(192, __c6, 0)),
-          Preferences: S.optional(__S(197, __c6, 5)),
+          Constraints: S.optional(__S(224, __c7, 0)),
+          Preferences: S.optional(__S(229, __c7, 5)),
           MaxReplicas: S.optional(S.Number),
-          Platforms: S.optional(__S(199, __c6, 7)),
+          Platforms: S.optional(__S(231, __c7, 7)),
         }),
       ).annotate({ identifier: "UpdateLibsqlRequestPlacementSwarm" });
     case 9:
@@ -624,9 +697,9 @@ function __c6(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          Replicated: S.optional(__S(202, __c6, 10)),
+          Replicated: S.optional(__S(234, __c7, 10)),
           Global: S.optional(S.Unknown),
-          ReplicatedJob: S.optional(__S(203, __c6, 11)),
+          ReplicatedJob: S.optional(__S(235, __c7, 11)),
           GlobalJob: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "UpdateLibsqlRequestModeSwarm" });
@@ -636,12 +709,12 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Target: S.optional(S.String),
-          Aliases: S.optional(__S(192, __c6, 0)),
-          DriverOpts: S.optional(__S(205, __c6, 13)),
+          Aliases: S.optional(__S(224, __c7, 0)),
+          DriverOpts: S.optional(__S(237, __c7, 13)),
         }),
       ).annotate({ identifier: "UpdateLibsqlRequestNetworkSwarmItem" });
     case 15:
-      return S.Array(__S(206, __c6, 14));
+      return S.Array(__S(238, __c7, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
@@ -652,12 +725,12 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "UpdateLibsqlRequestEndpointSpecSwarmPortsItem" });
     case 17:
-      return S.Array(__S(208, __c6, 16));
+      return S.Array(__S(240, __c7, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
           Mode: S.optional(S.String),
-          Ports: S.optional(__S(209, __c6, 17)),
+          Ports: S.optional(__S(241, __c7, 17)),
         }),
       ).annotate({ identifier: "UpdateLibsqlRequestEndpointSpecSwarm" });
     case 19:
@@ -683,25 +756,25 @@ function __c6(j: number): any {
           externalGRPCPort: S.optional(S.NullOr(S.Number)),
           externalAdminPort: S.optional(S.NullOr(S.Number)),
           applicationStatus: S.optional(S.String),
-          healthCheckSwarm: S.optional(S.NullOr(__S(193, __c6, 1))),
-          restartPolicySwarm: S.optional(S.NullOr(__S(194, __c6, 2))),
-          placementSwarm: S.optional(S.NullOr(__S(200, __c6, 8))),
-          updateConfigSwarm: S.optional(S.NullOr(__S(201, __c6, 9))),
-          rollbackConfigSwarm: S.optional(S.NullOr(__S(201, __c6, 9))),
-          modeSwarm: S.optional(S.NullOr(__S(204, __c6, 12))),
-          labelsSwarm: S.optional(S.NullOr(__S(205, __c6, 13))),
-          networkSwarm: S.optional(S.NullOr(__S(207, __c6, 15))),
+          healthCheckSwarm: S.optional(S.NullOr(__S(225, __c7, 1))),
+          restartPolicySwarm: S.optional(S.NullOr(__S(226, __c7, 2))),
+          placementSwarm: S.optional(S.NullOr(__S(232, __c7, 8))),
+          updateConfigSwarm: S.optional(S.NullOr(__S(233, __c7, 9))),
+          rollbackConfigSwarm: S.optional(S.NullOr(__S(233, __c7, 9))),
+          modeSwarm: S.optional(S.NullOr(__S(236, __c7, 12))),
+          labelsSwarm: S.optional(S.NullOr(__S(237, __c7, 13))),
+          networkSwarm: S.optional(S.NullOr(__S(239, __c7, 15))),
           stopGracePeriodSwarm: S.optional(S.NullOr(S.Number)),
-          endpointSpecSwarm: S.optional(S.NullOr(__S(210, __c6, 18))),
+          endpointSpecSwarm: S.optional(S.NullOr(__S(242, __c7, 18))),
           replicas: S.optional(S.Number),
-          networkIds: S.optional(S.NullOr(__S(192, __c6, 0))),
+          networkIds: S.optional(S.NullOr(__S(224, __c7, 0))),
           detachDokployNetwork: S.optional(S.Boolean),
           createdAt: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/libsql.update", code: 200 })),
       ).annotate({ identifier: "UpdateLibsqlRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -712,7 +785,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "ChangeLibsqlStatusRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -720,7 +793,7 @@ function __c8(j: number): any {
       });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -740,7 +813,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "CreateLibsqlRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -750,7 +823,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "DeleteLibsqlRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -760,7 +833,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "DeployLibsqlRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -770,7 +843,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetLibsqlRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -781,7 +854,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "MoveLibsqlRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

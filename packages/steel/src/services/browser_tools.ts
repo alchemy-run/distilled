@@ -29,22 +29,32 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export interface PdfRequest {
   /** Delay before generating the PDF (in milliseconds) */
@@ -176,12 +186,33 @@ export interface ScreenshotResponse {
   /** URL where the screenshot is hosted */
   url: string;
 }
+export interface ErrorResponseContextItem {
+  keyword: string;
+  message: string;
+  params: unknown;
+}
+export type ErrorResponseContextList = Array<ErrorResponseContextItem>;
+/** An error response from the API */
+export interface ErrorResponse {
+  /** Stable machine-readable reason, e.g. 'budget_exceeded' or 'profile_not_ready'. Branch on this instead of parsing the message. */
+  code?: string | undefined;
+  context?: ErrorResponseContextList | undefined;
+  error?: string | undefined;
+  linkToDocs?: string | undefined;
+  message: string;
+  /** The request field that caused the error, if any. */
+  param?: string | undefined;
+  /** Seconds to wait before retrying. Also sent as the Retry-After header. */
+  retryAfterSeconds?: number | undefined;
+  /** Whether the same request can succeed later without changes. False means fix the request or the account first. */
+  retryable?: boolean | undefined;
+}
 export type PdfError = BadRequest | UnprocessableEntity | SteelOpError;
 /** Convert webpage to PDF Generates a PDF from a specified webpage. */
 export const pdf: API.OperationMethod<PdfRequest, PdfResponse, PdfError, SteelOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(0, __c0, 0) as any as S.Schema<PdfRequest>,
-    output: __S(8, __c1, 0) as any as S.Schema<PdfResponse>,
+    input: __S(8, __c1, 0) as any as S.Schema<PdfRequest>,
+    output: __S(16, __c2, 0) as any as S.Schema<PdfResponse>,
     errors: [BadRequest, UnprocessableEntity, UnknownSteelError],
     protocol: SteelProtocol,
     retry: Retry.Retry,
@@ -197,8 +228,8 @@ export const scrape: API.OperationMethod<
   ScrapeError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17, __c2, 1) as any as S.Schema<ScrapeRequest>,
-  output: __S(23, __c2, 7) as any as S.Schema<ScrapeResponse>,
+  input: __S(25, __c3, 1) as any as S.Schema<ScrapeRequest>,
+  output: __S(31, __c3, 7) as any as S.Schema<ScrapeResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownSteelError],
   protocol: SteelProtocol,
   retry: Retry.Retry,
@@ -214,8 +245,8 @@ export const screenshot: API.OperationMethod<
   ScreenshotError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<ScreenshotRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<ScreenshotResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<ScreenshotRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<ScreenshotResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownSteelError],
   protocol: SteelProtocol,
   retry: Retry.Retry,
@@ -229,6 +260,33 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          keyword: S.String,
+          message: S.String,
+          params: S.Unknown,
+        }),
+      ).annotate({ identifier: "ErrorResponseContextItem" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          context: S.optional(__S(1, __c0, 1)),
+          error: S.optional(S.String),
+          linkToDocs: S.optional(S.String),
+          message: S.String,
+          param: S.optional(S.String),
+          retryAfterSeconds: S.optional(S.Number),
+          retryable: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           delay: S.optional(S.Number),
           projectId: S.optional(S.String),
           region: S.optional(S.Unknown),
@@ -238,7 +296,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "PdfRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -248,7 +306,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "PdfResponse" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -256,7 +314,7 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           delay: S.optional(S.Number),
-          format: S.optional(__S(16, __c2, 0)),
+          format: S.optional(__S(24, __c3, 0)),
           pdf: S.optional(S.Boolean),
           projectId: S.optional(S.String),
           region: S.optional(S.Unknown),
@@ -273,7 +331,7 @@ function __c2(j: number): any {
           cleaned_html: S.optional(S.String),
           html: S.optional(S.String),
           markdown: S.optional(S.String),
-          readability: S.optional(__S(18, __c2, 2)),
+          readability: S.optional(__S(26, __c3, 2)),
         }),
       ).annotate({ identifier: "ScrapeResponseContent" });
     case 4:
@@ -284,7 +342,7 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "ScrapeResponseLinksItem" });
     case 5:
-      return S.Array(__S(20, __c2, 4));
+      return S.Array(__S(28, __c3, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -312,16 +370,16 @@ function __c2(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          content: __S(19, __c2, 3),
-          links: __S(21, __c2, 5),
-          metadata: __S(22, __c2, 6),
-          pdf: S.optional(__S(8, __c1, 0)),
-          screenshot: S.optional(__S(8, __c1, 0)),
+          content: __S(27, __c3, 3),
+          links: __S(29, __c3, 5),
+          metadata: __S(30, __c3, 6),
+          pdf: S.optional(__S(16, __c2, 0)),
+          screenshot: S.optional(__S(16, __c2, 0)),
         }),
       ).annotate({ identifier: "ScrapeResponse" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

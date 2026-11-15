@@ -30,44 +30,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export interface CreateDmMemberRequest {
   /** The unique identifier of the DM channel to add the new member to. */
@@ -150,6 +170,17 @@ export interface UpdateDmMemberRequest {
   /** The membership status for this member in the DM channel. */
   status?: DmsFeedMemberStatuses | (string & {}) | null | undefined;
 }
+export interface Error400BodyError {
+  /** A short string indicating the specific error code, e.g. 'parameter_missing', 'parameter_invalid', 'invalid_json' */
+  code?: string | null | undefined;
+  message: string;
+  /** The parameter that caused the error, if applicable */
+  param?: string | null | undefined;
+  type: string;
+}
+export interface Error400Body {
+  error: Error400BodyError;
+}
 export type CreateDmMemberError =
   | BadRequest
   | Forbidden
@@ -163,8 +194,8 @@ export const createDmMember: API.OperationMethod<
   CreateDmMemberError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateDmMemberRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<DmMember>,
+  input: __S(8, __c1, 0) as any as S.Schema<CreateDmMemberRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<DmMember>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -185,8 +216,8 @@ export const deleteDmMember: API.OperationMethod<
   DeleteDmMemberError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<DeleteDmMemberRequest>,
-  output: __S(17, __c2, 1) as any as S.Schema<DeleteDmMemberResponse>,
+  input: __S(24, __c3, 0) as any as S.Schema<DeleteDmMemberRequest>,
+  output: __S(25, __c3, 1) as any as S.Schema<DeleteDmMemberResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -207,8 +238,8 @@ export const getDmMember: API.OperationMethod<
   GetDmMemberError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<GetDmMemberRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<DmMember>,
+  input: __S(32, __c4, 0) as any as S.Schema<GetDmMemberRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<DmMember>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -231,8 +262,8 @@ export const listDmMember: API.PaginatedOperationMethod<
   DmMemberListItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(32, __c4, 0) as any as S.Schema<ListDmMemberRequest>,
-    output: __S(36, __c4, 4) as any as S.Schema<ListDmMemberResponse>,
+    input: __S(40, __c5, 0) as any as S.Schema<ListDmMemberRequest>,
+    output: __S(44, __c5, 4) as any as S.Schema<ListDmMemberResponse>,
     errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -263,8 +294,8 @@ export const updateDmMember: API.OperationMethod<
   UpdateDmMemberError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<UpdateDmMemberRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<DmMember>,
+  input: __S(48, __c6, 0) as any as S.Schema<UpdateDmMemberRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<DmMember>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -278,13 +309,32 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.NullOr(S.String)),
+          message: S.String,
+          param: S.optional(S.NullOr(S.String)),
+          type: S.String,
+        }),
+      ).annotate({ identifier: "Error400BodyError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "Error400Body" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           channel_id: S.String,
           user_id: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/dm_members", code: 200 })),
       ).annotate({ identifier: "CreateDmMemberRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -299,7 +349,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "DmMember" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -313,7 +363,7 @@ function __c2(j: number): any {
       });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -323,7 +373,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetDmMemberRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -346,7 +396,7 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "DmMemberListItem" });
     case 2:
-      return S.Array(__S(33, __c4, 1));
+      return S.Array(__S(41, __c5, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -359,13 +409,13 @@ function __c4(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(34, __c4, 2),
-          page_info: __S(35, __c4, 3),
+          data: __S(42, __c5, 2),
+          page_info: __S(43, __c5, 3),
         }),
       ).annotate({ identifier: "ListDmMemberResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

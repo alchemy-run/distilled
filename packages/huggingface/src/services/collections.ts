@@ -33,11 +33,16 @@ export class Conflict
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error409Body | string;
+}
 
 export type AddItemRequestItemType =
   | "paper"
@@ -7169,6 +7174,10 @@ export interface UpdateItemBySlugRequest {
   position?: number | undefined;
 }
 export interface UpdateItemBySlugResponse {}
+export interface Error409Body {
+  error: string;
+  slug?: string | undefined;
+}
 export type AddItemError = HuggingFaceOpError;
 /** Add item Add an item to a collection */
 export const addItem: API.OperationMethod<
@@ -7177,8 +7186,8 @@ export const addItem: API.OperationMethod<
   AddItemError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<AddItemRequest>,
-  output: __S(2, __c0, 2) as any as S.Schema<AddItemResponse>,
+  input: __S(4, __c1, 0) as any as S.Schema<AddItemRequest>,
+  output: __S(6, __c1, 2) as any as S.Schema<AddItemResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -7194,8 +7203,8 @@ export const addItemBySlug: API.OperationMethod<
   AddItemBySlugError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c14, 0) as any as S.Schema<AddItemBySlugRequest>,
-  output: __S(58, __c14, 2) as any as S.Schema<AddItemBySlugResponse>,
+  input: __S(60, __c15, 0) as any as S.Schema<AddItemBySlugRequest>,
+  output: __S(62, __c15, 2) as any as S.Schema<AddItemBySlugResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -7211,8 +7220,8 @@ export const batchUpdateItems: API.OperationMethod<
   BatchUpdateItemsError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c16, 0) as any as S.Schema<BatchUpdateItemsRequest>,
-  output: __S(76, __c19, 0) as any as S.Schema<BatchUpdateItemsResponse>,
+  input: __S(68, __c17, 0) as any as S.Schema<BatchUpdateItemsRequest>,
+  output: __S(80, __c20, 0) as any as S.Schema<BatchUpdateItemsResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -7228,8 +7237,8 @@ export const batchUpdateItemsBySlug: API.OperationMethod<
   BatchUpdateItemsBySlugError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c20, 0) as any as S.Schema<BatchUpdateItemsBySlugRequest>,
-  output: __S(76, __c19, 0) as any as S.Schema<BatchUpdateItemsBySlugResponse>,
+  input: __S(84, __c21, 0) as any as S.Schema<BatchUpdateItemsBySlugRequest>,
+  output: __S(80, __c20, 0) as any as S.Schema<BatchUpdateItemsBySlugResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -7245,8 +7254,8 @@ export const createCollection: API.OperationMethod<
   CreateCollectionError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(84, __c21, 0) as any as S.Schema<CreateCollectionRequest>,
-  output: __S(86, __c21, 2) as any as S.Schema<CreateCollectionResponse>,
+  input: __S(88, __c22, 0) as any as S.Schema<CreateCollectionRequest>,
+  output: __S(90, __c22, 2) as any as S.Schema<CreateCollectionResponse>,
   errors: [Conflict],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -7262,8 +7271,8 @@ export const deleteCollection: API.OperationMethod<
   DeleteCollectionError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c22, 0) as any as S.Schema<DeleteCollectionRequest>,
-  output: __S(76, __c19, 0) as any as S.Schema<DeleteCollectionResponse>,
+  input: __S(92, __c23, 0) as any as S.Schema<DeleteCollectionRequest>,
+  output: __S(80, __c20, 0) as any as S.Schema<DeleteCollectionResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -7279,8 +7288,8 @@ export const deleteCollectionBySlug: API.OperationMethod<
   DeleteCollectionBySlugError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(92, __c23, 0) as any as S.Schema<DeleteCollectionBySlugRequest>,
-  output: __S(76, __c19, 0) as any as S.Schema<DeleteCollectionBySlugResponse>,
+  input: __S(96, __c24, 0) as any as S.Schema<DeleteCollectionBySlugRequest>,
+  output: __S(80, __c20, 0) as any as S.Schema<DeleteCollectionBySlugResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -7296,8 +7305,8 @@ export const deleteItem: API.OperationMethod<
   DeleteItemError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c24, 0) as any as S.Schema<DeleteItemRequest>,
-  output: __S(76, __c19, 0) as any as S.Schema<DeleteItemResponse>,
+  input: __S(100, __c25, 0) as any as S.Schema<DeleteItemRequest>,
+  output: __S(80, __c20, 0) as any as S.Schema<DeleteItemResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -7313,8 +7322,8 @@ export const deleteItemBySlug: API.OperationMethod<
   DeleteItemBySlugError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(100, __c25, 0) as any as S.Schema<DeleteItemBySlugRequest>,
-  output: __S(76, __c19, 0) as any as S.Schema<DeleteItemBySlugResponse>,
+  input: __S(104, __c26, 0) as any as S.Schema<DeleteItemBySlugRequest>,
+  output: __S(80, __c20, 0) as any as S.Schema<DeleteItemBySlugResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -7330,8 +7339,8 @@ export const getCollection: API.OperationMethod<
   GetCollectionError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<GetCollectionRequest>,
-  output: __S(14, __c3, 2) as any as S.Schema<GetCollectionResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<GetCollectionRequest>,
+  output: __S(18, __c4, 2) as any as S.Schema<GetCollectionResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -7347,8 +7356,8 @@ export const getCollectionBySlug: API.OperationMethod<
   GetCollectionBySlugError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<GetCollectionBySlugRequest>,
-  output: __S(18, __c4, 2) as any as S.Schema<GetCollectionBySlugResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<GetCollectionBySlugRequest>,
+  output: __S(22, __c5, 2) as any as S.Schema<GetCollectionBySlugResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -7364,8 +7373,8 @@ export const getCollectionResourceGroup: API.OperationMethod<
   GetCollectionResourceGroupError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<GetCollectionResourceGroupRequest>,
-  output: __S(8, __c2, 0) as any as S.Schema<GetCollectionResourceGroupResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<GetCollectionResourceGroupRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<GetCollectionResourceGroupResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -7381,8 +7390,8 @@ export const getCollectionResourceGroupBySlug: API.OperationMethod<
   GetCollectionResourceGroupBySlugError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<GetCollectionResourceGroupBySlugRequest>,
-  output: __S(8, __c2, 0) as any as S.Schema<GetCollectionResourceGroupBySlugResponse>,
+  input: __S(28, __c7, 0) as any as S.Schema<GetCollectionResourceGroupBySlugRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<GetCollectionResourceGroupBySlugResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -7398,8 +7407,8 @@ export const getCollections: API.OperationMethod<
   GetCollectionsError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<GetCollectionsRequest>,
-  output: __S(29, __c7, 1) as any as S.Schema<GetCollectionsResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<GetCollectionsRequest>,
+  output: __S(33, __c8, 1) as any as S.Schema<GetCollectionsResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -7415,8 +7424,8 @@ export const setCollectionResourceGroup: API.OperationMethod<
   SetCollectionResourceGroupError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<SetCollectionResourceGroupRequest>,
-  output: __S(36, __c9, 0) as any as S.Schema<SetCollectionResourceGroupResponse>,
+  input: __S(36, __c9, 0) as any as S.Schema<SetCollectionResourceGroupRequest>,
+  output: __S(40, __c10, 0) as any as S.Schema<SetCollectionResourceGroupResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -7432,8 +7441,8 @@ export const setCollectionResourceGroupBySlug: API.OperationMethod<
   SetCollectionResourceGroupBySlugError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<SetCollectionResourceGroupBySlugRequest>,
-  output: __S(36, __c9, 0) as any as S.Schema<SetCollectionResourceGroupBySlugResponse>,
+  input: __S(44, __c11, 0) as any as S.Schema<SetCollectionResourceGroupBySlugRequest>,
+  output: __S(40, __c10, 0) as any as S.Schema<SetCollectionResourceGroupBySlugResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -7449,8 +7458,8 @@ export const updateCollection: API.OperationMethod<
   UpdateCollectionError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(44, __c11, 0) as any as S.Schema<UpdateCollectionRequest>,
-  output: __S(47, __c11, 3) as any as S.Schema<UpdateCollectionResponse>,
+  input: __S(48, __c12, 0) as any as S.Schema<UpdateCollectionRequest>,
+  output: __S(51, __c12, 3) as any as S.Schema<UpdateCollectionResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -7466,8 +7475,8 @@ export const updateCollectionBySlug: API.OperationMethod<
   UpdateCollectionBySlugError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c12, 0) as any as S.Schema<UpdateCollectionBySlugRequest>,
-  output: __S(51, __c12, 3) as any as S.Schema<UpdateCollectionBySlugResponse>,
+  input: __S(52, __c13, 0) as any as S.Schema<UpdateCollectionBySlugRequest>,
+  output: __S(55, __c13, 3) as any as S.Schema<UpdateCollectionBySlugResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -7483,8 +7492,8 @@ export const updateItem: API.OperationMethod<
   UpdateItemError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(52, __c13, 0) as any as S.Schema<UpdateItemRequest>,
-  output: __S(76, __c19, 0) as any as S.Schema<UpdateItemResponse>,
+  input: __S(56, __c14, 0) as any as S.Schema<UpdateItemRequest>,
+  output: __S(80, __c20, 0) as any as S.Schema<UpdateItemResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -7500,8 +7509,8 @@ export const updateItemBySlug: API.OperationMethod<
   UpdateItemBySlugError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(60, __c15, 0) as any as S.Schema<UpdateItemBySlugRequest>,
-  output: __S(76, __c19, 0) as any as S.Schema<UpdateItemBySlugResponse>,
+  input: __S(64, __c16, 0) as any as S.Schema<UpdateItemBySlugRequest>,
+  output: __S(80, __c20, 0) as any as S.Schema<UpdateItemBySlugResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -7515,10 +7524,21 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          error: S.String,
+          slug: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Error409Body" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           namespace: S.String.pipe(T.Label()),
           slug: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          item: __S(4, __c1, 0),
+          item: __S(8, __c2, 0),
           note: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -7545,13 +7565,13 @@ function __c0(j: number): any {
           upvotes: S.Number,
           shareUrl: S.String,
           isUpvotedByUser: S.Boolean,
-          resourceGroup: S.optional(__S(8, __c2, 0)),
-          items: __S(1, __c0, 1),
+          resourceGroup: S.optional(__S(12, __c3, 0)),
+          items: __S(5, __c1, 1),
         }),
       ).annotate({ identifier: "AddItemResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7562,7 +7582,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "AddItemRequestItem" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7574,7 +7594,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "AddItemResponseResourceGroup" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7603,13 +7623,13 @@ function __c3(j: number): any {
           upvotes: S.Number,
           shareUrl: S.String,
           isUpvotedByUser: S.Boolean,
-          resourceGroup: S.optional(__S(8, __c2, 0)),
-          items: __S(13, __c3, 1),
+          resourceGroup: S.optional(__S(12, __c3, 0)),
+          items: __S(17, __c4, 1),
         }),
       ).annotate({ identifier: "GetCollectionResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7635,13 +7655,13 @@ function __c4(j: number): any {
           upvotes: S.Number,
           shareUrl: S.String,
           isUpvotedByUser: S.Boolean,
-          resourceGroup: S.optional(__S(8, __c2, 0)),
-          items: __S(17, __c4, 1),
+          resourceGroup: S.optional(__S(12, __c3, 0)),
+          items: __S(21, __c5, 1),
         }),
       ).annotate({ identifier: "GetCollectionBySlugResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7659,7 +7679,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetCollectionResourceGroupRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7676,7 +7696,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetCollectionResourceGroupBySlugRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7696,7 +7716,7 @@ function __c7(j: number): any {
       });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7715,7 +7735,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "SetCollectionResourceGroupRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7729,7 +7749,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "SetCollectionResourceGroupResponse" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7747,7 +7767,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "SetCollectionResourceGroupBySlugRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7782,19 +7802,19 @@ function __c11(j: number): any {
           upvotes: S.Number,
           shareUrl: S.String,
           isUpvotedByUser: S.Boolean,
-          resourceGroup: S.optional(__S(8, __c2, 0)),
-          items: __S(45, __c11, 1),
+          resourceGroup: S.optional(__S(12, __c3, 0)),
+          items: __S(49, __c12, 1),
         }),
       ).annotate({ identifier: "UpdateCollectionResponseData" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(46, __c11, 2),
+          data: __S(50, __c12, 2),
         }),
       ).annotate({ identifier: "UpdateCollectionResponse" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7826,19 +7846,19 @@ function __c12(j: number): any {
           upvotes: S.Number,
           shareUrl: S.String,
           isUpvotedByUser: S.Boolean,
-          resourceGroup: S.optional(__S(8, __c2, 0)),
-          items: __S(49, __c12, 1),
+          resourceGroup: S.optional(__S(12, __c3, 0)),
+          items: __S(53, __c13, 1),
         }),
       ).annotate({ identifier: "UpdateCollectionBySlugResponseData" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(50, __c12, 2),
+          data: __S(54, __c13, 2),
         }),
       ).annotate({ identifier: "UpdateCollectionBySlugResponse" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7847,7 +7867,7 @@ function __c13(j: number): any {
           slug: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           itemId: S.String.pipe(T.Label()),
-          gallery: S.optional(__S(72, __c18, 0)),
+          gallery: S.optional(__S(76, __c19, 0)),
           note: S.optional(S.String),
           position: S.optional(S.Number),
         }).pipe(
@@ -7860,14 +7880,14 @@ function __c13(j: number): any {
       ).annotate({ identifier: "UpdateItemRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           namespace: S.String.pipe(T.Label()),
           slug: S.String.pipe(T.Label()),
-          item: __S(4, __c1, 0),
+          item: __S(8, __c2, 0),
           note: S.optional(S.String),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/collections/{namespace}/{slug}/items", code: 200 }),
@@ -7890,20 +7910,20 @@ function __c14(j: number): any {
           upvotes: S.Number,
           shareUrl: S.String,
           isUpvotedByUser: S.Boolean,
-          resourceGroup: S.optional(__S(8, __c2, 0)),
-          items: __S(57, __c14, 1),
+          resourceGroup: S.optional(__S(12, __c3, 0)),
+          items: __S(61, __c15, 1),
         }),
       ).annotate({ identifier: "AddItemBySlugResponse" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           namespace: S.String.pipe(T.Label()),
           slug: S.String.pipe(T.Label()),
-          gallery: S.optional(__S(72, __c18, 0)),
+          gallery: S.optional(__S(76, __c19, 0)),
           note: S.optional(S.String),
           position: S.optional(S.Number),
         }).pipe(
@@ -7916,7 +7936,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "UpdateItemBySlugRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7924,7 +7944,7 @@ function __c16(j: number): any {
           namespace: S.String.pipe(T.Label()),
           slug: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          body: S.optional(__S(70, __c17, 2).pipe(T.HttpBody())),
+          body: S.optional(__S(74, __c18, 2).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7935,12 +7955,12 @@ function __c16(j: number): any {
       ).annotate({ identifier: "BatchUpdateItemsRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          gallery: S.optional(__S(72, __c18, 0)),
+          gallery: S.optional(__S(76, __c19, 0)),
           note: S.optional(S.String),
           position: S.optional(S.Number),
         }),
@@ -7950,33 +7970,33 @@ function __c17(j: number): any {
         S.Struct({
           action: S.String,
           _id: S.String,
-          data: __S(68, __c17, 0),
+          data: __S(72, __c18, 0),
         }),
       ).annotate({ identifier: "BatchUpdateItemsRequestBodyItem" });
     case 2:
-      return S.Array(__S(69, __c17, 1));
-  }
-}
-function __c18(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
+      return S.Array(__S(73, __c18, 1));
   }
 }
 function __c19(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "BatchUpdateItemsResponse" });
+      return S.Array(S.String);
   }
 }
 function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "BatchUpdateItemsResponse" });
+  }
+}
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           namespace: S.String.pipe(T.Label()),
           slug: S.String.pipe(T.Label()),
-          body: S.optional(__S(70, __c17, 2).pipe(T.HttpBody())),
+          body: S.optional(__S(74, __c18, 2).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7987,7 +8007,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "BatchUpdateItemsBySlugRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7995,7 +8015,7 @@ function __c21(j: number): any {
           title: S.String,
           description: S.optional(S.String),
           namespace: S.String,
-          item: S.optional(__S(4, __c1, 0)),
+          item: S.optional(__S(8, __c2, 0)),
           private: S.optional(S.Boolean),
           resourceGroupId: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/api/collections", code: 200 })),
@@ -8017,13 +8037,13 @@ function __c21(j: number): any {
           upvotes: S.Number,
           shareUrl: S.String,
           isUpvotedByUser: S.Boolean,
-          resourceGroup: S.optional(__S(8, __c2, 0)),
-          items: __S(85, __c21, 1),
+          resourceGroup: S.optional(__S(12, __c3, 0)),
+          items: __S(89, __c22, 1),
         }),
       ).annotate({ identifier: "CreateCollectionResponse" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8037,7 +8057,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "DeleteCollectionRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8050,7 +8070,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "DeleteCollectionBySlugRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8069,7 +8089,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "DeleteItemRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

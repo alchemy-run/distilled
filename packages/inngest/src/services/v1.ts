@@ -41,11 +41,16 @@ export class NotFound
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error401Body | string;
+}
 
 /** No webhook has the given id (HTTP 404 "Webhook not found"). */
 export class WebhookNotFound
@@ -292,6 +297,11 @@ export interface UpdateWebhookRequest {
   /** A JavaScript transform function that accepts the inbound request components and returns an object in the Inngest event payload format. */
   transform: string;
 }
+export interface Error401Body {
+  error?: string | undefined;
+  data?: unknown | null | undefined;
+  status?: number | undefined;
+}
 export type CancelRunError = InngestOpError;
 /** Cancel a function run Cancels a running function immediately. No new steps will run after a function is cancelled. */
 export const cancelRun: API.OperationMethod<
@@ -300,8 +310,8 @@ export const cancelRun: API.OperationMethod<
   CancelRunError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<CancelRunRequest>,
-  output: __S(36, __c9, 0) as any as S.Schema<CancelRunResponse>,
+  input: __S(36, __c9, 0) as any as S.Schema<CancelRunRequest>,
+  output: __S(40, __c10, 0) as any as S.Schema<CancelRunResponse>,
   errors: [UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
@@ -317,8 +327,8 @@ export const createCancellation: API.OperationMethod<
   CreateCancellationError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<CreateCancellationRequest>,
-  output: __S(41, __c10, 1) as any as S.Schema<CreateCancellationResponse>,
+  input: __S(44, __c11, 0) as any as S.Schema<CreateCancellationRequest>,
+  output: __S(45, __c11, 1) as any as S.Schema<CreateCancellationResponse>,
   errors: [UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
@@ -334,8 +344,8 @@ export const createWebhook: API.OperationMethod<
   CreateWebhookError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c12, 0) as any as S.Schema<CreateWebhookRequest>,
-  output: __S(56, __c14, 0) as any as S.Schema<WebhookResponse>,
+  input: __S(52, __c13, 0) as any as S.Schema<CreateWebhookRequest>,
+  output: __S(60, __c15, 0) as any as S.Schema<WebhookResponse>,
   errors: [UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
@@ -351,8 +361,8 @@ export const deleteCancellation: API.OperationMethod<
   DeleteCancellationError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(60, __c15, 0) as any as S.Schema<DeleteCancellationRequest>,
-  output: __S(36, __c9, 0) as any as S.Schema<DeleteCancellationResponse>,
+  input: __S(64, __c16, 0) as any as S.Schema<DeleteCancellationRequest>,
+  output: __S(40, __c10, 0) as any as S.Schema<DeleteCancellationResponse>,
   errors: [UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
@@ -368,8 +378,8 @@ export const deleteWebhook: API.OperationMethod<
   DeleteWebhookError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c16, 0) as any as S.Schema<DeleteWebhookRequest>,
-  output: __S(66, __c16, 2) as any as S.Schema<DeleteWebhookResponse>,
+  input: __S(68, __c17, 0) as any as S.Schema<DeleteWebhookRequest>,
+  output: __S(70, __c17, 2) as any as S.Schema<DeleteWebhookResponse>,
   errors: [WebhookNotFound, InvalidWebhookId, UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
@@ -385,8 +395,8 @@ export const getEvent: API.OperationMethod<
   GetEventError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(68, __c17, 0) as any as S.Schema<GetEventRequest>,
-  output: __S(69, __c17, 1) as any as S.Schema<GetEventResponse>,
+  input: __S(72, __c18, 0) as any as S.Schema<GetEventRequest>,
+  output: __S(73, __c18, 1) as any as S.Schema<GetEventResponse>,
   errors: [NotFound, UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
@@ -402,8 +412,8 @@ export const getRun: API.OperationMethod<
   GetRunError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c20, 0) as any as S.Schema<GetRunRequest>,
-  output: __S(81, __c20, 1) as any as S.Schema<GetRunResponse>,
+  input: __S(84, __c21, 0) as any as S.Schema<GetRunRequest>,
+  output: __S(85, __c21, 1) as any as S.Schema<GetRunResponse>,
   errors: [NotFound, UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
@@ -419,8 +429,8 @@ export const getRunJobs: API.OperationMethod<
   GetRunJobsError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetRunJobsRequest>,
-  output: __S(3, __c0, 3) as any as S.Schema<GetRunJobsResponse>,
+  input: __S(4, __c1, 0) as any as S.Schema<GetRunJobsRequest>,
+  output: __S(7, __c1, 3) as any as S.Schema<GetRunJobsResponse>,
   errors: [UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
@@ -436,8 +446,8 @@ export const getWebhook: API.OperationMethod<
   GetWebhookError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<GetWebhookRequest>,
-  output: __S(56, __c14, 0) as any as S.Schema<WebhookResponse>,
+  input: __S(8, __c2, 0) as any as S.Schema<GetWebhookRequest>,
+  output: __S(60, __c15, 0) as any as S.Schema<WebhookResponse>,
   errors: [WebhookNotFound, InvalidWebhookId, UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
@@ -453,8 +463,8 @@ export const listCancellations: API.OperationMethod<
   ListCancellationsError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<ListCancellationsRequest>,
-  output: __S(10, __c2, 2) as any as S.Schema<ListCancellationsResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<ListCancellationsRequest>,
+  output: __S(14, __c3, 2) as any as S.Schema<ListCancellationsResponse>,
   errors: [UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
@@ -470,8 +480,8 @@ export const listEventRuns: API.OperationMethod<
   ListEventRunsError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<ListEventRunsRequest>,
-  output: __S(14, __c3, 2) as any as S.Schema<ListEventRunsResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<ListEventRunsRequest>,
+  output: __S(18, __c4, 2) as any as S.Schema<ListEventRunsResponse>,
   errors: [NotFound, UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
@@ -487,8 +497,8 @@ export const listEvents: API.OperationMethod<
   ListEventsError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<ListEventsRequest>,
-  output: __S(18, __c4, 2) as any as S.Schema<ListEventsResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<ListEventsRequest>,
+  output: __S(22, __c5, 2) as any as S.Schema<ListEventsResponse>,
   errors: [UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
@@ -504,8 +514,8 @@ export const listWebhooks: API.OperationMethod<
   ListWebhooksError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<ListWebhooksRequest>,
-  output: __S(22, __c5, 2) as any as S.Schema<WebhookListResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<ListWebhooksRequest>,
+  output: __S(26, __c6, 2) as any as S.Schema<WebhookListResponse>,
   errors: [UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
@@ -521,8 +531,8 @@ export const resumeSignal: API.OperationMethod<
   ResumeSignalError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<ResumeSignalRequest>,
-  output: __S(25, __c6, 1) as any as S.Schema<ResumeSignalResponse>,
+  input: __S(28, __c7, 0) as any as S.Schema<ResumeSignalRequest>,
+  output: __S(29, __c7, 1) as any as S.Schema<ResumeSignalResponse>,
   errors: [UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
@@ -538,8 +548,8 @@ export const updateWebhook: API.OperationMethod<
   UpdateWebhookError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<UpdateWebhookRequest>,
-  output: __S(56, __c14, 0) as any as S.Schema<WebhookResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<UpdateWebhookRequest>,
+  output: __S(60, __c15, 0) as any as S.Schema<WebhookResponse>,
   errors: [WebhookNotFound, InvalidWebhookId, UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
@@ -549,6 +559,18 @@ export const updateWebhook: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          error: S.optional(S.String),
+          data: S.optional(S.NullOr(S.Unknown)),
+          status: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "Error401Body" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -565,17 +587,17 @@ function __c0(j: number): any {
         }),
       ).annotate({ identifier: "GetRunJobsResponseDataItem" });
     case 2:
-      return S.Array(__S(1, __c0, 1));
+      return S.Array(__S(5, __c1, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2, __c0, 2),
-          metadata: __S(76, __c19, 0),
+          data: __S(6, __c1, 2),
+          metadata: __S(80, __c20, 0),
         }),
       ).annotate({ identifier: "GetRunJobsResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -585,23 +607,23 @@ function __c1(j: number): any {
       ).annotate({ identifier: "GetWebhookRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/cancellations", code: 200 })),
       ).annotate({ identifier: "ListCancellationsRequest" });
     case 1:
-      return S.Array(__S(44, __c11, 0));
+      return S.Array(__S(48, __c12, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(9, __c2, 1)),
+          data: S.optional(__S(13, __c3, 1)),
         }),
       ).annotate({ identifier: "ListCancellationsResponse" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -610,17 +632,17 @@ function __c3(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/events/{internalID}/runs", code: 200 })),
       ).annotate({ identifier: "ListEventRunsRequest" });
     case 1:
-      return S.Array(__S(84, __c21, 0));
+      return S.Array(__S(88, __c22, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(13, __c3, 1),
-          metadata: __S(76, __c19, 0),
+          data: __S(17, __c4, 1),
+          metadata: __S(80, __c20, 0),
         }),
       ).annotate({ identifier: "ListEventRunsResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -633,33 +655,33 @@ function __c4(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/events", code: 200 })),
       ).annotate({ identifier: "ListEventsRequest" });
     case 1:
-      return S.Array(__S(72, __c18, 0));
+      return S.Array(__S(76, __c19, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(17, __c4, 1),
-          metadata: __S(76, __c19, 0),
+          data: __S(21, __c5, 1),
+          metadata: __S(80, __c20, 0),
         }),
       ).annotate({ identifier: "ListEventsResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/webhooks", code: 200 })),
       ).annotate({ identifier: "ListWebhooksRequest" });
     case 1:
-      return S.Array(__S(52, __c13, 0));
+      return S.Array(__S(56, __c14, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(21, __c5, 1),
+          data: __S(25, __c6, 1),
         }),
       ).annotate({ identifier: "WebhookListResponse" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -676,7 +698,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "ResumeSignalResponse" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -688,7 +710,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "UpdateWebhookRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -698,13 +720,13 @@ function __c8(j: number): any {
       ).annotate({ identifier: "CancelRunRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelRunResponse" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -719,13 +741,13 @@ function __c10(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(44, __c11, 0)),
+          data: S.optional(__S(48, __c12, 0)),
           error: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateCancellationResponse" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -741,7 +763,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "CreateCancellationResponseData" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -752,7 +774,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "CreateWebhookRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -767,17 +789,17 @@ function __c13(j: number): any {
       ).annotate({ identifier: "WebhookRecord" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: __S(52, __c13, 0),
+          data: __S(56, __c14, 0),
         }),
       ).annotate({ identifier: "WebhookResponse" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -787,7 +809,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "DeleteCancellationRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -804,12 +826,12 @@ function __c16(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(65, __c16, 1)),
+          data: S.optional(__S(69, __c17, 1)),
         }),
       ).annotate({ identifier: "DeleteWebhookResponse" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -820,13 +842,13 @@ function __c17(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(72, __c18, 0),
-          metadata: __S(76, __c19, 0),
+          data: __S(76, __c19, 0),
+          metadata: __S(80, __c20, 0),
         }),
       ).annotate({ identifier: "GetEventResponse" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -847,7 +869,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetEventResponseData" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -858,7 +880,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GetEventResponseMetadata" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -869,13 +891,13 @@ function __c20(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(84, __c21, 0),
-          metadata: __S(76, __c19, 0),
+          data: __S(88, __c22, 0),
+          metadata: __S(80, __c20, 0),
         }),
       ).annotate({ identifier: "GetRunResponse" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

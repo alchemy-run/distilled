@@ -29,44 +29,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 /** Source chain name or chain ID. Defaults to the source token's chain when omitted. */
 export type CreateSwapRequestFromChain = string | number;
@@ -250,6 +270,17 @@ export interface ListSwapsResponse {
   /** Swaps returned for this account. */
   data: ListSwapsResponseDataList;
 }
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
+}
 export type CreateSwapError = BadRequest | Forbidden | Conflict | WhopOpError;
 /** Create Swap Swaps one token for another from the account's wallet, or converts between fiat currencies in the account's ledger at the mid-market rate. Crypto swaps finish in the background -- check the swap for its status. */
 export const createSwap: API.OperationMethod<
@@ -258,8 +289,8 @@ export const createSwap: API.OperationMethod<
   CreateSwapError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateSwapRequest>,
-  output: __S(2, __c0, 2) as any as S.Schema<CreateSwapResponse>,
+  input: __S(4, __c1, 0) as any as S.Schema<CreateSwapRequest>,
+  output: __S(6, __c1, 2) as any as S.Schema<CreateSwapResponse>,
   errors: [BadRequest, Forbidden, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -275,8 +306,8 @@ export const createSwapQuote: API.OperationMethod<
   CreateSwapQuoteError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5, __c1, 1) as any as S.Schema<CreateSwapQuoteRequest>,
-  output: __S(6, __c1, 2) as any as S.Schema<CreateSwapQuoteResponse>,
+  input: __S(9, __c2, 1) as any as S.Schema<CreateSwapQuoteRequest>,
+  output: __S(10, __c2, 2) as any as S.Schema<CreateSwapQuoteResponse>,
   errors: [BadRequest, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -292,8 +323,8 @@ export const getSwap: API.OperationMethod<
   GetSwapError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<GetSwapRequest>,
-  output: __S(13, __c3, 1) as any as S.Schema<GetSwapResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<GetSwapRequest>,
+  output: __S(17, __c4, 1) as any as S.Schema<GetSwapResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -309,8 +340,8 @@ export const listSwaps: API.OperationMethod<
   ListSwapsError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<ListSwapsRequest>,
-  output: __S(18, __c4, 2) as any as S.Schema<ListSwapsResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<ListSwapsRequest>,
+  output: __S(22, __c5, 2) as any as S.Schema<ListSwapsResponse>,
   errors: [Forbidden],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -320,6 +351,24 @@ export const listSwaps: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -350,19 +399,19 @@ function __c0(j: number): any {
           amount_out: S.optional(S.NullOr(S.Number)),
           amount_out_expected: S.optional(S.String),
           amount_out_min: S.optional(S.String),
-          from_token: S.optional(S.NullOr(__S(1, __c0, 1))),
+          from_token: S.optional(S.NullOr(__S(5, __c1, 1))),
           id: S.optional(S.String),
           object: S.String,
           rate: S.optional(S.String),
           status: S.String,
           to_chain: S.optional(S.String),
-          to_token: S.optional(S.NullOr(__S(1, __c0, 1))),
+          to_token: S.optional(S.NullOr(__S(5, __c1, 1))),
           user_id: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "CreateSwapResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -373,7 +422,7 @@ function __c1(j: number): any {
           from_address: S.optional(S.NullOr(S.String)),
           from_chain: S.optional(S.NullOr(S.Unknown)),
           from_token: S.String,
-          metadata: S.optional(__S(4, __c1, 0)),
+          metadata: S.optional(__S(8, __c2, 0)),
           slippage_bps: S.optional(S.NullOr(S.Number)),
           to_address: S.optional(S.NullOr(S.String)),
           to_chain: S.optional(S.NullOr(S.Unknown)),
@@ -391,18 +440,18 @@ function __c1(j: number): any {
           estimated_duration_seconds: S.optional(S.NullOr(S.Number)),
           fee_bps: S.Number,
           from_address: S.optional(S.NullOr(S.String)),
-          from_token: __S(4, __c1, 0),
-          metadata: __S(4, __c1, 0),
+          from_token: __S(8, __c2, 0),
+          metadata: __S(8, __c2, 0),
           object: S.String,
           rate: S.String,
           requires_token_approval: S.optional(S.NullOr(S.Boolean)),
           to_address: S.optional(S.NullOr(S.String)),
-          to_token: __S(4, __c1, 0),
+          to_token: __S(8, __c2, 0),
         }),
       ).annotate({ identifier: "CreateSwapQuoteResponse" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -412,7 +461,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetSwapRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -424,13 +473,13 @@ function __c3(j: number): any {
           id: S.String,
           object: S.String,
           status: S.String,
-          tx_hashes: __S(12, __c3, 0),
+          tx_hashes: __S(16, __c4, 0),
           user_id: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "GetSwapResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -440,11 +489,11 @@ function __c4(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/swaps", code: 200 })),
       ).annotate({ identifier: "ListSwapsRequest" });
     case 1:
-      return S.Array(__S(13, __c3, 1));
+      return S.Array(__S(17, __c4, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(17, __c4, 1),
+          data: __S(21, __c5, 1),
         }),
       ).annotate({ identifier: "ListSwapsResponse" });
   }

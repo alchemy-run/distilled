@@ -30,33 +30,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 /** The call-to-action button label. */
 export type CreateProductRequestCustomCta =
@@ -528,6 +543,17 @@ export interface UpdateProductRequest {
   /** Whether the product is visible to customers. */
   visibility?: string | undefined;
 }
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
+}
 export type CreateProductError = Conflict | WhopOpError;
 /** Create Product Creates a new product for an account. */
 export const createProduct: API.OperationMethod<
@@ -536,8 +562,8 @@ export const createProduct: API.OperationMethod<
   CreateProductError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateProductRequest>,
-  output: __S(22, __c2, 6) as any as S.Schema<Product>,
+  input: __S(8, __c1, 0) as any as S.Schema<CreateProductRequest>,
+  output: __S(30, __c3, 6) as any as S.Schema<Product>,
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -553,8 +579,8 @@ export const deleteProduct: API.OperationMethod<
   DeleteProductError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<DeleteProductRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<DeleteProductResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<DeleteProductRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<DeleteProductResponse>,
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -570,8 +596,8 @@ export const getProduct: API.OperationMethod<
   GetProductError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<GetProductRequest>,
-  output: __S(22, __c2, 6) as any as S.Schema<Product>,
+  input: __S(48, __c6, 0) as any as S.Schema<GetProductRequest>,
+  output: __S(30, __c3, 6) as any as S.Schema<Product>,
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -589,8 +615,8 @@ export const listProducts: API.PaginatedOperationMethod<
   ProductListItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(49, __c6, 1) as any as S.Schema<ListProductsRequest>,
-    output: __S(53, __c6, 5) as any as S.Schema<ListProductsResponse>,
+    input: __S(57, __c7, 1) as any as S.Schema<ListProductsRequest>,
+    output: __S(61, __c7, 5) as any as S.Schema<ListProductsResponse>,
     errors: [BadRequest],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -616,8 +642,8 @@ export const publishProduct: API.OperationMethod<
   PublishProductError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<PublishProductRequest>,
-  output: __S(22, __c2, 6) as any as S.Schema<Product>,
+  input: __S(64, __c8, 0) as any as S.Schema<PublishProductRequest>,
+  output: __S(30, __c3, 6) as any as S.Schema<Product>,
   errors: [NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -633,8 +659,8 @@ export const unpublishProduct: API.OperationMethod<
   UnpublishProductError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<UnpublishProductRequest>,
-  output: __S(22, __c2, 6) as any as S.Schema<Product>,
+  input: __S(72, __c9, 0) as any as S.Schema<UnpublishProductRequest>,
+  output: __S(30, __c3, 6) as any as S.Schema<Product>,
   errors: [NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -650,8 +676,8 @@ export const updateProduct: API.OperationMethod<
   UpdateProductError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<UpdateProductRequest>,
-  output: __S(22, __c2, 6) as any as S.Schema<Product>,
+  input: __S(80, __c10, 0) as any as S.Schema<UpdateProductRequest>,
+  output: __S(30, __c3, 6) as any as S.Schema<Product>,
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -665,17 +691,35 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           account_id: S.optional(S.String),
           collect_shipping_address: S.optional(S.NullOr(S.Boolean)),
           custom_cta: S.optional(S.NullOr(S.String)),
           custom_cta_url: S.optional(S.NullOr(S.String)),
           custom_statement_descriptor: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
-          gallery_images: S.optional(S.NullOr(__S(25, __c3, 1))),
+          gallery_images: S.optional(S.NullOr(__S(33, __c4, 1))),
           global_affiliate_percentage: S.optional(S.NullOr(S.Number)),
           global_affiliate_status: S.optional(S.String),
           headline: S.optional(S.NullOr(S.String)),
-          labels: S.optional(S.NullOr(__S(8, __c1, 0))),
+          labels: S.optional(S.NullOr(__S(16, __c2, 0))),
           member_affiliate_percentage: S.optional(S.NullOr(S.Number)),
           member_affiliate_status: S.optional(S.String),
           metadata: S.optional(S.NullOr(S.Unknown)),
@@ -690,7 +734,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateProductRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -709,9 +753,9 @@ function __c1(j: number): any {
           billing_period: S.NullOr(S.Number),
           expiration_days: S.NullOr(S.Number),
           id: S.String,
-          initial_price: __S(9, __c1, 1),
+          initial_price: __S(17, __c2, 1),
           plan_type: S.String,
-          renewal_price: __S(9, __c1, 1),
+          renewal_price: __S(17, __c2, 1),
           title: S.NullOr(S.String),
           unlimited_stock: S.Boolean,
           visibility: S.String,
@@ -726,10 +770,10 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "ProductGalleryImage" });
     case 4:
-      return S.Array(__S(11, __c1, 3));
+      return S.Array(__S(19, __c2, 3));
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -752,27 +796,27 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "PlanCustomField" });
     case 3:
-      return S.Array(__S(18, __c2, 2));
+      return S.Array(__S(26, __c3, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          account: S.NullOr(__S(16, __c2, 0)),
+          account: S.NullOr(__S(24, __c3, 0)),
           adaptive_pricing_enabled: S.Boolean,
-          attributes: S.NullOr(__S(17, __c2, 1)),
+          attributes: S.NullOr(__S(25, __c3, 1)),
           billing_period: S.NullOr(S.Number),
           cancel_discount_intervals: S.NullOr(S.Number),
           cancel_discount_percentage: S.NullOr(S.Number),
           checkout_styling: S.NullOr(S.Unknown),
           created_at: S.String,
           currency: S.String,
-          custom_fields: __S(19, __c2, 3),
+          custom_fields: __S(27, __c3, 3),
           description: S.NullOr(S.String),
           expiration_days: S.NullOr(S.Number),
           formatted_price: S.String,
           id: S.String,
           image: S.NullOr(S.Unknown),
           initial_price: S.Number,
-          initial_price_due: __S(9, __c1, 1),
+          initial_price_due: __S(17, __c2, 1),
           internal_notes: S.NullOr(S.String),
           invoice: S.NullOr(S.Unknown),
           member_count: S.NullOr(S.Number),
@@ -798,7 +842,7 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "PlanListItem" });
     case 5:
-      return S.Array(__S(20, __c2, 4));
+      return S.Array(__S(28, __c3, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -808,15 +852,15 @@ function __c2(j: number): any {
           custom_cta: S.NullOr(S.String),
           custom_cta_url: S.NullOr(S.String),
           custom_statement_descriptor: S.NullOr(S.String),
-          default_plan: S.NullOr(__S(10, __c1, 2)),
+          default_plan: S.NullOr(__S(18, __c2, 2)),
           description: S.NullOr(S.String),
           external_identifier: S.NullOr(S.String),
-          gallery_images: __S(12, __c1, 4),
+          gallery_images: __S(20, __c2, 4),
           global_affiliate_percentage: S.NullOr(S.Number),
           global_affiliate_status: S.NullOr(S.String),
           headline: S.NullOr(S.String),
           id: S.String,
-          labels: __S(8, __c1, 0),
+          labels: __S(16, __c2, 0),
           marketplace_status: S.String,
           member_affiliate_percentage: S.NullOr(S.Number),
           member_affiliate_status: S.NullOr(S.String),
@@ -829,14 +873,14 @@ function __c2(j: number): any {
           title: S.String,
           updated_at: S.String,
           variant_attributes: S.NullOr(S.Unknown),
-          variants: S.NullOr(__S(21, __c2, 5)),
+          variants: S.NullOr(__S(29, __c3, 5)),
           verified: S.Boolean,
           visibility: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "Product" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -846,10 +890,10 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "CreateProductRequestGalleryImagesItem" });
     case 1:
-      return S.Array(__S(24, __c3, 0));
+      return S.Array(__S(32, __c4, 0));
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -866,7 +910,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "DeleteProductResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -876,7 +920,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetProductRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -886,12 +930,12 @@ function __c6(j: number): any {
           account_id: S.optional(S.String.pipe(T.Query())),
           query: S.optional(S.String.pipe(T.Query())),
           marketplace_category_route: S.optional(S.String.pipe(T.Query())),
-          plan_types: S.optional(__S(48, __c6, 0).pipe(T.Query())),
+          plan_types: S.optional(__S(56, __c7, 0).pipe(T.Query())),
           price_minimum: S.optional(S.Number.pipe(T.Query())),
           price_maximum: S.optional(S.Number.pipe(T.Query())),
-          visibilities: S.optional(__S(8, __c1, 0).pipe(T.Query())),
-          access_pass_types: S.optional(__S(8, __c1, 0).pipe(T.Query())),
-          labels: S.optional(__S(8, __c1, 0).pipe(T.Query())),
+          visibilities: S.optional(__S(16, __c2, 0).pipe(T.Query())),
+          access_pass_types: S.optional(__S(16, __c2, 0).pipe(T.Query())),
+          labels: S.optional(__S(16, __c2, 0).pipe(T.Query())),
           direction: S.optional(S.String.pipe(T.Query())),
           order: S.optional(S.String.pipe(T.Query())),
           first: S.optional(S.Number.pipe(T.Query())),
@@ -908,13 +952,13 @@ function __c6(j: number): any {
           account: S.NullOr(S.Unknown),
           average_review_rating: S.Number,
           created_at: S.String,
-          default_plan: S.NullOr(__S(10, __c1, 2)),
+          default_plan: S.NullOr(__S(18, __c2, 2)),
           description: S.NullOr(S.String),
           external_identifier: S.NullOr(S.String),
-          gallery_images: __S(12, __c1, 4),
+          gallery_images: __S(20, __c2, 4),
           headline: S.NullOr(S.String),
           id: S.String,
-          labels: __S(8, __c1, 0),
+          labels: __S(16, __c2, 0),
           member_count: S.Number,
           metadata: S.NullOr(S.Unknown),
           published_reviews_count: S.Number,
@@ -927,7 +971,7 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "ProductListItem" });
     case 3:
-      return S.Array(__S(50, __c6, 2));
+      return S.Array(__S(58, __c7, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -940,13 +984,13 @@ function __c6(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          data: __S(51, __c6, 3),
-          page_info: __S(52, __c6, 4),
+          data: __S(59, __c7, 3),
+          page_info: __S(60, __c7, 4),
         }),
       ).annotate({ identifier: "ListProductsResponse" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -957,7 +1001,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "PublishProductRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -968,17 +1012,17 @@ function __c8(j: number): any {
       ).annotate({ identifier: "UnpublishProductRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          banner_image: S.optional(S.NullOr(__S(24, __c3, 0))),
+          banner_image: S.optional(S.NullOr(__S(32, __c4, 0))),
           description: S.optional(S.NullOr(S.String)),
-          gallery_images: S.optional(S.NullOr(__S(25, __c3, 1))),
+          gallery_images: S.optional(S.NullOr(__S(33, __c4, 1))),
           headline: S.optional(S.NullOr(S.String)),
-          labels: S.optional(S.NullOr(__S(8, __c1, 0))),
+          labels: S.optional(S.NullOr(__S(16, __c2, 0))),
           metadata: S.optional(S.NullOr(S.Unknown)),
           product_tax_code_id: S.optional(S.NullOr(S.String)),
           send_welcome_message: S.optional(S.NullOr(S.Boolean)),

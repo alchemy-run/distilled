@@ -30,44 +30,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 /** Input for an attachment */
 export interface CreateMessageRequestAttachmentsItem {
@@ -288,6 +308,17 @@ export interface UpdateMessageRequest {
   /** Whether this message should be pinned to the top of the channel. */
   is_pinned?: boolean | null | undefined;
 }
+export interface Error400BodyError {
+  /** A short string indicating the specific error code, e.g. 'parameter_missing', 'parameter_invalid', 'invalid_json' */
+  code?: string | null | undefined;
+  message: string;
+  /** The parameter that caused the error, if applicable */
+  param?: string | null | undefined;
+  type: string;
+}
+export interface Error400Body {
+  error: Error400BodyError;
+}
 export type CreateMessageError =
   | BadRequest
   | Forbidden
@@ -301,8 +332,8 @@ export const createMessage: API.OperationMethod<
   CreateMessageError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1, __c0, 1) as any as S.Schema<CreateMessageRequest>,
-  output: __S(25, __c1, 9) as any as S.Schema<Message>,
+  input: __S(17, __c1, 1) as any as S.Schema<CreateMessageRequest>,
+  output: __S(41, __c2, 9) as any as S.Schema<Message>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -323,8 +354,8 @@ export const deleteMessage: API.OperationMethod<
   DeleteMessageError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<DeleteMessageRequest>,
-  output: __S(49, __c3, 1) as any as S.Schema<DeleteMessageResponse>,
+  input: __S(64, __c4, 0) as any as S.Schema<DeleteMessageRequest>,
+  output: __S(65, __c4, 1) as any as S.Schema<DeleteMessageResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -340,8 +371,8 @@ export const getMessage: API.OperationMethod<
   GetMessageError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<GetMessageRequest>,
-  output: __S(25, __c1, 9) as any as S.Schema<Message>,
+  input: __S(80, __c5, 0) as any as S.Schema<GetMessageRequest>,
+  output: __S(41, __c2, 9) as any as S.Schema<Message>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -364,8 +395,8 @@ export const listMessage: API.PaginatedOperationMethod<
   MessageListItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(80, __c5, 0) as any as S.Schema<ListMessageRequest>,
-    output: __S(83, __c5, 3) as any as S.Schema<ListMessageResponse>,
+    input: __S(96, __c6, 0) as any as S.Schema<ListMessageRequest>,
+    output: __S(99, __c6, 3) as any as S.Schema<ListMessageResponse>,
     errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -396,8 +427,8 @@ export const updateMessage: API.OperationMethod<
   UpdateMessageError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<UpdateMessageRequest>,
-  output: __S(25, __c1, 9) as any as S.Schema<Message>,
+  input: __S(112, __c7, 0) as any as S.Schema<UpdateMessageRequest>,
+  output: __S(41, __c2, 9) as any as S.Schema<Message>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -411,23 +442,42 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          options: __S(17, __c1, 1),
+          code: S.optional(S.NullOr(S.String)),
+          message: S.String,
+          param: S.optional(S.NullOr(S.String)),
+          type: S.String,
+        }),
+      ).annotate({ identifier: "Error400BodyError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "Error400Body" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          options: __S(33, __c2, 1),
         }),
       ).annotate({ identifier: "CreateMessageRequestPoll" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          attachments: S.optional(S.NullOr(__S(33, __c2, 1))),
+          attachments: S.optional(S.NullOr(__S(49, __c3, 1))),
           auto_detect_links: S.optional(S.NullOr(S.Boolean)),
           channel_id: S.String,
           content: S.String,
-          poll: S.optional(S.NullOr(__S(0, __c0, 0))),
+          poll: S.optional(S.NullOr(__S(16, __c1, 0))),
           replying_to_message_id: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "POST", uri: "/messages", code: 200 })),
       ).annotate({ identifier: "CreateMessageRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -437,13 +487,13 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "CreateMessageRequestPollOptionsItem" });
     case 1:
-      return S.Array(__S(16, __c1, 0));
+      return S.Array(__S(32, __c2, 0));
     case 2:
       return S.Array(S.String);
     case 3:
       return S.suspend(() =>
         S.Struct({
-          options: S.NullOr(__S(17, __c1, 1)),
+          options: S.NullOr(__S(33, __c2, 1)),
         }),
       ).annotate({ identifier: "MessagePoll" });
     case 4:
@@ -454,7 +504,7 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "MessagePollVotesItem" });
     case 5:
-      return S.Array(__S(20, __c1, 4));
+      return S.Array(__S(36, __c2, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -463,7 +513,7 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "MessageReactionCountsItem" });
     case 7:
-      return S.Array(__S(22, __c1, 6));
+      return S.Array(__S(38, __c2, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -480,21 +530,21 @@ function __c1(j: number): any {
           id: S.String,
           is_edited: S.Boolean,
           is_pinned: S.Boolean,
-          mentions: __S(18, __c1, 2),
+          mentions: __S(34, __c2, 2),
           mentions_everyone: S.Boolean,
           message_type: S.String,
-          poll: S.NullOr(__S(19, __c1, 3)),
-          poll_votes: __S(21, __c1, 5),
-          reaction_counts: __S(23, __c1, 7),
+          poll: S.NullOr(__S(35, __c2, 3)),
+          poll_votes: __S(37, __c2, 5),
+          reaction_counts: __S(39, __c2, 7),
           replying_to_message_id: S.NullOr(S.String),
           updated_at: S.String,
-          user: __S(24, __c1, 8),
+          user: __S(40, __c2, 8),
           view_count: S.NullOr(S.Number),
         }),
       ).annotate({ identifier: "Message" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -503,10 +553,10 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "CreateMessageRequestAttachmentsItem" });
     case 1:
-      return S.Array(__S(32, __c2, 0));
+      return S.Array(__S(48, __c3, 0));
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -520,7 +570,7 @@ function __c3(j: number): any {
       });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -530,7 +580,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetMessageRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -544,7 +594,7 @@ function __c5(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/messages", code: 200 })),
       ).annotate({ identifier: "ListMessageRequest" });
     case 1:
-      return S.Array(__S(25, __c1, 9));
+      return S.Array(__S(41, __c2, 9));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -557,19 +607,19 @@ function __c5(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(81, __c5, 1),
-          page_info: __S(82, __c5, 2),
+          data: __S(97, __c6, 1),
+          page_info: __S(98, __c6, 2),
         }),
       ).annotate({ identifier: "ListMessageResponse" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          attachments: S.optional(S.NullOr(__S(33, __c2, 1))),
+          attachments: S.optional(S.NullOr(__S(49, __c3, 1))),
           content: S.optional(S.NullOr(S.String)),
           is_pinned: S.optional(S.NullOr(S.Boolean)),
         }).pipe(T.Http({ method: "PATCH", uri: "/messages/{id}", code: 200 })),

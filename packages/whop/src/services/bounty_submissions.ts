@@ -30,44 +30,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export interface CancelBountySubmissionRequest {
   /** The bounty submission to act on (`btys_` tag). */
@@ -334,6 +354,17 @@ export interface SubmitBountySubmissionRequest {
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
   idempotency_key?: string | undefined;
 }
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
+}
 export type CancelBountySubmissionError = Forbidden | NotFound | WhopOpError;
 /** Cancel Bounty Submission Cancels the caller's own active attempt on a bounty and discards any accumulated capture clips. Only the worker who started the attempt can cancel it -- account API keys cannot. */
 export const cancelBountySubmission: API.OperationMethod<
@@ -342,8 +373,8 @@ export const cancelBountySubmission: API.OperationMethod<
   CancelBountySubmissionError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CancelBountySubmissionRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<CancelBountySubmissionResponse>,
+  input: __S(16, __c1, 0) as any as S.Schema<CancelBountySubmissionRequest>,
+  output: __S(17, __c1, 1) as any as S.Schema<CancelBountySubmissionResponse>,
   errors: [Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -364,8 +395,8 @@ export const createBountySubmission: API.OperationMethod<
   CreateBountySubmissionError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18, __c1, 2) as any as S.Schema<CreateBountySubmissionRequest>,
-  output: __S(40, __c2, 8) as any as S.Schema<BountySubmission>,
+  input: __S(34, __c2, 2) as any as S.Schema<CreateBountySubmissionRequest>,
+  output: __S(56, __c3, 8) as any as S.Schema<BountySubmission>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -381,8 +412,8 @@ export const getBountySubmission: API.OperationMethod<
   GetBountySubmissionError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<GetBountySubmissionRequest>,
-  output: __S(40, __c2, 8) as any as S.Schema<BountySubmission>,
+  input: __S(64, __c4, 0) as any as S.Schema<GetBountySubmissionRequest>,
+  output: __S(56, __c3, 8) as any as S.Schema<BountySubmission>,
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -400,8 +431,8 @@ export const listBountySubmissions: API.PaginatedOperationMethod<
   BountySubmission
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(64, __c4, 0) as any as S.Schema<ListBountySubmissionsRequest>,
-    output: __S(67, __c4, 3) as any as S.Schema<ListBountySubmissionsResponse>,
+    input: __S(80, __c5, 0) as any as S.Schema<ListBountySubmissionsRequest>,
+    output: __S(83, __c5, 3) as any as S.Schema<ListBountySubmissionsResponse>,
     errors: [BadRequest, Forbidden],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -432,8 +463,8 @@ export const submitBountySubmission: API.OperationMethod<
   SubmitBountySubmissionError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(81, __c5, 1) as any as S.Schema<SubmitBountySubmissionRequest>,
-  output: __S(40, __c2, 8) as any as S.Schema<BountySubmission>,
+  input: __S(97, __c6, 1) as any as S.Schema<SubmitBountySubmissionRequest>,
+  output: __S(56, __c3, 8) as any as S.Schema<BountySubmission>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -443,6 +474,24 @@ export const submitBountySubmission: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -459,15 +508,15 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CancelBountySubmissionResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           caption: S.optional(S.NullOr(S.String)),
-          file_ids: S.optional(__S(32, __c2, 0)),
+          file_ids: S.optional(__S(48, __c3, 0)),
           type: S.optional(S.NullOr(S.String)),
-          urls: S.optional(__S(32, __c2, 0)),
+          urls: S.optional(__S(48, __c3, 0)),
         }),
       ).annotate({ identifier: "CreateBountySubmissionRequestDeliverable" });
     case 1:
@@ -487,14 +536,14 @@ function __c1(j: number): any {
         S.Struct({
           affiliate_code: S.optional(S.NullOr(S.String)),
           bounty_id: S.String,
-          deliverable: S.optional(S.NullOr(__S(16, __c1, 0))),
-          metadata: S.optional(S.NullOr(__S(17, __c1, 1))),
+          deliverable: S.optional(S.NullOr(__S(32, __c2, 0))),
+          metadata: S.optional(S.NullOr(__S(33, __c2, 1))),
           idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(T.Http({ method: "POST", uri: "/bounty_submissions", code: 200 })),
       ).annotate({ identifier: "CreateBountySubmissionRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -518,7 +567,7 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "BountyCaptureClip" });
     case 2:
-      return S.Array(__S(33, __c2, 1));
+      return S.Array(__S(49, __c3, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -530,7 +579,7 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "BountySubmissionFile" });
     case 4:
-      return S.Array(__S(35, __c2, 3));
+      return S.Array(__S(51, __c3, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -554,7 +603,7 @@ function __c2(j: number): any {
         S.Struct({
           id: S.String,
           name: S.NullOr(S.String),
-          profile_picture: __S(38, __c2, 6),
+          profile_picture: __S(54, __c3, 6),
           username: S.String,
         }),
       ).annotate({ identifier: "UserSummary" });
@@ -562,7 +611,7 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           bounty_id: S.String,
-          capture_clips: S.NullOr(__S(34, __c2, 2)),
+          capture_clips: S.NullOr(__S(50, __c3, 2)),
           capture_filename: S.NullOr(S.String),
           captured_clip_count: S.Number,
           captured_duration_seconds: S.Number,
@@ -572,13 +621,13 @@ function __c2(j: number): any {
           country: S.NullOr(S.String),
           created_at: S.String,
           deliverable_type: S.NullOr(S.String),
-          deliverable_urls: S.NullOr(__S(32, __c2, 0)),
+          deliverable_urls: S.NullOr(__S(48, __c3, 0)),
           denial_reason: S.NullOr(S.String),
           device: S.NullOr(S.String),
-          files: __S(36, __c2, 4),
+          files: __S(52, __c3, 4),
           fov: S.NullOr(S.Number),
           id: S.String,
-          latest_proof_livestream_feed: S.NullOr(__S(37, __c2, 5)),
+          latest_proof_livestream_feed: S.NullOr(__S(53, __c3, 5)),
           operator: S.NullOr(S.String),
           resolved_at: S.NullOr(S.String),
           site: S.NullOr(S.String),
@@ -586,12 +635,12 @@ function __c2(j: number): any {
           status: S.NullOr(S.String),
           submitted_at: S.NullOr(S.String),
           updated_at: S.String,
-          worker: __S(39, __c2, 7),
+          worker: __S(55, __c3, 7),
         }),
       ).annotate({ identifier: "BountySubmission" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -602,7 +651,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetBountySubmissionRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -621,7 +670,7 @@ function __c4(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/bounty_submissions", code: 200 })),
       ).annotate({ identifier: "ListBountySubmissionsRequest" });
     case 1:
-      return S.Array(__S(40, __c2, 8));
+      return S.Array(__S(56, __c3, 8));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -634,27 +683,27 @@ function __c4(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(65, __c4, 1),
-          page_info: __S(66, __c4, 2),
+          data: __S(81, __c5, 1),
+          page_info: __S(82, __c5, 2),
         }),
       ).annotate({ identifier: "ListBountySubmissionsResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           caption: S.optional(S.NullOr(S.String)),
-          file_ids: S.optional(__S(32, __c2, 0)),
-          urls: S.optional(__S(32, __c2, 0)),
+          file_ids: S.optional(__S(48, __c3, 0)),
+          urls: S.optional(__S(48, __c3, 0)),
         }),
       ).annotate({ identifier: "SubmitBountySubmissionRequestDeliverable" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          deliverable: S.optional(S.NullOr(__S(80, __c5, 0))),
+          deliverable: S.optional(S.NullOr(__S(96, __c6, 0))),
           idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(T.Http({ method: "POST", uri: "/bounty_submissions/{id}/submit", code: 200 })),
       ).annotate({ identifier: "SubmitBountySubmissionRequest" });

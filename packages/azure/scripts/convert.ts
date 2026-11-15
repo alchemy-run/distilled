@@ -37,6 +37,7 @@
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
+import { ERROR_BODIES_TRAIT } from "@distilled.cloud/dev/codegen/generator";
 import { clearModels, writeModel } from "@distilled.cloud/dev/codegen/models";
 import {
   API_VERSION_TRAIT,
@@ -495,6 +496,7 @@ function shapeRefs(def: any): string[] {
       push(def.input?.target);
       push(def.output?.target);
       for (const e of def.errors ?? []) push((e as any).target);
+      for (const b of def.traits?.[ERROR_BODIES_TRAIT] ?? []) push((b as any).target);
       break;
   }
   return out;
@@ -670,6 +672,15 @@ function mergeSpecModel(
     if (d.output) d.output = { target: mapRef(d.output.target) };
     if (d.errors) {
       d.errors = d.errors.map((e: any) => ({ target: mapRef(e.target) }));
+    }
+    if (d.traits?.[ERROR_BODIES_TRAIT]) {
+      d.traits = {
+        ...d.traits,
+        [ERROR_BODIES_TRAIT]: d.traits[ERROR_BODIES_TRAIT].map((b: any) => ({
+          ...b,
+          target: mapRef(b.target),
+        })),
+      };
     }
     return d;
   };

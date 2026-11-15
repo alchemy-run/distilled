@@ -29,11 +29,16 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: HogInvocationRerunResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -2021,8 +2026,8 @@ export const convertHogFlowToBroadcast: API.OperationMethod<
   ConvertHogFlowToBroadcastError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<ConvertHogFlowToBroadcastRequest>,
-  output: __S(545, __c34, 1) as any as S.Schema<HogFlowConvertedToBroadcast>,
+  input: __S(560, __c35, 0) as any as S.Schema<ConvertHogFlowToBroadcastRequest>,
+  output: __S(561, __c35, 1) as any as S.Schema<HogFlowConvertedToBroadcast>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2037,8 +2042,8 @@ export const createHogFlow: API.OperationMethod<
   CreateHogFlowError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<CreateHogFlowRequest>,
-  output: __S(816, __c51, 0) as any as S.Schema<HogFlowOutput>,
+  input: __S(736, __c46, 0) as any as S.Schema<CreateHogFlowRequest>,
+  output: __S(832, __c52, 0) as any as S.Schema<HogFlowOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2053,8 +2058,8 @@ export const createHogFlowsBatchJob: API.OperationMethod<
   CreateHogFlowsBatchJobError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<CreateHogFlowsBatchJobRequest>,
-  output: __S(1024, __c64, 0) as any as S.Schema<HogFlowBatchJob>,
+  input: __S(1024, __c64, 0) as any as S.Schema<CreateHogFlowsBatchJobRequest>,
+  output: __S(1040, __c65, 0) as any as S.Schema<HogFlowBatchJob>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2069,8 +2074,8 @@ export const createHogFlowsDiscardDraft: API.OperationMethod<
   CreateHogFlowsDiscardDraftError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<CreateHogFlowsDiscardDraftRequest>,
-  output: __S(816, __c51, 0) as any as S.Schema<HogFlowOutput>,
+  input: __S(1056, __c66, 0) as any as S.Schema<CreateHogFlowsDiscardDraftRequest>,
+  output: __S(832, __c52, 0) as any as S.Schema<HogFlowOutput>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2085,8 +2090,8 @@ export const createHogFlowsInvocation: API.OperationMethod<
   CreateHogFlowsInvocationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1057, __c66, 1) as any as S.Schema<CreateHogFlowsInvocationRequest>,
-  output: __S(1072, __c67, 0) as any as S.Schema<CreateHogFlowsInvocationResponse>,
+  input: __S(1073, __c67, 1) as any as S.Schema<CreateHogFlowsInvocationRequest>,
+  output: __S(1088, __c68, 0) as any as S.Schema<CreateHogFlowsInvocationResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2102,8 +2107,8 @@ export const createHogFlowsOptimization: API.OperationMethod<
   CreateHogFlowsOptimizationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<CreateHogFlowsOptimizationRequest>,
-  output: __S(1105, __c69, 1) as any as S.Schema<HogFlowOptimization>,
+  input: __S(1104, __c69, 0) as any as S.Schema<CreateHogFlowsOptimizationRequest>,
+  output: __S(1121, __c70, 1) as any as S.Schema<HogFlowOptimization>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2119,8 +2124,8 @@ export const createHogFlowsProposal: API.OperationMethod<
   CreateHogFlowsProposalError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateHogFlowsProposalRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<WorkflowProposal>,
+  input: __S(16, __c1, 0) as any as S.Schema<CreateHogFlowsProposalRequest>,
+  output: __S(32, __c2, 0) as any as S.Schema<WorkflowProposal>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2136,8 +2141,8 @@ export const createHogFlowsRerun: API.OperationMethod<
   CreateHogFlowsRerunError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34, __c2, 2) as any as S.Schema<CreateHogFlowsRerunRequest>,
-  output: __S(35, __c2, 3) as any as S.Schema<HogInvocationRerunResponse>,
+  input: __S(50, __c3, 2) as any as S.Schema<CreateHogFlowsRerunRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<HogInvocationRerunResponse>,
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2153,8 +2158,8 @@ export const createHogFlowsRun: API.OperationMethod<
   CreateHogFlowsRunError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<CreateHogFlowsRunRequest>,
-  output: __S(49, __c3, 1) as any as S.Schema<HogFlowRunResponse>,
+  input: __S(64, __c4, 0) as any as S.Schema<CreateHogFlowsRunRequest>,
+  output: __S(65, __c4, 1) as any as S.Schema<HogFlowRunResponse>,
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2169,8 +2174,8 @@ export const createHogFlowsSchedule: API.OperationMethod<
   CreateHogFlowsScheduleError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<CreateHogFlowsScheduleRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<HogFlowSchedule>,
+  input: __S(80, __c5, 0) as any as S.Schema<CreateHogFlowsScheduleRequest>,
+  output: __S(784, __c49, 0) as any as S.Schema<HogFlowSchedule>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2185,8 +2190,8 @@ export const createHogFlowsUserBlastRadius: API.OperationMethod<
   CreateHogFlowsUserBlastRadiusError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<CreateHogFlowsUserBlastRadiusRequest>,
-  output: __S(83, __c5, 3) as any as S.Schema<BlastRadius>,
+  input: __S(96, __c6, 0) as any as S.Schema<CreateHogFlowsUserBlastRadiusRequest>,
+  output: __S(99, __c6, 3) as any as S.Schema<BlastRadius>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2201,8 +2206,8 @@ export const getHogFlow: API.OperationMethod<
   GetHogFlowError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<GetHogFlowRequest>,
-  output: __S(816, __c51, 0) as any as S.Schema<HogFlowOutput>,
+  input: __S(112, __c7, 0) as any as S.Schema<GetHogFlowRequest>,
+  output: __S(832, __c52, 0) as any as S.Schema<HogFlowOutput>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2217,8 +2222,8 @@ export const getHogFlowsAsset: API.OperationMethod<
   GetHogFlowsAssetError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<GetHogFlowsAssetRequest>,
-  output: __S(115, __c7, 3) as any as S.Schema<GetHogFlowsAssetResponse>,
+  input: __S(128, __c8, 0) as any as S.Schema<GetHogFlowsAssetRequest>,
+  output: __S(131, __c8, 3) as any as S.Schema<GetHogFlowsAssetResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2233,8 +2238,8 @@ export const getHogFlowsAssetContent: API.OperationMethod<
   GetHogFlowsAssetContentError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<GetHogFlowsAssetContentRequest>,
-  output: __S(1072, __c67, 0) as any as S.Schema<GetHogFlowsAssetContentResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<GetHogFlowsAssetContentRequest>,
+  output: __S(1088, __c68, 0) as any as S.Schema<GetHogFlowsAssetContentResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2250,8 +2255,8 @@ export const getHogFlowsBroadcastConversionCandidate: API.OperationMethod<
   GetHogFlowsBroadcastConversionCandidateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<GetHogFlowsBroadcastConversionCandidateRequest>,
-  output: __S(147, __c9, 3) as any as S.Schema<BroadcastConversionCandidates>,
+  input: __S(160, __c10, 0) as any as S.Schema<GetHogFlowsBroadcastConversionCandidateRequest>,
+  output: __S(163, __c10, 3) as any as S.Schema<BroadcastConversionCandidates>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2267,8 +2272,8 @@ export const getHogFlowsEmailSendingSuspension: API.OperationMethod<
   GetHogFlowsEmailSendingSuspensionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<GetHogFlowsEmailSendingSuspensionRequest>,
-  output: __S(161, __c10, 1) as any as S.Schema<EmailSendingSuspensionStatus>,
+  input: __S(176, __c11, 0) as any as S.Schema<GetHogFlowsEmailSendingSuspensionRequest>,
+  output: __S(177, __c11, 1) as any as S.Schema<EmailSendingSuspensionStatus>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2283,8 +2288,8 @@ export const getHogFlowsInFlight: API.OperationMethod<
   GetHogFlowsInFlightError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<GetHogFlowsInFlightRequest>,
-  output: __S(177, __c11, 1) as any as S.Schema<HogFlowInFlight>,
+  input: __S(192, __c12, 0) as any as S.Schema<GetHogFlowsInFlightRequest>,
+  output: __S(193, __c12, 1) as any as S.Schema<HogFlowInFlight>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2299,8 +2304,8 @@ export const getHogFlowsInvocationResult: API.OperationMethod<
   GetHogFlowsInvocationResultError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<GetHogFlowsInvocationResultRequest>,
-  output: __S(211, __c13, 3) as any as S.Schema<GetHogFlowsInvocationResultResponse>,
+  input: __S(224, __c14, 0) as any as S.Schema<GetHogFlowsInvocationResultRequest>,
+  output: __S(227, __c14, 3) as any as S.Schema<GetHogFlowsInvocationResultResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2315,8 +2320,8 @@ export const getHogFlowsInvocationResult2: API.OperationMethod<
   GetHogFlowsInvocationResult2Error,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<GetHogFlowsInvocationResultRequest2>,
-  output: __S(225, __c14, 1) as any as S.Schema<HogInvocationResultDetail>,
+  input: __S(240, __c15, 0) as any as S.Schema<GetHogFlowsInvocationResultRequest2>,
+  output: __S(241, __c15, 1) as any as S.Schema<HogInvocationResultDetail>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2332,8 +2337,8 @@ export const getHogFlowsInvocationResultsCount: API.OperationMethod<
   GetHogFlowsInvocationResultsCountError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<GetHogFlowsInvocationResultsCountRequest>,
-  output: __S(241, __c15, 1) as any as S.Schema<HogInvocationResultsCount>,
+  input: __S(256, __c16, 0) as any as S.Schema<GetHogFlowsInvocationResultsCountRequest>,
+  output: __S(257, __c16, 1) as any as S.Schema<HogInvocationResultsCount>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2348,8 +2353,8 @@ export const getHogFlowsLog: API.OperationMethod<
   GetHogFlowsLogError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<GetHogFlowsLogRequest>,
-  output: __S(1072, __c67, 0) as any as S.Schema<GetHogFlowsLogResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<GetHogFlowsLogRequest>,
+  output: __S(1088, __c68, 0) as any as S.Schema<GetHogFlowsLogResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2364,8 +2369,8 @@ export const getHogFlowsMetrics: API.OperationMethod<
   GetHogFlowsMetricsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<GetHogFlowsMetricsRequest>,
-  output: __S(290, __c18, 2) as any as S.Schema<AppMetricsResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<GetHogFlowsMetricsRequest>,
+  output: __S(306, __c19, 2) as any as S.Schema<AppMetricsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2380,8 +2385,8 @@ export const getHogFlowsMetricsGlobal: API.OperationMethod<
   GetHogFlowsMetricsGlobalError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<GetHogFlowsMetricsGlobalRequest>,
-  output: __S(323, __c20, 3) as any as S.Schema<GetHogFlowsMetricsGlobalResponse>,
+  input: __S(336, __c21, 0) as any as S.Schema<GetHogFlowsMetricsGlobalRequest>,
+  output: __S(339, __c21, 3) as any as S.Schema<GetHogFlowsMetricsGlobalResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2396,8 +2401,8 @@ export const getHogFlowsMetricsTotal: API.OperationMethod<
   GetHogFlowsMetricsTotalError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<GetHogFlowsMetricsTotalRequest>,
-  output: __S(337, __c21, 1) as any as S.Schema<AppMetricsTotalsResponse>,
+  input: __S(352, __c22, 0) as any as S.Schema<GetHogFlowsMetricsTotalRequest>,
+  output: __S(353, __c22, 1) as any as S.Schema<AppMetricsTotalsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2413,8 +2418,8 @@ export const getHogFlowsMetricsVersion: API.OperationMethod<
   GetHogFlowsMetricsVersionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<GetHogFlowsMetricsVersionRequest>,
-  output: __S(290, __c18, 2) as any as S.Schema<AppMetricsResponse>,
+  input: __S(368, __c23, 0) as any as S.Schema<GetHogFlowsMetricsVersionRequest>,
+  output: __S(306, __c19, 2) as any as S.Schema<AppMetricsResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2430,8 +2435,8 @@ export const getHogFlowsOptimization: API.OperationMethod<
   GetHogFlowsOptimizationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<GetHogFlowsOptimizationRequest>,
-  output: __S(1105, __c69, 1) as any as S.Schema<HogFlowOptimization>,
+  input: __S(384, __c24, 0) as any as S.Schema<GetHogFlowsOptimizationRequest>,
+  output: __S(1121, __c70, 1) as any as S.Schema<HogFlowOptimization>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2446,8 +2451,8 @@ export const getHogFlowsProposal: API.OperationMethod<
   GetHogFlowsProposalError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<GetHogFlowsProposalRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<WorkflowProposal>,
+  input: __S(400, __c25, 0) as any as S.Schema<GetHogFlowsProposalRequest>,
+  output: __S(32, __c2, 0) as any as S.Schema<WorkflowProposal>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2463,8 +2468,8 @@ export const getHogFlowsProposalsOutcome: API.OperationMethod<
   GetHogFlowsProposalsOutcomeError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<GetHogFlowsProposalsOutcomeRequest>,
-  output: __S(407, __c25, 7) as any as S.Schema<WorkflowProposalOutcome>,
+  input: __S(416, __c26, 0) as any as S.Schema<GetHogFlowsProposalsOutcomeRequest>,
+  output: __S(423, __c26, 7) as any as S.Schema<WorkflowProposalOutcome>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2480,8 +2485,8 @@ export const getHogFlowsReputation: API.OperationMethod<
   GetHogFlowsReputationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<GetHogFlowsReputationRequest>,
-  output: __S(426, __c26, 10) as any as S.Schema<TeamEmailReputationResponse>,
+  input: __S(432, __c27, 0) as any as S.Schema<GetHogFlowsReputationRequest>,
+  output: __S(442, __c27, 10) as any as S.Schema<TeamEmailReputationResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2496,8 +2501,8 @@ export const getHogFlowsRevision: API.OperationMethod<
   GetHogFlowsRevisionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<GetHogFlowsRevisionRequest>,
-  output: __S(433, __c27, 1) as any as S.Schema<HogFlowRevision>,
+  input: __S(448, __c28, 0) as any as S.Schema<GetHogFlowsRevisionRequest>,
+  output: __S(449, __c28, 1) as any as S.Schema<HogFlowRevision>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2512,8 +2517,8 @@ export const hogFlowsApplyUtmDefaultsCreate: API.OperationMethod<
   HogFlowsApplyUtmDefaultsCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<HogFlowsApplyUtmDefaultsCreateRequest>,
-  output: __S(449, __c28, 1) as any as S.Schema<ApplyUtmDefaultsResponse>,
+  input: __S(464, __c29, 0) as any as S.Schema<HogFlowsApplyUtmDefaultsCreateRequest>,
+  output: __S(465, __c29, 1) as any as S.Schema<ApplyUtmDefaultsResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2529,8 +2534,8 @@ export const hogFlowsBatchJobsCancelCreate: API.OperationMethod<
   HogFlowsBatchJobsCancelCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<HogFlowsBatchJobsCancelCreateRequest>,
-  output: __S(465, __c29, 1) as any as S.Schema<HogFlowBatchJobCancelResponse>,
+  input: __S(480, __c30, 0) as any as S.Schema<HogFlowsBatchJobsCancelCreateRequest>,
+  output: __S(481, __c30, 1) as any as S.Schema<HogFlowBatchJobCancelResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2545,8 +2550,8 @@ export const hogFlowsBulkDeleteCreate: API.OperationMethod<
   HogFlowsBulkDeleteCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<HogFlowsBulkDeleteCreateRequest>,
-  output: __S(816, __c51, 0) as any as S.Schema<HogFlowOutput>,
+  input: __S(496, __c31, 0) as any as S.Schema<HogFlowsBulkDeleteCreateRequest>,
+  output: __S(832, __c52, 0) as any as S.Schema<HogFlowOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2562,8 +2567,8 @@ export const hogFlowsBulkUpdateTagsCreate: API.OperationMethod<
   HogFlowsBulkUpdateTagsCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<HogFlowsBulkUpdateTagsCreateRequest>,
-  output: __S(501, __c31, 5) as any as S.Schema<BulkUpdateTagsUUIDResponse>,
+  input: __S(512, __c32, 0) as any as S.Schema<HogFlowsBulkUpdateTagsCreateRequest>,
+  output: __S(517, __c32, 5) as any as S.Schema<BulkUpdateTagsUUIDResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2578,8 +2583,8 @@ export const hogFlowsDestroy: API.OperationMethod<
   HogFlowsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<HogFlowsDestroyRequest>,
-  output: __S(1072, __c67, 0) as any as S.Schema<HogFlowsDestroyResponse>,
+  input: __S(528, __c33, 0) as any as S.Schema<HogFlowsDestroyRequest>,
+  output: __S(1088, __c68, 0) as any as S.Schema<HogFlowsDestroyResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2595,8 +2600,8 @@ export const hogFlowsInvocationsCancelCreate: API.OperationMethod<
   HogFlowsInvocationsCancelCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<HogFlowsInvocationsCancelCreateRequest>,
-  output: __S(529, __c33, 1) as any as S.Schema<HogInvocationCancelResponse>,
+  input: __S(544, __c34, 0) as any as S.Schema<HogFlowsInvocationsCancelCreateRequest>,
+  output: __S(545, __c34, 1) as any as S.Schema<HogInvocationCancelResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2611,8 +2616,8 @@ export const hogFlowsProposalsApproveCreate: API.OperationMethod<
   HogFlowsProposalsApproveCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<HogFlowsProposalsApproveCreateRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<WorkflowProposal>,
+  input: __S(576, __c36, 0) as any as S.Schema<HogFlowsProposalsApproveCreateRequest>,
+  output: __S(32, __c2, 0) as any as S.Schema<WorkflowProposal>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2627,8 +2632,8 @@ export const hogFlowsProposalsRejectCreate: API.OperationMethod<
   HogFlowsProposalsRejectCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<HogFlowsProposalsRejectCreateRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<WorkflowProposal>,
+  input: __S(592, __c37, 0) as any as S.Schema<HogFlowsProposalsRejectCreateRequest>,
+  output: __S(32, __c2, 0) as any as S.Schema<WorkflowProposal>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2643,8 +2648,8 @@ export const hogFlowsPublishCreate: API.OperationMethod<
   HogFlowsPublishCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<HogFlowsPublishCreateRequest>,
-  output: __S(601, __c37, 9) as any as S.Schema<HogFlowPublishResponseOutput>,
+  input: __S(608, __c38, 0) as any as S.Schema<HogFlowsPublishCreateRequest>,
+  output: __S(617, __c38, 9) as any as S.Schema<HogFlowPublishResponseOutput>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2659,8 +2664,8 @@ export const hogFlowsRevisionsRestoreCreate: API.OperationMethod<
   HogFlowsRevisionsRestoreCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<HogFlowsRevisionsRestoreCreateRequest>,
-  output: __S(816, __c51, 0) as any as S.Schema<HogFlowOutput>,
+  input: __S(624, __c39, 0) as any as S.Schema<HogFlowsRevisionsRestoreCreateRequest>,
+  output: __S(832, __c52, 0) as any as S.Schema<HogFlowOutput>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2675,8 +2680,8 @@ export const hogFlowsSchedulesDestroy: API.OperationMethod<
   HogFlowsSchedulesDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<HogFlowsSchedulesDestroyRequest>,
-  output: __S(1072, __c67, 0) as any as S.Schema<HogFlowsSchedulesDestroyResponse>,
+  input: __S(640, __c40, 0) as any as S.Schema<HogFlowsSchedulesDestroyRequest>,
+  output: __S(1088, __c68, 0) as any as S.Schema<HogFlowsSchedulesDestroyResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2692,8 +2697,8 @@ export const hogFlowsSendCalendarRetrieve: API.OperationMethod<
   HogFlowsSendCalendarRetrieveError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<HogFlowsSendCalendarRetrieveRequest>,
-  output: __S(645, __c40, 5) as any as S.Schema<HogFlowsSendCalendarRetrieveResponse>,
+  input: __S(656, __c41, 0) as any as S.Schema<HogFlowsSendCalendarRetrieveRequest>,
+  output: __S(661, __c41, 5) as any as S.Schema<HogFlowsSendCalendarRetrieveResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2708,8 +2713,8 @@ export const listHogFlows: API.OperationMethod<
   ListHogFlowsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<ListHogFlowsRequest>,
-  output: __S(659, __c41, 3) as any as S.Schema<PaginatedHogFlowMinimalList>,
+  input: __S(672, __c42, 0) as any as S.Schema<ListHogFlowsRequest>,
+  output: __S(675, __c42, 3) as any as S.Schema<PaginatedHogFlowMinimalList>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2724,8 +2729,8 @@ export const listHogFlowsBatchJobs: API.OperationMethod<
   ListHogFlowsBatchJobsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<ListHogFlowsBatchJobsRequest>,
-  output: __S(674, __c42, 2) as any as S.Schema<ListHogFlowsBatchJobsResponse>,
+  input: __S(688, __c43, 0) as any as S.Schema<ListHogFlowsBatchJobsRequest>,
+  output: __S(690, __c43, 2) as any as S.Schema<ListHogFlowsBatchJobsResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2741,8 +2746,8 @@ export const listHogFlowsProposals: API.OperationMethod<
   ListHogFlowsProposalsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<ListHogFlowsProposalsRequest>,
-  output: __S(690, __c43, 2) as any as S.Schema<PaginatedWorkflowProposalList>,
+  input: __S(704, __c44, 0) as any as S.Schema<ListHogFlowsProposalsRequest>,
+  output: __S(706, __c44, 2) as any as S.Schema<PaginatedWorkflowProposalList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2757,8 +2762,8 @@ export const listHogFlowsRevisions: API.OperationMethod<
   ListHogFlowsRevisionsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<ListHogFlowsRevisionsRequest>,
-  output: __S(707, __c44, 3) as any as S.Schema<PaginatedHogFlowRevisionBasicList>,
+  input: __S(720, __c45, 0) as any as S.Schema<ListHogFlowsRevisionsRequest>,
+  output: __S(723, __c45, 3) as any as S.Schema<PaginatedHogFlowRevisionBasicList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2773,8 +2778,8 @@ export const listHogFlowsSchedules: API.OperationMethod<
   ListHogFlowsSchedulesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<ListHogFlowsSchedulesRequest>,
-  output: __S(881, __c55, 1) as any as S.Schema<ListHogFlowsSchedulesResponse>,
+  input: __S(896, __c56, 0) as any as S.Schema<ListHogFlowsSchedulesRequest>,
+  output: __S(897, __c56, 1) as any as S.Schema<ListHogFlowsSchedulesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2790,8 +2795,8 @@ export const resumeHogFlowEmailSending: API.OperationMethod<
   ResumeHogFlowEmailSendingError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<ResumeHogFlowEmailSendingRequest>,
-  output: __S(897, __c56, 1) as any as S.Schema<WorkflowEmailPauseStatus>,
+  input: __S(912, __c57, 0) as any as S.Schema<ResumeHogFlowEmailSendingRequest>,
+  output: __S(913, __c57, 1) as any as S.Schema<WorkflowEmailPauseStatus>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2806,8 +2811,8 @@ export const updateHogFlow: API.OperationMethod<
   UpdateHogFlowError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<UpdateHogFlowRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<HogFlowUpdate>,
+  input: __S(928, __c58, 0) as any as S.Schema<UpdateHogFlowRequest>,
+  output: __S(944, __c59, 0) as any as S.Schema<HogFlowUpdate>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2822,8 +2827,8 @@ export const updateHogFlowsActionsEmailPartial: API.OperationMethod<
   UpdateHogFlowsActionsEmailPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(946, __c59, 2) as any as S.Schema<UpdateHogFlowsActionsEmailPartialRequest>,
-  output: __S(816, __c51, 0) as any as S.Schema<HogFlowOutput>,
+  input: __S(962, __c60, 2) as any as S.Schema<UpdateHogFlowsActionsEmailPartialRequest>,
+  output: __S(832, __c52, 0) as any as S.Schema<HogFlowOutput>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2838,8 +2843,8 @@ export const updateHogFlowsGraphPartial: API.OperationMethod<
   UpdateHogFlowsGraphPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(962, __c60, 2) as any as S.Schema<UpdateHogFlowsGraphPartialRequest>,
-  output: __S(816, __c51, 0) as any as S.Schema<HogFlowOutput>,
+  input: __S(978, __c61, 2) as any as S.Schema<UpdateHogFlowsGraphPartialRequest>,
+  output: __S(832, __c52, 0) as any as S.Schema<HogFlowOutput>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2854,8 +2859,8 @@ export const updateHogFlowsPartial: API.OperationMethod<
   UpdateHogFlowsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<UpdateHogFlowsPartialRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<HogFlowUpdate>,
+  input: __S(992, __c62, 0) as any as S.Schema<UpdateHogFlowsPartialRequest>,
+  output: __S(944, __c59, 0) as any as S.Schema<HogFlowUpdate>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2874,8 +2879,8 @@ export const updateHogFlowsSchedulesPartial: API.OperationMethod<
   UpdateHogFlowsSchedulesPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<UpdateHogFlowsSchedulesPartialRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<HogFlowSchedule>,
+  input: __S(1008, __c63, 0) as any as S.Schema<UpdateHogFlowsSchedulesPartialRequest>,
+  output: __S(784, __c49, 0) as any as S.Schema<HogFlowSchedule>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2889,12 +2894,24 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          rerun_job_id: S.String,
+          queued_count: S.Number,
+          skipped_count: S.Number,
+        }),
+      ).annotate({ identifier: "HogInvocationRerunResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           title: S.String,
           rationale: S.String,
-          content: __S(752, __c47, 0),
-          evidence: S.optional(__S(752, __c47, 0)),
+          content: __S(768, __c48, 0),
+          evidence: S.optional(__S(768, __c48, 0)),
           base_version: S.Number,
           step_id: S.optional(S.NullOr(S.String)),
           source_id: S.optional(S.NullOr(S.String)),
@@ -2908,7 +2925,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateHogFlowsProposalRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2916,8 +2933,8 @@ function __c1(j: number): any {
           id: S.String,
           title: S.String,
           rationale: S.String,
-          content: __S(752, __c47, 0),
-          evidence: __S(752, __c47, 0),
+          content: __S(768, __c48, 0),
+          evidence: __S(768, __c48, 0),
           step_id: S.NullOr(S.String),
           base_version: S.Number,
           is_stale: S.Boolean,
@@ -2925,14 +2942,14 @@ function __c1(j: number): any {
           source_id: S.NullOr(S.String),
           created_at: S.String,
           resolved_at: S.NullOr(S.String),
-          resolved_by: S.NullOr(__S(736, __c46, 0)),
+          resolved_by: S.NullOr(__S(752, __c47, 0)),
           applied_version: S.NullOr(S.Number),
           rejection_reason: S.String,
         }),
       ).annotate({ identifier: "WorkflowProposal" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -2941,12 +2958,12 @@ function __c2(j: number): any {
         S.Struct({
           window_start: S.String,
           window_end: S.String,
-          status: S.optional(__S(32, __c2, 0)),
-          error_kind: S.optional(__S(832, __c52, 0)),
+          status: S.optional(__S(48, __c3, 0)),
+          error_kind: S.optional(__S(848, __c53, 0)),
           error_message_contains: S.optional(S.String),
           max_attempts: S.optional(S.Number),
           max_count: S.optional(S.Number),
-          invocation_ids: S.optional(__S(832, __c52, 0)),
+          invocation_ids: S.optional(__S(848, __c53, 0)),
         }),
       ).annotate({ identifier: "HogInvocationRerunFilter" });
     case 2:
@@ -2954,7 +2971,7 @@ function __c2(j: number): any {
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          filter: __S(33, __c2, 1),
+          filter: __S(49, __c3, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2963,24 +2980,16 @@ function __c2(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreateHogFlowsRerunRequest" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          rerun_job_id: S.String,
-          queued_count: S.Number,
-          skipped_count: S.Number,
-        }),
-      ).annotate({ identifier: "HogInvocationRerunResponse" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          variables: S.optional(__S(752, __c47, 0)),
+          variables: S.optional(__S(768, __c48, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2998,7 +3007,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "HogFlowRunResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3019,13 +3028,13 @@ function __c4(j: number): any {
       ).annotate({ identifier: "CreateHogFlowsScheduleRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          filters: S.optional(__S(752, __c47, 0)),
+          filters: S.optional(__S(768, __c48, 0)),
           group_type_index: S.optional(S.NullOr(S.Number)),
           dedupe_key: S.optional(S.NullOr(S.String)),
           sends_email: S.optional(S.Boolean),
@@ -3061,13 +3070,13 @@ function __c5(j: number): any {
           limit: S.optional(S.Number),
           dedupe_key: S.optional(S.NullOr(S.String)),
           confirm_token: S.optional(S.String),
-          realtime_cohort: S.optional(S.NullOr(__S(81, __c5, 1))),
-          realtime_cohort_with_other_conditions: S.optional(S.NullOr(__S(82, __c5, 2))),
+          realtime_cohort: S.optional(S.NullOr(__S(97, __c6, 1))),
+          realtime_cohort_with_other_conditions: S.optional(S.NullOr(__S(98, __c6, 2))),
         }),
       ).annotate({ identifier: "BlastRadius" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3080,7 +3089,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetHogFlowRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3122,14 +3131,14 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "MessageAsset" });
     case 2:
-      return S.Array(__S(113, __c7, 1));
+      return S.Array(__S(129, __c8, 1));
     case 3:
-      return S.suspend(() => __S(114, __c7, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(130, __c8, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetHogFlowsAssetResponse",
       });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3148,7 +3157,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetHogFlowsAssetContentRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3171,17 +3180,17 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "BroadcastConversionCandidate" });
     case 2:
-      return S.Array(__S(145, __c9, 1));
+      return S.Array(__S(161, __c10, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           has_more: S.Boolean,
-          results: __S(146, __c9, 2),
+          results: __S(162, __c10, 2),
         }),
       ).annotate({ identifier: "BroadcastConversionCandidates" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3205,7 +3214,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "EmailSendingSuspensionStatus" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3224,19 +3233,19 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           count: S.NullOr(S.Number),
-          by_action: S.NullOr(__S(192, __c12, 0)),
+          by_action: S.NullOr(__S(208, __c13, 0)),
           position_unknown: S.NullOr(S.Number),
         }),
       ).annotate({ identifier: "HogFlowInFlight" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Number);
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3275,14 +3284,14 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "HogInvocationResult" });
     case 2:
-      return S.Array(__S(209, __c13, 1));
+      return S.Array(__S(225, __c14, 1));
     case 3:
-      return S.suspend(() => __S(210, __c13, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(226, __c14, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetHogFlowsInvocationResultResponse",
       });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3301,7 +3310,7 @@ function __c14(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          invocation_globals: __S(752, __c47, 0),
+          invocation_globals: __S(768, __c48, 0),
           invocation_id: S.String,
           status: S.String,
           error_kind: S.String,
@@ -3318,7 +3327,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "HogInvocationResultDetail" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3346,7 +3355,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "HogInvocationResultsCount" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3370,7 +3379,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetHogFlowsLogRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3394,33 +3403,33 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GetHogFlowsMetricsRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          values: S.optional(__S(304, __c19, 0)),
+          values: S.optional(__S(320, __c20, 0)),
         }),
       ).annotate({ identifier: "AppMetricSeries" });
     case 1:
-      return S.Array(__S(288, __c18, 0));
+      return S.Array(__S(304, __c19, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(832, __c52, 0)),
-          series: S.optional(__S(289, __c18, 1)),
+          labels: S.optional(__S(848, __c53, 0)),
+          series: S.optional(__S(305, __c19, 1)),
         }),
       ).annotate({ identifier: "AppMetricsResponse" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3445,14 +3454,14 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "WorkflowStatsRow" });
     case 2:
-      return S.Array(__S(321, __c20, 1));
+      return S.Array(__S(337, __c21, 1));
     case 3:
-      return S.suspend(() => __S(322, __c20, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(338, __c21, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetHogFlowsMetricsGlobalResponse",
       });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3477,12 +3486,12 @@ function __c21(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          totals: S.optional(__S(192, __c12, 0)),
+          totals: S.optional(__S(208, __c13, 0)),
         }),
       ).annotate({ identifier: "AppMetricsTotalsResponse" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3507,7 +3516,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "GetHogFlowsMetricsVersionRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3524,7 +3533,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "GetHogFlowsOptimizationRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3542,7 +3551,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "GetHogFlowsProposalRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3569,7 +3578,7 @@ function __c25(j: number): any {
         }),
       ).annotate({ identifier: "WorkflowVersionChange" });
     case 2:
-      return S.Array(__S(401, __c25, 1));
+      return S.Array(__S(417, __c26, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -3580,7 +3589,7 @@ function __c25(j: number): any {
         }),
       ).annotate({ identifier: "WorkflowProposalMetric" });
     case 4:
-      return S.Array(__S(403, __c25, 3));
+      return S.Array(__S(419, __c26, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -3589,31 +3598,31 @@ function __c25(j: number): any {
           proposed_against: S.optional(S.Boolean),
           carries_change: S.optional(S.Boolean),
           other_changes: S.optional(S.Boolean),
-          changes: S.optional(__S(402, __c25, 2)),
+          changes: S.optional(__S(418, __c26, 2)),
           published_at: S.optional(S.NullOr(S.String)),
-          published_by: S.optional(S.NullOr(__S(736, __c46, 0))),
-          versions: S.optional(__S(304, __c19, 0)),
-          target: __S(403, __c25, 3),
-          secondary: S.optional(__S(403, __c25, 3)),
-          click_through: __S(403, __c25, 3),
-          guardrails: __S(404, __c25, 4),
+          published_by: S.optional(S.NullOr(__S(752, __c47, 0))),
+          versions: S.optional(__S(320, __c20, 0)),
+          target: __S(419, __c26, 3),
+          secondary: S.optional(__S(419, __c26, 3)),
+          click_through: __S(419, __c26, 3),
+          guardrails: __S(420, __c26, 4),
         }),
       ).annotate({ identifier: "WorkflowProposalVersionOutcome" });
     case 6:
-      return S.Array(__S(405, __c25, 5));
+      return S.Array(__S(421, __c26, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          versions: __S(406, __c25, 6),
-          before: S.NullOr(__S(405, __c25, 5)),
-          after: S.NullOr(__S(405, __c25, 5)),
+          versions: __S(422, __c26, 6),
+          before: S.NullOr(__S(421, __c26, 5)),
+          after: S.NullOr(__S(421, __c26, 5)),
           change_ended_at_version: S.NullOr(S.Number),
-          unavailable_guardrails: __S(832, __c52, 0),
+          unavailable_guardrails: __S(848, __c53, 0),
         }),
       ).annotate({ identifier: "WorkflowProposalOutcome" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3638,13 +3647,13 @@ function __c26(j: number): any {
         }),
       ).annotate({ identifier: "AwsTenantFinding" });
     case 2:
-      return S.Array(__S(417, __c26, 1));
+      return S.Array(__S(433, __c27, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           health: S.String,
           sending_status: S.String,
-          findings: __S(418, __c26, 2),
+          findings: __S(434, __c27, 2),
         }),
       ).annotate({ identifier: "AwsTenantReputation" });
     case 4:
@@ -3669,7 +3678,7 @@ function __c26(j: number): any {
         }),
       ).annotate({ identifier: "WorkflowEmailSendingRates" });
     case 6:
-      return S.Array(__S(421, __c26, 5));
+      return S.Array(__S(437, __c27, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -3680,11 +3689,11 @@ function __c26(j: number): any {
           transient_bounce_rate: S.NullOr(S.Number),
           complaint_rate: S.NullOr(S.Number),
           complaint_base: S.Number,
-          unavailable: __S(832, __c52, 0),
+          unavailable: __S(848, __c53, 0),
         }),
       ).annotate({ identifier: "IspSendingHealth" });
     case 8:
-      return S.Array(__S(423, __c26, 7));
+      return S.Array(__S(439, __c27, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -3699,21 +3708,21 @@ function __c26(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          aws: S.NullOr(__S(419, __c26, 3)),
-          reputation: S.NullOr(__S(420, __c26, 4)),
-          workflows: __S(422, __c26, 6),
-          isps: __S(424, __c26, 8),
-          isp_shared_domains: __S(832, __c52, 0),
-          isp_withheld_domains: __S(832, __c52, 0),
+          aws: S.NullOr(__S(435, __c27, 3)),
+          reputation: S.NullOr(__S(436, __c27, 4)),
+          workflows: __S(438, __c27, 6),
+          isps: __S(440, __c27, 8),
+          isp_shared_domains: __S(848, __c53, 0),
+          isp_withheld_domains: __S(848, __c53, 0),
           email_sending_suspended: S.Boolean,
           email_sending_suspended_at: S.NullOr(S.String),
           email_sending_suspension_reason: S.String,
-          sending_allowance: S.NullOr(__S(425, __c26, 9)),
+          sending_allowance: S.NullOr(__S(441, __c27, 9)),
         }),
       ).annotate({ identifier: "TeamEmailReputationResponse" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3734,13 +3743,13 @@ function __c27(j: number): any {
         S.Struct({
           version: S.Number,
           created_at: S.String,
-          created_by: S.NullOr(__S(736, __c46, 0)),
+          created_by: S.NullOr(__S(752, __c47, 0)),
           content: S.Unknown,
         }),
       ).annotate({ identifier: "HogFlowRevision" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3770,7 +3779,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "ApplyUtmDefaultsResponse" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3797,7 +3806,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "HogFlowBatchJobCancelResponse" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3805,17 +3814,17 @@ function __c30(j: number): any {
           project_id: S.String.pipe(T.Label()),
           name: S.optional(S.NullOr(S.String)),
           description: S.optional(S.String),
-          tags: S.optional(__S(832, __c52, 0)),
+          tags: S.optional(__S(848, __c53, 0)),
           status: S.optional(S.String),
           origin_product: S.optional(S.NullOr(S.String)),
           source_record: S.optional(S.NullOr(S.String)),
-          trigger_masking: S.optional(S.NullOr(__S(864, __c54, 0))),
-          conversion: S.optional(S.NullOr(__S(868, __c54, 4))),
+          trigger_masking: S.optional(S.NullOr(__S(880, __c55, 0))),
+          conversion: S.optional(S.NullOr(__S(884, __c55, 4))),
           exit_condition: S.optional(S.String),
-          email_sending_rate_limit: S.optional(S.NullOr(__S(869, __c54, 5))),
-          edges: S.optional(__S(871, __c54, 7)),
-          actions: S.optional(__S(873, __c54, 9)),
-          variables: S.optional(__S(875, __c54, 11)),
+          email_sending_rate_limit: S.optional(S.NullOr(__S(885, __c55, 5))),
+          edges: S.optional(__S(887, __c55, 7)),
+          actions: S.optional(__S(889, __c55, 9)),
+          variables: S.optional(__S(891, __c55, 11)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3826,15 +3835,15 @@ function __c30(j: number): any {
       ).annotate({ identifier: "HogFlowsBulkDeleteCreateRequest" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          ids: __S(832, __c52, 0),
+          ids: __S(848, __c53, 0),
           action: S.String,
-          tags: __S(832, __c52, 0),
+          tags: __S(848, __c53, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3847,11 +3856,11 @@ function __c31(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          tags: __S(832, __c52, 0),
+          tags: __S(848, __c53, 0),
         }),
       ).annotate({ identifier: "BulkUpdateTagsUUIDItem" });
     case 2:
-      return S.Array(__S(497, __c31, 1));
+      return S.Array(__S(513, __c32, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -3860,17 +3869,17 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "BulkUpdateTagsUUIDError" });
     case 4:
-      return S.Array(__S(499, __c31, 3));
+      return S.Array(__S(515, __c32, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          updated: __S(498, __c31, 2),
-          skipped: __S(500, __c31, 4),
+          updated: __S(514, __c32, 2),
+          skipped: __S(516, __c32, 4),
         }),
       ).annotate({ identifier: "BulkUpdateTagsUUIDResponse" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3887,14 +3896,14 @@ function __c32(j: number): any {
       ).annotate({ identifier: "HogFlowsDestroyRequest" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          invocation_ids: S.optional(__S(832, __c52, 0)),
+          invocation_ids: S.optional(__S(848, __c53, 0)),
           all: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -3914,7 +3923,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "HogInvocationCancelResponse" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3938,7 +3947,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "HogFlowConvertedToBroadcast" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3958,7 +3967,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "HogFlowsProposalsApproveCreateRequest" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3977,7 +3986,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "HogFlowsProposalsRejectCreateRequest" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4007,38 +4016,38 @@ function __c37(j: number): any {
           action_id: S.String,
           name: S.String,
           runs: S.NullOr(S.Number),
-          moves_to: S.NullOr(__S(593, __c37, 1)),
+          moves_to: S.NullOr(__S(609, __c38, 1)),
           exits: S.Boolean,
         }),
       ).annotate({ identifier: "HogFlowPublishImpactDeletedStep" });
     case 3:
-      return S.Array(__S(594, __c37, 2));
+      return S.Array(__S(610, __c38, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           variable: S.String,
           set_by: S.NullOr(S.String),
-          referenced_by: __S(832, __c52, 0),
+          referenced_by: __S(848, __c53, 0),
         }),
       ).annotate({ identifier: "HogFlowPublishImpactEmptyVariable" });
     case 5:
-      return S.Array(__S(596, __c37, 4));
+      return S.Array(__S(612, __c38, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           schedule_id: S.String,
-          variables: __S(832, __c52, 0),
+          variables: __S(848, __c53, 0),
         }),
       ).annotate({ identifier: "HogFlowPublishImpactScheduleConflict" });
     case 7:
-      return S.Array(__S(598, __c37, 6));
+      return S.Array(__S(614, __c38, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          deleted_steps: __S(595, __c37, 3),
+          deleted_steps: __S(611, __c38, 3),
           position_unknown: S.NullOr(S.Number),
-          empty_variables: __S(597, __c37, 5),
-          schedule_conflicts: __S(599, __c37, 7),
+          empty_variables: __S(613, __c38, 5),
+          schedule_conflicts: __S(615, __c38, 7),
         }),
       ).annotate({ identifier: "HogFlowPublishImpact" });
     case 9:
@@ -4048,13 +4057,13 @@ function __c37(j: number): any {
           in_flight_runs: S.NullOr(S.Number),
           draft_updated_at: S.NullOr(S.String),
           confirm_token: S.NullOr(S.String),
-          impact: S.NullOr(__S(600, __c37, 8)),
-          workflow: S.optional(S.NullOr(__S(816, __c51, 0))),
+          impact: S.NullOr(__S(616, __c38, 8)),
+          workflow: S.optional(S.NullOr(__S(832, __c52, 0))),
         }),
       ).annotate({ identifier: "HogFlowPublishResponseOutput" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4074,7 +4083,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "HogFlowsRevisionsRestoreCreateRequest" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4092,7 +4101,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "HogFlowsSchedulesDestroyRequest" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4117,33 +4126,33 @@ function __c40(j: number): any {
         }),
       ).annotate({ identifier: "SendCalendarBatchJob" });
     case 2:
-      return S.Array(__S(641, __c40, 1));
+      return S.Array(__S(657, __c41, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           name: S.NullOr(S.String),
           origin_product: S.NullOr(S.String),
-          created_by: S.NullOr(__S(736, __c46, 0)),
+          created_by: S.NullOr(__S(752, __c47, 0)),
           user_access_level: S.NullOr(S.String),
           trigger_type: S.String,
-          audience_properties: __S(848, __c53, 0),
+          audience_properties: __S(864, __c54, 0),
           audience_type: S.NullOr(S.String),
           email_to: S.NullOr(S.String),
           message_category_id: S.NullOr(S.String),
-          schedules: __S(784, __c49, 0),
-          batch_jobs: __S(642, __c40, 2),
+          schedules: __S(800, __c50, 0),
+          batch_jobs: __S(658, __c41, 2),
         }),
       ).annotate({ identifier: "SendCalendarFlow" });
     case 4:
-      return S.Array(__S(643, __c40, 3));
+      return S.Array(__S(659, __c41, 3));
     case 5:
-      return S.suspend(() => __S(644, __c40, 4).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(660, __c41, 4).pipe(T.RawResponseRoot())).annotate({
         identifier: "HogFlowsSendCalendarRetrieveResponse",
       });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4175,12 +4184,12 @@ function __c41(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.NullOr(S.String)),
           description: S.optional(S.String),
-          tags: __S(832, __c52, 0),
+          tags: __S(848, __c53, 0),
           version: S.optional(S.Number),
           status: S.optional(S.String),
           origin_product: S.optional(S.NullOr(S.String)),
           created_at: S.optional(S.String),
-          created_by: S.optional(S.NullOr(__S(736, __c46, 0))),
+          created_by: S.optional(S.NullOr(__S(752, __c47, 0))),
           updated_at: S.optional(S.String),
           trigger: S.optional(S.Unknown),
           trigger_masking: S.optional(S.Unknown),
@@ -4194,25 +4203,25 @@ function __c41(j: number): any {
           variables: S.optional(S.Unknown),
           billable_action_types: S.optional(S.Unknown),
           user_access_level: S.optional(S.NullOr(S.String)),
-          last_run: S.optional(S.NullOr(__S(800, __c50, 0))),
+          last_run: S.optional(S.NullOr(__S(816, __c51, 0))),
           pending_suggestions: S.optional(S.NullOr(S.Number)),
           suggestions_enabled: S.optional(S.NullOr(S.Boolean)),
         }),
       ).annotate({ identifier: "HogFlowMinimal" });
     case 2:
-      return S.Array(__S(657, __c41, 1));
+      return S.Array(__S(673, __c42, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(658, __c41, 2)),
+          results: S.optional(__S(674, __c42, 2)),
         }),
       ).annotate({ identifier: "PaginatedHogFlowMinimalList" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4228,14 +4237,14 @@ function __c42(j: number): any {
         ),
       ).annotate({ identifier: "ListHogFlowsBatchJobsRequest" });
     case 1:
-      return S.Array(__S(1024, __c64, 0));
+      return S.Array(__S(1040, __c65, 0));
     case 2:
-      return S.suspend(() => __S(673, __c42, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(689, __c43, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListHogFlowsBatchJobsResponse",
       });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4254,19 +4263,19 @@ function __c43(j: number): any {
         ),
       ).annotate({ identifier: "ListHogFlowsProposalsRequest" });
     case 1:
-      return S.Array(__S(16, __c1, 0));
+      return S.Array(__S(32, __c2, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(689, __c43, 1),
+          results: __S(705, __c44, 1),
         }),
       ).annotate({ identifier: "PaginatedWorkflowProposalList" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4288,23 +4297,23 @@ function __c44(j: number): any {
         S.Struct({
           version: S.Number,
           created_at: S.String,
-          created_by: S.NullOr(__S(736, __c46, 0)),
+          created_by: S.NullOr(__S(752, __c47, 0)),
         }),
       ).annotate({ identifier: "HogFlowRevisionBasic" });
     case 2:
-      return S.Array(__S(705, __c44, 1));
+      return S.Array(__S(721, __c45, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(706, __c44, 2),
+          results: __S(722, __c45, 2),
         }),
       ).annotate({ identifier: "PaginatedHogFlowRevisionBasicList" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4312,24 +4321,24 @@ function __c45(j: number): any {
           project_id: S.String.pipe(T.Label()),
           name: S.optional(S.NullOr(S.String)),
           description: S.optional(S.String),
-          tags: S.optional(__S(832, __c52, 0)),
+          tags: S.optional(__S(848, __c53, 0)),
           status: S.optional(S.String),
           origin_product: S.optional(S.NullOr(S.String)),
           source_record: S.optional(S.NullOr(S.String)),
-          trigger_masking: S.optional(S.NullOr(__S(864, __c54, 0))),
-          conversion: S.optional(S.NullOr(__S(868, __c54, 4))),
+          trigger_masking: S.optional(S.NullOr(__S(880, __c55, 0))),
+          conversion: S.optional(S.NullOr(__S(884, __c55, 4))),
           exit_condition: S.optional(S.String),
-          email_sending_rate_limit: S.optional(S.NullOr(__S(869, __c54, 5))),
-          edges: S.optional(__S(871, __c54, 7)),
-          actions: S.optional(__S(873, __c54, 9)),
-          variables: S.optional(__S(875, __c54, 11)),
+          email_sending_rate_limit: S.optional(S.NullOr(__S(885, __c55, 5))),
+          edges: S.optional(__S(887, __c55, 7)),
+          actions: S.optional(__S(889, __c55, 9)),
+          variables: S.optional(__S(891, __c55, 11)),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/hog_flows/", code: 200 }),
         ),
       ).annotate({ identifier: "CreateHogFlowRequest" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4341,19 +4350,19 @@ function __c46(j: number): any {
           last_name: S.optional(S.String),
           email: S.optional(S.String),
           is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.optional(S.NullOr(__S(752, __c47, 0))),
+          hedgehog_config: S.optional(S.NullOr(__S(768, __c48, 0))),
           role_at_organization: S.optional(S.NullOr(S.Unknown)),
         }),
       ).annotate({ identifier: "UserBasic" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4371,13 +4380,13 @@ function __c48(j: number): any {
       ).annotate({ identifier: "HogFlowSchedule" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(768, __c48, 0));
+      return S.Array(__S(784, __c49, 0));
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4389,7 +4398,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "HogFlowLastRun" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4397,51 +4406,51 @@ function __c51(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.NullOr(S.String)),
           description: S.optional(S.String),
-          tags: S.optional(__S(832, __c52, 0)),
+          tags: S.optional(__S(848, __c53, 0)),
           version: S.optional(S.Number),
           status: S.optional(S.String),
           origin_product: S.optional(S.NullOr(S.String)),
           created_at: S.optional(S.String),
-          created_by: S.optional(S.NullOr(__S(736, __c46, 0))),
+          created_by: S.optional(S.NullOr(__S(752, __c47, 0))),
           updated_at: S.optional(S.String),
           trigger: S.optional(S.Unknown),
-          trigger_masking: S.optional(S.NullOr(__S(864, __c54, 0))),
-          conversion: S.optional(S.NullOr(__S(868, __c54, 4))),
+          trigger_masking: S.optional(S.NullOr(__S(880, __c55, 0))),
+          conversion: S.optional(S.NullOr(__S(884, __c55, 4))),
           exit_condition: S.optional(S.String),
-          email_sending_rate_limit: S.optional(S.NullOr(__S(869, __c54, 5))),
-          edges: S.optional(__S(871, __c54, 7)),
-          actions: S.optional(__S(873, __c54, 9)),
+          email_sending_rate_limit: S.optional(S.NullOr(__S(885, __c55, 5))),
+          edges: S.optional(__S(887, __c55, 7)),
+          actions: S.optional(__S(889, __c55, 9)),
           abort_action: S.optional(S.NullOr(S.String)),
-          variables: S.optional(__S(875, __c54, 11)),
+          variables: S.optional(__S(891, __c55, 11)),
           billable_action_types: S.optional(S.Unknown),
-          schedules: S.optional(__S(784, __c49, 0)),
+          schedules: S.optional(__S(800, __c50, 0)),
           user_access_level: S.optional(S.NullOr(S.String)),
           draft: S.optional(S.Unknown),
           draft_updated_at: S.optional(S.NullOr(S.String)),
-          action_redirects: S.optional(S.NullOr(__S(874, __c54, 10))),
+          action_redirects: S.optional(S.NullOr(__S(890, __c55, 10))),
           email_sending_paused_at: S.optional(S.NullOr(S.String)),
           email_sending_paused_reason: S.optional(S.String),
           email_sending_paused_by: S.optional(S.String),
           email_sending_pause_requires_support: S.optional(S.Boolean),
           email_sending_resumed_at: S.optional(S.NullOr(S.String)),
-          last_run: S.optional(S.NullOr(__S(800, __c50, 0))),
+          last_run: S.optional(S.NullOr(__S(816, __c51, 0))),
         }),
       ).annotate({ identifier: "HogFlowOutput" });
-  }
-}
-function __c52(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
   }
 }
 function __c53(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(752, __c47, 0));
+      return S.Array(S.String);
   }
 }
 function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(768, __c48, 0));
+  }
+}
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4456,10 +4465,10 @@ function __c54(j: number): any {
       return S.suspend(() =>
         S.Struct({
           source: S.optional(S.String),
-          actions: S.optional(__S(848, __c53, 0)),
-          events: S.optional(__S(848, __c53, 0)),
-          data_warehouse: S.optional(__S(848, __c53, 0)),
-          properties: S.optional(__S(848, __c53, 0)),
+          actions: S.optional(__S(864, __c54, 0)),
+          events: S.optional(__S(864, __c54, 0)),
+          data_warehouse: S.optional(__S(864, __c54, 0)),
+          properties: S.optional(__S(864, __c54, 0)),
           bytecode: S.optional(S.Unknown),
           transpiled: S.optional(S.Unknown),
           filter_test_accounts: S.optional(S.Boolean),
@@ -4470,16 +4479,16 @@ function __c54(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          filters: __S(865, __c54, 1),
+          filters: __S(881, __c55, 1),
         }),
       ).annotate({ identifier: "HogFlowConversionEvent" });
     case 3:
-      return S.Array(__S(866, __c54, 2));
+      return S.Array(__S(882, __c55, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          filters: S.optional(__S(848, __c53, 0)),
-          events: S.optional(__S(867, __c54, 3)),
+          filters: S.optional(__S(864, __c54, 0)),
+          events: S.optional(__S(883, __c55, 3)),
           window: S.optional(S.NullOr(S.String)),
           bytecode: S.optional(S.Unknown),
         }),
@@ -4501,7 +4510,7 @@ function __c54(j: number): any {
         }),
       ).annotate({ identifier: "HogFlowEdge" });
     case 7:
-      return S.Array(__S(870, __c54, 6));
+      return S.Array(__S(886, __c55, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -4511,21 +4520,21 @@ function __c54(j: number): any {
           on_error: S.optional(S.NullOr(S.String)),
           created_at: S.optional(S.Number),
           updated_at: S.optional(S.Number),
-          filters: S.optional(S.NullOr(__S(865, __c54, 1))),
+          filters: S.optional(S.NullOr(__S(881, __c55, 1))),
           type: S.optional(S.String),
           config: S.optional(S.Unknown),
           output_variable: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "HogFlowAction" });
     case 9:
-      return S.Array(__S(872, __c54, 8));
+      return S.Array(__S(888, __c55, 8));
     case 10:
       return S.Record(S.String, S.String);
     case 11:
-      return S.Array(__S(874, __c54, 10));
+      return S.Array(__S(890, __c55, 10));
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4541,12 +4550,12 @@ function __c55(j: number): any {
         ),
       ).annotate({ identifier: "ListHogFlowsSchedulesRequest" });
     case 1:
-      return S.suspend(() => __S(784, __c49, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(800, __c50, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListHogFlowsSchedulesResponse",
       });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4572,7 +4581,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "WorkflowEmailPauseStatus" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4581,22 +4590,22 @@ function __c57(j: number): any {
           id: S.String.pipe(T.Label()),
           name: S.optional(S.NullOr(S.String)),
           description: S.optional(S.String),
-          tags: S.optional(__S(832, __c52, 0)),
+          tags: S.optional(__S(848, __c53, 0)),
           status: S.optional(S.String),
-          trigger_masking: S.optional(S.NullOr(__S(864, __c54, 0))),
-          conversion: S.optional(S.NullOr(__S(868, __c54, 4))),
+          trigger_masking: S.optional(S.NullOr(__S(880, __c55, 0))),
+          conversion: S.optional(S.NullOr(__S(884, __c55, 4))),
           exit_condition: S.optional(S.String),
-          email_sending_rate_limit: S.optional(S.NullOr(__S(869, __c54, 5))),
-          edges: S.optional(__S(871, __c54, 7)),
-          actions: __S(873, __c54, 9),
-          variables: S.optional(__S(875, __c54, 11)),
+          email_sending_rate_limit: S.optional(S.NullOr(__S(885, __c55, 5))),
+          edges: S.optional(__S(887, __c55, 7)),
+          actions: __S(889, __c55, 9),
+          variables: S.optional(__S(891, __c55, 11)),
         }).pipe(
           T.Http({ method: "PUT", uri: "/api/projects/{project_id}/hog_flows/{id}/", code: 200 }),
         ),
       ).annotate({ identifier: "UpdateHogFlowRequest" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4604,39 +4613,39 @@ function __c58(j: number): any {
           id: S.String,
           name: S.optional(S.NullOr(S.String)),
           description: S.optional(S.String),
-          tags: S.optional(__S(832, __c52, 0)),
+          tags: S.optional(__S(848, __c53, 0)),
           version: S.Number,
           status: S.optional(S.String),
           origin_product: S.NullOr(S.String),
           created_at: S.String,
-          created_by: __S(736, __c46, 0),
+          created_by: __S(752, __c47, 0),
           updated_at: S.String,
           trigger: S.Unknown,
-          trigger_masking: S.optional(S.NullOr(__S(864, __c54, 0))),
-          conversion: S.optional(S.NullOr(__S(868, __c54, 4))),
+          trigger_masking: S.optional(S.NullOr(__S(880, __c55, 0))),
+          conversion: S.optional(S.NullOr(__S(884, __c55, 4))),
           exit_condition: S.optional(S.String),
-          email_sending_rate_limit: S.optional(S.NullOr(__S(869, __c54, 5))),
-          edges: S.optional(__S(871, __c54, 7)),
-          actions: __S(873, __c54, 9),
+          email_sending_rate_limit: S.optional(S.NullOr(__S(885, __c55, 5))),
+          edges: S.optional(__S(887, __c55, 7)),
+          actions: __S(889, __c55, 9),
           abort_action: S.NullOr(S.String),
-          variables: S.optional(__S(875, __c54, 11)),
+          variables: S.optional(__S(891, __c55, 11)),
           billable_action_types: S.Unknown,
-          schedules: __S(784, __c49, 0),
+          schedules: __S(800, __c50, 0),
           user_access_level: S.NullOr(S.String),
           draft: S.Unknown,
           draft_updated_at: S.NullOr(S.String),
-          action_redirects: S.NullOr(__S(874, __c54, 10)),
+          action_redirects: S.NullOr(__S(890, __c55, 10)),
           email_sending_paused_at: S.NullOr(S.String),
           email_sending_paused_reason: S.String,
           email_sending_paused_by: S.String,
           email_sending_pause_requires_support: S.Boolean,
           email_sending_resumed_at: S.NullOr(S.String),
-          last_run: S.NullOr(__S(800, __c50, 0)),
+          last_run: S.NullOr(__S(816, __c51, 0)),
         }),
       ).annotate({ identifier: "HogFlowUpdate" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4651,7 +4660,7 @@ function __c59(j: number): any {
         }),
       ).annotate({ identifier: "DesignOperation" });
     case 1:
-      return S.Array(__S(944, __c59, 0));
+      return S.Array(__S(960, __c60, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -4659,7 +4668,7 @@ function __c59(j: number): any {
           id: S.String.pipe(T.Label()),
           action_id: S.String.pipe(T.Label()),
           base_updated_at: S.optional(S.String),
-          operations: S.optional(__S(945, __c59, 1)),
+          operations: S.optional(__S(961, __c60, 1)),
           email_patch: S.optional(S.Unknown),
         }).pipe(
           T.Http({
@@ -4671,7 +4680,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "UpdateHogFlowsActionsEmailPartialRequest" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4680,19 +4689,19 @@ function __c60(j: number): any {
           id: S.optional(S.String),
           patch: S.optional(S.Unknown),
           action: S.optional(S.Unknown),
-          edge: S.optional(__S(870, __c54, 6)),
-          edges: S.optional(__S(871, __c54, 7)),
+          edge: S.optional(__S(886, __c55, 6)),
+          edges: S.optional(__S(887, __c55, 7)),
         }),
       ).annotate({ identifier: "HogFlowGraphOperation" });
     case 1:
-      return S.Array(__S(960, __c60, 0));
+      return S.Array(__S(976, __c61, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           base_updated_at: S.optional(S.String),
-          operations: S.optional(__S(961, __c60, 1)),
+          operations: S.optional(__S(977, __c61, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4703,7 +4712,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "UpdateHogFlowsGraphPartialRequest" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4712,22 +4721,22 @@ function __c61(j: number): any {
           id: S.String.pipe(T.Label()),
           name: S.optional(S.NullOr(S.String)),
           description: S.optional(S.String),
-          tags: S.optional(__S(832, __c52, 0)),
+          tags: S.optional(__S(848, __c53, 0)),
           status: S.optional(S.String),
-          trigger_masking: S.optional(S.NullOr(__S(864, __c54, 0))),
-          conversion: S.optional(S.NullOr(__S(868, __c54, 4))),
+          trigger_masking: S.optional(S.NullOr(__S(880, __c55, 0))),
+          conversion: S.optional(S.NullOr(__S(884, __c55, 4))),
           exit_condition: S.optional(S.String),
-          email_sending_rate_limit: S.optional(S.NullOr(__S(869, __c54, 5))),
-          edges: S.optional(__S(871, __c54, 7)),
-          actions: S.optional(__S(873, __c54, 9)),
-          variables: S.optional(__S(875, __c54, 11)),
+          email_sending_rate_limit: S.optional(S.NullOr(__S(885, __c55, 5))),
+          edges: S.optional(__S(887, __c55, 7)),
+          actions: S.optional(__S(889, __c55, 9)),
+          variables: S.optional(__S(891, __c55, 11)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/projects/{project_id}/hog_flows/{id}/", code: 200 }),
         ),
       ).annotate({ identifier: "UpdateHogFlowsPartialRequest" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4749,7 +4758,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "UpdateHogFlowsSchedulesPartialRequest" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4769,7 +4778,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "CreateHogFlowsBatchJobRequest" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4780,13 +4789,13 @@ function __c64(j: number): any {
           filters: S.Unknown,
           variables: S.optional(S.Unknown),
           created_at: S.String,
-          created_by: __S(736, __c46, 0),
+          created_by: __S(752, __c47, 0),
           updated_at: S.String,
         }),
       ).annotate({ identifier: "HogFlowBatchJob" });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4803,24 +4812,24 @@ function __c65(j: number): any {
       ).annotate({ identifier: "CreateHogFlowsDiscardDraftRequest" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.NullOr(S.String)),
           description: S.optional(S.String),
-          tags: S.optional(__S(832, __c52, 0)),
+          tags: S.optional(__S(848, __c53, 0)),
           status: S.optional(S.String),
           origin_product: S.optional(S.NullOr(S.String)),
           source_record: S.optional(S.NullOr(S.String)),
-          trigger_masking: S.optional(S.NullOr(__S(864, __c54, 0))),
-          conversion: S.optional(S.NullOr(__S(868, __c54, 4))),
+          trigger_masking: S.optional(S.NullOr(__S(880, __c55, 0))),
+          conversion: S.optional(S.NullOr(__S(884, __c55, 4))),
           exit_condition: S.optional(S.String),
-          email_sending_rate_limit: S.optional(S.NullOr(__S(869, __c54, 5))),
-          edges: S.optional(__S(871, __c54, 7)),
-          actions: S.optional(__S(873, __c54, 9)),
-          variables: S.optional(__S(875, __c54, 11)),
+          email_sending_rate_limit: S.optional(S.NullOr(__S(885, __c55, 5))),
+          edges: S.optional(__S(887, __c55, 7)),
+          actions: S.optional(__S(889, __c55, 9)),
+          variables: S.optional(__S(891, __c55, 11)),
         }),
       ).annotate({ identifier: "HogFlowInput" });
     case 1:
@@ -4828,8 +4837,8 @@ function __c66(j: number): any {
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          configuration: S.optional(__S(1056, __c66, 0)),
-          globals: S.optional(__S(752, __c47, 0)),
+          configuration: S.optional(__S(1072, __c67, 0)),
+          globals: S.optional(__S(768, __c48, 0)),
           mock_async_functions: S.optional(S.Boolean),
           current_action_id: S.optional(S.String),
           use_draft: S.optional(S.Boolean),
@@ -4843,7 +4852,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "CreateHogFlowsInvocationRequest" });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -4851,7 +4860,7 @@ function __c67(j: number): any {
       });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4869,7 +4878,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "CreateHogFlowsOptimizationRequest" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4885,7 +4894,7 @@ function __c69(j: number): any {
         S.Struct({
           enabled: S.Boolean,
           scout_status: S.String,
-          sample: S.NullOr(__S(1104, __c69, 0)),
+          sample: S.NullOr(__S(1120, __c70, 0)),
         }),
       ).annotate({ identifier: "HogFlowOptimization" });
   }

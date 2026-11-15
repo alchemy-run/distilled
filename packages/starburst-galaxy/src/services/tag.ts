@@ -204,6 +204,60 @@ export interface UpdateTagRequest {
   /** comment */
   description?: string | undefined;
 }
+/** Any fields/values that are invalid or incorrect */
+export type BadRequestFieldsList = Array<string>;
+/** Invalid request */
+export interface BadRequest2 {
+  /** Description of the error */
+  message?: string | undefined;
+  /** Any fields/values that are invalid or incorrect */
+  fields?: BadRequestFieldsList | undefined;
+}
+/** Already exists */
+export interface Exists {
+  message?: string | undefined;
+}
+/** Any additional details (read only) */
+export type ErrorinfoMetadataMap = { [key: string]: string | undefined };
+/** Error details (read only) */
+export interface Errorinfo {
+  /** Error reason/detail (read only) */
+  reason: string;
+  /** Any additional details (read only) */
+  metadata: ErrorinfoMetadataMap;
+}
+/** Concurrency conflict, such as read-modify-write conflict. */
+export interface Aborted {
+  /** Description of the error */
+  message: string;
+  detail: Errorinfo;
+}
+/** Authorization failed */
+export type Forbidden2 = Exists;
+/** Any fields/values that weren't found */
+export type NotFoundFieldsList = Array<string>;
+/** A resource or required component was not found */
+export interface NotFound2 {
+  /** Name of the resource */
+  message: string;
+  /** Violation description */
+  description?: string | undefined;
+  /** Any fields/values that weren't found */
+  fields?: NotFoundFieldsList | undefined;
+}
+/** Error details (read only) */
+export interface Resourceinfo {
+  /** Name of the resource (read only) */
+  resourceName: string;
+  /** Violation description (read only) */
+  description: string;
+}
+/** A specified resource is not found. */
+export interface NotFoundError {
+  /** Description of the error */
+  message: string;
+  detail: Resourceinfo;
+}
 export type ApplyCatalogSchemaTableColumnTagError =
   | BadRequest
   | Forbidden

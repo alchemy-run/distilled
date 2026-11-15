@@ -30,33 +30,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorBADREQUEST | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorFORBIDDEN | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorNOTFOUND | string;
+}
 
 export interface CancelComposeDeploymentRequest {
   composeId: string;
@@ -295,6 +310,44 @@ export interface UpdateComposeRequest {
   serviceNetworks?: UpdateComposeRequestServiceNetworksList | null | undefined;
 }
 export type UpdateComposeResponse = unknown;
+export interface ErrorBADREQUESTIssuesItem {
+  message: string;
+}
+/** An array of issues that were responsible for the error */
+export type ErrorBADREQUESTIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorBADREQUEST {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorBADREQUESTIssuesList | undefined;
+}
+export type ErrorFORBIDDENIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorFORBIDDENIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorFORBIDDEN {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorFORBIDDENIssuesList | undefined;
+}
+export type ErrorNOTFOUNDIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorNOTFOUNDIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorNOTFOUND {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorNOTFOUNDIssuesList | undefined;
+}
 export type CancelComposeDeploymentError = BadRequest | Forbidden | DokployOpError;
 export const cancelComposeDeployment: API.OperationMethod<
   CancelComposeDeploymentRequest,
@@ -302,8 +355,8 @@ export const cancelComposeDeployment: API.OperationMethod<
   CancelComposeDeploymentError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c20, 0) as any as S.Schema<CancelComposeDeploymentRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<CancelComposeDeploymentResponse>,
+  input: __S(84, __c21, 0) as any as S.Schema<CancelComposeDeploymentRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<CancelComposeDeploymentResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -318,8 +371,8 @@ export const cleanComposeQueues: API.OperationMethod<
   CleanComposeQueuesError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c26, 0) as any as S.Schema<CleanComposeQueuesRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<CleanComposeQueuesResponse>,
+  input: __S(108, __c27, 0) as any as S.Schema<CleanComposeQueuesRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<CleanComposeQueuesResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -334,8 +387,8 @@ export const clearComposeDeployments: API.OperationMethod<
   ClearComposeDeploymentsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(108, __c27, 0) as any as S.Schema<ClearComposeDeploymentsRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<ClearComposeDeploymentsResponse>,
+  input: __S(112, __c28, 0) as any as S.Schema<ClearComposeDeploymentsRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<ClearComposeDeploymentsResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -350,8 +403,8 @@ export const createCompose: API.OperationMethod<
   CreateComposeError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c28, 0) as any as S.Schema<CreateComposeRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<CreateComposeResponse>,
+  input: __S(116, __c29, 0) as any as S.Schema<CreateComposeRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<CreateComposeResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -366,8 +419,8 @@ export const deleteCompose: API.OperationMethod<
   DeleteComposeError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(116, __c29, 0) as any as S.Schema<DeleteComposeRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<DeleteComposeResponse>,
+  input: __S(120, __c30, 0) as any as S.Schema<DeleteComposeRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<DeleteComposeResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -382,8 +435,8 @@ export const deployCompose: API.OperationMethod<
   DeployComposeError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c30, 0) as any as S.Schema<DeployComposeRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<DeployComposeResponse>,
+  input: __S(124, __c31, 0) as any as S.Schema<DeployComposeRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<DeployComposeResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -398,8 +451,8 @@ export const deployComposeTemplate: API.OperationMethod<
   DeployComposeTemplateError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(124, __c31, 0) as any as S.Schema<DeployComposeTemplateRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<DeployComposeTemplateResponse>,
+  input: __S(128, __c32, 0) as any as S.Schema<DeployComposeTemplateRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<DeployComposeTemplateResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -414,8 +467,8 @@ export const disconnectComposeGitProvider: API.OperationMethod<
   DisconnectComposeGitProviderError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<DisconnectComposeGitProviderRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<DisconnectComposeGitProviderResponse>,
+  input: __S(4, __c1, 0) as any as S.Schema<DisconnectComposeGitProviderRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<DisconnectComposeGitProviderResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -430,8 +483,8 @@ export const fetchComposeSourceType: API.OperationMethod<
   FetchComposeSourceTypeError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<FetchComposeSourceTypeRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<FetchComposeSourceTypeResponse>,
+  input: __S(8, __c2, 0) as any as S.Schema<FetchComposeSourceTypeRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<FetchComposeSourceTypeResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -446,8 +499,8 @@ export const getCompose: API.OperationMethod<
   GetComposeError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<GetComposeRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<GetComposeResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<GetComposeRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<GetComposeResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -462,8 +515,8 @@ export const getComposeDefaultCommand: API.OperationMethod<
   GetComposeDefaultCommandError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<GetComposeDefaultCommandRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<GetComposeDefaultCommandResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<GetComposeDefaultCommandRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<GetComposeDefaultCommandResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -478,8 +531,8 @@ export const getComposeTags: API.OperationMethod<
   GetComposeTagsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<GetComposeTagsRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<GetComposeTagsResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<GetComposeTagsRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<GetComposeTagsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -494,8 +547,8 @@ export const getComposeTemplates: API.OperationMethod<
   GetComposeTemplatesError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<GetComposeTemplatesRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<GetComposeTemplatesResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<GetComposeTemplatesRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<GetComposeTemplatesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -510,8 +563,8 @@ export const getConvertedCompose: API.OperationMethod<
   GetConvertedComposeError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<GetConvertedComposeRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<GetConvertedComposeResponse>,
+  input: __S(28, __c7, 0) as any as S.Schema<GetConvertedComposeRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<GetConvertedComposeResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -526,8 +579,8 @@ export const importCompose: API.OperationMethod<
   ImportComposeError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<ImportComposeRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<ImportComposeResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<ImportComposeRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<ImportComposeResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -542,8 +595,8 @@ export const isolatedComposeDeployment: API.OperationMethod<
   IsolatedComposeDeploymentError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<IsolatedComposeDeploymentRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<IsolatedComposeDeploymentResponse>,
+  input: __S(36, __c9, 0) as any as S.Schema<IsolatedComposeDeploymentRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<IsolatedComposeDeploymentResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -558,8 +611,8 @@ export const killComposeBuild: API.OperationMethod<
   KillComposeBuildError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<KillComposeBuildRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<KillComposeBuildResponse>,
+  input: __S(40, __c10, 0) as any as S.Schema<KillComposeBuildRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<KillComposeBuildResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -574,8 +627,8 @@ export const loadComposeMountsByService: API.OperationMethod<
   LoadComposeMountsByServiceError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<LoadComposeMountsByServiceRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<LoadComposeMountsByServiceResponse>,
+  input: __S(44, __c11, 0) as any as S.Schema<LoadComposeMountsByServiceRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<LoadComposeMountsByServiceResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -590,8 +643,8 @@ export const loadComposeServices: API.OperationMethod<
   LoadComposeServicesError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(44, __c11, 0) as any as S.Schema<LoadComposeServicesRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<LoadComposeServicesResponse>,
+  input: __S(48, __c12, 0) as any as S.Schema<LoadComposeServicesRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<LoadComposeServicesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -606,8 +659,8 @@ export const moveCompose: API.OperationMethod<
   MoveComposeError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c12, 0) as any as S.Schema<MoveComposeRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<MoveComposeResponse>,
+  input: __S(52, __c13, 0) as any as S.Schema<MoveComposeRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<MoveComposeResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -622,8 +675,8 @@ export const previewComposeTemplate: API.OperationMethod<
   PreviewComposeTemplateError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(52, __c13, 0) as any as S.Schema<PreviewComposeTemplateRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<PreviewComposeTemplateResponse>,
+  input: __S(56, __c14, 0) as any as S.Schema<PreviewComposeTemplateRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<PreviewComposeTemplateResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -638,8 +691,8 @@ export const processComposeTemplate: API.OperationMethod<
   ProcessComposeTemplateError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c14, 0) as any as S.Schema<ProcessComposeTemplateRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<ProcessComposeTemplateResponse>,
+  input: __S(60, __c15, 0) as any as S.Schema<ProcessComposeTemplateRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<ProcessComposeTemplateResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -654,8 +707,8 @@ export const randomizeCompose: API.OperationMethod<
   RandomizeComposeError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(60, __c15, 0) as any as S.Schema<RandomizeComposeRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<RandomizeComposeResponse>,
+  input: __S(64, __c16, 0) as any as S.Schema<RandomizeComposeRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<RandomizeComposeResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -670,8 +723,8 @@ export const readComposeLogs: API.OperationMethod<
   ReadComposeLogsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c16, 0) as any as S.Schema<ReadComposeLogsRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<ReadComposeLogsResponse>,
+  input: __S(68, __c17, 0) as any as S.Schema<ReadComposeLogsRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<ReadComposeLogsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -686,8 +739,8 @@ export const redeployCompose: API.OperationMethod<
   RedeployComposeError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(68, __c17, 0) as any as S.Schema<RedeployComposeRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<RedeployComposeResponse>,
+  input: __S(72, __c18, 0) as any as S.Schema<RedeployComposeRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<RedeployComposeResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -702,8 +755,8 @@ export const refreshComposeToken: API.OperationMethod<
   RefreshComposeTokenError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c18, 0) as any as S.Schema<RefreshComposeTokenRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<RefreshComposeTokenResponse>,
+  input: __S(76, __c19, 0) as any as S.Schema<RefreshComposeTokenRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<RefreshComposeTokenResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -718,8 +771,8 @@ export const saveComposeEnvironment: API.OperationMethod<
   SaveComposeEnvironmentError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(76, __c19, 0) as any as S.Schema<SaveComposeEnvironmentRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<SaveComposeEnvironmentResponse>,
+  input: __S(80, __c20, 0) as any as S.Schema<SaveComposeEnvironmentRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<SaveComposeEnvironmentResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -734,8 +787,8 @@ export const searchCompose: API.OperationMethod<
   SearchComposeError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c22, 0) as any as S.Schema<SearchComposeRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<SearchComposeResponse>,
+  input: __S(92, __c23, 0) as any as S.Schema<SearchComposeRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<SearchComposeResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -750,8 +803,8 @@ export const startCompose: API.OperationMethod<
   StartComposeError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(92, __c23, 0) as any as S.Schema<StartComposeRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<StartComposeResponse>,
+  input: __S(96, __c24, 0) as any as S.Schema<StartComposeRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<StartComposeResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -766,8 +819,8 @@ export const stopCompose: API.OperationMethod<
   StopComposeError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c24, 0) as any as S.Schema<StopComposeRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<StopComposeResponse>,
+  input: __S(100, __c25, 0) as any as S.Schema<StopComposeRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<StopComposeResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -782,8 +835,8 @@ export const updateCompose: API.OperationMethod<
   UpdateComposeError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(103, __c25, 3) as any as S.Schema<UpdateComposeRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<UpdateComposeResponse>,
+  input: __S(107, __c26, 3) as any as S.Schema<UpdateComposeRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<UpdateComposeResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -797,12 +850,32 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          message: S.String,
+        }),
+      ).annotate({ identifier: "ErrorBADREQUESTIssuesItem" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+          code: S.String,
+          issues: S.optional(__S(1, __c0, 1)),
+        }),
+      ).annotate({ identifier: "ErrorBADREQUEST" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           composeId: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/compose.disconnectGitProvider", code: 200 })),
       ).annotate({ identifier: "DisconnectComposeGitProviderRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -812,7 +885,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "FetchComposeSourceTypeRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -822,7 +895,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetComposeRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -832,7 +905,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetComposeDefaultCommandRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -842,7 +915,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetComposeTagsRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -852,7 +925,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetComposeTemplatesRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -862,7 +935,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetConvertedComposeRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -873,7 +946,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "ImportComposeRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -884,7 +957,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "IsolatedComposeDeploymentRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -894,7 +967,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "KillComposeBuildRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -905,7 +978,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "LoadComposeMountsByServiceRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -916,7 +989,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "LoadComposeServicesRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -927,7 +1000,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "MoveComposeRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -939,7 +1012,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "PreviewComposeTemplateRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -950,7 +1023,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "ProcessComposeTemplateRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -961,7 +1034,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "RandomizeComposeRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -975,7 +1048,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "ReadComposeLogsRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -988,7 +1061,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "RedeployComposeRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -998,7 +1071,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "RefreshComposeTokenRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1010,7 +1083,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "SaveComposeEnvironmentRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1020,7 +1093,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "CancelComposeDeploymentRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -1028,7 +1101,7 @@ function __c21(j: number): any {
       });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1045,7 +1118,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "SearchComposeRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1055,7 +1128,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "StartComposeRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1065,7 +1138,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "StopComposeRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -1073,12 +1146,12 @@ function __c25(j: number): any {
       return S.suspend(() =>
         S.Struct({
           serviceName: S.String,
-          networkIds: __S(100, __c25, 0),
+          networkIds: __S(104, __c26, 0),
           detachDokployNetwork: S.Boolean,
         }),
       ).annotate({ identifier: "UpdateComposeRequestServiceNetworksItem" });
     case 2:
-      return S.Array(__S(101, __c25, 1));
+      return S.Array(__S(105, __c26, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1123,17 +1196,17 @@ function __c25(j: number): any {
           composeStatus: S.optional(S.String),
           icon: S.optional(S.NullOr(S.String)),
           createdAt: S.optional(S.String),
-          watchPaths: S.optional(S.NullOr(__S(100, __c25, 0))),
+          watchPaths: S.optional(S.NullOr(__S(104, __c26, 0))),
           githubId: S.optional(S.NullOr(S.String)),
           gitlabId: S.optional(S.NullOr(S.String)),
           bitbucketId: S.optional(S.NullOr(S.String)),
           giteaId: S.optional(S.NullOr(S.String)),
-          serviceNetworks: S.optional(S.NullOr(__S(102, __c25, 2))),
+          serviceNetworks: S.optional(S.NullOr(__S(106, __c26, 2))),
         }).pipe(T.Http({ method: "POST", uri: "/compose.update", code: 200 })),
       ).annotate({ identifier: "UpdateComposeRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1143,7 +1216,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "CleanComposeQueuesRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1153,7 +1226,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "ClearComposeDeploymentsRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1170,7 +1243,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "CreateComposeRequest" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1181,7 +1254,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "DeleteComposeRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1194,7 +1267,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "DeployComposeRequest" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

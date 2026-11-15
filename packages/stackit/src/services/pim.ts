@@ -30,33 +30,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export type GetCategoryRequestLanguage = "en" | "de";
 export interface GetCategoryRequest {
@@ -977,6 +992,17 @@ export interface SearchSKUsResponse {
   data?: SearchSKUsResponseDataList | undefined;
   meta?: MetaInformation | undefined;
 }
+export type ErrorDetailsItemMap = { [key: string]: unknown | undefined };
+/** Additional common information */
+export type ErrorDetailsList = Array<ErrorDetailsItemMap>;
+export interface Error {
+  /** HTTP status code */
+  code: number;
+  /** Additional common information */
+  details?: ErrorDetailsList | undefined;
+  /** Error description */
+  message: string;
+}
 export type GetCategoryError = BadRequest | Forbidden | NotFound | StackitOpError;
 /** Get category by ID Retrieves a specific category by its ID, available for general public. */
 export const getCategory: API.OperationMethod<
@@ -985,8 +1011,8 @@ export const getCategory: API.OperationMethod<
   GetCategoryError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<GetCategoryRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<PublicCategory>,
+  input: __S(72, __c9, 0) as any as S.Schema<GetCategoryRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<PublicCategory>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1002,8 +1028,8 @@ export const getProduct: API.OperationMethod<
   GetProductError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<GetProductRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<PublicProduct>,
+  input: __S(88, __c11, 0) as any as S.Schema<GetProductRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<PublicProduct>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1019,8 +1045,8 @@ export const getProductMarketingData: API.OperationMethod<
   GetProductMarketingDataError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<GetProductMarketingDataRequest>,
-  output: __S(118, __c14, 6) as any as S.Schema<PublicMarketingData>,
+  input: __S(112, __c14, 0) as any as S.Schema<GetProductMarketingDataRequest>,
+  output: __S(126, __c15, 6) as any as S.Schema<PublicMarketingData>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1036,8 +1062,8 @@ export const getSKU: API.OperationMethod<
   GetSKUError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<GetSKURequest>,
-  output: __S(121, __c15, 1) as any as S.Schema<GetSKUResponse>,
+  input: __S(128, __c16, 0) as any as S.Schema<GetSKURequest>,
+  output: __S(129, __c16, 1) as any as S.Schema<GetSKUResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1053,8 +1079,8 @@ export const getSTAXSKU: API.OperationMethod<
   GetSTAXSKUError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<GetSTAXSKURequest>,
-  output: __S(137, __c17, 1) as any as S.Schema<GetSTAXSKUResponse>,
+  input: __S(144, __c18, 0) as any as S.Schema<GetSTAXSKURequest>,
+  output: __S(145, __c18, 1) as any as S.Schema<GetSTAXSKUResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1070,8 +1096,8 @@ export const listCategories: API.OperationMethod<
   ListCategoriesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<ListCategoriesRequest>,
-  output: __S(146, __c18, 2) as any as S.Schema<ListCategoriesResponse>,
+  input: __S(152, __c19, 0) as any as S.Schema<ListCategoriesRequest>,
+  output: __S(154, __c19, 2) as any as S.Schema<ListCategoriesResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1087,8 +1113,8 @@ export const listCategoryProducts: API.OperationMethod<
   ListCategoryProductsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<ListCategoryProductsRequest>,
-  output: __S(169, __c21, 1) as any as S.Schema<ListCategoryProductsResponse>,
+  input: __S(168, __c21, 0) as any as S.Schema<ListCategoryProductsRequest>,
+  output: __S(177, __c22, 1) as any as S.Schema<ListCategoryProductsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1104,8 +1130,8 @@ export const listMarketingData: API.OperationMethod<
   ListMarketingDataError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ListMarketingDataRequest>,
-  output: __S(2, __c0, 2) as any as S.Schema<ListMarketingDataResponse>,
+  input: __S(8, __c1, 0) as any as S.Schema<ListMarketingDataRequest>,
+  output: __S(10, __c1, 2) as any as S.Schema<ListMarketingDataResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1121,8 +1147,8 @@ export const listProducts: API.OperationMethod<
   ListProductsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<ListProductsRequest>,
-  output: __S(169, __c21, 1) as any as S.Schema<ListProductsResponse>,
+  input: __S(16, __c2, 0) as any as S.Schema<ListProductsRequest>,
+  output: __S(177, __c22, 1) as any as S.Schema<ListProductsResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1138,8 +1164,8 @@ export const listProductSKUs: API.OperationMethod<
   ListProductSKUsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<ListProductSKUsRequest>,
-  output: __S(26, __c3, 2) as any as S.Schema<ListProductSKUsResponse>,
+  input: __S(24, __c3, 0) as any as S.Schema<ListProductSKUsRequest>,
+  output: __S(34, __c4, 2) as any as S.Schema<ListProductSKUsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1155,8 +1181,8 @@ export const listProductSTAXSKUs: API.OperationMethod<
   ListProductSTAXSKUsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<ListProductSTAXSKUsRequest>,
-  output: __S(26, __c3, 2) as any as S.Schema<ListProductSTAXSKUsResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<ListProductSTAXSKUsRequest>,
+  output: __S(34, __c4, 2) as any as S.Schema<ListProductSTAXSKUsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1172,8 +1198,8 @@ export const listSKUs: API.OperationMethod<
   ListSKUsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<ListSKUsRequest>,
-  output: __S(26, __c3, 2) as any as S.Schema<ListSKUsResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<ListSKUsRequest>,
+  output: __S(34, __c4, 2) as any as S.Schema<ListSKUsResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1189,8 +1215,8 @@ export const listSTAXSKUs: API.OperationMethod<
   ListSTAXSKUsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<ListSTAXSKUsRequest>,
-  output: __S(26, __c3, 2) as any as S.Schema<ListSTAXSKUsResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<ListSTAXSKUsRequest>,
+  output: __S(34, __c4, 2) as any as S.Schema<ListSTAXSKUsResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1206,8 +1232,8 @@ export const searchSKUs: API.OperationMethod<
   SearchSKUsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<SearchSKUsRequest>,
-  output: __S(26, __c3, 2) as any as S.Schema<SearchSKUsResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<SearchSKUsRequest>,
+  output: __S(34, __c4, 2) as any as S.Schema<SearchSKUsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1217,6 +1243,22 @@ export const searchSKUs: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.Number,
+          details: S.optional(__S(1, __c0, 1)),
+          message: S.String,
+        }),
+      ).annotate({ identifier: "Error" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1235,17 +1277,17 @@ function __c0(j: number): any {
         ),
       ).annotate({ identifier: "ListMarketingDataRequest" });
     case 1:
-      return S.Array(__S(118, __c14, 6));
+      return S.Array(__S(126, __c15, 6));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(1, __c0, 1)),
-          meta: S.optional(__S(152, __c19, 0)),
+          data: S.optional(__S(9, __c1, 1)),
+          meta: S.optional(__S(160, __c20, 0)),
         }),
       ).annotate({ identifier: "ListMarketingDataResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1266,7 +1308,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "ListProductsRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1276,7 +1318,7 @@ function __c2(j: number): any {
           pageSize: S.optional(S.Number.pipe(T.Query())),
           language: S.optional(S.String.pipe(T.Query())),
           skuName: S.optional(S.String.pipe(T.Query())),
-          region: S.optional(__S(88, __c11, 0).pipe(T.Query())),
+          region: S.optional(__S(96, __c12, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1288,7 +1330,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "ListProductSKUsRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1300,7 +1342,7 @@ function __c3(j: number): any {
           denominator: S.Number,
           deprecated: S.NullOr(S.String),
           documentation: S.NullOr(S.String),
-          finOpsFocus: __S(128, __c16, 0),
+          finOpsFocus: __S(136, __c17, 0),
           focusConsumedUnit: S.String,
           focusDocumentation: S.optional(S.NullOr(S.String)),
           generalProductGroup: S.NullOr(S.String),
@@ -1313,13 +1355,13 @@ function __c3(j: number): any {
           metric: S.optional(S.NullOr(S.String)),
           name: S.NullOr(S.String),
           priceListVisibility: S.NullOr(S.String),
-          prices: __S(130, __c16, 2),
+          prices: __S(138, __c17, 2),
           productId: S.NullOr(S.String),
           productName: S.NullOr(S.String),
           quantityInputUnit: S.String,
           rateType: S.optional(S.NullOr(S.String)),
           region: S.String,
-          serviceId: S.optional(__S(88, __c11, 0)),
+          serviceId: S.optional(__S(96, __c12, 0)),
           technicalProductGroup: S.optional(S.NullOr(S.String)),
           tierMaxValue: S.optional(S.NullOr(S.Number)),
           tierMinValue: S.optional(S.NullOr(S.Number)),
@@ -1329,21 +1371,21 @@ function __c3(j: number): any {
           validStart: S.String,
           version: S.String,
           productSpecificAttributes: S.optional(S.Unknown),
-          savingsPlans: S.optional(__S(132, __c16, 4)),
+          savingsPlans: S.optional(__S(140, __c17, 4)),
         }),
       ).annotate({ identifier: "PublicSKU" });
     case 1:
-      return S.Array(__S(24, __c3, 0));
+      return S.Array(__S(32, __c4, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(25, __c3, 1)),
-          meta: S.optional(__S(152, __c19, 0)),
+          data: S.optional(__S(33, __c4, 1)),
+          meta: S.optional(__S(160, __c20, 0)),
         }),
       ).annotate({ identifier: "ListProductSKUsResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1353,7 +1395,7 @@ function __c4(j: number): any {
           pageSize: S.optional(S.Number.pipe(T.Query())),
           language: S.optional(S.String.pipe(T.Query())),
           skuName: S.optional(S.String.pipe(T.Query())),
-          region: S.optional(__S(88, __c11, 0).pipe(T.Query())),
+          region: S.optional(__S(96, __c12, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1363,29 +1405,6 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListProductSTAXSKUsRequest" });
-  }
-}
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cursor: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          language: S.optional(S.String.pipe(T.Query())),
-          categoryName: S.optional(S.String.pipe(T.Query())),
-          productName: S.optional(S.String.pipe(T.Query())),
-          skuName: S.optional(S.String.pipe(T.Query())),
-          region: S.optional(__S(88, __c11, 0).pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v2/skus",
-            code: 200,
-            baseUrl: "https://pim.api.stackit.cloud",
-          }),
-        ),
-      ).annotate({ identifier: "ListSKUsRequest" });
   }
 }
 function __c6(j: number): any {
@@ -1399,7 +1418,30 @@ function __c6(j: number): any {
           categoryName: S.optional(S.String.pipe(T.Query())),
           productName: S.optional(S.String.pipe(T.Query())),
           skuName: S.optional(S.String.pipe(T.Query())),
-          region: S.optional(__S(88, __c11, 0).pipe(T.Query())),
+          region: S.optional(__S(96, __c12, 0).pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v2/skus",
+            code: 200,
+            baseUrl: "https://pim.api.stackit.cloud",
+          }),
+        ),
+      ).annotate({ identifier: "ListSKUsRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cursor: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          language: S.optional(S.String.pipe(T.Query())),
+          categoryName: S.optional(S.String.pipe(T.Query())),
+          productName: S.optional(S.String.pipe(T.Query())),
+          skuName: S.optional(S.String.pipe(T.Query())),
+          region: S.optional(__S(96, __c12, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1411,7 +1453,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "ListSTAXSKUsRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1498,7 +1540,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "SearchSKUsRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1516,7 +1558,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetCategoryRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1532,7 +1574,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "PublicCategory" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1550,18 +1592,18 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetProductRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          apiIdentifier: S.optional(__S(88, __c11, 0)),
+          apiIdentifier: S.optional(__S(96, __c12, 0)),
           categoryId: S.optional(S.NullOr(S.String)),
           categoryName: S.optional(S.NullOr(S.String)),
           description: S.optional(S.String),
@@ -1576,7 +1618,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "PublicProduct" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1594,7 +1636,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetProductMarketingDataRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1604,7 +1646,7 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "MarketingAdvantage" });
     case 1:
-      return S.Array(__S(112, __c14, 0));
+      return S.Array(__S(120, __c15, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1614,7 +1656,7 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "MarketingApplication" });
     case 3:
-      return S.Array(__S(114, __c14, 2));
+      return S.Array(__S(122, __c15, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -1623,13 +1665,13 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "MarketingFunction" });
     case 5:
-      return S.Array(__S(116, __c14, 4));
+      return S.Array(__S(124, __c15, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          advantages: S.optional(__S(113, __c14, 1)),
-          applications: S.optional(__S(115, __c14, 3)),
-          functions: S.optional(__S(117, __c14, 5)),
+          advantages: S.optional(__S(121, __c15, 1)),
+          applications: S.optional(__S(123, __c15, 3)),
+          functions: S.optional(__S(125, __c15, 5)),
           headline: S.optional(S.String),
           id: S.optional(S.NullOr(S.String)),
           introductoryText: S.optional(S.String),
@@ -1643,7 +1685,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "PublicMarketingData" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1669,7 +1711,7 @@ function __c15(j: number): any {
           denominator: S.Number,
           deprecated: S.NullOr(S.String),
           documentation: S.NullOr(S.String),
-          finOpsFocus: __S(128, __c16, 0),
+          finOpsFocus: __S(136, __c17, 0),
           focusConsumedUnit: S.String,
           focusDocumentation: S.optional(S.NullOr(S.String)),
           generalProductGroup: S.NullOr(S.String),
@@ -1682,13 +1724,13 @@ function __c15(j: number): any {
           metric: S.optional(S.NullOr(S.String)),
           name: S.NullOr(S.String),
           priceListVisibility: S.NullOr(S.String),
-          prices: __S(130, __c16, 2),
+          prices: __S(138, __c17, 2),
           productId: S.NullOr(S.String),
           productName: S.NullOr(S.String),
           quantityInputUnit: S.String,
           rateType: S.optional(S.NullOr(S.String)),
           region: S.String,
-          serviceId: S.optional(__S(88, __c11, 0)),
+          serviceId: S.optional(__S(96, __c12, 0)),
           technicalProductGroup: S.optional(S.NullOr(S.String)),
           tierMaxValue: S.optional(S.NullOr(S.Number)),
           tierMinValue: S.optional(S.NullOr(S.Number)),
@@ -1698,12 +1740,12 @@ function __c15(j: number): any {
           validStart: S.String,
           version: S.String,
           productSpecificAttributes: S.optional(S.Unknown),
-          savingsPlans: S.optional(__S(132, __c16, 4)),
+          savingsPlans: S.optional(__S(140, __c17, 4)),
         }),
       ).annotate({ identifier: "GetSKUResponse" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1727,7 +1769,7 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "Price" });
     case 2:
-      return S.Array(__S(129, __c16, 1));
+      return S.Array(__S(137, __c17, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1736,10 +1778,10 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "PublicSavingsPlan" });
     case 4:
-      return S.Array(__S(131, __c16, 3));
+      return S.Array(__S(139, __c17, 3));
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1765,7 +1807,7 @@ function __c17(j: number): any {
           denominator: S.Number,
           deprecated: S.NullOr(S.String),
           documentation: S.NullOr(S.String),
-          finOpsFocus: __S(128, __c16, 0),
+          finOpsFocus: __S(136, __c17, 0),
           focusConsumedUnit: S.String,
           focusDocumentation: S.optional(S.NullOr(S.String)),
           generalProductGroup: S.NullOr(S.String),
@@ -1778,13 +1820,13 @@ function __c17(j: number): any {
           metric: S.optional(S.NullOr(S.String)),
           name: S.NullOr(S.String),
           priceListVisibility: S.NullOr(S.String),
-          prices: __S(130, __c16, 2),
+          prices: __S(138, __c17, 2),
           productId: S.NullOr(S.String),
           productName: S.NullOr(S.String),
           quantityInputUnit: S.String,
           rateType: S.optional(S.NullOr(S.String)),
           region: S.String,
-          serviceId: S.optional(__S(88, __c11, 0)),
+          serviceId: S.optional(__S(96, __c12, 0)),
           technicalProductGroup: S.optional(S.NullOr(S.String)),
           tierMaxValue: S.optional(S.NullOr(S.Number)),
           tierMinValue: S.optional(S.NullOr(S.Number)),
@@ -1794,12 +1836,12 @@ function __c17(j: number): any {
           validStart: S.String,
           version: S.String,
           productSpecificAttributes: S.optional(S.Unknown),
-          savingsPlans: S.optional(__S(132, __c16, 4)),
+          savingsPlans: S.optional(__S(140, __c17, 4)),
         }),
       ).annotate({ identifier: "GetSTAXSKUResponse" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1818,17 +1860,17 @@ function __c18(j: number): any {
         ),
       ).annotate({ identifier: "ListCategoriesRequest" });
     case 1:
-      return S.Array(__S(72, __c9, 0));
+      return S.Array(__S(80, __c10, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(145, __c18, 1)),
-          meta: S.optional(__S(152, __c19, 0)),
+          data: S.optional(__S(153, __c19, 1)),
+          meta: S.optional(__S(160, __c20, 0)),
         }),
       ).annotate({ identifier: "ListCategoriesResponse" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1839,7 +1881,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "MetaInformation" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1860,15 +1902,15 @@ function __c20(j: number): any {
       ).annotate({ identifier: "ListCategoryProductsRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(96, __c12, 0));
+      return S.Array(__S(104, __c13, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(168, __c21, 0)),
-          meta: S.optional(__S(152, __c19, 0)),
+          data: S.optional(__S(176, __c22, 0)),
+          meta: S.optional(__S(160, __c20, 0)),
         }),
       ).annotate({ identifier: "ListCategoryProductsResponse" });
   }

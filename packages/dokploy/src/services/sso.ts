@@ -30,33 +30,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorBADREQUEST | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorFORBIDDEN | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorNOTFOUND | string;
+}
 
 export interface AddSsoTrustedOriginRequest {
   origin: string;
@@ -278,6 +293,44 @@ export interface UpdateSsoTrustedOriginRequest {
   newOrigin: string;
 }
 export type UpdateSsoTrustedOriginResponse = unknown;
+export interface ErrorBADREQUESTIssuesItem {
+  message: string;
+}
+/** An array of issues that were responsible for the error */
+export type ErrorBADREQUESTIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorBADREQUEST {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorBADREQUESTIssuesList | undefined;
+}
+export type ErrorFORBIDDENIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorFORBIDDENIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorFORBIDDEN {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorFORBIDDENIssuesList | undefined;
+}
+export type ErrorNOTFOUNDIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorNOTFOUNDIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorNOTFOUND {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorNOTFOUNDIssuesList | undefined;
+}
 export type AddSsoTrustedOriginError = BadRequest | Forbidden | DokployOpError;
 export const addSsoTrustedOrigin: API.OperationMethod<
   AddSsoTrustedOriginRequest,
@@ -285,8 +338,8 @@ export const addSsoTrustedOrigin: API.OperationMethod<
   AddSsoTrustedOriginError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<AddSsoTrustedOriginRequest>,
-  output: __S(80, __c5, 0) as any as S.Schema<AddSsoTrustedOriginResponse>,
+  input: __S(80, __c5, 0) as any as S.Schema<AddSsoTrustedOriginRequest>,
+  output: __S(96, __c6, 0) as any as S.Schema<AddSsoTrustedOriginResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -301,8 +354,8 @@ export const deleteSsoProvider: API.OperationMethod<
   DeleteSsoProviderError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<DeleteSsoProviderRequest>,
-  output: __S(80, __c5, 0) as any as S.Schema<DeleteSsoProviderResponse>,
+  input: __S(112, __c7, 0) as any as S.Schema<DeleteSsoProviderRequest>,
+  output: __S(96, __c6, 0) as any as S.Schema<DeleteSsoProviderResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -317,8 +370,8 @@ export const enforceSSO: API.OperationMethod<
   EnforceSSOError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<EnforceSSORequest>,
-  output: __S(80, __c5, 0) as any as S.Schema<EnforceSSOResponse>,
+  input: __S(128, __c8, 0) as any as S.Schema<EnforceSSORequest>,
+  output: __S(96, __c6, 0) as any as S.Schema<EnforceSSOResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -333,8 +386,8 @@ export const getSso: API.OperationMethod<
   GetSsoError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<GetSsoRequest>,
-  output: __S(80, __c5, 0) as any as S.Schema<GetSsoResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<GetSsoRequest>,
+  output: __S(96, __c6, 0) as any as S.Schema<GetSsoResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -349,8 +402,8 @@ export const getSsoTrustedOrigins: API.OperationMethod<
   GetSsoTrustedOriginsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<GetSsoTrustedOriginsRequest>,
-  output: __S(80, __c5, 0) as any as S.Schema<GetSsoTrustedOriginsResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<GetSsoTrustedOriginsRequest>,
+  output: __S(96, __c6, 0) as any as S.Schema<GetSsoTrustedOriginsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -365,8 +418,8 @@ export const listSsoProviders: API.OperationMethod<
   ListSsoProvidersError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<ListSsoProvidersRequest>,
-  output: __S(80, __c5, 0) as any as S.Schema<ListSsoProvidersResponse>,
+  input: __S(176, __c11, 0) as any as S.Schema<ListSsoProvidersRequest>,
+  output: __S(96, __c6, 0) as any as S.Schema<ListSsoProvidersResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -381,8 +434,8 @@ export const registerSso: API.OperationMethod<
   RegisterSsoError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<RegisterSsoRequest>,
-  output: __S(80, __c5, 0) as any as S.Schema<RegisterSsoResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<RegisterSsoRequest>,
+  output: __S(96, __c6, 0) as any as S.Schema<RegisterSsoResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -397,8 +450,8 @@ export const removeSsoTrustedOrigin: API.OperationMethod<
   RemoveSsoTrustedOriginError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<RemoveSsoTrustedOriginRequest>,
-  output: __S(80, __c5, 0) as any as S.Schema<RemoveSsoTrustedOriginResponse>,
+  input: __S(16, __c1, 0) as any as S.Schema<RemoveSsoTrustedOriginRequest>,
+  output: __S(96, __c6, 0) as any as S.Schema<RemoveSsoTrustedOriginResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -413,8 +466,8 @@ export const showSignInWithSSO: API.OperationMethod<
   ShowSignInWithSSOError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c1, 0) as any as S.Schema<ShowSignInWithSSORequest>,
-  output: __S(80, __c5, 0) as any as S.Schema<ShowSignInWithSSOResponse>,
+  input: __S(32, __c2, 0) as any as S.Schema<ShowSignInWithSSORequest>,
+  output: __S(96, __c6, 0) as any as S.Schema<ShowSignInWithSSOResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -429,8 +482,8 @@ export const updateSso: API.OperationMethod<
   UpdateSsoError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<UpdateSsoRequest>,
-  output: __S(80, __c5, 0) as any as S.Schema<UpdateSsoResponse>,
+  input: __S(48, __c3, 0) as any as S.Schema<UpdateSsoRequest>,
+  output: __S(96, __c6, 0) as any as S.Schema<UpdateSsoResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -445,8 +498,8 @@ export const updateSsoTrustedOrigin: API.OperationMethod<
   UpdateSsoTrustedOriginError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<UpdateSsoTrustedOriginRequest>,
-  output: __S(80, __c5, 0) as any as S.Schema<UpdateSsoTrustedOriginResponse>,
+  input: __S(64, __c4, 0) as any as S.Schema<UpdateSsoTrustedOriginRequest>,
+  output: __S(96, __c6, 0) as any as S.Schema<UpdateSsoTrustedOriginResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -460,12 +513,32 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          message: S.String,
+        }),
+      ).annotate({ identifier: "ErrorBADREQUESTIssuesItem" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+          code: S.String,
+          issues: S.optional(__S(1, __c0, 1)),
+        }),
+      ).annotate({ identifier: "ErrorBADREQUEST" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           origin: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/sso.removeTrustedOrigin", code: 200 })),
       ).annotate({ identifier: "RemoveSsoTrustedOriginRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -473,23 +546,23 @@ function __c1(j: number): any {
       ).annotate({ identifier: "ShowSignInWithSSORequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           providerId: S.String,
           issuer: S.String,
-          domains: __S(192, __c12, 0),
-          oidcConfig: S.optional(__S(195, __c12, 3)),
-          samlConfig: S.optional(__S(201, __c12, 9)),
+          domains: __S(208, __c13, 0),
+          oidcConfig: S.optional(__S(211, __c13, 3)),
+          samlConfig: S.optional(__S(217, __c13, 9)),
           organizationId: S.optional(S.String),
           overrideUserInfo: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/sso.update", code: 200 })),
       ).annotate({ identifier: "UpdateSsoRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -500,7 +573,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "UpdateSsoTrustedOriginRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -510,7 +583,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "AddSsoTrustedOriginRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -518,7 +591,7 @@ function __c5(j: number): any {
       });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -528,7 +601,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "DeleteSsoProviderRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -536,7 +609,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "EnforceSSORequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -546,7 +619,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetSsoRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -554,7 +627,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetSsoTrustedOriginsRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -562,23 +635,23 @@ function __c10(j: number): any {
       ).annotate({ identifier: "ListSsoProvidersRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           providerId: S.String,
           issuer: S.String,
-          domains: __S(192, __c12, 0),
-          oidcConfig: S.optional(__S(195, __c12, 3)),
-          samlConfig: S.optional(__S(201, __c12, 9)),
+          domains: __S(208, __c13, 0),
+          oidcConfig: S.optional(__S(211, __c13, 3)),
+          samlConfig: S.optional(__S(217, __c13, 9)),
           organizationId: S.optional(S.String),
           overrideUserInfo: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/sso.register", code: 200 })),
       ).annotate({ identifier: "RegisterSsoRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -592,7 +665,7 @@ function __c12(j: number): any {
           emailVerified: S.optional(S.String),
           name: S.String,
           image: S.optional(S.String),
-          extraFields: S.optional(__S(193, __c12, 1)),
+          extraFields: S.optional(__S(209, __c13, 1)),
         }),
       ).annotate({ identifier: "RegisterSsoRequestOidcConfigMapping" });
     case 3:
@@ -607,9 +680,9 @@ function __c12(j: number): any {
           jwksEndpoint: S.optional(S.String),
           discoveryEndpoint: S.optional(S.String),
           skipDiscovery: S.optional(S.Boolean),
-          scopes: S.optional(__S(192, __c12, 0)),
+          scopes: S.optional(__S(208, __c13, 0)),
           pkce: S.optional(S.Boolean),
-          mapping: S.optional(__S(194, __c12, 2)),
+          mapping: S.optional(__S(210, __c13, 2)),
         }),
       ).annotate({ identifier: "RegisterSsoRequestOidcConfig" });
     case 4:
@@ -620,7 +693,7 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "RegisterSsoRequestSamlConfigIdpMetadataSingleSignOnServiceItem" });
     case 5:
-      return S.Array(__S(196, __c12, 4));
+      return S.Array(__S(212, __c13, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -632,7 +705,7 @@ function __c12(j: number): any {
           isAssertionEncrypted: S.optional(S.Boolean),
           encPrivateKey: S.optional(S.String),
           encPrivateKeyPass: S.optional(S.String),
-          singleSignOnService: S.optional(__S(197, __c12, 5)),
+          singleSignOnService: S.optional(__S(213, __c13, 5)),
         }),
       ).annotate({ identifier: "RegisterSsoRequestSamlConfigIdpMetadata" });
     case 7:
@@ -657,7 +730,7 @@ function __c12(j: number): any {
           name: S.String,
           firstName: S.optional(S.String),
           lastName: S.optional(S.String),
-          extraFields: S.optional(__S(193, __c12, 1)),
+          extraFields: S.optional(__S(209, __c13, 1)),
         }),
       ).annotate({ identifier: "RegisterSsoRequestSamlConfigMapping" });
     case 9:
@@ -667,8 +740,8 @@ function __c12(j: number): any {
           cert: S.String,
           callbackUrl: S.String,
           audience: S.optional(S.String),
-          idpMetadata: S.optional(__S(198, __c12, 6)),
-          spMetadata: __S(199, __c12, 7),
+          idpMetadata: S.optional(__S(214, __c13, 6)),
+          spMetadata: __S(215, __c13, 7),
           wantAssertionsSigned: S.optional(S.Boolean),
           authnRequestsSigned: S.optional(S.Boolean),
           signatureAlgorithm: S.optional(S.String),
@@ -676,8 +749,8 @@ function __c12(j: number): any {
           identifierFormat: S.optional(S.String),
           privateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           decryptionPvk: S.optional(S.String),
-          additionalParams: S.optional(__S(193, __c12, 1)),
-          mapping: S.optional(__S(200, __c12, 8)),
+          additionalParams: S.optional(__S(209, __c13, 1)),
+          mapping: S.optional(__S(216, __c13, 8)),
         }),
       ).annotate({ identifier: "RegisterSsoRequestSamlConfig" });
   }

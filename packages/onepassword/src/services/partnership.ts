@@ -34,44 +34,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export class Gone
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Gone>()("Gone", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 410 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export interface CreatePartnerAccountRequest {
   /** A unique identifier for the end user's account to be provisioned. It can be up to 80 chars long and consist of alphanumeric characters and hyphens. */
@@ -118,6 +138,14 @@ export interface UpdateAccountRequest {
   /** Specifies when the 1Password account will be frozen, formatted in RFC-3339. */
   ends_at: string;
 }
+export interface Error {
+  /** The HTTP response code of the error. */
+  code?: number | undefined;
+  /** A machine parsable string that represents the code. */
+  error?: string | undefined;
+  /** A description of the error. */
+  description?: string | undefined;
+}
 export type CreatePartnerAccountError = BadRequest | Forbidden | NotFound | OnepasswordOpError;
 /** Begins provisioning process for a new partner associated 1Password account. */
 export const createPartnerAccount: API.OperationMethod<
@@ -126,8 +154,8 @@ export const createPartnerAccount: API.OperationMethod<
   CreatePartnerAccountError,
   PartnershipOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreatePartnerAccountRequest>,
-  output: __S(2, __c1, 0) as any as S.Schema<Account>,
+  input: __S(2, __c1, 0) as any as S.Schema<CreatePartnerAccountRequest>,
+  output: __S(4, __c2, 0) as any as S.Schema<Account>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOnepasswordError],
   protocol: PartnershipProtocol,
   retry: Retry.Retry,
@@ -143,8 +171,8 @@ export const deleteAccount: API.OperationMethod<
   DeleteAccountError,
   PartnershipOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c2, 0) as any as S.Schema<DeleteAccountRequest>,
-  output: __S(5, __c2, 1) as any as S.Schema<DeleteAccountResponse>,
+  input: __S(6, __c3, 0) as any as S.Schema<DeleteAccountRequest>,
+  output: __S(7, __c3, 1) as any as S.Schema<DeleteAccountResponse>,
   errors: [Forbidden, NotFound, UnknownOnepasswordError],
   protocol: PartnershipProtocol,
   retry: Retry.Retry,
@@ -160,8 +188,8 @@ export const getAccount: API.OperationMethod<
   GetAccountError,
   PartnershipOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6, __c3, 0) as any as S.Schema<GetAccountRequest>,
-  output: __S(2, __c1, 0) as any as S.Schema<Account>,
+  input: __S(8, __c4, 0) as any as S.Schema<GetAccountRequest>,
+  output: __S(4, __c2, 0) as any as S.Schema<Account>,
   errors: [Forbidden, NotFound, Gone, UnknownOnepasswordError],
   protocol: PartnershipProtocol,
   retry: Retry.Retry,
@@ -177,8 +205,8 @@ export const updateAccount: API.OperationMethod<
   UpdateAccountError,
   PartnershipOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c4, 0) as any as S.Schema<UpdateAccountRequest>,
-  output: __S(2, __c1, 0) as any as S.Schema<Account>,
+  input: __S(10, __c5, 0) as any as S.Schema<UpdateAccountRequest>,
+  output: __S(4, __c2, 0) as any as S.Schema<Account>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOnepasswordError],
   protocol: PartnershipProtocol,
   retry: Retry.Retry,
@@ -192,6 +220,18 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.Number),
+          error: S.optional(S.String),
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Error" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           customer_account_uid: S.String,
           account_type: S.String,
           domain: S.String,
@@ -200,7 +240,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreatePartnerAccountRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -218,7 +258,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "Account" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -236,7 +276,7 @@ function __c2(j: number): any {
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteAccountResponse" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -252,7 +292,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetAccountRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

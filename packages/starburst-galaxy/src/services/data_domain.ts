@@ -178,6 +178,56 @@ export interface UpdateDataDomainRequest {
   /** Owning role ID */
   roleId?: string | undefined;
 }
+/** Any fields/values that are invalid or incorrect */
+export type BadRequestFieldsList = Array<string>;
+/** Invalid request */
+export interface BadRequest2 {
+  /** Description of the error */
+  message?: string | undefined;
+  /** Any fields/values that are invalid or incorrect */
+  fields?: BadRequestFieldsList | undefined;
+}
+/** Already exists */
+export interface Exists {
+  message?: string | undefined;
+}
+/** Authorization failed */
+export type Forbidden2 = Exists;
+/** Any fields/values that weren't found */
+export type NotFoundFieldsList = Array<string>;
+/** A resource or required component was not found */
+export interface NotFound2 {
+  /** Name of the resource */
+  message: string;
+  /** Violation description */
+  description?: string | undefined;
+  /** Any fields/values that weren't found */
+  fields?: NotFoundFieldsList | undefined;
+}
+/** Violation type */
+export type ViolationType = "TermsOfService";
+/** Field violations (read only) */
+export interface Violation {
+  /** Violation type */
+  type: ViolationType;
+  /** Violation subject */
+  subject: string;
+  /** Violation description */
+  description: string;
+}
+/** Field violations (read only) */
+export type PreconditionfailureViolationsList = Array<Violation>;
+/** Error details (read only) */
+export interface Preconditionfailure {
+  /** Field violations (read only) */
+  violations: PreconditionfailureViolationsList;
+}
+/** Request can not be executed in the current system state, such as deleting a non-empty directory. */
+export interface FailedPrecondition {
+  /** Description of the error */
+  message: string;
+  detail: Preconditionfailure;
+}
 export type CreateDataDomainError = BadRequest | Forbidden | Conflict | StarburstGalaxyOpError;
 /** Create a Data Domain **BETA API:** This API is subject to incompatible changes, or even removal, in the future. */
 export const createDataDomain: API.OperationMethod<

@@ -40,11 +40,16 @@ export class Conflict
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: DataCatalogMetricNameConflict | string;
+}
 
 /** * `certified` - certified * `deprecated` - deprecated */
 export type ProposedStatusEnum = "certified" | "deprecated";
@@ -560,6 +565,30 @@ export interface UpdateDataCatalogMetricsPartialRequest {
   /** Why the definition is shaped this way, in 1-3 short sentences. Name the main design decisions and trade-offs: the source table or view, a filter or exclusion, the grain, an approximation. Leave out the use case, who asked, run results, validation figures, and edit history. */
   reasoning?: string | undefined;
 }
+/** The live metric that holds the name a create was sent with. */
+export interface DataCatalogMetricNameConflictExisting {
+  /** Name of the existing metric. */
+  name: string;
+  /** Lifecycle state of the existing metric: 'proposed' or 'approved'. */
+  status: string;
+}
+export interface DataCatalogMetricNameConflictExtra {
+  /** The metric that holds the name. Send overwrite true to replace it. */
+  existing_metric: DataCatalogMetricNameConflictExisting;
+}
+/** The 409 body of a create whose name a live metric already holds. */
+export interface DataCatalogMetricNameConflict {
+  /** Error class the API attaches to every error body. */
+  type: string;
+  /** Always 'metric_name_taken'. */
+  code: string;
+  /** Human-readable reason, safe to show as is. */
+  detail: string;
+  /** Always null: the conflict is not tied to one field. */
+  attr: string | null;
+  /** Absent when the existing metric is hidden from the caller because it reads a table they cannot access. */
+  extra?: DataCatalogMetricNameConflictExtra | undefined;
+}
 export type CreateDataCatalogCertificationError = PosthogOpError;
 /** Trust marks on warehouse tables and views. Reads exclude soft-deleted targets. */
 export const createDataCatalogCertification: API.OperationMethod<
@@ -568,8 +597,8 @@ export const createDataCatalogCertification: API.OperationMethod<
   CreateDataCatalogCertificationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c12, 0) as any as S.Schema<CreateDataCatalogCertificationRequest>,
-  output: __S(52, __c13, 0) as any as S.Schema<DataCatalogCertification>,
+  input: __S(52, __c13, 0) as any as S.Schema<CreateDataCatalogCertificationRequest>,
+  output: __S(56, __c14, 0) as any as S.Schema<DataCatalogCertification>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -585,8 +614,8 @@ export const createDataCatalogCertificationsCertify: API.OperationMethod<
   CreateDataCatalogCertificationsCertifyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c20, 0) as any as S.Schema<CreateDataCatalogCertificationsCertifyRequest>,
-  output: __S(52, __c13, 0) as any as S.Schema<DataCatalogCertification>,
+  input: __S(84, __c21, 0) as any as S.Schema<CreateDataCatalogCertificationsCertifyRequest>,
+  output: __S(56, __c14, 0) as any as S.Schema<DataCatalogCertification>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -602,8 +631,8 @@ export const createDataCatalogCertificationsDeprecate: API.OperationMethod<
   CreateDataCatalogCertificationsDeprecateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(84, __c21, 0) as any as S.Schema<CreateDataCatalogCertificationsDeprecateRequest>,
-  output: __S(52, __c13, 0) as any as S.Schema<DataCatalogCertification>,
+  input: __S(88, __c22, 0) as any as S.Schema<CreateDataCatalogCertificationsDeprecateRequest>,
+  output: __S(56, __c14, 0) as any as S.Schema<DataCatalogCertification>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -619,8 +648,8 @@ export const createDataCatalogMetrics: API.OperationMethod<
   CreateDataCatalogMetricsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c22, 0) as any as S.Schema<CreateDataCatalogMetricsRequest>,
-  output: __S(92, __c23, 0) as any as S.Schema<DataCatalogMetric>,
+  input: __S(92, __c23, 0) as any as S.Schema<CreateDataCatalogMetricsRequest>,
+  output: __S(96, __c24, 0) as any as S.Schema<DataCatalogMetric>,
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -636,8 +665,8 @@ export const createDataCatalogMetricsRun: API.OperationMethod<
   CreateDataCatalogMetricsRunError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c24, 0) as any as S.Schema<CreateDataCatalogMetricsRunRequest>,
-  output: __S(97, __c24, 1) as any as S.Schema<DataCatalogMetricRun>,
+  input: __S(100, __c25, 0) as any as S.Schema<CreateDataCatalogMetricsRunRequest>,
+  output: __S(101, __c25, 1) as any as S.Schema<DataCatalogMetricRun>,
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -653,8 +682,8 @@ export const createDataCatalogRelationshipProposal: API.OperationMethod<
   CreateDataCatalogRelationshipProposalError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c26, 0) as any as S.Schema<CreateDataCatalogRelationshipProposalRequest>,
-  output: __S(108, __c27, 0) as any as S.Schema<DataCatalogRelationshipProposal>,
+  input: __S(108, __c27, 0) as any as S.Schema<CreateDataCatalogRelationshipProposalRequest>,
+  output: __S(112, __c28, 0) as any as S.Schema<DataCatalogRelationshipProposal>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -670,8 +699,8 @@ export const dataCatalogCertificationsDestroy: API.OperationMethod<
   DataCatalogCertificationsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c28, 0) as any as S.Schema<DataCatalogCertificationsDestroyRequest>,
-  output: __S(116, __c29, 0) as any as S.Schema<DataCatalogCertificationsDestroyResponse>,
+  input: __S(116, __c29, 0) as any as S.Schema<DataCatalogCertificationsDestroyRequest>,
+  output: __S(120, __c30, 0) as any as S.Schema<DataCatalogCertificationsDestroyResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -687,8 +716,8 @@ export const dataCatalogMetricsApproveCreate: API.OperationMethod<
   DataCatalogMetricsApproveCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c30, 0) as any as S.Schema<DataCatalogMetricsApproveCreateRequest>,
-  output: __S(92, __c23, 0) as any as S.Schema<DataCatalogMetric>,
+  input: __S(124, __c31, 0) as any as S.Schema<DataCatalogMetricsApproveCreateRequest>,
+  output: __S(96, __c24, 0) as any as S.Schema<DataCatalogMetric>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -704,8 +733,8 @@ export const dataCatalogMetricsBulkApproveCreate: API.OperationMethod<
   DataCatalogMetricsBulkApproveCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<DataCatalogMetricsBulkApproveCreateRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<DataCatalogMetricBulkApprove>,
+  input: __S(4, __c1, 0) as any as S.Schema<DataCatalogMetricsBulkApproveCreateRequest>,
+  output: __S(5, __c1, 1) as any as S.Schema<DataCatalogMetricBulkApprove>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -721,8 +750,8 @@ export const dataCatalogMetricsBulkChangeOwnerCreate: API.OperationMethod<
   DataCatalogMetricsBulkChangeOwnerCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<DataCatalogMetricsBulkChangeOwnerCreateRequest>,
-  output: __S(13, __c3, 1) as any as S.Schema<DataCatalogMetricBulkChangeOwner>,
+  input: __S(16, __c4, 0) as any as S.Schema<DataCatalogMetricsBulkChangeOwnerCreateRequest>,
+  output: __S(17, __c4, 1) as any as S.Schema<DataCatalogMetricBulkChangeOwner>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -738,8 +767,8 @@ export const dataCatalogMetricsBulkDeleteCreate: API.OperationMethod<
   DataCatalogMetricsBulkDeleteCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<DataCatalogMetricsBulkDeleteCreateRequest>,
-  output: __S(17, __c4, 1) as any as S.Schema<DataCatalogMetricBulkDelete>,
+  input: __S(20, __c5, 0) as any as S.Schema<DataCatalogMetricsBulkDeleteCreateRequest>,
+  output: __S(21, __c5, 1) as any as S.Schema<DataCatalogMetricBulkDelete>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -755,8 +784,8 @@ export const dataCatalogMetricsDestroy: API.OperationMethod<
   DataCatalogMetricsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<DataCatalogMetricsDestroyRequest>,
-  output: __S(116, __c29, 0) as any as S.Schema<DataCatalogMetricsDestroyResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<DataCatalogMetricsDestroyRequest>,
+  output: __S(120, __c30, 0) as any as S.Schema<DataCatalogMetricsDestroyResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -772,8 +801,8 @@ export const dataCatalogMetricsRefreshFromInsightCreate: API.OperationMethod<
   DataCatalogMetricsRefreshFromInsightCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<DataCatalogMetricsRefreshFromInsightCreateRequest>,
-  output: __S(92, __c23, 0) as any as S.Schema<DataCatalogMetric>,
+  input: __S(28, __c7, 0) as any as S.Schema<DataCatalogMetricsRefreshFromInsightCreateRequest>,
+  output: __S(96, __c24, 0) as any as S.Schema<DataCatalogMetric>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -789,8 +818,8 @@ export const dataCatalogRelationshipProposalsAcceptCreate: API.OperationMethod<
   DataCatalogRelationshipProposalsAcceptCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<DataCatalogRelationshipProposalsAcceptCreateRequest>,
-  output: __S(108, __c27, 0) as any as S.Schema<DataCatalogRelationshipProposal>,
+  input: __S(32, __c8, 0) as any as S.Schema<DataCatalogRelationshipProposalsAcceptCreateRequest>,
+  output: __S(112, __c28, 0) as any as S.Schema<DataCatalogRelationshipProposal>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -806,8 +835,8 @@ export const dataCatalogRelationshipProposalsRejectCreate: API.OperationMethod<
   DataCatalogRelationshipProposalsRejectCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<DataCatalogRelationshipProposalsRejectCreateRequest>,
-  output: __S(108, __c27, 0) as any as S.Schema<DataCatalogRelationshipProposal>,
+  input: __S(36, __c9, 0) as any as S.Schema<DataCatalogRelationshipProposalsRejectCreateRequest>,
+  output: __S(112, __c28, 0) as any as S.Schema<DataCatalogRelationshipProposal>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -823,8 +852,8 @@ export const getDataCatalogCertification: API.OperationMethod<
   GetDataCatalogCertificationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<GetDataCatalogCertificationRequest>,
-  output: __S(52, __c13, 0) as any as S.Schema<DataCatalogCertification>,
+  input: __S(40, __c10, 0) as any as S.Schema<GetDataCatalogCertificationRequest>,
+  output: __S(56, __c14, 0) as any as S.Schema<DataCatalogCertification>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -840,8 +869,8 @@ export const getDataCatalogMetrics: API.OperationMethod<
   GetDataCatalogMetricsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<GetDataCatalogMetricsRequest>,
-  output: __S(92, __c23, 0) as any as S.Schema<DataCatalogMetric>,
+  input: __S(44, __c11, 0) as any as S.Schema<GetDataCatalogMetricsRequest>,
+  output: __S(96, __c24, 0) as any as S.Schema<DataCatalogMetric>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -857,8 +886,8 @@ export const getDataCatalogRelationshipProposal: API.OperationMethod<
   GetDataCatalogRelationshipProposalError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(44, __c11, 0) as any as S.Schema<GetDataCatalogRelationshipProposalRequest>,
-  output: __S(108, __c27, 0) as any as S.Schema<DataCatalogRelationshipProposal>,
+  input: __S(48, __c12, 0) as any as S.Schema<GetDataCatalogRelationshipProposalRequest>,
+  output: __S(112, __c28, 0) as any as S.Schema<DataCatalogRelationshipProposal>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -874,8 +903,8 @@ export const listDataCatalogCertifications: API.OperationMethod<
   ListDataCatalogCertificationsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(60, __c15, 0) as any as S.Schema<ListDataCatalogCertificationsRequest>,
-  output: __S(62, __c15, 2) as any as S.Schema<PaginatedDataCatalogCertificationList>,
+  input: __S(64, __c16, 0) as any as S.Schema<ListDataCatalogCertificationsRequest>,
+  output: __S(66, __c16, 2) as any as S.Schema<PaginatedDataCatalogCertificationList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -891,8 +920,8 @@ export const listDataCatalogMetrics: API.OperationMethod<
   ListDataCatalogMetricsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c16, 0) as any as S.Schema<ListDataCatalogMetricsRequest>,
-  output: __S(65, __c16, 1) as any as S.Schema<PaginatedDataCatalogMetricList>,
+  input: __S(68, __c17, 0) as any as S.Schema<ListDataCatalogMetricsRequest>,
+  output: __S(69, __c17, 1) as any as S.Schema<PaginatedDataCatalogMetricList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -908,8 +937,8 @@ export const listDataCatalogRelationshipProposals: API.OperationMethod<
   ListDataCatalogRelationshipProposalsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(68, __c17, 0) as any as S.Schema<ListDataCatalogRelationshipProposalsRequest>,
-  output: __S(70, __c17, 2) as any as S.Schema<PaginatedDataCatalogRelationshipProposalList>,
+  input: __S(72, __c18, 0) as any as S.Schema<ListDataCatalogRelationshipProposalsRequest>,
+  output: __S(74, __c18, 2) as any as S.Schema<PaginatedDataCatalogRelationshipProposalList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -925,8 +954,8 @@ export const updateDataCatalogMetrics: API.OperationMethod<
   UpdateDataCatalogMetricsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c18, 0) as any as S.Schema<UpdateDataCatalogMetricsRequest>,
-  output: __S(92, __c23, 0) as any as S.Schema<DataCatalogMetric>,
+  input: __S(76, __c19, 0) as any as S.Schema<UpdateDataCatalogMetricsRequest>,
+  output: __S(96, __c24, 0) as any as S.Schema<DataCatalogMetric>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -942,8 +971,8 @@ export const updateDataCatalogMetricsPartial: API.OperationMethod<
   UpdateDataCatalogMetricsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(76, __c19, 0) as any as S.Schema<UpdateDataCatalogMetricsPartialRequest>,
-  output: __S(92, __c23, 0) as any as S.Schema<DataCatalogMetric>,
+  input: __S(80, __c20, 0) as any as S.Schema<UpdateDataCatalogMetricsPartialRequest>,
+  output: __S(96, __c24, 0) as any as S.Schema<DataCatalogMetric>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -957,8 +986,35 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String,
+          status: S.String,
+        }),
+      ).annotate({ identifier: "DataCatalogMetricNameConflictExisting" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          existing_metric: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "DataCatalogMetricNameConflictExtra" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          code: S.String,
+          detail: S.String,
+          attr: S.NullOr(S.String),
+          extra: S.optional(__S(1, __c0, 1)),
+        }),
+      ).annotate({ identifier: "DataCatalogMetricNameConflict" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           project_id: S.String.pipe(T.Label()),
-          names: __S(100, __c25, 0),
+          names: __S(104, __c26, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -970,13 +1026,13 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          approved: __S(8, __c2, 0),
-          skipped: __S(5, __c1, 1),
+          approved: __S(12, __c3, 0),
+          skipped: __S(9, __c2, 1),
         }),
       ).annotate({ identifier: "DataCatalogMetricBulkApprove" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -986,22 +1042,22 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "DataCatalogMetricBulkSkip" });
     case 1:
-      return S.Array(__S(4, __c1, 0));
-  }
-}
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(92, __c23, 0));
+      return S.Array(__S(8, __c2, 0));
   }
 }
 function __c3(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(__S(96, __c24, 0));
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          names: __S(100, __c25, 0),
+          names: __S(104, __c26, 0),
           owner: S.NullOr(S.String),
         }).pipe(
           T.Http({
@@ -1014,19 +1070,19 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          updated: __S(8, __c2, 0),
-          skipped: __S(5, __c1, 1),
+          updated: __S(12, __c3, 0),
+          skipped: __S(9, __c2, 1),
         }),
       ).annotate({ identifier: "DataCatalogMetricBulkChangeOwner" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          names: __S(100, __c25, 0),
+          names: __S(104, __c26, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1038,13 +1094,13 @@ function __c4(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          deleted: __S(100, __c25, 0),
-          skipped: __S(5, __c1, 1),
+          deleted: __S(104, __c26, 0),
+          skipped: __S(9, __c2, 1),
         }),
       ).annotate({ identifier: "DataCatalogMetricBulkDelete" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1061,7 +1117,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "DataCatalogMetricsDestroyRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1078,7 +1134,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "DataCatalogMetricsRefreshFromInsightCreateRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1095,7 +1151,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "DataCatalogRelationshipProposalsAcceptCreateRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1113,7 +1169,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "DataCatalogRelationshipProposalsRejectCreateRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1130,7 +1186,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetDataCatalogCertificationRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1147,7 +1203,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetDataCatalogMetricsRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1164,7 +1220,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetDataCatalogRelationshipProposalRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1186,7 +1242,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "CreateDataCatalogCertificationRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1199,7 +1255,7 @@ function __c13(j: number): any {
           status: S.String,
           proposed_status: S.String,
           notes: S.optional(S.String),
-          certified_by: S.NullOr(__S(57, __c14, 1)),
+          certified_by: S.NullOr(__S(61, __c15, 1)),
           certified_at: S.NullOr(S.String),
           created_by: S.NullOr(S.Number),
           created_at: S.String,
@@ -1207,7 +1263,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "DataCatalogCertification" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -1221,13 +1277,13 @@ function __c14(j: number): any {
           last_name: S.optional(S.String),
           email: S.optional(S.String),
           is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.optional(S.NullOr(__S(56, __c14, 0))),
+          hedgehog_config: S.optional(S.NullOr(__S(60, __c15, 0))),
           role_at_organization: S.optional(S.NullOr(S.Unknown)),
         }),
       ).annotate({ identifier: "UserBasic" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1246,19 +1302,19 @@ function __c15(j: number): any {
         ),
       ).annotate({ identifier: "ListDataCatalogCertificationsRequest" });
     case 1:
-      return S.Array(__S(52, __c13, 0));
+      return S.Array(__S(56, __c14, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(61, __c15, 1),
+          results: __S(65, __c16, 1),
         }),
       ).annotate({ identifier: "PaginatedDataCatalogCertificationList" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1283,12 +1339,12 @@ function __c16(j: number): any {
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(8, __c2, 0),
+          results: __S(12, __c3, 0),
         }),
       ).annotate({ identifier: "PaginatedDataCatalogMetricList" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1308,19 +1364,19 @@ function __c17(j: number): any {
         ),
       ).annotate({ identifier: "ListDataCatalogRelationshipProposalsRequest" });
     case 1:
-      return S.Array(__S(108, __c27, 0));
+      return S.Array(__S(112, __c28, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(69, __c17, 1),
+          results: __S(73, __c18, 1),
         }),
       ).annotate({ identifier: "PaginatedDataCatalogRelationshipProposalList" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1331,7 +1387,7 @@ function __c18(j: number): any {
           description: S.String,
           unit: S.optional(S.String),
           owner: S.optional(S.NullOr(S.String)),
-          definition: S.optional(S.NullOr(__S(56, __c14, 0))),
+          definition: S.optional(S.NullOr(__S(60, __c15, 0))),
           source_insight_short_id: S.optional(S.NullOr(S.String)),
           created_source: S.optional(S.String),
           ai_model: S.optional(S.String),
@@ -1347,7 +1403,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "UpdateDataCatalogMetricsRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1358,7 +1414,7 @@ function __c19(j: number): any {
           description: S.optional(S.String),
           unit: S.optional(S.String),
           owner: S.optional(S.NullOr(S.String)),
-          definition: S.optional(S.NullOr(__S(56, __c14, 0))),
+          definition: S.optional(S.NullOr(__S(60, __c15, 0))),
           source_insight_short_id: S.optional(S.NullOr(S.String)),
           created_source: S.optional(S.String),
           ai_model: S.optional(S.String),
@@ -1374,7 +1430,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "UpdateDataCatalogMetricsPartialRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1391,7 +1447,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "CreateDataCatalogCertificationsCertifyRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1408,7 +1464,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "CreateDataCatalogCertificationsDeprecateRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1419,7 +1475,7 @@ function __c22(j: number): any {
           description: S.String,
           unit: S.optional(S.String),
           owner: S.optional(S.NullOr(S.String)),
-          definition: S.optional(S.NullOr(__S(56, __c14, 0))),
+          definition: S.optional(S.NullOr(__S(60, __c15, 0))),
           source_insight_short_id: S.optional(S.NullOr(S.String)),
           created_source: S.optional(S.String),
           ai_model: S.optional(S.String),
@@ -1436,7 +1492,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "CreateDataCatalogMetricsRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1447,27 +1503,27 @@ function __c23(j: number): any {
           description: S.String,
           unit: S.optional(S.String),
           owner: S.optional(S.NullOr(S.String)),
-          definition: S.optional(S.NullOr(__S(56, __c14, 0))),
+          definition: S.optional(S.NullOr(__S(60, __c15, 0))),
           definition_kind: S.NullOr(S.String),
           referenced_table_names: S.Unknown,
           status: S.String,
           is_drifted: S.Boolean,
           approved_at: S.NullOr(S.String),
-          approved_by: S.NullOr(__S(57, __c14, 1)),
+          approved_by: S.NullOr(__S(61, __c15, 1)),
           source_insight_short_id: S.optional(S.NullOr(S.String)),
           last_run_at: S.NullOr(S.String),
           created_source: S.optional(S.String),
           ai_model: S.optional(S.String),
           confidence: S.optional(S.NullOr(S.Number)),
           reasoning: S.optional(S.String),
-          created_by: __S(57, __c14, 1),
+          created_by: __S(61, __c15, 1),
           created_at: S.String,
           updated_at: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "DataCatalogMetric" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1496,7 +1552,7 @@ function __c24(j: number): any {
           unit: S.NullOr(S.String),
           kind: S.NullOr(S.String),
           results: S.Unknown,
-          columns: S.NullOr(__S(100, __c25, 0)),
+          columns: S.NullOr(__S(104, __c26, 0)),
           compiled_query: S.NullOr(S.String),
           query_status: S.Unknown,
           has_more: S.Boolean,
@@ -1509,13 +1565,13 @@ function __c24(j: number): any {
       ).annotate({ identifier: "DataCatalogMetricRun" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1540,7 +1596,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "CreateDataCatalogRelationshipProposalRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1556,7 +1612,7 @@ function __c27(j: number): any {
           reasoning: S.optional(S.String),
           evidence: S.optional(S.Unknown),
           status: S.String,
-          reviewed_by: S.NullOr(__S(57, __c14, 1)),
+          reviewed_by: S.NullOr(__S(61, __c15, 1)),
           reviewed_at: S.NullOr(S.String),
           rejection_reason: S.String,
           created_join: S.NullOr(S.String),
@@ -1566,7 +1622,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "DataCatalogRelationshipProposal" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1583,7 +1639,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "DataCatalogCertificationsDestroyRequest" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -1591,7 +1647,7 @@ function __c29(j: number): any {
       });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

@@ -52,11 +52,16 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(193, __c12, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error401Body | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -1107,6 +1112,13 @@ export interface UpdateVercelCiRepositorySettingsResponse {
   ciEnabledAt?: number | undefined;
   updatedAt?: number | undefined;
 }
+export interface Error401BodyError {
+  code: string;
+  message: string;
+}
+export interface Error401Body {
+  error: Error401BodyError;
+}
 export type CreateVercelCiTaskAnalysisError =
   | BadRequest
   | Forbidden
@@ -1120,8 +1132,8 @@ export const createVercelCiTaskAnalysis: API.OperationMethod<
   CreateVercelCiTaskAnalysisError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<CreateVercelCiTaskAnalysisRequest>,
-  output: __S(305, __c19, 1) as any as S.Schema<CreateVercelCiTaskAnalysisResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<CreateVercelCiTaskAnalysisRequest>,
+  output: __S(321, __c20, 1) as any as S.Schema<CreateVercelCiTaskAnalysisResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -1142,8 +1154,8 @@ export const createVercelCiTaskConfigurationPullRequest: API.OperationMethod<
   CreateVercelCiTaskConfigurationPullRequestError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(322, __c20, 2) as any as S.Schema<CreateVercelCiTaskConfigurationPullRequestRequest>,
-  output: __S(323, __c20, 3) as any as S.Schema<CreateVercelCiTaskConfigurationPullRequestResponse>,
+  input: __S(338, __c21, 2) as any as S.Schema<CreateVercelCiTaskConfigurationPullRequestRequest>,
+  output: __S(339, __c21, 3) as any as S.Schema<CreateVercelCiTaskConfigurationPullRequestResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -1159,8 +1171,8 @@ export const getVercelCiInvocation: API.OperationMethod<
   GetVercelCiInvocationError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<GetVercelCiInvocationRequest>,
-  output: __S(354, __c22, 2) as any as S.Schema<GetVercelCiInvocationResponse>,
+  input: __S(368, __c23, 0) as any as S.Schema<GetVercelCiInvocationRequest>,
+  output: __S(370, __c23, 2) as any as S.Schema<GetVercelCiInvocationResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -1176,8 +1188,8 @@ export const getVercelCiInvocationLogs: API.OperationMethod<
   GetVercelCiInvocationLogsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<GetVercelCiInvocationLogsRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<GetVercelCiInvocationLogsResponse>,
+  input: __S(416, __c26, 0) as any as S.Schema<GetVercelCiInvocationLogsRequest>,
+  output: __S(464, __c29, 0) as any as S.Schema<GetVercelCiInvocationLogsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -1193,8 +1205,8 @@ export const getVercelCiInvocationTree: API.OperationMethod<
   GetVercelCiInvocationTreeError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<GetVercelCiInvocationTreeRequest>,
-  output: __S(475, __c29, 11) as any as S.Schema<GetVercelCiInvocationTreeResponse>,
+  input: __S(480, __c30, 0) as any as S.Schema<GetVercelCiInvocationTreeRequest>,
+  output: __S(491, __c30, 11) as any as S.Schema<GetVercelCiInvocationTreeResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -1210,8 +1222,8 @@ export const getVercelCiJobDefinition: API.OperationMethod<
   GetVercelCiJobDefinitionError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<GetVercelCiJobDefinitionRequest>,
-  output: __S(513, __c32, 1) as any as S.Schema<GetVercelCiJobDefinitionResponse>,
+  input: __S(528, __c33, 0) as any as S.Schema<GetVercelCiJobDefinitionRequest>,
+  output: __S(529, __c33, 1) as any as S.Schema<GetVercelCiJobDefinitionResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -1245,7 +1257,7 @@ export const getVercelCiJobRunLogs: API.OperationMethod<
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c1, 0) as any as S.Schema<GetVercelCiJobRunLogsRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<GetVercelCiJobRunLogsResponse>,
+  output: __S(464, __c29, 0) as any as S.Schema<GetVercelCiJobRunLogsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -1318,7 +1330,7 @@ export const getVercelCiTaskRunLogs: API.OperationMethod<
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<GetVercelCiTaskRunLogsRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<GetVercelCiTaskRunLogsResponse>,
+  output: __S(464, __c29, 0) as any as S.Schema<GetVercelCiTaskRunLogsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -1402,8 +1414,8 @@ export const listVercelCiJobRuns: API.OperationMethod<
   ListVercelCiJobRunsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<ListVercelCiJobRunsRequest>,
-  output: __S(196, __c12, 4) as any as S.Schema<ListVercelCiJobRunsResponse>,
+  input: __S(208, __c13, 0) as any as S.Schema<ListVercelCiJobRunsRequest>,
+  output: __S(212, __c13, 4) as any as S.Schema<ListVercelCiJobRunsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -1424,8 +1436,8 @@ export const listVercelCiTaskAnalysisTasks: API.OperationMethod<
   ListVercelCiTaskAnalysisTasksError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<ListVercelCiTaskAnalysisTasksRequest>,
-  output: __S(211, __c13, 3) as any as S.Schema<ListVercelCiTaskAnalysisTasksResponse>,
+  input: __S(224, __c14, 0) as any as S.Schema<ListVercelCiTaskAnalysisTasksRequest>,
+  output: __S(227, __c14, 3) as any as S.Schema<ListVercelCiTaskAnalysisTasksResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -1441,8 +1453,8 @@ export const listVercelCiTaskDefinitions: API.OperationMethod<
   ListVercelCiTaskDefinitionsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<ListVercelCiTaskDefinitionsRequest>,
-  output: __S(227, __c14, 3) as any as S.Schema<ListVercelCiTaskDefinitionsResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<ListVercelCiTaskDefinitionsRequest>,
+  output: __S(243, __c15, 3) as any as S.Schema<ListVercelCiTaskDefinitionsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -1458,8 +1470,8 @@ export const listVercelCiTaskRuns: API.OperationMethod<
   ListVercelCiTaskRunsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<ListVercelCiTaskRunsRequest>,
-  output: __S(244, __c15, 4) as any as S.Schema<ListVercelCiTaskRunsResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<ListVercelCiTaskRunsRequest>,
+  output: __S(260, __c16, 4) as any as S.Schema<ListVercelCiTaskRunsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -1480,8 +1492,8 @@ export const retryVercelCiInvocation: API.OperationMethod<
   RetryVercelCiInvocationError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<RetryVercelCiInvocationRequest>,
-  output: __S(257, __c16, 1) as any as S.Schema<RetryVercelCiInvocationResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<RetryVercelCiInvocationRequest>,
+  output: __S(273, __c17, 1) as any as S.Schema<RetryVercelCiInvocationResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -1497,8 +1509,8 @@ export const searchVercelCiLogs: API.OperationMethod<
   SearchVercelCiLogsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<SearchVercelCiLogsRequest>,
-  output: __S(277, __c17, 5) as any as S.Schema<SearchVercelCiLogsResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<SearchVercelCiLogsRequest>,
+  output: __S(293, __c18, 5) as any as S.Schema<SearchVercelCiLogsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -1519,7 +1531,7 @@ export const updateVercelCiRepositorySettings: API.OperationMethod<
   UpdateVercelCiRepositorySettingsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<UpdateVercelCiRepositorySettingsRequest>,
+  input: __S(304, __c19, 0) as any as S.Schema<UpdateVercelCiRepositorySettingsRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<UpdateVercelCiRepositorySettingsResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
@@ -1563,7 +1575,7 @@ function __c0(j: number): any {
           jobDefinitionId: S.String,
           attempt: S.Number,
           createdAt: S.Number,
-          started: S.optional(__S(368, __c23, 0)),
+          started: S.optional(__S(384, __c24, 0)),
           completed: S.optional(__S(1, __c0, 1)),
         }),
       ).annotate({ identifier: "GetVercelCiJobRunResponseJobRun" });
@@ -1586,7 +1598,7 @@ function __c1(j: number): any {
           runAttempt: S.String.pipe(T.Label()),
           follow: S.optional(S.Number.pipe(T.Query())),
           since: S.optional(S.Number.pipe(T.Query())),
-          level: S.optional(__S(416, __c26, 0).pipe(T.Query())),
+          level: S.optional(__S(432, __c27, 0).pipe(T.Query())),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -1657,9 +1669,9 @@ function __c5(j: number): any {
         S.Struct({
           invocationId: S.String.pipe(T.Label()),
           attempt: S.String.pipe(T.Label()),
-          task: S.optional(__S(336, __c21, 0).pipe(T.Query())),
-          conclusion: S.optional(__S(416, __c26, 0).pipe(T.Query())),
-          level: S.optional(__S(416, __c26, 0).pipe(T.Query())),
+          task: S.optional(__S(352, __c22, 0).pipe(T.Query())),
+          conclusion: S.optional(__S(432, __c27, 0).pipe(T.Query())),
+          level: S.optional(__S(432, __c27, 0).pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           teamId: S.optional(S.String.pipe(T.Query())),
@@ -1682,7 +1694,7 @@ function __c5(j: number): any {
           taskName: S.String,
           taskRunAttempt: S.optional(S.Number),
           conclusion: S.optional(S.Unknown),
-          lines: __S(433, __c27, 1),
+          lines: __S(449, __c28, 1),
         }),
       ).annotate({ identifier: "GetVercelCiTaskLogsResponseTasksItem" });
     case 2:
@@ -1709,7 +1721,7 @@ function __c6(j: number): any {
           taskRunAttempt: S.String.pipe(T.Label()),
           follow: S.optional(S.Number.pipe(T.Query())),
           since: S.optional(S.Number.pipe(T.Query())),
-          level: S.optional(__S(416, __c26, 0).pipe(T.Query())),
+          level: S.optional(__S(432, __c27, 0).pipe(T.Query())),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -1777,15 +1789,15 @@ function __c8(j: number): any {
           repositoryKey: S.String,
           ref: S.String,
           commitSha: S.String,
-          skipped: S.optional(__S(384, __c24, 0)),
-          bootstrappingStarted: S.optional(__S(368, __c23, 0)),
-          bootstrappingFailed: S.optional(__S(384, __c24, 0)),
-          sandboxSnapshotted: S.optional(__S(385, __c24, 1)),
-          sandboxNamed: S.optional(__S(386, __c24, 2)),
-          jobDefinitionsCreated: S.optional(__S(387, __c24, 3)),
-          completed: S.optional(__S(388, __c24, 4)),
-          setupConclusion: S.optional(__S(389, __c24, 5)),
-          runConclusion: S.optional(__S(389, __c24, 5)),
+          skipped: S.optional(__S(400, __c25, 0)),
+          bootstrappingStarted: S.optional(__S(384, __c24, 0)),
+          bootstrappingFailed: S.optional(__S(400, __c25, 0)),
+          sandboxSnapshotted: S.optional(__S(401, __c25, 1)),
+          sandboxNamed: S.optional(__S(402, __c25, 2)),
+          jobDefinitionsCreated: S.optional(__S(403, __c25, 3)),
+          completed: S.optional(__S(404, __c25, 4)),
+          setupConclusion: S.optional(__S(405, __c25, 5)),
+          runConclusion: S.optional(__S(405, __c25, 5)),
           status: S.String,
         }),
       ).annotate({ identifier: "ListVercelCiInvocationAttemptsResponseAttemptsItem" });
@@ -1809,9 +1821,9 @@ function __c9(j: number): any {
           repository: S.optional(S.String.pipe(T.Query())),
           branchName: S.optional(S.String.pipe(T.Query())),
           snapshot: S.optional(S.String.pipe(T.Query())),
-          status: S.optional(__S(416, __c26, 0).pipe(T.Query())),
-          conclusion: S.optional(__S(416, __c26, 0).pipe(T.Query())),
-          source: S.optional(__S(416, __c26, 0).pipe(T.Query())),
+          status: S.optional(__S(432, __c27, 0).pipe(T.Query())),
+          conclusion: S.optional(__S(432, __c27, 0).pipe(T.Query())),
+          source: S.optional(__S(432, __c27, 0).pipe(T.Query())),
           authorGitHubId: S.optional(S.String.pipe(T.Query())),
           author: S.optional(S.String.pipe(T.Query())),
           createdAfter: S.optional(S.Number.pipe(T.Query())),
@@ -1833,15 +1845,15 @@ function __c9(j: number): any {
           repositoryKey: S.String,
           ref: S.String,
           commitSha: S.String,
-          skipped: S.optional(__S(384, __c24, 0)),
-          bootstrappingStarted: S.optional(__S(368, __c23, 0)),
-          bootstrappingFailed: S.optional(__S(384, __c24, 0)),
-          sandboxSnapshotted: S.optional(__S(385, __c24, 1)),
-          sandboxNamed: S.optional(__S(386, __c24, 2)),
-          jobDefinitionsCreated: S.optional(__S(387, __c24, 3)),
-          completed: S.optional(__S(388, __c24, 4)),
-          setupConclusion: S.optional(__S(389, __c24, 5)),
-          runConclusion: S.optional(__S(389, __c24, 5)),
+          skipped: S.optional(__S(400, __c25, 0)),
+          bootstrappingStarted: S.optional(__S(384, __c24, 0)),
+          bootstrappingFailed: S.optional(__S(400, __c25, 0)),
+          sandboxSnapshotted: S.optional(__S(401, __c25, 1)),
+          sandboxNamed: S.optional(__S(402, __c25, 2)),
+          jobDefinitionsCreated: S.optional(__S(403, __c25, 3)),
+          completed: S.optional(__S(404, __c25, 4)),
+          setupConclusion: S.optional(__S(405, __c25, 5)),
+          runConclusion: S.optional(__S(405, __c25, 5)),
           status: S.String,
         }),
       ).annotate({ identifier: "ListVercelCiInvocationsResponseInvocationsItem" });
@@ -1885,7 +1897,7 @@ function __c11(j: number): any {
         ),
       ).annotate({ identifier: "ListVercelCiJobDefinitionsRequest" });
     case 1:
-      return S.Array(__S(496, __c31, 0));
+      return S.Array(__S(512, __c32, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1895,6 +1907,23 @@ function __c11(j: number): any {
   }
 }
 function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.String,
+          message: S.String,
+        }),
+      ).annotate({ identifier: "Error401BodyError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(192, __c12, 0),
+        }),
+      ).annotate({ identifier: "Error401Body" });
+  }
+}
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1927,21 +1956,21 @@ function __c12(j: number): any {
           jobDefinitionId: S.String,
           attempt: S.Number,
           createdAt: S.Number,
-          started: S.optional(__S(368, __c23, 0)),
-          completed: S.optional(__S(193, __c12, 1)),
+          started: S.optional(__S(384, __c24, 0)),
+          completed: S.optional(__S(209, __c13, 1)),
         }),
       ).annotate({ identifier: "ListVercelCiJobRunsResponseJobRunsItem" });
     case 3:
-      return S.Array(__S(194, __c12, 2));
+      return S.Array(__S(210, __c13, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          jobRuns: __S(195, __c12, 3),
+          jobRuns: __S(211, __c13, 3),
         }),
       ).annotate({ identifier: "ListVercelCiJobRunsResponse" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1964,21 +1993,21 @@ function __c13(j: number): any {
         S.Struct({
           name: S.String,
           configPath: S.String,
-          recommendationReasons: __S(336, __c21, 0),
+          recommendationReasons: __S(352, __c22, 0),
         }),
       ).annotate({ identifier: "ListVercelCiTaskAnalysisTasksResponseTasksItem" });
     case 2:
-      return S.Array(__S(209, __c13, 1));
+      return S.Array(__S(225, __c14, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          tasks: __S(210, __c13, 2),
+          tasks: __S(226, __c14, 2),
           pagination: __S(160, __c10, 0),
         }),
       ).annotate({ identifier: "ListVercelCiTaskAnalysisTasksResponse" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2008,21 +2037,21 @@ function __c14(j: number): any {
           name: S.String,
           packageDirectory: S.optional(S.String),
           operation: S.Unknown,
-          dependencyTaskDefinitionIds: __S(336, __c21, 0),
+          dependencyTaskDefinitionIds: __S(352, __c22, 0),
           createdAt: S.Number,
         }),
       ).annotate({ identifier: "ListVercelCiTaskDefinitionsResponseTaskDefinitionsItem" });
     case 2:
-      return S.Array(__S(225, __c14, 1));
+      return S.Array(__S(241, __c15, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          taskDefinitions: __S(226, __c14, 2),
+          taskDefinitions: __S(242, __c15, 2),
         }),
       ).annotate({ identifier: "ListVercelCiTaskDefinitionsResponse" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2059,22 +2088,22 @@ function __c15(j: number): any {
           taskDefinitionId: S.String,
           attempt: S.Number,
           createdAt: S.Number,
-          started: S.optional(__S(368, __c23, 0)),
-          completed: S.optional(__S(241, __c15, 1)),
-          deploymentBinding: S.optional(__S(480, __c30, 0)),
+          started: S.optional(__S(384, __c24, 0)),
+          completed: S.optional(__S(257, __c16, 1)),
+          deploymentBinding: S.optional(__S(496, __c31, 0)),
         }),
       ).annotate({ identifier: "ListVercelCiTaskRunsResponseTaskRunsItem" });
     case 3:
-      return S.Array(__S(242, __c15, 2));
+      return S.Array(__S(258, __c16, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          taskRuns: __S(243, __c15, 3),
+          taskRuns: __S(259, __c16, 3),
         }),
       ).annotate({ identifier: "ListVercelCiTaskRunsResponse" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2100,14 +2129,14 @@ function __c16(j: number): any {
       ).annotate({ identifier: "RetryVercelCiInvocationResponse" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          invocation: __S(336, __c21, 0).pipe(T.Query()),
+          invocation: __S(352, __c22, 0).pipe(T.Query()),
           search: S.String.pipe(T.Query()),
-          level: S.optional(__S(416, __c26, 0).pipe(T.Query())),
+          level: S.optional(__S(432, __c27, 0).pipe(T.Query())),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/vercel-ci/log-search", code: 200 })),
@@ -2122,31 +2151,31 @@ function __c17(j: number): any {
           taskName: S.String,
           taskRunAttempt: S.optional(S.Number),
           conclusion: S.optional(S.Unknown),
-          lines: __S(433, __c27, 1),
+          lines: __S(449, __c28, 1),
         }),
       ).annotate({ identifier: "SearchVercelCiLogsResponseInvocationsItemTasksItem" });
     case 2:
-      return S.Array(__S(273, __c17, 1));
+      return S.Array(__S(289, __c18, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           invocationId: S.String,
           attempt: S.Number,
-          tasks: __S(274, __c17, 2),
+          tasks: __S(290, __c18, 2),
         }),
       ).annotate({ identifier: "SearchVercelCiLogsResponseInvocationsItem" });
     case 4:
-      return S.Array(__S(275, __c17, 3));
+      return S.Array(__S(291, __c18, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          invocations: __S(276, __c17, 4),
+          invocations: __S(292, __c18, 4),
           hasMore: S.Boolean,
         }),
       ).annotate({ identifier: "SearchVercelCiLogsResponse" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2161,7 +2190,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "UpdateVercelCiRepositorySettingsRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2181,7 +2210,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "CreateVercelCiTaskAnalysisResponse" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2191,14 +2220,14 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "CreateVercelCiTaskConfigurationPullRequestRequestTasksItem" });
     case 1:
-      return S.Array(__S(320, __c20, 0));
+      return S.Array(__S(336, __c21, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           analysisId: S.String.pipe(T.Label()),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
-          tasks: __S(321, __c20, 1),
+          tasks: __S(337, __c21, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2211,18 +2240,18 @@ function __c20(j: number): any {
       return S.suspend(() =>
         S.Struct({
           url: S.String,
-          changedTaskNames: __S(336, __c21, 0),
+          changedTaskNames: __S(352, __c22, 0),
         }),
       ).annotate({ identifier: "CreateVercelCiTaskConfigurationPullRequestResponse" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2250,28 +2279,28 @@ function __c22(j: number): any {
           repositoryKey: S.String,
           ref: S.String,
           commitSha: S.String,
-          skipped: S.optional(__S(384, __c24, 0)),
-          bootstrappingStarted: S.optional(__S(368, __c23, 0)),
-          bootstrappingFailed: S.optional(__S(384, __c24, 0)),
-          sandboxSnapshotted: S.optional(__S(385, __c24, 1)),
-          sandboxNamed: S.optional(__S(386, __c24, 2)),
-          jobDefinitionsCreated: S.optional(__S(387, __c24, 3)),
-          completed: S.optional(__S(388, __c24, 4)),
-          setupConclusion: S.optional(__S(389, __c24, 5)),
-          runConclusion: S.optional(__S(389, __c24, 5)),
+          skipped: S.optional(__S(400, __c25, 0)),
+          bootstrappingStarted: S.optional(__S(384, __c24, 0)),
+          bootstrappingFailed: S.optional(__S(400, __c25, 0)),
+          sandboxSnapshotted: S.optional(__S(401, __c25, 1)),
+          sandboxNamed: S.optional(__S(402, __c25, 2)),
+          jobDefinitionsCreated: S.optional(__S(403, __c25, 3)),
+          completed: S.optional(__S(404, __c25, 4)),
+          setupConclusion: S.optional(__S(405, __c25, 5)),
+          runConclusion: S.optional(__S(405, __c25, 5)),
           status: S.String,
         }),
       ).annotate({ identifier: "GetVercelCiInvocationResponseInvocation" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          invocation: __S(353, __c22, 1),
+          invocation: __S(369, __c23, 1),
           repositories: S.Unknown,
         }),
       ).annotate({ identifier: "GetVercelCiInvocationResponse" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2281,7 +2310,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "GetVercelCiInvocationResponseInvocationBootstrappingStarted" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2308,7 +2337,7 @@ function __c24(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          names: __S(336, __c21, 0),
+          names: __S(352, __c22, 0),
           source: S.optional(S.String),
           scheduledAt: S.optional(S.Number),
         }),
@@ -2328,14 +2357,14 @@ function __c24(j: number): any {
       ).annotate({ identifier: "GetVercelCiInvocationResponseInvocationSetupConclusion" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           invocationId: S.String.pipe(T.Label()),
           attempt: S.String.pipe(T.Label()),
-          level: S.optional(__S(416, __c26, 0).pipe(T.Query())),
+          level: S.optional(__S(432, __c27, 0).pipe(T.Query())),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -2348,13 +2377,13 @@ function __c25(j: number): any {
       ).annotate({ identifier: "GetVercelCiInvocationLogsRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2365,20 +2394,20 @@ function __c27(j: number): any {
         }),
       ).annotate({ identifier: "GetVercelCiInvocationLogsResponseLinesItem" });
     case 1:
-      return S.Array(__S(432, __c27, 0));
+      return S.Array(__S(448, __c28, 0));
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          lines: __S(433, __c27, 1),
+          lines: __S(449, __c28, 1),
         }),
       ).annotate({ identifier: "GetVercelCiInvocationLogsResponse" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2407,15 +2436,15 @@ function __c29(j: number): any {
           repositoryKey: S.String,
           ref: S.String,
           commitSha: S.String,
-          skipped: S.optional(__S(384, __c24, 0)),
-          bootstrappingStarted: S.optional(__S(368, __c23, 0)),
-          bootstrappingFailed: S.optional(__S(384, __c24, 0)),
-          sandboxSnapshotted: S.optional(__S(385, __c24, 1)),
-          sandboxNamed: S.optional(__S(386, __c24, 2)),
-          jobDefinitionsCreated: S.optional(__S(387, __c24, 3)),
-          completed: S.optional(__S(388, __c24, 4)),
-          setupConclusion: S.optional(__S(389, __c24, 5)),
-          runConclusion: S.optional(__S(389, __c24, 5)),
+          skipped: S.optional(__S(400, __c25, 0)),
+          bootstrappingStarted: S.optional(__S(384, __c24, 0)),
+          bootstrappingFailed: S.optional(__S(400, __c25, 0)),
+          sandboxSnapshotted: S.optional(__S(401, __c25, 1)),
+          sandboxNamed: S.optional(__S(402, __c25, 2)),
+          jobDefinitionsCreated: S.optional(__S(403, __c25, 3)),
+          completed: S.optional(__S(404, __c25, 4)),
+          setupConclusion: S.optional(__S(405, __c25, 5)),
+          runConclusion: S.optional(__S(405, __c25, 5)),
           status: S.String,
         }),
       ).annotate({ identifier: "GetVercelCiInvocationTreeResponseInvocation" });
@@ -2434,8 +2463,8 @@ function __c29(j: number): any {
           jobDefinitionId: S.String,
           attempt: S.Number,
           createdAt: S.Number,
-          started: S.optional(__S(368, __c23, 0)),
-          completed: S.optional(__S(466, __c29, 2)),
+          started: S.optional(__S(384, __c24, 0)),
+          completed: S.optional(__S(482, __c30, 2)),
         }),
       ).annotate({ identifier: "GetVercelCiInvocationTreeResponseJobsItemRun" });
     case 4:
@@ -2449,7 +2478,7 @@ function __c29(j: number): any {
           name: S.String,
           packageDirectory: S.optional(S.String),
           operation: S.Unknown,
-          dependencyTaskDefinitionIds: __S(336, __c21, 0),
+          dependencyTaskDefinitionIds: __S(352, __c22, 0),
           createdAt: S.Number,
         }),
       ).annotate({ identifier: "GetVercelCiInvocationTreeResponseJobsItemTasksItemDefinition" });
@@ -2470,41 +2499,41 @@ function __c29(j: number): any {
           taskDefinitionId: S.String,
           attempt: S.Number,
           createdAt: S.Number,
-          started: S.optional(__S(368, __c23, 0)),
-          completed: S.optional(__S(469, __c29, 5)),
-          deploymentBinding: S.optional(__S(480, __c30, 0)),
+          started: S.optional(__S(384, __c24, 0)),
+          completed: S.optional(__S(485, __c30, 5)),
+          deploymentBinding: S.optional(__S(496, __c31, 0)),
         }),
       ).annotate({ identifier: "GetVercelCiInvocationTreeResponseJobsItemTasksItemRun" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          definition: __S(468, __c29, 4),
-          run: S.optional(__S(470, __c29, 6)),
+          definition: __S(484, __c30, 4),
+          run: S.optional(__S(486, __c30, 6)),
         }),
       ).annotate({ identifier: "GetVercelCiInvocationTreeResponseJobsItemTasksItem" });
     case 8:
-      return S.Array(__S(471, __c29, 7));
+      return S.Array(__S(487, __c30, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          definition: __S(496, __c31, 0),
-          run: S.optional(__S(467, __c29, 3)),
-          tasks: __S(472, __c29, 8),
+          definition: __S(512, __c32, 0),
+          run: S.optional(__S(483, __c30, 3)),
+          tasks: __S(488, __c30, 8),
         }),
       ).annotate({ identifier: "GetVercelCiInvocationTreeResponseJobsItem" });
     case 10:
-      return S.Array(__S(473, __c29, 9));
+      return S.Array(__S(489, __c30, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          invocation: __S(465, __c29, 1),
+          invocation: __S(481, __c30, 1),
           repositories: S.Unknown,
-          jobs: __S(474, __c29, 10),
+          jobs: __S(490, __c30, 10),
         }),
       ).annotate({ identifier: "GetVercelCiInvocationTreeResponse" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2519,7 +2548,7 @@ function __c30(j: number): any {
       });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2535,7 +2564,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "GetVercelCiInvocationTreeResponseJobsItemDefinition" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2556,7 +2585,7 @@ function __c32(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          jobDefinition: __S(496, __c31, 0),
+          jobDefinition: __S(512, __c32, 0),
         }),
       ).annotate({ identifier: "GetVercelCiJobDefinitionResponse" });
   }

@@ -28,22 +28,32 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ToolbarEntitlementsError | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ToolbarEntitlementsError | string;
+}
 
 export interface GetUserToolbarEntitlementRequest {}
 /** Whether the current organization has each toolbar plan entitlement, keyed by feature name. */
@@ -52,6 +62,10 @@ export interface ToolbarEntitlements {
   /** Whether the current organization has each toolbar plan entitlement, keyed by feature name. */
   entitlements: ToolbarEntitlementsEntitlementsMap;
 }
+export interface ToolbarEntitlementsError {
+  /** Why toolbar entitlements could not be retrieved. */
+  error: string;
+}
 export type GetUserToolbarEntitlementError = BadRequest | Forbidden | PosthogOpError;
 export const getUserToolbarEntitlement: API.OperationMethod<
   GetUserToolbarEntitlementRequest,
@@ -59,8 +73,8 @@ export const getUserToolbarEntitlement: API.OperationMethod<
   GetUserToolbarEntitlementError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetUserToolbarEntitlementRequest>,
-  output: __S(2, __c0, 2) as any as S.Schema<ToolbarEntitlements>,
+  input: __S(4, __c1, 0) as any as S.Schema<GetUserToolbarEntitlementRequest>,
+  output: __S(6, __c1, 2) as any as S.Schema<ToolbarEntitlements>,
   errors: [BadRequest, Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -73,6 +87,16 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          error: S.String,
+        }),
+      ).annotate({ identifier: "ToolbarEntitlementsError" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Struct({}).pipe(
           T.Http({ method: "GET", uri: "/api/user/toolbar_entitlements/", code: 200 }),
         ),
@@ -82,7 +106,7 @@ function __c0(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          entitlements: __S(1, __c0, 1),
+          entitlements: __S(5, __c1, 1),
         }),
       ).annotate({ identifier: "ToolbarEntitlements" });
   }

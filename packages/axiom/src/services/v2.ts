@@ -31,44 +31,78 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(32, __c1, 0)),
+          S.String,
+        ]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: DashboardError | DatasetsError | Error400Body | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)),
+          S.String,
+        ]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: DashboardError | DatasetsError | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(32, __c1, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error403Body | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(32, __c1, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)),
+          S.String,
+        ]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error404Body | DashboardError | DatasetsError | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -3019,6 +3053,25 @@ export interface UpdateVirtualFieldResponse {
 export interface VacuumDatasetRequest {
   dataset_id: string;
 }
+export interface DashboardError {
+  code: string;
+  currentVersion?: number | undefined;
+  message: string;
+  reason?: string | undefined;
+  uid?: string | undefined;
+}
+export interface DatasetsError {
+  /** HTTP status code. */
+  code?: number | undefined;
+  /** Error message. */
+  message?: string | undefined;
+}
+export interface Error400Body {
+  code?: string | undefined;
+  message?: string | undefined;
+}
+export type Error403Body = Error400Body;
+export type Error404Body = Error400Body;
 export type CreateAnnotationError = BadRequest | UnprocessableEntity | AxiomOpError;
 /** Creates an annotation on one or more existing datasets. If you omit `time`, Axiom uses the time of the request. `time` can't be in the future. */
 export const createAnnotation: API.OperationMethod<
@@ -3027,8 +3080,8 @@ export const createAnnotation: API.OperationMethod<
   CreateAnnotationError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<CreateAnnotationRequest>,
-  output: __S(1920, __c60, 0) as any as S.Schema<Annotation>,
+  input: __S(1952, __c61, 0) as any as S.Schema<CreateAnnotationRequest>,
+  output: __S(1984, __c62, 0) as any as S.Schema<Annotation>,
   errors: [BadRequest, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3044,8 +3097,8 @@ export const createAPIToken: API.OperationMethod<
   CreateAPITokenError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<CreateAPITokenRequest>,
-  output: __S(2368, __c74, 0) as any as S.Schema<CreateAPITokenResponse>,
+  input: __S(2368, __c74, 0) as any as S.Schema<CreateAPITokenRequest>,
+  output: __S(2432, __c76, 0) as any as S.Schema<CreateAPITokenResponse>,
   errors: [UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3061,8 +3114,8 @@ export const createDashboard: API.OperationMethod<
   CreateDashboardError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<CreateDashboardRequest>,
-  output: __S(2816, __c88, 0) as any as S.Schema<DashboardWriteResponse>,
+  input: __S(2816, __c88, 0) as any as S.Schema<CreateDashboardRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<DashboardWriteResponse>,
   errors: [BadRequest, Conflict, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3084,8 +3137,8 @@ export const createDataset: API.OperationMethod<
   CreateDatasetError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<CreateDatasetRequest>,
-  output: __S(3264, __c102, 0) as any as S.Schema<Dataset>,
+  input: __S(3296, __c103, 0) as any as S.Schema<CreateDatasetRequest>,
+  output: __S(3328, __c104, 0) as any as S.Schema<Dataset>,
   errors: [BadRequest, BadRequest, UnprocessableEntity, Forbidden, Conflict, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3101,8 +3154,8 @@ export const createGroup: API.OperationMethod<
   CreateGroupError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c113, 0) as any as S.Schema<CreateGroupRequest>,
-  output: __S(3648, __c114, 0) as any as S.Schema<CreateGroupResponse>,
+  input: __S(3680, __c115, 0) as any as S.Schema<CreateGroupRequest>,
+  output: __S(3712, __c116, 0) as any as S.Schema<CreateGroupResponse>,
   errors: [UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3118,8 +3171,8 @@ export const createLabel: API.OperationMethod<
   CreateLabelError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateLabelRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<LabelSummary>,
+  input: __S(64, __c2, 0) as any as S.Schema<CreateLabelRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<LabelSummary>,
   errors: [BadRequest, Conflict, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3135,8 +3188,8 @@ export const createMapField: API.OperationMethod<
   CreateMapFieldError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<CreateMapFieldRequest>,
-  output: __S(97, __c3, 1) as any as S.Schema<MapField>,
+  input: __S(160, __c5, 0) as any as S.Schema<CreateMapFieldRequest>,
+  output: __S(161, __c5, 1) as any as S.Schema<MapField>,
   errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3152,8 +3205,8 @@ export const createMonitor: API.OperationMethod<
   CreateMonitorError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<CreateMonitorRequest>,
-  output: __S(160, __c5, 0) as any as S.Schema<CreateMonitorResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<CreateMonitorRequest>,
+  output: __S(224, __c7, 0) as any as S.Schema<CreateMonitorResponse>,
   errors: [UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3169,8 +3222,8 @@ export const createNotifier: API.OperationMethod<
   CreateNotifierError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<CreateNotifierRequest>,
-  output: __S(273, __c8, 17) as any as S.Schema<CreateNotifierResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<CreateNotifierRequest>,
+  output: __S(337, __c10, 17) as any as S.Schema<CreateNotifierResponse>,
   errors: [UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3182,8 +3235,8 @@ export type CreateOrgError = BadRequest | AxiomOpError;
 /** Creates an organization on the Personal plan with the authenticated user as its owner. Requires a personal access token (PAT). */
 export const createOrg: API.OperationMethod<CreateOrgRequest, Org, CreateOrgError, AxiomOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(288, __c9, 0) as any as S.Schema<CreateOrgRequest>,
-    output: __S(322, __c10, 2) as any as S.Schema<Org>,
+    input: __S(352, __c11, 0) as any as S.Schema<CreateOrgRequest>,
+    output: __S(386, __c12, 2) as any as S.Schema<Org>,
     errors: [BadRequest, UnknownAxiomError],
     protocol: AxiomProtocol,
     retry: Retry.Retry,
@@ -3199,8 +3252,8 @@ export const createRole: API.OperationMethod<
   CreateRoleError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<CreateRoleRequest>,
-  output: __S(384, __c12, 0) as any as S.Schema<CreateRoleResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<CreateRoleRequest>,
+  output: __S(448, __c14, 0) as any as S.Schema<CreateRoleResponse>,
   errors: [UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3216,8 +3269,8 @@ export const createStarred: API.OperationMethod<
   CreateStarredError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<CreateStarredRequest>,
-  output: __S(452, __c14, 4) as any as S.Schema<CreateStarredResponse>,
+  input: __S(480, __c15, 0) as any as S.Schema<CreateStarredRequest>,
+  output: __S(516, __c16, 4) as any as S.Schema<CreateStarredResponse>,
   errors: [UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3233,8 +3286,8 @@ export const createUser: API.OperationMethod<
   CreateUserError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<CreateUserRequest>,
-  output: __S(513, __c16, 1) as any as S.Schema<User>,
+  input: __S(544, __c17, 0) as any as S.Schema<CreateUserRequest>,
+  output: __S(577, __c18, 1) as any as S.Schema<User>,
   errors: [BadRequest, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3250,8 +3303,8 @@ export const createView: API.OperationMethod<
   CreateViewError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<CreateViewRequest>,
-  output: __S(576, __c18, 0) as any as S.Schema<View>,
+  input: __S(608, __c19, 0) as any as S.Schema<CreateViewRequest>,
+  output: __S(640, __c20, 0) as any as S.Schema<View>,
   errors: [UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3267,8 +3320,8 @@ export const createVirtualField: API.OperationMethod<
   CreateVirtualFieldError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<CreateVirtualFieldRequest>,
-  output: __S(640, __c20, 0) as any as S.Schema<CreateVirtualFieldResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<CreateVirtualFieldRequest>,
+  output: __S(704, __c22, 0) as any as S.Schema<CreateVirtualFieldResponse>,
   errors: [UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3284,8 +3337,8 @@ export const deleteAnnotation: API.OperationMethod<
   DeleteAnnotationError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<DeleteAnnotationRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteAnnotationResponse>,
+  input: __S(736, __c23, 0) as any as S.Schema<DeleteAnnotationRequest>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteAnnotationResponse>,
   errors: [BadRequest, NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3301,8 +3354,8 @@ export const deleteAPIToken: API.OperationMethod<
   DeleteAPITokenError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<DeleteAPITokenRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteAPITokenResponse>,
+  input: __S(800, __c25, 0) as any as S.Schema<DeleteAPITokenRequest>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteAPITokenResponse>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3318,8 +3371,8 @@ export const deleteDashboard: API.OperationMethod<
   DeleteDashboardError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<DeleteDashboardRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteDashboardResponse>,
+  input: __S(832, __c26, 0) as any as S.Schema<DeleteDashboardRequest>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteDashboardResponse>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3335,8 +3388,8 @@ export const deleteDataset: API.OperationMethod<
   DeleteDatasetError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<DeleteDatasetRequest>,
-  output: __S(832, __c26, 0) as any as S.Schema<JobCreateResponse>,
+  input: __S(864, __c27, 0) as any as S.Schema<DeleteDatasetRequest>,
+  output: __S(896, __c28, 0) as any as S.Schema<JobCreateResponse>,
   errors: [Forbidden, NotFound, NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3352,8 +3405,8 @@ export const deleteDatasetFields: API.OperationMethod<
   DeleteDatasetFieldsError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<DeleteDatasetFieldsRequest>,
-  output: __S(896, __c28, 0) as any as S.Schema<DeleteDatasetFieldsResult>,
+  input: __S(928, __c29, 0) as any as S.Schema<DeleteDatasetFieldsRequest>,
+  output: __S(960, __c30, 0) as any as S.Schema<DeleteDatasetFieldsResult>,
   errors: [BadRequest, Forbidden, NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3369,8 +3422,8 @@ export const deleteFieldForDataset: API.OperationMethod<
   DeleteFieldForDatasetError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<DeleteFieldForDatasetRequest>,
-  output: __S(896, __c28, 0) as any as S.Schema<DeleteDatasetFieldsResult>,
+  input: __S(992, __c31, 0) as any as S.Schema<DeleteFieldForDatasetRequest>,
+  output: __S(960, __c30, 0) as any as S.Schema<DeleteDatasetFieldsResult>,
   errors: [BadRequest, Forbidden, NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3386,8 +3439,8 @@ export const deleteGroup: API.OperationMethod<
   DeleteGroupError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<DeleteGroupRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteGroupResponse>,
+  input: __S(1024, __c32, 0) as any as S.Schema<DeleteGroupRequest>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteGroupResponse>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3403,8 +3456,8 @@ export const deleteLabel: API.OperationMethod<
   DeleteLabelError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<DeleteLabelRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteLabelResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<DeleteLabelRequest>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteLabelResponse>,
   errors: [BadRequest, NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3420,8 +3473,8 @@ export const deleteMapField: API.OperationMethod<
   DeleteMapFieldError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<DeleteMapFieldRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteMapFieldResponse>,
+  input: __S(1088, __c34, 0) as any as S.Schema<DeleteMapFieldRequest>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteMapFieldResponse>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3437,8 +3490,8 @@ export const deleteMonitor: API.OperationMethod<
   DeleteMonitorError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<DeleteMonitorRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteMonitorResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<DeleteMonitorRequest>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteMonitorResponse>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3454,8 +3507,8 @@ export const deleteNotifier: API.OperationMethod<
   DeleteNotifierError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<DeleteNotifierRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteNotifierResponse>,
+  input: __S(1152, __c36, 0) as any as S.Schema<DeleteNotifierRequest>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteNotifierResponse>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3471,8 +3524,8 @@ export const deleteRole: API.OperationMethod<
   DeleteRoleError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<DeleteRoleRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteRoleResponse>,
+  input: __S(1184, __c37, 0) as any as S.Schema<DeleteRoleRequest>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteRoleResponse>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3488,8 +3541,8 @@ export const deleteStarred: API.OperationMethod<
   DeleteStarredError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<DeleteStarredRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteStarredResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<DeleteStarredRequest>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteStarredResponse>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3505,8 +3558,8 @@ export const deleteView: API.OperationMethod<
   DeleteViewError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<DeleteViewRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteViewResponse>,
+  input: __S(1248, __c39, 0) as any as S.Schema<DeleteViewRequest>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteViewResponse>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3522,8 +3575,8 @@ export const deleteVirtualField: API.OperationMethod<
   DeleteVirtualFieldError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<DeleteVirtualFieldRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteVirtualFieldResponse>,
+  input: __S(1280, __c40, 0) as any as S.Schema<DeleteVirtualFieldRequest>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteVirtualFieldResponse>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3539,8 +3592,8 @@ export const getAnnotation: API.OperationMethod<
   GetAnnotationError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<GetAnnotationRequest>,
-  output: __S(1920, __c60, 0) as any as S.Schema<Annotation>,
+  input: __S(1312, __c41, 0) as any as S.Schema<GetAnnotationRequest>,
+  output: __S(1984, __c62, 0) as any as S.Schema<Annotation>,
   errors: [BadRequest, NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3556,8 +3609,8 @@ export const getAnnotations: API.OperationMethod<
   GetAnnotationsError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<GetAnnotationsRequest>,
-  output: __S(1282, __c40, 2) as any as S.Schema<GetAnnotationsResponse>,
+  input: __S(1344, __c42, 0) as any as S.Schema<GetAnnotationsRequest>,
+  output: __S(1346, __c42, 2) as any as S.Schema<GetAnnotationsResponse>,
   errors: [BadRequest, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3573,8 +3626,8 @@ export const getAPIToken: API.OperationMethod<
   GetAPITokenError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<GetAPITokenRequest>,
-  output: __S(1344, __c42, 0) as any as S.Schema<APIToken>,
+  input: __S(1376, __c43, 0) as any as S.Schema<GetAPITokenRequest>,
+  output: __S(1408, __c44, 0) as any as S.Schema<APIToken>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3590,8 +3643,8 @@ export const getAPITokens: API.OperationMethod<
   GetAPITokensError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<GetAPITokensRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<GetAPITokensResponse>,
+  input: __S(1440, __c45, 0) as any as S.Schema<GetAPITokensRequest>,
+  output: __S(1442, __c45, 2) as any as S.Schema<GetAPITokensResponse>,
   errors: [UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3607,8 +3660,8 @@ export const getCurrentUser: API.OperationMethod<
   GetCurrentUserError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<GetCurrentUserRequest>,
-  output: __S(513, __c16, 1) as any as S.Schema<User>,
+  input: __S(1472, __c46, 0) as any as S.Schema<GetCurrentUserRequest>,
+  output: __S(577, __c18, 1) as any as S.Schema<User>,
   errors: [Forbidden, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3624,8 +3677,8 @@ export const getDashboard: API.OperationMethod<
   GetDashboardError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<GetDashboardRequest>,
-  output: __S(2790, __c87, 6) as any as S.Schema<DashboardResource>,
+  input: __S(1504, __c47, 0) as any as S.Schema<GetDashboardRequest>,
+  output: __S(2854, __c89, 6) as any as S.Schema<DashboardResource>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3641,8 +3694,8 @@ export const getDataset: API.OperationMethod<
   GetDatasetError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<GetDatasetRequest>,
-  output: __S(3264, __c102, 0) as any as S.Schema<Dataset>,
+  input: __S(1536, __c48, 0) as any as S.Schema<GetDatasetRequest>,
+  output: __S(3328, __c104, 0) as any as S.Schema<Dataset>,
   errors: [Forbidden, NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3658,8 +3711,8 @@ export const getDatasets: API.OperationMethod<
   GetDatasetsError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<GetDatasetsRequest>,
-  output: __S(1506, __c47, 2) as any as S.Schema<GetDatasetsResponse>,
+  input: __S(1568, __c49, 0) as any as S.Schema<GetDatasetsRequest>,
+  output: __S(1570, __c49, 2) as any as S.Schema<GetDatasetsResponse>,
   errors: [BadRequest, Forbidden, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3675,8 +3728,8 @@ export const getFieldForDataset: API.OperationMethod<
   GetFieldForDatasetError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<GetFieldForDatasetRequest>,
-  output: __S(1568, __c49, 0) as any as S.Schema<DatasetField>,
+  input: __S(1600, __c50, 0) as any as S.Schema<GetFieldForDatasetRequest>,
+  output: __S(1632, __c51, 0) as any as S.Schema<DatasetField>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3692,8 +3745,8 @@ export const getFieldsForDataset: API.OperationMethod<
   GetFieldsForDatasetError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<GetFieldsForDatasetRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<GetFieldsForDatasetResponse>,
+  input: __S(1664, __c52, 0) as any as S.Schema<GetFieldsForDatasetRequest>,
+  output: __S(1666, __c52, 2) as any as S.Schema<GetFieldsForDatasetResponse>,
   errors: [BadRequest, Forbidden, NotFound, NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3709,8 +3762,8 @@ export const getGroupById: API.OperationMethod<
   GetGroupByIdError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<GetGroupByIdRequest>,
-  output: __S(3648, __c114, 0) as any as S.Schema<GetGroupByIdResponse>,
+  input: __S(1696, __c53, 0) as any as S.Schema<GetGroupByIdRequest>,
+  output: __S(3712, __c116, 0) as any as S.Schema<GetGroupByIdResponse>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3726,8 +3779,8 @@ export const getLabel: API.OperationMethod<
   GetLabelError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<GetLabelRequest>,
-  output: __S(1665, __c52, 1) as any as S.Schema<LabelDetails>,
+  input: __S(1728, __c54, 0) as any as S.Schema<GetLabelRequest>,
+  output: __S(1729, __c54, 1) as any as S.Schema<LabelDetails>,
   errors: [BadRequest, NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3743,8 +3796,8 @@ export const getMapFields: API.OperationMethod<
   GetMapFieldsError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<GetMapFieldsRequest>,
-  output: __S(1792, __c56, 0) as any as S.Schema<GetMapFieldsResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<GetMapFieldsRequest>,
+  output: __S(1856, __c58, 0) as any as S.Schema<GetMapFieldsResponse>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3760,8 +3813,8 @@ export const getMonitor: API.OperationMethod<
   GetMonitorError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<GetMonitorRequest>,
-  output: __S(160, __c5, 0) as any as S.Schema<GetMonitorResponse>,
+  input: __S(1888, __c59, 0) as any as S.Schema<GetMonitorRequest>,
+  output: __S(224, __c7, 0) as any as S.Schema<GetMonitorResponse>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3777,8 +3830,8 @@ export const getMonitorHistory: API.OperationMethod<
   GetMonitorHistoryError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<GetMonitorHistoryRequest>,
-  output: __S(1859, __c58, 3) as any as S.Schema<GetMonitorHistoryResponse>,
+  input: __S(1920, __c60, 0) as any as S.Schema<GetMonitorHistoryRequest>,
+  output: __S(1923, __c60, 3) as any as S.Schema<GetMonitorHistoryResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3794,8 +3847,8 @@ export const getMonitors: API.OperationMethod<
   GetMonitorsError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<GetMonitorsRequest>,
-  output: __S(1986, __c62, 2) as any as S.Schema<GetMonitorsResponse>,
+  input: __S(2048, __c64, 0) as any as S.Schema<GetMonitorsRequest>,
+  output: __S(2050, __c64, 2) as any as S.Schema<GetMonitorsResponse>,
   errors: [BadRequest, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3811,8 +3864,8 @@ export const getNotifier: API.OperationMethod<
   GetNotifierError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<GetNotifierRequest>,
-  output: __S(273, __c8, 17) as any as S.Schema<GetNotifierResponse>,
+  input: __S(2080, __c65, 0) as any as S.Schema<GetNotifierRequest>,
+  output: __S(337, __c10, 17) as any as S.Schema<GetNotifierResponse>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3828,8 +3881,8 @@ export const getNotifiers: API.OperationMethod<
   GetNotifiersError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<GetNotifiersRequest>,
-  output: __S(2050, __c64, 2) as any as S.Schema<GetNotifiersResponse>,
+  input: __S(2112, __c66, 0) as any as S.Schema<GetNotifiersRequest>,
+  output: __S(2114, __c66, 2) as any as S.Schema<GetNotifiersResponse>,
   errors: [BadRequest, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3841,8 +3894,8 @@ export type GetOrgError = NotFound | AxiomOpError;
 /** Retrieves an organization the authenticated user is a member of, including its plan and license limits. Requires a personal access token (PAT). */
 export const getOrg: API.OperationMethod<GetOrgRequest, Org, GetOrgError, AxiomOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(2080, __c65, 0) as any as S.Schema<GetOrgRequest>,
-    output: __S(322, __c10, 2) as any as S.Schema<Org>,
+    input: __S(2144, __c67, 0) as any as S.Schema<GetOrgRequest>,
+    output: __S(386, __c12, 2) as any as S.Schema<Org>,
     errors: [NotFound, UnknownAxiomError],
     protocol: AxiomProtocol,
     retry: Retry.Retry,
@@ -3858,8 +3911,8 @@ export const getOrgs: API.OperationMethod<
   GetOrgsError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<GetOrgsRequest>,
-  output: __S(2114, __c66, 2) as any as S.Schema<GetOrgsResponse>,
+  input: __S(2176, __c68, 0) as any as S.Schema<GetOrgsRequest>,
+  output: __S(2178, __c68, 2) as any as S.Schema<GetOrgsResponse>,
   errors: [UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3875,8 +3928,8 @@ export const getRoleById: API.OperationMethod<
   GetRoleByIdError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<GetRoleByIdRequest>,
-  output: __S(384, __c12, 0) as any as S.Schema<GetRoleByIdResponse>,
+  input: __S(2208, __c69, 0) as any as S.Schema<GetRoleByIdRequest>,
+  output: __S(448, __c14, 0) as any as S.Schema<GetRoleByIdResponse>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3892,8 +3945,8 @@ export const getStarred: API.OperationMethod<
   GetStarredError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<GetStarredRequest>,
-  output: __S(452, __c14, 4) as any as S.Schema<GetStarredResponse>,
+  input: __S(2240, __c70, 0) as any as S.Schema<GetStarredRequest>,
+  output: __S(516, __c16, 4) as any as S.Schema<GetStarredResponse>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3909,8 +3962,8 @@ export const getStarredQueries: API.OperationMethod<
   GetStarredQueriesError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<GetStarredQueriesRequest>,
-  output: __S(2210, __c69, 2) as any as S.Schema<GetStarredQueriesResponse>,
+  input: __S(2272, __c71, 0) as any as S.Schema<GetStarredQueriesRequest>,
+  output: __S(2274, __c71, 2) as any as S.Schema<GetStarredQueriesResponse>,
   errors: [BadRequest, NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3922,8 +3975,8 @@ export type GetUserError = NotFound | AxiomOpError;
 /** Retrieves a member of the organization by user ID, including their role. */
 export const getUser: API.OperationMethod<GetUserRequest, User, GetUserError, AxiomOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(2240, __c70, 0) as any as S.Schema<GetUserRequest>,
-    output: __S(513, __c16, 1) as any as S.Schema<User>,
+    input: __S(2304, __c72, 0) as any as S.Schema<GetUserRequest>,
+    output: __S(577, __c18, 1) as any as S.Schema<User>,
     errors: [NotFound, UnknownAxiomError],
     protocol: AxiomProtocol,
     retry: Retry.Retry,
@@ -3939,8 +3992,8 @@ export const getUsers: API.OperationMethod<
   GetUsersError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<GetUsersRequest>,
-  output: __S(2274, __c71, 2) as any as S.Schema<GetUsersResponse>,
+  input: __S(2336, __c73, 0) as any as S.Schema<GetUsersRequest>,
+  output: __S(2338, __c73, 2) as any as S.Schema<GetUsersResponse>,
   errors: [UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3952,8 +4005,8 @@ export type GetViewError = NotFound | AxiomOpError;
 /** Retrieves a view by its name. */
 export const getView: API.OperationMethod<GetViewRequest, View, GetViewError, AxiomOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(2400, __c75, 0) as any as S.Schema<GetViewRequest>,
-    output: __S(576, __c18, 0) as any as S.Schema<View>,
+    input: __S(2464, __c77, 0) as any as S.Schema<GetViewRequest>,
+    output: __S(640, __c20, 0) as any as S.Schema<View>,
     errors: [NotFound, UnknownAxiomError],
     protocol: AxiomProtocol,
     retry: Retry.Retry,
@@ -3969,8 +4022,8 @@ export const getViews: API.OperationMethod<
   GetViewsError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<GetViewsRequest>,
-  output: __S(2434, __c76, 2) as any as S.Schema<GetViewsResponse>,
+  input: __S(2496, __c78, 0) as any as S.Schema<GetViewsRequest>,
+  output: __S(2498, __c78, 2) as any as S.Schema<GetViewsResponse>,
   errors: [UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3986,8 +4039,8 @@ export const getVirtualField: API.OperationMethod<
   GetVirtualFieldError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<GetVirtualFieldRequest>,
-  output: __S(640, __c20, 0) as any as S.Schema<GetVirtualFieldResponse>,
+  input: __S(2528, __c79, 0) as any as S.Schema<GetVirtualFieldRequest>,
+  output: __S(704, __c22, 0) as any as S.Schema<GetVirtualFieldResponse>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -4003,8 +4056,8 @@ export const getVirtualFields: API.OperationMethod<
   GetVirtualFieldsError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<GetVirtualFieldsRequest>,
-  output: __S(2498, __c78, 2) as any as S.Schema<GetVirtualFieldsResponse>,
+  input: __S(2560, __c80, 0) as any as S.Schema<GetVirtualFieldsRequest>,
+  output: __S(2562, __c80, 2) as any as S.Schema<GetVirtualFieldsResponse>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -4020,8 +4073,8 @@ export const listDashboards: API.OperationMethod<
   ListDashboardsError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<ListDashboardsRequest>,
-  output: __S(2530, __c79, 2) as any as S.Schema<ListDashboardsResponse>,
+  input: __S(2592, __c81, 0) as any as S.Schema<ListDashboardsRequest>,
+  output: __S(2594, __c81, 2) as any as S.Schema<ListDashboardsResponse>,
   errors: [BadRequest, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -4037,8 +4090,8 @@ export const listGroups: API.OperationMethod<
   ListGroupsError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<ListGroupsRequest>,
-  output: __S(2562, __c80, 2) as any as S.Schema<ListGroupsResponse>,
+  input: __S(2624, __c82, 0) as any as S.Schema<ListGroupsRequest>,
+  output: __S(2626, __c82, 2) as any as S.Schema<ListGroupsResponse>,
   errors: [UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -4054,8 +4107,8 @@ export const listLabelAssignments: API.OperationMethod<
   ListLabelAssignmentsError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<ListLabelAssignmentsRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<ListLabelAssignmentsResponse>,
+  input: __S(2656, __c83, 0) as any as S.Schema<ListLabelAssignmentsRequest>,
+  output: __S(2658, __c83, 2) as any as S.Schema<ListLabelAssignmentsResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -4071,8 +4124,8 @@ export const listLabels: API.OperationMethod<
   ListLabelsError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<ListLabelsRequest>,
-  output: __S(2658, __c83, 2) as any as S.Schema<ListLabelsResponse>,
+  input: __S(2720, __c85, 0) as any as S.Schema<ListLabelsRequest>,
+  output: __S(2722, __c85, 2) as any as S.Schema<ListLabelsResponse>,
   errors: [UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -4088,8 +4141,8 @@ export const listRoles: API.OperationMethod<
   ListRolesError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<ListRolesRequest>,
-  output: __S(2690, __c84, 2) as any as S.Schema<ListRolesResponse>,
+  input: __S(2752, __c86, 0) as any as S.Schema<ListRolesRequest>,
+  output: __S(2754, __c86, 2) as any as S.Schema<ListRolesResponse>,
   errors: [UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -4105,8 +4158,8 @@ export const patchDashboardChart: API.OperationMethod<
   PatchDashboardChartError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2721, __c85, 1) as any as S.Schema<PatchDashboardChartRequest>,
-  output: __S(2816, __c88, 0) as any as S.Schema<DashboardWriteResponse>,
+  input: __S(2785, __c87, 1) as any as S.Schema<PatchDashboardChartRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<DashboardWriteResponse>,
   errors: [BadRequest, NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -4122,8 +4175,8 @@ export const provisionOrg: API.OperationMethod<
   ProvisionOrgError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<ProvisionOrgRequest>,
-  output: __S(2913, __c91, 1) as any as S.Schema<ProvisionOrgResponse>,
+  input: __S(2976, __c93, 0) as any as S.Schema<ProvisionOrgRequest>,
+  output: __S(2977, __c93, 1) as any as S.Schema<ProvisionOrgResponse>,
   errors: [BadRequest, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -4139,8 +4192,8 @@ export const regenerateAPIToken: API.OperationMethod<
   RegenerateAPITokenError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2945, __c92, 1) as any as S.Schema<RegenerateAPITokenRequest>,
-  output: __S(2368, __c74, 0) as any as S.Schema<RegenerateAPITokenResponse>,
+  input: __S(3009, __c94, 1) as any as S.Schema<RegenerateAPITokenRequest>,
+  output: __S(2432, __c76, 0) as any as S.Schema<RegenerateAPITokenResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -4156,8 +4209,8 @@ export const removeUserFromOrg: API.OperationMethod<
   RemoveUserFromOrgError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<RemoveUserFromOrgRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<RemoveUserFromOrgResponse>,
+  input: __S(3040, __c95, 0) as any as S.Schema<RemoveUserFromOrgRequest>,
+  output: __S(768, __c24, 0) as any as S.Schema<RemoveUserFromOrgResponse>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -4178,8 +4231,8 @@ export const replaceLabelAssignments: API.OperationMethod<
   ReplaceLabelAssignmentsError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<ReplaceLabelAssignmentsRequest>,
-  output: __S(2624, __c82, 0) as any as S.Schema<LabelAssignmentResult>,
+  input: __S(3072, __c96, 0) as any as S.Schema<ReplaceLabelAssignmentsRequest>,
+  output: __S(2688, __c84, 0) as any as S.Schema<LabelAssignmentResult>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -4195,8 +4248,8 @@ export const trimDataset: API.OperationMethod<
   TrimDatasetError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<TrimDatasetRequest>,
-  output: __S(832, __c26, 0) as any as S.Schema<JobCreateResponse>,
+  input: __S(3104, __c97, 0) as any as S.Schema<TrimDatasetRequest>,
+  output: __S(896, __c28, 0) as any as S.Schema<JobCreateResponse>,
   errors: [Forbidden, NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -4212,8 +4265,8 @@ export const updateAnnotation: API.OperationMethod<
   UpdateAnnotationError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<UpdateAnnotationRequest>,
-  output: __S(1920, __c60, 0) as any as S.Schema<Annotation>,
+  input: __S(3136, __c98, 0) as any as S.Schema<UpdateAnnotationRequest>,
+  output: __S(1984, __c62, 0) as any as S.Schema<Annotation>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -4229,8 +4282,8 @@ export const updateCurrentUser: API.OperationMethod<
   UpdateCurrentUserError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<UpdateCurrentUserRequest>,
-  output: __S(513, __c16, 1) as any as S.Schema<User>,
+  input: __S(3168, __c99, 0) as any as S.Schema<UpdateCurrentUserRequest>,
+  output: __S(577, __c18, 1) as any as S.Schema<User>,
   errors: [BadRequest, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -4246,8 +4299,8 @@ export const updateDashboard: API.OperationMethod<
   UpdateDashboardError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<UpdateDashboardRequest>,
-  output: __S(2816, __c88, 0) as any as S.Schema<DashboardWriteResponse>,
+  input: __S(3200, __c100, 0) as any as S.Schema<UpdateDashboardRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<DashboardWriteResponse>,
   errors: [BadRequest, Conflict, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -4269,8 +4322,8 @@ export const updateDataset: API.OperationMethod<
   UpdateDatasetError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<UpdateDatasetRequest>,
-  output: __S(3264, __c102, 0) as any as S.Schema<Dataset>,
+  input: __S(3232, __c101, 0) as any as S.Schema<UpdateDatasetRequest>,
+  output: __S(3328, __c104, 0) as any as S.Schema<Dataset>,
   errors: [BadRequest, Forbidden, NotFound, NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -4286,8 +4339,8 @@ export const updateFieldForDataset: API.OperationMethod<
   UpdateFieldForDatasetError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<UpdateFieldForDatasetRequest>,
-  output: __S(1568, __c49, 0) as any as S.Schema<DatasetField>,
+  input: __S(3264, __c102, 0) as any as S.Schema<UpdateFieldForDatasetRequest>,
+  output: __S(1632, __c51, 0) as any as S.Schema<DatasetField>,
   errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -4303,8 +4356,8 @@ export const updateGroup: API.OperationMethod<
   UpdateGroupError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c103, 0) as any as S.Schema<UpdateGroupRequest>,
-  output: __S(3648, __c114, 0) as any as S.Schema<UpdateGroupResponse>,
+  input: __S(3360, __c105, 0) as any as S.Schema<UpdateGroupRequest>,
+  output: __S(3712, __c116, 0) as any as S.Schema<UpdateGroupResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -4320,8 +4373,8 @@ export const updateLabel: API.OperationMethod<
   UpdateLabelError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c104, 0) as any as S.Schema<UpdateLabelRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<LabelSummary>,
+  input: __S(3392, __c106, 0) as any as S.Schema<UpdateLabelRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<LabelSummary>,
   errors: [BadRequest, NotFound, Conflict, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -4337,8 +4390,8 @@ export const updateMapFields: API.OperationMethod<
   UpdateMapFieldsError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c105, 0) as any as S.Schema<UpdateMapFieldsRequest>,
-  output: __S(1792, __c56, 0) as any as S.Schema<UpdateMapFieldsResponse>,
+  input: __S(3424, __c107, 0) as any as S.Schema<UpdateMapFieldsRequest>,
+  output: __S(1856, __c58, 0) as any as S.Schema<UpdateMapFieldsResponse>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -4354,8 +4407,8 @@ export const updateMonitor: API.OperationMethod<
   UpdateMonitorError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c106, 0) as any as S.Schema<UpdateMonitorRequest>,
-  output: __S(160, __c5, 0) as any as S.Schema<UpdateMonitorResponse>,
+  input: __S(3456, __c108, 0) as any as S.Schema<UpdateMonitorRequest>,
+  output: __S(224, __c7, 0) as any as S.Schema<UpdateMonitorResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -4371,8 +4424,8 @@ export const updateNotifier: API.OperationMethod<
   UpdateNotifierError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<UpdateNotifierRequest>,
-  output: __S(273, __c8, 17) as any as S.Schema<UpdateNotifierResponse>,
+  input: __S(3488, __c109, 0) as any as S.Schema<UpdateNotifierRequest>,
+  output: __S(337, __c10, 17) as any as S.Schema<UpdateNotifierResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -4384,8 +4437,8 @@ export type UpdateOrgError = NotFound | AxiomOpError;
 /** Renames an organization and returns the updated organization. Requires a personal access token (PAT) of an owner of the organization. */
 export const updateOrg: API.OperationMethod<UpdateOrgRequest, Org, UpdateOrgError, AxiomOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(3456, __c108, 0) as any as S.Schema<UpdateOrgRequest>,
-    output: __S(322, __c10, 2) as any as S.Schema<Org>,
+    input: __S(3520, __c110, 0) as any as S.Schema<UpdateOrgRequest>,
+    output: __S(386, __c12, 2) as any as S.Schema<Org>,
     errors: [NotFound, UnknownAxiomError],
     protocol: AxiomProtocol,
     retry: Retry.Retry,
@@ -4401,8 +4454,8 @@ export const updateRole: API.OperationMethod<
   UpdateRoleError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<UpdateRoleRequest>,
-  output: __S(384, __c12, 0) as any as S.Schema<UpdateRoleResponse>,
+  input: __S(3552, __c111, 0) as any as S.Schema<UpdateRoleRequest>,
+  output: __S(448, __c14, 0) as any as S.Schema<UpdateRoleResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -4418,8 +4471,8 @@ export const updateStarred: API.OperationMethod<
   UpdateStarredError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c110, 0) as any as S.Schema<UpdateStarredRequest>,
-  output: __S(452, __c14, 4) as any as S.Schema<UpdateStarredResponse>,
+  input: __S(3584, __c112, 0) as any as S.Schema<UpdateStarredRequest>,
+  output: __S(516, __c16, 4) as any as S.Schema<UpdateStarredResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -4435,8 +4488,8 @@ export const updateUserRole: API.OperationMethod<
   UpdateUserRoleError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<UpdateUserRoleRequest>,
-  output: __S(513, __c16, 1) as any as S.Schema<User>,
+  input: __S(3616, __c113, 0) as any as S.Schema<UpdateUserRoleRequest>,
+  output: __S(577, __c18, 1) as any as S.Schema<User>,
   errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -4452,8 +4505,8 @@ export const updateView: API.OperationMethod<
   UpdateViewError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<UpdateViewRequest>,
-  output: __S(576, __c18, 0) as any as S.Schema<View>,
+  input: __S(3648, __c114, 0) as any as S.Schema<UpdateViewRequest>,
+  output: __S(640, __c20, 0) as any as S.Schema<View>,
   errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -4469,8 +4522,8 @@ export const updateVirtualField: API.OperationMethod<
   UpdateVirtualFieldError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c115, 0) as any as S.Schema<UpdateVirtualFieldRequest>,
-  output: __S(640, __c20, 0) as any as S.Schema<UpdateVirtualFieldResponse>,
+  input: __S(3744, __c117, 0) as any as S.Schema<UpdateVirtualFieldRequest>,
+  output: __S(704, __c22, 0) as any as S.Schema<UpdateVirtualFieldResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -4486,8 +4539,8 @@ export const vacuumDataset: API.OperationMethod<
   VacuumDatasetError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3712, __c116, 0) as any as S.Schema<VacuumDatasetRequest>,
-  output: __S(832, __c26, 0) as any as S.Schema<JobCreateResponse>,
+  input: __S(3776, __c118, 0) as any as S.Schema<VacuumDatasetRequest>,
+  output: __S(896, __c28, 0) as any as S.Schema<JobCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -4501,14 +4554,46 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          color: S.optional(__S(2848, __c89, 0)),
+          code: S.String,
+          currentVersion: S.optional(S.Number),
+          message: S.String,
+          reason: S.optional(S.String),
+          uid: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DashboardError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.Number),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DatasetsError" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Error400Body" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          color: S.optional(__S(2912, __c91, 0)),
           description: S.optional(S.NullOr(S.String)),
           name: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/v2/labels", code: 200 })),
       ).annotate({ identifier: "CreateLabelRequest" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4522,21 +4607,21 @@ function __c1(j: number): any {
       ).annotate({ identifier: "LabelResourcesCount" });
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          color: __S(2848, __c89, 0),
+          color: __S(2912, __c91, 0),
           description: S.optional(S.NullOr(S.String)),
           id: S.String,
           name: S.String,
-          resources_count: __S(32, __c1, 0),
+          resources_count: __S(96, __c3, 0),
         }),
       ).annotate({ identifier: "LabelSummary" });
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4553,7 +4638,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "MapField" });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4569,7 +4654,7 @@ function __c4(j: number): any {
           intervalMinutes: S.optional(S.Number),
           mplQuery: S.optional(S.String),
           name: S.String,
-          notifierIds: S.optional(__S(1952, __c61, 0)),
+          notifierIds: S.optional(__S(2016, __c63, 0)),
           notifyByGroup: S.optional(S.Boolean),
           notifyEveryRun: S.optional(S.Boolean),
           operator: S.optional(S.String),
@@ -4582,12 +4667,12 @@ function __c4(j: number): any {
           triggerAfterNPositiveResults: S.optional(S.Number),
           triggerFromNRuns: S.optional(S.Number),
           type: S.String,
-          labelIds: S.optional(__S(1952, __c61, 0)),
+          labelIds: S.optional(__S(2016, __c63, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/monitors", code: 200 })),
       ).annotate({ identifier: "CreateMonitorRequest" });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4603,7 +4688,7 @@ function __c5(j: number): any {
           intervalMinutes: S.optional(S.Number),
           mplQuery: S.optional(S.String),
           name: S.String,
-          notifierIds: S.optional(__S(1952, __c61, 0)),
+          notifierIds: S.optional(__S(2016, __c63, 0)),
           notifyByGroup: S.optional(S.Boolean),
           notifyEveryRun: S.optional(S.Boolean),
           operator: S.optional(S.String),
@@ -4619,18 +4704,18 @@ function __c5(j: number): any {
           createdAt: S.optional(S.String),
           createdBy: S.optional(S.String),
           createdByAgent: S.optional(S.Boolean),
-          datasets: S.optional(__S(1952, __c61, 0)),
+          datasets: S.optional(__S(2016, __c63, 0)),
           id: S.String,
-          labelIds: __S(1952, __c61, 0),
-          labelNames: __S(1952, __c61, 0),
-          labels: S.optional(__S(2881, __c90, 1)),
+          labelIds: __S(2016, __c63, 0),
+          labelNames: __S(2016, __c63, 0),
+          labels: S.optional(__S(2945, __c92, 1)),
           lastError: S.optional(S.String),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateMonitorResponse" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4640,19 +4725,19 @@ function __c6(j: number): any {
           disabledUntil: S.optional(S.String),
           lastError: S.optional(S.String),
           name: S.String,
-          properties: __S(272, __c8, 16),
-          labelIds: S.optional(__S(1952, __c61, 0)),
+          properties: __S(336, __c10, 16),
+          labelIds: S.optional(__S(2016, __c63, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/notifiers", code: 200 })),
       ).annotate({ identifier: "CreateNotifierRequest" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4687,8 +4772,8 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           body: S.String,
-          headers: S.optional(__S(224, __c7, 0)),
-          secretHeaders: S.optional(__S(260, __c8, 4)),
+          headers: S.optional(__S(288, __c9, 0)),
+          secretHeaders: S.optional(__S(324, __c10, 4)),
           url: S.String,
         }),
       ).annotate({ identifier: "CustomNotifierConfig" });
@@ -4704,21 +4789,21 @@ function __c8(j: number): any {
         S.Struct({
           discordChannel: S.optional(S.String),
           discordToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          messageTemplate: S.optional(__S(262, __c8, 6)),
+          messageTemplate: S.optional(__S(326, __c10, 6)),
         }),
       ).annotate({ identifier: "DiscordConfig" });
     case 8:
       return S.suspend(() =>
         S.Struct({
           discordWebhookUrl: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          messageTemplate: S.optional(__S(262, __c8, 6)),
+          messageTemplate: S.optional(__S(326, __c10, 6)),
         }),
       ).annotate({ identifier: "DiscordWebhookConfig" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          emails: S.optional(__S(1952, __c61, 0)),
-          messageTemplate: S.optional(__S(262, __c8, 6)),
+          emails: S.optional(__S(2016, __c63, 0)),
+          messageTemplate: S.optional(__S(326, __c10, 6)),
         }),
       ).annotate({ identifier: "EmailConfig" });
     case 10:
@@ -4730,7 +4815,7 @@ function __c8(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          messageTemplate: S.optional(__S(262, __c8, 6)),
+          messageTemplate: S.optional(__S(326, __c10, 6)),
           microsoftTeamsUrl: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "MicrosoftTeamsConfig" });
@@ -4751,7 +4836,7 @@ function __c8(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
-          messageTemplate: S.optional(__S(262, __c8, 6)),
+          messageTemplate: S.optional(__S(326, __c10, 6)),
           slackUrl: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "SlackConfig" });
@@ -4764,20 +4849,20 @@ function __c8(j: number): any {
     case 16:
       return S.suspend(() =>
         S.Struct({
-          amp: S.optional(__S(256, __c8, 0)),
-          chatgptWorkspaceAgent: S.optional(__S(257, __c8, 1)),
-          claudeCode: S.optional(__S(258, __c8, 2)),
-          cursor: S.optional(__S(259, __c8, 3)),
-          customWebhook: S.optional(__S(261, __c8, 5)),
-          discord: S.optional(__S(263, __c8, 7)),
-          discordWebhook: S.optional(__S(264, __c8, 8)),
-          email: S.optional(__S(265, __c8, 9)),
-          jiraServiceManagement: S.optional(__S(266, __c8, 10)),
-          microsoftTeams: S.optional(__S(267, __c8, 11)),
-          opsgenie: S.optional(__S(268, __c8, 12)),
-          pagerduty: S.optional(__S(269, __c8, 13)),
-          slack: S.optional(__S(270, __c8, 14)),
-          webhook: S.optional(__S(271, __c8, 15)),
+          amp: S.optional(__S(320, __c10, 0)),
+          chatgptWorkspaceAgent: S.optional(__S(321, __c10, 1)),
+          claudeCode: S.optional(__S(322, __c10, 2)),
+          cursor: S.optional(__S(323, __c10, 3)),
+          customWebhook: S.optional(__S(325, __c10, 5)),
+          discord: S.optional(__S(327, __c10, 7)),
+          discordWebhook: S.optional(__S(328, __c10, 8)),
+          email: S.optional(__S(329, __c10, 9)),
+          jiraServiceManagement: S.optional(__S(330, __c10, 10)),
+          microsoftTeams: S.optional(__S(331, __c10, 11)),
+          opsgenie: S.optional(__S(332, __c10, 12)),
+          pagerduty: S.optional(__S(333, __c10, 13)),
+          slack: S.optional(__S(334, __c10, 14)),
+          webhook: S.optional(__S(335, __c10, 15)),
         }),
       ).annotate({ identifier: "NotifierProperties" });
     case 17:
@@ -4790,17 +4875,17 @@ function __c8(j: number): any {
           disabledUntil: S.optional(S.String),
           lastError: S.optional(S.String),
           name: S.String,
-          properties: __S(272, __c8, 16),
+          properties: __S(336, __c10, 16),
           updatedAt: S.optional(S.String),
           id: S.optional(S.String),
-          labelIds: __S(1952, __c61, 0),
-          labelNames: __S(1952, __c61, 0),
-          labels: S.optional(__S(2881, __c90, 1)),
+          labelIds: __S(2016, __c63, 0),
+          labelNames: __S(2016, __c63, 0),
+          labels: S.optional(__S(2945, __c92, 1)),
         }),
       ).annotate({ identifier: "CreateNotifierResponse" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4811,7 +4896,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "CreateOrgRequest" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Boolean);
@@ -4822,9 +4907,9 @@ function __c10(j: number): any {
           billingPeriodEnd: S.optional(S.String),
           billingPeriodStart: S.optional(S.String),
           defaultEdgeDeployment: S.optional(S.String),
-          edgeDeployments: S.optional(__S(1952, __c61, 0)),
+          edgeDeployments: S.optional(__S(2016, __c63, 0)),
           expiresAt: S.optional(S.NullOr(S.String)),
-          features: S.optional(__S(320, __c10, 0)),
+          features: S.optional(__S(384, __c12, 0)),
           id: S.String,
           issuedAt: S.optional(S.String),
           issuedTo: S.optional(S.String),
@@ -4841,7 +4926,7 @@ function __c10(j: number): any {
           storageAllowanceGB: S.optional(S.Number),
           tier: S.String,
           validFrom: S.optional(S.String),
-          withAuths: S.optional(__S(1952, __c61, 0)),
+          withAuths: S.optional(__S(2016, __c63, 0)),
         }),
       ).annotate({ identifier: "License" });
     case 2:
@@ -4851,7 +4936,7 @@ function __c10(j: number): any {
           firstFailedPayment: S.optional(S.String),
           id: S.String,
           lastUsageSync: S.String,
-          license: __S(321, __c10, 1),
+          license: __S(385, __c12, 1),
           metaCreated: S.optional(S.String),
           metaModified: S.optional(S.String),
           metaVersion: S.optional(S.String),
@@ -4865,53 +4950,53 @@ function __c10(j: number): any {
       ).annotate({ identifier: "Org" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          datasetCapabilities: S.optional(__S(2338, __c73, 2)),
+          datasetCapabilities: S.optional(__S(2402, __c75, 2)),
           description: S.optional(S.String),
-          members: S.optional(__S(1952, __c61, 0)),
+          members: S.optional(__S(2016, __c63, 0)),
           name: S.String,
-          orgCapabilities: S.optional(__S(2339, __c73, 3)),
-          viewCapabilities: S.optional(__S(2341, __c73, 5)),
+          orgCapabilities: S.optional(__S(2403, __c75, 3)),
+          viewCapabilities: S.optional(__S(2405, __c75, 5)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/rbac/roles", code: 200 })),
       ).annotate({ identifier: "CreateRoleRequest" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          datasetCapabilities: S.optional(__S(2338, __c73, 2)),
+          datasetCapabilities: S.optional(__S(2402, __c75, 2)),
           description: S.optional(S.String),
-          members: S.optional(__S(1952, __c61, 0)),
+          members: S.optional(__S(2016, __c63, 0)),
           name: S.String,
-          orgCapabilities: S.optional(__S(2339, __c73, 3)),
-          viewCapabilities: S.optional(__S(2341, __c73, 5)),
+          orgCapabilities: S.optional(__S(2403, __c75, 3)),
+          viewCapabilities: S.optional(__S(2405, __c75, 5)),
           id: S.String,
         }),
       ).annotate({ identifier: "CreateRoleResponse" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           dataset: S.optional(S.String),
           kind: S.String,
-          metadata: __S(224, __c7, 0),
+          metadata: __S(288, __c9, 0),
           name: S.String,
-          query: __S(451, __c14, 3),
+          query: __S(515, __c16, 3),
           who: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/v2/apl-starred-queries", code: 200 })),
       ).annotate({ identifier: "CreateStarredRequest" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4921,7 +5006,7 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "APLRequestWithOptionsDefaultOrder" });
     case 1:
-      return S.Array(__S(448, __c14, 0));
+      return S.Array(__S(512, __c16, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -4948,12 +5033,12 @@ function __c14(j: number): any {
           apl: S.String,
           cursor: S.optional(S.String),
           defaultLimit: S.optional(S.Number),
-          defaultOrder: S.optional(__S(449, __c14, 1)),
+          defaultOrder: S.optional(__S(513, __c16, 1)),
           endTime: S.optional(S.String),
           includeCursor: S.optional(S.Boolean),
           includeCursorField: S.optional(S.Boolean),
-          libraries: S.optional(__S(1952, __c61, 0)),
-          queryOptions: S.optional(__S(450, __c14, 2)),
+          libraries: S.optional(__S(2016, __c63, 0)),
+          queryOptions: S.optional(__S(514, __c16, 2)),
           startTime: S.optional(S.String),
           variables: S.optional(S.Unknown),
         }),
@@ -4963,16 +5048,16 @@ function __c14(j: number): any {
         S.Struct({
           dataset: S.optional(S.String),
           kind: S.String,
-          metadata: __S(224, __c7, 0),
+          metadata: __S(288, __c9, 0),
           name: S.String,
-          query: __S(451, __c14, 3),
+          query: __S(515, __c16, 3),
           who: S.String,
           id: S.String,
         }),
       ).annotate({ identifier: "CreateStarredResponse" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4984,7 +5069,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "CreateUserRequest" });
   }
 }
-function __c16(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4999,18 +5084,18 @@ function __c16(j: number): any {
           email: S.String,
           id: S.String,
           name: S.String,
-          role: S.optional(__S(512, __c16, 0)),
+          role: S.optional(__S(576, __c18, 0)),
         }),
       ).annotate({ identifier: "User" });
   }
 }
-function __c17(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           aplQuery: S.String,
-          datasets: S.optional(__S(1952, __c61, 0)),
+          datasets: S.optional(__S(2016, __c63, 0)),
           description: S.optional(S.String),
           edgeDeployment: S.optional(S.String),
           edgeDeploymentUrl: S.optional(S.String),
@@ -5021,13 +5106,13 @@ function __c17(j: number): any {
       ).annotate({ identifier: "CreateViewRequest" });
   }
 }
-function __c18(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           aplQuery: S.String,
-          datasets: S.optional(__S(1952, __c61, 0)),
+          datasets: S.optional(__S(2016, __c63, 0)),
           description: S.optional(S.String),
           edgeDeployment: S.optional(S.String),
           edgeDeploymentUrl: S.optional(S.String),
@@ -5038,7 +5123,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "View" });
   }
 }
-function __c19(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5053,7 +5138,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "CreateVirtualFieldRequest" });
   }
 }
-function __c20(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5069,7 +5154,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "CreateVirtualFieldResponse" });
   }
 }
-function __c21(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5079,13 +5164,13 @@ function __c21(j: number): any {
       ).annotate({ identifier: "DeleteAnnotationRequest" });
   }
 }
-function __c22(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteAnnotationResponse" });
   }
 }
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5095,7 +5180,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "DeleteAPITokenRequest" });
   }
 }
-function __c24(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5105,7 +5190,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "DeleteDashboardRequest" });
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5115,7 +5200,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "DeleteDatasetRequest" });
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5125,31 +5210,31 @@ function __c26(j: number): any {
       ).annotate({ identifier: "JobCreateResponse" });
   }
 }
-function __c27(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           dataset_id: S.String.pipe(T.Label()),
-          fields: __S(1952, __c61, 0),
+          fields: __S(2016, __c63, 0),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/datasets/{dataset_id}/delete-fields", code: 200 }),
         ),
       ).annotate({ identifier: "DeleteDatasetFieldsRequest" });
   }
 }
-function __c28(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          fields: S.optional(__S(1952, __c61, 0)),
+          fields: S.optional(__S(2016, __c63, 0)),
           jobId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeleteDatasetFieldsResult" });
   }
 }
-function __c29(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5166,7 +5251,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "DeleteFieldForDatasetRequest" });
   }
 }
-function __c30(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5176,7 +5261,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "DeleteGroupRequest" });
   }
 }
-function __c31(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5186,7 +5271,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "DeleteLabelRequest" });
   }
 }
-function __c32(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5203,7 +5288,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "DeleteMapFieldRequest" });
   }
 }
-function __c33(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5213,7 +5298,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "DeleteMonitorRequest" });
   }
 }
-function __c34(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5223,7 +5308,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "DeleteNotifierRequest" });
   }
 }
-function __c35(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5233,7 +5318,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "DeleteRoleRequest" });
   }
 }
-function __c36(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5243,7 +5328,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "DeleteStarredRequest" });
   }
 }
-function __c37(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5253,7 +5338,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "DeleteViewRequest" });
   }
 }
-function __c38(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5263,7 +5348,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "DeleteVirtualFieldRequest" });
   }
 }
-function __c39(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5273,25 +5358,25 @@ function __c39(j: number): any {
       ).annotate({ identifier: "GetAnnotationRequest" });
   }
 }
-function __c40(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          datasets: S.optional(__S(1952, __c61, 0).pipe(T.Query())),
+          datasets: S.optional(__S(2016, __c63, 0).pipe(T.Query())),
           start: S.optional(S.String.pipe(T.Query())),
           end: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v2/annotations", code: 200 })),
       ).annotate({ identifier: "GetAnnotationsRequest" });
     case 1:
-      return S.Array(__S(1920, __c60, 0));
+      return S.Array(__S(1984, __c62, 0));
     case 2:
-      return S.suspend(() => __S(1281, __c40, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1345, __c42, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetAnnotationsResponse",
       });
   }
 }
-function __c41(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5301,41 +5386,41 @@ function __c41(j: number): any {
       ).annotate({ identifier: "GetAPITokenRequest" });
   }
 }
-function __c42(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           apiLastUsed: S.optional(S.NullOr(S.String)),
           auditIdentity: S.optional(S.String),
-          datasetCapabilities: __S(2338, __c73, 2),
+          datasetCapabilities: __S(2402, __c75, 2),
           description: S.optional(S.String),
           expiresAt: S.optional(S.NullOr(S.String)),
           id: S.String,
           ingestLastUsed: S.optional(S.NullOr(S.String)),
           name: S.String,
-          orgCapabilities: __S(2339, __c73, 3),
+          orgCapabilities: __S(2403, __c75, 3),
           samlAuthenticated: S.optional(S.Boolean),
-          viewCapabilities: S.optional(__S(2341, __c73, 5)),
+          viewCapabilities: S.optional(__S(2405, __c75, 5)),
         }),
       ).annotate({ identifier: "APIToken" });
   }
 }
-function __c43(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/tokens", code: 200 })),
       ).annotate({ identifier: "GetAPITokensRequest" });
     case 1:
-      return S.Array(__S(1344, __c42, 0));
+      return S.Array(__S(1408, __c44, 0));
     case 2:
-      return S.suspend(() => __S(1377, __c43, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1441, __c45, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetAPITokensResponse",
       });
   }
 }
-function __c44(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5343,7 +5428,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "GetCurrentUserRequest" });
   }
 }
-function __c45(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5354,7 +5439,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "GetDashboardRequest" });
   }
 }
-function __c46(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5365,26 +5450,26 @@ function __c46(j: number): any {
       ).annotate({ identifier: "GetDatasetRequest" });
   }
 }
-function __c47(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           exclude: S.optional(S.String.pipe(T.Query())),
-          label: S.optional(__S(1952, __c61, 0).pipe(T.Query())),
+          label: S.optional(__S(2016, __c63, 0).pipe(T.Query())),
           labelMatch: S.optional(S.String.pipe(T.Query())),
-          labelIds: S.optional(__S(1952, __c61, 0).pipe(T.Query())),
+          labelIds: S.optional(__S(2016, __c63, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v2/datasets", code: 200 })),
       ).annotate({ identifier: "GetDatasetsRequest" });
     case 1:
-      return S.Array(__S(3264, __c102, 0));
+      return S.Array(__S(3328, __c104, 0));
     case 2:
-      return S.suspend(() => __S(1505, __c47, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1569, __c49, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetDatasetsResponse",
       });
   }
 }
-function __c48(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5397,7 +5482,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "GetFieldForDatasetRequest" });
   }
 }
-function __c49(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5411,7 +5496,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "DatasetField" });
   }
 }
-function __c50(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5420,14 +5505,14 @@ function __c50(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/datasets/{dataset_id}/fields", code: 200 })),
       ).annotate({ identifier: "GetFieldsForDatasetRequest" });
     case 1:
-      return S.Array(__S(1568, __c49, 0));
+      return S.Array(__S(1632, __c51, 0));
     case 2:
-      return S.suspend(() => __S(1601, __c50, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1665, __c52, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetFieldsForDatasetResponse",
       });
   }
 }
-function __c51(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5437,7 +5522,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "GetGroupByIdRequest" });
   }
 }
-function __c52(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5448,23 +5533,23 @@ function __c52(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          assigned_resources: __S(1696, __c53, 0),
-          color: __S(2848, __c89, 0),
+          assigned_resources: __S(1760, __c55, 0),
+          color: __S(2912, __c91, 0),
           description: S.optional(S.NullOr(S.String)),
           id: S.String,
           name: S.String,
-          resources_count: __S(32, __c1, 0),
+          resources_count: __S(96, __c3, 0),
         }),
       ).annotate({ identifier: "LabelDetails" });
   }
 }
-function __c53(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1728, __c54, 0));
+      return S.Array(__S(1792, __c56, 0));
   }
 }
-function __c54(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5477,7 +5562,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "LabelAssignedResource" });
   }
 }
-function __c55(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5487,15 +5572,15 @@ function __c55(j: number): any {
       ).annotate({ identifier: "GetMapFieldsRequest" });
   }
 }
-function __c56(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(1952, __c61, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2016, __c63, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetMapFieldsResponse",
       });
   }
 }
-function __c57(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5506,7 +5591,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "GetMonitorRequest" });
   }
 }
-function __c58(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5526,19 +5611,19 @@ function __c58(j: number): any {
         }),
       ).annotate({ identifier: "AlertHistory" });
     case 2:
-      return S.Array(__S(1857, __c58, 1));
+      return S.Array(__S(1921, __c60, 1));
     case 3:
-      return S.suspend(() => __S(1858, __c58, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1922, __c60, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetMonitorHistoryResponse",
       });
   }
 }
-function __c59(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          datasets: __S(1952, __c61, 0),
+          datasets: __S(2016, __c63, 0),
           description: S.optional(S.String),
           endTime: S.optional(S.String),
           time: S.optional(S.String),
@@ -5549,12 +5634,12 @@ function __c59(j: number): any {
       ).annotate({ identifier: "CreateAnnotationRequest" });
   }
 }
-function __c60(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          datasets: __S(1952, __c61, 0),
+          datasets: __S(2016, __c63, 0),
           description: S.optional(S.String),
           endTime: S.optional(S.NullOr(S.String)),
           id: S.String,
@@ -5566,32 +5651,32 @@ function __c60(j: number): any {
       ).annotate({ identifier: "Annotation" });
   }
 }
-function __c61(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c62(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           exclude: S.optional(S.String.pipe(T.Query())),
-          label: S.optional(__S(1952, __c61, 0).pipe(T.Query())),
+          label: S.optional(__S(2016, __c63, 0).pipe(T.Query())),
           labelMatch: S.optional(S.String.pipe(T.Query())),
-          labelIds: S.optional(__S(1952, __c61, 0).pipe(T.Query())),
+          labelIds: S.optional(__S(2016, __c63, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v2/monitors", code: 200 })),
       ).annotate({ identifier: "GetMonitorsRequest" });
     case 1:
-      return S.Array(__S(160, __c5, 0));
+      return S.Array(__S(224, __c7, 0));
     case 2:
-      return S.suspend(() => __S(1985, __c62, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2049, __c64, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetMonitorsResponse",
       });
   }
 }
-function __c63(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5602,45 +5687,21 @@ function __c63(j: number): any {
       ).annotate({ identifier: "GetNotifierRequest" });
   }
 }
-function __c64(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           exclude: S.optional(S.String.pipe(T.Query())),
-          label: S.optional(__S(1952, __c61, 0).pipe(T.Query())),
+          label: S.optional(__S(2016, __c63, 0).pipe(T.Query())),
           labelMatch: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v2/notifiers", code: 200 })),
       ).annotate({ identifier: "GetNotifiersRequest" });
     case 1:
-      return S.Array(__S(273, __c8, 17));
-    case 2:
-      return S.suspend(() => __S(2049, __c64, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetNotifiersResponse",
-      });
-  }
-}
-function __c65(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/v2/orgs/{id}", code: 200 })),
-      ).annotate({ identifier: "GetOrgRequest" });
-  }
-}
-function __c66(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/orgs", code: 200 })),
-      ).annotate({ identifier: "GetOrgsRequest" });
-    case 1:
-      return S.Array(__S(322, __c10, 2));
+      return S.Array(__S(337, __c10, 17));
     case 2:
       return S.suspend(() => __S(2113, __c66, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetOrgsResponse",
+        identifier: "GetNotifiersResponse",
       });
   }
 }
@@ -5650,11 +5711,35 @@ function __c67(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/v2/orgs/{id}", code: 200 })),
+      ).annotate({ identifier: "GetOrgRequest" });
+  }
+}
+function __c68(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/orgs", code: 200 })),
+      ).annotate({ identifier: "GetOrgsRequest" });
+    case 1:
+      return S.Array(__S(386, __c12, 2));
+    case 2:
+      return S.suspend(() => __S(2177, __c68, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetOrgsResponse",
+      });
+  }
+}
+function __c69(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "GET", uri: "/v2/rbac/roles/{id}", code: 200 })),
       ).annotate({ identifier: "GetRoleByIdRequest" });
   }
 }
-function __c68(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5664,7 +5749,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "GetStarredRequest" });
   }
 }
-function __c69(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5677,14 +5762,14 @@ function __c69(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/apl-starred-queries", code: 200 })),
       ).annotate({ identifier: "GetStarredQueriesRequest" });
     case 1:
-      return S.Array(__S(452, __c14, 4));
+      return S.Array(__S(516, __c16, 4));
     case 2:
-      return S.suspend(() => __S(2209, __c69, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2273, __c71, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetStarredQueriesResponse",
       });
   }
 }
-function __c70(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5694,82 +5779,18 @@ function __c70(j: number): any {
       ).annotate({ identifier: "GetUserRequest" });
   }
 }
-function __c71(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/users", code: 200 })),
       ).annotate({ identifier: "GetUsersRequest" });
     case 1:
-      return S.Array(__S(513, __c16, 1));
+      return S.Array(__S(577, __c18, 1));
     case 2:
-      return S.suspend(() => __S(2273, __c71, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2337, __c73, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetUsersResponse",
       });
-  }
-}
-function __c72(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          datasetCapabilities: S.optional(__S(2338, __c73, 2)),
-          description: S.optional(S.String),
-          expiresAt: S.optional(S.NullOr(S.String)),
-          name: S.String,
-          orgCapabilities: S.optional(__S(2339, __c73, 3)),
-          viewCapabilities: S.optional(__S(2341, __c73, 5)),
-        }).pipe(T.Http({ method: "POST", uri: "/v2/tokens", code: 200 })),
-      ).annotate({ identifier: "CreateAPITokenRequest" });
-  }
-}
-function __c73(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          ingest: S.optional(__S(2336, __c73, 0)),
-          query: S.optional(__S(2336, __c73, 0)),
-          share: S.optional(__S(2336, __c73, 0)),
-          starredQueries: S.optional(__S(2336, __c73, 0)),
-          trim: S.optional(__S(2336, __c73, 0)),
-          vacuum: S.optional(__S(2336, __c73, 0)),
-          virtualFields: S.optional(__S(2336, __c73, 0)),
-        }),
-      ).annotate({ identifier: "DatasetCapabilitiesValue" });
-    case 2:
-      return S.Record(S.String, __S(2337, __c73, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          annotations: S.optional(__S(2336, __c73, 0)),
-          apiTokens: S.optional(__S(2336, __c73, 0)),
-          auditLog: S.optional(__S(2336, __c73, 0)),
-          billing: S.optional(__S(2336, __c73, 0)),
-          dashboards: S.optional(__S(2336, __c73, 0)),
-          datasets: S.optional(__S(2336, __c73, 0)),
-          endpoints: S.optional(__S(2336, __c73, 0)),
-          integrations: S.optional(__S(2336, __c73, 0)),
-          labels: S.optional(__S(2336, __c73, 0)),
-          monitors: S.optional(__S(2336, __c73, 0)),
-          notifiers: S.optional(__S(2336, __c73, 0)),
-          rbac: S.optional(__S(2336, __c73, 0)),
-          sharedAccessKeys: S.optional(__S(2336, __c73, 0)),
-          users: S.optional(__S(2336, __c73, 0)),
-          views: S.optional(__S(2336, __c73, 0)),
-        }),
-      ).annotate({ identifier: "OrgCapabilities" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          query: S.optional(__S(2336, __c73, 0)),
-          share: S.optional(__S(2336, __c73, 0)),
-        }),
-      ).annotate({ identifier: "ViewCapabilitiesValue" });
-    case 5:
-      return S.Record(S.String, __S(2340, __c73, 4));
   }
 }
 function __c74(j: number): any {
@@ -5777,23 +5798,87 @@ function __c74(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          datasetCapabilities: S.optional(__S(2402, __c75, 2)),
+          description: S.optional(S.String),
+          expiresAt: S.optional(S.NullOr(S.String)),
+          name: S.String,
+          orgCapabilities: S.optional(__S(2403, __c75, 3)),
+          viewCapabilities: S.optional(__S(2405, __c75, 5)),
+        }).pipe(T.Http({ method: "POST", uri: "/v2/tokens", code: 200 })),
+      ).annotate({ identifier: "CreateAPITokenRequest" });
+  }
+}
+function __c75(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ingest: S.optional(__S(2400, __c75, 0)),
+          query: S.optional(__S(2400, __c75, 0)),
+          share: S.optional(__S(2400, __c75, 0)),
+          starredQueries: S.optional(__S(2400, __c75, 0)),
+          trim: S.optional(__S(2400, __c75, 0)),
+          vacuum: S.optional(__S(2400, __c75, 0)),
+          virtualFields: S.optional(__S(2400, __c75, 0)),
+        }),
+      ).annotate({ identifier: "DatasetCapabilitiesValue" });
+    case 2:
+      return S.Record(S.String, __S(2401, __c75, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          annotations: S.optional(__S(2400, __c75, 0)),
+          apiTokens: S.optional(__S(2400, __c75, 0)),
+          auditLog: S.optional(__S(2400, __c75, 0)),
+          billing: S.optional(__S(2400, __c75, 0)),
+          dashboards: S.optional(__S(2400, __c75, 0)),
+          datasets: S.optional(__S(2400, __c75, 0)),
+          endpoints: S.optional(__S(2400, __c75, 0)),
+          integrations: S.optional(__S(2400, __c75, 0)),
+          labels: S.optional(__S(2400, __c75, 0)),
+          monitors: S.optional(__S(2400, __c75, 0)),
+          notifiers: S.optional(__S(2400, __c75, 0)),
+          rbac: S.optional(__S(2400, __c75, 0)),
+          sharedAccessKeys: S.optional(__S(2400, __c75, 0)),
+          users: S.optional(__S(2400, __c75, 0)),
+          views: S.optional(__S(2400, __c75, 0)),
+        }),
+      ).annotate({ identifier: "OrgCapabilities" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          query: S.optional(__S(2400, __c75, 0)),
+          share: S.optional(__S(2400, __c75, 0)),
+        }),
+      ).annotate({ identifier: "ViewCapabilitiesValue" });
+    case 5:
+      return S.Record(S.String, __S(2404, __c75, 4));
+  }
+}
+function __c76(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           apiLastUsed: S.optional(S.NullOr(S.String)),
           auditIdentity: S.optional(S.String),
-          datasetCapabilities: __S(2338, __c73, 2),
+          datasetCapabilities: __S(2402, __c75, 2),
           description: S.optional(S.String),
           expiresAt: S.optional(S.NullOr(S.String)),
           id: S.String,
           ingestLastUsed: S.optional(S.NullOr(S.String)),
           name: S.String,
-          orgCapabilities: __S(2339, __c73, 3),
+          orgCapabilities: __S(2403, __c75, 3),
           samlAuthenticated: S.optional(S.Boolean),
-          viewCapabilities: S.optional(__S(2341, __c73, 5)),
+          viewCapabilities: S.optional(__S(2405, __c75, 5)),
           token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CreateAPITokenResponse" });
   }
 }
-function __c75(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5803,21 +5888,21 @@ function __c75(j: number): any {
       ).annotate({ identifier: "GetViewRequest" });
   }
 }
-function __c76(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/views", code: 200 })),
       ).annotate({ identifier: "GetViewsRequest" });
     case 1:
-      return S.Array(__S(576, __c18, 0));
+      return S.Array(__S(640, __c20, 0));
     case 2:
-      return S.suspend(() => __S(2433, __c76, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2497, __c78, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetViewsResponse",
       });
   }
 }
-function __c77(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5827,7 +5912,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "GetVirtualFieldRequest" });
   }
 }
-function __c78(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5836,43 +5921,10 @@ function __c78(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/vfields", code: 200 })),
       ).annotate({ identifier: "GetVirtualFieldsRequest" });
     case 1:
-      return S.Array(__S(640, __c20, 0));
-    case 2:
-      return S.suspend(() => __S(2497, __c78, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetVirtualFieldsResponse",
-      });
-  }
-}
-function __c79(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          limit: S.optional(S.Number.pipe(T.Query())),
-          offset: S.optional(S.Number.pipe(T.Query())),
-          exclude: S.optional(S.String.pipe(T.Query())),
-          labelIds: S.optional(__S(1952, __c61, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v2/dashboards", code: 200 })),
-      ).annotate({ identifier: "ListDashboardsRequest" });
-    case 1:
-      return S.Array(__S(2790, __c87, 6));
-    case 2:
-      return S.suspend(() => __S(2529, __c79, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListDashboardsResponse",
-      });
-  }
-}
-function __c80(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/rbac/groups", code: 200 })),
-      ).annotate({ identifier: "ListGroupsRequest" });
-    case 1:
-      return S.Array(__S(3648, __c114, 0));
+      return S.Array(__S(704, __c22, 0));
     case 2:
       return S.suspend(() => __S(2561, __c80, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListGroupsResponse",
+        identifier: "GetVirtualFieldsResponse",
       });
   }
 }
@@ -5881,14 +5933,17 @@ function __c81(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          targets: __S(1696, __c53, 0),
-        }).pipe(T.Http({ method: "POST", uri: "/v2/labels/assignments", code: 200 })),
-      ).annotate({ identifier: "ListLabelAssignmentsRequest" });
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+          exclude: S.optional(S.String.pipe(T.Query())),
+          labelIds: S.optional(__S(2016, __c63, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v2/dashboards", code: 200 })),
+      ).annotate({ identifier: "ListDashboardsRequest" });
     case 1:
-      return S.Array(__S(2624, __c82, 0));
+      return S.Array(__S(2854, __c89, 6));
     case 2:
       return S.suspend(() => __S(2593, __c81, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListLabelAssignmentsResponse",
+        identifier: "ListDashboardsResponse",
       });
   }
 }
@@ -5896,14 +5951,44 @@ function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/rbac/groups", code: 200 })),
+      ).annotate({ identifier: "ListGroupsRequest" });
+    case 1:
+      return S.Array(__S(3712, __c116, 0));
+    case 2:
+      return S.suspend(() => __S(2625, __c82, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListGroupsResponse",
+      });
+  }
+}
+function __c83(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Struct({
-          labelIds: __S(1952, __c61, 0),
-          target: __S(1728, __c54, 0),
+          targets: __S(1760, __c55, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/v2/labels/assignments", code: 200 })),
+      ).annotate({ identifier: "ListLabelAssignmentsRequest" });
+    case 1:
+      return S.Array(__S(2688, __c84, 0));
+    case 2:
+      return S.suspend(() => __S(2657, __c83, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListLabelAssignmentsResponse",
+      });
+  }
+}
+function __c84(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          labelIds: __S(2016, __c63, 0),
+          target: __S(1792, __c56, 0),
         }),
       ).annotate({ identifier: "LabelAssignmentResult" });
   }
 }
-function __c83(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5912,28 +5997,28 @@ function __c83(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/labels", code: 200 })),
       ).annotate({ identifier: "ListLabelsRequest" });
     case 1:
-      return S.Array(__S(64, __c2, 0));
+      return S.Array(__S(128, __c4, 0));
     case 2:
-      return S.suspend(() => __S(2657, __c83, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2721, __c85, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListLabelsResponse",
       });
   }
 }
-function __c84(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/rbac/roles", code: 200 })),
       ).annotate({ identifier: "ListRolesRequest" });
     case 1:
-      return S.Array(__S(384, __c12, 0));
+      return S.Array(__S(448, __c14, 0));
     case 2:
-      return S.suspend(() => __S(2689, __c84, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2753, __c86, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListRolesResponse",
       });
   }
 }
-function __c85(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -5942,7 +6027,7 @@ function __c85(j: number): any {
         S.Struct({
           uid: S.String.pipe(T.Label()),
           chartId: S.String.pipe(T.Label()),
-          chart: __S(2720, __c85, 0),
+          chart: __S(2784, __c87, 0),
           message: S.optional(S.String),
           overwrite: S.optional(S.Boolean),
           version: S.optional(S.Number),
@@ -5952,13 +6037,13 @@ function __c85(j: number): any {
       ).annotate({ identifier: "PatchDashboardChartRequest" });
   }
 }
-function __c86(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dashboard: __S(2789, __c87, 5),
-          labelIds: S.optional(__S(1952, __c61, 0)),
+          dashboard: __S(2853, __c89, 5),
+          labelIds: S.optional(__S(2016, __c63, 0)),
           message: S.optional(S.String),
           overwrite: S.optional(S.Boolean),
           uid: S.optional(S.String),
@@ -5967,7 +6052,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "CreateDashboardRequest" });
   }
 }
-function __c87(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -5987,7 +6072,7 @@ function __c87(j: number): any {
         }),
       ).annotate({ identifier: "LayoutItem" });
     case 2:
-      return S.Array(__S(2785, __c87, 1));
+      return S.Array(__S(2849, __c89, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -5997,16 +6082,16 @@ function __c87(j: number): any {
         }),
       ).annotate({ identifier: "Section" });
     case 4:
-      return S.Array(__S(2787, __c87, 3));
+      return S.Array(__S(2851, __c89, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           owner: S.String,
           description: S.optional(S.String),
-          charts: __S(2784, __c87, 0),
-          layout: __S(2786, __c87, 2),
-          sections: S.optional(__S(2788, __c87, 4)),
+          charts: __S(2848, __c89, 0),
+          layout: __S(2850, __c89, 2),
+          sections: S.optional(__S(2852, __c89, 4)),
           refreshTime: S.Number,
           schemaVersion: S.Number,
           against: S.optional(S.String),
@@ -6021,11 +6106,11 @@ function __c87(j: number): any {
         S.Struct({
           createdAt: S.optional(S.NullOr(S.String)),
           createdBy: S.optional(S.NullOr(S.String)),
-          dashboard: __S(2789, __c87, 5),
+          dashboard: __S(2853, __c89, 5),
           id: S.String,
-          labelIds: __S(1952, __c61, 0),
-          labelNames: S.optional(__S(1952, __c61, 0)),
-          labels: S.optional(__S(2881, __c90, 1)),
+          labelIds: __S(2016, __c63, 0),
+          labelNames: S.optional(__S(2016, __c63, 0)),
+          labels: S.optional(__S(2945, __c92, 1)),
           type: S.String,
           uid: S.String,
           updatedAt: S.optional(S.NullOr(S.String)),
@@ -6036,19 +6121,19 @@ function __c87(j: number): any {
       ).annotate({ identifier: "DashboardResource" });
   }
 }
-function __c88(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dashboard: __S(2790, __c87, 6),
+          dashboard: __S(2854, __c89, 6),
           overwritten: S.optional(S.Boolean),
           status: S.String,
         }),
       ).annotate({ identifier: "DashboardWriteResponse" });
   }
 }
-function __c89(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6059,22 +6144,22 @@ function __c89(j: number): any {
       ).annotate({ identifier: "LabelColor" });
   }
 }
-function __c90(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          color: __S(2848, __c89, 0),
+          color: __S(2912, __c91, 0),
           description: S.optional(S.NullOr(S.String)),
           id: S.String,
           name: S.String,
         }),
       ).annotate({ identifier: "Label" });
     case 1:
-      return S.Array(__S(2880, __c90, 0));
+      return S.Array(__S(2944, __c92, 0));
   }
 }
-function __c91(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6096,17 +6181,17 @@ function __c91(j: number): any {
       ).annotate({ identifier: "ProvisionOrgResponse" });
   }
 }
-function __c92(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          datasetCapabilities: S.optional(__S(2338, __c73, 2)),
+          datasetCapabilities: S.optional(__S(2402, __c75, 2)),
           description: S.optional(S.String),
           expiresAt: S.optional(S.NullOr(S.String)),
           name: S.String,
-          orgCapabilities: S.optional(__S(2339, __c73, 3)),
-          viewCapabilities: S.optional(__S(2341, __c73, 5)),
+          orgCapabilities: S.optional(__S(2403, __c75, 3)),
+          viewCapabilities: S.optional(__S(2405, __c75, 5)),
         }),
       ).annotate({ identifier: "CreateAPIToken2" });
     case 1:
@@ -6114,13 +6199,13 @@ function __c92(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           existingTokenExpiresAt: S.String,
-          newToken: S.optional(__S(2944, __c92, 0)),
+          newToken: S.optional(__S(3008, __c94, 0)),
           newTokenExpiresAt: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/tokens/{id}/regenerate", code: 200 })),
       ).annotate({ identifier: "RegenerateAPITokenRequest" });
   }
 }
-function __c93(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6130,18 +6215,18 @@ function __c93(j: number): any {
       ).annotate({ identifier: "RemoveUserFromOrgRequest" });
   }
 }
-function __c94(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          labelIds: __S(1952, __c61, 0),
-          target: __S(1728, __c54, 0),
+          labelIds: __S(2016, __c63, 0),
+          target: __S(1792, __c56, 0),
         }).pipe(T.Http({ method: "PUT", uri: "/v2/labels/assignments", code: 200 })),
       ).annotate({ identifier: "ReplaceLabelAssignmentsRequest" });
   }
 }
-function __c95(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6152,13 +6237,13 @@ function __c95(j: number): any {
       ).annotate({ identifier: "TrimDatasetRequest" });
   }
 }
-function __c96(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          datasets: S.optional(__S(1952, __c61, 0)),
+          datasets: S.optional(__S(2016, __c63, 0)),
           description: S.optional(S.String),
           endTime: S.optional(S.String),
           time: S.optional(S.String),
@@ -6169,7 +6254,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "UpdateAnnotationRequest" });
   }
 }
-function __c97(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6179,14 +6264,14 @@ function __c97(j: number): any {
       ).annotate({ identifier: "UpdateCurrentUserRequest" });
   }
 }
-function __c98(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           uid: S.String.pipe(T.Label()),
-          dashboard: __S(2789, __c87, 5),
-          labelIds: S.optional(__S(1952, __c61, 0)),
+          dashboard: __S(2853, __c89, 5),
+          labelIds: S.optional(__S(2016, __c63, 0)),
           message: S.optional(S.String),
           overwrite: S.optional(S.Boolean),
           version: S.optional(S.Unknown),
@@ -6194,21 +6279,21 @@ function __c98(j: number): any {
       ).annotate({ identifier: "UpdateDashboardRequest" });
   }
 }
-function __c99(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           dataset_id: S.String.pipe(T.Label()),
           description: S.optional(S.String),
-          labelIds: S.optional(__S(1952, __c61, 0)),
+          labelIds: S.optional(__S(2016, __c63, 0)),
           retentionDays: S.optional(S.Number),
           useRetentionPeriod: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "PUT", uri: "/v2/datasets/{dataset_id}", code: 200 })),
       ).annotate({ identifier: "UpdateDatasetRequest" });
   }
 }
-function __c100(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6226,7 +6311,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "UpdateFieldForDatasetRequest" });
   }
 }
-function __c101(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6235,7 +6320,7 @@ function __c101(j: number): any {
           description: S.optional(S.String),
           edgeDeployment: S.optional(S.String),
           kind: S.optional(S.String),
-          labelIds: S.optional(__S(1952, __c61, 0)),
+          labelIds: S.optional(__S(2016, __c63, 0)),
           name: S.String,
           retentionDays: S.optional(S.Number),
           useRetentionPeriod: S.optional(S.Boolean),
@@ -6243,7 +6328,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "CreateDatasetRequest" });
   }
 }
-function __c102(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6256,10 +6341,10 @@ function __c102(j: number): any {
           edgeDeploymentUrl: S.optional(S.String),
           id: S.String,
           kind: S.String,
-          labelIds: __S(1952, __c61, 0),
-          labelNames: __S(1952, __c61, 0),
-          labels: S.optional(__S(2881, __c90, 1)),
-          mapFields: S.optional(__S(1952, __c61, 0)),
+          labelIds: __S(2016, __c63, 0),
+          labelNames: __S(2016, __c63, 0),
+          labels: S.optional(__S(2945, __c92, 1)),
+          mapFields: S.optional(__S(2016, __c63, 0)),
           name: S.String,
           reclaimableFields: S.optional(S.Number),
           retentionDays: S.optional(S.Number),
@@ -6272,45 +6357,45 @@ function __c102(j: number): any {
       ).annotate({ identifier: "Dataset" });
   }
 }
-function __c103(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           description: S.optional(S.String),
-          members: S.optional(__S(1952, __c61, 0)),
+          members: S.optional(__S(2016, __c63, 0)),
           name: S.String,
-          roles: S.optional(__S(1952, __c61, 0)),
+          roles: S.optional(__S(2016, __c63, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/v2/rbac/groups/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateGroupRequest" });
   }
 }
-function __c104(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          color: S.optional(__S(2848, __c89, 0)),
+          color: S.optional(__S(2912, __c91, 0)),
           description: S.optional(S.NullOr(S.String)),
           name: S.String,
         }).pipe(T.Http({ method: "PUT", uri: "/v2/labels/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateLabelRequest" });
   }
 }
-function __c105(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           dataset_id: S.String.pipe(T.Label()),
-          body: __S(1952, __c61, 0).pipe(T.HttpBody()),
+          body: __S(2016, __c63, 0).pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "PUT", uri: "/v2/datasets/{dataset_id}/mapfields", code: 200 })),
       ).annotate({ identifier: "UpdateMapFieldsRequest" });
   }
 }
-function __c106(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6327,7 +6412,7 @@ function __c106(j: number): any {
           intervalMinutes: S.optional(S.Number),
           mplQuery: S.optional(S.String),
           name: S.String,
-          notifierIds: S.optional(__S(1952, __c61, 0)),
+          notifierIds: S.optional(__S(2016, __c63, 0)),
           notifyByGroup: S.optional(S.Boolean),
           notifyEveryRun: S.optional(S.Boolean),
           operator: S.optional(S.String),
@@ -6340,12 +6425,12 @@ function __c106(j: number): any {
           triggerAfterNPositiveResults: S.optional(S.Number),
           triggerFromNRuns: S.optional(S.Number),
           type: S.String,
-          labelIds: S.optional(__S(1952, __c61, 0)),
+          labelIds: S.optional(__S(2016, __c63, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/v2/monitors/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateMonitorRequest" });
   }
 }
-function __c107(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6356,13 +6441,13 @@ function __c107(j: number): any {
           disabledUntil: S.optional(S.String),
           lastError: S.optional(S.String),
           name: S.String,
-          properties: __S(272, __c8, 16),
-          labelIds: S.optional(__S(1952, __c61, 0)),
+          properties: __S(336, __c10, 16),
+          labelIds: S.optional(__S(2016, __c63, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/v2/notifiers/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateNotifierRequest" });
   }
 }
-function __c108(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6373,23 +6458,23 @@ function __c108(j: number): any {
       ).annotate({ identifier: "UpdateOrgRequest" });
   }
 }
-function __c109(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          datasetCapabilities: S.optional(__S(2338, __c73, 2)),
+          datasetCapabilities: S.optional(__S(2402, __c75, 2)),
           description: S.optional(S.String),
-          members: S.optional(__S(1952, __c61, 0)),
+          members: S.optional(__S(2016, __c63, 0)),
           name: S.String,
-          orgCapabilities: S.optional(__S(2339, __c73, 3)),
-          viewCapabilities: S.optional(__S(2341, __c73, 5)),
+          orgCapabilities: S.optional(__S(2403, __c75, 3)),
+          viewCapabilities: S.optional(__S(2405, __c75, 5)),
         }).pipe(T.Http({ method: "PUT", uri: "/v2/rbac/roles/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateRoleRequest" });
   }
 }
-function __c110(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6397,15 +6482,15 @@ function __c110(j: number): any {
           id: S.String.pipe(T.Label()),
           dataset: S.optional(S.String),
           kind: S.String,
-          metadata: __S(224, __c7, 0),
+          metadata: __S(288, __c9, 0),
           name: S.String,
-          query: __S(451, __c14, 3),
+          query: __S(515, __c16, 3),
           who: S.String,
         }).pipe(T.Http({ method: "PUT", uri: "/v2/apl-starred-queries/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateStarredRequest" });
   }
 }
-function __c111(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6416,14 +6501,14 @@ function __c111(j: number): any {
       ).annotate({ identifier: "UpdateUserRoleRequest" });
   }
 }
-function __c112(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           aplQuery: S.String,
-          datasets: S.optional(__S(1952, __c61, 0)),
+          datasets: S.optional(__S(2016, __c63, 0)),
           description: S.optional(S.String),
           edgeDeployment: S.optional(S.String),
           edgeDeploymentUrl: S.optional(S.String),
@@ -6434,35 +6519,35 @@ function __c112(j: number): any {
       ).annotate({ identifier: "UpdateViewRequest" });
   }
 }
-function __c113(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          members: S.optional(__S(1952, __c61, 0)),
+          members: S.optional(__S(2016, __c63, 0)),
           name: S.String,
-          roles: S.optional(__S(1952, __c61, 0)),
+          roles: S.optional(__S(2016, __c63, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/rbac/groups", code: 200 })),
       ).annotate({ identifier: "CreateGroupRequest" });
   }
 }
-function __c114(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
           isManaged: S.optional(S.Boolean),
-          members: S.optional(__S(1952, __c61, 0)),
+          members: S.optional(__S(2016, __c63, 0)),
           name: S.String,
-          roles: S.optional(__S(1952, __c61, 0)),
+          roles: S.optional(__S(2016, __c63, 0)),
           id: S.String,
         }),
       ).annotate({ identifier: "CreateGroupResponse" });
   }
 }
-function __c115(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6478,7 +6563,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "UpdateVirtualFieldRequest" });
   }
 }
-function __c116(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

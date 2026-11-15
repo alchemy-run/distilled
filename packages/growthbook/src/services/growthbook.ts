@@ -36,22 +36,38 @@ export class Conflict
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(33, __c1, 1)),
+          /*@__PURE__*/ S.suspend(() => S.Unknown),
+          /*@__PURE__*/ S.suspend(() => S.Unknown),
+          /*@__PURE__*/ S.suspend(() => S.Unknown),
+          S.String,
+        ]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error409Body3 | Error409Body4 | Error409Body2 | Error409Body | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(65, __c2, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error422Body | string;
+}
 
 export interface AddContextualBanditLinkedFeatureRequestVariationsItem {
   /** Id of the Contextual Bandit variation. */
@@ -29898,6 +29914,118 @@ export interface VerifyConfigSchemaResponse {
   ancestorOwnedFields?: VerifyConfigSchemaResponseAncestorOwnedFieldsList | undefined;
   warnings?: VerifyConfigSchemaResponseWarningsList | undefined;
 }
+export type Error409BodyCode = "invalid_status";
+export type ApiErrorInvalidStatusDetailsExpectedStatusesList = Array<string>;
+export interface ApiErrorInvalidStatusDetails {
+  currentStatus: string;
+  expectedStatuses: ApiErrorInvalidStatusDetailsExpectedStatusesList;
+}
+/** Resource is not in a valid status for this operation */
+export interface Error409Body3 {
+  message: string;
+  code: Error409BodyCode;
+  details: ApiErrorInvalidStatusDetails;
+}
+export type Error409BodyCase0Code3 = "requires_full_refresh";
+export interface ApiErrorRequiresFullRefreshDetails {
+  reason: string;
+}
+/** The Incremental Pipeline needs a Full Refresh of Overall Results before this request can be served */
+export interface Error409BodyCase03 {
+  message: string;
+  code: Error409BodyCase0Code3;
+  details: ApiErrorRequiresFullRefreshDetails;
+}
+export type Error409BodyCase1Code3 = "dimension_already_up_to_date";
+export interface ApiErrorDimensionAlreadyUpToDateDetails {
+  overallResultsAsOf: string;
+}
+/** The requested dimension was already computed from the latest Overall Results */
+export interface Error409BodyCase13 {
+  message: string;
+  code: Error409BodyCase1Code3;
+  details: ApiErrorDimensionAlreadyUpToDateDetails;
+}
+export type Error409Body4 = Error409BodyCase03 | Error409BodyCase13;
+export type Error409BodyCase0Code2 = "checklist_incomplete";
+export type ApiErrorChecklistIncompleteDetailsRemainingChecklistItemsItemStatus =
+  | "complete"
+  | "incomplete";
+export interface ApiErrorChecklistIncompleteDetailsRemainingChecklistItemsItem {
+  key: string;
+  required: boolean;
+  status: ApiErrorChecklistIncompleteDetailsRemainingChecklistItemsItemStatus;
+  manual: boolean;
+  reason: string;
+  hardBlock?: boolean | undefined;
+}
+export type ApiErrorChecklistIncompleteDetailsRemainingChecklistItemsList =
+  Array<ApiErrorChecklistIncompleteDetailsRemainingChecklistItemsItem>;
+export interface ApiErrorChecklistIncompleteDetails {
+  remainingChecklistItems: ApiErrorChecklistIncompleteDetailsRemainingChecklistItemsList;
+}
+/** An experiment start is blocked by its launch checklist or a linked Feature Flag */
+export interface Error409BodyCase02 {
+  message: string;
+  code: Error409BodyCase0Code2;
+  details: ApiErrorChecklistIncompleteDetails;
+}
+export type Error409BodyCase1Code2 = "pending_draft_publish_failed";
+export type ApiErrorPendingDraftPublishFailedDetailsFailedFeatureDraftsItemReason =
+  | "merge-conflict"
+  | "needs-rebase"
+  | "needs-approval"
+  | "publish-error";
+export interface ApiErrorPendingDraftPublishFailedDetailsFailedFeatureDraftsItem {
+  featureId: string;
+  revisionVersion: number;
+  reason: ApiErrorPendingDraftPublishFailedDetailsFailedFeatureDraftsItemReason;
+}
+export type ApiErrorPendingDraftPublishFailedDetailsFailedFeatureDraftsList =
+  Array<ApiErrorPendingDraftPublishFailedDetailsFailedFeatureDraftsItem>;
+export interface ApiErrorPendingDraftPublishFailedDetails {
+  failedFeatureDrafts: ApiErrorPendingDraftPublishFailedDetailsFailedFeatureDraftsList;
+}
+/** One or more linked feature drafts could not be published */
+export interface Error409BodyCase12 {
+  message: string;
+  code: Error409BodyCase1Code2;
+  details: ApiErrorPendingDraftPublishFailedDetails;
+}
+export type Error409BodyCase2Code = "invalid_status";
+/** Resource is not in a valid status for this operation */
+export interface Error409BodyCase2 {
+  message: string;
+  code: Error409BodyCase2Code;
+  details: ApiErrorInvalidStatusDetails;
+}
+export type Error409Body2 = Error409BodyCase02 | Error409BodyCase12 | Error409BodyCase2;
+export type Error409BodyCase0Code = "checklist_incomplete";
+/** An experiment start is blocked by its launch checklist or a linked Feature Flag */
+export interface Error409BodyCase0 {
+  message: string;
+  code: Error409BodyCase0Code;
+  details: ApiErrorChecklistIncompleteDetails;
+}
+export type Error409BodyCase1Code = "pending_draft_publish_failed";
+/** One or more linked feature drafts could not be published */
+export interface Error409BodyCase1 {
+  message: string;
+  code: Error409BodyCase1Code;
+  details: ApiErrorPendingDraftPublishFailedDetails;
+}
+export type Error409Body = Error409BodyCase0 | Error409BodyCase1;
+export type Error422BodyCode = "unscoped_rule";
+export type ApiErrorUnscopedRuleDetailsRuleIdsList = Array<string>;
+export interface ApiErrorUnscopedRuleDetails {
+  ruleIds: ApiErrorUnscopedRuleDetailsRuleIdsList;
+}
+/** A rule applies to All Environments and All Projects, which the organization doesn't allow without `allowUnscopedRules` */
+export interface Error422Body {
+  message: string;
+  code: Error422BodyCode;
+  details: ApiErrorUnscopedRuleDetails;
+}
 export type AddContextualBanditLinkedFeatureError = UnprocessableEntity | GrowthBookOpError;
 /** Link a feature to a Contextual Bandit Adds a `contextual-bandit-ref` rule to the bottom of the feature's rule list and links the feature to this contextual bandit. The rule lands in a draft revision that auto-publishes when the contextual bandit starts, unless `autoPublish` is set. Targeting (condition, Saved Groups, prerequisites, coverage) is inherited from the contextual bandit and cannot be set on the rule. */
 export const addContextualBanditLinkedFeature: API.OperationMethod<
@@ -29906,8 +30034,8 @@ export const addContextualBanditLinkedFeature: API.OperationMethod<
   AddContextualBanditLinkedFeatureError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5184, __c162, 0) as any as S.Schema<AddContextualBanditLinkedFeatureRequest>,
-  output: __S(5185, __c162, 1) as any as S.Schema<AddContextualBanditLinkedFeatureResponse>,
+  input: __S(5280, __c165, 0) as any as S.Schema<AddContextualBanditLinkedFeatureRequest>,
+  output: __S(5281, __c165, 1) as any as S.Schema<AddContextualBanditLinkedFeatureResponse>,
   errors: [UnprocessableEntity, UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -29923,8 +30051,8 @@ export const addTargetRampSchedule: API.OperationMethod<
   AddTargetRampScheduleError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9472, __c296, 0) as any as S.Schema<AddTargetRampScheduleRequest>,
-  output: __S(9664, __c302, 0) as any as S.Schema<AddTargetRampScheduleResponse>,
+  input: __S(9536, __c298, 0) as any as S.Schema<AddTargetRampScheduleRequest>,
+  output: __S(9728, __c304, 0) as any as S.Schema<AddTargetRampScheduleResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -29940,8 +30068,8 @@ export const addTeamMembers: API.OperationMethod<
   AddTeamMembersError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13600, __c425, 0) as any as S.Schema<AddTeamMembersRequest>,
-  output: __S(13632, __c426, 0) as any as S.Schema<AddTeamMembersResponse>,
+  input: __S(13664, __c427, 0) as any as S.Schema<AddTeamMembersRequest>,
+  output: __S(13696, __c428, 0) as any as S.Schema<AddTeamMembersResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -29957,8 +30085,8 @@ export const apiAdvanceRampSchedule: API.OperationMethod<
   ApiAdvanceRampScheduleError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15616, __c488, 0) as any as S.Schema<ApiAdvanceRampScheduleRequest>,
-  output: __S(9664, __c302, 0) as any as S.Schema<ApiAdvanceRampScheduleResponse>,
+  input: __S(15680, __c490, 0) as any as S.Schema<ApiAdvanceRampScheduleRequest>,
+  output: __S(9728, __c304, 0) as any as S.Schema<ApiAdvanceRampScheduleResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -29974,8 +30102,8 @@ export const appendAutoRunArtifact: API.OperationMethod<
   AppendAutoRunArtifactError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16320, __c510, 0) as any as S.Schema<AppendAutoRunArtifactRequest>,
-  output: __S(16322, __c510, 2) as any as S.Schema<AppendAutoRunArtifactResponse>,
+  input: __S(16384, __c512, 0) as any as S.Schema<AppendAutoRunArtifactRequest>,
+  output: __S(16386, __c512, 2) as any as S.Schema<AppendAutoRunArtifactResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -29991,8 +30119,8 @@ export const approveStepRampSchedule: API.OperationMethod<
   ApproveStepRampScheduleError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17376, __c543, 0) as any as S.Schema<ApproveStepRampScheduleRequest>,
-  output: __S(9664, __c302, 0) as any as S.Schema<ApproveStepRampScheduleResponse>,
+  input: __S(17440, __c545, 0) as any as S.Schema<ApproveStepRampScheduleRequest>,
+  output: __S(9728, __c304, 0) as any as S.Schema<ApproveStepRampScheduleResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30008,8 +30136,8 @@ export const archiveConfig: API.OperationMethod<
   ArchiveConfigError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18272, __c571, 0) as any as S.Schema<ArchiveConfigRequest>,
-  output: __S(18368, __c574, 0) as any as S.Schema<ArchiveConfigResponse>,
+  input: __S(18336, __c573, 0) as any as S.Schema<ArchiveConfigRequest>,
+  output: __S(18432, __c576, 0) as any as S.Schema<ArchiveConfigResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30025,8 +30153,8 @@ export const archiveConstant: API.OperationMethod<
   ArchiveConstantError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18784, __c587, 0) as any as S.Schema<ArchiveConstantRequest>,
-  output: __S(18880, __c590, 0) as any as S.Schema<ArchiveConstantResponse>,
+  input: __S(18848, __c589, 0) as any as S.Schema<ArchiveConstantRequest>,
+  output: __S(18944, __c592, 0) as any as S.Schema<ArchiveConstantResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30042,8 +30170,8 @@ export const archiveSavedGroup: API.OperationMethod<
   ArchiveSavedGroupError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ArchiveSavedGroupRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<ArchiveSavedGroupResponse>,
+  input: __S(96, __c3, 0) as any as S.Schema<ArchiveSavedGroupRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<ArchiveSavedGroupResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30059,8 +30187,8 @@ export const bulkImportExperimentTemplates: API.OperationMethod<
   BulkImportExperimentTemplatesError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(419, __c13, 3) as any as S.Schema<BulkImportExperimentTemplatesRequest>,
-  output: __S(420, __c13, 4) as any as S.Schema<BulkImportExperimentTemplatesResponse>,
+  input: __S(515, __c16, 3) as any as S.Schema<BulkImportExperimentTemplatesRequest>,
+  output: __S(516, __c16, 4) as any as S.Schema<BulkImportExperimentTemplatesResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30076,8 +30204,8 @@ export const cancelContextualBandit: API.OperationMethod<
   CancelContextualBanditError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<CancelContextualBanditRequest>,
-  output: __S(13632, __c426, 0) as any as S.Schema<CancelContextualBanditResponse>,
+  input: __S(1088, __c34, 0) as any as S.Schema<CancelContextualBanditRequest>,
+  output: __S(13696, __c428, 0) as any as S.Schema<CancelContextualBanditResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30093,8 +30221,8 @@ export const completeRampSchedule: API.OperationMethod<
   CompleteRampScheduleError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<CompleteRampScheduleRequest>,
-  output: __S(9664, __c302, 0) as any as S.Schema<CompleteRampScheduleResponse>,
+  input: __S(1440, __c45, 0) as any as S.Schema<CompleteRampScheduleRequest>,
+  output: __S(9728, __c304, 0) as any as S.Schema<CompleteRampScheduleResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30110,8 +30238,8 @@ export const createArchetype: API.OperationMethod<
   CreateArchetypeError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<CreateArchetypeRequest>,
-  output: __S(1792, __c56, 0) as any as S.Schema<CreateArchetypeResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<CreateArchetypeRequest>,
+  output: __S(1888, __c59, 0) as any as S.Schema<CreateArchetypeResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30127,8 +30255,8 @@ export const createAttribute: API.OperationMethod<
   CreateAttributeError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<CreateAttributeRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<CreateAttributeResponse>,
+  input: __S(2368, __c74, 0) as any as S.Schema<CreateAttributeRequest>,
+  output: __S(2432, __c76, 0) as any as S.Schema<CreateAttributeResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30144,8 +30272,8 @@ export const createAutoRun: API.OperationMethod<
   CreateAutoRunError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2753, __c86, 1) as any as S.Schema<CreateAutoRunRequest>,
-  output: __S(2816, __c88, 0) as any as S.Schema<CreateAutoRunResponse>,
+  input: __S(2849, __c89, 1) as any as S.Schema<CreateAutoRunRequest>,
+  output: __S(2912, __c91, 0) as any as S.Schema<CreateAutoRunResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30161,8 +30289,8 @@ export const createBulkImportFact: API.OperationMethod<
   CreateBulkImportFactError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3337, __c104, 9) as any as S.Schema<CreateBulkImportFactRequest>,
-  output: __S(3340, __c104, 12) as any as S.Schema<CreateBulkImportFactResponse>,
+  input: __S(3433, __c107, 9) as any as S.Schema<CreateBulkImportFactRequest>,
+  output: __S(3436, __c107, 12) as any as S.Schema<CreateBulkImportFactResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30178,8 +30306,8 @@ export const createCodeRef: API.OperationMethod<
   CreateCodeRefError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4162, __c130, 2) as any as S.Schema<CreateCodeRefRequest>,
-  output: __S(4163, __c130, 3) as any as S.Schema<CreateCodeRefResponse>,
+  input: __S(4258, __c133, 2) as any as S.Schema<CreateCodeRefRequest>,
+  output: __S(4259, __c133, 3) as any as S.Schema<CreateCodeRefResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30195,8 +30323,8 @@ export const createConfig: API.OperationMethod<
   CreateConfigError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4640, __c145, 0) as any as S.Schema<CreateConfigRequest>,
-  output: __S(4641, __c145, 1) as any as S.Schema<CreateConfigResponse>,
+  input: __S(4736, __c148, 0) as any as S.Schema<CreateConfigRequest>,
+  output: __S(4737, __c148, 1) as any as S.Schema<CreateConfigResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30212,8 +30340,8 @@ export const createConfigRevisionDiscard: API.OperationMethod<
   CreateConfigRevisionDiscardError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5280, __c165, 0) as any as S.Schema<CreateConfigRevisionDiscardRequest>,
-  output: __S(5376, __c168, 0) as any as S.Schema<CreateConfigRevisionDiscardResponse>,
+  input: __S(5344, __c167, 0) as any as S.Schema<CreateConfigRevisionDiscardRequest>,
+  output: __S(5440, __c170, 0) as any as S.Schema<CreateConfigRevisionDiscardResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30229,8 +30357,8 @@ export const createConfigRevisionPublish: API.OperationMethod<
   CreateConfigRevisionPublishError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5888, __c184, 0) as any as S.Schema<CreateConfigRevisionPublishRequest>,
-  output: __S(5920, __c185, 0) as any as S.Schema<CreateConfigRevisionPublishResponse>,
+  input: __S(5952, __c186, 0) as any as S.Schema<CreateConfigRevisionPublishRequest>,
+  output: __S(5984, __c187, 0) as any as S.Schema<CreateConfigRevisionPublishResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30246,8 +30374,8 @@ export const createConfigRevisionRebase: API.OperationMethod<
   CreateConfigRevisionRebaseError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6272, __c196, 0) as any as S.Schema<CreateConfigRevisionRebaseRequest>,
-  output: __S(5376, __c168, 0) as any as S.Schema<CreateConfigRevisionRebaseResponse>,
+  input: __S(6336, __c198, 0) as any as S.Schema<CreateConfigRevisionRebaseRequest>,
+  output: __S(5440, __c170, 0) as any as S.Schema<CreateConfigRevisionRebaseResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30263,8 +30391,8 @@ export const createConfigRevisionRecallReview: API.OperationMethod<
   CreateConfigRevisionRecallReviewError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6784, __c212, 0) as any as S.Schema<CreateConfigRevisionRecallReviewRequest>,
-  output: __S(5376, __c168, 0) as any as S.Schema<CreateConfigRevisionRecallReviewResponse>,
+  input: __S(6848, __c214, 0) as any as S.Schema<CreateConfigRevisionRecallReviewRequest>,
+  output: __S(5440, __c170, 0) as any as S.Schema<CreateConfigRevisionRecallReviewResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30280,8 +30408,8 @@ export const createConfigRevisionReopen: API.OperationMethod<
   CreateConfigRevisionReopenError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7136, __c223, 0) as any as S.Schema<CreateConfigRevisionReopenRequest>,
-  output: __S(5376, __c168, 0) as any as S.Schema<CreateConfigRevisionReopenResponse>,
+  input: __S(7200, __c225, 0) as any as S.Schema<CreateConfigRevisionReopenRequest>,
+  output: __S(5440, __c170, 0) as any as S.Schema<CreateConfigRevisionReopenResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30297,8 +30425,8 @@ export const createConfigRevisionRequestReview: API.OperationMethod<
   CreateConfigRevisionRequestReviewError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7520, __c235, 0) as any as S.Schema<CreateConfigRevisionRequestReviewRequest>,
-  output: __S(5376, __c168, 0) as any as S.Schema<CreateConfigRevisionRequestReviewResponse>,
+  input: __S(7584, __c237, 0) as any as S.Schema<CreateConfigRevisionRequestReviewRequest>,
+  output: __S(5440, __c170, 0) as any as S.Schema<CreateConfigRevisionRequestReviewResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30314,8 +30442,8 @@ export const createConfigRevisionRevert: API.OperationMethod<
   CreateConfigRevisionRevertError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7904, __c247, 0) as any as S.Schema<CreateConfigRevisionRevertRequest>,
-  output: __S(5920, __c185, 0) as any as S.Schema<CreateConfigRevisionRevertResponse>,
+  input: __S(7968, __c249, 0) as any as S.Schema<CreateConfigRevisionRevertRequest>,
+  output: __S(5984, __c187, 0) as any as S.Schema<CreateConfigRevisionRevertResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30331,8 +30459,8 @@ export const createConfigRevisionSchedulePublish: API.OperationMethod<
   CreateConfigRevisionSchedulePublishError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8288, __c259, 0) as any as S.Schema<CreateConfigRevisionSchedulePublishRequest>,
-  output: __S(5376, __c168, 0) as any as S.Schema<CreateConfigRevisionSchedulePublishResponse>,
+  input: __S(8352, __c261, 0) as any as S.Schema<CreateConfigRevisionSchedulePublishRequest>,
+  output: __S(5440, __c170, 0) as any as S.Schema<CreateConfigRevisionSchedulePublishResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30348,8 +30476,8 @@ export const createConfigRevisionSubmitReview: API.OperationMethod<
   CreateConfigRevisionSubmitReviewError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8640, __c270, 0) as any as S.Schema<CreateConfigRevisionSubmitReviewRequest>,
-  output: __S(8641, __c270, 1) as any as S.Schema<CreateConfigRevisionSubmitReviewResponse>,
+  input: __S(8704, __c272, 0) as any as S.Schema<CreateConfigRevisionSubmitReviewRequest>,
+  output: __S(8705, __c272, 1) as any as S.Schema<CreateConfigRevisionSubmitReviewResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30365,8 +30493,8 @@ export const createConfigRevisionUndoReview: API.OperationMethod<
   CreateConfigRevisionUndoReviewError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9088, __c284, 0) as any as S.Schema<CreateConfigRevisionUndoReviewRequest>,
-  output: __S(5376, __c168, 0) as any as S.Schema<CreateConfigRevisionUndoReviewResponse>,
+  input: __S(9152, __c286, 0) as any as S.Schema<CreateConfigRevisionUndoReviewRequest>,
+  output: __S(5440, __c170, 0) as any as S.Schema<CreateConfigRevisionUndoReviewResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30382,8 +30510,8 @@ export const createConstant: API.OperationMethod<
   CreateConstantError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9760, __c305, 0) as any as S.Schema<CreateConstantRequest>,
-  output: __S(9792, __c306, 0) as any as S.Schema<CreateConstantResponse>,
+  input: __S(9824, __c307, 0) as any as S.Schema<CreateConstantRequest>,
+  output: __S(9856, __c308, 0) as any as S.Schema<CreateConstantResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30399,8 +30527,8 @@ export const createConstantRevisionDiscard: API.OperationMethod<
   CreateConstantRevisionDiscardError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10208, __c319, 0) as any as S.Schema<CreateConstantRevisionDiscardRequest>,
-  output: __S(10272, __c321, 0) as any as S.Schema<CreateConstantRevisionDiscardResponse>,
+  input: __S(10272, __c321, 0) as any as S.Schema<CreateConstantRevisionDiscardRequest>,
+  output: __S(10336, __c323, 0) as any as S.Schema<CreateConstantRevisionDiscardResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30416,8 +30544,8 @@ export const createConstantRevisionPublish: API.OperationMethod<
   CreateConstantRevisionPublishError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10688, __c334, 0) as any as S.Schema<CreateConstantRevisionPublishRequest>,
-  output: __S(10720, __c335, 0) as any as S.Schema<CreateConstantRevisionPublishResponse>,
+  input: __S(10752, __c336, 0) as any as S.Schema<CreateConstantRevisionPublishRequest>,
+  output: __S(10784, __c337, 0) as any as S.Schema<CreateConstantRevisionPublishResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30433,8 +30561,8 @@ export const createConstantRevisionRebase: API.OperationMethod<
   CreateConstantRevisionRebaseError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11104, __c347, 0) as any as S.Schema<CreateConstantRevisionRebaseRequest>,
-  output: __S(10272, __c321, 0) as any as S.Schema<CreateConstantRevisionRebaseResponse>,
+  input: __S(11168, __c349, 0) as any as S.Schema<CreateConstantRevisionRebaseRequest>,
+  output: __S(10336, __c323, 0) as any as S.Schema<CreateConstantRevisionRebaseResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30450,8 +30578,8 @@ export const createConstantRevisionRecallReview: API.OperationMethod<
   CreateConstantRevisionRecallReviewError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11456, __c358, 0) as any as S.Schema<CreateConstantRevisionRecallReviewRequest>,
-  output: __S(10272, __c321, 0) as any as S.Schema<CreateConstantRevisionRecallReviewResponse>,
+  input: __S(11520, __c360, 0) as any as S.Schema<CreateConstantRevisionRecallReviewRequest>,
+  output: __S(10336, __c323, 0) as any as S.Schema<CreateConstantRevisionRecallReviewResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30467,8 +30595,8 @@ export const createConstantRevisionReopen: API.OperationMethod<
   CreateConstantRevisionReopenError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11808, __c369, 0) as any as S.Schema<CreateConstantRevisionReopenRequest>,
-  output: __S(10272, __c321, 0) as any as S.Schema<CreateConstantRevisionReopenResponse>,
+  input: __S(11872, __c371, 0) as any as S.Schema<CreateConstantRevisionReopenRequest>,
+  output: __S(10336, __c323, 0) as any as S.Schema<CreateConstantRevisionReopenResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30484,8 +30612,8 @@ export const createConstantRevisionRequestReview: API.OperationMethod<
   CreateConstantRevisionRequestReviewError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12160, __c380, 0) as any as S.Schema<CreateConstantRevisionRequestReviewRequest>,
-  output: __S(10272, __c321, 0) as any as S.Schema<CreateConstantRevisionRequestReviewResponse>,
+  input: __S(12224, __c382, 0) as any as S.Schema<CreateConstantRevisionRequestReviewRequest>,
+  output: __S(10336, __c323, 0) as any as S.Schema<CreateConstantRevisionRequestReviewResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30501,8 +30629,8 @@ export const createConstantRevisionRevert: API.OperationMethod<
   CreateConstantRevisionRevertError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12544, __c392, 0) as any as S.Schema<CreateConstantRevisionRevertRequest>,
-  output: __S(10720, __c335, 0) as any as S.Schema<CreateConstantRevisionRevertResponse>,
+  input: __S(12608, __c394, 0) as any as S.Schema<CreateConstantRevisionRevertRequest>,
+  output: __S(10784, __c337, 0) as any as S.Schema<CreateConstantRevisionRevertResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30518,8 +30646,8 @@ export const createConstantRevisionSchedulePublish: API.OperationMethod<
   CreateConstantRevisionSchedulePublishError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12896, __c403, 0) as any as S.Schema<CreateConstantRevisionSchedulePublishRequest>,
-  output: __S(10272, __c321, 0) as any as S.Schema<CreateConstantRevisionSchedulePublishResponse>,
+  input: __S(12960, __c405, 0) as any as S.Schema<CreateConstantRevisionSchedulePublishRequest>,
+  output: __S(10336, __c323, 0) as any as S.Schema<CreateConstantRevisionSchedulePublishResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30535,8 +30663,8 @@ export const createConstantRevisionSubmitReview: API.OperationMethod<
   CreateConstantRevisionSubmitReviewError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13248, __c414, 0) as any as S.Schema<CreateConstantRevisionSubmitReviewRequest>,
-  output: __S(13249, __c414, 1) as any as S.Schema<CreateConstantRevisionSubmitReviewResponse>,
+  input: __S(13312, __c416, 0) as any as S.Schema<CreateConstantRevisionSubmitReviewRequest>,
+  output: __S(13313, __c416, 1) as any as S.Schema<CreateConstantRevisionSubmitReviewResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30552,8 +30680,8 @@ export const createConstantRevisionUndoReview: API.OperationMethod<
   CreateConstantRevisionUndoReviewError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13664, __c427, 0) as any as S.Schema<CreateConstantRevisionUndoReviewRequest>,
-  output: __S(10272, __c321, 0) as any as S.Schema<CreateConstantRevisionUndoReviewResponse>,
+  input: __S(13728, __c429, 0) as any as S.Schema<CreateConstantRevisionUndoReviewRequest>,
+  output: __S(10336, __c323, 0) as any as S.Schema<CreateConstantRevisionUndoReviewResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30569,8 +30697,8 @@ export const createContextualBandit: API.OperationMethod<
   CreateContextualBanditError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14018, __c438, 2) as any as S.Schema<CreateContextualBanditRequest>,
-  output: __S(14112, __c441, 0) as any as S.Schema<CreateContextualBanditResponse>,
+  input: __S(14082, __c440, 2) as any as S.Schema<CreateContextualBanditRequest>,
+  output: __S(14176, __c443, 0) as any as S.Schema<CreateContextualBanditResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30586,8 +30714,8 @@ export const createContextualBanditQuery: API.OperationMethod<
   CreateContextualBanditQueryError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14496, __c453, 0) as any as S.Schema<CreateContextualBanditQueryRequest>,
-  output: __S(14560, __c455, 0) as any as S.Schema<CreateContextualBanditQueryResponse>,
+  input: __S(14560, __c455, 0) as any as S.Schema<CreateContextualBanditQueryRequest>,
+  output: __S(14624, __c457, 0) as any as S.Schema<CreateContextualBanditQueryResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30603,8 +30731,8 @@ export const createContextualBanditVisualChangeset: API.OperationMethod<
   CreateContextualBanditVisualChangesetError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14624, __c457, 0) as any as S.Schema<CreateContextualBanditVisualChangesetRequest>,
-  output: __S(14688, __c459, 0) as any as S.Schema<CreateContextualBanditVisualChangesetResponse>,
+  input: __S(14688, __c459, 0) as any as S.Schema<CreateContextualBanditVisualChangesetRequest>,
+  output: __S(14752, __c461, 0) as any as S.Schema<CreateContextualBanditVisualChangesetResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30620,8 +30748,8 @@ export const createCustomField: API.OperationMethod<
   CreateCustomFieldError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14752, __c461, 0) as any as S.Schema<CreateCustomFieldRequest>,
-  output: __S(14848, __c464, 0) as any as S.Schema<CreateCustomFieldResponse>,
+  input: __S(14816, __c463, 0) as any as S.Schema<CreateCustomFieldRequest>,
+  output: __S(14912, __c466, 0) as any as S.Schema<CreateCustomFieldResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30637,8 +30765,8 @@ export const createCustomHook: API.OperationMethod<
   CreateCustomHookError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14880, __c465, 0) as any as S.Schema<CreateCustomHookRequest>,
-  output: __S(14944, __c467, 0) as any as S.Schema<CreateCustomHookResponse>,
+  input: __S(14944, __c467, 0) as any as S.Schema<CreateCustomHookRequest>,
+  output: __S(15008, __c469, 0) as any as S.Schema<CreateCustomHookResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30654,8 +30782,8 @@ export const createDashboardV2: API.OperationMethod<
   CreateDashboardV2Error,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14977, __c468, 1) as any as S.Schema<CreateDashboardV2Request>,
-  output: __S(15072, __c471, 0) as any as S.Schema<CreateDashboardV2Response>,
+  input: __S(15041, __c470, 1) as any as S.Schema<CreateDashboardV2Request>,
+  output: __S(15136, __c473, 0) as any as S.Schema<CreateDashboardV2Response>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30671,8 +30799,8 @@ export const createDimension: API.OperationMethod<
   CreateDimensionError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15104, __c472, 0) as any as S.Schema<CreateDimensionRequest>,
-  output: __S(15168, __c474, 0) as any as S.Schema<CreateDimensionResponse>,
+  input: __S(15168, __c474, 0) as any as S.Schema<CreateDimensionRequest>,
+  output: __S(15232, __c476, 0) as any as S.Schema<CreateDimensionResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30688,8 +30816,8 @@ export const createEnvironment: API.OperationMethod<
   CreateEnvironmentError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15200, __c475, 0) as any as S.Schema<CreateEnvironmentRequest>,
-  output: __S(15264, __c477, 0) as any as S.Schema<CreateEnvironmentResponse>,
+  input: __S(15264, __c477, 0) as any as S.Schema<CreateEnvironmentRequest>,
+  output: __S(15328, __c479, 0) as any as S.Schema<CreateEnvironmentResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30705,8 +30833,8 @@ export const createExperiment: API.OperationMethod<
   CreateExperimentError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15297, __c478, 1) as any as S.Schema<CreateExperimentRequest>,
-  output: __S(15298, __c478, 2) as any as S.Schema<CreateExperimentResponse>,
+  input: __S(15361, __c480, 1) as any as S.Schema<CreateExperimentRequest>,
+  output: __S(15362, __c480, 2) as any as S.Schema<CreateExperimentResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30722,8 +30850,8 @@ export const createExperimentArchive: API.OperationMethod<
   CreateExperimentArchiveError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15648, __c489, 0) as any as S.Schema<CreateExperimentArchiveRequest>,
-  output: __S(15712, __c491, 0) as any as S.Schema<CreateExperimentArchiveResponse>,
+  input: __S(15712, __c491, 0) as any as S.Schema<CreateExperimentArchiveRequest>,
+  output: __S(15776, __c493, 0) as any as S.Schema<CreateExperimentArchiveResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30739,8 +30867,8 @@ export const createExperimentComment: API.OperationMethod<
   CreateExperimentCommentError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15744, __c492, 0) as any as S.Schema<CreateExperimentCommentRequest>,
-  output: __S(13632, __c426, 0) as any as S.Schema<CreateExperimentCommentResponse>,
+  input: __S(15808, __c494, 0) as any as S.Schema<CreateExperimentCommentRequest>,
+  output: __S(13696, __c428, 0) as any as S.Schema<CreateExperimentCommentResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30756,8 +30884,8 @@ export const createExperimentModifyTemporaryRollout: API.OperationMethod<
   CreateExperimentModifyTemporaryRolloutError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15776, __c493, 0) as any as S.Schema<CreateExperimentModifyTemporaryRolloutRequest>,
-  output: __S(15712, __c491, 0) as any as S.Schema<CreateExperimentModifyTemporaryRolloutResponse>,
+  input: __S(15840, __c495, 0) as any as S.Schema<CreateExperimentModifyTemporaryRolloutRequest>,
+  output: __S(15776, __c493, 0) as any as S.Schema<CreateExperimentModifyTemporaryRolloutResponse>,
   errors: [Conflict, UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30773,8 +30901,8 @@ export const createExperimentSnapshot: API.OperationMethod<
   CreateExperimentSnapshotError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15808, __c494, 0) as any as S.Schema<CreateExperimentSnapshotRequest>,
-  output: __S(15841, __c495, 1) as any as S.Schema<CreateExperimentSnapshotResponse>,
+  input: __S(15872, __c496, 0) as any as S.Schema<CreateExperimentSnapshotRequest>,
+  output: __S(15905, __c497, 1) as any as S.Schema<CreateExperimentSnapshotResponse>,
   errors: [Conflict, UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30790,8 +30918,8 @@ export const createExperimentStart: API.OperationMethod<
   CreateExperimentStartError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15872, __c496, 0) as any as S.Schema<CreateExperimentStartRequest>,
-  output: __S(15873, __c496, 1) as any as S.Schema<CreateExperimentStartResponse>,
+  input: __S(15936, __c498, 0) as any as S.Schema<CreateExperimentStartRequest>,
+  output: __S(15937, __c498, 1) as any as S.Schema<CreateExperimentStartResponse>,
   errors: [Conflict, UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30808,13 +30936,13 @@ export const createExperimentStartChecklistManualComplete: API.OperationMethod<
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    15936,
-    __c498,
+    16000,
+    __c500,
     0,
   ) as any as S.Schema<CreateExperimentStartChecklistManualCompleteRequest>,
   output: __S(
-    15972,
-    __c499,
+    16036,
+    __c501,
     4,
   ) as any as S.Schema<CreateExperimentStartChecklistManualCompleteResponse>,
   errors: [UnknownGrowthBookError],
@@ -30832,8 +30960,8 @@ export const createExperimentStop: API.OperationMethod<
   CreateExperimentStopError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16032, __c501, 0) as any as S.Schema<CreateExperimentStopRequest>,
-  output: __S(15712, __c491, 0) as any as S.Schema<CreateExperimentStopResponse>,
+  input: __S(16096, __c503, 0) as any as S.Schema<CreateExperimentStopRequest>,
+  output: __S(15776, __c493, 0) as any as S.Schema<CreateExperimentStopResponse>,
   errors: [Conflict, UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30849,8 +30977,8 @@ export const createExperimentTemplate: API.OperationMethod<
   CreateExperimentTemplateError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16064, __c502, 0) as any as S.Schema<CreateExperimentTemplateRequest>,
-  output: __S(16128, __c504, 0) as any as S.Schema<CreateExperimentTemplateResponse>,
+  input: __S(16128, __c504, 0) as any as S.Schema<CreateExperimentTemplateRequest>,
+  output: __S(16192, __c506, 0) as any as S.Schema<CreateExperimentTemplateResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30866,8 +30994,8 @@ export const createExperimentUnarchive: API.OperationMethod<
   CreateExperimentUnarchiveError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16160, __c505, 0) as any as S.Schema<CreateExperimentUnarchiveRequest>,
-  output: __S(15712, __c491, 0) as any as S.Schema<CreateExperimentUnarchiveResponse>,
+  input: __S(16224, __c507, 0) as any as S.Schema<CreateExperimentUnarchiveRequest>,
+  output: __S(15776, __c493, 0) as any as S.Schema<CreateExperimentUnarchiveResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30883,8 +31011,8 @@ export const createFactTable: API.OperationMethod<
   CreateFactTableError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16192, __c506, 0) as any as S.Schema<CreateFactTableRequest>,
-  output: __S(16256, __c508, 0) as any as S.Schema<CreateFactTableResponse>,
+  input: __S(16256, __c508, 0) as any as S.Schema<CreateFactTableRequest>,
+  output: __S(16320, __c510, 0) as any as S.Schema<CreateFactTableResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30900,8 +31028,8 @@ export const createFactTableFilter: API.OperationMethod<
   CreateFactTableFilterError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16384, __c512, 0) as any as S.Schema<CreateFactTableFilterRequest>,
-  output: __S(16448, __c514, 0) as any as S.Schema<CreateFactTableFilterResponse>,
+  input: __S(16448, __c514, 0) as any as S.Schema<CreateFactTableFilterRequest>,
+  output: __S(16512, __c516, 0) as any as S.Schema<CreateFactTableFilterResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30917,8 +31045,8 @@ export const createFactTableVirtualColumn: API.OperationMethod<
   CreateFactTableVirtualColumnError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16480, __c515, 0) as any as S.Schema<CreateFactTableVirtualColumnRequest>,
-  output: __S(16512, __c516, 0) as any as S.Schema<CreateFactTableVirtualColumnResponse>,
+  input: __S(16544, __c517, 0) as any as S.Schema<CreateFactTableVirtualColumnRequest>,
+  output: __S(16576, __c518, 0) as any as S.Schema<CreateFactTableVirtualColumnResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30934,8 +31062,8 @@ export const createHoldout: API.OperationMethod<
   CreateHoldoutError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16544, __c517, 0) as any as S.Schema<CreateHoldoutRequest>,
-  output: __S(16608, __c519, 0) as any as S.Schema<CreateHoldoutResponse>,
+  input: __S(16608, __c519, 0) as any as S.Schema<CreateHoldoutRequest>,
+  output: __S(16672, __c521, 0) as any as S.Schema<CreateHoldoutResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30951,8 +31079,8 @@ export const createInterleaving: API.OperationMethod<
   CreateInterleavingError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16675, __c521, 3) as any as S.Schema<CreateInterleavingRequest>,
-  output: __S(16768, __c524, 0) as any as S.Schema<CreateInterleavingResponse>,
+  input: __S(16739, __c523, 3) as any as S.Schema<CreateInterleavingRequest>,
+  output: __S(16832, __c526, 0) as any as S.Schema<CreateInterleavingResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30968,8 +31096,8 @@ export const createInterleavingExposureQuery: API.OperationMethod<
   CreateInterleavingExposureQueryError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16864, __c527, 0) as any as S.Schema<CreateInterleavingExposureQueryRequest>,
-  output: __S(16928, __c529, 0) as any as S.Schema<CreateInterleavingExposureQueryResponse>,
+  input: __S(16928, __c529, 0) as any as S.Schema<CreateInterleavingExposureQueryRequest>,
+  output: __S(16992, __c531, 0) as any as S.Schema<CreateInterleavingExposureQueryResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -30985,8 +31113,8 @@ export const createLearning: API.OperationMethod<
   CreateLearningError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16960, __c530, 0) as any as S.Schema<CreateLearningRequest>,
-  output: __S(17024, __c532, 0) as any as S.Schema<CreateLearningResponse>,
+  input: __S(17024, __c532, 0) as any as S.Schema<CreateLearningRequest>,
+  output: __S(17088, __c534, 0) as any as S.Schema<CreateLearningResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31002,8 +31130,8 @@ export const createMetricGroup: API.OperationMethod<
   CreateMetricGroupError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17056, __c533, 0) as any as S.Schema<CreateMetricGroupRequest>,
-  output: __S(17120, __c535, 0) as any as S.Schema<CreateMetricGroupResponse>,
+  input: __S(17120, __c535, 0) as any as S.Schema<CreateMetricGroupRequest>,
+  output: __S(17184, __c537, 0) as any as S.Schema<CreateMetricGroupResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31019,8 +31147,8 @@ export const createNamespace: API.OperationMethod<
   CreateNamespaceError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17152, __c536, 0) as any as S.Schema<CreateNamespaceRequest>,
-  output: __S(17216, __c538, 0) as any as S.Schema<CreateNamespaceResponse>,
+  input: __S(17216, __c538, 0) as any as S.Schema<CreateNamespaceRequest>,
+  output: __S(17280, __c540, 0) as any as S.Schema<CreateNamespaceResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31036,8 +31164,8 @@ export const createNamespaceRotateSeed: API.OperationMethod<
   CreateNamespaceRotateSeedError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17248, __c539, 0) as any as S.Schema<CreateNamespaceRotateSeedRequest>,
-  output: __S(17216, __c538, 0) as any as S.Schema<CreateNamespaceRotateSeedResponse>,
+  input: __S(17312, __c541, 0) as any as S.Schema<CreateNamespaceRotateSeedRequest>,
+  output: __S(17280, __c540, 0) as any as S.Schema<CreateNamespaceRotateSeedResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31053,8 +31181,8 @@ export const createOrganization: API.OperationMethod<
   CreateOrganizationError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17280, __c540, 0) as any as S.Schema<CreateOrganizationRequest>,
-  output: __S(17344, __c542, 0) as any as S.Schema<CreateOrganizationResponse>,
+  input: __S(17344, __c542, 0) as any as S.Schema<CreateOrganizationRequest>,
+  output: __S(17408, __c544, 0) as any as S.Schema<CreateOrganizationResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31070,8 +31198,8 @@ export const createPopulation: API.OperationMethod<
   CreatePopulationError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17408, __c544, 0) as any as S.Schema<CreatePopulationRequest>,
-  output: __S(17536, __c548, 0) as any as S.Schema<CreatePopulationResponse>,
+  input: __S(17472, __c546, 0) as any as S.Schema<CreatePopulationRequest>,
+  output: __S(17600, __c550, 0) as any as S.Schema<CreatePopulationResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31087,8 +31215,8 @@ export const createProject: API.OperationMethod<
   CreateProjectError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17600, __c550, 0) as any as S.Schema<CreateProjectRequest>,
-  output: __S(17664, __c552, 0) as any as S.Schema<CreateProjectResponse>,
+  input: __S(17664, __c552, 0) as any as S.Schema<CreateProjectRequest>,
+  output: __S(17728, __c554, 0) as any as S.Schema<CreateProjectResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31104,8 +31232,8 @@ export const createRampSchedule: API.OperationMethod<
   CreateRampScheduleError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17697, __c553, 1) as any as S.Schema<CreateRampScheduleRequest>,
-  output: __S(9664, __c302, 0) as any as S.Schema<CreateRampScheduleResponse>,
+  input: __S(17761, __c555, 1) as any as S.Schema<CreateRampScheduleRequest>,
+  output: __S(9728, __c304, 0) as any as S.Schema<CreateRampScheduleResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31121,8 +31249,8 @@ export const createRampScheduleTemplate: API.OperationMethod<
   CreateRampScheduleTemplateError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17760, __c555, 0) as any as S.Schema<CreateRampScheduleTemplateRequest>,
-  output: __S(17824, __c557, 0) as any as S.Schema<CreateRampScheduleTemplateResponse>,
+  input: __S(17824, __c557, 0) as any as S.Schema<CreateRampScheduleTemplateRequest>,
+  output: __S(17888, __c559, 0) as any as S.Schema<CreateRampScheduleTemplateResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31138,8 +31266,8 @@ export const createReleasePublishRevision: API.OperationMethod<
   CreateReleasePublishRevisionError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17889, __c559, 1) as any as S.Schema<CreateReleasePublishRevisionRequest>,
-  output: __S(17896, __c559, 8) as any as S.Schema<CreateReleasePublishRevisionResponse>,
+  input: __S(17953, __c561, 1) as any as S.Schema<CreateReleasePublishRevisionRequest>,
+  output: __S(17960, __c561, 8) as any as S.Schema<CreateReleasePublishRevisionResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31155,8 +31283,8 @@ export const createReport: API.OperationMethod<
   CreateReportError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17920, __c560, 0) as any as S.Schema<CreateReportRequest>,
-  output: __S(18016, __c563, 0) as any as S.Schema<CreateReportResponse>,
+  input: __S(17984, __c562, 0) as any as S.Schema<CreateReportRequest>,
+  output: __S(18080, __c565, 0) as any as S.Schema<CreateReportResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31172,8 +31300,8 @@ export const createReportRefresh: API.OperationMethod<
   CreateReportRefreshError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18048, __c564, 0) as any as S.Schema<CreateReportRefreshRequest>,
-  output: __S(18016, __c563, 0) as any as S.Schema<CreateReportRefreshResponse>,
+  input: __S(18112, __c566, 0) as any as S.Schema<CreateReportRefreshRequest>,
+  output: __S(18080, __c565, 0) as any as S.Schema<CreateReportRefreshResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31189,8 +31317,8 @@ export const createSavedGroup: API.OperationMethod<
   CreateSavedGroupError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18080, __c565, 0) as any as S.Schema<CreateSavedGroupRequest>,
-  output: __S(18112, __c566, 0) as any as S.Schema<CreateSavedGroupResponse>,
+  input: __S(18144, __c567, 0) as any as S.Schema<CreateSavedGroupRequest>,
+  output: __S(18176, __c568, 0) as any as S.Schema<CreateSavedGroupResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31206,8 +31334,8 @@ export const createSavedGroupRevisionDiscard: API.OperationMethod<
   CreateSavedGroupRevisionDiscardError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18144, __c567, 0) as any as S.Schema<CreateSavedGroupRevisionDiscardRequest>,
-  output: __S(18208, __c569, 0) as any as S.Schema<CreateSavedGroupRevisionDiscardResponse>,
+  input: __S(18208, __c569, 0) as any as S.Schema<CreateSavedGroupRevisionDiscardRequest>,
+  output: __S(18272, __c571, 0) as any as S.Schema<CreateSavedGroupRevisionDiscardResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31223,8 +31351,8 @@ export const createSavedGroupRevisionItemsAdd: API.OperationMethod<
   CreateSavedGroupRevisionItemsAddError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18240, __c570, 0) as any as S.Schema<CreateSavedGroupRevisionItemsAddRequest>,
-  output: __S(18208, __c569, 0) as any as S.Schema<CreateSavedGroupRevisionItemsAddResponse>,
+  input: __S(18304, __c572, 0) as any as S.Schema<CreateSavedGroupRevisionItemsAddRequest>,
+  output: __S(18272, __c571, 0) as any as S.Schema<CreateSavedGroupRevisionItemsAddResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31240,8 +31368,8 @@ export const createSavedGroupRevisionItemsRemove: API.OperationMethod<
   CreateSavedGroupRevisionItemsRemoveError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18432, __c576, 0) as any as S.Schema<CreateSavedGroupRevisionItemsRemoveRequest>,
-  output: __S(18208, __c569, 0) as any as S.Schema<CreateSavedGroupRevisionItemsRemoveResponse>,
+  input: __S(18496, __c578, 0) as any as S.Schema<CreateSavedGroupRevisionItemsRemoveRequest>,
+  output: __S(18272, __c571, 0) as any as S.Schema<CreateSavedGroupRevisionItemsRemoveResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31257,8 +31385,8 @@ export const createSavedGroupRevisionPublish: API.OperationMethod<
   CreateSavedGroupRevisionPublishError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18464, __c577, 0) as any as S.Schema<CreateSavedGroupRevisionPublishRequest>,
-  output: __S(18496, __c578, 0) as any as S.Schema<CreateSavedGroupRevisionPublishResponse>,
+  input: __S(18528, __c579, 0) as any as S.Schema<CreateSavedGroupRevisionPublishRequest>,
+  output: __S(18560, __c580, 0) as any as S.Schema<CreateSavedGroupRevisionPublishResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31274,8 +31402,8 @@ export const createSavedGroupRevisionRebase: API.OperationMethod<
   CreateSavedGroupRevisionRebaseError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18528, __c579, 0) as any as S.Schema<CreateSavedGroupRevisionRebaseRequest>,
-  output: __S(18208, __c569, 0) as any as S.Schema<CreateSavedGroupRevisionRebaseResponse>,
+  input: __S(18592, __c581, 0) as any as S.Schema<CreateSavedGroupRevisionRebaseRequest>,
+  output: __S(18272, __c571, 0) as any as S.Schema<CreateSavedGroupRevisionRebaseResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31291,8 +31419,8 @@ export const createSavedGroupRevisionRecallReview: API.OperationMethod<
   CreateSavedGroupRevisionRecallReviewError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18560, __c580, 0) as any as S.Schema<CreateSavedGroupRevisionRecallReviewRequest>,
-  output: __S(18208, __c569, 0) as any as S.Schema<CreateSavedGroupRevisionRecallReviewResponse>,
+  input: __S(18624, __c582, 0) as any as S.Schema<CreateSavedGroupRevisionRecallReviewRequest>,
+  output: __S(18272, __c571, 0) as any as S.Schema<CreateSavedGroupRevisionRecallReviewResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31308,8 +31436,8 @@ export const createSavedGroupRevisionReopen: API.OperationMethod<
   CreateSavedGroupRevisionReopenError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18592, __c581, 0) as any as S.Schema<CreateSavedGroupRevisionReopenRequest>,
-  output: __S(18208, __c569, 0) as any as S.Schema<CreateSavedGroupRevisionReopenResponse>,
+  input: __S(18656, __c583, 0) as any as S.Schema<CreateSavedGroupRevisionReopenRequest>,
+  output: __S(18272, __c571, 0) as any as S.Schema<CreateSavedGroupRevisionReopenResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31325,8 +31453,8 @@ export const createSavedGroupRevisionRequestReview: API.OperationMethod<
   CreateSavedGroupRevisionRequestReviewError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18624, __c582, 0) as any as S.Schema<CreateSavedGroupRevisionRequestReviewRequest>,
-  output: __S(18208, __c569, 0) as any as S.Schema<CreateSavedGroupRevisionRequestReviewResponse>,
+  input: __S(18688, __c584, 0) as any as S.Schema<CreateSavedGroupRevisionRequestReviewRequest>,
+  output: __S(18272, __c571, 0) as any as S.Schema<CreateSavedGroupRevisionRequestReviewResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31342,8 +31470,8 @@ export const createSavedGroupRevisionRevert: API.OperationMethod<
   CreateSavedGroupRevisionRevertError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18656, __c583, 0) as any as S.Schema<CreateSavedGroupRevisionRevertRequest>,
-  output: __S(18496, __c578, 0) as any as S.Schema<CreateSavedGroupRevisionRevertResponse>,
+  input: __S(18720, __c585, 0) as any as S.Schema<CreateSavedGroupRevisionRevertRequest>,
+  output: __S(18560, __c580, 0) as any as S.Schema<CreateSavedGroupRevisionRevertResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31359,8 +31487,8 @@ export const createSavedGroupRevisionSchedulePublish: API.OperationMethod<
   CreateSavedGroupRevisionSchedulePublishError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18688, __c584, 0) as any as S.Schema<CreateSavedGroupRevisionSchedulePublishRequest>,
-  output: __S(18208, __c569, 0) as any as S.Schema<CreateSavedGroupRevisionSchedulePublishResponse>,
+  input: __S(18752, __c586, 0) as any as S.Schema<CreateSavedGroupRevisionSchedulePublishRequest>,
+  output: __S(18272, __c571, 0) as any as S.Schema<CreateSavedGroupRevisionSchedulePublishResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31376,8 +31504,8 @@ export const createSavedGroupRevisionSubmitReview: API.OperationMethod<
   CreateSavedGroupRevisionSubmitReviewError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18720, __c585, 0) as any as S.Schema<CreateSavedGroupRevisionSubmitReviewRequest>,
-  output: __S(18721, __c585, 1) as any as S.Schema<CreateSavedGroupRevisionSubmitReviewResponse>,
+  input: __S(18784, __c587, 0) as any as S.Schema<CreateSavedGroupRevisionSubmitReviewRequest>,
+  output: __S(18785, __c587, 1) as any as S.Schema<CreateSavedGroupRevisionSubmitReviewResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31393,8 +31521,8 @@ export const createSavedGroupRevisionUndoReview: API.OperationMethod<
   CreateSavedGroupRevisionUndoReviewError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18752, __c586, 0) as any as S.Schema<CreateSavedGroupRevisionUndoReviewRequest>,
-  output: __S(18208, __c569, 0) as any as S.Schema<CreateSavedGroupRevisionUndoReviewResponse>,
+  input: __S(18816, __c588, 0) as any as S.Schema<CreateSavedGroupRevisionUndoReviewRequest>,
+  output: __S(18272, __c571, 0) as any as S.Schema<CreateSavedGroupRevisionUndoReviewResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31410,8 +31538,8 @@ export const createSavedGroupUpload: API.OperationMethod<
   CreateSavedGroupUploadError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18912, __c591, 0) as any as S.Schema<CreateSavedGroupUploadRequest>,
-  output: __S(18944, __c592, 0) as any as S.Schema<CreateSavedGroupUploadResponse>,
+  input: __S(18976, __c593, 0) as any as S.Schema<CreateSavedGroupUploadRequest>,
+  output: __S(19008, __c594, 0) as any as S.Schema<CreateSavedGroupUploadResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31427,8 +31555,8 @@ export const createSavedGroupUploadLoad: API.OperationMethod<
   CreateSavedGroupUploadLoadError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19008, __c594, 0) as any as S.Schema<CreateSavedGroupUploadLoadRequest>,
-  output: __S(18944, __c592, 0) as any as S.Schema<CreateSavedGroupUploadLoadResponse>,
+  input: __S(19072, __c596, 0) as any as S.Schema<CreateSavedGroupUploadLoadRequest>,
+  output: __S(19008, __c594, 0) as any as S.Schema<CreateSavedGroupUploadLoadResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31444,8 +31572,8 @@ export const createSavedGroupUploadUrl: API.OperationMethod<
   CreateSavedGroupUploadUrlError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19040, __c595, 0) as any as S.Schema<CreateSavedGroupUploadUrlRequest>,
-  output: __S(19041, __c595, 1) as any as S.Schema<CreateSavedGroupUploadUrlResponse>,
+  input: __S(19104, __c597, 0) as any as S.Schema<CreateSavedGroupUploadUrlRequest>,
+  output: __S(19105, __c597, 1) as any as S.Schema<CreateSavedGroupUploadUrlResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31461,8 +31589,8 @@ export const createSdkConnection: API.OperationMethod<
   CreateSdkConnectionError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19072, __c596, 0) as any as S.Schema<CreateSdkConnectionRequest>,
-  output: __S(19136, __c598, 0) as any as S.Schema<CreateSdkConnectionResponse>,
+  input: __S(19136, __c598, 0) as any as S.Schema<CreateSdkConnectionRequest>,
+  output: __S(19200, __c600, 0) as any as S.Schema<CreateSdkConnectionResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31478,8 +31606,8 @@ export const createSegment: API.OperationMethod<
   CreateSegmentError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19168, __c599, 0) as any as S.Schema<CreateSegmentRequest>,
-  output: __S(19232, __c601, 0) as any as S.Schema<CreateSegmentResponse>,
+  input: __S(19232, __c601, 0) as any as S.Schema<CreateSegmentRequest>,
+  output: __S(19296, __c603, 0) as any as S.Schema<CreateSegmentResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31495,8 +31623,8 @@ export const createTeam: API.OperationMethod<
   CreateTeamError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19264, __c602, 0) as any as S.Schema<CreateTeamRequest>,
-  output: __S(19328, __c604, 0) as any as S.Schema<CreateTeamResponse>,
+  input: __S(19328, __c604, 0) as any as S.Schema<CreateTeamRequest>,
+  output: __S(19392, __c606, 0) as any as S.Schema<CreateTeamResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31512,8 +31640,8 @@ export const deleteArchetype: API.OperationMethod<
   DeleteArchetypeError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19360, __c605, 0) as any as S.Schema<DeleteArchetypeRequest>,
-  output: __S(19392, __c606, 0) as any as S.Schema<DeleteArchetypeResponse>,
+  input: __S(19424, __c607, 0) as any as S.Schema<DeleteArchetypeRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<DeleteArchetypeResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31529,8 +31657,8 @@ export const deleteAttribute: API.OperationMethod<
   DeleteAttributeError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19424, __c607, 0) as any as S.Schema<DeleteAttributeRequest>,
-  output: __S(19425, __c607, 1) as any as S.Schema<DeleteAttributeResponse>,
+  input: __S(19488, __c609, 0) as any as S.Schema<DeleteAttributeRequest>,
+  output: __S(19489, __c609, 1) as any as S.Schema<DeleteAttributeResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31546,8 +31674,8 @@ export const deleteConfig: API.OperationMethod<
   DeleteConfigError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19456, __c608, 0) as any as S.Schema<DeleteConfigRequest>,
-  output: __S(19392, __c606, 0) as any as S.Schema<DeleteConfigResponse>,
+  input: __S(19520, __c610, 0) as any as S.Schema<DeleteConfigRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<DeleteConfigResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31563,8 +31691,8 @@ export const deleteConfigRevisionProjection: API.OperationMethod<
   DeleteConfigRevisionProjectionError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19488, __c609, 0) as any as S.Schema<DeleteConfigRevisionProjectionRequest>,
-  output: __S(5376, __c168, 0) as any as S.Schema<DeleteConfigRevisionProjectionResponse>,
+  input: __S(19552, __c611, 0) as any as S.Schema<DeleteConfigRevisionProjectionRequest>,
+  output: __S(5440, __c170, 0) as any as S.Schema<DeleteConfigRevisionProjectionResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31580,8 +31708,8 @@ export const deleteConfigRevisionProperty: API.OperationMethod<
   DeleteConfigRevisionPropertyError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<DeleteConfigRevisionPropertyRequest>,
-  output: __S(5376, __c168, 0) as any as S.Schema<DeleteConfigRevisionPropertyResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<DeleteConfigRevisionPropertyRequest>,
+  output: __S(5440, __c170, 0) as any as S.Schema<DeleteConfigRevisionPropertyResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31597,8 +31725,8 @@ export const deleteConstant: API.OperationMethod<
   DeleteConstantError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<DeleteConstantRequest>,
-  output: __S(19392, __c606, 0) as any as S.Schema<DeleteConstantResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<DeleteConstantRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<DeleteConstantResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31614,8 +31742,8 @@ export const deleteContextualBandit: API.OperationMethod<
   DeleteContextualBanditError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<DeleteContextualBanditRequest>,
-  output: __S(19392, __c606, 0) as any as S.Schema<DeleteContextualBanditResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<DeleteContextualBanditRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<DeleteContextualBanditResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31631,8 +31759,8 @@ export const deleteContextualBanditLinkedFeature: API.OperationMethod<
   DeleteContextualBanditLinkedFeatureError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<DeleteContextualBanditLinkedFeatureRequest>,
-  output: __S(193, __c6, 1) as any as S.Schema<DeleteContextualBanditLinkedFeatureResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<DeleteContextualBanditLinkedFeatureRequest>,
+  output: __S(289, __c9, 1) as any as S.Schema<DeleteContextualBanditLinkedFeatureResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31648,8 +31776,8 @@ export const deleteContextualBanditQuery: API.OperationMethod<
   DeleteContextualBanditQueryError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<DeleteContextualBanditQueryRequest>,
-  output: __S(19392, __c606, 0) as any as S.Schema<DeleteContextualBanditQueryResponse>,
+  input: __S(320, __c10, 0) as any as S.Schema<DeleteContextualBanditQueryRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<DeleteContextualBanditQueryResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31665,8 +31793,8 @@ export const deleteCustomField: API.OperationMethod<
   DeleteCustomFieldError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<DeleteCustomFieldRequest>,
-  output: __S(19392, __c606, 0) as any as S.Schema<DeleteCustomFieldResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<DeleteCustomFieldRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<DeleteCustomFieldResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31682,8 +31810,8 @@ export const deleteCustomHook: API.OperationMethod<
   DeleteCustomHookError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<DeleteCustomHookRequest>,
-  output: __S(19392, __c606, 0) as any as S.Schema<DeleteCustomHookResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<DeleteCustomHookRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<DeleteCustomHookResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31699,8 +31827,8 @@ export const deleteDashboard: API.OperationMethod<
   DeleteDashboardError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<DeleteDashboardRequest>,
-  output: __S(19392, __c606, 0) as any as S.Schema<DeleteDashboardResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<DeleteDashboardRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<DeleteDashboardResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31716,8 +31844,8 @@ export const deleteDimension: API.OperationMethod<
   DeleteDimensionError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<DeleteDimensionRequest>,
-  output: __S(19392, __c606, 0) as any as S.Schema<DeleteDimensionResponse>,
+  input: __S(448, __c14, 0) as any as S.Schema<DeleteDimensionRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<DeleteDimensionResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31733,8 +31861,8 @@ export const deleteEnvironment: API.OperationMethod<
   DeleteEnvironmentError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<DeleteEnvironmentRequest>,
-  output: __S(19392, __c606, 0) as any as S.Schema<DeleteEnvironmentResponse>,
+  input: __S(480, __c15, 0) as any as S.Schema<DeleteEnvironmentRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<DeleteEnvironmentResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31750,8 +31878,8 @@ export const deleteExperiment: API.OperationMethod<
   DeleteExperimentError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<DeleteExperimentRequest>,
-  output: __S(19392, __c606, 0) as any as S.Schema<DeleteExperimentResponse>,
+  input: __S(640, __c20, 0) as any as S.Schema<DeleteExperimentRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<DeleteExperimentResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31767,8 +31895,8 @@ export const deleteExperimentTemplate: API.OperationMethod<
   DeleteExperimentTemplateError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<DeleteExperimentTemplateRequest>,
-  output: __S(19392, __c606, 0) as any as S.Schema<DeleteExperimentTemplateResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<DeleteExperimentTemplateRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<DeleteExperimentTemplateResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31784,8 +31912,8 @@ export const deleteFactMetric: API.OperationMethod<
   DeleteFactMetricError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<DeleteFactMetricRequest>,
-  output: __S(19392, __c606, 0) as any as S.Schema<DeleteFactMetricResponse>,
+  input: __S(704, __c22, 0) as any as S.Schema<DeleteFactMetricRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<DeleteFactMetricResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31801,8 +31929,8 @@ export const deleteFactTable: API.OperationMethod<
   DeleteFactTableError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<DeleteFactTableRequest>,
-  output: __S(19392, __c606, 0) as any as S.Schema<DeleteFactTableResponse>,
+  input: __S(736, __c23, 0) as any as S.Schema<DeleteFactTableRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<DeleteFactTableResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31818,8 +31946,8 @@ export const deleteFactTableFilter: API.OperationMethod<
   DeleteFactTableFilterError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<DeleteFactTableFilterRequest>,
-  output: __S(19392, __c606, 0) as any as S.Schema<DeleteFactTableFilterResponse>,
+  input: __S(768, __c24, 0) as any as S.Schema<DeleteFactTableFilterRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<DeleteFactTableFilterResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31835,8 +31963,8 @@ export const deleteFactTableVirtualColumn: API.OperationMethod<
   DeleteFactTableVirtualColumnError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<DeleteFactTableVirtualColumnRequest>,
-  output: __S(19392, __c606, 0) as any as S.Schema<DeleteFactTableVirtualColumnResponse>,
+  input: __S(800, __c25, 0) as any as S.Schema<DeleteFactTableVirtualColumnRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<DeleteFactTableVirtualColumnResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31852,8 +31980,8 @@ export const deleteFeatureRevisionLogEntryV2: API.OperationMethod<
   DeleteFeatureRevisionLogEntryV2Error,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<DeleteFeatureRevisionLogEntryV2Request>,
-  output: __S(13632, __c426, 0) as any as S.Schema<DeleteFeatureRevisionLogEntryV2Response>,
+  input: __S(832, __c26, 0) as any as S.Schema<DeleteFeatureRevisionLogEntryV2Request>,
+  output: __S(13696, __c428, 0) as any as S.Schema<DeleteFeatureRevisionLogEntryV2Response>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31869,8 +31997,8 @@ export const deleteFeatureRevisionRuleRampScheduleV2: API.OperationMethod<
   DeleteFeatureRevisionRuleRampScheduleV2Error,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<DeleteFeatureRevisionRuleRampScheduleV2Request>,
-  output: __S(896, __c28, 0) as any as S.Schema<DeleteFeatureRevisionRuleRampScheduleV2Response>,
+  input: __S(864, __c27, 0) as any as S.Schema<DeleteFeatureRevisionRuleRampScheduleV2Request>,
+  output: __S(992, __c31, 0) as any as S.Schema<DeleteFeatureRevisionRuleRampScheduleV2Response>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31886,8 +32014,8 @@ export const deleteFeatureRevisionRuleV2: API.OperationMethod<
   DeleteFeatureRevisionRuleV2Error,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<DeleteFeatureRevisionRuleV2Request>,
-  output: __S(896, __c28, 0) as any as S.Schema<DeleteFeatureRevisionRuleV2Response>,
+  input: __S(1024, __c32, 0) as any as S.Schema<DeleteFeatureRevisionRuleV2Request>,
+  output: __S(992, __c31, 0) as any as S.Schema<DeleteFeatureRevisionRuleV2Response>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31903,8 +32031,8 @@ export const deleteFeatureV2: API.OperationMethod<
   DeleteFeatureV2Error,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<DeleteFeatureV2Request>,
-  output: __S(19392, __c606, 0) as any as S.Schema<DeleteFeatureV2Response>,
+  input: __S(1056, __c33, 0) as any as S.Schema<DeleteFeatureV2Request>,
+  output: __S(19456, __c608, 0) as any as S.Schema<DeleteFeatureV2Response>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31920,8 +32048,8 @@ export const deleteInterleaving: API.OperationMethod<
   DeleteInterleavingError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<DeleteInterleavingRequest>,
-  output: __S(19392, __c606, 0) as any as S.Schema<DeleteInterleavingResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<DeleteInterleavingRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<DeleteInterleavingResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31937,8 +32065,8 @@ export const deleteInterleavingExposureQuery: API.OperationMethod<
   DeleteInterleavingExposureQueryError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<DeleteInterleavingExposureQueryRequest>,
-  output: __S(19392, __c606, 0) as any as S.Schema<DeleteInterleavingExposureQueryResponse>,
+  input: __S(1152, __c36, 0) as any as S.Schema<DeleteInterleavingExposureQueryRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<DeleteInterleavingExposureQueryResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31954,8 +32082,8 @@ export const deleteLearning: API.OperationMethod<
   DeleteLearningError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<DeleteLearningRequest>,
-  output: __S(19392, __c606, 0) as any as S.Schema<DeleteLearningResponse>,
+  input: __S(1184, __c37, 0) as any as S.Schema<DeleteLearningRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<DeleteLearningResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31971,8 +32099,8 @@ export const deleteMember: API.OperationMethod<
   DeleteMemberError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<DeleteMemberRequest>,
-  output: __S(19392, __c606, 0) as any as S.Schema<DeleteMemberResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<DeleteMemberRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<DeleteMemberResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -31988,8 +32116,8 @@ export const deleteMetric: API.OperationMethod<
   DeleteMetricError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<DeleteMetricRequest>,
-  output: __S(19392, __c606, 0) as any as S.Schema<DeleteMetricResponse>,
+  input: __S(1248, __c39, 0) as any as S.Schema<DeleteMetricRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<DeleteMetricResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32005,8 +32133,8 @@ export const deleteMetricGroup: API.OperationMethod<
   DeleteMetricGroupError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<DeleteMetricGroupRequest>,
-  output: __S(19392, __c606, 0) as any as S.Schema<DeleteMetricGroupResponse>,
+  input: __S(1280, __c40, 0) as any as S.Schema<DeleteMetricGroupRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<DeleteMetricGroupResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32022,8 +32150,8 @@ export const deleteNamespace: API.OperationMethod<
   DeleteNamespaceError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<DeleteNamespaceRequest>,
-  output: __S(19392, __c606, 0) as any as S.Schema<DeleteNamespaceResponse>,
+  input: __S(1312, __c41, 0) as any as S.Schema<DeleteNamespaceRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<DeleteNamespaceResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32039,8 +32167,8 @@ export const deletePopulation: API.OperationMethod<
   DeletePopulationError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<DeletePopulationRequest>,
-  output: __S(19392, __c606, 0) as any as S.Schema<DeletePopulationResponse>,
+  input: __S(1344, __c42, 0) as any as S.Schema<DeletePopulationRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<DeletePopulationResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32056,8 +32184,8 @@ export const deleteProject: API.OperationMethod<
   DeleteProjectError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<DeleteProjectRequest>,
-  output: __S(19392, __c606, 0) as any as S.Schema<DeleteProjectResponse>,
+  input: __S(1376, __c43, 0) as any as S.Schema<DeleteProjectRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<DeleteProjectResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32073,8 +32201,8 @@ export const deleteRampSchedule: API.OperationMethod<
   DeleteRampScheduleError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<DeleteRampScheduleRequest>,
-  output: __S(19392, __c606, 0) as any as S.Schema<DeleteRampScheduleResponse>,
+  input: __S(1408, __c44, 0) as any as S.Schema<DeleteRampScheduleRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<DeleteRampScheduleResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32090,8 +32218,8 @@ export const deleteRampScheduleTemplate: API.OperationMethod<
   DeleteRampScheduleTemplateError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<DeleteRampScheduleTemplateRequest>,
-  output: __S(19392, __c606, 0) as any as S.Schema<DeleteRampScheduleTemplateResponse>,
+  input: __S(1472, __c46, 0) as any as S.Schema<DeleteRampScheduleTemplateRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<DeleteRampScheduleTemplateResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32107,8 +32235,8 @@ export const deleteSavedGroup: API.OperationMethod<
   DeleteSavedGroupError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<DeleteSavedGroupRequest>,
-  output: __S(19392, __c606, 0) as any as S.Schema<DeleteSavedGroupResponse>,
+  input: __S(1504, __c47, 0) as any as S.Schema<DeleteSavedGroupRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<DeleteSavedGroupResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32124,8 +32252,8 @@ export const deleteSavedGroupUpload: API.OperationMethod<
   DeleteSavedGroupUploadError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<DeleteSavedGroupUploadRequest>,
-  output: __S(1441, __c45, 1) as any as S.Schema<DeleteSavedGroupUploadResponse>,
+  input: __S(1536, __c48, 0) as any as S.Schema<DeleteSavedGroupUploadRequest>,
+  output: __S(1537, __c48, 1) as any as S.Schema<DeleteSavedGroupUploadResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32141,8 +32269,8 @@ export const deleteSdkConnection: API.OperationMethod<
   DeleteSdkConnectionError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<DeleteSdkConnectionRequest>,
-  output: __S(19392, __c606, 0) as any as S.Schema<DeleteSdkConnectionResponse>,
+  input: __S(1568, __c49, 0) as any as S.Schema<DeleteSdkConnectionRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<DeleteSdkConnectionResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32158,8 +32286,8 @@ export const deleteSegment: API.OperationMethod<
   DeleteSegmentError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<DeleteSegmentRequest>,
-  output: __S(19392, __c606, 0) as any as S.Schema<DeleteSegmentResponse>,
+  input: __S(1600, __c50, 0) as any as S.Schema<DeleteSegmentRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<DeleteSegmentResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32175,8 +32303,8 @@ export const deleteTeam: API.OperationMethod<
   DeleteTeamError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<DeleteTeamRequest>,
-  output: __S(19392, __c606, 0) as any as S.Schema<DeleteTeamResponse>,
+  input: __S(1632, __c51, 0) as any as S.Schema<DeleteTeamRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<DeleteTeamResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32192,8 +32320,8 @@ export const deleteVariationScreenshot: API.OperationMethod<
   DeleteVariationScreenshotError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<DeleteVariationScreenshotRequest>,
-  output: __S(1600, __c50, 0) as any as S.Schema<DeleteVariationScreenshotResponse>,
+  input: __S(1664, __c52, 0) as any as S.Schema<DeleteVariationScreenshotRequest>,
+  output: __S(1696, __c53, 0) as any as S.Schema<DeleteVariationScreenshotResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32209,8 +32337,8 @@ export const ejectTargetRampSchedule: API.OperationMethod<
   EjectTargetRampScheduleError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<EjectTargetRampScheduleRequest>,
-  output: __S(1633, __c51, 1) as any as S.Schema<EjectTargetRampScheduleResponse>,
+  input: __S(1728, __c54, 0) as any as S.Schema<EjectTargetRampScheduleRequest>,
+  output: __S(1729, __c54, 1) as any as S.Schema<EjectTargetRampScheduleResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32226,8 +32354,8 @@ export const getAggregatedFactTables: API.OperationMethod<
   GetAggregatedFactTablesError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<GetAggregatedFactTablesRequest>,
-  output: __S(1667, __c52, 3) as any as S.Schema<GetAggregatedFactTablesResponse>,
+  input: __S(1760, __c55, 0) as any as S.Schema<GetAggregatedFactTablesRequest>,
+  output: __S(1763, __c55, 3) as any as S.Schema<GetAggregatedFactTablesResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32243,8 +32371,8 @@ export const getAggregatedTableRun: API.OperationMethod<
   GetAggregatedTableRunError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<GetAggregatedTableRunRequest>,
-  output: __S(1699, __c53, 3) as any as S.Schema<GetAggregatedTableRunResponse>,
+  input: __S(1792, __c56, 0) as any as S.Schema<GetAggregatedTableRunRequest>,
+  output: __S(1795, __c56, 3) as any as S.Schema<GetAggregatedTableRunResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32260,8 +32388,8 @@ export const getArchetype: API.OperationMethod<
   GetArchetypeError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<GetArchetypeRequest>,
-  output: __S(1792, __c56, 0) as any as S.Schema<GetArchetypeResponse>,
+  input: __S(1920, __c60, 0) as any as S.Schema<GetArchetypeRequest>,
+  output: __S(1888, __c59, 0) as any as S.Schema<GetArchetypeResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32277,8 +32405,8 @@ export const getAutoRun: API.OperationMethod<
   GetAutoRunError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<GetAutoRunRequest>,
-  output: __S(2816, __c88, 0) as any as S.Schema<GetAutoRunResponse>,
+  input: __S(1952, __c61, 0) as any as S.Schema<GetAutoRunRequest>,
+  output: __S(2912, __c91, 0) as any as S.Schema<GetAutoRunResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32294,8 +32422,8 @@ export const getCodeRefs: API.OperationMethod<
   GetCodeRefsError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<GetCodeRefsRequest>,
-  output: __S(1889, __c59, 1) as any as S.Schema<GetCodeRefsResponse>,
+  input: __S(1984, __c62, 0) as any as S.Schema<GetCodeRefsRequest>,
+  output: __S(1985, __c62, 1) as any as S.Schema<GetCodeRefsResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32311,8 +32439,8 @@ export const getConfig: API.OperationMethod<
   GetConfigError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<GetConfigRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<GetConfigResponse>,
+  input: __S(2048, __c64, 0) as any as S.Schema<GetConfigRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<GetConfigResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32328,8 +32456,8 @@ export const getConfigKeyUsage: API.OperationMethod<
   GetConfigKeyUsageError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<GetConfigKeyUsageRequest>,
-  output: __S(2019, __c63, 3) as any as S.Schema<GetConfigKeyUsageResponse>,
+  input: __S(2112, __c66, 0) as any as S.Schema<GetConfigKeyUsageRequest>,
+  output: __S(2115, __c66, 3) as any as S.Schema<GetConfigKeyUsageResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32345,8 +32473,8 @@ export const getConfigLineage: API.OperationMethod<
   GetConfigLineageError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<GetConfigLineageRequest>,
-  output: __S(2051, __c64, 3) as any as S.Schema<GetConfigLineageResponse>,
+  input: __S(2144, __c67, 0) as any as S.Schema<GetConfigLineageRequest>,
+  output: __S(2147, __c67, 3) as any as S.Schema<GetConfigLineageResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32362,8 +32490,8 @@ export const getConfigReferences: API.OperationMethod<
   GetConfigReferencesError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<GetConfigReferencesRequest>,
-  output: __S(2083, __c65, 3) as any as S.Schema<GetConfigReferencesResponse>,
+  input: __S(2176, __c68, 0) as any as S.Schema<GetConfigReferencesRequest>,
+  output: __S(2179, __c68, 3) as any as S.Schema<GetConfigReferencesResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32379,8 +32507,8 @@ export const getConfigRevision: API.OperationMethod<
   GetConfigRevisionError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<GetConfigRevisionRequest>,
-  output: __S(5376, __c168, 0) as any as S.Schema<GetConfigRevisionResponse>,
+  input: __S(2240, __c70, 0) as any as S.Schema<GetConfigRevisionRequest>,
+  output: __S(5440, __c170, 0) as any as S.Schema<GetConfigRevisionResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32396,8 +32524,8 @@ export const getConfigRevisionLatest: API.OperationMethod<
   GetConfigRevisionLatestError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<GetConfigRevisionLatestRequest>,
-  output: __S(5376, __c168, 0) as any as S.Schema<GetConfigRevisionLatestResponse>,
+  input: __S(2272, __c71, 0) as any as S.Schema<GetConfigRevisionLatestRequest>,
+  output: __S(5440, __c170, 0) as any as S.Schema<GetConfigRevisionLatestResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32413,8 +32541,8 @@ export const getConfigRevisionMergeStatus: API.OperationMethod<
   GetConfigRevisionMergeStatusError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<GetConfigRevisionMergeStatusRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<GetConfigRevisionMergeStatusResponse>,
+  input: __S(2304, __c72, 0) as any as S.Schema<GetConfigRevisionMergeStatusRequest>,
+  output: __S(2338, __c73, 2) as any as S.Schema<GetConfigRevisionMergeStatusResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32432,8 +32560,8 @@ export const getConfigRevisions: API.PaginatedOperationMethod<
   ConfigRevision
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2368, __c74, 0) as any as S.Schema<GetConfigRevisionsRequest>,
-    output: __S(2401, __c75, 1) as any as S.Schema<GetConfigRevisionsResponse>,
+    input: __S(2464, __c77, 0) as any as S.Schema<GetConfigRevisionsRequest>,
+    output: __S(2497, __c78, 1) as any as S.Schema<GetConfigRevisionsResponse>,
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
@@ -32458,8 +32586,8 @@ export const getConfigSchema: API.OperationMethod<
   GetConfigSchemaError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<GetConfigSchemaRequest>,
-  output: __S(2433, __c76, 1) as any as S.Schema<GetConfigSchemaResponse>,
+  input: __S(2528, __c79, 0) as any as S.Schema<GetConfigSchemaRequest>,
+  output: __S(2529, __c79, 1) as any as S.Schema<GetConfigSchemaResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32475,8 +32603,8 @@ export const getConfirmation: API.OperationMethod<
   GetConfirmationError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<GetConfirmationRequest>,
-  output: __S(2469, __c77, 5) as any as S.Schema<GetConfirmationResponse>,
+  input: __S(2560, __c80, 0) as any as S.Schema<GetConfirmationRequest>,
+  output: __S(2565, __c80, 5) as any as S.Schema<GetConfirmationResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32492,8 +32620,8 @@ export const getConstant: API.OperationMethod<
   GetConstantError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<GetConstantRequest>,
-  output: __S(9792, __c306, 0) as any as S.Schema<GetConstantResponse>,
+  input: __S(2592, __c81, 0) as any as S.Schema<GetConstantRequest>,
+  output: __S(9856, __c308, 0) as any as S.Schema<GetConstantResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32509,8 +32637,8 @@ export const getConstantReferences: API.OperationMethod<
   GetConstantReferencesError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<GetConstantReferencesRequest>,
-  output: __S(2531, __c79, 3) as any as S.Schema<GetConstantReferencesResponse>,
+  input: __S(2624, __c82, 0) as any as S.Schema<GetConstantReferencesRequest>,
+  output: __S(2627, __c82, 3) as any as S.Schema<GetConstantReferencesResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32526,8 +32654,8 @@ export const getConstantRevision: API.OperationMethod<
   GetConstantRevisionError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<GetConstantRevisionRequest>,
-  output: __S(10272, __c321, 0) as any as S.Schema<GetConstantRevisionResponse>,
+  input: __S(2656, __c83, 0) as any as S.Schema<GetConstantRevisionRequest>,
+  output: __S(10336, __c323, 0) as any as S.Schema<GetConstantRevisionResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32543,8 +32671,8 @@ export const getConstantRevisionLatest: API.OperationMethod<
   GetConstantRevisionLatestError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<GetConstantRevisionLatestRequest>,
-  output: __S(10272, __c321, 0) as any as S.Schema<GetConstantRevisionLatestResponse>,
+  input: __S(2688, __c84, 0) as any as S.Schema<GetConstantRevisionLatestRequest>,
+  output: __S(10336, __c323, 0) as any as S.Schema<GetConstantRevisionLatestResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32560,8 +32688,8 @@ export const getConstantRevisionMergeStatus: API.OperationMethod<
   GetConstantRevisionMergeStatusError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<GetConstantRevisionMergeStatusRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<GetConstantRevisionMergeStatusResponse>,
+  input: __S(2720, __c85, 0) as any as S.Schema<GetConstantRevisionMergeStatusRequest>,
+  output: __S(2338, __c73, 2) as any as S.Schema<GetConstantRevisionMergeStatusResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32579,8 +32707,8 @@ export const getConstantRevisions: API.PaginatedOperationMethod<
   ConstantRevision
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2656, __c83, 0) as any as S.Schema<GetConstantRevisionsRequest>,
-    output: __S(2689, __c84, 1) as any as S.Schema<GetConstantRevisionsResponse>,
+    input: __S(2752, __c86, 0) as any as S.Schema<GetConstantRevisionsRequest>,
+    output: __S(2785, __c87, 1) as any as S.Schema<GetConstantRevisionsResponse>,
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
@@ -32605,8 +32733,8 @@ export const getContextualBandit: API.OperationMethod<
   GetContextualBanditError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<GetContextualBanditRequest>,
-  output: __S(14112, __c441, 0) as any as S.Schema<GetContextualBanditResponse>,
+  input: __S(2816, __c88, 0) as any as S.Schema<GetContextualBanditRequest>,
+  output: __S(14176, __c443, 0) as any as S.Schema<GetContextualBanditResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32622,8 +32750,8 @@ export const getContextualBanditCurrentWeights: API.OperationMethod<
   GetContextualBanditCurrentWeightsError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<GetContextualBanditCurrentWeightsRequest>,
-  output: __S(2849, __c89, 1) as any as S.Schema<GetContextualBanditCurrentWeightsResponse>,
+  input: __S(2944, __c92, 0) as any as S.Schema<GetContextualBanditCurrentWeightsRequest>,
+  output: __S(2945, __c92, 1) as any as S.Schema<GetContextualBanditCurrentWeightsResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32639,8 +32767,8 @@ export const getContextualBanditEvent: API.OperationMethod<
   GetContextualBanditEventError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<GetContextualBanditEventRequest>,
-  output: __S(2913, __c91, 1) as any as S.Schema<GetContextualBanditEventResponse>,
+  input: __S(3008, __c94, 0) as any as S.Schema<GetContextualBanditEventRequest>,
+  output: __S(3009, __c94, 1) as any as S.Schema<GetContextualBanditEventResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32656,8 +32784,8 @@ export const getContextualBanditLinkedFeatures: API.OperationMethod<
   GetContextualBanditLinkedFeaturesError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<GetContextualBanditLinkedFeaturesRequest>,
-  output: __S(2945, __c92, 1) as any as S.Schema<GetContextualBanditLinkedFeaturesResponse>,
+  input: __S(3040, __c95, 0) as any as S.Schema<GetContextualBanditLinkedFeaturesRequest>,
+  output: __S(3041, __c95, 1) as any as S.Schema<GetContextualBanditLinkedFeaturesResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32673,8 +32801,8 @@ export const getContextualBanditQuery: API.OperationMethod<
   GetContextualBanditQueryError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<GetContextualBanditQueryRequest>,
-  output: __S(14560, __c455, 0) as any as S.Schema<GetContextualBanditQueryResponse>,
+  input: __S(3072, __c96, 0) as any as S.Schema<GetContextualBanditQueryRequest>,
+  output: __S(14624, __c457, 0) as any as S.Schema<GetContextualBanditQueryResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32690,8 +32818,8 @@ export const getContextualBanditResults: API.OperationMethod<
   GetContextualBanditResultsError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<GetContextualBanditResultsRequest>,
-  output: __S(3040, __c95, 0) as any as S.Schema<GetContextualBanditResultsResponse>,
+  input: __S(3104, __c97, 0) as any as S.Schema<GetContextualBanditResultsRequest>,
+  output: __S(3136, __c98, 0) as any as S.Schema<GetContextualBanditResultsResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32707,8 +32835,8 @@ export const getContextualBanditSnapshot: API.OperationMethod<
   GetContextualBanditSnapshotError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<GetContextualBanditSnapshotRequest>,
-  output: __S(3137, __c98, 1) as any as S.Schema<GetContextualBanditSnapshotResponse>,
+  input: __S(3232, __c101, 0) as any as S.Schema<GetContextualBanditSnapshotRequest>,
+  output: __S(3233, __c101, 1) as any as S.Schema<GetContextualBanditSnapshotResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32724,8 +32852,8 @@ export const getContextualBanditStatus: API.OperationMethod<
   GetContextualBanditStatusError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<GetContextualBanditStatusRequest>,
-  output: __S(3201, __c100, 1) as any as S.Schema<GetContextualBanditStatusResponse>,
+  input: __S(3296, __c103, 0) as any as S.Schema<GetContextualBanditStatusRequest>,
+  output: __S(3297, __c103, 1) as any as S.Schema<GetContextualBanditStatusResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32741,8 +32869,8 @@ export const getCustomField: API.OperationMethod<
   GetCustomFieldError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<GetCustomFieldRequest>,
-  output: __S(14848, __c464, 0) as any as S.Schema<GetCustomFieldResponse>,
+  input: __S(3328, __c104, 0) as any as S.Schema<GetCustomFieldRequest>,
+  output: __S(14912, __c466, 0) as any as S.Schema<GetCustomFieldResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32758,8 +32886,8 @@ export const getCustomHook: API.OperationMethod<
   GetCustomHookError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<GetCustomHookRequest>,
-  output: __S(14944, __c467, 0) as any as S.Schema<GetCustomHookResponse>,
+  input: __S(3360, __c105, 0) as any as S.Schema<GetCustomHookRequest>,
+  output: __S(15008, __c469, 0) as any as S.Schema<GetCustomHookResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32775,8 +32903,8 @@ export const getDashboard: API.OperationMethod<
   GetDashboardError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c103, 0) as any as S.Schema<GetDashboardRequest>,
-  output: __S(15072, __c471, 0) as any as S.Schema<GetDashboardResponse>,
+  input: __S(3392, __c106, 0) as any as S.Schema<GetDashboardRequest>,
+  output: __S(15136, __c473, 0) as any as S.Schema<GetDashboardResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32792,8 +32920,8 @@ export const getDashboardsForExperiment: API.OperationMethod<
   GetDashboardsForExperimentError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c115, 0) as any as S.Schema<GetDashboardsForExperimentRequest>,
-  output: __S(3713, __c116, 1) as any as S.Schema<GetDashboardsForExperimentResponse>,
+  input: __S(3776, __c118, 0) as any as S.Schema<GetDashboardsForExperimentRequest>,
+  output: __S(3809, __c119, 1) as any as S.Schema<GetDashboardsForExperimentResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32809,8 +32937,8 @@ export const getDataSource: API.OperationMethod<
   GetDataSourceError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c117, 0) as any as S.Schema<GetDataSourceRequest>,
-  output: __S(3745, __c117, 1) as any as S.Schema<GetDataSourceResponse>,
+  input: __S(3840, __c120, 0) as any as S.Schema<GetDataSourceRequest>,
+  output: __S(3841, __c120, 1) as any as S.Schema<GetDataSourceResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32826,8 +32954,8 @@ export const getDimension: API.OperationMethod<
   GetDimensionError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3808, __c119, 0) as any as S.Schema<GetDimensionRequest>,
-  output: __S(15168, __c474, 0) as any as S.Schema<GetDimensionResponse>,
+  input: __S(3904, __c122, 0) as any as S.Schema<GetDimensionRequest>,
+  output: __S(15232, __c476, 0) as any as S.Schema<GetDimensionResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32843,8 +32971,8 @@ export const getExperiment: API.OperationMethod<
   GetExperimentError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3840, __c120, 0) as any as S.Schema<GetExperimentRequest>,
-  output: __S(15712, __c491, 0) as any as S.Schema<GetExperimentResponse>,
+  input: __S(3936, __c123, 0) as any as S.Schema<GetExperimentRequest>,
+  output: __S(15776, __c493, 0) as any as S.Schema<GetExperimentResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32860,8 +32988,8 @@ export const getExperimentNames: API.OperationMethod<
   GetExperimentNamesError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3872, __c121, 0) as any as S.Schema<GetExperimentNamesRequest>,
-  output: __S(3875, __c121, 3) as any as S.Schema<GetExperimentNamesResponse>,
+  input: __S(3968, __c124, 0) as any as S.Schema<GetExperimentNamesRequest>,
+  output: __S(3971, __c124, 3) as any as S.Schema<GetExperimentNamesResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32877,8 +33005,8 @@ export const getExperimentResults: API.OperationMethod<
   GetExperimentResultsError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3904, __c122, 0) as any as S.Schema<GetExperimentResultsRequest>,
-  output: __S(3905, __c122, 1) as any as S.Schema<GetExperimentResultsResponse>,
+  input: __S(4000, __c125, 0) as any as S.Schema<GetExperimentResultsRequest>,
+  output: __S(4001, __c125, 1) as any as S.Schema<GetExperimentResultsResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32894,8 +33022,8 @@ export const getExperimentSnapshot: API.OperationMethod<
   GetExperimentSnapshotError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3936, __c123, 0) as any as S.Schema<GetExperimentSnapshotRequest>,
-  output: __S(15841, __c495, 1) as any as S.Schema<GetExperimentSnapshotResponse>,
+  input: __S(4032, __c126, 0) as any as S.Schema<GetExperimentSnapshotRequest>,
+  output: __S(15905, __c497, 1) as any as S.Schema<GetExperimentSnapshotResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32911,8 +33039,8 @@ export const getExperimentStartChecklist: API.OperationMethod<
   GetExperimentStartChecklistError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3968, __c124, 0) as any as S.Schema<GetExperimentStartChecklistRequest>,
-  output: __S(15972, __c499, 4) as any as S.Schema<GetExperimentStartChecklistResponse>,
+  input: __S(4064, __c127, 0) as any as S.Schema<GetExperimentStartChecklistRequest>,
+  output: __S(16036, __c501, 4) as any as S.Schema<GetExperimentStartChecklistResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32928,8 +33056,8 @@ export const getExperimentTemplate: API.OperationMethod<
   GetExperimentTemplateError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4000, __c125, 0) as any as S.Schema<GetExperimentTemplateRequest>,
-  output: __S(16128, __c504, 0) as any as S.Schema<GetExperimentTemplateResponse>,
+  input: __S(4096, __c128, 0) as any as S.Schema<GetExperimentTemplateRequest>,
+  output: __S(16192, __c506, 0) as any as S.Schema<GetExperimentTemplateResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32945,8 +33073,8 @@ export const getFactMetric: API.OperationMethod<
   GetFactMetricError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c126, 0) as any as S.Schema<GetFactMetricRequest>,
-  output: __S(4128, __c129, 0) as any as S.Schema<GetFactMetricResponse>,
+  input: __S(4128, __c129, 0) as any as S.Schema<GetFactMetricRequest>,
+  output: __S(4224, __c132, 0) as any as S.Schema<GetFactMetricResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32962,8 +33090,8 @@ export const getFactTable: API.OperationMethod<
   GetFactTableError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4192, __c131, 0) as any as S.Schema<GetFactTableRequest>,
-  output: __S(16256, __c508, 0) as any as S.Schema<GetFactTableResponse>,
+  input: __S(4288, __c134, 0) as any as S.Schema<GetFactTableRequest>,
+  output: __S(16320, __c510, 0) as any as S.Schema<GetFactTableResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32979,8 +33107,8 @@ export const getFactTableFilter: API.OperationMethod<
   GetFactTableFilterError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4224, __c132, 0) as any as S.Schema<GetFactTableFilterRequest>,
-  output: __S(16448, __c514, 0) as any as S.Schema<GetFactTableFilterResponse>,
+  input: __S(4320, __c135, 0) as any as S.Schema<GetFactTableFilterRequest>,
+  output: __S(16512, __c516, 0) as any as S.Schema<GetFactTableFilterResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -32996,8 +33124,8 @@ export const getFeatureKeysV2: API.OperationMethod<
   GetFeatureKeysV2Error,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c133, 0) as any as S.Schema<GetFeatureKeysV2Request>,
-  output: __S(4257, __c133, 1) as any as S.Schema<GetFeatureKeysV2Response>,
+  input: __S(4352, __c136, 0) as any as S.Schema<GetFeatureKeysV2Request>,
+  output: __S(4353, __c136, 1) as any as S.Schema<GetFeatureKeysV2Response>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33013,8 +33141,8 @@ export const getFeatureRevisionDiffV2: API.OperationMethod<
   GetFeatureRevisionDiffV2Error,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4288, __c134, 0) as any as S.Schema<GetFeatureRevisionDiffV2Request>,
-  output: __S(4289, __c134, 1) as any as S.Schema<GetFeatureRevisionDiffV2Response>,
+  input: __S(4384, __c137, 0) as any as S.Schema<GetFeatureRevisionDiffV2Request>,
+  output: __S(4385, __c137, 1) as any as S.Schema<GetFeatureRevisionDiffV2Response>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33030,8 +33158,8 @@ export const getFeatureRevisionLatestV2: API.OperationMethod<
   GetFeatureRevisionLatestV2Error,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4320, __c135, 0) as any as S.Schema<GetFeatureRevisionLatestV2Request>,
-  output: __S(896, __c28, 0) as any as S.Schema<GetFeatureRevisionLatestV2Response>,
+  input: __S(4416, __c138, 0) as any as S.Schema<GetFeatureRevisionLatestV2Request>,
+  output: __S(992, __c31, 0) as any as S.Schema<GetFeatureRevisionLatestV2Response>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33047,8 +33175,8 @@ export const getFeatureRevisionLogV2: API.OperationMethod<
   GetFeatureRevisionLogV2Error,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4352, __c136, 0) as any as S.Schema<GetFeatureRevisionLogV2Request>,
-  output: __S(4355, __c136, 3) as any as S.Schema<GetFeatureRevisionLogV2Response>,
+  input: __S(4448, __c139, 0) as any as S.Schema<GetFeatureRevisionLogV2Request>,
+  output: __S(4451, __c139, 3) as any as S.Schema<GetFeatureRevisionLogV2Response>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33064,8 +33192,8 @@ export const getFeatureRevisionMergeStatusV2: API.OperationMethod<
   GetFeatureRevisionMergeStatusV2Error,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4384, __c137, 0) as any as S.Schema<GetFeatureRevisionMergeStatusV2Request>,
-  output: __S(4385, __c137, 1) as any as S.Schema<GetFeatureRevisionMergeStatusV2Response>,
+  input: __S(4480, __c140, 0) as any as S.Schema<GetFeatureRevisionMergeStatusV2Request>,
+  output: __S(4481, __c140, 1) as any as S.Schema<GetFeatureRevisionMergeStatusV2Response>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33083,8 +33211,8 @@ export const getFeatureRevisionsV2: API.PaginatedOperationMethod<
   FeatureRevisionV2
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(4480, __c140, 0) as any as S.Schema<GetFeatureRevisionsV2Request>,
-    output: __S(4544, __c142, 0) as any as S.Schema<GetFeatureRevisionsV2Response>,
+    input: __S(4576, __c143, 0) as any as S.Schema<GetFeatureRevisionsV2Request>,
+    output: __S(4640, __c145, 0) as any as S.Schema<GetFeatureRevisionsV2Response>,
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
@@ -33109,8 +33237,8 @@ export const getFeatureRevisionV2: API.OperationMethod<
   GetFeatureRevisionV2Error,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c143, 0) as any as S.Schema<GetFeatureRevisionV2Request>,
-  output: __S(896, __c28, 0) as any as S.Schema<GetFeatureRevisionV2Response>,
+  input: __S(4672, __c146, 0) as any as S.Schema<GetFeatureRevisionV2Request>,
+  output: __S(992, __c31, 0) as any as S.Schema<GetFeatureRevisionV2Response>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33126,8 +33254,8 @@ export const getFeatureStaleV2: API.OperationMethod<
   GetFeatureStaleV2Error,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4608, __c144, 0) as any as S.Schema<GetFeatureStaleV2Request>,
-  output: __S(4613, __c144, 5) as any as S.Schema<GetFeatureStaleV2Response>,
+  input: __S(4704, __c147, 0) as any as S.Schema<GetFeatureStaleV2Request>,
+  output: __S(4709, __c147, 5) as any as S.Schema<GetFeatureStaleV2Response>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33143,8 +33271,8 @@ export const getFeatureV2: API.OperationMethod<
   GetFeatureV2Error,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4736, __c148, 0) as any as S.Schema<GetFeatureV2Request>,
-  output: __S(4738, __c148, 2) as any as S.Schema<GetFeatureV2Response>,
+  input: __S(4832, __c151, 0) as any as S.Schema<GetFeatureV2Request>,
+  output: __S(4834, __c151, 2) as any as S.Schema<GetFeatureV2Response>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33160,8 +33288,8 @@ export const getHoldout: API.OperationMethod<
   GetHoldoutError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4800, __c150, 0) as any as S.Schema<GetHoldoutRequest>,
-  output: __S(16608, __c519, 0) as any as S.Schema<GetHoldoutResponse>,
+  input: __S(4896, __c153, 0) as any as S.Schema<GetHoldoutRequest>,
+  output: __S(16672, __c521, 0) as any as S.Schema<GetHoldoutResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33177,8 +33305,8 @@ export const getInformationSchema: API.OperationMethod<
   GetInformationSchemaError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4832, __c151, 0) as any as S.Schema<GetInformationSchemaRequest>,
-  output: __S(4841, __c151, 9) as any as S.Schema<GetInformationSchemaResponse>,
+  input: __S(4928, __c154, 0) as any as S.Schema<GetInformationSchemaRequest>,
+  output: __S(4937, __c154, 9) as any as S.Schema<GetInformationSchemaResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33194,8 +33322,8 @@ export const getInformationSchemaTable: API.OperationMethod<
   GetInformationSchemaTableError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4864, __c152, 0) as any as S.Schema<GetInformationSchemaTableRequest>,
-  output: __S(4868, __c152, 4) as any as S.Schema<GetInformationSchemaTableResponse>,
+  input: __S(4960, __c155, 0) as any as S.Schema<GetInformationSchemaTableRequest>,
+  output: __S(4964, __c155, 4) as any as S.Schema<GetInformationSchemaTableResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33211,8 +33339,8 @@ export const getInterleaving: API.OperationMethod<
   GetInterleavingError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4896, __c153, 0) as any as S.Schema<GetInterleavingRequest>,
-  output: __S(16768, __c524, 0) as any as S.Schema<GetInterleavingResponse>,
+  input: __S(4992, __c156, 0) as any as S.Schema<GetInterleavingRequest>,
+  output: __S(16832, __c526, 0) as any as S.Schema<GetInterleavingResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33228,8 +33356,8 @@ export const getInterleavingExposureQuery: API.OperationMethod<
   GetInterleavingExposureQueryError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4928, __c154, 0) as any as S.Schema<GetInterleavingExposureQueryRequest>,
-  output: __S(16928, __c529, 0) as any as S.Schema<GetInterleavingExposureQueryResponse>,
+  input: __S(5024, __c157, 0) as any as S.Schema<GetInterleavingExposureQueryRequest>,
+  output: __S(16992, __c531, 0) as any as S.Schema<GetInterleavingExposureQueryResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33245,8 +33373,8 @@ export const getInterleavingResults: API.OperationMethod<
   GetInterleavingResultsError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4960, __c155, 0) as any as S.Schema<GetInterleavingResultsRequest>,
-  output: __S(4961, __c155, 1) as any as S.Schema<GetInterleavingResultsResponse>,
+  input: __S(5056, __c158, 0) as any as S.Schema<GetInterleavingResultsRequest>,
+  output: __S(5057, __c158, 1) as any as S.Schema<GetInterleavingResultsResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33262,8 +33390,8 @@ export const getInterleavingSnapshot: API.OperationMethod<
   GetInterleavingSnapshotError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5056, __c158, 0) as any as S.Schema<GetInterleavingSnapshotRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<GetInterleavingSnapshotResponse>,
+  input: __S(5152, __c161, 0) as any as S.Schema<GetInterleavingSnapshotRequest>,
+  output: __S(5184, __c162, 0) as any as S.Schema<GetInterleavingSnapshotResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33279,8 +33407,8 @@ export const getInterleavingStatus: API.OperationMethod<
   GetInterleavingStatusError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5120, __c160, 0) as any as S.Schema<GetInterleavingStatusRequest>,
-  output: __S(5121, __c160, 1) as any as S.Schema<GetInterleavingStatusResponse>,
+  input: __S(5216, __c163, 0) as any as S.Schema<GetInterleavingStatusRequest>,
+  output: __S(5217, __c163, 1) as any as S.Schema<GetInterleavingStatusResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33296,8 +33424,8 @@ export const getLearning: API.OperationMethod<
   GetLearningError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5152, __c161, 0) as any as S.Schema<GetLearningRequest>,
-  output: __S(17024, __c532, 0) as any as S.Schema<GetLearningResponse>,
+  input: __S(5248, __c164, 0) as any as S.Schema<GetLearningRequest>,
+  output: __S(17088, __c534, 0) as any as S.Schema<GetLearningResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33313,8 +33441,8 @@ export const getMetric: API.OperationMethod<
   GetMetricError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5408, __c169, 0) as any as S.Schema<GetMetricRequest>,
-  output: __S(5504, __c172, 0) as any as S.Schema<GetMetricResponse>,
+  input: __S(5472, __c171, 0) as any as S.Schema<GetMetricRequest>,
+  output: __S(5568, __c174, 0) as any as S.Schema<GetMetricResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33330,8 +33458,8 @@ export const getMetricGroup: API.OperationMethod<
   GetMetricGroupError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5536, __c173, 0) as any as S.Schema<GetMetricGroupRequest>,
-  output: __S(17120, __c535, 0) as any as S.Schema<GetMetricGroupResponse>,
+  input: __S(5600, __c175, 0) as any as S.Schema<GetMetricGroupRequest>,
+  output: __S(17184, __c537, 0) as any as S.Schema<GetMetricGroupResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33347,8 +33475,8 @@ export const getMetricUsage: API.OperationMethod<
   GetMetricUsageError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5568, __c174, 0) as any as S.Schema<GetMetricUsageRequest>,
-  output: __S(5573, __c174, 5) as any as S.Schema<GetMetricUsageResponse>,
+  input: __S(5632, __c176, 0) as any as S.Schema<GetMetricUsageRequest>,
+  output: __S(5637, __c176, 5) as any as S.Schema<GetMetricUsageResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33364,8 +33492,8 @@ export const getNamespace: API.OperationMethod<
   GetNamespaceError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5600, __c175, 0) as any as S.Schema<GetNamespaceRequest>,
-  output: __S(17216, __c538, 0) as any as S.Schema<GetNamespaceResponse>,
+  input: __S(5664, __c177, 0) as any as S.Schema<GetNamespaceRequest>,
+  output: __S(17280, __c540, 0) as any as S.Schema<GetNamespaceResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33383,8 +33511,8 @@ export const getNamespaceMemberships: API.PaginatedOperationMethod<
   NamespaceExperimentMember
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5632, __c176, 0) as any as S.Schema<GetNamespaceMembershipsRequest>,
-    output: __S(5635, __c176, 3) as any as S.Schema<GetNamespaceMembershipsResponse>,
+    input: __S(5696, __c178, 0) as any as S.Schema<GetNamespaceMembershipsRequest>,
+    output: __S(5699, __c178, 3) as any as S.Schema<GetNamespaceMembershipsResponse>,
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
@@ -33409,8 +33537,8 @@ export const getPopulation: API.OperationMethod<
   GetPopulationError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5664, __c177, 0) as any as S.Schema<GetPopulationRequest>,
-  output: __S(17536, __c548, 0) as any as S.Schema<GetPopulationResponse>,
+  input: __S(5728, __c179, 0) as any as S.Schema<GetPopulationRequest>,
+  output: __S(17600, __c550, 0) as any as S.Schema<GetPopulationResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33426,8 +33554,8 @@ export const getProductAnalyticsColumns: API.OperationMethod<
   GetProductAnalyticsColumnsError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5696, __c178, 0) as any as S.Schema<GetProductAnalyticsColumnsRequest>,
-  output: __S(5701, __c178, 5) as any as S.Schema<GetProductAnalyticsColumnsResponse>,
+  input: __S(5760, __c180, 0) as any as S.Schema<GetProductAnalyticsColumnsRequest>,
+  output: __S(5765, __c180, 5) as any as S.Schema<GetProductAnalyticsColumnsResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33443,8 +33571,8 @@ export const getProductAnalyticsColumnValues: API.OperationMethod<
   GetProductAnalyticsColumnValuesError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5728, __c179, 0) as any as S.Schema<GetProductAnalyticsColumnValuesRequest>,
-  output: __S(5729, __c179, 1) as any as S.Schema<GetProductAnalyticsColumnValuesResponse>,
+  input: __S(5792, __c181, 0) as any as S.Schema<GetProductAnalyticsColumnValuesRequest>,
+  output: __S(5793, __c181, 1) as any as S.Schema<GetProductAnalyticsColumnValuesResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33460,8 +33588,8 @@ export const getProductAnalyticsExploration: API.OperationMethod<
   GetProductAnalyticsExplorationError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5760, __c180, 0) as any as S.Schema<GetProductAnalyticsExplorationRequest>,
-  output: __S(5765, __c180, 5) as any as S.Schema<GetProductAnalyticsExplorationResponse>,
+  input: __S(5824, __c182, 0) as any as S.Schema<GetProductAnalyticsExplorationRequest>,
+  output: __S(5829, __c182, 5) as any as S.Schema<GetProductAnalyticsExplorationResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33477,8 +33605,8 @@ export const getProject: API.OperationMethod<
   GetProjectError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5856, __c183, 0) as any as S.Schema<GetProjectRequest>,
-  output: __S(17664, __c552, 0) as any as S.Schema<GetProjectResponse>,
+  input: __S(5920, __c185, 0) as any as S.Schema<GetProjectRequest>,
+  output: __S(17728, __c554, 0) as any as S.Schema<GetProjectResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33494,8 +33622,8 @@ export const getQuery: API.OperationMethod<
   GetQueryError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5952, __c186, 0) as any as S.Schema<GetQueryRequest>,
-  output: __S(5953, __c186, 1) as any as S.Schema<GetQueryResponse>,
+  input: __S(6016, __c188, 0) as any as S.Schema<GetQueryRequest>,
+  output: __S(6017, __c188, 1) as any as S.Schema<GetQueryResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33511,8 +33639,8 @@ export const getRampSchedule: API.OperationMethod<
   GetRampScheduleError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5984, __c187, 0) as any as S.Schema<GetRampScheduleRequest>,
-  output: __S(9664, __c302, 0) as any as S.Schema<GetRampScheduleResponse>,
+  input: __S(6048, __c189, 0) as any as S.Schema<GetRampScheduleRequest>,
+  output: __S(9728, __c304, 0) as any as S.Schema<GetRampScheduleResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33528,8 +33656,8 @@ export const getRampScheduleStatus: API.OperationMethod<
   GetRampScheduleStatusError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6016, __c188, 0) as any as S.Schema<GetRampScheduleStatusRequest>,
-  output: __S(6024, __c188, 8) as any as S.Schema<GetRampScheduleStatusResponse>,
+  input: __S(6080, __c190, 0) as any as S.Schema<GetRampScheduleStatusRequest>,
+  output: __S(6088, __c190, 8) as any as S.Schema<GetRampScheduleStatusResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33545,8 +33673,8 @@ export const getRampScheduleTemplate: API.OperationMethod<
   GetRampScheduleTemplateError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6048, __c189, 0) as any as S.Schema<GetRampScheduleTemplateRequest>,
-  output: __S(17824, __c557, 0) as any as S.Schema<GetRampScheduleTemplateResponse>,
+  input: __S(6112, __c191, 0) as any as S.Schema<GetRampScheduleTemplateRequest>,
+  output: __S(17888, __c559, 0) as any as S.Schema<GetRampScheduleTemplateResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33562,8 +33690,8 @@ export const getReport: API.OperationMethod<
   GetReportError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6080, __c190, 0) as any as S.Schema<GetReportRequest>,
-  output: __S(18016, __c563, 0) as any as S.Schema<GetReportResponse>,
+  input: __S(6144, __c192, 0) as any as S.Schema<GetReportRequest>,
+  output: __S(18080, __c565, 0) as any as S.Schema<GetReportResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33579,8 +33707,8 @@ export const getSavedGroup: API.OperationMethod<
   GetSavedGroupError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6112, __c191, 0) as any as S.Schema<GetSavedGroupRequest>,
-  output: __S(18112, __c566, 0) as any as S.Schema<GetSavedGroupResponse>,
+  input: __S(6176, __c193, 0) as any as S.Schema<GetSavedGroupRequest>,
+  output: __S(18176, __c568, 0) as any as S.Schema<GetSavedGroupResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33596,8 +33724,8 @@ export const getSavedGroupReferences: API.OperationMethod<
   GetSavedGroupReferencesError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6144, __c192, 0) as any as S.Schema<GetSavedGroupReferencesRequest>,
-  output: __S(6149, __c192, 5) as any as S.Schema<GetSavedGroupReferencesResponse>,
+  input: __S(6208, __c194, 0) as any as S.Schema<GetSavedGroupReferencesRequest>,
+  output: __S(6213, __c194, 5) as any as S.Schema<GetSavedGroupReferencesResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33613,8 +33741,8 @@ export const getSavedGroupRevision: API.OperationMethod<
   GetSavedGroupRevisionError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6176, __c193, 0) as any as S.Schema<GetSavedGroupRevisionRequest>,
-  output: __S(18208, __c569, 0) as any as S.Schema<GetSavedGroupRevisionResponse>,
+  input: __S(6240, __c195, 0) as any as S.Schema<GetSavedGroupRevisionRequest>,
+  output: __S(18272, __c571, 0) as any as S.Schema<GetSavedGroupRevisionResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33630,8 +33758,8 @@ export const getSavedGroupRevisionLatest: API.OperationMethod<
   GetSavedGroupRevisionLatestError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6208, __c194, 0) as any as S.Schema<GetSavedGroupRevisionLatestRequest>,
-  output: __S(18208, __c569, 0) as any as S.Schema<GetSavedGroupRevisionLatestResponse>,
+  input: __S(6272, __c196, 0) as any as S.Schema<GetSavedGroupRevisionLatestRequest>,
+  output: __S(18272, __c571, 0) as any as S.Schema<GetSavedGroupRevisionLatestResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33647,8 +33775,8 @@ export const getSavedGroupRevisionMergeStatus: API.OperationMethod<
   GetSavedGroupRevisionMergeStatusError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6240, __c195, 0) as any as S.Schema<GetSavedGroupRevisionMergeStatusRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<GetSavedGroupRevisionMergeStatusResponse>,
+  input: __S(6304, __c197, 0) as any as S.Schema<GetSavedGroupRevisionMergeStatusRequest>,
+  output: __S(2338, __c73, 2) as any as S.Schema<GetSavedGroupRevisionMergeStatusResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33666,8 +33794,8 @@ export const getSavedGroupRevisions: API.PaginatedOperationMethod<
   SavedGroupRevision
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(6400, __c200, 0) as any as S.Schema<GetSavedGroupRevisionsRequest>,
-    output: __S(6433, __c201, 1) as any as S.Schema<GetSavedGroupRevisionsResponse>,
+    input: __S(6464, __c202, 0) as any as S.Schema<GetSavedGroupRevisionsRequest>,
+    output: __S(6497, __c203, 1) as any as S.Schema<GetSavedGroupRevisionsResponse>,
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
@@ -33692,8 +33820,8 @@ export const getSavedGroupUpload: API.OperationMethod<
   GetSavedGroupUploadError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6464, __c202, 0) as any as S.Schema<GetSavedGroupUploadRequest>,
-  output: __S(18944, __c592, 0) as any as S.Schema<GetSavedGroupUploadResponse>,
+  input: __S(6528, __c204, 0) as any as S.Schema<GetSavedGroupUploadRequest>,
+  output: __S(19008, __c594, 0) as any as S.Schema<GetSavedGroupUploadResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33709,8 +33837,8 @@ export const getSdkConnection: API.OperationMethod<
   GetSdkConnectionError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6496, __c203, 0) as any as S.Schema<GetSdkConnectionRequest>,
-  output: __S(19136, __c598, 0) as any as S.Schema<GetSdkConnectionResponse>,
+  input: __S(6560, __c205, 0) as any as S.Schema<GetSdkConnectionRequest>,
+  output: __S(19200, __c600, 0) as any as S.Schema<GetSdkConnectionResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33726,8 +33854,8 @@ export const getSdkPayload: API.OperationMethod<
   GetSdkPayloadError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6528, __c204, 0) as any as S.Schema<GetSdkPayloadRequest>,
-  output: __S(1600, __c50, 0) as any as S.Schema<GetSdkPayloadResponse>,
+  input: __S(6592, __c206, 0) as any as S.Schema<GetSdkPayloadRequest>,
+  output: __S(1696, __c53, 0) as any as S.Schema<GetSdkPayloadResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33743,8 +33871,8 @@ export const getSegment: API.OperationMethod<
   GetSegmentError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6560, __c205, 0) as any as S.Schema<GetSegmentRequest>,
-  output: __S(19232, __c601, 0) as any as S.Schema<GetSegmentResponse>,
+  input: __S(6624, __c207, 0) as any as S.Schema<GetSegmentRequest>,
+  output: __S(19296, __c603, 0) as any as S.Schema<GetSegmentResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33760,8 +33888,8 @@ export const getSettings: API.OperationMethod<
   GetSettingsError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6592, __c206, 0) as any as S.Schema<GetSettingsRequest>,
-  output: __S(6598, __c206, 6) as any as S.Schema<GetSettingsResponse>,
+  input: __S(6656, __c208, 0) as any as S.Schema<GetSettingsRequest>,
+  output: __S(6662, __c208, 6) as any as S.Schema<GetSettingsResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33777,8 +33905,8 @@ export const getTeam: API.OperationMethod<
   GetTeamError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6656, __c208, 0) as any as S.Schema<GetTeamRequest>,
-  output: __S(19328, __c604, 0) as any as S.Schema<GetTeamResponse>,
+  input: __S(6720, __c210, 0) as any as S.Schema<GetTeamRequest>,
+  output: __S(19392, __c606, 0) as any as S.Schema<GetTeamResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33794,8 +33922,8 @@ export const getVersion: API.OperationMethod<
   GetVersionError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6688, __c209, 0) as any as S.Schema<GetVersionRequest>,
-  output: __S(6689, __c209, 1) as any as S.Schema<GetVersionResponse>,
+  input: __S(6752, __c211, 0) as any as S.Schema<GetVersionRequest>,
+  output: __S(6753, __c211, 1) as any as S.Schema<GetVersionResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33811,8 +33939,8 @@ export const getVisualChangeset: API.OperationMethod<
   GetVisualChangesetError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6720, __c210, 0) as any as S.Schema<GetVisualChangesetRequest>,
-  output: __S(6721, __c210, 1) as any as S.Schema<GetVisualChangesetResponse>,
+  input: __S(6784, __c212, 0) as any as S.Schema<GetVisualChangesetRequest>,
+  output: __S(6785, __c212, 1) as any as S.Schema<GetVisualChangesetResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33828,8 +33956,8 @@ export const getWarehouseTableSchema: API.OperationMethod<
   GetWarehouseTableSchemaError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6754, __c211, 2) as any as S.Schema<GetWarehouseTableSchemaRequest>,
-  output: __S(6759, __c211, 7) as any as S.Schema<GetWarehouseTableSchemaResponse>,
+  input: __S(6818, __c213, 2) as any as S.Schema<GetWarehouseTableSchemaRequest>,
+  output: __S(6823, __c213, 7) as any as S.Schema<GetWarehouseTableSchemaResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33845,8 +33973,8 @@ export const jumpRampSchedule: API.OperationMethod<
   JumpRampScheduleError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6816, __c213, 0) as any as S.Schema<JumpRampScheduleRequest>,
-  output: __S(9664, __c302, 0) as any as S.Schema<JumpRampScheduleResponse>,
+  input: __S(6880, __c215, 0) as any as S.Schema<JumpRampScheduleRequest>,
+  output: __S(9728, __c304, 0) as any as S.Schema<JumpRampScheduleResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33864,8 +33992,8 @@ export const listAggregatedTableRuns: API.PaginatedOperationMethod<
   AggregatedTableRunSummary
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(6848, __c214, 0) as any as S.Schema<ListAggregatedTableRunsRequest>,
-    output: __S(6851, __c214, 3) as any as S.Schema<ListAggregatedTableRunsResponse>,
+    input: __S(6912, __c216, 0) as any as S.Schema<ListAggregatedTableRunsRequest>,
+    output: __S(6915, __c216, 3) as any as S.Schema<ListAggregatedTableRunsResponse>,
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
@@ -33890,8 +34018,8 @@ export const listArchetypes: API.OperationMethod<
   ListArchetypesError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6880, __c215, 0) as any as S.Schema<ListArchetypesRequest>,
-  output: __S(6882, __c215, 2) as any as S.Schema<ListArchetypesResponse>,
+  input: __S(6944, __c217, 0) as any as S.Schema<ListArchetypesRequest>,
+  output: __S(6946, __c217, 2) as any as S.Schema<ListArchetypesResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33907,8 +34035,8 @@ export const listAttributes: API.OperationMethod<
   ListAttributesError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6912, __c216, 0) as any as S.Schema<ListAttributesRequest>,
-  output: __S(6914, __c216, 2) as any as S.Schema<ListAttributesResponse>,
+  input: __S(6976, __c218, 0) as any as S.Schema<ListAttributesRequest>,
+  output: __S(6978, __c218, 2) as any as S.Schema<ListAttributesResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33924,8 +34052,8 @@ export const listAutoRuns: API.OperationMethod<
   ListAutoRunsError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6944, __c217, 0) as any as S.Schema<ListAutoRunsRequest>,
-  output: __S(6946, __c217, 2) as any as S.Schema<ListAutoRunsResponse>,
+  input: __S(7008, __c219, 0) as any as S.Schema<ListAutoRunsRequest>,
+  output: __S(7010, __c219, 2) as any as S.Schema<ListAutoRunsResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -33943,8 +34071,8 @@ export const listCodeRefs: API.PaginatedOperationMethod<
   CodeRef
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(6976, __c218, 0) as any as S.Schema<ListCodeRefsRequest>,
-    output: __S(6977, __c218, 1) as any as S.Schema<ListCodeRefsResponse>,
+    input: __S(7040, __c220, 0) as any as S.Schema<ListCodeRefsRequest>,
+    output: __S(7041, __c220, 1) as any as S.Schema<ListCodeRefsResponse>,
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
@@ -33971,8 +34099,8 @@ export const listConfigRevisions: API.PaginatedOperationMethod<
   ConfigRevision
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(7008, __c219, 0) as any as S.Schema<ListConfigRevisionsRequest>,
-    output: __S(2401, __c75, 1) as any as S.Schema<ListConfigRevisionsResponse>,
+    input: __S(7072, __c221, 0) as any as S.Schema<ListConfigRevisionsRequest>,
+    output: __S(2497, __c78, 1) as any as S.Schema<ListConfigRevisionsResponse>,
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
@@ -33999,8 +34127,8 @@ export const listConfigs: API.PaginatedOperationMethod<
   Config
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(7040, __c220, 0) as any as S.Schema<ListConfigsRequest>,
-    output: __S(7042, __c220, 2) as any as S.Schema<ListConfigsResponse>,
+    input: __S(7104, __c222, 0) as any as S.Schema<ListConfigsRequest>,
+    output: __S(7106, __c222, 2) as any as S.Schema<ListConfigsResponse>,
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
@@ -34027,8 +34155,8 @@ export const listConstantRevisions: API.PaginatedOperationMethod<
   ConstantRevision
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(7072, __c221, 0) as any as S.Schema<ListConstantRevisionsRequest>,
-    output: __S(2689, __c84, 1) as any as S.Schema<ListConstantRevisionsResponse>,
+    input: __S(7136, __c223, 0) as any as S.Schema<ListConstantRevisionsRequest>,
+    output: __S(2785, __c87, 1) as any as S.Schema<ListConstantRevisionsResponse>,
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
@@ -34055,8 +34183,8 @@ export const listConstants: API.PaginatedOperationMethod<
   Constant
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(7104, __c222, 0) as any as S.Schema<ListConstantsRequest>,
-    output: __S(7106, __c222, 2) as any as S.Schema<ListConstantsResponse>,
+    input: __S(7168, __c224, 0) as any as S.Schema<ListConstantsRequest>,
+    output: __S(7170, __c224, 2) as any as S.Schema<ListConstantsResponse>,
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
@@ -34081,8 +34209,8 @@ export const listContextualBanditEvents: API.OperationMethod<
   ListContextualBanditEventsError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7168, __c224, 0) as any as S.Schema<ListContextualBanditEventsRequest>,
-  output: __S(7170, __c224, 2) as any as S.Schema<ListContextualBanditEventsResponse>,
+  input: __S(7232, __c226, 0) as any as S.Schema<ListContextualBanditEventsRequest>,
+  output: __S(7234, __c226, 2) as any as S.Schema<ListContextualBanditEventsResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -34098,8 +34226,8 @@ export const listContextualBanditQueries: API.OperationMethod<
   ListContextualBanditQueriesError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7200, __c225, 0) as any as S.Schema<ListContextualBanditQueriesRequest>,
-  output: __S(7202, __c225, 2) as any as S.Schema<ListContextualBanditQueriesResponse>,
+  input: __S(7264, __c227, 0) as any as S.Schema<ListContextualBanditQueriesRequest>,
+  output: __S(7266, __c227, 2) as any as S.Schema<ListContextualBanditQueriesResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -34115,8 +34243,8 @@ export const listContextualBandits: API.OperationMethod<
   ListContextualBanditsError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7232, __c226, 0) as any as S.Schema<ListContextualBanditsRequest>,
-  output: __S(7234, __c226, 2) as any as S.Schema<ListContextualBanditsResponse>,
+  input: __S(7296, __c228, 0) as any as S.Schema<ListContextualBanditsRequest>,
+  output: __S(7298, __c228, 2) as any as S.Schema<ListContextualBanditsResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -34132,8 +34260,8 @@ export const listContextualBanditSnapshots: API.OperationMethod<
   ListContextualBanditSnapshotsError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7264, __c227, 0) as any as S.Schema<ListContextualBanditSnapshotsRequest>,
-  output: __S(7266, __c227, 2) as any as S.Schema<ListContextualBanditSnapshotsResponse>,
+  input: __S(7328, __c229, 0) as any as S.Schema<ListContextualBanditSnapshotsRequest>,
+  output: __S(7330, __c229, 2) as any as S.Schema<ListContextualBanditSnapshotsResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -34149,8 +34277,8 @@ export const listContextualBanditVisualChangesets: API.OperationMethod<
   ListContextualBanditVisualChangesetsError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7296, __c228, 0) as any as S.Schema<ListContextualBanditVisualChangesetsRequest>,
-  output: __S(7329, __c229, 1) as any as S.Schema<ListContextualBanditVisualChangesetsResponse>,
+  input: __S(7360, __c230, 0) as any as S.Schema<ListContextualBanditVisualChangesetsRequest>,
+  output: __S(7393, __c231, 1) as any as S.Schema<ListContextualBanditVisualChangesetsResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -34166,8 +34294,8 @@ export const listCustomFields: API.OperationMethod<
   ListCustomFieldsError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7360, __c230, 0) as any as S.Schema<ListCustomFieldsRequest>,
-  output: __S(7362, __c230, 2) as any as S.Schema<ListCustomFieldsResponse>,
+  input: __S(7424, __c232, 0) as any as S.Schema<ListCustomFieldsRequest>,
+  output: __S(7426, __c232, 2) as any as S.Schema<ListCustomFieldsResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -34185,8 +34313,8 @@ export const listCustomHookHistory: API.PaginatedOperationMethod<
   Versions
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(7392, __c231, 0) as any as S.Schema<ListCustomHookHistoryRequest>,
-    output: __S(7395, __c231, 3) as any as S.Schema<ListCustomHookHistoryResponse>,
+    input: __S(7456, __c233, 0) as any as S.Schema<ListCustomHookHistoryRequest>,
+    output: __S(7459, __c233, 3) as any as S.Schema<ListCustomHookHistoryResponse>,
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
@@ -34213,8 +34341,8 @@ export const listCustomHooks: API.PaginatedOperationMethod<
   CustomHook
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(7424, __c232, 0) as any as S.Schema<ListCustomHooksRequest>,
-    output: __S(7426, __c232, 2) as any as S.Schema<ListCustomHooksResponse>,
+    input: __S(7488, __c234, 0) as any as S.Schema<ListCustomHooksRequest>,
+    output: __S(7490, __c234, 2) as any as S.Schema<ListCustomHooksResponse>,
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
@@ -34239,8 +34367,8 @@ export const listDashboards: API.OperationMethod<
   ListDashboardsError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7456, __c233, 0) as any as S.Schema<ListDashboardsRequest>,
-  output: __S(3713, __c116, 1) as any as S.Schema<ListDashboardsResponse>,
+  input: __S(7520, __c235, 0) as any as S.Schema<ListDashboardsRequest>,
+  output: __S(3809, __c119, 1) as any as S.Schema<ListDashboardsResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -34258,8 +34386,8 @@ export const listDataSources: API.PaginatedOperationMethod<
   DataSource
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(7488, __c234, 0) as any as S.Schema<ListDataSourcesRequest>,
-    output: __S(7490, __c234, 2) as any as S.Schema<ListDataSourcesResponse>,
+    input: __S(7552, __c236, 0) as any as S.Schema<ListDataSourcesRequest>,
+    output: __S(7554, __c236, 2) as any as S.Schema<ListDataSourcesResponse>,
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
@@ -34286,8 +34414,8 @@ export const listDimensions: API.PaginatedOperationMethod<
   Dimension
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(7552, __c236, 0) as any as S.Schema<ListDimensionsRequest>,
-    output: __S(7554, __c236, 2) as any as S.Schema<ListDimensionsResponse>,
+    input: __S(7616, __c238, 0) as any as S.Schema<ListDimensionsRequest>,
+    output: __S(7618, __c238, 2) as any as S.Schema<ListDimensionsResponse>,
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
@@ -34312,8 +34440,8 @@ export const listEnvironments: API.OperationMethod<
   ListEnvironmentsError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7584, __c237, 0) as any as S.Schema<ListEnvironmentsRequest>,
-  output: __S(7586, __c237, 2) as any as S.Schema<ListEnvironmentsResponse>,
+  input: __S(7648, __c239, 0) as any as S.Schema<ListEnvironmentsRequest>,
+  output: __S(7650, __c239, 2) as any as S.Schema<ListEnvironmentsResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -34331,8 +34459,8 @@ export const listExperimentResults: API.PaginatedOperationMethod<
   ExperimentResults
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(7616, __c238, 0) as any as S.Schema<ListExperimentResultsRequest>,
-    output: __S(7618, __c238, 2) as any as S.Schema<ListExperimentResultsResponse>,
+    input: __S(7680, __c240, 0) as any as S.Schema<ListExperimentResultsRequest>,
+    output: __S(7682, __c240, 2) as any as S.Schema<ListExperimentResultsResponse>,
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
@@ -34359,8 +34487,8 @@ export const listExperiments: API.PaginatedOperationMethod<
   Experiment
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(7648, __c239, 0) as any as S.Schema<ListExperimentsRequest>,
-    output: __S(7650, __c239, 2) as any as S.Schema<ListExperimentsResponse>,
+    input: __S(7712, __c241, 0) as any as S.Schema<ListExperimentsRequest>,
+    output: __S(7714, __c241, 2) as any as S.Schema<ListExperimentsResponse>,
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
@@ -34385,8 +34513,8 @@ export const listExperimentTemplates: API.OperationMethod<
   ListExperimentTemplatesError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7680, __c240, 0) as any as S.Schema<ListExperimentTemplatesRequest>,
-  output: __S(7682, __c240, 2) as any as S.Schema<ListExperimentTemplatesResponse>,
+  input: __S(7744, __c242, 0) as any as S.Schema<ListExperimentTemplatesRequest>,
+  output: __S(7746, __c242, 2) as any as S.Schema<ListExperimentTemplatesResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -34404,8 +34532,8 @@ export const listFactMetrics: API.PaginatedOperationMethod<
   FactMetric
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(7712, __c241, 0) as any as S.Schema<ListFactMetricsRequest>,
-    output: __S(7714, __c241, 2) as any as S.Schema<ListFactMetricsResponse>,
+    input: __S(7776, __c243, 0) as any as S.Schema<ListFactMetricsRequest>,
+    output: __S(7778, __c243, 2) as any as S.Schema<ListFactMetricsResponse>,
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
@@ -34432,8 +34560,8 @@ export const listFactTableFilters: API.PaginatedOperationMethod<
   FactTableFilter
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(7744, __c242, 0) as any as S.Schema<ListFactTableFiltersRequest>,
-    output: __S(7746, __c242, 2) as any as S.Schema<ListFactTableFiltersResponse>,
+    input: __S(7808, __c244, 0) as any as S.Schema<ListFactTableFiltersRequest>,
+    output: __S(7810, __c244, 2) as any as S.Schema<ListFactTableFiltersResponse>,
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
@@ -34460,8 +34588,8 @@ export const listFactTables: API.PaginatedOperationMethod<
   FactTable
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(7776, __c243, 0) as any as S.Schema<ListFactTablesRequest>,
-    output: __S(7778, __c243, 2) as any as S.Schema<ListFactTablesResponse>,
+    input: __S(7840, __c245, 0) as any as S.Schema<ListFactTablesRequest>,
+    output: __S(7842, __c245, 2) as any as S.Schema<ListFactTablesResponse>,
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
@@ -34488,8 +34616,8 @@ export const listFeaturesV2: API.PaginatedOperationMethod<
   FeatureV2
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(7808, __c244, 0) as any as S.Schema<ListFeaturesV2Request>,
-    output: __S(7810, __c244, 2) as any as S.Schema<ListFeaturesV2Response>,
+    input: __S(7872, __c246, 0) as any as S.Schema<ListFeaturesV2Request>,
+    output: __S(7874, __c246, 2) as any as S.Schema<ListFeaturesV2Response>,
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
@@ -34514,8 +34642,8 @@ export const listHoldouts: API.OperationMethod<
   ListHoldoutsError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7872, __c246, 0) as any as S.Schema<ListHoldoutsRequest>,
-  output: __S(7874, __c246, 2) as any as S.Schema<ListHoldoutsResponse>,
+  input: __S(7936, __c248, 0) as any as S.Schema<ListHoldoutsRequest>,
+  output: __S(7938, __c248, 2) as any as S.Schema<ListHoldoutsResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -34531,8 +34659,8 @@ export const listInterleavingExposureQueries: API.OperationMethod<
   ListInterleavingExposureQueriesError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7936, __c248, 0) as any as S.Schema<ListInterleavingExposureQueriesRequest>,
-  output: __S(7938, __c248, 2) as any as S.Schema<ListInterleavingExposureQueriesResponse>,
+  input: __S(8000, __c250, 0) as any as S.Schema<ListInterleavingExposureQueriesRequest>,
+  output: __S(8002, __c250, 2) as any as S.Schema<ListInterleavingExposureQueriesResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -34548,8 +34676,8 @@ export const listInterleavings: API.OperationMethod<
   ListInterleavingsError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7968, __c249, 0) as any as S.Schema<ListInterleavingsRequest>,
-  output: __S(7970, __c249, 2) as any as S.Schema<ListInterleavingsResponse>,
+  input: __S(8032, __c251, 0) as any as S.Schema<ListInterleavingsRequest>,
+  output: __S(8034, __c251, 2) as any as S.Schema<ListInterleavingsResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -34565,8 +34693,8 @@ export const listInterleavingSnapshots: API.OperationMethod<
   ListInterleavingSnapshotsError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8000, __c250, 0) as any as S.Schema<ListInterleavingSnapshotsRequest>,
-  output: __S(8002, __c250, 2) as any as S.Schema<ListInterleavingSnapshotsResponse>,
+  input: __S(8064, __c252, 0) as any as S.Schema<ListInterleavingSnapshotsRequest>,
+  output: __S(8066, __c252, 2) as any as S.Schema<ListInterleavingSnapshotsResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -34582,8 +34710,8 @@ export const listLearnings: API.OperationMethod<
   ListLearningsError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8032, __c251, 0) as any as S.Schema<ListLearningsRequest>,
-  output: __S(8034, __c251, 2) as any as S.Schema<ListLearningsResponse>,
+  input: __S(8096, __c253, 0) as any as S.Schema<ListLearningsRequest>,
+  output: __S(8098, __c253, 2) as any as S.Schema<ListLearningsResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -34601,8 +34729,8 @@ export const listMembers: API.PaginatedOperationMethod<
   Member
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(8064, __c252, 0) as any as S.Schema<ListMembersRequest>,
-    output: __S(8067, __c252, 3) as any as S.Schema<ListMembersResponse>,
+    input: __S(8128, __c254, 0) as any as S.Schema<ListMembersRequest>,
+    output: __S(8131, __c254, 3) as any as S.Schema<ListMembersResponse>,
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
@@ -34629,8 +34757,8 @@ export const listMetricExperiments: API.PaginatedOperationMethod<
   ExperimentResults2
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(8128, __c254, 0) as any as S.Schema<ListMetricExperimentsRequest>,
-    output: __S(8133, __c254, 5) as any as S.Schema<ListMetricExperimentsResponse>,
+    input: __S(8192, __c256, 0) as any as S.Schema<ListMetricExperimentsRequest>,
+    output: __S(8197, __c256, 5) as any as S.Schema<ListMetricExperimentsResponse>,
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
@@ -34655,8 +34783,8 @@ export const listMetricGroups: API.OperationMethod<
   ListMetricGroupsError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8160, __c255, 0) as any as S.Schema<ListMetricGroupsRequest>,
-  output: __S(8162, __c255, 2) as any as S.Schema<ListMetricGroupsResponse>,
+  input: __S(8224, __c257, 0) as any as S.Schema<ListMetricGroupsRequest>,
+  output: __S(8226, __c257, 2) as any as S.Schema<ListMetricGroupsResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -34674,8 +34802,8 @@ export const listMetrics: API.PaginatedOperationMethod<
   Metric
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(8192, __c256, 0) as any as S.Schema<ListMetricsRequest>,
-    output: __S(8194, __c256, 2) as any as S.Schema<ListMetricsResponse>,
+    input: __S(8256, __c258, 0) as any as S.Schema<ListMetricsRequest>,
+    output: __S(8258, __c258, 2) as any as S.Schema<ListMetricsResponse>,
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
@@ -34702,8 +34830,8 @@ export const listNamespaces: API.PaginatedOperationMethod<
   Namespace
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(8224, __c257, 0) as any as S.Schema<ListNamespacesRequest>,
-    output: __S(8226, __c257, 2) as any as S.Schema<ListNamespacesResponse>,
+    input: __S(8288, __c259, 0) as any as S.Schema<ListNamespacesRequest>,
+    output: __S(8290, __c259, 2) as any as S.Schema<ListNamespacesResponse>,
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
@@ -34730,8 +34858,8 @@ export const listOrganizations: API.PaginatedOperationMethod<
   Organization
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(8256, __c258, 0) as any as S.Schema<ListOrganizationsRequest>,
-    output: __S(8258, __c258, 2) as any as S.Schema<ListOrganizationsResponse>,
+    input: __S(8320, __c260, 0) as any as S.Schema<ListOrganizationsRequest>,
+    output: __S(8322, __c260, 2) as any as S.Schema<ListOrganizationsResponse>,
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
@@ -34758,8 +34886,8 @@ export const listPopulations: API.PaginatedOperationMethod<
   Population
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(8320, __c260, 0) as any as S.Schema<ListPopulationsRequest>,
-    output: __S(8322, __c260, 2) as any as S.Schema<ListPopulationsResponse>,
+    input: __S(8384, __c262, 0) as any as S.Schema<ListPopulationsRequest>,
+    output: __S(8386, __c262, 2) as any as S.Schema<ListPopulationsResponse>,
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
@@ -34786,8 +34914,8 @@ export const listProjects: API.PaginatedOperationMethod<
   Project
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(8352, __c261, 0) as any as S.Schema<ListProjectsRequest>,
-    output: __S(8354, __c261, 2) as any as S.Schema<ListProjectsResponse>,
+    input: __S(8416, __c263, 0) as any as S.Schema<ListProjectsRequest>,
+    output: __S(8418, __c263, 2) as any as S.Schema<ListProjectsResponse>,
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
@@ -34814,8 +34942,8 @@ export const listRampSchedules: API.PaginatedOperationMethod<
   RampSchedule
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(8384, __c262, 0) as any as S.Schema<ListRampSchedulesRequest>,
-    output: __S(8386, __c262, 2) as any as S.Schema<ListRampSchedulesResponse>,
+    input: __S(8448, __c264, 0) as any as S.Schema<ListRampSchedulesRequest>,
+    output: __S(8450, __c264, 2) as any as S.Schema<ListRampSchedulesResponse>,
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
@@ -34840,8 +34968,8 @@ export const listRampScheduleTemplates: API.OperationMethod<
   ListRampScheduleTemplatesError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8416, __c263, 0) as any as S.Schema<ListRampScheduleTemplatesRequest>,
-  output: __S(8418, __c263, 2) as any as S.Schema<ListRampScheduleTemplatesResponse>,
+  input: __S(8480, __c265, 0) as any as S.Schema<ListRampScheduleTemplatesRequest>,
+  output: __S(8482, __c265, 2) as any as S.Schema<ListRampScheduleTemplatesResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -34859,8 +34987,8 @@ export const listReports: API.PaginatedOperationMethod<
   Report
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(8448, __c264, 0) as any as S.Schema<ListReportsRequest>,
-    output: __S(8450, __c264, 2) as any as S.Schema<ListReportsResponse>,
+    input: __S(8512, __c266, 0) as any as S.Schema<ListReportsRequest>,
+    output: __S(8514, __c266, 2) as any as S.Schema<ListReportsResponse>,
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
@@ -34887,8 +35015,8 @@ export const listRevisionsV2: API.PaginatedOperationMethod<
   FeatureRevisionV2
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(8480, __c265, 0) as any as S.Schema<ListRevisionsV2Request>,
-    output: __S(4544, __c142, 0) as any as S.Schema<ListRevisionsV2Response>,
+    input: __S(8544, __c267, 0) as any as S.Schema<ListRevisionsV2Request>,
+    output: __S(4640, __c145, 0) as any as S.Schema<ListRevisionsV2Response>,
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
@@ -34915,8 +35043,8 @@ export const listSavedGroupRevisions: API.PaginatedOperationMethod<
   SavedGroupRevision
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(8512, __c266, 0) as any as S.Schema<ListSavedGroupRevisionsRequest>,
-    output: __S(6433, __c201, 1) as any as S.Schema<ListSavedGroupRevisionsResponse>,
+    input: __S(8576, __c268, 0) as any as S.Schema<ListSavedGroupRevisionsRequest>,
+    output: __S(6497, __c203, 1) as any as S.Schema<ListSavedGroupRevisionsResponse>,
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
@@ -34943,8 +35071,8 @@ export const listSavedGroups: API.PaginatedOperationMethod<
   SavedGroup
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(8544, __c267, 0) as any as S.Schema<ListSavedGroupsRequest>,
-    output: __S(8546, __c267, 2) as any as S.Schema<ListSavedGroupsResponse>,
+    input: __S(8608, __c269, 0) as any as S.Schema<ListSavedGroupsRequest>,
+    output: __S(8610, __c269, 2) as any as S.Schema<ListSavedGroupsResponse>,
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
@@ -34971,8 +35099,8 @@ export const listSavedGroupUploads: API.PaginatedOperationMethod<
   SavedGroupUpload
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(8576, __c268, 0) as any as S.Schema<ListSavedGroupUploadsRequest>,
-    output: __S(8578, __c268, 2) as any as S.Schema<ListSavedGroupUploadsResponse>,
+    input: __S(8640, __c270, 0) as any as S.Schema<ListSavedGroupUploadsRequest>,
+    output: __S(8642, __c270, 2) as any as S.Schema<ListSavedGroupUploadsResponse>,
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
@@ -34999,8 +35127,8 @@ export const listSdkConnections: API.PaginatedOperationMethod<
   SdkConnection
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(8608, __c269, 0) as any as S.Schema<ListSdkConnectionsRequest>,
-    output: __S(8610, __c269, 2) as any as S.Schema<ListSdkConnectionsResponse>,
+    input: __S(8672, __c271, 0) as any as S.Schema<ListSdkConnectionsRequest>,
+    output: __S(8674, __c271, 2) as any as S.Schema<ListSdkConnectionsResponse>,
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
@@ -35027,8 +35155,8 @@ export const listSegments: API.PaginatedOperationMethod<
   Segment
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(8672, __c271, 0) as any as S.Schema<ListSegmentsRequest>,
-    output: __S(8674, __c271, 2) as any as S.Schema<ListSegmentsResponse>,
+    input: __S(8736, __c273, 0) as any as S.Schema<ListSegmentsRequest>,
+    output: __S(8738, __c273, 2) as any as S.Schema<ListSegmentsResponse>,
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
@@ -35053,8 +35181,8 @@ export const listTeams: API.OperationMethod<
   ListTeamsError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8704, __c272, 0) as any as S.Schema<ListTeamsRequest>,
-  output: __S(8706, __c272, 2) as any as S.Schema<ListTeamsResponse>,
+  input: __S(8768, __c274, 0) as any as S.Schema<ListTeamsRequest>,
+  output: __S(8770, __c274, 2) as any as S.Schema<ListTeamsResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35070,8 +35198,8 @@ export const listVisualChangesets: API.OperationMethod<
   ListVisualChangesetsError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8736, __c273, 0) as any as S.Schema<ListVisualChangesetsRequest>,
-  output: __S(7329, __c229, 1) as any as S.Schema<ListVisualChangesetsResponse>,
+  input: __S(8800, __c275, 0) as any as S.Schema<ListVisualChangesetsRequest>,
+  output: __S(7393, __c231, 1) as any as S.Schema<ListVisualChangesetsResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35087,8 +35215,8 @@ export const lockConfig: API.OperationMethod<
   LockConfigError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8768, __c274, 0) as any as S.Schema<LockConfigRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<LockConfigResponse>,
+  input: __S(8832, __c276, 0) as any as S.Schema<LockConfigRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<LockConfigResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35104,8 +35232,8 @@ export const lookupSdkConnectionByKey: API.OperationMethod<
   LookupSdkConnectionByKeyError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8800, __c275, 0) as any as S.Schema<LookupSdkConnectionByKeyRequest>,
-  output: __S(19136, __c598, 0) as any as S.Schema<LookupSdkConnectionByKeyResponse>,
+  input: __S(8864, __c277, 0) as any as S.Schema<LookupSdkConnectionByKeyRequest>,
+  output: __S(19200, __c600, 0) as any as S.Schema<LookupSdkConnectionByKeyResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35121,8 +35249,8 @@ export const pauseMatchingRampSchedules: API.OperationMethod<
   PauseMatchingRampSchedulesError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8832, __c276, 0) as any as S.Schema<PauseMatchingRampSchedulesRequest>,
-  output: __S(8866, __c277, 2) as any as S.Schema<PauseMatchingRampSchedulesResponse>,
+  input: __S(8896, __c278, 0) as any as S.Schema<PauseMatchingRampSchedulesRequest>,
+  output: __S(8930, __c279, 2) as any as S.Schema<PauseMatchingRampSchedulesResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35138,8 +35266,8 @@ export const pauseRampSchedule: API.OperationMethod<
   PauseRampScheduleError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8896, __c278, 0) as any as S.Schema<PauseRampScheduleRequest>,
-  output: __S(9664, __c302, 0) as any as S.Schema<PauseRampScheduleResponse>,
+  input: __S(8960, __c280, 0) as any as S.Schema<PauseRampScheduleRequest>,
+  output: __S(9728, __c304, 0) as any as S.Schema<PauseRampScheduleResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35154,8 +35282,8 @@ export const postCopyTransform: API.OperationMethod<
   PostCopyTransformError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8928, __c279, 0) as any as S.Schema<PostCopyTransformRequest>,
-  output: __S(1600, __c50, 0) as any as S.Schema<PostCopyTransformResponse>,
+  input: __S(8992, __c281, 0) as any as S.Schema<PostCopyTransformRequest>,
+  output: __S(1696, __c53, 0) as any as S.Schema<PostCopyTransformResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35171,8 +35299,8 @@ export const postDataSourceExploration: API.OperationMethod<
   PostDataSourceExplorationError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8962, __c280, 2) as any as S.Schema<PostDataSourceExplorationRequest>,
-  output: __S(8969, __c280, 9) as any as S.Schema<PostDataSourceExplorationResponse>,
+  input: __S(9026, __c282, 2) as any as S.Schema<PostDataSourceExplorationRequest>,
+  output: __S(9033, __c282, 9) as any as S.Schema<PostDataSourceExplorationResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35188,8 +35316,8 @@ export const postFactMetric: API.OperationMethod<
   PostFactMetricError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9056, __c283, 0) as any as S.Schema<PostFactMetricRequest>,
-  output: __S(4128, __c129, 0) as any as S.Schema<PostFactMetricResponse>,
+  input: __S(9120, __c285, 0) as any as S.Schema<PostFactMetricRequest>,
+  output: __S(4224, __c132, 0) as any as S.Schema<PostFactMetricResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35205,8 +35333,8 @@ export const postFactMetricAnalysis: API.OperationMethod<
   PostFactMetricAnalysisError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9120, __c285, 0) as any as S.Schema<PostFactMetricAnalysisRequest>,
-  output: __S(9122, __c285, 2) as any as S.Schema<PostFactMetricAnalysisResponse>,
+  input: __S(9184, __c287, 0) as any as S.Schema<PostFactMetricAnalysisRequest>,
+  output: __S(9186, __c287, 2) as any as S.Schema<PostFactMetricAnalysisResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35222,8 +35350,8 @@ export const postFactTableExploration: API.OperationMethod<
   PostFactTableExplorationError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9154, __c286, 2) as any as S.Schema<PostFactTableExplorationRequest>,
-  output: __S(9161, __c286, 9) as any as S.Schema<PostFactTableExplorationResponse>,
+  input: __S(9218, __c288, 2) as any as S.Schema<PostFactTableExplorationRequest>,
+  output: __S(9225, __c288, 9) as any as S.Schema<PostFactTableExplorationResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35239,8 +35367,8 @@ export const postFeatureRevisionDiscardV2: API.OperationMethod<
   PostFeatureRevisionDiscardV2Error,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9184, __c287, 0) as any as S.Schema<PostFeatureRevisionDiscardV2Request>,
-  output: __S(896, __c28, 0) as any as S.Schema<PostFeatureRevisionDiscardV2Response>,
+  input: __S(9248, __c289, 0) as any as S.Schema<PostFeatureRevisionDiscardV2Request>,
+  output: __S(992, __c31, 0) as any as S.Schema<PostFeatureRevisionDiscardV2Response>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35256,8 +35384,8 @@ export const postFeatureRevisionPublishV2: API.OperationMethod<
   PostFeatureRevisionPublishV2Error,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9216, __c288, 0) as any as S.Schema<PostFeatureRevisionPublishV2Request>,
-  output: __S(9248, __c289, 0) as any as S.Schema<PostFeatureRevisionPublishV2Response>,
+  input: __S(9280, __c290, 0) as any as S.Schema<PostFeatureRevisionPublishV2Request>,
+  output: __S(9312, __c291, 0) as any as S.Schema<PostFeatureRevisionPublishV2Response>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35273,8 +35401,8 @@ export const postFeatureRevisionRebasePreviewV2: API.OperationMethod<
   PostFeatureRevisionRebasePreviewV2Error,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9280, __c290, 0) as any as S.Schema<PostFeatureRevisionRebasePreviewV2Request>,
-  output: __S(9281, __c290, 1) as any as S.Schema<PostFeatureRevisionRebasePreviewV2Response>,
+  input: __S(9344, __c292, 0) as any as S.Schema<PostFeatureRevisionRebasePreviewV2Request>,
+  output: __S(9345, __c292, 1) as any as S.Schema<PostFeatureRevisionRebasePreviewV2Response>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35290,8 +35418,8 @@ export const postFeatureRevisionRebaseV2: API.OperationMethod<
   PostFeatureRevisionRebaseV2Error,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9312, __c291, 0) as any as S.Schema<PostFeatureRevisionRebaseV2Request>,
-  output: __S(896, __c28, 0) as any as S.Schema<PostFeatureRevisionRebaseV2Response>,
+  input: __S(9376, __c293, 0) as any as S.Schema<PostFeatureRevisionRebaseV2Request>,
+  output: __S(992, __c31, 0) as any as S.Schema<PostFeatureRevisionRebaseV2Response>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35307,8 +35435,8 @@ export const postFeatureRevisionRecallReviewV2: API.OperationMethod<
   PostFeatureRevisionRecallReviewV2Error,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9344, __c292, 0) as any as S.Schema<PostFeatureRevisionRecallReviewV2Request>,
-  output: __S(896, __c28, 0) as any as S.Schema<PostFeatureRevisionRecallReviewV2Response>,
+  input: __S(9408, __c294, 0) as any as S.Schema<PostFeatureRevisionRecallReviewV2Request>,
+  output: __S(992, __c31, 0) as any as S.Schema<PostFeatureRevisionRecallReviewV2Response>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35324,8 +35452,8 @@ export const postFeatureRevisionReopenV2: API.OperationMethod<
   PostFeatureRevisionReopenV2Error,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9376, __c293, 0) as any as S.Schema<PostFeatureRevisionReopenV2Request>,
-  output: __S(896, __c28, 0) as any as S.Schema<PostFeatureRevisionReopenV2Response>,
+  input: __S(9440, __c295, 0) as any as S.Schema<PostFeatureRevisionReopenV2Request>,
+  output: __S(992, __c31, 0) as any as S.Schema<PostFeatureRevisionReopenV2Response>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35341,8 +35469,8 @@ export const postFeatureRevisionRequestReviewV2: API.OperationMethod<
   PostFeatureRevisionRequestReviewV2Error,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9408, __c294, 0) as any as S.Schema<PostFeatureRevisionRequestReviewV2Request>,
-  output: __S(896, __c28, 0) as any as S.Schema<PostFeatureRevisionRequestReviewV2Response>,
+  input: __S(9472, __c296, 0) as any as S.Schema<PostFeatureRevisionRequestReviewV2Request>,
+  output: __S(992, __c31, 0) as any as S.Schema<PostFeatureRevisionRequestReviewV2Response>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35358,8 +35486,8 @@ export const postFeatureRevisionRevertV2: API.OperationMethod<
   PostFeatureRevisionRevertV2Error,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9440, __c295, 0) as any as S.Schema<PostFeatureRevisionRevertV2Request>,
-  output: __S(9248, __c289, 0) as any as S.Schema<PostFeatureRevisionRevertV2Response>,
+  input: __S(9504, __c297, 0) as any as S.Schema<PostFeatureRevisionRevertV2Request>,
+  output: __S(9312, __c291, 0) as any as S.Schema<PostFeatureRevisionRevertV2Response>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35375,8 +35503,8 @@ export const postFeatureRevisionRuleAddV2: API.OperationMethod<
   PostFeatureRevisionRuleAddV2Error,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9824, __c307, 0) as any as S.Schema<PostFeatureRevisionRuleAddV2Request>,
-  output: __S(896, __c28, 0) as any as S.Schema<PostFeatureRevisionRuleAddV2Response>,
+  input: __S(9888, __c309, 0) as any as S.Schema<PostFeatureRevisionRuleAddV2Request>,
+  output: __S(992, __c31, 0) as any as S.Schema<PostFeatureRevisionRuleAddV2Response>,
   errors: [UnprocessableEntity, UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35392,8 +35520,8 @@ export const postFeatureRevisionRulesReorderV2: API.OperationMethod<
   PostFeatureRevisionRulesReorderV2Error,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9888, __c309, 0) as any as S.Schema<PostFeatureRevisionRulesReorderV2Request>,
-  output: __S(896, __c28, 0) as any as S.Schema<PostFeatureRevisionRulesReorderV2Response>,
+  input: __S(9952, __c311, 0) as any as S.Schema<PostFeatureRevisionRulesReorderV2Request>,
+  output: __S(992, __c31, 0) as any as S.Schema<PostFeatureRevisionRulesReorderV2Response>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35409,8 +35537,8 @@ export const postFeatureRevisionSchedulePublishV2: API.OperationMethod<
   PostFeatureRevisionSchedulePublishV2Error,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9920, __c310, 0) as any as S.Schema<PostFeatureRevisionSchedulePublishV2Request>,
-  output: __S(896, __c28, 0) as any as S.Schema<PostFeatureRevisionSchedulePublishV2Response>,
+  input: __S(9984, __c312, 0) as any as S.Schema<PostFeatureRevisionSchedulePublishV2Request>,
+  output: __S(992, __c31, 0) as any as S.Schema<PostFeatureRevisionSchedulePublishV2Response>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35426,8 +35554,8 @@ export const postFeatureRevisionSubmitReviewV2: API.OperationMethod<
   PostFeatureRevisionSubmitReviewV2Error,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9952, __c311, 0) as any as S.Schema<PostFeatureRevisionSubmitReviewV2Request>,
-  output: __S(9953, __c311, 1) as any as S.Schema<PostFeatureRevisionSubmitReviewV2Response>,
+  input: __S(10016, __c313, 0) as any as S.Schema<PostFeatureRevisionSubmitReviewV2Request>,
+  output: __S(10017, __c313, 1) as any as S.Schema<PostFeatureRevisionSubmitReviewV2Response>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35443,8 +35571,8 @@ export const postFeatureRevisionToggleV2: API.OperationMethod<
   PostFeatureRevisionToggleV2Error,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9984, __c312, 0) as any as S.Schema<PostFeatureRevisionToggleV2Request>,
-  output: __S(896, __c28, 0) as any as S.Schema<PostFeatureRevisionToggleV2Response>,
+  input: __S(10048, __c314, 0) as any as S.Schema<PostFeatureRevisionToggleV2Request>,
+  output: __S(992, __c31, 0) as any as S.Schema<PostFeatureRevisionToggleV2Response>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35460,8 +35588,8 @@ export const postFeatureRevisionUndoReviewV2: API.OperationMethod<
   PostFeatureRevisionUndoReviewV2Error,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10016, __c313, 0) as any as S.Schema<PostFeatureRevisionUndoReviewV2Request>,
-  output: __S(896, __c28, 0) as any as S.Schema<PostFeatureRevisionUndoReviewV2Response>,
+  input: __S(10080, __c315, 0) as any as S.Schema<PostFeatureRevisionUndoReviewV2Request>,
+  output: __S(992, __c31, 0) as any as S.Schema<PostFeatureRevisionUndoReviewV2Response>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35477,8 +35605,8 @@ export const postFeatureRevisionV2: API.OperationMethod<
   PostFeatureRevisionV2Error,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10048, __c314, 0) as any as S.Schema<PostFeatureRevisionV2Request>,
-  output: __S(896, __c28, 0) as any as S.Schema<PostFeatureRevisionV2Response>,
+  input: __S(10112, __c316, 0) as any as S.Schema<PostFeatureRevisionV2Request>,
+  output: __S(992, __c31, 0) as any as S.Schema<PostFeatureRevisionV2Response>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35494,8 +35622,8 @@ export const postFeatureV2: API.OperationMethod<
   PostFeatureV2Error,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10081, __c315, 1) as any as S.Schema<PostFeatureV2Request>,
-  output: __S(10082, __c315, 2) as any as S.Schema<PostFeatureV2Response>,
+  input: __S(10145, __c317, 1) as any as S.Schema<PostFeatureV2Request>,
+  output: __S(10146, __c317, 2) as any as S.Schema<PostFeatureV2Response>,
   errors: [UnprocessableEntity, UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35511,8 +35639,8 @@ export const postFunnelExploration: API.OperationMethod<
   PostFunnelExplorationError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10148, __c317, 4) as any as S.Schema<PostFunnelExplorationRequest>,
-  output: __S(10155, __c317, 11) as any as S.Schema<PostFunnelExplorationResponse>,
+  input: __S(10212, __c319, 4) as any as S.Schema<PostFunnelExplorationRequest>,
+  output: __S(10219, __c319, 11) as any as S.Schema<PostFunnelExplorationResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35528,8 +35656,8 @@ export const postJourneyExploration: API.OperationMethod<
   PostJourneyExplorationError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10182, __c318, 6) as any as S.Schema<PostJourneyExplorationRequest>,
-  output: __S(10189, __c318, 13) as any as S.Schema<PostJourneyExplorationResponse>,
+  input: __S(10246, __c320, 6) as any as S.Schema<PostJourneyExplorationRequest>,
+  output: __S(10253, __c320, 13) as any as S.Schema<PostJourneyExplorationResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35545,8 +35673,8 @@ export const postMetric: API.OperationMethod<
   PostMetricError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10307, __c322, 3) as any as S.Schema<PostMetricRequest>,
-  output: __S(5504, __c172, 0) as any as S.Schema<PostMetricResponse>,
+  input: __S(10371, __c324, 3) as any as S.Schema<PostMetricRequest>,
+  output: __S(5568, __c174, 0) as any as S.Schema<PostMetricResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35562,8 +35690,8 @@ export const postMetricExploration: API.OperationMethod<
   PostMetricExplorationError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10373, __c324, 5) as any as S.Schema<PostMetricExplorationRequest>,
-  output: __S(10380, __c324, 12) as any as S.Schema<PostMetricExplorationResponse>,
+  input: __S(10437, __c326, 5) as any as S.Schema<PostMetricExplorationRequest>,
+  output: __S(10444, __c326, 12) as any as S.Schema<PostMetricExplorationResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35579,8 +35707,8 @@ export const postSqlExploration: API.OperationMethod<
   PostSqlExplorationError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10402, __c325, 2) as any as S.Schema<PostSqlExplorationRequest>,
-  output: __S(10409, __c325, 9) as any as S.Schema<PostSqlExplorationResponse>,
+  input: __S(10466, __c327, 2) as any as S.Schema<PostSqlExplorationRequest>,
+  output: __S(10473, __c327, 9) as any as S.Schema<PostSqlExplorationResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35596,8 +35724,8 @@ export const postVariationImageUpload: API.OperationMethod<
   PostVariationImageUploadError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10432, __c326, 0) as any as S.Schema<PostVariationImageUploadRequest>,
-  output: __S(10434, __c326, 2) as any as S.Schema<PostVariationImageUploadResponse>,
+  input: __S(10496, __c328, 0) as any as S.Schema<PostVariationImageUploadRequest>,
+  output: __S(10498, __c328, 2) as any as S.Schema<PostVariationImageUploadResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35613,8 +35741,8 @@ export const postVisualChange: API.OperationMethod<
   PostVisualChangeError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10464, __c327, 0) as any as S.Schema<PostVisualChangeRequest>,
-  output: __S(10465, __c327, 1) as any as S.Schema<PostVisualChangeResponse>,
+  input: __S(10528, __c329, 0) as any as S.Schema<PostVisualChangeRequest>,
+  output: __S(10529, __c329, 1) as any as S.Schema<PostVisualChangeResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35630,8 +35758,8 @@ export const postVisualChangesets: API.OperationMethod<
   PostVisualChangesetsError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10528, __c329, 0) as any as S.Schema<PostVisualChangesetsRequest>,
-  output: __S(14688, __c459, 0) as any as S.Schema<PostVisualChangesetsResponse>,
+  input: __S(10592, __c331, 0) as any as S.Schema<PostVisualChangesetsRequest>,
+  output: __S(14752, __c461, 0) as any as S.Schema<PostVisualChangesetsResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35647,8 +35775,8 @@ export const previewWarehouseColumnValues: API.OperationMethod<
   PreviewWarehouseColumnValuesError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10560, __c330, 0) as any as S.Schema<PreviewWarehouseColumnValuesRequest>,
-  output: __S(10561, __c330, 1) as any as S.Schema<PreviewWarehouseColumnValuesResponse>,
+  input: __S(10624, __c332, 0) as any as S.Schema<PreviewWarehouseColumnValuesRequest>,
+  output: __S(10625, __c332, 1) as any as S.Schema<PreviewWarehouseColumnValuesResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35664,8 +35792,8 @@ export const putApprovalSettings: API.OperationMethod<
   PutApprovalSettingsError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10594, __c331, 2) as any as S.Schema<PutApprovalSettingsRequest>,
-  output: __S(10595, __c331, 3) as any as S.Schema<PutApprovalSettingsResponse>,
+  input: __S(10658, __c333, 2) as any as S.Schema<PutApprovalSettingsRequest>,
+  output: __S(10659, __c333, 3) as any as S.Schema<PutApprovalSettingsResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35681,8 +35809,8 @@ export const putArchetype: API.OperationMethod<
   PutArchetypeError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10624, __c332, 0) as any as S.Schema<PutArchetypeRequest>,
-  output: __S(1792, __c56, 0) as any as S.Schema<PutArchetypeResponse>,
+  input: __S(10688, __c334, 0) as any as S.Schema<PutArchetypeRequest>,
+  output: __S(1888, __c59, 0) as any as S.Schema<PutArchetypeResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35698,8 +35826,8 @@ export const putAttribute: API.OperationMethod<
   PutAttributeError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10656, __c333, 0) as any as S.Schema<PutAttributeRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<PutAttributeResponse>,
+  input: __S(10720, __c335, 0) as any as S.Schema<PutAttributeRequest>,
+  output: __S(2432, __c76, 0) as any as S.Schema<PutAttributeResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35715,8 +35843,8 @@ export const putConfigRevisionArchive: API.OperationMethod<
   PutConfigRevisionArchiveError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10752, __c336, 0) as any as S.Schema<PutConfigRevisionArchiveRequest>,
-  output: __S(5376, __c168, 0) as any as S.Schema<PutConfigRevisionArchiveResponse>,
+  input: __S(10816, __c338, 0) as any as S.Schema<PutConfigRevisionArchiveRequest>,
+  output: __S(5440, __c170, 0) as any as S.Schema<PutConfigRevisionArchiveResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35732,8 +35860,8 @@ export const putConfigRevisionMetadata: API.OperationMethod<
   PutConfigRevisionMetadataError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10784, __c337, 0) as any as S.Schema<PutConfigRevisionMetadataRequest>,
-  output: __S(10816, __c338, 0) as any as S.Schema<PutConfigRevisionMetadataResponse>,
+  input: __S(10848, __c339, 0) as any as S.Schema<PutConfigRevisionMetadataRequest>,
+  output: __S(10880, __c340, 0) as any as S.Schema<PutConfigRevisionMetadataResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35749,8 +35877,8 @@ export const putConfigRevisionProjection: API.OperationMethod<
   PutConfigRevisionProjectionError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10848, __c339, 0) as any as S.Schema<PutConfigRevisionProjectionRequest>,
-  output: __S(10816, __c338, 0) as any as S.Schema<PutConfigRevisionProjectionResponse>,
+  input: __S(10912, __c341, 0) as any as S.Schema<PutConfigRevisionProjectionRequest>,
+  output: __S(10880, __c340, 0) as any as S.Schema<PutConfigRevisionProjectionResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35766,8 +35894,8 @@ export const putConfigRevisionProperty: API.OperationMethod<
   PutConfigRevisionPropertyError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10880, __c340, 0) as any as S.Schema<PutConfigRevisionPropertyRequest>,
-  output: __S(10816, __c338, 0) as any as S.Schema<PutConfigRevisionPropertyResponse>,
+  input: __S(10944, __c342, 0) as any as S.Schema<PutConfigRevisionPropertyRequest>,
+  output: __S(10880, __c340, 0) as any as S.Schema<PutConfigRevisionPropertyResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35783,8 +35911,8 @@ export const putConfigRevisionSchema: API.OperationMethod<
   PutConfigRevisionSchemaError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10912, __c341, 0) as any as S.Schema<PutConfigRevisionSchemaRequest>,
-  output: __S(10816, __c338, 0) as any as S.Schema<PutConfigRevisionSchemaResponse>,
+  input: __S(10976, __c343, 0) as any as S.Schema<PutConfigRevisionSchemaRequest>,
+  output: __S(10880, __c340, 0) as any as S.Schema<PutConfigRevisionSchemaResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35800,8 +35928,8 @@ export const putConfigRevisionValue: API.OperationMethod<
   PutConfigRevisionValueError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10944, __c342, 0) as any as S.Schema<PutConfigRevisionValueRequest>,
-  output: __S(10816, __c338, 0) as any as S.Schema<PutConfigRevisionValueResponse>,
+  input: __S(11008, __c344, 0) as any as S.Schema<PutConfigRevisionValueRequest>,
+  output: __S(10880, __c340, 0) as any as S.Schema<PutConfigRevisionValueResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35817,8 +35945,8 @@ export const putConstantRevisionArchive: API.OperationMethod<
   PutConstantRevisionArchiveError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10976, __c343, 0) as any as S.Schema<PutConstantRevisionArchiveRequest>,
-  output: __S(10272, __c321, 0) as any as S.Schema<PutConstantRevisionArchiveResponse>,
+  input: __S(11040, __c345, 0) as any as S.Schema<PutConstantRevisionArchiveRequest>,
+  output: __S(10336, __c323, 0) as any as S.Schema<PutConstantRevisionArchiveResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35834,8 +35962,8 @@ export const putConstantRevisionMetadata: API.OperationMethod<
   PutConstantRevisionMetadataError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11008, __c344, 0) as any as S.Schema<PutConstantRevisionMetadataRequest>,
-  output: __S(10272, __c321, 0) as any as S.Schema<PutConstantRevisionMetadataResponse>,
+  input: __S(11072, __c346, 0) as any as S.Schema<PutConstantRevisionMetadataRequest>,
+  output: __S(10336, __c323, 0) as any as S.Schema<PutConstantRevisionMetadataResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35851,8 +35979,8 @@ export const putConstantRevisionValue: API.OperationMethod<
   PutConstantRevisionValueError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11040, __c345, 0) as any as S.Schema<PutConstantRevisionValueRequest>,
-  output: __S(10272, __c321, 0) as any as S.Schema<PutConstantRevisionValueResponse>,
+  input: __S(11104, __c347, 0) as any as S.Schema<PutConstantRevisionValueRequest>,
+  output: __S(10336, __c323, 0) as any as S.Schema<PutConstantRevisionValueResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35868,8 +35996,8 @@ export const putEnvironment: API.OperationMethod<
   PutEnvironmentError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11072, __c346, 0) as any as S.Schema<PutEnvironmentRequest>,
-  output: __S(15264, __c477, 0) as any as S.Schema<PutEnvironmentResponse>,
+  input: __S(11136, __c348, 0) as any as S.Schema<PutEnvironmentRequest>,
+  output: __S(15328, __c479, 0) as any as S.Schema<PutEnvironmentResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35885,8 +36013,8 @@ export const putExperimentSchedule: API.OperationMethod<
   PutExperimentScheduleError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11136, __c348, 0) as any as S.Schema<PutExperimentScheduleRequest>,
-  output: __S(11137, __c348, 1) as any as S.Schema<PutExperimentScheduleResponse>,
+  input: __S(11200, __c350, 0) as any as S.Schema<PutExperimentScheduleRequest>,
+  output: __S(11201, __c350, 1) as any as S.Schema<PutExperimentScheduleResponse>,
   errors: [Conflict, UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35902,8 +36030,8 @@ export const putFeatureRevisionArchiveV2: API.OperationMethod<
   PutFeatureRevisionArchiveV2Error,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11168, __c349, 0) as any as S.Schema<PutFeatureRevisionArchiveV2Request>,
-  output: __S(896, __c28, 0) as any as S.Schema<PutFeatureRevisionArchiveV2Response>,
+  input: __S(11232, __c351, 0) as any as S.Schema<PutFeatureRevisionArchiveV2Request>,
+  output: __S(992, __c31, 0) as any as S.Schema<PutFeatureRevisionArchiveV2Response>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35919,8 +36047,8 @@ export const putFeatureRevisionDefaultValueV2: API.OperationMethod<
   PutFeatureRevisionDefaultValueV2Error,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11200, __c350, 0) as any as S.Schema<PutFeatureRevisionDefaultValueV2Request>,
-  output: __S(896, __c28, 0) as any as S.Schema<PutFeatureRevisionDefaultValueV2Response>,
+  input: __S(11264, __c352, 0) as any as S.Schema<PutFeatureRevisionDefaultValueV2Request>,
+  output: __S(992, __c31, 0) as any as S.Schema<PutFeatureRevisionDefaultValueV2Response>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35936,8 +36064,8 @@ export const putFeatureRevisionHoldoutV2: API.OperationMethod<
   PutFeatureRevisionHoldoutV2Error,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11232, __c351, 0) as any as S.Schema<PutFeatureRevisionHoldoutV2Request>,
-  output: __S(896, __c28, 0) as any as S.Schema<PutFeatureRevisionHoldoutV2Response>,
+  input: __S(11296, __c353, 0) as any as S.Schema<PutFeatureRevisionHoldoutV2Request>,
+  output: __S(992, __c31, 0) as any as S.Schema<PutFeatureRevisionHoldoutV2Response>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35953,8 +36081,8 @@ export const putFeatureRevisionLogCommentV2: API.OperationMethod<
   PutFeatureRevisionLogCommentV2Error,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11264, __c352, 0) as any as S.Schema<PutFeatureRevisionLogCommentV2Request>,
-  output: __S(13632, __c426, 0) as any as S.Schema<PutFeatureRevisionLogCommentV2Response>,
+  input: __S(11328, __c354, 0) as any as S.Schema<PutFeatureRevisionLogCommentV2Request>,
+  output: __S(13696, __c428, 0) as any as S.Schema<PutFeatureRevisionLogCommentV2Response>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35970,8 +36098,8 @@ export const putFeatureRevisionMetadataV2: API.OperationMethod<
   PutFeatureRevisionMetadataV2Error,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11296, __c353, 0) as any as S.Schema<PutFeatureRevisionMetadataV2Request>,
-  output: __S(896, __c28, 0) as any as S.Schema<PutFeatureRevisionMetadataV2Response>,
+  input: __S(11360, __c355, 0) as any as S.Schema<PutFeatureRevisionMetadataV2Request>,
+  output: __S(992, __c31, 0) as any as S.Schema<PutFeatureRevisionMetadataV2Response>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -35987,8 +36115,8 @@ export const putFeatureRevisionPrerequisitesV2: API.OperationMethod<
   PutFeatureRevisionPrerequisitesV2Error,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11328, __c354, 0) as any as S.Schema<PutFeatureRevisionPrerequisitesV2Request>,
-  output: __S(896, __c28, 0) as any as S.Schema<PutFeatureRevisionPrerequisitesV2Response>,
+  input: __S(11392, __c356, 0) as any as S.Schema<PutFeatureRevisionPrerequisitesV2Request>,
+  output: __S(992, __c31, 0) as any as S.Schema<PutFeatureRevisionPrerequisitesV2Response>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36004,8 +36132,8 @@ export const putFeatureRevisionRuleRampScheduleV2: API.OperationMethod<
   PutFeatureRevisionRuleRampScheduleV2Error,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11361, __c355, 1) as any as S.Schema<PutFeatureRevisionRuleRampScheduleV2Request>,
-  output: __S(11362, __c355, 2) as any as S.Schema<PutFeatureRevisionRuleRampScheduleV2Response>,
+  input: __S(11425, __c357, 1) as any as S.Schema<PutFeatureRevisionRuleRampScheduleV2Request>,
+  output: __S(11426, __c357, 2) as any as S.Schema<PutFeatureRevisionRuleRampScheduleV2Response>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36021,8 +36149,8 @@ export const putFeatureRevisionRuleV2: API.OperationMethod<
   PutFeatureRevisionRuleV2Error,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11393, __c356, 1) as any as S.Schema<PutFeatureRevisionRuleV2Request>,
-  output: __S(896, __c28, 0) as any as S.Schema<PutFeatureRevisionRuleV2Response>,
+  input: __S(11457, __c358, 1) as any as S.Schema<PutFeatureRevisionRuleV2Request>,
+  output: __S(992, __c31, 0) as any as S.Schema<PutFeatureRevisionRuleV2Response>,
   errors: [UnprocessableEntity, UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36038,8 +36166,8 @@ export const putMetric: API.OperationMethod<
   PutMetricError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11427, __c357, 3) as any as S.Schema<PutMetricRequest>,
-  output: __S(11428, __c357, 4) as any as S.Schema<PutMetricResponse>,
+  input: __S(11491, __c359, 3) as any as S.Schema<PutMetricRequest>,
+  output: __S(11492, __c359, 4) as any as S.Schema<PutMetricResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36055,8 +36183,8 @@ export const putNamespace: API.OperationMethod<
   PutNamespaceError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11488, __c359, 0) as any as S.Schema<PutNamespaceRequest>,
-  output: __S(17216, __c538, 0) as any as S.Schema<PutNamespaceResponse>,
+  input: __S(11552, __c361, 0) as any as S.Schema<PutNamespaceRequest>,
+  output: __S(17280, __c540, 0) as any as S.Schema<PutNamespaceResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36072,8 +36200,8 @@ export const putOrganization: API.OperationMethod<
   PutOrganizationError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11520, __c360, 0) as any as S.Schema<PutOrganizationRequest>,
-  output: __S(17344, __c542, 0) as any as S.Schema<PutOrganizationResponse>,
+  input: __S(11584, __c362, 0) as any as S.Schema<PutOrganizationRequest>,
+  output: __S(17408, __c544, 0) as any as S.Schema<PutOrganizationResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36089,8 +36217,8 @@ export const putProject: API.OperationMethod<
   PutProjectError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11552, __c361, 0) as any as S.Schema<PutProjectRequest>,
-  output: __S(17664, __c552, 0) as any as S.Schema<PutProjectResponse>,
+  input: __S(11616, __c363, 0) as any as S.Schema<PutProjectRequest>,
+  output: __S(17728, __c554, 0) as any as S.Schema<PutProjectResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36106,8 +36234,8 @@ export const putReportMetadata: API.OperationMethod<
   PutReportMetadataError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11584, __c362, 0) as any as S.Schema<PutReportMetadataRequest>,
-  output: __S(18016, __c563, 0) as any as S.Schema<PutReportMetadataResponse>,
+  input: __S(11648, __c364, 0) as any as S.Schema<PutReportMetadataRequest>,
+  output: __S(18080, __c565, 0) as any as S.Schema<PutReportMetadataResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36123,8 +36251,8 @@ export const putReportSettings: API.OperationMethod<
   PutReportSettingsError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11618, __c363, 2) as any as S.Schema<PutReportSettingsRequest>,
-  output: __S(18016, __c563, 0) as any as S.Schema<PutReportSettingsResponse>,
+  input: __S(11682, __c365, 2) as any as S.Schema<PutReportSettingsRequest>,
+  output: __S(18080, __c565, 0) as any as S.Schema<PutReportSettingsResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36140,8 +36268,8 @@ export const putSavedGroupRevisionArchive: API.OperationMethod<
   PutSavedGroupRevisionArchiveError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11648, __c364, 0) as any as S.Schema<PutSavedGroupRevisionArchiveRequest>,
-  output: __S(18208, __c569, 0) as any as S.Schema<PutSavedGroupRevisionArchiveResponse>,
+  input: __S(11712, __c366, 0) as any as S.Schema<PutSavedGroupRevisionArchiveRequest>,
+  output: __S(18272, __c571, 0) as any as S.Schema<PutSavedGroupRevisionArchiveResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36157,8 +36285,8 @@ export const putSavedGroupRevisionCondition: API.OperationMethod<
   PutSavedGroupRevisionConditionError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11680, __c365, 0) as any as S.Schema<PutSavedGroupRevisionConditionRequest>,
-  output: __S(18208, __c569, 0) as any as S.Schema<PutSavedGroupRevisionConditionResponse>,
+  input: __S(11744, __c367, 0) as any as S.Schema<PutSavedGroupRevisionConditionRequest>,
+  output: __S(18272, __c571, 0) as any as S.Schema<PutSavedGroupRevisionConditionResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36174,8 +36302,8 @@ export const putSavedGroupRevisionMetadata: API.OperationMethod<
   PutSavedGroupRevisionMetadataError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11712, __c366, 0) as any as S.Schema<PutSavedGroupRevisionMetadataRequest>,
-  output: __S(18208, __c569, 0) as any as S.Schema<PutSavedGroupRevisionMetadataResponse>,
+  input: __S(11776, __c368, 0) as any as S.Schema<PutSavedGroupRevisionMetadataRequest>,
+  output: __S(18272, __c571, 0) as any as S.Schema<PutSavedGroupRevisionMetadataResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36191,8 +36319,8 @@ export const putSavedGroupRevisionUploadVersion: API.OperationMethod<
   PutSavedGroupRevisionUploadVersionError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11744, __c367, 0) as any as S.Schema<PutSavedGroupRevisionUploadVersionRequest>,
-  output: __S(18208, __c569, 0) as any as S.Schema<PutSavedGroupRevisionUploadVersionResponse>,
+  input: __S(11808, __c369, 0) as any as S.Schema<PutSavedGroupRevisionUploadVersionRequest>,
+  output: __S(18272, __c571, 0) as any as S.Schema<PutSavedGroupRevisionUploadVersionResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36208,8 +36336,8 @@ export const putSavedGroupRevisionValues: API.OperationMethod<
   PutSavedGroupRevisionValuesError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11776, __c368, 0) as any as S.Schema<PutSavedGroupRevisionValuesRequest>,
-  output: __S(18208, __c569, 0) as any as S.Schema<PutSavedGroupRevisionValuesResponse>,
+  input: __S(11840, __c370, 0) as any as S.Schema<PutSavedGroupRevisionValuesRequest>,
+  output: __S(18272, __c571, 0) as any as S.Schema<PutSavedGroupRevisionValuesResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36225,8 +36353,8 @@ export const putSdkConnection: API.OperationMethod<
   PutSdkConnectionError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11840, __c370, 0) as any as S.Schema<PutSdkConnectionRequest>,
-  output: __S(19136, __c598, 0) as any as S.Schema<PutSdkConnectionResponse>,
+  input: __S(11904, __c372, 0) as any as S.Schema<PutSdkConnectionRequest>,
+  output: __S(19200, __c600, 0) as any as S.Schema<PutSdkConnectionResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36242,8 +36370,8 @@ export const putVisualChange: API.OperationMethod<
   PutVisualChangeError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11872, __c371, 0) as any as S.Schema<PutVisualChangeRequest>,
-  output: __S(11873, __c371, 1) as any as S.Schema<PutVisualChangeResponse>,
+  input: __S(11936, __c373, 0) as any as S.Schema<PutVisualChangeRequest>,
+  output: __S(11937, __c373, 1) as any as S.Schema<PutVisualChangeResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36259,8 +36387,8 @@ export const putVisualChangeset: API.OperationMethod<
   PutVisualChangesetError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11906, __c372, 2) as any as S.Schema<PutVisualChangesetRequest>,
-  output: __S(11907, __c372, 3) as any as S.Schema<PutVisualChangesetResponse>,
+  input: __S(11970, __c374, 2) as any as S.Schema<PutVisualChangesetRequest>,
+  output: __S(11971, __c374, 3) as any as S.Schema<PutVisualChangesetResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36276,8 +36404,8 @@ export const refreshAggregatedFactTable: API.OperationMethod<
   RefreshAggregatedFactTableError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11936, __c373, 0) as any as S.Schema<RefreshAggregatedFactTableRequest>,
-  output: __S(11939, __c373, 3) as any as S.Schema<RefreshAggregatedFactTableResponse>,
+  input: __S(12000, __c375, 0) as any as S.Schema<RefreshAggregatedFactTableRequest>,
+  output: __S(12003, __c375, 3) as any as S.Schema<RefreshAggregatedFactTableResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36293,8 +36421,8 @@ export const refreshContextualBandit: API.OperationMethod<
   RefreshContextualBanditError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11968, __c374, 0) as any as S.Schema<RefreshContextualBanditRequest>,
-  output: __S(11969, __c374, 1) as any as S.Schema<RefreshContextualBanditResponse>,
+  input: __S(12032, __c376, 0) as any as S.Schema<RefreshContextualBanditRequest>,
+  output: __S(12033, __c376, 1) as any as S.Schema<RefreshContextualBanditResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36310,8 +36438,8 @@ export const refreshInterleaving: API.OperationMethod<
   RefreshInterleavingError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12000, __c375, 0) as any as S.Schema<RefreshInterleavingRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<RefreshInterleavingResponse>,
+  input: __S(12064, __c377, 0) as any as S.Schema<RefreshInterleavingRequest>,
+  output: __S(5184, __c162, 0) as any as S.Schema<RefreshInterleavingResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36327,8 +36455,8 @@ export const refreshMonitoringRampSchedule: API.OperationMethod<
   RefreshMonitoringRampScheduleError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12032, __c376, 0) as any as S.Schema<RefreshMonitoringRampScheduleRequest>,
-  output: __S(9664, __c302, 0) as any as S.Schema<RefreshMonitoringRampScheduleResponse>,
+  input: __S(12096, __c378, 0) as any as S.Schema<RefreshMonitoringRampScheduleRequest>,
+  output: __S(9728, __c304, 0) as any as S.Schema<RefreshMonitoringRampScheduleResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36344,8 +36472,8 @@ export const removeTeamMember: API.OperationMethod<
   RemoveTeamMemberError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12064, __c377, 0) as any as S.Schema<RemoveTeamMemberRequest>,
-  output: __S(13632, __c426, 0) as any as S.Schema<RemoveTeamMemberResponse>,
+  input: __S(12128, __c379, 0) as any as S.Schema<RemoveTeamMemberRequest>,
+  output: __S(13696, __c428, 0) as any as S.Schema<RemoveTeamMemberResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36361,8 +36489,8 @@ export const restartRampSchedule: API.OperationMethod<
   RestartRampScheduleError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12096, __c378, 0) as any as S.Schema<RestartRampScheduleRequest>,
-  output: __S(9664, __c302, 0) as any as S.Schema<RestartRampScheduleResponse>,
+  input: __S(12160, __c380, 0) as any as S.Schema<RestartRampScheduleRequest>,
+  output: __S(9728, __c304, 0) as any as S.Schema<RestartRampScheduleResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36378,8 +36506,8 @@ export const resumeRampSchedule: API.OperationMethod<
   ResumeRampScheduleError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12128, __c379, 0) as any as S.Schema<ResumeRampScheduleRequest>,
-  output: __S(9664, __c302, 0) as any as S.Schema<ResumeRampScheduleResponse>,
+  input: __S(12192, __c381, 0) as any as S.Schema<ResumeRampScheduleRequest>,
+  output: __S(9728, __c304, 0) as any as S.Schema<ResumeRampScheduleResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36395,8 +36523,8 @@ export const revertCustomHook: API.OperationMethod<
   RevertCustomHookError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12192, __c381, 0) as any as S.Schema<RevertCustomHookRequest>,
-  output: __S(14944, __c467, 0) as any as S.Schema<RevertCustomHookResponse>,
+  input: __S(12256, __c383, 0) as any as S.Schema<RevertCustomHookRequest>,
+  output: __S(15008, __c469, 0) as any as S.Schema<RevertCustomHookResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36412,8 +36540,8 @@ export const revertFeatureV2: API.OperationMethod<
   RevertFeatureV2Error,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12224, __c382, 0) as any as S.Schema<RevertFeatureV2Request>,
-  output: __S(12256, __c383, 0) as any as S.Schema<RevertFeatureV2Response>,
+  input: __S(12288, __c384, 0) as any as S.Schema<RevertFeatureV2Request>,
+  output: __S(12320, __c385, 0) as any as S.Schema<RevertFeatureV2Response>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36429,8 +36557,8 @@ export const rollbackMatchingRampSchedules: API.OperationMethod<
   RollbackMatchingRampSchedulesError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12288, __c384, 0) as any as S.Schema<RollbackMatchingRampSchedulesRequest>,
-  output: __S(8866, __c277, 2) as any as S.Schema<RollbackMatchingRampSchedulesResponse>,
+  input: __S(12352, __c386, 0) as any as S.Schema<RollbackMatchingRampSchedulesRequest>,
+  output: __S(8930, __c279, 2) as any as S.Schema<RollbackMatchingRampSchedulesResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36446,8 +36574,8 @@ export const rollbackRampSchedule: API.OperationMethod<
   RollbackRampScheduleError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12320, __c385, 0) as any as S.Schema<RollbackRampScheduleRequest>,
-  output: __S(9664, __c302, 0) as any as S.Schema<RollbackRampScheduleResponse>,
+  input: __S(12384, __c387, 0) as any as S.Schema<RollbackRampScheduleRequest>,
+  output: __S(9728, __c304, 0) as any as S.Schema<RollbackRampScheduleResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36463,8 +36591,8 @@ export const runSqlQuery: API.OperationMethod<
   RunSqlQueryError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12353, __c386, 1) as any as S.Schema<RunSqlQueryRequest>,
-  output: __S(12354, __c386, 2) as any as S.Schema<RunSqlQueryResponse>,
+  input: __S(12417, __c388, 1) as any as S.Schema<RunSqlQueryRequest>,
+  output: __S(12418, __c388, 2) as any as S.Schema<RunSqlQueryResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36480,8 +36608,8 @@ export const searchLearnings: API.OperationMethod<
   SearchLearningsError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12384, __c387, 0) as any as S.Schema<SearchLearningsRequest>,
-  output: __S(12387, __c387, 3) as any as S.Schema<SearchLearningsResponse>,
+  input: __S(12448, __c389, 0) as any as S.Schema<SearchLearningsRequest>,
+  output: __S(12451, __c389, 3) as any as S.Schema<SearchLearningsResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36497,8 +36625,8 @@ export const searchProductAnalyticsResources: API.OperationMethod<
   SearchProductAnalyticsResourcesError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12416, __c388, 0) as any as S.Schema<SearchProductAnalyticsResourcesRequest>,
-  output: __S(12418, __c388, 2) as any as S.Schema<SearchProductAnalyticsResourcesResponse>,
+  input: __S(12480, __c390, 0) as any as S.Schema<SearchProductAnalyticsResourcesRequest>,
+  output: __S(12482, __c390, 2) as any as S.Schema<SearchProductAnalyticsResourcesResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36514,8 +36642,8 @@ export const searchWarehouseTables: API.OperationMethod<
   SearchWarehouseTablesError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12448, __c389, 0) as any as S.Schema<SearchWarehouseTablesRequest>,
-  output: __S(12451, __c389, 3) as any as S.Schema<SearchWarehouseTablesResponse>,
+  input: __S(12512, __c391, 0) as any as S.Schema<SearchWarehouseTablesRequest>,
+  output: __S(12515, __c391, 3) as any as S.Schema<SearchWarehouseTablesResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36531,8 +36659,8 @@ export const setAutoUpdateRampSchedule: API.OperationMethod<
   SetAutoUpdateRampScheduleError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12480, __c390, 0) as any as S.Schema<SetAutoUpdateRampScheduleRequest>,
-  output: __S(9644, __c301, 12) as any as S.Schema<SetAutoUpdateRampScheduleResponse>,
+  input: __S(12544, __c392, 0) as any as S.Schema<SetAutoUpdateRampScheduleRequest>,
+  output: __S(9708, __c303, 12) as any as S.Schema<SetAutoUpdateRampScheduleResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36548,8 +36676,8 @@ export const setMonitoringModeRampSchedule: API.OperationMethod<
   SetMonitoringModeRampScheduleError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12512, __c391, 0) as any as S.Schema<SetMonitoringModeRampScheduleRequest>,
-  output: __S(9644, __c301, 12) as any as S.Schema<SetMonitoringModeRampScheduleResponse>,
+  input: __S(12576, __c393, 0) as any as S.Schema<SetMonitoringModeRampScheduleRequest>,
+  output: __S(9708, __c303, 12) as any as S.Schema<SetMonitoringModeRampScheduleResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36565,8 +36693,8 @@ export const startContextualBandit: API.OperationMethod<
   StartContextualBanditError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12576, __c393, 0) as any as S.Schema<StartContextualBanditRequest>,
-  output: __S(14112, __c441, 0) as any as S.Schema<StartContextualBanditResponse>,
+  input: __S(12640, __c395, 0) as any as S.Schema<StartContextualBanditRequest>,
+  output: __S(14176, __c443, 0) as any as S.Schema<StartContextualBanditResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36582,8 +36710,8 @@ export const startHoldout: API.OperationMethod<
   StartHoldoutError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12608, __c394, 0) as any as S.Schema<StartHoldoutRequest>,
-  output: __S(16608, __c519, 0) as any as S.Schema<StartHoldoutResponse>,
+  input: __S(12672, __c396, 0) as any as S.Schema<StartHoldoutRequest>,
+  output: __S(16672, __c521, 0) as any as S.Schema<StartHoldoutResponse>,
   errors: [Conflict, UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36599,8 +36727,8 @@ export const startHoldoutAnalysis: API.OperationMethod<
   StartHoldoutAnalysisError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12640, __c395, 0) as any as S.Schema<StartHoldoutAnalysisRequest>,
-  output: __S(16608, __c519, 0) as any as S.Schema<StartHoldoutAnalysisResponse>,
+  input: __S(12704, __c397, 0) as any as S.Schema<StartHoldoutAnalysisRequest>,
+  output: __S(16672, __c521, 0) as any as S.Schema<StartHoldoutAnalysisResponse>,
   errors: [Conflict, UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36616,8 +36744,8 @@ export const startInterleaving: API.OperationMethod<
   StartInterleavingError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12672, __c396, 0) as any as S.Schema<StartInterleavingRequest>,
-  output: __S(16768, __c524, 0) as any as S.Schema<StartInterleavingResponse>,
+  input: __S(12736, __c398, 0) as any as S.Schema<StartInterleavingRequest>,
+  output: __S(16832, __c526, 0) as any as S.Schema<StartInterleavingResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36633,8 +36761,8 @@ export const startRampSchedule: API.OperationMethod<
   StartRampScheduleError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12704, __c397, 0) as any as S.Schema<StartRampScheduleRequest>,
-  output: __S(9664, __c302, 0) as any as S.Schema<StartRampScheduleResponse>,
+  input: __S(12768, __c399, 0) as any as S.Schema<StartRampScheduleRequest>,
+  output: __S(9728, __c304, 0) as any as S.Schema<StartRampScheduleResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36650,8 +36778,8 @@ export const stopContextualBandit: API.OperationMethod<
   StopContextualBanditError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12736, __c398, 0) as any as S.Schema<StopContextualBanditRequest>,
-  output: __S(14112, __c441, 0) as any as S.Schema<StopContextualBanditResponse>,
+  input: __S(12800, __c400, 0) as any as S.Schema<StopContextualBanditRequest>,
+  output: __S(14176, __c443, 0) as any as S.Schema<StopContextualBanditResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36667,8 +36795,8 @@ export const stopHoldout: API.OperationMethod<
   StopHoldoutError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12768, __c399, 0) as any as S.Schema<StopHoldoutRequest>,
-  output: __S(16608, __c519, 0) as any as S.Schema<StopHoldoutResponse>,
+  input: __S(12832, __c401, 0) as any as S.Schema<StopHoldoutRequest>,
+  output: __S(16672, __c521, 0) as any as S.Schema<StopHoldoutResponse>,
   errors: [Conflict, UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36684,8 +36812,8 @@ export const stopInterleaving: API.OperationMethod<
   StopInterleavingError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12800, __c400, 0) as any as S.Schema<StopInterleavingRequest>,
-  output: __S(16768, __c524, 0) as any as S.Schema<StopInterleavingResponse>,
+  input: __S(12864, __c402, 0) as any as S.Schema<StopInterleavingRequest>,
+  output: __S(16832, __c526, 0) as any as S.Schema<StopInterleavingResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36701,8 +36829,8 @@ export const testCustomHook: API.OperationMethod<
   TestCustomHookError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12832, __c401, 0) as any as S.Schema<TestCustomHookRequest>,
-  output: __S(12834, __c401, 2) as any as S.Schema<TestCustomHookResponse>,
+  input: __S(12896, __c403, 0) as any as S.Schema<TestCustomHookRequest>,
+  output: __S(12898, __c403, 2) as any as S.Schema<TestCustomHookResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36718,8 +36846,8 @@ export const toggleFeatureV2: API.OperationMethod<
   ToggleFeatureV2Error,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12865, __c402, 1) as any as S.Schema<ToggleFeatureV2Request>,
-  output: __S(12256, __c383, 0) as any as S.Schema<ToggleFeatureV2Response>,
+  input: __S(12929, __c404, 1) as any as S.Schema<ToggleFeatureV2Request>,
+  output: __S(12320, __c385, 0) as any as S.Schema<ToggleFeatureV2Response>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36735,8 +36863,8 @@ export const unarchiveConfig: API.OperationMethod<
   UnarchiveConfigError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12928, __c404, 0) as any as S.Schema<UnarchiveConfigRequest>,
-  output: __S(18368, __c574, 0) as any as S.Schema<UnarchiveConfigResponse>,
+  input: __S(12992, __c406, 0) as any as S.Schema<UnarchiveConfigRequest>,
+  output: __S(18432, __c576, 0) as any as S.Schema<UnarchiveConfigResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36752,8 +36880,8 @@ export const unarchiveConstant: API.OperationMethod<
   UnarchiveConstantError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12960, __c405, 0) as any as S.Schema<UnarchiveConstantRequest>,
-  output: __S(18880, __c590, 0) as any as S.Schema<UnarchiveConstantResponse>,
+  input: __S(13024, __c407, 0) as any as S.Schema<UnarchiveConstantRequest>,
+  output: __S(18944, __c592, 0) as any as S.Schema<UnarchiveConstantResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36769,8 +36897,8 @@ export const unarchiveSavedGroup: API.OperationMethod<
   UnarchiveSavedGroupError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12992, __c406, 0) as any as S.Schema<UnarchiveSavedGroupRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<UnarchiveSavedGroupResponse>,
+  input: __S(13056, __c408, 0) as any as S.Schema<UnarchiveSavedGroupRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<UnarchiveSavedGroupResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36786,8 +36914,8 @@ export const unlockConfig: API.OperationMethod<
   UnlockConfigError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13024, __c407, 0) as any as S.Schema<UnlockConfigRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<UnlockConfigResponse>,
+  input: __S(13088, __c409, 0) as any as S.Schema<UnlockConfigRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<UnlockConfigResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36803,8 +36931,8 @@ export const updateAutoRun: API.OperationMethod<
   UpdateAutoRunError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13057, __c408, 1) as any as S.Schema<UpdateAutoRunRequest>,
-  output: __S(2816, __c88, 0) as any as S.Schema<UpdateAutoRunResponse>,
+  input: __S(13121, __c410, 1) as any as S.Schema<UpdateAutoRunRequest>,
+  output: __S(2912, __c91, 0) as any as S.Schema<UpdateAutoRunResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36820,8 +36948,8 @@ export const updateConfig: API.OperationMethod<
   UpdateConfigError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13088, __c409, 0) as any as S.Schema<UpdateConfigRequest>,
-  output: __S(13089, __c409, 1) as any as S.Schema<UpdateConfigResponse>,
+  input: __S(13152, __c411, 0) as any as S.Schema<UpdateConfigRequest>,
+  output: __S(13153, __c411, 1) as any as S.Schema<UpdateConfigResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36837,8 +36965,8 @@ export const updateConfigRevision: API.OperationMethod<
   UpdateConfigRevisionError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13120, __c410, 0) as any as S.Schema<UpdateConfigRevisionRequest>,
-  output: __S(5376, __c168, 0) as any as S.Schema<UpdateConfigRevisionResponse>,
+  input: __S(13184, __c412, 0) as any as S.Schema<UpdateConfigRevisionRequest>,
+  output: __S(5440, __c170, 0) as any as S.Schema<UpdateConfigRevisionResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36854,8 +36982,8 @@ export const updateConstant: API.OperationMethod<
   UpdateConstantError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13152, __c411, 0) as any as S.Schema<UpdateConstantRequest>,
-  output: __S(18880, __c590, 0) as any as S.Schema<UpdateConstantResponse>,
+  input: __S(13216, __c413, 0) as any as S.Schema<UpdateConstantRequest>,
+  output: __S(18944, __c592, 0) as any as S.Schema<UpdateConstantResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36871,8 +36999,8 @@ export const updateConstantRevision: API.OperationMethod<
   UpdateConstantRevisionError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13184, __c412, 0) as any as S.Schema<UpdateConstantRevisionRequest>,
-  output: __S(10272, __c321, 0) as any as S.Schema<UpdateConstantRevisionResponse>,
+  input: __S(13248, __c414, 0) as any as S.Schema<UpdateConstantRevisionRequest>,
+  output: __S(10336, __c323, 0) as any as S.Schema<UpdateConstantRevisionResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36888,8 +37016,8 @@ export const updateContextualBandit: API.OperationMethod<
   UpdateContextualBanditError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13216, __c413, 0) as any as S.Schema<UpdateContextualBanditRequest>,
-  output: __S(14112, __c441, 0) as any as S.Schema<UpdateContextualBanditResponse>,
+  input: __S(13280, __c415, 0) as any as S.Schema<UpdateContextualBanditRequest>,
+  output: __S(14176, __c443, 0) as any as S.Schema<UpdateContextualBanditResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36905,8 +37033,8 @@ export const updateContextualBanditLinkedFeature: API.OperationMethod<
   UpdateContextualBanditLinkedFeatureError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13280, __c415, 0) as any as S.Schema<UpdateContextualBanditLinkedFeatureRequest>,
-  output: __S(13281, __c415, 1) as any as S.Schema<UpdateContextualBanditLinkedFeatureResponse>,
+  input: __S(13344, __c417, 0) as any as S.Schema<UpdateContextualBanditLinkedFeatureRequest>,
+  output: __S(13345, __c417, 1) as any as S.Schema<UpdateContextualBanditLinkedFeatureResponse>,
   errors: [UnprocessableEntity, UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36922,8 +37050,8 @@ export const updateContextualBanditQuery: API.OperationMethod<
   UpdateContextualBanditQueryError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13312, __c416, 0) as any as S.Schema<UpdateContextualBanditQueryRequest>,
-  output: __S(14560, __c455, 0) as any as S.Schema<UpdateContextualBanditQueryResponse>,
+  input: __S(13376, __c418, 0) as any as S.Schema<UpdateContextualBanditQueryRequest>,
+  output: __S(14624, __c457, 0) as any as S.Schema<UpdateContextualBanditQueryResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36939,8 +37067,8 @@ export const updateContextualBanditVariations: API.OperationMethod<
   UpdateContextualBanditVariationsError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13348, __c417, 4) as any as S.Schema<UpdateContextualBanditVariationsRequest>,
-  output: __S(13351, __c417, 7) as any as S.Schema<UpdateContextualBanditVariationsResponse>,
+  input: __S(13412, __c419, 4) as any as S.Schema<UpdateContextualBanditVariationsRequest>,
+  output: __S(13415, __c419, 7) as any as S.Schema<UpdateContextualBanditVariationsResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36956,8 +37084,8 @@ export const updateCustomField: API.OperationMethod<
   UpdateCustomFieldError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13376, __c418, 0) as any as S.Schema<UpdateCustomFieldRequest>,
-  output: __S(14848, __c464, 0) as any as S.Schema<UpdateCustomFieldResponse>,
+  input: __S(13440, __c420, 0) as any as S.Schema<UpdateCustomFieldRequest>,
+  output: __S(14912, __c466, 0) as any as S.Schema<UpdateCustomFieldResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36973,8 +37101,8 @@ export const updateCustomHook: API.OperationMethod<
   UpdateCustomHookError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13408, __c419, 0) as any as S.Schema<UpdateCustomHookRequest>,
-  output: __S(14944, __c467, 0) as any as S.Schema<UpdateCustomHookResponse>,
+  input: __S(13472, __c421, 0) as any as S.Schema<UpdateCustomHookRequest>,
+  output: __S(15008, __c469, 0) as any as S.Schema<UpdateCustomHookResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -36990,8 +37118,8 @@ export const updateDashboard: API.OperationMethod<
   UpdateDashboardError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13441, __c420, 1) as any as S.Schema<UpdateDashboardRequest>,
-  output: __S(15072, __c471, 0) as any as S.Schema<UpdateDashboardResponse>,
+  input: __S(13505, __c422, 1) as any as S.Schema<UpdateDashboardRequest>,
+  output: __S(15136, __c473, 0) as any as S.Schema<UpdateDashboardResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -37007,8 +37135,8 @@ export const updateDimension: API.OperationMethod<
   UpdateDimensionError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13472, __c421, 0) as any as S.Schema<UpdateDimensionRequest>,
-  output: __S(15168, __c474, 0) as any as S.Schema<UpdateDimensionResponse>,
+  input: __S(13536, __c423, 0) as any as S.Schema<UpdateDimensionRequest>,
+  output: __S(15232, __c476, 0) as any as S.Schema<UpdateDimensionResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -37024,8 +37152,8 @@ export const updateExperiment: API.OperationMethod<
   UpdateExperimentError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13505, __c422, 1) as any as S.Schema<UpdateExperimentRequest>,
-  output: __S(13506, __c422, 2) as any as S.Schema<UpdateExperimentResponse>,
+  input: __S(13569, __c424, 1) as any as S.Schema<UpdateExperimentRequest>,
+  output: __S(13570, __c424, 2) as any as S.Schema<UpdateExperimentResponse>,
   errors: [Conflict, UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -37041,8 +37169,8 @@ export const updateExperimentTemplate: API.OperationMethod<
   UpdateExperimentTemplateError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13536, __c423, 0) as any as S.Schema<UpdateExperimentTemplateRequest>,
-  output: __S(16128, __c504, 0) as any as S.Schema<UpdateExperimentTemplateResponse>,
+  input: __S(13600, __c425, 0) as any as S.Schema<UpdateExperimentTemplateRequest>,
+  output: __S(16192, __c506, 0) as any as S.Schema<UpdateExperimentTemplateResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -37058,8 +37186,8 @@ export const updateFactMetric: API.OperationMethod<
   UpdateFactMetricError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13568, __c424, 0) as any as S.Schema<UpdateFactMetricRequest>,
-  output: __S(4128, __c129, 0) as any as S.Schema<UpdateFactMetricResponse>,
+  input: __S(13632, __c426, 0) as any as S.Schema<UpdateFactMetricRequest>,
+  output: __S(4224, __c132, 0) as any as S.Schema<UpdateFactMetricResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -37075,8 +37203,8 @@ export const updateFactTable: API.OperationMethod<
   UpdateFactTableError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13696, __c428, 0) as any as S.Schema<UpdateFactTableRequest>,
-  output: __S(16256, __c508, 0) as any as S.Schema<UpdateFactTableResponse>,
+  input: __S(13760, __c430, 0) as any as S.Schema<UpdateFactTableRequest>,
+  output: __S(16320, __c510, 0) as any as S.Schema<UpdateFactTableResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -37092,8 +37220,8 @@ export const updateFactTableFilter: API.OperationMethod<
   UpdateFactTableFilterError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13728, __c429, 0) as any as S.Schema<UpdateFactTableFilterRequest>,
-  output: __S(16448, __c514, 0) as any as S.Schema<UpdateFactTableFilterResponse>,
+  input: __S(13792, __c431, 0) as any as S.Schema<UpdateFactTableFilterRequest>,
+  output: __S(16512, __c516, 0) as any as S.Schema<UpdateFactTableFilterResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -37109,8 +37237,8 @@ export const updateFactTableVirtualColumn: API.OperationMethod<
   UpdateFactTableVirtualColumnError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13760, __c430, 0) as any as S.Schema<UpdateFactTableVirtualColumnRequest>,
-  output: __S(16512, __c516, 0) as any as S.Schema<UpdateFactTableVirtualColumnResponse>,
+  input: __S(13824, __c432, 0) as any as S.Schema<UpdateFactTableVirtualColumnRequest>,
+  output: __S(16576, __c518, 0) as any as S.Schema<UpdateFactTableVirtualColumnResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -37126,8 +37254,8 @@ export const updateFeatureV2: API.OperationMethod<
   UpdateFeatureV2Error,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13793, __c431, 1) as any as S.Schema<UpdateFeatureV2Request>,
-  output: __S(12256, __c383, 0) as any as S.Schema<UpdateFeatureV2Response>,
+  input: __S(13857, __c433, 1) as any as S.Schema<UpdateFeatureV2Request>,
+  output: __S(12320, __c385, 0) as any as S.Schema<UpdateFeatureV2Response>,
   errors: [UnprocessableEntity, UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -37143,8 +37271,8 @@ export const updateHoldout: API.OperationMethod<
   UpdateHoldoutError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13824, __c432, 0) as any as S.Schema<UpdateHoldoutRequest>,
-  output: __S(16608, __c519, 0) as any as S.Schema<UpdateHoldoutResponse>,
+  input: __S(13888, __c434, 0) as any as S.Schema<UpdateHoldoutRequest>,
+  output: __S(16672, __c521, 0) as any as S.Schema<UpdateHoldoutResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -37160,8 +37288,8 @@ export const updateInterleaving: API.OperationMethod<
   UpdateInterleavingError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13859, __c433, 3) as any as S.Schema<UpdateInterleavingRequest>,
-  output: __S(16768, __c524, 0) as any as S.Schema<UpdateInterleavingResponse>,
+  input: __S(13923, __c435, 3) as any as S.Schema<UpdateInterleavingRequest>,
+  output: __S(16832, __c526, 0) as any as S.Schema<UpdateInterleavingResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -37177,8 +37305,8 @@ export const updateInterleavingExposureQuery: API.OperationMethod<
   UpdateInterleavingExposureQueryError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13888, __c434, 0) as any as S.Schema<UpdateInterleavingExposureQueryRequest>,
-  output: __S(16928, __c529, 0) as any as S.Schema<UpdateInterleavingExposureQueryResponse>,
+  input: __S(13952, __c436, 0) as any as S.Schema<UpdateInterleavingExposureQueryRequest>,
+  output: __S(16992, __c531, 0) as any as S.Schema<UpdateInterleavingExposureQueryResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -37194,8 +37322,8 @@ export const updateLearning: API.OperationMethod<
   UpdateLearningError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13920, __c435, 0) as any as S.Schema<UpdateLearningRequest>,
-  output: __S(17024, __c532, 0) as any as S.Schema<UpdateLearningResponse>,
+  input: __S(13984, __c437, 0) as any as S.Schema<UpdateLearningRequest>,
+  output: __S(17088, __c534, 0) as any as S.Schema<UpdateLearningResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -37211,8 +37339,8 @@ export const updateMemberRole: API.OperationMethod<
   UpdateMemberRoleError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13955, __c436, 3) as any as S.Schema<UpdateMemberRoleRequest>,
-  output: __S(13957, __c436, 5) as any as S.Schema<UpdateMemberRoleResponse>,
+  input: __S(14019, __c438, 3) as any as S.Schema<UpdateMemberRoleRequest>,
+  output: __S(14021, __c438, 5) as any as S.Schema<UpdateMemberRoleResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -37228,8 +37356,8 @@ export const updateMetricGroup: API.OperationMethod<
   UpdateMetricGroupError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13984, __c437, 0) as any as S.Schema<UpdateMetricGroupRequest>,
-  output: __S(17120, __c535, 0) as any as S.Schema<UpdateMetricGroupResponse>,
+  input: __S(14048, __c439, 0) as any as S.Schema<UpdateMetricGroupRequest>,
+  output: __S(17184, __c537, 0) as any as S.Schema<UpdateMetricGroupResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -37245,8 +37373,8 @@ export const updatePopulation: API.OperationMethod<
   UpdatePopulationError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14176, __c443, 0) as any as S.Schema<UpdatePopulationRequest>,
-  output: __S(17536, __c548, 0) as any as S.Schema<UpdatePopulationResponse>,
+  input: __S(14240, __c445, 0) as any as S.Schema<UpdatePopulationRequest>,
+  output: __S(17600, __c550, 0) as any as S.Schema<UpdatePopulationResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -37262,8 +37390,8 @@ export const updateRampSchedule: API.OperationMethod<
   UpdateRampScheduleError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14214, __c444, 6) as any as S.Schema<UpdateRampScheduleRequest>,
-  output: __S(9664, __c302, 0) as any as S.Schema<UpdateRampScheduleResponse>,
+  input: __S(14278, __c446, 6) as any as S.Schema<UpdateRampScheduleRequest>,
+  output: __S(9728, __c304, 0) as any as S.Schema<UpdateRampScheduleResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -37279,8 +37407,8 @@ export const updateRampScheduleLockdown: API.OperationMethod<
   UpdateRampScheduleLockdownError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14240, __c445, 0) as any as S.Schema<UpdateRampScheduleLockdownRequest>,
-  output: __S(9644, __c301, 12) as any as S.Schema<UpdateRampScheduleLockdownResponse>,
+  input: __S(14304, __c447, 0) as any as S.Schema<UpdateRampScheduleLockdownRequest>,
+  output: __S(9708, __c303, 12) as any as S.Schema<UpdateRampScheduleLockdownResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -37296,8 +37424,8 @@ export const updateRampScheduleMonitoring: API.OperationMethod<
   UpdateRampScheduleMonitoringError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14272, __c446, 0) as any as S.Schema<UpdateRampScheduleMonitoringRequest>,
-  output: __S(9644, __c301, 12) as any as S.Schema<UpdateRampScheduleMonitoringResponse>,
+  input: __S(14336, __c448, 0) as any as S.Schema<UpdateRampScheduleMonitoringRequest>,
+  output: __S(9708, __c303, 12) as any as S.Schema<UpdateRampScheduleMonitoringResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -37313,8 +37441,8 @@ export const updateRampScheduleSteps: API.OperationMethod<
   UpdateRampScheduleStepsError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14306, __c447, 2) as any as S.Schema<UpdateRampScheduleStepsRequest>,
-  output: __S(9664, __c302, 0) as any as S.Schema<UpdateRampScheduleStepsResponse>,
+  input: __S(14370, __c449, 2) as any as S.Schema<UpdateRampScheduleStepsRequest>,
+  output: __S(9728, __c304, 0) as any as S.Schema<UpdateRampScheduleStepsResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -37330,8 +37458,8 @@ export const updateRampScheduleTemplate: API.OperationMethod<
   UpdateRampScheduleTemplateError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14336, __c448, 0) as any as S.Schema<UpdateRampScheduleTemplateRequest>,
-  output: __S(17824, __c557, 0) as any as S.Schema<UpdateRampScheduleTemplateResponse>,
+  input: __S(14400, __c450, 0) as any as S.Schema<UpdateRampScheduleTemplateRequest>,
+  output: __S(17888, __c559, 0) as any as S.Schema<UpdateRampScheduleTemplateResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -37347,8 +37475,8 @@ export const updateSavedGroup: API.OperationMethod<
   UpdateSavedGroupError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14368, __c449, 0) as any as S.Schema<UpdateSavedGroupRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<UpdateSavedGroupResponse>,
+  input: __S(14432, __c451, 0) as any as S.Schema<UpdateSavedGroupRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<UpdateSavedGroupResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -37364,8 +37492,8 @@ export const updateSavedGroupRevision: API.OperationMethod<
   UpdateSavedGroupRevisionError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14400, __c450, 0) as any as S.Schema<UpdateSavedGroupRevisionRequest>,
-  output: __S(18208, __c569, 0) as any as S.Schema<UpdateSavedGroupRevisionResponse>,
+  input: __S(14464, __c452, 0) as any as S.Schema<UpdateSavedGroupRevisionRequest>,
+  output: __S(18272, __c571, 0) as any as S.Schema<UpdateSavedGroupRevisionResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -37381,8 +37509,8 @@ export const updateSegment: API.OperationMethod<
   UpdateSegmentError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14432, __c451, 0) as any as S.Schema<UpdateSegmentRequest>,
-  output: __S(19232, __c601, 0) as any as S.Schema<UpdateSegmentResponse>,
+  input: __S(14496, __c453, 0) as any as S.Schema<UpdateSegmentRequest>,
+  output: __S(19296, __c603, 0) as any as S.Schema<UpdateSegmentResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -37398,8 +37526,8 @@ export const updateTeam: API.OperationMethod<
   UpdateTeamError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14464, __c452, 0) as any as S.Schema<UpdateTeamRequest>,
-  output: __S(19328, __c604, 0) as any as S.Schema<UpdateTeamResponse>,
+  input: __S(14528, __c454, 0) as any as S.Schema<UpdateTeamRequest>,
+  output: __S(19392, __c606, 0) as any as S.Schema<UpdateTeamResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -37415,8 +37543,8 @@ export const verifyConfigSchema: API.OperationMethod<
   VerifyConfigSchemaError,
   GrowthBookOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14592, __c456, 0) as any as S.Schema<VerifyConfigSchemaRequest>,
-  output: __S(14598, __c456, 6) as any as S.Schema<VerifyConfigSchemaResponse>,
+  input: __S(14656, __c458, 0) as any as S.Schema<VerifyConfigSchemaRequest>,
+  output: __S(14662, __c458, 6) as any as S.Schema<VerifyConfigSchemaResponse>,
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
@@ -37428,6 +37556,49 @@ export const verifyConfigSchema: API.OperationMethod<
 function __c0(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.String);
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          currentStatus: S.String,
+          expectedStatuses: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "ApiErrorInvalidStatusDetails" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+          code: S.String,
+          details: __S(32, __c1, 0),
+        }),
+      ).annotate({ identifier: "Error409Body3" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ruleIds: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "ApiErrorUnscopedRuleDetails" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+          code: S.String,
+          details: __S(64, __c2, 0),
+        }),
+      ).annotate({ identifier: "Error422Body" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
@@ -37436,18 +37607,18 @@ function __c0(j: number): any {
       ).annotate({ identifier: "ArchiveSavedGroupRequest" });
   }
 }
-function __c1(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          savedGroup: __S(65, __c2, 1),
-          bypassedGates: S.optional(__S(18401, __c575, 1)),
+          savedGroup: __S(161, __c5, 1),
+          bypassedGates: S.optional(__S(18465, __c577, 1)),
         }),
       ).annotate({ identifier: "ArchiveSavedGroupResponse" });
   }
 }
-function __c2(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37469,18 +37640,18 @@ function __c2(j: number): any {
           ownerEmail: S.optional(S.String),
           condition: S.optional(S.String),
           attributeKey: S.optional(S.String),
-          values: S.optional(__S(5216, __c163, 0)),
+          values: S.optional(__S(0, __c0, 0)),
           description: S.optional(S.String),
-          projects: S.optional(__S(5216, __c163, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
           archived: S.optional(S.Boolean),
           useEmptyListGroup: S.optional(S.Boolean),
           currentUploadVersion: S.optional(S.Number),
-          currentUpload: S.optional(S.NullOr(__S(64, __c2, 0))),
+          currentUpload: S.optional(S.NullOr(__S(160, __c5, 0))),
         }),
       ).annotate({ identifier: "SavedGroup" });
   }
 }
-function __c3(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37500,7 +37671,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "DeleteConfigRevisionPropertyRequest" });
   }
 }
-function __c4(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37510,7 +37681,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "DeleteConstantRequest" });
   }
 }
-function __c5(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37520,7 +37691,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "DeleteContextualBanditRequest" });
   }
 }
-function __c6(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37541,14 +37712,14 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           featureId: S.String,
-          removedRuleIds: __S(5216, __c163, 0),
+          removedRuleIds: __S(0, __c0, 0),
           revisionVersion: S.NullOr(S.Number),
           published: S.Boolean,
         }),
       ).annotate({ identifier: "DeleteContextualBanditLinkedFeatureResponse" });
   }
 }
-function __c7(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37558,7 +37729,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "DeleteContextualBanditQueryRequest" });
   }
 }
-function __c8(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37569,7 +37740,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "DeleteCustomFieldRequest" });
   }
 }
-function __c9(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37579,7 +37750,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "DeleteCustomHookRequest" });
   }
 }
-function __c10(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37589,7 +37760,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "DeleteDashboardRequest" });
   }
 }
-function __c11(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37599,7 +37770,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "DeleteDimensionRequest" });
   }
 }
-function __c12(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37609,50 +37780,50 @@ function __c12(j: number): any {
       ).annotate({ identifier: "DeleteEnvironmentRequest" });
   }
 }
-function __c13(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project: S.optional(S.String),
-          templateMetadata: __S(512, __c16, 0),
+          templateMetadata: __S(608, __c19, 0),
           type: S.String,
           hypothesis: S.optional(S.String),
           description: S.optional(S.String),
-          tags: S.optional(__S(5216, __c163, 0)),
-          customFields: S.optional(__S(18816, __c588, 0)),
+          tags: S.optional(__S(0, __c0, 0)),
+          customFields: S.optional(__S(18880, __c590, 0)),
           datasource: S.String,
-          exposureQuery: S.optional(__S(480, __c15, 0)),
+          exposureQuery: S.optional(__S(576, __c18, 0)),
           exposureQueryId: S.optional(S.String),
           isClusterExperiment: S.optional(S.Boolean),
           clusterSubUnitIdentifier: S.optional(S.String),
           hashAttribute: S.optional(S.String),
           fallbackAttribute: S.optional(S.String),
           disableStickyBucketing: S.optional(S.Boolean),
-          goalMetrics: S.optional(__S(5216, __c163, 0)),
-          secondaryMetrics: S.optional(__S(5216, __c163, 0)),
-          guardrailMetrics: S.optional(__S(5216, __c163, 0)),
+          goalMetrics: S.optional(__S(0, __c0, 0)),
+          secondaryMetrics: S.optional(__S(0, __c0, 0)),
+          guardrailMetrics: S.optional(__S(0, __c0, 0)),
           activationMetric: S.optional(S.String),
           statsEngine: S.String,
           segment: S.optional(S.String),
           skipPartialData: S.optional(S.Boolean),
-          targeting: __S(513, __c16, 1),
-          customMetricSlices: S.optional(__S(451, __c14, 3)),
+          targeting: __S(609, __c19, 1),
+          customMetricSlices: S.optional(__S(547, __c17, 3)),
         }),
       ).annotate({ identifier: "BulkImportExperimentTemplatesRequestTemplatesItemData" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          data: __S(416, __c13, 0),
+          data: __S(512, __c16, 0),
         }),
       ).annotate({ identifier: "BulkImportExperimentTemplatesRequestTemplatesItem" });
     case 2:
-      return S.Array(__S(417, __c13, 1));
+      return S.Array(__S(513, __c16, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          templates: __S(418, __c13, 2),
+          templates: __S(514, __c16, 2),
         }).pipe(T.Http({ method: "POST", uri: "/v1/experiment-templates/bulk-import", code: 200 })),
       ).annotate({ identifier: "BulkImportExperimentTemplatesRequest" });
     case 4:
@@ -37664,33 +37835,33 @@ function __c13(j: number): any {
       ).annotate({ identifier: "BulkImportExperimentTemplatesResponse" });
   }
 }
-function __c14(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           column: S.String,
-          levels: __S(5216, __c163, 0),
+          levels: __S(0, __c0, 0),
         }),
       ).annotate({
         identifier:
           "BulkImportExperimentTemplatesRequestTemplatesItemDataCustomMetricSlicesItemSlicesItem",
       });
     case 1:
-      return S.Array(__S(448, __c14, 0));
+      return S.Array(__S(544, __c17, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          slices: __S(449, __c14, 1),
+          slices: __S(545, __c17, 1),
         }),
       ).annotate({
         identifier: "BulkImportExperimentTemplatesRequestTemplatesItemDataCustomMetricSlicesItem",
       });
     case 3:
-      return S.Array(__S(450, __c14, 2));
+      return S.Array(__S(546, __c17, 2));
   }
 }
-function __c15(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37703,7 +37874,7 @@ function __c15(j: number): any {
       });
   }
 }
-function __c16(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37718,14 +37889,14 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           coverage: S.Number,
-          savedGroups: S.optional(__S(9537, __c298, 1)),
-          prerequisites: S.optional(__S(9505, __c297, 1)),
+          savedGroups: S.optional(__S(9601, __c300, 1)),
+          prerequisites: S.optional(__S(9569, __c299, 1)),
           condition: S.String,
         }),
       ).annotate({ identifier: "BulkImportExperimentTemplatesRequestTemplatesItemDataTargeting" });
   }
 }
-function __c17(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37736,7 +37907,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "DeleteExperimentRequest" });
   }
 }
-function __c18(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37746,7 +37917,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "DeleteExperimentTemplateRequest" });
   }
 }
-function __c19(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37756,7 +37927,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "DeleteFactMetricRequest" });
   }
 }
-function __c20(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37766,7 +37937,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "DeleteFactTableRequest" });
   }
 }
-function __c21(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37783,7 +37954,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "DeleteFactTableFilterRequest" });
   }
 }
-function __c22(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37800,7 +37971,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "DeleteFactTableVirtualColumnRequest" });
   }
 }
-function __c23(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37818,7 +37989,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "DeleteFeatureRevisionLogEntryV2Request" });
   }
 }
-function __c24(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37839,13 +38010,13 @@ function __c24(j: number): any {
       ).annotate({ identifier: "DeleteFeatureRevisionRuleRampScheduleV2Request" });
   }
 }
-function __c25(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Boolean);
   }
 }
-function __c26(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37855,13 +38026,13 @@ function __c26(j: number): any {
         }),
       ).annotate({ identifier: "ScheduleRule" });
     case 1:
-      return S.Array(__S(832, __c26, 0));
+      return S.Array(__S(928, __c29, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           enabled: S.Boolean,
           name: S.String,
-          range: __S(15424, __c482, 0),
+          range: __S(15488, __c484, 0),
         }),
       ).annotate({ identifier: "FeatureRuleV2Namespace" });
     case 3:
@@ -37873,7 +38044,7 @@ function __c26(j: number): any {
         }),
       ).annotate({ identifier: "FeatureRuleV2VariationsItem" });
     case 4:
-      return S.Array(__S(835, __c26, 3));
+      return S.Array(__S(931, __c29, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -37881,13 +38052,13 @@ function __c26(j: number): any {
           condition: S.optional(S.String),
           id: S.optional(S.String),
           enabled: S.optional(S.Boolean),
-          scheduleRules: S.optional(__S(833, __c26, 1)),
+          scheduleRules: S.optional(__S(929, __c29, 1)),
           scheduleType: S.optional(S.String),
           rampScheduleId: S.optional(S.String),
-          savedGroupTargeting: S.optional(__S(15457, __c483, 1)),
-          prerequisites: S.optional(__S(9505, __c297, 1)),
+          savedGroupTargeting: S.optional(__S(15521, __c485, 1)),
+          prerequisites: S.optional(__S(9569, __c299, 1)),
           allProjects: S.optional(S.Boolean),
-          projects: S.optional(__S(5216, __c163, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
           type: S.optional(S.String),
           value: S.optional(S.String),
           sparse: S.optional(S.Boolean),
@@ -37901,8 +38072,8 @@ function __c26(j: number): any {
           disableStickyBucketing: S.optional(S.Boolean),
           bucketVersion: S.optional(S.Number),
           minBucketVersion: S.optional(S.Number),
-          namespace: S.optional(__S(834, __c26, 2)),
-          variations: S.optional(__S(836, __c26, 4)),
+          namespace: S.optional(__S(930, __c29, 2)),
+          variations: S.optional(__S(932, __c29, 4)),
           experimentId: S.optional(S.String),
           contextualBanditId: S.optional(S.String),
           controlValue: S.optional(S.String),
@@ -37910,15 +38081,15 @@ function __c26(j: number): any {
           safeRolloutId: S.optional(S.String),
           status: S.optional(S.String),
           allEnvironments: S.Boolean,
-          environments: S.optional(__S(5216, __c163, 0)),
+          environments: S.optional(__S(0, __c0, 0)),
           pendingRamp: S.optional(S.String),
         }),
       ).annotate({ identifier: "FeatureRuleV2" });
     case 6:
-      return S.Array(__S(837, __c26, 5));
+      return S.Array(__S(933, __c29, 5));
   }
 }
-function __c27(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37927,15 +38098,15 @@ function __c27(j: number): any {
         }),
       ).annotate({ identifier: "FeatureRevisionV2EnvPrerequisitesValueItem" });
     case 1:
-      return S.Array(__S(864, __c27, 0));
+      return S.Array(__S(960, __c30, 0));
     case 2:
-      return S.Record(S.String, __S(865, __c27, 1));
+      return S.Record(S.String, __S(961, __c30, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           schemaType: S.optional(S.String),
           schema: S.optional(S.String),
-          simple: S.optional(__S(18304, __c572, 0)),
+          simple: S.optional(__S(18368, __c574, 0)),
           date: S.optional(S.String),
           enabled: S.optional(S.Boolean),
         }),
@@ -37946,11 +38117,11 @@ function __c27(j: number): any {
           description: S.optional(S.String),
           owner: S.optional(S.String),
           project: S.optional(S.String),
-          tags: S.optional(__S(5216, __c163, 0)),
+          tags: S.optional(__S(0, __c0, 0)),
           neverStale: S.optional(S.Boolean),
           valueType: S.optional(S.String),
-          jsonSchema: S.optional(__S(867, __c27, 3)),
-          customFields: S.optional(__S(18304, __c572, 0)),
+          jsonSchema: S.optional(__S(963, __c30, 3)),
+          customFields: S.optional(__S(18368, __c574, 0)),
           baseConfig: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "FeatureRevisionV2Metadata" });
@@ -37960,13 +38131,13 @@ function __c27(j: number): any {
       return S.suspend(() =>
         S.Struct({
           userId: S.String,
-          user: S.optional(__S(9569, __c299, 1)),
+          user: S.optional(__S(9633, __c301, 1)),
           status: S.String,
           timestamp: S.String,
         }),
       ).annotate({ identifier: "FeatureRevisionV2ReviewsItem" });
     case 7:
-      return S.Array(__S(870, __c27, 6));
+      return S.Array(__S(966, __c30, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -37977,17 +38148,17 @@ function __c27(j: number): any {
           comment: S.String,
           date: S.String,
           status: S.String,
-          createdBy: S.optional(__S(9569, __c299, 1)),
-          publishedBy: S.optional(__S(9569, __c299, 1)),
+          createdBy: S.optional(__S(9633, __c301, 1)),
+          publishedBy: S.optional(__S(9633, __c301, 1)),
           defaultValue: S.optional(S.String),
           defaultValueConfig: S.optional(S.NullOr(S.String)),
-          rules: __S(838, __c26, 6),
-          definitions: S.optional(__S(18816, __c588, 0)),
-          environmentsEnabled: S.optional(__S(800, __c25, 0)),
-          envPrerequisites: S.optional(__S(866, __c27, 2)),
-          prerequisites: S.optional(__S(865, __c27, 1)),
-          metadata: S.optional(__S(868, __c27, 4)),
-          rampActions: S.optional(__S(869, __c27, 5)),
+          rules: __S(934, __c29, 6),
+          definitions: S.optional(__S(18880, __c590, 0)),
+          environmentsEnabled: S.optional(__S(896, __c28, 0)),
+          envPrerequisites: S.optional(__S(962, __c30, 2)),
+          prerequisites: S.optional(__S(961, __c30, 1)),
+          metadata: S.optional(__S(964, __c30, 4)),
+          rampActions: S.optional(__S(965, __c30, 5)),
           autoPublishOnApproval: S.optional(S.Boolean),
           scheduledPublishAt: S.optional(S.NullOr(S.String)),
           scheduledPublishLockEdits: S.optional(S.Boolean),
@@ -37995,25 +38166,25 @@ function __c27(j: number): any {
           scheduledPublishBypassApproval: S.optional(S.Boolean),
           scheduledPublishLastError: S.optional(S.String),
           autoPublishEnabledBy: S.optional(S.String),
-          autoPublishEnabledByUser: S.optional(__S(9569, __c299, 1)),
+          autoPublishEnabledByUser: S.optional(__S(9633, __c301, 1)),
           scheduledPublishAttempts: S.optional(S.Number),
           scheduledPublishGaveUpAt: S.optional(S.String),
-          reviews: S.optional(__S(871, __c27, 7)),
+          reviews: S.optional(__S(967, __c30, 7)),
         }),
       ).annotate({ identifier: "FeatureRevisionV2" });
   }
 }
-function __c28(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          revision: __S(872, __c27, 8),
+          revision: __S(968, __c30, 8),
         }),
       ).annotate({ identifier: "DeleteFeatureRevisionRuleRampScheduleV2Response" });
   }
 }
-function __c29(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38034,7 +38205,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "DeleteFeatureRevisionRuleV2Request" });
   }
 }
-function __c30(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38044,7 +38215,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "DeleteFeatureV2Request" });
   }
 }
-function __c31(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38054,7 +38225,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "CancelContextualBanditRequest" });
   }
 }
-function __c32(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38064,7 +38235,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "DeleteInterleavingRequest" });
   }
 }
-function __c33(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38076,7 +38247,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "DeleteInterleavingExposureQueryRequest" });
   }
 }
-function __c34(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38086,7 +38257,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "DeleteLearningRequest" });
   }
 }
-function __c35(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38096,7 +38267,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "DeleteMemberRequest" });
   }
 }
-function __c36(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38106,7 +38277,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "DeleteMetricRequest" });
   }
 }
-function __c37(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38116,7 +38287,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "DeleteMetricGroupRequest" });
   }
 }
-function __c38(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38126,7 +38297,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "DeleteNamespaceRequest" });
   }
 }
-function __c39(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38136,7 +38307,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "DeletePopulationRequest" });
   }
 }
-function __c40(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38146,7 +38317,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "DeleteProjectRequest" });
   }
 }
-function __c41(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38156,7 +38327,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "DeleteRampScheduleRequest" });
   }
 }
-function __c42(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38169,7 +38340,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "CompleteRampScheduleRequest" });
   }
 }
-function __c43(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38179,7 +38350,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "DeleteRampScheduleTemplateRequest" });
   }
 }
-function __c44(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38189,7 +38360,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "DeleteSavedGroupRequest" });
   }
 }
-function __c45(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38208,7 +38379,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "DeleteSavedGroupUploadResponse" });
   }
 }
-function __c46(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38218,7 +38389,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "DeleteSdkConnectionRequest" });
   }
 }
-function __c47(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38228,7 +38399,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "DeleteSegmentRequest" });
   }
 }
-function __c48(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38239,7 +38410,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "DeleteTeamRequest" });
   }
 }
-function __c49(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38257,7 +38428,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "DeleteVariationScreenshotRequest" });
   }
 }
-function __c50(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -38265,7 +38436,7 @@ function __c50(j: number): any {
       });
   }
 }
-function __c51(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38288,7 +38459,7 @@ function __c51(j: number): any {
       });
   }
 }
-function __c52(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38314,17 +38485,17 @@ function __c52(j: number): any {
         }),
       ).annotate({ identifier: "AggregatedFactTable" });
     case 2:
-      return S.Array(__S(1665, __c52, 1));
+      return S.Array(__S(1761, __c55, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          aggregatedFactTables: __S(1666, __c52, 2),
+          aggregatedFactTables: __S(1762, __c55, 2),
           nextScheduledUpdate: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "GetAggregatedFactTablesResponse" });
   }
 }
-function __c53(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38358,21 +38529,21 @@ function __c53(j: number): any {
           dateCreated: S.String,
           finishedAt: S.NullOr(S.String),
           error: S.NullOr(S.String),
-          queryIds: __S(5216, __c163, 0),
+          queryIds: __S(0, __c0, 0),
           factTableId: S.String,
           datasourceId: S.String,
-          result: S.NullOr(__S(1697, __c53, 1)),
+          result: S.NullOr(__S(1793, __c56, 1)),
         }),
       ).annotate({ identifier: "AggregatedTableRun" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          run: __S(1698, __c53, 2),
+          run: __S(1794, __c56, 2),
         }),
       ).annotate({ identifier: "GetAggregatedTableRunResponse" });
   }
 }
-function __c54(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38380,14 +38551,14 @@ function __c54(j: number): any {
           name: S.String,
           description: S.optional(S.String),
           isPublic: S.Boolean,
-          attributes: S.optional(__S(18304, __c572, 0)),
-          projects: S.optional(__S(5216, __c163, 0)),
-          environments: S.optional(__S(5216, __c163, 0)),
+          attributes: S.optional(__S(18368, __c574, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
+          environments: S.optional(__S(0, __c0, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/archetypes", code: 200 })),
       ).annotate({ identifier: "CreateArchetypeRequest" });
   }
 }
-function __c55(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38400,24 +38571,24 @@ function __c55(j: number): any {
           owner: S.String,
           ownerEmail: S.optional(S.String),
           isPublic: S.Boolean,
-          attributes: __S(18304, __c572, 0),
-          projects: S.optional(__S(5216, __c163, 0)),
-          environments: S.optional(__S(5216, __c163, 0)),
+          attributes: __S(18368, __c574, 0),
+          projects: S.optional(__S(0, __c0, 0)),
+          environments: S.optional(__S(0, __c0, 0)),
         }),
       ).annotate({ identifier: "Archetype" });
   }
 }
-function __c56(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          archetype: __S(1760, __c55, 0),
+          archetype: __S(1856, __c58, 0),
         }),
       ).annotate({ identifier: "CreateArchetypeResponse" });
   }
 }
-function __c57(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38427,7 +38598,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "GetArchetypeRequest" });
   }
 }
-function __c58(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38437,7 +38608,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "GetAutoRunRequest" });
   }
 }
-function __c59(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38448,12 +38619,12 @@ function __c59(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          codeRefs: __S(1923, __c60, 3),
+          codeRefs: __S(2019, __c63, 3),
         }),
       ).annotate({ identifier: "GetCodeRefsResponse" });
   }
 }
-function __c60(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38465,7 +38636,7 @@ function __c60(j: number): any {
         }),
       ).annotate({ identifier: "CodeRefRefsItem" });
     case 1:
-      return S.Array(__S(1920, __c60, 0));
+      return S.Array(__S(2016, __c63, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -38475,14 +38646,14 @@ function __c60(j: number): any {
           repo: S.String,
           branch: S.String,
           platform: S.optional(S.String),
-          refs: __S(1921, __c60, 1),
+          refs: __S(2017, __c63, 1),
         }),
       ).annotate({ identifier: "CodeRef" });
     case 3:
-      return S.Array(__S(1922, __c60, 2));
+      return S.Array(__S(2018, __c63, 2));
   }
 }
-function __c61(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38492,17 +38663,17 @@ function __c61(j: number): any {
       ).annotate({ identifier: "GetConfigRequest" });
   }
 }
-function __c62(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          config: __S(18343, __c573, 7),
+          config: __S(18407, __c575, 7),
         }),
       ).annotate({ identifier: "GetConfigResponse" });
   }
 }
-function __c63(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38524,23 +38695,23 @@ function __c63(j: number): any {
           variationId: S.optional(S.String),
           configKey: S.String,
           relation: S.optional(S.String),
-          keys: __S(5216, __c163, 0),
+          keys: __S(0, __c0, 0),
           state: S.String,
           revisionVersion: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Implementations" });
     case 2:
-      return S.Array(__S(2017, __c63, 1));
+      return S.Array(__S(2113, __c66, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          familyKeys: __S(5216, __c163, 0),
-          implementations: __S(2018, __c63, 2),
+          familyKeys: __S(0, __c0, 0),
+          implementations: __S(2114, __c66, 2),
         }),
       ).annotate({ identifier: "GetConfigKeyUsageResponse" });
   }
 }
-function __c64(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38554,30 +38725,30 @@ function __c64(j: number): any {
           key: S.String,
           name: S.String,
           parent: S.NullOr(S.String),
-          extends: S.optional(__S(5216, __c163, 0)),
+          extends: S.optional(__S(0, __c0, 0)),
           project: S.optional(S.String),
           archived: S.Boolean,
           depth: S.Number,
           isTarget: S.Boolean,
-          incompatibleFields: S.optional(__S(5216, __c163, 0)),
-          orphanedFields: S.optional(__S(5216, __c163, 0)),
+          incompatibleFields: S.optional(__S(0, __c0, 0)),
+          orphanedFields: S.optional(__S(0, __c0, 0)),
         }),
       ).annotate({ identifier: "Nodes" });
     case 2:
-      return S.Array(__S(2049, __c64, 1));
+      return S.Array(__S(2145, __c67, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           root: S.String,
           target: S.String,
-          ancestors: __S(5216, __c163, 0),
-          descendants: __S(5216, __c163, 0),
-          nodes: __S(2050, __c64, 2),
+          ancestors: __S(0, __c0, 0),
+          descendants: __S(0, __c0, 0),
+          nodes: __S(2146, __c67, 2),
         }),
       ).annotate({ identifier: "GetConfigLineageResponse" });
   }
 }
-function __c65(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38596,17 +38767,17 @@ function __c65(j: number): any {
         }),
       ).annotate({ identifier: "GetConfigReferencesResponseConstantsItem" });
     case 2:
-      return S.Array(__S(2081, __c65, 1));
+      return S.Array(__S(2177, __c68, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          features: __S(2113, __c66, 1),
-          constants: __S(2082, __c65, 2),
+          features: __S(2209, __c69, 1),
+          constants: __S(2178, __c68, 2),
         }),
       ).annotate({ identifier: "GetConfigReferencesResponse" });
   }
 }
-function __c66(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38617,10 +38788,10 @@ function __c66(j: number): any {
         }),
       ).annotate({ identifier: "GetConfigReferencesResponseFeaturesItem" });
     case 1:
-      return S.Array(__S(2112, __c66, 0));
+      return S.Array(__S(2208, __c69, 0));
   }
 }
-function __c67(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38631,7 +38802,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "GetConfigRevisionRequest" });
   }
 }
-function __c68(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38642,7 +38813,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "GetConfigRevisionLatestRequest" });
   }
 }
-function __c69(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38659,7 +38830,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "GetConfigRevisionMergeStatusRequest" });
   }
 }
-function __c70(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38671,19 +38842,19 @@ function __c70(j: number): any {
         }),
       ).annotate({ identifier: "GetConfigRevisionMergeStatusResponseConflictsItem" });
     case 1:
-      return S.Array(__S(2240, __c70, 0));
+      return S.Array(__S(2336, __c73, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           success: S.Boolean,
           hasConflicts: S.Boolean,
-          conflicts: __S(2241, __c70, 1),
+          conflicts: __S(2337, __c73, 1),
           canAutoMerge: S.Boolean,
         }),
       ).annotate({ identifier: "GetConfigRevisionMergeStatusResponse" });
   }
 }
-function __c71(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38695,14 +38866,14 @@ function __c71(j: number): any {
           hashAttribute: S.optional(S.Boolean),
           enum: S.optional(S.String),
           format: S.optional(S.String),
-          projects: S.optional(__S(5216, __c163, 0)),
-          tags: S.optional(__S(5216, __c163, 0)),
-          customFields: S.optional(__S(18816, __c588, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
+          tags: S.optional(__S(0, __c0, 0)),
+          customFields: S.optional(__S(18880, __c590, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/attributes", code: 200 })),
       ).annotate({ identifier: "CreateAttributeRequest" });
   }
 }
-function __c72(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38714,24 +38885,24 @@ function __c72(j: number): any {
           archived: S.optional(S.Boolean),
           enum: S.optional(S.String),
           format: S.optional(S.String),
-          projects: S.optional(__S(5216, __c163, 0)),
-          tags: S.optional(__S(5216, __c163, 0)),
-          customFields: S.optional(__S(18816, __c588, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
+          tags: S.optional(__S(0, __c0, 0)),
+          customFields: S.optional(__S(18880, __c590, 0)),
         }),
       ).annotate({ identifier: "Attribute" });
   }
 }
-function __c73(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          attribute: __S(2304, __c72, 0),
+          attribute: __S(2400, __c75, 0),
         }),
       ).annotate({ identifier: "CreateAttributeResponse" });
   }
 }
-function __c74(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38747,14 +38918,14 @@ function __c74(j: number): any {
       ).annotate({ identifier: "GetConfigRevisionsRequest" });
   }
 }
-function __c75(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(5348, __c167, 4));
+      return S.Array(__S(5412, __c169, 4));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          revisions: __S(2400, __c75, 0),
+          revisions: __S(2496, __c78, 0),
           limit: S.Number,
           offset: S.Number,
           count: S.Number,
@@ -38765,7 +38936,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "GetConfigRevisionsResponse" });
   }
 }
-function __c76(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38786,7 +38957,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "GetConfigSchemaResponse" });
   }
 }
-function __c77(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38799,11 +38970,11 @@ function __c77(j: number): any {
       return S.suspend(() =>
         S.Struct({
           action: S.String,
-          environments: __S(5216, __c163, 0),
+          environments: __S(0, __c0, 0),
         }),
       ).annotate({ identifier: "ConfirmationActionsItem" });
     case 2:
-      return S.Array(__S(2465, __c77, 1));
+      return S.Array(__S(2561, __c80, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -38816,23 +38987,23 @@ function __c77(j: number): any {
         S.Struct({
           id: S.String,
           status: S.String,
-          actions: __S(2466, __c77, 2),
+          actions: __S(2562, __c80, 2),
           summary: S.String,
           url: S.String,
           expiresAt: S.String,
-          response: S.NullOr(__S(2467, __c77, 3)),
+          response: S.NullOr(__S(2563, __c80, 3)),
           note: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "Confirmation" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          confirmation: __S(2468, __c77, 4),
+          confirmation: __S(2564, __c80, 4),
         }),
       ).annotate({ identifier: "GetConfirmationResponse" });
   }
 }
-function __c78(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38842,7 +39013,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "GetConstantRequest" });
   }
 }
-function __c79(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38860,17 +39031,17 @@ function __c79(j: number): any {
         }),
       ).annotate({ identifier: "Constants" });
     case 2:
-      return S.Array(__S(2529, __c79, 1));
+      return S.Array(__S(2625, __c82, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          features: __S(2113, __c66, 1),
-          constants: __S(2530, __c79, 2),
+          features: __S(2209, __c69, 1),
+          constants: __S(2626, __c82, 2),
         }),
       ).annotate({ identifier: "GetConstantReferencesResponse" });
   }
 }
-function __c80(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38883,7 +39054,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "GetConstantRevisionRequest" });
   }
 }
-function __c81(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38894,7 +39065,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "GetConstantRevisionLatestRequest" });
   }
 }
-function __c82(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38911,7 +39082,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "GetConstantRevisionMergeStatusRequest" });
   }
 }
-function __c83(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38927,14 +39098,14 @@ function __c83(j: number): any {
       ).annotate({ identifier: "GetConstantRevisionsRequest" });
   }
 }
-function __c84(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(10244, __c320, 4));
+      return S.Array(__S(10308, __c322, 4));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          revisions: __S(2688, __c84, 0),
+          revisions: __S(2784, __c87, 0),
           limit: S.Number,
           offset: S.Number,
           count: S.Number,
@@ -38945,7 +39116,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "GetConstantRevisionsResponse" });
   }
 }
-function __c85(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38955,7 +39126,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "GetContextualBanditRequest" });
   }
 }
-function __c86(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.Unknown));
@@ -38964,12 +39135,12 @@ function __c86(j: number): any {
         S.Struct({
           source: S.optional(S.String),
           agent: S.optional(S.String),
-          metadata: S.optional(__S(2752, __c86, 0)),
+          metadata: S.optional(__S(2848, __c89, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/auto-runs", code: 200 })),
       ).annotate({ identifier: "CreateAutoRunRequest" });
   }
 }
-function __c87(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.Unknown));
@@ -38982,9 +39153,9 @@ function __c87(j: number): any {
           source: S.String,
           agent: S.NullOr(S.String),
           createdBy: S.NullOr(S.String),
-          metadata: __S(2784, __c87, 0),
-          artifacts: __S(16353, __c511, 1),
-          checks: __S(16355, __c511, 3),
+          metadata: __S(2880, __c90, 0),
+          artifacts: __S(16417, __c513, 1),
+          checks: __S(16419, __c513, 3),
           outcome: S.NullOr(S.String),
           failureReason: S.NullOr(S.String),
           dateCompleted: S.NullOr(S.String),
@@ -38993,17 +39164,17 @@ function __c87(j: number): any {
       ).annotate({ identifier: "AutoRun" });
   }
 }
-function __c88(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          autoRun: __S(2785, __c87, 1),
+          autoRun: __S(2881, __c90, 1),
         }),
       ).annotate({ identifier: "CreateAutoRunResponse" });
   }
 }
-function __c89(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39014,13 +39185,13 @@ function __c89(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          currentLeafWeights: S.optional(__S(14049, __c439, 1)),
-          latestEvent: S.NullOr(__S(2880, __c90, 0)),
+          currentLeafWeights: S.optional(__S(14113, __c441, 1)),
+          latestEvent: S.NullOr(__S(2976, __c93, 0)),
         }),
       ).annotate({ identifier: "GetContextualBanditCurrentWeightsResponse" });
   }
 }
-function __c90(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39035,7 +39206,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "GetContextualBanditCurrentWeightsResponseLatestEvent" });
   }
 }
-function __c91(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39049,12 +39220,12 @@ function __c91(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          event: __S(2880, __c90, 0),
+          event: __S(2976, __c93, 0),
         }),
       ).annotate({ identifier: "GetContextualBanditEventResponse" });
   }
 }
-function __c92(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39067,13 +39238,13 @@ function __c92(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          linkedFeatures: __S(6336, __c198, 0),
-          environments: __S(5216, __c163, 0),
+          linkedFeatures: __S(6400, __c200, 0),
+          environments: __S(0, __c0, 0),
         }),
       ).annotate({ identifier: "GetContextualBanditLinkedFeaturesResponse" });
   }
 }
-function __c93(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39083,7 +39254,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "GetContextualBanditQueryRequest" });
   }
 }
-function __c94(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39094,12 +39265,12 @@ function __c94(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          attributes: __S(5216, __c163, 0),
-          responses: __S(6336, __c198, 0),
-          leaf_map: S.optional(__S(6336, __c198, 0)),
-          leaf_stats: S.optional(__S(6336, __c198, 0)),
-          sse_trajectory: S.optional(__S(6336, __c198, 0)),
-          bic_trajectory: S.optional(__S(6336, __c198, 0)),
+          attributes: __S(0, __c0, 0),
+          responses: __S(6400, __c200, 0),
+          leaf_map: S.optional(__S(6400, __c200, 0)),
+          leaf_stats: S.optional(__S(6400, __c200, 0)),
+          sse_trajectory: S.optional(__S(6400, __c200, 0)),
+          bic_trajectory: S.optional(__S(6400, __c200, 0)),
         }),
       ).annotate({ identifier: "GetContextualBanditResultsResponseContextualBanditSnapshot" });
     case 2:
@@ -39110,12 +39281,12 @@ function __c94(j: number): any {
         }),
       ).annotate({ identifier: "GetContextualBanditResultsResponseOverallWeightsItem" });
     case 3:
-      return S.Array(__S(3010, __c94, 2));
+      return S.Array(__S(3106, __c97, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           attribute: S.String,
-          levels: __S(5216, __c163, 0),
+          levels: __S(0, __c0, 0),
           operator: S.String,
         }),
       ).annotate({
@@ -39123,14 +39294,14 @@ function __c94(j: number): any {
           "GetContextualBanditResultsResponseResultsSseTrajectoryItemSplitLeafClausesItem",
       });
     case 5:
-      return S.Array(__S(3012, __c94, 4));
+      return S.Array(__S(3108, __c97, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          leafClauses: __S(3013, __c94, 5),
+          leafClauses: __S(3109, __c97, 5),
           attribute: S.String,
-          leftLevels: __S(5216, __c163, 0),
-          rightLevels: __S(5216, __c163, 0),
+          leftLevels: __S(0, __c0, 0),
+          rightLevels: __S(0, __c0, 0),
         }),
       ).annotate({ identifier: "GetContextualBanditResultsResponseResultsSseTrajectoryItemSplit" });
     case 7:
@@ -39138,11 +39309,11 @@ function __c94(j: number): any {
         S.Struct({
           numSplits: S.Number,
           totalSse: S.Number,
-          split: S.optional(__S(3014, __c94, 6)),
+          split: S.optional(__S(3110, __c97, 6)),
         }),
       ).annotate({ identifier: "GetContextualBanditResultsResponseResultsSseTrajectoryItem" });
     case 8:
-      return S.Array(__S(3015, __c94, 7));
+      return S.Array(__S(3111, __c97, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -39154,11 +39325,11 @@ function __c94(j: number): any {
         }),
       ).annotate({ identifier: "GetContextualBanditResultsResponseResultsOverallVariationsItem" });
     case 10:
-      return S.Array(__S(3017, __c94, 9));
+      return S.Array(__S(3113, __c97, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          variations: __S(3018, __c94, 10),
+          variations: __S(3114, __c97, 10),
         }),
       ).annotate({ identifier: "GetContextualBanditResultsResponseResultsOverall" });
     case 12:
@@ -39176,7 +39347,7 @@ function __c94(j: number): any {
         identifier: "GetContextualBanditResultsResponseResultsLeavesItemVariationsItem",
       });
     case 13:
-      return S.Array(__S(3020, __c94, 12));
+      return S.Array(__S(3116, __c97, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
@@ -39190,29 +39361,29 @@ function __c94(j: number): any {
         identifier: "GetContextualBanditResultsResponseResultsLeavesItemContextsItemVariationsItem",
       });
     case 15:
-      return S.Array(__S(3022, __c94, 14));
+      return S.Array(__S(3118, __c97, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
-          attributes: __S(18816, __c588, 0),
-          variations: __S(3023, __c94, 15),
+          attributes: __S(18880, __c590, 0),
+          variations: __S(3119, __c97, 15),
         }),
       ).annotate({ identifier: "GetContextualBanditResultsResponseResultsLeavesItemContextsItem" });
     case 17:
-      return S.Array(__S(3024, __c94, 16));
+      return S.Array(__S(3120, __c97, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
           leafId: S.Number,
           updateMessage: S.NullOr(S.String),
           error: S.NullOr(S.String),
-          clauses: __S(3013, __c94, 5),
-          variations: __S(3021, __c94, 13),
-          contexts: __S(3025, __c94, 17),
+          clauses: __S(3109, __c97, 5),
+          variations: __S(3117, __c97, 13),
+          contexts: __S(3121, __c97, 17),
         }),
       ).annotate({ identifier: "GetContextualBanditResultsResponseResultsLeavesItem" });
     case 19:
-      return S.Array(__S(3026, __c94, 18));
+      return S.Array(__S(3122, __c97, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
@@ -39222,24 +39393,24 @@ function __c94(j: number): any {
         }),
       ).annotate({ identifier: "GetContextualBanditResultsResponseResultsHealthVariationsItem" });
     case 21:
-      return S.Array(__S(3028, __c94, 20));
+      return S.Array(__S(3124, __c97, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           srm: S.Number,
-          variationUnits: __S(15424, __c482, 0),
+          variationUnits: __S(15488, __c484, 0),
         }),
       ).annotate({ identifier: "GetContextualBanditResultsResponseResultsHealthTrafficOverall" });
     case 23:
-      return S.Array(__S(3030, __c94, 22));
+      return S.Array(__S(3126, __c97, 22));
     case 24:
-      return S.Record(S.String, __S(3031, __c94, 23));
+      return S.Record(S.String, __S(3127, __c97, 23));
     case 25:
       return S.suspend(() =>
         S.Struct({
-          overall: __S(3030, __c94, 22),
-          dimension: __S(3032, __c94, 24),
+          overall: __S(3126, __c97, 22),
+          dimension: __S(3128, __c97, 24),
           error: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetContextualBanditResultsResponseResultsHealthTraffic" });
@@ -39247,19 +39418,19 @@ function __c94(j: number): any {
       return S.suspend(() =>
         S.Struct({
           leafId: S.String,
-          observed: __S(15424, __c482, 0),
-          expected: __S(15424, __c482, 0),
+          observed: __S(15488, __c484, 0),
+          expected: __S(15488, __c484, 0),
         }),
       ).annotate({
         identifier: "GetContextualBanditResultsResponseResultsHealthSrmLatestPeriodLeavesItem",
       });
     case 27:
-      return S.Array(__S(3034, __c94, 26));
+      return S.Array(__S(3130, __c97, 26));
     case 28:
       return S.suspend(() =>
         S.Struct({
           banditVersion: S.String,
-          leaves: __S(3035, __c94, 27),
+          leaves: __S(3131, __c97, 27),
         }),
       ).annotate({ identifier: "GetContextualBanditResultsResponseResultsHealthSrmLatestPeriod" });
     case 29:
@@ -39268,46 +39439,46 @@ function __c94(j: number): any {
           statistic: S.Number,
           pValue: S.Number,
           degreesOfFreedom: S.Number,
-          latestPeriod: S.optional(__S(3036, __c94, 28)),
+          latestPeriod: S.optional(__S(3132, __c97, 28)),
         }),
       ).annotate({ identifier: "GetContextualBanditResultsResponseResultsHealthSrm" });
     case 30:
       return S.suspend(() =>
         S.Struct({
-          variations: __S(3029, __c94, 21),
-          traffic: S.NullOr(__S(3033, __c94, 25)),
-          srm: S.NullOr(__S(3037, __c94, 29)),
+          variations: __S(3125, __c97, 21),
+          traffic: S.NullOr(__S(3129, __c97, 25)),
+          srm: S.NullOr(__S(3133, __c97, 29)),
           multipleExposures: S.NullOr(S.Number),
         }),
       ).annotate({ identifier: "GetContextualBanditResultsResponseResultsHealth" });
     case 31:
       return S.suspend(() =>
         S.Struct({
-          attributes: __S(5216, __c163, 0),
-          sseTrajectory: __S(3016, __c94, 8),
-          overall: __S(3019, __c94, 11),
-          leaves: __S(3027, __c94, 19),
+          attributes: __S(0, __c0, 0),
+          sseTrajectory: __S(3112, __c97, 8),
+          overall: __S(3115, __c97, 11),
+          leaves: __S(3123, __c97, 19),
           snapshotId: S.String,
           dateCreated: S.String,
-          health: S.NullOr(__S(3038, __c94, 30)),
+          health: S.NullOr(__S(3134, __c97, 30)),
         }),
       ).annotate({ identifier: "GetContextualBanditResultsResponseResults" });
   }
 }
-function __c95(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          contextualBanditSnapshot: S.NullOr(__S(3009, __c94, 1)),
-          overallWeights: S.NullOr(__S(3011, __c94, 3)),
-          results: S.NullOr(__S(3039, __c94, 31)),
-          latest: S.NullOr(__S(3072, __c96, 0)),
+          contextualBanditSnapshot: S.NullOr(__S(3105, __c97, 1)),
+          overallWeights: S.NullOr(__S(3107, __c97, 3)),
+          results: S.NullOr(__S(3135, __c97, 31)),
+          latest: S.NullOr(__S(3168, __c99, 0)),
         }),
       ).annotate({ identifier: "GetContextualBanditResultsResponse" });
   }
 }
-function __c96(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39315,7 +39486,7 @@ function __c96(j: number): any {
           id: S.String,
           status: S.String,
           error: S.String,
-          queries: __S(3105, __c97, 1),
+          queries: __S(3201, __c100, 1),
           runStarted: S.NullOr(S.String),
           dateCreated: S.String,
           multipleExposures: S.Number,
@@ -39325,7 +39496,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "GetContextualBanditResultsResponseLatest" });
   }
 }
-function __c97(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39336,10 +39507,10 @@ function __c97(j: number): any {
         }),
       ).annotate({ identifier: "GetContextualBanditResultsResponseLatestQueriesItem" });
     case 1:
-      return S.Array(__S(3104, __c97, 0));
+      return S.Array(__S(3200, __c100, 0));
   }
 }
-function __c98(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39357,12 +39528,12 @@ function __c98(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          snapshot: __S(3168, __c99, 0),
+          snapshot: __S(3264, __c102, 0),
         }),
       ).annotate({ identifier: "GetContextualBanditSnapshotResponse" });
   }
 }
-function __c99(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39378,7 +39549,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "Snapshots" });
   }
 }
-function __c100(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39389,12 +39560,12 @@ function __c100(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          latest: S.NullOr(__S(3072, __c96, 0)),
+          latest: S.NullOr(__S(3168, __c99, 0)),
         }),
       ).annotate({ identifier: "GetContextualBanditStatusResponse" });
   }
 }
-function __c101(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39404,7 +39575,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "GetCustomFieldRequest" });
   }
 }
-function __c102(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39414,7 +39585,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "GetCustomHookRequest" });
   }
 }
-function __c103(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39424,7 +39595,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "GetDashboardRequest" });
   }
 }
-function __c104(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39432,16 +39603,16 @@ function __c104(j: number): any {
           name: S.String,
           description: S.optional(S.String),
           owner: S.optional(S.String),
-          projects: S.optional(__S(5216, __c163, 0)),
-          tags: S.optional(__S(5216, __c163, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
+          tags: S.optional(__S(0, __c0, 0)),
           datasource: S.String,
-          userIdTypes: __S(5216, __c163, 0),
-          userIdColumns: S.optional(__S(18816, __c588, 0)),
-          aggregatedFactTableSettings: S.optional(__S(3585, __c112, 1)),
+          userIdTypes: __S(0, __c0, 0),
+          userIdColumns: S.optional(__S(18880, __c590, 0)),
+          aggregatedFactTableSettings: S.optional(__S(3681, __c115, 1)),
           sql: S.String,
           timestampColumn: S.optional(S.String),
           eventName: S.optional(S.String),
-          columns: S.optional(__S(3617, __c113, 1)),
+          columns: S.optional(__S(3713, __c116, 1)),
           managedBy: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateBulkImportFactRequestFactTablesItemData" });
@@ -39449,11 +39620,11 @@ function __c104(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          data: __S(3328, __c104, 0),
+          data: __S(3424, __c107, 0),
         }),
       ).annotate({ identifier: "CreateBulkImportFactRequestFactTablesItem" });
     case 2:
-      return S.Array(__S(3329, __c104, 1));
+      return S.Array(__S(3425, __c107, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -39468,30 +39639,30 @@ function __c104(j: number): any {
         S.Struct({
           factTableId: S.String,
           id: S.String,
-          data: __S(3331, __c104, 3),
+          data: __S(3427, __c107, 3),
         }),
       ).annotate({ identifier: "CreateBulkImportFactRequestFactTableFiltersItem" });
     case 5:
-      return S.Array(__S(3332, __c104, 4));
+      return S.Array(__S(3428, __c107, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           description: S.optional(S.String),
           owner: S.optional(S.String),
-          projects: S.optional(__S(5216, __c163, 0)),
-          tags: S.optional(__S(5216, __c163, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
+          tags: S.optional(__S(0, __c0, 0)),
           metricType: S.String,
-          numerator: S.optional(S.NullOr(__S(3552, __c111, 0))),
-          denominator: S.optional(__S(3553, __c111, 1)),
+          numerator: S.optional(S.NullOr(__S(3648, __c114, 0))),
+          denominator: S.optional(__S(3649, __c114, 1)),
           inverse: S.optional(S.Boolean),
-          quantileSettings: S.optional(__S(3490, __c109, 2)),
-          funnelSettings: S.optional(__S(3493, __c109, 5)),
-          cappingSettings: S.optional(__S(3392, __c106, 0)),
-          lowerCappingSettings: S.optional(S.NullOr(__S(3392, __c106, 0))),
-          windowSettings: S.optional(__S(3520, __c110, 0)),
-          priorSettings: S.optional(__S(3360, __c105, 0)),
-          regressionAdjustmentSettings: S.optional(__S(3494, __c109, 6)),
+          quantileSettings: S.optional(__S(3586, __c112, 2)),
+          funnelSettings: S.optional(__S(3589, __c112, 5)),
+          cappingSettings: S.optional(__S(3488, __c109, 0)),
+          lowerCappingSettings: S.optional(S.NullOr(__S(3488, __c109, 0))),
+          windowSettings: S.optional(__S(3616, __c113, 0)),
+          priorSettings: S.optional(__S(3456, __c108, 0)),
+          regressionAdjustmentSettings: S.optional(__S(3590, __c112, 6)),
           riskThresholdSuccess: S.optional(S.Number),
           riskThresholdDanger: S.optional(S.Number),
           displayAsPercentage: S.optional(S.Boolean),
@@ -39500,8 +39671,8 @@ function __c104(j: number): any {
           minSampleSize: S.optional(S.Number),
           targetMDE: S.optional(S.Number),
           managedBy: S.optional(S.String),
-          metricAutoSlices: S.optional(__S(5216, __c163, 0)),
-          replaces: S.optional(__S(5216, __c163, 0)),
+          metricAutoSlices: S.optional(__S(0, __c0, 0)),
+          replaces: S.optional(__S(0, __c0, 0)),
           archived: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CreateBulkImportFactRequestFactMetricsItemData" });
@@ -39509,19 +39680,19 @@ function __c104(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          data: __S(3334, __c104, 6),
+          data: __S(3430, __c107, 6),
         }),
       ).annotate({ identifier: "CreateBulkImportFactRequestFactMetricsItem" });
     case 8:
-      return S.Array(__S(3335, __c104, 7));
+      return S.Array(__S(3431, __c107, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           defaultManagedBy: S.optional(S.String),
           dryRun: S.optional(S.Boolean),
-          factTables: S.optional(__S(3330, __c104, 2)),
-          factTableFilters: S.optional(__S(3333, __c104, 5)),
-          factMetrics: S.optional(__S(3336, __c104, 8)),
+          factTables: S.optional(__S(3426, __c107, 2)),
+          factTableFilters: S.optional(__S(3429, __c107, 5)),
+          factMetrics: S.optional(__S(3432, __c107, 8)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/bulk-import/facts", code: 200 })),
       ).annotate({ identifier: "CreateBulkImportFactRequest" });
     case 10:
@@ -39533,7 +39704,7 @@ function __c104(j: number): any {
         }),
       ).annotate({ identifier: "BulkImportError" });
     case 11:
-      return S.Array(__S(3338, __c104, 10));
+      return S.Array(__S(3434, __c107, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
@@ -39545,12 +39716,12 @@ function __c104(j: number): any {
           factTableFiltersUpdated: S.Number,
           factMetricsAdded: S.Number,
           factMetricsUpdated: S.Number,
-          errors: __S(3339, __c104, 11),
+          errors: __S(3435, __c107, 11),
         }),
       ).annotate({ identifier: "CreateBulkImportFactResponse" });
   }
 }
-function __c105(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39563,7 +39734,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "CreateBulkImportFactRequestFactMetricsItemDataPriorSettings" });
   }
 }
-function __c106(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39575,13 +39746,13 @@ function __c106(j: number): any {
       ).annotate({ identifier: "CreateBulkImportFactRequestFactMetricsItemDataCappingSettings" });
   }
 }
-function __c107(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, __S(5216, __c163, 0));
+      return S.Record(S.String, __S(0, __c0, 0));
   }
 }
-function __c108(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39595,20 +39766,20 @@ function __c108(j: number): any {
       });
   }
 }
-function __c109(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           operator: S.String,
-          values: S.optional(__S(5216, __c163, 0)),
+          values: S.optional(__S(0, __c0, 0)),
           column: S.optional(S.String),
         }),
       ).annotate({
         identifier: "CreateBulkImportFactRequestFactMetricsItemDataNumeratorRowFiltersItem",
       });
     case 1:
-      return S.Array(__S(3488, __c109, 0));
+      return S.Array(__S(3584, __c112, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -39623,19 +39794,19 @@ function __c109(j: number): any {
         S.Struct({
           name: S.String,
           factTableId: S.String,
-          rowFilters: __S(3489, __c109, 1),
+          rowFilters: __S(3585, __c112, 1),
           optional: S.Boolean,
-          conversionWindow: S.optional(S.NullOr(__S(3456, __c108, 0))),
+          conversionWindow: S.optional(S.NullOr(__S(3552, __c111, 0))),
         }),
       ).annotate({
         identifier: "CreateBulkImportFactRequestFactMetricsItemDataFunnelSettingsStepsItem",
       });
     case 4:
-      return S.Array(__S(3491, __c109, 3));
+      return S.Array(__S(3587, __c112, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          steps: __S(3492, __c109, 4),
+          steps: __S(3588, __c112, 4),
           ordering: S.optional(S.String),
           concurrencyWindowSeconds: S.optional(S.Number),
         }),
@@ -39652,7 +39823,7 @@ function __c109(j: number): any {
       });
   }
 }
-function __c110(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39667,7 +39838,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "CreateBulkImportFactRequestFactMetricsItemDataWindowSettings" });
   }
 }
-function __c111(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39675,9 +39846,9 @@ function __c111(j: number): any {
           factTableId: S.String,
           column: S.optional(S.String),
           aggregation: S.optional(S.String),
-          filters: S.optional(__S(5216, __c163, 0)),
-          inlineFilters: S.optional(__S(3424, __c107, 0)),
-          rowFilters: S.optional(__S(3489, __c109, 1)),
+          filters: S.optional(__S(0, __c0, 0)),
+          inlineFilters: S.optional(__S(3520, __c110, 0)),
+          rowFilters: S.optional(__S(3585, __c112, 1)),
           aggregateFilterColumn: S.optional(S.String),
           aggregateFilter: S.optional(S.String),
         }),
@@ -39688,14 +39859,14 @@ function __c111(j: number): any {
           factTableId: S.String,
           column: S.String,
           aggregation: S.optional(S.String),
-          filters: S.optional(__S(5216, __c163, 0)),
-          inlineFilters: S.optional(__S(3424, __c107, 0)),
-          rowFilters: S.optional(__S(3489, __c109, 1)),
+          filters: S.optional(__S(0, __c0, 0)),
+          inlineFilters: S.optional(__S(3520, __c110, 0)),
+          rowFilters: S.optional(__S(3585, __c112, 1)),
         }),
       ).annotate({ identifier: "CreateBulkImportFactRequestFactMetricsItemDataDenominator" });
   }
 }
-function __c112(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39710,8 +39881,8 @@ function __c112(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          idTypes: __S(5216, __c163, 0),
-          updateTime: __S(3584, __c112, 0),
+          idTypes: __S(0, __c0, 0),
+          updateTime: __S(3680, __c115, 0),
           lookbackWindow: S.Number,
           restateChunkDays: S.optional(S.Number),
         }),
@@ -39720,7 +39891,7 @@ function __c112(j: number): any {
       });
   }
 }
-function __c113(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39728,24 +39899,24 @@ function __c113(j: number): any {
           column: S.String,
           datatype: S.optional(S.String),
           numberFormat: S.optional(S.String),
-          jsonFields: S.optional(__S(3649, __c114, 1)),
+          jsonFields: S.optional(__S(3745, __c117, 1)),
           name: S.optional(S.String),
           description: S.optional(S.String),
           alwaysInlineFilter: S.optional(S.Boolean),
-          conditionalInlineFilters: S.optional(__S(18816, __c588, 0)),
+          conditionalInlineFilters: S.optional(__S(18880, __c590, 0)),
           deleted: S.optional(S.Boolean),
           isAutoSliceColumn: S.optional(S.Boolean),
-          autoSlices: S.optional(__S(5216, __c163, 0)),
-          lockedAutoSlices: S.optional(__S(5216, __c163, 0)),
+          autoSlices: S.optional(__S(0, __c0, 0)),
+          lockedAutoSlices: S.optional(__S(0, __c0, 0)),
           isVirtual: S.optional(S.Boolean),
           sql: S.optional(S.String),
         }),
       ).annotate({ identifier: "FactTableColumnInput" });
     case 1:
-      return S.Array(__S(3616, __c113, 0));
+      return S.Array(__S(3712, __c116, 0));
   }
 }
-function __c114(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39754,10 +39925,10 @@ function __c114(j: number): any {
         }),
       ).annotate({ identifier: "FactTableColumnInputJsonFieldsValue" });
     case 1:
-      return S.Record(S.String, __S(3648, __c114, 0));
+      return S.Record(S.String, __S(3744, __c117, 0));
   }
 }
-function __c115(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39769,19 +39940,19 @@ function __c115(j: number): any {
       ).annotate({ identifier: "GetDashboardsForExperimentRequest" });
   }
 }
-function __c116(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(15044, __c470, 4));
+      return S.Array(__S(15108, __c472, 4));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          dashboards: __S(3712, __c116, 0),
+          dashboards: __S(3808, __c119, 0),
         }),
       ).annotate({ identifier: "GetDashboardsForExperimentResponse" });
   }
 }
-function __c117(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39792,12 +39963,12 @@ function __c117(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          dataSource: __S(3784, __c118, 8),
+          dataSource: __S(3880, __c121, 8),
         }),
       ).annotate({ identifier: "GetDataSourceResponse" });
   }
 }
-function __c118(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39807,14 +39978,14 @@ function __c118(j: number): any {
         }),
       ).annotate({ identifier: "DataSourceIdentifierTypesItem" });
     case 1:
-      return S.Array(__S(3776, __c118, 0));
+      return S.Array(__S(3872, __c121, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           experimentIdColumn: S.optional(S.String),
           variationIdColumn: S.optional(S.String),
           timestampColumn: S.optional(S.String),
-          userIdColumns: S.optional(__S(18816, __c588, 0)),
+          userIdColumns: S.optional(__S(18880, __c590, 0)),
           experimentNameColumn: S.optional(S.String),
           variationNameColumn: S.optional(S.String),
         }),
@@ -39825,26 +39996,26 @@ function __c118(j: number): any {
           id: S.String,
           name: S.String,
           description: S.String,
-          identifierTypes: __S(5216, __c163, 0),
+          identifierTypes: __S(0, __c0, 0),
           identifierType: S.String,
           sql: S.String,
           includesNameColumns: S.Boolean,
-          dimensionColumns: __S(5216, __c163, 0),
-          projects: __S(5216, __c163, 0),
-          columnMapping: S.optional(__S(3778, __c118, 2)),
+          dimensionColumns: __S(0, __c0, 0),
+          projects: __S(0, __c0, 0),
+          columnMapping: S.optional(__S(3874, __c121, 2)),
         }),
       ).annotate({ identifier: "DataSourceAssignmentQueriesItem" });
     case 4:
-      return S.Array(__S(3779, __c118, 3));
+      return S.Array(__S(3875, __c121, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          identifierTypes: __S(5216, __c163, 0),
+          identifierTypes: __S(0, __c0, 0),
           sql: S.String,
         }),
       ).annotate({ identifier: "DataSourceIdentifierJoinQueriesItem" });
     case 6:
-      return S.Array(__S(3781, __c118, 5));
+      return S.Array(__S(3877, __c121, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -39863,17 +40034,17 @@ function __c118(j: number): any {
           type: S.String,
           name: S.String,
           description: S.String,
-          projectIds: __S(5216, __c163, 0),
+          projectIds: __S(0, __c0, 0),
           eventTracker: S.String,
-          identifierTypes: __S(3777, __c118, 1),
-          assignmentQueries: __S(3780, __c118, 4),
-          identifierJoinQueries: __S(3782, __c118, 6),
-          mixpanelSettings: S.optional(__S(3783, __c118, 7)),
+          identifierTypes: __S(3873, __c121, 1),
+          assignmentQueries: __S(3876, __c121, 4),
+          identifierJoinQueries: __S(3878, __c121, 6),
+          mixpanelSettings: S.optional(__S(3879, __c121, 7)),
         }),
       ).annotate({ identifier: "DataSource" });
   }
 }
-function __c119(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39883,7 +40054,7 @@ function __c119(j: number): any {
       ).annotate({ identifier: "GetDimensionRequest" });
   }
 }
-function __c120(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39893,7 +40064,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "GetExperimentRequest" });
   }
 }
-function __c121(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39909,16 +40080,16 @@ function __c121(j: number): any {
         }),
       ).annotate({ identifier: "Experiments" });
     case 2:
-      return S.Array(__S(3873, __c121, 1));
+      return S.Array(__S(3969, __c124, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          experiments: __S(3874, __c121, 2),
+          experiments: __S(3970, __c124, 2),
         }),
       ).annotate({ identifier: "GetExperimentNamesResponse" });
   }
 }
-function __c122(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39931,13 +40102,13 @@ function __c122(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          experiment: __S(15328, __c479, 0),
-          result: __S(17964, __c561, 12),
+          experiment: __S(15392, __c481, 0),
+          result: __S(18028, __c563, 12),
         }),
       ).annotate({ identifier: "GetExperimentResultsResponse" });
   }
 }
-function __c123(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39947,7 +40118,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "GetExperimentSnapshotRequest" });
   }
 }
-function __c124(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39957,7 +40128,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "GetExperimentStartChecklistRequest" });
   }
 }
-function __c125(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39967,7 +40138,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "GetExperimentTemplateRequest" });
   }
 }
-function __c126(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39977,7 +40148,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "GetFactMetricRequest" });
   }
 }
-function __c127(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39991,7 +40162,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "FactMetricWindowSettings" });
   }
 }
-function __c128(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39999,9 +40170,9 @@ function __c128(j: number): any {
           factTableId: S.String,
           column: S.String,
           aggregation: S.optional(S.String),
-          filters: S.optional(__S(5216, __c163, 0)),
-          inlineFilters: S.optional(__S(3424, __c107, 0)),
-          rowFilters: S.optional(__S(3489, __c109, 1)),
+          filters: S.optional(__S(0, __c0, 0)),
+          inlineFilters: S.optional(__S(3520, __c110, 0)),
+          rowFilters: S.optional(__S(3585, __c112, 1)),
           aggregateFilterColumn: S.optional(S.String),
           aggregateFilter: S.optional(S.String),
         }),
@@ -40011,9 +40182,9 @@ function __c128(j: number): any {
         S.Struct({
           factTableId: S.String,
           column: S.String,
-          filters: S.optional(__S(5216, __c163, 0)),
-          inlineFilters: S.optional(__S(3424, __c107, 0)),
-          rowFilters: S.optional(__S(3489, __c109, 1)),
+          filters: S.optional(__S(0, __c0, 0)),
+          inlineFilters: S.optional(__S(3520, __c110, 0)),
+          rowFilters: S.optional(__S(3585, __c112, 1)),
         }),
       ).annotate({ identifier: "FactMetricDenominator" });
     case 2:
@@ -40024,20 +40195,20 @@ function __c128(j: number): any {
           description: S.String,
           owner: S.String,
           ownerEmail: S.optional(S.String),
-          projects: __S(5216, __c163, 0),
-          tags: __S(5216, __c163, 0),
+          projects: __S(0, __c0, 0),
+          tags: __S(0, __c0, 0),
           datasource: S.String,
           metricType: S.String,
-          numerator: S.optional(__S(4096, __c128, 0)),
-          denominator: S.optional(__S(4097, __c128, 1)),
+          numerator: S.optional(__S(4192, __c131, 0)),
+          denominator: S.optional(__S(4193, __c131, 1)),
           inverse: S.Boolean,
-          quantileSettings: S.optional(__S(3490, __c109, 2)),
-          funnelSettings: S.optional(__S(3493, __c109, 5)),
-          cappingSettings: __S(3392, __c106, 0),
-          lowerCappingSettings: S.optional(S.NullOr(__S(3392, __c106, 0))),
-          windowSettings: __S(4064, __c127, 0),
-          priorSettings: __S(3360, __c105, 0),
-          regressionAdjustmentSettings: __S(3494, __c109, 6),
+          quantileSettings: S.optional(__S(3586, __c112, 2)),
+          funnelSettings: S.optional(__S(3589, __c112, 5)),
+          cappingSettings: __S(3488, __c109, 0),
+          lowerCappingSettings: S.optional(S.NullOr(__S(3488, __c109, 0))),
+          windowSettings: __S(4160, __c130, 0),
+          priorSettings: __S(3456, __c108, 0),
+          regressionAdjustmentSettings: __S(3590, __c112, 6),
           riskThresholdSuccess: S.Number,
           riskThresholdDanger: S.Number,
           displayAsPercentage: S.optional(S.Boolean),
@@ -40049,23 +40220,23 @@ function __c128(j: number): any {
           dateCreated: S.String,
           dateUpdated: S.String,
           archived: S.optional(S.Boolean),
-          metricAutoSlices: S.optional(__S(5216, __c163, 0)),
-          replaces: S.optional(__S(5216, __c163, 0)),
+          metricAutoSlices: S.optional(__S(0, __c0, 0)),
+          replaces: S.optional(__S(0, __c0, 0)),
         }),
       ).annotate({ identifier: "FactMetric" });
   }
 }
-function __c129(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          factMetric: __S(4098, __c128, 2),
+          factMetric: __S(4194, __c131, 2),
         }),
       ).annotate({ identifier: "GetFactMetricResponse" });
   }
 }
-function __c130(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40078,25 +40249,25 @@ function __c130(j: number): any {
         }),
       ).annotate({ identifier: "CreateCodeRefRequestRefsItem" });
     case 1:
-      return S.Array(__S(4160, __c130, 0));
+      return S.Array(__S(4256, __c133, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           deleteMissing: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
           branch: S.String,
           repoName: S.String,
-          refs: __S(4161, __c130, 1),
+          refs: __S(4257, __c133, 1),
         }).pipe(T.Http({ method: "POST", uri: "/v1/code-refs", code: 200 })),
       ).annotate({ identifier: "CreateCodeRefRequest" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          featuresUpdated: S.optional(__S(5216, __c163, 0)),
+          featuresUpdated: S.optional(__S(0, __c0, 0)),
         }),
       ).annotate({ identifier: "CreateCodeRefResponse" });
   }
 }
-function __c131(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40106,7 +40277,7 @@ function __c131(j: number): any {
       ).annotate({ identifier: "GetFactTableRequest" });
   }
 }
-function __c132(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40119,7 +40290,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "GetFactTableFilterRequest" });
   }
 }
-function __c133(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40128,12 +40299,12 @@ function __c133(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/feature-keys", code: 200 })),
       ).annotate({ identifier: "GetFeatureKeysV2Request" });
     case 1:
-      return S.suspend(() => __S(5216, __c163, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(0, __c0, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetFeatureKeysV2Response",
       });
   }
 }
-function __c134(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40152,7 +40323,7 @@ function __c134(j: number): any {
       });
   }
 }
-function __c135(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40165,7 +40336,7 @@ function __c135(j: number): any {
       ).annotate({ identifier: "GetFeatureRevisionLatestV2Request" });
   }
 }
-function __c136(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40184,20 +40355,20 @@ function __c136(j: number): any {
           subject: S.String,
           value: S.String,
           timestamp: S.String,
-          user: S.NullOr(__S(9569, __c299, 1)),
+          user: S.NullOr(__S(9633, __c301, 1)),
         }),
       ).annotate({ identifier: "Log" });
     case 2:
-      return S.Array(__S(4353, __c136, 1));
+      return S.Array(__S(4449, __c139, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          log: __S(4354, __c136, 2),
+          log: __S(4450, __c139, 2),
         }),
       ).annotate({ identifier: "GetFeatureRevisionLogV2Response" });
   }
 }
-function __c137(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40218,14 +40389,14 @@ function __c137(j: number): any {
           success: S.Boolean,
           liveVersion: S.Number,
           draftDateUpdated: S.String,
-          conflicts: __S(4449, __c139, 1),
-          result: S.optional(__S(4451, __c139, 3)),
+          conflicts: __S(4545, __c142, 1),
+          result: S.optional(__S(4547, __c142, 3)),
           rebaseRequired: S.Boolean,
         }),
       ).annotate({ identifier: "GetFeatureRevisionMergeStatusV2Response" });
   }
 }
-function __c138(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40236,7 +40407,7 @@ function __c138(j: number): any {
       ).annotate({ identifier: "GetFeatureRevisionMergeStatusV2ResponseResultHoldout" });
   }
 }
-function __c139(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40250,7 +40421,7 @@ function __c139(j: number): any {
         }),
       ).annotate({ identifier: "Conflicts" });
     case 1:
-      return S.Array(__S(4448, __c139, 0));
+      return S.Array(__S(4544, __c142, 0));
     case 2:
       return S.suspend(() =>
         S.StructWithRest(
@@ -40265,17 +40436,17 @@ function __c139(j: number): any {
       return S.suspend(() =>
         S.Struct({
           defaultValue: S.optional(S.String),
-          rules: S.optional(__S(6336, __c198, 0)),
-          environmentsEnabled: S.optional(__S(800, __c25, 0)),
-          prerequisites: S.optional(__S(9505, __c297, 1)),
+          rules: S.optional(__S(6400, __c200, 0)),
+          environmentsEnabled: S.optional(__S(896, __c28, 0)),
+          prerequisites: S.optional(__S(9569, __c299, 1)),
           archived: S.optional(S.Boolean),
-          metadata: S.optional(__S(4450, __c139, 2)),
-          holdout: S.optional(S.NullOr(__S(4416, __c138, 0))),
+          metadata: S.optional(__S(4546, __c142, 2)),
+          holdout: S.optional(S.NullOr(__S(4512, __c141, 0))),
         }),
       ).annotate({ identifier: "GetFeatureRevisionMergeStatusV2ResponseResult" });
   }
 }
-function __c140(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40291,18 +40462,18 @@ function __c140(j: number): any {
       ).annotate({ identifier: "GetFeatureRevisionsV2Request" });
   }
 }
-function __c141(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(872, __c27, 8));
+      return S.Array(__S(968, __c30, 8));
   }
 }
-function __c142(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          revisions: __S(4512, __c141, 0),
+          revisions: __S(4608, __c144, 0),
           limit: S.Number,
           offset: S.Number,
           count: S.Number,
@@ -40313,7 +40484,7 @@ function __c142(j: number): any {
       ).annotate({ identifier: "GetFeatureRevisionsV2Response" });
   }
 }
-function __c143(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40324,7 +40495,7 @@ function __c143(j: number): any {
       ).annotate({ identifier: "GetFeatureRevisionV2Request" });
   }
 }
-function __c144(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40342,7 +40513,7 @@ function __c144(j: number): any {
         }),
       ).annotate({ identifier: "GetFeatureStaleV2ResponseFeaturesValueStaleByEnvValue" });
     case 2:
-      return S.Record(S.String, __S(4609, __c144, 1));
+      return S.Record(S.String, __S(4705, __c147, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -40350,20 +40521,20 @@ function __c144(j: number): any {
           isStale: S.Boolean,
           staleReason: S.NullOr(S.String),
           neverStale: S.Boolean,
-          staleByEnv: S.optional(__S(4610, __c144, 2)),
+          staleByEnv: S.optional(__S(4706, __c147, 2)),
         }),
       ).annotate({ identifier: "GetFeatureStaleV2ResponseFeaturesValue" });
     case 4:
-      return S.Record(S.String, __S(4611, __c144, 3));
+      return S.Record(S.String, __S(4707, __c147, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          features: __S(4612, __c144, 4),
+          features: __S(4708, __c147, 4),
         }),
       ).annotate({ identifier: "GetFeatureStaleV2Response" });
   }
 }
-function __c145(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40373,9 +40544,9 @@ function __c145(j: number): any {
           key: S.String,
           name: S.String,
           parent: S.optional(S.String),
-          extends: S.optional(__S(5216, __c163, 0)),
-          value: S.optional(__S(18304, __c572, 0)),
-          scopedOverrides: S.optional(__S(18337, __c573, 1)),
+          extends: S.optional(__S(0, __c0, 0)),
+          value: S.optional(__S(18368, __c574, 0)),
+          scopedOverrides: S.optional(__S(18401, __c575, 1)),
           description: S.optional(S.String),
           project: S.optional(S.String),
           owner: S.optional(S.String),
@@ -40383,21 +40554,21 @@ function __c145(j: number): any {
           source: S.optional(S.String),
           extensible: S.optional(S.Boolean),
           experimentGuard: S.optional(S.Boolean),
-          invariants: S.optional(__S(4705, __c147, 1)),
+          invariants: S.optional(__S(4801, __c150, 1)),
           skipHooks: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/v1/configs", code: 200 })),
       ).annotate({ identifier: "CreateConfigRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          config: __S(18343, __c573, 7),
-          warnings: S.optional(__S(4673, __c146, 1)),
-          postPublishWarnings: S.optional(__S(5216, __c163, 0)),
+          config: __S(18407, __c575, 7),
+          warnings: S.optional(__S(4769, __c149, 1)),
+          postPublishWarnings: S.optional(__S(0, __c0, 0)),
         }),
       ).annotate({ identifier: "CreateConfigResponse" });
   }
 }
-function __c146(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40408,24 +40579,24 @@ function __c146(j: number): any {
         }),
       ).annotate({ identifier: "ConfigSchemaWarning" });
     case 1:
-      return S.Array(__S(4672, __c146, 0));
+      return S.Array(__S(4768, __c149, 0));
   }
 }
-function __c147(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          rule: __S(18304, __c572, 0),
+          rule: __S(18368, __c574, 0),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateConfigRequestInvariantsItem" });
     case 1:
-      return S.Array(__S(4704, __c147, 0));
+      return S.Array(__S(4800, __c150, 0));
   }
 }
-function __c148(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40445,30 +40616,30 @@ function __c148(j: number): any {
           owner: S.String,
           project: S.String,
           targetingAllProjects: S.optional(S.Boolean),
-          targetingProjects: S.optional(__S(5216, __c163, 0)),
+          targetingProjects: S.optional(__S(0, __c0, 0)),
           valueType: S.String,
           defaultValue: S.String,
           baseConfig: S.optional(S.NullOr(S.String)),
           defaultValueConfig: S.optional(S.NullOr(S.String)),
-          tags: __S(5216, __c163, 0),
-          rules: __S(838, __c26, 6),
-          environments: __S(4769, __c149, 1),
-          prerequisites: S.optional(__S(5216, __c163, 0)),
-          revision: __S(4770, __c149, 2),
-          customFields: S.optional(__S(18304, __c572, 0)),
-          holdout: S.optional(S.NullOr(__S(4416, __c138, 0))),
-          revisions: S.optional(__S(4512, __c141, 0)),
+          tags: __S(0, __c0, 0),
+          rules: __S(934, __c29, 6),
+          environments: __S(4865, __c152, 1),
+          prerequisites: S.optional(__S(0, __c0, 0)),
+          revision: __S(4866, __c152, 2),
+          customFields: S.optional(__S(18368, __c574, 0)),
+          holdout: S.optional(S.NullOr(__S(4512, __c141, 0))),
+          revisions: S.optional(__S(4608, __c144, 0)),
         }),
       ).annotate({ identifier: "FeatureWithRevisionsV2" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          feature: __S(4737, __c148, 1),
+          feature: __S(4833, __c151, 1),
         }),
       ).annotate({ identifier: "GetFeatureV2Response" });
   }
 }
-function __c149(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40479,7 +40650,7 @@ function __c149(j: number): any {
         }),
       ).annotate({ identifier: "FeatureEnvironmentV2" });
     case 1:
-      return S.Record(S.String, __S(4768, __c149, 0));
+      return S.Record(S.String, __S(4864, __c152, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -40487,13 +40658,13 @@ function __c149(j: number): any {
           version: S.Number,
           comment: S.String,
           date: S.String,
-          createdBy: S.optional(__S(9569, __c299, 1)),
-          publishedBy: S.optional(__S(9569, __c299, 1)),
+          createdBy: S.optional(__S(9633, __c301, 1)),
+          publishedBy: S.optional(__S(9633, __c301, 1)),
         }),
       ).annotate({ identifier: "FeatureRevisionSummary" });
   }
 }
-function __c150(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40503,7 +40674,7 @@ function __c150(j: number): any {
       ).annotate({ identifier: "GetHoldoutRequest" });
   }
 }
-function __c151(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40536,7 +40707,7 @@ function __c151(j: number): any {
         }),
       ).annotate({ identifier: "InformationSchemaDatabasesItemSchemasItemTablesItem" });
     case 3:
-      return S.Array(__S(4834, __c151, 2));
+      return S.Array(__S(4930, __c154, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -40544,11 +40715,11 @@ function __c151(j: number): any {
           path: S.optional(S.String),
           dateCreated: S.String,
           dateUpdated: S.String,
-          tables: __S(4835, __c151, 3),
+          tables: __S(4931, __c154, 3),
         }),
       ).annotate({ identifier: "InformationSchemaDatabasesItemSchemasItem" });
     case 5:
-      return S.Array(__S(4836, __c151, 4));
+      return S.Array(__S(4932, __c154, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -40556,19 +40727,19 @@ function __c151(j: number): any {
           path: S.optional(S.String),
           dateCreated: S.String,
           dateUpdated: S.String,
-          schemas: __S(4837, __c151, 5),
+          schemas: __S(4933, __c154, 5),
         }),
       ).annotate({ identifier: "InformationSchemaDatabasesItem" });
     case 7:
-      return S.Array(__S(4838, __c151, 6));
+      return S.Array(__S(4934, __c154, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           datasourceId: S.String,
           status: S.String,
-          error: S.optional(__S(4833, __c151, 1)),
-          databases: __S(4839, __c151, 7),
+          error: S.optional(__S(4929, __c154, 1)),
+          databases: __S(4935, __c154, 7),
           dateCreated: S.String,
           dateUpdated: S.String,
         }),
@@ -40576,12 +40747,12 @@ function __c151(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          informationSchema: __S(4840, __c151, 8),
+          informationSchema: __S(4936, __c154, 8),
         }),
       ).annotate({ identifier: "GetInformationSchemaResponse" });
   }
 }
-function __c152(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40599,7 +40770,7 @@ function __c152(j: number): any {
         }),
       ).annotate({ identifier: "InformationSchemaTableColumnsItem" });
     case 2:
-      return S.Array(__S(4865, __c152, 1));
+      return S.Array(__S(4961, __c155, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -40609,7 +40780,7 @@ function __c152(j: number): any {
           tableName: S.String,
           tableSchema: S.String,
           databaseName: S.String,
-          columns: __S(4866, __c152, 2),
+          columns: __S(4962, __c155, 2),
           refreshMS: S.Number,
           dateCreated: S.String,
           dateUpdated: S.String,
@@ -40618,12 +40789,12 @@ function __c152(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          informationSchemaTable: __S(4867, __c152, 3),
+          informationSchemaTable: __S(4963, __c155, 3),
         }),
       ).annotate({ identifier: "GetInformationSchemaTableResponse" });
   }
 }
-function __c153(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40633,7 +40804,7 @@ function __c153(j: number): any {
       ).annotate({ identifier: "GetInterleavingRequest" });
   }
 }
-function __c154(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40645,7 +40816,7 @@ function __c154(j: number): any {
       ).annotate({ identifier: "GetInterleavingExposureQueryRequest" });
   }
 }
-function __c155(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40656,13 +40827,13 @@ function __c155(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          snapshot: S.NullOr(__S(5002, __c156, 10)),
-          latest: S.NullOr(__S(5024, __c157, 0)),
+          snapshot: S.NullOr(__S(5098, __c159, 10)),
+          latest: S.NullOr(__S(5120, __c160, 0)),
         }),
       ).annotate({ identifier: "GetInterleavingResultsResponse" });
   }
 }
-function __c156(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40675,8 +40846,8 @@ function __c156(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          control: __S(4992, __c156, 0),
-          treatment: __S(4992, __c156, 0),
+          control: __S(5088, __c159, 0),
+          treatment: __S(5088, __c159, 0),
         }),
       ).annotate({ identifier: "InterleavingSnapshotSettingsVariations" });
     case 2:
@@ -40685,11 +40856,11 @@ function __c156(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          analyses: __S(4994, __c156, 2),
+          analyses: __S(5090, __c159, 2),
         }),
       ).annotate({ identifier: "InterleavingSnapshotSettingsMetricsItem" });
     case 4:
-      return S.Array(__S(4995, __c156, 3));
+      return S.Array(__S(5091, __c159, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -40697,8 +40868,8 @@ function __c156(j: number): any {
           datasourceId: S.String,
           interleavingExposureQueryId: S.String,
           userIdType: S.String,
-          variations: __S(4993, __c156, 1),
-          metrics: __S(4996, __c156, 4),
+          variations: __S(5089, __c159, 1),
+          metrics: __S(5092, __c159, 4),
           pValueThreshold: S.Number,
           startDate: S.String,
           endDate: S.String,
@@ -40716,7 +40887,7 @@ function __c156(j: number): any {
         S.Struct({
           method: S.String,
           expected: S.Number,
-          ci: __S(6336, __c198, 0),
+          ci: __S(6400, __c200, 0),
           pValue: S.NullOr(S.Number),
           errorMessage: S.NullOr(S.String),
           pValueErrorMessage: S.NullOr(S.String),
@@ -40729,13 +40900,13 @@ function __c156(j: number): any {
           analysis: S.Unknown,
           users: S.Number,
           denominator: S.Number,
-          control: __S(4998, __c156, 6),
-          treatment: __S(4998, __c156, 6),
-          test: __S(4999, __c156, 7),
+          control: __S(5094, __c159, 6),
+          treatment: __S(5094, __c159, 6),
+          test: __S(5095, __c159, 7),
         }),
       ).annotate({ identifier: "InterleavingSnapshotResultsItem" });
     case 9:
-      return S.Array(__S(5000, __c156, 8));
+      return S.Array(__S(5096, __c159, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -40745,14 +40916,14 @@ function __c156(j: number): any {
           error: S.optional(S.String),
           dateCreated: S.String,
           runStarted: S.NullOr(S.String),
-          settings: __S(4997, __c156, 5),
-          results: S.optional(__S(5001, __c156, 9)),
+          settings: __S(5093, __c159, 5),
+          results: S.optional(__S(5097, __c159, 9)),
           usersExposed: S.optional(S.Number),
         }),
       ).annotate({ identifier: "InterleavingSnapshot" });
   }
 }
-function __c157(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40762,12 +40933,12 @@ function __c157(j: number): any {
           error: S.optional(S.String),
           dateCreated: S.String,
           runStarted: S.NullOr(S.String),
-          queries: __S(3105, __c97, 1),
+          queries: __S(3201, __c100, 1),
         }),
       ).annotate({ identifier: "InterleavingSnapshotStatus2" });
   }
 }
-function __c158(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40784,17 +40955,17 @@ function __c158(j: number): any {
       ).annotate({ identifier: "GetInterleavingSnapshotRequest" });
   }
 }
-function __c159(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          snapshot: __S(5002, __c156, 10),
+          snapshot: __S(5098, __c159, 10),
         }),
       ).annotate({ identifier: "GetInterleavingSnapshotResponse" });
   }
 }
-function __c160(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40805,12 +40976,12 @@ function __c160(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          latest: S.NullOr(__S(5024, __c157, 0)),
+          latest: S.NullOr(__S(5120, __c160, 0)),
         }),
       ).annotate({ identifier: "GetInterleavingStatusResponse" });
   }
 }
-function __c161(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40820,20 +40991,20 @@ function __c161(j: number): any {
       ).annotate({ identifier: "GetLearningRequest" });
   }
 }
-function __c162(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           featureId: S.String.pipe(T.Label()),
-          variations: __S(5249, __c164, 1),
+          variations: __S(5313, __c166, 1),
           description: S.optional(S.String),
           enabled: S.optional(S.Boolean),
           allEnvironments: S.optional(S.Boolean),
-          environments: S.optional(__S(5216, __c163, 0)),
+          environments: S.optional(__S(0, __c0, 0)),
           allProjects: S.optional(S.Boolean),
-          projects: S.optional(__S(5216, __c163, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
           autoPublish: S.optional(S.Boolean),
           allowUnscopedRules: S.optional(S.Boolean),
           draftVersion: S.optional(S.Number),
@@ -40856,13 +41027,7 @@ function __c162(j: number): any {
       ).annotate({ identifier: "AddContextualBanditLinkedFeatureResponse" });
   }
 }
-function __c163(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c164(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40873,10 +41038,10 @@ function __c164(j: number): any {
         }),
       ).annotate({ identifier: "AddContextualBanditLinkedFeatureRequestVariationsItem" });
     case 1:
-      return S.Array(__S(5248, __c164, 0));
+      return S.Array(__S(5312, __c166, 0));
   }
 }
-function __c165(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40894,7 +41059,7 @@ function __c165(j: number): any {
       ).annotate({ identifier: "CreateConfigRevisionDiscardRequest" });
   }
 }
-function __c166(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40905,23 +41070,23 @@ function __c166(j: number): any {
           comment: S.optional(S.String),
           stale: S.optional(S.Boolean),
           dateCreated: S.String,
-          user: S.optional(__S(9569, __c299, 1)),
+          user: S.optional(__S(9633, __c301, 1)),
         }),
       ).annotate({ identifier: "ConfigRevisionReview" });
     case 1:
-      return S.Array(__S(5312, __c166, 0));
+      return S.Array(__S(5376, __c168, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           action: S.String,
           userId: S.String,
-          user: S.optional(__S(9569, __c299, 1)),
+          user: S.optional(__S(9633, __c301, 1)),
           dateCreated: S.String,
         }),
       ).annotate({ identifier: "ConfigRevisionResolution" });
   }
 }
-function __c167(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -40932,14 +41097,14 @@ function __c167(j: number): any {
           userId: S.String,
           action: S.String,
           description: S.optional(S.NullOr(S.String)),
-          proposedChangesSnapshot: S.optional(__S(5344, __c167, 0)),
+          proposedChangesSnapshot: S.optional(__S(5408, __c169, 0)),
           targetSnapshot: S.optional(S.Unknown),
           dateCreated: S.String,
-          user: S.optional(__S(9569, __c299, 1)),
+          user: S.optional(__S(9633, __c301, 1)),
         }),
       ).annotate({ identifier: "ConfigRevisionActivityLogEntry" });
     case 2:
-      return S.Array(__S(5345, __c167, 1));
+      return S.Array(__S(5409, __c169, 1));
     case 3:
       return S.Array(S.Unknown);
     case 4:
@@ -40950,15 +41115,15 @@ function __c167(j: number): any {
           title: S.optional(S.String),
           status: S.String,
           authorId: S.String,
-          author: S.optional(__S(9569, __c299, 1)),
+          author: S.optional(__S(9633, __c301, 1)),
           authorEmail: S.optional(S.String),
-          contributors: S.optional(__S(5216, __c163, 0)),
+          contributors: S.optional(__S(0, __c0, 0)),
           revertedFrom: S.optional(S.String),
-          reviews: __S(5313, __c166, 1),
-          activityLog: __S(5346, __c167, 2),
+          reviews: __S(5377, __c168, 1),
+          activityLog: __S(5410, __c169, 2),
           autoPublishOnApproval: S.optional(S.Boolean),
           autoPublishEnabledBy: S.optional(S.String),
-          autoPublishEnabledByUser: S.optional(__S(9569, __c299, 1)),
+          autoPublishEnabledByUser: S.optional(__S(9633, __c301, 1)),
           scheduledPublishAt: S.optional(S.String),
           scheduledPublishLockEdits: S.optional(S.Boolean),
           scheduledPublishLockOthers: S.optional(S.Boolean),
@@ -40966,27 +41131,27 @@ function __c167(j: number): any {
           scheduledPublishAttempts: S.optional(S.Number),
           scheduledPublishLastError: S.optional(S.String),
           scheduledPublishGaveUpAt: S.optional(S.String),
-          resolution: S.optional(__S(5314, __c166, 2)),
+          resolution: S.optional(__S(5378, __c168, 2)),
           dateCreated: S.String,
           dateUpdated: S.String,
-          baseConfig: __S(18343, __c573, 7),
-          proposedConfig: __S(18343, __c573, 7),
-          proposedChanges: __S(5347, __c167, 3),
+          baseConfig: __S(18407, __c575, 7),
+          proposedConfig: __S(18407, __c575, 7),
+          proposedChanges: __S(5411, __c169, 3),
         }),
       ).annotate({ identifier: "ConfigRevision" });
   }
 }
-function __c168(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          revision: __S(5348, __c167, 4),
+          revision: __S(5412, __c169, 4),
         }),
       ).annotate({ identifier: "CreateConfigRevisionDiscardResponse" });
   }
 }
-function __c169(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40996,18 +41161,18 @@ function __c169(j: number): any {
       ).annotate({ identifier: "GetMetricRequest" });
   }
 }
-function __c170(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           goal: S.String,
-          cappingSettings: S.optional(__S(3392, __c106, 0)),
+          cappingSettings: S.optional(__S(3488, __c109, 0)),
           cap: S.optional(S.Number),
           capping: S.optional(S.NullOr(S.String)),
           capValue: S.optional(S.Number),
-          windowSettings: __S(4064, __c127, 0),
-          priorSettings: S.optional(__S(3360, __c105, 0)),
+          windowSettings: __S(4160, __c130, 0),
+          priorSettings: S.optional(__S(3456, __c108, 0)),
           conversionWindowStart: S.optional(S.Number),
           conversionWindowEnd: S.optional(S.Number),
           riskThresholdSuccess: S.Number,
@@ -41021,7 +41186,7 @@ function __c170(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          identifierTypes: __S(5216, __c163, 0),
+          identifierTypes: __S(0, __c0, 0),
           conversionSQL: S.String,
           userAggregationSQL: S.String,
           denominatorMetricId: S.String,
@@ -41030,11 +41195,11 @@ function __c170(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          identifierTypeColumns: __S(5473, __c171, 1),
+          identifierTypeColumns: __S(5537, __c173, 1),
           tableName: S.String,
           valueColumnName: S.String,
           timestampColumnName: S.String,
-          conditions: __S(5475, __c171, 3),
+          conditions: __S(5539, __c173, 3),
         }),
       ).annotate({ identifier: "MetricSqlBuilder" });
     case 3:
@@ -41043,7 +41208,7 @@ function __c170(j: number): any {
           eventName: S.String,
           eventValue: S.String,
           userAggregation: S.String,
-          conditions: __S(5477, __c171, 5),
+          conditions: __S(5541, __c173, 5),
         }),
       ).annotate({ identifier: "MetricMixpanel" });
     case 4:
@@ -41059,18 +41224,18 @@ function __c170(j: number): any {
           name: S.String,
           description: S.String,
           type: S.String,
-          tags: __S(5216, __c163, 0),
-          projects: __S(5216, __c163, 0),
+          tags: __S(0, __c0, 0),
+          projects: __S(0, __c0, 0),
           archived: S.Boolean,
-          behavior: __S(5440, __c170, 0),
-          sql: S.optional(__S(5441, __c170, 1)),
-          sqlBuilder: S.optional(__S(5442, __c170, 2)),
-          mixpanel: S.optional(__S(5443, __c170, 3)),
+          behavior: __S(5504, __c172, 0),
+          sql: S.optional(__S(5505, __c172, 1)),
+          sqlBuilder: S.optional(__S(5506, __c172, 2)),
+          mixpanel: S.optional(__S(5507, __c172, 3)),
         }),
       ).annotate({ identifier: "Metric" });
   }
 }
-function __c171(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41080,7 +41245,7 @@ function __c171(j: number): any {
         }),
       ).annotate({ identifier: "MetricSqlBuilderIdentifierTypeColumnsItem" });
     case 1:
-      return S.Array(__S(5472, __c171, 0));
+      return S.Array(__S(5536, __c173, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -41090,7 +41255,7 @@ function __c171(j: number): any {
         }),
       ).annotate({ identifier: "MetricSqlBuilderConditionsItem" });
     case 3:
-      return S.Array(__S(5474, __c171, 2));
+      return S.Array(__S(5538, __c173, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -41100,20 +41265,20 @@ function __c171(j: number): any {
         }),
       ).annotate({ identifier: "MetricMixpanelConditionsItem" });
     case 5:
-      return S.Array(__S(5476, __c171, 4));
+      return S.Array(__S(5540, __c173, 4));
   }
 }
-function __c172(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metric: __S(5444, __c170, 4),
+          metric: __S(5508, __c172, 4),
         }),
       ).annotate({ identifier: "GetMetricResponse" });
   }
 }
-function __c173(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41123,7 +41288,7 @@ function __c173(j: number): any {
       ).annotate({ identifier: "GetMetricGroupRequest" });
   }
 }
-function __c174(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41140,27 +41305,27 @@ function __c174(j: number): any {
         }),
       ).annotate({ identifier: "MetricUsageExperimentsItem" });
     case 2:
-      return S.Array(__S(5569, __c174, 1));
+      return S.Array(__S(5633, __c176, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           metricId: S.String,
           error: S.optional(S.String),
-          experiments: S.optional(__S(5570, __c174, 2)),
+          experiments: S.optional(__S(5634, __c176, 2)),
           lastSnapshotAttempt: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "MetricUsage" });
     case 4:
-      return S.Array(__S(5571, __c174, 3));
+      return S.Array(__S(5635, __c176, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          metricUsage: __S(5572, __c174, 4),
+          metricUsage: __S(5636, __c176, 4),
         }),
       ).annotate({ identifier: "GetMetricUsageResponse" });
   }
 }
-function __c175(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41170,7 +41335,7 @@ function __c175(j: number): any {
       ).annotate({ identifier: "GetNamespaceRequest" });
   }
 }
-function __c176(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41187,15 +41352,15 @@ function __c176(j: number): any {
           name: S.String,
           trackingKey: S.String,
           status: S.String,
-          ranges: __S(15488, __c484, 0),
+          ranges: __S(15552, __c486, 0),
         }),
       ).annotate({ identifier: "NamespaceExperimentMember" });
     case 2:
-      return S.Array(__S(5633, __c176, 1));
+      return S.Array(__S(5697, __c178, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          experiments: __S(5634, __c176, 2),
+          experiments: __S(5698, __c178, 2),
           limit: S.Number,
           offset: S.Number,
           count: S.Number,
@@ -41206,7 +41371,7 @@ function __c176(j: number): any {
       ).annotate({ identifier: "GetNamespaceMembershipsResponse" });
   }
 }
-function __c177(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41216,14 +41381,14 @@ function __c177(j: number): any {
       ).annotate({ identifier: "GetPopulationRequest" });
   }
 }
-function __c178(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           source: S.String.pipe(T.Query()),
           factTableId: S.optional(S.String.pipe(T.Query())),
-          metricIds: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
+          metricIds: S.optional(__S(0, __c0, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/product-analytics/columns", code: 200 })),
       ).annotate({ identifier: "GetProductAnalyticsColumnsRequest" });
     case 1:
@@ -41235,7 +41400,7 @@ function __c178(j: number): any {
         }),
       ).annotate({ identifier: "Columns" });
     case 2:
-      return S.Array(__S(5697, __c178, 1));
+      return S.Array(__S(5761, __c180, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -41245,27 +41410,27 @@ function __c178(j: number): any {
         }),
       ).annotate({ identifier: "Metrics" });
     case 4:
-      return S.Array(__S(5699, __c178, 3));
+      return S.Array(__S(5763, __c180, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          columns: __S(5698, __c178, 2),
-          userIdTypes: __S(5216, __c163, 0),
-          metrics: S.optional(__S(5700, __c178, 4)),
+          columns: __S(5762, __c180, 2),
+          userIdTypes: __S(0, __c0, 0),
+          metrics: S.optional(__S(5764, __c180, 4)),
           unitNote: S.String,
         }),
       ).annotate({ identifier: "GetProductAnalyticsColumnsResponse" });
   }
 }
-function __c179(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           source: S.String,
           factTableId: S.optional(S.String),
-          metricIds: S.optional(__S(5216, __c163, 0)),
-          columns: __S(5216, __c163, 0),
+          metricIds: S.optional(__S(0, __c0, 0)),
+          columns: __S(0, __c0, 0),
           searchTerm: S.optional(S.String),
           limit: S.optional(S.Number),
         }).pipe(T.Http({ method: "POST", uri: "/v1/product-analytics/column-values", code: 200 })),
@@ -41273,13 +41438,13 @@ function __c179(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          values: __S(3424, __c107, 0),
-          warnings: S.optional(__S(5216, __c163, 0)),
+          values: __S(3520, __c110, 0),
+          warnings: S.optional(__S(0, __c0, 0)),
         }),
       ).annotate({ identifier: "GetProductAnalyticsColumnValuesResponse" });
   }
 }
-function __c180(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41292,20 +41457,20 @@ function __c180(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          dimensions: __S(5824, __c182, 0),
-          values: S.optional(__S(5826, __c182, 2)),
+          dimensions: __S(5888, __c184, 0),
+          values: S.optional(__S(5890, __c184, 2)),
           populationCount: S.optional(S.Number),
-          steps: S.optional(__S(5828, __c182, 4)),
+          steps: S.optional(__S(5892, __c184, 4)),
           journey: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "AnalyticsExplorationResultRowsItem" });
     case 2:
-      return S.Array(__S(5761, __c180, 1));
+      return S.Array(__S(5825, __c182, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          rows: __S(5762, __c180, 2),
-          rawRows: S.optional(__S(5829, __c182, 5)),
+          rows: __S(5826, __c182, 2),
+          rawRows: S.optional(__S(5893, __c184, 5)),
           truncated: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "AnalyticsExplorationResult" });
@@ -41320,21 +41485,21 @@ function __c180(j: number): any {
           dateStart: S.String,
           dateEnd: S.String,
           error: S.optional(S.NullOr(S.String)),
-          result: __S(5763, __c180, 3),
+          result: __S(5827, __c182, 3),
           config: S.Unknown,
         }),
       ).annotate({ identifier: "AnalyticsExploration" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          exploration: __S(5764, __c180, 4),
-          query: S.NullOr(__S(5792, __c181, 0)),
+          exploration: __S(5828, __c182, 4),
+          query: S.NullOr(__S(5856, __c183, 0)),
           explorationUrl: S.String,
         }),
       ).annotate({ identifier: "GetProductAnalyticsExplorationResponse" });
   }
 }
-function __c181(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41349,13 +41514,13 @@ function __c181(j: number): any {
           startedAt: S.String,
           status: S.String,
           externalId: S.String,
-          dependencies: __S(5216, __c163, 0),
+          dependencies: __S(0, __c0, 0),
           runAtEnd: S.Boolean,
         }),
       ).annotate({ identifier: "Query" });
   }
 }
-function __c182(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.Array(/*@__PURE__*/ S.NullOr(S.String));
@@ -41368,7 +41533,7 @@ function __c182(j: number): any {
         }),
       ).annotate({ identifier: "AnalyticsExplorationResultRowsItemValuesItem" });
     case 2:
-      return S.Array(__S(5825, __c182, 1));
+      return S.Array(__S(5889, __c184, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -41378,12 +41543,12 @@ function __c182(j: number): any {
         }),
       ).annotate({ identifier: "AnalyticsExplorationResultRowsItemStepsItem" });
     case 4:
-      return S.Array(__S(5827, __c182, 3));
+      return S.Array(__S(5891, __c184, 3));
     case 5:
-      return S.Array(__S(18304, __c572, 0));
+      return S.Array(__S(18368, __c574, 0));
   }
 }
-function __c183(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41393,7 +41558,7 @@ function __c183(j: number): any {
       ).annotate({ identifier: "GetProjectRequest" });
   }
 }
-function __c184(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41414,18 +41579,18 @@ function __c184(j: number): any {
       ).annotate({ identifier: "CreateConfigRevisionPublishRequest" });
   }
 }
-function __c185(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          revision: __S(5348, __c167, 4),
-          bypassedGates: S.optional(__S(18401, __c575, 1)),
+          revision: __S(5412, __c169, 4),
+          bypassedGates: S.optional(__S(18465, __c577, 1)),
         }),
       ).annotate({ identifier: "CreateConfigRevisionPublishResponse" });
   }
 }
-function __c186(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41436,12 +41601,12 @@ function __c186(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          query: __S(5792, __c181, 0),
+          query: __S(5856, __c183, 0),
         }),
       ).annotate({ identifier: "GetQueryResponse" });
   }
 }
-function __c187(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41451,7 +41616,7 @@ function __c187(j: number): any {
       ).annotate({ identifier: "GetRampScheduleRequest" });
   }
 }
-function __c188(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41491,9 +41656,9 @@ function __c188(j: number): any {
       return S.suspend(() =>
         S.Struct({
           totalUsers: S.Number,
-          variationUnits: __S(15424, __c482, 0),
-          srm: S.optional(__S(6018, __c188, 2)),
-          multipleExposures: S.optional(__S(6019, __c188, 3)),
+          variationUnits: __S(15488, __c484, 0),
+          srm: S.optional(__S(6082, __c190, 2)),
+          multipleExposures: S.optional(__S(6083, __c190, 3)),
         }),
       ).annotate({ identifier: "HealthSummaryTraffic" });
     case 5:
@@ -41510,17 +41675,17 @@ function __c188(j: number): any {
         }),
       ).annotate({ identifier: "HealthSummaryMetricsValue" });
     case 6:
-      return S.Record(S.String, __S(6021, __c188, 5));
+      return S.Record(S.String, __S(6085, __c190, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           safeToAdvance: S.Boolean,
           decision: S.String,
           decisionReason: S.optional(S.String),
-          signals: __S(14784, __c462, 0),
+          signals: __S(14848, __c464, 0),
           snapshotAt: S.optional(S.String),
-          traffic: S.optional(__S(6020, __c188, 4)),
-          metrics: __S(6022, __c188, 6),
+          traffic: S.optional(__S(6084, __c190, 4)),
+          metrics: __S(6086, __c190, 6),
         }),
       ).annotate({ identifier: "HealthSummary" });
     case 8:
@@ -41534,13 +41699,13 @@ function __c188(j: number): any {
           startedAt: S.optional(S.NullOr(S.String)),
           lastRollbackAt: S.optional(S.NullOr(S.String)),
           lastRollbackReason: S.optional(S.NullOr(S.String)),
-          monitoring: S.optional(__S(6017, __c188, 1)),
-          healthSummary: S.optional(__S(6023, __c188, 7)),
+          monitoring: S.optional(__S(6081, __c190, 1)),
+          healthSummary: S.optional(__S(6087, __c190, 7)),
         }),
       ).annotate({ identifier: "GetRampScheduleStatusResponse" });
   }
 }
-function __c189(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41550,7 +41715,7 @@ function __c189(j: number): any {
       ).annotate({ identifier: "GetRampScheduleTemplateRequest" });
   }
 }
-function __c190(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41560,7 +41725,7 @@ function __c190(j: number): any {
       ).annotate({ identifier: "GetReportRequest" });
   }
 }
-function __c191(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41570,7 +41735,7 @@ function __c191(j: number): any {
       ).annotate({ identifier: "GetSavedGroupRequest" });
   }
 }
-function __c192(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41584,34 +41749,34 @@ function __c192(j: number): any {
           id: S.String,
           name: S.optional(S.String),
           project: S.optional(S.String),
-          projects: S.optional(__S(5216, __c163, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
         }),
       ).annotate({ identifier: "GetSavedGroupReferencesResponseExperimentsItem" });
     case 2:
-      return S.Array(__S(6145, __c192, 1));
+      return S.Array(__S(6209, __c194, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           groupName: S.optional(S.String),
-          projects: S.optional(__S(5216, __c163, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
         }),
       ).annotate({ identifier: "SavedGroups" });
     case 4:
-      return S.Array(__S(6147, __c192, 3));
+      return S.Array(__S(6211, __c194, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          features: __S(2113, __c66, 1),
-          experiments: __S(6146, __c192, 2),
-          contextualBandits: __S(2113, __c66, 1),
-          interleavings: __S(2113, __c66, 1),
-          savedGroups: __S(6148, __c192, 4),
+          features: __S(2209, __c69, 1),
+          experiments: __S(6210, __c194, 2),
+          contextualBandits: __S(2209, __c69, 1),
+          interleavings: __S(2209, __c69, 1),
+          savedGroups: __S(6212, __c194, 4),
         }),
       ).annotate({ identifier: "GetSavedGroupReferencesResponse" });
   }
 }
-function __c193(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41628,7 +41793,7 @@ function __c193(j: number): any {
       ).annotate({ identifier: "GetSavedGroupRevisionRequest" });
   }
 }
-function __c194(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41645,7 +41810,7 @@ function __c194(j: number): any {
       ).annotate({ identifier: "GetSavedGroupRevisionLatestRequest" });
   }
 }
-function __c195(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41662,15 +41827,15 @@ function __c195(j: number): any {
       ).annotate({ identifier: "GetSavedGroupRevisionMergeStatusRequest" });
   }
 }
-function __c196(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           key: S.String.pipe(T.Label()),
           version: S.Number.pipe(T.Label()),
-          conflictResolutions: S.optional(__S(6304, __c197, 0)),
-          customValues: S.optional(__S(6368, __c199, 0)),
+          conflictResolutions: S.optional(__S(6368, __c199, 0)),
+          customValues: S.optional(__S(6432, __c201, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -41681,25 +41846,25 @@ function __c196(j: number): any {
       ).annotate({ identifier: "CreateConfigRevisionRebaseRequest" });
   }
 }
-function __c197(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c198(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
   }
 }
-function __c199(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, __S(6336, __c198, 0));
+      return S.Record(S.String, __S(6400, __c200, 0));
   }
 }
-function __c200(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41717,14 +41882,14 @@ function __c200(j: number): any {
       ).annotate({ identifier: "GetSavedGroupRevisionsRequest" });
   }
 }
-function __c201(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(18180, __c568, 4));
+      return S.Array(__S(18244, __c570, 4));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          revisions: __S(6432, __c201, 0),
+          revisions: __S(6496, __c203, 0),
           limit: S.Number,
           offset: S.Number,
           count: S.Number,
@@ -41735,7 +41900,7 @@ function __c201(j: number): any {
       ).annotate({ identifier: "GetSavedGroupRevisionsResponse" });
   }
 }
-function __c202(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41748,7 +41913,7 @@ function __c202(j: number): any {
       ).annotate({ identifier: "GetSavedGroupUploadRequest" });
   }
 }
-function __c203(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41758,7 +41923,7 @@ function __c203(j: number): any {
       ).annotate({ identifier: "GetSdkConnectionRequest" });
   }
 }
-function __c204(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41768,7 +41933,7 @@ function __c204(j: number): any {
       ).annotate({ identifier: "GetSdkPayloadRequest" });
   }
 }
-function __c205(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41778,7 +41943,7 @@ function __c205(j: number): any {
       ).annotate({ identifier: "GetSegmentRequest" });
   }
 }
-function __c206(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41788,13 +41953,13 @@ function __c206(j: number): any {
       return S.suspend(() =>
         S.Struct({
           title: S.optional(S.String),
-          metricIds: S.optional(__S(5216, __c163, 0)),
+          metricIds: S.optional(__S(0, __c0, 0)),
         }),
       ).annotate({ identifier: "SettingsNorthStar" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          priorSettings: S.optional(__S(3360, __c105, 0)),
+          priorSettings: S.optional(__S(3456, __c108, 0)),
           minimumSampleSize: S.optional(S.Number),
           maxPercentageChange: S.optional(S.Number),
           minPercentageChange: S.optional(S.Number),
@@ -41817,20 +41982,20 @@ function __c206(j: number): any {
         S.Struct({
           role: S.optional(S.String),
           limitAccessByEnvironment: S.optional(S.Boolean),
-          environments: S.optional(__S(5216, __c163, 0)),
+          environments: S.optional(__S(0, __c0, 0)),
         }),
       ).annotate({ identifier: "SettingsDefaultRole" });
     case 5:
       return S.suspend(() =>
         S.Struct({
           confidenceLevel: S.Number,
-          northStar: S.NullOr(__S(6593, __c206, 1)),
-          metricDefaults: __S(6594, __c206, 2),
+          northStar: S.NullOr(__S(6657, __c208, 1)),
+          metricDefaults: __S(6658, __c208, 2),
           pastExperimentsMinLength: S.Number,
           metricAnalysisDays: S.Number,
-          updateSchedule: S.NullOr(__S(6595, __c206, 3)),
+          updateSchedule: S.NullOr(__S(6659, __c208, 3)),
           multipleExposureMinPercent: S.Number,
-          defaultRole: __S(6596, __c206, 4),
+          defaultRole: __S(6660, __c208, 4),
           statsEngine: S.String,
           pValueThreshold: S.Number,
           regressionAdjustmentEnabled: S.Boolean,
@@ -41847,9 +42012,9 @@ function __c206(j: number): any {
           secureAttributeSalt: S.String,
           killswitchConfirmation: S.Boolean,
           featureKillSwitchBehavior: S.optional(S.String),
-          requireReviews: __S(6625, __c207, 1),
-          approvalFlows: __S(6628, __c207, 4),
-          targetingReviewMode: S.optional(__S(6630, __c207, 6)),
+          requireReviews: __S(6689, __c209, 1),
+          approvalFlows: __S(6692, __c209, 4),
+          targetingReviewMode: S.optional(__S(6694, __c209, 6)),
           restApiBypassesReviews: S.optional(S.Boolean),
           requireRebaseBeforePublish: S.optional(S.Boolean),
           revertsBypassApproval: S.optional(S.Boolean),
@@ -41872,61 +42037,61 @@ function __c206(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          settings: __S(6597, __c206, 5),
+          settings: __S(6661, __c208, 5),
         }),
       ).annotate({ identifier: "GetSettingsResponse" });
   }
 }
-function __c207(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           requireReviewOn: S.optional(S.Boolean),
-          projects: S.optional(__S(5216, __c163, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
           resetReviewOnChange: S.optional(S.Boolean),
-          environments: S.optional(__S(5216, __c163, 0)),
+          environments: S.optional(__S(0, __c0, 0)),
           featureRequireEnvironmentReview: S.optional(S.Boolean),
           featureRequireMetadataReview: S.optional(S.Boolean),
           blockSelfApproval: S.optional(S.Boolean),
           autopublishOnApproval: S.optional(S.Boolean),
-          requiredApproverTeams: S.optional(__S(5216, __c163, 0)),
+          requiredApproverTeams: S.optional(__S(0, __c0, 0)),
         }),
       ).annotate({ identifier: "RequireReviewRule" });
     case 1:
-      return S.Array(__S(6624, __c207, 0));
+      return S.Array(__S(6688, __c209, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           required: S.Boolean,
-          projects: S.optional(__S(5216, __c163, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
           resetReviewOnChange: S.optional(S.Boolean),
           requireMetadataReview: S.optional(S.Boolean),
           blockSelfApproval: S.optional(S.Boolean),
           autopublishOnApproval: S.optional(S.Boolean),
-          requiredApproverTeams: S.optional(__S(5216, __c163, 0)),
+          requiredApproverTeams: S.optional(__S(0, __c0, 0)),
         }),
       ).annotate({ identifier: "SavedGroupApprovalRule" });
     case 3:
-      return S.Array(__S(6626, __c207, 2));
+      return S.Array(__S(6690, __c209, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          savedGroups: __S(6627, __c207, 3),
+          savedGroups: __S(6691, __c209, 3),
         }),
       ).annotate({ identifier: "SettingsApprovalFlows" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          projects: __S(5216, __c163, 0),
+          projects: __S(0, __c0, 0),
           mode: S.String,
         }),
       ).annotate({ identifier: "TargetingReviewRule" });
     case 6:
-      return S.Array(__S(6629, __c207, 5));
+      return S.Array(__S(6693, __c209, 5));
   }
 }
-function __c208(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41936,7 +42101,7 @@ function __c208(j: number): any {
       ).annotate({ identifier: "GetTeamRequest" });
   }
 }
-function __c209(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41952,7 +42117,7 @@ function __c209(j: number): any {
       ).annotate({ identifier: "GetVersionResponse" });
   }
 }
-function __c210(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41964,13 +42129,13 @@ function __c210(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          visualChangeset: __S(14662, __c458, 6),
+          visualChangeset: __S(14726, __c460, 6),
           experiment: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "GetVisualChangesetResponse" });
   }
 }
-function __c211(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41981,12 +42146,12 @@ function __c211(j: number): any {
         }),
       ).annotate({ identifier: "GetWarehouseTableSchemaRequestTablesItem" });
     case 1:
-      return S.Array(__S(6752, __c211, 0));
+      return S.Array(__S(6816, __c213, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          tables: __S(6753, __c211, 1),
+          tables: __S(6817, __c213, 1),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/data-sources/{id}/sql/table-schema", code: 200 }),
         ),
@@ -42000,27 +42165,27 @@ function __c211(j: number): any {
         }),
       ).annotate({ identifier: "GetWarehouseTableSchemaResponseTablesItemColumnsItem" });
     case 4:
-      return S.Array(__S(6755, __c211, 3));
+      return S.Array(__S(6819, __c213, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           database: S.String,
           schema: S.String,
           table: S.String,
-          columns: __S(6756, __c211, 4),
+          columns: __S(6820, __c213, 4),
         }),
       ).annotate({ identifier: "GetWarehouseTableSchemaResponseTablesItem" });
     case 6:
-      return S.Array(__S(6757, __c211, 5));
+      return S.Array(__S(6821, __c213, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          tables: __S(6758, __c211, 6),
+          tables: __S(6822, __c213, 6),
         }),
       ).annotate({ identifier: "GetWarehouseTableSchemaResponse" });
   }
 }
-function __c212(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42037,7 +42202,7 @@ function __c212(j: number): any {
       ).annotate({ identifier: "CreateConfigRevisionRecallReviewRequest" });
   }
 }
-function __c213(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42048,7 +42213,7 @@ function __c213(j: number): any {
       ).annotate({ identifier: "JumpRampScheduleRequest" });
   }
 }
-function __c214(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42072,15 +42237,15 @@ function __c214(j: number): any {
           dateCreated: S.String,
           finishedAt: S.NullOr(S.String),
           error: S.NullOr(S.String),
-          queryIds: __S(5216, __c163, 0),
+          queryIds: __S(0, __c0, 0),
         }),
       ).annotate({ identifier: "AggregatedTableRunSummary" });
     case 2:
-      return S.Array(__S(6849, __c214, 1));
+      return S.Array(__S(6913, __c216, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          runs: __S(6850, __c214, 2),
+          runs: __S(6914, __c216, 2),
           limit: S.Number,
           offset: S.Number,
           count: S.Number,
@@ -42091,23 +42256,23 @@ function __c214(j: number): any {
       ).annotate({ identifier: "ListAggregatedTableRunsResponse" });
   }
 }
-function __c215(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/archetypes", code: 200 })),
       ).annotate({ identifier: "ListArchetypesRequest" });
     case 1:
-      return S.Array(__S(1760, __c55, 0));
+      return S.Array(__S(1856, __c58, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          archetypes: __S(6881, __c215, 1),
+          archetypes: __S(6945, __c217, 1),
         }),
       ).annotate({ identifier: "ListArchetypesResponse" });
   }
 }
-function __c216(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42116,32 +42281,32 @@ function __c216(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/attributes", code: 200 })),
       ).annotate({ identifier: "ListAttributesRequest" });
     case 1:
-      return S.Array(__S(2304, __c72, 0));
+      return S.Array(__S(2400, __c75, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          attributes: __S(6913, __c216, 1),
+          attributes: __S(6977, __c218, 1),
         }),
       ).annotate({ identifier: "ListAttributesResponse" });
   }
 }
-function __c217(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/auto-runs", code: 200 })),
       ).annotate({ identifier: "ListAutoRunsRequest" });
     case 1:
-      return S.Array(__S(2785, __c87, 1));
+      return S.Array(__S(2881, __c90, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          autoRuns: __S(6945, __c217, 1),
+          autoRuns: __S(7009, __c219, 1),
         }),
       ).annotate({ identifier: "ListAutoRunsResponse" });
   }
 }
-function __c218(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42153,7 +42318,7 @@ function __c218(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          codeRefs: __S(1923, __c60, 3),
+          codeRefs: __S(2019, __c63, 3),
           limit: S.Number,
           offset: S.Number,
           count: S.Number,
@@ -42164,7 +42329,7 @@ function __c218(j: number): any {
       ).annotate({ identifier: "ListCodeRefsResponse" });
   }
 }
-function __c219(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42180,7 +42345,7 @@ function __c219(j: number): any {
       ).annotate({ identifier: "ListConfigRevisionsRequest" });
   }
 }
-function __c220(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42190,11 +42355,11 @@ function __c220(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/configs", code: 200 })),
       ).annotate({ identifier: "ListConfigsRequest" });
     case 1:
-      return S.Array(__S(18343, __c573, 7));
+      return S.Array(__S(18407, __c575, 7));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          configs: __S(7041, __c220, 1),
+          configs: __S(7105, __c222, 1),
           limit: S.Number,
           offset: S.Number,
           count: S.Number,
@@ -42205,7 +42370,7 @@ function __c220(j: number): any {
       ).annotate({ identifier: "ListConfigsResponse" });
   }
 }
-function __c221(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42221,7 +42386,7 @@ function __c221(j: number): any {
       ).annotate({ identifier: "ListConstantRevisionsRequest" });
   }
 }
-function __c222(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42231,11 +42396,11 @@ function __c222(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/constants", code: 200 })),
       ).annotate({ identifier: "ListConstantsRequest" });
     case 1:
-      return S.Array(__S(18848, __c589, 0));
+      return S.Array(__S(18912, __c591, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          constants: __S(7105, __c222, 1),
+          constants: __S(7169, __c224, 1),
           limit: S.Number,
           offset: S.Number,
           count: S.Number,
@@ -42246,7 +42411,7 @@ function __c222(j: number): any {
       ).annotate({ identifier: "ListConstantsResponse" });
   }
 }
-function __c223(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42263,7 +42428,7 @@ function __c223(j: number): any {
       ).annotate({ identifier: "CreateConfigRevisionReopenRequest" });
   }
 }
-function __c224(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42273,16 +42438,16 @@ function __c224(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/contextual-bandits/{id}/events", code: 200 })),
       ).annotate({ identifier: "ListContextualBanditEventsRequest" });
     case 1:
-      return S.Array(__S(2880, __c90, 0));
+      return S.Array(__S(2976, __c93, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          events: __S(7169, __c224, 1),
+          events: __S(7233, __c226, 1),
         }),
       ).annotate({ identifier: "ListContextualBanditEventsResponse" });
   }
 }
-function __c225(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42291,16 +42456,16 @@ function __c225(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/contextual-bandit-queries", code: 200 })),
       ).annotate({ identifier: "ListContextualBanditQueriesRequest" });
     case 1:
-      return S.Array(__S(14528, __c454, 0));
+      return S.Array(__S(14592, __c456, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          contextualBanditQueries: __S(7201, __c225, 1),
+          contextualBanditQueries: __S(7265, __c227, 1),
         }),
       ).annotate({ identifier: "ListContextualBanditQueriesResponse" });
   }
 }
-function __c226(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42311,16 +42476,16 @@ function __c226(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/contextual-bandits", code: 200 })),
       ).annotate({ identifier: "ListContextualBanditsRequest" });
     case 1:
-      return S.Array(__S(14084, __c440, 4));
+      return S.Array(__S(14148, __c442, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          contextualBandits: __S(7233, __c226, 1),
+          contextualBandits: __S(7297, __c228, 1),
         }),
       ).annotate({ identifier: "ListContextualBanditsResponse" });
   }
 }
-function __c227(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42330,16 +42495,16 @@ function __c227(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/contextual-bandits/{id}/snapshots", code: 200 })),
       ).annotate({ identifier: "ListContextualBanditSnapshotsRequest" });
     case 1:
-      return S.Array(__S(3168, __c99, 0));
+      return S.Array(__S(3264, __c102, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          snapshots: __S(7265, __c227, 1),
+          snapshots: __S(7329, __c229, 1),
         }),
       ).annotate({ identifier: "ListContextualBanditSnapshotsResponse" });
   }
 }
-function __c228(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42355,19 +42520,19 @@ function __c228(j: number): any {
       ).annotate({ identifier: "ListContextualBanditVisualChangesetsRequest" });
   }
 }
-function __c229(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(14662, __c458, 6));
+      return S.Array(__S(14726, __c460, 6));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          visualChangesets: __S(7328, __c229, 0),
+          visualChangesets: __S(7392, __c231, 0),
         }),
       ).annotate({ identifier: "ListContextualBanditVisualChangesetsResponse" });
   }
 }
-function __c230(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42376,14 +42541,14 @@ function __c230(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/custom-fields", code: 200 })),
       ).annotate({ identifier: "ListCustomFieldsRequest" });
     case 1:
-      return S.Array(__S(14816, __c463, 0));
+      return S.Array(__S(14880, __c465, 0));
     case 2:
-      return S.suspend(() => __S(7361, __c230, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(7425, __c232, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCustomFieldsResponse",
       });
   }
 }
-function __c231(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42401,15 +42566,15 @@ function __c231(j: number): any {
           dateCreated: S.String,
           userName: S.optional(S.String),
           userEmail: S.optional(S.String),
-          customHook: __S(14912, __c466, 0),
+          customHook: __S(14976, __c468, 0),
         }),
       ).annotate({ identifier: "Versions" });
     case 2:
-      return S.Array(__S(7393, __c231, 1));
+      return S.Array(__S(7457, __c233, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          versions: __S(7394, __c231, 2),
+          versions: __S(7458, __c233, 2),
           limit: S.Number,
           offset: S.Number,
           count: S.Number,
@@ -42420,7 +42585,7 @@ function __c231(j: number): any {
       ).annotate({ identifier: "ListCustomHookHistoryResponse" });
   }
 }
-function __c232(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42430,11 +42595,11 @@ function __c232(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/custom-hooks", code: 200 })),
       ).annotate({ identifier: "ListCustomHooksRequest" });
     case 1:
-      return S.Array(__S(14912, __c466, 0));
+      return S.Array(__S(14976, __c468, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          customHooks: __S(7425, __c232, 1),
+          customHooks: __S(7489, __c234, 1),
           limit: S.Number,
           offset: S.Number,
           count: S.Number,
@@ -42445,7 +42610,7 @@ function __c232(j: number): any {
       ).annotate({ identifier: "ListCustomHooksResponse" });
   }
 }
-function __c233(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42453,7 +42618,7 @@ function __c233(j: number): any {
       ).annotate({ identifier: "ListDashboardsRequest" });
   }
 }
-function __c234(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42464,11 +42629,11 @@ function __c234(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/data-sources", code: 200 })),
       ).annotate({ identifier: "ListDataSourcesRequest" });
     case 1:
-      return S.Array(__S(3784, __c118, 8));
+      return S.Array(__S(3880, __c121, 8));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          dataSources: __S(7489, __c234, 1),
+          dataSources: __S(7553, __c236, 1),
           limit: S.Number,
           offset: S.Number,
           count: S.Number,
@@ -42479,7 +42644,7 @@ function __c234(j: number): any {
       ).annotate({ identifier: "ListDataSourcesResponse" });
   }
 }
-function __c235(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42500,7 +42665,7 @@ function __c235(j: number): any {
       ).annotate({ identifier: "CreateConfigRevisionRequestReviewRequest" });
   }
 }
-function __c236(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42511,11 +42676,11 @@ function __c236(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/dimensions", code: 200 })),
       ).annotate({ identifier: "ListDimensionsRequest" });
     case 1:
-      return S.Array(__S(15136, __c473, 0));
+      return S.Array(__S(15200, __c475, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          dimensions: __S(7553, __c236, 1),
+          dimensions: __S(7617, __c238, 1),
           limit: S.Number,
           offset: S.Number,
           count: S.Number,
@@ -42526,23 +42691,23 @@ function __c236(j: number): any {
       ).annotate({ identifier: "ListDimensionsResponse" });
   }
 }
-function __c237(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/environments", code: 200 })),
       ).annotate({ identifier: "ListEnvironmentsRequest" });
     case 1:
-      return S.Array(__S(15232, __c476, 0));
+      return S.Array(__S(15296, __c478, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          environments: __S(7585, __c237, 1),
+          environments: __S(7649, __c239, 1),
         }),
       ).annotate({ identifier: "ListEnvironmentsResponse" });
   }
 }
-function __c238(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42556,11 +42721,11 @@ function __c238(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/experiments/results", code: 200 })),
       ).annotate({ identifier: "ListExperimentResultsRequest" });
     case 1:
-      return S.Array(__S(17964, __c561, 12));
+      return S.Array(__S(18028, __c563, 12));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          experimentResults: __S(7617, __c238, 1),
+          experimentResults: __S(7681, __c240, 1),
           limit: S.Number,
           offset: S.Number,
           count: S.Number,
@@ -42571,7 +42736,7 @@ function __c238(j: number): any {
       ).annotate({ identifier: "ListExperimentResultsResponse" });
   }
 }
-function __c239(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42585,9 +42750,9 @@ function __c239(j: number): any {
           status: S.optional(S.String.pipe(T.Query())),
           q: S.optional(S.String.pipe(T.Query())),
           owner: S.optional(S.String.pipe(T.Query())),
-          result: S.optional(__S(14784, __c462, 0).pipe(T.Query())),
+          result: S.optional(__S(14848, __c464, 0).pipe(T.Query())),
           tag: S.optional(S.String.pipe(T.Query())),
-          implementationType: S.optional(__S(14784, __c462, 0).pipe(T.Query())),
+          implementationType: S.optional(__S(14848, __c464, 0).pipe(T.Query())),
           metricId: S.optional(S.String.pipe(T.Query())),
           bandits: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
           archived: S.optional(S.Unknown.pipe(T.Query())),
@@ -42596,11 +42761,11 @@ function __c239(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/experiments", code: 200 })),
       ).annotate({ identifier: "ListExperimentsRequest" });
     case 1:
-      return S.Array(__S(15328, __c479, 0));
+      return S.Array(__S(15392, __c481, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          experiments: __S(7649, __c239, 1),
+          experiments: __S(7713, __c241, 1),
           limit: S.Number,
           offset: S.Number,
           count: S.Number,
@@ -42611,7 +42776,7 @@ function __c239(j: number): any {
       ).annotate({ identifier: "ListExperimentsResponse" });
   }
 }
-function __c240(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42620,16 +42785,16 @@ function __c240(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/experiment-templates", code: 200 })),
       ).annotate({ identifier: "ListExperimentTemplatesRequest" });
     case 1:
-      return S.Array(__S(16096, __c503, 0));
+      return S.Array(__S(16160, __c505, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          experimentTemplates: __S(7681, __c240, 1),
+          experimentTemplates: __S(7745, __c242, 1),
         }),
       ).annotate({ identifier: "ListExperimentTemplatesResponse" });
   }
 }
-function __c241(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42642,11 +42807,11 @@ function __c241(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/fact-metrics", code: 200 })),
       ).annotate({ identifier: "ListFactMetricsRequest" });
     case 1:
-      return S.Array(__S(4098, __c128, 2));
+      return S.Array(__S(4194, __c131, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          factMetrics: __S(7713, __c241, 1),
+          factMetrics: __S(7777, __c243, 1),
           limit: S.Number,
           offset: S.Number,
           count: S.Number,
@@ -42657,7 +42822,7 @@ function __c241(j: number): any {
       ).annotate({ identifier: "ListFactMetricsResponse" });
   }
 }
-function __c242(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42668,11 +42833,11 @@ function __c242(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/fact-tables/{factTableId}/filters", code: 200 })),
       ).annotate({ identifier: "ListFactTableFiltersRequest" });
     case 1:
-      return S.Array(__S(16416, __c513, 0));
+      return S.Array(__S(16480, __c515, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          factTableFilters: __S(7745, __c242, 1),
+          factTableFilters: __S(7809, __c244, 1),
           limit: S.Number,
           offset: S.Number,
           count: S.Number,
@@ -42683,7 +42848,7 @@ function __c242(j: number): any {
       ).annotate({ identifier: "ListFactTableFiltersResponse" });
   }
 }
-function __c243(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42695,11 +42860,11 @@ function __c243(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/fact-tables", code: 200 })),
       ).annotate({ identifier: "ListFactTablesRequest" });
     case 1:
-      return S.Array(__S(16225, __c507, 1));
+      return S.Array(__S(16289, __c509, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          factTables: __S(7777, __c243, 1),
+          factTables: __S(7841, __c245, 1),
           limit: S.Number,
           offset: S.Number,
           count: S.Number,
@@ -42710,7 +42875,7 @@ function __c243(j: number): any {
       ).annotate({ identifier: "ListFactTablesResponse" });
   }
 }
-function __c244(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42724,11 +42889,11 @@ function __c244(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/features", code: 200 })),
       ).annotate({ identifier: "ListFeaturesV2Request" });
     case 1:
-      return S.Array(__S(7840, __c245, 0));
+      return S.Array(__S(7904, __c247, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          features: __S(7809, __c244, 1),
+          features: __S(7873, __c246, 1),
           limit: S.Number,
           offset: S.Number,
           count: S.Number,
@@ -42739,7 +42904,7 @@ function __c244(j: number): any {
       ).annotate({ identifier: "ListFeaturesV2Response" });
   }
 }
-function __c245(j: number): any {
+function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42752,23 +42917,23 @@ function __c245(j: number): any {
           owner: S.String,
           project: S.String,
           targetingAllProjects: S.optional(S.Boolean),
-          targetingProjects: S.optional(__S(5216, __c163, 0)),
+          targetingProjects: S.optional(__S(0, __c0, 0)),
           valueType: S.String,
           defaultValue: S.String,
           baseConfig: S.optional(S.NullOr(S.String)),
           defaultValueConfig: S.optional(S.NullOr(S.String)),
-          tags: __S(5216, __c163, 0),
-          rules: __S(838, __c26, 6),
-          environments: __S(4769, __c149, 1),
-          prerequisites: S.optional(__S(5216, __c163, 0)),
-          revision: __S(4770, __c149, 2),
-          customFields: S.optional(__S(18304, __c572, 0)),
-          holdout: S.optional(S.NullOr(__S(4416, __c138, 0))),
+          tags: __S(0, __c0, 0),
+          rules: __S(934, __c29, 6),
+          environments: __S(4865, __c152, 1),
+          prerequisites: S.optional(__S(0, __c0, 0)),
+          revision: __S(4866, __c152, 2),
+          customFields: S.optional(__S(18368, __c574, 0)),
+          holdout: S.optional(S.NullOr(__S(4512, __c141, 0))),
         }),
       ).annotate({ identifier: "FeatureV2" });
   }
 }
-function __c246(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42780,16 +42945,16 @@ function __c246(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/holdouts", code: 200 })),
       ).annotate({ identifier: "ListHoldoutsRequest" });
     case 1:
-      return S.Array(__S(16581, __c518, 5));
+      return S.Array(__S(16645, __c520, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          holdouts: __S(7873, __c246, 1),
+          holdouts: __S(7937, __c248, 1),
         }),
       ).annotate({ identifier: "ListHoldoutsResponse" });
   }
 }
-function __c247(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42812,7 +42977,7 @@ function __c247(j: number): any {
       ).annotate({ identifier: "CreateConfigRevisionRevertRequest" });
   }
 }
-function __c248(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42821,16 +42986,16 @@ function __c248(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/interleaving-exposure-queries", code: 200 })),
       ).annotate({ identifier: "ListInterleavingExposureQueriesRequest" });
     case 1:
-      return S.Array(__S(16896, __c528, 0));
+      return S.Array(__S(16960, __c530, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          interleavingExposureQueries: __S(7937, __c248, 1),
+          interleavingExposureQueries: __S(8001, __c250, 1),
         }),
       ).annotate({ identifier: "ListInterleavingExposureQueriesResponse" });
   }
 }
-function __c249(j: number): any {
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42842,16 +43007,16 @@ function __c249(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/interleavings", code: 200 })),
       ).annotate({ identifier: "ListInterleavingsRequest" });
     case 1:
-      return S.Array(__S(16742, __c523, 6));
+      return S.Array(__S(16806, __c525, 6));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          interleavings: __S(7969, __c249, 1),
+          interleavings: __S(8033, __c251, 1),
         }),
       ).annotate({ identifier: "ListInterleavingsResponse" });
   }
 }
-function __c250(j: number): any {
+function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42861,16 +43026,16 @@ function __c250(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/interleavings/{id}/snapshots", code: 200 })),
       ).annotate({ identifier: "ListInterleavingSnapshotsRequest" });
     case 1:
-      return S.Array(__S(5002, __c156, 10));
+      return S.Array(__S(5098, __c159, 10));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          snapshots: __S(8001, __c250, 1),
+          snapshots: __S(8065, __c252, 1),
         }),
       ).annotate({ identifier: "ListInterleavingSnapshotsResponse" });
   }
 }
-function __c251(j: number): any {
+function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42882,16 +43047,16 @@ function __c251(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/learnings", code: 200 })),
       ).annotate({ identifier: "ListLearningsRequest" });
     case 1:
-      return S.Array(__S(16992, __c531, 0));
+      return S.Array(__S(17056, __c533, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          learnings: __S(8033, __c251, 1),
+          learnings: __S(8097, __c253, 1),
         }),
       ).annotate({ identifier: "ListLearningsResponse" });
   }
 }
-function __c252(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42910,23 +43075,23 @@ function __c252(j: number): any {
           name: S.optional(S.String),
           email: S.String,
           globalRole: S.String,
-          environments: S.optional(__S(5216, __c163, 0)),
+          environments: S.optional(__S(0, __c0, 0)),
           limitAccessByEnvironment: S.optional(S.Boolean),
-          additionalRoles: S.optional(__S(8097, __c253, 1)),
+          additionalRoles: S.optional(__S(8161, __c255, 1)),
           managedbyIdp: S.optional(S.Boolean),
-          teams: S.optional(__S(5216, __c163, 0)),
-          projectRoles: S.optional(__S(8099, __c253, 3)),
+          teams: S.optional(__S(0, __c0, 0)),
+          projectRoles: S.optional(__S(8163, __c255, 3)),
           lastLoginDate: S.optional(S.String),
           dateCreated: S.optional(S.String),
           dateUpdated: S.optional(S.String),
         }),
       ).annotate({ identifier: "Member" });
     case 2:
-      return S.Array(__S(8065, __c252, 1));
+      return S.Array(__S(8129, __c254, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          members: __S(8066, __c252, 2),
+          members: __S(8130, __c254, 2),
           limit: S.Number,
           offset: S.Number,
           count: S.Number,
@@ -42937,33 +43102,33 @@ function __c252(j: number): any {
       ).annotate({ identifier: "ListMembersResponse" });
   }
 }
-function __c253(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           role: S.String,
-          environments: __S(5216, __c163, 0),
+          environments: __S(0, __c0, 0),
           limitAccessByEnvironment: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "MemberAdditionalRolesItem" });
     case 1:
-      return S.Array(__S(8096, __c253, 0));
+      return S.Array(__S(8160, __c255, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           project: S.String,
           role: S.String,
           limitAccessByEnvironment: S.Boolean,
-          environments: __S(5216, __c163, 0),
-          additionalRoles: S.optional(__S(8097, __c253, 1)),
+          environments: __S(0, __c0, 0),
+          additionalRoles: S.optional(__S(8161, __c255, 1)),
         }),
       ).annotate({ identifier: "MemberProjectRolesItem" });
     case 3:
-      return S.Array(__S(8098, __c253, 2));
+      return S.Array(__S(8162, __c255, 2));
   }
 }
-function __c254(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42993,13 +43158,13 @@ function __c254(j: number): any {
           mean: S.optional(S.Number),
           lift: S.optional(S.Number),
           effectStandardError: S.optional(S.Number),
-          ci: S.optional(__S(6336, __c198, 0)),
+          ci: S.optional(__S(6400, __c200, 0)),
           pValue: S.optional(S.Number),
           chanceToWin: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ExperimentResultsVariationsItem" });
     case 2:
-      return S.Array(__S(8129, __c254, 1));
+      return S.Array(__S(8193, __c256, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -43009,15 +43174,15 @@ function __c254(j: number): any {
           result: S.optional(S.String),
           date: S.String,
           datasourceId: S.String,
-          variations: __S(8130, __c254, 2),
+          variations: __S(8194, __c256, 2),
         }),
       ).annotate({ identifier: "ExperimentResults2" });
     case 4:
-      return S.Array(__S(8131, __c254, 3));
+      return S.Array(__S(8195, __c256, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          experimentResults: __S(8132, __c254, 4),
+          experimentResults: __S(8196, __c256, 4),
           limit: S.Number,
           offset: S.Number,
           count: S.Number,
@@ -43028,23 +43193,23 @@ function __c254(j: number): any {
       ).annotate({ identifier: "ListMetricExperimentsResponse" });
   }
 }
-function __c255(j: number): any {
+function __c257(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/metric-groups", code: 200 })),
       ).annotate({ identifier: "ListMetricGroupsRequest" });
     case 1:
-      return S.Array(__S(17088, __c534, 0));
+      return S.Array(__S(17152, __c536, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          metricGroups: __S(8161, __c255, 1),
+          metricGroups: __S(8225, __c257, 1),
         }),
       ).annotate({ identifier: "ListMetricGroupsResponse" });
   }
 }
-function __c256(j: number): any {
+function __c258(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43057,11 +43222,11 @@ function __c256(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/metrics", code: 200 })),
       ).annotate({ identifier: "ListMetricsRequest" });
     case 1:
-      return S.Array(__S(5444, __c170, 4));
+      return S.Array(__S(5508, __c172, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          metrics: __S(8193, __c256, 1),
+          metrics: __S(8257, __c258, 1),
           limit: S.Number,
           offset: S.Number,
           count: S.Number,
@@ -43072,7 +43237,7 @@ function __c256(j: number): any {
       ).annotate({ identifier: "ListMetricsResponse" });
   }
 }
-function __c257(j: number): any {
+function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43082,11 +43247,11 @@ function __c257(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/namespaces", code: 200 })),
       ).annotate({ identifier: "ListNamespacesRequest" });
     case 1:
-      return S.Array(__S(17184, __c537, 0));
+      return S.Array(__S(17248, __c539, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          namespaces: __S(8225, __c257, 1),
+          namespaces: __S(8289, __c259, 1),
           limit: S.Number,
           offset: S.Number,
           count: S.Number,
@@ -43097,7 +43262,7 @@ function __c257(j: number): any {
       ).annotate({ identifier: "ListNamespacesResponse" });
   }
 }
-function __c258(j: number): any {
+function __c260(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43108,11 +43273,11 @@ function __c258(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/organizations", code: 200 })),
       ).annotate({ identifier: "ListOrganizationsRequest" });
     case 1:
-      return S.Array(__S(17312, __c541, 0));
+      return S.Array(__S(17376, __c543, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          organizations: __S(8257, __c258, 1),
+          organizations: __S(8321, __c260, 1),
           limit: S.Number,
           offset: S.Number,
           count: S.Number,
@@ -43123,7 +43288,7 @@ function __c258(j: number): any {
       ).annotate({ identifier: "ListOrganizationsResponse" });
   }
 }
-function __c259(j: number): any {
+function __c261(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43147,7 +43312,7 @@ function __c259(j: number): any {
       ).annotate({ identifier: "CreateConfigRevisionSchedulePublishRequest" });
   }
 }
-function __c260(j: number): any {
+function __c262(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43157,7 +43322,7 @@ function __c260(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/populations", code: 200 })),
       ).annotate({ identifier: "ListPopulationsRequest" });
     case 1:
-      return S.Array(__S(17506, __c547, 2));
+      return S.Array(__S(17570, __c549, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -43167,12 +43332,12 @@ function __c260(j: number): any {
           total: S.Number,
           hasMore: S.Boolean,
           nextOffset: S.NullOr(S.Number),
-          populations: __S(8321, __c260, 1),
+          populations: __S(8385, __c262, 1),
         }),
       ).annotate({ identifier: "ListPopulationsResponse" });
   }
 }
-function __c261(j: number): any {
+function __c263(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43182,11 +43347,11 @@ function __c261(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/projects", code: 200 })),
       ).annotate({ identifier: "ListProjectsRequest" });
     case 1:
-      return S.Array(__S(17633, __c551, 1));
+      return S.Array(__S(17697, __c553, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          projects: __S(8353, __c261, 1),
+          projects: __S(8417, __c263, 1),
           limit: S.Number,
           offset: S.Number,
           count: S.Number,
@@ -43197,7 +43362,7 @@ function __c261(j: number): any {
       ).annotate({ identifier: "ListProjectsResponse" });
   }
 }
-function __c262(j: number): any {
+function __c264(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43209,7 +43374,7 @@ function __c262(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/ramp-schedules", code: 200 })),
       ).annotate({ identifier: "ListRampSchedulesRequest" });
     case 1:
-      return S.Array(__S(9644, __c301, 12));
+      return S.Array(__S(9708, __c303, 12));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -43219,28 +43384,28 @@ function __c262(j: number): any {
           total: S.Number,
           hasMore: S.Boolean,
           nextOffset: S.NullOr(S.Number),
-          rampSchedules: __S(8385, __c262, 1),
+          rampSchedules: __S(8449, __c264, 1),
         }),
       ).annotate({ identifier: "ListRampSchedulesResponse" });
   }
 }
-function __c263(j: number): any {
+function __c265(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/ramp-schedule-templates", code: 200 })),
       ).annotate({ identifier: "ListRampScheduleTemplatesRequest" });
     case 1:
-      return S.Array(__S(17798, __c556, 6));
+      return S.Array(__S(17862, __c558, 6));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          rampScheduleTemplates: __S(8417, __c263, 1),
+          rampScheduleTemplates: __S(8481, __c265, 1),
         }),
       ).annotate({ identifier: "ListRampScheduleTemplatesResponse" });
   }
 }
-function __c264(j: number): any {
+function __c266(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43251,11 +43416,11 @@ function __c264(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/reports", code: 200 })),
       ).annotate({ identifier: "ListReportsRequest" });
     case 1:
-      return S.Array(__S(17992, __c562, 8));
+      return S.Array(__S(18056, __c564, 8));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          reports: __S(8449, __c264, 1),
+          reports: __S(8513, __c266, 1),
           limit: S.Number,
           offset: S.Number,
           count: S.Number,
@@ -43266,7 +43431,7 @@ function __c264(j: number): any {
       ).annotate({ identifier: "ListReportsResponse" });
   }
 }
-function __c265(j: number): any {
+function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43283,7 +43448,7 @@ function __c265(j: number): any {
       ).annotate({ identifier: "ListRevisionsV2Request" });
   }
 }
-function __c266(j: number): any {
+function __c268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43299,7 +43464,7 @@ function __c266(j: number): any {
       ).annotate({ identifier: "ListSavedGroupRevisionsRequest" });
   }
 }
-function __c267(j: number): any {
+function __c269(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43310,11 +43475,11 @@ function __c267(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/saved-groups", code: 200 })),
       ).annotate({ identifier: "ListSavedGroupsRequest" });
     case 1:
-      return S.Array(__S(65, __c2, 1));
+      return S.Array(__S(161, __c5, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          savedGroups: __S(8545, __c267, 1),
+          savedGroups: __S(8609, __c269, 1),
           limit: S.Number,
           offset: S.Number,
           count: S.Number,
@@ -43325,7 +43490,7 @@ function __c267(j: number): any {
       ).annotate({ identifier: "ListSavedGroupsResponse" });
   }
 }
-function __c268(j: number): any {
+function __c270(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43336,11 +43501,11 @@ function __c268(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/saved-groups/{id}/uploads", code: 200 })),
       ).annotate({ identifier: "ListSavedGroupUploadsRequest" });
     case 1:
-      return S.Array(__S(18978, __c593, 2));
+      return S.Array(__S(19042, __c595, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          uploads: __S(8577, __c268, 1),
+          uploads: __S(8641, __c270, 1),
           limit: S.Number,
           offset: S.Number,
           count: S.Number,
@@ -43351,7 +43516,7 @@ function __c268(j: number): any {
       ).annotate({ identifier: "ListSavedGroupUploadsResponse" });
   }
 }
-function __c269(j: number): any {
+function __c271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43364,11 +43529,11 @@ function __c269(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/sdk-connections", code: 200 })),
       ).annotate({ identifier: "ListSdkConnectionsRequest" });
     case 1:
-      return S.Array(__S(19104, __c597, 0));
+      return S.Array(__S(19168, __c599, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          connections: __S(8609, __c269, 1),
+          connections: __S(8673, __c271, 1),
           limit: S.Number,
           offset: S.Number,
           count: S.Number,
@@ -43379,7 +43544,7 @@ function __c269(j: number): any {
       ).annotate({ identifier: "ListSdkConnectionsResponse" });
   }
 }
-function __c270(j: number): any {
+function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43400,13 +43565,13 @@ function __c270(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          revision: __S(5348, __c167, 4),
+          revision: __S(5412, __c169, 4),
           autoPublished: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CreateConfigRevisionSubmitReviewResponse" });
   }
 }
-function __c271(j: number): any {
+function __c273(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43417,11 +43582,11 @@ function __c271(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/segments", code: 200 })),
       ).annotate({ identifier: "ListSegmentsRequest" });
     case 1:
-      return S.Array(__S(19200, __c600, 0));
+      return S.Array(__S(19264, __c602, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          segments: __S(8673, __c271, 1),
+          segments: __S(8737, __c273, 1),
           limit: S.Number,
           offset: S.Number,
           count: S.Number,
@@ -43432,23 +43597,23 @@ function __c271(j: number): any {
       ).annotate({ identifier: "ListSegmentsResponse" });
   }
 }
-function __c272(j: number): any {
+function __c274(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/teams", code: 200 })),
       ).annotate({ identifier: "ListTeamsRequest" });
     case 1:
-      return S.Array(__S(19301, __c603, 5));
+      return S.Array(__S(19365, __c605, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          teams: __S(8705, __c272, 1),
+          teams: __S(8769, __c274, 1),
         }),
       ).annotate({ identifier: "ListTeamsResponse" });
   }
 }
-function __c273(j: number): any {
+function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43460,7 +43625,7 @@ function __c273(j: number): any {
       ).annotate({ identifier: "ListVisualChangesetsRequest" });
   }
 }
-function __c274(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43471,7 +43636,7 @@ function __c274(j: number): any {
       ).annotate({ identifier: "LockConfigRequest" });
   }
 }
-function __c275(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43481,22 +43646,22 @@ function __c275(j: number): any {
       ).annotate({ identifier: "LookupSdkConnectionByKeyRequest" });
   }
 }
-function __c276(j: number): any {
+function __c278(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          environment: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
-          project: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
-          tag: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
-          feature: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
-          customFields: S.optional(__S(3424, __c107, 0).pipe(T.Query())),
+          environment: S.optional(__S(0, __c0, 0).pipe(T.Query())),
+          project: S.optional(__S(0, __c0, 0).pipe(T.Query())),
+          tag: S.optional(__S(0, __c0, 0).pipe(T.Query())),
+          feature: S.optional(__S(0, __c0, 0).pipe(T.Query())),
+          customFields: S.optional(__S(3520, __c110, 0).pipe(T.Query())),
           reason: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "POST", uri: "/v1/ramp-schedules/actions/pause", code: 200 })),
       ).annotate({ identifier: "PauseMatchingRampSchedulesRequest" });
   }
 }
-function __c277(j: number): any {
+function __c279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43508,16 +43673,16 @@ function __c277(j: number): any {
         }),
       ).annotate({ identifier: "MatchedRampSchedule" });
     case 1:
-      return S.Array(__S(8864, __c277, 0));
+      return S.Array(__S(8928, __c279, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          rampSchedules: __S(8865, __c277, 1),
+          rampSchedules: __S(8929, __c279, 1),
         }),
       ).annotate({ identifier: "PauseMatchingRampSchedulesResponse" });
   }
 }
-function __c278(j: number): any {
+function __c280(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43529,7 +43694,7 @@ function __c278(j: number): any {
       ).annotate({ identifier: "PauseRampScheduleRequest" });
   }
 }
-function __c279(j: number): any {
+function __c281(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43541,7 +43706,7 @@ function __c279(j: number): any {
       ).annotate({ identifier: "PostCopyTransformRequest" });
   }
 }
-function __c280(j: number): any {
+function __c282(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43550,8 +43715,8 @@ function __c280(j: number): any {
           table: S.String,
           path: S.String,
           timestampColumn: S.String,
-          columnTypes: __S(6304, __c197, 0),
-          values: __S(9025, __c282, 1),
+          columnTypes: __S(6368, __c199, 0),
+          values: __S(9089, __c284, 1),
         }),
       ).annotate({ identifier: "CreateDashboardV2RequestBlocksItemCase14ConfigDataset" });
     case 1:
@@ -43561,13 +43726,13 @@ function __c280(j: number): any {
         S.Struct({
           cache: S.optional(S.String.pipe(T.Query())),
           datasource: S.String,
-          dimensions: __S(8961, __c280, 1),
+          dimensions: __S(9025, __c282, 1),
           chartType: S.String,
-          dateRange: __S(15008, __c469, 0),
+          dateRange: __S(15072, __c471, 0),
           showAs: S.optional(S.String),
-          chartSettings: S.optional(__S(8992, __c281, 0)),
+          chartSettings: S.optional(__S(9056, __c283, 0)),
           type: S.String,
-          dataset: __S(8960, __c280, 0),
+          dataset: __S(9024, __c282, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -43579,20 +43744,20 @@ function __c280(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          dimensions: __S(5824, __c182, 0),
-          values: S.optional(__S(5826, __c182, 2)),
+          dimensions: __S(5888, __c184, 0),
+          values: S.optional(__S(5890, __c184, 2)),
           populationCount: S.optional(S.Number),
-          steps: S.optional(__S(5828, __c182, 4)),
+          steps: S.optional(__S(5892, __c184, 4)),
           journey: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "PostDataSourceExplorationResponseExplorationResultRowsItem" });
     case 4:
-      return S.Array(__S(8963, __c280, 3));
+      return S.Array(__S(9027, __c282, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          rows: __S(8964, __c280, 4),
-          rawRows: S.optional(__S(5829, __c182, 5)),
+          rows: __S(9028, __c282, 4),
+          rawRows: S.optional(__S(5893, __c184, 5)),
           truncated: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "PostDataSourceExplorationResponseExplorationResult" });
@@ -43602,13 +43767,13 @@ function __c280(j: number): any {
       return S.suspend(() =>
         S.Struct({
           datasource: S.String,
-          dimensions: __S(8966, __c280, 6),
+          dimensions: __S(9030, __c282, 6),
           chartType: S.String,
-          dateRange: __S(15008, __c469, 0),
+          dateRange: __S(15072, __c471, 0),
           showAs: S.optional(S.String),
-          chartSettings: S.optional(__S(8992, __c281, 0)),
+          chartSettings: S.optional(__S(9056, __c283, 0)),
           type: S.String,
-          dataset: __S(8960, __c280, 0),
+          dataset: __S(9024, __c282, 0),
         }),
       ).annotate({ identifier: "PostDataSourceExplorationResponseExplorationConfig" });
     case 8:
@@ -43622,22 +43787,22 @@ function __c280(j: number): any {
           dateStart: S.String,
           dateEnd: S.String,
           error: S.optional(S.NullOr(S.String)),
-          result: __S(8965, __c280, 5),
-          config: __S(8967, __c280, 7),
+          result: __S(9029, __c282, 5),
+          config: __S(9031, __c282, 7),
         }),
       ).annotate({ identifier: "PostDataSourceExplorationResponseExploration" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          exploration: S.NullOr(__S(8968, __c280, 8)),
-          query: S.NullOr(__S(5792, __c181, 0)),
+          exploration: S.NullOr(__S(9032, __c282, 8)),
+          query: S.NullOr(__S(5856, __c183, 0)),
           explorationUrl: S.optional(S.String),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "PostDataSourceExplorationResponse" });
   }
 }
-function __c281(j: number): any {
+function __c283(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43648,13 +43813,13 @@ function __c281(j: number): any {
       ).annotate({ identifier: "CreateDashboardV2RequestBlocksItemCase12ConfigChartSettings" });
   }
 }
-function __c282(j: number): any {
+function __c284(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          rowFilters: __S(17441, __c545, 1),
+          rowFilters: __S(17505, __c547, 1),
           type: S.String,
           valueType: S.String,
           valueColumn: S.NullOr(S.String),
@@ -43662,10 +43827,10 @@ function __c282(j: number): any {
         }),
       ).annotate({ identifier: "CreateDashboardV2RequestBlocksItemCase13ConfigDatasetValuesItem" });
     case 1:
-      return S.Array(__S(9024, __c282, 0));
+      return S.Array(__S(9088, __c284, 0));
   }
 }
-function __c283(j: number): any {
+function __c285(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43673,19 +43838,19 @@ function __c283(j: number): any {
           name: S.String,
           description: S.optional(S.String),
           owner: S.optional(S.String),
-          projects: S.optional(__S(5216, __c163, 0)),
-          tags: S.optional(__S(5216, __c163, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
+          tags: S.optional(__S(0, __c0, 0)),
           metricType: S.String,
-          numerator: S.optional(S.NullOr(__S(3552, __c111, 0))),
-          denominator: S.optional(__S(3553, __c111, 1)),
+          numerator: S.optional(S.NullOr(__S(3648, __c114, 0))),
+          denominator: S.optional(__S(3649, __c114, 1)),
           inverse: S.optional(S.Boolean),
-          quantileSettings: S.optional(__S(3490, __c109, 2)),
-          funnelSettings: S.optional(__S(3493, __c109, 5)),
-          cappingSettings: S.optional(__S(3392, __c106, 0)),
-          lowerCappingSettings: S.optional(S.NullOr(__S(3392, __c106, 0))),
-          windowSettings: S.optional(__S(3520, __c110, 0)),
-          priorSettings: S.optional(__S(3360, __c105, 0)),
-          regressionAdjustmentSettings: S.optional(__S(3494, __c109, 6)),
+          quantileSettings: S.optional(__S(3586, __c112, 2)),
+          funnelSettings: S.optional(__S(3589, __c112, 5)),
+          cappingSettings: S.optional(__S(3488, __c109, 0)),
+          lowerCappingSettings: S.optional(S.NullOr(__S(3488, __c109, 0))),
+          windowSettings: S.optional(__S(3616, __c113, 0)),
+          priorSettings: S.optional(__S(3456, __c108, 0)),
+          regressionAdjustmentSettings: S.optional(__S(3590, __c112, 6)),
           riskThresholdSuccess: S.optional(S.Number),
           riskThresholdDanger: S.optional(S.Number),
           displayAsPercentage: S.optional(S.Boolean),
@@ -43694,13 +43859,13 @@ function __c283(j: number): any {
           minSampleSize: S.optional(S.Number),
           targetMDE: S.optional(S.Number),
           managedBy: S.optional(S.String),
-          metricAutoSlices: S.optional(__S(5216, __c163, 0)),
-          replaces: S.optional(__S(5216, __c163, 0)),
+          metricAutoSlices: S.optional(__S(0, __c0, 0)),
+          replaces: S.optional(__S(0, __c0, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/fact-metrics", code: 200 })),
       ).annotate({ identifier: "PostFactMetricRequest" });
   }
 }
-function __c284(j: number): any {
+function __c286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43717,7 +43882,7 @@ function __c284(j: number): any {
       ).annotate({ identifier: "CreateConfigRevisionUndoReviewRequest" });
   }
 }
-function __c285(j: number): any {
+function __c287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43727,8 +43892,8 @@ function __c285(j: number): any {
           lookbackDays: S.optional(S.Number),
           populationType: S.optional(S.String),
           populationId: S.optional(S.NullOr(S.String)),
-          additionalNumeratorFilters: S.optional(__S(5216, __c163, 0)),
-          additionalDenominatorFilters: S.optional(__S(5216, __c163, 0)),
+          additionalNumeratorFilters: S.optional(__S(0, __c0, 0)),
+          additionalDenominatorFilters: S.optional(__S(0, __c0, 0)),
           useCache: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/v1/fact-metrics/{id}/analysis", code: 200 })),
       ).annotate({ identifier: "PostFactMetricAnalysisRequest" });
@@ -43737,25 +43902,25 @@ function __c285(j: number): any {
         S.Struct({
           id: S.String,
           status: S.String,
-          settings: S.optional(__S(18304, __c572, 0)),
+          settings: S.optional(__S(18368, __c574, 0)),
         }),
       ).annotate({ identifier: "MetricAnalysis" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          metricAnalysis: __S(9121, __c285, 1),
+          metricAnalysis: __S(9185, __c287, 1),
         }),
       ).annotate({ identifier: "PostFactMetricAnalysisResponse" });
   }
 }
-function __c286(j: number): any {
+function __c288(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
           factTableId: S.NullOr(S.String),
-          values: __S(9025, __c282, 1),
+          values: __S(9089, __c284, 1),
         }),
       ).annotate({ identifier: "CreateDashboardV2RequestBlocksItemCase13ConfigDataset" });
     case 1:
@@ -43765,13 +43930,13 @@ function __c286(j: number): any {
         S.Struct({
           cache: S.optional(S.String.pipe(T.Query())),
           datasource: S.String,
-          dimensions: __S(9153, __c286, 1),
+          dimensions: __S(9217, __c288, 1),
           chartType: S.String,
-          dateRange: __S(15008, __c469, 0),
+          dateRange: __S(15072, __c471, 0),
           showAs: S.optional(S.String),
-          chartSettings: S.optional(__S(8992, __c281, 0)),
+          chartSettings: S.optional(__S(9056, __c283, 0)),
           type: S.String,
-          dataset: __S(9152, __c286, 0),
+          dataset: __S(9216, __c288, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -43783,20 +43948,20 @@ function __c286(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          dimensions: __S(5824, __c182, 0),
-          values: S.optional(__S(5826, __c182, 2)),
+          dimensions: __S(5888, __c184, 0),
+          values: S.optional(__S(5890, __c184, 2)),
           populationCount: S.optional(S.Number),
-          steps: S.optional(__S(5828, __c182, 4)),
+          steps: S.optional(__S(5892, __c184, 4)),
           journey: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "PostFactTableExplorationResponseExplorationResultRowsItem" });
     case 4:
-      return S.Array(__S(9155, __c286, 3));
+      return S.Array(__S(9219, __c288, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          rows: __S(9156, __c286, 4),
-          rawRows: S.optional(__S(5829, __c182, 5)),
+          rows: __S(9220, __c288, 4),
+          rawRows: S.optional(__S(5893, __c184, 5)),
           truncated: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "PostFactTableExplorationResponseExplorationResult" });
@@ -43806,13 +43971,13 @@ function __c286(j: number): any {
       return S.suspend(() =>
         S.Struct({
           datasource: S.String,
-          dimensions: __S(9158, __c286, 6),
+          dimensions: __S(9222, __c288, 6),
           chartType: S.String,
-          dateRange: __S(15008, __c469, 0),
+          dateRange: __S(15072, __c471, 0),
           showAs: S.optional(S.String),
-          chartSettings: S.optional(__S(8992, __c281, 0)),
+          chartSettings: S.optional(__S(9056, __c283, 0)),
           type: S.String,
-          dataset: __S(9152, __c286, 0),
+          dataset: __S(9216, __c288, 0),
         }),
       ).annotate({ identifier: "PostFactTableExplorationResponseExplorationConfig" });
     case 8:
@@ -43826,22 +43991,22 @@ function __c286(j: number): any {
           dateStart: S.String,
           dateEnd: S.String,
           error: S.optional(S.NullOr(S.String)),
-          result: __S(9157, __c286, 5),
-          config: __S(9159, __c286, 7),
+          result: __S(9221, __c288, 5),
+          config: __S(9223, __c288, 7),
         }),
       ).annotate({ identifier: "PostFactTableExplorationResponseExploration" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          exploration: S.NullOr(__S(9160, __c286, 8)),
-          query: S.NullOr(__S(5792, __c181, 0)),
+          exploration: S.NullOr(__S(9224, __c288, 8)),
+          query: S.NullOr(__S(5856, __c183, 0)),
           explorationUrl: S.optional(S.String),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "PostFactTableExplorationResponse" });
   }
 }
-function __c287(j: number): any {
+function __c289(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43858,7 +44023,7 @@ function __c287(j: number): any {
       ).annotate({ identifier: "PostFeatureRevisionDiscardV2Request" });
   }
 }
-function __c288(j: number): any {
+function __c290(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43880,25 +44045,25 @@ function __c288(j: number): any {
       ).annotate({ identifier: "PostFeatureRevisionPublishV2Request" });
   }
 }
-function __c289(j: number): any {
+function __c291(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          revision: __S(872, __c27, 8),
-          bypassedGates: S.optional(__S(18401, __c575, 1)),
+          revision: __S(968, __c30, 8),
+          bypassedGates: S.optional(__S(18465, __c577, 1)),
         }),
       ).annotate({ identifier: "PostFeatureRevisionPublishV2Response" });
   }
 }
-function __c290(j: number): any {
+function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           version: S.Number.pipe(T.Label()),
-          conflictResolutions: S.optional(__S(6304, __c197, 0)),
+          conflictResolutions: S.optional(__S(6368, __c199, 0)),
           expectedLiveVersion: S.optional(S.Number),
           expectedDraftDateUpdated: S.optional(S.String),
           ignoreWarnings: S.optional(S.Boolean),
@@ -43916,20 +44081,20 @@ function __c290(j: number): any {
           success: S.Boolean,
           liveVersion: S.Number,
           draftDateUpdated: S.String,
-          conflicts: __S(4449, __c139, 1),
-          result: S.optional(__S(4451, __c139, 3)),
+          conflicts: __S(4545, __c142, 1),
+          result: S.optional(__S(4547, __c142, 3)),
         }),
       ).annotate({ identifier: "PostFeatureRevisionRebasePreviewV2Response" });
   }
 }
-function __c291(j: number): any {
+function __c293(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           version: S.Number.pipe(T.Label()),
-          conflictResolutions: S.optional(__S(6304, __c197, 0)),
+          conflictResolutions: S.optional(__S(6368, __c199, 0)),
           expectedLiveVersion: S.optional(S.Number),
           expectedDraftDateUpdated: S.optional(S.String),
           ignoreWarnings: S.optional(S.Boolean),
@@ -43943,7 +44108,7 @@ function __c291(j: number): any {
       ).annotate({ identifier: "PostFeatureRevisionRebaseV2Request" });
   }
 }
-function __c292(j: number): any {
+function __c294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43960,7 +44125,7 @@ function __c292(j: number): any {
       ).annotate({ identifier: "PostFeatureRevisionRecallReviewV2Request" });
   }
 }
-function __c293(j: number): any {
+function __c295(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43977,7 +44142,7 @@ function __c293(j: number): any {
       ).annotate({ identifier: "PostFeatureRevisionReopenV2Request" });
   }
 }
-function __c294(j: number): any {
+function __c296(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43999,7 +44164,7 @@ function __c294(j: number): any {
       ).annotate({ identifier: "PostFeatureRevisionRequestReviewV2Request" });
   }
 }
-function __c295(j: number): any {
+function __c297(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44022,7 +44187,7 @@ function __c295(j: number): any {
       ).annotate({ identifier: "PostFeatureRevisionRevertV2Request" });
   }
 }
-function __c296(j: number): any {
+function __c298(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44037,7 +44202,7 @@ function __c296(j: number): any {
       ).annotate({ identifier: "AddTargetRampScheduleRequest" });
   }
 }
-function __c297(j: number): any {
+function __c299(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44047,23 +44212,23 @@ function __c297(j: number): any {
         }),
       ).annotate({ identifier: "RampScheduleStartActionsItemPatchPrerequisitesItem" });
     case 1:
-      return S.Array(__S(9504, __c297, 0));
+      return S.Array(__S(9568, __c299, 0));
   }
 }
-function __c298(j: number): any {
+function __c300(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           match: S.String,
-          ids: __S(5216, __c163, 0),
+          ids: __S(0, __c0, 0),
         }),
       ).annotate({ identifier: "RampScheduleStartActionsItemPatchSavedGroupsItem" });
     case 1:
-      return S.Array(__S(9536, __c298, 0));
+      return S.Array(__S(9600, __c300, 0));
   }
 }
-function __c299(j: number): any {
+function __c301(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44081,13 +44246,13 @@ function __c299(j: number): any {
           apiKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           name: S.optional(S.String),
           email: S.optional(S.String),
-          requestedBy: S.optional(__S(9568, __c299, 0)),
+          requestedBy: S.optional(__S(9632, __c301, 0)),
           assumedRole: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "EventUser" });
   }
 }
-function __c300(j: number): any {
+function __c302(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44098,7 +44263,7 @@ function __c300(j: number): any {
       ).annotate({ identifier: "RampScheduleMonitoringConfigExposureQuery" });
   }
 }
-function __c301(j: number): any {
+function __c303(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44113,17 +44278,17 @@ function __c301(j: number): any {
         }),
       ).annotate({ identifier: "RampScheduleTargetsItem" });
     case 1:
-      return S.Array(__S(9632, __c301, 0));
+      return S.Array(__S(9696, __c303, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           ruleId: S.String,
           coverage: S.optional(S.NullOr(S.Number)),
           condition: S.optional(S.NullOr(S.String)),
-          savedGroups: S.optional(S.NullOr(__S(9537, __c298, 1))),
-          prerequisites: S.optional(S.NullOr(__S(9505, __c297, 1))),
+          savedGroups: S.optional(S.NullOr(__S(9601, __c300, 1))),
+          prerequisites: S.optional(S.NullOr(__S(9569, __c299, 1))),
           allEnvironments: S.optional(S.NullOr(S.Boolean)),
-          environments: S.optional(S.NullOr(__S(5216, __c163, 0))),
+          environments: S.optional(S.NullOr(__S(0, __c0, 0))),
           force: S.optional(S.Unknown),
           enabled: S.optional(S.NullOr(S.Boolean)),
           hashAttribute: S.optional(S.NullOr(S.String)),
@@ -44136,21 +44301,21 @@ function __c301(j: number): any {
         S.Struct({
           targetType: S.String,
           targetId: S.String,
-          patch: __S(9634, __c301, 2),
+          patch: __S(9698, __c303, 2),
         }),
       ).annotate({ identifier: "RampScheduleStartActionsItem" });
     case 4:
-      return S.Array(__S(9635, __c301, 3));
+      return S.Array(__S(9699, __c303, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           ruleId: S.String,
           coverage: S.optional(S.NullOr(S.Number)),
           condition: S.optional(S.NullOr(S.String)),
-          savedGroups: S.optional(S.NullOr(__S(9537, __c298, 1))),
-          prerequisites: S.optional(S.NullOr(__S(9505, __c297, 1))),
+          savedGroups: S.optional(S.NullOr(__S(9601, __c300, 1))),
+          prerequisites: S.optional(S.NullOr(__S(9569, __c299, 1))),
           allEnvironments: S.optional(S.NullOr(S.Boolean)),
-          environments: S.optional(S.NullOr(__S(5216, __c163, 0))),
+          environments: S.optional(S.NullOr(__S(0, __c0, 0))),
           force: S.optional(S.Unknown),
           enabled: S.optional(S.NullOr(S.Boolean)),
         }),
@@ -44160,30 +44325,30 @@ function __c301(j: number): any {
         S.Struct({
           targetType: S.String,
           targetId: S.String,
-          patch: __S(9637, __c301, 5),
+          patch: __S(9701, __c303, 5),
         }),
       ).annotate({ identifier: "RampScheduleStepsItemActionsItem" });
     case 7:
-      return S.Array(__S(9638, __c301, 6));
+      return S.Array(__S(9702, __c303, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           interval: S.NullOr(S.Number),
           approvalNotes: S.optional(S.NullOr(S.String)),
           monitored: S.optional(S.Boolean),
-          holdConditions: S.optional(__S(9696, __c303, 0)),
-          actions: __S(9639, __c301, 7),
+          holdConditions: S.optional(__S(9760, __c305, 0)),
+          actions: __S(9703, __c303, 7),
         }),
       ).annotate({ identifier: "RampScheduleStepsItem" });
     case 9:
-      return S.Array(__S(9640, __c301, 8));
+      return S.Array(__S(9704, __c303, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
           stepIndex: S.Number,
           approvedAt: S.String,
           approvedBy: S.String,
-          approvedByUser: S.optional(__S(9569, __c299, 1)),
+          approvedByUser: S.optional(__S(9633, __c301, 1)),
           context: S.String,
         }),
       ).annotate({ identifier: "RampScheduleStepApproval" });
@@ -44208,10 +44373,10 @@ function __c301(j: number): any {
           name: S.String,
           entityType: S.String,
           entityId: S.String,
-          targets: __S(9633, __c301, 1),
-          startActions: S.optional(__S(9636, __c301, 4)),
-          steps: __S(9641, __c301, 9),
-          endActions: S.optional(__S(9639, __c301, 7)),
+          targets: __S(9697, __c303, 1),
+          startActions: S.optional(__S(9700, __c303, 4)),
+          steps: __S(9705, __c303, 9),
+          endActions: S.optional(__S(9703, __c303, 7)),
           startDate: S.optional(S.NullOr(S.String)),
           cutoffDate: S.optional(S.NullOr(S.String)),
           requiresStartApproval: S.optional(S.Boolean),
@@ -44224,31 +44389,31 @@ function __c301(j: number): any {
           nextStepAt: S.NullOr(S.String),
           nextProcessAt: S.optional(S.NullOr(S.String)),
           elapsedMs: S.optional(S.NullOr(S.Number)),
-          lockdownConfig: S.optional(__S(9697, __c303, 1)),
-          monitoringConfig: S.optional(S.NullOr(__S(9728, __c304, 0))),
+          lockdownConfig: S.optional(__S(9761, __c305, 1)),
+          monitoringConfig: S.optional(S.NullOr(__S(9792, __c306, 0))),
           experimentHealthAction: S.optional(S.String),
           currentStepEnteredAt: S.optional(S.NullOr(S.String)),
-          stepApproval: S.optional(S.NullOr(__S(9642, __c301, 10))),
+          stepApproval: S.optional(S.NullOr(__S(9706, __c303, 10))),
           awaitingApproval: S.Boolean,
           monitoringStartDate: S.optional(S.NullOr(S.String)),
           lastRollbackAt: S.optional(S.NullOr(S.String)),
           lastRollbackReason: S.optional(S.NullOr(S.String)),
-          monitoringStatus: S.optional(S.NullOr(__S(9643, __c301, 11))),
+          monitoringStatus: S.optional(S.NullOr(__S(9707, __c303, 11))),
         }),
       ).annotate({ identifier: "RampSchedule" });
   }
 }
-function __c302(j: number): any {
+function __c304(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          rampSchedule: __S(9644, __c301, 12),
+          rampSchedule: __S(9708, __c303, 12),
         }),
       ).annotate({ identifier: "AddTargetRampScheduleResponse" });
   }
 }
-function __c303(j: number): any {
+function __c305(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44265,14 +44430,14 @@ function __c303(j: number): any {
       ).annotate({ identifier: "RampScheduleLockdownConfig" });
   }
 }
-function __c304(j: number): any {
+function __c306(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           datasourceId: S.String,
-          guardrailMetricIds: __S(5216, __c163, 0),
-          signalMetricIds: S.optional(__S(5216, __c163, 0)),
+          guardrailMetricIds: __S(0, __c0, 0),
+          signalMetricIds: S.optional(__S(0, __c0, 0)),
           updateScheduleMinutes: S.optional(S.NullOr(S.Number)),
           monitoringMode: S.optional(S.String),
           autoUpdate: S.optional(S.Boolean),
@@ -44280,13 +44445,13 @@ function __c304(j: number): any {
           noTrafficAction: S.optional(S.String),
           noTrafficGracePeriodHours: S.optional(S.NullOr(S.Number)),
           multipleExposureAction: S.optional(S.String),
-          exposureQuery: __S(9600, __c300, 0),
+          exposureQuery: __S(9664, __c302, 0),
           exposureQueryId: S.String,
         }),
       ).annotate({ identifier: "RampScheduleMonitoringConfig" });
   }
 }
-function __c305(j: number): any {
+function __c307(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44295,7 +44460,7 @@ function __c305(j: number): any {
           name: S.String,
           type: S.String,
           value: S.optional(S.String),
-          environmentValues: S.optional(__S(18816, __c588, 0)),
+          environmentValues: S.optional(__S(18880, __c590, 0)),
           description: S.optional(S.String),
           project: S.optional(S.String),
           owner: S.optional(S.String),
@@ -44303,17 +44468,17 @@ function __c305(j: number): any {
       ).annotate({ identifier: "CreateConstantRequest" });
   }
 }
-function __c306(j: number): any {
+function __c308(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          constant: __S(18848, __c589, 0),
+          constant: __S(18912, __c591, 0),
         }),
       ).annotate({ identifier: "CreateConstantResponse" });
   }
 }
-function __c307(j: number): any {
+function __c309(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44323,8 +44488,8 @@ function __c307(j: number): any {
           skipSchemaValidation: S.optional(S.Unknown.pipe(T.Query())),
           ignoreWarnings: S.optional(S.Unknown.pipe(T.Query())),
           rule: S.Unknown,
-          rampSchedule: S.optional(__S(9856, __c308, 0)),
-          schedule: S.optional(__S(9857, __c308, 1)),
+          rampSchedule: S.optional(__S(9920, __c310, 0)),
+          schedule: S.optional(__S(9921, __c310, 1)),
           revisionTitle: S.optional(S.String),
           revisionComment: S.optional(S.String),
           skipHooks: S.optional(S.Boolean),
@@ -44335,20 +44500,20 @@ function __c307(j: number): any {
       ).annotate({ identifier: "PostFeatureRevisionRuleAddV2Request" });
   }
 }
-function __c308(j: number): any {
+function __c310(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           templateId: S.optional(S.String),
-          startActions: S.optional(__S(17735, __c554, 7)),
-          steps: S.optional(__S(17732, __c554, 4)),
-          endActions: S.optional(__S(17730, __c554, 2)),
+          startActions: S.optional(__S(17799, __c556, 7)),
+          steps: S.optional(__S(17796, __c556, 4)),
+          endActions: S.optional(__S(17794, __c556, 2)),
           startDate: S.optional(S.NullOr(S.String)),
           cutoffDate: S.optional(S.NullOr(S.String)),
-          monitoringConfig: S.optional(__S(17856, __c558, 0)),
-          lockdownConfig: S.optional(__S(9697, __c303, 1)),
+          monitoringConfig: S.optional(__S(17920, __c560, 0)),
+          lockdownConfig: S.optional(__S(9761, __c305, 1)),
           requiresStartApproval: S.optional(S.NullOr(S.Boolean)),
         }),
       ).annotate({ identifier: "PostFeatureRevisionRuleAddV2RequestRampSchedule" });
@@ -44361,14 +44526,14 @@ function __c308(j: number): any {
       ).annotate({ identifier: "PostFeatureRevisionRuleAddV2RequestSchedule" });
   }
 }
-function __c309(j: number): any {
+function __c311(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           version: S.String.pipe(T.Label()),
-          ruleIds: __S(5216, __c163, 0),
+          ruleIds: __S(0, __c0, 0),
           revisionTitle: S.optional(S.String),
           revisionComment: S.optional(S.String),
           ignoreWarnings: S.optional(S.Boolean),
@@ -44382,7 +44547,7 @@ function __c309(j: number): any {
       ).annotate({ identifier: "PostFeatureRevisionRulesReorderV2Request" });
   }
 }
-function __c310(j: number): any {
+function __c312(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44406,7 +44571,7 @@ function __c310(j: number): any {
       ).annotate({ identifier: "PostFeatureRevisionSchedulePublishV2Request" });
   }
 }
-function __c311(j: number): any {
+function __c313(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44427,13 +44592,13 @@ function __c311(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          revision: __S(872, __c27, 8),
+          revision: __S(968, __c30, 8),
           autoPublished: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "PostFeatureRevisionSubmitReviewV2Response" });
   }
 }
-function __c312(j: number): any {
+function __c314(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44455,7 +44620,7 @@ function __c312(j: number): any {
       ).annotate({ identifier: "PostFeatureRevisionToggleV2Request" });
   }
 }
-function __c313(j: number): any {
+function __c315(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44472,7 +44637,7 @@ function __c313(j: number): any {
       ).annotate({ identifier: "PostFeatureRevisionUndoReviewV2Request" });
   }
 }
-function __c314(j: number): any {
+function __c316(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44486,7 +44651,7 @@ function __c314(j: number): any {
       ).annotate({ identifier: "PostFeatureRevisionV2Request" });
   }
 }
-function __c315(j: number): any {
+function __c317(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -44501,17 +44666,17 @@ function __c315(j: number): any {
           owner: S.optional(S.String),
           project: S.optional(S.String),
           targetingAllProjects: S.optional(S.Boolean),
-          targetingProjects: S.optional(__S(5216, __c163, 0)),
+          targetingProjects: S.optional(__S(0, __c0, 0)),
           valueType: S.String,
           defaultValue: S.String,
           baseConfig: S.optional(S.NullOr(S.String)),
           defaultValueConfig: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(5216, __c163, 0)),
-          rules: S.optional(__S(10080, __c315, 0)),
-          environments: S.optional(__S(10113, __c316, 1)),
-          prerequisites: S.optional(__S(5216, __c163, 0)),
+          tags: S.optional(__S(0, __c0, 0)),
+          rules: S.optional(__S(10144, __c317, 0)),
+          environments: S.optional(__S(10177, __c318, 1)),
+          prerequisites: S.optional(__S(0, __c0, 0)),
           jsonSchema: S.optional(S.String),
-          customFields: S.optional(__S(18816, __c588, 0)),
+          customFields: S.optional(__S(18880, __c590, 0)),
           comment: S.optional(S.String),
           skipHooks: S.optional(S.Boolean),
           allowUnscopedRules: S.optional(S.Boolean),
@@ -44520,12 +44685,12 @@ function __c315(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          feature: __S(7840, __c245, 0),
+          feature: __S(7904, __c247, 0),
         }),
       ).annotate({ identifier: "PostFeatureV2Response" });
   }
 }
-function __c316(j: number): any {
+function __c318(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44534,29 +44699,29 @@ function __c316(j: number): any {
         }),
       ).annotate({ identifier: "PostFeatureV2RequestEnvironmentsValue" });
     case 1:
-      return S.Record(S.String, __S(10112, __c316, 0));
+      return S.Record(S.String, __S(10176, __c318, 0));
   }
 }
-function __c317(j: number): any {
+function __c319(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           factTableId: S.String,
-          rowFilters: __S(17441, __c545, 1),
+          rowFilters: __S(17505, __c547, 1),
           optional: S.Boolean,
-          conversionWindow: S.optional(S.NullOr(__S(3456, __c108, 0))),
+          conversionWindow: S.optional(S.NullOr(__S(3552, __c111, 0))),
         }),
       ).annotate({ identifier: "CreateDashboardV2RequestBlocksItemCase15ConfigDatasetStepsItem" });
     case 1:
-      return S.Array(__S(10144, __c317, 0));
+      return S.Array(__S(10208, __c319, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
           unit: S.NullOr(S.String),
-          steps: __S(10145, __c317, 1),
+          steps: __S(10209, __c319, 1),
           concurrencyWindowSeconds: S.optional(S.Number),
           yAxisScale: S.optional(S.String),
         }),
@@ -44568,13 +44733,13 @@ function __c317(j: number): any {
         S.Struct({
           cache: S.optional(S.String.pipe(T.Query())),
           datasource: S.String,
-          dimensions: __S(10147, __c317, 3),
+          dimensions: __S(10211, __c319, 3),
           chartType: S.String,
-          dateRange: __S(15008, __c469, 0),
+          dateRange: __S(15072, __c471, 0),
           showAs: S.optional(S.String),
-          chartSettings: S.optional(__S(8992, __c281, 0)),
+          chartSettings: S.optional(__S(9056, __c283, 0)),
           type: S.String,
-          dataset: __S(10146, __c317, 2),
+          dataset: __S(10210, __c319, 2),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/product-analytics/funnel-exploration", code: 200 }),
         ),
@@ -44582,20 +44747,20 @@ function __c317(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          dimensions: __S(5824, __c182, 0),
-          values: S.optional(__S(5826, __c182, 2)),
+          dimensions: __S(5888, __c184, 0),
+          values: S.optional(__S(5890, __c184, 2)),
           populationCount: S.optional(S.Number),
-          steps: S.optional(__S(5828, __c182, 4)),
+          steps: S.optional(__S(5892, __c184, 4)),
           journey: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "PostFunnelExplorationResponseExplorationResultRowsItem" });
     case 6:
-      return S.Array(__S(10149, __c317, 5));
+      return S.Array(__S(10213, __c319, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          rows: __S(10150, __c317, 6),
-          rawRows: S.optional(__S(5829, __c182, 5)),
+          rows: __S(10214, __c319, 6),
+          rawRows: S.optional(__S(5893, __c184, 5)),
           truncated: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "PostFunnelExplorationResponseExplorationResult" });
@@ -44605,13 +44770,13 @@ function __c317(j: number): any {
       return S.suspend(() =>
         S.Struct({
           datasource: S.String,
-          dimensions: __S(10152, __c317, 8),
+          dimensions: __S(10216, __c319, 8),
           chartType: S.String,
-          dateRange: __S(15008, __c469, 0),
+          dateRange: __S(15072, __c471, 0),
           showAs: S.optional(S.String),
-          chartSettings: S.optional(__S(8992, __c281, 0)),
+          chartSettings: S.optional(__S(9056, __c283, 0)),
           type: S.String,
-          dataset: __S(10146, __c317, 2),
+          dataset: __S(10210, __c319, 2),
         }),
       ).annotate({ identifier: "PostFunnelExplorationResponseExplorationConfig" });
     case 10:
@@ -44625,22 +44790,22 @@ function __c317(j: number): any {
           dateStart: S.String,
           dateEnd: S.String,
           error: S.optional(S.NullOr(S.String)),
-          result: __S(10151, __c317, 7),
-          config: __S(10153, __c317, 9),
+          result: __S(10215, __c319, 7),
+          config: __S(10217, __c319, 9),
         }),
       ).annotate({ identifier: "PostFunnelExplorationResponseExploration" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          exploration: S.NullOr(__S(10154, __c317, 10)),
-          query: S.NullOr(__S(5792, __c181, 0)),
+          exploration: S.NullOr(__S(10218, __c319, 10)),
+          query: S.NullOr(__S(5856, __c183, 0)),
           explorationUrl: S.optional(S.String),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "PostFunnelExplorationResponse" });
   }
 }
-function __c318(j: number): any {
+function __c320(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44650,7 +44815,7 @@ function __c318(j: number): any {
         }),
       ).annotate({ identifier: "AnalyticsExplorationConfigCase5DatasetStepGroupsItem" });
     case 1:
-      return S.Array(__S(10176, __c318, 0));
+      return S.Array(__S(10240, __c320, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -44658,21 +44823,21 @@ function __c318(j: number): any {
         }),
       ).annotate({ identifier: "AnalyticsExplorationConfigCase5DatasetPathItem" });
     case 3:
-      return S.Array(__S(10178, __c318, 2));
+      return S.Array(__S(10242, __c320, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
           factTableId: S.NullOr(S.String),
           unit: S.NullOr(S.String),
-          stepColumns: __S(5216, __c163, 0),
-          stepGroups: S.optional(__S(10177, __c318, 1)),
-          anchorStepValues: S.NullOr(__S(5216, __c163, 0)),
+          stepColumns: __S(0, __c0, 0),
+          stepGroups: S.optional(__S(10241, __c320, 1)),
+          anchorStepValues: S.NullOr(__S(0, __c0, 0)),
           direction: S.String,
-          rowFilters: __S(17441, __c545, 1),
-          path: __S(10179, __c318, 3),
+          rowFilters: __S(17505, __c547, 1),
+          path: __S(10243, __c320, 3),
           lookaheadDepth: S.Number,
-          optionsPerStep: __S(15424, __c482, 0),
+          optionsPerStep: __S(15488, __c484, 0),
           heightScale: S.optional(S.String),
         }),
       ).annotate({ identifier: "AnalyticsExplorationConfigCase5Dataset" });
@@ -44683,13 +44848,13 @@ function __c318(j: number): any {
         S.Struct({
           cache: S.optional(S.String.pipe(T.Query())),
           datasource: S.String,
-          dimensions: __S(10181, __c318, 5),
+          dimensions: __S(10245, __c320, 5),
           chartType: S.String,
-          dateRange: __S(15008, __c469, 0),
+          dateRange: __S(15072, __c471, 0),
           showAs: S.optional(S.String),
-          chartSettings: S.optional(__S(8992, __c281, 0)),
+          chartSettings: S.optional(__S(9056, __c283, 0)),
           type: S.String,
-          dataset: __S(10180, __c318, 4),
+          dataset: __S(10244, __c320, 4),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/product-analytics/journey-exploration", code: 200 }),
         ),
@@ -44697,20 +44862,20 @@ function __c318(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          dimensions: __S(5824, __c182, 0),
-          values: S.optional(__S(5826, __c182, 2)),
+          dimensions: __S(5888, __c184, 0),
+          values: S.optional(__S(5890, __c184, 2)),
           populationCount: S.optional(S.Number),
-          steps: S.optional(__S(5828, __c182, 4)),
+          steps: S.optional(__S(5892, __c184, 4)),
           journey: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "PostJourneyExplorationResponseExplorationResultRowsItem" });
     case 8:
-      return S.Array(__S(10183, __c318, 7));
+      return S.Array(__S(10247, __c320, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          rows: __S(10184, __c318, 8),
-          rawRows: S.optional(__S(5829, __c182, 5)),
+          rows: __S(10248, __c320, 8),
+          rawRows: S.optional(__S(5893, __c184, 5)),
           truncated: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "PostJourneyExplorationResponseExplorationResult" });
@@ -44720,13 +44885,13 @@ function __c318(j: number): any {
       return S.suspend(() =>
         S.Struct({
           datasource: S.String,
-          dimensions: __S(10186, __c318, 10),
+          dimensions: __S(10250, __c320, 10),
           chartType: S.String,
-          dateRange: __S(15008, __c469, 0),
+          dateRange: __S(15072, __c471, 0),
           showAs: S.optional(S.String),
-          chartSettings: S.optional(__S(8992, __c281, 0)),
+          chartSettings: S.optional(__S(9056, __c283, 0)),
           type: S.String,
-          dataset: __S(10180, __c318, 4),
+          dataset: __S(10244, __c320, 4),
         }),
       ).annotate({ identifier: "PostJourneyExplorationResponseExplorationConfig" });
     case 12:
@@ -44740,22 +44905,22 @@ function __c318(j: number): any {
           dateStart: S.String,
           dateEnd: S.String,
           error: S.optional(S.NullOr(S.String)),
-          result: __S(10185, __c318, 9),
-          config: __S(10187, __c318, 11),
+          result: __S(10249, __c320, 9),
+          config: __S(10251, __c320, 11),
         }),
       ).annotate({ identifier: "PostJourneyExplorationResponseExploration" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          exploration: S.NullOr(__S(10188, __c318, 12)),
-          query: S.NullOr(__S(5792, __c181, 0)),
+          exploration: S.NullOr(__S(10252, __c320, 12)),
+          query: S.NullOr(__S(5856, __c183, 0)),
           explorationUrl: S.optional(S.String),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "PostJourneyExplorationResponse" });
   }
 }
-function __c319(j: number): any {
+function __c321(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44773,7 +44938,7 @@ function __c319(j: number): any {
       ).annotate({ identifier: "CreateConstantRevisionDiscardRequest" });
   }
 }
-function __c320(j: number): any {
+function __c322(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -44784,14 +44949,14 @@ function __c320(j: number): any {
           userId: S.String,
           action: S.String,
           description: S.optional(S.NullOr(S.String)),
-          proposedChangesSnapshot: S.optional(__S(10240, __c320, 0)),
+          proposedChangesSnapshot: S.optional(__S(10304, __c322, 0)),
           targetSnapshot: S.optional(S.Unknown),
           dateCreated: S.String,
-          user: S.optional(__S(9569, __c299, 1)),
+          user: S.optional(__S(9633, __c301, 1)),
         }),
       ).annotate({ identifier: "ConstantRevisionActivityLogEntry" });
     case 2:
-      return S.Array(__S(10241, __c320, 1));
+      return S.Array(__S(10305, __c322, 1));
     case 3:
       return S.Array(S.Unknown);
     case 4:
@@ -44802,15 +44967,15 @@ function __c320(j: number): any {
           title: S.optional(S.String),
           status: S.String,
           authorId: S.String,
-          author: S.optional(__S(9569, __c299, 1)),
+          author: S.optional(__S(9633, __c301, 1)),
           authorEmail: S.optional(S.String),
-          contributors: S.optional(__S(5216, __c163, 0)),
+          contributors: S.optional(__S(0, __c0, 0)),
           revertedFrom: S.optional(S.String),
-          reviews: __S(5313, __c166, 1),
-          activityLog: __S(10242, __c320, 2),
+          reviews: __S(5377, __c168, 1),
+          activityLog: __S(10306, __c322, 2),
           autoPublishOnApproval: S.optional(S.Boolean),
           autoPublishEnabledBy: S.optional(S.String),
-          autoPublishEnabledByUser: S.optional(__S(9569, __c299, 1)),
+          autoPublishEnabledByUser: S.optional(__S(9633, __c301, 1)),
           scheduledPublishAt: S.optional(S.String),
           scheduledPublishLockEdits: S.optional(S.Boolean),
           scheduledPublishLockOthers: S.optional(S.Boolean),
@@ -44818,32 +44983,32 @@ function __c320(j: number): any {
           scheduledPublishAttempts: S.optional(S.Number),
           scheduledPublishLastError: S.optional(S.String),
           scheduledPublishGaveUpAt: S.optional(S.String),
-          resolution: S.optional(__S(5314, __c166, 2)),
+          resolution: S.optional(__S(5378, __c168, 2)),
           dateCreated: S.String,
           dateUpdated: S.String,
-          baseConstant: __S(18848, __c589, 0),
-          proposedConstant: __S(18848, __c589, 0),
-          proposedChanges: __S(10243, __c320, 3),
+          baseConstant: __S(18912, __c591, 0),
+          proposedConstant: __S(18912, __c591, 0),
+          proposedChanges: __S(10307, __c322, 3),
         }),
       ).annotate({ identifier: "ConstantRevision" });
   }
 }
-function __c321(j: number): any {
+function __c323(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          revision: __S(10244, __c320, 4),
+          revision: __S(10308, __c322, 4),
         }),
       ).annotate({ identifier: "CreateConstantRevisionDiscardResponse" });
   }
 }
-function __c322(j: number): any {
+function __c324(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          identifierTypes: __S(5216, __c163, 0),
+          identifierTypes: __S(0, __c0, 0),
           conversionSQL: S.String,
           userAggregationSQL: S.optional(S.String),
           denominatorMetricId: S.optional(S.String),
@@ -44852,11 +45017,11 @@ function __c322(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          identifierTypeColumns: __S(5473, __c171, 1),
+          identifierTypeColumns: __S(5537, __c173, 1),
           tableName: S.String,
           valueColumnName: S.optional(S.String),
           timestampColumnName: S.String,
-          conditions: S.optional(__S(5475, __c171, 3)),
+          conditions: S.optional(__S(5539, __c173, 3)),
         }),
       ).annotate({ identifier: "PostMetricRequestSqlBuilder" });
     case 2:
@@ -44865,7 +45030,7 @@ function __c322(j: number): any {
           eventName: S.String,
           eventValue: S.optional(S.String),
           userAggregation: S.String,
-          conditions: S.optional(__S(5477, __c171, 5)),
+          conditions: S.optional(__S(5541, __c173, 5)),
         }),
       ).annotate({ identifier: "PostMetricRequestMixpanel" });
     case 3:
@@ -44877,18 +45042,18 @@ function __c322(j: number): any {
           name: S.String,
           description: S.optional(S.String),
           type: S.String,
-          tags: S.optional(__S(5216, __c163, 0)),
-          projects: S.optional(__S(5216, __c163, 0)),
+          tags: S.optional(__S(0, __c0, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
           archived: S.optional(S.Boolean),
-          behavior: S.optional(__S(10337, __c323, 1)),
-          sql: S.optional(__S(10304, __c322, 0)),
-          sqlBuilder: S.optional(__S(10305, __c322, 1)),
-          mixpanel: S.optional(__S(10306, __c322, 2)),
+          behavior: S.optional(__S(10401, __c325, 1)),
+          sql: S.optional(__S(10368, __c324, 0)),
+          sqlBuilder: S.optional(__S(10369, __c324, 1)),
+          mixpanel: S.optional(__S(10370, __c324, 2)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/metrics", code: 200 })),
       ).annotate({ identifier: "PostMetricRequest" });
   }
 }
-function __c323(j: number): any {
+function __c325(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44902,14 +45067,14 @@ function __c323(j: number): any {
       return S.suspend(() =>
         S.Struct({
           goal: S.optional(S.String),
-          cappingSettings: S.optional(__S(10336, __c323, 0)),
+          cappingSettings: S.optional(__S(10400, __c325, 0)),
           cap: S.optional(S.Number),
           capping: S.optional(S.NullOr(S.String)),
           capValue: S.optional(S.Number),
-          windowSettings: S.optional(__S(3520, __c110, 0)),
+          windowSettings: S.optional(__S(3616, __c113, 0)),
           conversionWindowStart: S.optional(S.Number),
           conversionWindowEnd: S.optional(S.Number),
-          priorSettings: S.optional(__S(3360, __c105, 0)),
+          priorSettings: S.optional(__S(3456, __c108, 0)),
           riskThresholdSuccess: S.optional(S.Number),
           riskThresholdDanger: S.optional(S.Number),
           minPercentChange: S.optional(S.Number),
@@ -44920,13 +45085,13 @@ function __c323(j: number): any {
       ).annotate({ identifier: "PostMetricRequestBehavior" });
   }
 }
-function __c324(j: number): any {
+function __c326(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          rowFilters: __S(17441, __c545, 1),
+          rowFilters: __S(17505, __c547, 1),
           type: S.String,
           metricId: S.String,
           unit: S.NullOr(S.String),
@@ -44934,12 +45099,12 @@ function __c324(j: number): any {
         }),
       ).annotate({ identifier: "CreateDashboardV2RequestBlocksItemCase12ConfigDatasetValuesItem" });
     case 1:
-      return S.Array(__S(10368, __c324, 0));
+      return S.Array(__S(10432, __c326, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          source: __S(17472, __c546, 0),
-          rowFilters: __S(17441, __c545, 1),
+          source: __S(17536, __c548, 0),
+          rowFilters: __S(17505, __c547, 1),
           aggregateFilter: S.optional(S.String),
           aggregateFilterColumn: S.optional(S.String),
           unit: S.String,
@@ -44949,8 +45114,8 @@ function __c324(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          values: __S(10369, __c324, 1),
-          population: S.optional(__S(10370, __c324, 2)),
+          values: __S(10433, __c326, 1),
+          population: S.optional(__S(10434, __c326, 2)),
         }),
       ).annotate({ identifier: "CreateDashboardV2RequestBlocksItemCase12ConfigDataset" });
     case 4:
@@ -44960,13 +45125,13 @@ function __c324(j: number): any {
         S.Struct({
           cache: S.optional(S.String.pipe(T.Query())),
           datasource: S.String,
-          dimensions: __S(10372, __c324, 4),
+          dimensions: __S(10436, __c326, 4),
           chartType: S.String,
-          dateRange: __S(15008, __c469, 0),
+          dateRange: __S(15072, __c471, 0),
           showAs: S.optional(S.String),
-          chartSettings: S.optional(__S(8992, __c281, 0)),
+          chartSettings: S.optional(__S(9056, __c283, 0)),
           type: S.String,
-          dataset: __S(10371, __c324, 3),
+          dataset: __S(10435, __c326, 3),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/product-analytics/metric-exploration", code: 200 }),
         ),
@@ -44974,20 +45139,20 @@ function __c324(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          dimensions: __S(5824, __c182, 0),
-          values: S.optional(__S(5826, __c182, 2)),
+          dimensions: __S(5888, __c184, 0),
+          values: S.optional(__S(5890, __c184, 2)),
           populationCount: S.optional(S.Number),
-          steps: S.optional(__S(5828, __c182, 4)),
+          steps: S.optional(__S(5892, __c184, 4)),
           journey: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "PostMetricExplorationResponseExplorationResultRowsItem" });
     case 7:
-      return S.Array(__S(10374, __c324, 6));
+      return S.Array(__S(10438, __c326, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          rows: __S(10375, __c324, 7),
-          rawRows: S.optional(__S(5829, __c182, 5)),
+          rows: __S(10439, __c326, 7),
+          rawRows: S.optional(__S(5893, __c184, 5)),
           truncated: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "PostMetricExplorationResponseExplorationResult" });
@@ -44997,13 +45162,13 @@ function __c324(j: number): any {
       return S.suspend(() =>
         S.Struct({
           datasource: S.String,
-          dimensions: __S(10377, __c324, 9),
+          dimensions: __S(10441, __c326, 9),
           chartType: S.String,
-          dateRange: __S(15008, __c469, 0),
+          dateRange: __S(15072, __c471, 0),
           showAs: S.optional(S.String),
-          chartSettings: S.optional(__S(8992, __c281, 0)),
+          chartSettings: S.optional(__S(9056, __c283, 0)),
           type: S.String,
-          dataset: __S(10371, __c324, 3),
+          dataset: __S(10435, __c326, 3),
         }),
       ).annotate({ identifier: "PostMetricExplorationResponseExplorationConfig" });
     case 11:
@@ -45017,22 +45182,22 @@ function __c324(j: number): any {
           dateStart: S.String,
           dateEnd: S.String,
           error: S.optional(S.NullOr(S.String)),
-          result: __S(10376, __c324, 8),
-          config: __S(10378, __c324, 10),
+          result: __S(10440, __c326, 8),
+          config: __S(10442, __c326, 10),
         }),
       ).annotate({ identifier: "PostMetricExplorationResponseExploration" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          exploration: S.NullOr(__S(10379, __c324, 11)),
-          query: S.NullOr(__S(5792, __c181, 0)),
+          exploration: S.NullOr(__S(10443, __c326, 11)),
+          query: S.NullOr(__S(5856, __c183, 0)),
           explorationUrl: S.optional(S.String),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "PostMetricExplorationResponse" });
   }
 }
-function __c325(j: number): any {
+function __c327(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45040,9 +45205,9 @@ function __c325(j: number): any {
           type: S.String,
           sql: S.String,
           timestampColumn: S.NullOr(S.String),
-          columnTypes: __S(6304, __c197, 0),
-          values: __S(9025, __c282, 1),
-          hiddenColumns: S.optional(__S(5216, __c163, 0)),
+          columnTypes: __S(6368, __c199, 0),
+          values: __S(9089, __c284, 1),
+          hiddenColumns: S.optional(__S(0, __c0, 0)),
         }),
       ).annotate({ identifier: "CreateDashboardV2RequestBlocksItemCase16ConfigDataset" });
     case 1:
@@ -45052,13 +45217,13 @@ function __c325(j: number): any {
         S.Struct({
           cache: S.optional(S.String.pipe(T.Query())),
           datasource: S.String,
-          dimensions: __S(10401, __c325, 1),
+          dimensions: __S(10465, __c327, 1),
           chartType: S.String,
-          dateRange: __S(15008, __c469, 0),
+          dateRange: __S(15072, __c471, 0),
           showAs: S.optional(S.String),
-          chartSettings: S.optional(__S(8992, __c281, 0)),
+          chartSettings: S.optional(__S(9056, __c283, 0)),
           type: S.String,
-          dataset: __S(10400, __c325, 0),
+          dataset: __S(10464, __c327, 0),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/product-analytics/sql-exploration", code: 200 }),
         ),
@@ -45066,20 +45231,20 @@ function __c325(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          dimensions: __S(5824, __c182, 0),
-          values: S.optional(__S(5826, __c182, 2)),
+          dimensions: __S(5888, __c184, 0),
+          values: S.optional(__S(5890, __c184, 2)),
           populationCount: S.optional(S.Number),
-          steps: S.optional(__S(5828, __c182, 4)),
+          steps: S.optional(__S(5892, __c184, 4)),
           journey: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "PostSqlExplorationResponseExplorationResultRowsItem" });
     case 4:
-      return S.Array(__S(10403, __c325, 3));
+      return S.Array(__S(10467, __c327, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          rows: __S(10404, __c325, 4),
-          rawRows: S.optional(__S(5829, __c182, 5)),
+          rows: __S(10468, __c327, 4),
+          rawRows: S.optional(__S(5893, __c184, 5)),
           truncated: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "PostSqlExplorationResponseExplorationResult" });
@@ -45089,13 +45254,13 @@ function __c325(j: number): any {
       return S.suspend(() =>
         S.Struct({
           datasource: S.String,
-          dimensions: __S(10406, __c325, 6),
+          dimensions: __S(10470, __c327, 6),
           chartType: S.String,
-          dateRange: __S(15008, __c469, 0),
+          dateRange: __S(15072, __c471, 0),
           showAs: S.optional(S.String),
-          chartSettings: S.optional(__S(8992, __c281, 0)),
+          chartSettings: S.optional(__S(9056, __c283, 0)),
           type: S.String,
-          dataset: __S(10400, __c325, 0),
+          dataset: __S(10464, __c327, 0),
         }),
       ).annotate({ identifier: "PostSqlExplorationResponseExplorationConfig" });
     case 8:
@@ -45109,22 +45274,22 @@ function __c325(j: number): any {
           dateStart: S.String,
           dateEnd: S.String,
           error: S.optional(S.NullOr(S.String)),
-          result: __S(10405, __c325, 5),
-          config: __S(10407, __c325, 7),
+          result: __S(10469, __c327, 5),
+          config: __S(10471, __c327, 7),
         }),
       ).annotate({ identifier: "PostSqlExplorationResponseExploration" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          exploration: S.NullOr(__S(10408, __c325, 8)),
-          query: S.NullOr(__S(5792, __c181, 0)),
+          exploration: S.NullOr(__S(10472, __c327, 8)),
+          query: S.NullOr(__S(5856, __c183, 0)),
           explorationUrl: S.optional(S.String),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "PostSqlExplorationResponse" });
   }
 }
-function __c326(j: number): any {
+function __c328(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45152,12 +45317,12 @@ function __c326(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          screenshot: __S(10433, __c326, 1),
+          screenshot: __S(10497, __c328, 1),
         }),
       ).annotate({ identifier: "PostVariationImageUploadResponse" });
   }
 }
-function __c327(j: number): any {
+function __c329(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45168,7 +45333,7 @@ function __c327(j: number): any {
           js: S.optional(S.String),
           variation: S.String,
           allowRunningExperiment: S.optional(S.Boolean),
-          domMutations: S.optional(__S(10497, __c328, 1)),
+          domMutations: S.optional(__S(10561, __c330, 1)),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/visual-changesets/{id}/visual-change", code: 200 }),
         ),
@@ -45182,7 +45347,7 @@ function __c327(j: number): any {
       ).annotate({ identifier: "PostVisualChangeResponse" });
   }
 }
-function __c328(j: number): any {
+function __c330(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45199,24 +45364,24 @@ function __c328(j: number): any {
         ),
       ).annotate({ identifier: "PostVisualChangeRequestDomMutationsItem" });
     case 1:
-      return S.Array(__S(10496, __c328, 0));
+      return S.Array(__S(10560, __c330, 0));
   }
 }
-function __c329(j: number): any {
+function __c331(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           editorUrl: S.String,
-          urlPatterns: __S(14721, __c460, 1),
+          urlPatterns: __S(14785, __c462, 1),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/experiments/{id}/visual-changesets", code: 200 }),
         ),
       ).annotate({ identifier: "PostVisualChangesetsRequest" });
   }
 }
-function __c330(j: number): any {
+function __c332(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45225,7 +45390,7 @@ function __c330(j: number): any {
           databaseName: S.String,
           tableSchema: S.String,
           tableName: S.String,
-          columns: __S(5216, __c163, 0),
+          columns: __S(0, __c0, 0),
           limit: S.optional(S.Number),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/data-sources/{id}/sql/preview-values", code: 200 }),
@@ -45237,43 +45402,43 @@ function __c330(j: number): any {
       });
   }
 }
-function __c331(j: number): any {
+function __c333(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           requireReviewOn: S.Boolean,
-          projects: S.optional(__S(5216, __c163, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
           resetReviewOnChange: S.optional(S.Boolean),
-          environments: S.optional(__S(5216, __c163, 0)),
+          environments: S.optional(__S(0, __c0, 0)),
           featureRequireEnvironmentReview: S.optional(S.Boolean),
           featureRequireMetadataReview: S.optional(S.Boolean),
           blockSelfApproval: S.optional(S.Boolean),
           autopublishOnApproval: S.optional(S.Boolean),
-          requiredApproverTeams: S.optional(__S(5216, __c163, 0)),
+          requiredApproverTeams: S.optional(__S(0, __c0, 0)),
         }),
       ).annotate({ identifier: "RequireReviewRuleInput" });
     case 1:
-      return S.Array(__S(10592, __c331, 0));
+      return S.Array(__S(10656, __c333, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          requireReviews: S.optional(__S(10593, __c331, 1)),
-          approvalFlows: S.optional(__S(6628, __c207, 4)),
-          targetingReviewMode: S.optional(__S(6630, __c207, 6)),
+          requireReviews: S.optional(__S(10657, __c333, 1)),
+          approvalFlows: S.optional(__S(6692, __c209, 4)),
+          targetingReviewMode: S.optional(__S(6694, __c209, 6)),
         }).pipe(T.Http({ method: "PUT", uri: "/v1/settings/approvals", code: 200 })),
       ).annotate({ identifier: "PutApprovalSettingsRequest" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          requireReviews: __S(6625, __c207, 1),
-          approvalFlows: __S(6628, __c207, 4),
-          targetingReviewMode: __S(6630, __c207, 6),
+          requireReviews: __S(6689, __c209, 1),
+          approvalFlows: __S(6692, __c209, 4),
+          targetingReviewMode: __S(6694, __c209, 6),
         }),
       ).annotate({ identifier: "PutApprovalSettingsResponse" });
   }
 }
-function __c332(j: number): any {
+function __c334(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45282,14 +45447,14 @@ function __c332(j: number): any {
           name: S.optional(S.String),
           description: S.optional(S.String),
           isPublic: S.optional(S.Boolean),
-          attributes: S.optional(__S(18304, __c572, 0)),
-          projects: S.optional(__S(5216, __c163, 0)),
-          environments: S.optional(__S(5216, __c163, 0)),
+          attributes: S.optional(__S(18368, __c574, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
+          environments: S.optional(__S(0, __c0, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/v1/archetypes/{id}", code: 200 })),
       ).annotate({ identifier: "PutArchetypeRequest" });
   }
 }
-function __c333(j: number): any {
+function __c335(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45301,14 +45466,14 @@ function __c333(j: number): any {
           hashAttribute: S.optional(S.Boolean),
           enum: S.optional(S.String),
           format: S.optional(S.String),
-          projects: S.optional(__S(5216, __c163, 0)),
-          tags: S.optional(__S(5216, __c163, 0)),
-          customFields: S.optional(__S(18816, __c588, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
+          tags: S.optional(__S(0, __c0, 0)),
+          customFields: S.optional(__S(18880, __c590, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/v1/attributes/{property}", code: 200 })),
       ).annotate({ identifier: "PutAttributeRequest" });
   }
 }
-function __c334(j: number): any {
+function __c336(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45329,18 +45494,18 @@ function __c334(j: number): any {
       ).annotate({ identifier: "CreateConstantRevisionPublishRequest" });
   }
 }
-function __c335(j: number): any {
+function __c337(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          revision: __S(10244, __c320, 4),
-          bypassedGates: S.optional(__S(18401, __c575, 1)),
+          revision: __S(10308, __c322, 4),
+          bypassedGates: S.optional(__S(18465, __c577, 1)),
         }),
       ).annotate({ identifier: "CreateConstantRevisionPublishResponse" });
   }
 }
-function __c336(j: number): any {
+function __c338(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45363,7 +45528,7 @@ function __c336(j: number): any {
       ).annotate({ identifier: "PutConfigRevisionArchiveRequest" });
   }
 }
-function __c337(j: number): any {
+function __c339(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45379,7 +45544,7 @@ function __c337(j: number): any {
           description: S.optional(S.String),
           project: S.optional(S.String),
           parent: S.optional(S.String),
-          extends: S.optional(__S(5216, __c163, 0)),
+          extends: S.optional(__S(0, __c0, 0)),
           extensible: S.optional(S.Boolean),
           skipHooks: S.optional(S.Boolean),
         }).pipe(
@@ -45392,18 +45557,18 @@ function __c337(j: number): any {
       ).annotate({ identifier: "PutConfigRevisionMetadataRequest" });
   }
 }
-function __c338(j: number): any {
+function __c340(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          revision: __S(5348, __c167, 4),
-          warnings: S.optional(__S(4673, __c146, 1)),
+          revision: __S(5412, __c169, 4),
+          warnings: S.optional(__S(4769, __c149, 1)),
         }),
       ).annotate({ identifier: "PutConfigRevisionMetadataResponse" });
   }
 }
-function __c339(j: number): any {
+function __c341(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45428,7 +45593,7 @@ function __c339(j: number): any {
       ).annotate({ identifier: "PutConfigRevisionProjectionRequest" });
   }
 }
-function __c340(j: number): any {
+function __c342(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45452,7 +45617,7 @@ function __c340(j: number): any {
       ).annotate({ identifier: "PutConfigRevisionPropertyRequest" });
   }
 }
-function __c341(j: number): any {
+function __c343(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45473,7 +45638,7 @@ function __c341(j: number): any {
       ).annotate({ identifier: "PutConfigRevisionSchemaRequest" });
   }
 }
-function __c342(j: number): any {
+function __c344(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45484,7 +45649,7 @@ function __c342(j: number): any {
           ignoreWarnings: S.optional(S.Unknown.pipe(T.Query())),
           revisionTitle: S.optional(S.String),
           revisionComment: S.optional(S.String),
-          value: S.optional(__S(18304, __c572, 0)),
+          value: S.optional(__S(18368, __c574, 0)),
           inferSchemaIfMissing: S.optional(S.Boolean),
           skipHooks: S.optional(S.Boolean),
         }).pipe(
@@ -45493,7 +45658,7 @@ function __c342(j: number): any {
       ).annotate({ identifier: "PutConfigRevisionValueRequest" });
   }
 }
-function __c343(j: number): any {
+function __c345(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45516,7 +45681,7 @@ function __c343(j: number): any {
       ).annotate({ identifier: "PutConstantRevisionArchiveRequest" });
   }
 }
-function __c344(j: number): any {
+function __c346(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45539,7 +45704,7 @@ function __c344(j: number): any {
       ).annotate({ identifier: "PutConstantRevisionMetadataRequest" });
   }
 }
-function __c345(j: number): any {
+function __c347(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45549,7 +45714,7 @@ function __c345(j: number): any {
           revisionTitle: S.optional(S.String),
           revisionComment: S.optional(S.String),
           value: S.optional(S.String),
-          environmentValues: S.optional(__S(18816, __c588, 0)),
+          environmentValues: S.optional(__S(18880, __c590, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -45560,7 +45725,7 @@ function __c345(j: number): any {
       ).annotate({ identifier: "PutConstantRevisionValueRequest" });
   }
 }
-function __c346(j: number): any {
+function __c348(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45569,20 +45734,20 @@ function __c346(j: number): any {
           description: S.optional(S.String),
           toggleOnList: S.optional(S.Boolean),
           defaultState: S.optional(S.Boolean),
-          projects: S.optional(__S(5216, __c163, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
           isProduction: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "PUT", uri: "/v1/environments/{id}", code: 200 })),
       ).annotate({ identifier: "PutEnvironmentRequest" });
   }
 }
-function __c347(j: number): any {
+function __c349(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           key: S.String.pipe(T.Label()),
           version: S.Number.pipe(T.Label()),
-          conflictResolutions: S.optional(__S(6304, __c197, 0)),
+          conflictResolutions: S.optional(__S(6368, __c199, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -45593,7 +45758,7 @@ function __c347(j: number): any {
       ).annotate({ identifier: "CreateConstantRevisionRebaseRequest" });
   }
 }
-function __c348(j: number): any {
+function __c350(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45601,20 +45766,20 @@ function __c348(j: number): any {
           id: S.String.pipe(T.Label()),
           startAt: S.optional(S.String),
           stopAt: S.optional(S.String),
-          stopAfter: S.optional(__S(15521, __c485, 1)),
-          scheduledStopPlan: S.optional(__S(15522, __c485, 2)),
+          stopAfter: S.optional(__S(15585, __c487, 1)),
+          scheduledStopPlan: S.optional(__S(15586, __c487, 2)),
         }).pipe(T.Http({ method: "PUT", uri: "/v1/experiments/{id}/schedule", code: 200 })),
       ).annotate({ identifier: "PutExperimentScheduleRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          experiment: __S(15681, __c490, 1),
-          warnings: S.optional(__S(5216, __c163, 0)),
+          experiment: __S(15745, __c492, 1),
+          warnings: S.optional(__S(0, __c0, 0)),
         }),
       ).annotate({ identifier: "PutExperimentScheduleResponse" });
   }
 }
-function __c349(j: number): any {
+function __c351(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45635,7 +45800,7 @@ function __c349(j: number): any {
       ).annotate({ identifier: "PutFeatureRevisionArchiveV2Request" });
   }
 }
-function __c350(j: number): any {
+function __c352(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45659,14 +45824,14 @@ function __c350(j: number): any {
       ).annotate({ identifier: "PutFeatureRevisionDefaultValueV2Request" });
   }
 }
-function __c351(j: number): any {
+function __c353(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           version: S.String.pipe(T.Label()),
-          holdout: S.NullOr(__S(4416, __c138, 0)),
+          holdout: S.NullOr(__S(4512, __c141, 0)),
           revisionTitle: S.optional(S.String),
           revisionComment: S.optional(S.String),
           ignoreWarnings: S.optional(S.Boolean),
@@ -45680,7 +45845,7 @@ function __c351(j: number): any {
       ).annotate({ identifier: "PutFeatureRevisionHoldoutV2Request" });
   }
 }
-function __c352(j: number): any {
+function __c354(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45699,7 +45864,7 @@ function __c352(j: number): any {
       ).annotate({ identifier: "PutFeatureRevisionLogCommentV2Request" });
   }
 }
-function __c353(j: number): any {
+function __c355(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45712,11 +45877,11 @@ function __c353(j: number): any {
           owner: S.optional(S.String),
           project: S.optional(S.String),
           targetingAllProjects: S.optional(S.Boolean),
-          targetingProjects: S.optional(__S(5216, __c163, 0)),
-          tags: S.optional(__S(5216, __c163, 0)),
+          targetingProjects: S.optional(__S(0, __c0, 0)),
+          tags: S.optional(__S(0, __c0, 0)),
           neverStale: S.optional(S.Boolean),
-          customFields: S.optional(__S(18304, __c572, 0)),
-          jsonSchema: S.optional(__S(16800, __c525, 0)),
+          customFields: S.optional(__S(18368, __c574, 0)),
+          jsonSchema: S.optional(__S(16864, __c527, 0)),
           ignoreWarnings: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -45728,14 +45893,14 @@ function __c353(j: number): any {
       ).annotate({ identifier: "PutFeatureRevisionMetadataV2Request" });
   }
 }
-function __c354(j: number): any {
+function __c356(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           version: S.String.pipe(T.Label()),
-          prerequisites: __S(865, __c27, 1),
+          prerequisites: __S(961, __c30, 1),
           revisionTitle: S.optional(S.String),
           revisionComment: S.optional(S.String),
           ignoreWarnings: S.optional(S.Boolean),
@@ -45749,17 +45914,17 @@ function __c354(j: number): any {
       ).annotate({ identifier: "PutFeatureRevisionPrerequisitesV2Request" });
   }
 }
-function __c355(j: number): any {
+function __c357(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           coverage: S.optional(S.NullOr(S.Number)),
           condition: S.optional(S.NullOr(S.String)),
-          savedGroups: S.optional(S.NullOr(__S(9537, __c298, 1))),
-          prerequisites: S.optional(S.NullOr(__S(9505, __c297, 1))),
+          savedGroups: S.optional(S.NullOr(__S(9601, __c300, 1))),
+          prerequisites: S.optional(S.NullOr(__S(9569, __c299, 1))),
           allEnvironments: S.optional(S.NullOr(S.Boolean)),
-          environments: S.optional(S.NullOr(__S(5216, __c163, 0))),
+          environments: S.optional(S.NullOr(__S(0, __c0, 0))),
           force: S.optional(S.Unknown),
           enabled: S.optional(S.NullOr(S.Boolean)),
           hashAttribute: S.optional(S.NullOr(S.String)),
@@ -45775,16 +45940,16 @@ function __c355(j: number): any {
           ruleId: S.String.pipe(T.Label()),
           name: S.optional(S.String),
           templateId: S.optional(S.String),
-          startActions: S.optional(__S(17735, __c554, 7)),
-          steps: S.optional(__S(17732, __c554, 4)),
-          endActions: S.optional(__S(17730, __c554, 2)),
+          startActions: S.optional(__S(17799, __c556, 7)),
+          steps: S.optional(__S(17796, __c556, 4)),
+          endActions: S.optional(__S(17794, __c556, 2)),
           startDate: S.optional(S.NullOr(S.String)),
           cutoffDate: S.optional(S.NullOr(S.String)),
-          monitoringConfig: S.optional(__S(17856, __c558, 0)),
-          lockdownConfig: S.optional(__S(9697, __c303, 1)),
+          monitoringConfig: S.optional(__S(17920, __c560, 0)),
+          lockdownConfig: S.optional(__S(9761, __c305, 1)),
           requiresStartApproval: S.optional(S.NullOr(S.Boolean)),
           environment: S.optional(S.String),
-          startState: S.optional(__S(11360, __c355, 0)),
+          startState: S.optional(__S(11424, __c357, 0)),
           revisionTitle: S.optional(S.String),
           revisionComment: S.optional(S.String),
           ignoreWarnings: S.optional(S.Boolean),
@@ -45799,13 +45964,13 @@ function __c355(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          revision: __S(872, __c27, 8),
-          warnings: S.optional(__S(5216, __c163, 0)),
+          revision: __S(968, __c30, 8),
+          warnings: S.optional(__S(0, __c0, 0)),
         }),
       ).annotate({ identifier: "PutFeatureRevisionRuleRampScheduleV2Response" });
   }
 }
-function __c356(j: number): any {
+function __c358(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45813,8 +45978,8 @@ function __c356(j: number): any {
           description: S.optional(S.String),
           enabled: S.optional(S.Boolean),
           condition: S.optional(S.String),
-          savedGroups: S.optional(__S(9537, __c298, 1)),
-          prerequisites: S.optional(__S(9505, __c297, 1)),
+          savedGroups: S.optional(__S(9601, __c300, 1)),
+          prerequisites: S.optional(__S(9569, __c299, 1)),
           type: S.optional(S.String),
           value: S.optional(S.String),
           config: S.optional(S.NullOr(S.String)),
@@ -45825,11 +45990,11 @@ function __c356(j: number): any {
           seed: S.optional(S.String),
           hashVersion: S.optional(S.Number),
           experimentId: S.optional(S.String),
-          variations: S.optional(__S(5249, __c164, 1)),
+          variations: S.optional(__S(5313, __c166, 1)),
           controlValue: S.optional(S.String),
           variationValue: S.optional(S.String),
           allEnvironments: S.optional(S.Boolean),
-          environments: S.optional(__S(5216, __c163, 0)),
+          environments: S.optional(__S(0, __c0, 0)),
         }),
       ).annotate({ identifier: "PutFeatureRevisionRuleV2RequestRule" });
     case 1:
@@ -45840,9 +46005,9 @@ function __c356(j: number): any {
           ruleId: S.String.pipe(T.Label()),
           skipSchemaValidation: S.optional(S.Unknown.pipe(T.Query())),
           ignoreWarnings: S.optional(S.Unknown.pipe(T.Query())),
-          rule: __S(11392, __c356, 0),
-          rampSchedule: S.optional(__S(9856, __c308, 0)),
-          schedule: S.optional(__S(9857, __c308, 1)),
+          rule: __S(11456, __c358, 0),
+          rampSchedule: S.optional(__S(9920, __c310, 0)),
+          schedule: S.optional(__S(9921, __c310, 1)),
           revisionTitle: S.optional(S.String),
           revisionComment: S.optional(S.String),
           skipHooks: S.optional(S.Boolean),
@@ -45857,12 +46022,12 @@ function __c356(j: number): any {
       ).annotate({ identifier: "PutFeatureRevisionRuleV2Request" });
   }
 }
-function __c357(j: number): any {
+function __c359(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          identifierTypes: S.optional(__S(5216, __c163, 0)),
+          identifierTypes: S.optional(__S(0, __c0, 0)),
           conversionSQL: S.optional(S.String),
           userAggregationSQL: S.optional(S.String),
           denominatorMetricId: S.optional(S.String),
@@ -45871,11 +46036,11 @@ function __c357(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          identifierTypeColumns: S.optional(__S(5473, __c171, 1)),
+          identifierTypeColumns: S.optional(__S(5537, __c173, 1)),
           tableName: S.optional(S.String),
           valueColumnName: S.optional(S.String),
           timestampColumnName: S.optional(S.String),
-          conditions: S.optional(__S(5475, __c171, 3)),
+          conditions: S.optional(__S(5539, __c173, 3)),
         }),
       ).annotate({ identifier: "PutMetricRequestSqlBuilder" });
     case 2:
@@ -45884,7 +46049,7 @@ function __c357(j: number): any {
           eventName: S.optional(S.String),
           eventValue: S.optional(S.String),
           userAggregation: S.optional(S.String),
-          conditions: S.optional(__S(5477, __c171, 5)),
+          conditions: S.optional(__S(5541, __c173, 5)),
         }),
       ).annotate({ identifier: "PutMetricRequestMixpanel" });
     case 3:
@@ -45896,13 +46061,13 @@ function __c357(j: number): any {
           name: S.optional(S.String),
           description: S.optional(S.String),
           type: S.optional(S.String),
-          tags: S.optional(__S(5216, __c163, 0)),
-          projects: S.optional(__S(5216, __c163, 0)),
+          tags: S.optional(__S(0, __c0, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
           archived: S.optional(S.Boolean),
-          behavior: S.optional(__S(10337, __c323, 1)),
-          sql: S.optional(__S(11424, __c357, 0)),
-          sqlBuilder: S.optional(__S(11425, __c357, 1)),
-          mixpanel: S.optional(__S(11426, __c357, 2)),
+          behavior: S.optional(__S(10401, __c325, 1)),
+          sql: S.optional(__S(11488, __c359, 0)),
+          sqlBuilder: S.optional(__S(11489, __c359, 1)),
+          mixpanel: S.optional(__S(11490, __c359, 2)),
         }).pipe(T.Http({ method: "PUT", uri: "/v1/metrics/{id}", code: 200 })),
       ).annotate({ identifier: "PutMetricRequest" });
     case 4:
@@ -45913,7 +46078,7 @@ function __c357(j: number): any {
       ).annotate({ identifier: "PutMetricResponse" });
   }
 }
-function __c358(j: number): any {
+function __c360(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45930,7 +46095,7 @@ function __c358(j: number): any {
       ).annotate({ identifier: "CreateConstantRevisionRecallReviewRequest" });
   }
 }
-function __c359(j: number): any {
+function __c361(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45944,7 +46109,7 @@ function __c359(j: number): any {
       ).annotate({ identifier: "PutNamespaceRequest" });
   }
 }
-function __c360(j: number): any {
+function __c362(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45956,7 +46121,7 @@ function __c360(j: number): any {
       ).annotate({ identifier: "PutOrganizationRequest" });
   }
 }
-function __c361(j: number): any {
+function __c363(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45966,14 +46131,14 @@ function __c361(j: number): any {
           owner: S.optional(S.String),
           description: S.optional(S.String),
           publicId: S.optional(S.String),
-          settings: S.optional(__S(17632, __c551, 0)),
+          settings: S.optional(__S(17696, __c553, 0)),
           restrictAccess: S.optional(S.Boolean),
           allowTargeting: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "PUT", uri: "/v1/projects/{id}", code: 200 })),
       ).annotate({ identifier: "PutProjectRequest" });
   }
 }
-function __c362(j: number): any {
+function __c364(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45988,7 +46153,7 @@ function __c362(j: number): any {
       ).annotate({ identifier: "PutReportMetadataRequest" });
   }
 }
-function __c363(j: number): any {
+function __c365(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46000,18 +46165,18 @@ function __c363(j: number): any {
         }),
       ).annotate({ identifier: "PutReportSettingsRequestVariationsItem" });
     case 1:
-      return S.Array(__S(11616, __c363, 0));
+      return S.Array(__S(11680, __c365, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           statsEngine: S.optional(S.String),
-          goalMetrics: S.optional(__S(5216, __c163, 0)),
-          secondaryMetrics: S.optional(__S(5216, __c163, 0)),
-          guardrailMetrics: S.optional(__S(5216, __c163, 0)),
+          goalMetrics: S.optional(__S(0, __c0, 0)),
+          secondaryMetrics: S.optional(__S(0, __c0, 0)),
+          guardrailMetrics: S.optional(__S(0, __c0, 0)),
           activationMetric: S.optional(S.String),
-          metricOverrides: S.optional(__S(17985, __c562, 1)),
-          customMetricSlices: S.optional(__S(451, __c14, 3)),
+          metricOverrides: S.optional(__S(18049, __c564, 1)),
+          customMetricSlices: S.optional(__S(547, __c17, 3)),
           dimension: S.optional(S.String),
           differenceType: S.optional(S.String),
           dateStarted: S.optional(S.String),
@@ -46024,13 +46189,13 @@ function __c363(j: number): any {
           segment: S.optional(S.String),
           queryFilter: S.optional(S.String),
           skipPartialData: S.optional(S.Boolean),
-          variations: S.optional(__S(11617, __c363, 1)),
+          variations: S.optional(__S(11681, __c365, 1)),
           coverage: S.optional(S.Number),
         }).pipe(T.Http({ method: "PUT", uri: "/v1/reports/{id}/settings", code: 200 })),
       ).annotate({ identifier: "PutReportSettingsRequest" });
   }
 }
-function __c364(j: number): any {
+function __c366(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46051,7 +46216,7 @@ function __c364(j: number): any {
       ).annotate({ identifier: "PutSavedGroupRevisionArchiveRequest" });
   }
 }
-function __c365(j: number): any {
+function __c367(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46071,7 +46236,7 @@ function __c365(j: number): any {
       ).annotate({ identifier: "PutSavedGroupRevisionConditionRequest" });
   }
 }
-function __c366(j: number): any {
+function __c368(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46083,7 +46248,7 @@ function __c366(j: number): any {
           name: S.optional(S.String),
           owner: S.optional(S.String),
           description: S.optional(S.String),
-          projects: S.optional(__S(5216, __c163, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -46094,7 +46259,7 @@ function __c366(j: number): any {
       ).annotate({ identifier: "PutSavedGroupRevisionMetadataRequest" });
   }
 }
-function __c367(j: number): any {
+function __c369(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46114,7 +46279,7 @@ function __c367(j: number): any {
       ).annotate({ identifier: "PutSavedGroupRevisionUploadVersionRequest" });
   }
 }
-function __c368(j: number): any {
+function __c370(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46123,7 +46288,7 @@ function __c368(j: number): any {
           version: S.String.pipe(T.Label()),
           revisionTitle: S.optional(S.String),
           revisionComment: S.optional(S.String),
-          values: __S(5216, __c163, 0),
+          values: __S(0, __c0, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -46134,7 +46299,7 @@ function __c368(j: number): any {
       ).annotate({ identifier: "PutSavedGroupRevisionValuesRequest" });
   }
 }
-function __c369(j: number): any {
+function __c371(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46151,7 +46316,7 @@ function __c369(j: number): any {
       ).annotate({ identifier: "CreateConstantRevisionReopenRequest" });
   }
 }
-function __c370(j: number): any {
+function __c372(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46161,7 +46326,7 @@ function __c370(j: number): any {
           language: S.optional(S.String),
           sdkVersion: S.optional(S.String),
           environment: S.optional(S.String),
-          projects: S.optional(__S(5216, __c163, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
           encryptPayload: S.optional(S.Boolean),
           includeVisualExperiments: S.optional(S.Boolean),
           includeDraftExperiments: S.optional(S.Boolean),
@@ -46171,7 +46336,7 @@ function __c370(j: number): any {
           includeRuleIds: S.optional(S.Boolean),
           includeProjectIdInMetadata: S.optional(S.Boolean),
           includeCustomFieldsInMetadata: S.optional(S.Boolean),
-          allowedCustomFieldsInMetadata: S.optional(__S(5216, __c163, 0)),
+          allowedCustomFieldsInMetadata: S.optional(__S(0, __c0, 0)),
           includeTagsInMetadata: S.optional(S.Boolean),
           includeExperimentScheduleInMetadata: S.optional(S.Boolean),
           proxyEnabled: S.optional(S.Boolean),
@@ -46185,7 +46350,7 @@ function __c370(j: number): any {
       ).annotate({ identifier: "PutSdkConnectionRequest" });
   }
 }
-function __c371(j: number): any {
+function __c373(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46197,7 +46362,7 @@ function __c371(j: number): any {
           js: S.optional(S.String),
           variation: S.optional(S.String),
           allowRunningExperiment: S.optional(S.Boolean),
-          domMutations: S.optional(__S(10497, __c328, 1)),
+          domMutations: S.optional(__S(10561, __c330, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -46214,7 +46379,7 @@ function __c371(j: number): any {
       ).annotate({ identifier: "PutVisualChangeResponse" });
   }
 }
-function __c372(j: number): any {
+function __c374(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46225,33 +46390,33 @@ function __c372(j: number): any {
             css: S.optional(S.String),
             js: S.optional(S.String),
             variation: S.String,
-            domMutations: S.optional(__S(10497, __c328, 1)),
+            domMutations: S.optional(__S(10561, __c330, 1)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "PutVisualChangesetRequestVisualChangesItem" });
     case 1:
-      return S.Array(__S(11904, __c372, 0));
+      return S.Array(__S(11968, __c374, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           editorUrl: S.optional(S.String),
-          urlPatterns: S.optional(__S(14721, __c460, 1)),
+          urlPatterns: S.optional(__S(14785, __c462, 1)),
           allowRunningExperiment: S.optional(S.Boolean),
-          visualChanges: S.optional(__S(11905, __c372, 1)),
+          visualChanges: S.optional(__S(11969, __c374, 1)),
         }).pipe(T.Http({ method: "PUT", uri: "/v1/visual-changesets/{id}", code: 200 })),
       ).annotate({ identifier: "PutVisualChangesetRequest" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           nModified: S.Number,
-          visualChangeset: __S(14662, __c458, 6),
+          visualChangeset: __S(14726, __c460, 6),
         }),
       ).annotate({ identifier: "PutVisualChangesetResponse" });
   }
 }
-function __c373(j: number): any {
+function __c375(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46278,16 +46443,16 @@ function __c373(j: number): any {
         }),
       ).annotate({ identifier: "AggregatedTableRefreshTrigger" });
     case 2:
-      return S.Array(__S(11937, __c373, 1));
+      return S.Array(__S(12001, __c375, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          runs: __S(11938, __c373, 2),
+          runs: __S(12002, __c375, 2),
         }),
       ).annotate({ identifier: "RefreshAggregatedFactTableResponse" });
   }
 }
-function __c374(j: number): any {
+function __c376(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46304,7 +46469,7 @@ function __c374(j: number): any {
       ).annotate({ identifier: "RefreshContextualBanditResponse" });
   }
 }
-function __c375(j: number): any {
+function __c377(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46314,7 +46479,7 @@ function __c375(j: number): any {
       ).annotate({ identifier: "RefreshInterleavingRequest" });
   }
 }
-function __c376(j: number): any {
+function __c378(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46330,18 +46495,18 @@ function __c376(j: number): any {
       ).annotate({ identifier: "RefreshMonitoringRampScheduleRequest" });
   }
 }
-function __c377(j: number): any {
+function __c379(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          members: __S(5216, __c163, 0),
+          members: __S(0, __c0, 0),
         }).pipe(T.Http({ method: "DELETE", uri: "/v1/teams/{id}/members", code: 200 })),
       ).annotate({ identifier: "RemoveTeamMemberRequest" });
   }
 }
-function __c378(j: number): any {
+function __c380(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46353,7 +46518,7 @@ function __c378(j: number): any {
       ).annotate({ identifier: "RestartRampScheduleRequest" });
   }
 }
-function __c379(j: number): any {
+function __c381(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46365,7 +46530,7 @@ function __c379(j: number): any {
       ).annotate({ identifier: "ResumeRampScheduleRequest" });
   }
 }
-function __c380(j: number): any {
+function __c382(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46386,7 +46551,7 @@ function __c380(j: number): any {
       ).annotate({ identifier: "CreateConstantRevisionRequestReviewRequest" });
   }
 }
-function __c381(j: number): any {
+function __c383(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46397,7 +46562,7 @@ function __c381(j: number): any {
       ).annotate({ identifier: "RevertCustomHookRequest" });
   }
 }
-function __c382(j: number): any {
+function __c384(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46412,33 +46577,33 @@ function __c382(j: number): any {
       ).annotate({ identifier: "RevertFeatureV2Request" });
   }
 }
-function __c383(j: number): any {
+function __c385(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          feature: __S(7840, __c245, 0),
-          bypassedGates: S.optional(__S(18401, __c575, 1)),
+          feature: __S(7904, __c247, 0),
+          bypassedGates: S.optional(__S(18465, __c577, 1)),
         }),
       ).annotate({ identifier: "RevertFeatureV2Response" });
   }
 }
-function __c384(j: number): any {
+function __c386(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          environment: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
-          project: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
-          tag: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
-          feature: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
-          customFields: S.optional(__S(3424, __c107, 0).pipe(T.Query())),
+          environment: S.optional(__S(0, __c0, 0).pipe(T.Query())),
+          project: S.optional(__S(0, __c0, 0).pipe(T.Query())),
+          tag: S.optional(__S(0, __c0, 0).pipe(T.Query())),
+          feature: S.optional(__S(0, __c0, 0).pipe(T.Query())),
+          customFields: S.optional(__S(3520, __c110, 0).pipe(T.Query())),
           reason: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "POST", uri: "/v1/ramp-schedules/actions/rollback", code: 200 })),
       ).annotate({ identifier: "RollbackMatchingRampSchedulesRequest" });
   }
 }
-function __c385(j: number): any {
+function __c387(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46451,7 +46616,7 @@ function __c385(j: number): any {
       ).annotate({ identifier: "RollbackRampScheduleRequest" });
   }
 }
-function __c386(j: number): any {
+function __c388(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46459,7 +46624,7 @@ function __c386(j: number): any {
           table: S.String,
           path: S.String,
           timestampColumn: S.String,
-          columnTypes: __S(6304, __c197, 0),
+          columnTypes: __S(6368, __c199, 0),
         }),
       ).annotate({ identifier: "RunSqlQueryRequestTableMetadata" });
     case 1:
@@ -46469,7 +46634,7 @@ function __c386(j: number): any {
           sql: S.String,
           purpose: S.String,
           confirm: S.optional(S.Boolean),
-          tableMetadata: S.optional(__S(12352, __c386, 0)),
+          tableMetadata: S.optional(__S(12416, __c388, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/data-sources/{id}/sql/run-query", code: 200 })),
       ).annotate({ identifier: "RunSqlQueryRequest" });
     case 2:
@@ -46478,7 +46643,7 @@ function __c386(j: number): any {
       });
   }
 }
-function __c387(j: number): any {
+function __c389(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46496,29 +46661,29 @@ function __c387(j: number): any {
           dateUpdated: S.String,
           owner: S.String,
           ownerEmail: S.optional(S.String),
-          authors: __S(5216, __c163, 0),
+          authors: __S(0, __c0, 0),
           title: S.String,
           text: S.String,
-          tags: __S(5216, __c163, 0),
-          supportingExperimentIds: __S(5216, __c163, 0),
-          contradictingExperimentIds: __S(5216, __c163, 0),
-          projects: __S(5216, __c163, 0),
+          tags: __S(0, __c0, 0),
+          supportingExperimentIds: __S(0, __c0, 0),
+          contradictingExperimentIds: __S(0, __c0, 0),
+          projects: __S(0, __c0, 0),
           status: S.String,
           source: S.String,
           similarity: S.Number,
         }),
       ).annotate({ identifier: "Learnings" });
     case 2:
-      return S.Array(__S(12385, __c387, 1));
+      return S.Array(__S(12449, __c389, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          learnings: __S(12386, __c387, 2),
+          learnings: __S(12450, __c389, 2),
         }),
       ).annotate({ identifier: "SearchLearningsResponse" });
   }
 }
-function __c388(j: number): any {
+function __c390(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46534,7 +46699,7 @@ function __c388(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          matches: __S(12417, __c388, 1),
+          matches: __S(12481, __c390, 1),
           totalMetrics: S.Number,
           totalFactTables: S.Number,
           totalMatches: S.Number,
@@ -46544,7 +46709,7 @@ function __c388(j: number): any {
       ).annotate({ identifier: "SearchProductAnalyticsResourcesResponse" });
   }
 }
-function __c389(j: number): any {
+function __c391(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46566,19 +46731,19 @@ function __c389(j: number): any {
         }),
       ).annotate({ identifier: "Tables" });
     case 2:
-      return S.Array(__S(12449, __c389, 1));
+      return S.Array(__S(12513, __c391, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          tables: __S(12450, __c389, 2),
+          tables: __S(12514, __c391, 2),
           total: S.Number,
-          schemas: __S(5216, __c163, 0),
+          schemas: __S(0, __c0, 0),
           datasourceType: S.String,
         }),
       ).annotate({ identifier: "SearchWarehouseTablesResponse" });
   }
 }
-function __c390(j: number): any {
+function __c392(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46595,7 +46760,7 @@ function __c390(j: number): any {
       ).annotate({ identifier: "SetAutoUpdateRampScheduleRequest" });
   }
 }
-function __c391(j: number): any {
+function __c393(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46612,7 +46777,7 @@ function __c391(j: number): any {
       ).annotate({ identifier: "SetMonitoringModeRampScheduleRequest" });
   }
 }
-function __c392(j: number): any {
+function __c394(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46635,7 +46800,7 @@ function __c392(j: number): any {
       ).annotate({ identifier: "CreateConstantRevisionRevertRequest" });
   }
 }
-function __c393(j: number): any {
+function __c395(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46645,7 +46810,7 @@ function __c393(j: number): any {
       ).annotate({ identifier: "StartContextualBanditRequest" });
   }
 }
-function __c394(j: number): any {
+function __c396(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46655,7 +46820,7 @@ function __c394(j: number): any {
       ).annotate({ identifier: "StartHoldoutRequest" });
   }
 }
-function __c395(j: number): any {
+function __c397(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46665,7 +46830,7 @@ function __c395(j: number): any {
       ).annotate({ identifier: "StartHoldoutAnalysisRequest" });
   }
 }
-function __c396(j: number): any {
+function __c398(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46675,7 +46840,7 @@ function __c396(j: number): any {
       ).annotate({ identifier: "StartInterleavingRequest" });
   }
 }
-function __c397(j: number): any {
+function __c399(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46687,7 +46852,7 @@ function __c397(j: number): any {
       ).annotate({ identifier: "StartRampScheduleRequest" });
   }
 }
-function __c398(j: number): any {
+function __c400(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46697,7 +46862,7 @@ function __c398(j: number): any {
       ).annotate({ identifier: "StopContextualBanditRequest" });
   }
 }
-function __c399(j: number): any {
+function __c401(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46707,7 +46872,7 @@ function __c399(j: number): any {
       ).annotate({ identifier: "StopHoldoutRequest" });
   }
 }
-function __c400(j: number): any {
+function __c402(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46717,14 +46882,14 @@ function __c400(j: number): any {
       ).annotate({ identifier: "StopInterleavingRequest" });
   }
 }
-function __c401(j: number): any {
+function __c403(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           functionBody: S.String,
-          functionArgs: S.optional(__S(18304, __c572, 0)),
-          originalFunctionArgs: S.optional(__S(18304, __c572, 0)),
+          functionArgs: S.optional(__S(18368, __c574, 0)),
+          originalFunctionArgs: S.optional(__S(18368, __c574, 0)),
           entityType: S.optional(S.String),
           entityId: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/v1/custom-hooks/test", code: 200 })),
@@ -46733,7 +46898,7 @@ function __c401(j: number): any {
       return S.suspend(() =>
         S.Struct({
           error: S.optional(S.String),
-          warnings: S.optional(__S(5216, __c163, 0)),
+          warnings: S.optional(__S(0, __c0, 0)),
         }),
       ).annotate({ identifier: "Suppressed" });
     case 2:
@@ -46742,14 +46907,14 @@ function __c401(j: number): any {
           success: S.Boolean,
           returnVal: S.optional(S.String),
           error: S.optional(S.String),
-          warnings: S.optional(__S(5216, __c163, 0)),
+          warnings: S.optional(__S(0, __c0, 0)),
           log: S.optional(S.String),
-          suppressed: S.optional(__S(12833, __c401, 1)),
+          suppressed: S.optional(__S(12897, __c403, 1)),
         }),
       ).annotate({ identifier: "TestCustomHookResponse" });
   }
 }
-function __c402(j: number): any {
+function __c404(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -46759,12 +46924,12 @@ function __c402(j: number): any {
           id: S.String.pipe(T.Label()),
           reason: S.optional(S.String),
           comment: S.optional(S.String),
-          environments: __S(12864, __c402, 0),
+          environments: __S(12928, __c404, 0),
         }).pipe(T.Http({ method: "POST", uri: "/v2/features/{id}/toggle", code: 200 })),
       ).annotate({ identifier: "ToggleFeatureV2Request" });
   }
 }
-function __c403(j: number): any {
+function __c405(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46788,7 +46953,7 @@ function __c403(j: number): any {
       ).annotate({ identifier: "CreateConstantRevisionSchedulePublishRequest" });
   }
 }
-function __c404(j: number): any {
+function __c406(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46801,7 +46966,7 @@ function __c404(j: number): any {
       ).annotate({ identifier: "UnarchiveConfigRequest" });
   }
 }
-function __c405(j: number): any {
+function __c407(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46814,7 +46979,7 @@ function __c405(j: number): any {
       ).annotate({ identifier: "UnarchiveConstantRequest" });
   }
 }
-function __c406(j: number): any {
+function __c408(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46824,7 +46989,7 @@ function __c406(j: number): any {
       ).annotate({ identifier: "UnarchiveSavedGroupRequest" });
   }
 }
-function __c407(j: number): any {
+function __c409(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46834,7 +46999,7 @@ function __c407(j: number): any {
       ).annotate({ identifier: "UnlockConfigRequest" });
   }
 }
-function __c408(j: number): any {
+function __c410(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.Unknown));
@@ -46842,15 +47007,15 @@ function __c408(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          metadata: S.optional(__S(13056, __c408, 0)),
-          checks: S.optional(__S(16355, __c511, 3)),
+          metadata: S.optional(__S(13120, __c410, 0)),
+          checks: S.optional(__S(16419, __c513, 3)),
           outcome: S.optional(S.String),
           failureReason: S.optional(S.String),
         }).pipe(T.Http({ method: "PUT", uri: "/v1/auto-runs/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateAutoRunRequest" });
   }
 }
-function __c409(j: number): any {
+function __c411(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46860,9 +47025,9 @@ function __c409(j: number): any {
           ignoreWarnings: S.optional(S.Unknown.pipe(T.Query())),
           name: S.optional(S.String),
           parent: S.optional(S.String),
-          extends: S.optional(__S(5216, __c163, 0)),
-          value: S.optional(__S(18304, __c572, 0)),
-          scopedOverrides: S.optional(__S(18337, __c573, 1)),
+          extends: S.optional(__S(0, __c0, 0)),
+          value: S.optional(__S(18368, __c574, 0)),
+          scopedOverrides: S.optional(__S(18401, __c575, 1)),
           description: S.optional(S.String),
           project: S.optional(S.String),
           owner: S.optional(S.String),
@@ -46870,7 +47035,7 @@ function __c409(j: number): any {
           source: S.optional(S.String),
           extensible: S.optional(S.Boolean),
           experimentGuard: S.optional(S.Boolean),
-          invariants: S.optional(__S(4705, __c147, 1)),
+          invariants: S.optional(__S(4801, __c150, 1)),
           bypassApproval: S.optional(S.Boolean),
           skipHooks: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/v1/configs/{key}", code: 200 })),
@@ -46878,15 +47043,15 @@ function __c409(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          config: __S(18343, __c573, 7),
-          warnings: S.optional(__S(4673, __c146, 1)),
-          postPublishWarnings: S.optional(__S(5216, __c163, 0)),
-          bypassedGates: S.optional(__S(18401, __c575, 1)),
+          config: __S(18407, __c575, 7),
+          warnings: S.optional(__S(4769, __c149, 1)),
+          postPublishWarnings: S.optional(__S(0, __c0, 0)),
+          bypassedGates: S.optional(__S(18465, __c577, 1)),
         }),
       ).annotate({ identifier: "UpdateConfigResponse" });
   }
 }
-function __c410(j: number): any {
+function __c412(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46898,7 +47063,7 @@ function __c410(j: number): any {
       ).annotate({ identifier: "UpdateConfigRevisionRequest" });
   }
 }
-function __c411(j: number): any {
+function __c413(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46906,7 +47071,7 @@ function __c411(j: number): any {
           key: S.String.pipe(T.Label()),
           name: S.optional(S.String),
           value: S.optional(S.String),
-          environmentValues: S.optional(__S(18816, __c588, 0)),
+          environmentValues: S.optional(__S(18880, __c590, 0)),
           description: S.optional(S.String),
           project: S.optional(S.String),
           owner: S.optional(S.String),
@@ -46918,7 +47083,7 @@ function __c411(j: number): any {
       ).annotate({ identifier: "UpdateConstantRequest" });
   }
 }
-function __c412(j: number): any {
+function __c414(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46930,7 +47095,7 @@ function __c412(j: number): any {
       ).annotate({ identifier: "UpdateConstantRevisionRequest" });
   }
 }
-function __c413(j: number): any {
+function __c415(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46940,12 +47105,12 @@ function __c413(j: number): any {
           description: S.optional(S.String),
           project: S.optional(S.String),
           owner: S.optional(S.String),
-          tags: S.optional(__S(5216, __c163, 0)),
+          tags: S.optional(__S(0, __c0, 0)),
           trackingKey: S.optional(S.String),
           hashAttribute: S.optional(S.String),
           datasource: S.optional(S.String),
           contextualBanditQueryId: S.optional(S.String),
-          contextualAttributes: S.optional(__S(5216, __c163, 0)),
+          contextualAttributes: S.optional(__S(0, __c0, 0)),
           decisionMetric: S.optional(S.String),
           minUsersPerLeaf: S.optional(S.Number),
           maxLeaves: S.optional(S.Number),
@@ -46960,14 +47125,14 @@ function __c413(j: number): any {
           status: S.optional(S.String),
           coverage: S.optional(S.Number),
           condition: S.optional(S.String),
-          savedGroups: S.optional(__S(9537, __c298, 1)),
-          prerequisites: S.optional(__S(9505, __c297, 1)),
+          savedGroups: S.optional(__S(9601, __c300, 1)),
+          prerequisites: S.optional(__S(9569, __c299, 1)),
           seed: S.optional(S.String),
         }).pipe(T.Http({ method: "PUT", uri: "/v1/contextual-bandits/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateContextualBanditRequest" });
   }
 }
-function __c414(j: number): any {
+function __c416(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46988,26 +47153,26 @@ function __c414(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          revision: __S(10244, __c320, 4),
+          revision: __S(10308, __c322, 4),
           autoPublished: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CreateConstantRevisionSubmitReviewResponse" });
   }
 }
-function __c415(j: number): any {
+function __c417(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           featureId: S.String.pipe(T.Label()),
-          variations: __S(5249, __c164, 1),
+          variations: __S(5313, __c166, 1),
           description: S.optional(S.String),
           enabled: S.optional(S.Boolean),
           allEnvironments: S.optional(S.Boolean),
-          environments: S.optional(__S(5216, __c163, 0)),
+          environments: S.optional(__S(0, __c0, 0)),
           allProjects: S.optional(S.Boolean),
-          projects: S.optional(__S(5216, __c163, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
           autoPublish: S.optional(S.Boolean),
           allowUnscopedRules: S.optional(S.Boolean),
           draftVersion: S.optional(S.Number),
@@ -47023,14 +47188,14 @@ function __c415(j: number): any {
       return S.suspend(() =>
         S.Struct({
           featureId: S.String,
-          ruleIds: __S(5216, __c163, 0),
+          ruleIds: __S(0, __c0, 0),
           revisionVersion: S.Number,
           published: S.Boolean,
         }),
       ).annotate({ identifier: "UpdateContextualBanditLinkedFeatureResponse" });
   }
 }
-function __c416(j: number): any {
+function __c418(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47041,12 +47206,12 @@ function __c416(j: number): any {
           description: S.optional(S.String),
           userIdType: S.optional(S.String),
           query: S.optional(S.String),
-          targetingAttributeColumns: S.optional(__S(5216, __c163, 0)),
+          targetingAttributeColumns: S.optional(__S(0, __c0, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/v1/contextual-bandit-queries/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateContextualBanditQueryRequest" });
   }
 }
-function __c417(j: number): any {
+function __c419(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47055,12 +47220,12 @@ function __c417(j: number): any {
           name: S.String,
           description: S.optional(S.String),
           key: S.optional(S.String),
-          screenshots: S.optional(__S(15361, __c480, 1)),
-          values: S.optional(__S(18816, __c588, 0)),
+          screenshots: S.optional(__S(15425, __c482, 1)),
+          values: S.optional(__S(18880, __c590, 0)),
         }),
       ).annotate({ identifier: "UpdateContextualBanditVariationsRequestAddVariationsItem" });
     case 1:
-      return S.Array(__S(13344, __c417, 0));
+      return S.Array(__S(13408, __c419, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -47071,14 +47236,14 @@ function __c417(j: number): any {
         }),
       ).annotate({ identifier: "UpdateContextualBanditVariationsRequestUpdateVariationsItem" });
     case 3:
-      return S.Array(__S(13346, __c417, 2));
+      return S.Array(__S(13410, __c419, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          addVariations: S.optional(__S(13345, __c417, 1)),
-          removeVariationIds: S.optional(__S(5216, __c163, 0)),
-          updateVariations: S.optional(__S(13347, __c417, 3)),
+          addVariations: S.optional(__S(13409, __c419, 1)),
+          removeVariationIds: S.optional(__S(0, __c0, 0)),
+          updateVariations: S.optional(__S(13411, __c419, 3)),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/contextual-bandits/{id}/variations", code: 200 }),
         ),
@@ -47092,17 +47257,17 @@ function __c417(j: number): any {
         }),
       ).annotate({ identifier: "FeatureDraftPublishFailures" });
     case 6:
-      return S.Array(__S(13349, __c417, 5));
+      return S.Array(__S(13413, __c419, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          contextualBandit: __S(14084, __c440, 4),
-          featureDraftPublishFailures: S.optional(__S(13350, __c417, 6)),
+          contextualBandit: __S(14148, __c442, 4),
+          featureDraftPublishFailures: S.optional(__S(13414, __c419, 6)),
         }),
       ).annotate({ identifier: "UpdateContextualBanditVariationsResponse" });
   }
 }
-function __c418(j: number): any {
+function __c420(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47115,14 +47280,14 @@ function __c418(j: number): any {
           values: S.optional(S.String),
           creatable: S.optional(S.Boolean),
           required: S.optional(S.Boolean),
-          projects: S.optional(__S(5216, __c163, 0)),
-          sections: S.optional(__S(14784, __c462, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
+          sections: S.optional(__S(14848, __c464, 0)),
           active: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "PUT", uri: "/v1/custom-fields/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateCustomFieldRequest" });
   }
 }
-function __c419(j: number): any {
+function __c421(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47132,7 +47297,7 @@ function __c419(j: number): any {
           hook: S.optional(S.String),
           code: S.optional(S.String),
           enabled: S.optional(S.Boolean),
-          projects: S.optional(__S(5216, __c163, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
           entityType: S.optional(S.NullOr(S.String)),
           entityId: S.optional(S.NullOr(S.String)),
           incrementalChangesOnly: S.optional(S.Boolean),
@@ -47140,7 +47305,7 @@ function __c419(j: number): any {
       ).annotate({ identifier: "UpdateCustomHookRequest" });
   }
 }
-function __c420(j: number): any {
+function __c422(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -47153,16 +47318,16 @@ function __c420(j: number): any {
           shareLevel: S.optional(S.String),
           enableAutoUpdates: S.optional(S.Boolean),
           updateSchedule: S.optional(S.Unknown),
-          projects: S.optional(__S(5216, __c163, 0)),
-          globalControls: S.optional(__S(15040, __c470, 0)),
-          comparison: S.optional(__S(15041, __c470, 1)),
-          blocks: S.optional(__S(13440, __c420, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
+          globalControls: S.optional(__S(15104, __c472, 0)),
+          comparison: S.optional(__S(15105, __c472, 1)),
+          blocks: S.optional(__S(13504, __c422, 0)),
           owner: S.optional(S.String),
         }).pipe(T.Http({ method: "PUT", uri: "/v1/dashboards/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateDashboardRequest" });
   }
 }
-function __c421(j: number): any {
+function __c423(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47179,7 +47344,7 @@ function __c421(j: number): any {
       ).annotate({ identifier: "UpdateDimensionRequest" });
   }
 }
-function __c422(j: number): any {
+function __c424(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47194,7 +47359,7 @@ function __c422(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           datasourceId: S.optional(S.String),
-          assignmentQuery: S.optional(__S(480, __c15, 0)),
+          assignmentQuery: S.optional(__S(576, __c18, 0)),
           assignmentQueryId: S.optional(S.String),
           isClusterExperiment: S.optional(S.Boolean),
           clusterSubUnitIdentifier: S.optional(S.String),
@@ -47206,10 +47371,10 @@ function __c422(j: number): any {
           project: S.optional(S.String),
           hypothesis: S.optional(S.String),
           description: S.optional(S.String),
-          tags: S.optional(__S(5216, __c163, 0)),
-          metrics: S.optional(__S(5216, __c163, 0)),
-          secondaryMetrics: S.optional(__S(5216, __c163, 0)),
-          guardrailMetrics: S.optional(__S(5216, __c163, 0)),
+          tags: S.optional(__S(0, __c0, 0)),
+          metrics: S.optional(__S(0, __c0, 0)),
+          secondaryMetrics: S.optional(__S(0, __c0, 0)),
+          guardrailMetrics: S.optional(__S(0, __c0, 0)),
           activationMetric: S.optional(S.String),
           segmentId: S.optional(S.String),
           queryFilter: S.optional(S.String),
@@ -47232,10 +47397,10 @@ function __c422(j: number): any {
           excludeFromPayload: S.optional(S.Boolean),
           inProgressConversions: S.optional(S.String),
           attributionModel: S.optional(S.String),
-          lookbackOverride: S.optional(__S(13504, __c422, 0)),
+          lookbackOverride: S.optional(__S(13568, __c424, 0)),
           statsEngine: S.optional(S.String),
-          variations: S.optional(__S(15393, __c481, 1)),
-          phases: S.optional(__S(15395, __c481, 3)),
+          variations: S.optional(__S(15457, __c483, 1)),
+          phases: S.optional(__S(15459, __c483, 3)),
           regressionAdjustmentEnabled: S.optional(S.Boolean),
           sequentialTestingEnabled: S.optional(S.Boolean),
           sequentialTestingTuningParameter: S.optional(S.Number),
@@ -47247,13 +47412,13 @@ function __c422(j: number): any {
           banditConversionWindowValue: S.optional(S.Number),
           banditConversionWindowUnit: S.optional(S.String),
           postStratificationEnabled: S.optional(S.NullOr(S.Boolean)),
-          decisionFrameworkSettings: S.optional(__S(15586, __c487, 2)),
-          metricOverrides: S.optional(__S(15588, __c487, 4)),
+          decisionFrameworkSettings: S.optional(__S(15650, __c489, 2)),
+          metricOverrides: S.optional(__S(15652, __c489, 4)),
           defaultDashboardId: S.optional(S.String),
-          customFields: S.optional(__S(18816, __c588, 0)),
-          customMetricSlices: S.optional(__S(451, __c14, 3)),
-          statusUpdateSchedule: S.optional(S.NullOr(__S(15523, __c485, 3))),
-          precomputedUnitDimensionIds: S.optional(__S(5216, __c163, 0)),
+          customFields: S.optional(__S(18880, __c590, 0)),
+          customMetricSlices: S.optional(__S(547, __c17, 3)),
+          statusUpdateSchedule: S.optional(S.NullOr(__S(15587, __c487, 3))),
+          precomputedUnitDimensionIds: S.optional(__S(0, __c0, 0)),
           ignoreWarnings: S.optional(S.Boolean),
           skipChecklist: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/v1/experiments/{id}", code: 200 })),
@@ -47261,82 +47426,11 @@ function __c422(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          experiment: __S(15328, __c479, 0),
-          bypassedGates: S.optional(__S(15905, __c497, 1)),
-          publishedFeatureDrafts: S.optional(__S(15907, __c497, 3)),
+          experiment: __S(15392, __c481, 0),
+          bypassedGates: S.optional(__S(15969, __c499, 1)),
+          publishedFeatureDrafts: S.optional(__S(15971, __c499, 3)),
         }),
       ).annotate({ identifier: "UpdateExperimentResponse" });
-  }
-}
-function __c423(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          project: S.optional(S.String),
-          templateMetadata: S.optional(__S(512, __c16, 0)),
-          type: S.optional(S.String),
-          hypothesis: S.optional(S.String),
-          description: S.optional(S.String),
-          tags: S.optional(__S(5216, __c163, 0)),
-          customFields: S.optional(__S(18816, __c588, 0)),
-          datasource: S.optional(S.String),
-          exposureQuery: S.optional(__S(480, __c15, 0)),
-          exposureQueryId: S.optional(S.String),
-          isClusterExperiment: S.optional(S.Boolean),
-          clusterSubUnitIdentifier: S.optional(S.String),
-          hashAttribute: S.optional(S.String),
-          fallbackAttribute: S.optional(S.String),
-          disableStickyBucketing: S.optional(S.Boolean),
-          goalMetrics: S.optional(__S(5216, __c163, 0)),
-          secondaryMetrics: S.optional(__S(5216, __c163, 0)),
-          guardrailMetrics: S.optional(__S(5216, __c163, 0)),
-          activationMetric: S.optional(S.String),
-          statsEngine: S.optional(S.String),
-          segment: S.optional(S.String),
-          skipPartialData: S.optional(S.Boolean),
-          targeting: S.optional(__S(513, __c16, 1)),
-          customMetricSlices: S.optional(__S(451, __c14, 3)),
-        }).pipe(T.Http({ method: "PUT", uri: "/v1/experiment-templates/{id}", code: 200 })),
-      ).annotate({ identifier: "UpdateExperimentTemplateRequest" });
-  }
-}
-function __c424(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          owner: S.optional(S.String),
-          projects: S.optional(__S(5216, __c163, 0)),
-          tags: S.optional(__S(5216, __c163, 0)),
-          metricType: S.optional(S.String),
-          numerator: S.optional(S.NullOr(__S(3552, __c111, 0))),
-          denominator: S.optional(__S(3553, __c111, 1)),
-          inverse: S.optional(S.Boolean),
-          quantileSettings: S.optional(__S(3490, __c109, 2)),
-          funnelSettings: S.optional(__S(3493, __c109, 5)),
-          cappingSettings: S.optional(__S(3392, __c106, 0)),
-          lowerCappingSettings: S.optional(S.NullOr(__S(3392, __c106, 0))),
-          windowSettings: S.optional(__S(3520, __c110, 0)),
-          priorSettings: S.optional(__S(3360, __c105, 0)),
-          regressionAdjustmentSettings: S.optional(__S(3494, __c109, 6)),
-          riskThresholdSuccess: S.optional(S.Number),
-          riskThresholdDanger: S.optional(S.Number),
-          displayAsPercentage: S.optional(S.Boolean),
-          minPercentChange: S.optional(S.Number),
-          maxPercentChange: S.optional(S.Number),
-          minSampleSize: S.optional(S.Number),
-          targetMDE: S.optional(S.Number),
-          managedBy: S.optional(S.String),
-          metricAutoSlices: S.optional(__S(5216, __c163, 0)),
-          replaces: S.optional(__S(5216, __c163, 0)),
-          archived: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/fact-metrics/{id}", code: 200 })),
-      ).annotate({ identifier: "UpdateFactMetricRequest" });
   }
 }
 function __c425(j: number): any {
@@ -47345,12 +47439,83 @@ function __c425(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          members: __S(5216, __c163, 0),
+          project: S.optional(S.String),
+          templateMetadata: S.optional(__S(608, __c19, 0)),
+          type: S.optional(S.String),
+          hypothesis: S.optional(S.String),
+          description: S.optional(S.String),
+          tags: S.optional(__S(0, __c0, 0)),
+          customFields: S.optional(__S(18880, __c590, 0)),
+          datasource: S.optional(S.String),
+          exposureQuery: S.optional(__S(576, __c18, 0)),
+          exposureQueryId: S.optional(S.String),
+          isClusterExperiment: S.optional(S.Boolean),
+          clusterSubUnitIdentifier: S.optional(S.String),
+          hashAttribute: S.optional(S.String),
+          fallbackAttribute: S.optional(S.String),
+          disableStickyBucketing: S.optional(S.Boolean),
+          goalMetrics: S.optional(__S(0, __c0, 0)),
+          secondaryMetrics: S.optional(__S(0, __c0, 0)),
+          guardrailMetrics: S.optional(__S(0, __c0, 0)),
+          activationMetric: S.optional(S.String),
+          statsEngine: S.optional(S.String),
+          segment: S.optional(S.String),
+          skipPartialData: S.optional(S.Boolean),
+          targeting: S.optional(__S(609, __c19, 1)),
+          customMetricSlices: S.optional(__S(547, __c17, 3)),
+        }).pipe(T.Http({ method: "PUT", uri: "/v1/experiment-templates/{id}", code: 200 })),
+      ).annotate({ identifier: "UpdateExperimentTemplateRequest" });
+  }
+}
+function __c426(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          owner: S.optional(S.String),
+          projects: S.optional(__S(0, __c0, 0)),
+          tags: S.optional(__S(0, __c0, 0)),
+          metricType: S.optional(S.String),
+          numerator: S.optional(S.NullOr(__S(3648, __c114, 0))),
+          denominator: S.optional(__S(3649, __c114, 1)),
+          inverse: S.optional(S.Boolean),
+          quantileSettings: S.optional(__S(3586, __c112, 2)),
+          funnelSettings: S.optional(__S(3589, __c112, 5)),
+          cappingSettings: S.optional(__S(3488, __c109, 0)),
+          lowerCappingSettings: S.optional(S.NullOr(__S(3488, __c109, 0))),
+          windowSettings: S.optional(__S(3616, __c113, 0)),
+          priorSettings: S.optional(__S(3456, __c108, 0)),
+          regressionAdjustmentSettings: S.optional(__S(3590, __c112, 6)),
+          riskThresholdSuccess: S.optional(S.Number),
+          riskThresholdDanger: S.optional(S.Number),
+          displayAsPercentage: S.optional(S.Boolean),
+          minPercentChange: S.optional(S.Number),
+          maxPercentChange: S.optional(S.Number),
+          minSampleSize: S.optional(S.Number),
+          targetMDE: S.optional(S.Number),
+          managedBy: S.optional(S.String),
+          metricAutoSlices: S.optional(__S(0, __c0, 0)),
+          replaces: S.optional(__S(0, __c0, 0)),
+          archived: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/fact-metrics/{id}", code: 200 })),
+      ).annotate({ identifier: "UpdateFactMetricRequest" });
+  }
+}
+function __c427(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          members: __S(0, __c0, 0),
         }).pipe(T.Http({ method: "POST", uri: "/v1/teams/{id}/members", code: 200 })),
       ).annotate({ identifier: "AddTeamMembersRequest" });
   }
 }
-function __c426(j: number): any {
+function __c428(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47360,7 +47525,7 @@ function __c426(j: number): any {
       ).annotate({ identifier: "AddTeamMembersResponse" });
   }
 }
-function __c427(j: number): any {
+function __c429(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47377,7 +47542,7 @@ function __c427(j: number): any {
       ).annotate({ identifier: "CreateConstantRevisionUndoReviewRequest" });
   }
 }
-function __c428(j: number): any {
+function __c430(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47386,22 +47551,22 @@ function __c428(j: number): any {
           name: S.optional(S.String),
           description: S.optional(S.String),
           owner: S.optional(S.String),
-          projects: S.optional(__S(5216, __c163, 0)),
-          tags: S.optional(__S(5216, __c163, 0)),
-          userIdTypes: S.optional(__S(5216, __c163, 0)),
-          userIdColumns: S.optional(__S(18816, __c588, 0)),
-          aggregatedFactTableSettings: S.optional(__S(3585, __c112, 1)),
+          projects: S.optional(__S(0, __c0, 0)),
+          tags: S.optional(__S(0, __c0, 0)),
+          userIdTypes: S.optional(__S(0, __c0, 0)),
+          userIdColumns: S.optional(__S(18880, __c590, 0)),
+          aggregatedFactTableSettings: S.optional(__S(3681, __c115, 1)),
           sql: S.optional(S.String),
           timestampColumn: S.optional(S.String),
           eventName: S.optional(S.String),
-          columns: S.optional(__S(3617, __c113, 1)),
+          columns: S.optional(__S(3713, __c116, 1)),
           managedBy: S.optional(S.String),
           archived: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/v1/fact-tables/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateFactTableRequest" });
   }
 }
-function __c429(j: number): any {
+function __c431(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47418,7 +47583,7 @@ function __c429(j: number): any {
       ).annotate({ identifier: "UpdateFactTableFilterRequest" });
   }
 }
-function __c430(j: number): any {
+function __c432(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47440,7 +47605,7 @@ function __c430(j: number): any {
       ).annotate({ identifier: "UpdateFactTableVirtualColumnRequest" });
   }
 }
-function __c431(j: number): any {
+function __c433(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -47454,93 +47619,23 @@ function __c431(j: number): any {
           archived: S.optional(S.Boolean),
           project: S.optional(S.String),
           targetingAllProjects: S.optional(S.Boolean),
-          targetingProjects: S.optional(__S(5216, __c163, 0)),
+          targetingProjects: S.optional(__S(0, __c0, 0)),
           owner: S.optional(S.String),
           defaultValue: S.optional(S.String),
           baseConfig: S.optional(S.NullOr(S.String)),
           defaultValueConfig: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(5216, __c163, 0)),
-          rules: S.optional(__S(13792, __c431, 0)),
-          environments: S.optional(__S(10113, __c316, 1)),
-          prerequisites: S.optional(__S(5216, __c163, 0)),
+          tags: S.optional(__S(0, __c0, 0)),
+          rules: S.optional(__S(13856, __c433, 0)),
+          environments: S.optional(__S(10177, __c318, 1)),
+          prerequisites: S.optional(__S(0, __c0, 0)),
           jsonSchema: S.optional(S.String),
-          customFields: S.optional(__S(18816, __c588, 0)),
-          holdout: S.optional(S.NullOr(__S(4416, __c138, 0))),
+          customFields: S.optional(__S(18880, __c590, 0)),
+          holdout: S.optional(S.NullOr(__S(4512, __c141, 0))),
           comment: S.optional(S.String),
           skipHooks: S.optional(S.Boolean),
           allowUnscopedRules: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/v2/features/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateFeatureV2Request" });
-  }
-}
-function __c432(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          projects: S.optional(__S(5216, __c163, 0)),
-          owner: S.optional(S.String),
-          tags: S.optional(__S(5216, __c163, 0)),
-          archived: S.optional(S.Boolean),
-          skipAsDefaultHoldout: S.optional(S.Boolean),
-          holdoutSize: S.optional(S.Number),
-          hashAttribute: S.optional(S.String),
-          targetingCondition: S.optional(S.String),
-          savedGroupTargeting: S.optional(__S(9537, __c298, 1)),
-          datasourceId: S.optional(S.String),
-          assignmentQuery: S.optional(__S(480, __c15, 0)),
-          assignmentQueryId: S.optional(S.String),
-          goalMetrics: S.optional(__S(5216, __c163, 0)),
-          secondaryMetrics: S.optional(__S(5216, __c163, 0)),
-          statsEngine: S.optional(S.String),
-          environments: S.optional(__S(16641, __c520, 1)),
-          statusUpdateSchedule: S.optional(S.NullOr(__S(16576, __c518, 0))),
-        }).pipe(T.Http({ method: "PUT", uri: "/v1/holdouts/{id}", code: 200 })),
-      ).annotate({ identifier: "UpdateHoldoutRequest" });
-  }
-}
-function __c433(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Unknown);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          analyses: __S(13856, __c433, 0),
-        }),
-      ).annotate({ identifier: "UpdateInterleavingRequestMetricsItem" });
-    case 2:
-      return S.Array(__S(13857, __c433, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          project: S.optional(S.String),
-          owner: S.optional(S.String),
-          tags: S.optional(__S(5216, __c163, 0)),
-          archived: S.optional(S.Boolean),
-          trackingKey: S.optional(S.String),
-          hashAttribute: S.optional(S.String),
-          seed: S.optional(S.String),
-          variations: S.optional(__S(16833, __c526, 1)),
-          jsonSchema: S.optional(S.NullOr(__S(16800, __c525, 0))),
-          datasourceId: S.optional(S.String),
-          interleavingExposureQueryId: S.optional(S.String),
-          userIdType: S.optional(S.String),
-          metrics: S.optional(__S(13858, __c433, 2)),
-          coverage: S.optional(S.Number),
-          condition: S.optional(S.String),
-          savedGroups: S.optional(__S(9537, __c298, 1)),
-          prerequisites: S.optional(__S(9505, __c297, 1)),
-          environmentSettings: S.optional(__S(16641, __c520, 1)),
-        }).pipe(T.Http({ method: "PUT", uri: "/v1/interleavings/{id}", code: 200 })),
-      ).annotate({ identifier: "UpdateInterleavingRequest" });
   }
 }
 function __c434(j: number): any {
@@ -47549,32 +47644,68 @@ function __c434(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          owner: S.optional(S.String),
           name: S.optional(S.String),
           description: S.optional(S.String),
-          userIdTypes: S.optional(__S(5216, __c163, 0)),
-          query: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "PUT", uri: "/v1/interleaving-exposure-queries/{id}", code: 200 }),
-        ),
-      ).annotate({ identifier: "UpdateInterleavingExposureQueryRequest" });
+          projects: S.optional(__S(0, __c0, 0)),
+          owner: S.optional(S.String),
+          tags: S.optional(__S(0, __c0, 0)),
+          archived: S.optional(S.Boolean),
+          skipAsDefaultHoldout: S.optional(S.Boolean),
+          holdoutSize: S.optional(S.Number),
+          hashAttribute: S.optional(S.String),
+          targetingCondition: S.optional(S.String),
+          savedGroupTargeting: S.optional(__S(9601, __c300, 1)),
+          datasourceId: S.optional(S.String),
+          assignmentQuery: S.optional(__S(576, __c18, 0)),
+          assignmentQueryId: S.optional(S.String),
+          goalMetrics: S.optional(__S(0, __c0, 0)),
+          secondaryMetrics: S.optional(__S(0, __c0, 0)),
+          statsEngine: S.optional(S.String),
+          environments: S.optional(__S(16705, __c522, 1)),
+          statusUpdateSchedule: S.optional(S.NullOr(__S(16640, __c520, 0))),
+        }).pipe(T.Http({ method: "PUT", uri: "/v1/holdouts/{id}", code: 200 })),
+      ).annotate({ identifier: "UpdateHoldoutRequest" });
   }
 }
 function __c435(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.Unknown);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          analyses: __S(13920, __c435, 0),
+        }),
+      ).annotate({ identifier: "UpdateInterleavingRequestMetricsItem" });
+    case 2:
+      return S.Array(__S(13921, __c435, 1));
+    case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          title: S.optional(S.String),
-          text: S.optional(S.String),
-          tags: S.optional(__S(5216, __c163, 0)),
-          supportingExperimentIds: S.optional(__S(5216, __c163, 0)),
-          contradictingExperimentIds: S.optional(__S(5216, __c163, 0)),
-          projects: S.optional(__S(5216, __c163, 0)),
-          status: S.optional(S.String),
-        }).pipe(T.Http({ method: "PUT", uri: "/v1/learnings/{id}", code: 200 })),
-      ).annotate({ identifier: "UpdateLearningRequest" });
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          project: S.optional(S.String),
+          owner: S.optional(S.String),
+          tags: S.optional(__S(0, __c0, 0)),
+          archived: S.optional(S.Boolean),
+          trackingKey: S.optional(S.String),
+          hashAttribute: S.optional(S.String),
+          seed: S.optional(S.String),
+          variations: S.optional(__S(16897, __c528, 1)),
+          jsonSchema: S.optional(S.NullOr(__S(16864, __c527, 0))),
+          datasourceId: S.optional(S.String),
+          interleavingExposureQueryId: S.optional(S.String),
+          userIdType: S.optional(S.String),
+          metrics: S.optional(__S(13922, __c435, 2)),
+          coverage: S.optional(S.Number),
+          condition: S.optional(S.String),
+          savedGroups: S.optional(__S(9601, __c300, 1)),
+          prerequisites: S.optional(__S(9569, __c299, 1)),
+          environmentSettings: S.optional(__S(16705, __c522, 1)),
+        }).pipe(T.Http({ method: "PUT", uri: "/v1/interleavings/{id}", code: 200 })),
+      ).annotate({ identifier: "UpdateInterleavingRequest" });
   }
 }
 function __c436(j: number): any {
@@ -47582,48 +47713,16 @@ function __c436(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          project: S.String,
-          role: S.String,
-          environments: __S(5216, __c163, 0),
-          limitAccessByEnvironment: S.optional(S.Boolean),
-          additionalRoles: S.optional(__S(8097, __c253, 1)),
-        }),
-      ).annotate({ identifier: "UpdateMemberRoleRequestMemberProjectRolesItem" });
-    case 1:
-      return S.Array(__S(13952, __c436, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          role: S.optional(S.String),
-          environments: S.optional(__S(5216, __c163, 0)),
-          additionalRoles: S.optional(__S(8097, __c253, 1)),
-          projectRoles: S.optional(__S(13953, __c436, 1)),
-        }),
-      ).annotate({ identifier: "UpdateMemberRoleRequestMember" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
           id: S.String.pipe(T.Label()),
-          member: __S(13954, __c436, 2),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/members/{id}/role", code: 200 })),
-      ).annotate({ identifier: "UpdateMemberRoleRequest" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          role: S.String,
-          environments: __S(5216, __c163, 0),
-          limitAccessByEnvironment: S.Boolean,
-          additionalRoles: S.optional(__S(8097, __c253, 1)),
-          projectRoles: S.optional(__S(8099, __c253, 3)),
-        }),
-      ).annotate({ identifier: "UpdatedMember" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          updatedMember: __S(13956, __c436, 4),
-        }),
-      ).annotate({ identifier: "UpdateMemberRoleResponse" });
+          owner: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          userIdTypes: S.optional(__S(0, __c0, 0)),
+          query: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "PUT", uri: "/v1/interleaving-exposure-queries/{id}", code: 200 }),
+        ),
+      ).annotate({ identifier: "UpdateInterleavingExposureQueryRequest" });
   }
 }
 function __c437(j: number): any {
@@ -47632,11 +47731,77 @@ function __c437(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          title: S.optional(S.String),
+          text: S.optional(S.String),
+          tags: S.optional(__S(0, __c0, 0)),
+          supportingExperimentIds: S.optional(__S(0, __c0, 0)),
+          contradictingExperimentIds: S.optional(__S(0, __c0, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
+          status: S.optional(S.String),
+        }).pipe(T.Http({ method: "PUT", uri: "/v1/learnings/{id}", code: 200 })),
+      ).annotate({ identifier: "UpdateLearningRequest" });
+  }
+}
+function __c438(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project: S.String,
+          role: S.String,
+          environments: __S(0, __c0, 0),
+          limitAccessByEnvironment: S.optional(S.Boolean),
+          additionalRoles: S.optional(__S(8161, __c255, 1)),
+        }),
+      ).annotate({ identifier: "UpdateMemberRoleRequestMemberProjectRolesItem" });
+    case 1:
+      return S.Array(__S(14016, __c438, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          role: S.optional(S.String),
+          environments: S.optional(__S(0, __c0, 0)),
+          additionalRoles: S.optional(__S(8161, __c255, 1)),
+          projectRoles: S.optional(__S(14017, __c438, 1)),
+        }),
+      ).annotate({ identifier: "UpdateMemberRoleRequestMember" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          member: __S(14018, __c438, 2),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/members/{id}/role", code: 200 })),
+      ).annotate({ identifier: "UpdateMemberRoleRequest" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          role: S.String,
+          environments: __S(0, __c0, 0),
+          limitAccessByEnvironment: S.Boolean,
+          additionalRoles: S.optional(__S(8161, __c255, 1)),
+          projectRoles: S.optional(__S(8163, __c255, 3)),
+        }),
+      ).annotate({ identifier: "UpdatedMember" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          updatedMember: __S(14020, __c438, 4),
+        }),
+      ).annotate({ identifier: "UpdateMemberRoleResponse" });
+  }
+}
+function __c439(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
           description: S.optional(S.String),
-          tags: S.optional(__S(5216, __c163, 0)),
-          projects: S.optional(__S(5216, __c163, 0)),
-          metrics: S.optional(__S(5216, __c163, 0)),
+          tags: S.optional(__S(0, __c0, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
+          metrics: S.optional(__S(0, __c0, 0)),
           datasource: S.optional(S.String),
           owner: S.optional(S.String),
           archived: S.optional(S.Boolean),
@@ -47644,7 +47809,7 @@ function __c437(j: number): any {
       ).annotate({ identifier: "UpdateMetricGroupRequest" });
   }
 }
-function __c438(j: number): any {
+function __c440(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47655,7 +47820,7 @@ function __c438(j: number): any {
         }),
       ).annotate({ identifier: "CreateContextualBanditRequestVariationsItem" });
     case 1:
-      return S.Array(__S(14016, __c438, 0));
+      return S.Array(__S(14080, __c440, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -47663,14 +47828,14 @@ function __c438(j: number): any {
           description: S.optional(S.String),
           project: S.optional(S.String),
           owner: S.optional(S.String),
-          tags: S.optional(__S(5216, __c163, 0)),
+          tags: S.optional(__S(0, __c0, 0)),
           trackingKey: S.String,
           hashAttribute: S.optional(S.String),
           decisionMetric: S.String,
-          variations: __S(14017, __c438, 1),
+          variations: __S(14081, __c440, 1),
           datasource: S.String,
           contextualBanditQueryId: S.String,
-          contextualAttributes: __S(5216, __c163, 0),
+          contextualAttributes: __S(0, __c0, 0),
           minUsersPerLeaf: S.optional(S.Number),
           maxLeaves: S.optional(S.Number),
           priorSampleSize: S.optional(S.Number),
@@ -47684,21 +47849,21 @@ function __c438(j: number): any {
       ).annotate({ identifier: "CreateContextualBanditRequest" });
   }
 }
-function __c439(j: number): any {
+function __c441(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           leafId: S.Number,
-          condition: __S(18304, __c572, 0),
-          weights: __S(14145, __c442, 1),
+          condition: __S(18368, __c574, 0),
+          weights: __S(14209, __c444, 1),
         }),
       ).annotate({ identifier: "ContextualBanditCurrentLeafWeightsItem" });
     case 1:
-      return S.Array(__S(14048, __c439, 0));
+      return S.Array(__S(14112, __c441, 0));
   }
 }
-function __c440(j: number): any {
+function __c442(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47711,21 +47876,21 @@ function __c440(j: number): any {
         }),
       ).annotate({ identifier: "ContextualBanditVariationsItem" });
     case 1:
-      return S.Array(__S(14080, __c440, 0));
+      return S.Array(__S(14144, __c442, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           srm: S.NullOr(S.Number),
           totalUsers: S.Number,
           multipleExposures: S.optional(S.Number),
-          variationIds: S.optional(__S(5216, __c163, 0)),
+          variationIds: S.optional(__S(0, __c0, 0)),
         }),
       ).annotate({ identifier: "ContextualBanditAnalysisSummaryHealth" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           snapshotId: S.String,
-          health: S.optional(__S(14082, __c440, 2)),
+          health: S.optional(__S(14146, __c442, 2)),
         }),
       ).annotate({ identifier: "ContextualBanditAnalysisSummary" });
     case 4:
@@ -47739,25 +47904,25 @@ function __c440(j: number): any {
           project: S.optional(S.String),
           owner: S.String,
           ownerEmail: S.optional(S.String),
-          tags: __S(5216, __c163, 0),
+          tags: __S(0, __c0, 0),
           archived: S.Boolean,
           status: S.String,
           dateStarted: S.optional(S.String),
           dateStopped: S.optional(S.String),
           trackingKey: S.String,
           hashAttribute: S.String,
-          variations: __S(14081, __c440, 1),
+          variations: __S(14145, __c442, 1),
           datasource: S.String,
           contextualBanditQueryId: S.String,
           coverage: S.optional(S.Number),
           condition: S.optional(S.String),
-          savedGroups: S.optional(__S(9537, __c298, 1)),
-          prerequisites: S.optional(__S(9505, __c297, 1)),
+          savedGroups: S.optional(__S(9601, __c300, 1)),
+          prerequisites: S.optional(__S(9569, __c299, 1)),
           seed: S.String,
-          variationWeights: S.optional(__S(14145, __c442, 1)),
-          currentLeafWeights: __S(14049, __c439, 1),
+          variationWeights: S.optional(__S(14209, __c444, 1)),
+          currentLeafWeights: __S(14113, __c441, 1),
           banditVersion: S.Number,
-          contextualAttributes: __S(5216, __c163, 0),
+          contextualAttributes: __S(0, __c0, 0),
           decisionMetric: S.optional(S.String),
           minUsersPerLeaf: S.Number,
           maxLeaves: S.Number,
@@ -47772,7 +47937,7 @@ function __c440(j: number): any {
           conversionWindowUnit: S.optional(S.NullOr(S.String)),
           stage: S.optional(S.String),
           stageDateStarted: S.optional(S.String),
-          analysisSummary: S.optional(__S(14083, __c440, 3)),
+          analysisSummary: S.optional(__S(14147, __c442, 3)),
           autoSnapshots: S.optional(S.Boolean),
           nextSnapshotAttempt: S.optional(S.String),
           hasVisualChangesets: S.optional(S.Boolean),
@@ -47780,17 +47945,17 @@ function __c440(j: number): any {
       ).annotate({ identifier: "ContextualBandit" });
   }
 }
-function __c441(j: number): any {
+function __c443(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          contextualBandit: __S(14084, __c440, 4),
+          contextualBandit: __S(14148, __c442, 4),
         }),
       ).annotate({ identifier: "CreateContextualBanditResponse" });
   }
 }
-function __c442(j: number): any {
+function __c444(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47800,10 +47965,10 @@ function __c442(j: number): any {
         }),
       ).annotate({ identifier: "ContextualBanditVariationWeightsItem" });
     case 1:
-      return S.Array(__S(14144, __c442, 0));
+      return S.Array(__S(14208, __c444, 0));
   }
 }
-function __c443(j: number): any {
+function __c445(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47811,66 +47976,66 @@ function __c443(j: number): any {
           id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
           description: S.optional(S.String),
-          projects: S.optional(__S(5216, __c163, 0)),
-          userIdTypes: S.optional(__S(5216, __c163, 0)),
-          steps: S.optional(__S(17569, __c549, 1)),
+          projects: S.optional(__S(0, __c0, 0)),
+          userIdTypes: S.optional(__S(0, __c0, 0)),
+          steps: S.optional(__S(17633, __c551, 1)),
           owner: S.optional(S.String),
         }).pipe(T.Http({ method: "PUT", uri: "/v1/populations/{id}", code: 200 })),
       ).annotate({ identifier: "UpdatePopulationRequest" });
   }
 }
-function __c444(j: number): any {
+function __c446(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           targetType: S.optional(S.String),
           targetId: S.optional(S.String),
-          patch: S.optional(__S(9637, __c301, 5)),
+          patch: S.optional(__S(9701, __c303, 5)),
         }),
       ).annotate({ identifier: "UpdateRampScheduleRequestStepsItemActionsItem" });
     case 1:
-      return S.Array(__S(14208, __c444, 0));
+      return S.Array(__S(14272, __c446, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           interval: S.NullOr(S.Number),
-          actions: S.optional(__S(14209, __c444, 1)),
+          actions: S.optional(__S(14273, __c446, 1)),
           approvalNotes: S.optional(S.NullOr(S.String)),
           monitored: S.optional(S.Boolean),
-          holdConditions: S.optional(__S(9696, __c303, 0)),
+          holdConditions: S.optional(__S(9760, __c305, 0)),
         }),
       ).annotate({ identifier: "UpdateRampScheduleRequestStepsItem" });
     case 3:
-      return S.Array(__S(14210, __c444, 2));
+      return S.Array(__S(14274, __c446, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           targetType: S.optional(S.String),
           targetId: S.optional(S.String),
-          patch: S.optional(__S(9634, __c301, 2)),
+          patch: S.optional(__S(9698, __c303, 2)),
         }),
       ).annotate({ identifier: "UpdateRampScheduleRequestStartActionsItem" });
     case 5:
-      return S.Array(__S(14212, __c444, 4));
+      return S.Array(__S(14276, __c446, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          steps: S.optional(__S(14211, __c444, 3)),
-          startActions: S.optional(__S(14213, __c444, 5)),
-          endActions: S.optional(__S(14209, __c444, 1)),
+          steps: S.optional(__S(14275, __c446, 3)),
+          startActions: S.optional(__S(14277, __c446, 5)),
+          endActions: S.optional(__S(14273, __c446, 1)),
           startDate: S.optional(S.NullOr(S.String)),
           cutoffDate: S.optional(S.NullOr(S.String)),
-          monitoringConfig: S.optional(S.NullOr(__S(17856, __c558, 0))),
+          monitoringConfig: S.optional(S.NullOr(__S(17920, __c560, 0))),
           experimentHealthAction: S.optional(S.String),
-          lockdownConfig: S.optional(__S(9697, __c303, 1)),
+          lockdownConfig: S.optional(__S(9761, __c305, 1)),
         }).pipe(T.Http({ method: "PUT", uri: "/v1/ramp-schedules/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateRampScheduleRequest" });
   }
 }
-function __c445(j: number): any {
+function __c447(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47881,15 +48046,15 @@ function __c445(j: number): any {
       ).annotate({ identifier: "UpdateRampScheduleLockdownRequest" });
   }
 }
-function __c446(j: number): any {
+function __c448(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           datasourceId: S.String,
-          guardrailMetricIds: __S(5216, __c163, 0),
-          signalMetricIds: S.optional(__S(5216, __c163, 0)),
+          guardrailMetricIds: __S(0, __c0, 0),
+          signalMetricIds: S.optional(__S(0, __c0, 0)),
           updateScheduleMinutes: S.optional(S.NullOr(S.Number)),
           monitoringMode: S.optional(S.String),
           autoUpdate: S.optional(S.Boolean),
@@ -47897,13 +48062,13 @@ function __c446(j: number): any {
           noTrafficAction: S.optional(S.String),
           noTrafficGracePeriodHours: S.optional(S.NullOr(S.Number)),
           multipleExposureAction: S.optional(S.String),
-          exposureQuery: S.optional(__S(480, __c15, 0)),
+          exposureQuery: S.optional(__S(576, __c18, 0)),
           exposureQueryId: S.optional(S.String),
         }).pipe(T.Http({ method: "PUT", uri: "/v1/ramp-schedules/{id}/monitoring", code: 200 })),
       ).annotate({ identifier: "UpdateRampScheduleMonitoringRequest" });
   }
 }
-function __c447(j: number): any {
+function __c449(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47911,39 +48076,39 @@ function __c447(j: number): any {
           actions: S.optional(S.Unknown),
           interval: S.NullOr(S.Number),
           monitored: S.optional(S.Boolean),
-          holdConditions: S.optional(__S(9696, __c303, 0)),
+          holdConditions: S.optional(__S(9760, __c305, 0)),
           approvalNotes: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "UpdateRampScheduleStepsRequestStepsItem" });
     case 1:
-      return S.Array(__S(14304, __c447, 0));
+      return S.Array(__S(14368, __c449, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          steps: __S(14305, __c447, 1),
+          steps: __S(14369, __c449, 1),
         }).pipe(T.Http({ method: "PUT", uri: "/v1/ramp-schedules/{id}/steps", code: 200 })),
       ).annotate({ identifier: "UpdateRampScheduleStepsRequest" });
   }
 }
-function __c448(j: number): any {
+function __c450(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          steps: S.optional(__S(17796, __c556, 4)),
-          endPatch: S.optional(__S(17797, __c556, 5)),
+          steps: S.optional(__S(17860, __c558, 4)),
+          endPatch: S.optional(__S(17861, __c558, 5)),
           official: S.optional(S.Boolean),
-          monitoringConfig: S.optional(S.NullOr(__S(17856, __c558, 0))),
-          lockdownConfig: S.optional(__S(9697, __c303, 1)),
+          monitoringConfig: S.optional(S.NullOr(__S(17920, __c560, 0))),
+          lockdownConfig: S.optional(__S(9761, __c305, 1)),
           order: S.optional(S.Number),
         }).pipe(T.Http({ method: "PUT", uri: "/v1/ramp-schedule-templates/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateRampScheduleTemplateRequest" });
   }
 }
-function __c449(j: number): any {
+function __c451(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47952,16 +48117,16 @@ function __c449(j: number): any {
           name: S.optional(S.String),
           description: S.optional(S.String),
           condition: S.optional(S.String),
-          values: S.optional(__S(5216, __c163, 0)),
+          values: S.optional(__S(0, __c0, 0)),
           owner: S.optional(S.String),
-          projects: S.optional(__S(5216, __c163, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
           currentUploadVersion: S.optional(S.Number),
           bypassApproval: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/v1/saved-groups/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateSavedGroupRequest" });
   }
 }
-function __c450(j: number): any {
+function __c452(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47975,7 +48140,7 @@ function __c450(j: number): any {
       ).annotate({ identifier: "UpdateSavedGroupRevisionRequest" });
   }
 }
-function __c451(j: number): any {
+function __c453(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47986,17 +48151,17 @@ function __c451(j: number): any {
           description: S.optional(S.String),
           datasourceId: S.optional(S.String),
           identifierType: S.optional(S.String),
-          projects: S.optional(__S(5216, __c163, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
           managedBy: S.optional(S.String),
           type: S.optional(S.String),
           query: S.optional(S.String),
           factTableId: S.optional(S.String),
-          filters: S.optional(__S(5216, __c163, 0)),
+          filters: S.optional(__S(0, __c0, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/segments/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateSegmentRequest" });
   }
 }
-function __c452(j: number): any {
+function __c454(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48007,15 +48172,15 @@ function __c452(j: number): any {
           description: S.optional(S.String),
           role: S.optional(S.String),
           limitAccessByEnvironment: S.optional(S.Boolean),
-          environments: S.optional(__S(5216, __c163, 0)),
-          projectRoles: S.optional(__S(19299, __c603, 3)),
-          managedBy: S.optional(__S(19300, __c603, 4)),
+          environments: S.optional(__S(0, __c0, 0)),
+          projectRoles: S.optional(__S(19363, __c605, 3)),
+          managedBy: S.optional(__S(19364, __c605, 4)),
           defaultProject: S.optional(S.String),
         }).pipe(T.Http({ method: "PUT", uri: "/v1/teams/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateTeamRequest" });
   }
 }
-function __c453(j: number): any {
+function __c455(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48026,12 +48191,12 @@ function __c453(j: number): any {
           description: S.optional(S.String),
           userIdType: S.String,
           query: S.String,
-          targetingAttributeColumns: __S(5216, __c163, 0),
+          targetingAttributeColumns: __S(0, __c0, 0),
         }).pipe(T.Http({ method: "POST", uri: "/v1/contextual-bandit-queries", code: 200 })),
       ).annotate({ identifier: "CreateContextualBanditQueryRequest" });
   }
 }
-function __c454(j: number): any {
+function __c456(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48046,22 +48211,22 @@ function __c454(j: number): any {
           description: S.optional(S.String),
           userIdType: S.String,
           query: S.String,
-          targetingAttributeColumns: __S(5216, __c163, 0),
+          targetingAttributeColumns: __S(0, __c0, 0),
         }),
       ).annotate({ identifier: "ContextualBanditQuery" });
   }
 }
-function __c455(j: number): any {
+function __c457(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          contextualBanditQuery: __S(14528, __c454, 0),
+          contextualBanditQuery: __S(14592, __c456, 0),
         }),
       ).annotate({ identifier: "CreateContextualBanditQueryResponse" });
   }
 }
-function __c456(j: number): any {
+function __c458(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48078,12 +48243,12 @@ function __c456(j: number): any {
         }),
       ).annotate({ identifier: "DriftContractItem" });
     case 2:
-      return S.Array(__S(14593, __c456, 1));
+      return S.Array(__S(14657, __c458, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          contract: __S(14594, __c456, 2),
-          docs: __S(14594, __c456, 2),
+          contract: __S(14658, __c458, 2),
+          docs: __S(14658, __c458, 2),
         }),
       ).annotate({ identifier: "Drift" });
     case 4:
@@ -48095,28 +48260,28 @@ function __c456(j: number): any {
         }),
       ).annotate({ identifier: "AncestorOwnedFields" });
     case 5:
-      return S.Array(__S(14596, __c456, 4));
+      return S.Array(__S(14660, __c458, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           inSync: S.Boolean,
           fingerprint: S.String,
           incomingFingerprint: S.String,
-          drift: S.optional(__S(14595, __c456, 3)),
-          ancestorOwnedFields: S.optional(__S(14597, __c456, 5)),
-          warnings: S.optional(__S(4673, __c146, 1)),
+          drift: S.optional(__S(14659, __c458, 3)),
+          ancestorOwnedFields: S.optional(__S(14661, __c458, 5)),
+          warnings: S.optional(__S(4769, __c149, 1)),
         }),
       ).annotate({ identifier: "VerifyConfigSchemaResponse" });
   }
 }
-function __c457(j: number): any {
+function __c459(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           editorUrl: S.String,
-          urlPatterns: __S(14721, __c460, 1),
+          urlPatterns: __S(14785, __c462, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -48127,7 +48292,7 @@ function __c457(j: number): any {
       ).annotate({ identifier: "CreateContextualBanditVisualChangesetRequest" });
   }
 }
-function __c458(j: number): any {
+function __c460(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48138,7 +48303,7 @@ function __c458(j: number): any {
         }),
       ).annotate({ identifier: "VisualChangesetUrlPatternsItem" });
     case 1:
-      return S.Array(__S(14656, __c458, 0));
+      return S.Array(__S(14720, __c460, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -48151,7 +48316,7 @@ function __c458(j: number): any {
         }),
       ).annotate({ identifier: "VisualChangesetVisualChangesItemDomMutationsItem" });
     case 3:
-      return S.Array(__S(14658, __c458, 2));
+      return S.Array(__S(14722, __c460, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -48160,35 +48325,35 @@ function __c458(j: number): any {
           css: S.optional(S.String),
           js: S.optional(S.String),
           variation: S.String,
-          domMutations: __S(14659, __c458, 3),
+          domMutations: __S(14723, __c460, 3),
         }),
       ).annotate({ identifier: "VisualChangesetVisualChangesItem" });
     case 5:
-      return S.Array(__S(14660, __c458, 4));
+      return S.Array(__S(14724, __c460, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          urlPatterns: __S(14657, __c458, 1),
+          urlPatterns: __S(14721, __c460, 1),
           editorUrl: S.String,
           experiment: S.optional(S.String),
           contextualBandit: S.optional(S.String),
-          visualChanges: __S(14661, __c458, 5),
+          visualChanges: __S(14725, __c460, 5),
         }),
       ).annotate({ identifier: "VisualChangeset" });
   }
 }
-function __c459(j: number): any {
+function __c461(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          visualChangeset: __S(14662, __c458, 6),
+          visualChangeset: __S(14726, __c460, 6),
         }),
       ).annotate({ identifier: "CreateContextualBanditVisualChangesetResponse" });
   }
 }
-function __c460(j: number): any {
+function __c462(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48202,10 +48367,10 @@ function __c460(j: number): any {
         ),
       ).annotate({ identifier: "CreateContextualBanditVisualChangesetRequestUrlPatternsItem" });
     case 1:
-      return S.Array(__S(14720, __c460, 0));
+      return S.Array(__S(14784, __c462, 0));
   }
 }
-function __c461(j: number): any {
+function __c463(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48219,19 +48384,19 @@ function __c461(j: number): any {
           values: S.optional(S.String),
           creatable: S.optional(S.Boolean),
           required: S.Boolean,
-          projects: S.optional(__S(5216, __c163, 0)),
-          sections: __S(14784, __c462, 0),
+          projects: S.optional(__S(0, __c0, 0)),
+          sections: __S(14848, __c464, 0),
         }).pipe(T.Http({ method: "POST", uri: "/v1/custom-fields", code: 200 })),
       ).annotate({ identifier: "CreateCustomFieldRequest" });
   }
 }
-function __c462(j: number): any {
+function __c464(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c463(j: number): any {
+function __c465(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48248,24 +48413,24 @@ function __c463(j: number): any {
           creatable: S.optional(S.Boolean),
           required: S.Boolean,
           creator: S.optional(S.String),
-          projects: S.optional(__S(5216, __c163, 0)),
-          sections: __S(14784, __c462, 0),
+          projects: S.optional(__S(0, __c0, 0)),
+          sections: __S(14848, __c464, 0),
           active: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CustomField" });
   }
 }
-function __c464(j: number): any {
+function __c466(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          customField: __S(14816, __c463, 0),
+          customField: __S(14880, __c465, 0),
         }),
       ).annotate({ identifier: "CreateCustomFieldResponse" });
   }
 }
-function __c465(j: number): any {
+function __c467(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48274,7 +48439,7 @@ function __c465(j: number): any {
           hook: S.String,
           code: S.String,
           enabled: S.optional(S.Boolean),
-          projects: S.optional(__S(5216, __c163, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
           entityType: S.optional(S.String),
           entityId: S.optional(S.String),
           incrementalChangesOnly: S.optional(S.Boolean),
@@ -48282,7 +48447,7 @@ function __c465(j: number): any {
       ).annotate({ identifier: "CreateCustomHookRequest" });
   }
 }
-function __c466(j: number): any {
+function __c468(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48292,7 +48457,7 @@ function __c466(j: number): any {
           hook: S.String,
           code: S.String,
           enabled: S.Boolean,
-          projects: __S(5216, __c163, 0),
+          projects: __S(0, __c0, 0),
           entityType: S.optional(S.String),
           entityId: S.optional(S.String),
           incrementalChangesOnly: S.optional(S.Boolean),
@@ -48304,17 +48469,17 @@ function __c466(j: number): any {
       ).annotate({ identifier: "CustomHook" });
   }
 }
-function __c467(j: number): any {
+function __c469(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          customHook: __S(14912, __c466, 0),
+          customHook: __S(14976, __c468, 0),
         }),
       ).annotate({ identifier: "CreateCustomHookResponse" });
   }
 }
-function __c468(j: number): any {
+function __c470(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -48327,16 +48492,16 @@ function __c468(j: number): any {
           enableAutoUpdates: S.Boolean,
           updateSchedule: S.optional(S.Unknown),
           experimentId: S.optional(S.String),
-          projects: S.optional(__S(5216, __c163, 0)),
-          globalControls: S.optional(__S(15040, __c470, 0)),
-          comparison: S.optional(__S(15041, __c470, 1)),
-          blocks: __S(14976, __c468, 0),
+          projects: S.optional(__S(0, __c0, 0)),
+          globalControls: S.optional(__S(15104, __c472, 0)),
+          comparison: S.optional(__S(15105, __c472, 1)),
+          blocks: __S(15040, __c470, 0),
           owner: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/v2/dashboards", code: 200 })),
       ).annotate({ identifier: "CreateDashboardV2Request" });
   }
 }
-function __c469(j: number): any {
+function __c471(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48350,14 +48515,14 @@ function __c469(j: number): any {
       ).annotate({ identifier: "CreateDashboardV2RequestGlobalControlsDateRange" });
   }
 }
-function __c470(j: number): any {
+function __c472(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dateRange: S.optional(__S(15008, __c469, 0)),
+          dateRange: S.optional(__S(15072, __c471, 0)),
           dateGranularity: S.optional(S.String),
-          projects: S.optional(__S(5216, __c163, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
           experimentSearchString: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateDashboardV2RequestGlobalControls" });
@@ -48366,7 +48531,7 @@ function __c470(j: number): any {
         S.Struct({
           enabled: S.Boolean,
           mode: S.optional(S.String),
-          previousTimeFrame: S.optional(__S(15008, __c469, 0)),
+          previousTimeFrame: S.optional(__S(15072, __c471, 0)),
         }),
       ).annotate({ identifier: "CreateDashboardV2RequestComparison" });
     case 2:
@@ -48393,32 +48558,32 @@ function __c470(j: number): any {
           enableAutoUpdates: S.Boolean,
           updateSchedule: S.optional(S.Unknown),
           title: S.String,
-          globalControls: S.optional(__S(15040, __c470, 0)),
-          comparison: S.optional(__S(15041, __c470, 1)),
-          grid: S.optional(__S(15042, __c470, 2)),
-          projects: S.optional(__S(5216, __c163, 0)),
+          globalControls: S.optional(__S(15104, __c472, 0)),
+          comparison: S.optional(__S(15105, __c472, 1)),
+          grid: S.optional(__S(15106, __c472, 2)),
+          projects: S.optional(__S(0, __c0, 0)),
           nextUpdate: S.optional(S.String),
           lastUpdated: S.optional(S.String),
           dateCreated: S.String,
           dateUpdated: S.String,
-          blocks: __S(15043, __c470, 3),
+          blocks: __S(15107, __c472, 3),
           owner: S.String,
           ownerEmail: S.optional(S.String),
         }),
       ).annotate({ identifier: "Dashboard" });
   }
 }
-function __c471(j: number): any {
+function __c473(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dashboard: __S(15044, __c470, 4),
+          dashboard: __S(15108, __c472, 4),
         }),
       ).annotate({ identifier: "CreateDashboardV2Response" });
   }
 }
-function __c472(j: number): any {
+function __c474(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48434,7 +48599,7 @@ function __c472(j: number): any {
       ).annotate({ identifier: "CreateDimensionRequest" });
   }
 }
-function __c473(j: number): any {
+function __c475(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48454,17 +48619,17 @@ function __c473(j: number): any {
       ).annotate({ identifier: "Dimension" });
   }
 }
-function __c474(j: number): any {
+function __c476(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dimension: __S(15136, __c473, 0),
+          dimension: __S(15200, __c475, 0),
         }),
       ).annotate({ identifier: "CreateDimensionResponse" });
   }
 }
-function __c475(j: number): any {
+function __c477(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48473,14 +48638,14 @@ function __c475(j: number): any {
           description: S.optional(S.String),
           toggleOnList: S.optional(S.Boolean),
           defaultState: S.optional(S.Boolean),
-          projects: S.optional(__S(5216, __c163, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
           parent: S.optional(S.String),
           isProduction: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/v1/environments", code: 200 })),
       ).annotate({ identifier: "CreateEnvironmentRequest" });
   }
 }
-function __c476(j: number): any {
+function __c478(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48489,24 +48654,24 @@ function __c476(j: number): any {
           description: S.String,
           toggleOnList: S.Boolean,
           defaultState: S.Boolean,
-          projects: __S(5216, __c163, 0),
+          projects: __S(0, __c0, 0),
           parent: S.optional(S.String),
           isProduction: S.Boolean,
         }),
       ).annotate({ identifier: "Environment" });
   }
 }
-function __c477(j: number): any {
+function __c479(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          environment: __S(15232, __c476, 0),
+          environment: __S(15296, __c478, 0),
         }),
       ).annotate({ identifier: "CreateEnvironmentResponse" });
   }
 }
-function __c478(j: number): any {
+function __c480(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48520,7 +48685,7 @@ function __c478(j: number): any {
       return S.suspend(() =>
         S.Struct({
           datasourceId: S.optional(S.String),
-          assignmentQuery: S.optional(__S(480, __c15, 0)),
+          assignmentQuery: S.optional(__S(576, __c18, 0)),
           assignmentQueryId: S.optional(S.String),
           isClusterExperiment: S.optional(S.Boolean),
           clusterSubUnitIdentifier: S.optional(S.String),
@@ -48532,10 +48697,10 @@ function __c478(j: number): any {
           templateId: S.optional(S.String),
           hypothesis: S.optional(S.String),
           description: S.optional(S.String),
-          tags: S.optional(__S(5216, __c163, 0)),
-          metrics: S.optional(__S(5216, __c163, 0)),
-          secondaryMetrics: S.optional(__S(5216, __c163, 0)),
-          guardrailMetrics: S.optional(__S(5216, __c163, 0)),
+          tags: S.optional(__S(0, __c0, 0)),
+          metrics: S.optional(__S(0, __c0, 0)),
+          secondaryMetrics: S.optional(__S(0, __c0, 0)),
+          guardrailMetrics: S.optional(__S(0, __c0, 0)),
           activationMetric: S.optional(S.String),
           segmentId: S.optional(S.String),
           queryFilter: S.optional(S.String),
@@ -48554,10 +48719,10 @@ function __c478(j: number): any {
           excludeFromPayload: S.optional(S.Boolean),
           inProgressConversions: S.optional(S.String),
           attributionModel: S.optional(S.String),
-          lookbackOverride: S.optional(__S(15296, __c478, 0)),
+          lookbackOverride: S.optional(__S(15360, __c480, 0)),
           statsEngine: S.optional(S.String),
-          variations: __S(15393, __c481, 1),
-          phases: S.optional(__S(15395, __c481, 3)),
+          variations: __S(15457, __c483, 1),
+          phases: S.optional(__S(15459, __c483, 3)),
           regressionAdjustmentEnabled: S.optional(S.Boolean),
           sequentialTestingEnabled: S.optional(S.Boolean),
           sequentialTestingTuningParameter: S.optional(S.Number),
@@ -48569,25 +48734,25 @@ function __c478(j: number): any {
           banditConversionWindowValue: S.optional(S.Number),
           banditConversionWindowUnit: S.optional(S.String),
           postStratificationEnabled: S.optional(S.NullOr(S.Boolean)),
-          decisionFrameworkSettings: S.optional(__S(15586, __c487, 2)),
-          metricOverrides: S.optional(__S(15588, __c487, 4)),
+          decisionFrameworkSettings: S.optional(__S(15650, __c489, 2)),
+          metricOverrides: S.optional(__S(15652, __c489, 4)),
           defaultDashboardId: S.optional(S.String),
-          customFields: S.optional(__S(18816, __c588, 0)),
-          customMetricSlices: S.optional(__S(451, __c14, 3)),
-          precomputedUnitDimensionIds: S.optional(__S(5216, __c163, 0)),
-          statusUpdateSchedule: S.optional(__S(15523, __c485, 3)),
+          customFields: S.optional(__S(18880, __c590, 0)),
+          customMetricSlices: S.optional(__S(547, __c17, 3)),
+          precomputedUnitDimensionIds: S.optional(__S(0, __c0, 0)),
+          statusUpdateSchedule: S.optional(__S(15587, __c487, 3)),
           ignoreWarnings: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/v1/experiments", code: 200 })),
       ).annotate({ identifier: "CreateExperimentRequest" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          experiment: __S(15328, __c479, 0),
+          experiment: __S(15392, __c481, 0),
         }),
       ).annotate({ identifier: "CreateExperimentResponse" });
   }
 }
-function __c479(j: number): any {
+function __c481(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48601,7 +48766,7 @@ function __c479(j: number): any {
           project: S.String,
           hypothesis: S.String,
           description: S.String,
-          tags: __S(5216, __c163, 0),
+          tags: __S(0, __c0, 0),
           owner: S.String,
           ownerEmail: S.optional(S.String),
           archived: S.Boolean,
@@ -48613,10 +48778,10 @@ function __c479(j: number): any {
           disableStickyBucketing: S.optional(S.Boolean),
           bucketVersion: S.optional(S.Number),
           minBucketVersion: S.optional(S.Number),
-          variations: __S(15525, __c485, 5),
-          phases: __S(15527, __c485, 7),
-          settings: __S(15593, __c487, 9),
-          resultSummary: S.optional(__S(15528, __c485, 8)),
+          variations: __S(15589, __c487, 5),
+          phases: __S(15591, __c487, 7),
+          settings: __S(15657, __c489, 9),
+          resultSummary: S.optional(__S(15592, __c487, 8)),
           shareLevel: S.optional(S.String),
           publicUrl: S.optional(S.String),
           banditScheduleValue: S.optional(S.Number),
@@ -48625,22 +48790,22 @@ function __c479(j: number): any {
           banditBurnInUnit: S.optional(S.String),
           banditConversionWindowValue: S.optional(S.Number),
           banditConversionWindowUnit: S.optional(S.String),
-          linkedFeatures: S.optional(__S(5216, __c163, 0)),
+          linkedFeatures: S.optional(__S(0, __c0, 0)),
           attributeScopeAllProjects: S.optional(S.Boolean),
           hasVisualChangesets: S.optional(S.Boolean),
           hasURLRedirects: S.optional(S.Boolean),
-          customFields: S.optional(__S(18304, __c572, 0)),
-          customMetricSlices: S.optional(__S(451, __c14, 3)),
-          precomputedUnitDimensionIds: S.optional(__S(5216, __c163, 0)),
+          customFields: S.optional(__S(18368, __c574, 0)),
+          customMetricSlices: S.optional(__S(547, __c17, 3)),
+          precomputedUnitDimensionIds: S.optional(__S(0, __c0, 0)),
           defaultDashboardId: S.optional(S.String),
           templateId: S.optional(S.String),
-          statusUpdateSchedule: S.optional(S.NullOr(__S(15523, __c485, 3))),
-          nextScheduledStatusUpdate: S.optional(S.NullOr(__S(15552, __c486, 0))),
+          statusUpdateSchedule: S.optional(S.NullOr(__S(15587, __c487, 3))),
+          nextScheduledStatusUpdate: S.optional(S.NullOr(__S(15616, __c488, 0))),
         }),
       ).annotate({ identifier: "Experiment" });
   }
 }
-function __c480(j: number): any {
+function __c482(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48652,10 +48817,10 @@ function __c480(j: number): any {
         }),
       ).annotate({ identifier: "CreateExperimentRequestVariationsItemScreenshotsItem" });
     case 1:
-      return S.Array(__S(15360, __c480, 0));
+      return S.Array(__S(15424, __c482, 0));
   }
 }
-function __c481(j: number): any {
+function __c483(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48665,11 +48830,11 @@ function __c481(j: number): any {
           key: S.String,
           name: S.String,
           description: S.optional(S.String),
-          screenshots: S.optional(__S(15361, __c480, 1)),
+          screenshots: S.optional(__S(15425, __c482, 1)),
         }),
       ).annotate({ identifier: "CreateExperimentRequestVariationsItem" });
     case 1:
-      return S.Array(__S(15392, __c481, 0));
+      return S.Array(__S(15456, __c483, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -48679,44 +48844,25 @@ function __c481(j: number): any {
           reasonForStopping: S.optional(S.String),
           seed: S.optional(S.String),
           coverage: S.optional(S.Number),
-          namespace: S.optional(__S(15520, __c485, 0)),
-          prerequisites: S.optional(__S(9505, __c297, 1)),
+          namespace: S.optional(__S(15584, __c487, 0)),
+          prerequisites: S.optional(__S(9569, __c299, 1)),
           reason: S.optional(S.String),
           condition: S.optional(S.String),
           targetingCondition: S.optional(S.String),
-          savedGroups: S.optional(__S(9537, __c298, 1)),
-          savedGroupTargeting: S.optional(__S(15457, __c483, 1)),
-          variationWeights: S.optional(__S(15424, __c482, 0)),
-          trafficSplit: S.optional(__S(14145, __c442, 1)),
+          savedGroups: S.optional(__S(9601, __c300, 1)),
+          savedGroupTargeting: S.optional(__S(15521, __c485, 1)),
+          variationWeights: S.optional(__S(15488, __c484, 0)),
+          trafficSplit: S.optional(__S(14209, __c444, 1)),
         }),
       ).annotate({ identifier: "CreateExperimentRequestPhasesItem" });
     case 3:
-      return S.Array(__S(15394, __c481, 2));
-  }
-}
-function __c482(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Number);
-  }
-}
-function __c483(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          matchType: S.String,
-          savedGroups: __S(5216, __c163, 0),
-        }),
-      ).annotate({ identifier: "CreateExperimentRequestPhasesItemSavedGroupTargetingItem" });
-    case 1:
-      return S.Array(__S(15456, __c483, 0));
+      return S.Array(__S(15458, __c483, 2));
   }
 }
 function __c484(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6336, __c198, 0));
+      return S.Array(S.Number);
   }
 }
 function __c485(j: number): any {
@@ -48724,10 +48870,29 @@ function __c485(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          matchType: S.String,
+          savedGroups: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "CreateExperimentRequestPhasesItemSavedGroupTargetingItem" });
+    case 1:
+      return S.Array(__S(15520, __c485, 0));
+  }
+}
+function __c486(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(6400, __c200, 0));
+  }
+}
+function __c487(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           namespaceId: S.String,
           enabled: S.optional(S.Boolean),
-          range: S.optional(__S(15424, __c482, 0)),
-          ranges: S.optional(__S(15488, __c484, 0)),
+          range: S.optional(__S(15488, __c484, 0)),
+          ranges: S.optional(__S(15552, __c486, 0)),
         }),
       ).annotate({ identifier: "CreateExperimentRequestPhasesItemNamespace" });
     case 1:
@@ -48751,8 +48916,8 @@ function __c485(j: number): any {
         S.Struct({
           startAt: S.optional(S.String),
           stopAt: S.optional(S.String),
-          stopAfter: S.optional(__S(15521, __c485, 1)),
-          scheduledStopPlan: S.optional(__S(15522, __c485, 2)),
+          stopAfter: S.optional(__S(15585, __c487, 1)),
+          scheduledStopPlan: S.optional(__S(15586, __c487, 2)),
         }),
       ).annotate({ identifier: "CreateExperimentRequestStatusUpdateSchedule" });
     case 4:
@@ -48762,11 +48927,11 @@ function __c485(j: number): any {
           key: S.String,
           name: S.String,
           description: S.String,
-          screenshots: __S(5216, __c163, 0),
+          screenshots: __S(0, __c0, 0),
         }),
       ).annotate({ identifier: "ExperimentVariationsItem" });
     case 5:
-      return S.Array(__S(15524, __c485, 4));
+      return S.Array(__S(15588, __c487, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -48776,15 +48941,15 @@ function __c485(j: number): any {
           reasonForStopping: S.String,
           seed: S.String,
           coverage: S.Number,
-          trafficSplit: __S(14145, __c442, 1),
-          namespace: S.optional(__S(15520, __c485, 0)),
+          trafficSplit: __S(14209, __c444, 1),
+          namespace: S.optional(__S(15584, __c487, 0)),
           targetingCondition: S.String,
-          prerequisites: S.optional(__S(9505, __c297, 1)),
-          savedGroupTargeting: S.optional(__S(15457, __c483, 1)),
+          prerequisites: S.optional(__S(9569, __c299, 1)),
+          savedGroupTargeting: S.optional(__S(15521, __c485, 1)),
         }),
       ).annotate({ identifier: "ExperimentPhasesItem" });
     case 7:
-      return S.Array(__S(15526, __c485, 6));
+      return S.Array(__S(15590, __c487, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -48797,7 +48962,7 @@ function __c485(j: number): any {
       ).annotate({ identifier: "ExperimentResultSummary" });
   }
 }
-function __c486(j: number): any {
+function __c488(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48808,7 +48973,7 @@ function __c486(j: number): any {
       ).annotate({ identifier: "ExperimentNextScheduledStatusUpdate" });
   }
 }
-function __c487(j: number): any {
+function __c489(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48821,12 +48986,12 @@ function __c487(j: number): any {
           "CreateExperimentRequestDecisionFrameworkSettingsDecisionFrameworkMetricOverridesItem",
       });
     case 1:
-      return S.Array(__S(15584, __c487, 0));
+      return S.Array(__S(15648, __c489, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           decisionCriteriaId: S.optional(S.String),
-          decisionFrameworkMetricOverrides: S.optional(__S(15585, __c487, 1)),
+          decisionFrameworkMetricOverrides: S.optional(__S(15649, __c489, 1)),
         }),
       ).annotate({ identifier: "CreateExperimentRequestDecisionFrameworkSettings" });
     case 3:
@@ -48846,7 +49011,7 @@ function __c487(j: number): any {
         }),
       ).annotate({ identifier: "CreateExperimentRequestMetricOverridesItem" });
     case 4:
-      return S.Array(__S(15587, __c487, 3));
+      return S.Array(__S(15651, __c489, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -48876,16 +49041,16 @@ function __c487(j: number): any {
       return S.suspend(() =>
         S.Struct({
           metricId: S.String,
-          overrides: __S(15590, __c487, 6),
+          overrides: __S(15654, __c489, 6),
         }),
       ).annotate({ identifier: "ExperimentMetric" });
     case 8:
-      return S.Array(__S(15591, __c487, 7));
+      return S.Array(__S(15655, __c489, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           datasourceId: S.String,
-          assignmentQuery: __S(9600, __c300, 0),
+          assignmentQuery: __S(9664, __c302, 0),
           assignmentQueryId: S.String,
           isClusterExperiment: S.optional(S.Boolean),
           clusterSubUnitIdentifier: S.optional(S.String),
@@ -48894,23 +49059,23 @@ function __c487(j: number): any {
           queryFilter: S.String,
           inProgressConversions: S.String,
           attributionModel: S.String,
-          lookbackOverride: S.optional(__S(15589, __c487, 5)),
+          lookbackOverride: S.optional(__S(15653, __c489, 5)),
           statsEngine: S.String,
           regressionAdjustmentEnabled: S.optional(S.Boolean),
           sequentialTestingEnabled: S.optional(S.Boolean),
           sequentialTestingTuningParameter: S.optional(S.Number),
           postStratificationEnabled: S.optional(S.NullOr(S.Boolean)),
-          decisionFrameworkSettings: S.optional(__S(15586, __c487, 2)),
-          metricOverrides: S.optional(__S(15588, __c487, 4)),
-          goals: __S(15592, __c487, 8),
-          secondaryMetrics: __S(15592, __c487, 8),
-          guardrails: __S(15592, __c487, 8),
-          activationMetric: S.optional(__S(15591, __c487, 7)),
+          decisionFrameworkSettings: S.optional(__S(15650, __c489, 2)),
+          metricOverrides: S.optional(__S(15652, __c489, 4)),
+          goals: __S(15656, __c489, 8),
+          secondaryMetrics: __S(15656, __c489, 8),
+          guardrails: __S(15656, __c489, 8),
+          activationMetric: S.optional(__S(15655, __c489, 7)),
         }),
       ).annotate({ identifier: "ExperimentAnalysisSettings" });
   }
 }
-function __c488(j: number): any {
+function __c490(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48924,7 +49089,7 @@ function __c488(j: number): any {
       ).annotate({ identifier: "ApiAdvanceRampScheduleRequest" });
   }
 }
-function __c489(j: number): any {
+function __c491(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48935,7 +49100,7 @@ function __c489(j: number): any {
       ).annotate({ identifier: "CreateExperimentArchiveRequest" });
   }
 }
-function __c490(j: number): any {
+function __c492(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48956,7 +49121,7 @@ function __c490(j: number): any {
           project: S.String,
           hypothesis: S.String,
           description: S.String,
-          tags: __S(5216, __c163, 0),
+          tags: __S(0, __c0, 0),
           owner: S.String,
           ownerEmail: S.optional(S.String),
           archived: S.Boolean,
@@ -48968,10 +49133,10 @@ function __c490(j: number): any {
           disableStickyBucketing: S.optional(S.Boolean),
           bucketVersion: S.optional(S.Number),
           minBucketVersion: S.optional(S.Number),
-          variations: __S(15525, __c485, 5),
-          phases: __S(15527, __c485, 7),
-          settings: __S(15593, __c487, 9),
-          resultSummary: S.optional(__S(15528, __c485, 8)),
+          variations: __S(15589, __c487, 5),
+          phases: __S(15591, __c487, 7),
+          settings: __S(15657, __c489, 9),
+          resultSummary: S.optional(__S(15592, __c487, 8)),
           shareLevel: S.optional(S.String),
           publicUrl: S.optional(S.String),
           banditScheduleValue: S.optional(S.Number),
@@ -48980,33 +49145,33 @@ function __c490(j: number): any {
           banditBurnInUnit: S.optional(S.String),
           banditConversionWindowValue: S.optional(S.Number),
           banditConversionWindowUnit: S.optional(S.String),
-          linkedFeatures: S.optional(__S(5216, __c163, 0)),
+          linkedFeatures: S.optional(__S(0, __c0, 0)),
           attributeScopeAllProjects: S.optional(S.Boolean),
           hasVisualChangesets: S.optional(S.Boolean),
           hasURLRedirects: S.optional(S.Boolean),
-          customFields: S.optional(__S(18304, __c572, 0)),
-          customMetricSlices: S.optional(__S(451, __c14, 3)),
-          precomputedUnitDimensionIds: S.optional(__S(5216, __c163, 0)),
+          customFields: S.optional(__S(18368, __c574, 0)),
+          customMetricSlices: S.optional(__S(547, __c17, 3)),
+          precomputedUnitDimensionIds: S.optional(__S(0, __c0, 0)),
           defaultDashboardId: S.optional(S.String),
           templateId: S.optional(S.String),
-          statusUpdateSchedule: S.optional(S.NullOr(__S(15523, __c485, 3))),
-          nextScheduledStatusUpdate: S.optional(S.NullOr(__S(15552, __c486, 0))),
-          enhancedStatus: S.optional(__S(15680, __c490, 0)),
+          statusUpdateSchedule: S.optional(S.NullOr(__S(15587, __c487, 3))),
+          nextScheduledStatusUpdate: S.optional(S.NullOr(__S(15616, __c488, 0))),
+          enhancedStatus: S.optional(__S(15744, __c492, 0)),
         }),
       ).annotate({ identifier: "ExperimentWithEnhancedStatus" });
   }
 }
-function __c491(j: number): any {
+function __c493(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          experiment: __S(15681, __c490, 1),
+          experiment: __S(15745, __c492, 1),
         }),
       ).annotate({ identifier: "CreateExperimentArchiveResponse" });
   }
 }
-function __c492(j: number): any {
+function __c494(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49017,7 +49182,7 @@ function __c492(j: number): any {
       ).annotate({ identifier: "CreateExperimentCommentRequest" });
   }
 }
-function __c493(j: number): any {
+function __c495(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49036,7 +49201,7 @@ function __c493(j: number): any {
       ).annotate({ identifier: "CreateExperimentModifyTemporaryRolloutRequest" });
   }
 }
-function __c494(j: number): any {
+function __c496(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49049,7 +49214,7 @@ function __c494(j: number): any {
       ).annotate({ identifier: "CreateExperimentSnapshotRequest" });
   }
 }
-function __c495(j: number): any {
+function __c497(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49062,12 +49227,12 @@ function __c495(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          snapshot: __S(15840, __c495, 0),
+          snapshot: __S(15904, __c497, 0),
         }),
       ).annotate({ identifier: "CreateExperimentSnapshotResponse" });
   }
 }
-function __c496(j: number): any {
+function __c498(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49081,15 +49246,15 @@ function __c496(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          experiment: __S(15681, __c490, 1),
+          experiment: __S(15745, __c492, 1),
           message: S.optional(S.String),
-          bypassedGates: S.optional(__S(15905, __c497, 1)),
-          publishedFeatureDrafts: S.optional(__S(15907, __c497, 3)),
+          bypassedGates: S.optional(__S(15969, __c499, 1)),
+          publishedFeatureDrafts: S.optional(__S(15971, __c499, 3)),
         }),
       ).annotate({ identifier: "CreateExperimentStartResponse" });
   }
 }
-function __c497(j: number): any {
+function __c499(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49101,7 +49266,7 @@ function __c497(j: number): any {
         }),
       ).annotate({ identifier: "CreateExperimentStartResponseBypassedGatesItem" });
     case 1:
-      return S.Array(__S(15904, __c497, 0));
+      return S.Array(__S(15968, __c499, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -49110,16 +49275,16 @@ function __c497(j: number): any {
         }),
       ).annotate({ identifier: "PublishedFeatureDrafts" });
     case 3:
-      return S.Array(__S(15906, __c497, 2));
+      return S.Array(__S(15970, __c499, 2));
   }
 }
-function __c498(j: number): any {
+function __c500(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          keys: __S(5216, __c163, 0),
+          keys: __S(0, __c0, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -49130,7 +49295,7 @@ function __c498(j: number): any {
       ).annotate({ identifier: "CreateExperimentStartChecklistManualCompleteRequest" });
   }
 }
-function __c499(j: number): any {
+function __c501(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49145,7 +49310,7 @@ function __c499(j: number): any {
         }),
       ).annotate({ identifier: "ChecklistItems" });
     case 1:
-      return S.Array(__S(15968, __c499, 0));
+      return S.Array(__S(16032, __c501, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -49153,25 +49318,25 @@ function __c499(j: number): any {
           type: S.String,
           featureId: S.optional(S.String),
           severity: S.String,
-          messages: __S(5216, __c163, 0),
+          messages: __S(0, __c0, 0),
           override: S.NullOr(S.String),
           requiresPermission: S.NullOr(S.String),
-          resolution: S.NullOr(__S(16000, __c500, 0)),
+          resolution: S.NullOr(__S(16064, __c502, 0)),
         }),
       ).annotate({ identifier: "Gates" });
     case 3:
-      return S.Array(__S(15970, __c499, 2));
+      return S.Array(__S(16034, __c501, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          checklistItems: __S(15969, __c499, 1),
+          checklistItems: __S(16033, __c501, 1),
           status: S.String,
-          gates: __S(15971, __c499, 3),
+          gates: __S(16035, __c501, 3),
         }),
       ).annotate({ identifier: "CreateExperimentStartChecklistManualCompleteResponse" });
   }
 }
-function __c500(j: number): any {
+function __c502(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49183,7 +49348,7 @@ function __c500(j: number): any {
       ).annotate({ identifier: "GatesResolution" });
   }
 }
-function __c501(j: number): any {
+function __c503(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49201,40 +49366,40 @@ function __c501(j: number): any {
       ).annotate({ identifier: "CreateExperimentStopRequest" });
   }
 }
-function __c502(j: number): any {
+function __c504(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project: S.optional(S.String),
-          templateMetadata: __S(512, __c16, 0),
+          templateMetadata: __S(608, __c19, 0),
           type: S.String,
           hypothesis: S.optional(S.String),
           description: S.optional(S.String),
-          tags: S.optional(__S(5216, __c163, 0)),
-          customFields: S.optional(__S(18816, __c588, 0)),
+          tags: S.optional(__S(0, __c0, 0)),
+          customFields: S.optional(__S(18880, __c590, 0)),
           datasource: S.String,
-          exposureQuery: S.optional(__S(480, __c15, 0)),
+          exposureQuery: S.optional(__S(576, __c18, 0)),
           exposureQueryId: S.optional(S.String),
           isClusterExperiment: S.optional(S.Boolean),
           clusterSubUnitIdentifier: S.optional(S.String),
           hashAttribute: S.optional(S.String),
           fallbackAttribute: S.optional(S.String),
           disableStickyBucketing: S.optional(S.Boolean),
-          goalMetrics: S.optional(__S(5216, __c163, 0)),
-          secondaryMetrics: S.optional(__S(5216, __c163, 0)),
-          guardrailMetrics: S.optional(__S(5216, __c163, 0)),
+          goalMetrics: S.optional(__S(0, __c0, 0)),
+          secondaryMetrics: S.optional(__S(0, __c0, 0)),
+          guardrailMetrics: S.optional(__S(0, __c0, 0)),
           activationMetric: S.optional(S.String),
           statsEngine: S.String,
           segment: S.optional(S.String),
           skipPartialData: S.optional(S.Boolean),
-          targeting: __S(513, __c16, 1),
-          customMetricSlices: S.optional(__S(451, __c14, 3)),
+          targeting: __S(609, __c19, 1),
+          customMetricSlices: S.optional(__S(547, __c17, 3)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/experiment-templates", code: 200 })),
       ).annotate({ identifier: "CreateExperimentTemplateRequest" });
   }
 }
-function __c503(j: number): any {
+function __c505(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49245,44 +49410,44 @@ function __c503(j: number): any {
           project: S.optional(S.String),
           owner: S.String,
           ownerEmail: S.optional(S.String),
-          templateMetadata: __S(512, __c16, 0),
+          templateMetadata: __S(608, __c19, 0),
           type: S.String,
           hypothesis: S.optional(S.String),
           description: S.optional(S.String),
-          tags: S.optional(__S(5216, __c163, 0)),
-          customFields: S.optional(__S(18816, __c588, 0)),
+          tags: S.optional(__S(0, __c0, 0)),
+          customFields: S.optional(__S(18880, __c590, 0)),
           datasource: S.String,
-          exposureQuery: __S(9600, __c300, 0),
+          exposureQuery: __S(9664, __c302, 0),
           exposureQueryId: S.String,
           isClusterExperiment: S.optional(S.Boolean),
           clusterSubUnitIdentifier: S.optional(S.String),
           hashAttribute: S.optional(S.String),
           fallbackAttribute: S.optional(S.String),
           disableStickyBucketing: S.optional(S.Boolean),
-          goalMetrics: S.optional(__S(5216, __c163, 0)),
-          secondaryMetrics: S.optional(__S(5216, __c163, 0)),
-          guardrailMetrics: S.optional(__S(5216, __c163, 0)),
+          goalMetrics: S.optional(__S(0, __c0, 0)),
+          secondaryMetrics: S.optional(__S(0, __c0, 0)),
+          guardrailMetrics: S.optional(__S(0, __c0, 0)),
           activationMetric: S.optional(S.String),
           statsEngine: S.String,
           segment: S.optional(S.String),
           skipPartialData: S.optional(S.Boolean),
-          targeting: __S(513, __c16, 1),
-          customMetricSlices: S.optional(__S(451, __c14, 3)),
+          targeting: __S(609, __c19, 1),
+          customMetricSlices: S.optional(__S(547, __c17, 3)),
         }),
       ).annotate({ identifier: "ExperimentTemplate" });
   }
 }
-function __c504(j: number): any {
+function __c506(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          experimentTemplate: __S(16096, __c503, 0),
+          experimentTemplate: __S(16160, __c505, 0),
         }),
       ).annotate({ identifier: "CreateExperimentTemplateResponse" });
   }
 }
-function __c505(j: number): any {
+function __c507(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49292,7 +49457,7 @@ function __c505(j: number): any {
       ).annotate({ identifier: "CreateExperimentUnarchiveRequest" });
   }
 }
-function __c506(j: number): any {
+function __c508(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49300,25 +49465,25 @@ function __c506(j: number): any {
           name: S.String,
           description: S.optional(S.String),
           owner: S.optional(S.String),
-          projects: S.optional(__S(5216, __c163, 0)),
-          tags: S.optional(__S(5216, __c163, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
+          tags: S.optional(__S(0, __c0, 0)),
           datasource: S.String,
-          userIdTypes: __S(5216, __c163, 0),
-          userIdColumns: S.optional(__S(18816, __c588, 0)),
-          aggregatedFactTableSettings: S.optional(__S(3585, __c112, 1)),
+          userIdTypes: __S(0, __c0, 0),
+          userIdColumns: S.optional(__S(18880, __c590, 0)),
+          aggregatedFactTableSettings: S.optional(__S(3681, __c115, 1)),
           sql: S.String,
           timestampColumn: S.optional(S.String),
           eventName: S.optional(S.String),
-          columns: S.optional(__S(3617, __c113, 1)),
+          columns: S.optional(__S(3713, __c116, 1)),
           managedBy: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/v1/fact-tables", code: 200 })),
       ).annotate({ identifier: "CreateFactTableRequest" });
   }
 }
-function __c507(j: number): any {
+function __c509(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(16288, __c509, 0));
+      return S.Array(__S(16352, __c511, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -49327,16 +49492,16 @@ function __c507(j: number): any {
           description: S.String,
           owner: S.String,
           ownerEmail: S.optional(S.String),
-          projects: __S(5216, __c163, 0),
-          tags: __S(5216, __c163, 0),
+          projects: __S(0, __c0, 0),
+          tags: __S(0, __c0, 0),
           datasource: S.String,
-          userIdTypes: __S(5216, __c163, 0),
-          userIdColumns: S.optional(__S(18816, __c588, 0)),
-          aggregatedFactTableSettings: S.optional(__S(3585, __c112, 1)),
+          userIdTypes: __S(0, __c0, 0),
+          userIdColumns: S.optional(__S(18880, __c590, 0)),
+          aggregatedFactTableSettings: S.optional(__S(3681, __c115, 1)),
           sql: S.String,
           timestampColumn: S.optional(S.String),
           eventName: S.optional(S.String),
-          columns: S.optional(__S(16224, __c507, 0)),
+          columns: S.optional(__S(16288, __c509, 0)),
           columnsError: S.optional(S.NullOr(S.String)),
           columnRefreshPending: S.optional(S.Boolean),
           archived: S.optional(S.Boolean),
@@ -49348,17 +49513,17 @@ function __c507(j: number): any {
       ).annotate({ identifier: "FactTable" });
   }
 }
-function __c508(j: number): any {
+function __c510(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          factTable: __S(16225, __c507, 1),
+          factTable: __S(16289, __c509, 1),
         }),
       ).annotate({ identifier: "CreateFactTableResponse" });
   }
 }
-function __c509(j: number): any {
+function __c511(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49367,18 +49532,18 @@ function __c509(j: number): any {
           datatype: S.String,
           dataTypeFromWarehouse: S.optional(S.String),
           numberFormat: S.optional(S.String),
-          jsonFields: S.optional(__S(3649, __c114, 1)),
+          jsonFields: S.optional(__S(3745, __c117, 1)),
           name: S.optional(S.String),
           description: S.optional(S.String),
           alwaysInlineFilter: S.optional(S.Boolean),
-          conditionalInlineFilters: S.optional(__S(18816, __c588, 0)),
+          conditionalInlineFilters: S.optional(__S(18880, __c590, 0)),
           deleted: S.optional(S.Boolean),
           isAutoSliceColumn: S.optional(S.Boolean),
-          autoSlices: S.optional(__S(5216, __c163, 0)),
-          lockedAutoSlices: S.optional(__S(5216, __c163, 0)),
+          autoSlices: S.optional(__S(0, __c0, 0)),
+          lockedAutoSlices: S.optional(__S(0, __c0, 0)),
           isVirtual: S.optional(S.Boolean),
           sql: S.optional(S.String),
-          topValues: S.optional(__S(5216, __c163, 0)),
+          topValues: S.optional(__S(0, __c0, 0)),
           topValuesDate: S.optional(S.String),
           dateCreated: S.optional(S.String),
           dateUpdated: S.optional(S.String),
@@ -49386,7 +49551,7 @@ function __c509(j: number): any {
       ).annotate({ identifier: "FactTableColumn" });
   }
 }
-function __c510(j: number): any {
+function __c512(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49411,9 +49576,9 @@ function __c510(j: number): any {
           source: S.String,
           agent: S.NullOr(S.String),
           createdBy: S.NullOr(S.String),
-          metadata: __S(16321, __c510, 1),
-          artifacts: __S(16353, __c511, 1),
-          checks: __S(16355, __c511, 3),
+          metadata: __S(16385, __c512, 1),
+          artifacts: __S(16417, __c513, 1),
+          checks: __S(16419, __c513, 3),
           outcome: S.NullOr(S.String),
           failureReason: S.NullOr(S.String),
           dateCompleted: S.NullOr(S.String),
@@ -49422,7 +49587,7 @@ function __c510(j: number): any {
       ).annotate({ identifier: "AppendAutoRunArtifactResponse" });
   }
 }
-function __c511(j: number): any {
+function __c513(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49438,7 +49603,7 @@ function __c511(j: number): any {
         }),
       ).annotate({ identifier: "Artifacts" });
     case 1:
-      return S.Array(__S(16352, __c511, 0));
+      return S.Array(__S(16416, __c513, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -49448,10 +49613,10 @@ function __c511(j: number): any {
         }),
       ).annotate({ identifier: "Checks" });
     case 3:
-      return S.Array(__S(16354, __c511, 2));
+      return S.Array(__S(16418, __c513, 2));
   }
 }
-function __c512(j: number): any {
+function __c514(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49467,7 +49632,7 @@ function __c512(j: number): any {
       ).annotate({ identifier: "CreateFactTableFilterRequest" });
   }
 }
-function __c513(j: number): any {
+function __c515(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49483,17 +49648,17 @@ function __c513(j: number): any {
       ).annotate({ identifier: "FactTableFilter" });
   }
 }
-function __c514(j: number): any {
+function __c516(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          factTableFilter: __S(16416, __c513, 0),
+          factTableFilter: __S(16480, __c515, 0),
         }),
       ).annotate({ identifier: "CreateFactTableFilterResponse" });
   }
 }
-function __c515(j: number): any {
+function __c517(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49515,44 +49680,44 @@ function __c515(j: number): any {
       ).annotate({ identifier: "CreateFactTableVirtualColumnRequest" });
   }
 }
-function __c516(j: number): any {
+function __c518(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          factTableColumn: __S(16288, __c509, 0),
+          factTableColumn: __S(16352, __c511, 0),
         }),
       ).annotate({ identifier: "CreateFactTableVirtualColumnResponse" });
   }
 }
-function __c517(j: number): any {
+function __c519(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           description: S.optional(S.String),
-          projects: S.optional(__S(5216, __c163, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
           owner: S.optional(S.String),
-          tags: S.optional(__S(5216, __c163, 0)),
+          tags: S.optional(__S(0, __c0, 0)),
           skipAsDefaultHoldout: S.optional(S.Boolean),
           holdoutSize: S.optional(S.Number),
           hashAttribute: S.optional(S.String),
           targetingCondition: S.optional(S.String),
-          savedGroupTargeting: S.optional(__S(9537, __c298, 1)),
+          savedGroupTargeting: S.optional(__S(9601, __c300, 1)),
           datasourceId: S.optional(S.String),
-          assignmentQuery: S.optional(__S(480, __c15, 0)),
+          assignmentQuery: S.optional(__S(576, __c18, 0)),
           assignmentQueryId: S.optional(S.String),
-          goalMetrics: S.optional(__S(5216, __c163, 0)),
-          secondaryMetrics: S.optional(__S(5216, __c163, 0)),
+          goalMetrics: S.optional(__S(0, __c0, 0)),
+          secondaryMetrics: S.optional(__S(0, __c0, 0)),
           statsEngine: S.optional(S.String),
-          environments: S.optional(__S(16641, __c520, 1)),
-          statusUpdateSchedule: S.optional(__S(16576, __c518, 0)),
+          environments: S.optional(__S(16705, __c522, 1)),
+          statusUpdateSchedule: S.optional(__S(16640, __c520, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/holdouts", code: 200 })),
       ).annotate({ identifier: "CreateHoldoutRequest" });
   }
 }
-function __c518(j: number): any {
+function __c520(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49572,7 +49737,7 @@ function __c518(j: number): any {
         }),
       ).annotate({ identifier: "HoldoutVariationsItem" });
     case 2:
-      return S.Array(__S(16577, __c518, 1));
+      return S.Array(__S(16641, __c520, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -49581,7 +49746,7 @@ function __c518(j: number): any {
         }),
       ).annotate({ identifier: "HoldoutLinkedFeaturesItem" });
     case 4:
-      return S.Array(__S(16579, __c518, 3));
+      return S.Array(__S(16643, __c520, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -49590,10 +49755,10 @@ function __c518(j: number): any {
           dateUpdated: S.String,
           name: S.String,
           description: S.String,
-          projects: __S(5216, __c163, 0),
+          projects: __S(0, __c0, 0),
           owner: S.String,
           ownerEmail: S.optional(S.String),
-          tags: __S(5216, __c163, 0),
+          tags: __S(0, __c0, 0),
           archived: S.Boolean,
           stage: S.String,
           trackingKey: S.String,
@@ -49602,37 +49767,37 @@ function __c518(j: number): any {
           holdoutSize: S.Number,
           hashAttribute: S.String,
           targetingCondition: S.String,
-          savedGroupTargeting: S.optional(__S(9537, __c298, 1)),
+          savedGroupTargeting: S.optional(__S(9601, __c300, 1)),
           datasourceId: S.String,
-          assignmentQuery: __S(9600, __c300, 0),
+          assignmentQuery: __S(9664, __c302, 0),
           assignmentQueryId: S.String,
-          goalMetrics: __S(5216, __c163, 0),
-          secondaryMetrics: __S(5216, __c163, 0),
+          goalMetrics: __S(0, __c0, 0),
+          secondaryMetrics: __S(0, __c0, 0),
           statsEngine: S.optional(S.String),
-          variations: __S(16578, __c518, 2),
-          environments: __S(16641, __c520, 1),
-          linkedFeatures: __S(16580, __c518, 4),
-          linkedExperiments: __S(16580, __c518, 4),
+          variations: __S(16642, __c520, 2),
+          environments: __S(16705, __c522, 1),
+          linkedFeatures: __S(16644, __c520, 4),
+          linkedExperiments: __S(16644, __c520, 4),
           dateStarted: S.optional(S.String),
           analysisStartDate: S.optional(S.String),
           dateStopped: S.optional(S.String),
-          statusUpdateSchedule: S.optional(S.NullOr(__S(16576, __c518, 0))),
-          nextScheduledStatusUpdate: S.optional(S.NullOr(__S(15552, __c486, 0))),
+          statusUpdateSchedule: S.optional(S.NullOr(__S(16640, __c520, 0))),
+          nextScheduledStatusUpdate: S.optional(S.NullOr(__S(15616, __c488, 0))),
         }),
       ).annotate({ identifier: "Holdout" });
   }
 }
-function __c519(j: number): any {
+function __c521(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          holdout: __S(16581, __c518, 5),
+          holdout: __S(16645, __c520, 5),
         }),
       ).annotate({ identifier: "CreateHoldoutResponse" });
   }
 }
-function __c520(j: number): any {
+function __c522(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49641,10 +49806,10 @@ function __c520(j: number): any {
         }),
       ).annotate({ identifier: "CreateHoldoutRequestEnvironmentsValue" });
     case 1:
-      return S.Record(S.String, __S(16640, __c520, 0));
+      return S.Record(S.String, __S(16704, __c522, 0));
   }
 }
-function __c521(j: number): any {
+function __c523(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -49652,11 +49817,11 @@ function __c521(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          analyses: __S(16672, __c521, 0),
+          analyses: __S(16736, __c523, 0),
         }),
       ).annotate({ identifier: "CreateInterleavingRequestMetricsItem" });
     case 2:
-      return S.Array(__S(16673, __c521, 1));
+      return S.Array(__S(16737, __c523, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -49664,26 +49829,26 @@ function __c521(j: number): any {
           description: S.optional(S.String),
           project: S.optional(S.String),
           owner: S.optional(S.String),
-          tags: S.optional(__S(5216, __c163, 0)),
+          tags: S.optional(__S(0, __c0, 0)),
           key: S.String,
           trackingKey: S.optional(S.String),
           hashAttribute: S.optional(S.String),
-          variations: __S(16833, __c526, 1),
-          jsonSchema: S.optional(__S(16800, __c525, 0)),
+          variations: __S(16897, __c528, 1),
+          jsonSchema: S.optional(__S(16864, __c527, 0)),
           datasourceId: S.optional(S.String),
           interleavingExposureQueryId: S.optional(S.String),
           userIdType: S.optional(S.String),
-          metrics: S.optional(__S(16674, __c521, 2)),
+          metrics: S.optional(__S(16738, __c523, 2)),
           coverage: S.optional(S.Number),
           condition: S.optional(S.String),
-          savedGroups: S.optional(__S(9537, __c298, 1)),
-          prerequisites: S.optional(__S(9505, __c297, 1)),
-          environmentSettings: S.optional(__S(16641, __c520, 1)),
+          savedGroups: S.optional(__S(9601, __c300, 1)),
+          prerequisites: S.optional(__S(9569, __c299, 1)),
+          environmentSettings: S.optional(__S(16705, __c522, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/interleavings", code: 200 })),
       ).annotate({ identifier: "CreateInterleavingRequest" });
   }
 }
-function __c522(j: number): any {
+function __c524(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49693,7 +49858,7 @@ function __c522(j: number): any {
           required: S.Boolean,
           default: S.String,
           description: S.String,
-          enum: __S(5216, __c163, 0),
+          enum: __S(0, __c0, 0),
           min: S.optional(S.Number),
           max: S.optional(S.Number),
           nullable: S.optional(S.Boolean),
@@ -49701,7 +49866,7 @@ function __c522(j: number): any {
         }),
       ).annotate({ identifier: "CreateInterleavingRequestJsonSchemaSimpleFieldsItem" });
     case 1:
-      return S.Array(__S(16704, __c522, 0));
+      return S.Array(__S(16768, __c524, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -49711,19 +49876,19 @@ function __c522(j: number): any {
         }),
       ).annotate({ identifier: "CreateInterleavingRequestJsonSchemaSimpleInvariantsItem" });
     case 3:
-      return S.Array(__S(16706, __c522, 2));
+      return S.Array(__S(16770, __c524, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          fields: __S(16705, __c522, 1),
+          fields: __S(16769, __c524, 1),
           additionalProperties: S.optional(S.Boolean),
-          invariants: S.optional(__S(16707, __c522, 3)),
+          invariants: S.optional(__S(16771, __c524, 3)),
         }),
       ).annotate({ identifier: "CreateInterleavingRequestJsonSchemaSimple" });
   }
 }
-function __c523(j: number): any {
+function __c525(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49738,8 +49903,8 @@ function __c523(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          control: __S(16736, __c523, 0),
-          treatment: __S(16736, __c523, 0),
+          control: __S(16800, __c525, 0),
+          treatment: __S(16800, __c525, 0),
         }),
       ).annotate({ identifier: "InterleavingVariations" });
     case 2:
@@ -49747,7 +49912,7 @@ function __c523(j: number): any {
         S.Struct({
           schemaType: S.String,
           schema: S.String,
-          simple: __S(16708, __c522, 4),
+          simple: __S(16772, __c524, 4),
           enabled: S.Boolean,
           date: S.String,
         }),
@@ -49758,11 +49923,11 @@ function __c523(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          analyses: __S(16739, __c523, 3),
+          analyses: __S(16803, __c525, 3),
         }),
       ).annotate({ identifier: "InterleavingMetricsItem" });
     case 5:
-      return S.Array(__S(16740, __c523, 4));
+      return S.Array(__S(16804, __c525, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -49774,7 +49939,7 @@ function __c523(j: number): any {
           project: S.optional(S.String),
           owner: S.String,
           ownerEmail: S.optional(S.String),
-          tags: __S(5216, __c163, 0),
+          tags: __S(0, __c0, 0),
           archived: S.Boolean,
           status: S.String,
           dateStarted: S.optional(S.String),
@@ -49783,47 +49948,47 @@ function __c523(j: number): any {
           trackingKey: S.String,
           hashAttribute: S.String,
           seed: S.String,
-          variations: __S(16737, __c523, 1),
-          jsonSchema: S.NullOr(__S(16738, __c523, 2)),
+          variations: __S(16801, __c525, 1),
+          jsonSchema: S.NullOr(__S(16802, __c525, 2)),
           datasourceId: S.String,
           interleavingExposureQueryId: S.String,
           userIdType: S.String,
-          metrics: __S(16741, __c523, 5),
+          metrics: __S(16805, __c525, 5),
           coverage: S.optional(S.Number),
           condition: S.optional(S.String),
-          savedGroups: S.optional(__S(9537, __c298, 1)),
-          prerequisites: S.optional(__S(9505, __c297, 1)),
-          environmentSettings: __S(16641, __c520, 1),
+          savedGroups: S.optional(__S(9601, __c300, 1)),
+          prerequisites: S.optional(__S(9569, __c299, 1)),
+          environmentSettings: __S(16705, __c522, 1),
           autoSnapshots: S.optional(S.Boolean),
           nextSnapshotAttempt: S.optional(S.String),
         }),
       ).annotate({ identifier: "Interleaving" });
   }
 }
-function __c524(j: number): any {
+function __c526(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          interleaving: __S(16742, __c523, 6),
+          interleaving: __S(16806, __c525, 6),
         }),
       ).annotate({ identifier: "CreateInterleavingResponse" });
   }
 }
-function __c525(j: number): any {
+function __c527(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           schemaType: S.String,
           schema: S.String,
-          simple: __S(16708, __c522, 4),
+          simple: __S(16772, __c524, 4),
           enabled: S.Boolean,
         }),
       ).annotate({ identifier: "CreateInterleavingRequestJsonSchema" });
   }
 }
-function __c526(j: number): any {
+function __c528(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49837,44 +50002,10 @@ function __c526(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          control: __S(16832, __c526, 0),
-          treatment: __S(16832, __c526, 0),
+          control: __S(16896, __c528, 0),
+          treatment: __S(16896, __c528, 0),
         }),
       ).annotate({ identifier: "CreateInterleavingRequestVariations" });
-  }
-}
-function __c527(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          owner: S.optional(S.String),
-          datasourceId: S.String,
-          name: S.String,
-          description: S.optional(S.String),
-          userIdTypes: __S(5216, __c163, 0),
-          query: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/v1/interleaving-exposure-queries", code: 200 })),
-      ).annotate({ identifier: "CreateInterleavingExposureQueryRequest" });
-  }
-}
-function __c528(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          dateCreated: S.String,
-          dateUpdated: S.String,
-          owner: S.String,
-          ownerEmail: S.optional(S.String),
-          datasourceId: S.String,
-          name: S.String,
-          description: S.optional(S.String),
-          userIdTypes: __S(5216, __c163, 0),
-          query: S.String,
-        }),
-      ).annotate({ identifier: "InterleavingExposureQuery" });
   }
 }
 function __c529(j: number): any {
@@ -49882,9 +50013,14 @@ function __c529(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          interleavingExposureQuery: __S(16896, __c528, 0),
-        }),
-      ).annotate({ identifier: "CreateInterleavingExposureQueryResponse" });
+          owner: S.optional(S.String),
+          datasourceId: S.String,
+          name: S.String,
+          description: S.optional(S.String),
+          userIdTypes: __S(0, __c0, 0),
+          query: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/v1/interleaving-exposure-queries", code: 200 })),
+      ).annotate({ identifier: "CreateInterleavingExposureQueryRequest" });
   }
 }
 function __c530(j: number): any {
@@ -49892,16 +50028,18 @@ function __c530(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          title: S.String,
-          text: S.optional(S.String),
-          tags: S.optional(__S(5216, __c163, 0)),
-          supportingExperimentIds: S.optional(__S(5216, __c163, 0)),
-          contradictingExperimentIds: S.optional(__S(5216, __c163, 0)),
-          projects: S.optional(__S(5216, __c163, 0)),
-          status: S.optional(S.String),
-          owner: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/learnings", code: 200 })),
-      ).annotate({ identifier: "CreateLearningRequest" });
+          id: S.String,
+          dateCreated: S.String,
+          dateUpdated: S.String,
+          owner: S.String,
+          ownerEmail: S.optional(S.String),
+          datasourceId: S.String,
+          name: S.String,
+          description: S.optional(S.String),
+          userIdTypes: __S(0, __c0, 0),
+          query: S.String,
+        }),
+      ).annotate({ identifier: "InterleavingExposureQuery" });
   }
 }
 function __c531(j: number): any {
@@ -49909,22 +50047,9 @@ function __c531(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.String,
-          dateCreated: S.String,
-          dateUpdated: S.String,
-          owner: S.String,
-          ownerEmail: S.optional(S.String),
-          authors: __S(5216, __c163, 0),
-          title: S.String,
-          text: S.String,
-          tags: __S(5216, __c163, 0),
-          supportingExperimentIds: __S(5216, __c163, 0),
-          contradictingExperimentIds: __S(5216, __c163, 0),
-          projects: __S(5216, __c163, 0),
-          status: S.String,
-          source: S.String,
+          interleavingExposureQuery: __S(16960, __c530, 0),
         }),
-      ).annotate({ identifier: "Learning" });
+      ).annotate({ identifier: "CreateInterleavingExposureQueryResponse" });
   }
 }
 function __c532(j: number): any {
@@ -49932,9 +50057,16 @@ function __c532(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          learning: __S(16992, __c531, 0),
-        }),
-      ).annotate({ identifier: "CreateLearningResponse" });
+          title: S.String,
+          text: S.optional(S.String),
+          tags: S.optional(__S(0, __c0, 0)),
+          supportingExperimentIds: S.optional(__S(0, __c0, 0)),
+          contradictingExperimentIds: S.optional(__S(0, __c0, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
+          status: S.optional(S.String),
+          owner: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/learnings", code: 200 })),
+      ).annotate({ identifier: "CreateLearningRequest" });
   }
 }
 function __c533(j: number): any {
@@ -49942,11 +50074,44 @@ function __c533(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          id: S.String,
+          dateCreated: S.String,
+          dateUpdated: S.String,
+          owner: S.String,
+          ownerEmail: S.optional(S.String),
+          authors: __S(0, __c0, 0),
+          title: S.String,
+          text: S.String,
+          tags: __S(0, __c0, 0),
+          supportingExperimentIds: __S(0, __c0, 0),
+          contradictingExperimentIds: __S(0, __c0, 0),
+          projects: __S(0, __c0, 0),
+          status: S.String,
+          source: S.String,
+        }),
+      ).annotate({ identifier: "Learning" });
+  }
+}
+function __c534(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          learning: __S(17056, __c533, 0),
+        }),
+      ).annotate({ identifier: "CreateLearningResponse" });
+  }
+}
+function __c535(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           name: S.String,
           description: S.String,
-          tags: S.optional(__S(5216, __c163, 0)),
-          projects: __S(5216, __c163, 0),
-          metrics: __S(5216, __c163, 0),
+          tags: S.optional(__S(0, __c0, 0)),
+          projects: __S(0, __c0, 0),
+          metrics: __S(0, __c0, 0),
           datasource: S.String,
           owner: S.optional(S.String),
           archived: S.optional(S.Boolean),
@@ -49954,7 +50119,7 @@ function __c533(j: number): any {
       ).annotate({ identifier: "CreateMetricGroupRequest" });
   }
 }
-function __c534(j: number): any {
+function __c536(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49966,26 +50131,26 @@ function __c534(j: number): any {
           ownerEmail: S.optional(S.String),
           name: S.String,
           description: S.String,
-          tags: __S(5216, __c163, 0),
-          projects: __S(5216, __c163, 0),
-          metrics: __S(5216, __c163, 0),
+          tags: __S(0, __c0, 0),
+          projects: __S(0, __c0, 0),
+          metrics: __S(0, __c0, 0),
           datasource: S.String,
           archived: S.Boolean,
         }),
       ).annotate({ identifier: "MetricGroup" });
   }
 }
-function __c535(j: number): any {
+function __c537(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metricGroup: __S(17088, __c534, 0),
+          metricGroup: __S(17152, __c536, 0),
         }),
       ).annotate({ identifier: "CreateMetricGroupResponse" });
   }
 }
-function __c536(j: number): any {
+function __c538(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49999,7 +50164,7 @@ function __c536(j: number): any {
       ).annotate({ identifier: "CreateNamespaceRequest" });
   }
 }
-function __c537(j: number): any {
+function __c539(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50015,17 +50180,17 @@ function __c537(j: number): any {
       ).annotate({ identifier: "Namespace" });
   }
 }
-function __c538(j: number): any {
+function __c540(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          namespace: __S(17184, __c537, 0),
+          namespace: __S(17248, __c539, 0),
         }),
       ).annotate({ identifier: "CreateNamespaceResponse" });
   }
 }
-function __c539(j: number): any {
+function __c541(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50036,7 +50201,7 @@ function __c539(j: number): any {
       ).annotate({ identifier: "CreateNamespaceRotateSeedRequest" });
   }
 }
-function __c540(j: number): any {
+function __c542(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50047,7 +50212,7 @@ function __c540(j: number): any {
       ).annotate({ identifier: "CreateOrganizationRequest" });
   }
 }
-function __c541(j: number): any {
+function __c543(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50061,17 +50226,17 @@ function __c541(j: number): any {
       ).annotate({ identifier: "Organization" });
   }
 }
-function __c542(j: number): any {
+function __c544(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          organization: __S(17312, __c541, 0),
+          organization: __S(17376, __c543, 0),
         }),
       ).annotate({ identifier: "CreateOrganizationResponse" });
   }
 }
-function __c543(j: number): any {
+function __c545(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50087,7 +50252,7 @@ function __c543(j: number): any {
       ).annotate({ identifier: "ApproveStepRampScheduleRequest" });
   }
 }
-function __c544(j: number): any {
+function __c546(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50095,32 +50260,32 @@ function __c544(j: number): any {
           name: S.String,
           description: S.optional(S.String),
           owner: S.optional(S.String),
-          projects: S.optional(__S(5216, __c163, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
           datasource: S.String,
-          userIdTypes: __S(5216, __c163, 0),
-          steps: __S(17569, __c549, 1),
+          userIdTypes: __S(0, __c0, 0),
+          steps: __S(17633, __c551, 1),
         }).pipe(T.Http({ method: "POST", uri: "/v1/populations", code: 200 })),
       ).annotate({ identifier: "CreatePopulationRequest" });
   }
 }
-function __c545(j: number): any {
+function __c547(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           operator: S.String,
           column: S.optional(S.String),
-          values: S.optional(__S(5216, __c163, 0)),
+          values: S.optional(__S(0, __c0, 0)),
         }),
       ).annotate({
         identifier:
           "CreateDashboardV2RequestBlocksItemCase12ConfigDimensionsItemCase3SlicesItemFiltersItem",
       });
     case 1:
-      return S.Array(__S(17440, __c545, 0));
+      return S.Array(__S(17504, __c547, 0));
   }
 }
-function __c546(j: number): any {
+function __c548(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50131,63 +50296,63 @@ function __c546(j: number): any {
       ).annotate({ identifier: "ExplorationPopulationSource" });
   }
 }
-function __c547(j: number): any {
+function __c549(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          source: __S(17472, __c546, 0),
-          rowFilters: __S(17441, __c545, 1),
+          source: __S(17536, __c548, 0),
+          rowFilters: __S(17505, __c547, 1),
           aggregateFilter: S.optional(S.String),
           aggregateFilterColumn: S.optional(S.String),
         }),
       ).annotate({ identifier: "PopulationStepsItem" });
     case 1:
-      return S.Array(__S(17504, __c547, 0));
+      return S.Array(__S(17568, __c549, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           dateCreated: S.String,
           dateUpdated: S.String,
-          projects: __S(5216, __c163, 0),
+          projects: __S(0, __c0, 0),
           owner: S.String,
           ownerEmail: S.optional(S.String),
           name: S.String,
           description: S.String,
           datasource: S.String,
-          userIdTypes: __S(5216, __c163, 0),
-          steps: __S(17505, __c547, 1),
+          userIdTypes: __S(0, __c0, 0),
+          steps: __S(17569, __c549, 1),
         }),
       ).annotate({ identifier: "Population" });
   }
 }
-function __c548(j: number): any {
+function __c550(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          population: __S(17506, __c547, 2),
+          population: __S(17570, __c549, 2),
         }),
       ).annotate({ identifier: "CreatePopulationResponse" });
   }
 }
-function __c549(j: number): any {
+function __c551(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          source: __S(17472, __c546, 0),
-          rowFilters: S.optional(__S(17441, __c545, 1)),
+          source: __S(17536, __c548, 0),
+          rowFilters: S.optional(__S(17505, __c547, 1)),
           aggregateFilter: S.optional(S.String),
           aggregateFilterColumn: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreatePopulationRequestStepsItem" });
     case 1:
-      return S.Array(__S(17568, __c549, 0));
+      return S.Array(__S(17632, __c551, 0));
   }
 }
-function __c550(j: number): any {
+function __c552(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50196,14 +50361,14 @@ function __c550(j: number): any {
           owner: S.optional(S.String),
           description: S.optional(S.String),
           publicId: S.optional(S.String),
-          settings: S.optional(__S(17632, __c551, 0)),
+          settings: S.optional(__S(17696, __c553, 0)),
           restrictAccess: S.optional(S.Boolean),
           allowTargeting: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/v1/projects", code: 200 })),
       ).annotate({ identifier: "CreateProjectRequest" });
   }
 }
-function __c551(j: number): any {
+function __c553(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50226,31 +50391,31 @@ function __c551(j: number): any {
           allowTargeting: S.optional(S.Boolean),
           owner: S.String,
           ownerEmail: S.optional(S.String),
-          settings: S.optional(__S(17632, __c551, 0)),
+          settings: S.optional(__S(17696, __c553, 0)),
         }),
       ).annotate({ identifier: "Project" });
   }
 }
-function __c552(j: number): any {
+function __c554(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          project: __S(17633, __c551, 1),
+          project: __S(17697, __c553, 1),
         }),
       ).annotate({ identifier: "CreateProjectResponse" });
   }
 }
-function __c553(j: number): any {
+function __c555(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           datasourceId: S.String,
-          exposureQuery: S.optional(__S(480, __c15, 0)),
+          exposureQuery: S.optional(__S(576, __c18, 0)),
           exposureQueryId: S.optional(S.String),
-          guardrailMetricIds: __S(5216, __c163, 0),
-          signalMetricIds: S.optional(__S(5216, __c163, 0)),
+          guardrailMetricIds: __S(0, __c0, 0),
+          signalMetricIds: S.optional(__S(0, __c0, 0)),
           monitoringMode: S.optional(S.String),
           autoUpdate: S.optional(S.Boolean),
           autoRollback: S.optional(S.Boolean),
@@ -50267,21 +50432,21 @@ function __c553(j: number): any {
           featureId: S.optional(S.String),
           ruleId: S.optional(S.String),
           environment: S.optional(S.String),
-          steps: S.optional(__S(17732, __c554, 4)),
-          startActions: S.optional(__S(17735, __c554, 7)),
-          endActions: S.optional(__S(17730, __c554, 2)),
+          steps: S.optional(__S(17796, __c556, 4)),
+          startActions: S.optional(__S(17799, __c556, 7)),
+          endActions: S.optional(__S(17794, __c556, 2)),
           startDate: S.optional(S.NullOr(S.String)),
           cutoffDate: S.optional(S.NullOr(S.String)),
           requiresStartApproval: S.optional(S.NullOr(S.Boolean)),
-          monitoringConfig: S.optional(S.NullOr(__S(17696, __c553, 0))),
-          lockdownConfig: S.optional(__S(9697, __c303, 1)),
+          monitoringConfig: S.optional(S.NullOr(__S(17760, __c555, 0))),
+          lockdownConfig: S.optional(__S(9761, __c305, 1)),
           experimentHealthAction: S.optional(S.String),
           templateId: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/v1/ramp-schedules", code: 200 })),
       ).annotate({ identifier: "CreateRampScheduleRequest" });
   }
 }
-function __c554(j: number): any {
+function __c556(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50289,10 +50454,10 @@ function __c554(j: number): any {
           ruleId: S.optional(S.String),
           coverage: S.optional(S.NullOr(S.Number)),
           condition: S.optional(S.NullOr(S.String)),
-          savedGroups: S.optional(S.NullOr(__S(9537, __c298, 1))),
-          prerequisites: S.optional(S.NullOr(__S(9505, __c297, 1))),
+          savedGroups: S.optional(S.NullOr(__S(9601, __c300, 1))),
+          prerequisites: S.optional(S.NullOr(__S(9569, __c299, 1))),
           allEnvironments: S.optional(S.NullOr(S.Boolean)),
-          environments: S.optional(S.NullOr(__S(5216, __c163, 0))),
+          environments: S.optional(S.NullOr(__S(0, __c0, 0))),
           force: S.optional(S.Unknown),
           enabled: S.optional(S.NullOr(S.Boolean)),
         }),
@@ -50302,33 +50467,33 @@ function __c554(j: number): any {
         S.Struct({
           targetType: S.optional(S.String),
           targetId: S.optional(S.String),
-          patch: __S(17728, __c554, 0),
+          patch: __S(17792, __c556, 0),
         }),
       ).annotate({ identifier: "CreateRampScheduleRequestStepsItemActionsItem" });
     case 2:
-      return S.Array(__S(17729, __c554, 1));
+      return S.Array(__S(17793, __c556, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           interval: S.NullOr(S.Number),
-          actions: S.optional(__S(17730, __c554, 2)),
+          actions: S.optional(__S(17794, __c556, 2)),
           approvalNotes: S.optional(S.NullOr(S.String)),
           monitored: S.optional(S.Boolean),
-          holdConditions: S.optional(__S(9696, __c303, 0)),
+          holdConditions: S.optional(__S(9760, __c305, 0)),
         }),
       ).annotate({ identifier: "CreateRampScheduleRequestStepsItem" });
     case 4:
-      return S.Array(__S(17731, __c554, 3));
+      return S.Array(__S(17795, __c556, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           ruleId: S.optional(S.String),
           coverage: S.optional(S.NullOr(S.Number)),
           condition: S.optional(S.NullOr(S.String)),
-          savedGroups: S.optional(S.NullOr(__S(9537, __c298, 1))),
-          prerequisites: S.optional(S.NullOr(__S(9505, __c297, 1))),
+          savedGroups: S.optional(S.NullOr(__S(9601, __c300, 1))),
+          prerequisites: S.optional(S.NullOr(__S(9569, __c299, 1))),
           allEnvironments: S.optional(S.NullOr(S.Boolean)),
-          environments: S.optional(S.NullOr(__S(5216, __c163, 0))),
+          environments: S.optional(S.NullOr(__S(0, __c0, 0))),
           force: S.optional(S.Unknown),
           enabled: S.optional(S.NullOr(S.Boolean)),
           hashAttribute: S.optional(S.NullOr(S.String)),
@@ -50341,30 +50506,30 @@ function __c554(j: number): any {
         S.Struct({
           targetType: S.optional(S.String),
           targetId: S.optional(S.String),
-          patch: __S(17733, __c554, 5),
+          patch: __S(17797, __c556, 5),
         }),
       ).annotate({ identifier: "CreateRampScheduleRequestStartActionsItem" });
     case 7:
-      return S.Array(__S(17734, __c554, 6));
+      return S.Array(__S(17798, __c556, 6));
   }
 }
-function __c555(j: number): any {
+function __c557(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          steps: __S(17796, __c556, 4),
-          endPatch: S.optional(__S(17797, __c556, 5)),
+          steps: __S(17860, __c558, 4),
+          endPatch: S.optional(__S(17861, __c558, 5)),
           official: S.optional(S.Boolean),
-          monitoringConfig: S.optional(S.NullOr(__S(17856, __c558, 0))),
-          lockdownConfig: S.optional(__S(9697, __c303, 1)),
+          monitoringConfig: S.optional(S.NullOr(__S(17920, __c560, 0))),
+          lockdownConfig: S.optional(__S(9761, __c305, 1)),
           order: S.optional(S.Number),
         }).pipe(T.Http({ method: "POST", uri: "/v1/ramp-schedule-templates", code: 200 })),
       ).annotate({ identifier: "CreateRampScheduleTemplateRequest" });
   }
 }
-function __c556(j: number): any {
+function __c558(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50372,10 +50537,10 @@ function __c556(j: number): any {
           ruleId: S.String,
           coverage: S.optional(S.NullOr(S.Number)),
           condition: S.optional(S.NullOr(S.String)),
-          savedGroups: S.optional(S.NullOr(__S(9537, __c298, 1))),
-          prerequisites: S.optional(S.NullOr(__S(9505, __c297, 1))),
+          savedGroups: S.optional(S.NullOr(__S(9601, __c300, 1))),
+          prerequisites: S.optional(S.NullOr(__S(9569, __c299, 1))),
           allEnvironments: S.optional(S.NullOr(S.Boolean)),
-          environments: S.optional(S.NullOr(__S(5216, __c163, 0))),
+          environments: S.optional(S.NullOr(__S(0, __c0, 0))),
           enabled: S.optional(S.NullOr(S.Boolean)),
           force: S.optional(S.Unknown),
         }),
@@ -50385,32 +50550,32 @@ function __c556(j: number): any {
         S.Struct({
           targetType: S.String,
           targetId: S.String,
-          patch: __S(17792, __c556, 0),
+          patch: __S(17856, __c558, 0),
         }),
       ).annotate({ identifier: "CreateRampScheduleTemplateRequestStepsItemActionsItem" });
     case 2:
-      return S.Array(__S(17793, __c556, 1));
+      return S.Array(__S(17857, __c558, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           interval: S.NullOr(S.Number),
           approvalNotes: S.optional(S.NullOr(S.String)),
           monitored: S.optional(S.Boolean),
-          holdConditions: S.optional(__S(9696, __c303, 0)),
-          actions: __S(17794, __c556, 2),
+          holdConditions: S.optional(__S(9760, __c305, 0)),
+          actions: __S(17858, __c558, 2),
         }),
       ).annotate({ identifier: "CreateRampScheduleTemplateRequestStepsItem" });
     case 4:
-      return S.Array(__S(17795, __c556, 3));
+      return S.Array(__S(17859, __c558, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           coverage: S.optional(S.Number),
           condition: S.optional(S.String),
-          savedGroups: S.optional(__S(9537, __c298, 1)),
-          prerequisites: S.optional(__S(9505, __c297, 1)),
+          savedGroups: S.optional(__S(9601, __c300, 1)),
+          prerequisites: S.optional(__S(9569, __c299, 1)),
           allEnvironments: S.optional(S.Boolean),
-          environments: S.optional(__S(5216, __c163, 0)),
+          environments: S.optional(__S(0, __c0, 0)),
         }),
       ).annotate({ identifier: "CreateRampScheduleTemplateRequestEndPatch" });
     case 6:
@@ -50420,34 +50585,34 @@ function __c556(j: number): any {
           dateCreated: S.String,
           dateUpdated: S.String,
           name: S.String,
-          steps: __S(17796, __c556, 4),
-          endPatch: S.optional(__S(17797, __c556, 5)),
+          steps: __S(17860, __c558, 4),
+          endPatch: S.optional(__S(17861, __c558, 5)),
           official: S.optional(S.Boolean),
-          monitoringConfig: S.optional(S.NullOr(__S(9728, __c304, 0))),
-          lockdownConfig: S.optional(S.NullOr(__S(9697, __c303, 1))),
+          monitoringConfig: S.optional(S.NullOr(__S(9792, __c306, 0))),
+          lockdownConfig: S.optional(S.NullOr(__S(9761, __c305, 1))),
           order: S.Number,
         }),
       ).annotate({ identifier: "RampScheduleTemplate" });
   }
 }
-function __c557(j: number): any {
+function __c559(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          rampScheduleTemplate: __S(17798, __c556, 6),
+          rampScheduleTemplate: __S(17862, __c558, 6),
         }),
       ).annotate({ identifier: "CreateRampScheduleTemplateResponse" });
   }
 }
-function __c558(j: number): any {
+function __c560(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           datasourceId: S.String,
-          guardrailMetricIds: __S(5216, __c163, 0),
-          signalMetricIds: S.optional(__S(5216, __c163, 0)),
+          guardrailMetricIds: __S(0, __c0, 0),
+          signalMetricIds: S.optional(__S(0, __c0, 0)),
           updateScheduleMinutes: S.optional(S.NullOr(S.Number)),
           monitoringMode: S.optional(S.String),
           autoUpdate: S.optional(S.Boolean),
@@ -50455,20 +50620,20 @@ function __c558(j: number): any {
           noTrafficAction: S.optional(S.String),
           noTrafficGracePeriodHours: S.optional(S.NullOr(S.Number)),
           multipleExposureAction: S.optional(S.String),
-          exposureQuery: S.optional(__S(480, __c15, 0)),
+          exposureQuery: S.optional(__S(576, __c18, 0)),
           exposureQueryId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateRampScheduleTemplateRequestMonitoringConfig" });
   }
 }
-function __c559(j: number): any {
+function __c561(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          revisions: __S(17888, __c559, 0),
+          revisions: __S(17952, __c561, 0),
           dryRun: S.optional(S.Boolean),
           ignoreWarnings: S.optional(S.Boolean),
           skipSchemaValidation: S.optional(S.Boolean),
@@ -50487,7 +50652,7 @@ function __c559(j: number): any {
         }),
       ).annotate({ identifier: "Results" });
     case 3:
-      return S.Array(__S(17890, __c559, 2));
+      return S.Array(__S(17954, __c561, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -50496,14 +50661,14 @@ function __c559(j: number): any {
           version: S.Number,
           type: S.String,
           severity: S.String,
-          messages: __S(5216, __c163, 0),
+          messages: __S(0, __c0, 0),
           override: S.NullOr(S.String),
           requiresPermission: S.NullOr(S.String),
-          resolution: S.NullOr(__S(16000, __c500, 0)),
+          resolution: S.NullOr(__S(16064, __c502, 0)),
         }),
       ).annotate({ identifier: "CreateReleasePublishRevisionResponseGatesItem" });
     case 5:
-      return S.Array(__S(17892, __c559, 4));
+      return S.Array(__S(17956, __c561, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -50515,21 +50680,21 @@ function __c559(j: number): any {
         }),
       ).annotate({ identifier: "CreateReleasePublishRevisionResponseBypassedGatesItem" });
     case 7:
-      return S.Array(__S(17894, __c559, 6));
+      return S.Array(__S(17958, __c561, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           dryRun: S.Boolean,
           bulkPublishId: S.optional(S.String),
-          results: __S(17891, __c559, 3),
-          gates: __S(17893, __c559, 5),
-          bypassedGates: __S(17895, __c559, 7),
-          warnings: __S(5216, __c163, 0),
+          results: __S(17955, __c561, 3),
+          gates: __S(17957, __c561, 5),
+          bypassedGates: __S(17959, __c561, 7),
+          warnings: __S(0, __c0, 0),
         }),
       ).annotate({ identifier: "CreateReleasePublishRevisionResponse" });
   }
 }
-function __c560(j: number): any {
+function __c562(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50539,9 +50704,9 @@ function __c560(j: number): any {
           description: S.optional(S.String),
           owner: S.optional(S.String),
           statsEngine: S.optional(S.String),
-          goalMetrics: S.optional(__S(5216, __c163, 0)),
-          secondaryMetrics: S.optional(__S(5216, __c163, 0)),
-          guardrailMetrics: S.optional(__S(5216, __c163, 0)),
+          goalMetrics: S.optional(__S(0, __c0, 0)),
+          secondaryMetrics: S.optional(__S(0, __c0, 0)),
+          guardrailMetrics: S.optional(__S(0, __c0, 0)),
           activationMetric: S.optional(S.String),
           dimension: S.optional(S.String),
           dateStarted: S.optional(S.String),
@@ -50552,8 +50717,8 @@ function __c560(j: number): any {
           differenceType: S.optional(S.String),
           attributionModel: S.optional(S.String),
           lookbackOverride: S.optional(S.Unknown),
-          metricOverrides: S.optional(__S(17985, __c562, 1)),
-          customMetricSlices: S.optional(__S(451, __c14, 3)),
+          metricOverrides: S.optional(__S(18049, __c564, 1)),
+          customMetricSlices: S.optional(__S(547, __c17, 3)),
           segment: S.optional(S.String),
           queryFilter: S.optional(S.String),
           skipPartialData: S.optional(S.Boolean),
@@ -50562,7 +50727,7 @@ function __c560(j: number): any {
       ).annotate({ identifier: "CreateReportRequest" });
   }
 }
-function __c561(j: number): any {
+function __c563(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50572,13 +50737,13 @@ function __c561(j: number): any {
         }),
       ).annotate({ identifier: "ExperimentResultsDimensionDimensionsItem" });
     case 1:
-      return S.Array(__S(17952, __c561, 0));
+      return S.Array(__S(18016, __c563, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
           id: S.optional(S.String),
-          dimensions: S.optional(__S(17953, __c561, 1)),
+          dimensions: S.optional(__S(18017, __c563, 1)),
         }),
       ).annotate({ identifier: "ExperimentResultsDimension" });
     case 3:
@@ -50608,39 +50773,39 @@ function __c561(j: number): any {
         identifier: "ExperimentResultsResultsItemMetricsItemVariationsItemAnalysesItem",
       });
     case 5:
-      return S.Array(__S(17956, __c561, 4));
+      return S.Array(__S(18020, __c563, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           variationId: S.String,
           variationName: S.optional(S.String),
           users: S.optional(S.Number),
-          analyses: __S(17957, __c561, 5),
+          analyses: __S(18021, __c563, 5),
         }),
       ).annotate({ identifier: "ExperimentResultsResultsItemMetricsItemVariationsItem" });
     case 7:
-      return S.Array(__S(17958, __c561, 6));
+      return S.Array(__S(18022, __c563, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           metricId: S.String,
           metricName: S.optional(S.String),
-          variations: __S(17959, __c561, 7),
+          variations: __S(18023, __c563, 7),
         }),
       ).annotate({ identifier: "ExperimentResultsResultsItemMetricsItem" });
     case 9:
-      return S.Array(__S(17960, __c561, 8));
+      return S.Array(__S(18024, __c563, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
           dimension: S.String,
           totalUsers: S.Number,
-          checks: __S(17955, __c561, 3),
-          metrics: __S(17961, __c561, 9),
+          checks: __S(18019, __c563, 3),
+          metrics: __S(18025, __c563, 9),
         }),
       ).annotate({ identifier: "ExperimentResultsResultsItem" });
     case 11:
-      return S.Array(__S(17962, __c561, 10));
+      return S.Array(__S(18026, __c563, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
@@ -50650,15 +50815,15 @@ function __c561(j: number): any {
           phase: S.String,
           dateStart: S.String,
           dateEnd: S.String,
-          dimension: __S(17954, __c561, 2),
-          settings: __S(15593, __c487, 9),
-          queryIds: __S(5216, __c163, 0),
-          results: __S(17963, __c561, 11),
+          dimension: __S(18018, __c563, 2),
+          settings: __S(15657, __c489, 9),
+          queryIds: __S(0, __c0, 0),
+          results: __S(18027, __c563, 11),
         }),
       ).annotate({ identifier: "ExperimentResults" });
   }
 }
-function __c562(j: number): any {
+function __c564(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50679,17 +50844,17 @@ function __c562(j: number): any {
         }),
       ).annotate({ identifier: "CreateReportRequestMetricOverridesItem" });
     case 1:
-      return S.Array(__S(17984, __c562, 0));
+      return S.Array(__S(18048, __c564, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           statsEngine: S.optional(S.String),
-          goalMetrics: S.optional(__S(5216, __c163, 0)),
-          secondaryMetrics: S.optional(__S(5216, __c163, 0)),
-          guardrailMetrics: S.optional(__S(5216, __c163, 0)),
+          goalMetrics: S.optional(__S(0, __c0, 0)),
+          secondaryMetrics: S.optional(__S(0, __c0, 0)),
+          guardrailMetrics: S.optional(__S(0, __c0, 0)),
           activationMetric: S.optional(S.String),
-          metricOverrides: S.optional(__S(17985, __c562, 1)),
-          customMetricSlices: S.optional(__S(451, __c14, 3)),
+          metricOverrides: S.optional(__S(18049, __c564, 1)),
+          customMetricSlices: S.optional(__S(547, __c17, 3)),
           dimension: S.optional(S.String),
           differenceType: S.optional(S.String),
           dateStarted: S.optional(S.String),
@@ -50700,7 +50865,7 @@ function __c562(j: number): any {
           attributionModel: S.optional(S.String),
           lookbackOverride: S.optional(S.Unknown),
           trackingKey: S.optional(S.String),
-          exposureQuery: S.optional(__S(9600, __c300, 0)),
+          exposureQuery: S.optional(__S(9664, __c302, 0)),
           exposureQueryId: S.optional(S.String),
           segment: S.optional(S.String),
           queryFilter: S.optional(S.String),
@@ -50717,7 +50882,7 @@ function __c562(j: number): any {
         }),
       ).annotate({ identifier: "ReportExperimentMetadataVariationsItem" });
     case 4:
-      return S.Array(__S(17987, __c562, 3));
+      return S.Array(__S(18051, __c564, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -50728,13 +50893,13 @@ function __c562(j: number): any {
         }),
       ).annotate({ identifier: "ReportExperimentMetadataPhasesItem" });
     case 6:
-      return S.Array(__S(17989, __c562, 5));
+      return S.Array(__S(18053, __c564, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          variations: S.optional(__S(17988, __c562, 4)),
-          phases: S.optional(__S(17990, __c562, 6)),
+          variations: S.optional(__S(18052, __c564, 4)),
+          phases: S.optional(__S(18054, __c564, 6)),
         }),
       ).annotate({ identifier: "ReportExperimentMetadata" });
     case 8:
@@ -50755,24 +50920,24 @@ function __c562(j: number): any {
           snapshotId: S.optional(S.String),
           snapshotStatus: S.optional(S.String),
           snapshotError: S.optional(S.String),
-          analysisSettings: S.optional(__S(17986, __c562, 2)),
-          experimentMetadata: S.optional(__S(17991, __c562, 7)),
-          results: S.optional(__S(17964, __c561, 12)),
+          analysisSettings: S.optional(__S(18050, __c564, 2)),
+          experimentMetadata: S.optional(__S(18055, __c564, 7)),
+          results: S.optional(__S(18028, __c563, 12)),
         }),
       ).annotate({ identifier: "Report" });
   }
 }
-function __c563(j: number): any {
+function __c565(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          report: __S(17992, __c562, 8),
+          report: __S(18056, __c564, 8),
         }),
       ).annotate({ identifier: "CreateReportResponse" });
   }
 }
-function __c564(j: number): any {
+function __c566(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50782,7 +50947,7 @@ function __c564(j: number): any {
       ).annotate({ identifier: "CreateReportRefreshRequest" });
   }
 }
-function __c565(j: number): any {
+function __c567(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50792,25 +50957,25 @@ function __c565(j: number): any {
           type: S.optional(S.String),
           condition: S.optional(S.String),
           attributeKey: S.optional(S.String),
-          values: S.optional(__S(5216, __c163, 0)),
+          values: S.optional(__S(0, __c0, 0)),
           owner: S.optional(S.String),
-          projects: S.optional(__S(5216, __c163, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
           bypassApproval: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/v1/saved-groups", code: 200 })),
       ).annotate({ identifier: "CreateSavedGroupRequest" });
   }
 }
-function __c566(j: number): any {
+function __c568(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          savedGroup: __S(65, __c2, 1),
+          savedGroup: __S(161, __c5, 1),
         }),
       ).annotate({ identifier: "CreateSavedGroupResponse" });
   }
 }
-function __c567(j: number): any {
+function __c569(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50828,7 +50993,7 @@ function __c567(j: number): any {
       ).annotate({ identifier: "CreateSavedGroupRevisionDiscardRequest" });
   }
 }
-function __c568(j: number): any {
+function __c570(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -50839,14 +51004,14 @@ function __c568(j: number): any {
           userId: S.String,
           action: S.String,
           description: S.optional(S.NullOr(S.String)),
-          proposedChangesSnapshot: S.optional(__S(18176, __c568, 0)),
+          proposedChangesSnapshot: S.optional(__S(18240, __c570, 0)),
           targetSnapshot: S.optional(S.Unknown),
           dateCreated: S.String,
-          user: S.optional(__S(9569, __c299, 1)),
+          user: S.optional(__S(9633, __c301, 1)),
         }),
       ).annotate({ identifier: "SavedGroupRevisionActivityLogEntry" });
     case 2:
-      return S.Array(__S(18177, __c568, 1));
+      return S.Array(__S(18241, __c570, 1));
     case 3:
       return S.Array(S.Unknown);
     case 4:
@@ -50857,15 +51022,15 @@ function __c568(j: number): any {
           title: S.optional(S.String),
           status: S.String,
           authorId: S.String,
-          author: S.optional(__S(9569, __c299, 1)),
+          author: S.optional(__S(9633, __c301, 1)),
           authorEmail: S.optional(S.String),
-          contributors: S.optional(__S(5216, __c163, 0)),
+          contributors: S.optional(__S(0, __c0, 0)),
           revertedFrom: S.optional(S.String),
-          reviews: __S(5313, __c166, 1),
-          activityLog: __S(18178, __c568, 2),
+          reviews: __S(5377, __c168, 1),
+          activityLog: __S(18242, __c570, 2),
           autoPublishOnApproval: S.optional(S.Boolean),
           autoPublishEnabledBy: S.optional(S.String),
-          autoPublishEnabledByUser: S.optional(__S(9569, __c299, 1)),
+          autoPublishEnabledByUser: S.optional(__S(9633, __c301, 1)),
           scheduledPublishAt: S.optional(S.String),
           scheduledPublishLockEdits: S.optional(S.Boolean),
           scheduledPublishLockOthers: S.optional(S.Boolean),
@@ -50873,27 +51038,27 @@ function __c568(j: number): any {
           scheduledPublishAttempts: S.optional(S.Number),
           scheduledPublishLastError: S.optional(S.String),
           scheduledPublishGaveUpAt: S.optional(S.String),
-          resolution: S.optional(__S(5314, __c166, 2)),
+          resolution: S.optional(__S(5378, __c168, 2)),
           dateCreated: S.String,
           dateUpdated: S.String,
-          baseSavedGroup: __S(65, __c2, 1),
-          proposedSavedGroup: __S(65, __c2, 1),
-          proposedChanges: __S(18179, __c568, 3),
+          baseSavedGroup: __S(161, __c5, 1),
+          proposedSavedGroup: __S(161, __c5, 1),
+          proposedChanges: __S(18243, __c570, 3),
         }),
       ).annotate({ identifier: "SavedGroupRevision" });
   }
 }
-function __c569(j: number): any {
+function __c571(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          revision: __S(18180, __c568, 4),
+          revision: __S(18244, __c570, 4),
         }),
       ).annotate({ identifier: "CreateSavedGroupRevisionDiscardResponse" });
   }
 }
-function __c570(j: number): any {
+function __c572(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50902,7 +51067,7 @@ function __c570(j: number): any {
           version: S.String.pipe(T.Label()),
           revisionTitle: S.optional(S.String),
           revisionComment: S.optional(S.String),
-          items: __S(5216, __c163, 0),
+          items: __S(0, __c0, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -50913,7 +51078,7 @@ function __c570(j: number): any {
       ).annotate({ identifier: "CreateSavedGroupRevisionItemsAddRequest" });
   }
 }
-function __c571(j: number): any {
+function __c573(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50926,49 +51091,49 @@ function __c571(j: number): any {
       ).annotate({ identifier: "ArchiveConfigRequest" });
   }
 }
-function __c572(j: number): any {
+function __c574(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c573(j: number): any {
+function __c575(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           config: S.String,
-          environments: S.optional(__S(5216, __c163, 0)),
-          projects: S.optional(__S(5216, __c163, 0)),
+          environments: S.optional(__S(0, __c0, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
         }),
       ).annotate({ identifier: "ConfigScopedOverridesItem" });
     case 1:
-      return S.Array(__S(18336, __c573, 0));
+      return S.Array(__S(18400, __c575, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           parent: S.String,
-          environments: S.optional(__S(5216, __c163, 0)),
-          projects: S.optional(__S(5216, __c163, 0)),
+          environments: S.optional(__S(0, __c0, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
         }),
       ).annotate({ identifier: "ConfigScopedConfig" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          value: __S(18304, __c572, 0),
+          value: __S(18368, __c574, 0),
         }),
       ).annotate({ identifier: "ConfigSchema" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          rule: __S(18304, __c572, 0),
+          rule: __S(18368, __c574, 0),
           message: S.String,
         }),
       ).annotate({ identifier: "ConfigInvariantsItem" });
     case 5:
-      return S.Array(__S(18340, __c573, 4));
+      return S.Array(__S(18404, __c575, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -50985,19 +51150,19 @@ function __c573(j: number): any {
           owner: S.optional(S.String),
           ownerEmail: S.optional(S.String),
           parent: S.optional(S.String),
-          extends: S.optional(__S(5216, __c163, 0)),
-          value: S.optional(__S(18304, __c572, 0)),
-          scopedOverrides: S.optional(__S(18337, __c573, 1)),
-          scopedConfig: S.optional(__S(18338, __c573, 2)),
+          extends: S.optional(__S(0, __c0, 0)),
+          value: S.optional(__S(18368, __c574, 0)),
+          scopedOverrides: S.optional(__S(18401, __c575, 1)),
+          scopedConfig: S.optional(__S(18402, __c575, 2)),
           description: S.optional(S.String),
           project: S.optional(S.String),
           archived: S.optional(S.Boolean),
-          schema: S.optional(__S(18339, __c573, 3)),
+          schema: S.optional(__S(18403, __c575, 3)),
           extensible: S.optional(S.Boolean),
-          invariants: S.optional(__S(18341, __c573, 5)),
+          invariants: S.optional(__S(18405, __c575, 5)),
           locked: S.optional(S.Boolean),
           experimentGuard: S.optional(S.Boolean),
-          lockedRevision: S.optional(__S(18342, __c573, 6)),
+          lockedRevision: S.optional(__S(18406, __c575, 6)),
           lockedBy: S.optional(S.String),
           dateLocked: S.optional(S.String),
           dateCreated: S.String,
@@ -51006,18 +51171,18 @@ function __c573(j: number): any {
       ).annotate({ identifier: "Config" });
   }
 }
-function __c574(j: number): any {
+function __c576(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          config: __S(18343, __c573, 7),
-          bypassedGates: S.optional(__S(18401, __c575, 1)),
+          config: __S(18407, __c575, 7),
+          bypassedGates: S.optional(__S(18465, __c577, 1)),
         }),
       ).annotate({ identifier: "ArchiveConfigResponse" });
   }
 }
-function __c575(j: number): any {
+function __c577(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51028,10 +51193,10 @@ function __c575(j: number): any {
         }),
       ).annotate({ identifier: "BypassedGates" });
     case 1:
-      return S.Array(__S(18400, __c575, 0));
+      return S.Array(__S(18464, __c577, 0));
   }
 }
-function __c576(j: number): any {
+function __c578(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51040,7 +51205,7 @@ function __c576(j: number): any {
           version: S.String.pipe(T.Label()),
           revisionTitle: S.optional(S.String),
           revisionComment: S.optional(S.String),
-          items: __S(5216, __c163, 0),
+          items: __S(0, __c0, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -51051,7 +51216,7 @@ function __c576(j: number): any {
       ).annotate({ identifier: "CreateSavedGroupRevisionItemsRemoveRequest" });
   }
 }
-function __c577(j: number): any {
+function __c579(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51070,26 +51235,26 @@ function __c577(j: number): any {
       ).annotate({ identifier: "CreateSavedGroupRevisionPublishRequest" });
   }
 }
-function __c578(j: number): any {
+function __c580(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          revision: __S(18180, __c568, 4),
-          bypassedGates: S.optional(__S(18401, __c575, 1)),
+          revision: __S(18244, __c570, 4),
+          bypassedGates: S.optional(__S(18465, __c577, 1)),
         }),
       ).annotate({ identifier: "CreateSavedGroupRevisionPublishResponse" });
   }
 }
-function __c579(j: number): any {
+function __c581(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           savedGroupId: S.String.pipe(T.Label()),
           version: S.Number.pipe(T.Label()),
-          conflictResolutions: S.optional(__S(6304, __c197, 0)),
-          customValues: S.optional(__S(6368, __c199, 0)),
+          conflictResolutions: S.optional(__S(6368, __c199, 0)),
+          customValues: S.optional(__S(6432, __c201, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -51100,7 +51265,7 @@ function __c579(j: number): any {
       ).annotate({ identifier: "CreateSavedGroupRevisionRebaseRequest" });
   }
 }
-function __c580(j: number): any {
+function __c582(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51117,7 +51282,7 @@ function __c580(j: number): any {
       ).annotate({ identifier: "CreateSavedGroupRevisionRecallReviewRequest" });
   }
 }
-function __c581(j: number): any {
+function __c583(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51134,7 +51299,7 @@ function __c581(j: number): any {
       ).annotate({ identifier: "CreateSavedGroupRevisionReopenRequest" });
   }
 }
-function __c582(j: number): any {
+function __c584(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51153,7 +51318,7 @@ function __c582(j: number): any {
       ).annotate({ identifier: "CreateSavedGroupRevisionRequestReviewRequest" });
   }
 }
-function __c583(j: number): any {
+function __c585(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51174,7 +51339,7 @@ function __c583(j: number): any {
       ).annotate({ identifier: "CreateSavedGroupRevisionRevertRequest" });
   }
 }
-function __c584(j: number): any {
+function __c586(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51196,7 +51361,7 @@ function __c584(j: number): any {
       ).annotate({ identifier: "CreateSavedGroupRevisionSchedulePublishRequest" });
   }
 }
-function __c585(j: number): any {
+function __c587(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51217,13 +51382,13 @@ function __c585(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          revision: __S(18180, __c568, 4),
+          revision: __S(18244, __c570, 4),
           autoPublished: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CreateSavedGroupRevisionSubmitReviewResponse" });
   }
 }
-function __c586(j: number): any {
+function __c588(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51240,7 +51405,7 @@ function __c586(j: number): any {
       ).annotate({ identifier: "CreateSavedGroupRevisionUndoReviewRequest" });
   }
 }
-function __c587(j: number): any {
+function __c589(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51253,13 +51418,13 @@ function __c587(j: number): any {
       ).annotate({ identifier: "ArchiveConstantRequest" });
   }
 }
-function __c588(j: number): any {
+function __c590(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c589(j: number): any {
+function __c591(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51271,7 +51436,7 @@ function __c589(j: number): any {
           owner: S.optional(S.String),
           ownerEmail: S.optional(S.String),
           value: S.optional(S.String),
-          environmentValues: S.optional(__S(18816, __c588, 0)),
+          environmentValues: S.optional(__S(18880, __c590, 0)),
           description: S.optional(S.String),
           project: S.optional(S.String),
           archived: S.optional(S.Boolean),
@@ -51281,18 +51446,18 @@ function __c589(j: number): any {
       ).annotate({ identifier: "Constant" });
   }
 }
-function __c590(j: number): any {
+function __c592(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          constant: __S(18848, __c589, 0),
-          bypassedGates: S.optional(__S(18401, __c575, 1)),
+          constant: __S(18912, __c591, 0),
+          bypassedGates: S.optional(__S(18465, __c577, 1)),
         }),
       ).annotate({ identifier: "ArchiveConstantResponse" });
   }
 }
-function __c591(j: number): any {
+function __c593(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51304,17 +51469,17 @@ function __c591(j: number): any {
       ).annotate({ identifier: "CreateSavedGroupUploadRequest" });
   }
 }
-function __c592(j: number): any {
+function __c594(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          upload: __S(18978, __c593, 2),
+          upload: __S(19042, __c595, 2),
         }),
       ).annotate({ identifier: "CreateSavedGroupUploadResponse" });
   }
 }
-function __c593(j: number): any {
+function __c595(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51325,7 +51490,7 @@ function __c593(j: number): any {
         }),
       ).annotate({ identifier: "SavedGroupUploadLoadsItem" });
     case 1:
-      return S.Array(__S(18976, __c593, 0));
+      return S.Array(__S(19040, __c595, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -51337,12 +51502,12 @@ function __c593(j: number): any {
           dateCreated: S.String,
           createdBy: S.String,
           status: S.Unknown,
-          loads: __S(18977, __c593, 1),
+          loads: __S(19041, __c595, 1),
         }),
       ).annotate({ identifier: "SavedGroupUpload" });
   }
 }
-function __c594(j: number): any {
+function __c596(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51361,7 +51526,7 @@ function __c594(j: number): any {
       ).annotate({ identifier: "CreateSavedGroupUploadLoadRequest" });
   }
 }
-function __c595(j: number): any {
+function __c597(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51373,7 +51538,7 @@ function __c595(j: number): any {
       return S.suspend(() =>
         S.Struct({
           signedUrl: S.String,
-          fields: S.NullOr(__S(18816, __c588, 0)),
+          fields: S.NullOr(__S(18880, __c590, 0)),
           fileKey: S.String,
           maxBytes: S.Number,
           expiresAt: S.String,
@@ -51381,7 +51546,7 @@ function __c595(j: number): any {
       ).annotate({ identifier: "CreateSavedGroupUploadUrlResponse" });
   }
 }
-function __c596(j: number): any {
+function __c598(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51390,7 +51555,7 @@ function __c596(j: number): any {
           language: S.String,
           sdkVersion: S.optional(S.String),
           environment: S.String,
-          projects: S.optional(__S(5216, __c163, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
           encryptPayload: S.optional(S.Boolean),
           includeVisualExperiments: S.optional(S.Boolean),
           includeDraftExperiments: S.optional(S.Boolean),
@@ -51400,7 +51565,7 @@ function __c596(j: number): any {
           includeRuleIds: S.optional(S.Boolean),
           includeProjectIdInMetadata: S.optional(S.Boolean),
           includeCustomFieldsInMetadata: S.optional(S.Boolean),
-          allowedCustomFieldsInMetadata: S.optional(__S(5216, __c163, 0)),
+          allowedCustomFieldsInMetadata: S.optional(__S(0, __c0, 0)),
           includeTagsInMetadata: S.optional(S.Boolean),
           includeExperimentScheduleInMetadata: S.optional(S.Boolean),
           proxyEnabled: S.optional(S.Boolean),
@@ -51414,7 +51579,7 @@ function __c596(j: number): any {
       ).annotate({ identifier: "CreateSdkConnectionRequest" });
   }
 }
-function __c597(j: number): any {
+function __c599(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51424,11 +51589,11 @@ function __c597(j: number): any {
           dateUpdated: S.String,
           name: S.String,
           organization: S.String,
-          languages: __S(5216, __c163, 0),
+          languages: __S(0, __c0, 0),
           sdkVersion: S.optional(S.String),
           environment: S.String,
           project: S.String,
-          projects: S.optional(__S(5216, __c163, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
           encryptPayload: S.Boolean,
           encryptionKey: S.String,
           includeVisualExperiments: S.optional(S.Boolean),
@@ -51439,7 +51604,7 @@ function __c597(j: number): any {
           includeRuleIds: S.optional(S.Boolean),
           includeProjectIdInMetadata: S.optional(S.Boolean),
           includeCustomFieldsInMetadata: S.optional(S.Boolean),
-          allowedCustomFieldsInMetadata: S.optional(__S(5216, __c163, 0)),
+          allowedCustomFieldsInMetadata: S.optional(__S(0, __c0, 0)),
           includeTagsInMetadata: S.optional(S.Boolean),
           includeExperimentScheduleInMetadata: S.optional(S.Boolean),
           key: S.String,
@@ -51456,17 +51621,17 @@ function __c597(j: number): any {
       ).annotate({ identifier: "SdkConnection" });
   }
 }
-function __c598(j: number): any {
+function __c600(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sdkConnection: __S(19104, __c597, 0),
+          sdkConnection: __S(19168, __c599, 0),
         }),
       ).annotate({ identifier: "CreateSdkConnectionResponse" });
   }
 }
-function __c599(j: number): any {
+function __c601(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51476,17 +51641,17 @@ function __c599(j: number): any {
           description: S.optional(S.String),
           datasourceId: S.String,
           identifierType: S.String,
-          projects: S.optional(__S(5216, __c163, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
           managedBy: S.optional(S.String),
           type: S.String,
           query: S.optional(S.String),
           factTableId: S.optional(S.String),
-          filters: S.optional(__S(5216, __c163, 0)),
+          filters: S.optional(__S(0, __c0, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/segments", code: 200 })),
       ).annotate({ identifier: "CreateSegmentRequest" });
   }
 }
-function __c600(j: number): any {
+function __c602(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51504,23 +51669,23 @@ function __c600(j: number): any {
           managedBy: S.optional(S.String),
           type: S.optional(S.String),
           factTableId: S.optional(S.String),
-          filters: S.optional(__S(5216, __c163, 0)),
-          projects: S.optional(__S(5216, __c163, 0)),
+          filters: S.optional(__S(0, __c0, 0)),
+          projects: S.optional(__S(0, __c0, 0)),
         }),
       ).annotate({ identifier: "Segment" });
   }
 }
-function __c601(j: number): any {
+function __c603(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          segment: __S(19200, __c600, 0),
+          segment: __S(19264, __c602, 0),
         }),
       ).annotate({ identifier: "CreateSegmentResponse" });
   }
 }
-function __c602(j: number): any {
+function __c604(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51530,39 +51695,39 @@ function __c602(j: number): any {
           description: S.String,
           role: S.String,
           limitAccessByEnvironment: S.optional(S.Boolean),
-          environments: S.optional(__S(5216, __c163, 0)),
-          projectRoles: S.optional(__S(19299, __c603, 3)),
-          managedBy: S.optional(__S(19300, __c603, 4)),
+          environments: S.optional(__S(0, __c0, 0)),
+          projectRoles: S.optional(__S(19363, __c605, 3)),
+          managedBy: S.optional(__S(19364, __c605, 4)),
           defaultProject: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/v1/teams", code: 200 })),
       ).annotate({ identifier: "CreateTeamRequest" });
   }
 }
-function __c603(j: number): any {
+function __c605(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           role: S.String,
           limitAccessByEnvironment: S.Boolean,
-          environments: __S(5216, __c163, 0),
+          environments: __S(0, __c0, 0),
         }),
       ).annotate({ identifier: "CreateTeamRequestProjectRolesItemAdditionalRolesItem" });
     case 1:
-      return S.Array(__S(19296, __c603, 0));
+      return S.Array(__S(19360, __c605, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           role: S.String,
           limitAccessByEnvironment: S.Boolean,
-          environments: __S(5216, __c163, 0),
-          teams: S.optional(__S(5216, __c163, 0)),
-          additionalRoles: S.optional(__S(19297, __c603, 1)),
+          environments: __S(0, __c0, 0),
+          teams: S.optional(__S(0, __c0, 0)),
+          additionalRoles: S.optional(__S(19361, __c605, 1)),
           project: S.String,
         }),
       ).annotate({ identifier: "CreateTeamRequestProjectRolesItem" });
     case 3:
-      return S.Array(__S(19298, __c603, 2));
+      return S.Array(__S(19362, __c605, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -51581,27 +51746,27 @@ function __c603(j: number): any {
           description: S.String,
           role: S.String,
           limitAccessByEnvironment: S.Boolean,
-          environments: __S(5216, __c163, 0),
-          projectRoles: S.optional(__S(19299, __c603, 3)),
-          members: __S(5216, __c163, 0),
+          environments: __S(0, __c0, 0),
+          projectRoles: S.optional(__S(19363, __c605, 3)),
+          members: __S(0, __c0, 0),
           managedByIdp: S.Boolean,
-          managedBy: S.optional(__S(19300, __c603, 4)),
+          managedBy: S.optional(__S(19364, __c605, 4)),
           defaultProject: S.optional(S.String),
         }),
       ).annotate({ identifier: "Team" });
   }
 }
-function __c604(j: number): any {
+function __c606(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          team: __S(19301, __c603, 5),
+          team: __S(19365, __c605, 5),
         }),
       ).annotate({ identifier: "CreateTeamResponse" });
   }
 }
-function __c605(j: number): any {
+function __c607(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51611,7 +51776,7 @@ function __c605(j: number): any {
       ).annotate({ identifier: "DeleteArchetypeRequest" });
   }
 }
-function __c606(j: number): any {
+function __c608(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51621,7 +51786,7 @@ function __c606(j: number): any {
       ).annotate({ identifier: "DeleteArchetypeResponse" });
   }
 }
-function __c607(j: number): any {
+function __c609(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51637,7 +51802,7 @@ function __c607(j: number): any {
       ).annotate({ identifier: "DeleteAttributeResponse" });
   }
 }
-function __c608(j: number): any {
+function __c610(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51647,7 +51812,7 @@ function __c608(j: number): any {
       ).annotate({ identifier: "DeleteConfigRequest" });
   }
 }
-function __c609(j: number): any {
+function __c611(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

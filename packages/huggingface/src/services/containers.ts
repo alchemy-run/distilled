@@ -34,44 +34,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(4, __c1, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error409Body | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(54, __c13, 2)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error422Body | string;
+}
 
 export interface AddResourceGroupRequest {
   namespace: string;
@@ -390,6 +410,28 @@ export interface XetWriteTokenResponse {
   exp: number;
   accessToken: string | Redacted.Redacted<string>;
 }
+export interface Error400Body {
+  error: string;
+}
+export interface Error409Body {
+  error: string;
+  url: string;
+  /** A hex string of 24 characters representing an ObjectId. */
+  id: string;
+}
+export type Error422BodyFailedItem = BatchFileOperationsResponseFailedItem;
+/** List of failed operations */
+export type Error422BodyFailedList = Array<BatchFileOperationsResponseFailedItem>;
+export interface Error422Body {
+  /** True if all operations succeeded */
+  success: boolean;
+  /** Total number of operations attempted */
+  processed: number;
+  /** Number of successful operations */
+  succeeded: number;
+  /** List of failed operations */
+  failed: Error422BodyFailedList;
+}
 export type AddResourceGroupError = HuggingFaceOpError;
 /** Add resource group Add the repository to a resource group */
 export const addResourceGroup: API.OperationMethod<
@@ -398,8 +440,8 @@ export const addResourceGroup: API.OperationMethod<
   AddResourceGroupError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(44, __c11, 0) as any as S.Schema<AddResourceGroupRequest>,
-  output: __S(45, __c11, 1) as any as S.Schema<AddResourceGroupResponse>,
+  input: __S(56, __c14, 0) as any as S.Schema<AddResourceGroupRequest>,
+  output: __S(57, __c14, 1) as any as S.Schema<AddResourceGroupResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -415,8 +457,8 @@ export const batchFileOperations: API.OperationMethod<
   BatchFileOperationsError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c12, 0) as any as S.Schema<BatchFileOperationsRequest>,
-  output: __S(51, __c12, 3) as any as S.Schema<BatchFileOperationsResponse>,
+  input: __S(60, __c15, 0) as any as S.Schema<BatchFileOperationsRequest>,
+  output: __S(54, __c13, 2) as any as S.Schema<BatchFileOperationsResponse>,
   errors: [UnprocessableEntity],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -432,8 +474,8 @@ export const createBucket: API.OperationMethod<
   CreateBucketError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(52, __c13, 0) as any as S.Schema<CreateBucketRequest>,
-  output: __S(53, __c13, 1) as any as S.Schema<CreateBucketResponse>,
+  input: __S(64, __c16, 0) as any as S.Schema<CreateBucketRequest>,
+  output: __S(65, __c16, 1) as any as S.Schema<CreateBucketResponse>,
   errors: [Conflict],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -449,8 +491,8 @@ export const deleteBucket: API.OperationMethod<
   DeleteBucketError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(60, __c15, 0) as any as S.Schema<DeleteBucketRequest>,
-  output: __S(64, __c16, 0) as any as S.Schema<DeleteBucketResponse>,
+  input: __S(72, __c18, 0) as any as S.Schema<DeleteBucketRequest>,
+  output: __S(76, __c19, 0) as any as S.Schema<DeleteBucketResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -466,8 +508,8 @@ export const deleteTag: API.OperationMethod<
   DeleteTagError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(68, __c17, 0) as any as S.Schema<DeleteTagRequest>,
-  output: __S(64, __c16, 0) as any as S.Schema<DeleteTagResponse>,
+  input: __S(80, __c20, 0) as any as S.Schema<DeleteTagRequest>,
+  output: __S(76, __c19, 0) as any as S.Schema<DeleteTagResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -483,8 +525,8 @@ export const getBucketDetails: API.OperationMethod<
   GetBucketDetailsError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c18, 0) as any as S.Schema<GetBucketDetailsRequest>,
-  output: __S(82, __c20, 2) as any as S.Schema<GetBucketDetailsResponse>,
+  input: __S(84, __c21, 0) as any as S.Schema<GetBucketDetailsRequest>,
+  output: __S(94, __c23, 2) as any as S.Schema<GetBucketDetailsResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -500,8 +542,8 @@ export const getFileMetadata: API.OperationMethod<
   GetFileMetadataError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetFileMetadataRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<GetFileMetadataResponse>,
+  input: __S(8, __c2, 0) as any as S.Schema<GetFileMetadataRequest>,
+  output: __S(9, __c2, 1) as any as S.Schema<GetFileMetadataResponse>,
   errors: [BadRequest, NotFound],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -517,8 +559,8 @@ export const getResourceGroup: API.OperationMethod<
   GetResourceGroupError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<GetResourceGroupRequest>,
-  output: __S(76, __c19, 0) as any as S.Schema<GetResourceGroupResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<GetResourceGroupRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<GetResourceGroupResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -534,8 +576,8 @@ export const listFiles: API.OperationMethod<
   ListFilesError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<ListFilesRequest>,
-  output: __S(14, __c3, 2) as any as S.Schema<ListFilesResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<ListFilesRequest>,
+  output: __S(22, __c5, 2) as any as S.Schema<ListFilesResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -551,8 +593,8 @@ export const listNamespaceBuckets: API.OperationMethod<
   ListNamespaceBucketsError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<ListNamespaceBucketsRequest>,
-  output: __S(18, __c4, 2) as any as S.Schema<ListNamespaceBucketsResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<ListNamespaceBucketsRequest>,
+  output: __S(26, __c6, 2) as any as S.Schema<ListNamespaceBucketsResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -568,8 +610,8 @@ export const listPathsInfo: API.OperationMethod<
   ListPathsInfoError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<ListPathsInfoRequest>,
-  output: __S(14, __c3, 2) as any as S.Schema<ListPathsInfoResponse>,
+  input: __S(28, __c7, 0) as any as S.Schema<ListPathsInfoRequest>,
+  output: __S(22, __c5, 2) as any as S.Schema<ListPathsInfoResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -585,8 +627,8 @@ export const registryToken: API.OperationMethod<
   RegistryTokenError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<RegistryTokenRequest>,
-  output: __S(25, __c6, 1) as any as S.Schema<RegistryTokenResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<RegistryTokenRequest>,
+  output: __S(33, __c8, 1) as any as S.Schema<RegistryTokenResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -602,8 +644,8 @@ export const updateBucketSettings: API.OperationMethod<
   UpdateBucketSettingsError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<UpdateBucketSettingsRequest>,
-  output: __S(29, __c7, 1) as any as S.Schema<UpdateBucketSettingsResponse>,
+  input: __S(36, __c9, 0) as any as S.Schema<UpdateBucketSettingsRequest>,
+  output: __S(37, __c9, 1) as any as S.Schema<UpdateBucketSettingsResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -619,8 +661,8 @@ export const xetReadToken: API.OperationMethod<
   XetReadTokenError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<XetReadTokenRequest>,
-  output: __S(36, __c9, 0) as any as S.Schema<XetReadTokenResponse>,
+  input: __S(40, __c10, 0) as any as S.Schema<XetReadTokenRequest>,
+  output: __S(44, __c11, 0) as any as S.Schema<XetReadTokenResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -636,8 +678,8 @@ export const xetWriteToken: API.OperationMethod<
   XetWriteTokenError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<XetWriteTokenRequest>,
-  output: __S(36, __c9, 0) as any as S.Schema<XetWriteTokenResponse>,
+  input: __S(48, __c12, 0) as any as S.Schema<XetWriteTokenRequest>,
+  output: __S(44, __c11, 0) as any as S.Schema<XetWriteTokenResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -647,6 +689,28 @@ export const xetWriteToken: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          error: S.String,
+        }),
+      ).annotate({ identifier: "Error400Body" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          error: S.String,
+          url: S.String,
+          id: S.String,
+        }),
+      ).annotate({ identifier: "Error409Body" });
+  }
+}
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -679,7 +743,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "GetFileMetadataResponse" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -696,7 +760,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "GetResourceGroupRequest" });
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -720,7 +784,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "ListFilesRequest" });
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -736,14 +800,14 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "ListFilesResponseBodyItem" });
     case 1:
-      return S.Array(__S(12, __c3, 0));
+      return S.Array(__S(20, __c5, 0));
     case 2:
-      return S.suspend(() => __S(13, __c3, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(21, __c5, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListFilesResponse",
       });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -753,14 +817,14 @@ function __c4(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/containers/{namespace}", code: 200 })),
       ).annotate({ identifier: "ListNamespaceBucketsRequest" });
     case 1:
-      return S.Array(__S(82, __c20, 2));
+      return S.Array(__S(94, __c23, 2));
     case 2:
-      return S.suspend(() => __S(17, __c4, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(25, __c6, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListNamespaceBucketsResponse",
       });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -778,7 +842,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "ListPathsInfoRequest" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -798,7 +862,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "RegistryTokenResponse" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -806,7 +870,7 @@ function __c7(j: number): any {
           namespace: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
           private: S.optional(S.Unknown),
-          cdnRegions: S.optional(__S(57, __c14, 1)),
+          cdnRegions: S.optional(__S(69, __c17, 1)),
         }).pipe(
           T.Http({ method: "PUT", uri: "/api/containers/{namespace}/{repo}/settings", code: 200 }),
         ),
@@ -815,12 +879,12 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           private: S.optional(S.Boolean),
-          cdnRegions: S.optional(__S(57, __c14, 1)),
+          cdnRegions: S.optional(__S(69, __c17, 1)),
         }),
       ).annotate({ identifier: "UpdateBucketSettingsResponse" });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -837,7 +901,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "XetReadTokenRequest" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -849,7 +913,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "XetReadTokenResponse" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -866,7 +930,29 @@ function __c10(j: number): any {
       ).annotate({ identifier: "XetWriteTokenRequest" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          path: S.String,
+          error: S.String,
+        }),
+      ).annotate({ identifier: "BatchFileOperationsResponseFailedItem" });
+    case 1:
+      return S.Array(__S(52, __c13, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          success: S.Boolean,
+          processed: S.Number,
+          succeeded: S.Number,
+          failed: __S(53, __c13, 1),
+        }),
+      ).annotate({ identifier: "BatchFileOperationsResponse" });
+  }
+}
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -893,7 +979,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "AddResourceGroupResponse" });
   }
 }
-function __c12(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -904,27 +990,9 @@ function __c12(j: number): any {
           T.Http({ method: "POST", uri: "/api/containers/{namespace}/{repo}/batch", code: 200 }),
         ),
       ).annotate({ identifier: "BatchFileOperationsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          path: S.String,
-          error: S.String,
-        }),
-      ).annotate({ identifier: "BatchFileOperationsResponseFailedItem" });
-    case 2:
-      return S.Array(__S(49, __c12, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          success: S.Boolean,
-          processed: S.Number,
-          succeeded: S.Number,
-          failed: __S(50, __c12, 2),
-        }),
-      ).annotate({ identifier: "BatchFileOperationsResponse" });
   }
 }
-function __c13(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -934,7 +1002,7 @@ function __c13(j: number): any {
           private: S.optional(S.NullOr(S.Boolean)),
           visibility: S.optional(S.String),
           resourceGroupId: S.optional(S.String),
-          cdn: S.optional(__S(57, __c14, 1)),
+          cdn: S.optional(__S(69, __c17, 1)),
           region: S.optional(S.String),
           description: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/api/containers/{namespace}/{repo}", code: 200 })),
@@ -949,7 +1017,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "CreateBucketResponse" });
   }
 }
-function __c14(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -959,10 +1027,10 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "CreateBucketRequestCdnItem" });
     case 1:
-      return S.Array(__S(56, __c14, 0));
+      return S.Array(__S(68, __c17, 0));
   }
 }
-function __c15(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -973,13 +1041,13 @@ function __c15(j: number): any {
       ).annotate({ identifier: "DeleteBucketRequest" });
   }
 }
-function __c16(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteBucketResponse" });
   }
 }
-function __c17(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -997,7 +1065,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "DeleteTagRequest" });
   }
 }
-function __c18(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1008,7 +1076,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetBucketDetailsRequest" });
   }
 }
-function __c19(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1020,7 +1088,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GetBucketDetailsResponseResourceGroup" });
   }
 }
-function __c20(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -1044,10 +1112,10 @@ function __c20(j: number): any {
           size: S.Number,
           totalFiles: S.Number,
           repoType: S.String,
-          adminTags: S.optional(__S(80, __c20, 0)),
-          disabled: S.optional(__S(81, __c20, 1)),
-          cdnRegions: __S(57, __c14, 1),
-          resourceGroup: S.optional(__S(76, __c19, 0)),
+          adminTags: S.optional(__S(92, __c23, 0)),
+          disabled: S.optional(__S(93, __c23, 1)),
+          cdnRegions: __S(69, __c17, 1),
+          resourceGroup: S.optional(__S(88, __c22, 0)),
         }),
       ).annotate({ identifier: "GetBucketDetailsResponse" });
   }

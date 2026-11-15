@@ -29,44 +29,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: TicketError | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: TicketError | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: TicketError | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: TicketError | string;
+}
 
 export interface ConversationsMacrosDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -843,6 +863,12 @@ export interface UpdateConversationsViewsPartialRequest {
   /** Whether the current user has favorited this view. Favorited views sort to the top of the list. Favorites are personal to each user. */
   is_favorited?: boolean | undefined;
 }
+export interface TicketError {
+  /** Human-readable error message. */
+  detail: string;
+  /** Machine-readable error code. */
+  error_type?: string | undefined;
+}
 export type ConversationsMacrosDestroyError = PosthogOpError;
 export const conversationsMacrosDestroy: API.OperationMethod<
   ConversationsMacrosDestroyRequest,
@@ -850,8 +876,8 @@ export const conversationsMacrosDestroy: API.OperationMethod<
   ConversationsMacrosDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<ConversationsMacrosDestroyRequest>,
-  output: __S(248, __c31, 0) as any as S.Schema<ConversationsMacrosDestroyResponse>,
+  input: __S(248, __c31, 0) as any as S.Schema<ConversationsMacrosDestroyRequest>,
+  output: __S(256, __c32, 0) as any as S.Schema<ConversationsMacrosDestroyResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -867,8 +893,8 @@ export const conversationsTicketsBulkUpdateStatusCreate: API.OperationMethod<
   ConversationsTicketsBulkUpdateStatusCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<ConversationsTicketsBulkUpdateStatusCreateRequest>,
-  output: __S(257, __c32, 1) as any as S.Schema<BulkUpdateStatusResponse>,
+  input: __S(264, __c33, 0) as any as S.Schema<ConversationsTicketsBulkUpdateStatusCreateRequest>,
+  output: __S(265, __c33, 1) as any as S.Schema<BulkUpdateStatusResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -888,8 +914,8 @@ export const conversationsTicketsBulkUpdateTagsCreate: API.OperationMethod<
   ConversationsTicketsBulkUpdateTagsCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<ConversationsTicketsBulkUpdateTagsCreateRequest>,
-  output: __S(277, __c34, 5) as any as S.Schema<BulkUpdateTagsUUIDResponse>,
+  input: __S(280, __c35, 0) as any as S.Schema<ConversationsTicketsBulkUpdateTagsCreateRequest>,
+  output: __S(285, __c35, 5) as any as S.Schema<BulkUpdateTagsUUIDResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -905,8 +931,8 @@ export const conversationsTicketsDestroy: API.OperationMethod<
   ConversationsTicketsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(280, __c35, 0) as any as S.Schema<ConversationsTicketsDestroyRequest>,
-  output: __S(248, __c31, 0) as any as S.Schema<ConversationsTicketsDestroyResponse>,
+  input: __S(288, __c36, 0) as any as S.Schema<ConversationsTicketsDestroyRequest>,
+  output: __S(256, __c32, 0) as any as S.Schema<ConversationsTicketsDestroyResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -926,8 +952,8 @@ export const conversationsTicketsNotesDestroy: API.OperationMethod<
   ConversationsTicketsNotesDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<ConversationsTicketsNotesDestroyRequest>,
-  output: __S(248, __c31, 0) as any as S.Schema<ConversationsTicketsNotesDestroyResponse>,
+  input: __S(296, __c37, 0) as any as S.Schema<ConversationsTicketsNotesDestroyRequest>,
+  output: __S(256, __c32, 0) as any as S.Schema<ConversationsTicketsNotesDestroyResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -942,8 +968,8 @@ export const conversationsViewsDestroy: API.OperationMethod<
   ConversationsViewsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(296, __c37, 0) as any as S.Schema<ConversationsViewsDestroyRequest>,
-  output: __S(248, __c31, 0) as any as S.Schema<ConversationsViewsDestroyResponse>,
+  input: __S(304, __c38, 0) as any as S.Schema<ConversationsViewsDestroyRequest>,
+  output: __S(256, __c32, 0) as any as S.Schema<ConversationsViewsDestroyResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -958,8 +984,8 @@ export const createConversationsMacros: API.OperationMethod<
   CreateConversationsMacrosError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateConversationsMacrosRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<TicketMacro>,
+  input: __S(8, __c1, 0) as any as S.Schema<CreateConversationsMacrosRequest>,
+  output: __S(32, __c4, 0) as any as S.Schema<TicketMacro>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -974,8 +1000,8 @@ export const createConversationsMacrosUsed: API.OperationMethod<
   CreateConversationsMacrosUsedError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<CreateConversationsMacrosUsedRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<TicketMacro>,
+  input: __S(40, __c5, 0) as any as S.Schema<CreateConversationsMacrosUsedRequest>,
+  output: __S(32, __c4, 0) as any as S.Schema<TicketMacro>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -991,8 +1017,8 @@ export const createConversationsTicketsAiFeedback: API.OperationMethod<
   CreateConversationsTicketsAiFeedbackError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<CreateConversationsTicketsAiFeedbackRequest>,
-  output: __S(248, __c31, 0) as any as S.Schema<CreateConversationsTicketsAiFeedbackResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<CreateConversationsTicketsAiFeedbackRequest>,
+  output: __S(256, __c32, 0) as any as S.Schema<CreateConversationsTicketsAiFeedbackResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1008,8 +1034,8 @@ export const createConversationsTicketsAiHumanOutcome: API.OperationMethod<
   CreateConversationsTicketsAiHumanOutcomeError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<CreateConversationsTicketsAiHumanOutcomeRequest>,
-  output: __S(248, __c31, 0) as any as S.Schema<CreateConversationsTicketsAiHumanOutcomeResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<CreateConversationsTicketsAiHumanOutcomeRequest>,
+  output: __S(256, __c32, 0) as any as S.Schema<CreateConversationsTicketsAiHumanOutcomeResponse>,
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1025,8 +1051,8 @@ export const createConversationsTicketsAttachment: API.OperationMethod<
   CreateConversationsTicketsAttachmentError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<CreateConversationsTicketsAttachmentRequest>,
-  output: __S(57, __c7, 1) as any as S.Schema<TicketAttachment>,
+  input: __S(64, __c8, 0) as any as S.Schema<CreateConversationsTicketsAttachmentRequest>,
+  output: __S(65, __c8, 1) as any as S.Schema<TicketAttachment>,
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1042,8 +1068,8 @@ export const createConversationsTicketsCompose: API.OperationMethod<
   CreateConversationsTicketsComposeError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<CreateConversationsTicketsComposeRequest>,
-  output: __S(65, __c8, 1) as any as S.Schema<ComposeTicketResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<CreateConversationsTicketsComposeRequest>,
+  output: __S(73, __c9, 1) as any as S.Schema<ComposeTicketResponse>,
   errors: [BadRequest, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1059,8 +1085,8 @@ export const createConversationsTicketsNote: API.OperationMethod<
   CreateConversationsTicketsNoteError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<CreateConversationsTicketsNoteRequest>,
-  output: __S(80, __c10, 0) as any as S.Schema<TicketMessage>,
+  input: __S(80, __c10, 0) as any as S.Schema<CreateConversationsTicketsNoteRequest>,
+  output: __S(88, __c11, 0) as any as S.Schema<TicketMessage>,
   errors: [BadRequest, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1081,8 +1107,8 @@ export const createConversationsTicketsReply: API.OperationMethod<
   CreateConversationsTicketsReplyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<CreateConversationsTicketsReplyRequest>,
-  output: __S(80, __c10, 0) as any as S.Schema<TicketMessage>,
+  input: __S(96, __c12, 0) as any as S.Schema<CreateConversationsTicketsReplyRequest>,
+  output: __S(88, __c11, 0) as any as S.Schema<TicketMessage>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1097,8 +1123,8 @@ export const createConversationsView: API.OperationMethod<
   CreateConversationsViewError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<CreateConversationsViewRequest>,
-  output: __S(108, __c13, 4) as any as S.Schema<TicketView>,
+  input: __S(104, __c13, 0) as any as S.Schema<CreateConversationsViewRequest>,
+  output: __S(116, __c14, 4) as any as S.Schema<TicketView>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1114,8 +1140,8 @@ export const getConversationsAiReplyPlaybook: API.OperationMethod<
   GetConversationsAiReplyPlaybookError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<GetConversationsAiReplyPlaybookRequest>,
-  output: __S(113, __c14, 1) as any as S.Schema<AIReplyPlaybook>,
+  input: __S(120, __c15, 0) as any as S.Schema<GetConversationsAiReplyPlaybookRequest>,
+  output: __S(121, __c15, 1) as any as S.Schema<AIReplyPlaybook>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1130,8 +1156,8 @@ export const getConversationsMacros: API.OperationMethod<
   GetConversationsMacrosError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<GetConversationsMacrosRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<TicketMacro>,
+  input: __S(128, __c16, 0) as any as S.Schema<GetConversationsMacrosRequest>,
+  output: __S(32, __c4, 0) as any as S.Schema<TicketMacro>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1147,8 +1173,8 @@ export const getConversationsTicket: API.OperationMethod<
   GetConversationsTicketError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<GetConversationsTicketRequest>,
-  output: __S(141, __c17, 5) as any as S.Schema<Ticket>,
+  input: __S(136, __c17, 0) as any as S.Schema<GetConversationsTicketRequest>,
+  output: __S(149, __c18, 5) as any as S.Schema<Ticket>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1164,8 +1190,8 @@ export const getConversationsTicketsMessagesFullEmail: API.OperationMethod<
   GetConversationsTicketsMessagesFullEmailError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<GetConversationsTicketsMessagesFullEmailRequest>,
-  output: __S(145, __c18, 1) as any as S.Schema<TicketFullEmail>,
+  input: __S(152, __c19, 0) as any as S.Schema<GetConversationsTicketsMessagesFullEmailRequest>,
+  output: __S(153, __c19, 1) as any as S.Schema<TicketFullEmail>,
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1180,8 +1206,8 @@ export const getConversationsView: API.OperationMethod<
   GetConversationsViewError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<GetConversationsViewRequest>,
-  output: __S(108, __c13, 4) as any as S.Schema<TicketView>,
+  input: __S(160, __c20, 0) as any as S.Schema<GetConversationsViewRequest>,
+  output: __S(116, __c14, 4) as any as S.Schema<TicketView>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1197,10 +1223,10 @@ export const listConversationsAiContextAccountProperties: API.OperationMethod<
   ListConversationsAiContextAccountPropertiesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<ListConversationsAiContextAccountPropertiesRequest>,
+  input: __S(168, __c21, 0) as any as S.Schema<ListConversationsAiContextAccountPropertiesRequest>,
   output: __S(
-    163,
-    __c20,
+    171,
+    __c21,
     3,
   ) as any as S.Schema<ListConversationsAiContextAccountPropertiesResponse>,
   errors: [],
@@ -1217,8 +1243,8 @@ export const listConversationsMacros: API.OperationMethod<
   ListConversationsMacrosError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<ListConversationsMacrosRequest>,
-  output: __S(170, __c21, 2) as any as S.Schema<PaginatedTicketMacroList>,
+  input: __S(176, __c22, 0) as any as S.Schema<ListConversationsMacrosRequest>,
+  output: __S(178, __c22, 2) as any as S.Schema<PaginatedTicketMacroList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1234,8 +1260,8 @@ export const listConversationsTickets: API.OperationMethod<
   ListConversationsTicketsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<ListConversationsTicketsRequest>,
-  output: __S(178, __c22, 2) as any as S.Schema<PaginatedTicketList>,
+  input: __S(184, __c23, 0) as any as S.Schema<ListConversationsTicketsRequest>,
+  output: __S(186, __c23, 2) as any as S.Schema<PaginatedTicketList>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1251,8 +1277,8 @@ export const listConversationsTicketsMessages: API.OperationMethod<
   ListConversationsTicketsMessagesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<ListConversationsTicketsMessagesRequest>,
-  output: __S(186, __c23, 2) as any as S.Schema<PaginatedTicketMessageList>,
+  input: __S(192, __c24, 0) as any as S.Schema<ListConversationsTicketsMessagesRequest>,
+  output: __S(194, __c24, 2) as any as S.Schema<PaginatedTicketMessageList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1267,8 +1293,8 @@ export const listConversationsViews: API.OperationMethod<
   ListConversationsViewsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<ListConversationsViewsRequest>,
-  output: __S(194, __c24, 2) as any as S.Schema<PaginatedTicketViewList>,
+  input: __S(200, __c25, 0) as any as S.Schema<ListConversationsViewsRequest>,
+  output: __S(202, __c25, 2) as any as S.Schema<PaginatedTicketViewList>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1283,8 +1309,8 @@ export const updateConversationsMacrosPartial: API.OperationMethod<
   UpdateConversationsMacrosPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<UpdateConversationsMacrosPartialRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<TicketMacro>,
+  input: __S(208, __c26, 0) as any as S.Schema<UpdateConversationsMacrosPartialRequest>,
+  output: __S(32, __c4, 0) as any as S.Schema<TicketMacro>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1300,8 +1326,8 @@ export const updateConversationsTicket: API.OperationMethod<
   UpdateConversationsTicketError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<UpdateConversationsTicketRequest>,
-  output: __S(141, __c17, 5) as any as S.Schema<Ticket>,
+  input: __S(216, __c27, 0) as any as S.Schema<UpdateConversationsTicketRequest>,
+  output: __S(149, __c18, 5) as any as S.Schema<Ticket>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1321,8 +1347,8 @@ export const updateConversationsTicketsNotesPartial: API.OperationMethod<
   UpdateConversationsTicketsNotesPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<UpdateConversationsTicketsNotesPartialRequest>,
-  output: __S(80, __c10, 0) as any as S.Schema<TicketMessage>,
+  input: __S(224, __c28, 0) as any as S.Schema<UpdateConversationsTicketsNotesPartialRequest>,
+  output: __S(88, __c11, 0) as any as S.Schema<TicketMessage>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1341,8 +1367,8 @@ export const updateConversationsTicketsPartial: API.OperationMethod<
   UpdateConversationsTicketsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<UpdateConversationsTicketsPartialRequest>,
-  output: __S(141, __c17, 5) as any as S.Schema<Ticket>,
+  input: __S(232, __c29, 0) as any as S.Schema<UpdateConversationsTicketsPartialRequest>,
+  output: __S(149, __c18, 5) as any as S.Schema<Ticket>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1357,8 +1383,8 @@ export const updateConversationsViewsPartial: API.OperationMethod<
   UpdateConversationsViewsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<UpdateConversationsViewsPartialRequest>,
-  output: __S(108, __c13, 4) as any as S.Schema<TicketView>,
+  input: __S(240, __c30, 0) as any as S.Schema<UpdateConversationsViewsPartialRequest>,
+  output: __S(116, __c14, 4) as any as S.Schema<TicketView>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1368,6 +1394,17 @@ export const updateConversationsViewsPartial: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          detail: S.String,
+          error_type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TicketError" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1387,13 +1424,13 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateConversationsMacrosRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1405,13 +1442,13 @@ function __c2(j: number): any {
           last_name: S.optional(S.String),
           email: S.optional(S.String),
           is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.optional(S.NullOr(__S(8, __c1, 0))),
+          hedgehog_config: S.optional(S.NullOr(__S(16, __c2, 0))),
           role_at_organization: S.optional(S.NullOr(S.Unknown)),
         }),
       ).annotate({ identifier: "UserBasic" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1425,12 +1462,12 @@ function __c3(j: number): any {
           last_used_at: S.NullOr(S.String),
           created_at: S.String,
           updated_at: S.NullOr(S.String),
-          created_by: S.NullOr(__S(16, __c2, 0)),
+          created_by: S.NullOr(__S(24, __c3, 0)),
         }),
       ).annotate({ identifier: "TicketMacro" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1447,7 +1484,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "CreateConversationsMacrosUsedRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1467,7 +1504,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CreateConversationsTicketsAiFeedbackRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1486,7 +1523,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "CreateConversationsTicketsAiHumanOutcomeRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1514,7 +1551,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "TicketAttachment" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1526,7 +1563,7 @@ function __c8(j: number): any {
           email_config_id: S.optional(S.NullOr(S.String)),
           message: S.String,
           rich_content: S.optional(S.Unknown),
-          tags: S.optional(__S(264, __c33, 0)),
+          tags: S.optional(__S(272, __c34, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1544,7 +1581,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "ComposeTicketResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1563,7 +1600,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "CreateConversationsTicketsNoteRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1583,7 +1620,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "TicketMessage" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1603,14 +1640,14 @@ function __c11(j: number): any {
       ).annotate({ identifier: "CreateConversationsTicketsReplyRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          filters: S.optional(__S(107, __c13, 3)),
+          filters: S.optional(__S(115, __c14, 3)),
           is_favorited: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -1622,7 +1659,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "CreateConversationsViewRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -1638,18 +1675,18 @@ function __c13(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          status: S.optional(__S(104, __c13, 0)),
-          priority: S.optional(__S(104, __c13, 0)),
+          status: S.optional(__S(112, __c14, 0)),
+          priority: S.optional(__S(112, __c14, 0)),
           channel: S.optional(S.String),
           sla: S.optional(S.String),
-          aiTriageResult: S.optional(__S(104, __c13, 0)),
-          assignee: S.optional(__S(105, __c13, 1)),
-          tags: S.optional(__S(264, __c33, 0)),
+          aiTriageResult: S.optional(__S(112, __c14, 0)),
+          assignee: S.optional(__S(113, __c14, 1)),
+          tags: S.optional(__S(272, __c34, 0)),
           tagsMatch: S.optional(S.String),
-          tagsExclude: S.optional(__S(264, __c33, 0)),
+          tagsExclude: S.optional(__S(272, __c34, 0)),
           dateFrom: S.optional(S.NullOr(S.String)),
           dateTo: S.optional(S.NullOr(S.String)),
-          sorting: S.optional(S.NullOr(__S(106, __c13, 2))),
+          sorting: S.optional(S.NullOr(__S(114, __c14, 2))),
           search: S.optional(S.String),
         }),
       ).annotate({ identifier: "TicketViewFilters" });
@@ -1659,15 +1696,15 @@ function __c13(j: number): any {
           id: S.optional(S.String),
           short_id: S.optional(S.String),
           name: S.optional(S.String),
-          filters: S.optional(__S(107, __c13, 3)),
+          filters: S.optional(__S(115, __c14, 3)),
           created_at: S.optional(S.String),
-          created_by: S.optional(S.NullOr(__S(16, __c2, 0))),
+          created_by: S.optional(S.NullOr(__S(24, __c3, 0))),
           is_favorited: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "TicketView" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1695,7 +1732,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "AIReplyPlaybook" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1712,7 +1749,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetConversationsMacrosRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1729,7 +1766,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetConversationsTicketRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
@@ -1738,8 +1775,8 @@ function __c17(j: number): any {
         S.Struct({
           id: S.optional(S.NullOr(S.String)),
           type: S.optional(S.String),
-          user: S.optional(S.NullOr(__S(136, __c17, 0))),
-          role: S.optional(S.NullOr(__S(136, __c17, 0))),
+          user: S.optional(S.NullOr(__S(144, __c18, 0))),
+          role: S.optional(S.NullOr(__S(144, __c18, 0))),
         }),
       ).annotate({ identifier: "TicketAssignment" });
     case 2:
@@ -1757,8 +1794,8 @@ function __c17(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
-          distinct_ids: S.optional(__S(264, __c33, 0)),
-          properties: S.optional(__S(8, __c1, 0)),
+          distinct_ids: S.optional(__S(272, __c34, 0)),
+          properties: S.optional(__S(16, __c2, 0)),
           created_at: S.optional(S.String),
           is_identified: S.optional(S.Boolean),
         }),
@@ -1775,7 +1812,7 @@ function __c17(j: number): any {
           distinct_id: S.optional(S.String),
           status: S.optional(S.String),
           priority: S.optional(S.NullOr(S.Unknown)),
-          assignee: S.optional(__S(137, __c17, 1)),
+          assignee: S.optional(__S(145, __c18, 1)),
           anonymous_traits: S.optional(S.Unknown),
           identity_verified: S.optional(S.NullOr(S.Boolean)),
           ai_resolved: S.optional(S.Boolean),
@@ -1789,7 +1826,7 @@ function __c17(j: number): any {
           unread_team_count: S.optional(S.Number),
           unread_customer_count: S.optional(S.Number),
           session_id: S.optional(S.NullOr(S.String)),
-          session_context: S.optional(__S(138, __c17, 2)),
+          session_context: S.optional(__S(146, __c18, 2)),
           sla_due_at: S.optional(S.NullOr(S.String)),
           snoozed_until: S.optional(S.NullOr(S.String)),
           slack_channel_id: S.optional(S.NullOr(S.String)),
@@ -1804,14 +1841,14 @@ function __c17(j: number): any {
           zendesk_ticket_id: S.optional(S.NullOr(S.Number)),
           organization_id: S.optional(S.NullOr(S.String)),
           organization_id_source: S.optional(S.NullOr(S.String)),
-          person: S.optional(S.NullOr(__S(139, __c17, 3))),
-          tags: S.optional(__S(140, __c17, 4)),
+          person: S.optional(S.NullOr(__S(147, __c18, 3))),
+          tags: S.optional(__S(148, __c18, 4)),
           user_access_level: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "Ticket" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1835,7 +1872,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "TicketFullEmail" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1852,7 +1889,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GetConversationsViewRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1874,14 +1911,14 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "AIContextAccountProperty" });
     case 2:
-      return S.Array(__S(161, __c20, 1));
+      return S.Array(__S(169, __c21, 1));
     case 3:
-      return S.suspend(() => __S(162, __c20, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(170, __c21, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListConversationsAiContextAccountPropertiesResponse",
       });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1898,19 +1935,19 @@ function __c21(j: number): any {
         ),
       ).annotate({ identifier: "ListConversationsMacrosRequest" });
     case 1:
-      return S.Array(__S(24, __c3, 0));
+      return S.Array(__S(32, __c4, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(169, __c21, 1),
+          results: __S(177, __c22, 1),
         }),
       ).annotate({ identifier: "PaginatedTicketMacroList" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1945,19 +1982,19 @@ function __c22(j: number): any {
         ),
       ).annotate({ identifier: "ListConversationsTicketsRequest" });
     case 1:
-      return S.Array(__S(141, __c17, 5));
+      return S.Array(__S(149, __c18, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(177, __c22, 1)),
+          results: S.optional(__S(185, __c23, 1)),
         }),
       ).annotate({ identifier: "PaginatedTicketList" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1975,19 +2012,19 @@ function __c23(j: number): any {
         ),
       ).annotate({ identifier: "ListConversationsTicketsMessagesRequest" });
     case 1:
-      return S.Array(__S(80, __c10, 0));
+      return S.Array(__S(88, __c11, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(185, __c23, 1),
+          results: __S(193, __c24, 1),
         }),
       ).annotate({ identifier: "PaginatedTicketMessageList" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2004,19 +2041,19 @@ function __c24(j: number): any {
         ),
       ).annotate({ identifier: "ListConversationsViewsRequest" });
     case 1:
-      return S.Array(__S(108, __c13, 4));
+      return S.Array(__S(116, __c14, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(193, __c24, 1)),
+          results: S.optional(__S(201, __c25, 1)),
         }),
       ).annotate({ identifier: "PaginatedTicketViewList" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2037,7 +2074,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "UpdateConversationsMacrosPartialRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2052,7 +2089,7 @@ function __c26(j: number): any {
           escalation_reason: S.optional(S.NullOr(S.String)),
           sla_due_at: S.optional(S.NullOr(S.String)),
           snoozed_until: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(264, __c33, 0)),
+          tags: S.optional(__S(272, __c34, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -2063,7 +2100,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "UpdateConversationsTicketRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2083,7 +2120,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "UpdateConversationsTicketsNotesPartialRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2098,7 +2135,7 @@ function __c28(j: number): any {
           escalation_reason: S.optional(S.NullOr(S.String)),
           sla_due_at: S.optional(S.NullOr(S.String)),
           snoozed_until: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(264, __c33, 0)),
+          tags: S.optional(__S(272, __c34, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2109,7 +2146,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "UpdateConversationsTicketsPartialRequest" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2117,7 +2154,7 @@ function __c29(j: number): any {
           project_id: S.String.pipe(T.Label()),
           short_id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          filters: S.optional(__S(107, __c13, 3)),
+          filters: S.optional(__S(115, __c14, 3)),
           is_favorited: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -2129,7 +2166,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "UpdateConversationsViewsPartialRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2146,7 +2183,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "ConversationsMacrosDestroyRequest" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -2154,13 +2191,13 @@ function __c31(j: number): any {
       });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          ids: __S(264, __c33, 0),
+          ids: __S(272, __c34, 0),
           status: S.String,
         }).pipe(
           T.Http({
@@ -2174,26 +2211,26 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.Struct({
           updated: S.Number,
-          ids: __S(264, __c33, 0),
+          ids: __S(272, __c34, 0),
         }),
       ).annotate({ identifier: "BulkUpdateStatusResponse" });
-  }
-}
-function __c33(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
   }
 }
 function __c34(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.String);
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          ids: __S(264, __c33, 0),
+          ids: __S(272, __c34, 0),
           action: S.String,
-          tags: __S(264, __c33, 0),
+          tags: __S(272, __c34, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2206,11 +2243,11 @@ function __c34(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          tags: __S(264, __c33, 0),
+          tags: __S(272, __c34, 0),
         }),
       ).annotate({ identifier: "BulkUpdateTagsUUIDItem" });
     case 2:
-      return S.Array(__S(273, __c34, 1));
+      return S.Array(__S(281, __c35, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -2219,17 +2256,17 @@ function __c34(j: number): any {
         }),
       ).annotate({ identifier: "BulkUpdateTagsUUIDError" });
     case 4:
-      return S.Array(__S(275, __c34, 3));
+      return S.Array(__S(283, __c35, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          updated: __S(274, __c34, 2),
-          skipped: __S(276, __c34, 4),
+          updated: __S(282, __c35, 2),
+          skipped: __S(284, __c35, 4),
         }),
       ).annotate({ identifier: "BulkUpdateTagsUUIDResponse" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2246,7 +2283,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "ConversationsTicketsDestroyRequest" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2264,7 +2301,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "ConversationsTicketsNotesDestroyRequest" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

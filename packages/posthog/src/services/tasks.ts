@@ -29,33 +29,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(8, __c1, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: TaskRunErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(8, __c1, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: TaskRunErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(8, __c1, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: TaskRunErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -2249,6 +2264,34 @@ export interface UpdateTasksRepoRoutingRulesPartialRequest {
   /** Target repository as owner/repo, e.g. 'posthog/posthog.com'. */
   repository?: string | undefined;
 }
+/** Artifact ids that could not be resolved for the run */
+export type TaskRunErrorResponseMissingArtifactIdsList = Array<string>;
+/** * `burst` - burst * `sustained` - sustained */
+export type LimitTypeEnum = "burst" | "sustained";
+export interface TaskRunErrorResponse {
+  /** Human-readable validation error */
+  detail?: string | undefined;
+  /** Human-readable error message */
+  error?: string | undefined;
+  /** Machine-readable error type */
+  type?: string | undefined;
+  /** Machine-readable error code */
+  code?: string | undefined;
+  /** After confirmed warm startup nondelivery, echo this token in X-PostHog-Warm-Retry to retry the same run and message within 60 seconds. */
+  retry_token?: string | undefined;
+  /** Why PostHog Desktop access was denied, when applicable. * `startup_plan` - startup_plan * `prepaid_credits` - prepaid_credits */
+  reason?: DesktopAccessReasonEnum | undefined;
+  /** Request field associated with the error */
+  attr?: string | undefined;
+  /** Artifact ids that could not be resolved for the run */
+  missing_artifact_ids?: TaskRunErrorResponseMissingArtifactIdsList | undefined;
+  /** Which usage limit was hit on a rate_limited error: 'burst' (daily) or 'sustained' (monthly) * `burst` - burst * `sustained` - sustained */
+  limit_type?: LimitTypeEnum | undefined;
+  /** ISO 8601 timestamp when the hit usage limit resets, when known */
+  reset_at?: string | undefined;
+  /** Whether the team is on a Pro plan (drives the upgrade-prompt copy) */
+  is_pro?: boolean | undefined;
+}
 export type CreateTaskError = BadRequest | Forbidden | NotFound | Conflict | PosthogOpError;
 /** API for managing tasks within a project. Tasks represent units of work to be performed by an agent. */
 export const createTask: API.OperationMethod<
@@ -2257,8 +2300,8 @@ export const createTask: API.OperationMethod<
   CreateTaskError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(324, __c40, 4) as any as S.Schema<CreateTaskRequest>,
-  output: __S(325, __c40, 5) as any as S.Schema<TaskCreateResponseDTO>,
+  input: __S(340, __c42, 4) as any as S.Schema<CreateTaskRequest>,
+  output: __S(341, __c42, 5) as any as S.Schema<TaskCreateResponseDTO>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2274,8 +2317,8 @@ export const createTasksConfig: API.OperationMethod<
   CreateTasksConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c56, 0) as any as S.Schema<CreateTasksConfigRequest>,
-  output: __S(456, __c57, 0) as any as S.Schema<TasksTeamConfigResponse>,
+  input: __S(456, __c57, 0) as any as S.Schema<CreateTasksConfigRequest>,
+  output: __S(464, __c58, 0) as any as S.Schema<TasksTeamConfigResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2291,8 +2334,8 @@ export const createTasksConfigAgentInstruction: API.OperationMethod<
   CreateTasksConfigAgentInstructionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(552, __c69, 0) as any as S.Schema<CreateTasksConfigAgentInstructionRequest>,
-  output: __S(560, __c70, 0) as any as S.Schema<TasksAgentInstructions>,
+  input: __S(560, __c70, 0) as any as S.Schema<CreateTasksConfigAgentInstructionRequest>,
+  output: __S(568, __c71, 0) as any as S.Schema<TasksAgentInstructions>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2308,8 +2351,8 @@ export const createTasksHandoff: API.OperationMethod<
   CreateTasksHandoffError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(568, __c71, 0) as any as S.Schema<CreateTasksHandoffRequest>,
-  output: __S(576, __c72, 0) as any as S.Schema<TaskDetailDTO>,
+  input: __S(576, __c72, 0) as any as S.Schema<CreateTasksHandoffRequest>,
+  output: __S(584, __c73, 0) as any as S.Schema<TaskDetailDTO>,
   errors: [Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2325,8 +2368,8 @@ export const createTasksMeConfig: API.OperationMethod<
   CreateTasksMeConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(584, __c73, 0) as any as S.Schema<CreateTasksMeConfigRequest>,
-  output: __S(601, __c75, 1) as any as S.Schema<TasksUserConfigResponse>,
+  input: __S(592, __c74, 0) as any as S.Schema<CreateTasksMeConfigRequest>,
+  output: __S(609, __c76, 1) as any as S.Schema<TasksUserConfigResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2342,8 +2385,8 @@ export const createTasksMeConfigAgentInstruction: API.OperationMethod<
   CreateTasksMeConfigAgentInstructionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c76, 0) as any as S.Schema<CreateTasksMeConfigAgentInstructionRequest>,
-  output: __S(560, __c70, 0) as any as S.Schema<TasksAgentInstructions>,
+  input: __S(616, __c77, 0) as any as S.Schema<CreateTasksMeConfigAgentInstructionRequest>,
+  output: __S(568, __c71, 0) as any as S.Schema<TasksAgentInstructions>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2359,8 +2402,8 @@ export const createTasksMeConfigTaskDefault: API.OperationMethod<
   CreateTasksMeConfigTaskDefaultError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateTasksMeConfigTaskDefaultRequest>,
-  output: __S(592, __c74, 0) as any as S.Schema<TasksTaskDefaults>,
+  input: __S(16, __c2, 0) as any as S.Schema<CreateTasksMeConfigTaskDefaultRequest>,
+  output: __S(600, __c75, 0) as any as S.Schema<TasksTaskDefaults>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2376,8 +2419,8 @@ export const createTasksPin: API.OperationMethod<
   CreateTasksPinError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<CreateTasksPinRequest>,
-  output: __S(9, __c1, 1) as any as S.Schema<TaskPinResponse>,
+  input: __S(24, __c3, 0) as any as S.Schema<CreateTasksPinRequest>,
+  output: __S(25, __c3, 1) as any as S.Schema<TaskPinResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2393,8 +2436,8 @@ export const createTasksPresence: API.OperationMethod<
   CreateTasksPresenceError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<CreateTasksPresenceRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<CreateTasksPresenceResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<CreateTasksPresenceRequest>,
+  output: __S(40, __c5, 0) as any as S.Schema<CreateTasksPresenceResponse>,
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2410,8 +2453,8 @@ export const createTasksPullRequestTitle: API.OperationMethod<
   CreateTasksPullRequestTitleError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<CreateTasksPullRequestTitleRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<TaskPullRequestTitles>,
+  input: __S(48, __c6, 0) as any as S.Schema<CreateTasksPullRequestTitleRequest>,
+  output: __S(49, __c6, 1) as any as S.Schema<TaskPullRequestTitles>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2427,8 +2470,8 @@ export const createTasksRepoRoutingRule: API.OperationMethod<
   CreateTasksRepoRoutingRuleError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<CreateTasksRepoRoutingRuleRequest>,
-  output: __S(57, __c7, 1) as any as S.Schema<RepoRoutingRule>,
+  input: __S(64, __c8, 0) as any as S.Schema<CreateTasksRepoRoutingRuleRequest>,
+  output: __S(73, __c9, 1) as any as S.Schema<RepoRoutingRule>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2444,8 +2487,8 @@ export const createTasksRun: API.OperationMethod<
   CreateTasksRunError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<CreateTasksRunRequest>,
-  output: __S(65, __c8, 1) as any as S.Schema<TaskRunResponse>,
+  input: __S(80, __c10, 0) as any as S.Schema<CreateTasksRunRequest>,
+  output: __S(81, __c10, 1) as any as S.Schema<TaskRunResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2461,8 +2504,8 @@ export const createTasksRunsLivingArtifact: API.OperationMethod<
   CreateTasksRunsLivingArtifactError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<CreateTasksRunsLivingArtifactRequest>,
-  output: __S(80, __c10, 0) as any as S.Schema<TaskRunLivingArtifactResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<CreateTasksRunsLivingArtifactRequest>,
+  output: __S(96, __c12, 0) as any as S.Schema<TaskRunLivingArtifactResponse>,
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2478,8 +2521,8 @@ export const createTasksSummary: API.OperationMethod<
   CreateTasksSummaryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<CreateTasksSummaryRequest>,
-  output: __S(99, __c12, 3) as any as S.Schema<PaginatedTaskSummaryDTOList>,
+  input: __S(112, __c14, 0) as any as S.Schema<CreateTasksSummaryRequest>,
+  output: __S(115, __c14, 3) as any as S.Schema<PaginatedTaskSummaryDTOList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2495,8 +2538,8 @@ export const createTasksThreadMessage: API.OperationMethod<
   CreateTasksThreadMessageError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<CreateTasksThreadMessageRequest>,
-  output: __S(120, __c15, 0) as any as S.Schema<TaskThreadMessageDTO>,
+  input: __S(128, __c16, 0) as any as S.Schema<CreateTasksThreadMessageRequest>,
+  output: __S(136, __c17, 0) as any as S.Schema<TaskThreadMessageDTO>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2512,8 +2555,8 @@ export const createTasksWarm: API.OperationMethod<
   CreateTasksWarmError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<CreateTasksWarmRequest>,
-  output: __S(136, __c17, 0) as any as S.Schema<WarmTaskResponse>,
+  input: __S(144, __c18, 0) as any as S.Schema<CreateTasksWarmRequest>,
+  output: __S(152, __c19, 0) as any as S.Schema<WarmTaskResponse>,
   errors: [Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2529,8 +2572,8 @@ export const editTasksRunsLivingArtifact: API.OperationMethod<
   EditTasksRunsLivingArtifactError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<EditTasksRunsLivingArtifactRequest>,
-  output: __S(80, __c10, 0) as any as S.Schema<TaskRunLivingArtifactResponse>,
+  input: __S(160, __c20, 0) as any as S.Schema<EditTasksRunsLivingArtifactRequest>,
+  output: __S(96, __c12, 0) as any as S.Schema<TaskRunLivingArtifactResponse>,
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2546,8 +2589,8 @@ export const getCodeInvitesCheckAccess: API.OperationMethod<
   GetCodeInvitesCheckAccessError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<GetCodeInvitesCheckAccessRequest>,
-  output: __S(153, __c19, 1) as any as S.Schema<LegacyDesktopAccessResponse>,
+  input: __S(168, __c21, 0) as any as S.Schema<GetCodeInvitesCheckAccessRequest>,
+  output: __S(169, __c21, 1) as any as S.Schema<LegacyDesktopAccessResponse>,
   errors: [Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2563,8 +2606,8 @@ export const getDesktopAccess: API.OperationMethod<
   GetDesktopAccessError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<GetDesktopAccessRequest>,
-  output: __S(161, __c20, 1) as any as S.Schema<DesktopAccessResponse>,
+  input: __S(176, __c22, 0) as any as S.Schema<GetDesktopAccessRequest>,
+  output: __S(177, __c22, 1) as any as S.Schema<DesktopAccessResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2580,8 +2623,8 @@ export const getTask: API.OperationMethod<
   GetTaskError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<GetTaskRequest>,
-  output: __S(576, __c72, 0) as any as S.Schema<TaskDetailDTO>,
+  input: __S(184, __c23, 0) as any as S.Schema<GetTaskRequest>,
+  output: __S(584, __c73, 0) as any as S.Schema<TaskDetailDTO>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2597,8 +2640,8 @@ export const getTasksActiveWizardRun: API.OperationMethod<
   GetTasksActiveWizardRunError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<GetTasksActiveWizardRunRequest>,
-  output: __S(177, __c22, 1) as any as S.Schema<WizardCloudRunDTO>,
+  input: __S(192, __c24, 0) as any as S.Schema<GetTasksActiveWizardRunRequest>,
+  output: __S(193, __c24, 1) as any as S.Schema<WizardCloudRunDTO>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2614,8 +2657,8 @@ export const getTasksComment: API.OperationMethod<
   GetTasksCommentError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<GetTasksCommentRequest>,
-  output: __S(188, __c23, 4) as any as S.Schema<TaskCommentDetail>,
+  input: __S(200, __c25, 0) as any as S.Schema<GetTasksCommentRequest>,
+  output: __S(204, __c25, 4) as any as S.Schema<TaskCommentDetail>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2631,8 +2674,8 @@ export const getTasksModel: API.OperationMethod<
   GetTasksModelError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<GetTasksModelRequest>,
-  output: __S(203, __c25, 3) as any as S.Schema<ModelCatalogueResponse>,
+  input: __S(216, __c27, 0) as any as S.Schema<GetTasksModelRequest>,
+  output: __S(219, __c27, 3) as any as S.Schema<ModelCatalogueResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2648,8 +2691,8 @@ export const getTasksPinned: API.OperationMethod<
   GetTasksPinnedError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<GetTasksPinnedRequest>,
-  output: __S(217, __c27, 1) as any as S.Schema<PinnedTaskIdsResponse>,
+  input: __S(232, __c29, 0) as any as S.Schema<GetTasksPinnedRequest>,
+  output: __S(233, __c29, 1) as any as S.Schema<PinnedTaskIdsResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2665,8 +2708,8 @@ export const getTasksRepoRoutingRule: API.OperationMethod<
   GetTasksRepoRoutingRuleError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<GetTasksRepoRoutingRuleRequest>,
-  output: __S(57, __c7, 1) as any as S.Schema<RepoRoutingRule>,
+  input: __S(240, __c30, 0) as any as S.Schema<GetTasksRepoRoutingRuleRequest>,
+  output: __S(73, __c9, 1) as any as S.Schema<RepoRoutingRule>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2682,8 +2725,8 @@ export const getTasksRepository: API.OperationMethod<
   GetTasksRepositoryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<GetTasksRepositoryRequest>,
-  output: __S(233, __c29, 1) as any as S.Schema<TaskRepositoriesResponse>,
+  input: __S(248, __c31, 0) as any as S.Schema<GetTasksRepositoryRequest>,
+  output: __S(249, __c31, 1) as any as S.Schema<TaskRepositoriesResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2699,8 +2742,8 @@ export const getTasksRepositoryReadiness: API.OperationMethod<
   GetTasksRepositoryReadinessError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<GetTasksRepositoryReadinessRequest>,
-  output: __S(243, __c30, 3) as any as S.Schema<RepositoryReadinessResponse>,
+  input: __S(256, __c32, 0) as any as S.Schema<GetTasksRepositoryReadinessRequest>,
+  output: __S(259, __c32, 3) as any as S.Schema<RepositoryReadinessResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2716,8 +2759,8 @@ export const getTasksReview: API.OperationMethod<
   GetTasksReviewError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(248, __c31, 0) as any as S.Schema<GetTasksReviewRequest>,
-  output: __S(251, __c31, 3) as any as S.Schema<TaskReview>,
+  input: __S(264, __c33, 0) as any as S.Schema<GetTasksReviewRequest>,
+  output: __S(267, __c33, 3) as any as S.Schema<TaskReview>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2733,8 +2776,8 @@ export const getTasksSlackThreadContext: API.OperationMethod<
   GetTasksSlackThreadContextError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<GetTasksSlackThreadContextRequest>,
-  output: __S(262, __c32, 6) as any as S.Schema<SlackThreadContextResponse>,
+  input: __S(272, __c34, 0) as any as S.Schema<GetTasksSlackThreadContextRequest>,
+  output: __S(278, __c34, 6) as any as S.Schema<SlackThreadContextResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2750,8 +2793,8 @@ export const getTasksSource: API.OperationMethod<
   GetTasksSourceError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<GetTasksSourceRequest>,
-  output: __S(265, __c33, 1) as any as S.Schema<TaskSourcesResponse>,
+  input: __S(280, __c35, 0) as any as S.Schema<GetTasksSourceRequest>,
+  output: __S(281, __c35, 1) as any as S.Schema<TaskSourcesResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2767,8 +2810,8 @@ export const getTasksUsage: API.OperationMethod<
   GetTasksUsageError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<GetTasksUsageRequest>,
-  output: __S(273, __c34, 1) as any as S.Schema<TaskUsageResponse>,
+  input: __S(288, __c36, 0) as any as S.Schema<GetTasksUsageRequest>,
+  output: __S(289, __c36, 1) as any as S.Schema<TaskUsageResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2784,8 +2827,8 @@ export const listTasks: API.OperationMethod<
   ListTasksError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(280, __c35, 0) as any as S.Schema<ListTasksRequest>,
-  output: __S(282, __c35, 2) as any as S.Schema<PaginatedTaskListItemList>,
+  input: __S(296, __c37, 0) as any as S.Schema<ListTasksRequest>,
+  output: __S(298, __c37, 2) as any as S.Schema<PaginatedTaskListItemList>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2801,8 +2844,8 @@ export const listTasksArtifacts: API.OperationMethod<
   ListTasksArtifactsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<ListTasksArtifactsRequest>,
-  output: __S(290, __c36, 2) as any as S.Schema<TaskArtifactsResponse>,
+  input: __S(304, __c38, 0) as any as S.Schema<ListTasksArtifactsRequest>,
+  output: __S(306, __c38, 2) as any as S.Schema<TaskArtifactsResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2818,8 +2861,8 @@ export const listTasksComments: API.OperationMethod<
   ListTasksCommentsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(296, __c37, 0) as any as S.Schema<ListTasksCommentsRequest>,
-  output: __S(299, __c37, 3) as any as S.Schema<TaskCommentsResponse>,
+  input: __S(312, __c39, 0) as any as S.Schema<ListTasksCommentsRequest>,
+  output: __S(315, __c39, 3) as any as S.Schema<TaskCommentsResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2835,8 +2878,8 @@ export const listTasksConfig: API.OperationMethod<
   ListTasksConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c38, 0) as any as S.Schema<ListTasksConfigRequest>,
-  output: __S(456, __c57, 0) as any as S.Schema<TasksTeamConfigResponse>,
+  input: __S(320, __c40, 0) as any as S.Schema<ListTasksConfigRequest>,
+  output: __S(464, __c58, 0) as any as S.Schema<TasksTeamConfigResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2852,8 +2895,8 @@ export const listTasksMeConfig: API.OperationMethod<
   ListTasksMeConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(312, __c39, 0) as any as S.Schema<ListTasksMeConfigRequest>,
-  output: __S(601, __c75, 1) as any as S.Schema<TasksUserConfigResponse>,
+  input: __S(328, __c41, 0) as any as S.Schema<ListTasksMeConfigRequest>,
+  output: __S(609, __c76, 1) as any as S.Schema<TasksUserConfigResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2869,8 +2912,8 @@ export const listTasksRepoRoutingRules: API.OperationMethod<
   ListTasksRepoRoutingRulesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c46, 0) as any as S.Schema<ListTasksRepoRoutingRulesRequest>,
-  output: __S(370, __c46, 2) as any as S.Schema<ListTasksRepoRoutingRulesResponse>,
+  input: __S(376, __c47, 0) as any as S.Schema<ListTasksRepoRoutingRulesRequest>,
+  output: __S(378, __c47, 2) as any as S.Schema<ListTasksRepoRoutingRulesResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2886,8 +2929,8 @@ export const listTasksRunsLivingArtifacts: API.OperationMethod<
   ListTasksRunsLivingArtifactsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(376, __c47, 0) as any as S.Schema<ListTasksRunsLivingArtifactsRequest>,
-  output: __S(378, __c47, 2) as any as S.Schema<TaskRunLivingArtifactsResponse>,
+  input: __S(384, __c48, 0) as any as S.Schema<ListTasksRunsLivingArtifactsRequest>,
+  output: __S(386, __c48, 2) as any as S.Schema<TaskRunLivingArtifactsResponse>,
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2903,8 +2946,8 @@ export const listTasksThreadMessages: API.OperationMethod<
   ListTasksThreadMessagesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c48, 0) as any as S.Schema<ListTasksThreadMessagesRequest>,
-  output: __S(386, __c48, 2) as any as S.Schema<PaginatedTaskThreadMessageDTOList>,
+  input: __S(392, __c49, 0) as any as S.Schema<ListTasksThreadMessagesRequest>,
+  output: __S(394, __c49, 2) as any as S.Schema<PaginatedTaskThreadMessageDTOList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2920,8 +2963,8 @@ export const tasksDestroy: API.OperationMethod<
   TasksDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(392, __c49, 0) as any as S.Schema<TasksDestroyRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<TasksDestroyResponse>,
+  input: __S(400, __c50, 0) as any as S.Schema<TasksDestroyRequest>,
+  output: __S(40, __c5, 0) as any as S.Schema<TasksDestroyResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2937,8 +2980,8 @@ export const tasksPresenceDestroy: API.OperationMethod<
   TasksPresenceDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c50, 0) as any as S.Schema<TasksPresenceDestroyRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<TasksPresenceDestroyResponse>,
+  input: __S(408, __c51, 0) as any as S.Schema<TasksPresenceDestroyRequest>,
+  output: __S(40, __c5, 0) as any as S.Schema<TasksPresenceDestroyResponse>,
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2954,8 +2997,8 @@ export const tasksRepoRoutingRulesDestroy: API.OperationMethod<
   TasksRepoRoutingRulesDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(408, __c51, 0) as any as S.Schema<TasksRepoRoutingRulesDestroyRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<TasksRepoRoutingRulesDestroyResponse>,
+  input: __S(416, __c52, 0) as any as S.Schema<TasksRepoRoutingRulesDestroyRequest>,
+  output: __S(40, __c5, 0) as any as S.Schema<TasksRepoRoutingRulesDestroyResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2971,8 +3014,8 @@ export const tasksRunsLivingArtifactsChart: API.OperationMethod<
   TasksRunsLivingArtifactsChartError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c52, 0) as any as S.Schema<TasksRunsLivingArtifactsChartRequest>,
-  output: __S(417, __c52, 1) as any as S.Schema<TaskRunLivingArtifactChartResponse>,
+  input: __S(424, __c53, 0) as any as S.Schema<TasksRunsLivingArtifactsChartRequest>,
+  output: __S(425, __c53, 1) as any as S.Schema<TaskRunLivingArtifactChartResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2988,8 +3031,8 @@ export const tasksRunsLivingArtifactsOpen: API.OperationMethod<
   TasksRunsLivingArtifactsOpenError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(424, __c53, 0) as any as S.Schema<TasksRunsLivingArtifactsOpenRequest>,
-  output: __S(425, __c53, 1) as any as S.Schema<TaskRunLivingArtifactOpenResponse>,
+  input: __S(432, __c54, 0) as any as S.Schema<TasksRunsLivingArtifactsOpenRequest>,
+  output: __S(433, __c54, 1) as any as S.Schema<TaskRunLivingArtifactOpenResponse>,
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3005,8 +3048,8 @@ export const tasksRunsLivingArtifactsVersionContent: API.OperationMethod<
   TasksRunsLivingArtifactsVersionContentError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c54, 0) as any as S.Schema<TasksRunsLivingArtifactsVersionContentRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<TasksRunsLivingArtifactsVersionContentResponse>,
+  input: __S(440, __c55, 0) as any as S.Schema<TasksRunsLivingArtifactsVersionContentRequest>,
+  output: __S(40, __c5, 0) as any as S.Schema<TasksRunsLivingArtifactsVersionContentResponse>,
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3022,8 +3065,8 @@ export const tasksSearchRetrieve: API.OperationMethod<
   TasksSearchRetrieveError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(440, __c55, 0) as any as S.Schema<TasksSearchRetrieveRequest>,
-  output: __S(443, __c55, 3) as any as S.Schema<TasksSearchRetrieveResponse>,
+  input: __S(448, __c56, 0) as any as S.Schema<TasksSearchRetrieveRequest>,
+  output: __S(451, __c56, 3) as any as S.Schema<TasksSearchRetrieveResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3043,8 +3086,8 @@ export const tasksStagedArtifactsFinalizeUploadCreate: API.OperationMethod<
   TasksStagedArtifactsFinalizeUploadCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(474, __c59, 2) as any as S.Schema<TasksStagedArtifactsFinalizeUploadCreateRequest>,
-  output: __S(475, __c59, 3) as any as S.Schema<TaskStagedArtifactsFinalizeUploadResponse>,
+  input: __S(482, __c60, 2) as any as S.Schema<TasksStagedArtifactsFinalizeUploadCreateRequest>,
+  output: __S(483, __c60, 3) as any as S.Schema<TaskStagedArtifactsFinalizeUploadResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3064,8 +3107,8 @@ export const tasksStagedArtifactsPrepareUploadCreate: API.OperationMethod<
   TasksStagedArtifactsPrepareUploadCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(490, __c61, 2) as any as S.Schema<TasksStagedArtifactsPrepareUploadCreateRequest>,
-  output: __S(494, __c61, 6) as any as S.Schema<TaskStagedArtifactsPrepareUploadResponse>,
+  input: __S(498, __c62, 2) as any as S.Schema<TasksStagedArtifactsPrepareUploadCreateRequest>,
+  output: __S(502, __c62, 6) as any as S.Schema<TaskStagedArtifactsPrepareUploadResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3081,8 +3124,8 @@ export const tasksThreadMessagesDestroy: API.OperationMethod<
   TasksThreadMessagesDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c62, 0) as any as S.Schema<TasksThreadMessagesDestroyRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<TasksThreadMessagesDestroyResponse>,
+  input: __S(504, __c63, 0) as any as S.Schema<TasksThreadMessagesDestroyRequest>,
+  output: __S(40, __c5, 0) as any as S.Schema<TasksThreadMessagesDestroyResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3098,8 +3141,8 @@ export const tasksThreadMessagesSendToAgentCreate: API.OperationMethod<
   TasksThreadMessagesSendToAgentCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(504, __c63, 0) as any as S.Schema<TasksThreadMessagesSendToAgentCreateRequest>,
-  output: __S(120, __c15, 0) as any as S.Schema<TaskThreadMessageDTO>,
+  input: __S(512, __c64, 0) as any as S.Schema<TasksThreadMessagesSendToAgentCreateRequest>,
+  output: __S(136, __c17, 0) as any as S.Schema<TaskThreadMessageDTO>,
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3115,8 +3158,8 @@ export const tasksWarmResumeCreate: API.OperationMethod<
   TasksWarmResumeCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c64, 0) as any as S.Schema<TasksWarmResumeCreateRequest>,
-  output: __S(136, __c17, 0) as any as S.Schema<WarmTaskResumeResponse>,
+  input: __S(520, __c65, 0) as any as S.Schema<TasksWarmResumeCreateRequest>,
+  output: __S(152, __c19, 0) as any as S.Schema<WarmTaskResumeResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3132,8 +3175,8 @@ export const updateTask: API.OperationMethod<
   UpdateTaskError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(520, __c65, 0) as any as S.Schema<UpdateTaskRequest>,
-  output: __S(576, __c72, 0) as any as S.Schema<TaskDetailDTO>,
+  input: __S(528, __c66, 0) as any as S.Schema<UpdateTaskRequest>,
+  output: __S(584, __c73, 0) as any as S.Schema<TaskDetailDTO>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3149,8 +3192,8 @@ export const updateTasksPartial: API.OperationMethod<
   UpdateTasksPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c66, 0) as any as S.Schema<UpdateTasksPartialRequest>,
-  output: __S(576, __c72, 0) as any as S.Schema<TaskDetailDTO>,
+  input: __S(536, __c67, 0) as any as S.Schema<UpdateTasksPartialRequest>,
+  output: __S(584, __c73, 0) as any as S.Schema<TaskDetailDTO>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3166,8 +3209,8 @@ export const updateTasksRepoRoutingRule: API.OperationMethod<
   UpdateTasksRepoRoutingRuleError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(536, __c67, 0) as any as S.Schema<UpdateTasksRepoRoutingRuleRequest>,
-  output: __S(57, __c7, 1) as any as S.Schema<RepoRoutingRule>,
+  input: __S(544, __c68, 0) as any as S.Schema<UpdateTasksRepoRoutingRuleRequest>,
+  output: __S(73, __c9, 1) as any as S.Schema<RepoRoutingRule>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3183,8 +3226,8 @@ export const updateTasksRepoRoutingRulesPartial: API.OperationMethod<
   UpdateTasksRepoRoutingRulesPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c68, 0) as any as S.Schema<UpdateTasksRepoRoutingRulesPartialRequest>,
-  output: __S(57, __c7, 1) as any as S.Schema<RepoRoutingRule>,
+  input: __S(552, __c69, 0) as any as S.Schema<UpdateTasksRepoRoutingRulesPartialRequest>,
+  output: __S(73, __c9, 1) as any as S.Schema<RepoRoutingRule>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3194,6 +3237,32 @@ export const updateTasksRepoRoutingRulesPartial: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          detail: S.optional(S.String),
+          error: S.optional(S.String),
+          type: S.optional(S.String),
+          code: S.optional(S.String),
+          retry_token: S.optional(S.String),
+          reason: S.optional(S.String),
+          attr: S.optional(S.String),
+          missing_artifact_ids: S.optional(__S(0, __c0, 0)),
+          limit_type: S.optional(S.String),
+          reset_at: S.optional(S.String),
+          is_pro: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "TaskRunErrorResponse" });
+  }
+}
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3212,7 +3281,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateTasksMeConfigTaskDefaultRequest" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3233,7 +3302,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "TaskPinResponse" });
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3251,19 +3320,19 @@ function __c2(j: number): any {
       ).annotate({ identifier: "CreateTasksPresenceRequest" });
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CreateTasksPresenceResponse" });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          ids: __S(328, __c41, 0),
+          ids: __S(0, __c0, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3275,18 +3344,18 @@ function __c4(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          titles: __S(40, __c5, 0),
+          titles: __S(56, __c7, 0),
         }),
       ).annotate({ identifier: "TaskPullRequestTitles" });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3304,7 +3373,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "CreateTasksRepoRoutingRuleRequest" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3316,7 +3385,7 @@ function __c7(j: number): any {
           last_name: S.optional(S.String),
           email: S.optional(S.String),
           is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.optional(S.NullOr(__S(336, __c42, 0))),
+          hedgehog_config: S.optional(S.NullOr(__S(344, __c43, 0))),
           role_at_organization: S.optional(S.NullOr(S.Unknown)),
         }),
       ).annotate({ identifier: "UserBasic" });
@@ -3327,14 +3396,14 @@ function __c7(j: number): any {
           rule_text: S.String,
           repository: S.String,
           priority: S.Number,
-          created_by: S.NullOr(__S(56, __c7, 0)),
+          created_by: S.NullOr(__S(72, __c9, 0)),
           created_at: S.String,
           updated_at: S.String,
         }),
       ).annotate({ identifier: "RepoRoutingRule" });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3358,31 +3427,31 @@ function __c8(j: number): any {
           origin_product: S.String,
           runtime: S.String,
           repository: S.NullOr(S.String),
-          repositories: __S(328, __c41, 0),
+          repositories: __S(0, __c0, 0),
           github_integration: S.NullOr(S.Number),
           github_user_integration: S.NullOr(S.String),
           signal_report: S.NullOr(S.String),
-          json_schema: S.NullOr(__S(336, __c42, 0)),
+          json_schema: S.NullOr(__S(344, __c43, 0)),
           internal: S.Boolean,
           archived: S.Boolean,
           archived_at: S.NullOr(S.String),
-          latest_run: S.optional(S.NullOr(__S(360, __c45, 0))),
+          latest_run: S.optional(S.NullOr(__S(368, __c46, 0))),
           created_at: S.optional(S.NullOr(S.String)),
           updated_at: S.optional(S.NullOr(S.String)),
           last_activity_at: S.optional(S.NullOr(S.String)),
-          created_by: S.optional(S.NullOr(__S(344, __c43, 0))),
+          created_by: S.optional(S.NullOr(__S(352, __c44, 0))),
           ci_prompt: S.NullOr(S.String),
           channel: S.optional(S.NullOr(S.String)),
-          slack_thread_references: __S(362, __c45, 2),
+          slack_thread_references: __S(370, __c46, 2),
           origin_key: S.optional(S.NullOr(S.String)),
           client_provenance: S.optional(S.NullOr(S.String)),
           run_error: S.optional(S.String),
-          run: S.optional(S.NullOr(__S(360, __c45, 0))),
+          run: S.optional(S.NullOr(__S(368, __c46, 0))),
         }),
       ).annotate({ identifier: "TaskRunResponse" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3398,7 +3467,7 @@ function __c9(j: number): any {
           content_type: S.optional(S.String),
           source_artifact_id: S.optional(S.String),
           source_storage_path: S.optional(S.String),
-          metadata: S.optional(__S(336, __c42, 0)),
+          metadata: S.optional(__S(344, __c43, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3409,7 +3478,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "CreateTasksRunsLivingArtifactRequest" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3425,20 +3494,20 @@ function __c10(j: number): any {
           location: S.Unknown,
           metadata: S.Unknown,
           current_version: S.Number,
-          versions: __S(88, __c11, 0),
+          versions: __S(104, __c13, 0),
           created_at: S.optional(S.NullOr(S.String)),
           updated_at: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "TaskRunLivingArtifactResponse" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(336, __c42, 0));
+      return S.Array(__S(344, __c43, 0));
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3446,7 +3515,7 @@ function __c12(j: number): any {
           project_id: S.String.pipe(T.Label()),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
-          ids: __S(328, __c41, 0),
+          ids: __S(0, __c0, 0),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/tasks/summaries/", code: 200 }),
         ),
@@ -3461,23 +3530,23 @@ function __c12(j: number): any {
           created_at: S.String,
           updated_at: S.String,
           origin_product: S.optional(S.String),
-          latest_run: S.optional(S.NullOr(__S(104, __c13, 0))),
+          latest_run: S.optional(S.NullOr(__S(120, __c15, 0))),
         }),
       ).annotate({ identifier: "TaskSummaryDTO" });
     case 2:
-      return S.Array(__S(97, __c12, 1));
+      return S.Array(__S(113, __c14, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(98, __c12, 2),
+          results: __S(114, __c14, 2),
         }),
       ).annotate({ identifier: "PaginatedTaskSummaryDTOList" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3493,7 +3562,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "TaskRunSummary" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3511,7 +3580,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "CreateTasksThreadMessageRequest" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3520,24 +3589,24 @@ function __c15(j: number): any {
           task: S.String,
           author_kind: S.String,
           event: S.String,
-          payload: __S(336, __c42, 0),
+          payload: __S(344, __c43, 0),
           content: S.String,
           created_at: S.String,
-          author: S.optional(S.NullOr(__S(344, __c43, 0))),
+          author: S.optional(S.NullOr(__S(352, __c44, 0))),
           forwarded_to_agent_at: S.optional(S.NullOr(S.String)),
-          forwarded_by: S.optional(S.NullOr(__S(344, __c43, 0))),
+          forwarded_by: S.optional(S.NullOr(__S(352, __c44, 0))),
         }),
       ).annotate({ identifier: "TaskThreadMessageDTO" });
   }
 }
-function __c16(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           repository: S.optional(S.NullOr(S.String)),
-          repositories: S.optional(__S(328, __c41, 0)),
+          repositories: S.optional(__S(0, __c0, 0)),
           github_integration: S.optional(S.NullOr(S.Number)),
           branch: S.optional(S.NullOr(S.String)),
           runtime_adapter: S.optional(S.NullOr(S.String)),
@@ -3554,7 +3623,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "CreateTasksWarmRequest" });
   }
 }
-function __c17(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3565,7 +3634,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "WarmTaskResponse" });
   }
 }
-function __c18(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3580,7 +3649,7 @@ function __c18(j: number): any {
           content_type: S.optional(S.String),
           source_artifact_id: S.optional(S.String),
           source_storage_path: S.optional(S.String),
-          metadata: S.optional(__S(336, __c42, 0)),
+          metadata: S.optional(__S(344, __c43, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3591,7 +3660,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "EditTasksRunsLivingArtifactRequest" });
   }
 }
-function __c19(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3608,7 +3677,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "LegacyDesktopAccessResponse" });
   }
 }
-function __c20(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3627,7 +3696,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "DesktopAccessResponse" });
   }
 }
-function __c21(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3640,7 +3709,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GetTaskRequest" });
   }
 }
-function __c22(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3665,7 +3734,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "WizardCloudRunDTO" });
   }
 }
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3709,25 +3778,25 @@ function __c23(j: number): any {
           content_next_offset: S.NullOr(S.Number),
           author: S.NullOr(S.String),
           created_at: S.String,
-          anchor: S.NullOr(__S(185, __c23, 1)),
+          anchor: S.NullOr(__S(201, __c25, 1)),
           canvas_version_id: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "TaskCommentEntry" });
     case 3:
-      return S.Array(__S(186, __c23, 2));
+      return S.Array(__S(202, __c25, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          target: __S(192, __c24, 0),
+          target: __S(208, __c26, 0),
           resolved: S.Boolean,
-          comments: __S(187, __c23, 3),
+          comments: __S(203, __c25, 3),
           next: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "TaskCommentDetail" });
   }
 }
-function __c24(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3739,7 +3808,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "TaskCommentTarget" });
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3755,27 +3824,27 @@ function __c25(j: number): any {
           runtime_adapter: S.String,
           model: S.String,
           display_name: S.String,
-          supported_efforts: __S(208, __c26, 0),
+          supported_efforts: __S(224, __c28, 0),
           cost_multiplier: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ModelChoice" });
     case 2:
-      return S.Array(__S(201, __c25, 1));
+      return S.Array(__S(217, __c27, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          models: __S(202, __c25, 2),
+          models: __S(218, __c27, 2),
         }),
       ).annotate({ identifier: "ModelCatalogueResponse" });
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c27(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3788,12 +3857,12 @@ function __c27(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          task_ids: __S(328, __c41, 0),
+          task_ids: __S(0, __c0, 0),
         }),
       ).annotate({ identifier: "PinnedTaskIdsResponse" });
   }
 }
-function __c28(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3810,7 +3879,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "GetTasksRepoRoutingRuleRequest" });
   }
 }
-function __c29(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3827,12 +3896,12 @@ function __c29(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          repositories: S.optional(__S(328, __c41, 0)),
+          repositories: S.optional(__S(0, __c0, 0)),
         }),
       ).annotate({ identifier: "TaskRepositoriesResponse" });
   }
 }
-function __c30(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3855,7 +3924,7 @@ function __c30(j: number): any {
           state: S.optional(S.String),
           estimated: S.optional(S.Boolean),
           reason: S.optional(S.String),
-          evidence: S.optional(__S(336, __c42, 0)),
+          evidence: S.optional(__S(344, __c43, 0)),
         }),
       ).annotate({ identifier: "CapabilityState" });
     case 2:
@@ -3875,20 +3944,20 @@ function __c30(j: number): any {
           repository: S.optional(S.String),
           classification: S.optional(S.String),
           excluded: S.optional(S.Boolean),
-          coreSuggestions: S.optional(__S(241, __c30, 1)),
-          replayInsights: S.optional(__S(241, __c30, 1)),
-          errorInsights: S.optional(__S(241, __c30, 1)),
+          coreSuggestions: S.optional(__S(257, __c32, 1)),
+          replayInsights: S.optional(__S(257, __c32, 1)),
+          errorInsights: S.optional(__S(257, __c32, 1)),
           overall: S.optional(S.String),
           evidenceTaskCount: S.optional(S.Number),
           windowDays: S.optional(S.Number),
           generatedAt: S.optional(S.String),
           cacheAgeSeconds: S.optional(S.Number),
-          scan: S.optional(__S(242, __c30, 2)),
+          scan: S.optional(__S(258, __c32, 2)),
         }),
       ).annotate({ identifier: "RepositoryReadinessResponse" });
   }
 }
-function __c31(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3916,7 +3985,7 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "TaskReviewFile" });
     case 2:
-      return S.Array(__S(249, __c31, 1));
+      return S.Array(__S(265, __c33, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -3925,13 +3994,13 @@ function __c31(j: number): any {
           state: S.String,
           ci_status: S.String,
           head_sha: S.String,
-          files: __S(250, __c31, 2),
+          files: __S(266, __c33, 2),
           has_more: S.Boolean,
         }),
       ).annotate({ identifier: "TaskReview" });
   }
 }
-function __c32(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4001,23 +4070,23 @@ function __c32(j: number): any {
           mention_workflow_url: S.NullOr(S.String),
           task_view_url: S.String,
           log_url: S.NullOr(S.String),
-          repo_research: S.NullOr(__S(259, __c32, 3)),
+          repo_research: S.NullOr(__S(275, __c34, 3)),
           admin_url: S.String,
         }),
       ).annotate({ identifier: "SlackThreadContextRun" });
     case 5:
-      return S.Array(__S(260, __c32, 4));
+      return S.Array(__S(276, __c34, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          thread: __S(257, __c32, 1),
-          task: S.NullOr(__S(258, __c32, 2)),
-          runs: __S(261, __c32, 5),
+          thread: __S(273, __c34, 1),
+          task: S.NullOr(__S(274, __c34, 2)),
+          runs: __S(277, __c34, 5),
         }),
       ).annotate({ identifier: "SlackThreadContextResponse" });
   }
 }
-function __c33(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4030,12 +4099,12 @@ function __c33(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sources: __S(208, __c26, 0),
+          sources: __S(224, __c28, 0),
         }),
       ).annotate({ identifier: "TaskSourcesResponse" });
   }
 }
-function __c34(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4056,7 +4125,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "TaskUsageResponse" });
   }
 }
-function __c35(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4083,7 +4152,7 @@ function __c35(j: number): any {
           pr_state: S.optional(S.String.pipe(T.Query())),
           repository: S.optional(S.String.pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
-          sources: S.optional(__S(208, __c26, 0).pipe(T.Query())),
+          sources: S.optional(__S(224, __c28, 0).pipe(T.Query())),
           stage: S.optional(S.String.pipe(T.Query())),
           status: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/tasks/", code: 200 })),
@@ -4096,12 +4165,12 @@ function __c35(j: number): any {
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(281, __c35, 1),
+          results: __S(297, __c37, 1),
         }),
       ).annotate({ identifier: "PaginatedTaskListItemList" });
   }
 }
-function __c36(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4117,16 +4186,16 @@ function __c36(j: number): any {
         ),
       ).annotate({ identifier: "ListTasksArtifactsRequest" });
     case 1:
-      return S.Array(__S(192, __c24, 0));
+      return S.Array(__S(208, __c26, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          artifacts: __S(289, __c36, 1),
+          artifacts: __S(305, __c38, 1),
         }),
       ).annotate({ identifier: "TaskArtifactsResponse" });
   }
 }
-function __c37(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4149,7 +4218,7 @@ function __c37(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          target: __S(192, __c24, 0),
+          target: __S(208, __c26, 0),
           content: S.String,
           content_truncated: S.Boolean,
           selected_text: S.NullOr(S.String),
@@ -4159,17 +4228,17 @@ function __c37(j: number): any {
         }),
       ).annotate({ identifier: "TaskCommentSummary" });
     case 2:
-      return S.Array(__S(297, __c37, 1));
+      return S.Array(__S(313, __c39, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          comments: __S(298, __c37, 2),
+          comments: __S(314, __c39, 2),
           next: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "TaskCommentsResponse" });
   }
 }
-function __c38(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4183,7 +4252,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "ListTasksConfigRequest" });
   }
 }
-function __c39(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4195,7 +4264,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "ListTasksMeConfigRequest" });
   }
 }
-function __c40(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4205,7 +4274,7 @@ function __c40(j: number): any {
         }),
       ).annotate({ identifier: "TaskRunOptionsRepository" });
     case 1:
-      return S.Array(__S(320, __c40, 0));
+      return S.Array(__S(336, __c42, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -4213,8 +4282,8 @@ function __c40(j: number): any {
           adapter: S.optional(S.String),
           model: S.optional(S.String),
           reasoning_effort: S.optional(S.String),
-          repositories: S.optional(__S(321, __c40, 1)),
-          output_schema: S.optional(__S(336, __c42, 0)),
+          repositories: S.optional(__S(337, __c42, 1)),
+          output_schema: S.optional(__S(344, __c43, 0)),
           permission_mode: S.optional(S.String),
           auto_publish: S.optional(S.Boolean),
         }),
@@ -4235,7 +4304,7 @@ function __c40(j: number): any {
           description: S.optional(S.String),
           origin_product: S.optional(S.String),
           repository: S.optional(S.NullOr(S.String)),
-          repositories: S.optional(__S(328, __c41, 0)),
+          repositories: S.optional(__S(0, __c0, 0)),
           github_integration: S.optional(S.NullOr(S.Number)),
           github_user_integration: S.optional(S.NullOr(S.String)),
           signal_report: S.optional(S.NullOr(S.String)),
@@ -4249,7 +4318,7 @@ function __c40(j: number): any {
           reasoning_effort: S.optional(S.NullOr(S.String)),
           initial_permission_mode: S.optional(S.NullOr(S.String)),
           pending_user_message: S.optional(S.NullOr(S.String)),
-          pending_user_artifact_ids: S.optional(__S(328, __c41, 0)),
+          pending_user_artifact_ids: S.optional(__S(0, __c0, 0)),
           auto_publish: S.optional(S.NullOr(S.Boolean)),
           channel: S.optional(S.NullOr(S.String)),
           scheduled_at: S.optional(S.NullOr(S.String)),
@@ -4260,8 +4329,8 @@ function __c40(j: number): any {
           custom_image_id: S.optional(S.NullOr(S.String)),
           runtime: S.optional(S.String),
           profile: S.optional(S.String),
-          options: S.optional(__S(322, __c40, 2)),
-          source: S.optional(__S(323, __c40, 3)),
+          options: S.optional(__S(338, __c42, 2)),
+          source: S.optional(__S(339, __c42, 3)),
           idempotency_key: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/tasks/", code: 200 })),
       ).annotate({ identifier: "CreateTaskRequest" });
@@ -4277,22 +4346,22 @@ function __c40(j: number): any {
           origin_product: S.String,
           runtime: S.String,
           repository: S.NullOr(S.String),
-          repositories: __S(328, __c41, 0),
+          repositories: __S(0, __c0, 0),
           github_integration: S.NullOr(S.Number),
           github_user_integration: S.NullOr(S.String),
           signal_report: S.NullOr(S.String),
-          json_schema: S.NullOr(__S(336, __c42, 0)),
+          json_schema: S.NullOr(__S(344, __c43, 0)),
           internal: S.Boolean,
           archived: S.Boolean,
           archived_at: S.NullOr(S.String),
-          latest_run: S.optional(S.NullOr(__S(360, __c45, 0))),
+          latest_run: S.optional(S.NullOr(__S(368, __c46, 0))),
           created_at: S.optional(S.NullOr(S.String)),
           updated_at: S.optional(S.NullOr(S.String)),
           last_activity_at: S.optional(S.NullOr(S.String)),
-          created_by: S.optional(S.NullOr(__S(344, __c43, 0))),
+          created_by: S.optional(S.NullOr(__S(352, __c44, 0))),
           ci_prompt: S.NullOr(S.String),
           channel: S.optional(S.NullOr(S.String)),
-          slack_thread_references: __S(362, __c45, 2),
+          slack_thread_references: __S(370, __c46, 2),
           origin_key: S.optional(S.NullOr(S.String)),
           client_provenance: S.optional(S.NullOr(S.String)),
           run_error: S.optional(S.String),
@@ -4300,19 +4369,13 @@ function __c40(j: number): any {
       ).annotate({ identifier: "TaskCreateResponseDTO" });
   }
 }
-function __c41(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4324,13 +4387,13 @@ function __c43(j: number): any {
           last_name: S.String,
           email: S.String,
           is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.optional(S.NullOr(__S(336, __c42, 0))),
+          hedgehog_config: S.optional(S.NullOr(__S(344, __c43, 0))),
           role_at_organization: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "TaskUserBasicInfo" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4351,10 +4414,10 @@ function __c44(j: number): any {
         }),
       ).annotate({ identifier: "TaskRunArtifactResponse" });
     case 1:
-      return S.Array(__S(352, __c44, 0));
+      return S.Array(__S(360, __c45, 0));
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4371,11 +4434,11 @@ function __c45(j: number): any {
           reasoning_effort: S.optional(S.NullOr(S.String)),
           log_url: S.optional(S.NullOr(S.String)),
           error_message: S.NullOr(S.String),
-          output: S.NullOr(__S(336, __c42, 0)),
+          output: S.NullOr(__S(344, __c43, 0)),
           task_summary: S.NullOr(S.String),
-          task_tags: __S(328, __c41, 0),
-          state: __S(336, __c42, 0),
-          artifacts: __S(353, __c44, 1),
+          task_tags: __S(0, __c0, 0),
+          state: __S(344, __c43, 0),
+          artifacts: __S(361, __c45, 1),
           created_at: S.optional(S.NullOr(S.String)),
           updated_at: S.optional(S.NullOr(S.String)),
           completed_at: S.optional(S.NullOr(S.String)),
@@ -4392,10 +4455,10 @@ function __c45(j: number): any {
         }),
       ).annotate({ identifier: "SlackThreadReferenceDTO" });
     case 2:
-      return S.Array(__S(361, __c45, 1));
+      return S.Array(__S(369, __c46, 1));
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4410,14 +4473,14 @@ function __c46(j: number): any {
         ),
       ).annotate({ identifier: "ListTasksRepoRoutingRulesRequest" });
     case 1:
-      return S.Array(__S(57, __c7, 1));
+      return S.Array(__S(73, __c9, 1));
     case 2:
-      return S.suspend(() => __S(369, __c46, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(377, __c47, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListTasksRepoRoutingRulesResponse",
       });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4434,16 +4497,16 @@ function __c47(j: number): any {
         ),
       ).annotate({ identifier: "ListTasksRunsLivingArtifactsRequest" });
     case 1:
-      return S.Array(__S(80, __c10, 0));
+      return S.Array(__S(96, __c12, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          artifacts: __S(377, __c47, 1),
+          artifacts: __S(385, __c48, 1),
         }),
       ).annotate({ identifier: "TaskRunLivingArtifactsResponse" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4461,19 +4524,19 @@ function __c48(j: number): any {
         ),
       ).annotate({ identifier: "ListTasksThreadMessagesRequest" });
     case 1:
-      return S.Array(__S(120, __c15, 0));
+      return S.Array(__S(136, __c17, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(385, __c48, 1),
+          results: __S(393, __c49, 1),
         }),
       ).annotate({ identifier: "PaginatedTaskThreadMessageDTOList" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4486,7 +4549,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "TasksDestroyRequest" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4503,7 +4566,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "TasksPresenceDestroyRequest" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4520,7 +4583,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "TasksRepoRoutingRulesDestroyRequest" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4529,7 +4592,7 @@ function __c52(j: number): any {
           task_id: S.String.pipe(T.Label()),
           run_id: S.String.pipe(T.Label()),
           name: S.String,
-          query: S.optional(__S(336, __c42, 0)),
+          query: S.optional(__S(344, __c43, 0)),
           insight_id: S.optional(S.Number),
         }).pipe(
           T.Http({
@@ -4542,14 +4605,14 @@ function __c52(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          artifact: __S(80, __c10, 0),
+          artifact: __S(96, __c12, 0),
           export_asset_id: S.Number,
           url: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "TaskRunLivingArtifactChartResponse" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4580,7 +4643,7 @@ function __c53(j: number): any {
           location: S.Unknown,
           metadata: S.Unknown,
           current_version: S.Number,
-          versions: __S(88, __c11, 0),
+          versions: __S(104, __c13, 0),
           created_at: S.optional(S.NullOr(S.String)),
           updated_at: S.optional(S.NullOr(S.String)),
           content: S.optional(S.NullOr(S.String)),
@@ -4588,7 +4651,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "TaskRunLivingArtifactOpenResponse" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4609,7 +4672,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "TasksRunsLivingArtifactsVersionContentRequest" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4631,22 +4694,22 @@ function __c55(j: number): any {
           task_id: S.NullOr(S.String),
           task_run_id: S.NullOr(S.String),
           channel_id: S.NullOr(S.String),
-          created_by: S.NullOr(__S(344, __c43, 0)),
+          created_by: S.NullOr(__S(352, __c44, 0)),
           origin_product: S.NullOr(S.String),
-          latest_run: S.NullOr(__S(104, __c13, 0)),
+          latest_run: S.NullOr(__S(120, __c15, 0)),
           updated_at: S.String,
           metadata: S.Unknown,
         }),
       ).annotate({ identifier: "TaskSearchResult" });
     case 2:
-      return S.Array(__S(441, __c55, 1));
+      return S.Array(__S(449, __c56, 1));
     case 3:
-      return S.suspend(() => __S(442, __c55, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(450, __c56, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "TasksSearchRetrieveResponse",
       });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4662,18 +4725,18 @@ function __c56(j: number): any {
       ).annotate({ identifier: "CreateTasksConfigRequest" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ai_run_preferences: __S(464, __c58, 0),
+          ai_run_preferences: __S(472, __c59, 0),
           agent_instructions: S.String,
         }),
       ).annotate({ identifier: "TasksTeamConfigResponse" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4686,7 +4749,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "TasksAIRunPreferences" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4697,17 +4760,17 @@ function __c59(j: number): any {
           source: S.optional(S.String),
           storage_path: S.optional(S.String),
           content_type: S.optional(S.String),
-          metadata: S.optional(__S(480, __c60, 0)),
+          metadata: S.optional(__S(488, __c61, 0)),
         }),
       ).annotate({ identifier: "TaskStagedArtifactFinalizeUpload" });
     case 1:
-      return S.Array(__S(472, __c59, 0));
+      return S.Array(__S(480, __c60, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          artifacts: S.optional(__S(473, __c59, 1)),
+          artifacts: S.optional(__S(481, __c60, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4719,12 +4782,12 @@ function __c59(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          artifacts: S.optional(__S(353, __c44, 1)),
+          artifacts: S.optional(__S(361, __c45, 1)),
         }),
       ).annotate({ identifier: "TaskStagedArtifactsFinalizeUploadResponse" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4738,7 +4801,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "TaskRunSkillBundleMetadata" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4748,17 +4811,17 @@ function __c61(j: number): any {
           source: S.optional(S.String),
           size: S.optional(S.Number),
           content_type: S.optional(S.String),
-          metadata: S.optional(__S(480, __c60, 0)),
+          metadata: S.optional(__S(488, __c61, 0)),
         }),
       ).annotate({ identifier: "TaskStagedArtifactPrepareUpload" });
     case 1:
-      return S.Array(__S(488, __c61, 0));
+      return S.Array(__S(496, __c62, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          artifacts: S.optional(__S(489, __c61, 1)),
+          artifacts: S.optional(__S(497, __c62, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4771,7 +4834,7 @@ function __c61(j: number): any {
       return S.suspend(() =>
         S.Struct({
           url: S.optional(S.String),
-          fields: S.optional(__S(40, __c5, 0)),
+          fields: S.optional(__S(56, __c7, 0)),
         }),
       ).annotate({ identifier: "S3PresignedPost" });
     case 4:
@@ -4783,23 +4846,23 @@ function __c61(j: number): any {
           source: S.optional(S.String),
           size: S.optional(S.Number),
           content_type: S.optional(S.String),
-          metadata: S.optional(__S(480, __c60, 0)),
+          metadata: S.optional(__S(488, __c61, 0)),
           storage_path: S.optional(S.String),
           expires_in: S.optional(S.Number),
-          presigned_post: S.optional(__S(491, __c61, 3)),
+          presigned_post: S.optional(__S(499, __c62, 3)),
         }),
       ).annotate({ identifier: "TaskStagedArtifactPrepareUploadResponse" });
     case 5:
-      return S.Array(__S(492, __c61, 4));
+      return S.Array(__S(500, __c62, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          artifacts: S.optional(__S(493, __c61, 5)),
+          artifacts: S.optional(__S(501, __c62, 5)),
         }),
       ).annotate({ identifier: "TaskStagedArtifactsPrepareUploadResponse" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4817,7 +4880,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "TasksThreadMessagesDestroyRequest" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4828,12 +4891,12 @@ function __c63(j: number): any {
           task: S.String,
           author_kind: S.String,
           event: S.String,
-          payload: __S(336, __c42, 0),
+          payload: __S(344, __c43, 0),
           content: S.String,
           created_at: S.String,
-          author: S.optional(S.NullOr(__S(344, __c43, 0))),
+          author: S.optional(S.NullOr(__S(352, __c44, 0))),
           forwarded_to_agent_at: S.optional(S.NullOr(S.String)),
-          forwarded_by: S.optional(S.NullOr(__S(344, __c43, 0))),
+          forwarded_by: S.optional(S.NullOr(__S(352, __c44, 0))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4844,7 +4907,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "TasksThreadMessagesSendToAgentCreateRequest" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4862,41 +4925,6 @@ function __c64(j: number): any {
       ).annotate({ identifier: "TasksWarmResumeCreateRequest" });
   }
 }
-function __c65(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          title: S.optional(S.String),
-          title_manually_set: S.optional(S.Boolean),
-          description: S.optional(S.String),
-          origin_product: S.optional(S.String),
-          repository: S.optional(S.NullOr(S.String)),
-          repositories: S.optional(__S(328, __c41, 0)),
-          github_integration: S.optional(S.NullOr(S.Number)),
-          github_user_integration: S.optional(S.NullOr(S.String)),
-          signal_report: S.optional(S.NullOr(S.String)),
-          signal_report_task_relationship: S.optional(S.String),
-          json_schema: S.optional(S.Unknown),
-          archived: S.optional(S.Boolean),
-          ci_prompt: S.optional(S.NullOr(S.String)),
-          branch: S.optional(S.NullOr(S.String)),
-          runtime_adapter: S.optional(S.NullOr(S.String)),
-          model: S.optional(S.NullOr(S.String)),
-          reasoning_effort: S.optional(S.NullOr(S.String)),
-          initial_permission_mode: S.optional(S.NullOr(S.String)),
-          pending_user_message: S.optional(S.NullOr(S.String)),
-          pending_user_artifact_ids: S.optional(__S(328, __c41, 0)),
-          auto_publish: S.optional(S.NullOr(S.Boolean)),
-          channel: S.optional(S.NullOr(S.String)),
-        }).pipe(
-          T.Http({ method: "PUT", uri: "/api/projects/{project_id}/tasks/{id}/", code: 200 }),
-        ),
-      ).annotate({ identifier: "UpdateTaskRequest" });
-  }
-}
 function __c66(j: number): any {
   switch (j) {
     case 0:
@@ -4909,7 +4937,7 @@ function __c66(j: number): any {
           description: S.optional(S.String),
           origin_product: S.optional(S.String),
           repository: S.optional(S.NullOr(S.String)),
-          repositories: S.optional(__S(328, __c41, 0)),
+          repositories: S.optional(__S(0, __c0, 0)),
           github_integration: S.optional(S.NullOr(S.Number)),
           github_user_integration: S.optional(S.NullOr(S.String)),
           signal_report: S.optional(S.NullOr(S.String)),
@@ -4923,7 +4951,42 @@ function __c66(j: number): any {
           reasoning_effort: S.optional(S.NullOr(S.String)),
           initial_permission_mode: S.optional(S.NullOr(S.String)),
           pending_user_message: S.optional(S.NullOr(S.String)),
-          pending_user_artifact_ids: S.optional(__S(328, __c41, 0)),
+          pending_user_artifact_ids: S.optional(__S(0, __c0, 0)),
+          auto_publish: S.optional(S.NullOr(S.Boolean)),
+          channel: S.optional(S.NullOr(S.String)),
+        }).pipe(
+          T.Http({ method: "PUT", uri: "/api/projects/{project_id}/tasks/{id}/", code: 200 }),
+        ),
+      ).annotate({ identifier: "UpdateTaskRequest" });
+  }
+}
+function __c67(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          title: S.optional(S.String),
+          title_manually_set: S.optional(S.Boolean),
+          description: S.optional(S.String),
+          origin_product: S.optional(S.String),
+          repository: S.optional(S.NullOr(S.String)),
+          repositories: S.optional(__S(0, __c0, 0)),
+          github_integration: S.optional(S.NullOr(S.Number)),
+          github_user_integration: S.optional(S.NullOr(S.String)),
+          signal_report: S.optional(S.NullOr(S.String)),
+          signal_report_task_relationship: S.optional(S.String),
+          json_schema: S.optional(S.Unknown),
+          archived: S.optional(S.Boolean),
+          ci_prompt: S.optional(S.NullOr(S.String)),
+          branch: S.optional(S.NullOr(S.String)),
+          runtime_adapter: S.optional(S.NullOr(S.String)),
+          model: S.optional(S.NullOr(S.String)),
+          reasoning_effort: S.optional(S.NullOr(S.String)),
+          initial_permission_mode: S.optional(S.NullOr(S.String)),
+          pending_user_message: S.optional(S.NullOr(S.String)),
+          pending_user_artifact_ids: S.optional(__S(0, __c0, 0)),
           auto_publish: S.optional(S.NullOr(S.Boolean)),
           channel: S.optional(S.NullOr(S.String)),
         }).pipe(
@@ -4932,7 +4995,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "UpdateTasksPartialRequest" });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4951,7 +5014,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "UpdateTasksRepoRoutingRuleRequest" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4970,7 +5033,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "UpdateTasksRepoRoutingRulesPartialRequest" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4987,7 +5050,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "CreateTasksConfigAgentInstructionRequest" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4997,7 +5060,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "TasksAgentInstructions" });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5015,7 +5078,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "CreateTasksHandoffRequest" });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5029,29 +5092,29 @@ function __c72(j: number): any {
           origin_product: S.String,
           runtime: S.String,
           repository: S.NullOr(S.String),
-          repositories: __S(328, __c41, 0),
+          repositories: __S(0, __c0, 0),
           github_integration: S.NullOr(S.Number),
           github_user_integration: S.NullOr(S.String),
           signal_report: S.NullOr(S.String),
-          json_schema: S.NullOr(__S(336, __c42, 0)),
+          json_schema: S.NullOr(__S(344, __c43, 0)),
           internal: S.Boolean,
           archived: S.Boolean,
           archived_at: S.NullOr(S.String),
-          latest_run: S.optional(S.NullOr(__S(360, __c45, 0))),
+          latest_run: S.optional(S.NullOr(__S(368, __c46, 0))),
           created_at: S.optional(S.NullOr(S.String)),
           updated_at: S.optional(S.NullOr(S.String)),
           last_activity_at: S.optional(S.NullOr(S.String)),
-          created_by: S.optional(S.NullOr(__S(344, __c43, 0))),
+          created_by: S.optional(S.NullOr(__S(352, __c44, 0))),
           ci_prompt: S.NullOr(S.String),
           channel: S.optional(S.NullOr(S.String)),
-          slack_thread_references: __S(362, __c45, 2),
+          slack_thread_references: __S(370, __c46, 2),
           origin_key: S.optional(S.NullOr(S.String)),
           client_provenance: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "TaskDetailDTO" });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5071,7 +5134,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "CreateTasksMeConfigRequest" });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5083,7 +5146,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "TasksTaskDefaults" });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5098,15 +5161,15 @@ function __c75(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ai_run_preferences: __S(464, __c58, 0),
-          resolved_ai_run_defaults: __S(600, __c75, 0),
+          ai_run_preferences: __S(472, __c59, 0),
+          resolved_ai_run_defaults: __S(608, __c76, 0),
           agent_instructions: S.String,
-          task_defaults: __S(592, __c74, 0),
+          task_defaults: __S(600, __c75, 0),
         }),
       ).annotate({ identifier: "TasksUserConfigResponse" });
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

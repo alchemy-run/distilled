@@ -29,33 +29,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorBADREQUEST | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorFORBIDDEN | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorNOTFOUND | string;
+}
 
 export type CreateBackupRequestDatabaseType =
   | "postgres"
@@ -160,6 +175,44 @@ export interface UpdateBackupRequest {
   customName?: string | undefined;
 }
 export type UpdateBackupResponse = unknown;
+export interface ErrorBADREQUESTIssuesItem {
+  message: string;
+}
+/** An array of issues that were responsible for the error */
+export type ErrorBADREQUESTIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorBADREQUEST {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorBADREQUESTIssuesList | undefined;
+}
+export type ErrorFORBIDDENIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorFORBIDDENIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorFORBIDDEN {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorFORBIDDENIssuesList | undefined;
+}
+export type ErrorNOTFOUNDIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorNOTFOUNDIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorNOTFOUND {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorNOTFOUNDIssuesList | undefined;
+}
 export type CreateBackupError = BadRequest | Forbidden | DokployOpError;
 export const createBackup: API.OperationMethod<
   CreateBackupRequest,
@@ -167,8 +220,8 @@ export const createBackup: API.OperationMethod<
   CreateBackupError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14, __c7, 0) as any as S.Schema<CreateBackupRequest>,
-  output: __S(16, __c8, 0) as any as S.Schema<CreateBackupResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<CreateBackupRequest>,
+  output: __S(36, __c9, 0) as any as S.Schema<CreateBackupResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -183,8 +236,8 @@ export const deleteBackup: API.OperationMethod<
   DeleteBackupError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18, __c9, 0) as any as S.Schema<DeleteBackupRequest>,
-  output: __S(16, __c8, 0) as any as S.Schema<DeleteBackupResponse>,
+  input: __S(40, __c10, 0) as any as S.Schema<DeleteBackupRequest>,
+  output: __S(36, __c9, 0) as any as S.Schema<DeleteBackupResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -199,8 +252,8 @@ export const getBackup: API.OperationMethod<
   GetBackupError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c10, 0) as any as S.Schema<GetBackupRequest>,
-  output: __S(16, __c8, 0) as any as S.Schema<GetBackupResponse>,
+  input: __S(44, __c11, 0) as any as S.Schema<GetBackupRequest>,
+  output: __S(36, __c9, 0) as any as S.Schema<GetBackupResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -215,8 +268,8 @@ export const getBackupDownloadUrl: API.OperationMethod<
   GetBackupDownloadUrlError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22, __c11, 0) as any as S.Schema<GetBackupDownloadUrlRequest>,
-  output: __S(16, __c8, 0) as any as S.Schema<GetBackupDownloadUrlResponse>,
+  input: __S(48, __c12, 0) as any as S.Schema<GetBackupDownloadUrlRequest>,
+  output: __S(36, __c9, 0) as any as S.Schema<GetBackupDownloadUrlResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -231,8 +284,8 @@ export const listBackupFiles: API.OperationMethod<
   ListBackupFilesError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c12, 0) as any as S.Schema<ListBackupFilesRequest>,
-  output: __S(16, __c8, 0) as any as S.Schema<ListBackupFilesResponse>,
+  input: __S(52, __c13, 0) as any as S.Schema<ListBackupFilesRequest>,
+  output: __S(36, __c9, 0) as any as S.Schema<ListBackupFilesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -247,8 +300,8 @@ export const listBackupFilesByBackupId: API.OperationMethod<
   ListBackupFilesByBackupIdError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26, __c13, 0) as any as S.Schema<ListBackupFilesByBackupIdRequest>,
-  output: __S(16, __c8, 0) as any as S.Schema<ListBackupFilesByBackupIdResponse>,
+  input: __S(56, __c14, 0) as any as S.Schema<ListBackupFilesByBackupIdRequest>,
+  output: __S(36, __c9, 0) as any as S.Schema<ListBackupFilesByBackupIdResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -263,8 +316,8 @@ export const manualBackupCompose: API.OperationMethod<
   ManualBackupComposeError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c14, 0) as any as S.Schema<ManualBackupComposeRequest>,
-  output: __S(16, __c8, 0) as any as S.Schema<ManualBackupComposeResponse>,
+  input: __S(60, __c15, 0) as any as S.Schema<ManualBackupComposeRequest>,
+  output: __S(36, __c9, 0) as any as S.Schema<ManualBackupComposeResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -279,8 +332,8 @@ export const manualBackupLibsql: API.OperationMethod<
   ManualBackupLibsqlError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ManualBackupLibsqlRequest>,
-  output: __S(16, __c8, 0) as any as S.Schema<ManualBackupLibsqlResponse>,
+  input: __S(4, __c1, 0) as any as S.Schema<ManualBackupLibsqlRequest>,
+  output: __S(36, __c9, 0) as any as S.Schema<ManualBackupLibsqlResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -295,8 +348,8 @@ export const manualBackupMariadb: API.OperationMethod<
   ManualBackupMariadbError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2, __c1, 0) as any as S.Schema<ManualBackupMariadbRequest>,
-  output: __S(16, __c8, 0) as any as S.Schema<ManualBackupMariadbResponse>,
+  input: __S(8, __c2, 0) as any as S.Schema<ManualBackupMariadbRequest>,
+  output: __S(36, __c9, 0) as any as S.Schema<ManualBackupMariadbResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -311,8 +364,8 @@ export const manualBackupMongo: API.OperationMethod<
   ManualBackupMongoError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c2, 0) as any as S.Schema<ManualBackupMongoRequest>,
-  output: __S(16, __c8, 0) as any as S.Schema<ManualBackupMongoResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<ManualBackupMongoRequest>,
+  output: __S(36, __c9, 0) as any as S.Schema<ManualBackupMongoResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -327,8 +380,8 @@ export const manualBackupMySql: API.OperationMethod<
   ManualBackupMySqlError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6, __c3, 0) as any as S.Schema<ManualBackupMySqlRequest>,
-  output: __S(16, __c8, 0) as any as S.Schema<ManualBackupMySqlResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<ManualBackupMySqlRequest>,
+  output: __S(36, __c9, 0) as any as S.Schema<ManualBackupMySqlResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -343,8 +396,8 @@ export const manualBackupPostgres: API.OperationMethod<
   ManualBackupPostgresError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c4, 0) as any as S.Schema<ManualBackupPostgresRequest>,
-  output: __S(16, __c8, 0) as any as S.Schema<ManualBackupPostgresResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<ManualBackupPostgresRequest>,
+  output: __S(36, __c9, 0) as any as S.Schema<ManualBackupPostgresResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -359,8 +412,8 @@ export const manualBackupWebServer: API.OperationMethod<
   ManualBackupWebServerError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10, __c5, 0) as any as S.Schema<ManualBackupWebServerRequest>,
-  output: __S(16, __c8, 0) as any as S.Schema<ManualBackupWebServerResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<ManualBackupWebServerRequest>,
+  output: __S(36, __c9, 0) as any as S.Schema<ManualBackupWebServerResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -375,8 +428,8 @@ export const updateBackup: API.OperationMethod<
   UpdateBackupError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c6, 0) as any as S.Schema<UpdateBackupRequest>,
-  output: __S(16, __c8, 0) as any as S.Schema<UpdateBackupResponse>,
+  input: __S(28, __c7, 0) as any as S.Schema<UpdateBackupRequest>,
+  output: __S(36, __c9, 0) as any as S.Schema<UpdateBackupResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -390,12 +443,32 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          message: S.String,
+        }),
+      ).annotate({ identifier: "ErrorBADREQUESTIssuesItem" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+          code: S.String,
+          issues: S.optional(__S(1, __c0, 1)),
+        }),
+      ).annotate({ identifier: "ErrorBADREQUEST" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           backupId: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/backup.manualBackupLibsql", code: 200 })),
       ).annotate({ identifier: "ManualBackupLibsqlRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -405,7 +478,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "ManualBackupMariadbRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -415,7 +488,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "ManualBackupMongoRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -425,7 +498,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "ManualBackupMySqlRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -435,7 +508,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "ManualBackupPostgresRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -445,7 +518,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "ManualBackupWebServerRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -466,7 +539,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "UpdateBackupRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -494,7 +567,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "CreateBackupRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -502,7 +575,7 @@ function __c8(j: number): any {
       });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -512,7 +585,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "DeleteBackupRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -522,7 +595,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetBackupRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -533,7 +606,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetBackupDownloadUrlRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -545,7 +618,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "ListBackupFilesRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -555,7 +628,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "ListBackupFilesByBackupIdRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

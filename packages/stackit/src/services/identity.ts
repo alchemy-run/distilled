@@ -30,44 +30,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: StandardError | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: StandardError | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: StandardError | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: StandardError | string;
+}
 
 export interface CreateGroupRequest {
   /** Organization ID (UUID) */
@@ -200,6 +220,13 @@ export interface UpdateGroupMembersRequest {
   groupId: string;
   members: UpdateGroupMembersRequestMembersList;
 }
+export interface StandardError {
+  error?: string | undefined;
+  message?: string | undefined;
+  path?: string | undefined;
+  status?: number | undefined;
+  timeStamp?: string | undefined;
+}
 export type CreateGroupError = BadRequest | Forbidden | Conflict | StackitOpError;
 /** Create a group Creates a new group for a specific organization using the provided display name and description */
 export const createGroup: API.OperationMethod<
@@ -208,8 +235,8 @@ export const createGroup: API.OperationMethod<
   CreateGroupError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<CreateGroupRequest>,
-  output: __S(13, __c3, 1) as any as S.Schema<CreateGroupResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<CreateGroupRequest>,
+  output: __S(17, __c4, 1) as any as S.Schema<CreateGroupResponse>,
   errors: [BadRequest, Forbidden, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -225,8 +252,8 @@ export const deleteGroup: API.OperationMethod<
   DeleteGroupError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<DeleteGroupRequest>,
-  output: __S(17, __c4, 1) as any as S.Schema<DeleteGroupResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<DeleteGroupRequest>,
+  output: __S(21, __c5, 1) as any as S.Schema<DeleteGroupResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -242,8 +269,8 @@ export const getGroup: API.OperationMethod<
   GetGroupError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<GetGroupRequest>,
-  output: __S(24, __c6, 0) as any as S.Schema<GetGroupResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<GetGroupRequest>,
+  output: __S(28, __c7, 0) as any as S.Schema<GetGroupResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -259,8 +286,8 @@ export const getUser: API.OperationMethod<
   GetUserError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<GetUserRequest>,
-  output: __S(32, __c8, 0) as any as S.Schema<GetUserResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<GetUserRequest>,
+  output: __S(36, __c9, 0) as any as S.Schema<GetUserResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -276,8 +303,8 @@ export const listGroupMembers: API.OperationMethod<
   ListGroupMembersError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<ListGroupMembersRequest>,
-  output: __S(42, __c10, 2) as any as S.Schema<MembersResponse>,
+  input: __S(40, __c10, 0) as any as S.Schema<ListGroupMembersRequest>,
+  output: __S(46, __c11, 2) as any as S.Schema<MembersResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -293,8 +320,8 @@ export const listGroups: API.OperationMethod<
   ListGroupsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(44, __c11, 0) as any as S.Schema<ListGroupsRequest>,
-  output: __S(46, __c11, 2) as any as S.Schema<ListGroupResponse>,
+  input: __S(48, __c12, 0) as any as S.Schema<ListGroupsRequest>,
+  output: __S(50, __c12, 2) as any as S.Schema<ListGroupResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -310,8 +337,8 @@ export const listUsers: API.OperationMethod<
   ListUsersError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ListUsersRequest>,
-  output: __S(2, __c0, 2) as any as S.Schema<ListUserResponse>,
+  input: __S(4, __c1, 0) as any as S.Schema<ListUsersRequest>,
+  output: __S(6, __c1, 2) as any as S.Schema<ListUserResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -327,8 +354,8 @@ export const updateGroup: API.OperationMethod<
   UpdateGroupError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<UpdateGroupRequest>,
-  output: __S(5, __c1, 1) as any as S.Schema<UpdateGroupResponse>,
+  input: __S(8, __c2, 0) as any as S.Schema<UpdateGroupRequest>,
+  output: __S(9, __c2, 1) as any as S.Schema<UpdateGroupResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -344,8 +371,8 @@ export const updateGroupMembers: API.OperationMethod<
   UpdateGroupMembersError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10, __c2, 2) as any as S.Schema<UpdateGroupMembersRequest>,
-  output: __S(42, __c10, 2) as any as S.Schema<MembersResponse>,
+  input: __S(14, __c3, 2) as any as S.Schema<UpdateGroupMembersRequest>,
+  output: __S(46, __c11, 2) as any as S.Schema<MembersResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -355,6 +382,20 @@ export const updateGroupMembers: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          error: S.optional(S.String),
+          message: S.optional(S.String),
+          path: S.optional(S.String),
+          status: S.optional(S.Number),
+          timeStamp: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StandardError" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -375,17 +416,17 @@ function __c0(j: number): any {
         ),
       ).annotate({ identifier: "ListUsersRequest" });
     case 1:
-      return S.Array(__S(32, __c8, 0));
+      return S.Array(__S(36, __c9, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           total: S.optional(S.Number),
-          users: S.optional(__S(1, __c0, 1)),
+          users: S.optional(__S(5, __c1, 1)),
         }),
       ).annotate({ identifier: "ListUserResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -415,7 +456,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "UpdateGroupResponse" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -425,13 +466,13 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "UpdateMemberRequest" });
     case 1:
-      return S.Array(__S(8, __c2, 0));
+      return S.Array(__S(12, __c3, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           organizationId: S.String.pipe(T.Label()),
           groupId: S.String.pipe(T.Label()),
-          members: __S(9, __c2, 1),
+          members: __S(13, __c3, 1),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -443,7 +484,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "UpdateGroupMembersRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -472,7 +513,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "CreateGroupResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -493,7 +534,7 @@ function __c4(j: number): any {
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteGroupResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -511,7 +552,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetGroupRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -526,7 +567,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetGroupResponse" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -544,7 +585,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetUserRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -558,7 +599,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetUserResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -576,7 +617,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "ListGroupMembersRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -586,17 +627,17 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "MemberResponse" });
     case 1:
-      return S.Array(__S(40, __c10, 0));
+      return S.Array(__S(44, __c11, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          members: S.optional(__S(41, __c10, 1)),
+          members: S.optional(__S(45, __c11, 1)),
         }),
       ).annotate({ identifier: "MembersResponse" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -617,11 +658,11 @@ function __c11(j: number): any {
         ),
       ).annotate({ identifier: "ListGroupsRequest" });
     case 1:
-      return S.Array(__S(24, __c6, 0));
+      return S.Array(__S(28, __c7, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          groups: S.optional(__S(45, __c11, 1)),
+          groups: S.optional(__S(49, __c12, 1)),
           total: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ListGroupResponse" });

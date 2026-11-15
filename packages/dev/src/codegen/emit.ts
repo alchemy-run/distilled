@@ -113,6 +113,11 @@ export interface ErrorClassOptions {
   readonly pipes?: string;
   /** Wrap the class expression (e.g. `T.applyErrorMatchers(<cls>, …)`). */
   readonly wrap?: (cls: string) => string;
+  /**
+   * Class body lines, e.g. `  declare readonly body?: X;`: field types the
+   * schema can't state, because generated schemas are typed `any`.
+   */
+  readonly members?: readonly string[];
 }
 
 /**
@@ -133,7 +138,8 @@ export const errorClass = (o: ErrorClassOptions): string => {
   const annotations = o.annotations ? `,\n${o.annotations}` : "";
   const cls = `${PURE}S.TaggedError<${o.name}>()(${q(o.tag ?? o.name)}, {\n${o.fields.join("\n")}\n}${annotations})${o.pipes ?? ""}`;
   const body = o.wrap ? `${PURE}${o.wrap(cls)}` : cls;
-  return `export class ${o.name} extends ${body} {}\n`;
+  const members = o.members?.length ? `\n${o.members.join("\n")}\n` : "";
+  return `export class ${o.name} extends ${body} {${members}}\n`;
 };
 
 export interface OperationConstOptions {

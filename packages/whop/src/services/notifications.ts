@@ -30,44 +30,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export interface GetNotificationRequest {
   /** A notification `id` from List Notifications, or the id delivered with a push/websocket event. */
@@ -263,6 +283,17 @@ export interface SendNotificationRequest {
 export interface SendNotificationResponse {
   success: boolean;
 }
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
+}
 export type GetNotificationError = NotFound | WhopOpError;
 /** Retrieve Notification Retrieves a single notification by id -- either an `id` returned by List Notifications, or the ephemeral id delivered with a push/websocket event. Requires a user credential. */
 export const getNotification: API.OperationMethod<
@@ -271,8 +302,8 @@ export const getNotification: API.OperationMethod<
   GetNotificationError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetNotificationRequest>,
-  output: __S(13, __c1, 5) as any as S.Schema<Notification>,
+  input: __S(8, __c1, 0) as any as S.Schema<GetNotificationRequest>,
+  output: __S(21, __c2, 5) as any as S.Schema<Notification>,
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -288,8 +319,8 @@ export const listNotificationBadges: API.OperationMethod<
   ListNotificationBadgesError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<ListNotificationBadgesRequest>,
-  output: __S(26, __c3, 2) as any as S.Schema<ListNotificationBadgesResponse>,
+  input: __S(24, __c3, 0) as any as S.Schema<ListNotificationBadgesRequest>,
+  output: __S(34, __c4, 2) as any as S.Schema<ListNotificationBadgesResponse>,
   errors: [Forbidden],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -307,8 +338,8 @@ export const listNotifications: API.PaginatedOperationMethod<
   Notification
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(40, __c5, 0) as any as S.Schema<ListNotificationsRequest>,
-    output: __S(42, __c5, 2) as any as S.Schema<ListNotificationsResponse>,
+    input: __S(48, __c6, 0) as any as S.Schema<ListNotificationsRequest>,
+    output: __S(50, __c6, 2) as any as S.Schema<ListNotificationsResponse>,
     errors: [BadRequest, Forbidden],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -336,8 +367,8 @@ export const listNotificationTopics: API.PaginatedOperationMethod<
   NotificationTopic
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(56, __c7, 0) as any as S.Schema<ListNotificationTopicsRequest>,
-    output: __S(59, __c7, 3) as any as S.Schema<ListNotificationTopicsResponse>,
+    input: __S(64, __c8, 0) as any as S.Schema<ListNotificationTopicsRequest>,
+    output: __S(67, __c8, 3) as any as S.Schema<ListNotificationTopicsResponse>,
     errors: [BadRequest],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -363,8 +394,8 @@ export const readMarkNotification: API.OperationMethod<
   ReadMarkNotificationError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<ReadMarkNotificationRequest>,
-  output: __S(26, __c3, 2) as any as S.Schema<ReadMarkNotificationResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<ReadMarkNotificationRequest>,
+  output: __S(34, __c4, 2) as any as S.Schema<ReadMarkNotificationResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -380,8 +411,8 @@ export const sendNotification: API.OperationMethod<
   SendNotificationError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<SendNotificationRequest>,
-  output: __S(73, __c9, 1) as any as S.Schema<SendNotificationResponse>,
+  input: __S(80, __c10, 0) as any as S.Schema<SendNotificationRequest>,
+  output: __S(81, __c10, 1) as any as S.Schema<SendNotificationResponse>,
   errors: [BadRequest, Forbidden, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -395,12 +426,30 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           id: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "GET", uri: "/notifications/{id}", code: 200 })),
       ).annotate({ identifier: "GetNotificationRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -421,7 +470,7 @@ function __c1(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          app: S.NullOr(__S(9, __c1, 1)),
+          app: S.NullOr(__S(17, __c2, 1)),
           id: S.String,
           name: S.NullOr(S.String),
         }),
@@ -446,35 +495,35 @@ function __c1(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          account: S.NullOr(__S(8, __c1, 0)),
+          account: S.NullOr(__S(16, __c2, 0)),
           attachment_url: S.String,
           content: S.String,
           created_at: S.String,
-          experience: S.NullOr(__S(10, __c1, 2)),
+          experience: S.NullOr(__S(18, __c2, 2)),
           id: S.String,
           iframe_link: S.NullOr(S.String),
           link: S.NullOr(S.String),
           mentions_me: S.Boolean,
           rest_path: S.NullOr(S.String),
-          sender: S.NullOr(__S(11, __c1, 3)),
+          sender: S.NullOr(__S(19, __c2, 3)),
           subject: S.String,
-          topic: S.NullOr(__S(12, __c1, 4)),
+          topic: S.NullOr(__S(20, __c2, 4)),
         }),
       ).annotate({ identifier: "Notification" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          experience_ids: S.optional(__S(32, __c4, 0).pipe(T.Query())),
+          experience_ids: S.optional(__S(40, __c5, 0).pipe(T.Query())),
           last_fetched_at: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/notifications/badges", code: 200 })),
       ).annotate({ identifier: "ListNotificationBadgesRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -487,22 +536,22 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "NotificationBadge" });
     case 1:
-      return S.Array(__S(24, __c3, 0));
+      return S.Array(__S(32, __c4, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(25, __c3, 1),
+          data: __S(33, __c4, 1),
         }),
       ).annotate({ identifier: "ListNotificationBadgesResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -516,17 +565,17 @@ function __c5(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/notifications", code: 200 })),
       ).annotate({ identifier: "ListNotificationsRequest" });
     case 1:
-      return S.Array(__S(13, __c1, 5));
+      return S.Array(__S(21, __c2, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(41, __c5, 1),
-          page_info: __S(48, __c6, 0),
+          data: __S(49, __c6, 1),
+          page_info: __S(56, __c7, 0),
         }),
       ).annotate({ identifier: "ListNotificationsResponse" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -539,7 +588,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "ListNotificationsResponsePageInfo" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -562,17 +611,17 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "NotificationTopic" });
     case 2:
-      return S.Array(__S(57, __c7, 1));
+      return S.Array(__S(65, __c8, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(58, __c7, 2),
-          page_info: __S(48, __c6, 0),
+          data: __S(66, __c8, 2),
+          page_info: __S(56, __c7, 0),
         }),
       ).annotate({ identifier: "ListNotificationTopicsResponse" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -584,7 +633,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "ReadMarkNotificationRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -596,7 +645,7 @@ function __c9(j: number): any {
           rest_path: S.optional(S.NullOr(S.String)),
           subtitle: S.optional(S.NullOr(S.String)),
           title: S.String,
-          user_ids: S.optional(__S(32, __c4, 0)),
+          user_ids: S.optional(__S(40, __c5, 0)),
           idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(T.Http({ method: "POST", uri: "/notifications", code: 200 })),
       ).annotate({ identifier: "SendNotificationRequest" });

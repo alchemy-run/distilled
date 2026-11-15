@@ -30,55 +30,88 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(9, __c1, 1)),
+          S.String,
+        ]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | Error400Body | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(9, __c1, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(9, __c1, 1)),
+          S.String,
+        ]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | Error400Body | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(9, __c1, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export interface ActivatePromoCodeRequest {
   /** Promo code ID (`promo_` tag). */
@@ -713,6 +746,28 @@ export interface LegacyPromoCode {
   /** The amount of times the promo codes has been used. */
   uses: number;
 }
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
+}
+export interface Error400BodyError {
+  /** A short string indicating the specific error code, e.g. 'parameter_missing', 'parameter_invalid', 'invalid_json' */
+  code?: string | null | undefined;
+  message: string;
+  /** The parameter that caused the error, if applicable */
+  param?: string | null | undefined;
+  type: string;
+}
+export interface Error400Body {
+  error: Error400BodyError;
+}
 export type ActivatePromoCodeError = BadRequest | Conflict | WhopOpError;
 /** Activate Promo Code Turns an inactive promo code back on so it can be redeemed at checkout. */
 export const activatePromoCode: API.OperationMethod<
@@ -721,8 +776,8 @@ export const activatePromoCode: API.OperationMethod<
   ActivatePromoCodeError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<ActivatePromoCodeRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<PromoCode>,
+  input: __S(32, __c4, 0) as any as S.Schema<ActivatePromoCodeRequest>,
+  output: __S(40, __c5, 0) as any as S.Schema<PromoCode>,
   errors: [BadRequest, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -738,8 +793,8 @@ export const createPromoCode: API.OperationMethod<
   CreatePromoCodeError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<CreatePromoCodeRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<PromoCode>,
+  input: __S(56, __c7, 0) as any as S.Schema<CreatePromoCodeRequest>,
+  output: __S(40, __c5, 0) as any as S.Schema<PromoCode>,
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -755,8 +810,8 @@ export const deactivatePromoCode: API.OperationMethod<
   DeactivatePromoCodeError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<DeactivatePromoCodeRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<PromoCode>,
+  input: __S(72, __c9, 0) as any as S.Schema<DeactivatePromoCodeRequest>,
+  output: __S(40, __c5, 0) as any as S.Schema<PromoCode>,
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -772,8 +827,8 @@ export const deletePromoCode: API.OperationMethod<
   DeletePromoCodeError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<DeletePromoCodeRequest>,
-  output: __S(65, __c8, 1) as any as S.Schema<DeletePromoCodeResponse>,
+  input: __S(80, __c10, 0) as any as S.Schema<DeletePromoCodeRequest>,
+  output: __S(81, __c10, 1) as any as S.Schema<DeletePromoCodeResponse>,
   errors: [],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -789,8 +844,8 @@ export const getPromoCode: API.OperationMethod<
   GetPromoCodeError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<GetPromoCodeRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<PromoCode>,
+  input: __S(88, __c11, 0) as any as S.Schema<GetPromoCodeRequest>,
+  output: __S(40, __c5, 0) as any as S.Schema<PromoCode>,
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -808,8 +863,8 @@ export const listPromoCodes: API.PaginatedOperationMethod<
   PromoCodeListItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(0, __c0, 0) as any as S.Schema<ListPromoCodesRequest>,
-    output: __S(4, __c0, 4) as any as S.Schema<ListPromoCodesResponse>,
+    input: __S(16, __c2, 0) as any as S.Schema<ListPromoCodesRequest>,
+    output: __S(20, __c2, 4) as any as S.Schema<ListPromoCodesResponse>,
     errors: [BadRequest, NotFound],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -840,8 +895,8 @@ export const updatePromoCode: API.OperationMethod<
   UpdatePromoCodeError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<UpdatePromoCodeRequest>,
-  output: __S(9, __c1, 1) as any as S.Schema<LegacyPromoCode>,
+  input: __S(24, __c3, 0) as any as S.Schema<UpdatePromoCodeRequest>,
+  output: __S(25, __c3, 1) as any as S.Schema<LegacyPromoCode>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -855,10 +910,47 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.NullOr(S.String)),
+          message: S.String,
+          param: S.optional(S.NullOr(S.String)),
+          type: S.String,
+        }),
+      ).annotate({ identifier: "Error400BodyError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(8, __c1, 0),
+        }),
+      ).annotate({ identifier: "Error400Body" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           account_id: S.String.pipe(T.Query()),
           status: S.optional(S.String.pipe(T.Query())),
-          product_ids: S.optional(__S(48, __c6, 0).pipe(T.Query())),
-          plan_ids: S.optional(__S(48, __c6, 0).pipe(T.Query())),
+          product_ids: S.optional(__S(64, __c8, 0).pipe(T.Query())),
+          plan_ids: S.optional(__S(64, __c8, 0).pipe(T.Query())),
           created_before: S.optional(S.String.pipe(T.Query())),
           created_after: S.optional(S.String.pipe(T.Query())),
           order: S.optional(S.String.pipe(T.Query())),
@@ -884,7 +976,7 @@ function __c0(j: number): any {
           metadata: S.Unknown,
           new_users_only: S.Boolean,
           one_per_customer: S.Boolean,
-          product: S.NullOr(__S(32, __c4, 0)),
+          product: S.NullOr(__S(48, __c6, 0)),
           promo_duration_months: S.NullOr(S.Number),
           promo_type: S.String,
           status: S.String,
@@ -895,7 +987,7 @@ function __c0(j: number): any {
         }),
       ).annotate({ identifier: "PromoCodeListItem" });
     case 2:
-      return S.Array(__S(1, __c0, 1));
+      return S.Array(__S(17, __c2, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -908,13 +1000,13 @@ function __c0(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2, __c0, 2),
-          page_info: __S(3, __c0, 3),
+          data: __S(18, __c2, 2),
+          page_info: __S(19, __c2, 3),
         }),
       ).annotate({ identifier: "ListPromoCodesResponse" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -929,7 +1021,7 @@ function __c1(j: number): any {
           amount_off: S.Number,
           churned_users_only: S.Boolean,
           code: S.NullOr(S.String),
-          company: __S(32, __c4, 0),
+          company: __S(48, __c6, 0),
           created_at: S.String,
           currency: S.String,
           duration: S.NullOr(S.String),
@@ -938,7 +1030,7 @@ function __c1(j: number): any {
           id: S.String,
           new_users_only: S.Boolean,
           one_per_customer: S.Boolean,
-          product: S.NullOr(__S(32, __c4, 0)),
+          product: S.NullOr(__S(48, __c6, 0)),
           promo_duration_months: S.NullOr(S.Number),
           promo_type: S.String,
           status: S.String,
@@ -949,7 +1041,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "LegacyPromoCode" });
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -960,12 +1052,12 @@ function __c2(j: number): any {
       ).annotate({ identifier: "ActivatePromoCodeRequest" });
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          account: __S(32, __c4, 0),
+          account: __S(48, __c6, 0),
           amount_off: S.Number,
           churned_users_only: S.Boolean,
           code: S.NullOr(S.String),
@@ -978,7 +1070,7 @@ function __c3(j: number): any {
           metadata: S.Unknown,
           new_users_only: S.Boolean,
           one_per_customer: S.Boolean,
-          product: S.NullOr(__S(32, __c4, 0)),
+          product: S.NullOr(__S(48, __c6, 0)),
           promo_duration_months: S.NullOr(S.Number),
           promo_type: S.String,
           status: S.String,
@@ -990,7 +1082,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "PromoCode" });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1001,7 +1093,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "AccountSummary" });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1015,7 +1107,7 @@ function __c5(j: number): any {
           expires_at: S.optional(S.NullOr(S.String)),
           new_users_only: S.Boolean,
           one_per_customer: S.optional(S.Boolean),
-          plan_ids: S.optional(__S(48, __c6, 0)),
+          plan_ids: S.optional(__S(64, __c8, 0)),
           product_id: S.optional(S.NullOr(S.String)),
           promo_duration_months: S.Number,
           promo_type: S.String,
@@ -1026,13 +1118,13 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CreatePromoCodeRequest" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1043,7 +1135,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "DeactivatePromoCodeRequest" });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1060,7 +1152,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "DeletePromoCodeResponse" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

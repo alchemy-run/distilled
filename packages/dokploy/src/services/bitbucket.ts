@@ -30,33 +30,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorBADREQUEST | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorFORBIDDEN | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorNOTFOUND | string;
+}
 
 export interface CreateBitbucketRequest {
   bitbucketId?: string | undefined;
@@ -107,6 +122,44 @@ export interface UpdateBitbucketRequest {
   organizationId?: string | undefined;
 }
 export type UpdateBitbucketResponse = unknown;
+export interface ErrorBADREQUESTIssuesItem {
+  message: string;
+}
+/** An array of issues that were responsible for the error */
+export type ErrorBADREQUESTIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorBADREQUEST {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorBADREQUESTIssuesList | undefined;
+}
+export type ErrorFORBIDDENIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorFORBIDDENIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorFORBIDDEN {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorFORBIDDENIssuesList | undefined;
+}
+export type ErrorNOTFOUNDIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorNOTFOUNDIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorNOTFOUND {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorNOTFOUNDIssuesList | undefined;
+}
 export type CreateBitbucketError = BadRequest | Forbidden | DokployOpError;
 export const createBitbucket: API.OperationMethod<
   CreateBitbucketRequest,
@@ -114,8 +167,8 @@ export const createBitbucket: API.OperationMethod<
   CreateBitbucketError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateBitbucketRequest>,
-  output: __S(2, __c1, 0) as any as S.Schema<CreateBitbucketResponse>,
+  input: __S(4, __c1, 0) as any as S.Schema<CreateBitbucketRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<CreateBitbucketResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -130,8 +183,8 @@ export const getBitbucket: API.OperationMethod<
   GetBitbucketError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c2, 0) as any as S.Schema<GetBitbucketRequest>,
-  output: __S(2, __c1, 0) as any as S.Schema<GetBitbucketResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<GetBitbucketRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<GetBitbucketResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -146,8 +199,8 @@ export const getBitbucketBranches: API.OperationMethod<
   GetBitbucketBranchesError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6, __c3, 0) as any as S.Schema<GetBitbucketBranchesRequest>,
-  output: __S(2, __c1, 0) as any as S.Schema<GetBitbucketBranchesResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<GetBitbucketBranchesRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<GetBitbucketBranchesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -162,8 +215,8 @@ export const getBitbucketProviders: API.OperationMethod<
   GetBitbucketProvidersError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c4, 0) as any as S.Schema<GetBitbucketProvidersRequest>,
-  output: __S(2, __c1, 0) as any as S.Schema<GetBitbucketProvidersResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<GetBitbucketProvidersRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<GetBitbucketProvidersResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -178,8 +231,8 @@ export const getBitbucketRepositories: API.OperationMethod<
   GetBitbucketRepositoriesError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10, __c5, 0) as any as S.Schema<GetBitbucketRepositoriesRequest>,
-  output: __S(2, __c1, 0) as any as S.Schema<GetBitbucketRepositoriesResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<GetBitbucketRepositoriesRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<GetBitbucketRepositoriesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -194,8 +247,8 @@ export const testBitbucketConnection: API.OperationMethod<
   TestBitbucketConnectionError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c6, 0) as any as S.Schema<TestBitbucketConnectionRequest>,
-  output: __S(2, __c1, 0) as any as S.Schema<TestBitbucketConnectionResponse>,
+  input: __S(28, __c7, 0) as any as S.Schema<TestBitbucketConnectionRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<TestBitbucketConnectionResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -210,8 +263,8 @@ export const updateBitbucket: API.OperationMethod<
   UpdateBitbucketError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14, __c7, 0) as any as S.Schema<UpdateBitbucketRequest>,
-  output: __S(2, __c1, 0) as any as S.Schema<UpdateBitbucketResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<UpdateBitbucketRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<UpdateBitbucketResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -221,6 +274,26 @@ export const updateBitbucket: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+        }),
+      ).annotate({ identifier: "ErrorBADREQUESTIssuesItem" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+          code: S.String,
+          issues: S.optional(__S(1, __c0, 1)),
+        }),
+      ).annotate({ identifier: "ErrorBADREQUEST" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -238,7 +311,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateBitbucketRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -246,7 +319,7 @@ function __c1(j: number): any {
       });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -256,7 +329,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetBitbucketRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -268,7 +341,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetBitbucketBranchesRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -278,7 +351,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetBitbucketProvidersRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -288,7 +361,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetBitbucketRepositoriesRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -303,7 +376,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "TestBitbucketConnectionRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
