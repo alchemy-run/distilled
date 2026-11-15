@@ -1,8 +1,9 @@
 name: Compatibility tests
 
 # What the published packages promise beyond CI's one setup (Node 24 and the
-# lockfile's `effect`): the whole `effect` peer range, Bun (the `bun` export
-# condition) and workerd (the `worker` / `workerd` conditions).
+# lockfile's `effect`): the whole `effect` peer range, the Node versions
+# effect supports, Bun (the `bun` export condition) and workerd (the
+# `worker` / `workerd` conditions).
 #
 # Called by compat.yml (nightly, opens an issue on failure) and by
 # release.yml (a failure stops the release). No AI and no network beyond
@@ -47,6 +48,32 @@ jobs:
 
       - name: Run tests
         run: pnpm vitest run
+
+  # effect's `engines` is `node >=22.19.0`: its floor, the newest 22.x and
+  # the newest LTS. CI already runs Node 24 (.node-version).
+  node:
+    name: Node ${{ matrix.node }}
+    runs-on: blacksmith-4vcpu-ubuntu-2404
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ["22.19.0", "22", "26"]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup pnpm, Node.js ${{ matrix.node }} and install dependencies
+        uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
+        with:
+          runtime: node@${{ matrix.node }}
+          cache: true
+          install: true
+          require-lockfile: true
+
+      - name: Run tests
+        run: |
+          node --version
+          pnpm vitest run
 
   bun:
     name: Bun (core tests)
