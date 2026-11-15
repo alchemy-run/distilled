@@ -222,10 +222,18 @@ export const encode = (n: Node, v: unknown): unknown => {
       return convertArray(n, v, encode);
     case "Union":
       return encodeUnion(n, v);
+    case "Number":
+      // JSON has no NaN or Infinity: AWS sends "NaN", "Infinity", "-Infinity".
+      if (typeof v === "number" && !Number.isFinite(v)) return String(v);
+      return primitive(n, v) ? v : fail(expected(n), v);
     default:
       return primitive(n, v) ? v : fail(expected(n), v);
   }
 };
+
+/** The strings AWS sends for the numbers JSON cannot write. */
+const nonFinite = (v: unknown): v is "NaN" | "Infinity" | "-Infinity" =>
+  v === "NaN" || v === "Infinity" || v === "-Infinity";
 
 const encodeCodec = (codec: CodecKind, n: Node, v: unknown): unknown => {
   if (codec === "sensitive")
@@ -314,6 +322,8 @@ export const decode = (n: Node, v: unknown, exact: Exactness = false): unknown =
         : asRead(n, v);
     case "Union":
       return decodeUnion(n, v, exact);
+    case "Number":
+      return nonFinite(v) ? Number(v) : !exact || primitive(n, v) ? v : fail(expected(n), v);
     default:
       return !exact || primitive(n, v) ? v : fail(expected(n), v);
   }
