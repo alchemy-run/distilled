@@ -7,3 +7,7 @@ export const toBase64 = (bytes: Uint8Array): string => {
   }
   return btoa(binary);
 };
+
+/** The bytes of a base64 string. */
+export const fromBase64 = (base64: string): Uint8Array =>
+  Uint8Array.from(atob(base64), (c) => c.charCodeAt(0));

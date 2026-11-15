@@ -21,6 +21,7 @@ import type { Request } from "@distilled.cloud/s3/client/request";
 import type { Response } from "@distilled.cloud/s3/client/response";
 import type { InputEvent } from "@distilled.cloud/s3/eventstream/serializer";
 import { getEncodedPropertySignatures, getIdentifier } from "@distilled.cloud/s3/util/ast";
+import { fromBase64 } from "@distilled.cloud/s3/util/base64";
 import { inputEncoderSync, outputBody } from "@distilled.cloud/s3/util/codec";
 import {
   extractJsonErrorCode,
@@ -225,6 +226,13 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
         // reject payload-hash signatures on these routes.
         request.hasStreamingInput = true;
         // Default to octet-stream for streaming payloads, unless user set explicitly
+        if (!userSetContentType) {
+          request.headers["Content-Type"] = payloadMediaType ?? "application/octet-stream";
+        }
+      } else if (isBlobPayload(payloadAst)) {
+        // A non-streaming blob payload is the body's raw bytes; the encoder
+        // made it base64.
+        request.body = fromBase64(payloadValue as string);
         if (!userSetContentType) {
           request.headers["Content-Type"] = payloadMediaType ?? "application/octet-stream";
         }
