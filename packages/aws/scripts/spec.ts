@@ -250,6 +250,9 @@ function collectSerializationTraits(traits: SmithyTraits, memberName?: string): 
   if (traits["smithy.api#httpResponseCode"] != null) {
     pipes.push(`T.HttpResponseCode()`);
   }
+  if (traits["smithy.api#mediaType"] != null) {
+    pipes.push(`T.MediaType(${JSON.stringify(traits["smithy.api#mediaType"])})`);
+  }
   if (traits["smithy.api#xmlName"] != null) {
     pipes.push(`T.XmlName("${traits["smithy.api#xmlName"]}")`);
   }
@@ -1482,9 +1485,13 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
 
     // Serialization trait pipes; memberName lets httpLabel substitute the
     // right URI placeholder, identifier survives the .pipe() wrapper.
+    // A header or payload's @mediaType sits on its target shape.
+    const mediaType = memberTargetShape?.traits?.["smithy.api#mediaType"];
     schema = applyTraitsToSchema(
       schema,
-      traits,
+      mediaType !== undefined && (hasHttpHeader || hasHttpPayload)
+        ? { ...traits, "smithy.api#mediaType": mediaType }
+        : traits,
       memberName,
       allStructNames.has(memberTargetName) ? memberTargetName : undefined,
     );

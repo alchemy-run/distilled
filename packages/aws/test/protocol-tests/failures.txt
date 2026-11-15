@@ -82,22 +82,8 @@ RestJsonSerializesSparseSetMapAndRetainsNull (request)
 RestJsonSparseListsSerializeNull (request)
 RestJsonSparseListsSerializeNull (response)
 
-# Timestamps: labels and query values use the wrong format, and date-time
-# values carry ".000" milliseconds.
-
 # Content-Type is sent with no body, and a payload's `@mediaType` is ignored.
-HttpPayloadTraitsWithMediaTypeWithBlob (request)
-RestJsonEnumPayloadRequest (request)
-RestJsonHttpGetWithHeaderMemberNoModeledBody (request)
-RestJsonHttpGetWithNoInput (request)
-RestJsonHttpGetWithNoModeledBody (request)
 RestJsonHttpPayloadTraitsWithBlob (request)
-RestJsonHttpPayloadTraitsWithMediaTypeWithBlob (request)
-RestJsonHttpPostWithNoInput (request)
-RestJsonHttpPostWithNoModeledBody (request)
-RestJsonHttpWithPostHeaderMemberNoModeledBody (request)
-RestJsonStreamingTraitsWithMediaTypeWithBlob (request)
-RestJsonStringPayloadRequest (request)
 
 # awsJson applies `@jsonName`, which only restJson1 honours; restJson1 ignores
 # it on union members.

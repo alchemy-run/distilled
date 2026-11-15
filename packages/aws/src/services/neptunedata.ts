@@ -4050,7 +4050,9 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ output: S.optional(T.StreamingOutput).pipe(T.HttpPayload()) }),
+        S.Struct({
+          output: S.optional(T.StreamingOutput).pipe(T.HttpPayload(), T.MediaType("text/plain")),
+        }),
       ).annotate({ identifier: "ExecuteGremlinExplainQueryOutput" });
   }
 }

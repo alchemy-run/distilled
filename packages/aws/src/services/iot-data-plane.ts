@@ -1091,7 +1091,10 @@ function __c10(j: number): any {
           qos: S.optional(S.Number).pipe(T.HttpQuery("qos")),
           retain: S.optional(S.Boolean).pipe(T.HttpQuery("retain")),
           payload: S.optional(T.StreamingInput).pipe(T.HttpPayload()),
-          userProperties: S.optional(S.String).pipe(T.HttpHeader("x-amz-mqtt5-user-properties")),
+          userProperties: S.optional(S.String).pipe(
+            T.HttpHeader("x-amz-mqtt5-user-properties"),
+            T.MediaType("application/json"),
+          ),
           payloadFormatIndicator: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-mqtt5-payload-format-indicator"),
           ),
@@ -1117,7 +1120,10 @@ function __c11(j: number): any {
           confirmation: S.optional(S.Boolean).pipe(T.HttpQuery("confirmation")),
           timeout: S.optional(S.Number).pipe(T.HttpQuery("timeout")),
           payload: S.optional(T.StreamingInput).pipe(T.HttpPayload()),
-          userProperties: S.optional(S.String).pipe(T.HttpHeader("x-amz-mqtt5-user-properties")),
+          userProperties: S.optional(S.String).pipe(
+            T.HttpHeader("x-amz-mqtt5-user-properties"),
+            T.MediaType("application/json"),
+          ),
           payloadFormatIndicator: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-mqtt5-payload-format-indicator"),
           ),
