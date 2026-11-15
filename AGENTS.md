@@ -191,6 +191,36 @@ same condition. Tests use vitest: `pnpm vitest run
 - **Other agents may share this checkout.** `git status` can show hundreds of
   files you did not touch. Stage explicit paths — never `git add -A`.
 
+## The errors of an operation
+
+Every operation fails with exactly three groups of errors. Say which group an
+error is in before you add, move or review one. The examples are from Neon's
+`getProject`.
+
+1. **Operation errors**: errors only this operation returns (`BadRequest`,
+   `NotFound`). They are generated from the spec and `patches/`: the
+   operation's `errors: [...]` list and its `<Operation>Error` type in
+   `src/services/`.
+2. **Service errors**: errors any operation of the SDK can return
+   (`Unauthorized`, `TooManyRequests`, the 5xx classes, `UnknownNeonError`).
+   The server sent them. The protocol builds them for a response the
+   operation does not declare: from a status map (core `HTTP_STATUS_MAP` by
+   default), then as the SDK's `Unknown<Sdk>Error`.
+3. **Protocol errors**: errors from the SDK's own code (`NeonParseError` when
+   a response does not match its schema, `HttpClientError` for the
+   transport, `InvalidInput`, `SdkError`, `ConfigError`). The server did not
+   send them. Core and the SDK's `src/protocol.ts` raise them.
+
+To place an error, ask who produced it. The server sent it and the operation
+declares it: group 1. The server sent it and the operation does not declare
+it: group 2. The SDK's code raised it: group 3.
+
+Today groups 2 and 3 share one hand-written type per SDK: `<Sdk>OpError` in
+`src/protocol.ts` (AWS: `CommonErrors` in `packages/s3/src/errors.ts`). Each
+generated `<Operation>Error` is its group 1 classes plus that type. The
+compiler checks group 1 against the `errors` list. Nothing checks
+`<Sdk>OpError` against what the protocol fails with (#1226).
+
 ## Going deeper
 
 - Adding a provider, sourcing a spec, or working on a mirror:
