@@ -19,38 +19,33 @@ const unreadableBody = (cause: unknown) =>
   });
 
 /**
- * Read a ReadableStream as text (for non-streaming responses).
+ * Read a body as text (for non-streaming responses), in the calling fiber.
  * This is lazy - only consumes when called.
  */
-export const readStreamAsText = (
-  stream: string | ReadableStream<Uint8Array>,
-): Effect.Effect<string, ParseError> =>
+export const readStreamAsText = (stream: string | StreamBody): Effect.Effect<string, ParseError> =>
   typeof stream === "string"
     ? Effect.succeed(stream)
-    : Effect.tryPromise({
-        try: () => new globalThis.Response(stream).text(),
-        catch: unreadableBody,
-      });
+    : Effect.map(readStreamAsBytes(stream), (bytes) => new TextDecoder().decode(bytes));
 
 /**
- * Read a ReadableStream fully as raw bytes (for non-streaming binary
- * responses such as httpPayload blobs).
+ * Read a body fully as raw bytes (for non-streaming binary responses such
+ * as httpPayload blobs), in the calling fiber.
  * This is lazy - only consumes when called.
  */
 export const readStreamAsBytes = (
-  stream: string | ReadableStream<Uint8Array>,
+  stream: string | StreamBody,
 ): Effect.Effect<Uint8Array, ParseError> =>
   typeof stream === "string"
     ? Effect.succeed(new TextEncoder().encode(stream))
-    : Effect.tryPromise({
-        try: async () => new Uint8Array(await new globalThis.Response(stream).arrayBuffer()),
-        catch: unreadableBody,
-      });
+    : Stream.mkUint8Array(bodyStream(stream)).pipe(Effect.mapError(unreadableBody));
 
-/** A streaming request body: a web stream, or an Effect stream that runs in the caller's fiber. */
+/**
+ * A streaming body: a web stream, or an Effect stream that runs in the
+ * caller's fiber. A response body is the HttpClient's Effect stream.
+ */
 export type StreamBody = ReadableStream<Uint8Array> | Stream.Stream<Uint8Array, unknown>;
 
-/** Whether a request body streams (is not a buffered string or bytes). */
+/** Whether a body streams (is not a buffered string or bytes). */
 export const isStreamBody = (body: unknown): body is StreamBody =>
   body instanceof ReadableStream || isEffectStream(body);
 
@@ -92,17 +87,17 @@ export function convertStreamingInput(
 }
 
 /**
- * Create an Effect Stream from a ReadableStream (for streaming responses).
+ * A streaming response body as the Effect Stream the caller reads. The
+ * HttpClient's stream is returned as is, so it is read in the caller's fiber.
  */
 export const readableToEffectStream = (
-  stream: string | ReadableStream<Uint8Array>,
+  stream: string | StreamBody,
 ): Stream.Stream<Uint8Array, Error, never> =>
   typeof stream === "string"
     ? Stream.fromIterable([new TextEncoder().encode(stream)])
-    : Stream.fromReadableStream({
-        evaluate: () => stream,
-        onError: (e) => (e instanceof Error ? e : new Error(String(e), { cause: e })),
-      });
+    : Stream.mapError(bodyStream(stream), (e) =>
+        e instanceof Error ? e : new Error(String(e), { cause: e }),
+      );
 
 /**
  * `stream` with its chunks joined until each is at least `minSize` bytes,

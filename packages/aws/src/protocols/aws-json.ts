@@ -33,7 +33,7 @@ import {
   extractJsonErrorData,
   sanitizeErrorCode,
 } from "@distilled.cloud/s3/util/error";
-import { readStreamAsText } from "@distilled.cloud/s3/util/stream";
+import { readStreamAsText, type StreamBody } from "@distilled.cloud/s3/util/stream";
 import * as Effect from "effect/Effect";
 import type * as Schema from "effect/Schema";
 import type * as AST from "effect/SchemaAST";
@@ -153,7 +153,7 @@ function createAwsJsonProtocol(version: "1.0" | "1.1"): ProtocolImpl {
           return Effect.succeed({
             [streamingOutputProp.name]: eventStreamWith(streamingOutputProp.eventSchema, (codec) =>
               codec.parseEventStreamToUnion(
-                response.body as ReadableStream<Uint8Array>,
+                response.body as StreamBody,
                 undefined,
                 streamingOutputProp.eventSchema,
               ),

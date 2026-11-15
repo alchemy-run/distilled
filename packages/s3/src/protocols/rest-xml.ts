@@ -54,7 +54,12 @@ import { errorBody, inputEncoderSync } from "../util/codec.ts";
 import { sanitizeErrorCode } from "../util/error.ts";
 import { extractStaticQueryParams } from "../util/query-params.ts";
 import { applyHttpTrait, bindInputToRequest } from "../util/serialize-input.ts";
-import { convertStreamingInput, readableToEffectStream, readStreamAsText } from "../util/stream.ts";
+import {
+  convertStreamingInput,
+  readableToEffectStream,
+  readStreamAsText,
+  type StreamBody,
+} from "../util/stream.ts";
 import { formatTimestamp } from "../util/timestamp.ts";
 import {
   escapeXml,
@@ -247,7 +252,7 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
         };
         result[outputPayloadProp.name] = eventStreamWith(outputPayloadProp.eventSchema, (codec) =>
           codec.parseEventStreamToUnion(
-            response.body as ReadableStream<Uint8Array>,
+            response.body as StreamBody,
             xmlPayloadParser,
             outputPayloadProp.eventSchema,
           ),

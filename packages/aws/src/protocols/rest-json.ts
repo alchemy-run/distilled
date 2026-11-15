@@ -40,6 +40,7 @@ import {
   readableToEffectStream,
   readStreamAsBytes,
   readStreamAsText,
+  type StreamBody,
 } from "@distilled.cloud/s3/util/stream";
 import * as Effect from "effect/Effect";
 import type * as Schema from "effect/Schema";
@@ -319,7 +320,7 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
           // the generated types
           result[outputPayloadProp.name] = eventStreamWith(outputPayloadProp.eventSchema, (codec) =>
             codec.parseEventStreamToUnion(
-              response.body as ReadableStream<Uint8Array>,
+              response.body as StreamBody,
               undefined,
               outputPayloadProp.eventSchema,
               outputPayloadProp.eventPayloadMap,
