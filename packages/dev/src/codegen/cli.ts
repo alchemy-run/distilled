@@ -30,31 +30,6 @@ import { privatizeSchemas, typeOnlyNamespaceImports } from "./privatize.ts";
 import { annotateNestedCalls } from "./pure.ts";
 import { tableSchemas } from "./table.ts";
 
-/**
- * The module text `generate` writes for one compiled model. Every nested
- * call in a top-level initializer gets a PURE marker, so one unused schema
- * cannot pin others in a consumer's bundle. Latin-1-only source halves the
- * heap V8 keeps for the module text. Structurally identical schemas become
- * aliases of one schema, and schema consts become module-private (types stay
- * exported).
- */
-export const finishModule = (code: string, resourceFile: string): string => {
-  const marked = annotateNestedCalls(code, resourceFile);
-  return toLatin1(
-    typeOnlyNamespaceImports(
-      tableSchemas(
-        chunkSchemas(
-          privatizeSchemas(dedupeSchemas(marked, resourceFile).code, resourceFile).code,
-          resourceFile,
-        ).code,
-        resourceFile,
-      ).code,
-      resourceFile,
-    ),
-    resourceFile,
-  );
-};
-
 /** One directory of converted models, compiled into one output directory. */
 export interface GeneratorTarget {
   /** The directory convert writes the models to, relative to root. */
@@ -303,7 +278,26 @@ export const runGeneratorCli = (options: GeneratorCliOptions): void => {
             }
             const { operations } = generated;
             if (generated.code === "") continue;
-            let code = finishModule(generated.code, `${resource}.ts`);
+            // Every nested call in a top-level initializer gets a PURE marker,
+            // so one unused schema cannot pin others in a consumer's bundle.
+            // Latin-1-only source halves the heap V8 keeps for the module text.
+            // Structurally identical schemas become aliases of one schema, and
+            // schema consts become module-private (types stay exported).
+            const resourceFile = `${resource}.ts`;
+            const marked = annotateNestedCalls(generated.code, resourceFile);
+            let code = toLatin1(
+              typeOnlyNamespaceImports(
+                tableSchemas(
+                  chunkSchemas(
+                    privatizeSchemas(dedupeSchemas(marked, resourceFile).code, resourceFile).code,
+                    resourceFile,
+                  ).code,
+                  resourceFile,
+                ).code,
+                resourceFile,
+              ),
+              resourceFile,
+            );
 
             const extra = options.append?.(resource);
             if (extra) code = `${code}\n${extra}\n`;
