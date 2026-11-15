@@ -62,16 +62,6 @@ RestJsonSerializesSparseSetMapAndRetainsNull (request)
 RestJsonSparseListsSerializeNull (request)
 RestJsonSparseListsSerializeNull (response)
 
-# awsJson applies `@jsonName`, which only restJson1 honours; restJson1 ignores
-# it on union members.
-AwsJson10ComplexError (error)
-AwsJson11ComplexError (error)
-PostUnionWithJsonNameRequest1 (request)
-PostUnionWithJsonNameRequest2 (request)
-PostUnionWithJsonNameResponse1 (response)
-PostUnionWithJsonNameResponse2 (response)
-serializes_structure_members_with_locationname_traits (request)
-
 # An empty list or map element reads as an absent member; Smithy expects an
 # empty list or map. packages/aws/test/protocols/xml.test.ts asserts the
 # absent member for S3 and S3 Control.
