@@ -1,3 +1,5 @@
+import type { StreamBody } from "../util/stream.ts";
+
 /**
  * A protocol-agnostic HTTP request representation.
  * This is what the protocol serializer produces.
@@ -11,8 +13,11 @@ export interface Request {
   query: Record<string, string | string[]>;
   /** HTTP headers */
   headers: Record<string, string>;
-  /** Request body (undefined for GET/HEAD/DELETE without body) */
-  body?: string | Uint8Array | ReadableStream;
+  /**
+   * Request body (undefined for GET/HEAD/DELETE without body). An Effect
+   * stream is sent as is, in the fiber that sends the request.
+   */
+  body?: string | Uint8Array | StreamBody;
   /**
    * True when the operation's input declares a streaming payload member
    * (smithy `@streaming` blob). Streaming-input operations must be signed
