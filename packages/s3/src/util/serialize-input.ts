@@ -159,6 +159,7 @@ export function bindInputToRequest(
   let payloadAst: AST.AST | undefined = undefined;
   const bodyMembers: Record<string, unknown> = {};
   let hasBodyMembers = false;
+  let queryParams: object | undefined;
 
   for (const member of bindingsOf(ast)) {
     const name = member.name;
@@ -183,7 +184,7 @@ export function bindInputToRequest(
         request.query[member.queryParam] = String(value);
       }
     } else if (member.queryParams && typeof value === "object") {
-      Object.assign(request.query, value);
+      queryParams = value as object;
     } else if (member.prefixHeaders !== undefined && typeof value === "object") {
       for (const [k, v] of Object.entries(value as Record<string, string>)) {
         // Skip undefined values (allowed in schema for user convenience, dropped on wire)
@@ -197,6 +198,13 @@ export function bindInputToRequest(
     } else {
       bodyMembers[name] = value;
       hasBodyMembers = true;
+    }
+  }
+
+  // A named @httpQuery member wins over an @httpQueryParams key of the same name.
+  if (queryParams !== undefined) {
+    for (const [k, v] of Object.entries(queryParams)) {
+      if (request.query[k] === undefined) request.query[k] = v;
     }
   }
 
