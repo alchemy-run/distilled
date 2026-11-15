@@ -20,9 +20,8 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import { UnknownArchilError, ArchilParseError } from "./errors.ts";
 
 /**
@@ -43,28 +42,31 @@ export type ArchilOpError =
 /** Context (requirements) shared by every generated Archil operation. */
 export type ArchilOpContext = Credentials | HttpClient.HttpClient;
 
-export const ArchilProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // The Credentials service holds an effect -- resolving it here (per
-  // request, on the calling fiber) picks up context-provided credentials.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-  baseUrl: (creds) => creds.apiBaseUrl,
-  // Archil's control plane authenticates with the raw API key, not Bearer.
-  headers: (creds) => ({
-    Authorization: Redacted.value(creds.apiKey),
-  }),
-  // Archil's error body is `{ success: false, error: string }` -- map
-  // `error` onto the unknown-error message when `message` is absent.
-  unknownError: (info) =>
-    new UnknownArchilError({
-      ...unknownErrorProps(info),
-      message:
-        info.message ??
-        (info.body !== null &&
-        typeof info.body === "object" &&
-        "error" in info.body &&
-        typeof (info.body as { error: unknown }).error === "string"
-          ? (info.body as { error: string }).error
-          : undefined),
+const resolveCredentials = /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve);
+
+export const ArchilProtocol: API.ProtocolLayer<ArchilOpError, ArchilOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
+    // The Credentials service holds an effect -- resolving it here (per
+    // request, on the calling fiber) picks up context-provided credentials.
+    credentials: resolveCredentials,
+    baseUrl: (creds) => creds.apiBaseUrl,
+    // Archil's control plane authenticates with the raw API key, not Bearer.
+    headers: (creds) => ({
+      Authorization: Redacted.value(creds.apiKey),
     }),
-  parseError: ({ body, cause }) => new ArchilParseError({ body, cause }),
-});
+    // Archil's error body is `{ success: false, error: string }` -- map
+    // `error` onto the unknown-error message when `message` is absent.
+    unknownError: (info) =>
+      new UnknownArchilError({
+        ...unknownErrorProps(info),
+        message:
+          info.message ??
+          (info.body !== null &&
+          typeof info.body === "object" &&
+          "error" in info.body &&
+          typeof (info.body as { error: unknown }).error === "string"
+            ? (info.body as { error: string }).error
+            : undefined),
+      }),
+    parseError: ({ body, cause }) => new ArchilParseError({ body, cause }),
+  });

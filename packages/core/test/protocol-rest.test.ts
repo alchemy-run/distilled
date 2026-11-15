@@ -32,6 +32,7 @@ import {
 import * as ResponseValidation from "../src/response-validation.ts";
 import * as L from "../src/schema-lite.ts";
 import * as S from "../src/schema.ts";
+import { SdkError } from "../src/sdk-error.ts";
 import * as T from "../src/trait.ts";
 
 // =============================================================================
@@ -112,7 +113,15 @@ class KeyReused extends T.applyErrorMatchers(
   [{ status: 422, body: { "/code": "key_reused" } }],
 ) {}
 
-const baseOptions: RestProtocolOptions<Creds> = {
+const baseOptions: RestProtocolOptions<
+  Creds,
+  never,
+  TestCreds,
+  never,
+  never,
+  TestUnknownError,
+  TestParseError
+> = {
   credentials: Effect.gen(function* () {
     return yield* TestCreds;
   }),
@@ -142,7 +151,7 @@ const ThingOutput = S.Struct({
   secret: S.optional(S.String.pipe(SensitiveValue(), T.Body("secret_value"))),
 });
 
-const thingOp = (protocol: Layer.Layer<API.Protocol>, errors: ReadonlyArray<any> = []) =>
+const thingOp = (protocol: API.ProtocolLayer<unknown, unknown>, errors: ReadonlyArray<any> = []) =>
   API.make(() => ({
     input: ThingInput,
     output: ThingOutput,
@@ -282,7 +291,7 @@ describe("makeRestProtocol request encoding", () => {
   });
 
   test("a credentials failure fails the call before any request is sent", async () => {
-    const CredsFailProtocol = makeRestProtocol<Creds>({
+    const CredsFailProtocol = makeRestProtocol({
       ...baseOptions,
       credentials: Effect.fail(new BadRequest({ message: "no creds" })),
     });
@@ -297,7 +306,7 @@ describe("makeRestProtocol request encoding", () => {
 
   test("baseUrl receives the operation's route", async () => {
     const targets: Array<unknown> = [];
-    const RoutingProtocol = makeRestProtocol<Creds>({
+    const RoutingProtocol = makeRestProtocol({
       ...baseOptions,
       baseUrl: (c, target) => {
         targets.push(target);
@@ -314,13 +323,11 @@ describe("makeRestProtocol request encoding", () => {
     expect(recorded.requests[0]!.url).toBe("https://routed.api.test/things/t1");
   });
 
-  test("an error thrown by baseUrl fails the call instead of dying", async () => {
+  test("a baseUrl that refuses the route fails the call with its error", async () => {
     const refusal = new BadRequest({ message: "scope missing" });
-    const RefusingProtocol = makeRestProtocol<Creds>({
+    const RefusingProtocol = makeRestProtocol({
       ...baseOptions,
-      baseUrl: () => {
-        throw refusal;
-      },
+      baseUrl: () => Effect.fail(refusal),
     });
     const recorded: Recorded = { requests: [] };
     const error = await failWith(
@@ -332,8 +339,25 @@ describe("makeRestProtocol request encoding", () => {
     expect(recorded.requests).toHaveLength(0);
   });
 
+  test("an error thrown by baseUrl fails the call with SdkError instead of dying", async () => {
+    const ThrowingProtocol = makeRestProtocol({
+      ...baseOptions,
+      baseUrl: () => {
+        throw new Error("boom");
+      },
+    });
+    const recorded: Recorded = { requests: [] };
+    const error = await failWith(
+      thingOp(ThrowingProtocol)({ id: "t1" }),
+      fakeClient(() => json({}), recorded),
+      creds(),
+    );
+    expect(error).toBeInstanceOf(SdkError);
+    expect(recorded.requests).toHaveLength(0);
+  });
+
   test("mapMemberHeader transforms member headers but not the auth headers", async () => {
-    const MappedHeaderProtocol = makeRestProtocol<Creds>({
+    const MappedHeaderProtocol = makeRestProtocol({
       ...baseOptions,
       mapMemberHeader: (name, value) => `${name}=${value.toUpperCase()}`,
     });
@@ -348,7 +372,7 @@ describe("makeRestProtocol request encoding", () => {
   });
 
   test("unknownKeyToWire names input keys the schema does not model", async () => {
-    const SnakeProtocol = makeRestProtocol<Creds>({
+    const SnakeProtocol = makeRestProtocol({
       ...baseOptions,
       unknownKeyToWire: (key) => key.replace(/[A-Z]/g, (c) => `_${c.toLowerCase()}`),
     });
@@ -586,7 +610,7 @@ describe("makeRestProtocol success decoding", () => {
 
   test("transformResponse runs on the parsed body before key mapping", async () => {
     const seen: Array<unknown> = [];
-    const UnwrapProtocol = makeRestProtocol<Creds>({
+    const UnwrapProtocol = makeRestProtocol({
       ...baseOptions,
       transformResponse: (body) => {
         seen.push(body);
@@ -604,7 +628,7 @@ describe("makeRestProtocol success decoding", () => {
 
   test("transformResponse is not applied to error responses", async () => {
     let calls = 0;
-    const CountingProtocol = makeRestProtocol<Creds>({
+    const CountingProtocol = makeRestProtocol({
       ...baseOptions,
       transformResponse: (body) => {
         calls++;
@@ -986,7 +1010,7 @@ class CustomNotFound extends Schema.TaggedError<CustomNotFound>()("CustomNotFoun
   retryAfter: Schema.optional(Schema.Unknown),
 }) {}
 
-const CustomEnvelopeProtocol = makeRestProtocol<Creds>({
+const CustomEnvelopeProtocol = makeRestProtocol({
   ...baseOptions,
   errorEnvelope: (body) => {
     const err = (body as { err?: { id?: number; text?: string } } | null)?.err;

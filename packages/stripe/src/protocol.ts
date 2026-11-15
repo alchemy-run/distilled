@@ -60,7 +60,6 @@ import * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/http/HttpClientResponse";
-import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import type * as AST from "effect/SchemaAST";
 import { API_VERSION, ApiVersion } from "./api-version.ts";
@@ -121,12 +120,6 @@ export type StripeOpError =
 /** Context (requirements) shared by every generated Stripe operation. */
 export type StripeOpContext = Credentials | HttpClient.HttpClient;
 
-// Bridge: Protocol.decode is typed as Effect<unknown> (no error channel), but
-// Stripe failures are real typed errors that an operation re-surfaces via its
-// `errors: [...]` list / StripeOpError annotation. Fail with the instance and
-// erase the error type here; the generated annotations reintroduce it.
-const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
-
 // =============================================================================
 // Request building
 // =============================================================================
@@ -157,14 +150,12 @@ const requestFor = (
  * The calling fiber's credentials, then `f` on them. The protocol layer is
  * memoized per process by `API.make`, so credentials (and the
  * {@link ApiVersion} override) are resolved from the calling fiber's context on every
- * request. The requirement is erased at this boundary and reintroduced for
- * callers by the generated `StripeOpContext` annotations.
+ * request.
  */
-const withCredentials = <B>(
+const withCredentials = <B, E, R>(
   context: Context.Context<any>,
-  f: (creds: Config) => Effect.Effect<B, any, any>,
-): Effect.Effect<B, any, any> =>
-  API.withValue(Context.get(context, Credentials) as Effect.Effect<Config, any, any>, f);
+  f: (creds: Config) => Effect.Effect<B, E, R>,
+): Effect.Effect<B, E | ConfigError, R> => API.withValue(Context.get(context, Credentials), f);
 
 const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
   Effect.withFiber((fiber) => {
@@ -180,9 +171,11 @@ const str = (v: unknown): string | undefined => (typeof v === "string" ? v : und
 
 // Structural views of the status maps for numeric lookup (the const objects'
 // per-status class types don't unify without widening the constructor).
-const stripeStatusMap: Readonly<Record<number, (new (args: any) => unknown) | undefined>> =
-  STRIPE_HTTP_STATUS_MAP;
-const coreStatusMap: Readonly<Record<number, (new (args: any) => unknown) | undefined>> =
+const stripeStatusMap: Readonly<
+  Record<number, (new (args: any) => PaymentError | ExternalDependencyFailed) | undefined>
+> = STRIPE_HTTP_STATUS_MAP;
+type CoreStatusError = InstanceType<(typeof HTTP_STATUS_MAP)[keyof typeof HTTP_STATUS_MAP]>;
+const coreStatusMap: Readonly<Record<number, (new (args: any) => CoreStatusError) | undefined>> =
   HTTP_STATUS_MAP;
 
 /** Stripe's `{ error: { type, message, ... } }` object, when present. */
@@ -201,6 +194,17 @@ const stripeErrorMessage = (errorBody: unknown): string | undefined => {
   return typeof message === "string" ? message : undefined;
 };
 
+type StripeResponseError =
+  | CardError
+  | IdempotencyError
+  | InvalidRequestError
+  | ApiError
+  | PaymentError
+  | ExternalDependencyFailed
+  | CoreStatusError
+  | InternalServerError
+  | UnknownStripeError;
+
 /**
  * Match a Stripe API error response to the appropriate error class.
  *
@@ -214,7 +218,7 @@ const matchStripeError = (
   status: number,
   errorBody: unknown,
   headers: Record<string, string | undefined>,
-): unknown => {
+): StripeResponseError => {
   const err = stripeErrorEnvelope(errorBody);
   // v0 parity: an unparseable envelope (no `error.type` string) is an
   // UnknownStripeError carrying the raw body.
@@ -304,11 +308,11 @@ const decodeResponse = (
   context: Context.Context<any>,
   response: HttpClientResponse.HttpClientResponse,
   outputAst: AST.AST,
-  errorClasses: ReadonlyArray<unknown>,
-): Effect.Effect<unknown> =>
-  Effect.matchEffect(response.text, {
-    onFailure: fail,
-    onSuccess: (read): Effect.Effect<unknown> => {
+  errorClasses: ReadonlyArray<API.DeclaredErrorClass>,
+) =>
+  Effect.flatMap(
+    response.text,
+    (read): Effect.Effect<unknown, StripeResponseError | StripeParseError> => {
       // Read as text and parse tolerantly -- error pages can be non-JSON.
       const text = read ?? "";
       let json: unknown;
@@ -332,12 +336,12 @@ const decodeResponse = (
           body: nonJson ? text : json,
           headers,
         });
-        if (typed !== undefined) return fail(typed);
+        if (typed !== undefined) return Effect.fail(typed);
         // Its own frames would point into this decoder; the failure frame
         // names the operation at the caller's line instead.
         const saved = Telemetry.suppressStack();
         try {
-          return fail(matchStripeError(status, errorBody, headers));
+          return Effect.fail(matchStripeError(status, errorBody, headers));
         } finally {
           Telemetry.restoreStack(saved);
         }
@@ -354,11 +358,13 @@ const decodeResponse = (
         body: nonJson ? text : json,
         nonJson,
       });
-      return checked.ok ? Effect.succeed(checked.value) : fail(new StripeParseError(checked.error));
+      return checked.ok
+        ? Effect.succeed(checked.value)
+        : Effect.fail(new StripeParseError(checked.error));
     },
-  });
+  );
 
-const call = (op: API.PreparedOperation, input: unknown): Effect.Effect<unknown> =>
+const call = (op: API.PreparedOperation, input: unknown) =>
   Effect.withFiber((fiber) => {
     const context = fiber.context as Context.Context<any>;
     return withCredentials(context, (creds) => {
@@ -369,17 +375,14 @@ const call = (op: API.PreparedOperation, input: unknown): Effect.Effect<unknown>
         ),
       );
     });
-  }) as Effect.Effect<unknown>;
+  });
 
-export const StripeProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(
-  API.Protocol,
-  /*@__PURE__*/ API.Protocol.of({
-    // Erase encode's Credentials requirement (see comment above).
-    encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
+export const StripeProtocol: API.ProtocolLayer<StripeOpError, StripeOpContext> =
+  /*@__PURE__*/ API.makeProtocol({
+    encode,
     decode: ({ response, outputAst, errors }) =>
       Effect.withFiber((fiber) =>
         decodeResponse(fiber.context as Context.Context<any>, response, outputAst, errors),
       ),
     call,
-  }),
-);
+  });

@@ -22,9 +22,8 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import { UnknownDopplerError, DopplerParseError } from "./errors.ts";
 
 /**
@@ -45,51 +44,56 @@ export type DopplerOpError =
 /** Context (requirements) shared by every generated Doppler operation. */
 export type DopplerOpContext = Credentials | HttpClient.HttpClient;
 
-export const DopplerProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // The Credentials service holds an effect -- resolving it here (per
-  // request, on the calling fiber) picks up context-provided credentials.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-  baseUrl: (creds) => creds.apiBaseUrl,
-  headers: (creds) => ({
-    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-    // Download negotiates its default format from Accept; without it the
-    // API returns 415 unless the caller explicitly supplies format=json.
-    Accept: "application/json",
-  }),
-  // Doppler's error body is `{ messages?: string[], message?: string,
-  // success?: boolean }`. The factory's default envelope covers `message`;
-  // `messages[0]` is the form most endpoints actually send.
-  errorEnvelope: (body) => {
-    if (body === null || typeof body !== "object") return undefined;
-    const rec = body as Record<string, unknown>;
-    const code =
-      typeof rec.code === "string"
-        ? rec.code
-        : typeof rec.error === "string"
-          ? rec.error
-          : undefined;
-    const fromMessages = Array.isArray(rec.messages)
-      ? rec.messages.find((m) => typeof m === "string")
-      : undefined;
-    const message =
-      typeof rec.message === "string"
-        ? rec.message
-        : typeof fromMessages === "string"
-          ? fromMessages
-          : undefined;
-    if (code === undefined && message === undefined) return undefined;
-    return { code, message };
-  },
-  unknownError: (info) => new UnknownDopplerError(unknownErrorProps(info)),
-  parseError: ({ body, cause }) => new DopplerParseError({ body, cause }),
-});
+const resolveCredentials = /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve);
+
+export const DopplerProtocol: API.ProtocolLayer<DopplerOpError, DopplerOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
+    // The Credentials service holds an effect -- resolving it here (per
+    // request, on the calling fiber) picks up context-provided credentials.
+    credentials: resolveCredentials,
+    baseUrl: (creds) => creds.apiBaseUrl,
+    headers: (creds) => ({
+      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+      // Download negotiates its default format from Accept; without it the
+      // API returns 415 unless the caller explicitly supplies format=json.
+      Accept: "application/json",
+    }),
+    // Doppler's error body is `{ messages?: string[], message?: string,
+    // success?: boolean }`. The factory's default envelope covers `message`;
+    // `messages[0]` is the form most endpoints actually send.
+    errorEnvelope: (body) => {
+      if (body === null || typeof body !== "object") return undefined;
+      const rec = body as Record<string, unknown>;
+      const code =
+        typeof rec.code === "string"
+          ? rec.code
+          : typeof rec.error === "string"
+            ? rec.error
+            : undefined;
+      const fromMessages = Array.isArray(rec.messages)
+        ? rec.messages.find((m) => typeof m === "string")
+        : undefined;
+      const message =
+        typeof rec.message === "string"
+          ? rec.message
+          : typeof fromMessages === "string"
+            ? fromMessages
+            : undefined;
+      if (code === undefined && message === undefined) return undefined;
+      return { code, message };
+    },
+    unknownError: (info) => new UnknownDopplerError(unknownErrorProps(info)),
+    parseError: ({ body, cause }) => new DopplerParseError({ body, cause }),
+  });
 
 /** Unauthenticated browser-login operations never resolve or send credentials. */
 export type DopplerPublicOpContext = HttpClient.HttpClient;
-export const DopplerPublicProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol({
-  credentials: /*@__PURE__*/ Effect.succeed(undefined),
-  baseUrl: () => "https://api.doppler.com",
-  headers: () => ({ Accept: "application/json" }),
-  unknownError: (info) => new UnknownDopplerError({ ...unknownErrorProps(info), body: undefined }),
-  parseError: ({ body, cause }) => new DopplerParseError({ body, cause }),
-});
+export const DopplerPublicProtocol: API.ProtocolLayer<DopplerOpError, DopplerPublicOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
+    credentials: /*@__PURE__*/ Effect.succeed(undefined),
+    baseUrl: () => "https://api.doppler.com",
+    headers: () => ({ Accept: "application/json" }),
+    unknownError: (info) =>
+      new UnknownDopplerError({ ...unknownErrorProps(info), body: undefined }),
+    parseError: ({ body, cause }) => new DopplerParseError({ body, cause }),
+  });

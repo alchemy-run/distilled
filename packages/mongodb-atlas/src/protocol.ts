@@ -43,12 +43,8 @@ import { httpSymbol, type HttpTrait } from "@distilled.cloud/core/trait";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as HttpClientRequest from "effect/http/HttpClientRequest";
-import type * as HttpClientResponse from "effect/http/HttpClientResponse";
-import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import type * as AST from "effect/SchemaAST";
-import { Credentials, type Config } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import { MongodbAtlasParseError, PaymentRequired, UnknownMongodbAtlasError } from "./errors.ts";
 
 /**
@@ -71,16 +67,15 @@ export type MongodbAtlasOpError =
 export type MongodbAtlasOpContext = Credentials | HttpClient.HttpClient;
 
 /** The v0 Atlas status map: core's HTTP classes plus 402 -> PaymentRequired. */
-const STATUS_MAP: Readonly<Record<number, (new (args: any) => any) | undefined>> = {
+const STATUS_MAP: Readonly<
+  Record<
+    number,
+    (new (args: any) => InstanceType<(typeof API_ERRORS)[number]> | PaymentRequired) | undefined
+  >
+> = {
   ...HTTP_STATUS_MAP,
   402: PaymentRequired,
 };
-
-// Bridge: Protocol.decode is typed as Effect<unknown> (no error channel),
-// but Atlas failures are real typed errors that operations re-surface via
-// their `errors: [...]` lists. Fail with the instance and erase the type
-// here; the generated operation annotations reintroduce it for callers.
-const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
 
 /** The Atlas ApiError envelope: `{ error, errorCode, reason?, detail? }`. */
 interface AtlasErrorEnvelope {
@@ -102,13 +97,11 @@ const errorEnvelope = (body: unknown): AtlasErrorEnvelope => {
 // The protocol layer is memoized per process by `API.make`, so the build
 // must not capture credentials -- `encode` resolves the Credentials service
 // from the calling fiber's context on every request instead (picking up the
-// cached-token refresh in credentials.ts). The service's ConfigError channel
-// is erased at this boundary (Protocol effects carry none) and reintroduced
-// for callers by the generated `MongodbAtlasOpError` annotations.
-const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
+// cached-token refresh in credentials.ts).
+const encode = ({ input, inputAst }: API.ProtocolEncodeArgs) =>
   Effect.gen(function* () {
     const resolve = yield* Credentials;
-    const creds = yield* resolve as Effect.Effect<Config>;
+    const creds = yield* resolve;
     // The versioned Accept media type stamped on the operation's Http trait
     // by scripts/convert.ts. `application/json` alone is a 406; the API
     // serves the newest resource version <= the requested date.
@@ -124,18 +117,10 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
     });
   });
 
-const decode = ({
-  response,
-  outputAst,
-  errors: errorClasses,
-}: {
-  readonly response: HttpClientResponse.HttpClientResponse;
-  readonly outputAst: AST.AST;
-  readonly errors: ReadonlyArray<unknown>;
-}) =>
+const decode = ({ response, outputAst, errors: errorClasses }: API.ProtocolDecodeArgs) =>
   Effect.gen(function* () {
     // Read as text and parse tolerantly -- error pages are often non-JSON.
-    const text = (yield* response.text.pipe(Effect.catch(fail))) ?? "";
+    const text = (yield* response.text) ?? "";
     let json: unknown;
     let nonJson = false;
     if (text.trim().length > 0) {
@@ -159,13 +144,13 @@ const decode = ({
         body: nonJson ? text : json,
         headers,
       });
-      if (typed !== undefined) return yield* fail(typed);
+      if (typed !== undefined) return yield* Effect.fail(typed);
 
       // 2. Status-mapped class (retryAfter only stamps on retryable
       //    statuses -- parseRetryAfterForStatus gates on that).
       const StatusErrorClass = STATUS_MAP[status];
       if (StatusErrorClass) {
-        return yield* fail(
+        return yield* Effect.fail(
           new StatusErrorClass({
             message,
             retryAfter: parseRetryAfterForStatus(status, headers),
@@ -175,7 +160,7 @@ const decode = ({
 
       // 3. Unmapped 5xx -> retryable server error.
       if (status >= 500) {
-        return yield* fail(
+        return yield* Effect.fail(
           new InternalServerError({
             message,
             retryAfter: parseRetryAfterForStatus(status, headers),
@@ -184,7 +169,7 @@ const decode = ({
       }
 
       // 4. Unknown Atlas error (carries the envelope for cataloging).
-      return yield* fail(
+      return yield* Effect.fail(
         new UnknownMongodbAtlasError({
           status,
           code: env.errorCode,
@@ -209,15 +194,8 @@ const decode = ({
       outputAst,
       { value: mapKeys(outputAst, body, "decode"), body: nonJson ? text : json, nonJson },
       (info) => new MongodbAtlasParseError(info),
-    ).pipe(Effect.catch(fail));
+    );
   });
 
-export const MongodbAtlasProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(
-  API.Protocol,
-  /*@__PURE__*/ API.Protocol.of({
-    // Erase encode's Credentials requirement (resolved on the calling
-    // fiber; see the comment above `encode`).
-    encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
-    decode,
-  }),
-);
+export const MongodbAtlasProtocol: API.ProtocolLayer<MongodbAtlasOpError, MongodbAtlasOpContext> =
+  /*@__PURE__*/ API.makeProtocol({ encode, decode });

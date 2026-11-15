@@ -30,9 +30,8 @@ import * as Effect from "effect/Effect";
 import * as Base64 from "effect/encoding/Base64";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import { ClickHouseCloudParseError, UnknownClickHouseCloudError } from "./errors.ts";
 
 /**
@@ -61,11 +60,15 @@ const isObject = (value: unknown): value is Record<string, unknown> =>
 const unwrapResult = (body: unknown): unknown =>
   isObject(body) && "result" in body ? body.result : body;
 
-const makeProtocol = (unwrap: boolean): Layer.Layer<API.Protocol> =>
-  makeRestProtocol<Config>({
+const resolveCredentials = /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve);
+
+const makeProtocol = (
+  unwrap: boolean,
+): API.ProtocolLayer<ClickHouseCloudOpError, ClickHouseCloudOpContext> =>
+  makeRestProtocol({
     // Resolved on the CALLING fiber per request, so a key rotated between
     // calls is picked up without rebuilding the layer.
-    credentials: Effect.flatMap(Credentials, (resolve) => resolve),
+    credentials: resolveCredentials,
     baseUrl: (creds) => creds.apiBaseUrl,
     headers: (creds) => ({
       Authorization: `Basic ${Base64.encode(`${creds.keyId}:${Redacted.value(creds.keySecret)}`)}`,
@@ -75,8 +78,13 @@ const makeProtocol = (unwrap: boolean): Layer.Layer<API.Protocol> =>
     parseError: ({ body, cause }) => new ClickHouseCloudParseError({ body, cause }),
   });
 
-export const ClickHouseCloudProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeProtocol(true);
+export const ClickHouseCloudProtocol: API.ProtocolLayer<
+  ClickHouseCloudOpError,
+  ClickHouseCloudOpContext
+> = /*@__PURE__*/ makeProtocol(true);
 
 /** The protocol for cursor-paginated operations: the envelope stays whole. */
-export const ClickHouseCloudPaginatedProtocol: Layer.Layer<API.Protocol> =
-  /*@__PURE__*/ makeProtocol(false);
+export const ClickHouseCloudPaginatedProtocol: API.ProtocolLayer<
+  ClickHouseCloudOpError,
+  ClickHouseCloudOpContext
+> = /*@__PURE__*/ makeProtocol(false);

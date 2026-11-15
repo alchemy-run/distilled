@@ -3,7 +3,10 @@ import {
   HTTP_STATUS_MAP,
   InternalServerError,
   type ConfigError,
+  type Conflict,
   type InvalidInput,
+  type Locked,
+  type UnprocessableEntity,
 } from "@distilled.cloud/core/errors";
 import { buildRequest, mapKeys, matchTypedError } from "@distilled.cloud/core/protocol-http";
 import {
@@ -30,16 +33,18 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/http/HttpClientResponse";
-import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import type * as AST from "effect/SchemaAST";
-import { Credentials, type Config } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import { UnknownZeroSslError, ZeroSslParseError, type DefaultErrors } from "./errors.ts";
 
 export type ZeroSslOpError =
   | DefaultErrors
+  // Core's status map, for a non-2xx answer no typed class matches.
+  | Conflict
+  | UnprocessableEntity
+  | Locked
   | ConfigError
   | HttpClientError.HttpClientError
   | InvalidInput
@@ -49,7 +54,7 @@ export type ZeroSslOpContext = Credentials | HttpClient.HttpClient;
 
 const resolveCredentials = /*@__PURE__*/ Effect.gen(function* () {
   const resolve = yield* Credentials;
-  return yield* resolve as Effect.Effect<Config>;
+  return yield* resolve;
 });
 
 const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
@@ -82,7 +87,7 @@ const decode = ({
 }: {
   readonly response: HttpClientResponse.HttpClientResponse;
   readonly outputAst: AST.AST;
-  readonly errors: ReadonlyArray<unknown>;
+  readonly errors: ReadonlyArray<API.DeclaredErrorClass>;
 }) =>
   Effect.gen(function* () {
     const text = yield* response.text;
@@ -114,15 +119,10 @@ const decode = ({
         [{ code: envelope.error?.code, message: type ?? message }],
         { body: json === undefined ? text : json, headers },
       );
-      if (typed !== undefined) return yield* fail(typed);
-      const StatusClass = (HTTP_STATUS_MAP as Record<number, unknown>)[status] as
-        | (new (args: {
-            message: string;
-            retryAfter?: ReturnType<typeof parseRetryAfterForStatus>;
-          }) => unknown)
-        | undefined;
+      if (typed !== undefined) return yield* Effect.fail(typed);
+      const StatusClass = statusMap[status];
       if (status >= 400 && StatusClass) {
-        return yield* fail(
+        return yield* Effect.fail(
           new StatusClass({
             message,
             retryAfter: parseRetryAfterForStatus(status, headers),
@@ -130,14 +130,14 @@ const decode = ({
         );
       }
       if (status >= 500) {
-        return yield* fail(
+        return yield* Effect.fail(
           new InternalServerError({
             message,
             retryAfter: parseRetryAfterForStatus(status, headers),
           }),
         );
       }
-      return yield* fail(
+      return yield* Effect.fail(
         new UnknownZeroSslError({
           status,
           code: envelope.error?.code,
@@ -150,7 +150,7 @@ const decode = ({
     if (!isObject(json)) {
       // Lenient mode returns a non-object body as read.
       if (!(yield* isValidating)) return json;
-      return yield* fail(parseError("Expected a JSON object"));
+      return yield* Effect.fail(parseError("Expected a JSON object"));
     }
     // The EAB documentation uses 1/0; the live API also returns true/false.
     const body =
@@ -162,6 +162,18 @@ const decode = ({
     return wrapSensitive(outputAst, output);
   });
 
+// A numeric view of core's status map; every class takes `{ message, retryAfter? }`.
+const statusMap: Readonly<
+  Record<
+    number,
+    | (new (args: {
+        message: string;
+        retryAfter?: ReturnType<typeof parseRetryAfterForStatus>;
+      }) => InstanceType<(typeof HTTP_STATUS_MAP)[keyof typeof HTTP_STATUS_MAP]>)
+    | undefined
+  >
+> = HTTP_STATUS_MAP;
+
 const isObject = (value: unknown): value is Record<string, unknown> =>
   typeof value === "object" && value !== null && !Array.isArray(value);
 
@@ -171,12 +183,5 @@ const parseError = (cause: string) =>
     cause,
   });
 
-const fail = <E>(error: E) => Effect.fail(error) as Effect.Effect<never, E>;
-
-export const ZeroSslProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(
-  API.Protocol,
-  /*@__PURE__*/ API.Protocol.of({
-    encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
-    decode: (args) => decode(args) as Effect.Effect<unknown>,
-  }),
-);
+export const ZeroSslProtocol: API.ProtocolLayer<ZeroSslOpError, ZeroSslOpContext> =
+  /*@__PURE__*/ API.makeProtocol({ encode, decode });

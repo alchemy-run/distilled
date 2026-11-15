@@ -1,5 +1,6 @@
 import { InvalidInput } from "@distilled.cloud/core/protocol-http";
 import { failUnlessLenient } from "@distilled.cloud/core/response-validation";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import { ParseError } from "../errors.ts";
 import { readStreamAsText } from "../util/stream.ts";
@@ -56,7 +57,7 @@ export interface ProtocolHandler {
 
 /** A handler whose implementation loads on first use. */
 export interface LazyHandler {
-  readonly ready: Effect.Effect<ProtocolHandler>;
+  readonly ready: Effect.Effect<ProtocolHandler, SdkError>;
 }
 
 /** A response whose body has been read as text. */
@@ -90,7 +91,8 @@ export type ProtocolImpl = (operation: Operation) => ProtocolHandler;
 /** The loaded handler. */
 export const loadHandler = (
   handler: ProtocolHandler | LazyHandler,
-): Effect.Effect<ProtocolHandler> => ("ready" in handler ? handler.ready : Effect.succeed(handler));
+): Effect.Effect<ProtocolHandler, SdkError> =>
+  "ready" in handler ? handler.ready : Effect.succeed(handler);
 
 /**
  * The typed failure for what a serializer threw: a `ParseError` as is,

@@ -38,7 +38,7 @@ class TestUnknownError extends Schema.TaggedError<TestUnknownError>()("TestUnkno
   info: Schema.Unknown,
 }) {}
 
-const Protocol = makeRestProtocol<CredsShape>({
+const Protocol = makeRestProtocol({
   credentials: Effect.gen(function* () {
     return yield* Creds;
   }),

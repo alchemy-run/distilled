@@ -209,6 +209,17 @@ The protocol wires every one of them:
   the operation output — after wire→TS key mapping, before `wrapSensitive`.
   `packages/core/src/protocol-rest.ts` is the reference.
 
+Type the protocol const with the SDK's own unions:
+`export const PkgProtocol: API.ProtocolLayer<PkgOpError, PkgOpContext> =
+makeRestProtocol({ ... })`. The compiler then checks that `<Pkg>OpError`
+covers every way the protocol fails. Build a hand-written protocol with
+`API.makeProtocol({ encode, decode })`, and one on top of another with
+`API.extendProtocol(base, (rest) => ({ ... }))`. Fail with `Effect.fail(error)`;
+never cast a failure to `Effect.Effect<never>`. Give `makeRestProtocol` no
+type argument, and define `credentials` as a module const
+(`const resolveCredentials = Effect.flatMap(Credentials, (resolve) => resolve)`),
+so the factory infers the credential and error types.
+
 `ResponseValidation` (`import { ResponseValidation } from
 "@distilled.cloud/core"`) is one context reference shared by every SDK, with
 three modes, switched only by layer (`Effect.provide(ResponseValidation.strict)`):

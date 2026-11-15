@@ -21,9 +21,8 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import { UnknownInfisicalError, InfisicalParseError } from "./errors.ts";
 
 /**
@@ -44,20 +43,23 @@ export type InfisicalOpError =
 /** Context (requirements) shared by every generated Infisical operation. */
 export type InfisicalOpContext = Credentials | HttpClient.HttpClient;
 
-export const InfisicalProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // The Credentials service holds an effect -- resolving it here (per
-  // request, on the calling fiber) picks up context-provided credentials.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-  baseUrl: (creds) => creds.apiBaseUrl,
-  headers: (creds) => {
-    const headers: Record<string, string> = {};
-    if (creds.apiKey !== undefined) {
-      headers.Authorization = `Bearer ${Redacted.value(creds.apiKey)}`;
-    }
-    return headers;
-  },
-  // Infisical's error body is `{ message: string }` -- the factory's default
-  // lenient envelope covers it.
-  unknownError: (info) => new UnknownInfisicalError(unknownErrorProps(info)),
-  parseError: ({ body, cause }) => new InfisicalParseError({ body, cause }),
-});
+const resolveCredentials = /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve);
+
+export const InfisicalProtocol: API.ProtocolLayer<InfisicalOpError, InfisicalOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
+    // The Credentials service holds an effect -- resolving it here (per
+    // request, on the calling fiber) picks up context-provided credentials.
+    credentials: resolveCredentials,
+    baseUrl: (creds) => creds.apiBaseUrl,
+    headers: (creds) => {
+      const headers: Record<string, string> = {};
+      if (creds.apiKey !== undefined) {
+        headers.Authorization = `Bearer ${Redacted.value(creds.apiKey)}`;
+      }
+      return headers;
+    },
+    // Infisical's error body is `{ message: string }` -- the factory's default
+    // lenient envelope covers it.
+    unknownError: (info) => new UnknownInfisicalError(unknownErrorProps(info)),
+    parseError: ({ body, cause }) => new InfisicalParseError({ body, cause }),
+  });

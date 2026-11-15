@@ -25,7 +25,7 @@ interface CredsShape {
 class Creds extends Context.Service<Creds, CredsShape>()("TelemetryExtensionsCreds") {}
 class TestError extends Schema.TaggedError<TestError>()("TestError", { info: Schema.Unknown }) {}
 
-const Protocol = makeRestProtocol<CredsShape>({
+const Protocol = makeRestProtocol({
   credentials: Effect.gen(function* () {
     return yield* Creds;
   }),

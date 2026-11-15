@@ -26,9 +26,8 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import { UnknownUnkeyError, UnkeyParseError } from "./errors.ts";
 
 /**
@@ -79,15 +78,18 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return { code, message };
 };
 
-export const UnkeyProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // The Credentials service holds an effect -- resolving it here (per
-  // request, on the calling fiber) picks up context-provided credentials.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-  baseUrl: (creds) => creds.apiBaseUrl,
-  headers: (creds) => ({
-    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-  }),
-  errorEnvelope,
-  unknownError: (info) => new UnknownUnkeyError(unknownErrorProps(info)),
-  parseError: ({ body, cause }) => new UnkeyParseError({ body, cause }),
-});
+const resolveCredentials = /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve);
+
+export const UnkeyProtocol: API.ProtocolLayer<UnkeyOpError, UnkeyOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
+    // The Credentials service holds an effect -- resolving it here (per
+    // request, on the calling fiber) picks up context-provided credentials.
+    credentials: resolveCredentials,
+    baseUrl: (creds) => creds.apiBaseUrl,
+    headers: (creds) => ({
+      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+    }),
+    errorEnvelope,
+    unknownError: (info) => new UnknownUnkeyError(unknownErrorProps(info)),
+    parseError: ({ body, cause }) => new UnkeyParseError({ body, cause }),
+  });

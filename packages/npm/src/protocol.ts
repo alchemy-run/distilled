@@ -20,9 +20,8 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import { NpmParseError, UnknownNpmError, type DefaultErrors } from "./errors.ts";
 
 /**
@@ -41,13 +40,16 @@ export type NpmOpError =
 /** Context (requirements) shared by every generated npm registry operation. */
 export type NpmOpContext = Credentials | HttpClient.HttpClient;
 
-export const NpmProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // Resolved on the calling fiber per request, so a rotated token is picked
-  // up without rebuilding the layer.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-  baseUrl: (creds) => creds.registryUrl,
-  headers: (creds): Record<string, string> =>
-    creds.token === undefined ? {} : { Authorization: `Bearer ${Redacted.value(creds.token)}` },
-  unknownError: (info) => new UnknownNpmError(unknownErrorProps(info)),
-  parseError: ({ body, cause }) => new NpmParseError({ body, cause }),
-});
+const resolveCredentials = /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve);
+
+export const NpmProtocol: API.ProtocolLayer<NpmOpError, NpmOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
+    // Resolved on the calling fiber per request, so a rotated token is picked
+    // up without rebuilding the layer.
+    credentials: resolveCredentials,
+    baseUrl: (creds) => creds.registryUrl,
+    headers: (creds): Record<string, string> =>
+      creds.token === undefined ? {} : { Authorization: `Bearer ${Redacted.value(creds.token)}` },
+    unknownError: (info) => new UnknownNpmError(unknownErrorProps(info)),
+    parseError: ({ body, cause }) => new NpmParseError({ body, cause }),
+  });

@@ -21,9 +21,8 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import { UnknownMercuryError, MercuryParseError } from "./errors.ts";
 
 /**
@@ -44,16 +43,19 @@ export type MercuryOpError =
 /** Context (requirements) shared by every generated Mercury operation. */
 export type MercuryOpContext = Credentials | HttpClient.HttpClient;
 
-export const MercuryProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // The Credentials service holds an effect -- resolving it here (per
-  // request, on the calling fiber) picks up context-provided credentials.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-  baseUrl: (creds) => creds.apiBaseUrl,
-  headers: (creds) => ({
-    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-  }),
-  // Mercury's error body is `{ code?: string, message: string }` -- the
-  // factory's default lenient envelope covers it.
-  unknownError: (info) => new UnknownMercuryError(unknownErrorProps(info)),
-  parseError: ({ body, cause }) => new MercuryParseError({ body, cause }),
-});
+const resolveCredentials = /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve);
+
+export const MercuryProtocol: API.ProtocolLayer<MercuryOpError, MercuryOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
+    // The Credentials service holds an effect -- resolving it here (per
+    // request, on the calling fiber) picks up context-provided credentials.
+    credentials: resolveCredentials,
+    baseUrl: (creds) => creds.apiBaseUrl,
+    headers: (creds) => ({
+      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+    }),
+    // Mercury's error body is `{ code?: string, message: string }` -- the
+    // factory's default lenient envelope covers it.
+    unknownError: (info) => new UnknownMercuryError(unknownErrorProps(info)),
+    parseError: ({ body, cause }) => new MercuryParseError({ body, cause }),
+  });

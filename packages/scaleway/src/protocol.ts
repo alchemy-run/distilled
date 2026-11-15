@@ -14,6 +14,7 @@ import {
 } from "@distilled.cloud/core/protocol-http";
 import {
   binaryResponseSymbol,
+  type HttpStatusError,
   unwrapRedactedDeep,
   validateSuccess,
 } from "@distilled.cloud/core/protocol-rest";
@@ -53,8 +54,6 @@ import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
-import type * as HttpClientResponse from "effect/http/HttpClientResponse";
-import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import type * as AST from "effect/SchemaAST";
 import { Credentials, DEFAULT_API_URL, type Config } from "./credentials.ts";
@@ -116,7 +115,7 @@ export const scalewayError = (
   message: string,
   headers: Record<string, string | undefined>,
   status: number,
-): unknown => {
+) => {
   if (!isObject(body) || typeof body.type !== "string") return undefined;
   const resource = str(body.resource);
   const resource_id = str(body.resource_id);
@@ -267,8 +266,6 @@ const failureMessage = (body: unknown, status: number, text: string): string => 
   return help.length > 0 ? `${base} (${help.join("; ")})` : base;
 };
 
-const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
-
 const httpTraitOf = (inputAst: AST.AST): ScalewayHttpTrait | SdkError => {
   const http = getAnn(inputAst, httpSymbol) as ScalewayHttpTrait | undefined;
   if (http === undefined || typeof http.baseUrl !== "string" || http.baseUrl === "") {
@@ -357,8 +354,8 @@ export const failureFor = (
   status: number,
   text: string,
   headers: Record<string, string | undefined>,
-  errorClasses: ReadonlyArray<unknown> = [],
-): unknown => {
+  errorClasses: ReadonlyArray<API.DeclaredErrorClass> = [],
+) => {
   let json: unknown;
   let nonJson = false;
   if (text.trim().length > 0) {
@@ -386,7 +383,7 @@ export const failureFor = (
   const StatusErrorClass = (
     HTTP_STATUS_MAP as Record<
       number,
-      (new (args: { message: string; retryAfter?: unknown }) => unknown) | undefined
+      (new (args: { message: string; retryAfter?: unknown }) => HttpStatusError) | undefined
     >
   )[status];
   if (StatusErrorClass) {
@@ -407,20 +404,10 @@ export const failureFor = (
   });
 };
 
-export const ScalewayProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
-  API.Protocol,
-  API.Protocol.of({
-    encode: ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
-      encodeRequest(input, inputAst) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
-    decode: ({
-      response,
-      outputAst,
-      errors: errorClasses,
-    }: {
-      readonly response: HttpClientResponse.HttpClientResponse;
-      readonly outputAst: AST.AST;
-      readonly errors: ReadonlyArray<unknown>;
-    }) =>
+export const ScalewayProtocol: API.ProtocolLayer<ScalewayOpError, ScalewayOpContext> =
+  /*@__PURE__*/ API.makeProtocol({
+    encode: ({ input, inputAst }: API.ProtocolEncodeArgs) => encodeRequest(input, inputAst),
+    decode: ({ response, outputAst, errors: errorClasses }: API.ProtocolDecodeArgs) =>
       Effect.gen(function* () {
         const status = response.status;
         const headers = response.headers as Record<string, string | undefined>;
@@ -431,11 +418,12 @@ export const ScalewayProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
           status < 300 &&
           getAnn(outputAst, binaryResponseSymbol) !== undefined
         ) {
-          return new Uint8Array(yield* response.arrayBuffer.pipe(Effect.catch(fail)));
+          return new Uint8Array(yield* response.arrayBuffer);
         }
 
-        const text = (yield* response.text.pipe(Effect.catch(fail))) ?? "";
-        if (status >= 400) return yield* fail(failureFor(status, text, headers, errorClasses));
+        const text = (yield* response.text) ?? "";
+        if (status >= 400)
+          return yield* Effect.fail(failureFor(status, text, headers, errorClasses));
 
         // A success body is JSON only when it says so (user data is
         // `text/plain`).
@@ -467,7 +455,6 @@ export const ScalewayProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
           outputAst,
           { value: mapKeys(outputAst, body, "decode"), body: nonJson ? text : json, nonJson },
           (info) => new ScalewayParseError(info),
-        ).pipe(Effect.catch(fail));
+        );
       }),
-  }),
-);
+  });

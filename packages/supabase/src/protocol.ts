@@ -1,9 +1,15 @@
 import * as API from "@distilled.cloud/core/api";
 import {
+  type BadRequest,
   type ConfigError,
+  type Conflict,
+  type Forbidden,
   HTTP_STATUS_MAP,
   InternalServerError,
   type InvalidInput,
+  type Locked,
+  type NotFound,
+  type UnprocessableEntity,
 } from "@distilled.cloud/core/errors";
 import {
   buildRequest,
@@ -47,10 +53,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import type * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as HttpClientRequestModule from "effect/http/HttpClientRequest";
-import type * as HttpClientResponse from "effect/http/HttpClientResponse";
-import * as Layer from "effect/Layer";
-import type * as AST from "effect/SchemaAST";
-import { Credentials, formatHeaders, type Config } from "./credentials.ts";
+import { Credentials, formatHeaders } from "./credentials.ts";
 import {
   type DefaultErrors,
   FreeProjectLimitReached,
@@ -66,6 +69,12 @@ import {
  */
 export type SupabaseOpError =
   | DefaultErrors
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | Locked
   | ConfigError
   | HttpClientError.HttpClientError
   | InvalidInput
@@ -74,18 +83,6 @@ export type SupabaseOpError =
 /** Context (requirements) shared by every generated Supabase operation. */
 export type SupabaseOpContext = Credentials | HttpClient.HttpClient;
 
-// Bridge: Protocol.decode is typed as Effect<unknown> (no error channel), but
-// Supabase failures are real typed errors that an operation re-surfaces via
-// its `errors: [...]` list. Fail with the instance and erase the error type
-// here; `API.make`'s signature reintroduces it for callers.
-const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
-
-// The protocol layer is memoized per process by `API.make` (see
-// `OperationConfig.protocol`), so the build must not capture credentials --
-// `encode` resolves Credentials from the calling fiber's context on every
-// request instead. Like the error channel above, the requirement is erased
-// at this boundary (Protocol effects are typed with no requirements) and
-// reintroduced for callers by the generated `SupabaseOpContext` annotations.
 /**
  * Re-encode a JSON request body as `application/x-www-form-urlencoded`.
  * `buildRequest` understands `multipart` but leaves other non-JSON
@@ -116,10 +113,14 @@ const toUrlEncodedBody = (
   return HttpClientRequestModule.bodyUrlParams(request, entries);
 };
 
-const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
+// The protocol layer is memoized per process by `API.make` (see
+// `OperationConfig.protocol`), so the build must not capture credentials --
+// `encode` resolves Credentials from the calling fiber's context on every
+// request instead.
+const encode = ({ input, inputAst }: API.ProtocolEncodeArgs) =>
   Effect.gen(function* () {
     const resolveCredentials = yield* Credentials;
-    const creds = yield* resolveCredentials as Effect.Effect<Config>;
+    const creds = yield* resolveCredentials;
     const request = yield* buildRequest({
       input: unwrapRedactedDeep(input),
       inputAst,
@@ -132,18 +133,10 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
       : request;
   });
 
-const decode = ({
-  response,
-  outputAst,
-  errors: errorClasses,
-}: {
-  readonly response: HttpClientResponse.HttpClientResponse;
-  readonly outputAst: AST.AST;
-  readonly errors: ReadonlyArray<unknown>;
-}) =>
+const decode = ({ response, outputAst, errors: errorClasses }: API.ProtocolDecodeArgs) =>
   Effect.gen(function* () {
     // Read as text and parse tolerantly -- error pages are often non-JSON.
-    const text = (yield* response.text.pipe(Effect.catch(fail))) ?? "";
+    const text = (yield* response.text) ?? "";
     let json: unknown;
     let nonJson = false;
     if (text.trim().length > 0) {
@@ -173,7 +166,7 @@ const decode = ({
       //    message. Detect it before any status mapping so tests and
       //    callers can react to it as a typed error.
       if (message.includes("active free projects")) {
-        return yield* fail(new FreeProjectLimitReached({ message }));
+        return yield* Effect.fail(new FreeProjectLimitReached({ message }));
       }
 
       // Supabase returns 406 for some "not found" conditions (e.g.
@@ -185,13 +178,13 @@ const decode = ({
         body: nonJson ? text : json,
         headers,
       });
-      if (typed !== undefined) return yield* fail(typed);
+      if (typed !== undefined) return yield* Effect.fail(typed);
 
       // 3. HTTP-status classes from the shared core map (retryAfter only
       //    stamps on retryable statuses).
       const StatusErrorClass = HTTP_STATUS_MAP[effectiveStatus as keyof typeof HTTP_STATUS_MAP];
       if (StatusErrorClass) {
-        return yield* fail(
+        return yield* Effect.fail(
           new StatusErrorClass({
             message,
             retryAfter: parseRetryAfterForStatus(effectiveStatus, headers),
@@ -201,7 +194,7 @@ const decode = ({
 
       // 4. Unmapped 5xx -> retryable server error.
       if (status >= 500) {
-        return yield* fail(
+        return yield* Effect.fail(
           new InternalServerError({
             message,
             retryAfter: parseRetryAfterForStatus(status, headers),
@@ -210,7 +203,7 @@ const decode = ({
       }
 
       // 5. Unknown Supabase error.
-      return yield* fail(new UnknownSupabaseError({ status, message, body }));
+      return yield* Effect.fail(new UnknownSupabaseError({ status, message, body }));
     }
 
     // 2xx: the response body IS the payload (no envelope). Wire->TS key
@@ -224,14 +217,8 @@ const decode = ({
       outputAst,
       { value: mapKeys(outputAst, body, "decode"), body: nonJson ? text : json, nonJson },
       (info) => new SupabaseParseError(info),
-    ).pipe(Effect.catch(fail));
+    );
   });
 
-export const SupabaseProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(
-  API.Protocol,
-  /*@__PURE__*/ API.Protocol.of({
-    // Erase encode's Credentials requirement (see comment above).
-    encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
-    decode,
-  }),
-);
+export const SupabaseProtocol: API.ProtocolLayer<SupabaseOpError, SupabaseOpContext> =
+  /*@__PURE__*/ API.makeProtocol({ encode, decode });

@@ -11,6 +11,7 @@
  */
 
 import { InvalidInput } from "@distilled.cloud/core/protocol-http";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import type { ParseError } from "../errors.ts";
 import {
@@ -37,7 +38,7 @@ import type { Request } from "./request.ts";
 export const makeRequestBuilder = (
   operation: Operation,
   protocol: ProtocolHandler,
-): ((input: unknown) => Request | Effect.Effect<Request, ParseError | InvalidInput>) => {
+): ((input: unknown) => Request | Effect.Effect<Request, ParseError | InvalidInput | SdkError>) => {
   const inputSchema = operation.input;
   const middleware = getMiddleware(inputSchema.ast);
   const idempotencyTokenProps = findIdempotencyTokenProps(inputSchema);

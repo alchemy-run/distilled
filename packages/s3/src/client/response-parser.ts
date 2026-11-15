@@ -15,11 +15,18 @@ import {
   ResponseValidation,
   withholdActual,
 } from "@distilled.cloud/core/response-validation";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import { restoreStack, suppressStack } from "@distilled.cloud/core/telemetry";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import type * as SchemaIssue from "effect/SchemaIssue";
-import { COMMON_ERRORS, InternalError, ParseError, UnknownAwsError } from "../errors.ts";
+import {
+  COMMON_ERRORS,
+  type CommonAwsError,
+  InternalError,
+  ParseError,
+  UnknownAwsError,
+} from "../errors.ts";
 import {
   getAwsQueryError,
   getHttpError,
@@ -48,7 +55,16 @@ export interface ResponseParserOptions {
 }
 
 /** A generated error class: constructible from its members, with a lite `ast`. */
-type ErrorClass = (new (props: Record<string, unknown>) => unknown) & { readonly ast: any };
+/**
+ * A common AWS error class, or one of the operation's declared ones (whose
+ * instances `API.make` already puts in the operation's type).
+ */
+type ErrorClass = (new (props: Record<string, unknown>) => CommonAwsError) & {
+  readonly ast: any;
+};
+
+/** What a response parser fails with, besides the operation's declared errors. */
+export type ResponseParseError = CommonAwsError | ParseError | UnknownAwsError | SdkError;
 
 export type ResponseParser<A, R> = (response: Response) => Effect.Effect<A, SchemaIssue.Issue, R>;
 
@@ -84,7 +100,7 @@ const matchesMessage = (matcher: SyntheticErrorTrait["message"], message: string
 /** The outcome of decoding a 2xx response: the value, or the error the call fails with. */
 export type Decoded =
   | { readonly ok: true; readonly value: unknown }
-  | { readonly ok: false; readonly error: unknown };
+  | { readonly ok: false; readonly error: ParseError };
 
 /**
  * The success path of {@link makeResponseParser} without effects, for an
@@ -151,7 +167,7 @@ export const makeSuccessDecoder = (
 export const makeResponseParser = <A>(
   operation: Operation<any, any, any>,
   options?: ResponseParserOptions,
-): ((response: Response) => Effect.Effect<any, never, never>) => {
+): ((response: Response) => Effect.Effect<any, ResponseParseError>) => {
   const inputAst = operation.input.ast;
   const outputAst = operation.output.ast;
 
@@ -230,7 +246,6 @@ export const makeResponseParser = <A>(
   };
 
   // Return a function that parses responses
-  // @ts-expect-error
   return Effect.fnUntraced(function* (response: Response) {
     const protocol = yield* handler;
     // Success path
@@ -370,7 +385,7 @@ export const makeResponseParser = <A>(
       // its members, converted as far as they fit (sensitive ones
       // `Redacted`), like the class would hold them.
       const schemaTag = getIdentifier(errorSchema.ast) ?? errorCode;
-      let decoded: unknown;
+      let decoded: CommonAwsError;
       try {
         const saved = suppressStack();
         try {
@@ -379,10 +394,12 @@ export const makeResponseParser = <A>(
           restoreStack(saved);
         }
       } catch {
+        // By design a plain object shaped like an instance of the class: the
+        // same tag and the members that fit.
         decoded = {
           _tag: schemaTag,
           ...(decode(errorSchema.ast, data) as Record<string, unknown>),
-        };
+        } as unknown as CommonAwsError;
       }
       // Ensure the JS `Error.message` carries the service's message. The
       // generator tags exactly one member per error class as the canonical

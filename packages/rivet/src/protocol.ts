@@ -20,9 +20,8 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import { RivetParseError, UnknownRivetError, type DefaultErrors } from "./errors.ts";
 
 /**
@@ -55,15 +54,18 @@ const errorEnvelope = (body: unknown) => {
   };
 };
 
-export const RivetProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // Resolved on the calling fiber per request, so a rotated token is picked
-  // up without rebuilding the layer.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-  baseUrl: (creds) => creds.endpoint,
-  headers: (creds) => ({
-    Authorization: `Bearer ${Redacted.value(creds.token)}`,
-  }),
-  errorEnvelope,
-  unknownError: (info) => new UnknownRivetError(unknownErrorProps(info)),
-  parseError: ({ body, cause }) => new RivetParseError({ body, cause }),
-});
+const resolveCredentials = /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve);
+
+export const RivetProtocol: API.ProtocolLayer<RivetOpError, RivetOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
+    // Resolved on the calling fiber per request, so a rotated token is picked
+    // up without rebuilding the layer.
+    credentials: resolveCredentials,
+    baseUrl: (creds) => creds.endpoint,
+    headers: (creds) => ({
+      Authorization: `Bearer ${Redacted.value(creds.token)}`,
+    }),
+    errorEnvelope,
+    unknownError: (info) => new UnknownRivetError(unknownErrorProps(info)),
+    parseError: ({ body, cause }) => new RivetParseError({ body, cause }),
+  });

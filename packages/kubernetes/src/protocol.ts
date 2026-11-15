@@ -27,9 +27,8 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import { UnknownKubernetesError, KubernetesParseError } from "./errors.ts";
 
 /**
@@ -57,11 +56,13 @@ const statusReason = (body: unknown): string | undefined => {
   return typeof reason === "string" ? reason : undefined;
 };
 
-export const KubernetesProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>(
-  {
+const resolveCredentials = /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve);
+
+export const KubernetesProtocol: API.ProtocolLayer<KubernetesOpError, KubernetesOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
     // The Credentials service holds an effect -- resolving it here (per
     // request, on the calling fiber) picks up context-provided credentials.
-    credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+    credentials: resolveCredentials,
     baseUrl: (creds) => creds.apiBaseUrl,
     headers: (creds) => ({
       Authorization: `Bearer ${Redacted.value(creds.token)}`,
@@ -72,5 +73,4 @@ export const KubernetesProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeR
     unknownError: (info) =>
       new UnknownKubernetesError({ ...unknownErrorProps(info), reason: statusReason(info.body) }),
     parseError: ({ body, cause }) => new KubernetesParseError({ body, cause }),
-  },
-);
+  });

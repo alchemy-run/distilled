@@ -194,7 +194,7 @@ class UnknownTestError extends Schema.TaggedError<UnknownTestError>()("UnknownTe
   message: Schema.String,
 }) {}
 
-const TestProtocol = makeRestProtocol<{}>({
+const TestProtocol = makeRestProtocol({
   credentials: Effect.succeed({}),
   baseUrl: () => "https://api.test",
   headers: () => ({}),

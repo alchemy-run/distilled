@@ -23,9 +23,8 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import { type ResendCommonError, UnknownResendError, ResendParseError } from "./errors.ts";
 
 /** Sent on every request; Resend's edge returns 403 (error 1010) without one. */
@@ -50,27 +49,34 @@ export type ResendOpError =
 /** Context (requirements) shared by every generated Resend operation. */
 export type ResendOpContext = Credentials | HttpClient.HttpClient;
 
-export const ResendProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // The Credentials service holds an effect -- resolving it here (per
-  // request, on the calling fiber) picks up context-provided credentials.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-  baseUrl: (creds) => creds.apiBaseUrl,
-  headers: (creds) => ({
-    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-    "User-Agent": USER_AGENT,
-  }),
-  // Resend's error body is `{ name?: string, message: string, statusCode?: number }`.
-  // The factory's default lenient envelope covers `{ code, message }`; `name`
-  // is the machine-readable code Resend actually sends.
-  errorEnvelope: (body) => {
-    if (body === null || typeof body !== "object") return undefined;
-    const rec = body as Record<string, unknown>;
-    const code =
-      typeof rec.name === "string" ? rec.name : typeof rec.code === "string" ? rec.code : undefined;
-    const message = typeof rec.message === "string" ? rec.message : undefined;
-    if (code === undefined && message === undefined) return undefined;
-    return { code, message };
-  },
-  unknownError: (info) => new UnknownResendError(unknownErrorProps(info)),
-  parseError: ({ body, cause }) => new ResendParseError({ body, cause }),
-});
+const resolveCredentials = /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve);
+
+export const ResendProtocol: API.ProtocolLayer<ResendOpError, ResendOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
+    // The Credentials service holds an effect -- resolving it here (per
+    // request, on the calling fiber) picks up context-provided credentials.
+    credentials: resolveCredentials,
+    baseUrl: (creds) => creds.apiBaseUrl,
+    headers: (creds) => ({
+      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+      "User-Agent": USER_AGENT,
+    }),
+    // Resend's error body is `{ name?: string, message: string, statusCode?: number }`.
+    // The factory's default lenient envelope covers `{ code, message }`; `name`
+    // is the machine-readable code Resend actually sends.
+    errorEnvelope: (body) => {
+      if (body === null || typeof body !== "object") return undefined;
+      const rec = body as Record<string, unknown>;
+      const code =
+        typeof rec.name === "string"
+          ? rec.name
+          : typeof rec.code === "string"
+            ? rec.code
+            : undefined;
+      const message = typeof rec.message === "string" ? rec.message : undefined;
+      if (code === undefined && message === undefined) return undefined;
+      return { code, message };
+    },
+    unknownError: (info) => new UnknownResendError(unknownErrorProps(info)),
+    parseError: ({ body, cause }) => new ResendParseError({ body, cause }),
+  });

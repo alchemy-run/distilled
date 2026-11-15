@@ -2,6 +2,7 @@ import type * as API from "@distilled.cloud/core/api";
 import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
 import {
+  type HttpStatusError,
   makeRestProtocol,
   type RestErrorEnvelope,
   unknownErrorProps,
@@ -26,7 +27,6 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import { Credentials, type Config } from "./credentials.ts";
 import {
@@ -47,7 +47,9 @@ export type IcebergOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | InvalidInput
-  | SdkError;
+  | SdkError
+  // Every status the protocol's status map builds, on any operation.
+  | HttpStatusError;
 
 /** Context (requirements) shared by every generated Iceberg operation. */
 export type IcebergOpContext = Credentials | HttpClient.HttpClient;
@@ -78,18 +80,21 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   };
 };
 
-export const IcebergProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // Resolved on the CALLING fiber per request; the Credentials service holds
-  // an effect, so a token rotated between calls is picked up.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-  baseUrl: (creds, target) => baseUrlFor(creds, target.uri),
-  headers: (creds): Record<string, string> =>
-    creds.token ? { Authorization: `Bearer ${Redacted.value(creds.token)}` } : {},
-  errorEnvelope,
-  statusMap: {
-    ...HTTP_STATUS_MAP,
-    419: AuthenticationTimeout,
-  },
-  unknownError: (info) => new UnknownIcebergError(unknownErrorProps(info)),
-  parseError: ({ body, cause }) => new IcebergParseError({ body, cause }),
-});
+const resolveCredentials = /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve);
+
+export const IcebergProtocol: API.ProtocolLayer<IcebergOpError, IcebergOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
+    // Resolved on the CALLING fiber per request; the Credentials service holds
+    // an effect, so a token rotated between calls is picked up.
+    credentials: resolveCredentials,
+    baseUrl: (creds, target) => baseUrlFor(creds, target.uri),
+    headers: (creds): Record<string, string> =>
+      creds.token ? { Authorization: `Bearer ${Redacted.value(creds.token)}` } : {},
+    errorEnvelope,
+    statusMap: {
+      ...HTTP_STATUS_MAP,
+      419: AuthenticationTimeout,
+    },
+    unknownError: (info) => new UnknownIcebergError(unknownErrorProps(info)),
+    parseError: ({ body, cause }) => new IcebergParseError({ body, cause }),
+  });

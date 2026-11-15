@@ -30,10 +30,9 @@ import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
-import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
-import { type Auth, Credentials, type Config } from "./credentials.ts";
+import { type Auth, Credentials } from "./credentials.ts";
 import { OpenSearchParseError, UnknownOpenSearchError } from "./errors.ts";
 
 /**
@@ -92,16 +91,17 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return undefined;
 };
 
-const OpenSearchRestProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // The Credentials service holds an effect -- resolving it here (per
-  // request, on the calling fiber) picks up context-provided credentials.
-  credentials: resolveCredentials,
-  baseUrl: (creds) => creds.endpoint,
-  headers: (creds) => authorization(creds.auth),
-  errorEnvelope,
-  unknownError: (info) => new UnknownOpenSearchError(unknownErrorProps(info)),
-  parseError: ({ body, cause }) => new OpenSearchParseError({ body, cause }),
-});
+const OpenSearchRestProtocol: API.ProtocolLayer<OpenSearchOpError, OpenSearchOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
+    // The Credentials service holds an effect -- resolving it here (per
+    // request, on the calling fiber) picks up context-provided credentials.
+    credentials: resolveCredentials,
+    baseUrl: (creds) => creds.endpoint,
+    headers: (creds) => authorization(creds.auth),
+    errorEnvelope,
+    unknownError: (info) => new UnknownOpenSearchError(unknownErrorProps(info)),
+    parseError: ({ body, cause }) => new OpenSearchParseError({ body, cause }),
+  });
 
 /**
  * The request body as the signer hashes it. The REST protocol sends JSON and
@@ -172,19 +172,14 @@ const signSigV4 = (
  * The REST protocol, with requests signed when the credentials are `sigv4`.
  * Only `encode`/`decode` are exposed, so every call goes through signing.
  */
-export const OpenSearchProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.effect(
-  API.Protocol,
-  /*@__PURE__*/ Effect.gen(function* () {
-    const rest = yield* API.Protocol;
-    return API.Protocol.of({
-      encode: (args) =>
-        Effect.gen(function* () {
-          const request = yield* rest.encode(args);
-          const creds = yield* resolveCredentials;
-          if (creds.auth.type !== "sigv4") return request;
-          return yield* signSigV4(request, creds.auth);
-        }) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
-      decode: rest.decode,
-    });
-  }),
-).pipe(/*@__PURE__*/ Layer.provide(OpenSearchRestProtocol));
+export const OpenSearchProtocol: API.ProtocolLayer<OpenSearchOpError, OpenSearchOpContext> =
+  /*@__PURE__*/ API.extendProtocol(OpenSearchRestProtocol, (rest) => ({
+    encode: (args) =>
+      Effect.gen(function* () {
+        const request = yield* rest.encode(args);
+        const creds = yield* resolveCredentials;
+        if (creds.auth.type !== "sigv4") return request;
+        return yield* signSigV4(request, creds.auth);
+      }),
+    decode: rest.decode,
+  }));

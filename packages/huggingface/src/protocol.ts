@@ -2,6 +2,7 @@ import type * as API from "@distilled.cloud/core/api";
 import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
 import {
+  type HttpStatusError,
   makeRestProtocol,
   type RestErrorEnvelope,
   unknownErrorProps,
@@ -25,9 +26,8 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import { UnknownHuggingFaceError, type DefaultErrors, HuggingFaceParseError } from "./errors.ts";
 
 /**
@@ -41,7 +41,9 @@ export type HuggingFaceOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | InvalidInput
-  | SdkError;
+  | SdkError
+  // Every status the protocol's status map builds, on any operation.
+  | HttpStatusError;
 
 /** Context (requirements) shared by every generated Hugging Face operation. */
 export type HuggingFaceOpContext = Credentials | HttpClient.HttpClient;
@@ -64,12 +66,14 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   };
 };
 
-export const HuggingFaceProtocol: Layer.Layer<API.Protocol> =
-  /*@__PURE__*/ makeRestProtocol<Config>({
+const resolveCredentials = /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve);
+
+export const HuggingFaceProtocol: API.ProtocolLayer<HuggingFaceOpError, HuggingFaceOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
     // Resolved on the CALLING fiber per request (the layer is memoized per
     // process); the Credentials service holds an effect, so a token rotated
     // between calls is picked up without rebuilding the layer.
-    credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+    credentials: resolveCredentials,
     baseUrl: (creds) => creds.apiBaseUrl,
     headers: (creds) => ({
       Authorization: `Bearer ${Redacted.value(creds.token)}`,

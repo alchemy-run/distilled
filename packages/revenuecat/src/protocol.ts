@@ -1,12 +1,12 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import { RevenueCatParseError, UnknownRevenueCatError } from "./errors.ts";
 
 export type RevenueCatOpError =
@@ -15,13 +15,16 @@ export type RevenueCatOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | RevenueCatParseError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 export type RevenueCatOpContext = Credentials | HttpClient.HttpClient;
 
-export const RevenueCatProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>(
-  {
-    credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+const resolveCredentials = /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve);
+
+export const RevenueCatProtocol: API.ProtocolLayer<RevenueCatOpError, RevenueCatOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
+    credentials: resolveCredentials,
     baseUrl: (creds) => creds.apiBaseUrl,
     headers: (creds) => ({
       Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
@@ -36,5 +39,4 @@ export const RevenueCatProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeR
     },
     unknownError: (info) => new UnknownRevenueCatError(unknownErrorProps(info)),
     parseError: ({ body, cause }) => new RevenueCatParseError({ body, cause }),
-  },
-);
+  });

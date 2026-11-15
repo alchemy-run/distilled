@@ -1,7 +1,7 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeGrpcProtocol } from "@distilled.cloud/core/protocol-grpc";
-import type { RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import type { HttpStatusError, RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
 import { unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
@@ -21,9 +21,8 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import { descriptors } from "./descriptors.ts";
 import { UnknownModalError, type DefaultErrors, ModalParseError } from "./errors.ts";
 
@@ -60,7 +59,9 @@ export type ModalOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | InvalidInput
-  | SdkError;
+  | SdkError
+  // Every status the protocol's status map builds, on any operation.
+  | HttpStatusError;
 
 /** Context (requirements) shared by every generated Modal operation. */
 export type ModalOpContext = Credentials | HttpClient.HttpClient;
@@ -78,33 +79,36 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return { code, message };
 };
 
-export const ModalProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeGrpcProtocol<Config>({
-  descriptors,
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-  baseUrl: (creds) => creds.apiBaseUrl,
-  headers: (creds) => ({
-    ...(creds.bearerToken !== undefined
-      ? { authorization: `Bearer ${Redacted.value(creds.bearerToken)}` }
-      : creds.container
-        ? // The container's own socket: Modal knows the caller, no token.
-          creds.authToken !== undefined
-          ? { "x-modal-auth-token": Redacted.value(creds.authToken) }
-          : {}
-        : Redacted.value(creds.tokenId) === ""
-          ? // Anonymous (see `anonymous`): the token flow runs before a token exists.
-            {}
-          : {
-              "x-modal-token-id": Redacted.value(creds.tokenId),
-              "x-modal-token-secret": Redacted.value(creds.tokenSecret),
-              ...(creds.authToken !== undefined
-                ? { "x-modal-auth-token": Redacted.value(creds.authToken) }
-                : {}),
-            }),
-    "x-modal-client-type": creds.container ? CLIENT_TYPE_CONTAINER : CLIENT_TYPE_LIBMODAL_JS,
-    "x-modal-client-version": CLIENT_VERSION,
-    "x-modal-libmodal-version": `modal-js/${LIBMODAL_JS_VERSION}`,
-  }),
-  errorEnvelope,
-  unknownError: (info) => new UnknownModalError(unknownErrorProps(info)),
-  parseError: ({ body, cause }) => new ModalParseError({ body, cause }),
-});
+const resolveCredentials = /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve);
+
+export const ModalProtocol: API.ProtocolLayer<ModalOpError, ModalOpContext> =
+  /*@__PURE__*/ makeGrpcProtocol({
+    descriptors,
+    credentials: resolveCredentials,
+    baseUrl: (creds) => creds.apiBaseUrl,
+    headers: (creds) => ({
+      ...(creds.bearerToken !== undefined
+        ? { authorization: `Bearer ${Redacted.value(creds.bearerToken)}` }
+        : creds.container
+          ? // The container's own socket: Modal knows the caller, no token.
+            creds.authToken !== undefined
+            ? { "x-modal-auth-token": Redacted.value(creds.authToken) }
+            : {}
+          : Redacted.value(creds.tokenId) === ""
+            ? // Anonymous (see `anonymous`): the token flow runs before a token exists.
+              {}
+            : {
+                "x-modal-token-id": Redacted.value(creds.tokenId),
+                "x-modal-token-secret": Redacted.value(creds.tokenSecret),
+                ...(creds.authToken !== undefined
+                  ? { "x-modal-auth-token": Redacted.value(creds.authToken) }
+                  : {}),
+              }),
+      "x-modal-client-type": creds.container ? CLIENT_TYPE_CONTAINER : CLIENT_TYPE_LIBMODAL_JS,
+      "x-modal-client-version": CLIENT_VERSION,
+      "x-modal-libmodal-version": `modal-js/${LIBMODAL_JS_VERSION}`,
+    }),
+    errorEnvelope,
+    unknownError: (info) => new UnknownModalError(unknownErrorProps(info)),
+    parseError: ({ body, cause }) => new ModalParseError({ body, cause }),
+  });

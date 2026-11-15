@@ -22,9 +22,8 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import { UnknownElasticsearchError, ElasticsearchParseError } from "./errors.ts";
 
 /**
@@ -45,17 +44,21 @@ export type ElasticsearchOpError =
 /** Context (requirements) shared by every generated Elasticsearch operation. */
 export type ElasticsearchOpContext = Credentials | HttpClient.HttpClient;
 
-export const ElasticsearchProtocol: Layer.Layer<API.Protocol> =
-  /*@__PURE__*/ makeRestProtocol<Config>({
-    // The Credentials service holds an effect -- resolving it here (per
-    // request, on the calling fiber) picks up context-provided credentials.
-    credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds) => ({
-      Authorization: `ApiKey ${Redacted.value(creds.apiKey)}`,
-    }),
-    // Elasticsearch's error body is `{ error?: { type, reason }, status? }`
-    // -- the factory's default lenient envelope covers `message`/`reason`.
-    unknownError: (info) => new UnknownElasticsearchError(unknownErrorProps(info)),
-    parseError: ({ body, cause }) => new ElasticsearchParseError({ body, cause }),
-  });
+const resolveCredentials = /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve);
+
+export const ElasticsearchProtocol: API.ProtocolLayer<
+  ElasticsearchOpError,
+  ElasticsearchOpContext
+> = /*@__PURE__*/ makeRestProtocol({
+  // The Credentials service holds an effect -- resolving it here (per
+  // request, on the calling fiber) picks up context-provided credentials.
+  credentials: resolveCredentials,
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds) => ({
+    Authorization: `ApiKey ${Redacted.value(creds.apiKey)}`,
+  }),
+  // Elasticsearch's error body is `{ error?: { type, reason }, status? }`
+  // -- the factory's default lenient envelope covers `message`/`reason`.
+  unknownError: (info) => new UnknownElasticsearchError(unknownErrorProps(info)),
+  parseError: ({ body, cause }) => new ElasticsearchParseError({ body, cause }),
+});

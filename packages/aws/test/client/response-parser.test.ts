@@ -312,7 +312,7 @@ describe("a response that does not decode keeps sensitive members redacted", () 
     );
     expect(error).toMatchObject({ _tag: "ValidationException", reason: 1 });
     expect(error).not.toHaveProperty("Unmodeled");
-    expect(Redacted.isRedacted((error as Record<string, unknown>).message)).toBe(true);
+    expect(Redacted.isRedacted((error as unknown as Record<string, unknown>).message)).toBe(true);
     expect(JSON.stringify(error)).not.toContain(SECRET);
   });
 

@@ -28,7 +28,6 @@ import { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import {
   Credentials,
@@ -36,7 +35,6 @@ import {
   DEFAULT_INFERENCE_BASE_URL,
   FunctionsCredentials,
   type Config,
-  type FunctionsConfig,
 } from "./credentials.ts";
 import { UnknownDigitalOceanError, DigitalOceanParseError } from "./errors.ts";
 
@@ -79,7 +77,10 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
  * spec's operation `servers` in scripts/convert.ts); every other operation
  * runs on `apiBaseUrl`. The URL always comes from the credentials.
  */
-const baseUrlFor = (creds: Config, server: string | undefined): string => {
+const baseUrlFor = (
+  creds: Config,
+  server: string | undefined,
+): string | Effect.Effect<never, SdkError> => {
   switch (server) {
     case undefined:
       return creds.apiBaseUrl;
@@ -88,18 +89,21 @@ const baseUrlFor = (creds: Config, server: string | undefined): string => {
     case "actions":
       return creds.actionsBaseUrl ?? DEFAULT_ACTIONS_BASE_URL;
     default:
-      // Caught by makeRestProtocol and returned as the call's failure.
-      throw new SdkError({
-        message: `DigitalOcean operation runs on server "${server}", which has no base URL in the credentials`,
-      });
+      return Effect.fail(
+        new SdkError({
+          message: `DigitalOcean operation runs on server "${server}", which has no base URL in the credentials`,
+        }),
+      );
   }
 };
 
-export const DigitalOceanProtocol: Layer.Layer<API.Protocol> =
-  /*@__PURE__*/ makeRestProtocol<Config>({
+const resolveCredentials = /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve);
+
+export const DigitalOceanProtocol: API.ProtocolLayer<DigitalOceanOpError, DigitalOceanOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
     // The Credentials service holds an effect -- resolving it here (per
     // request, on the calling fiber) picks up context-provided credentials.
-    credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+    credentials: resolveCredentials,
     baseUrl: (creds, target) => baseUrlFor(creds, target.server),
     // DigitalOcean expects JSON on every request; DELETE /v2/projects/{id}
     // answers 415 without the header even though it carries no body.
@@ -122,14 +126,19 @@ const functionsErrorEnvelope = (body: unknown): RestErrorEnvelope | undefined =>
   return typeof b.error === "string" ? { message: b.error } : undefined;
 };
 
+const resolveFunctionsCredentials = /*@__PURE__*/ Effect.flatMap(
+  FunctionsCredentials,
+  (resolve) => resolve,
+);
+
 /**
  * The OpenWhisk REST API a Functions namespace serves at its `api_host`,
  * signed with HTTP basic auth: a namespace access key (`<id>:<secret>`) or
  * the namespace's own `<uuid>:<key>`.
  */
-export const FunctionsProtocol: Layer.Layer<API.Protocol> =
-  /*@__PURE__*/ makeRestProtocol<FunctionsConfig>({
-    credentials: /*@__PURE__*/ Effect.flatMap(FunctionsCredentials, (resolve) => resolve),
+export const FunctionsProtocol: API.ProtocolLayer<DigitalOceanOpError, FunctionsOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
+    credentials: resolveFunctionsCredentials,
     baseUrl: (creds) => creds.apiHost,
     headers: (creds) => ({
       Authorization: `Basic ${btoa(`${creds.user}:${Redacted.value(creds.secret)}`)}`,

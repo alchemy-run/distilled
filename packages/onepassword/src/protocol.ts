@@ -32,7 +32,6 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Base64 from "effect/encoding/Base64";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import {
   ConnectCredentials,
@@ -40,11 +39,6 @@ import {
   OAuthCredentials,
   PartnershipCredentials,
   UsersCredentials,
-  type ConnectConfig,
-  type EventsConfig,
-  type OAuthConfig,
-  type PartnershipConfig,
-  type UsersConfig,
 } from "./credentials.ts";
 import { UnknownOnepasswordError, OnepasswordParseError } from "./errors.ts";
 
@@ -85,8 +79,8 @@ const record = (body: unknown): Record<string, unknown> | undefined =>
 const trimBase = (url: string) => url.replace(/\/+$/, "");
 
 /** Connect server API (default `http://localhost:8080/v1`). */
-export const ConnectProtocol: Layer.Layer<API.Protocol> =
-  /*@__PURE__*/ makeRestProtocol<ConnectConfig>({
+export const ConnectProtocol: API.ProtocolLayer<OnepasswordOpError, ConnectOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
     credentials: ConnectCredentials,
     baseUrl: (creds) => trimBase(creds.apiBaseUrl),
     headers: (creds) => ({
@@ -99,8 +93,8 @@ export const ConnectProtocol: Layer.Layer<API.Protocol> =
   });
 
 /** Events API at `https://events.1password.com` (or the account's regional host). */
-export const EventsProtocol: Layer.Layer<API.Protocol> =
-  /*@__PURE__*/ makeRestProtocol<EventsConfig>({
+export const EventsProtocol: API.ProtocolLayer<OnepasswordOpError, EventsOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
     credentials: EventsCredentials,
     baseUrl: (creds) => trimBase(creds.apiBaseUrl),
     headers: (creds) => ({
@@ -116,8 +110,8 @@ export const EventsProtocol: Layer.Layer<API.Protocol> =
   });
 
 /** Users API at `https://api.1password.com` (or the account's regional host). */
-export const UsersProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<UsersConfig>(
-  {
+export const UsersProtocol: API.ProtocolLayer<OnepasswordOpError, UsersOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
     credentials: UsersCredentials,
     baseUrl: (creds) => trimBase(creds.apiBaseUrl),
     headers: (creds) => ({
@@ -126,12 +120,11 @@ export const UsersProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestPr
     // `{ code, message }` -- the factory's default envelope.
     unknownError,
     parseError,
-  },
-);
+  });
 
 /** OAuth API (token, introspect, revoke) with the application's client credentials. */
-export const OAuthProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<OAuthConfig>(
-  {
+export const OAuthProtocol: API.ProtocolLayer<OnepasswordOpError, OAuthOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
     credentials: OAuthCredentials,
     baseUrl: (creds) => trimBase(creds.apiBaseUrl),
     headers: (creds) => ({
@@ -152,12 +145,11 @@ export const OAuthProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestPr
     },
     unknownError,
     parseError,
-  },
-);
+  });
 
 /** Partnership API at `https://billing.1password.com`. */
-export const PartnershipProtocol: Layer.Layer<API.Protocol> =
-  /*@__PURE__*/ makeRestProtocol<PartnershipConfig>({
+export const PartnershipProtocol: API.ProtocolLayer<OnepasswordOpError, PartnershipOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
     credentials: PartnershipCredentials,
     baseUrl: (creds) => trimBase(creds.apiBaseUrl),
     headers: (creds) => ({

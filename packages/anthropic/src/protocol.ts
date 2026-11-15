@@ -1,7 +1,11 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { HTTP_STATUS_MAP, ServiceUnavailable } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
+import {
+  type HttpStatusError,
+  makeRestProtocol,
+  unknownErrorProps,
+} from "@distilled.cloud/core/protocol-rest";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * AnthropicProtocol -- the shared REST protocol instantiated for the Claude
@@ -21,9 +25,8 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import { AnthropicParseError, UnknownAnthropicError, type DefaultErrors } from "./errors.ts";
 
 /**
@@ -37,7 +40,9 @@ export type AnthropicOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | InvalidInput
-  | SdkError;
+  | SdkError
+  // Every status the protocol's status map builds, on any operation.
+  | HttpStatusError;
 
 /** Context (requirements) shared by every generated Anthropic operation. */
 export type AnthropicOpContext = Credentials | HttpClient.HttpClient;
@@ -54,20 +59,23 @@ const errorEnvelope = (body: unknown) => {
   };
 };
 
-export const AnthropicProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // Resolved on the calling fiber per request, so a rotated key is picked
-  // up without rebuilding the layer.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-  baseUrl: (creds) => creds.apiBaseUrl,
-  headers: (creds) => ({
-    "x-api-key": Redacted.value(creds.apiKey),
-    "anthropic-version": creds.version,
-  }),
-  statusMap: {
-    ...HTTP_STATUS_MAP,
-    529: ServiceUnavailable,
-  },
-  errorEnvelope,
-  unknownError: (info) => new UnknownAnthropicError(unknownErrorProps(info)),
-  parseError: ({ body, cause }) => new AnthropicParseError({ body, cause }),
-});
+const resolveCredentials = /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve);
+
+export const AnthropicProtocol: API.ProtocolLayer<AnthropicOpError, AnthropicOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
+    // Resolved on the calling fiber per request, so a rotated key is picked
+    // up without rebuilding the layer.
+    credentials: resolveCredentials,
+    baseUrl: (creds) => creds.apiBaseUrl,
+    headers: (creds) => ({
+      "x-api-key": Redacted.value(creds.apiKey),
+      "anthropic-version": creds.version,
+    }),
+    statusMap: {
+      ...HTTP_STATUS_MAP,
+      529: ServiceUnavailable,
+    },
+    errorEnvelope,
+    unknownError: (info) => new UnknownAnthropicError(unknownErrorProps(info)),
+    parseError: ({ body, cause }) => new AnthropicParseError({ body, cause }),
+  });

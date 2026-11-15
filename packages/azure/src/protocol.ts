@@ -49,11 +49,8 @@ import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
-import type * as HttpClientResponse from "effect/http/HttpClientResponse";
-import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import type * as AST from "effect/SchemaAST";
-import { Credentials, type Config } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import {
   AZURE_ERROR_CODE_MAP,
   matchAzureErrorMessage,
@@ -82,12 +79,6 @@ export type AzureOpError =
 
 /** Context (requirements) shared by every generated Azure operation. */
 export type AzureOpContext = Credentials | HttpClient.HttpClient;
-
-// Bridge: Protocol.decode is typed as Effect<unknown> (no error channel),
-// but Azure failures are real typed errors surfaced through AzureOpError.
-// Fail with the instance and erase the type here; the generated operation
-// annotations reintroduce it for callers.
-const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
 
 // ---------------------------------------------------------------------------
 // Error-body parsing
@@ -150,13 +141,11 @@ const parseArmError = (body: unknown): ArmError | undefined => {
 
 // The protocol layer is memoized per process by `API.make`, so the build
 // must not capture credentials -- `encode` resolves Credentials from the
-// calling fiber's context on every request instead. Its ConfigError channel
-// is erased at this boundary (Protocol effects carry none) and reintroduced
-// for callers by the generated AzureOpError annotations.
-const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
+// calling fiber's context on every request instead.
+const encode = ({ input, inputAst }: API.ProtocolEncodeArgs) =>
   Effect.gen(function* () {
     const resolveCredentials = yield* Credentials;
-    const creds = yield* resolveCredentials as Effect.Effect<Config>;
+    const creds = yield* resolveCredentials;
     let request = yield* buildRequest({
       input: unwrapRedactedDeep(input),
       inputAst,
@@ -194,17 +183,10 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
 // Decode
 // ---------------------------------------------------------------------------
 
-const decode = ({
-  response,
-  outputAst,
-}: {
-  readonly response: HttpClientResponse.HttpClientResponse;
-  readonly outputAst: AST.AST;
-  readonly errors: ReadonlyArray<unknown>;
-}) =>
+const decode = ({ response, outputAst }: API.ProtocolDecodeArgs) =>
   Effect.gen(function* () {
     // Read as text and parse tolerantly -- error pages are often non-JSON.
-    const text = (yield* response.text.pipe(Effect.catch(fail))) ?? "";
+    const text = (yield* response.text) ?? "";
     let json: unknown;
     let nonJson = false;
     if (text.trim().length > 0) {
@@ -226,7 +208,7 @@ const decode = ({
         (arm !== undefined ? matchAzureErrorMessage(arm) : undefined) ??
         (arm?.code !== undefined ? AZURE_ERROR_CODE_MAP[arm.code] : undefined);
       if (AzureErrorClass) {
-        return yield* fail(
+        return yield* Effect.fail(
           new AzureErrorClass({
             message: arm!.message,
             code: arm!.code,
@@ -242,7 +224,7 @@ const decode = ({
       );
       if (detail !== undefined) {
         const DetailErrorClass = AZURE_ERROR_CODE_MAP[detail.code!]!;
-        return yield* fail(
+        return yield* Effect.fail(
           new DetailErrorClass({
             message: detail.message ?? arm!.message,
             code: detail.code,
@@ -255,7 +237,7 @@ const decode = ({
       //    retryable statuses).
       const StatusErrorClass = HTTP_STATUS_MAP[status as keyof typeof HTTP_STATUS_MAP];
       if (StatusErrorClass) {
-        return yield* fail(
+        return yield* Effect.fail(
           new StatusErrorClass({
             message: arm?.message ?? (nonJson && text.trim() ? text.trim() : ""),
             retryAfter: parseRetryAfterForStatus(status, headers),
@@ -265,7 +247,7 @@ const decode = ({
 
       // 3. Unmapped 5xx -> retryable server error.
       if (status >= 500) {
-        return yield* fail(
+        return yield* Effect.fail(
           new InternalServerError({
             message: arm?.message ?? `HTTP ${status}`,
             retryAfter: parseRetryAfterForStatus(status, headers),
@@ -274,7 +256,7 @@ const decode = ({
       }
 
       // 4. Unknown Azure error.
-      return yield* fail(
+      return yield* Effect.fail(
         new UnknownAzureError({
           status,
           code: arm?.code,
@@ -308,15 +290,8 @@ const decode = ({
         nonJson,
       },
       (info) => new AzureParseError(info),
-    ).pipe(Effect.catch(fail));
+    );
   });
 
-export const AzureProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(
-  API.Protocol,
-  /*@__PURE__*/ API.Protocol.of({
-    // Erase encode's Credentials requirement (resolved on the calling
-    // fiber; see the note above `encode`).
-    encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
-    decode,
-  }),
-);
+export const AzureProtocol: API.ProtocolLayer<AzureOpError, AzureOpContext> =
+  /*@__PURE__*/ API.makeProtocol({ encode, decode });

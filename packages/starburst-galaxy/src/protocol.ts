@@ -36,9 +36,8 @@ import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import {
   PreconditionFailed,
   StarburstGalaxyParseError,
@@ -87,22 +86,26 @@ export const rateLimited = (info: RestErrorInfo): TooManyRequests | undefined =>
   });
 };
 
-export const StarburstGalaxyProtocol: Layer.Layer<API.Protocol> =
-  /*@__PURE__*/ makeRestProtocol<Config>({
-    // The Credentials service holds an effect -- resolving it here (per
-    // request, on the calling fiber) picks up a refreshed access token.
-    credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds) => ({
-      Authorization: `Bearer ${Redacted.value(creds.accessToken)}`,
-    }),
-    // Core's classes plus 412 (`FailedPrecondition`), which Galaxy documents
-    // on cluster creation, schema discovery, data domain deletion and data
-    // quality operations.
-    statusMap: { ...HTTP_STATUS_MAP, 412: PreconditionFailed },
-    classifyError: rateLimited,
-    // Galaxy's error body is `{ message, ... }` -- the factory's default
-    // lenient `{ code?, message? }` envelope reads it.
-    unknownError: (info) => new UnknownStarburstGalaxyError(unknownErrorProps(info)),
-    parseError: ({ body, cause }) => new StarburstGalaxyParseError({ body, cause }),
-  });
+const resolveCredentials = /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve);
+
+export const StarburstGalaxyProtocol: API.ProtocolLayer<
+  StarburstGalaxyOpError,
+  StarburstGalaxyOpContext
+> = /*@__PURE__*/ makeRestProtocol({
+  // The Credentials service holds an effect -- resolving it here (per
+  // request, on the calling fiber) picks up a refreshed access token.
+  credentials: resolveCredentials,
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds) => ({
+    Authorization: `Bearer ${Redacted.value(creds.accessToken)}`,
+  }),
+  // Core's classes plus 412 (`FailedPrecondition`), which Galaxy documents
+  // on cluster creation, schema discovery, data domain deletion and data
+  // quality operations.
+  statusMap: { ...HTTP_STATUS_MAP, 412: PreconditionFailed },
+  classifyError: rateLimited,
+  // Galaxy's error body is `{ message, ... }` -- the factory's default
+  // lenient `{ code?, message? }` envelope reads it.
+  unknownError: (info) => new UnknownStarburstGalaxyError(unknownErrorProps(info)),
+  parseError: ({ body, cause }) => new StarburstGalaxyParseError({ body, cause }),
+});

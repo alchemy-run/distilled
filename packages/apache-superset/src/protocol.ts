@@ -22,9 +22,8 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import { UnknownApacheSupersetError, ApacheSupersetParseError } from "./errors.ts";
 
 /**
@@ -46,15 +45,19 @@ export type ApacheSupersetOpError =
 /** Context (requirements) shared by every generated Apache Superset operation. */
 export type ApacheSupersetOpContext = Credentials | HttpClient.HttpClient;
 
-export const ApacheSupersetProtocol: Layer.Layer<API.Protocol> =
-  /*@__PURE__*/ makeRestProtocol<Config>({
-    // The Credentials service holds an effect -- resolving it here (per
-    // request, on the calling fiber) picks up context-provided credentials.
-    credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds) => ({
-      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-    }),
-    unknownError: (info) => new UnknownApacheSupersetError(unknownErrorProps(info)),
-    parseError: ({ body, cause }) => new ApacheSupersetParseError({ body, cause }),
-  });
+const resolveCredentials = /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve);
+
+export const ApacheSupersetProtocol: API.ProtocolLayer<
+  ApacheSupersetOpError,
+  ApacheSupersetOpContext
+> = /*@__PURE__*/ makeRestProtocol({
+  // The Credentials service holds an effect -- resolving it here (per
+  // request, on the calling fiber) picks up context-provided credentials.
+  credentials: resolveCredentials,
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds) => ({
+    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+  }),
+  unknownError: (info) => new UnknownApacheSupersetError(unknownErrorProps(info)),
+  parseError: ({ body, cause }) => new ApacheSupersetParseError({ body, cause }),
+});

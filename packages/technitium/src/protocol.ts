@@ -30,6 +30,7 @@ import {
   unwrapRedactedDeep,
   validateSuccess,
 } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Send from "@distilled.cloud/core/send";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
@@ -40,7 +41,6 @@ import * as HttpClientError from "effect/http/HttpClientError";
 import * as Request from "effect/http/HttpClientRequest";
 import * as Response from "effect/http/HttpClientResponse";
 import * as UrlParams from "effect/http/UrlParams";
-import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 import type * as AST from "effect/SchemaAST";
@@ -63,6 +63,7 @@ export type TechnitiumOpError =
   | InstanceType<(typeof API_ERRORS)[number]>
   | ConfigError
   | InvalidInput
+  | SdkError
   | HttpClientError.HttpClientError;
 
 /** Requirements shared by every generated Technitium operation. */
@@ -205,13 +206,6 @@ export function withoutCredentials(
   return new HttpClientError.HttpClientError({ reason: rebuilt() });
 }
 
-/**
- * Core's `Protocol` erases the error channel: `encode` and `decode` return `Effect<A>`, and each
- * generated operation restores the type as `TechnitiumOpError`. Core's REST protocol bridges the
- * same way.
- */
-const fail = (error: unknown): Effect.Effect<never> => Effect.fail(error) as Effect.Effect<never>;
-
 const encode = (context: Context.Context<never>, input: unknown, inputAst: AST.AST) =>
   Effect.flatMap(Context.getUnsafe(context, Credentials), (config: Config) =>
     buildRequest({
@@ -223,16 +217,21 @@ const encode = (context: Context.Context<never>, input: unknown, inputAst: AST.A
         Accept: "application/json",
       },
     }),
-  ).pipe(Effect.catch(fail));
+  );
 
 const decode = (response: Response.HttpClientResponse, outputAst: AST.AST) =>
   // A body read that fails (a reset mid-body) fails the call with its client error.
   Effect.flatMap(
-    Effect.catch(response.text, (error) => fail(withoutCredentials(error))),
-    (body) => {
+    Effect.catch(response.text, (error) => Effect.fail(withoutCredentials(error))),
+    (
+      body,
+    ): Effect.Effect<
+      unknown,
+      Extract<Envelope, { readonly ok: false }>["error"] | TechnitiumParseError
+    > => {
       const withhold = hasSensitiveMember(outputAst);
       const envelope = readEnvelope(response.status, body, withhold);
-      if (!envelope.ok) return fail(envelope.error);
+      if (!envelope.ok) return Effect.fail(envelope.error);
       const mapped = mapsVerbatim(outputAst, "decode")
         ? envelope.payload
         : mapKeys(outputAst, envelope.payload, "decode");
@@ -240,13 +239,12 @@ const decode = (response: Response.HttpClientResponse, outputAst: AST.AST) =>
         outputAst,
         { value: mapped, body: envelope.payload, nonJson: false },
         (info) => new TechnitiumParseError(info),
-      ).pipe(Effect.catch(fail));
+      );
     },
   );
 
-export const TechnitiumProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(
-  API.Protocol,
-  API.Protocol.of({
+export const TechnitiumProtocol: API.ProtocolLayer<TechnitiumOpError, TechnitiumOpContext> =
+  /*@__PURE__*/ API.makeProtocol({
     encode: ({ input, inputAst }) =>
       Effect.withFiber((fiber) => encode(fiber.context, input, inputAst)),
     decode: ({ response, outputAst }) => decode(response, outputAst),
@@ -257,10 +255,9 @@ export const TechnitiumProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer
         const context = fiber.context as Context.Context<any>;
         return Effect.flatMap(encode(context, input, operation.inputAst), (request) =>
           Send.send(context, Context.getUnsafe(context, HttpClient.HttpClient), request).pipe(
-            Effect.catch((error) => fail(withoutCredentials(error))),
+            Effect.catch((error) => Effect.fail(withoutCredentials(error))),
             Effect.flatMap((response) => decode(response, operation.outputAst)),
           ),
         );
       }),
-  }),
-);
+  });

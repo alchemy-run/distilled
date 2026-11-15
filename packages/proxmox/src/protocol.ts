@@ -12,10 +12,9 @@
 import * as API from "@distilled.cloud/core/api";
 import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
-import * as Effect from "effect/Effect";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import { Credentials, type Config } from "./credentials.ts";
 import { ProxmoxParseError, UnknownProxmoxError, type DefaultErrors } from "./errors.ts";
@@ -29,7 +28,8 @@ export type ProxmoxOpError =
   | DefaultErrors
   | ConfigError
   | HttpClientError.HttpClientError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Proxmox operation. */
 export type ProxmoxOpContext = Credentials | HttpClient.HttpClient;
@@ -66,31 +66,27 @@ const authHeaders = (config: Config) => ({
 });
 
 /** Core's REST protocol with booleans sent the way Proxmox reads them. */
-const proxmox = (): Layer.Layer<API.Protocol> =>
-  Layer.effect(
-    API.Protocol,
-    Effect.gen(function* () {
-      const base = yield* API.Protocol;
+const proxmox = (): API.ProtocolLayer<ProxmoxOpError, ProxmoxOpContext> =>
+  API.extendProtocol(
+    makeRestProtocol({
+      credentials: Credentials,
+      baseUrl: (config) => config.endpoint,
+      headers: authHeaders,
+      errorEnvelope,
+      transformResponse: (body) => (isObject(body) && "data" in body ? body.data : body),
+      unknownError: ({ status, message, body }) =>
+        new UnknownProxmoxError({ status, message, body }),
+      parseError: ({ body, cause }) => new ProxmoxParseError({ body, cause }),
+    }),
+    (base) => {
       const call = base.call;
-      return API.Protocol.of({
+      return {
         ...base,
         encode: (args) => base.encode({ ...args, input: toWire(args.input) }),
         call: call && ((operation, input) => call(operation, toWire(input))),
-      });
-    }),
-  ).pipe(
-    Layer.provide(
-      makeRestProtocol<Config>({
-        credentials: Credentials,
-        baseUrl: (config) => config.endpoint,
-        headers: authHeaders,
-        errorEnvelope,
-        transformResponse: (body) => (isObject(body) && "data" in body ? body.data : body),
-        unknownError: ({ status, message, body }) =>
-          new UnknownProxmoxError({ status, message, body }),
-        parseError: ({ body, cause }) => new ProxmoxParseError({ body, cause }),
-      }),
-    ),
+      };
+    },
   );
 
-export const ProxmoxProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ proxmox();
+export const ProxmoxProtocol: API.ProtocolLayer<ProxmoxOpError, ProxmoxOpContext> =
+  /*@__PURE__*/ proxmox();

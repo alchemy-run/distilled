@@ -6,6 +6,7 @@ import {
   type RestErrorEnvelope,
   unknownErrorProps,
 } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * Entire protocols -- the shared bearer-REST protocol instantiated once per
  * Entire API.
@@ -25,7 +26,6 @@ import {
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import { Credentials, type Config } from "./credentials.ts";
 import {
@@ -49,7 +49,8 @@ export type EntireOpError =
   | DefaultErrors
   | ConfigError
   | HttpClientError.HttpClientError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Entire operation. */
 export type EntireOpContext = Credentials | HttpClient.HttpClient;
@@ -92,8 +93,10 @@ const statusMap = {
   428: PreconditionRequired,
 };
 
-const make = (baseUrl: (creds: Config) => string): Layer.Layer<API.Protocol> =>
-  makeRestProtocol<Config>({
+const make = (
+  baseUrl: (creds: Config) => string,
+): API.ProtocolLayer<EntireOpError, EntireOpContext> =>
+  makeRestProtocol({
     // Resolved on the CALLING fiber per request (the layer is memoized per
     // process); the Credentials service holds an effect, so a token
     // refreshed between calls is picked up without rebuilding the layer.
@@ -109,11 +112,9 @@ const make = (baseUrl: (creds: Config) => string): Layer.Layer<API.Protocol> =>
   });
 
 /** The Core control-plane protocol (`coreBaseUrl`). */
-export const EntireCoreProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ make(
-  (creds) => creds.coreBaseUrl,
-);
+export const EntireCoreProtocol: API.ProtocolLayer<EntireOpError, EntireOpContext> =
+  /*@__PURE__*/ make((creds) => creds.coreBaseUrl);
 
 /** The regional cell protocol (`apiBaseUrl`). */
-export const EntireCellProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ make(
-  (creds) => creds.apiBaseUrl,
-);
+export const EntireCellProtocol: API.ProtocolLayer<EntireOpError, EntireOpContext> =
+  /*@__PURE__*/ make((creds) => creds.apiBaseUrl);

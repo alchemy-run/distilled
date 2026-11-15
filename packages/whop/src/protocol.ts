@@ -2,6 +2,7 @@ import type * as API from "@distilled.cloud/core/api";
 import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
 import {
+  type HttpStatusError,
   makeRestProtocol,
   type RestErrorEnvelope,
   unknownErrorProps,
@@ -36,9 +37,8 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import { PaymentRequired, UnknownWhopError, type DefaultErrors, WhopParseError } from "./errors.ts";
 
 /**
@@ -52,7 +52,9 @@ export type WhopOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | InvalidInput
-  | SdkError;
+  | SdkError
+  // Every status the protocol's status map builds, on any operation.
+  | HttpStatusError;
 
 /** Context (requirements) shared by every generated Whop operation. */
 export type WhopOpContext = Credentials | HttpClient.HttpClient;
@@ -83,18 +85,21 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
  */
 const statusMap = { ...HTTP_STATUS_MAP, 402: PaymentRequired };
 
-export const WhopProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // Resolved on the CALLING fiber per request (the layer is memoized per
-  // process); the Credentials service holds an effect, so a key rotated
-  // between calls is picked up without rebuilding the layer.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-  baseUrl: (creds) => creds.apiBaseUrl,
-  headers: (creds) => ({
-    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-    "Api-Version-Date": creds.apiVersionDate,
-  }),
-  errorEnvelope,
-  statusMap,
-  unknownError: (info) => new UnknownWhopError(unknownErrorProps(info)),
-  parseError: ({ body, cause }) => new WhopParseError({ body, cause }),
-});
+const resolveCredentials = /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve);
+
+export const WhopProtocol: API.ProtocolLayer<WhopOpError, WhopOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
+    // Resolved on the CALLING fiber per request (the layer is memoized per
+    // process); the Credentials service holds an effect, so a key rotated
+    // between calls is picked up without rebuilding the layer.
+    credentials: resolveCredentials,
+    baseUrl: (creds) => creds.apiBaseUrl,
+    headers: (creds) => ({
+      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+      "Api-Version-Date": creds.apiVersionDate,
+    }),
+    errorEnvelope,
+    statusMap,
+    unknownError: (info) => new UnknownWhopError(unknownErrorProps(info)),
+    parseError: ({ body, cause }) => new WhopParseError({ body, cause }),
+  });

@@ -1,6 +1,10 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
+import {
+  type HttpStatusError,
+  makeRestProtocol,
+  unknownErrorProps,
+} from "@distilled.cloud/core/protocol-rest";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * TypesenseProtocol -- the shared bearer/header-auth REST factory from core,
@@ -18,8 +22,7 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
-import { type Config, Credentials, formatHeaders } from "./credentials.ts";
+import { Credentials, formatHeaders } from "./credentials.ts";
 import { type DefaultErrors, UnknownTypesenseError, TypesenseParseError } from "./errors.ts";
 
 /**
@@ -33,19 +36,24 @@ export type TypesenseOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | InvalidInput
-  | SdkError;
+  | SdkError
+  // Every status the protocol's status map builds, on any operation.
+  | HttpStatusError;
 
 /** Context (requirements) shared by every generated Typesense operation. */
 export type TypesenseOpContext = Credentials | HttpClient.HttpClient;
 
-export const TypesenseProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // Resolved on the calling fiber, per request -- the Credentials service
-  // holds an effect, so lazily-resolved keys Just Work.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-  baseUrl: (creds) => creds.apiBaseUrl,
-  headers: formatHeaders,
-  // Typesense's ApiResponse error body is `{ message }` -- covered by the
-  // factory's default envelope reader.
-  unknownError: (info) => new UnknownTypesenseError(unknownErrorProps(info)),
-  parseError: ({ body, cause }) => new TypesenseParseError({ body, cause }),
-});
+const resolveCredentials = /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve);
+
+export const TypesenseProtocol: API.ProtocolLayer<TypesenseOpError, TypesenseOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
+    // Resolved on the calling fiber, per request -- the Credentials service
+    // holds an effect, so lazily-resolved keys Just Work.
+    credentials: resolveCredentials,
+    baseUrl: (creds) => creds.apiBaseUrl,
+    headers: formatHeaders,
+    // Typesense's ApiResponse error body is `{ message }` -- covered by the
+    // factory's default envelope reader.
+    unknownError: (info) => new UnknownTypesenseError(unknownErrorProps(info)),
+    parseError: ({ body, cause }) => new TypesenseParseError({ body, cause }),
+  });

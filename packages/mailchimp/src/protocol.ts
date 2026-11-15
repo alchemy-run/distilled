@@ -1,10 +1,5 @@
 import * as API from "@distilled.cloud/core/api";
-import type {
-  API_ERRORS,
-  ConfigError,
-  DefaultErrors,
-  InvalidInput,
-} from "@distilled.cloud/core/errors";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
@@ -33,15 +28,8 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as HttpClientRequest from "effect/http/HttpClientRequest";
-import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import {
-  Credentials,
-  TransactionalCredentials,
-  type Config,
-  type TransactionalConfig,
-} from "./credentials.ts";
+import { Credentials, TransactionalCredentials } from "./credentials.ts";
 import {
   MailchimpApiError,
   MailchimpParseError,
@@ -82,41 +70,45 @@ const problemMessage = (body: unknown): string | undefined => {
   return fields.length ? `${head} (${fields.join("; ")})` : head;
 };
 
-export const MailchimpProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // Resolved on the calling fiber per request.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-  baseUrl: (creds) => creds.apiBaseUrl,
-  // Basic auth: Mailchimp ignores the username.
-  headers: (creds) => ({
-    Authorization: `Basic ${btoa(`anystring:${Redacted.value(creds.apiKey)}`)}`,
-  }),
-  errorEnvelope: (body) => {
-    const message = problemMessage(body);
-    return message === undefined ? undefined : { message };
-  },
-  unknownError: (info) => {
-    const problem = isRecord(info.body) ? info.body : undefined;
-    const fields = {
-      ...unknownErrorProps(info),
-      type: str(problem?.type),
-      title: str(problem?.title),
-      instance: str(problem?.instance),
-    };
-    return problemMessage(info.body) !== undefined
-      ? new MailchimpApiError(fields)
-      : new UnknownMailchimpError(fields);
-  },
-  parseError: ({ body, cause }) => new MailchimpParseError({ body, cause }),
-});
+const resolveCredentials = /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve);
+
+export const MailchimpProtocol: API.ProtocolLayer<MailchimpOpError, MailchimpOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
+    // Resolved on the calling fiber per request.
+    credentials: resolveCredentials,
+    baseUrl: (creds) => creds.apiBaseUrl,
+    // Basic auth: Mailchimp ignores the username.
+    headers: (creds) => ({
+      Authorization: `Basic ${btoa(`anystring:${Redacted.value(creds.apiKey)}`)}`,
+    }),
+    errorEnvelope: (body) => {
+      const message = problemMessage(body);
+      return message === undefined ? undefined : { message };
+    },
+    unknownError: (info) => {
+      const problem = isRecord(info.body) ? info.body : undefined;
+      const fields = {
+        ...unknownErrorProps(info),
+        type: str(problem?.type),
+        title: str(problem?.title),
+        instance: str(problem?.instance),
+      };
+      return problemMessage(info.body) !== undefined
+        ? new MailchimpApiError(fields)
+        : new UnknownMailchimpError(fields);
+    },
+    parseError: ({ body, cause }) => new MailchimpParseError({ body, cause }),
+  });
 
 // ------------- Transactional -------------
 
 /**
- * Only the always-possible failures. Each operation adds the classes its
- * declared statuses map to (`NotFound`, `PaymentRequired`, ...).
+ * Every failure the protocol can build, including core's status classes for
+ * any HTTP status. Each operation adds the classes its declared statuses map
+ * to (`PaymentRequired`, ...).
  */
 export type MailchimpTransactionalOpError =
-  | DefaultErrors
+  | InstanceType<(typeof API_ERRORS)[number]>
   | MailchimpTransactionalError
   | UnknownMailchimpError
   | MailchimpParseError
@@ -141,33 +133,35 @@ const transactionalMessage = (failure: Record<string, unknown>): string | undefi
   return name !== undefined && message !== undefined ? `${name}: ${message}` : (name ?? message);
 };
 
-const TransactionalRest: Layer.Layer<API.Protocol> =
-  /*@__PURE__*/ makeRestProtocol<TransactionalConfig>({
-    credentials: resolveTransactional,
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: () => ({}),
-    errorEnvelope: (body) => {
-      const failure = transactionalFailure(body);
-      if (failure === undefined) return undefined;
-      const message = transactionalMessage(failure);
-      return message === undefined
-        ? undefined
-        : { message, code: typeof failure.code === "number" ? failure.code : undefined };
-    },
-    unknownError: ({ status, code, message, body, headers }) => {
-      const failure = transactionalFailure(body);
-      return failure !== undefined
-        ? new MailchimpTransactionalError({
-            status,
-            code: typeof code === "number" ? code : undefined,
-            name: str(failure.name),
-            message,
-            body,
-          })
-        : new UnknownMailchimpError(unknownErrorProps({ status, code, message, body, headers }));
-    },
-    parseError: ({ body, cause }) => new MailchimpParseError({ body, cause }),
-  });
+const TransactionalRest: API.ProtocolLayer<
+  MailchimpTransactionalOpError,
+  MailchimpTransactionalOpContext
+> = /*@__PURE__*/ makeRestProtocol({
+  credentials: resolveTransactional,
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: () => ({}),
+  errorEnvelope: (body) => {
+    const failure = transactionalFailure(body);
+    if (failure === undefined) return undefined;
+    const message = transactionalMessage(failure);
+    return message === undefined
+      ? undefined
+      : { message, code: typeof failure.code === "number" ? failure.code : undefined };
+  },
+  unknownError: ({ status, code, message, body, headers }) => {
+    const failure = transactionalFailure(body);
+    return failure !== undefined
+      ? new MailchimpTransactionalError({
+          status,
+          code: typeof code === "number" ? code : undefined,
+          name: str(failure.name),
+          message,
+          body,
+        })
+      : new UnknownMailchimpError(unknownErrorProps({ status, code, message, body, headers }));
+  },
+  parseError: ({ body, cause }) => new MailchimpParseError({ body, cause }),
+});
 
 /**
  * The key rides in the JSON body, not a header. It is added to the input
@@ -175,20 +169,17 @@ const TransactionalRest: Layer.Layer<API.Protocol> =
  * sends members the schema does not know as body fields, and unwraps the
  * `Redacted` key on the way out.
  */
-export const MailchimpTransactionalProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.effect(
-  API.Protocol,
-  Effect.gen(function* () {
-    const rest = yield* API.Protocol;
-    return API.Protocol.of({
-      encode: (args) =>
-        Effect.gen(function* () {
-          const creds = yield* resolveTransactional;
-          return yield* rest.encode({
-            ...args,
-            input: { ...(isRecord(args.input) ? args.input : {}), key: creds.apiKey },
-          });
-        }) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
-      decode: rest.decode,
-    });
-  }),
-).pipe(Layer.provide(TransactionalRest));
+export const MailchimpTransactionalProtocol: API.ProtocolLayer<
+  MailchimpTransactionalOpError,
+  MailchimpTransactionalOpContext
+> = /*@__PURE__*/ API.extendProtocol(TransactionalRest, (rest) => ({
+  encode: (args: API.ProtocolEncodeArgs) =>
+    Effect.gen(function* () {
+      const creds = yield* resolveTransactional;
+      return yield* rest.encode({
+        ...args,
+        input: { ...(isRecord(args.input) ? args.input : {}), key: creds.apiKey },
+      });
+    }),
+  decode: rest.decode,
+}));

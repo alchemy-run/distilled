@@ -1,6 +1,7 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import {
+  type HttpStatusError,
   makeRestProtocol,
   type RestErrorEnvelope,
   unknownErrorProps,
@@ -23,9 +24,8 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import { UnknownDiscordError, type DefaultErrors, DiscordParseError } from "./errors.ts";
 
 /**
@@ -39,7 +39,9 @@ export type DiscordOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | InvalidInput
-  | SdkError;
+  | SdkError
+  // Every status the protocol's status map builds, on any operation.
+  | HttpStatusError;
 
 /** Context (requirements) shared by every generated Discord operation. */
 export type DiscordOpContext = Credentials | HttpClient.HttpClient;
@@ -83,21 +85,24 @@ const numericCode = (code: string | number | undefined): number | undefined => {
   return Number.isFinite(n) ? n : undefined;
 };
 
-export const DiscordProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // Resolved on the CALLING fiber per request (the layer is memoized per
-  // process); the Credentials service holds an effect so rotating tokens
-  // Just Work.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-  baseUrl: (creds) => creds.apiBaseUrl,
-  headers: (creds) => ({
-    Authorization: `${creds.tokenType} ${Redacted.value(creds.token)}`,
-  }),
-  errorEnvelope,
-  unknownError: (info) =>
-    new UnknownDiscordError({
-      ...unknownErrorProps(info),
-      code: numericCode(info.code),
-      errors: errorDetails(info.body),
+const resolveCredentials = /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve);
+
+export const DiscordProtocol: API.ProtocolLayer<DiscordOpError, DiscordOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
+    // Resolved on the CALLING fiber per request (the layer is memoized per
+    // process); the Credentials service holds an effect so rotating tokens
+    // Just Work.
+    credentials: resolveCredentials,
+    baseUrl: (creds) => creds.apiBaseUrl,
+    headers: (creds) => ({
+      Authorization: `${creds.tokenType} ${Redacted.value(creds.token)}`,
     }),
-  parseError: ({ body, cause }) => new DiscordParseError({ body, cause }),
-});
+    errorEnvelope,
+    unknownError: (info) =>
+      new UnknownDiscordError({
+        ...unknownErrorProps(info),
+        code: numericCode(info.code),
+        errors: errorDetails(info.body),
+      }),
+    parseError: ({ body, cause }) => new DiscordParseError({ body, cause }),
+  });

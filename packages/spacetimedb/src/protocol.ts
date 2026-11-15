@@ -22,9 +22,8 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import { UnknownSpacetimeDBError, SpacetimeDBParseError } from "./errors.ts";
 
 /**
@@ -46,9 +45,11 @@ export type SpacetimeDBOpError =
 /** Context (requirements) shared by every generated SpacetimeDB operation. */
 export type SpacetimeDBOpContext = Credentials | HttpClient.HttpClient;
 
-export const SpacetimeDBProtocol: Layer.Layer<API.Protocol> =
-  /*@__PURE__*/ makeRestProtocol<Config>({
-    credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+const resolveCredentials = /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve);
+
+export const SpacetimeDBProtocol: API.ProtocolLayer<SpacetimeDBOpError, SpacetimeDBOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
+    credentials: resolveCredentials,
     baseUrl: (creds) => creds.apiBaseUrl,
     headers: (creds): Record<string, string> => {
       const headers: Record<string, string> = {};

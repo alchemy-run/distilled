@@ -29,7 +29,6 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import {
   apiBaseUrlFor,
@@ -38,10 +37,7 @@ import {
   ENVD_PORT,
   envdBaseUrlFor,
   SandboxConnection,
-  type Config,
-  type SandboxConnectionConfig,
   VolumeConnection,
-  type VolumeConnectionConfig,
 } from "./credentials.ts";
 import { E2BParseError, UnknownE2BError, type DefaultErrors } from "./errors.ts";
 
@@ -67,23 +63,26 @@ const unknownError = (info: RestErrorInfo) => new UnknownE2BError(unknownErrorPr
 const parseError = ({ body, cause }: { body: unknown; cause: unknown }) =>
   new E2BParseError({ body, cause });
 
-export const E2BProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // Resolved on the CALLING fiber per request, so a key rotated between
-  // calls is picked up without rebuilding the layer.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-  baseUrl: (creds) => creds.apiBaseUrl,
-  headers: (creds) => {
-    const headers: Record<string, string> = {};
-    if (creds.apiKey !== undefined) headers["X-API-Key"] = Redacted.value(creds.apiKey);
-    if (creds.accessToken !== undefined) {
-      headers.Authorization = `Bearer ${Redacted.value(creds.accessToken)}`;
-    }
-    if (creds.teamId !== undefined && creds.teamId !== "") headers["X-Team-ID"] = creds.teamId;
-    return headers;
-  },
-  unknownError,
-  parseError,
-});
+const resolveCredentials = /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve);
+
+export const E2BProtocol: API.ProtocolLayer<E2BOpError, E2BOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
+    // Resolved on the CALLING fiber per request, so a key rotated between
+    // calls is picked up without rebuilding the layer.
+    credentials: resolveCredentials,
+    baseUrl: (creds) => creds.apiBaseUrl,
+    headers: (creds) => {
+      const headers: Record<string, string> = {};
+      if (creds.apiKey !== undefined) headers["X-API-Key"] = Redacted.value(creds.apiKey);
+      if (creds.accessToken !== undefined) {
+        headers.Authorization = `Bearer ${Redacted.value(creds.accessToken)}`;
+      }
+      if (creds.teamId !== undefined && creds.teamId !== "") headers["X-Team-ID"] = creds.teamId;
+      return headers;
+    },
+    unknownError,
+    parseError,
+  });
 
 const missingSandbox = /*@__PURE__*/ Effect.fail(
   new ConfigError({
@@ -92,11 +91,14 @@ const missingSandbox = /*@__PURE__*/ Effect.fail(
   }),
 );
 
-export const EnvdProtocol: Layer.Layer<API.Protocol> =
-  /*@__PURE__*/ makeRestProtocol<SandboxConnectionConfig>({
-    credentials: /*@__PURE__*/ Effect.flatMap(Effect.serviceOption(SandboxConnection), (option) =>
-      option._tag === "Some" ? Effect.succeed(option.value) : missingSandbox,
-    ),
+const sandboxConnection = /*@__PURE__*/ Effect.flatMap(
+  Effect.serviceOption(SandboxConnection),
+  (option) => (option._tag === "Some" ? Effect.succeed(option.value) : missingSandbox),
+);
+
+export const EnvdProtocol: API.ProtocolLayer<E2BOpError, EnvdOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
+    credentials: sandboxConnection,
     baseUrl: (sandbox) => envdBaseUrlFor(sandbox),
     headers: (sandbox) => {
       const headers: Record<string, string> = {
@@ -125,11 +127,14 @@ const missingVolume = /*@__PURE__*/ Effect.fail(
   }),
 );
 
-export const VolumeContentProtocol: Layer.Layer<API.Protocol> =
-  /*@__PURE__*/ makeRestProtocol<VolumeConnectionConfig>({
-    credentials: /*@__PURE__*/ Effect.flatMap(Effect.serviceOption(VolumeConnection), (option) =>
-      option._tag === "Some" ? Effect.succeed(option.value) : missingVolume,
-    ),
+const volumeConnection = /*@__PURE__*/ Effect.flatMap(
+  Effect.serviceOption(VolumeConnection),
+  (option) => (option._tag === "Some" ? Effect.succeed(option.value) : missingVolume),
+);
+
+export const VolumeContentProtocol: API.ProtocolLayer<E2BOpError, VolumeContentOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
+    credentials: volumeConnection,
     baseUrl: (volume) => apiBaseUrlFor(volume.domain ?? DEFAULT_DOMAIN),
     headers: (volume) => ({ Authorization: `Bearer ${Redacted.value(volume.token)}` }),
     unknownError,

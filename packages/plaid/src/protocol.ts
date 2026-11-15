@@ -22,8 +22,7 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
-import { Credentials, formatHeaders, type Config } from "./credentials.ts";
+import { Credentials, formatHeaders } from "./credentials.ts";
 import { UnknownPlaidError, PlaidParseError } from "./errors.ts";
 
 /**
@@ -44,30 +43,33 @@ export type PlaidOpError =
 /** Context (requirements) shared by every generated Plaid operation. */
 export type PlaidOpContext = Credentials | HttpClient.HttpClient;
 
-export const PlaidProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // The Credentials service holds an effect -- resolving it here (per
-  // request, on the calling fiber) picks up context-provided credentials.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-  baseUrl: (creds) => creds.apiBaseUrl,
-  headers: (creds) => formatHeaders(creds),
-  // Plaid's error body is `{ error_type, error_code, error_message }`.
-  errorEnvelope: (body) => {
-    if (body === null || typeof body !== "object") return undefined;
-    const b = body as Record<string, unknown>;
-    const code =
-      typeof b.error_code === "string" || typeof b.error_code === "number"
-        ? b.error_code
-        : typeof b.code === "string" || typeof b.code === "number"
-          ? b.code
-          : undefined;
-    const message =
-      typeof b.error_message === "string"
-        ? b.error_message
-        : typeof b.message === "string"
-          ? b.message
-          : undefined;
-    return { code, message };
-  },
-  unknownError: (info) => new UnknownPlaidError(unknownErrorProps(info)),
-  parseError: ({ body, cause }) => new PlaidParseError({ body, cause }),
-});
+const resolveCredentials = /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve);
+
+export const PlaidProtocol: API.ProtocolLayer<PlaidOpError, PlaidOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
+    // The Credentials service holds an effect -- resolving it here (per
+    // request, on the calling fiber) picks up context-provided credentials.
+    credentials: resolveCredentials,
+    baseUrl: (creds) => creds.apiBaseUrl,
+    headers: (creds) => formatHeaders(creds),
+    // Plaid's error body is `{ error_type, error_code, error_message }`.
+    errorEnvelope: (body) => {
+      if (body === null || typeof body !== "object") return undefined;
+      const b = body as Record<string, unknown>;
+      const code =
+        typeof b.error_code === "string" || typeof b.error_code === "number"
+          ? b.error_code
+          : typeof b.code === "string" || typeof b.code === "number"
+            ? b.code
+            : undefined;
+      const message =
+        typeof b.error_message === "string"
+          ? b.error_message
+          : typeof b.message === "string"
+            ? b.message
+            : undefined;
+      return { code, message };
+    },
+    unknownError: (info) => new UnknownPlaidError(unknownErrorProps(info)),
+    parseError: ({ body, cause }) => new PlaidParseError({ body, cause }),
+  });

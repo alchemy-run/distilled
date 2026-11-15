@@ -255,7 +255,7 @@ type EnvelopeErrorClass = new (fields: {
   readonly code: string;
   readonly message: string;
   readonly requestId?: string;
-}) => unknown;
+}) => CommonErrors;
 
 /** The documented common codes, keyed by the code's first segment. */
 export const COMMON_ERRORS: Readonly<Record<string, EnvelopeErrorClass>> = {
@@ -296,7 +296,7 @@ export const envelopeError = (
   error: { readonly code: string; readonly message: string; readonly requestId?: string },
   status: number,
   body: unknown,
-): unknown => {
+): CommonErrors | ServiceUnavailable | UnknownTencentCloudError => {
   const root = error.code.split(".", 1)[0]!;
   if (root === "ServiceUnavailable") return new ServiceUnavailable({ message: error.message });
   const ErrorClass = Object.hasOwn(COMMON_ERRORS, root) ? COMMON_ERRORS[root] : undefined;

@@ -36,14 +36,19 @@ import { httpSymbol } from "@distilled.cloud/core/trait";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as HttpClientRequest from "effect/http/HttpClientRequest";
-import type * as HttpClientResponse from "effect/http/HttpClientResponse";
-import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import type * as AST from "effect/SchemaAST";
 import { Credentials, type Config } from "./credentials.ts";
 import { StackitParseError, UnknownStackitError } from "./errors.ts";
-import type { DefaultErrors } from "./errors.ts";
+import type {
+  BadRequest,
+  Conflict,
+  DefaultErrors,
+  Forbidden,
+  Locked,
+  NotFound,
+  UnprocessableEntity,
+} from "./errors.ts";
 import type { StackitHttpTrait } from "./traits.ts";
 
 /**
@@ -54,6 +59,12 @@ import type { StackitHttpTrait } from "./traits.ts";
  */
 export type StackitOpError =
   | DefaultErrors
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | Locked
   | UnknownStackitError
   | StackitParseError
   | ConfigError
@@ -104,8 +115,6 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return { code, message };
 };
 
-const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
-
 const baseUrlFor = (creds: Config, inputAst: AST.AST): string | SdkError => {
   if (creds.apiBaseUrl !== undefined && creds.apiBaseUrl !== "") {
     return creds.apiBaseUrl;
@@ -120,10 +129,9 @@ const baseUrlFor = (creds: Config, inputAst: AST.AST): string | SdkError => {
   return applyRegion(specUrl, creds.region);
 };
 
-export const StackitProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(
-  API.Protocol,
-  /*@__PURE__*/ API.Protocol.of({
-    encode: ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
+export const StackitProtocol: API.ProtocolLayer<StackitOpError, StackitOpContext> =
+  /*@__PURE__*/ API.makeProtocol({
+    encode: ({ input, inputAst }: API.ProtocolEncodeArgs) =>
       Effect.gen(function* () {
         const resolve = yield* Credentials;
         const creds = yield* resolve;
@@ -137,18 +145,10 @@ export const StackitProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.su
             Authorization: `Bearer ${Redacted.value(creds.token)}`,
           },
         });
-      }) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
-    decode: ({
-      response,
-      outputAst,
-      errors: errorClasses,
-    }: {
-      readonly response: HttpClientResponse.HttpClientResponse;
-      readonly outputAst: AST.AST;
-      readonly errors: ReadonlyArray<unknown>;
-    }) =>
+      }),
+    decode: ({ response, outputAst, errors: errorClasses }: API.ProtocolDecodeArgs) =>
       Effect.gen(function* () {
-        const text = (yield* response.text.pipe(Effect.catch(fail))) ?? "";
+        const text = (yield* response.text) ?? "";
         let json: unknown;
         let nonJson = false;
         if (text.trim().length > 0) {
@@ -176,16 +176,20 @@ export const StackitProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.su
             ],
             { body: nonJson ? text : json, headers },
           );
-          if (typed !== undefined) return yield* fail(typed);
+          if (typed !== undefined) return yield* Effect.fail(typed);
 
           const StatusErrorClass = (
             HTTP_STATUS_MAP as Record<
               number,
-              (new (args: { message: string; retryAfter?: unknown }) => unknown) | undefined
+              | (new (args: {
+                  message: string;
+                  retryAfter?: unknown;
+                }) => InstanceType<(typeof HTTP_STATUS_MAP)[keyof typeof HTTP_STATUS_MAP]>)
+              | undefined
             >
           )[status];
           if (StatusErrorClass) {
-            return yield* fail(
+            return yield* Effect.fail(
               new StatusErrorClass({
                 message,
                 retryAfter: parseRetryAfterForStatus(status, headers),
@@ -194,7 +198,7 @@ export const StackitProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.su
           }
 
           if (status >= 500) {
-            return yield* fail(
+            return yield* Effect.fail(
               new InternalServerError({
                 message,
                 retryAfter: parseRetryAfterForStatus(status, headers),
@@ -202,7 +206,7 @@ export const StackitProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.su
             );
           }
 
-          return yield* fail(
+          return yield* Effect.fail(
             new UnknownStackitError({
               status,
               code:
@@ -225,7 +229,6 @@ export const StackitProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.su
           outputAst,
           { value: mapKeys(outputAst, body, "decode"), body: nonJson ? text : json, nonJson },
           (info) => new StackitParseError(info),
-        ).pipe(Effect.catch(fail));
+        );
       }),
-  }),
-);
+  });

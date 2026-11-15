@@ -2,9 +2,15 @@ import * as API from "@distilled.cloud/core/api";
 import {
   HTTP_STATUS_MAP,
   InternalServerError,
+  type BadRequest,
   type ConfigError,
+  type Conflict,
+  type Forbidden,
   type InvalidInput,
+  type Locked,
+  type NotFound,
   type UnknownErrorProps,
+  type UnprocessableEntity,
 } from "@distilled.cloud/core/errors";
 import {
   buildRequest,
@@ -47,7 +53,6 @@ import * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/http/HttpClientResponse";
-import * as Layer from "effect/Layer";
 import * as MutableHashMap from "effect/MutableHashMap";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
@@ -75,6 +80,13 @@ import { httpSymbol, type HttpTrait } from "./traits.ts";
  */
 export type FlyIoOpError =
   | DefaultErrors
+  // Core's status map, for a non-2xx answer no typed class matches.
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | Locked
   | ConfigError
   | HttpClientError.HttpClientError
   | InvalidInput
@@ -125,48 +137,45 @@ const resolveFlyCreds = /*@__PURE__*/ Effect.gen(function* () {
 export class MachineIdentity
   extends /*@__PURE__*/ Context.Service<MachineIdentity, true>()("FlyIoMachineIdentity") {}
 
-const FlyIoProtocolRest: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  credentials: resolveFlyCreds,
-  baseUrl: (creds) => creds.apiBaseUrl,
-  headers: (creds) => ({
-    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-  }),
-  errorEnvelope: flyErrorEnvelope,
-  unknownError: (info) => new UnknownFlyIoError(unknownErrorProps(info)),
-  parseError: ({ body, cause }) => new FlyIoParseError({ body, cause }),
-});
+const FlyIoProtocolRest: API.ProtocolLayer<FlyIoOpError, FlyIoOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
+    credentials: resolveFlyCreds,
+    baseUrl: (creds) => creds.apiBaseUrl,
+    headers: (creds) => ({
+      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+    }),
+    errorEnvelope: flyErrorEnvelope,
+    unknownError: (info) => new UnknownFlyIoError(unknownErrorProps(info)),
+    parseError: ({ body, cause }) => new FlyIoParseError({ body, cause }),
+  });
 
-export const FlyIoProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.effect(
-  API.Protocol,
-  /*@__PURE__*/ Effect.gen(function* () {
-    const rest = yield* API.Protocol;
-    return API.Protocol.of({
-      encode: (args) =>
-        Effect.gen(function* () {
-          const request = yield* rest.encode(args);
-          const machine = yield* Effect.serviceOption(MachineIdentity);
-          if (Option.isNone(machine)) return request;
-          return request.pipe(
-            HttpClientRequest.removeHeader("authorization"),
-            HttpClientRequest.setHeader("connection", "close"),
-          );
-        }),
-      decode: rest.decode,
-    });
-  }),
-).pipe(/*@__PURE__*/ Layer.provide(FlyIoProtocolRest));
+export const FlyIoProtocol: API.ProtocolLayer<FlyIoOpError, FlyIoOpContext> =
+  /*@__PURE__*/ API.extendProtocol(FlyIoProtocolRest, (rest) => ({
+    encode: (args: API.ProtocolEncodeArgs) =>
+      Effect.gen(function* () {
+        const request = yield* rest.encode(args);
+        const machine = yield* Effect.serviceOption(MachineIdentity);
+        if (Option.isNone(machine)) return request;
+        return request.pipe(
+          HttpClientRequest.removeHeader("authorization"),
+          HttpClientRequest.setHeader("connection", "close"),
+        );
+      }),
+    decode: rest.decode,
+  }));
 
 /** MPG UI-EX REST at `https://api.fly.io` with the Machines bearer token. */
-export const FlyApiProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  credentials: resolveFlyCreds,
-  baseUrl: () => DEFAULT_FLY_API_BASE_URL,
-  headers: (creds) => ({
-    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-  }),
-  errorEnvelope: flyErrorEnvelope,
-  unknownError: (info) => new UnknownFlyIoError(unknownErrorProps(info)),
-  parseError: ({ body, cause }) => new FlyIoParseError({ body, cause }),
-});
+export const FlyApiProtocol: API.ProtocolLayer<FlyIoOpError, FlyIoOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
+    credentials: resolveFlyCreds,
+    baseUrl: () => DEFAULT_FLY_API_BASE_URL,
+    headers: (creds) => ({
+      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+    }),
+    errorEnvelope: flyErrorEnvelope,
+    unknownError: (info) => new UnknownFlyIoError(unknownErrorProps(info)),
+    parseError: ({ body, cause }) => new FlyIoParseError({ body, cause }),
+  });
 
 const parseMaybeNdjson = (body: unknown): unknown => {
   if (typeof body !== "string") return body;
@@ -211,8 +220,6 @@ const parseSpritesExecFrames = (
   }
   return { stdout, stderr, exit_code };
 };
-
-const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
 
 /** Strip a leading `FlyV1` / `Bearer` scheme so we can re-prefix `FlyV1`. */
 const stripFlyAuthScheme = (token: string): string => {
@@ -273,6 +280,18 @@ const unknownError = (
       })
     : new UnknownFlyIoError(props);
 
+// A numeric view of core's status map; every class takes `{ message, retryAfter? }`.
+const statusMap: Readonly<
+  Record<
+    number,
+    | (new (args: {
+        message: string;
+        retryAfter?: ReturnType<typeof parseRetryAfterForStatus>;
+      }) => InstanceType<(typeof HTTP_STATUS_MAP)[keyof typeof HTTP_STATUS_MAP]>)
+    | undefined
+  >
+> = HTTP_STATUS_MAP;
+
 const errorEnv = (body: unknown): { message?: string; code?: string } =>
   spritesErrorEnvelope(body) ?? flyErrorEnvelope(body) ?? {};
 
@@ -281,27 +300,24 @@ const failHttp = (
   body: unknown,
   text: string,
   headers: Record<string, string | undefined>,
-): Effect.Effect<never> => {
+) => {
   const env = errorEnv(body);
   const message = env.message ?? (text.trim().length > 0 ? text.trim() : `HTTP ${status}`);
   if (status === 401 && SPRITES_NOT_ENABLED.test(haystackOf(body, message))) {
-    return fail(new SpritesNotEnabled({ message }));
+    return Effect.fail(new SpritesNotEnabled({ message }));
   }
-  const StatusClass = (HTTP_STATUS_MAP as Record<number, unknown>)[status] as
-    | (new (args: {
-        message: string;
-        retryAfter?: ReturnType<typeof parseRetryAfterForStatus>;
-      }) => unknown)
-    | undefined;
+  const StatusClass = statusMap[status];
   if (StatusClass && status >= 400) {
-    return fail(
+    return Effect.fail(
       new StatusClass({
         message,
         retryAfter: parseRetryAfterForStatus(status, headers),
       }),
     );
   }
-  return fail(unknownError({ status, code: env.code, message, body: body ?? text }, headers));
+  return Effect.fail(
+    unknownError({ status, code: env.code, message, body: body ?? text }, headers),
+  );
 };
 
 const orgFromTokensCurrent = (body: unknown): string | undefined => {
@@ -411,7 +427,7 @@ const mintOnce = (fly: Config) =>
     const token =
       json !== null && typeof json === "object" ? (json as { token?: unknown }).token : undefined;
     if (typeof token !== "string" || token.length === 0) {
-      return yield* fail(
+      return yield* Effect.fail(
         new FlyIoParseError({
           body: "[REDACTED]",
           cause: "mint response missing token",
@@ -498,7 +514,7 @@ const decodeSpritesResponse = ({
 }: {
   readonly response: HttpClientResponse.HttpClientResponse;
   readonly outputAst: AST.AST;
-  readonly errors: ReadonlyArray<unknown>;
+  readonly errors: ReadonlyArray<API.DeclaredErrorClass>;
 }) =>
   Effect.gen(function* () {
     const buffer = yield* response.arrayBuffer.pipe(Effect.map((bytes) => new Uint8Array(bytes)));
@@ -520,7 +536,7 @@ const decodeSpritesResponse = ({
       const env = nonJson ? {} : errorEnv(json);
       const message = env.message ?? (nonJson && text.trim() ? text.trim() : `HTTP ${status}`);
       if (SPRITES_NOT_ENABLED.test(haystackOf(nonJson ? text : json, message))) {
-        return yield* fail(new SpritesNotEnabled({ message }));
+        return yield* Effect.fail(new SpritesNotEnabled({ message }));
       }
       const typed = matchTypedError(
         errorClasses,
@@ -533,16 +549,11 @@ const decodeSpritesResponse = ({
         ],
         { body: nonJson ? text : json, headers },
       );
-      if (typed !== undefined) return yield* fail(typed);
+      if (typed !== undefined) return yield* Effect.fail(typed);
 
-      const StatusErrorClass = (HTTP_STATUS_MAP as Record<number, unknown>)[status] as
-        | (new (args: {
-            message: string;
-            retryAfter?: ReturnType<typeof parseRetryAfterForStatus>;
-          }) => unknown)
-        | undefined;
+      const StatusErrorClass = statusMap[status];
       if (StatusErrorClass) {
-        return yield* fail(
+        return yield* Effect.fail(
           new StatusErrorClass({
             message,
             retryAfter: parseRetryAfterForStatus(status, headers),
@@ -550,14 +561,16 @@ const decodeSpritesResponse = ({
         );
       }
       if (status >= 500) {
-        return yield* fail(
+        return yield* Effect.fail(
           new InternalServerError({
             message,
             retryAfter: parseRetryAfterForStatus(status, headers),
           }),
         );
       }
-      return yield* fail(new UnknownFlyIoError({ status, message, body: nonJson ? text : json }));
+      return yield* Effect.fail(
+        new UnknownFlyIoError({ status, message, body: nonJson ? text : json }),
+      );
     }
 
     // Strict mode checks the mapped body (or parsed exec frames) against the
@@ -573,15 +586,12 @@ const decodeSpritesResponse = ({
         nonJson,
       },
       (info) => new FlyIoParseError(info),
-    ).pipe(Effect.catch(fail));
+    );
   });
 
 /** Sprites REST at `https://api.sprites.dev/v1`, minted from `FLY_API_TOKEN`. */
-export const SpritesProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(
-  API.Protocol,
-  /*@__PURE__*/ API.Protocol.of({
-    encode: (args) =>
-      encodeSpritesRequest(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
-    decode: (args) => decodeSpritesResponse(args) as Effect.Effect<unknown>,
-  }),
-);
+export const SpritesProtocol: API.ProtocolLayer<SpritesOpError, SpritesOpContext> =
+  /*@__PURE__*/ API.makeProtocol({
+    encode: encodeSpritesRequest,
+    decode: decodeSpritesResponse,
+  });

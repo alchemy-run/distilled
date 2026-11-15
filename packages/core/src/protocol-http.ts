@@ -1063,12 +1063,12 @@ export const responseErrorFields = (
  * declared `retryAfter` gets the `Retry-After` / `RateLimit` header hint. The
  * matched `code` and `message` always win over the body's.
  */
-export const matchTypedError = (
-  errorClasses: ReadonlyArray<unknown>,
+export const matchTypedError = <E>(
+  errorClasses: ReadonlyArray<new (...args: any[]) => E>,
   status: number,
   errors: ReadonlyArray<{ code?: number; message: string }>,
   response: ErrorResponse = {},
-): unknown | undefined => {
+): E | undefined => {
   let best: { cls: unknown; specificity: number; code?: number; message: string } | undefined;
   const wireErrors = errors.length > 0 ? errors : [{ message: `HTTP ${status}` }];
   for (const cls of errorClasses) {
@@ -1088,7 +1088,7 @@ export const matchTypedError = (
   const fields = (best.cls as { fields?: Record<string, unknown> }).fields;
   const saved = suppressStack();
   try {
-    return new (best.cls as new (args: any) => unknown)({
+    return new (best.cls as new (args: any) => E)({
       ...declaredBodyFields(fields, response.body, response.fieldsAt),
       code: best.code ?? 0,
       message: best.message,

@@ -39,9 +39,16 @@ import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import * as Layer from "effect/Layer";
+import * as Predicate from "effect/Predicate";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
-import { Gone, UnknownGithubError, type DefaultErrors, GithubParseError } from "./errors.ts";
+import { Credentials } from "./credentials.ts";
+import {
+  Gone,
+  UnknownGithubError,
+  type DefaultErrors,
+  type GithubAppAuthError,
+  GithubParseError,
+} from "./errors.ts";
 
 /**
  * The REST API version the generated services were built from -- sent on
@@ -117,27 +124,28 @@ export const rateLimited = (info: RestErrorInfo): TooManyRequests | undefined =>
   });
 };
 
-const RestProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // Resolved on the CALLING fiber per request (the layer is memoized per
-  // process); the Credentials service holds an effect so rotating tokens
-  // (GitHub App installation tokens expire hourly) Just Work.
-  credentials: Credentials,
-  baseUrl: (creds) => creds.apiBaseUrl,
-  headers: (creds) => ({
-    Authorization: `Bearer ${Redacted.value(creds.token)}`,
-    Accept: "application/vnd.github+json",
-    "X-GitHub-Api-Version": API_VERSION,
-    "User-Agent": creds.userAgent,
-  }),
-  errorEnvelope,
-  classifyError: rateLimited,
-  // Core's shared map plus 410 -- GitHub uses Gone far more than most APIs
-  // (issues disabled, deleted migration archives).
-  statusMap: { ...HTTP_STATUS_MAP, 410: Gone },
-  unknownError: (info) =>
-    new UnknownGithubError({ ...unknownErrorProps(info), headers: info.headers }),
-  parseError: ({ body, cause }) => new GithubParseError({ body, cause }),
-});
+const RestProtocol: API.ProtocolLayer<GithubOpError, GithubOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
+    // Resolved on the CALLING fiber per request (the layer is memoized per
+    // process); the Credentials service holds an effect so rotating tokens
+    // (GitHub App installation tokens expire hourly) Just Work.
+    credentials: Credentials,
+    baseUrl: (creds) => creds.apiBaseUrl,
+    headers: (creds) => ({
+      Authorization: `Bearer ${Redacted.value(creds.token)}`,
+      Accept: "application/vnd.github+json",
+      "X-GitHub-Api-Version": API_VERSION,
+      "User-Agent": creds.userAgent,
+    }),
+    errorEnvelope,
+    classifyError: rateLimited,
+    // Core's shared map plus 410 -- GitHub uses Gone far more than most APIs
+    // (issues disabled, deleted migration archives).
+    statusMap: { ...HTTP_STATUS_MAP, 410: Gone },
+    unknownError: (info) =>
+      new UnknownGithubError({ ...unknownErrorProps(info), headers: info.headers }),
+    parseError: ({ body, cause }) => new GithubParseError({ body, cause }),
+  });
 
 // =============================================================================
 // Write pacing
@@ -203,29 +211,26 @@ const FRESH_TOKEN_RETRY_DELAY = /*@__PURE__*/ Duration.millis(500);
  * Send a call again while it fails with 401 and the token is younger than
  * {@link FRESH_TOKEN_WINDOW_MS}, as Octokit's `@octokit/auth-app` does.
  */
-const retryFreshToken = (call: Effect.Effect<unknown>): Effect.Effect<unknown> => {
-  // Protocol effects erase their error and requirement channels (see
-  // core/protocol-rest), so the failure is read by its tag here.
-  const attempt = Effect.catch(call, (error: unknown) =>
-    (error as { readonly _tag?: unknown } | null)?._tag === "Unauthorized"
-      ? Effect.flatMap(
-          Effect.flatMap(Effect.service(Credentials), (resolve) => resolve),
-          (creds) =>
-            creds.issuedAt !== undefined && Date.now() - creds.issuedAt < FRESH_TOKEN_WINDOW_MS
-              ? Effect.andThen(Effect.sleep(FRESH_TOKEN_RETRY_DELAY), attempt)
-              : Effect.fail(error),
-        )
-      : Effect.fail(error),
-  ) as Effect.Effect<unknown>;
+const retryFreshToken = <A, E, R>(
+  call: Effect.Effect<A, E, R>,
+): Effect.Effect<A, E | ConfigError | GithubAppAuthError, R | Credentials> => {
+  const attempt: Effect.Effect<A, E | ConfigError | GithubAppAuthError, R | Credentials> =
+    Effect.catch(call, (error) =>
+      Predicate.isTagged(error, "Unauthorized")
+        ? Effect.flatMap(
+            Effect.flatMap(Effect.service(Credentials), (resolve) => resolve),
+            (creds) =>
+              creds.issuedAt !== undefined && Date.now() - creds.issuedAt < FRESH_TOKEN_WINDOW_MS
+                ? Effect.andThen(Effect.sleep(FRESH_TOKEN_RETRY_DELAY), attempt)
+                : Effect.fail(error),
+          )
+        : Effect.fail(error),
+    );
   return attempt;
 };
 
-export const GithubProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.effect(
-  API.Protocol,
-  /*@__PURE__*/ Effect.map(Effect.service(API.Protocol), (rest) =>
-    API.Protocol.of({
-      ...rest,
-      call: (op, input) => paced(op, retryFreshToken(rest.call!(op, input))),
-    }),
-  ),
-).pipe(/*@__PURE__*/ Layer.provide(RestProtocol));
+export const GithubProtocol: API.ProtocolLayer<GithubOpError, GithubOpContext> =
+  /*@__PURE__*/ API.extendProtocol(RestProtocol, (rest) => ({
+    ...rest,
+    call: (op, input) => paced(op, retryFreshToken(rest.call!(op, input))),
+  }));

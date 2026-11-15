@@ -49,10 +49,7 @@ import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
-import type * as HttpClientResponse from "effect/http/HttpClientResponse";
-import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import type * as AST from "effect/SchemaAST";
 import { Credentials, type Config } from "./credentials.ts";
 import { GoogleWorkspaceParseError, UnknownGoogleWorkspaceError } from "./errors.ts";
 import type { GoogleWorkspaceHttpTrait } from "./traits.ts";
@@ -65,6 +62,12 @@ import type { GoogleWorkspaceHttpTrait } from "./traits.ts";
  */
 export type GoogleWorkspaceOpError =
   | DefaultErrors
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | Locked
   | UnknownGoogleWorkspaceError
   | GoogleWorkspaceParseError
   | ConfigError
@@ -73,12 +76,6 @@ export type GoogleWorkspaceOpError =
 
 /** Context (requirements) shared by every generated Google Workspace operation. */
 export type GoogleWorkspaceOpContext = Credentials | HttpClient.HttpClient;
-
-// Bridge: Protocol.decode is typed as Effect<unknown> (no error channel), but
-// Google Workspace failures are real typed errors that an operation re-surfaces via its
-// `errors: [...]` list. Fail with the instance and erase the error type here;
-// `API.make`'s signature reintroduces it for callers.
-const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
 
 /**
  * RFC 6570 §3.2.3 reserved-expansion: encode everything outside the RFC
@@ -141,10 +138,8 @@ const extractGoogleErrorEnvelope = (
 
 // The protocol layer is memoized per process by `API.make`, so the build
 // must not capture credentials -- `encode` resolves Credentials from the
-// calling fiber's context on every request. The requirement is erased at
-// this boundary (Protocol effects are typed with no requirements) and
-// reintroduced for callers by the generated `GoogleWorkspaceOpContext` annotations.
-const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
+// calling fiber's context on every request.
+const encode = ({ input, inputAst }: API.ProtocolEncodeArgs) =>
   Effect.gen(function* () {
     // The Credentials service holds an effect -- resolving it here (per
     // request) picks up externally-rotated tokens.
@@ -153,7 +148,9 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
 
     const http = getAnn(inputAst, httpSymbol) as GoogleWorkspaceHttpTrait | undefined;
     if (!http) {
-      return yield* fail(new SdkError({ message: "operation input is missing the Http() trait" }));
+      return yield* Effect.fail(
+        new SdkError({ message: "operation input is missing the Http() trait" }),
+      );
     }
     const inputObj = (input ?? {}) as Record<string, unknown>;
 
@@ -204,19 +201,11 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
     return request;
   });
 
-const decode = ({
-  response,
-  outputAst,
-  errors,
-}: {
-  readonly response: HttpClientResponse.HttpClientResponse;
-  readonly outputAst: AST.AST;
-  readonly errors: ReadonlyArray<unknown>;
-}) =>
+const decode = ({ response, outputAst, errors }: API.ProtocolDecodeArgs) =>
   Effect.gen(function* () {
     // Read as text and parse tolerantly -- some error responses (proxies,
     // HTML error pages) carry non-JSON bodies.
-    const text = (yield* response.text.pipe(Effect.catch(fail))) ?? "";
+    const text = (yield* response.text) ?? "";
     let json: unknown;
     let nonJson = false;
     if (text.trim().length > 0) {
@@ -238,14 +227,14 @@ const decode = ({
       //    declared `status` and `details` there.
       const failure = { body: nonJson ? text : json, headers, fieldsAt: "/error" };
       const typed = matchTypedError(errors, status, [{ code: envelope.code, message }], failure);
-      if (typed !== undefined) return yield* fail(typed);
+      if (typed !== undefined) return yield* Effect.fail(typed);
 
       // 2. Status-map dispatch: the constructed instance shares its `_tag`
       //    with the per-service typed error classes and carries the body
       //    (the envelope's `status` and `details` are under `body.error`).
       const ErrorClass = HTTP_STATUS_MAP[status as keyof typeof HTTP_STATUS_MAP];
       if (ErrorClass) {
-        return yield* fail(
+        return yield* Effect.fail(
           new ErrorClass({
             message,
             ...responseErrorFields(undefined, failure),
@@ -256,7 +245,7 @@ const decode = ({
 
       // 3. Unmapped 5xx -> retryable server error, as in core's REST protocol.
       if (status >= 500) {
-        return yield* fail(
+        return yield* Effect.fail(
           new InternalServerError({
             message,
             ...responseErrorFields(undefined, failure),
@@ -265,7 +254,7 @@ const decode = ({
         );
       }
 
-      return yield* fail(
+      return yield* Effect.fail(
         new UnknownGoogleWorkspaceError({
           status,
           code: envelope.status,
@@ -285,14 +274,10 @@ const decode = ({
       outputAst,
       nonJson ? text : json === undefined ? {} : json,
       (cause) => new GoogleWorkspaceParseError({ body: nonJson ? text : json, cause }),
-    ).pipe(Effect.catch(fail));
+    );
   });
 
-export const GoogleWorkspaceProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(
-  API.Protocol,
-  /*@__PURE__*/ API.Protocol.of({
-    // Erase encode's Credentials requirement (see comment above).
-    encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
-    decode,
-  }),
-);
+export const GoogleWorkspaceProtocol: API.ProtocolLayer<
+  GoogleWorkspaceOpError,
+  GoogleWorkspaceOpContext
+> = /*@__PURE__*/ API.makeProtocol({ encode, decode });

@@ -1,9 +1,11 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import {
+  type HttpStatusError,
   makeRestProtocol,
   type RestErrorEnvelope,
-  type RestProtocolOptions,
+  type RestErrorInfo,
+  type RestParseErrorInfo,
   unknownErrorProps,
 } from "@distilled.cloud/core/protocol-rest";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
@@ -27,9 +29,8 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import { ExaParseError, UnknownExaError, type DefaultErrors } from "./errors.ts";
 
 /**
@@ -43,7 +44,9 @@ export type ExaOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | InvalidInput
-  | SdkError;
+  | SdkError
+  // Every status the protocol's status map builds, on any operation.
+  | HttpStatusError;
 
 /** Context (requirements) shared by every generated Exa operation. */
 export type ExaOpContext = Credentials | HttpClient.HttpClient;
@@ -58,25 +61,28 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   };
 };
 
+const resolveCredentials = /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve);
+
 const shared = {
   // Resolved on the calling fiber per request, so a rotated key is picked up
   // without rebuilding the layer.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+  credentials: resolveCredentials,
   errorEnvelope,
-  unknownError: (info) => new UnknownExaError(unknownErrorProps(info)),
-  parseError: ({ body, cause }) => new ExaParseError({ body, cause }),
-} satisfies Omit<RestProtocolOptions<Config>, "baseUrl" | "headers">;
+  unknownError: (info: RestErrorInfo) => new UnknownExaError(unknownErrorProps(info)),
+  parseError: ({ body, cause }: RestParseErrorInfo) => new ExaParseError({ body, cause }),
+};
 
 /** The public API: search, contents, answer, monitors, agent runs, batches, Websets. */
-export const ExaProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  ...shared,
-  baseUrl: (creds) => creds.apiBaseUrl,
-  headers: (creds) => ({ "x-api-key": Redacted.value(creds.apiKey) }),
-});
+export const ExaProtocol: API.ProtocolLayer<ExaOpError, ExaOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
+    ...shared,
+    baseUrl: (creds) => creds.apiBaseUrl,
+    headers: (creds) => ({ "x-api-key": Redacted.value(creds.apiKey) }),
+  });
 
 /** The Team Management API: API keys and credits, with the service API key. */
-export const ExaTeamManagementProtocol: Layer.Layer<API.Protocol> =
-  /*@__PURE__*/ makeRestProtocol<Config>({
+export const ExaTeamManagementProtocol: API.ProtocolLayer<ExaOpError, ExaOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
     ...shared,
     baseUrl: (creds) => creds.teamManagementBaseUrl,
     headers: (creds) => ({

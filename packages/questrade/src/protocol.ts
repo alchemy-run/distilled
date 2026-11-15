@@ -18,9 +18,8 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import { QuestradeParseError, UnknownQuestradeError, type DefaultErrors } from "./errors.ts";
 
 /**
@@ -39,12 +38,15 @@ export type QuestradeOpError =
 /** Context (requirements) shared by every generated Questrade operation. */
 export type QuestradeOpContext = Credentials | HttpClient.HttpClient;
 
-export const QuestradeProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // Resolved on the calling fiber per request, so a refreshed token is
-  // picked up without rebuilding the layer.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-  baseUrl: (creds) => creds.apiServer,
-  headers: (creds) => ({ authorization: `Bearer ${Redacted.value(creds.accessToken)}` }),
-  unknownError: (info) => new UnknownQuestradeError(unknownErrorProps(info)),
-  parseError: ({ body, cause }) => new QuestradeParseError({ body, cause }),
-});
+const resolveCredentials = /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve);
+
+export const QuestradeProtocol: API.ProtocolLayer<QuestradeOpError, QuestradeOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
+    // Resolved on the calling fiber per request, so a refreshed token is
+    // picked up without rebuilding the layer.
+    credentials: resolveCredentials,
+    baseUrl: (creds) => creds.apiServer,
+    headers: (creds) => ({ authorization: `Bearer ${Redacted.value(creds.accessToken)}` }),
+    unknownError: (info) => new UnknownQuestradeError(unknownErrorProps(info)),
+    parseError: ({ body, cause }) => new QuestradeParseError({ body, cause }),
+  });

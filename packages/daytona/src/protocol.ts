@@ -28,7 +28,6 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import { Credentials, type Config } from "./credentials.ts";
 import { ANALYTICS_PREFIX, TOOLBOX_ROOTS } from "./endpoints.ts";
@@ -77,12 +76,11 @@ export const toolboxBaseUrl = (creds: Config): string | ConfigError => {
   return creds.toolboxBaseUrl.replaceAll("{sandboxId}", creds.sandboxId);
 };
 
-const baseUrlFor = (creds: Config, uri: string): string => {
+const baseUrlFor = (creds: Config, uri: string): string | Effect.Effect<never, ConfigError> => {
   if (isAnalytics(uri)) return creds.analyticsBaseUrl;
   if (!isToolbox(uri)) return creds.apiBaseUrl;
   const base = toolboxBaseUrl(creds);
-  if (typeof base !== "string") throw base;
-  return base;
+  return typeof base === "string" ? base : Effect.fail(base);
 };
 
 /**
@@ -120,14 +118,17 @@ export const stripNulls = (value: unknown): unknown => {
   return value;
 };
 
-export const DaytonaProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // Resolved on the CALLING fiber per request (the layer is memoized per
-  // process); the Credentials service holds an effect, so a key rotated
-  // between calls is picked up without rebuilding the layer.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-  baseUrl: (creds, target) => baseUrlFor(creds, target.uri),
-  headers: requestHeaders,
-  transformResponse: stripNulls,
-  unknownError: (info) => new UnknownDaytonaError(unknownErrorProps(info)),
-  parseError: ({ body, cause }) => new DaytonaParseError({ body, cause }),
-});
+const resolveCredentials = /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve);
+
+export const DaytonaProtocol: API.ProtocolLayer<DaytonaOpError, DaytonaOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
+    // Resolved on the CALLING fiber per request (the layer is memoized per
+    // process); the Credentials service holds an effect, so a key rotated
+    // between calls is picked up without rebuilding the layer.
+    credentials: resolveCredentials,
+    baseUrl: (creds, target) => baseUrlFor(creds, target.uri),
+    headers: requestHeaders,
+    transformResponse: stripNulls,
+    unknownError: (info) => new UnknownDaytonaError(unknownErrorProps(info)),
+    parseError: ({ body, cause }) => new DaytonaParseError({ body, cause }),
+  });

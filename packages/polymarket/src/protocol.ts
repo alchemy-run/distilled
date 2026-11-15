@@ -1,6 +1,11 @@
 import * as API from "@distilled.cloud/core/api";
 import type { CryptoError } from "@distilled.cloud/core/crypto";
-import { HTTP_STATUS_MAP, type ConfigError, type InvalidInput } from "@distilled.cloud/core/errors";
+import {
+  HTTP_STATUS_MAP,
+  type ConfigError,
+  type InvalidInput,
+  type Locked,
+} from "@distilled.cloud/core/errors";
 import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 import { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
@@ -25,7 +30,6 @@ import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
-import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import { Credentials, type BaseUrls, type ClobCredentials, type Config } from "./credentials.ts";
 import {
@@ -48,6 +52,7 @@ export type PolymarketOpError =
   | CryptoError
   | HttpClientError.HttpClientError
   | InvalidInput
+  | Locked
   | SdkError;
 
 /** Context (requirements) shared by every generated Polymarket operation. */
@@ -56,8 +61,8 @@ export type PolymarketOpContext = Credentials | HttpClient.HttpClient;
 const rest = (
   api: keyof BaseUrls,
   headers: (creds: Config) => Record<string, string> = () => ({}),
-): Layer.Layer<API.Protocol> =>
-  makeRestProtocol<Config>({
+): API.ProtocolLayer<PolymarketOpError, PolymarketOpContext> =>
+  makeRestProtocol({
     // Resolved on the calling fiber per request.
     credentials: Credentials,
     baseUrl: (creds) => creds.baseUrls[api],
@@ -137,50 +142,49 @@ const withL2Headers = (
  * configured. Only `encode`/`decode` are exposed, so every call goes
  * through the signing step.
  */
-const l2Signed = (api: "clob" | "combosRfq"): Layer.Layer<API.Protocol> =>
-  Layer.effect(
-    API.Protocol,
-    Effect.gen(function* () {
-      const inner = yield* API.Protocol;
-      return API.Protocol.of({
-        encode: (args) =>
-          Effect.gen(function* () {
-            const request = yield* inner.encode(args);
-            const resolve = yield* Credentials;
-            const creds = yield* resolve;
-            if (creds.clob === undefined) return request;
-            return yield* withL2Headers(request, creds.clob, creds.baseUrls[api]);
-          }) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
-        decode: inner.decode,
-      });
-    }),
-  ).pipe(Layer.provide(rest(api)));
+const l2Signed = (
+  api: "clob" | "combosRfq",
+): API.ProtocolLayer<PolymarketOpError, PolymarketOpContext> =>
+  API.extendProtocol(rest(api), (inner) => ({
+    encode: (args) =>
+      Effect.gen(function* () {
+        const request = yield* inner.encode(args);
+        const resolve = yield* Credentials;
+        const creds = yield* resolve;
+        if (creds.clob === undefined) return request;
+        return yield* withL2Headers(request, creds.clob, creds.baseUrls[api]);
+      }),
+    decode: inner.decode,
+  }));
 
-export const GammaProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ rest("gamma");
-export const DataProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ rest("data");
-export const BridgeProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ rest("bridge");
+export const GammaProtocol: API.ProtocolLayer<PolymarketOpError, PolymarketOpContext> =
+  /*@__PURE__*/ rest("gamma");
+export const DataProtocol: API.ProtocolLayer<PolymarketOpError, PolymarketOpContext> =
+  /*@__PURE__*/ rest("data");
+export const BridgeProtocol: API.ProtocolLayer<PolymarketOpError, PolymarketOpContext> =
+  /*@__PURE__*/ rest("bridge");
 
-export const ClobProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ l2Signed("clob");
-export const CombosRfqProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ l2Signed("combosRfq");
+export const ClobProtocol: API.ProtocolLayer<PolymarketOpError, PolymarketOpContext> =
+  /*@__PURE__*/ l2Signed("clob");
+export const CombosRfqProtocol: API.ProtocolLayer<PolymarketOpError, PolymarketOpContext> =
+  /*@__PURE__*/ l2Signed("combosRfq");
 
-export const RelayerProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ rest(
-  "relayer",
-  (creds): Record<string, string> =>
+export const RelayerProtocol: API.ProtocolLayer<PolymarketOpError, PolymarketOpContext> =
+  /*@__PURE__*/ rest("relayer", (creds): Record<string, string> =>
     creds.relayer === undefined
       ? {}
       : {
           RELAYER_API_KEY: Redacted.value(creds.relayer.apiKey),
           RELAYER_API_KEY_ADDRESS: creds.relayer.address,
         },
-);
+  );
 
-export const PerpsProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ rest(
-  "perps",
-  (creds): Record<string, string> =>
+export const PerpsProtocol: API.ProtocolLayer<PolymarketOpError, PolymarketOpContext> =
+  /*@__PURE__*/ rest("perps", (creds): Record<string, string> =>
     creds.perps === undefined
       ? {}
       : {
           "POLYMARKET-PROXY": creds.perps.proxy,
           "POLYMARKET-SECRET": Redacted.value(creds.perps.secret),
         },
-);
+  );

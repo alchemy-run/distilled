@@ -20,7 +20,7 @@ class TestUnknownError extends Schema.TaggedError<TestUnknownError>()("TestUnkno
   message: Schema.String,
 }) {}
 
-const TestProtocol = makeRestProtocol<{}>({
+const TestProtocol = makeRestProtocol({
   credentials: Effect.succeed({}),
   baseUrl: () => "https://api.test",
   headers: () => ({}),

@@ -22,9 +22,8 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import { UnknownGrafanaError, GrafanaParseError } from "./errors.ts";
 
 /**
@@ -51,23 +50,26 @@ const apiBaseUrl = (origin: string): string => {
   return trimmed.endsWith("/api") ? trimmed : `${trimmed}/api`;
 };
 
-export const GrafanaProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // The Credentials service holds an effect -- resolving it here (per
-  // request, on the calling fiber) picks up context-provided credentials.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-  baseUrl: (creds) => apiBaseUrl(creds.apiBaseUrl),
-  headers: (creds) => {
-    const headers: Record<string, string> = {
-      Authorization: `Bearer ${Redacted.value(creds.token)}`,
-      Accept: "application/json",
-    };
-    if (creds.orgId !== undefined) {
-      headers["X-Grafana-Org-Id"] = String(creds.orgId);
-    }
-    return headers;
-  },
-  // Grafana's error body is `{ message?: string, status?: string }` -- the
-  // factory's default lenient envelope covers it.
-  unknownError: (info) => new UnknownGrafanaError(unknownErrorProps(info)),
-  parseError: ({ body, cause }) => new GrafanaParseError({ body, cause }),
-});
+const resolveCredentials = /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve);
+
+export const GrafanaProtocol: API.ProtocolLayer<GrafanaOpError, GrafanaOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
+    // The Credentials service holds an effect -- resolving it here (per
+    // request, on the calling fiber) picks up context-provided credentials.
+    credentials: resolveCredentials,
+    baseUrl: (creds) => apiBaseUrl(creds.apiBaseUrl),
+    headers: (creds) => {
+      const headers: Record<string, string> = {
+        Authorization: `Bearer ${Redacted.value(creds.token)}`,
+        Accept: "application/json",
+      };
+      if (creds.orgId !== undefined) {
+        headers["X-Grafana-Org-Id"] = String(creds.orgId);
+      }
+      return headers;
+    },
+    // Grafana's error body is `{ message?: string, status?: string }` -- the
+    // factory's default lenient envelope covers it.
+    unknownError: (info) => new UnknownGrafanaError(unknownErrorProps(info)),
+    parseError: ({ body, cause }) => new GrafanaParseError({ body, cause }),
+  });

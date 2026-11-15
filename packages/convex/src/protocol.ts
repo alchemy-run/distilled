@@ -2,9 +2,11 @@ import type * as API from "@distilled.cloud/core/api";
 import { ConfigError, type InvalidInput } from "@distilled.cloud/core/errors";
 import {
   makeRestProtocol,
-  type RestProtocolOptions,
+  type RestErrorInfo,
+  type RestParseErrorInfo,
   unknownErrorProps,
 } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * The three Convex protocols -- hand-written.
  *
@@ -27,7 +29,6 @@ import {
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import { Credentials, type Config } from "./credentials.ts";
 import { ConvexParseError, UnknownConvexError, type DefaultErrors } from "./errors.ts";
@@ -42,7 +43,8 @@ export type ConvexOpError =
   | DefaultErrors
   | ConfigError
   | HttpClientError.HttpClientError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Convex operation. */
 export type ConvexOpContext = Credentials | HttpClient.HttpClient;
@@ -56,43 +58,46 @@ const withToken = /*@__PURE__*/ Effect.flatMap(resolveCredentials, (creds) =>
     : Effect.succeed({ ...creds, token: creds.token }),
 );
 
-const deploymentBaseUrl = (creds: Config, path: string): string => {
+const deploymentBaseUrl = (
+  creds: Config,
+  path: string,
+): string | Effect.Effect<never, ConfigError> => {
   if (creds.deploymentUrl === undefined || creds.deploymentUrl === "") {
-    throw new ConfigError({
-      message: "This Convex API lives on a deployment: set deploymentUrl with fromDeployment",
-    });
+    return Effect.fail(
+      new ConfigError({
+        message: "This Convex API lives on a deployment: set deploymentUrl with fromDeployment",
+      }),
+    );
   }
   return `${creds.deploymentUrl.replace(/\/+$/, "")}${path}`;
 };
 
 const shared = {
-  unknownError: (info) => new UnknownConvexError(unknownErrorProps(info)),
-  parseError: ({ body, cause }) => new ConvexParseError({ body, cause }),
-} satisfies Pick<RestProtocolOptions<Config>, "unknownError" | "parseError">;
+  unknownError: (info: RestErrorInfo) => new UnknownConvexError(unknownErrorProps(info)),
+  parseError: ({ body, cause }: RestParseErrorInfo) => new ConvexParseError({ body, cause }),
+};
 
 /** The Management API, for the `convex` service. */
-export const ConvexProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<
-  Config & { readonly token: Redacted.Redacted<string> }
->({
-  credentials: withToken,
-  baseUrl: (creds) => creds.apiBaseUrl,
-  headers: (creds) => ({ Authorization: `Bearer ${Redacted.value(creds.token)}` }),
-  ...shared,
-});
+export const ConvexProtocol: API.ProtocolLayer<ConvexOpError, ConvexOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
+    credentials: withToken,
+    baseUrl: (creds) => creds.apiBaseUrl,
+    headers: (creds) => ({ Authorization: `Bearer ${Redacted.value(creds.token)}` }),
+    ...shared,
+  });
 
 /** The Deployment API, for the `deployment` service. */
-export const ConvexDeploymentProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<
-  Config & { readonly token: Redacted.Redacted<string> }
->({
-  credentials: withToken,
-  baseUrl: (creds) => deploymentBaseUrl(creds, "/api/v1"),
-  headers: (creds) => ({ Authorization: `Convex ${Redacted.value(creds.token)}` }),
-  ...shared,
-});
+export const ConvexDeploymentProtocol: API.ProtocolLayer<ConvexOpError, ConvexOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
+    credentials: withToken,
+    baseUrl: (creds) => deploymentBaseUrl(creds, "/api/v1"),
+    headers: (creds) => ({ Authorization: `Convex ${Redacted.value(creds.token)}` }),
+    ...shared,
+  });
 
 /** The public HTTP API, for the `functions` service. */
-export const ConvexFunctionsProtocol: Layer.Layer<API.Protocol> =
-  /*@__PURE__*/ makeRestProtocol<Config>({
+export const ConvexFunctionsProtocol: API.ProtocolLayer<ConvexOpError, ConvexOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
     credentials: resolveCredentials,
     baseUrl: (creds) => deploymentBaseUrl(creds, "/api"),
     headers: () => ({}),

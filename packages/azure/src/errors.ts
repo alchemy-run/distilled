@@ -1452,7 +1452,7 @@ export class ContainerAppsEnvironmentQuotaExceeded
     AzureErrorFields,
   ).pipe(Category.withConflictError) {}
 
-export const AZURE_ERROR_CODE_MAP: Record<string, new (props: any) => unknown> = {
+export const AZURE_ERROR_CODE_MAP: Record<string, new (props: any) => AzureApiError> = {
   TenantNotOnboardedToLegacy: DevBoxTenantNotOnboarded,
   MaxNumberOfGlobalEnvironmentsInSubExceeded: ContainerAppsEnvironmentQuotaExceeded,
   MaxNumberOfRegionalEnvironmentsInSubExceeded: ContainerAppsEnvironmentQuotaExceeded,
@@ -2312,7 +2312,7 @@ export class ManagedHsmArmKeyManagementDisabled
 export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
   readonly code?: string;
   readonly includes: string;
-  readonly error: new (props: any) => unknown;
+  readonly error: new (props: any) => AzureApiError;
 }> = [
   {
     code: "409",

@@ -23,7 +23,6 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import { Credentials, type Config } from "./credentials.ts";
 import {
@@ -59,35 +58,41 @@ export type S2OpContext = Credentials | HttpClient.HttpClient;
  */
 const isBasinScoped = (uri: string): boolean => uri === "/streams" || uri.startsWith("/streams/");
 
-const baseUrlFor = (creds: Config, uri: string): string => {
+const baseUrlFor = (creds: Config, uri: string): string | Effect.Effect<never, ConfigError> => {
   if (!isBasinScoped(uri)) return creds.accountBaseUrl;
   if (creds.basin === undefined || creds.basin === "") {
-    throw new ConfigError({
-      message:
-        `S2 operation on ${uri} is basin-scoped (${creds.basinBaseUrl}) \u2014 ` +
-        `configure a basin (S2_BASIN or credentials({ basin })) to call it`,
-    });
+    return Effect.fail(
+      new ConfigError({
+        message:
+          `S2 operation on ${uri} is basin-scoped (${creds.basinBaseUrl}) \u2014 ` +
+          `configure a basin (S2_BASIN or credentials({ basin })) to call it`,
+      }),
+    );
   }
   return creds.basinBaseUrl.replace("{basin}", creds.basin);
 };
 
-export const S2Protocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // Resolved on the CALLING fiber per request (the layer is memoized per
-  // process); the Credentials service holds an effect, so a token rotated
-  // between calls is picked up without rebuilding the layer.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-  baseUrl: (creds, target) => baseUrlFor(creds, target.uri),
-  headers: (creds) => ({
-    Authorization: `Bearer ${Redacted.value(creds.token)}`,
-  }),
-  // S2's error body IS the envelope: `{ code, message }` at the top level,
-  // which the factory's default extractor already reads.
-  statusMap: {
-    ...HTTP_STATUS_MAP,
-    408: RequestTimeout,
-    412: PreconditionFailed,
-    416: RangeNotSatisfiable,
+const resolveCredentials = /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve);
+
+export const S2Protocol: API.ProtocolLayer<S2OpError, S2OpContext> = /*@__PURE__*/ makeRestProtocol(
+  {
+    // Resolved on the CALLING fiber per request (the layer is memoized per
+    // process); the Credentials service holds an effect, so a token rotated
+    // between calls is picked up without rebuilding the layer.
+    credentials: resolveCredentials,
+    baseUrl: (creds, target) => baseUrlFor(creds, target.uri),
+    headers: (creds) => ({
+      Authorization: `Bearer ${Redacted.value(creds.token)}`,
+    }),
+    // S2's error body IS the envelope: `{ code, message }` at the top level,
+    // which the factory's default extractor already reads.
+    statusMap: {
+      ...HTTP_STATUS_MAP,
+      408: RequestTimeout,
+      412: PreconditionFailed,
+      416: RangeNotSatisfiable,
+    },
+    unknownError: (info) => new UnknownS2Error(unknownErrorProps(info)),
+    parseError: ({ body, cause }) => new S2ParseError({ body, cause }),
   },
-  unknownError: (info) => new UnknownS2Error(unknownErrorProps(info)),
-  parseError: ({ body, cause }) => new S2ParseError({ body, cause }),
-});
+);

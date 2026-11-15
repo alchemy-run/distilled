@@ -44,7 +44,7 @@ class UnknownTestError extends Schema.TaggedError<UnknownTestError>()("UnknownTe
   message: Schema.String,
 }) {}
 
-const TestProtocol = makeRestProtocol<{}>({
+const TestProtocol = makeRestProtocol({
   credentials: Effect.succeed({}),
   baseUrl: () => "https://api.test",
   headers: () => ({}),
@@ -387,7 +387,7 @@ describe("retry budget", () => {
     // A protocol with its own `call` bypasses `send`: no host is
     // recorded and no success would refill a bucket.
     let attempts = 0;
-    const RawProtocol = Layer.succeed(API.Protocol, {
+    const RawProtocol = API.makeProtocol({
       encode: () => Effect.die("unused"),
       decode: () => Effect.die("unused"),
       call: () =>
@@ -395,7 +395,7 @@ describe("retry budget", () => {
           attempts++;
           return Effect.fail(new ServiceUnavailable({ message: "" }));
         }),
-    } as any);
+    });
     const rawCall = API.make(() => ({
       input: S.Struct({}).pipe(T.Http({ method: "GET", uri: "/thing" })),
       output: Output,

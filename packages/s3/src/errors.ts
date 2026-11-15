@@ -223,6 +223,7 @@ export type CommonAwsError =
   | AccessDeniedException
   | ExpiredTokenException
   | IncompleteSignature
+  | InternalError
   | InternalFailure
   | MalformedHttpRequestException
   | NotAuthorized

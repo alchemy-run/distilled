@@ -21,9 +21,8 @@ import * as Effect from "effect/Effect";
 import * as Base64 from "effect/encoding/Base64";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import { UnknownOpencodeError, OpencodeParseError } from "./errors.ts";
 
 /**
@@ -44,20 +43,23 @@ export type OpencodeOpError =
 /** Context (requirements) shared by every generated OpenCode operation. */
 export type OpencodeOpContext = Credentials | HttpClient.HttpClient;
 
-export const OpencodeProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // The Credentials service holds an effect -- resolving it here (per
-  // request, on the calling fiber) picks up context-provided credentials.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-  baseUrl: (creds) => creds.apiBaseUrl,
-  headers: (creds): Record<string, string> => {
-    const headers: Record<string, string> = {};
-    if (creds.password !== undefined) {
-      headers.Authorization = `Basic ${Base64.encode(`${creds.username}:${Redacted.value(creds.password)}`)}`;
-    }
-    return headers;
-  },
-  // OpenCode's error body is `{ name?, message }` -- the factory's default
-  // lenient envelope covers it.
-  unknownError: (info) => new UnknownOpencodeError(unknownErrorProps(info)),
-  parseError: ({ body, cause }) => new OpencodeParseError({ body, cause }),
-});
+const resolveCredentials = /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve);
+
+export const OpencodeProtocol: API.ProtocolLayer<OpencodeOpError, OpencodeOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
+    // The Credentials service holds an effect -- resolving it here (per
+    // request, on the calling fiber) picks up context-provided credentials.
+    credentials: resolveCredentials,
+    baseUrl: (creds) => creds.apiBaseUrl,
+    headers: (creds): Record<string, string> => {
+      const headers: Record<string, string> = {};
+      if (creds.password !== undefined) {
+        headers.Authorization = `Basic ${Base64.encode(`${creds.username}:${Redacted.value(creds.password)}`)}`;
+      }
+      return headers;
+    },
+    // OpenCode's error body is `{ name?, message }` -- the factory's default
+    // lenient envelope covers it.
+    unknownError: (info) => new UnknownOpencodeError(unknownErrorProps(info)),
+    parseError: ({ body, cause }) => new OpencodeParseError({ body, cause }),
+  });

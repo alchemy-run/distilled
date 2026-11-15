@@ -21,9 +21,8 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import { UnknownTursoError, type DefaultErrors, TursoParseError } from "./errors.ts";
 
 /**
@@ -42,17 +41,20 @@ export type TursoOpError =
 /** Context (requirements) shared by every generated Turso operation. */
 export type TursoOpContext = Credentials | HttpClient.HttpClient;
 
-export const TursoProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // The Credentials service holds an effect -- resolving it here (per
-  // request) picks up rotations. Its error channel is erased at the protocol
-  // boundary; TursoOpError reintroduces it for callers.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-  baseUrl: (creds) => creds.apiBaseUrl,
-  headers: (creds) => ({
-    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-  }),
-  // Turso error bodies are `{ error: string, code?: string }` -- covered by
-  // the default lenient envelope (message ?? error, string codes kept).
-  unknownError: (info) => new UnknownTursoError(unknownErrorProps(info)),
-  parseError: ({ body, cause }) => new TursoParseError({ body, cause }),
-});
+const resolveCredentials = /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve);
+
+export const TursoProtocol: API.ProtocolLayer<TursoOpError, TursoOpContext> =
+  /*@__PURE__*/ makeRestProtocol({
+    // The Credentials service holds an effect -- resolving it here (per
+    // request) picks up rotations. Its error channel is erased at the protocol
+    // boundary; TursoOpError reintroduces it for callers.
+    credentials: resolveCredentials,
+    baseUrl: (creds) => creds.apiBaseUrl,
+    headers: (creds) => ({
+      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+    }),
+    // Turso error bodies are `{ error: string, code?: string }` -- covered by
+    // the default lenient envelope (message ?? error, string codes kept).
+    unknownError: (info) => new UnknownTursoError(unknownErrorProps(info)),
+    parseError: ({ body, cause }) => new TursoParseError({ body, cause }),
+  });

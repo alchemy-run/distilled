@@ -56,13 +56,9 @@ import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
-import type * as HttpClientResponse from "effect/http/HttpClientResponse";
-import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
-import type * as AST from "effect/SchemaAST";
-import type { Config } from "./credentials.ts";
 import { Credentials, DEFAULT_API_BASE_URL } from "./credentials.ts";
 import {
   COINBASE_HTTP_STATUS_MAP,
@@ -88,12 +84,6 @@ export type CoinbaseOpError =
 
 /** Context (requirements) shared by every generated Coinbase operation. */
 export type CoinbaseOpContext = Credentials | HttpClient.HttpClient;
-
-// Bridge: Protocol.decode is typed as Effect<unknown> (no error channel), but
-// Coinbase failures are real typed errors that the operation's explicit
-// `CoinbaseOpError` annotation re-surfaces. Fail with the instance and erase
-// the error type here.
-const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
 
 // ============================================================================
 // JWT generation for Coinbase CDP API authentication
@@ -263,6 +253,24 @@ const CoinbaseErrorResponse = /*@__PURE__*/ Schema.Struct({
   errorLink: /*@__PURE__*/ Schema.optional(Schema.String),
 });
 
+type CoreStatusError = InstanceType<(typeof HTTP_STATUS_MAP)[keyof typeof HTTP_STATUS_MAP]>;
+const coreStatusMap: Readonly<
+  Record<
+    number,
+    | (new (props: {
+        message: string;
+        retryAfter?: ReturnType<typeof parseRetryAfterForStatus>;
+      }) => CoreStatusError)
+    | undefined
+  >
+> = HTTP_STATUS_MAP;
+type CoinbaseStatusError = InstanceType<
+  (typeof COINBASE_HTTP_STATUS_MAP)[keyof typeof COINBASE_HTTP_STATUS_MAP]
+>;
+const coinbaseStatusMap: Readonly<
+  Record<number, (new (props: any) => CoinbaseStatusError) | undefined>
+> = COINBASE_HTTP_STATUS_MAP;
+
 /**
  * Match a Coinbase CDP API error response to the appropriate typed error
  * class. Ported from the distilled v0 client's `matchError`.
@@ -282,7 +290,7 @@ const matchError = (
   status: number,
   errorBody: unknown,
   headers?: Record<string, string | undefined>,
-): Effect.Effect<unknown> => {
+): Effect.Effect<unknown, DefaultErrors> => {
   if (
     errorBody &&
     typeof errorBody === "object" &&
@@ -311,7 +319,7 @@ const matchError = (
     // 1. Match by Coinbase-specific error type first
     const TypedErrorClass = ERROR_TYPE_MAP[parsed.errorType];
     if (TypedErrorClass) {
-      return fail(new TypedErrorClass(errorProps));
+      return Effect.fail(new TypedErrorClass(errorProps));
     }
 
     // 2. Match standard error types to core HTTP error classes
@@ -320,7 +328,7 @@ const matchError = (
     // "bad_gateway", "service_unavailable" to core HTTP error classes.
     const StandardErrorClass = STANDARD_ERROR_TYPE_MAP[parsed.errorType];
     if (StandardErrorClass) {
-      return fail(
+      return Effect.fail(
         new StandardErrorClass({
           message: parsed.errorMessage ?? "",
           retryAfter: parseRetryAfterForStatus(status, headers),
@@ -330,9 +338,9 @@ const matchError = (
   }
 
   // 3. Fall back to HTTP status code mapping from core
-  const CoreErrorClass = (HTTP_STATUS_MAP as any)[status];
+  const CoreErrorClass = coreStatusMap[status];
   if (CoreErrorClass) {
-    return fail(
+    return Effect.fail(
       new CoreErrorClass({
         message,
         retryAfter: parseRetryAfterForStatus(status, headers),
@@ -341,14 +349,14 @@ const matchError = (
   }
 
   // 4. Coinbase-specific HTTP status codes (402)
-  const CoinbaseErrorClass = (COINBASE_HTTP_STATUS_MAP as any)[status];
+  const CoinbaseErrorClass = coinbaseStatusMap[status];
   if (CoinbaseErrorClass) {
-    return fail(new CoinbaseErrorClass(errorProps));
+    return Effect.fail(new CoinbaseErrorClass(errorProps));
   }
 
   // 5. Unmapped 5xx -> retryable server error, as in core's REST protocol.
   if (status >= 500) {
-    return fail(
+    return Effect.fail(
       new InternalServerError({
         message: message || `HTTP ${status}`,
         retryAfter: parseRetryAfterForStatus(status, headers),
@@ -357,7 +365,7 @@ const matchError = (
   }
 
   // 6. Fall back to unknown error
-  return fail(
+  return Effect.fail(
     new UnknownCoinbaseError({
       status,
       code: parsed?.errorType,
@@ -374,17 +382,13 @@ const matchError = (
 
 // The protocol layer is memoized per process by `API.make`, so the build must
 // not capture credentials -- `encode` resolves Credentials from the calling
-// fiber's context on every request instead. Like the error channel above,
-// the requirement is erased at this boundary (Protocol effects are typed with
-// no requirements) and reintroduced for callers by the generated
-// `CoinbaseOpContext` annotations.
-const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
+// fiber's context on every request instead.
+const encode = ({ input, inputAst }: API.ProtocolEncodeArgs) =>
   Effect.gen(function* () {
     // The Credentials service holds an effect -- resolving it here (per
-    // request) picks up rotations. Its error channel is erased at this
-    // boundary; CoinbaseOpError reintroduces it for callers.
+    // request) picks up rotations.
     const resolveCredentials = yield* Credentials;
-    const creds = (yield* resolveCredentials as Effect.Effect<Config>) as Config;
+    const creds = yield* resolveCredentials;
 
     // Sensitive input members accept string | Redacted<string>; the wire
     // wants the raw string.
@@ -413,16 +417,9 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
     return request.pipe(HttpClientRequest.setHeader("Authorization", `Bearer ${jwt}`));
   });
 
-const decode = ({
-  response,
-  outputAst,
-}: {
-  readonly response: HttpClientResponse.HttpClientResponse;
-  readonly outputAst: AST.AST;
-  readonly errors: ReadonlyArray<unknown>;
-}) =>
+const decode = ({ response, outputAst }: API.ProtocolDecodeArgs) =>
   Effect.gen(function* () {
-    const text = (yield* response.text.pipe(Effect.catch(fail))) ?? "";
+    const text = (yield* response.text) ?? "";
     let json: unknown;
     let nonJson = false;
     if (text.trim().length > 0) {
@@ -456,7 +453,7 @@ const decode = ({
         nonJson,
       },
       (info) => new CoinbaseParseError(info),
-    ).pipe(Effect.catch(fail));
+    );
   });
 
 /**
@@ -465,11 +462,5 @@ const decode = ({
  * Uses JWT bearer token authentication signed per request with your CDP API
  * Key Secret.
  */
-export const CoinbaseProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(
-  API.Protocol,
-  /*@__PURE__*/ API.Protocol.of({
-    // Erase encode's Credentials requirement (see comment above).
-    encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
-    decode,
-  }),
-);
+export const CoinbaseProtocol: API.ProtocolLayer<CoinbaseOpError, CoinbaseOpContext> =
+  /*@__PURE__*/ API.makeProtocol({ encode, decode });

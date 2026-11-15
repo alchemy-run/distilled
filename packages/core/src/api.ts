@@ -45,7 +45,7 @@ import * as Telemetry from "./telemetry.ts";
 export interface ProtocolOperationConfig {
   readonly input?: S.Top;
   readonly output?: S.Top;
-  readonly errors?: ReadonlyArray<ApiErrorClass>;
+  readonly errors?: ReadonlyArray<DeclaredErrorClass>;
   /**
    * The wire operation name (e.g. the Smithy operation shape name). RPC-style
    * protocols address operations by name (AWS JSON's `X-Amz-Target`, AWS
@@ -75,73 +75,183 @@ export interface ProtocolOperationConfig {
   readonly items?: S.Top;
 }
 
+/** What {@link ProtocolImpl.encode} receives. */
+export interface ProtocolEncodeArgs {
+  readonly input: unknown;
+  readonly inputAst: AST.AST;
+  /** The operation's config (memoized per operation -- see {@link ProtocolOperationConfig}). */
+  readonly config: ProtocolOperationConfig;
+}
+
+/** What {@link ProtocolImpl.decode} receives. */
+export interface ProtocolDecodeArgs {
+  readonly response: HttpClientResponse.HttpClientResponse;
+  readonly outputAst: AST.AST;
+  /**
+   * The operation's declared error classes (from `OperationConfig.errors`).
+   * Protocols use these to surface wire failures as the operation's typed
+   * errors -- e.g. by consulting matcher metadata stamped on the class.
+   */
+  readonly errors: ReadonlyArray<DeclaredErrorClass>;
+  /** The operation's config (memoized per operation -- see {@link ProtocolOperationConfig}). */
+  readonly config: ProtocolOperationConfig;
+}
+
 /**
- * The Protocol service knows how to turn a value into an HTTP request using
- * only the input schema's trait annotations, and how to turn a response back
- * into an output value using the output schema's trait annotations.
+ * A protocol: how to turn a value into an HTTP request using only the input
+ * schema's trait annotations, and how to turn a response back into an output
+ * value using the output schema's trait annotations.
  *
- * Swap implementations by providing a different `Layer<Protocol>`.
+ * `E` is what its calls fail with, `R` the services they read from the
+ * calling fiber (credentials, region). {@link makeProtocol} reads both off
+ * the methods, and the SDK's protocol layer states them
+ * (`API.ProtocolLayer<NeonOpError, NeonOpContext>`), so the compiler checks
+ * that the SDK's declared error union covers every way its protocol fails.
+ */
+export interface ProtocolImpl<E = never, R = never> {
+  readonly encode: (
+    args: ProtocolEncodeArgs,
+  ) => Effect.Effect<HttpClientRequest.HttpClientRequest, E, R>;
+  readonly decode: (args: ProtocolDecodeArgs) => Effect.Effect<unknown, E, R>;
+  /**
+   * Optional whole-call implementation. When present, `API.make` runs a
+   * call as `call(operation, input)` instead of encode -> HttpClient ->
+   * decode, so a protocol can read the context once, build the request
+   * synchronously and decode the response without intermediate effects.
+   * It must read the `HttpClient` from the calling fiber's context and
+   * produce the same request, result and errors as encode/decode.
+   */
+  readonly call?: (operation: PreparedOperation, input: unknown) => Effect.Effect<unknown, E, R>;
+  /**
+   * Server streaming (see {@link makeStreaming}): each response message
+   * as it arrives, decoded as one element of the output's `items`.
+   * Ending the stream early cancels the call. Protocols that can't
+   * stream leave it out; one that streams only some operations fails
+   * the others with {@link cannotStream}.
+   */
+  readonly stream?: (operation: PreparedOperation, input: unknown) => Stream.Stream<unknown, E, R>;
+}
+
+/**
+ * The Protocol service an operation's protocol layer provides. Its methods'
+ * error type is erased here to `unknown` and their requirements to `never`
+ * (the calling fiber provides them); the layer's type ({@link ProtocolLayer})
+ * keeps both.
  */
 export class Protocol
-  extends /*@__PURE__*/ Context.Service<
-    Protocol,
-    {
-      readonly encode: (args: {
-        readonly input: unknown;
-        readonly inputAst: AST.AST;
-        /** The operation's config (memoized per operation -- see {@link ProtocolOperationConfig}). */
-        readonly config: ProtocolOperationConfig;
-      }) => Effect.Effect<HttpClientRequest.HttpClientRequest>;
-      readonly decode: (args: {
-        readonly response: HttpClientResponse.HttpClientResponse;
-        readonly outputAst: AST.AST;
-        /**
-         * The operation's declared error classes (from `OperationConfig.errors`).
-         * Protocols use these to surface wire failures as the operation's typed
-         * errors -- e.g. by consulting matcher metadata stamped on the class.
-         */
-        readonly errors: ReadonlyArray<ApiErrorClass>;
-        /** The operation's config (memoized per operation -- see {@link ProtocolOperationConfig}). */
-        readonly config: ProtocolOperationConfig;
-      }) => Effect.Effect<unknown>;
-      /**
-       * Optional whole-call implementation. When present, `API.make` runs a
-       * call as `call(operation, input)` instead of encode -> HttpClient ->
-       * decode, so a protocol can read the context once, build the request
-       * synchronously and decode the response without intermediate effects.
-       * It must read the `HttpClient` from the calling fiber's context and
-       * produce the same request, result and errors as encode/decode.
-       */
-      readonly call?: (operation: PreparedOperation, input: unknown) => Effect.Effect<unknown>;
-      /**
-       * Server streaming (see {@link makeStreaming}): each response message
-       * as it arrives, decoded as one element of the output's `items`.
-       * Ending the stream early cancels the call. Protocols that can't
-       * stream leave it out; one that streams only some operations fails
-       * the others with {@link cannotStream}.
-       */
-      readonly stream?: (
-        operation: PreparedOperation,
-        input: unknown,
-      ) => Stream.Stream<unknown, unknown>;
-    }
-  >()("Protocol") {}
+  extends /*@__PURE__*/ Context.Service<Protocol, ProtocolImpl<unknown>>()("Protocol") {}
 
 /** The service a protocol layer provides. */
 export type ProtocolShape = (typeof Protocol)["Service"];
 
 /**
- * One operation as a protocol's {@link Protocol.call} sees it. Built once per
+ * One operation as a protocol's {@link ProtocolImpl.call} sees it. Built once per
  * operation on its first call; the same object is passed on every call.
  */
 export interface PreparedOperation {
   readonly config: ProtocolOperationConfig;
   readonly inputAst: AST.AST;
   readonly outputAst: AST.AST;
-  readonly errors: ReadonlyArray<ApiErrorClass>;
+  readonly errors: ReadonlyArray<DeclaredErrorClass>;
   /** Per-operation slot owned by the operation's protocol (compiled codecs). */
   compiled?: unknown;
 }
+
+/**
+ * A class from an operation's `errors` list, as its protocol sees it. Its
+ * instances are typed `never`: `API.make` already adds the operation's
+ * declared errors to its error channel, so failing with one adds nothing to
+ * the protocol's error type.
+ */
+export type DeclaredErrorClass = new (...args: any[]) => never;
+
+/** Marks a protocol method whose error or requirement type is `any`, which no union could check. */
+export interface ProtocolTypeIsAny {
+  readonly "a protocol method's error or requirement type is any": unique symbol;
+}
+
+type NotAny<T> = 0 extends 1 & T ? ProtocolTypeIsAny : T;
+
+type MethodError<F> = F extends (...args: any) => infer X
+  ? X extends Effect.Effect<any, infer E, any>
+    ? NotAny<E>
+    : X extends Stream.Stream<any, infer E, any>
+      ? NotAny<E>
+      : never
+  : never;
+
+type MethodServices<F> = F extends (...args: any) => infer X
+  ? X extends Effect.Effect<any, any, infer R>
+    ? NotAny<R>
+    : X extends Stream.Stream<any, any, infer R>
+      ? NotAny<R>
+      : never
+  : never;
+
+/** What a protocol's calls fail with, besides the operation's own declared errors. */
+export type ProtocolError<P> = { [K in keyof P]-?: MethodError<P[K]> }[keyof P];
+
+/** The services a protocol's calls read from the calling fiber. */
+export type ProtocolServices<P> = { [K in keyof P]-?: MethodServices<P[K]> }[keyof P];
+
+declare const protocolTypes: unique symbol;
+
+/**
+ * A protocol layer, typed by what its calls fail with (`E`) and read from
+ * the calling fiber (`R`). `API.make` adds both to every operation that
+ * names it. Build one with {@link makeProtocol} or {@link extendProtocol};
+ * the layer itself never fails and needs nothing to build.
+ */
+export interface ProtocolLayer<out E = never, out R = never> extends Layer.Layer<Protocol> {
+  readonly [protocolTypes]: { readonly error: E; readonly services: R };
+}
+
+/**
+ * The layer for a protocol. Its type carries the methods' error and
+ * requirement types; assign it to a const typed with the SDK's declared
+ * unions, `API.ProtocolLayer<NeonOpError, NeonOpContext>`, so the compiler
+ * checks they cover it. A method typed `any` makes that check fail
+ * ({@link ProtocolTypeIsAny}).
+ *
+ * A generic protocol factory, whose error types are type parameters, states
+ * them instead: `makeProtocol<E, R>(impl)`.
+ */
+export function makeProtocol<P extends ProtocolImpl<unknown, unknown>>(
+  impl: P,
+): ProtocolLayer<ProtocolError<P>, ProtocolServices<P>>;
+export function makeProtocol<E, R>(impl: ProtocolImpl<E, R>): ProtocolLayer<E, R>;
+/*#__NO_SIDE_EFFECTS__*/
+export function makeProtocol(
+  impl: ProtocolImpl<unknown, unknown>,
+): ProtocolLayer<unknown, unknown> {
+  // The brand is type-only: the layer is the plain service layer, whose
+  // stored methods drop the requirement type (see Protocol).
+  return Layer.succeed(Protocol, impl as ProtocolShape) as Layer.Layer<Protocol> as ProtocolLayer<
+    unknown,
+    unknown
+  >;
+}
+
+/**
+ * A protocol built on another: `f` receives the base protocol's methods,
+ * typed as its layer states, and returns the new protocol's.
+ */
+/*#__NO_SIDE_EFFECTS__*/
+export const extendProtocol = <E, R, P extends ProtocolImpl<unknown, unknown>>(
+  base: ProtocolLayer<E, R>,
+  f: (base: ProtocolImpl<E, R>) => P,
+): ProtocolLayer<ProtocolError<P>, ProtocolServices<P>> =>
+  Layer.effect(
+    Protocol,
+    // The base layer's type states its methods' types (see makeProtocol).
+    Effect.map(
+      Effect.service(Protocol),
+      (impl) => f(impl as ProtocolImpl<E, R>) as ProtocolImpl<unknown, unknown> as ProtocolShape,
+    ),
+  ).pipe(Layer.provide(base)) as Layer.Layer<Protocol> as ProtocolLayer<
+    ProtocolError<P>,
+    ProtocolServices<P>
+  >;
 
 //#endregion
 
@@ -152,14 +262,15 @@ export interface PreparedOperation {
  * successful `Exit` (e.g. a `Credentials` service holding
  * `Effect.succeed(config)`), so a resolved value costs no fiber step.
  */
-export const withValue = <A, B>(
-  effect: Effect.Effect<A, any, any>,
-  f: (a: A) => Effect.Effect<B, any, any>,
-): Effect.Effect<B, any, any> =>
+export const withValue = <A, E, R, B, E2, R2>(
+  effect: Effect.Effect<A, E, R>,
+  f: (a: A) => Effect.Effect<B, E2, R2>,
+): Effect.Effect<B, E | E2, R | R2> =>
   Exit.isExit(effect)
     ? Exit.isSuccess(effect)
       ? f(effect.value as A)
-      : (effect as unknown as Effect.Effect<never, any>)
+      : // A failed Exit never produces its value.
+        (effect as Exit.Exit<never, E>)
     : Effect.flatMap(effect, f);
 
 export type ApiErrorClass = {
@@ -252,9 +363,11 @@ export interface OperationConfig<
    * The protocol layer that knows how to encode/decode this operation's wire
    * format. Built once per process and shared across all operations that
    * reference the same layer value -- it must resolve call-dependent services
-   * (credentials etc.) inside encode/decode, not at build time.
+   * (credentials etc.) inside encode/decode, not at build time. Its type
+   * adds what the protocol fails with (`PE`) and reads (`PR`) to the
+   * operation's.
    */
-  protocol: Layer.Layer<Protocol, PE, PR>;
+  protocol: ProtocolLayer<PE, PR>;
   /**
    * SDK-specific retry service tag (see `core/retry`). When provided and the
    * caller's context carries a policy under this tag, every call is retried
@@ -551,20 +664,24 @@ export const describeOperation = (op: unknown): Telemetry.OperationInfo =>
  * operation's protocol (`Protocol.encode`) and not sent: no retry, no span,
  * no response. It fails as the call would before sending (bad input,
  * credentials, endpoint), or with {@link SdkError} when the operation can't
- * be loaded; the Protocol seam does not type those failures, so the error is
- * `unknown`. Presigning builds on it.
+ * be loaded. Presigning builds on it.
  */
 export const encodeRequest = <I, O, E, R>(
   op: OperationMethod<I, O, E, R>,
   input: I,
-): Effect.Effect<HttpClientRequest.HttpClientRequest, unknown, R> =>
-  Effect.suspend(() => {
+): Effect.Effect<HttpClientRequest.HttpClientRequest, E | SdkError, R> =>
+  Effect.suspend((): Effect.Effect<HttpClientRequest.HttpClientRequest, E | SdkError, R> => {
     const state = stateOf(op) as OperationState | undefined;
     if (state === undefined) return Effect.fail(new SdkError({ message: "not an operation" }));
     const prepared = prepareOr(state);
     if (prepared instanceof SdkError) return Effect.fail(prepared);
+    // The operation's type holds its protocol layer's (see OperationConfig.protocol).
     const encode = (service: ProtocolShape) =>
-      service.encode({ input, inputAst: prepared.inputAst, config: prepared.cfg });
+      service.encode({
+        input,
+        inputAst: prepared.inputAst,
+        config: prepared.cfg,
+      }) as Effect.Effect<HttpClientRequest.HttpClientRequest, E, R>;
     if (prepared.service !== undefined) return encode(prepared.service);
     return Effect.flatMap(protocolContext(prepared.cfg.protocol), (protocolCtx) =>
       encode((prepared.service = Context.get(protocolCtx, Protocol))),
