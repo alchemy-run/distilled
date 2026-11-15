@@ -54,12 +54,13 @@ with no suffix and no override fails with `ConfigError`.
 ## Transactional API
 
 The Transactional API has its own key, issued in the Transactional app, and
-lives under `Mailchimp.Transactional` (or `@distilled.cloud/mailchimp/transactional`).
+lives under `@distilled.cloud/mailchimp/transactional`.
 
 ```ts
 import * as Mailchimp from "@distilled.cloud/mailchimp";
+import * as Transactional from "@distilled.cloud/mailchimp/transactional";
 
-const send = Mailchimp.Transactional.sendMessage({
+const send = Transactional.sendMessage({
   message: {
     from_email: "hello@example.com",
     to: [{ email: "ada@example.com" }],
@@ -80,7 +81,7 @@ fallback), or `fromTransactionalApiKey({ apiKey })`. The key is sent in each
 request body; it is never part of an operation's input. Failures arrive as
 `{ status: "error", code, name, message }` under a real HTTP status and map
 by status onto the operation's declared error classes (exported from
-`Mailchimp.Transactional`) or the shared ones, with the vendor's `name` kept
+`@distilled.cloud/mailchimp/transactional`) or the shared ones, with the vendor's `name` kept
 in the message (`Invalid_Key: Invalid API key`). Each operation's error channel lists only
 what Mailchimp declares for that route: `getTemplate` can fail with
 `NotFound`, `sendMessage` with `PaymentRequired` (a 402, with the vendor

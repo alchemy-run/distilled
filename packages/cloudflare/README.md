@@ -14,9 +14,10 @@ npm install @distilled.cloud/cloudflare effect
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Cloudflare from "@distilled.cloud/cloudflare";
+import * as Workers from "@distilled.cloud/cloudflare/workers";
 
 const program = Effect.gen(function* () {
-  const result = yield* Cloudflare.workers.getScript({
+  const result = yield* Workers.getScript({
     account_id: "account",
     script_name: "api",
   });

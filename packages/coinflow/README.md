@@ -15,12 +15,13 @@ npm install @distilled.cloud/coinflow effect
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Coinflow from "@distilled.cloud/coinflow";
+import * as Withdraw from "@distilled.cloud/coinflow/withdraw";
 
 const program = Effect.gen(function* () {
   const user = { authWallet: "0x1111111111111111111111111111111111111111", authBlockchain: "base" };
 
-  const { withdrawer } = yield* Coinflow.withdraw.getWithdrawer(user);
-  const quote = yield* Coinflow.withdraw.getQuote({
+  const { withdrawer } = yield* Withdraw.getWithdrawer(user);
+  const quote = yield* Withdraw.getQuote({
     ...user,
     merchantId: "my-merchant",
     token: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",

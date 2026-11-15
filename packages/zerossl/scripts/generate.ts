@@ -34,13 +34,7 @@ const spec: SdkSpec = {
       : undefined,
   errors: {
     field: (name, target) =>
-      `${JSON.stringify(name)}: ${
-        name === "retryAfter"
-          ? "S.optional(S.Duration)"
-          : target === "smithy.api#Integer"
-            ? "S.Number"
-            : "S.String"
-      },`,
+      `${JSON.stringify(name)}: ${target === "smithy.api#Integer" ? "S.Number" : "S.String"},`,
   },
   sourceNote: ".generated-specs/zerossl.json (from the ZeroSSL API reference)",
   operationDecl: {
