@@ -20,10 +20,13 @@ import type { Response } from "../client/response.ts";
 import { ParseError } from "../errors.ts";
 import type { PayloadParser } from "../eventstream/parser.ts";
 import {
+  getAnnotationUnwrap,
   getEventSchema,
   getHttpHeader,
   getHttpPrefixHeaders,
   getHttpQuery,
+  getMemberAnnotation,
+  getOwnAnnotation,
   getPropAnnotations,
   getTimestampFormatFromAST,
   getXmlNameProp,
@@ -37,6 +40,9 @@ import {
   isStreamingType,
   type StreamingInputBody,
   eventStreamWith,
+  xmlNamespacePrefixSymbol,
+  xmlNamespaceSymbol,
+  xmlNameSymbol,
 } from "../traits.ts";
 import {
   getArrayElementAST,
@@ -66,7 +72,6 @@ import {
   readXml,
   readXmlMap,
   unwrapArrayValue,
-  wrapTag,
 } from "../util/xml.ts";
 
 // =============================================================================
@@ -87,8 +92,7 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
   const isUnwrappedOutput = hasS3UnwrappedXmlOutput(outputAst);
   const outputProps = getEncodedPropertySignatures(outputAst);
   const unwrappedPropName = isUnwrappedOutput
-    ? outputProps.find((prop) => (getXmlNameProp(prop) ?? String(prop.name)) === outputXmlName)
-        ?.name
+    ? outputProps.find((prop) => memberXmlName(prop) === outputXmlName)?.name
     : undefined;
 
   // Pre-compute httpPayload property info for serialization (done once at init)
@@ -100,7 +104,11 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
       getIdentifier(payloadProp.type))
     : undefined;
   const payloadIsStreaming = payloadProp ? isStreamingType(payloadProp.type) : false;
-  const inputXmlNamespace = getXmlNamespace(inputAst);
+  // A document root carries its shape's namespace, or the service's.
+  const inputXmlNamespace = rootNs(inputAst);
+  const payloadXmlNamespace = payloadProp
+    ? rootNs(payloadProp.type) || inputXmlNamespace
+    : inputXmlNamespace;
 
   // Pre-classify output properties by their HTTP binding (done once at init)
   // This avoids repeated trait lookups during deserialization
@@ -188,12 +196,17 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
         request.body = payloadValue;
       } else {
         request.headers["Content-Type"] = "application/xml";
-        request.body = serializeValue(payloadAst, payloadValue, payloadXmlName, inputXmlNamespace);
+        request.body = serializeValue(
+          payloadAst,
+          payloadValue,
+          payloadXmlName,
+          payloadXmlNamespace,
+        );
       }
     } else if (hasBodyMembers) {
       request.headers["Content-Type"] = "application/xml";
-      const tagName = getIdentifier(inputAst);
-      request.body = serializeObject(inputAst, bodyMembers, tagName, getXmlNamespace(inputAst));
+      const tagName = getXmlNameFromAST(inputAst) ?? getIdentifier(inputAst);
+      request.body = serializeObject(inputAst, bodyMembers, tagName, inputXmlNamespace);
     }
 
     return request;
@@ -404,23 +417,52 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
 // XML Serialization
 // =============================================================================
 
-function serializeValue(ast: AST.AST, value: unknown, tagName?: string, xmlns?: string): string {
+/** A namespace declaration attribute: ` xmlns="uri"`, or ` xmlns:prefix="uri"`. */
+const nsAttribute = (uri: string | undefined, prefix: string | undefined): string =>
+  uri === undefined ? "" : ` xmlns${prefix ? `:${prefix}` : ""}="${escapeXml(uri)}"`;
+
+/** The namespace of a document root: its shape's, or the service's. */
+const rootNs = (ast: AST.AST): string =>
+  nsAttribute(getXmlNamespace(ast), getAnnotationUnwrap<string>(ast, xmlNamespacePrefixSymbol));
+
+/** The namespace of a member, list member, or map key or value. */
+const ownNs = (ast: AST.AST): string =>
+  nsAttribute(
+    getOwnAnnotation<string>(ast, xmlNamespaceSymbol),
+    getOwnAnnotation<string>(ast, xmlNamespacePrefixSymbol),
+  );
+
+const memberNs = (prop: AST.PropertySignature): string =>
+  nsAttribute(
+    getMemberAnnotation<string>(prop, xmlNamespaceSymbol),
+    getMemberAnnotation<string>(prop, xmlNamespacePrefixSymbol),
+  );
+
+/** A member's element name: its own `@xmlName`, or its name. */
+const memberXmlName = (prop: AST.PropertySignature): string =>
+  getMemberAnnotation<string>(prop, xmlNameSymbol) ?? String(prop.name);
+
+const element = (tag: string, content: string, ns = ""): string =>
+  `<${tag}${ns}>${content}</${tag}>`;
+
+/** `ns` is the element's namespace declaration (see {@link nsAttribute}). */
+function serializeValue(ast: AST.AST, value: unknown, tagName?: string, ns = ""): string {
   if (value == null) return "";
 
   // Primitives and Dates
   if (typeof value !== "object") {
     const content = escapeXml(String(value));
-    return tagName ? wrapTag(tagName, content, xmlns) : content;
+    return tagName ? element(tagName, content, ns) : content;
   }
 
   if (value instanceof Date) {
     const content = formatTimestamp(value, getTimestampFormatFromAST(ast));
-    return tagName ? wrapTag(tagName, content, xmlns) : content;
+    return tagName ? element(tagName, content, ns) : content;
   }
 
   // Maps
   if (tagName && isMapAST(ast)) {
-    return serializeMap(ast, value as Record<string, unknown>, tagName, false, xmlns);
+    return serializeMap(ast, value as Record<string, unknown>, tagName, false, ns);
   }
 
   // Lists: <List><member>a</member><member>b</member></List>, the member
@@ -428,8 +470,9 @@ function serializeValue(ast: AST.AST, value: unknown, tagName?: string, xmlns?: 
   if (tagName && Array.isArray(value)) {
     const elementAST = getArrayElementAST(ast);
     const itemTag = (elementAST && getXmlNameFromAST(elementAST)) ?? "member";
-    const items = value.map((item) => serializeValue(elementAST ?? ast, item, itemTag));
-    return wrapTag(tagName, items.join(""), xmlns);
+    const itemNs = elementAST ? ownNs(elementAST) : "";
+    const items = value.map((item) => serializeValue(elementAST ?? ast, item, itemTag, itemNs));
+    return element(tagName, items.join(""), ns);
   }
 
   // Arrays
@@ -437,19 +480,23 @@ function serializeValue(ast: AST.AST, value: unknown, tagName?: string, xmlns?: 
     const elementAST = getArrayElementAST(ast);
     const tag = elementAST && getIdentifier(elementAST);
     return value
-      .map((item, i) => serializeValue(elementAST ?? ast, item, tag, i === 0 ? xmlns : undefined))
+      .map((item, i) => serializeValue(elementAST ?? ast, item, tag, i === 0 ? ns : ""))
       .join("");
   }
 
   // Objects
-  return serializeObject(ast, value as Record<string, unknown>, tagName, xmlns);
+  return serializeObject(ast, value as Record<string, unknown>, tagName, ns);
 }
 
+/**
+ * A structure. Only a document root carries the structure's own namespace
+ * (the caller passes it); a member element carries the member's.
+ */
 function serializeObject(
   ast: AST.AST,
   value: Record<string, unknown>,
   tagName?: string,
-  xmlns?: string,
+  ns = "",
 ): string {
   const props = getEncodedPropertySignatures(ast);
   const attrs: string[] = [];
@@ -460,36 +507,43 @@ function serializeObject(
     const v = value[key];
     if (v === undefined) continue;
 
+    const xmlName = memberXmlName(prop);
     if (hasXmlAttribute(prop)) {
-      attrs.push(`${getXmlNameProp(prop) ?? key}="${escapeXml(String(v))}"`);
+      attrs.push(`${xmlName}="${escapeXml(String(v))}"`);
       continue;
     }
 
-    const xmlName = getXmlNameProp(prop) ?? key;
+    const propNs = memberNs(prop);
     if (isMapAST(prop.type)) {
       elems.push(
-        serializeMap(prop.type, v as Record<string, unknown>, xmlName, hasXmlFlattened(prop)),
+        serializeMap(
+          prop.type,
+          v as Record<string, unknown>,
+          xmlName,
+          hasXmlFlattened(prop),
+          propNs,
+        ),
       );
       continue;
     }
     if (!Array.isArray(v)) {
-      elems.push(serializeValue(prop.type, v, xmlName));
+      elems.push(serializeValue(prop.type, v, xmlName, propNs));
       continue;
     }
 
     if (hasXmlFlattened(prop)) {
       const elementAST = getArrayElementAST(prop.type);
-      elems.push(v.map((item) => serializeValue(elementAST ?? prop.type, item, xmlName)).join(""));
+      elems.push(
+        v.map((item) => serializeValue(elementAST ?? prop.type, item, xmlName, propNs)).join(""),
+      );
     } else {
-      elems.push(serializeValue(prop.type, v, xmlName));
+      elems.push(serializeValue(prop.type, v, xmlName, propNs));
     }
   }
 
   if (!tagName) return elems.join("");
 
-  const ns = xmlns ?? getXmlNamespace(ast);
-  const attrStr =
-    (ns ? ` xmlns="${escapeXml(ns)}"` : "") + (attrs.length ? ` ${attrs.join(" ")}` : "");
+  const attrStr = ns + (attrs.length ? ` ${attrs.join(" ")}` : "");
   return `<${tagName}${attrStr}>${elems.join("")}</${tagName}>`;
 }
 
@@ -504,21 +558,23 @@ function serializeMap(
   value: Record<string, unknown>,
   tagName: string,
   flattened: boolean,
-  xmlns?: string,
+  ns = "",
 ): string {
   const kv = getMapKeyValueAST(ast);
   const keyTag = (kv && getXmlNameFromAST(kv.keyAST)) ?? "key";
   const valueTag = (kv && getXmlNameFromAST(kv.valueAST)) ?? "value";
+  const keyNs = kv ? ownNs(kv.keyAST) : "";
+  const valueNs = kv ? ownNs(kv.valueAST) : "";
   const entries: string[] = [];
   for (const [k, v] of Object.entries(value)) {
     if (v === undefined) continue;
     entries.push(
-      wrapTag(keyTag, escapeXml(k), kv && getXmlNamespace(kv.keyAST)) +
-        serializeValue(kv?.valueAST ?? ast, v, valueTag, kv && getXmlNamespace(kv.valueAST)),
+      element(keyTag, escapeXml(k), keyNs) +
+        serializeValue(kv?.valueAST ?? ast, v, valueTag, valueNs),
     );
   }
-  if (flattened) return entries.map((entry) => wrapTag(tagName, entry, xmlns)).join("");
-  return wrapTag(tagName, entries.map((entry) => `<entry>${entry}</entry>`).join(""), xmlns);
+  if (flattened) return entries.map((entry) => element(tagName, entry, ns)).join("");
+  return element(tagName, entries.map((entry) => `<entry>${entry}</entry>`).join(""), ns);
 }
 
 // =============================================================================
@@ -690,7 +746,7 @@ const memberPlansOf = (ast: AST.AST): ReadonlyArray<MemberPlan> => {
       )
         continue;
       const key = String(prop.name);
-      const xmlName = getXmlNameProp(prop) ?? key;
+      const xmlName = memberXmlName(prop);
       out.push({
         key,
         type: prop.type,
