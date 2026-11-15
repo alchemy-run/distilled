@@ -25,6 +25,7 @@
     "format:check": "oxfmt --check",
     "lint": "oxlint -c oxlint.config.ts",
     "prepare": "husky",
+    "test": "node scripts/test.ts",
     "typecheck:ci": "tsrs -b --noCheck false",
     "validate:publish-packages": "node scripts/validate-publish-packages.ts"
   },
