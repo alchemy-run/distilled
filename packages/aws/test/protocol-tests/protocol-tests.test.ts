@@ -296,20 +296,30 @@ const decodeEntities = (text: string) =>
     .replaceAll("&apos;", "'")
     .replaceAll("&amp;", "&");
 
+interface XmlNode {
+  readonly open: string;
+  readonly name: string;
+  readonly children: Array<XmlNode | string>;
+}
+
 /**
  * XML with the differences that carry no meaning removed: the declaration,
- * whitespace between elements, attribute order, quoting, entity spelling and
- * self-closing tags.
+ * whitespace between elements, attribute order, quoting, entity spelling,
+ * self-closing tags, and the order of differently named siblings. A
+ * structure's members can come in any order; elements with the same name
+ * (list items) keep theirs.
  */
 const canonicalXml = (xml: string): string => {
-  const out: string[] = [];
+  const root: XmlNode = { open: "", name: "", children: [] };
+  const stack: XmlNode[] = [root];
   for (const token of xml.replace(/<\?xml[^>]*\?>/, "").match(/<[^>]+>|[^<]+/g) ?? []) {
+    const parent = stack[stack.length - 1]!;
     if (!token.startsWith("<")) {
-      if (token.trim() !== "") out.push(JSON.stringify(decodeEntities(token)));
+      if (token.trim() !== "") parent.children.push(JSON.stringify(decodeEntities(token)));
       continue;
     }
     if (token.startsWith("</")) {
-      out.push(`</${token.slice(2, -1).trim()}>`);
+      stack.pop();
       continue;
     }
     const selfClosing = token.endsWith("/>");
@@ -318,10 +328,20 @@ const canonicalXml = (xml: string): string => {
     const attributes = [...inner.slice(name.length).matchAll(/([^\s=]+)\s*=\s*("[^"]*"|'[^']*')/g)]
       .map(([, key, quoted]) => `${key}=${JSON.stringify(decodeEntities(quoted!.slice(1, -1)))}`)
       .sort();
-    out.push(`<${[name, ...attributes].join(" ")}>`);
-    if (selfClosing) out.push(`</${name}>`);
+    const node: XmlNode = { open: `<${[name, ...attributes].join(" ")}>`, name, children: [] };
+    parent.children.push(node);
+    if (!selfClosing) stack.push(node);
   }
-  return out.join("");
+  const print = (node: XmlNode | string): string => {
+    if (typeof node === "string") return node;
+    // A stable sort: same-named siblings keep their order.
+    const children = [...node.children].sort((a, b) => {
+      const [x, y] = [typeof a === "string" ? "" : a.name, typeof b === "string" ? "" : b.name];
+      return x < y ? -1 : x > y ? 1 : 0;
+    });
+    return `${node.open}${children.map(print).join("")}${node.name === "" ? "" : `</${node.name}>`}`;
+  };
+  return print(root);
 };
 
 const formPairs = (body: string) =>
