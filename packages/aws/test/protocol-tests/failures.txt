@@ -49,19 +49,6 @@ RestJsonClientPopulatesDefaultsValuesWhenMissingInResponse (response)
 RestJsonClientPopulatesNestedDefaultValuesWhenMissing (request)
 RestJsonClientPopulatesNestedDefaultsWhenMissingInResponseBody (response)
 
-# `@sparse` lists and maps: a null element is refused on input and dropped
-# on output.
-AwsJson11SparseListsDeserializeNull (response)
-AwsJson11SparseListsSerializeNull (request)
-AwsJson11SparseMapsDeserializeNullValues (response)
-AwsJson11SparseMapsSerializeNullValues (request)
-RestJsonDeserializesSparseNullMapValues (response)
-RestJsonDeserializesSparseSetMapAndRetainsNull (response)
-RestJsonSerializesSparseNullMapValues (request)
-RestJsonSerializesSparseSetMapAndRetainsNull (request)
-RestJsonSparseListsSerializeNull (request)
-RestJsonSparseListsSerializeNull (response)
-
 # An empty list or map element reads as an absent member; Smithy expects an
 # empty list or map. packages/aws/test/protocols/xml.test.ts asserts the
 # absent member for S3 and S3 Control.

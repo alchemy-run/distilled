@@ -613,12 +613,12 @@ export interface SourceAttribution {
   indexId?: string | undefined;
   datasourceId?: string | undefined;
 }
-export type SourceAttributions = SourceAttribution[];
+export type SourceAttributions = (SourceAttribution | null)[];
 export interface MetadataEvent {
   conversationId?: string | undefined;
   userMessageId?: string | undefined;
   systemMessageId?: string | undefined;
-  sourceAttributions?: SourceAttribution[] | undefined;
+  sourceAttributions?: (SourceAttribution | null)[] | undefined;
   finalTextMessage?: string | undefined;
 }
 export type PluginType =
@@ -766,7 +766,7 @@ export interface ChatSyncOutput {
   userMessageId?: string | undefined;
   actionReview?: ActionReview | undefined;
   authChallengeRequest?: AuthChallengeRequest | undefined;
-  sourceAttributions?: SourceAttribution[] | undefined;
+  sourceAttributions?: (SourceAttribution | null)[] | undefined;
   failedAttachments?: AttachmentOutput[] | undefined;
 }
 export interface CheckDocumentAccessRequest {
@@ -1968,7 +1968,7 @@ export interface Message {
   time?: Date | undefined;
   type?: MessageType | undefined;
   attachments?: AttachmentOutput[] | undefined;
-  sourceAttribution?: SourceAttribution[] | undefined;
+  sourceAttribution?: (SourceAttribution | null)[] | undefined;
   actionReview?: ActionReview | undefined;
   actionExecution?: ActionExecution | undefined;
 }
@@ -5932,7 +5932,7 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "SourceAttribution" });
     case 11:
-      return S.Array(__S(586, __c18, 10)).pipe(/*@__PURE__*/ T.Sparse());
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(586, __c18, 10))).pipe(/*@__PURE__*/ T.Sparse());
     case 12:
       return S.suspend(() =>
         S.Struct({ value: S.optional(S.Any), displayValue: S.optional(S.Any) }),

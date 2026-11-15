@@ -429,10 +429,11 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
       return result;
     }
 
-    // Parse JSON body (reviver converts null -> undefined since AWS returns null for absent fields)
+    // Parse JSON body. A null is kept: the codec reads it as an absent
+    // member, and keeps it in a `@sparse` list or map.
     if (bodyText) {
       try {
-        const parsed = JSON.parse(bodyText, (_, v) => (v === null ? undefined : v));
+        const parsed = JSON.parse(bodyText);
         if (outputPayloadProp) {
           // A structure, union or document payload is the whole body.
           result[outputPayloadProp.name] = parsed;

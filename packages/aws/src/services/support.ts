@@ -509,9 +509,9 @@ export type SupportedLanguagesList = SupportedLanguage[];
 export interface DescribeSupportedLanguagesResponse {
   supportedLanguages?: SupportedLanguage[] | undefined;
 }
-export type StringList = string[];
+export type StringList = (string | null)[];
 export interface DescribeTrustedAdvisorCheckRefreshStatusesRequest {
-  checkIds: string[];
+  checkIds: (string | null)[];
 }
 export interface TrustedAdvisorCheckRefreshStatus {
   checkId: string;
@@ -544,7 +544,7 @@ export interface TrustedAdvisorResourceDetail {
   region?: string | undefined;
   resourceId: string;
   isSuppressed?: boolean | undefined;
-  metadata: string[];
+  metadata: (string | null)[];
 }
 export type TrustedAdvisorResourceDetailList = TrustedAdvisorResourceDetail[];
 export interface TrustedAdvisorCheckResult {
@@ -566,14 +566,14 @@ export interface TrustedAdvisorCheckDescription {
   name: string;
   description: string;
   category: string;
-  metadata: string[];
+  metadata: (string | null)[];
 }
 export type TrustedAdvisorCheckList = TrustedAdvisorCheckDescription[];
 export interface DescribeTrustedAdvisorChecksResponse {
   checks: TrustedAdvisorCheckDescription[];
 }
 export interface DescribeTrustedAdvisorCheckSummariesRequest {
-  checkIds: string[];
+  checkIds: (string | null)[];
 }
 export interface TrustedAdvisorCheckSummary {
   checkId: string;
@@ -1934,7 +1934,7 @@ function __c17(j: number): any {
 function __c18(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String).pipe(/*@__PURE__*/ T.Sparse());
+      return S.Array(/*@__PURE__*/ S.NullOr(S.String)).pipe(/*@__PURE__*/ T.Sparse());
   }
 }
 function __c19(j: number): any {
