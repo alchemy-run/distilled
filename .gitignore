@@ -46,3 +46,8 @@ packages/fly-io/.generated-graphql/
 
 # Conformance runner builds (packages/core/conformance/README.md).
 packages/core/conformance/.build/
+
+# Smithy CLI and build output of packages/aws/protocol-tests/update.sh, and the
+# test services packages/aws/test/protocol-tests.test.ts generates.
+packages/aws/protocol-tests/.build/
+packages/aws/protocol-tests/.generated/

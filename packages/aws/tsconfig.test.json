@@ -39,7 +39,9 @@
   },
   "references": [
     { "path": "./tsconfig.json" },
+    { "path": "./tsconfig.scripts.json" },
     { "path": "../core" },
+    { "path": "../dev" },
     { "path": "../aws4signer" },
     { "path": "../s3" }
   ]
