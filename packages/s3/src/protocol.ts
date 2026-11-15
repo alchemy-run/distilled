@@ -278,12 +278,16 @@ const toHttpRequest = (
   }
 
   // Apply the Smithy `smithy.api#endpoint` hostPrefix (e.g. "sync-" for
-  // Step Functions StartSyncExecution -> sync-states.{region}). Skipped for
-  // custom endpoints, matching official AWS SDK behavior. Labels of the
+  // Step Functions StartSyncExecution -> sync-states.{region}), to a custom
+  // endpoint too, as the AWS SDKs do; the `Endpoint.disableHostPrefix` layer
+  // turns it off (their `disableHostPrefix`). Labels of the
   // form {memberName} are substituted from the operation input; a value that
   // is not a host name ("attacker.invalid/") would move the request to
   // another host, so it fails with InvalidInput before anything is signed.
-  if (prepared.hostPrefix !== undefined && !customEndpoint) {
+  if (
+    prepared.hostPrefix !== undefined &&
+    !Context.get(fiber.context as Context.Context<any>, Endpoint.DisableHostPrefix)
+  ) {
     let resolvedPrefix = prepared.hostPrefix;
     for (const [label, member = ""] of prepared.hostPrefix.matchAll(/\{(\w+)\}/g)) {
       const value = String((input as Record<string, unknown>)?.[member] ?? "");
