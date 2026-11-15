@@ -17,6 +17,7 @@ import {
   type RestErrorEnvelope,
   type RestErrorInfo,
   type RestParseErrorInfo,
+  unknownErrorProps,
   unwrapRedactedDeep,
   validateSuccess,
 } from "@distilled.cloud/core/protocol-rest";
@@ -123,7 +124,7 @@ export const applyRegion = (specUrl: string, region: string): string => {
 
 /**
  * The value of a Basic `Authorization` header. RFC 7617 sends the UTF-8 bytes where the server
- * says so, and `btoa` takes Latin-1 only: it throws on `€`, and sends `ä` as a byte no UTF-8 server
+ * says so, and `btoa` takes Latin-1 only: it throws on the euro sign, and sends `ä` as a byte no UTF-8 server
  * reads as that letter.
  */
 const basicCredentials = (username: string, password: Redacted.Redacted<string>): string =>
@@ -341,12 +342,8 @@ const cloudFoundryErrorEnvelope = (body: unknown): RestErrorEnvelope | undefined
   return undefined;
 };
 
-const cloudFoundryUnknownError = ({ code, message, body }: RestErrorInfo) =>
-  new UnknownStackitError({
-    code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-    message,
-    body,
-  });
+const cloudFoundryUnknownError = (info: RestErrorInfo) =>
+  new UnknownStackitError(unknownErrorProps(info));
 
 const cloudFoundryParseError = ({ body, cause }: RestParseErrorInfo) =>
   new StackitParseError({ body, cause });
@@ -428,12 +425,7 @@ export const HarborProtocol: Layer.Layer<API.Protocol> =
       Accept: "application/json",
     }),
     errorEnvelope: harborErrorEnvelope,
-    unknownError: ({ code, message, body }) =>
-      new UnknownStackitError({
-        code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-        message,
-        body,
-      }),
+    unknownError: (info) => new UnknownStackitError(unknownErrorProps(info)),
     parseError: ({ body, cause }) => new StackitParseError({ body, cause }),
   });
 
@@ -454,12 +446,7 @@ const vaultErrorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return { message: errors.filter((error) => typeof error === "string").join("; ") };
 };
 
-const vaultUnknownError = ({ code, message, body }: RestErrorInfo) =>
-  new UnknownStackitError({
-    code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-    message,
-    body,
-  });
+const vaultUnknownError = (info: RestErrorInfo) => new UnknownStackitError(unknownErrorProps(info));
 
 const vaultParseError = ({ body, cause }: RestParseErrorInfo) =>
   new StackitParseError({ body, cause });
@@ -524,12 +511,7 @@ export const RabbitMQManagementProtocol: Layer.Layer<API.Protocol> =
       Authorization: `Basic ${basicCredentials(creds.username, creds.password)}`,
     }),
     errorEnvelope: rabbitmqManagementErrorEnvelope,
-    unknownError: ({ code, message, body }) =>
-      new UnknownStackitError({
-        code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-        message,
-        body,
-      }),
+    unknownError: (info) => new UnknownStackitError(unknownErrorProps(info)),
     parseError: ({ body, cause }) => new StackitParseError({ body, cause }),
   });
 
@@ -566,12 +548,7 @@ export const ObservabilityDataProtocol: Layer.Layer<API.Protocol> =
       Authorization: `Basic ${basicCredentials(creds.username, creds.password)}`,
     }),
     errorEnvelope: observabilityDataErrorEnvelope,
-    unknownError: ({ code, message, body }) =>
-      new UnknownStackitError({
-        code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-        message,
-        body,
-      }),
+    unknownError: (info) => new UnknownStackitError(unknownErrorProps(info)),
     parseError: ({ body, cause }) => new StackitParseError({ body, cause }),
   });
 
@@ -594,12 +571,8 @@ const dremioErrorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return parts.length === 0 ? undefined : { message: parts.join(": ") };
 };
 
-const dremioUnknownError = ({ code, message, body }: RestErrorInfo) =>
-  new UnknownStackitError({
-    code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-    message,
-    body,
-  });
+const dremioUnknownError = (info: RestErrorInfo) =>
+  new UnknownStackitError(unknownErrorProps(info));
 
 const dremioParseError = ({ body, cause }: RestParseErrorInfo) =>
   new StackitParseError({ body, cause });
@@ -671,12 +644,7 @@ export const WorkflowsAirflowProtocol: Layer.Layer<API.Protocol> =
     baseUrl: (creds) => creds.apiUrl,
     headers: (creds) => ({ Cookie: Redacted.value(creds.cookie) }),
     errorEnvelope: workflowsAirflowErrorEnvelope,
-    unknownError: ({ code, message, body }) =>
-      new UnknownStackitError({
-        code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-        message,
-        body,
-      }),
+    unknownError: (info) => new UnknownStackitError(unknownErrorProps(info)),
     parseError: ({ body, cause }) => new StackitParseError({ body, cause }),
   });
 
@@ -703,12 +671,7 @@ export const ForgejoProtocol: Layer.Layer<API.Protocol> =
       Accept: "application/json",
     }),
     errorEnvelope: (body) => errorEnvelope(body),
-    unknownError: ({ code, message, body }) =>
-      new UnknownStackitError({
-        code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-        message,
-        body,
-      }),
+    unknownError: (info) => new UnknownStackitError(unknownErrorProps(info)),
     parseError: ({ body, cause }) => new StackitParseError({ body, cause }),
   });
 
@@ -749,12 +712,7 @@ export const OpenSearchProtocol: Layer.Layer<API.Protocol> =
       Authorization: `Basic ${basicCredentials(creds.username, creds.password)}`,
     }),
     errorEnvelope: opensearchErrorEnvelope,
-    unknownError: ({ code, message, body }) =>
-      new UnknownStackitError({
-        code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-        message,
-        body,
-      }),
+    unknownError: (info) => new UnknownStackitError(unknownErrorProps(info)),
     parseError: ({ body, cause }) => new StackitParseError({ body, cause }),
   });
 
@@ -783,12 +741,7 @@ export const LokiProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestPro
         : `Basic ${basicCredentials(creds.username, creds.password)}`,
   }),
   errorEnvelope: (body) => errorEnvelope(body),
-  unknownError: ({ code, message, body }) =>
-    new UnknownStackitError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownStackitError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new StackitParseError({ body, cause }),
 });
 
@@ -834,12 +787,7 @@ export const ModelServingInferenceProtocol: Layer.Layer<API.Protocol> =
     baseUrl: (creds) => creds.apiUrl,
     headers: (creds) => ({ Authorization: `Bearer ${Redacted.value(creds.token)}` }),
     errorEnvelope: modelServingErrorEnvelope,
-    unknownError: ({ code, message, body }) =>
-      new UnknownStackitError({
-        code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-        message,
-        body,
-      }),
+    unknownError: (info) => new UnknownStackitError(unknownErrorProps(info)),
     parseError: ({ body, cause }) => new StackitParseError({ body, cause }),
   });
 
@@ -855,7 +803,7 @@ const inferenceChunk = (
     try: () => JSON.parse(data) as unknown,
     catch: (cause) => new StackitParseError({ body: data, cause }),
   }).pipe(
-    Effect.flatMap((chunk) => {
+    Effect.flatMap((chunk): Effect.Effect<unknown, StackitParseError | UnknownStackitError> => {
       if (chunk === null || typeof chunk !== "object" || Array.isArray(chunk)) {
         return Effect.fail(
           new StackitParseError({
@@ -878,6 +826,7 @@ const inferenceChunk = (
       const envelope = modelServingErrorEnvelope(chunk);
       return Effect.fail(
         new UnknownStackitError({
+          status: 200,
           code: envelope?.code === undefined ? undefined : String(envelope.code),
           message: envelope?.message ?? "The inference API reported an error in its stream",
           body: chunk,
@@ -981,11 +930,6 @@ export const MlflowProtocol: Layer.Layer<API.Protocol> =
     baseUrl: (creds) => creds.apiUrl,
     headers: (creds) => ({ Authorization: `Bearer ${Redacted.value(creds.token)}` }),
     errorEnvelope: mlflowErrorEnvelope,
-    unknownError: ({ code, message, body }) =>
-      new UnknownStackitError({
-        code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-        message,
-        body,
-      }),
+    unknownError: (info) => new UnknownStackitError(unknownErrorProps(info)),
     parseError: ({ body, cause }) => new StackitParseError({ body, cause }),
   });
