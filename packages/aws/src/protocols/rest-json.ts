@@ -200,7 +200,7 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
     // Track if user set Content-Type explicitly via httpHeader binding
     const userSetContentType = request.headers["Content-Type"] !== undefined;
     // An input event stream's body, once its codec has loaded.
-    let eventBody: Effect.Effect<ReadableStream<Uint8Array>> | undefined;
+    let eventBody: Effect.Effect<Stream.Stream<Uint8Array, unknown>> | undefined;
 
     // Serialize body
     if (payloadValue !== undefined && payloadAst !== undefined) {

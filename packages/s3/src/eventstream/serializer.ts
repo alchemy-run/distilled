@@ -115,29 +115,30 @@ export const serializeInputEvent = (
 };
 
 /**
- * Serialize an Effect Stream of typed events into a ReadableStream of bytes.
+ * Serialize an Effect Stream of typed events into an Effect Stream of bytes.
  * This is the main entry point for input event stream serialization.
  *
  * For input event streams (like Transcribe's AudioStream), this:
  * 1. Takes each typed event from the stream
  * 2. Converts it to event stream wire format with proper headers
- * 3. Returns a ReadableStream suitable for HTTP request body
+ * 3. Returns a byte stream the HttpClient sends as the request body, in the
+ *    calling fiber
  *
  * @param events - Stream of typed events (with _tag property)
  * @param contentType - Content type for JSON payloads
- * @returns ReadableStream of encoded event stream bytes
+ * @returns Stream of encoded event stream bytes
  */
 export const serializeInputEventStream = <E extends InputEvent>(
   events: Stream.Stream<E, unknown>,
   contentType: string = "application/json",
-): ReadableStream<Uint8Array> => {
+): Stream.Stream<Uint8Array, unknown> => {
   // Convert typed events to StreamEvents, then encode to bytes
   const byteStream = events.pipe(
     Stream.map((event) => serializeInputEvent(event, contentType)),
     Stream.mapEffect(encodeEvent),
   );
 
-  return Stream.toReadableStream(byteStream);
+  return byteStream;
 };
 
 // ============================================================================
@@ -261,7 +262,7 @@ export const serializeInputEventStreamWithSchema = <E extends InputEvent>(
   events: Stream.Stream<E, unknown>,
   eventSchema: Schema.Schema<unknown> | undefined,
   eventPayloadMap?: Record<string, string>,
-): ReadableStream<Uint8Array> => {
+): Stream.Stream<Uint8Array, unknown> => {
   const derived = eventSchema ? (getEventMemberBindings(eventSchema) ?? {}) : {};
   const bindings: Record<string, EventMemberBindings> = { ...derived };
   for (const [eventType, name] of Object.entries(eventPayloadMap ?? {})) {
@@ -309,7 +310,7 @@ export const serializeInputEventStreamWithSchema = <E extends InputEvent>(
     Stream.mapEffect(encodeEvent),
   );
 
-  return Stream.toReadableStream(byteStream);
+  return byteStream;
 };
 
 /**
@@ -369,12 +370,12 @@ export const serializeInputEventWithPayload = (
  *
  * @param events - Stream of typed events
  * @param eventPayloadMap - Map of event type (name) to its payload member name, if any
- * @returns ReadableStream of encoded event stream bytes
+ * @returns Stream of encoded event stream bytes
  */
 export const serializeInputEventStreamWithPayloads = <E extends InputEvent>(
   events: Stream.Stream<E, unknown>,
   eventPayloadMap: Record<string, string>,
-): ReadableStream<Uint8Array> => {
+): Stream.Stream<Uint8Array, unknown> => {
   const byteStream = events.pipe(
     Stream.map((event) => {
       // Extract event type for lookup (handles both _tag and Smithy formats)
@@ -388,5 +389,5 @@ export const serializeInputEventStreamWithPayloads = <E extends InputEvent>(
     Stream.mapEffect(encodeEvent),
   );
 
-  return Stream.toReadableStream(byteStream);
+  return byteStream;
 };

@@ -741,8 +741,8 @@ export const eventStreamWith = <A, E>(
  */
 export const eventStreamBody = (
   eventSchema: unknown,
-  f: (codec: EventStreamCodec) => ReadableStream<Uint8Array>,
-): Effect.Effect<ReadableStream<Uint8Array>> => Effect.map(codecFor(eventSchema), f);
+  f: (codec: EventStreamCodec) => Stream.Stream<Uint8Array, unknown>,
+): Effect.Effect<Stream.Stream<Uint8Array, unknown>> => Effect.map(codecFor(eventSchema), f);
 
 export const EventStream = <A>(
   eventSchema: S.Schema<A>,
