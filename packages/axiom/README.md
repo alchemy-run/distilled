@@ -16,7 +16,7 @@ import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Axiom from "@distilled.cloud/axiom";
 
 const program = Effect.gen(function* () {
-  const result = yield* Axiom.v2.getDatasets({});
+  const result = yield* Axiom.getDatasets({});
   return result;
 });
 

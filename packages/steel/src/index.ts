@@ -11,9 +11,9 @@
  *
  * @example
  * ```ts
- * import * as Steel from "@distilled.cloud/steel";
+ * import * as Sessions from "@distilled.cloud/steel/sessions";
  *
- * const session = yield* Steel.sessions.createSession({ blockAds: true });
+ * const session = yield* Sessions.createSession({ blockAds: true });
  * ```
  */
 export * from "./credentials.ts";
@@ -22,4 +22,3 @@ export * as T from "./traits.ts";
 export { SteelProtocol, type SteelOpError, type SteelOpContext } from "./protocol.ts";
 export { paginateCursor } from "./pagination.ts";
 export * as Retry from "./retry.ts";
-export * from "./services/index.ts";

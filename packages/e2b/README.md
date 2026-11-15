@@ -16,12 +16,14 @@ Create a sandbox, run a command in it through envd, and kill it.
 import { Effect, Layer, Stream } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as E2B from "@distilled.cloud/e2b";
+import * as Sandboxes from "@distilled.cloud/e2b/sandboxes";
+import * as Process from "@distilled.cloud/e2b/process";
 
 const program = Effect.gen(function* () {
-  const sandbox = yield* E2B.sandboxes.createSandbox({ templateID: "base", timeout: 60 });
+  const sandbox = yield* Sandboxes.createSandbox({ templateID: "base", timeout: 60 });
 
   // envd calls address one sandbox with its own access token.
-  const output = yield* E2B.process.startProcess({
+  const output = yield* Process.startProcess({
     process: { cmd: "echo", args: ["hello from e2b"] },
   }).pipe(
     Stream.filter((event) => event._tag === "Stdout"),
@@ -30,7 +32,7 @@ const program = Effect.gen(function* () {
     Effect.provide(E2B.sandboxConnectionFor(sandbox)),
   );
 
-  yield* E2B.sandboxes.deleteSandbox({ sandboxID: sandbox.sandboxID });
+  yield* Sandboxes.deleteSandbox({ sandboxID: sandbox.sandboxID });
   return output;
 });
 

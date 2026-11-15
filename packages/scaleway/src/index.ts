@@ -17,9 +17,10 @@
  * import { Effect, Layer } from "effect";
  * import * as FetchHttpClient from "effect/http/FetchHttpClient";
  * import * as Scaleway from "@distilled.cloud/scaleway";
+ * import * as InstanceV1 from "@distilled.cloud/scaleway/instance_v1";
  *
  * const program = Effect.gen(function* () {
- *   const { servers } = yield* Scaleway.instanceV1.listServers({ zone: "fr-par-1" });
+ *   const { servers } = yield* InstanceV1.listServers({ zone: "fr-par-1" });
  *   return servers;
  * });
  *
@@ -46,4 +47,3 @@ export {
 } from "./protocol.ts";
 export { paginateByTotalCount, paginateToken } from "./pagination.ts";
 export * as Retry from "./retry.ts";
-export * from "./services/index.ts";

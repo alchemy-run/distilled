@@ -9,7 +9,7 @@
  * ```ts
  * import * as Resend from "@distilled.cloud/resend";
  *
- * const emails = yield* Resend.Services.resend.listEmails({});
+ * const emails = yield* Resend.listEmails({});
  * ```
  */
 export * from "./credentials.ts";
@@ -18,7 +18,6 @@ export * as T from "./traits.ts";
 export { ResendProtocol, type ResendOpError, type ResendOpContext } from "./protocol.ts";
 export { paginateResend } from "./pagination.ts";
 export * as Retry from "./retry.ts";
-export * as Services from "./services/index.ts";
 export * as Webhooks from "./webhooks.ts";
 // Operations, their request/response types and their typed errors (patched
 // in from patches/errors.json) are importable straight off the package root;

@@ -7,9 +7,9 @@
  *
  * @example
  * ```ts
- * import * as Paypal from "@distilled.cloud/paypal";
+ * import * as CheckoutOrdersV2 from "@distilled.cloud/paypal/checkout_orders_v2";
  *
- * const order = yield* Paypal.checkoutOrdersV2.ordersCreate({});
+ * const order = yield* CheckoutOrdersV2.ordersCreate({});
  * ```
  */
 export * from "./credentials.ts";
@@ -18,4 +18,3 @@ export * as T from "./traits.ts";
 export { PaypalProtocol, type PaypalOpError, type PaypalOpContext } from "./protocol.ts";
 export { paginateCursor } from "./pagination.ts";
 export * as Retry from "./retry.ts";
-export * from "./services/index.ts";

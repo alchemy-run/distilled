@@ -16,16 +16,20 @@ npm install @distilled.cloud/entire effect
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Entire from "@distilled.cloud/entire";
+import * as Identity from "@distilled.cloud/entire/identity";
+import * as Projects from "@distilled.cloud/entire/projects";
+import * as Repos from "@distilled.cloud/entire/repos";
+import * as Trails from "@distilled.cloud/entire/trails";
 
 const program = Effect.gen(function* () {
-  const me = yield* Entire.identity.getMe({});
-  const project = yield* Entire.projects.createProject({
+  const me = yield* Identity.getMe({});
+  const project = yield* Projects.createProject({
     name: "acme",
     ownerType: "account",
     ownerId: me.global.accountId,
   });
-  const repo = yield* Entire.repos.createRepo({ projectId: project.id, name: "api" });
-  const { items } = yield* Entire.trails.listTrails({ repo_id: repo.id });
+  const repo = yield* Repos.createRepo({ projectId: project.id, name: "api" });
+  const { items } = yield* Trails.listTrails({ repo_id: repo.id });
   return { repo, trails: items ?? [] };
 });
 
@@ -42,7 +46,7 @@ program.pipe(Effect.provide(Live), Effect.runPromise);
 | `trails`, `trailReviews`, `trailDiscussions`, `sessions`, `checkpoints`, `repositories`, `code`, `environments`, `agents`, `runs`, `search`, `brainstore`, … | regional cell | `apiBaseUrl` |
 
 Every operation binds the protocol for its API (`EntireCoreProtocol` or `EntireCellProtocol`), so a
-program only provides `Credentials` and an `HttpClient`. `Entire.clusters.listClusters` returns
+program only provides `Credentials` and an `HttpClient`. `listClusters` (`@distilled.cloud/entire/clusters`) returns
 each cell's `apiUrl` for repos homed outside the US.
 
 The cell's two collisions with Core module names are renamed: its `projects` tag is

@@ -15,10 +15,12 @@ npm install @distilled.cloud/npm effect
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Npm from "@distilled.cloud/npm";
+import * as Search from "@distilled.cloud/npm/search";
+import * as Access from "@distilled.cloud/npm/access";
 
 const program = Effect.gen(function* () {
-  const { objects = [] } = yield* Npm.search.searchPackages({ text: "effect", size: 5 });
-  const { public: isPublic } = yield* Npm.access.getPackageVisibility({
+  const { objects = [] } = yield* Search.searchPackages({ text: "effect", size: 5 });
+  const { public: isPublic } = yield* Access.getPackageVisibility({
     escapedPackageName: "@npmcli/arborist",
   });
   return { packages: objects.map((result) => result.package?.name), isPublic };
@@ -54,9 +56,10 @@ call its own credentials:
 
 ```ts
 import * as Redacted from "effect/Redacted";
+import * as Oidc from "@distilled.cloud/npm/oidc";
 
 // Inside Effect.gen, with the id_token from the CI provider in `idToken`:
-const { token } = yield* Npm.oidc
+const { token } = yield* Oidc
   .exchangeOidcToken({ package_name: "my-package" })
   .pipe(Effect.provide(Npm.credentials({ token: Redacted.make(idToken) })));
 ```

@@ -53,9 +53,9 @@
  *
  * @example
  * ```ts
- * import * as Whop from "@distilled.cloud/whop";
+ * import * as Plans from "@distilled.cloud/whop/plans";
  *
- * const plan = yield* Whop.plans.createPlan({
+ * const plan = yield* Plans.createPlan({
  *   account_id: "biz_XXXXXXXX",
  *   product_id: "prod_XXXXXXXX",
  *   plan_type: "renewal",
@@ -68,8 +68,9 @@
  * @example Streaming every page of a list
  * ```ts
  * import * as Stream from "effect/Stream";
+ * import * as Payments from "@distilled.cloud/whop/payments";
  *
- * yield* Whop.payments.listPayment.items({ first: 100 }).pipe(
+ * yield* Payments.listPayment.items({ first: 100 }).pipe(
  *   Stream.runForEach((payment) => Console.log(payment.id)),
  * );
  * ```
@@ -80,4 +81,3 @@ export * as T from "./traits.ts";
 export { WhopProtocol, type WhopOpError, type WhopOpContext } from "./protocol.ts";
 export { paginateRelay } from "./pagination.ts";
 export * as Retry from "./retry.ts";
-export * from "./services/index.ts";
