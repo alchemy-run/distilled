@@ -34,6 +34,7 @@ jobs:
       sha: ${{ steps.commit.outputs.sha }}
       version: ${{ steps.release.outputs.version }}
       channel: ${{ steps.release.outputs.channel }}
+      dist-tag: ${{ steps.release.outputs.dist-tag }}
     steps:
       - name: Generate bot token
         id: bot-token
@@ -83,6 +84,11 @@ jobs:
             pnpm --dir "$dir" pack --pack-destination "$GITHUB_WORKSPACE/release-packages"
           done < <(jq -r '.[].dir' release-packages.json)
 
+      # Installs every tarball into a scratch project and imports each entry
+      # of each package's `exports`, before anything is committed or published.
+      - name: Install and import the packed tarballs
+        run: node scripts/release/smoke.ts --dir release-packages
+
       - id: commit
         name: Commit and tag
         env:
@@ -130,7 +136,9 @@ jobs:
           path: release-packages
 
       - name: Publish tarballs with OIDC
-        run: node scripts/release/publish.ts
+        env:
+          DIST_TAG: ${{ needs.build.outputs.dist-tag }}
+        run: node scripts/release/publish.ts --tag "$DIST_TAG"
 
       - name: Create GitHub release
         if: needs.build.outputs.channel != 'tag'
