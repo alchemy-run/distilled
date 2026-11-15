@@ -21,7 +21,7 @@ const svc = /*@__PURE__*/ T.AwsApiService({
 });
 const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "monitoring" });
 const ver = /*@__PURE__*/ T.ServiceVersion("2010-08-01");
-const proto = /*@__PURE__*/ T.AwsProtocolsAwsJson1_0();
+const proto = /*@__PURE__*/ T.AwsProtocolsAwsJson1_0({ awsQueryCompatible: true });
 const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { UseDualStack = false, UseFIPS = false, Endpoint, Region } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
