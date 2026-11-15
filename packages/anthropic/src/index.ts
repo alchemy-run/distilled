@@ -13,9 +13,9 @@
  *
  * @example
  * ```ts
- * import * as Anthropic from "@distilled.cloud/anthropic";
+ * import * as Messages from "@distilled.cloud/anthropic/messages";
  *
- * const message = yield* Anthropic.messages.createMessage({
+ * const message = yield* Messages.createMessage({
  *   model: "claude-opus-4-8",
  *   max_tokens: 1024,
  *   messages: [{ role: "user", content: "Hello, Claude" }],
@@ -28,4 +28,3 @@ export * as T from "./traits.ts";
 export { AnthropicProtocol, type AnthropicOpError, type AnthropicOpContext } from "./protocol.ts";
 export { paginateCursor, paginateRelay } from "./pagination.ts";
 export * as Retry from "./retry.ts";
-export * from "./services/index.ts";

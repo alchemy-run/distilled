@@ -10,9 +10,10 @@
  * import { Effect, Layer } from "effect";
  * import * as FetchHttpClient from "effect/http/FetchHttpClient";
  * import * as Convex from "@distilled.cloud/convex";
+ * import * as Management from "@distilled.cloud/convex/management";
  *
  * const program = Effect.gen(function* () {
- *   const { id, deploymentUrl } = yield* Convex.management.createProject({
+ *   const { id, deploymentUrl } = yield* Management.createProject({
  *     teamId: 12345,
  *     projectName: "my-app",
  *     deploymentType: "prod",
@@ -41,4 +42,3 @@ export {
   type ConvexOpError,
   type ConvexOpContext,
 } from "./protocol.ts";
-export * from "./services/index.ts";

@@ -17,9 +17,9 @@
  *
  * @example
  * ```ts
- * import * as Daytona from "@distilled.cloud/daytona";
+ * import * as Sandbox from "@distilled.cloud/daytona/sandbox";
  *
- * const sandbox = yield* Daytona.sandbox.createSandbox({});
+ * const sandbox = yield* Sandbox.createSandbox({});
  * ```
  */
 export * from "./credentials.ts";
@@ -29,4 +29,3 @@ export { DaytonaProtocol, type DaytonaOpError, type DaytonaOpContext } from "./p
 export { paginateToken } from "./pagination.ts";
 export * as Retry from "./retry.ts";
 export * as Toolbox from "./toolbox.ts";
-export * from "./services/index.ts";

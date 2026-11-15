@@ -20,19 +20,21 @@ npm install @distilled.cloud/tencentcloud effect
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as TencentCloud from "@distilled.cloud/tencentcloud";
+import * as VPC from "@distilled.cloud/tencentcloud/vpc";
+import * as CVM from "@distilled.cloud/tencentcloud/cvm";
 
 const program = Effect.gen(function* () {
-  const { Vpc } = yield* TencentCloud.vpc.createVpc({
+  const { Vpc } = yield* VPC.createVpc({
     VpcName: "distilled-demo",
     CidrBlock: "10.0.0.0/16",
   });
 
-  const { TotalCount } = yield* TencentCloud.cvm.describeInstances({
+  const { TotalCount } = yield* CVM.describeInstances({
     Filters: [{ Name: "vpc-id", Values: [Vpc!.VpcId!] }],
     Limit: 20,
   });
 
-  yield* TencentCloud.vpc.deleteVpc({ VpcId: Vpc!.VpcId! });
+  yield* VPC.deleteVpc({ VpcId: Vpc!.VpcId! });
   return TotalCount;
 });
 
@@ -45,9 +47,9 @@ const Live = Layer.mergeAll(
 program.pipe(Effect.provide(Live), Effect.runPromise);
 ```
 
-Each product is a namespace on the root (`TencentCloud.cvm`,
-`TencentCloud.autoscaling`) and its own entry point
-(`@distilled.cloud/tencentcloud/cvm`). Operations and members keep Tencent's
+Each product is its own entry point (`@distilled.cloud/tencentcloud/cvm`,
+`@distilled.cloud/tencentcloud/autoscaling`); the package root exports only
+the shared runtime. Operations and members keep Tencent's
 names: `describeInstances` is the `DescribeInstances` action, and its input
 members are `InstanceIds`, `Filters`, `Limit`.
 
@@ -99,7 +101,9 @@ kept: `ResourceNotFound.InstanceNotExist` fails with `ResourceNotFound`
 (`InvalidInstanceId.NotFound`) is an `UnknownTencentCloudError` with `code`.
 
 ```ts
-TencentCloud.cvm.describeInstances({ InstanceIds: ["ins-xxxxxxxx"] }).pipe(
+import * as CVM from "@distilled.cloud/tencentcloud/cvm";
+
+CVM.describeInstances({ InstanceIds: ["ins-xxxxxxxx"] }).pipe(
   Effect.catchTag("ResourceNotFound", (e) => Effect.succeed(e.code)),
 );
 ```
