@@ -236,8 +236,22 @@ export const encodeKeysKey = "@distilled.cloud/core/schema-lite/encodeKeys";
 
 //#region declarations and errors
 
+/**
+ * Effect Schema's `representation` annotation for its built-in declaration
+ * `id` (`effect/schema/Date`, ...). A lite declaration of the same type
+ * carries it, so {@link toEffect} rebuilds Effect's own schema for it (and
+ * `effect/Arbitrary` can generate values for the result).
+ */
+export const representation = (id: string) => ({ id, payload: null });
+
 const declaration = (identifier: string): Lite =>
-  make(node({ _tag: "Declaration", typeParameters: [], annotations: { identifier } }));
+  make(
+    node({
+      _tag: "Declaration",
+      typeParameters: [],
+      annotations: { identifier, representation: representation(`effect/schema/${identifier}`) },
+    }),
+  );
 
 export const Date: Lite = /*@__PURE__*/ declaration("Date");
 export const Duration: Lite = /*@__PURE__*/ declaration("Duration");
@@ -246,7 +260,10 @@ export const Redacted = (value: Lite): Lite =>
     node({
       _tag: "Declaration",
       typeParameters: [astOf(value)],
-      annotations: { identifier: "Redacted" },
+      annotations: {
+        identifier: "Redacted",
+        representation: representation("effect/schema/Redacted"),
+      },
     }),
   );
 export const instanceOf = (cls: Function, annotations?: Annotations): Lite =>
@@ -254,7 +271,13 @@ export const instanceOf = (cls: Function, annotations?: Annotations): Lite =>
     node({
       _tag: "Declaration",
       typeParameters: [],
-      annotations: { identifier: cls.name, ...annotations },
+      annotations: {
+        identifier: cls.name,
+        ...(cls === globalThis.Uint8Array && {
+          representation: representation("effect/schema/Uint8Array"),
+        }),
+        ...annotations,
+      },
     }),
   );
 export const declare = (_is: (u: unknown) => boolean, annotations?: Annotations): Lite =>
@@ -440,12 +463,13 @@ const AtProto: object = /*@__PURE__*/ Object.create(Proto, {
 
 //#endregion
 
-//#region Effect Schema bridge (strict validation only)
+//#region Effect Schema bridge
 
 /**
- * The Effect schema equivalent to a lite node, for strict decoding. Loaded
- * on demand so `effect/Schema` is only bundled/imported by callers that
- * validate.
+ * The Effect schema equivalent to a lite node: the reference for strict
+ * decoding, and what `effect/Arbitrary` generates values from
+ * (`Arbitrary.schema(toEffect(Schema, op.input.ast))`). Loaded on demand so
+ * `effect/Schema` is only bundled/imported by callers that use it.
  */
 /** The Effect Schema functions the bridge uses (passed in, so callers import only these). */
 export type EffectSchemaApi = Pick<
@@ -469,7 +493,9 @@ export type EffectSchemaApi = Pick<
   | "make"
   | "optional"
   | "suspend"
->;
+> &
+  /** Built-in declarations; without one, a lite node of that type becomes a plain check. */
+  Partial<Pick<typeof import("effect/Schema"), "Date" | "Duration" | "Redacted" | "Uint8Array">>;
 
 export const toEffect = (S: EffectSchemaApi, ast: Node): unknown => {
   const memo = new Map<Node, any>();
@@ -492,6 +518,22 @@ export const toEffect = (S: EffectSchemaApi, ast: Node): unknown => {
     const r = !!(n as any)[liteKey] || kids.some(hasLite);
     liteBelow.set(n, r);
     return r;
+  };
+  // Effect's own schema for a declaration whose `representation` names one.
+  const builtIn = (n: Node): unknown => {
+    switch ((n.annotations?.representation as { id?: unknown } | undefined)?.id) {
+      case "effect/schema/Date":
+        return S.Date;
+      case "effect/schema/Duration":
+        return S.Duration;
+      case "effect/schema/Uint8Array":
+        return S.Uint8Array;
+      case "effect/schema/Redacted": {
+        const value = n.typeParameters?.[0];
+        return value && S.Redacted?.(build(value));
+      }
+    }
+    return undefined;
   };
   const build = (n: Node): any => {
     const hit = memo.get(n);
@@ -560,7 +602,8 @@ export const toEffect = (S: EffectSchemaApi, ast: Node): unknown => {
         break;
       }
       case "Declaration":
-        out = n.check ? S.declare(n.check as (u: unknown) => u is unknown) : S.Unknown;
+        out =
+          builtIn(n) ?? (n.check ? S.declare(n.check as (u: unknown) => u is unknown) : S.Unknown);
         break;
       case "Unknown":
         out = S.Unknown;
