@@ -1391,6 +1391,23 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
       tsType = "Date";
     }
 
+    // A header list of timestamps: its timestamps default to http-date too,
+    // unless the list member or its timestamp shape names a format.
+    const listMember =
+      hasHttpHeader && (memberTargetShape?.type === "list" || memberTargetShape?.type === "set")
+        ? memberTargetShape.member
+        : undefined;
+    if (
+      listMember !== undefined &&
+      (listMember.target === "smithy.api#Timestamp" ||
+        shapes[listMember.target]?.type === "timestamp") &&
+      listMember.traits?.["smithy.api#timestampFormat"] === undefined &&
+      shapes[listMember.target]?.traits?.["smithy.api#timestampFormat"] === undefined
+    ) {
+      schema = `S.Array(S.Date.pipe(T.TimestampFormat("http-date")))`;
+      tsType = "Date[]";
+    }
+
     // Suspend references that would be TDZ reads at module eval: error
     // classes (emitted after the referencing struct? no — before, but the
     // reference is mutual: error classes precede schemas, so schema→error

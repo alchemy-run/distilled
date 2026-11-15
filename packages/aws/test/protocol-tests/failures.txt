@@ -82,33 +82,6 @@ RestJsonSerializesSparseSetMapAndRetainsNull (request)
 RestJsonSparseListsSerializeNull (request)
 RestJsonSparseListsSerializeNull (response)
 
-# List-valued headers are joined with "," (Smithy: ", ") and are not split
-# when decoded.
-InputAndOutputWithBooleanHeaders (request)
-InputAndOutputWithBooleanHeaders (response)
-InputAndOutputWithEnumHeaders (request)
-InputAndOutputWithEnumHeaders (response)
-InputAndOutputWithNumericHeaders (request)
-InputAndOutputWithNumericHeaders (response)
-InputAndOutputWithStringHeaders (request)
-InputAndOutputWithStringHeaders (response)
-InputAndOutputWithTimestampHeaders (request)
-InputAndOutputWithTimestampHeaders (response)
-RestJsonInputAndOutputWithBooleanHeaders (request)
-RestJsonInputAndOutputWithBooleanHeaders (response)
-RestJsonInputAndOutputWithEnumHeaders (request)
-RestJsonInputAndOutputWithEnumHeaders (response)
-RestJsonInputAndOutputWithIntEnumHeaders (request)
-RestJsonInputAndOutputWithIntEnumHeaders (response)
-RestJsonInputAndOutputWithNumericHeaders (request)
-RestJsonInputAndOutputWithNumericHeaders (response)
-RestJsonInputAndOutputWithQuotedStringHeaders (request)
-RestJsonInputAndOutputWithQuotedStringHeaders (response)
-RestJsonInputAndOutputWithStringHeaders (request)
-RestJsonInputAndOutputWithStringHeaders (response)
-RestJsonInputAndOutputWithTimestampHeaders (request)
-RestJsonInputAndOutputWithTimestampHeaders (response)
-
 # Timestamps: labels and query values use the wrong format, and date-time
 # values carry ".000" milliseconds.
 AllQueryStringTypes (request)
