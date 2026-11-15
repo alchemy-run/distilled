@@ -140,6 +140,14 @@ const socketServer = http2.createServer();
 socketServer.on("stream", onStream);
 const socketPath = path.join(os.tmpdir(), `distilled-grpc-${process.pid}.sock`);
 
+const sessions = new Set<http2.ServerHttp2Session>();
+for (const server of [h2Server, socketServer]) {
+  server.on("session", (session) => {
+    sessions.add(session);
+    session.on("close", () => sessions.delete(session));
+  });
+}
+
 /** HTTP/1.1, as a bridging proxy answers `fetch`: status in the headers, no trailers. */
 const h1Server = http.createServer((req, res) => {
   const chunks: Buffer[] = [];
@@ -229,6 +237,9 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
+  // Node 22's http2 `close` waits for the clients' idle sessions; Node 24's
+  // ends them.
+  for (const session of sessions) session.destroy();
   await new Promise((resolve) => h2Server.close(resolve));
   await new Promise((resolve) => h1Server.close(resolve));
   await new Promise((resolve) => socketServer.close(resolve));

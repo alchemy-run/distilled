@@ -41,6 +41,8 @@ catalog:
   vite: "8.3.4"
   vitest: "^5.0.4"
   webpack: "^5.112.2"
+  # Only benches/bundlers: the runtime the workerd bundle runs in (nightly).
+  workerd: "1.20261026.1"
   yaml: "^2.9.1"
 
 # alchemy 2.0.0-beta.85 and the distilled 1.0.0-rc.18 packages it depends on

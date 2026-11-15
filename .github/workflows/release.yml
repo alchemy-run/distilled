@@ -27,8 +27,17 @@ env:
   ALCHEMY_REPO: alchemy-run/distilled
 
 jobs:
+  # The nightly Compatibility tests (compat.yml): the effect peer range, Bun
+  # and workerd. A failure stops the release before anything is committed.
+  compat:
+    name: Compatibility tests
+    permissions:
+      contents: read
+    uses: ./.github/workflows/compat-tests.yml
+
   build:
     name: Build and pack
+    needs: compat
     runs-on: blacksmith-8vcpu-ubuntu-2404
     outputs:
       sha: ${{ steps.commit.outputs.sha }}
