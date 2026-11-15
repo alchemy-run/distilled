@@ -292,8 +292,11 @@ function serializeValue(
 
   // Handle arrays
   if (Array.isArray(value)) {
-    // Empty arrays are not serialized
-    if (value.length === 0) return;
+    // An empty list is the key with an empty value
+    if (value.length === 0) {
+      params.push(`${encodeURIComponent(key)}=`);
+      return;
+    }
 
     const elementAST = getArrayElementAST(ast);
     const isFlattened = prop ? hasXmlFlattened(prop) : false;
