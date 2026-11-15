@@ -133,11 +133,16 @@ package lists it in `devDependencies` (`"workspace:*"`) and its
 `tsconfig.scripts.json` references `../dev`. Copying an existing package
 carries both.
 
-Public surface: re-export the generated barrel at the package root
-(`export * from "./services/index.ts"`) so callers write `Pkg.vms.createVm`,
-not `Pkg.Services.vms.createVm`. Do not add a `Services` namespace. A
-single-service package re-exports operations on the root (`Pkg.listX`) the
-same way.
+Public surface: the package root never re-exports the generated barrel
+(`./services/index.ts`), because importing anything from the root would then
+make TypeScript load every service file. A package split into services
+exports only the shared runtime (credentials, errors, protocol, retry) from
+its root, like `aws` and `gcp`; callers import each service from its subpath
+(`import * as Vms from "@distilled.cloud/<pkg>/vms"`, then `Vms.createVm`).
+A package with one service, or one main service plus small side services,
+also re-exports that main service's operations on the root (`Pkg.listX`);
+the side services stay behind their subpaths. Do not add a `Services`
+namespace.
 
 ### Credentials
 
@@ -404,9 +409,10 @@ npm install @distilled.cloud/<pkg> effect
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Pkg from "@distilled.cloud/<pkg>";
+import * as Vms from "@distilled.cloud/<pkg>/vms";
 
 const program = Effect.gen(function* () {
-  const result = yield* Pkg.vms.createVm({ firewall: { rules: [] } });
+  const result = yield* Vms.createVm({ firewall: { rules: [] } });
   return result;
 });
 
@@ -427,8 +433,9 @@ program.pipe(Effect.provide(Live), Effect.runPromise);
 The quick-start program must compile against the generated names:
 
 - `Layer.mergeAll(FetchHttpClient.layer, CredentialsFromEnv, <Pkg>Protocol)`
-- at least one real call (`Pkg.vms.createVm` / `Pkg.execVm` / `Pkg.getX`,
-  not `Pkg.Services.…` and not only `list*`)
+- at least one real call (`Vms.createVm` from a service subpath, or
+  `Pkg.getX` for a single-service package; not `Pkg.Services.…` and not
+  only `list*`)
 - `Effect.provide` + `Effect.runPromise`
 
 If a generated operation cannot work as REST — WebSocket `101`,

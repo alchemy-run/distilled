@@ -11,9 +11,9 @@
  *
  * @example
  * ```ts
- * import * as Technitium from "@distilled.cloud/technitium";
+ * import * as Zones from "@distilled.cloud/technitium/zones";
  *
- * const { records } = yield* Technitium.zones.getRecords({ zone: "example.com", domain: "example.com" });
+ * const { records } = yield* Zones.getRecords({ zone: "example.com", domain: "example.com" });
  * ```
  */
 export * from "./credentials.ts";
@@ -24,4 +24,3 @@ export {
   type TechnitiumOpContext,
   type TechnitiumOpError,
 } from "./protocol.ts";
-export * from "./services/index.ts";

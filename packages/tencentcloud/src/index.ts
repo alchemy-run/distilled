@@ -12,9 +12,9 @@
  *
  * @example
  * ```ts
- * import * as TencentCloud from "@distilled.cloud/tencentcloud";
+ * import * as Cvm from "@distilled.cloud/tencentcloud/cvm";
  *
- * const { InstanceSet } = yield* TencentCloud.cvm.describeInstances({
+ * const { InstanceSet } = yield* Cvm.describeInstances({
  *   region: "ap-guangzhou",
  *   Limit: 10,
  * });
@@ -31,4 +31,3 @@ export {
   type TencentCloudOpError,
   type TencentCloudOpContext,
 } from "./protocol.ts";
-export * from "./services/index.ts";

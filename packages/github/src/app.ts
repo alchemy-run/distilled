@@ -18,10 +18,10 @@
  *
  * @example
  * ```ts
- * import * as GitHub from "@distilled.cloud/github";
+ * import * as Issues from "@distilled.cloud/github/issues";
  * import * as App from "@distilled.cloud/github/App";
  *
- * const issue = GitHub.issues.get({ owner, repo, issue_number: 1 }).pipe(
+ * const issue = Issues.get({ owner, repo, issue_number: 1 }).pipe(
  *   Effect.provide(
  *     App.installationCredentials({
  *       appId: "123456",

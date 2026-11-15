@@ -53,9 +53,10 @@ DISTILLED_SPECS_LOCAL=1 pnpm generate forgejo
 ```ts
 import * as Redacted from "effect/Redacted";
 import * as Forgejo from "@distilled.cloud/forgejo";
+import * as Repository from "@distilled.cloud/forgejo/repository";
 
 const program = Effect.gen(function* () {
-  const repo = yield* Forgejo.repository.repoGet({
+  const repo = yield* Repository.repoGet({
     owner: "acme",
     repo: "api",
   });

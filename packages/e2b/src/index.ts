@@ -15,9 +15,9 @@
  *
  * @example
  * ```ts
- * import * as E2B from "@distilled.cloud/e2b";
+ * import * as Sandboxes from "@distilled.cloud/e2b/sandboxes";
  *
- * const sandbox = yield* E2B.sandboxes.createSandbox({ templateID: "base" });
+ * const sandbox = yield* Sandboxes.createSandbox({ templateID: "base" });
  * ```
  */
 export * from "./credentials.ts";
@@ -35,4 +35,3 @@ export {
 } from "./protocol.ts";
 export { paginateToken } from "./pagination.ts";
 export * as Retry from "./retry.ts";
-export * from "./services/index.ts";

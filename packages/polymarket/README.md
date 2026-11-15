@@ -27,10 +27,13 @@ npm install @distilled.cloud/polymarket effect
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Polymarket from "@distilled.cloud/polymarket";
+import * as Gamma from "@distilled.cloud/polymarket/gamma";
+import * as Clob from "@distilled.cloud/polymarket/clob";
+import * as Data from "@distilled.cloud/polymarket/data";
 
 const program = Effect.gen(function* () {
   // Gamma: the open market with the most 24-hour volume.
-  const [market] = yield* Polymarket.gamma.listMarkets({
+  const [market] = yield* Gamma.listMarkets({
     limit: 1,
     closed: false,
     order: "volume24hr",
@@ -40,10 +43,10 @@ const program = Effect.gen(function* () {
 
   // CLOB: the order book of its first outcome token.
   const [tokenId] = JSON.parse(market.clobTokenIds ?? "[]") as string[];
-  const book = yield* Polymarket.clob.getBook({ token_id: tokenId! });
+  const book = yield* Clob.getBook({ token_id: tokenId! });
 
   // Data: its largest holders.
-  const holders = yield* Polymarket.data.getHolders({
+  const holders = yield* Data.getHolders({
     condition: market.conditionId,
     limit: 3,
   });

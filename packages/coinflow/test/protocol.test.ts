@@ -1,4 +1,9 @@
 import * as Coinflow from "@distilled.cloud/coinflow";
+import * as Authentication from "@distilled.cloud/coinflow/authentication";
+import * as Customers from "@distilled.cloud/coinflow/customers";
+import * as Merchant from "@distilled.cloud/coinflow/merchant";
+import * as Redeem from "@distilled.cloud/coinflow/redeem";
+import * as Withdraw from "@distilled.cloud/coinflow/withdraw";
 import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
@@ -47,7 +52,7 @@ const json = (status: number, body: unknown) =>
 
 test("sends the merchant key as the raw Authorization header and the wallet headers", async () => {
   const { result, requests } = await run(
-    Coinflow.withdraw.getWithdrawer({ authWallet: "0xabc", authBlockchain: "base" }),
+    Withdraw.getWithdrawer({ authWallet: "0xabc", authBlockchain: "base" }),
     () => json(200, { withdrawer: {} }),
   );
   expect(result._tag).toBe("Success");
@@ -60,7 +65,7 @@ test("sends the merchant key as the raw Authorization header and the wallet head
 
 test("a 451 is VerificationRequired with the verification link", async () => {
   const { result } = await run(
-    Coinflow.withdraw.getWithdrawer({ authWallet: "0xabc", authBlockchain: "base" }),
+    Withdraw.getWithdrawer({ authWallet: "0xabc", authBlockchain: "base" }),
     () =>
       json(451, {
         verificationLink: "https://sandbox-merchant.coinflow.cash/verify/abc",
@@ -79,10 +84,10 @@ test("a 451 is VerificationRequired with the verification link", async () => {
 
 test("a 412 is PreconditionFailed with the `msg` as message", async () => {
   const { result } = await run(
-    Coinflow.redeem.getEvmCreditsAuthMsg({
+    Redeem.getEvmCreditsAuthMsg({
       authWallet: "0xabc",
       authBlockchain: "base",
-    } as Coinflow.redeem.GetEvmCreditsAuthMsgRequest),
+    } as Redeem.GetEvmCreditsAuthMsgRequest),
     () => json(412, { msg: "Wallet does not have enough credits" }),
   );
   expect(result._tag).toBe("Failure");
@@ -94,7 +99,7 @@ test("a 412 is PreconditionFailed with the `msg` as message", async () => {
 });
 
 test("an undeclared status falls back to UnknownCoinflowError", async () => {
-  const { result } = await run(Coinflow.merchant.getWithdrawal({ withdrawalId: "w1" }), () =>
+  const { result } = await run(Merchant.getWithdrawal({ withdrawalId: "w1" }), () =>
     json(418, { msg: "teapot" }),
   );
   expect(result._tag).toBe("Failure");
@@ -104,7 +109,7 @@ test("an undeclared status falls back to UnknownCoinflowError", async () => {
 
 test("getSessionKey sends the user id and returns the key redacted", async () => {
   const { result, requests } = await run(
-    Coinflow.authentication.getSessionKey({ authUserId: "user-1" }),
+    Authentication.getSessionKey({ authUserId: "user-1" }),
     () => json(200, { key: "session-secret" }),
   );
   expect(requests[0]!.headers["x-coinflow-auth-user-id"]).toBe("user-1");
@@ -116,7 +121,7 @@ test("getSessionKey sends the user id and returns the key redacted", async () =>
 
 test("a session key input is sent unwrapped", async () => {
   const { requests } = await run(
-    Coinflow.customers.getCheckoutBalances({
+    Customers.getCheckoutBalances({
       merchantIdOrCreditSeed: "my-merchant",
       authSessionKey: Redacted.make("session-secret"),
     }),

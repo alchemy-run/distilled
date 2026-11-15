@@ -14,9 +14,10 @@ npm install @distilled.cloud/huggingface effect
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Huggingface from "@distilled.cloud/huggingface";
+import * as Repos from "@distilled.cloud/huggingface/repos";
 
 const program = Effect.gen(function* () {
-  const result = yield* Huggingface.repos.createRepository({});
+  const result = yield* Repos.createRepository({});
   return result;
 });
 

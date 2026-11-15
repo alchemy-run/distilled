@@ -14,9 +14,10 @@ npm install @distilled.cloud/azure effect
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Azure from "@distilled.cloud/azure";
+import * as Resources from "@distilled.cloud/azure/resources";
 
 const program = Effect.gen(function* () {
-  const result = yield* Azure.resources.ResourceGroupsList({});
+  const result = yield* Resources.ResourceGroupsList({});
   return result;
 });
 
