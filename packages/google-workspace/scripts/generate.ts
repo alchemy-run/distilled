@@ -71,9 +71,6 @@ const makeGoogleWorkspaceSpec = (metadata: { baseUrl?: string }): SdkSpec => ({
   // error class so catch-site narrowing sees the envelope's gRPC-style
   // `status` and typed `details[]` (core reads them under the body's `error`).
   errors: {
-    // The protocol builds its errors without core's matchTypedError, so core's
-    // response fields (body, headers, retryAfter) would stay empty.
-    responseFields: false,
     defaultFields: () => [
       `  code: S.optional(S.Number),`,
       `  message: S.String,`,
