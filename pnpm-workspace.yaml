@@ -18,7 +18,7 @@ allowBuilds:
   esbuild: false
 
 catalog:
-  "@effect/platform-node": "^4.1.2"
+  "@effect/platform-node": "^4.1.4"
   "@oxc-project/types": "^0.153.0"
   "@types/node": "26.6.5"
   "@alchemy.run/aws": "2.0.0-beta.85"
@@ -26,7 +26,7 @@ catalog:
   "@alchemy.run/github": "2.0.0-beta.85"
   alchemy: "2.0.0-beta.85"
   changelogithub: "^13.16.1"
-  effect: "^4.1.2"
+  effect: "^4.1.4"
   # Only benches/bundlers: the bundlers it checks the published SDKs against.
   esbuild: "^0.28.2"
   graphql: "^16.11.0"

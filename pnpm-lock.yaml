@@ -174,8 +174,8 @@ catalogs:
       specifier: 2.0.0-beta.85
       version: 2.0.0-beta.85
     '@effect/platform-node':
-      specifier: ^4.1.2
-      version: 4.1.2
+      specifier: ^4.1.4
+      version: 4.1.4
     '@oxc-project/types':
       specifier: ^0.153.0
       version: 0.153.0
@@ -189,8 +189,8 @@ catalogs:
       specifier: ^13.16.1
       version: 13.16.1
     effect:
-      specifier: ^4.1.2
-      version: 4.1.2
+      specifier: ^4.1.4
+      version: 4.1.4
     esbuild:
       specifier: ^0.28.2
       version: 0.28.2
@@ -256,10 +256,10 @@ importers:
     devDependencies:
       '@alchemy.run/pkg':
         specifier: 2.0.0-beta.85
-        version: 2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(@types/node@26.6.5)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
+        version: 2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(@types/node@26.6.5)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
       '@effect/platform-node':
         specifier: 'catalog:'
-        version: 4.1.2(effect@4.1.2)(redis@6.2.1)
+        version: 4.1.4(effect@4.1.4)(redis@6.2.1)
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -268,7 +268,7 @@ importers:
         version: 13.16.1
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
       husky:
         specifier: 'catalog:'
         version: 9.1.7
@@ -301,7 +301,7 @@ importers:
         version: link:../../packages/core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@oxc-project/types':
         specifier: 'catalog:'
@@ -389,7 +389,7 @@ importers:
         version: link:../../packages/vercel
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@types/node':
         specifier: 'catalog:'
@@ -408,7 +408,7 @@ importers:
         version: link:../../packages/core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
       mitata:
         specifier: 'catalog:'
         version: 1.0.34
@@ -436,7 +436,7 @@ importers:
         version: link:../../packages/stripe
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
       rolldown:
         specifier: 'catalog:'
         version: 1.2.13
@@ -458,7 +458,7 @@ importers:
     dependencies:
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@aws-sdk/client-dynamodb':
         specifier: 3.1147.0
@@ -513,7 +513,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -529,7 +529,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -545,7 +545,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -561,7 +561,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -580,7 +580,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -596,7 +596,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -612,7 +612,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -631,7 +631,7 @@ importers:
         version: link:../s3
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -654,7 +654,7 @@ importers:
         version: 1.0.20
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
 
   packages/axiom:
     dependencies:
@@ -663,7 +663,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -679,7 +679,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -695,7 +695,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -711,7 +711,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -727,7 +727,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -743,7 +743,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -759,7 +759,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -778,14 +778,14 @@ importers:
         version: link:../s3
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
         version: link:../dev
       '@effect/platform-node':
         specifier: 'catalog:'
-        version: 4.1.2(effect@4.1.2)(redis@6.2.1)
+        version: 4.1.4(effect@4.1.4)(redis@6.2.1)
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -797,7 +797,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -816,7 +816,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -832,7 +832,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -848,7 +848,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -864,7 +864,7 @@ importers:
         version: 26.6.5
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
       vitest:
         specifier: 'catalog:'
         version: 5.0.4(@types/node@26.6.5)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))
@@ -876,7 +876,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -892,7 +892,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -908,7 +908,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -924,10 +924,10 @@ importers:
         version: link:../core
       '@effect/platform-node':
         specifier: 'catalog:'
-        version: 4.1.2(effect@4.1.2)(redis@6.2.1)
+        version: 4.1.4(effect@4.1.4)(redis@6.2.1)
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
       rolldown:
         specifier: 'catalog:'
         version: 1.2.13
@@ -949,7 +949,7 @@ importers:
         version: link:../s3
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -965,7 +965,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -981,7 +981,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -997,7 +997,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1013,7 +1013,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1029,7 +1029,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1051,7 +1051,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1067,7 +1067,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1083,7 +1083,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1102,7 +1102,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1118,7 +1118,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1134,7 +1134,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1150,7 +1150,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1166,7 +1166,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1182,7 +1182,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1198,7 +1198,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1214,7 +1214,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1230,7 +1230,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1246,7 +1246,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1262,7 +1262,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1278,7 +1278,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1294,7 +1294,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1313,7 +1313,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1329,7 +1329,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1345,7 +1345,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1361,7 +1361,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1377,7 +1377,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1393,7 +1393,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1409,7 +1409,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1425,7 +1425,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1441,7 +1441,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1457,7 +1457,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1473,7 +1473,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1489,7 +1489,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1505,7 +1505,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1521,7 +1521,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1537,7 +1537,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1553,7 +1553,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1572,7 +1572,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1588,7 +1588,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1607,7 +1607,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1623,7 +1623,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1639,7 +1639,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1658,7 +1658,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1677,7 +1677,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1693,7 +1693,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1709,7 +1709,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1728,7 +1728,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1744,7 +1744,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1760,7 +1760,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1779,7 +1779,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1795,7 +1795,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1814,7 +1814,7 @@ importers:
         version: link:../s3
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1830,7 +1830,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1846,7 +1846,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1862,7 +1862,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1878,7 +1878,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1894,7 +1894,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1910,7 +1910,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1926,7 +1926,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1942,7 +1942,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1961,7 +1961,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1977,7 +1977,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -1996,7 +1996,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@types/node':
         specifier: 'catalog:'
@@ -2009,7 +2009,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -2025,7 +2025,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -2041,14 +2041,14 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
         version: link:../dev
       '@effect/platform-node':
         specifier: 'catalog:'
-        version: 4.1.2(effect@4.1.2)(redis@6.2.1)
+        version: 4.1.4(effect@4.1.4)(redis@6.2.1)
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -2060,7 +2060,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -2076,7 +2076,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -2092,7 +2092,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -2108,7 +2108,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -2124,7 +2124,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -2140,7 +2140,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -2156,7 +2156,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -2172,7 +2172,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -2188,7 +2188,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -2204,7 +2204,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -2220,7 +2220,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -2236,7 +2236,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -2252,7 +2252,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -2268,7 +2268,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -2284,7 +2284,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -2300,7 +2300,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -2319,7 +2319,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -2335,7 +2335,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -2351,7 +2351,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -2367,14 +2367,14 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
         version: link:../dev
       '@effect/platform-node':
         specifier: 'catalog:'
-        version: 4.1.2(effect@4.1.2)(redis@6.2.1)
+        version: 4.1.4(effect@4.1.4)(redis@6.2.1)
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -2386,7 +2386,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -2405,7 +2405,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -2421,7 +2421,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -2437,7 +2437,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
@@ -2450,22 +2450,22 @@ importers:
     dependencies:
       '@alchemy.run/aws':
         specifier: 'catalog:'
-        version: 2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(effect@4.1.2)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.2)
+        version: 2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)
       '@alchemy.run/cloudflare':
         specifier: 'catalog:'
-        version: 2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(@types/node@26.6.5)(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(effect@4.1.2)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.2)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))
+        version: 2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(@types/node@26.6.5)(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))
       '@alchemy.run/github':
         specifier: 'catalog:'
-        version: 2.0.0-beta.85(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(effect@4.1.2)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.2)
+        version: 2.0.0-beta.85(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)
       '@effect/platform-node':
         specifier: 'catalog:'
-        version: 4.1.2(effect@4.1.2)(redis@6.2.1)
+        version: 4.1.4(effect@4.1.4)(redis@6.2.1)
       alchemy:
         specifier: 'catalog:'
-        version: 2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(effect@4.1.2)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
+        version: 2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       tsrs:
         specifier: 'catalog:'
@@ -2475,23 +2475,23 @@ importers:
     dependencies:
       '@alchemy.run/cloudflare':
         specifier: 'catalog:'
-        version: 2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(@types/node@26.6.5)(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(effect@4.1.2)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.2)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))
+        version: 2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(@types/node@26.6.5)(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))
       '@alchemy.run/github':
         specifier: 'catalog:'
-        version: 2.0.0-beta.85(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(effect@4.1.2)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.2)
+        version: 2.0.0-beta.85(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)
       '@effect/platform-node':
         specifier: 'catalog:'
-        version: 4.1.2(effect@4.1.2)(redis@6.2.1)
+        version: 4.1.4(effect@4.1.4)(redis@6.2.1)
       alchemy:
         specifier: 'catalog:'
-        version: 2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(effect@4.1.2)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
+        version: 2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/aws':
         specifier: 1.0.0-rc.18
-        version: 1.0.0-rc.18(effect@4.1.2)
+        version: 1.0.0-rc.18(effect@4.1.4)
       graphql:
         specifier: 'catalog:'
         version: 16.11.0
@@ -2506,13 +2506,13 @@ importers:
     dependencies:
       '@alchemy.run/cloudflare':
         specifier: 'catalog:'
-        version: 2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(@types/node@26.6.5)(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(effect@4.1.2)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.2)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))
+        version: 2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(@types/node@26.6.5)(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))
       '@alchemy.run/github':
         specifier: 'catalog:'
-        version: 2.0.0-beta.85(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(effect@4.1.2)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.2)
+        version: 2.0.0-beta.85(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)
       '@effect/platform-node':
         specifier: 'catalog:'
-        version: 4.1.2(effect@4.1.2)(redis@6.2.1)
+        version: 4.1.4(effect@4.1.4)(redis@6.2.1)
       '@solidjs/meta':
         specifier: 0.29.4
         version: 0.29.4(solid-js@1.9.17)
@@ -2524,10 +2524,10 @@ importers:
         version: 2.0.6(@solidjs/router@1.0.0(solid-js@1.9.17))(crossws@0.4.12(srvx@1.0.5))(ocache@0.3.0)(supports-color@8.1.1)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))
       alchemy:
         specifier: 'catalog:'
-        version: 2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(effect@4.1.2)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
+        version: 2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
       solid-js:
         specifier: 1.9.17
         version: 1.9.17
@@ -2969,17 +2969,17 @@ packages:
     peerDependencies:
       effect: ^4.0.5
 
-  '@effect/platform-node-shared@4.1.2':
-    resolution: {integrity: sha512-wSwl9A/G1hcVvF8nLI+YfB3EyOIDvWS6+lsTZBkmgDnPBL7m8YWZF+1HD+mdEsb52SUGfukip46Q3gRwSdk3QA==}
+  '@effect/platform-node-shared@4.1.4':
+    resolution: {integrity: sha512-DWdfphHGOFJNj/mYadgpT3jIm8aRXDcPrQiGXFBH4p2H4XmA7iYMrPsI8NxVgZ7kNX0q1+FGJZJama0tINHRAg==}
     engines: {node: '>=22.19.0'}
     peerDependencies:
-      effect: ^4.1.2
+      effect: ^4.1.4
 
-  '@effect/platform-node@4.1.2':
-    resolution: {integrity: sha512-ye0UjxORdd5Qu3paZ1LljgGOALWHt7muP9VTpjUSCNfcesiB/Hm7wPJIvZeu4gnwpTe5BtEnO1VHngWqjJp8mA==}
+  '@effect/platform-node@4.1.4':
+    resolution: {integrity: sha512-h7QExTPq/RfYtHP/8tMlgfBvqYsuJKhxfkU6w0+NaF/ihqQ8Y3GH9t28ltupQjoqMM7P6W5gy8rOji7F0qVrmg==}
     engines: {node: '>=22.19.0'}
     peerDependencies:
-      effect: ^4.1.2
+      effect: ^4.1.4
       redis: '>=5.1.0 <7.0.0'
 
   '@effect/sql-d1@4.1.2':
@@ -4668,8 +4668,8 @@ packages:
   ecdsa-sig-formatter@1.0.11:
     resolution: {integrity: sha512-nagl3RYrbNv6kQkeJIpt6NJZy8twLB/2vtz6yN9Z4vRKHN4/QZJIEbqohALSgwKdnksuY3k5Addp5lg8sVoVcQ==}
 
-  effect@4.1.2:
-    resolution: {integrity: sha512-d3Oah1WyKxFLFh19yWheS5IXIVaITzxZ71JkE1rkUozq/6EcJSU5nPk5bF2QrSygZ3SQoiNQB8TsxFriyMeMaQ==}
+  effect@4.1.4:
+    resolution: {integrity: sha512-Tgrv/9FN+TZYyOn8XSli+fVqAfwDrDAkiX5Uu9vztINb675VTQdhD0gWI5Kzvhlh9QqzjZvw72iugqw5pwoghQ==}
 
   electron-to-chromium@1.5.429:
     resolution: {integrity: sha512-/1ENIE3cx4HTIx4IfPZFaOunJmsrSVTnj6coXoRVbiJUbkeTyFkJvBeWGkdgh08OhFbxYLMT1kbkwFVSarq6Ow==}
@@ -5795,8 +5795,8 @@ packages:
   undici-types@8.9.0:
     resolution: {integrity: sha512-KTDyRTYX8sWmKXAikPHHSyc63CRPETMctyjKFupcC6OBLXT3xsN0e9aF7m+mIXutFWpUXuedtowG7iLOzp0kQg==}
 
-  undici@8.12.3:
-    resolution: {integrity: sha512-+fdndUTwBP86cVjihTp21hZHo7d6oj1c/47XPA3lL8mM0XHs+C4EkcjmgRsFnFk2f/UONGDy9ItBItmXsLOQHw==}
+  undici@8.12.4:
+    resolution: {integrity: sha512-8Mx+uNKKER2bA4AdtedkqRbwUCIJFr2nJckXRe5yrDqzePqwLP7VNcctN8/XdmDSbF7mS+jJKIszlL+vbam1VA==}
     engines: {node: '>=22.19.0'}
 
   unenv@2.0.0-rc.24:
@@ -6110,38 +6110,38 @@ packages:
 
 snapshots:
 
-  '@alchemy.run/acme@2.0.0-beta.85(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(effect@4.1.2)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.2)':
+  '@alchemy.run/acme@2.0.0-beta.85(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)':
     dependencies:
-      '@distilled.cloud/acme': 1.0.0-rc.18(effect@4.1.2)
-      alchemy: 2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(effect@4.1.2)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
-      effect: 4.1.2
+      '@distilled.cloud/acme': 1.0.0-rc.18(effect@4.1.4)
+      alchemy: 2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
+      effect: 4.1.4
 
-  '@alchemy.run/aws@2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(effect@4.1.2)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.2)':
+  '@alchemy.run/aws@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)':
     dependencies:
-      '@alchemy.run/docker': 2.0.0-beta.85(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(effect@4.1.2)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.2)
-      '@alchemy.run/kubernetes': 2.0.0-beta.85(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(effect@4.1.2)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.2)
-      '@alchemy.run/sql': 2.0.0-beta.85(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(effect@4.1.2)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.2)
-      '@distilled.cloud/aws': 1.0.0-rc.18(effect@4.1.2)
+      '@alchemy.run/docker': 2.0.0-beta.85(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)
+      '@alchemy.run/kubernetes': 2.0.0-beta.85(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)
+      '@alchemy.run/sql': 2.0.0-beta.85(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)
+      '@distilled.cloud/aws': 1.0.0-rc.18(effect@4.1.4)
       '@types/aws-lambda': 8.10.164
-      alchemy: 2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(effect@4.1.2)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
-      effect: 4.1.2
+      alchemy: 2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
+      effect: 4.1.4
       rolldown: 1.2.13
     optionalDependencies:
-      '@effect/platform-node': 4.1.2(effect@4.1.2)(redis@6.2.1)
+      '@effect/platform-node': 4.1.4(effect@4.1.4)(redis@6.2.1)
     transitivePeerDependencies:
       - '@effect/sql-libsql'
       - '@effect/sql-mysql2'
       - '@effect/sql-pg'
       - mysql2
 
-  '@alchemy.run/cloudflare-runtime@2.0.0-beta.85(@distilled.cloud/cloudflare@1.0.0-rc.18(effect@4.1.2))(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(@types/node@26.6.5)(effect@4.1.2)(rolldown@1.2.13)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))':
+  '@alchemy.run/cloudflare-runtime@2.0.0-beta.85(@distilled.cloud/cloudflare@1.0.0-rc.18(effect@4.1.4))(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(@types/node@26.6.5)(effect@4.1.4)(rolldown@1.2.13)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))':
     dependencies:
       '@alchemy.run/node-utils': 2.0.0-beta.85
       '@cloudflare/unenv-preset': 2.16.2(unenv@2.0.0-rc.24)(workerd@1.20261026.1)
-      '@distilled.cloud/cloudflare': 1.0.0-rc.18(effect@4.1.2)
+      '@distilled.cloud/cloudflare': 1.0.0-rc.18(effect@4.1.4)
       '@puppeteer/browsers': 3.2.6(yauzl@3.4.0)
       capnp-es: 0.0.16
-      effect: 4.1.2
+      effect: 4.1.4
       magic-string: 0.30.21
       mime: 4.1.2
       sharp: 0.35.5(@types/node@26.6.5)
@@ -6149,7 +6149,7 @@ snapshots:
       workerd: 1.20261026.1
       yauzl: 3.4.0
     optionalDependencies:
-      '@effect/platform-node': 4.1.2(effect@4.1.2)(redis@6.2.1)
+      '@effect/platform-node': 4.1.4(effect@4.1.4)(redis@6.2.1)
       rolldown: 1.2.13
       vite: 8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)
     transitivePeerDependencies:
@@ -6157,26 +6157,26 @@ snapshots:
       - proxy-agent
       - typescript
 
-  '@alchemy.run/cloudflare@2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(@types/node@26.6.5)(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(effect@4.1.2)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.2)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))':
+  '@alchemy.run/cloudflare@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(@types/node@26.6.5)(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))':
     dependencies:
-      '@alchemy.run/acme': 2.0.0-beta.85(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(effect@4.1.2)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.2)
-      '@alchemy.run/cloudflare-runtime': 2.0.0-beta.85(@distilled.cloud/cloudflare@1.0.0-rc.18(effect@4.1.2))(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(@types/node@26.6.5)(effect@4.1.2)(rolldown@1.2.13)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))
-      '@alchemy.run/docker': 2.0.0-beta.85(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(effect@4.1.2)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.2)
-      '@alchemy.run/sql': 2.0.0-beta.85(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(effect@4.1.2)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.2)
-      '@distilled.cloud/aws': 1.0.0-rc.18(effect@4.1.2)
-      '@distilled.cloud/aws4signer': 1.0.0-rc.18(effect@4.1.2)
-      '@distilled.cloud/cloudflare': 1.0.0-rc.18(effect@4.1.2)
-      '@distilled.cloud/core': 1.0.0-rc.18(effect@4.1.2)
-      '@distilled.cloud/iceberg': 1.0.0-rc.18(effect@4.1.2)
-      '@effect/sql-d1': 4.1.2(effect@4.1.2)
-      alchemy: 2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(effect@4.1.2)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
-      effect: 4.1.2
+      '@alchemy.run/acme': 2.0.0-beta.85(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)
+      '@alchemy.run/cloudflare-runtime': 2.0.0-beta.85(@distilled.cloud/cloudflare@1.0.0-rc.18(effect@4.1.4))(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(@types/node@26.6.5)(effect@4.1.4)(rolldown@1.2.13)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))
+      '@alchemy.run/docker': 2.0.0-beta.85(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)
+      '@alchemy.run/sql': 2.0.0-beta.85(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)
+      '@distilled.cloud/aws': 1.0.0-rc.18(effect@4.1.4)
+      '@distilled.cloud/aws4signer': 1.0.0-rc.18(effect@4.1.4)
+      '@distilled.cloud/cloudflare': 1.0.0-rc.18(effect@4.1.4)
+      '@distilled.cloud/core': 1.0.0-rc.18(effect@4.1.4)
+      '@distilled.cloud/iceberg': 1.0.0-rc.18(effect@4.1.4)
+      '@effect/sql-d1': 4.1.2(effect@4.1.4)
+      alchemy: 2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
+      effect: 4.1.4
       pathe: 2.0.3
       picomatch: 4.0.7
       rolldown: 1.2.13
       tinyglobby: 0.2.17
     optionalDependencies:
-      '@effect/platform-node': 4.1.2(effect@4.1.2)(redis@6.2.1)
+      '@effect/platform-node': 4.1.4(effect@4.1.4)(redis@6.2.1)
       vite: 8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)
     transitivePeerDependencies:
       - '@effect/sql-libsql'
@@ -6188,25 +6188,25 @@ snapshots:
       - proxy-agent
       - typescript
 
-  '@alchemy.run/docker@2.0.0-beta.85(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(effect@4.1.2)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.2)':
+  '@alchemy.run/docker@2.0.0-beta.85(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)':
     dependencies:
-      alchemy: 2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(effect@4.1.2)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
-      effect: 4.1.2
+      alchemy: 2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
+      effect: 4.1.4
       rolldown: 1.2.13
 
-  '@alchemy.run/github@2.0.0-beta.85(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(effect@4.1.2)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.2)':
+  '@alchemy.run/github@2.0.0-beta.85(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)':
     dependencies:
-      '@distilled.cloud/core': 1.0.0-rc.18(effect@4.1.2)
-      '@distilled.cloud/github': 1.0.0-rc.18(effect@4.1.2)
-      alchemy: 2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(effect@4.1.2)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
-      effect: 4.1.2
+      '@distilled.cloud/core': 1.0.0-rc.18(effect@4.1.4)
+      '@distilled.cloud/github': 1.0.0-rc.18(effect@4.1.4)
+      alchemy: 2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
+      effect: 4.1.4
       libsodium-wrappers: 0.8.4
 
-  '@alchemy.run/kubernetes@2.0.0-beta.85(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(effect@4.1.2)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.2)':
+  '@alchemy.run/kubernetes@2.0.0-beta.85(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)':
     dependencies:
-      '@alchemy.run/docker': 2.0.0-beta.85(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(effect@4.1.2)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.2)
-      alchemy: 2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(effect@4.1.2)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
-      effect: 4.1.2
+      '@alchemy.run/docker': 2.0.0-beta.85(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)
+      alchemy: 2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
+      effect: 4.1.4
       yaml: 2.9.1
 
   '@alchemy.run/node-utils@2.0.0-beta.85':
@@ -6214,15 +6214,15 @@ snapshots:
       chokidar: 5.0.0
       rolldown: 1.2.13
 
-  '@alchemy.run/pkg@2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(@types/node@26.6.5)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)':
+  '@alchemy.run/pkg@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(@types/node@26.6.5)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)':
     dependencies:
-      '@alchemy.run/cloudflare': 2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(@types/node@26.6.5)(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(effect@4.1.2)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.2)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))
-      '@distilled.cloud/github': 1.0.0-rc.18(effect@4.1.2)
-      alchemy: 2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(effect@4.1.2)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
-      effect: 4.1.2
+      '@alchemy.run/cloudflare': 2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(@types/node@26.6.5)(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))
+      '@distilled.cloud/github': 1.0.0-rc.18(effect@4.1.4)
+      alchemy: 2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
+      effect: 4.1.4
       modern-tar: 0.8.6
     optionalDependencies:
-      '@effect/platform-node': 4.1.2(effect@4.1.2)(redis@6.2.1)
+      '@effect/platform-node': 4.1.4(effect@4.1.4)(redis@6.2.1)
     transitivePeerDependencies:
       - '@alchemy.run/domain'
       - '@alchemy.run/frontend-frameworks'
@@ -6241,10 +6241,10 @@ snapshots:
 
   '@alchemy.run/sigil@0.1.0-alpha.1': {}
 
-  '@alchemy.run/sql@2.0.0-beta.85(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(effect@4.1.2)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.2)':
+  '@alchemy.run/sql@2.0.0-beta.85(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)':
     dependencies:
-      alchemy: 2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(effect@4.1.2)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
-      effect: 4.1.2
+      alchemy: 2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
+      effect: 4.1.4
 
   '@aws-sdk/checksums@3.1001.1':
     dependencies:
@@ -6633,64 +6633,64 @@ snapshots:
 
   '@cloudflare/workers-types@5.20261102.1': {}
 
-  '@distilled.cloud/acme@1.0.0-rc.18(effect@4.1.2)':
+  '@distilled.cloud/acme@1.0.0-rc.18(effect@4.1.4)':
     dependencies:
-      '@distilled.cloud/core': 1.0.0-rc.18(effect@4.1.2)
-      effect: 4.1.2
+      '@distilled.cloud/core': 1.0.0-rc.18(effect@4.1.4)
+      effect: 4.1.4
 
-  '@distilled.cloud/aws4signer@1.0.0-rc.18(effect@4.1.2)':
+  '@distilled.cloud/aws4signer@1.0.0-rc.18(effect@4.1.4)':
     dependencies:
-      '@distilled.cloud/core': 1.0.0-rc.18(effect@4.1.2)
-      effect: 4.1.2
+      '@distilled.cloud/core': 1.0.0-rc.18(effect@4.1.4)
+      effect: 4.1.4
 
-  '@distilled.cloud/aws@1.0.0-rc.18(effect@4.1.2)':
+  '@distilled.cloud/aws@1.0.0-rc.18(effect@4.1.4)':
     dependencies:
-      '@distilled.cloud/aws4signer': 1.0.0-rc.18(effect@4.1.2)
-      '@distilled.cloud/core': 1.0.0-rc.18(effect@4.1.2)
-      effect: 4.1.2
+      '@distilled.cloud/aws4signer': 1.0.0-rc.18(effect@4.1.4)
+      '@distilled.cloud/core': 1.0.0-rc.18(effect@4.1.4)
+      effect: 4.1.4
 
-  '@distilled.cloud/cloudflare@1.0.0-rc.18(effect@4.1.2)':
+  '@distilled.cloud/cloudflare@1.0.0-rc.18(effect@4.1.4)':
     dependencies:
-      '@distilled.cloud/core': 1.0.0-rc.18(effect@4.1.2)
-      effect: 4.1.2
+      '@distilled.cloud/core': 1.0.0-rc.18(effect@4.1.4)
+      effect: 4.1.4
 
-  '@distilled.cloud/core@1.0.0-rc.18(effect@4.1.2)':
+  '@distilled.cloud/core@1.0.0-rc.18(effect@4.1.4)':
     dependencies:
-      effect: 4.1.2
+      effect: 4.1.4
 
-  '@distilled.cloud/github@1.0.0-rc.18(effect@4.1.2)':
+  '@distilled.cloud/github@1.0.0-rc.18(effect@4.1.4)':
     dependencies:
-      '@distilled.cloud/core': 1.0.0-rc.18(effect@4.1.2)
-      effect: 4.1.2
+      '@distilled.cloud/core': 1.0.0-rc.18(effect@4.1.4)
+      effect: 4.1.4
 
-  '@distilled.cloud/iceberg@1.0.0-rc.18(effect@4.1.2)':
+  '@distilled.cloud/iceberg@1.0.0-rc.18(effect@4.1.4)':
     dependencies:
-      '@distilled.cloud/core': 1.0.0-rc.18(effect@4.1.2)
-      effect: 4.1.2
+      '@distilled.cloud/core': 1.0.0-rc.18(effect@4.1.4)
+      effect: 4.1.4
 
-  '@effect/platform-node-shared@4.1.2(effect@4.1.2)':
+  '@effect/platform-node-shared@4.1.4(effect@4.1.4)':
     dependencies:
       '@types/ws': 8.18.2
-      effect: 4.1.2
+      effect: 4.1.4
       ws: 8.22.1
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
 
-  '@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1)':
+  '@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1)':
     dependencies:
-      '@effect/platform-node-shared': 4.1.2(effect@4.1.2)
-      effect: 4.1.2
+      '@effect/platform-node-shared': 4.1.4(effect@4.1.4)
+      effect: 4.1.4
       redis: 6.2.1
-      undici: 8.12.3
+      undici: 8.12.4
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
 
-  '@effect/sql-d1@4.1.2(effect@4.1.2)':
+  '@effect/sql-d1@4.1.2(effect@4.1.4)':
     dependencies:
       '@cloudflare/workers-types': 5.20261102.1
-      effect: 4.1.2
+      effect: 4.1.4
 
   '@emnapi/core@1.11.2':
     dependencies:
@@ -7672,12 +7672,12 @@ snapshots:
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
 
-  alchemy@2.0.0-beta.85(@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.2.1))(effect@4.1.2)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1):
+  alchemy@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1):
     dependencies:
       '@alchemy.run/node-utils': 2.0.0-beta.85
       '@alchemy.run/sigil': 0.1.0-alpha.1
       capnweb: 0.12.0
-      effect: 4.1.2
+      effect: 4.1.4
       fflate: 0.8.3
       pathe: 2.0.3
       picomatch: 4.0.7
@@ -7685,7 +7685,7 @@ snapshots:
       tinyglobby: 0.2.17
       yaml: 2.9.1
     optionalDependencies:
-      '@effect/platform-node': 4.1.2(effect@4.1.2)(redis@6.2.1)
+      '@effect/platform-node': 4.1.4(effect@4.1.4)(redis@6.2.1)
       vite: 8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)
       ws: 8.22.1
     transitivePeerDependencies:
@@ -7948,7 +7948,7 @@ snapshots:
     dependencies:
       safe-buffer: 5.2.1
 
-  effect@4.1.2: {}
+  effect@4.1.4: {}
 
   electron-to-chromium@1.5.429: {}
 
@@ -9069,7 +9069,7 @@ snapshots:
 
   undici-types@8.9.0: {}
 
-  undici@8.12.3: {}
+  undici@8.12.4: {}
 
   unenv@2.0.0-rc.24:
     dependencies:
